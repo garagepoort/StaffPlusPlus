@@ -20,3 +20,4 @@ This plugin started off as a copy of HydraHCF's staff mode plugin back in July o
 * [Request features](https://trello.com/b/8EwBZNOb/staff-the-ultimate-moderation-plugin)
 * [Configurable files](https://github.com/Shortninja66/StaffPlus/wiki/Configurable-files)
 * [Plugin jar download](http://shortninja.net/files/Staff+.jar)
+* [Help wiki](https://github.com/Shortninja66/StaffPlus/wiki)
