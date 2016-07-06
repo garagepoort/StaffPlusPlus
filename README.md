@@ -1,4 +1,4 @@
-# Staff+
+# Staff+ | The ultimate moderation plugin
 This plugin started off as a copy of HydraHCF's staff mode plugin back in July of 2015. After selling over ninety copies on MCM and making multiple revisions, it is now free to the public! 
 
 #### Version 3.0 changelog (major features)
