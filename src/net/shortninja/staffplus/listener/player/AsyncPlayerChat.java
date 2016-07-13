@@ -1,0 +1,109 @@
+package net.shortninja.staffplus.listener.player;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.data.config.Messages;
+import net.shortninja.staffplus.data.config.Options;
+import net.shortninja.staffplus.player.User;
+import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.attribute.gui.AbstractGui.AbstractAction;
+import net.shortninja.staffplus.server.chat.BlacklistFactory;
+import net.shortninja.staffplus.server.chat.ChatHandler;
+import net.shortninja.staffplus.server.compatibility.IProtocol;
+import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.Permission;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+
+public class AsyncPlayerChat implements Listener
+{
+	private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
+	private Permission permission = StaffPlus.get().permission;
+	private Message message = StaffPlus.get().message;
+	private Options options = StaffPlus.get().options;
+	private Messages messages = StaffPlus.get().messages;
+	private UserManager userManager = StaffPlus.get().userManager;
+	private ChatHandler chatHandler = StaffPlus.get().chatHandler;
+	
+	public AsyncPlayerChat()
+	{
+		Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	public void onChat(AsyncPlayerChatEvent event)
+	{
+		Player player = event.getPlayer();
+		String message = event.getMessage();
+		BlacklistFactory blacklistFactory = new BlacklistFactory(message);
+		
+		if(shouldCancel(player, message))
+		{
+			event.setCancelled(true);
+			return;
+		}
+		
+		if(options.chatBlacklistEnabled && options.chatEnabled)
+		{
+			if(blacklistFactory.runCheck().hasChanged())
+			{
+				event.setMessage(blacklistFactory.getResult());
+				
+				if(options.chatBlacklistHoverable)
+				{
+					Set<Player> staffPlayers = new HashSet<Player>();
+					
+					for(Player p : Bukkit.getOnlinePlayers())
+					{
+						if(permission.has(p, options.permissionBlacklist))
+						{
+							event.getRecipients().remove(p);
+							staffPlayers.add(p);
+						}
+					}
+					
+					versionProtocol.sendHoverableJsonMessage(staffPlayers, blacklistFactory.getResult(), messages.blacklistChatFormat.replace("%player%", player.getName()).replace("%message%", message));
+				}
+			}
+		}
+	}
+	
+	private boolean shouldCancel(Player player, String message)
+	{
+		boolean shouldCancel = false;
+		User user = userManager.getUser(player.getUniqueId());
+		AbstractAction queuedAction = user.getQueuedAction();
+		
+		if(queuedAction != null)
+		{
+			queuedAction.execute(player, message);
+			user.setQueuedAction(null);
+			shouldCancel = true;
+		}else if(user.isChatting())
+		{
+			chatHandler.sendStaffChatMessage(player.getName(), message);
+			shouldCancel = true;
+		}else if(chatHandler.hasHandle(message) && permission.has(player, options.permissionStaffChat))
+		{
+			chatHandler.sendStaffChatMessage(player.getName(), message);
+			shouldCancel = true;
+		}else if(!chatHandler.canChat(player))
+		{
+			this.message.send(player, messages.chattingFast, messages.prefixGeneral);
+			shouldCancel = true;
+		}else if(!chatHandler.isChatEnabled(player) || (user.isFrozen() && !options.modeFreezeChat))
+		{
+			this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
+			shouldCancel = true;
+		}
+		
+		return shouldCancel;
+	}
+}
