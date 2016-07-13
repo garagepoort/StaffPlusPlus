@@ -12,6 +12,7 @@ This plugin started off as a copy of HydraHCF's staff mode plugin back in July o
 * Configurable messages with language support.
 * Version independence (from 1.7 to 1.10).
 * Fixed all known bugs.
+* Removed ProtocolLib dependency.
 
 #### Useful links
 * [Resource page](https://www.spigotmc.org/resources/staff-the-ultimate-moderation-plugin.15151/)
