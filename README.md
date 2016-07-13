@@ -9,7 +9,6 @@ This plugin started off as a copy of HydraHCF's staff mode plugin back in July o
 * Ability to add unlimited custom modules with tons of options.
 * Brand new ticket management system.
 * Better overall alerts handling.
-* Configurable scoreboard.
 * Configurable messages with language support.
 * Version independence (from 1.7 to 1.10).
 * Fixed all known bugs.
