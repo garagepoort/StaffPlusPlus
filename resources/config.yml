@@ -1,4 +1,4 @@
-# Made with love by Shortninja - ♥
+# Staff+ | Made with love by Shortninja - ♥
 
 # If you're having trouble with item type names, refer to here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 # All item slots are how they "should be", meaning the first slot of an inventory will be one.
@@ -10,6 +10,7 @@
 ############################################################
 
 # The language file that will be referred to for messages.
+# Current available languages are: lang_en, lang_sv, lang_de, and lang_nl
 # If you would like to translate Staff+, please message me on Spigot!
 lang: "lang_en"
 
@@ -26,17 +27,8 @@ blocked-mode-commands: "/example1, /example2, /example3"
 # The default color of glass for the side of GUIs. Just a cosmetic thing that staff members can change.
 glass-color: 0
 
-# The declared version of this configuration file. Used for configuration file changes.
-# Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 3.0
-
-# The interval in seconds at which auto saves will be performed.
-# The higher this is, the less lag there will be.
-auto-save: 3600
-
-# The interval in seconds at which calculations, like updating scoreboards, will be performed.
-# The higher this is, the less lag there will be.
-clock: 5
+# The title of the glass color chooser GUI.
+glass-title: "&bChoose GUI glass color"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -117,8 +109,11 @@ vanish-module:
   enabled: true
 
   # Whether or not list vanish will hide the vanished users from tab list.
-  # Does not completely hide players and may cause conflictions in 1.7 versions.
+  # Does not completely hide players in tab for 1.7 versions.
   tab-list: true
+
+  # Whether or not list vanish users will be shown as "away" or "offline" in the staff list.
+  show-away: false
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -223,36 +218,6 @@ alerts-module:
     # Block type that, when mined, will invoke an alert.
     blocks: MOB_SPAWNER, DIAMOND_ORE
 
-    # The maximum radius at which veins will be detected.
-    radius: 10
-
-############################################################
-# +------------------------------------------------------+ #
-# |                      Scoreboard                      | #
-# +------------------------------------------------------+ #
-############################################################
-
-# Scoreboard that will only be shown for staff members that have it enabled.
-# All placeholders:
-  # %playername%, %onlineplayers%, %onlinestaff%, %staffmode%, %health, %hunger%, 
-  # %longline%, %coordinates%, %locationx%, %locationy%, %locationz%, %world%
-scoreboard:
-  # Whether or not the scoreboard is enabled.
-  enabled: false
-
-  # Whether or not the scoreboard will only be shown in staff mode.
-  only-staff-mode: false
-
-  # Simply a list of all the lines for the scoreboard.
-  lines:
-  - "%longline%"
-  - "&bOnline players &7%onlineplayers%"
-  - "&bStaff online &7%onlinestaff%"
-  - "&bStaff in staff mode &7%staffmode%"
-  - ""
-  - "&bCurrently &bin &7%world%&b, @ &7%coordinates%"
-  - "%longline%"
-
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Staff Mode                      | #
@@ -267,8 +232,9 @@ staff-mode:
   # Whether or not a player is allowed to interact with their inventory while in staff mode.
   inventory-interaction: false
 
-  # Whether or not a player will be in total vanish while in staff mode by default.
-  vanish: true
+  # The type of vanish that will be applied when a player goes into staff mode.
+  # Valid vanish types are: TOTAL, LIST, and NONE.
+  vanish-type: TOTAL
 
   # Whether or not a player will be invincible while in staff mode.
   invincible: true
@@ -336,7 +302,8 @@ staff-mode:
     # Lines are separated by commas.
     lore: "&7Teleports you to a random player."
 
-    # Whether or not actual randomness will be used (if disabled, teleportation will just cycle through players).
+    # Whether or not actual pseudo-randomness will be used.
+    # If set to false, "random" teleport will just cycle through players in order.
     random: false
 
   ############################################################
@@ -354,7 +321,7 @@ staff-mode:
     slot: 3
 
     # The type of item for this module.
-    item: BLAZE_ROD
+    item: INK_SACK:10
 
     # The name of the compass item.
     name: "&6Vanish"
@@ -362,6 +329,9 @@ staff-mode:
     # The lore of the compass item.
     # Lines are separated by commas.
     lore: "&7Toggles your total vanish."
+
+    # The type of item for when vanish is disabled.
+    item-off: INK_SACK:8
 
   ############################################################
   # +------------------------------------------------------+ #
@@ -387,11 +357,17 @@ staff-mode:
     # Lines are separated by commas.
     lore: "&7Opens the GUI hub."
 
-    # Whether or not the reports GUI is enabled in the hub.
+    # Whether or not the unresolved reports GUI is enabled in the hub.
     reports-gui: true
 
-    # Whether or not the xray GUI is enabled in the hub.
+    # The title of the unresolved reports GUI.
+    reports-title: "&bUnresolved reports"
+
+    # Whether or not the miner GUI is enabled in the hub.
     miner-gui: true
+
+    # The title of the miner GUI.
+    miner-title: "&bUnderground users"
 
     # The y-level at which a player will be marked as a miner.
     xray-level: 16
@@ -419,6 +395,9 @@ staff-mode:
     # The lore of the compass item.
     # Lines are separated by commas.
     lore: "&7Shows all staff online and in staff mode"
+
+    # The title of the counter GUI.
+    title: "&bCurrent staff online"
 
     # Whether or not the head item count will represent online staff or staff in staff mode.
     show-staff-mode: false
@@ -505,7 +484,10 @@ staff-mode:
 
     # The lore of the compass item.
     # Lines are separated by commas.
-    lore: "&7Inspects the inventory of the, player that was clicked."
+    lore: "&7Inspects the inventory of the player that was clicked."
+
+    # The title of the examine GUI.
+    title: "&bExamine inventory"
 
     # The configuration of the final line of the examine GUI.
     # Set the slot of a node to zero to disable it.
@@ -569,8 +551,8 @@ staff-mode:
   ############################################################
   
   # When clicked, this will execute the custom action.
-  # You can copy and paste one of the modules to create a new one (no limit on modules).
-  # All examples of available module types are shown.
+  # You can copy and paste one of the modules to create a new one (there are no limits on the amount of modules!).
+  # All examples of available module types are shown below.
   custom-modules:
     # The name of the module (just a reference point; can be anything really).
     StaticCommand:
@@ -578,7 +560,7 @@ staff-mode:
       enabled: false
 
       # The type of module this is.
-      # A static command is a command that is executed the same way every single time.
+      # A static command is a command that is executed by the player and the same way every single time.
       type: COMMAND_STATIC
 
       # The slot that this module's item is at by default.
@@ -602,7 +584,7 @@ staff-mode:
       enabled: false
 
       # The type of module this is.
-      # A dynamic command will be executed with the player clicked as an argument.
+      # A dynamic command will be executed by the player.
       # The two placeholders are "%clicker%" and "%clicked%"; both optional.
       type: COMMAND_DYNAMIC
 
@@ -620,6 +602,31 @@ staff-mode:
       
       # The command that this item will execute.
       command: "ban %clicked% &6for shitposting too much with %clicker%"
+
+    # The name of the module (just a reference point; can be anything really).
+    ConsoleCommand:
+      # Whether or not this module is enabled.
+      enabled: false
+
+      # The type of module this is.
+      # A console command will be executed by console with the player clicked as an argument.
+      # The two placeholders are "%clicker%" and "%clicked%"; both optional.
+      type: COMMAND_CONSOLE
+
+      # The slot that this module's item is at by default.
+      slot: 5
+    
+      # The type of item for this module.
+      item: OBSIDIAN
+
+      # The real name of the item.
+      name: "&bDisable staff mode"
+
+      # The lore of the item.
+      lore: "&7you're so lazy"
+      
+      # The command that this item will execute.
+      command: "staff %clicker% disable"
 
     # The name of the module (just a reference point; can be anything really).
     Item:
@@ -640,7 +647,7 @@ staff-mode:
       name: "&7WorldEdit Wand"
 
       # The lore of the item.
-      lore: "&8don't grief shitlord"
+      lore: "&8don't grief shitlord!!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -652,6 +659,7 @@ staff-mode:
 permissions:
   # Use this to give a player all Staff+ permissions.
   # Take note that this will NOT give the player the "block" permission.
+  # This also gives the player permission to toggle other player's vanish, staff mode, and etc.
   wild-card: "staff.*"
 
   # Permission for blocking listed commands at "blocked-commands" and "blocked-mode-commands".
@@ -741,7 +749,8 @@ permissions:
   # Permission for giving a player's previous inventory back.
   revive: "staff.revive"
 
-  # Permission for being noted as a staff member in staff lists
+  # Permission for being noted as a staff member in the staff list command.
+  # This also excludes the player from being randomly teleported to!
   member: "staff.member"
 
 ############################################################
@@ -791,5 +800,34 @@ commands:
 
   # The command for reviving players.
   revive: "revive"
+
+  # The command for listing staff members.
+  staff-list: "personnel"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Advanced                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# The declared version of this configuration file, used for configuration file changes.
+# Do NOT change this unless you know what you're doing (hint: just don't change it).
+config-version: 3.0
+
+# The interval in seconds at which auto saves will be performed.
+# The higher this is, the less lag there will be.
+auto-save: 3600
+
+# The interval in seconds at which calculations, like freeze checking, will be performed.
+# The higher this is, the less lag there will be.
+clock: 2
+
+# The animation packets that will be listened for and cancelled for total vanished players.
+# Each packet is separated by a comma.
+animation-packets: PacketPlayOutBlockBreakAnimation, PacketPlayOutBlockAction
+
+# The sound names that will be listened for and cancelled for total vanished players.
+# Each name is separated by a comma.
+sound-names: random.chestopen, random.chestclosed
 
 # you're done with the config file, shit waddup

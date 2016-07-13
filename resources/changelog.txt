@@ -25,4 +25,4 @@
 3.0:
 	3.0.1|17 June 2016: Another HUGE revamp; too many changes to list!
 
-4,866 lines of code and counting!
+8,083 lines of code and counting!
