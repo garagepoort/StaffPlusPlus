@@ -8,6 +8,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.data.config.Messages;
 import net.shortninja.staffplus.player.attribute.mode.ModeDataVault;
 import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.lib.JavaUtils;
 
 import org.bukkit.entity.Player;
 
@@ -35,9 +36,9 @@ public class ReviveHandler
 		UUID uuid = player.getUniqueId();
 		ModeDataVault modeDataVault = savedInventories.get(uuid);
 		
+		JavaUtils.clearInventory(player);
 		player.getInventory().setContents(modeDataVault.getItems());
 		player.getInventory().setArmorContents(modeDataVault.getArmor());
 		message.send(player, messages.revivedUser, messages.prefixGeneral);
-		savedInventories.remove(uuid);
 	}
 }
