@@ -40,6 +40,15 @@ public class Options
 	public String glassTitle = config.getString("glass-title");
 	
 	/*
+	 * Advanced
+	 */
+	public double configVersion = config.getDouble("config-version");
+	public int autoSave = config.getInt("auto-save");
+	public long clock = config.getInt("clock") * 20;
+	public List<String> animationPackets = JavaUtils.stringToList(config.getString("animation-packets"));
+	public List<String> soundNames = JavaUtils.stringToList(config.getString("sound-names"));
+	
+	/*
 	 * Reports
 	 */
 	public boolean reportsEnabled = config.getBoolean("reports-module.enabled");
@@ -103,18 +112,11 @@ public class Options
 	public List<Material> alertsXrayBlocks = stringToMaterialList(config.getString("alerts-module.xray-alerts.blocks"));
 	
 	/*
-	 * Scoreboard
-	 */
-	public boolean scoreboardEnabled = config.getBoolean("scoreboard.enabled");
-	public boolean scoreboardOnlyStaffMode = config.getBoolean("scoreboard.only-staff-mode");
-	public String scoreboardTitle = config.getString("scoreboard.title");
-	public List<String> scoreboardLines = config.getStringList("scoreboard.lines");
-	
-	/*
 	 * Staff Mode
 	 */
 	public boolean modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
 	public boolean modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
+	public boolean modeItemChange = configVersion >= 3.1 ? config.getBoolean("staff-mode.item-change") : true;
 	public VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
 	public boolean modeVanished = config.getBoolean("staff-mode.vanish");
 	public boolean modeInvincible = config.getBoolean("staff-mode.invincible");
@@ -202,6 +204,8 @@ public class Options
 	public ItemStack modeFreezeItem = Items.builder().setMaterial(modeFreezeType).setData(modeFreezeData).setName(modeFreezeName).setLore(modeFreezeLore).build();
 	public boolean modeFreezeChat = config.getBoolean("staff-mode.freeze-module.prevent-chat");
 	public boolean modeFreezeDamage = config.getBoolean("staff-mode.freeze-module.damage");
+	public boolean modeFreezePrompt = configVersion >= 3.1 ? config.getBoolean("staff-mode.freeze-module.prompt") : false;
+	public String modeFreezePromptTitle = configVersion >= 3.1 ? config.getString("staff-mode.freeze-module.prompt-title") : "&bFrozen";
 	
 	/*
 	 * CPS
@@ -305,15 +309,6 @@ public class Options
 	public String commandFollow = config.getString("commands.follow");
 	public String commandRevive = config.getString("commands.revive");
 	public String commandStaffList = config.getString("commands.staff-list");
-	
-	/*
-	 * Advanced
-	 */
-	public double configVersion = config.getDouble("config-version");
-	public int autoSave = config.getInt("auto-save");
-	public long clock = config.getInt("clock") * 20;
-	public List<String> animationPackets = JavaUtils.stringToList(config.getString("animation-packets"));
-	public List<String> soundNames = JavaUtils.stringToList(config.getString("sound-names"));
 	
 	private void loadCustomModules()
 	{
