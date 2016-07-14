@@ -68,7 +68,7 @@ public class BaseCmd
 	
 	public boolean isEnabled()
 	{
-		return !match.isEmpty() || isEnabled;
+		return !match.isEmpty() && isEnabled;
 	}
 	
 	public Command getCommand()
