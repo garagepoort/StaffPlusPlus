@@ -573,7 +573,7 @@ staff-mode:
       type: COMMAND_STATIC
 
       # The slot that this module's item is at by default.
-      slot: 5
+      slot: 30
     
       # The type of item for this module.
       item: DIAMOND
@@ -598,7 +598,7 @@ staff-mode:
       type: COMMAND_DYNAMIC
 
       # The slot that this module's item is at by default.
-      slot: 5
+      slot: 31
     
       # The type of item for this module.
       item: QUARTZ
@@ -623,7 +623,7 @@ staff-mode:
       type: COMMAND_CONSOLE
 
       # The slot that this module's item is at by default.
-      slot: 5
+      slot: 33
     
       # The type of item for this module.
       item: OBSIDIAN
@@ -647,7 +647,7 @@ staff-mode:
       type: ITEM
 
       # The slot that this module's item is at by default.
-      slot: 5
+      slot: 34
     
       # The type of item for this module.
       item: WOOD_AXE
@@ -779,6 +779,9 @@ commands:
 
   # The command for examining players' inventory
   examine: "examine"
+
+  # The command for managing notes for players.
+  notes: "notes"
 
   # The command for running a clicks per second test on a player
   cps: "cps"

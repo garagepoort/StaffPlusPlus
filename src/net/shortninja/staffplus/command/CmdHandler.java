@@ -16,6 +16,7 @@ import net.shortninja.staffplus.command.cmd.mode.ExamineCmd;
 import net.shortninja.staffplus.command.cmd.mode.FollowCmd;
 import net.shortninja.staffplus.command.cmd.mode.FreezeCmd;
 import net.shortninja.staffplus.command.cmd.mode.ModeCmd;
+import net.shortninja.staffplus.command.cmd.mode.NotesCmd;
 import net.shortninja.staffplus.command.cmd.mode.VanishCmd;
 import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -77,10 +78,11 @@ public class CmdHandler
 		new BaseCmd("staff-mode", new ModeCmd(options.commandStaffMode), true, options.permissionMode, "&7Enables or disables staff mode.", "{player} {enable | disable}"),
 		new BaseCmd("freeze", new FreezeCmd(options.commandFreeze), true, options.permissionFreeze, "&7Freezes or unfreezes the player", "{player} {enable | disable}"),
 		new BaseCmd("examine", new ExamineCmd(options.commandExamine), true, options.permissionExamine, "&7Examines the player's inventory", "{player}"),
+		new BaseCmd("notes", new NotesCmd(options.commandNotes), true, options.permissionExamine, "&7Adds or manages a player's notes", "[player] [note]"),
 		new BaseCmd("cps", new CpsCmd(options.commandCps), true, options.permissionCps, "&7Starts a CPS test on the player.", "{player}"),
 		new BaseCmd("staff-chat", new StaffChatCmd(options.commandStaffChat), options.staffChatEnabled, options.permissionStaffChat, "&7Sends a message or toggles staff chat.", "{message}"),
 		new BaseCmd("report", new ReportCmd(options.commandReport), options.reportsEnabled, "&7Sends a report with the given player and reason.", "[player] [reason]"),
-		new BaseCmd("warn", new WarnCmd(options.commandWarn), options.warningsEnabled, options.permissionWarn, "&7Sends or manages a warning.", "[player | action] [reason | player]"),
+		new BaseCmd("warn", new WarnCmd(options.commandWarn), options.warningsEnabled, options.permissionWarn, "&7Sends or manages a warning.", "[player] [reason]"),
 		new BaseCmd("vanish", new VanishCmd(options.commandVanish), options.vanishEnabled, Arrays.asList(options.permissionVanishTotal, options.permissionVanishList), "&7Enables or disables the type of vanish for the player.", "[total | list] {player} {enable | disable}"),
 		new BaseCmd("chat", new ChatCmd(options.commandChat), options.chatEnabled, Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle), "&7Executes the given chat management action.", "[clear | toggle | slow] {enable | disable | time}"),
 		new BaseCmd("ticket", new TicketCmd(options.commandTicket), options.ticketsEnabled, "&7Sends a ticket to staff with your inquiry.", "[message]"),

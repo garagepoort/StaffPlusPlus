@@ -298,6 +298,7 @@ public class Options
 	public String commandStaffMode = config.getString("commands.staff-mode");
 	public String commandFreeze = config.getString("commands.freeze");
 	public String commandExamine = config.getString("commands.examine");
+	public String commandNotes = configVersion >= 3.1 ? config.getString("commands.notes") : "notes";
 	public String commandCps = config.getString("commands.cps");
 	public String commandStaffChat = config.getString("commands.staff-chat");
 	public String commandReport = config.getString("commands.report");
@@ -320,7 +321,7 @@ public class Options
 			}
 			
 			ModuleType moduleType = stringToModuleType(sanitize(config.getString("staff-mode.custom-modules." + identifier + ".type")));
-			int slot = config.getInt("staff-mode.custom-modules." + identifier + ".slot");
+			int slot = config.getInt("staff-mode.custom-modules." + identifier + ".slot") - 1;
 			Material type = stringToMaterial(sanitize(config.getString("staff-mode.custom-modules." + identifier + ".item")));
 			short data = getMaterialData(config.getString("staff-mode.custom-modules." + identifier + ".item"));
 			String name = config.getString("staff-mode.custom-modules." + identifier + ".name");
