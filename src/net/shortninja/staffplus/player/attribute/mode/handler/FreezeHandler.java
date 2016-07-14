@@ -9,6 +9,7 @@ import net.shortninja.staffplus.data.config.Messages;
 import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
 import net.shortninja.staffplus.util.Message;
 import net.shortninja.staffplus.util.Permission;
 
@@ -43,9 +44,13 @@ public class FreezeHandler
 			return;
 		}
 		
+		if(options.modeFreezePrompt)
+		{
+			new FreezeGui(player, options.modeFreezePromptTitle);
+		}else message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
+		
 		userManager.getUser(player.getUniqueId()).setFrozen(true);
 		lastFrozenLocations.put(uuid, player.getLocation());
-		message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
 	}
@@ -53,12 +58,21 @@ public class FreezeHandler
 	public void removeFreeze(Player player)
 	{
 		UUID uuid = player.getUniqueId();
+		User user = userManager.getUser(uuid);
 		
-		userManager.getUser(uuid).setFrozen(false);
+		user.setFrozen(false);
 		lastFrozenLocations.remove(uuid);
 		message.send(player, messages.unfrozen, messages.prefixGeneral);
 		player.removePotionEffect(PotionEffectType.JUMP);
 		player.removePotionEffect(PotionEffectType.SLOW);
+		
+		if(options.modeFreezePrompt && user.getCurrentGui() != null)
+		{
+			if(user.getCurrentGui() instanceof FreezeGui)
+			{
+				player.closeInventory();
+			}
+		}
 	}
 	
 	public void checkLocations()
