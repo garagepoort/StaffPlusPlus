@@ -127,8 +127,6 @@ public class ReportCmd extends BukkitCommand
 		UUID reporterUuid = null;
 		Player reported = Bukkit.getPlayer(option);
 		
-		System.out.println(option);
-		System.out.println(reason);
 		
 		if(reported != null)
 		{
