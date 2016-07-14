@@ -167,6 +167,20 @@ public class JavaUtils
 	}
 	
 	/**
+	 * Completely clears a player's inventory, from armor to contents.
+	 * 
+	 * @param player Player with the inventory to be cleared.
+	 */
+	public static void clearInventory(Player player)
+	{
+		player.getInventory().clear();
+		player.getInventory().setHelmet(null);
+		player.getInventory().setChestplate(null);
+		player.getInventory().setLeggings(null);
+		player.getInventory().setBoots(null);
+	}
+	
+	/**
 	 * "Serializes" the Location with simple string concatenation.
 	 * 
 	 * @param location The Location to serialize.

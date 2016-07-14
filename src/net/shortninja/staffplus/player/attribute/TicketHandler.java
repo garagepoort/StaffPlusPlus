@@ -97,7 +97,7 @@ public class TicketHandler
 	
 	public void sendResponse(CommandSender sender, Ticket ticket, String response, boolean isStaffResponse)
 	{
-		String message = isStaffResponse ? messages.ticketResponseStaff.replace("%ticket%", Integer.toString(ticket.getId())).replace("%player%", ticket.getName()).replace("%message%", response) : messages.ticket.replace("%ticket%", Integer.toString(ticket.getId())).replace("%player%", sender.getName()).replace("%message%", response);
+		String message = isStaffResponse ? messages.ticketResponseStaff.replace("%ticket%", Integer.toString(ticket.getId())).replace("%player%", sender.getName()).replace("%message%", response) : messages.ticket.replace("%ticket%", Integer.toString(ticket.getId())).replace("%player%", sender.getName()).replace("%message%", response);
 		
 		this.message.send(sender, message, messages.prefixTickets);
 		

@@ -15,6 +15,7 @@ import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.Vani
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.lib.JavaUtils;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -49,11 +50,7 @@ public class ModeCoordinator
 			return;
 		}
 		
-		player.getInventory().clear();
-		player.getInventory().setHelmet(null);
-		player.getInventory().setChestplate(null);
-		player.getInventory().setLeggings(null);
-		player.getInventory().setBoots(null);
+		JavaUtils.clearInventory(player);
 		modeUsers.put(uuid, modeData);
 		setPassive(player, user);
 		message.send(player, messages.modeStatus.replace("%status%", "enabled"), messages.prefixGeneral);
@@ -87,7 +84,7 @@ public class ModeCoordinator
 		{
 			if(!modeItem.isEnabled())
 			{
-				return;
+				break;
 			}
 			
 			if(modeItem.getIdentifier().equals("vanish"))
@@ -137,6 +134,6 @@ public class ModeCoordinator
 		new ModeItem("freeze", options.modeFreezeItem, options.modeFreezeSlot, options.modeFreezeEnabled),
 		new ModeItem("cps", options.modeCpsItem, options.modeCpsSlot, options.modeCpsEnabled),
 		new ModeItem("examine", options.modeExamineItem, options.modeExamineSlot, options.modeExamineEnabled),
-		new ModeItem("follow", options.modeFollowItem, options.modeFollowSlot, options.modeExamineEnabled),
+		new ModeItem("follow", options.modeFollowItem, options.modeFollowSlot, options.modeFollowEnabled),
 	};
 }
