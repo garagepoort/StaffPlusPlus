@@ -1,7 +1,5 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
-import java.util.List;
-
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.data.config.Messages;
 import net.shortninja.staffplus.data.config.Options;
@@ -50,22 +48,20 @@ public class MinerGui extends AbstractGui
 			@Override public void execute(Player player, String input) {}
 		};
 		
-		List<Player> onlinePlayers = JavaUtils.getOnlinePlayers();
+		int slot = 0; // Better to use this because not every iteration is going to have a result.
 		
-		for(int i = 0; i < onlinePlayers.size(); i++)
+		for(Player p : JavaUtils.getOnlinePlayers())
 		{
-			Player p = onlinePlayers.get(i);
-			
 			if(p.getLocation().getBlockY() > options.modeGuiMinerLevel)
 			{
-				i -= 1;
 				continue;
-			}else if((i + 1) >= SIZE)
+			}else if((slot + 1) >= SIZE)
 			{
 				break;
 			}
 			
-			setItem(i, minerItem(p), action);
+			setItem(slot, minerItem(p), action);
+			slot++;
 		}
 		
 		player.openInventory(getInventory());

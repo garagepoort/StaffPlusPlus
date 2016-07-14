@@ -94,7 +94,7 @@ public class GadgetHandler
 		player.setVelocity(vector.multiply(options.modeCompassVelocity));
 	}
 	
-	public void onRandomTeleport(Player player)
+	public void onRandomTeleport(Player player, int count)
 	{
 		List<Player> onlinePlayers = JavaUtils.getOnlinePlayers();
 		Player currentPlayer = null;
@@ -127,8 +127,14 @@ public class GadgetHandler
 			
 			if(player.getName().equals(currentPlayer.getName()) || permission.has(currentPlayer, options.permissionMember))
 			{
+				if(count >= onlinePlayers.size())
+				{
+					message.send(player, messages.modeNotEnoughPlayers, messages.prefixGeneral);
+					return;
+				}
+				
 				lastRandomTeleport.put(uuid, lastIndex);
-				onRandomTeleport(player);
+				onRandomTeleport(player, count + 1);
 				return;
 			}
 			

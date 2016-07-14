@@ -56,21 +56,20 @@ public class CounterGui extends AbstractGui
 		};
 		
 		List<Player> players = options.modeCounterShowStaffMode ? getModePlayers() : JavaUtils.getOnlinePlayers();
+		int slot = 0; // Better to use this because not every iteration is going to have a result.
 		
-		for(int i = 0; i < players.size(); i++)
+		for(Player p : players)
 		{
-			Player p = players.get(i);
-			
 			if(!permission.has(p, options.permissionMember))
 			{
-				i -= 1;
 				continue;
-			}else if((i + 1) >= SIZE)
+			}else if((slot + 1) >= SIZE)
 			{
 				break;
 			}
 			
-			setItem(i, modePlayerItem(p), action);
+			setItem(slot, modePlayerItem(p), action);
+			slot++;
 		}
 		
 		player.openInventory(getInventory());

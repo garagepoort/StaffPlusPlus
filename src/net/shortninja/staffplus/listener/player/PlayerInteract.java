@@ -64,7 +64,7 @@ public class PlayerInteract implements Listener
 				gadgetHandler.onCompass(player);
 				break;
 			case RANDOM_TELEPORT:
-				gadgetHandler.onRandomTeleport(player);
+				gadgetHandler.onRandomTeleport(player, 1);
 				break;
 			case VANISH:
 				gadgetHandler.onVanish(player, true);
