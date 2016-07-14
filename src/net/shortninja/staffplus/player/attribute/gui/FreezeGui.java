@@ -16,13 +16,13 @@ public class FreezeGui extends AbstractGui
 {
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
-	private static final int SIZE = 5;
+	private static final int SIZE = 9;
 	
 	public FreezeGui(Player player, String title)
 	{
 		super(SIZE, title);
 		
-		setItem(3, freezeItem(), null);
+		setItem(4, freezeItem(), null);
 		player.openInventory(getInventory());
 		userManager.getUser(player.getUniqueId()).setCurrentGui(this);
 	}

@@ -44,15 +44,16 @@ public class FreezeHandler
 			return;
 		}
 		
-		if(options.modeFreezePrompt)
-		{
-			new FreezeGui(player, options.modeFreezePromptTitle);
-		}else message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
-		
 		userManager.getUser(player.getUniqueId()).setFrozen(true);
 		lastFrozenLocations.put(uuid, player.getLocation());
 		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
+		
+		if(options.modeFreezePrompt)
+		{
+			new FreezeGui(player, options.modeFreezePromptTitle);
+			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
+		}else message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
 	}
 	
 	public void removeFreeze(Player player)
@@ -72,6 +73,8 @@ public class FreezeHandler
 			{
 				player.closeInventory();
 			}
+			
+			player.removePotionEffect(PotionEffectType.BLINDNESS);
 		}
 	}
 	
