@@ -232,6 +232,9 @@ staff-mode:
   # Whether or not a player is allowed to interact with their inventory while in staff mode.
   inventory-interaction: false
 
+  # Whether or not a player is allowed to drop/pickup items while in staff mode.
+  item-change: true
+
   # The type of vanish that will be applied when a player goes into staff mode.
   # Valid vanish types are: TOTAL, LIST, and NONE.
   vanish-type: TOTAL
@@ -431,6 +434,12 @@ staff-mode:
 
     # Whether or not a player is able to damage or be damaged while frozen.
     damage: false
+
+    # Whether or not a GUI prompt will open up with a paper containing the freeze message.
+    prompt: false
+
+    # The title of the frozen prompt GUI.
+    prompt-title: "&bFrozen"
 
   ############################################################
   # +------------------------------------------------------+ #
@@ -812,7 +821,7 @@ commands:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 3.0
+config-version: 3.1
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
