@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.listener;
+package net.shortninja.staffplus.listener.entity;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
