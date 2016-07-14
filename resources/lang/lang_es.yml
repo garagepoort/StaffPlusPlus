@@ -1,0 +1,181 @@
+# Language: Spanish/Español
+# Status: COMPLETED
+# Contributor(s): MrJaime
+
+# Deja un mensaje vacio para desactivarlo.
+# Los placeholders solo estan disponibles en mensajes que los tienen por defecto.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Prefijos                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# El prefijo para todos los mensajes que no estan relacionados con un modulo en concreto.
+general-prefix: "&dStaff+ &8»"
+
+# El prefijo para todos los mensajes relacionados con reportes.
+reports-prefix: "&dReportes &8»"
+
+# El prefijo para todos los mensajes relacionados con advertencias.
+warnings-prefix: "&dAdvertencias &8»"
+
+# El prefijo para todos los mensajes en el chat del staff.
+staff-chat-prefix: "&dChat del Staff&8»"
+
+# El prefijo para todos los mensajes relacionados con tickets
+tickets-prefix: "&dTickets &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       General                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Este es el color que sera usado para cosas como comas en listas de mensaje.
+separator-color: "&b"
+
+# Lineas están separadas por comas.
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Lineas están separadas por comas.
+staff-list-end: "&7%longline%"
+
+lockdown: "&bEste servidor esta cerrado para fines de seguridad. Actualizaciones en &7shortninja.net"
+
+revived-staff: "&b¡Has reestablecido el inventario de &7%target%'s &ba su estado anterior!"
+revived-user: "&b¡Tu inventario ha sido reestablecido a su estado anterior!"
+
+command-blocked: "&b¡Ese comando esta bloqueado para el staff!"
+mode-command-blocked: "&b¡Ese comando esta bloqueado en modo de staff!"
+on-cooldown: "&b¡No puedes volver a usar eso hasta &7%seconds% &bsegundos."
+
+no-permission: "&c¡Tú no tienes permisos para usar eso!"
+player-offline: "&c¡Ese jugador esta desconectado!"
+unknown-command: "&cComando desconocido."
+invalid-arguments: "&c¡Argumentos invalidos! (%usage%)"
+only-players: "&b¡Solo jugadores pueden ejecutar este comando!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Infracciones                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&bHas reportado a &7%target%. &bRazón: &7%reason%&b."
+reported-staff: "&7%player% &bha sido reportado por &7%target%. &bRazón: &7%reason%&b."
+reports-cleared: "&b¡Los reportes de &7%target%&b han sido limpiados!"
+# Lineas están separadas por comas.
+reports-list-start: "&7%longline%, &7%target% &btiene &7%reports% &breportes."
+reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+# Lineas están separadas por comas.
+reports-list-end: "&7%longline%"
+
+warned: "&bHas advertido a &7%target% &bRazón: &7%reason%&b."
+warn: "&bHas sido advertido por la razón: &7%reason%&b."
+warnings-cleared: "&b¡Las advertencias de &7%target%&b han sido limpiadas!"
+# Lineas están separadas por comas.
+warnings-list-start: "&7%longline%, &7%target% &btiene &7%warnings% &badvertencias."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+# Lineas están separadas por comas.
+warnings-list-end: "&7%longline%"
+
+# Lineas están separadas por comas.
+infraction-item: "&bAdvertencias: &7%warnings%, &bReportes: &7%reports%, &bRazón del reporte: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chat                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+
+chat-clear-line: ""
+chat-cleared: "&bEl chat ha sido limpiado por &7%player%&b."
+chat-toggled: "&bEl chat ha sido &7%status% &bpor &7%player%&b."
+chat-prevented: "&b¡No tienes permitido el uso del chat de momento!"
+chat-slowed: "&bEl chat se ha ralentizado &7%seconds% &bsegundos por &7%player%&b."
+chatting-fast: "&b¡Estas enviando demasiados mensajes!"
+
+blacklist-hover: "&bEste mensaje ha sido censorado por &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&b¡Tu vanish total ha sido &7%status%&b!"
+list-vanish: "&b¡Tu lista de vanish ha sido &7%status%&b!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Tickets                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&b¡Tu ticket ha sido entregado! &7(#%ticket%)"
+ticket-opened: "&b¡El ticket &7#%ticket% &bha sido marcado como abierto por ti!"
+ticket-removed: "&b¡El ticket &7#%ticket% &bha sido marcado como resuelto! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Staff: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Usuario: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&b¡Ese ticket no existe o esta cerrado!"
+# Lineas están separadas por comas.
+ticket-list-start: "&7%longline%, &7%tickets% &btickets abiertos"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Lineas están separadas por comas.
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Alerts                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+alerts-name: "&b¡&7%old% &bha cambiado su nombre a &7%new%&b!"
+alerts-mention: "&7¡%target% &bha mencionado tu nombre en el chat!"
+alerts-xray: "&b¡&7%target% &bha minado &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                    Modo de Staff                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bEl modo staff ha sido &7%status%&b."
+mode-original-location: "&b¡Has sido transportado a tu ubicación original!"
+mode-random-teleport: "&b¡Has sido transportado a una ubicación aleatoria!"
+mode-not-enough-players: "&b¡No hay suficientes jugadores conectados para transportar aleatoriamente!"
+
+gui-reports: "&bReportes"
+gui-mine: "&bMineros"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Lineas están separadas por comas.
+freeze: "&4&lHas sido congelado por el staff ¡No te salgas del juego!, &4&lPor favor, entra al Teamspeak en shortninja.net"
+unfrozen: "&bTu has sido descongelado."
+staff-froze: "&bHas congelado a &7%target%&b."
+staff-unfroze: "&bHas descongelado a &7%target%&b."
+
+cps-start: "&bEjecutando un test de CPS en &7%target% &bdurante &7%seconds% &bsegundos..."
+cps-finish-normal: "&7%player% &btiene acerca &7%cps% &bCPS. &7(probablemente no peligroso)"
+cps-finish-max: "&7%player% &btiene acerca &7%cps% &bCPS. &7(probablemente autoclicking)"
+
+# Lineas están separadas por comas.
+examine-food: "&bVida: &7%health%, &bHambre: &7%hunger%"
+examine-ip: "&bDirección IP: &7%ipaddress%"
+examine-gamemode: "&bModo de juego: &7%gamemode%"
+examine-location: "&bUbicación: &7%location%"
+examine-warn: "&bAlertar a este usuario"
+examine-freeze: "&bCongelar a este usuario"
+examine-notes: "&bNotas del jugador:"
+
+# Todas las notas están separadas en nuevas lineas.
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bAhora estas &7%status% a %target%&b."
