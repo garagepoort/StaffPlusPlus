@@ -10,10 +10,11 @@ import net.shortninja.staffplus.data.file.DataFile;
 import net.shortninja.staffplus.data.file.LanguageFile;
 import net.shortninja.staffplus.listener.BlockBreak;
 import net.shortninja.staffplus.listener.BlockPlace;
-import net.shortninja.staffplus.listener.EntityDamage;
-import net.shortninja.staffplus.listener.EntityTarget;
 import net.shortninja.staffplus.listener.InventoryClick;
 import net.shortninja.staffplus.listener.InventoryClose;
+import net.shortninja.staffplus.listener.entity.EntityDamage;
+import net.shortninja.staffplus.listener.entity.EntityDamageByEntity;
+import net.shortninja.staffplus.listener.entity.EntityTarget;
 import net.shortninja.staffplus.listener.player.AsyncPlayerChat;
 import net.shortninja.staffplus.listener.player.PlayerCommandPreprocess;
 import net.shortninja.staffplus.listener.player.PlayerDeath;
@@ -206,6 +207,9 @@ public class StaffPlus extends JavaPlugin
 	
 	private void registerListeners()
 	{
+		new EntityDamage();
+		new EntityDamageByEntity();
+		new EntityTarget();
 		new AsyncPlayerChat();
 		new PlayerCommandPreprocess();
 		new PlayerDeath();
@@ -215,8 +219,6 @@ public class StaffPlus extends JavaPlugin
 		new PlayerQuit();
 		new BlockBreak();
 		new BlockPlace();
-		new EntityDamage();
-		new EntityTarget();
 		new InventoryClick();
 		new InventoryClose();
 	}
