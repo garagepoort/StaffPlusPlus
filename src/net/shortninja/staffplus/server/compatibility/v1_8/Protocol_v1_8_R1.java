@@ -3,7 +3,6 @@ package net.shortninja.staffplus.server.compatibility.v1_8;
 import java.util.Set;
 
 import net.minecraft.server.v1_8_R1.ChatSerializer;
-import net.minecraft.server.v1_8_R1.EntityPlayer;
 import net.minecraft.server.v1_8_R1.EnumPlayerInfoAction;
 import net.minecraft.server.v1_8_R1.ItemStack;
 import net.minecraft.server.v1_8_R1.NBTTagCompound;
@@ -62,8 +61,8 @@ public class Protocol_v1_8_R1 implements IProtocol
 		
 		if(shouldEnable)
 		{
-			packet = new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER, ((EntityPlayer) player));
-		}else packet = new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.ADD_PLAYER, ((EntityPlayer) player));
+			packet = new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer) player).getHandle());
+		}else packet = new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.ADD_PLAYER, ((CraftPlayer) player).getHandle());
 		
 		sendGlobalPacket(packet);
 	}
