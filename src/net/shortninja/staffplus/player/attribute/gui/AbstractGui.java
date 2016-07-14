@@ -19,12 +19,19 @@ public class AbstractGui
 {
 	private Message message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
+	private String title;
 	private Inventory inventory;
 	private Map<Integer, AbstractAction> actions = new HashMap<Integer, AbstractAction>();
 	
 	public AbstractGui(int size, String title)
 	{
+		this.title = title;
 		inventory = Bukkit.createInventory(null, size, message.colorize(title));
+	}
+	
+	public String getTitle()
+	{
+		return title;
 	}
 	
 	public Inventory getInventory()
