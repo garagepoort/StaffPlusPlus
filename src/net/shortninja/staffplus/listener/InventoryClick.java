@@ -1,10 +1,13 @@
 package net.shortninja.staffplus.listener;
 
+import java.util.UUID;
+
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui.AbstractAction;
-import net.shortninja.staffplus.server.compatibility.IProtocol;
+import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,8 +19,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class InventoryClick implements Listener
 {
-	private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
+	private Options options = StaffPlus.get().options;
 	private UserManager userManager = StaffPlus.get().userManager;
+	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	
 	public InventoryClick()
 	{
@@ -28,14 +32,18 @@ public class InventoryClick implements Listener
 	public void onClick(InventoryClickEvent event)
 	{
 		Player player = (Player) event.getWhoClicked();
-		User user = userManager.getUser(player.getUniqueId());
+		UUID uuid = player.getUniqueId();
+		User user = userManager.getUser(uuid);
 		ItemStack item = event.getCurrentItem();
 		int slot = event.getSlot();
 		
-		System.out.println(versionProtocol.getNbtString(item));
-		
 		if(user.getCurrentGui() == null || item == null)
 		{
+			if(modeCoordinator.isInMode(uuid) && !options.modeInventoryInteraction)
+			{
+				event.setCancelled(true);
+			}
+			
 			return;
 		}
 		

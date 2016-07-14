@@ -13,11 +13,13 @@ import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.Permission;
 
 import org.bukkit.entity.Player;
 
 public class InfractionCoordinator
 {
+	private Permission permission = StaffPlus.get().permission;
 	private Message message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
@@ -60,8 +62,14 @@ public class InfractionCoordinator
 	{
 		User user = userManager.getUser(report.getUuid());
 		
-		if(user == null)
+		if(user == null || user.getPlayer() == null)
 		{
+			return;
+		}
+		
+		if(permission.has(user.getPlayer(), options.permissionReportBypass))
+		{
+			message.send(player, messages.noPermission, messages.prefixGeneral);
 			return;
 		}
 		
@@ -76,14 +84,25 @@ public class InfractionCoordinator
 	{
 		User user = userManager.getUser(warning.getUuid());
 		
-		if(user == null)
+		if(user == null || user.getPlayer() == null)
 		{
 			return;
 		}
 		
+		if(permission.has(user.getPlayer(), options.permissionWarnBypass))
+		{
+			message.send(player, messages.noPermission, messages.prefixGeneral);
+			return;
+		}
+		
 		user.addWarning(warning);
-		message.send(user.getPlayer(), messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
-		message.send(player, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
+		message.send(player, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
+		message.send(user.getPlayer(), messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
 		options.warningsSound.play(user.getPlayer());
+		
+		if(user.getWarnings().size() >= options.warningsMaximum && options.warningsMaximum > 0)
+		{
+			
+		}
 	}
 }

@@ -40,6 +40,7 @@ public class ReportsGui extends AbstractGui
 				if(p != null)
 				{
 					infractionCoordinator.removeUnresolvedReport(p.getUniqueId());
+					player.teleport(p);
 				}else message.send(player, messages.playerOffline, messages.prefixGeneral);
 			}
 			

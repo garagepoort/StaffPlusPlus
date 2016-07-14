@@ -7,7 +7,6 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.AlertCoordinator;
-import net.shortninja.staffplus.util.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -21,7 +20,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 public class BlockBreak implements Listener
 {
-	private Permission permission = StaffPlus.get().permission;
 	private Options options = StaffPlus.get().options;
 	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;

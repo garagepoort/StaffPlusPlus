@@ -94,6 +94,7 @@ public class PlayerInteract implements Listener
 				{
 					gadgetHandler.onCustom(player, JavaUtils.getTargetPlayer(player), moduleConfiguration);
 				}else isHandled = false;
+				
 				break;
 		}
 		

@@ -2,6 +2,7 @@ package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.data.config.Messages;
+import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -16,6 +17,7 @@ public class VanishHandler
 {
 	private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
 	private Message message = StaffPlus.get().message;
+	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
 	
@@ -79,7 +81,11 @@ public class VanishHandler
 				message = messages.totalVanish.replace("%status%", "enabled");
 				break;
 			case LIST:
-				versionProtocol.listVanish(player, true);
+				if(options.vanishTabList)
+				{
+					versionProtocol.listVanish(player, true);
+				}
+				
 				message = messages.listVanish.replace("%status%", "enabled");
 				break;
 			default:

@@ -54,9 +54,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 //TODO: Tab complete for each command.
 //TODO: Finish blacklist (merging).
-//TODO: Test alerts.
 //TODO: Fix packet listening.
 //TODO: Second mount method.
+//TODO: Fix chat slow.
 //TODO: Metrics.
 //TODO: UPDATE ALL THE FILES ON GITHUB LMAO (REMOVED PROTOCOLLIB DEPENDENCY)
 

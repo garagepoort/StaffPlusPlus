@@ -1,7 +1,10 @@
 package net.shortninja.staffplus.listener;
 
+import java.util.UUID;
+
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.data.config.Options;
+import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 
 import org.bukkit.Bukkit;
@@ -15,6 +18,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public class EntityDamage implements Listener
 {
 	private Options options = StaffPlus.get().options;
+	private UserManager userManager = StaffPlus.get().userManager;
 	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	
 	public EntityDamage()
@@ -32,7 +36,9 @@ public class EntityDamage implements Listener
 			return;
 		}
 		
-		if(options.modeInvincible && modeCoordinator.isInMode(((Player) entity).getUniqueId()))
+		UUID uuid = ((Player) entity).getUniqueId();
+		
+		if((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && userManager.getUser(uuid).isFrozen())))
 		{
 			event.setCancelled(true);
 		}

@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.listener.player;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.shortninja.staffplus.StaffPlus;
@@ -9,6 +11,7 @@ import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui.AbstractAction;
+import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.BlacklistFactory;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -31,6 +34,7 @@ public class AsyncPlayerChat implements Listener
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
 	private ChatHandler chatHandler = StaffPlus.get().chatHandler;
+	private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
 	
 	public AsyncPlayerChat()
 	{
@@ -48,6 +52,16 @@ public class AsyncPlayerChat implements Listener
 		{
 			event.setCancelled(true);
 			return;
+		}
+		
+		List<User> mentioned = getMentioned(message);
+		
+		if(!mentioned.isEmpty())
+		{
+			for(User user : mentioned)
+			{
+				alertCoordinator.onMention(user, player.getName());
+			}
 		}
 		
 		if(options.chatBlacklistEnabled && options.chatEnabled)
@@ -86,13 +100,17 @@ public class AsyncPlayerChat implements Listener
 			queuedAction.execute(player, message);
 			user.setQueuedAction(null);
 			shouldCancel = true;
+		}else if(user.isFrozen() && !options.modeFreezeChat)
+		{
+			this.message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
+			shouldCancel = true;
 		}else if(user.isChatting())
 		{
 			chatHandler.sendStaffChatMessage(player.getName(), message);
 			shouldCancel = true;
 		}else if(chatHandler.hasHandle(message) && permission.has(player, options.permissionStaffChat))
 		{
-			chatHandler.sendStaffChatMessage(player.getName(), message);
+			chatHandler.sendStaffChatMessage(player.getName(), message.substring(1));
 			shouldCancel = true;
 		}else if(!chatHandler.canChat(player))
 		{
@@ -105,5 +123,27 @@ public class AsyncPlayerChat implements Listener
 		}
 		
 		return shouldCancel;
+	}
+	
+	private List<User> getMentioned(String message)
+	{
+		List<User> mentioned = new ArrayList<User>();
+		
+		for(User user : userManager.getUsers())
+		{
+			Player player = user.getPlayer();
+			
+			if(player == null)
+			{
+				continue;
+			}
+			
+			if(message.toLowerCase().contains(user.getName().toLowerCase()))
+			{
+				mentioned.add(user);
+			}
+		}
+		
+		return mentioned;
 	}
 }

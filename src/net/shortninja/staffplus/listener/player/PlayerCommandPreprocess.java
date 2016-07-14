@@ -7,6 +7,7 @@ import net.shortninja.staffplus.command.BaseCmd;
 import net.shortninja.staffplus.command.CmdHandler;
 import net.shortninja.staffplus.data.config.Messages;
 import net.shortninja.staffplus.data.config.Options;
+import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.util.Message;
 import net.shortninja.staffplus.util.Permission;
@@ -24,8 +25,9 @@ public class PlayerCommandPreprocess implements Listener
 	private Message message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
-	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+	private UserManager userManager = StaffPlus.get().userManager;
 	private CmdHandler cmdHandler = StaffPlus.get().cmdHandler;
+	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	
 	public PlayerCommandPreprocess()
 	{
@@ -58,6 +60,10 @@ public class PlayerCommandPreprocess implements Listener
 		}else if(modeCoordinator.isInMode(uuid) && options.blockedModeCommands.contains(command))
 		{
 			message.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
+			event.setCancelled(true);
+		}else if(userManager.getUser(uuid).isFrozen() && !options.modeFreezeChat)
+		{
+			message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
 			event.setCancelled(true);
 		}
 	}

@@ -56,9 +56,13 @@ public class MinerGui extends AbstractGui
 		{
 			Player p = onlinePlayers.get(i);
 			
-			if(p.getLocation().getBlockY() > options.modeGuiMinerLevel || (i + 1) >= SIZE)
+			if(p.getLocation().getBlockY() > options.modeGuiMinerLevel)
 			{
+				i -= 1;
 				continue;
+			}else if((i + 1) >= SIZE)
+			{
+				break;
 			}
 			
 			setItem(i, minerItem(p), action);

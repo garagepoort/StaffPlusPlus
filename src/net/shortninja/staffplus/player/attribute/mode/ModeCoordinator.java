@@ -111,7 +111,7 @@ public class ModeCoordinator
 		
 		if(options.modeOriginalLocation)
 		{
-			player.teleport(modeData.getPreviousLocation());
+			player.teleport(modeData.getPreviousLocation().setDirection(player.getLocation().getDirection()));
 			message.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
 		}
 		
@@ -122,6 +122,7 @@ public class ModeCoordinator
 		
 		player.getInventory().setContents(modeData.getItems());
 		player.getInventory().setArmorContents(modeData.getArmor());
+		player.updateInventory();
 		player.setAllowFlight(modeData.hasFlight());
 		player.setGameMode(modeData.getGameMode());
 	}

@@ -11,7 +11,6 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration.ModuleType;
-import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.Message;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.Sounds;
@@ -23,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class Options
 {
-	private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
 	private static FileConfiguration config = StaffPlus.get().getConfig();
 	private Message message = StaffPlus.get().message;
 	
@@ -339,8 +337,6 @@ public class Options
 			{
 				action = config.getString("staff-mode.custom-modules." + identifier + ".command");
 			}
-			
-			item = versionProtocol.addNbtString(item, identifier); // Make this item uniquely identifiable by adding an NBT tag.
 			
 			moduleConfigurations.put(identifier, new ModuleConfiguration(identifier, moduleType, slot, item, action));
 		}

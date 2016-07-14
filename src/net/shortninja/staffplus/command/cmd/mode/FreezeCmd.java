@@ -66,11 +66,11 @@ public class FreezeCmd extends BukkitCommand
 		if(freezeHandler.isFrozen(player.getUniqueId()))
 		{
 			freezeHandler.removeFreeze(player);
-			message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
+			message.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
 		}else
 		{
 			freezeHandler.addFreeze(player);
-			message.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
+			message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
 		}
 	}
 }

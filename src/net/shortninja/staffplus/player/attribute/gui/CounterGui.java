@@ -10,6 +10,7 @@ import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 
@@ -20,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class CounterGui extends AbstractGui
 {
+	private Permission permission = StaffPlus.get().permission;
 	private Message message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
@@ -59,9 +61,13 @@ public class CounterGui extends AbstractGui
 		{
 			Player p = players.get(i);
 			
-			if((i + 1) >= SIZE)
+			if(!permission.has(p, options.permissionMember))
 			{
+				i -= 1;
 				continue;
+			}else if((i + 1) >= SIZE)
+			{
+				break;
 			}
 			
 			setItem(i, modePlayerItem(p), action);

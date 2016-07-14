@@ -43,12 +43,12 @@ public class ChatHandler
 			long now = System.currentTimeMillis();
 			long lastChat = userChatTimes.containsKey(uuid) ? userChatTimes.get(uuid) : 0;
 			
-			if((now - chatSlowStart) <= chatSlowLength)
+			if((now - chatSlowStart) >= chatSlowLength)
 			{
 				chatSlowLength = 0;
 				chatSlowStart = 0;
 				userChatTimes.clear();
-			}else if(((now - lastChat) / 1000) >= options.chatSlow)
+			}else if(((now - lastChat) / 1000) <= options.chatSlow)
 			{
 				canChat = false;
 			}else userChatTimes.put(uuid, now);
@@ -74,7 +74,7 @@ public class ChatHandler
 	{
 		chatSlowLength = time * 1000;
 		chatSlowStart = System.currentTimeMillis();
-		message.sendGlobalMessage(messages.chatSlowed.replace("%seconds%", Integer.toString(time) + " seconds").replace("%player%", name), messages.prefixGeneral);
+		message.sendGlobalMessage(messages.chatSlowed.replace("%seconds%", Integer.toString(time)).replace("%player%", name), messages.prefixGeneral);
 	}
 	
 	public void sendStaffChatMessage(String name, String message)

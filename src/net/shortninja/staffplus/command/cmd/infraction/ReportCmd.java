@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.command.cmd.infraction;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
@@ -25,6 +27,7 @@ public class ReportCmd extends BukkitCommand
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
+	private static Map<UUID, Long> lastUse = new HashMap<UUID, Long>();
 	
 	public ReportCmd(String name)
 	{
@@ -56,7 +59,22 @@ public class ReportCmd extends BukkitCommand
 			}else sendReport(sender, argument, JavaUtils.compileWords(args, 1));
 		}else if(args.length >= 3)
 		{
-			sendReport(sender, args[0], JavaUtils.compileWords(args, 1));
+			long now = System.currentTimeMillis();
+			long last = sender instanceof Player ? (lastUse.containsKey(((Player) sender).getUniqueId()) ? lastUse.get(((Player) sender).getUniqueId()) : 0) : 0;
+			long remaining = (now - last) / 1000;
+			
+			if(remaining >= options.reportsCooldown)
+			{
+				message.send(sender, messages.commandOnCooldown.replace("%time%", Long.toString(remaining)), messages.prefixGeneral);
+			}else
+			{
+				sendReport(sender, args[0], JavaUtils.compileWords(args, 1));
+				
+				if(sender instanceof Player)
+				{
+					lastUse.put(((Player) sender).getUniqueId(), now);
+				}
+			}
 		}else if(!permission.has(sender, options.permissionReport))
 		{
 			message.send(sender, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixReports);

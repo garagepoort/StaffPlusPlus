@@ -7,20 +7,22 @@ import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class ListCmd extends BukkitCommand
+public class PersonnelCmd extends BukkitCommand
 {
+	private Permission permission = StaffPlus.get().permission;
 	private Message message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
 	
-	public ListCmd(String name)
+	public PersonnelCmd(String name)
 	{
 		super(name);
 	}
@@ -46,7 +48,6 @@ public class ListCmd extends BukkitCommand
 			
 			if(user == null)
 			{
-				System.out.println("User is null");
 				continue;
 			}
 			
@@ -67,6 +68,12 @@ public class ListCmd extends BukkitCommand
 	private boolean hasStatus(User user, String status)
 	{
 		boolean hasStatus = true;
+		
+		if(!permission.has(user.getPlayer(), options.permissionMember))
+		{
+			hasStatus = false;
+			return hasStatus;
+		}
 		
 		switch(status.toLowerCase())
 		{

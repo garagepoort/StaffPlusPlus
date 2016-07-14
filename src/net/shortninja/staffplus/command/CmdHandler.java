@@ -5,7 +5,7 @@ import java.util.Arrays;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.command.cmd.AlertsCmd;
 import net.shortninja.staffplus.command.cmd.ChatCmd;
-import net.shortninja.staffplus.command.cmd.ListCmd;
+import net.shortninja.staffplus.command.cmd.PersonnelCmd;
 import net.shortninja.staffplus.command.cmd.ReviveCmd;
 import net.shortninja.staffplus.command.cmd.StaffChatCmd;
 import net.shortninja.staffplus.command.cmd.infraction.ReportCmd;
@@ -87,6 +87,6 @@ public class CmdHandler
 		new BaseCmd("alerts", new AlertsCmd(options.commandAlerts), true, Arrays.asList(options.permissionMention, options.permissionNameChange, options.permissionXray), "&7Enables or disables the alert type.", "[namechange | mention | xray] {player} {enable | disable}"),
 		new BaseCmd("follow", new FollowCmd(options.commandFollow), true, options.permissionFollow, "&7Follows or unfollows the player.", "{player}"),
 		new BaseCmd("revive", new ReviveCmd(options.commandRevive), true, options.permissionRevive, "&7Gives the player's previous inventory back.", "[player]"),
-		new BaseCmd("staff-list", new ListCmd(options.commandStaffList), true, "&7Lists all registered staff members.", "{all | online | away | offline}"),
+		new BaseCmd("staff-list", new PersonnelCmd(options.commandStaffList), true, "&7Lists all registered staff members.", "{all | online | away | offline}"),
 	};
 }

@@ -124,6 +124,14 @@ public class GadgetHandler
 			}else lastIndex = 0;
 			
 			currentPlayer = onlinePlayers.get(lastIndex);
+			
+			if(player.getName().equals(currentPlayer.getName()) || permission.has(currentPlayer, options.permissionMember))
+			{
+				lastRandomTeleport.put(uuid, lastIndex);
+				onRandomTeleport(player);
+				return;
+			}
+			
 			lastRandomTeleport.put(uuid, lastIndex);
 		}
 		
@@ -237,7 +245,7 @@ public class GadgetHandler
 				if(targetPlayer != null)
 				{
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), moduleConfiguration.getAction().replace("%clicker%", player.getName()).replace("%clicked%", targetPlayer.getName()));
-				}
+				}else Bukkit.dispatchCommand(Bukkit.getConsoleSender(), moduleConfiguration.getAction().replace("%clicker%", player.getName()));
 				break;
 			default:
 				break;
@@ -266,7 +274,7 @@ public class GadgetHandler
 				
 				if(getGadgetType(item, versionProtocol.getNbtString(item)) == GadgetType.COUNTER)
 				{
-					item.setAmount(options.modeCounterShowStaffMode ? modeUsers.size() : JavaUtils.getOnlinePlayers().size());
+					item.setAmount(options.modeCounterShowStaffMode ? modeUsers.size() : permission.getStaffCount());
 					break;
 				}
 			}

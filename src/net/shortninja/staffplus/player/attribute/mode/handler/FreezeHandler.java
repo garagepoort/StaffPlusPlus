@@ -6,9 +6,11 @@ import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.data.config.Messages;
+import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,7 +20,9 @@ import org.bukkit.potion.PotionEffectType;
 
 public class FreezeHandler
 {
+	private Permission permission = StaffPlus.get().permission;
 	private Message message = StaffPlus.get().message;
+	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
 	private static Map<UUID, Location> lastFrozenLocations = new HashMap<UUID, Location>();	
@@ -33,6 +37,11 @@ public class FreezeHandler
 	public void addFreeze(Player player)
 	{
 		UUID uuid = player.getUniqueId();
+		
+		if(permission.has(player, options.permissionFreezeBypass))
+		{
+			return;
+		}
 		
 		userManager.getUser(player.getUniqueId()).setFrozen(true);
 		lastFrozenLocations.put(uuid, player.getLocation());

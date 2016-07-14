@@ -12,6 +12,7 @@ public class ModuleConfiguration
 	
 	public ModuleConfiguration(String identifier, ModuleType moduleType, int slot, ItemStack item, String action)
 	{
+		this.identifier = identifier;
 		this.moduleType = moduleType;
 		this.slot = slot;
 		this.item = item;
