@@ -84,7 +84,7 @@ public class ModeCoordinator
 		{
 			if(!modeItem.isEnabled())
 			{
-				break;
+				continue;
 			}
 			
 			if(modeItem.getIdentifier().equals("vanish"))
