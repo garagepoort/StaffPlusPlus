@@ -1,7 +1,7 @@
 # Staff+ | Made with love by Shortninja - ♥
 
 # If you're having trouble with item type names, refer to here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-# All item slots are how they "should be", meaning the first slot of an inventory will be one.
+# All item slots are how they "should be", meaning the first slot of an inventory will be one. Maximum is 36.
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -10,7 +10,7 @@
 ############################################################
 
 # The language file that will be referred to for messages.
-# Current available languages are: lang_en, lang_sv, lang_de, and lang_nl
+# Current available languages are: lang_en, lang_sv, lang_de, lang_nl, and lang_es.
 # If you would like to translate Staff+, please message me on Spigot!
 lang: "lang_en"
 
@@ -450,7 +450,7 @@ staff-mode:
     item: WATCH
 
     # The name of the compass item.
-    name: "&bCPS"
+    name: "&3CPS"
 
     # The lore of the compass item.
     # Lines are separated by commas.
@@ -480,7 +480,7 @@ staff-mode:
     item: CHEST
 
     # The name of the compass item.
-    name: "&1Examine"
+    name: "&bExamine"
 
     # The lore of the compass item.
     # Lines are separated by commas.

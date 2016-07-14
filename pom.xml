@@ -2,21 +2,21 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.shortninja.staffplus</groupId>
   <artifactId>StaffPlus</artifactId>
-  <version>3.0.0-BETA</version>
+  <version>3.0.1-BETA</version>
   <name>Staff+</name>
   <description>The ultimate moderation plugin.</description>
   <repositories>
-    <repository>
-      <id>inventive-repo</id>
-      <url>https://repo.inventivetalent.org/content/groups/public/</url>
-    </repository>
+	<repository>
+		<id>inventive-repo</id>
+		<url>https://repo.inventivetalent.org/content/groups/public/</url>
+	</repository>
   </repositories>
   <dependencies>
-    <dependency>
-      <groupId>org.inventivetalent.packetlistener</groupId>
-      <artifactId>api</artifactId>
-      <version>3.4.4</version>
-    </dependency>
+	<dependency>
+	  <groupId>org.inventivetalent.packetlistener</groupId>
+	  <artifactId>api</artifactId>
+	  <version>3.4.4</version>
+	</dependency>
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -55,9 +55,9 @@
       <resource>
         <directory>resources</directory>
         <includes>
-          <include>changelog.txt</include>
+		  <include>changelog.txt</include>
           <include>config.yml</include>
-          <include>data.yml</include>
+		  <include>data.yml</include>
           <include>license.txt</include>
           <include>plugin.yml</include>
           <include>lang/**/*.*</include>
