@@ -163,8 +163,8 @@ gui-counted: "&b%player%"
 # Lijnen zijn gescheiden door kommas.
 freeze: "&4&lJe bent bevroren door Personeel log NIET uit!, &4&ltreedt de TeamSpeak toe @ shortninja.net"
 unfrozen: "&bJe bent ontdooid."
-staff-froze: "&bJe bevroren &7%target%&b."
-staff-unfroze: "&bJe ontdooid &7%target%&b."
+staff-froze: "Je hebt %target% bevroren"
+staff-unfroze: "Je hebt %target% ontdooit"
 
 cps-start: "&bCPS test gestart op &7%target% &bvoor &7%seconds%&b..."
 cps-finish-normal: "&7%player% &bheeft ongeveer &7%cps% &bCPS. &7(waarschijnlijk niet gevaarlijk)"

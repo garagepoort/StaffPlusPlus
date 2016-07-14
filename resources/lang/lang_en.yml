@@ -98,7 +98,7 @@ chat-clear-line: ""
 chat-cleared: "&bChat has been cleared by &7%player%&b."
 chat-toggled: "&bChat has been &7%status% &bby &7%player%&b."
 chat-prevented: "&bYou are not allowed to chat right now!"
-chat-slowed: "&bChat has been slowed for &7%seconds% &bby &7%player%&b."
+chat-slowed: "&bChat has been slowed for &7%seconds% seconds &bby &7%player%&b."
 chatting-fast: "&bYou are chatting too fast!"
 
 blacklist-hover: "&bThis message has been censored for &7%censoredlist%&b."
