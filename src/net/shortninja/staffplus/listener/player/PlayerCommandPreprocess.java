@@ -63,7 +63,7 @@ public class PlayerCommandPreprocess implements Listener
 			event.setCancelled(true);
 		}else if(userManager.getUser(uuid).isFrozen() && !options.modeFreezeChat)
 		{
-			message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
+			message.send(player, messages.chatPrevented, messages.prefixGeneral);
 			event.setCancelled(true);
 		}
 	}

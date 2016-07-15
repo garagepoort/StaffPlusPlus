@@ -102,7 +102,7 @@ public class AsyncPlayerChat implements Listener
 			shouldCancel = true;
 		}else if(user.isFrozen() && !options.modeFreezeChat)
 		{
-			this.message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
+			this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
 			shouldCancel = true;
 		}else if(user.isChatting())
 		{
