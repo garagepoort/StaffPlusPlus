@@ -76,7 +76,7 @@ public class InfractionCoordinator
 		addUnresolvedReport(report);
 		user.addReport(report);
 		message.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getName()).replace("%reason%", report.getReason()), messages.prefixReports);
-		message.sendGroupMessage(messages.reportedStaff.replace("%player%", report.getReporterName()).replace("%target%", report.getName()).replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
+		message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", report.getName()).replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
 		options.reportsSound.playForGroup(options.permissionReport);
 	}
 	
