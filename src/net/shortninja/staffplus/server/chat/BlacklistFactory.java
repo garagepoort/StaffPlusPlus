@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.chat;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.data.config.Options;
@@ -13,13 +14,14 @@ public class BlacklistFactory
 	private String censoredMessage;
 	private boolean hasChanged = false;
 	private static String[] words = null;
+	private static String[] domains = null;
+	private static String[] periods = null;
 	
 	public BlacklistFactory(String originalMessage)
 	{
 		if(words == null)
 		{
-			Collections.sort(options.chatBlacklistWords);
-			words = options.chatBlacklistWords.toArray(new String[options.chatBlacklistWords.size()]);
+			cleanArrays();
 		}
 		
 		this.originalMessage = originalMessage;
@@ -40,6 +42,7 @@ public class BlacklistFactory
 	{
 		censoredMessage = checkIllegalCharacters();
 		censoredMessage = checkIllegalWords();
+		censoredMessage = checkDomains();
 		
 		return this;
 	}
@@ -52,7 +55,7 @@ public class BlacklistFactory
 		{
 			if(newMessage.contains(string))
 			{
-				newMessage.replace(string, options.chatBlacklistCharacter);
+				newMessage = newMessage.replace(string, options.chatBlacklistCharacter);
 				hasChanged = true;
 			}
 		}
@@ -62,13 +65,13 @@ public class BlacklistFactory
 	
 	private String checkIllegalWords()
 	{
-		String newMessage = originalMessage;
+		String newMessage = censoredMessage;
 		
 		for(String word : newMessage.split(" "))
 		{
-			if(isBlacklisted(word) && isBypassable(word))
+			if(isIn(words, word.toLowerCase()) && !isBypassable(word.toLowerCase()))
 			{
-				newMessage.replace(word, options.chatBlacklistCharacter);
+				newMessage = censor(newMessage, word);
 				hasChanged = true;
 			}
 		}
@@ -76,9 +79,71 @@ public class BlacklistFactory
 		return newMessage;
 	}
 	
-	private boolean isBlacklisted(String string)
+	private String checkDomains()
 	{
-		return Arrays.binarySearch(words, string) >= 0;
+		String newMessage = censoredMessage;
+		boolean hasPeriods = false;
+		
+		for(String word : newMessage.split(" "))
+		{
+			if(containsPeriod(word))
+			{
+				for(String period : periods)
+				{
+					newMessage = newMessage.replace(period, ".");
+				}
+				
+				hasPeriods = true;
+			}
+		}
+		
+		if(hasPeriods)
+		{
+			String[] words = newMessage.split(Pattern.quote("."));
+			String previousWord = words[0];
+			
+			for(int i = 0; i < words.length; i++)
+			{
+				String word = words[i];
+				
+				if(containsDomain(word))
+				{
+					newMessage = censor(newMessage, word);
+					newMessage = censor(newMessage, ".");
+					
+					if(!previousWord.isEmpty())
+					{
+						newMessage = censor(newMessage, previousWord);
+					}
+					
+					hasChanged = true;
+				}
+				
+				previousWord = word;
+			}
+		}
+		
+		return newMessage;
+	}
+	
+	private String censor(String messsage, String word)
+	{
+		String censored = messsage;
+		StringBuilder builder = new StringBuilder();
+		
+		for(int k = 0; k < word.length(); k++)
+		{
+			builder.append(options.chatBlacklistCharacter);
+		}
+		
+		censored = censored.replace(word, builder.toString());
+		
+		return censored;
+	}
+	
+	private boolean isIn(String[] array, String string)
+	{
+		return Arrays.binarySearch(array, string) >= 0;
 	}
 	
 	private boolean isBypassable(String word)
@@ -87,7 +152,7 @@ public class BlacklistFactory
 		
 		for(String string : options.chatBlacklistAllowed)
 		{
-			if(string.contains(word))
+			if(word.contains(string.toLowerCase()))
 			{
 				isBypassable = true;
 				break;
@@ -95,5 +160,66 @@ public class BlacklistFactory
 		}
 		
 		return isBypassable;
+	}
+	
+	private boolean containsPeriod(String word)
+	{
+		boolean contains = false;
+		
+		for(String period : periods)
+		{
+			if(word.endsWith(period) || word.startsWith(period) || word.contains(period))
+			{
+				contains = true;
+				break;
+			}
+		}
+		
+		if(!contains)
+		{
+			if(word.endsWith(".") || word.startsWith(".") || word.contains("."))
+			{
+				contains = true;
+			}
+		}
+		
+		return contains;
+	}
+	
+	private boolean containsDomain(String word)
+	{
+		boolean contains = false;
+		
+		for(String domain : domains)
+		{
+			if(word.equalsIgnoreCase(domain))
+			{
+				contains = true;
+				break;
+			}
+		}
+		
+		return contains;
+	}
+	
+	private void cleanArrays()
+	{
+		Collections.sort(options.chatBlacklistWords);
+		Collections.sort(options.chatBlacklistDomains);
+		Collections.sort(options.chatBlacklistPeriods);
+		words = options.chatBlacklistWords.toArray(new String[options.chatBlacklistWords.size()]);
+		domains = options.chatBlacklistDomains.toArray(new String[options.chatBlacklistDomains.size()]);
+		periods = options.chatBlacklistPeriods.toArray(new String[options.chatBlacklistPeriods.size()]);
+		sanitize(words);
+		sanitize(domains);
+		sanitize(periods);
+	}
+	
+	private void sanitize(String[] array)
+	{
+		for(int i = 0; i < array.length; i++)
+		{
+			array[i] = array[i].toLowerCase();
+		}
 	}
 }

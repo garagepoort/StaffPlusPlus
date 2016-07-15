@@ -66,7 +66,7 @@ public class AsyncPlayerChat implements Listener
 		
 		if(options.chatBlacklistEnabled && options.chatEnabled)
 		{
-			if(blacklistFactory.runCheck().hasChanged())
+			if(blacklistFactory.runCheck().hasChanged()&& !permission.has(player, options.permissionBlacklist))
 			{
 				event.setMessage(blacklistFactory.getResult());
 				
@@ -83,7 +83,7 @@ public class AsyncPlayerChat implements Listener
 						}
 					}
 					
-					versionProtocol.sendHoverableJsonMessage(staffPlayers, blacklistFactory.getResult(), messages.blacklistChatFormat.replace("%player%", player.getName()).replace("%message%", message));
+					versionProtocol.sendHoverableJsonMessage(staffPlayers, messages.blacklistChatFormat.replace("%player%", player.getName()).replace("%message%", blacklistFactory.getResult()), message);
 				}
 			}
 		}
