@@ -9,6 +9,7 @@ import net.minecraft.server.v1_8_R1.NBTTagCompound;
 import net.minecraft.server.v1_8_R1.Packet;
 import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R1.PacketPlayOutPlayerInfo;
+import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.json.JsonMessage;
 
@@ -85,5 +86,28 @@ public class Protocol_v1_8_R1 implements IProtocol
 		{
 			((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 		}
+	}
+	
+	@Override
+	public boolean shouldIgnorePacket(Object packetValue)
+	{
+		boolean shouldIgnore = true;
+		String sound = (String) packetValue;
+		
+		if(StaffPlus.get().options == null)
+		{
+			return shouldIgnore;
+		}else
+		{
+			for(String string : StaffPlus.get().options.soundNames)
+			{
+				if(string.equalsIgnoreCase(sound))
+				{
+					shouldIgnore = false;
+				}
+			}
+		}
+		
+		return shouldIgnore;
 	}
 }

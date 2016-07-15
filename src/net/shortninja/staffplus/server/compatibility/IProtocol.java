@@ -14,4 +14,5 @@ public interface IProtocol
 	public void registerCommand(String match, Command command);
 	public void listVanish(Player player, boolean shouldEnable);
 	public void sendHoverableJsonMessage(Set<Player> players, String message, String hoverMessage);
+	public boolean shouldIgnorePacket(Object packetValue);
 }

@@ -4,6 +4,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
+import net.shortninja.staffplus.server.compatibility.IProtocol;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,6 +19,7 @@ import org.inventivetalent.packetlistener.handler.SentPacket;
 
 public class PacketModifier
 {
+	private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
 	private Options options = StaffPlus.get().options;
 	private UserManager userManager = StaffPlus.get().userManager;
 	
@@ -37,15 +39,7 @@ public class PacketModifier
 				
 				if(packetName.equalsIgnoreCase("PacketPlayOutNamedSoundEffect"))
 				{
-					String soundName = (String) packet.getPacketValueSilent(0);
-					
-					for(String string : options.soundNames)
-					{
-						if(string.equalsIgnoreCase(soundName))
-						{
-							handleClientSound(packet);
-						}
-					}
+					handleClientSound(packet);
 				}else
 				{
 					for(String string : options.animationPackets)
@@ -61,30 +55,16 @@ public class PacketModifier
 
 			@Override public void onReceive(ReceivedPacket packet)
 			{
-				if(packet.isCancelled())
+				if(!packet.isCancelled())
 				{
 					String packetName = packet.getPacketName();
 					
-					if(packetName.equalsIgnoreCase("PacketPlayOutNamedSoundEffect"))
+					for(String string : options.animationPackets)
 					{
-						String soundName = (String) packet.getPacketValueSilent(0);
-						
-						for(String string : options.soundNames)
+						if(packetName.equalsIgnoreCase(string))
 						{
-							if(string.equalsIgnoreCase(soundName))
-							{
-								handleServerSide(packet);
-							}
-						}
-					}else
-					{
-						for(String string : options.animationPackets)
-						{
-							if(packetName.equalsIgnoreCase(string))
-							{
-								handleServerSide(packet);
-								break;
-							}
+							handleServerSide(packet, false);
+							break;
 						}
 					}
 				}
@@ -96,12 +76,15 @@ public class PacketModifier
 	{
 		Player player = packet.getPlayer();
 		
-		if(player == null)
+		if(player != null)
 		{
-			return;
-		}
+			if(!isVanished(player))
+			{
+				return;
+			}
+		}else return;
 		
-		if(!isVanished(player))
+		if(versionProtocol.shouldIgnorePacket(packet.getPacketValue(0)))
 		{
 			return;
 		}
@@ -127,13 +110,22 @@ public class PacketModifier
 	}
 	
 
-	private void handleServerSide(ReceivedPacket packet)
+	private void handleServerSide(ReceivedPacket packet, boolean isSound)
 	{
 		Player player = packet.getPlayer();
 		
 		if(player == null)
 		{
 			return;
+		}
+		
+		
+		if(isSound)
+		{
+			if(versionProtocol.shouldIgnorePacket(packet.getPacketValue(0)))
+			{
+				return;
+			}
 		}
 		
 		Location location = new Location(player.getWorld(), (int)packet.getPacketValue(2) / 8, (int) packet.getPacketValue(3) / 8, (int)packet.getPacketValue(4) / 8);
@@ -154,7 +146,9 @@ public class PacketModifier
 					}
 				}
 			}
-		}else
+		}
+		
+		if(!packet.isCancelled())
 		{
 			for(Player p : Bukkit.getOnlinePlayers())
 			{
