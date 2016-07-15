@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.shortninja.staffplus</groupId>
   <artifactId>StaffPlus</artifactId>
-  <version>3.0.2-BETA</version>
+  <version>3.0.3-BETA</version>
   <name>Staff+</name>
   <description>The ultimate moderation plugin.</description>
   <repositories>
@@ -12,11 +12,33 @@
 	</repository>
   </repositories>
   <dependencies>
-	<dependency>
+    <dependency>
 	  <groupId>org.inventivetalent.packetlistener</groupId>
 	  <artifactId>api</artifactId>
 	  <version>3.4.4</version>
-	</dependency>
+    </dependency>
+    <dependency>
+	  <groupId>org.inventivetalent.packetlistener</groupId>
+	  <artifactId>1_7</artifactId>
+	  <version>3.4.4</version>
+	  <exclusions>
+	  	<exclusion>
+	  		<artifactId>craftbukkit</artifactId>
+	  		<groupId>org.bukkit</groupId>
+	  	</exclusion>
+	  </exclusions>
+    </dependency>
+    <dependency>
+	  <groupId>org.inventivetalent.packetlistener</groupId>
+	  <artifactId>1_8</artifactId>
+	  <version>3.4.4</version>
+	  <exclusions>
+	  	<exclusion>
+	  		<artifactId>craftbukkit</artifactId>
+	  		<groupId>org.bukkit</groupId>
+	  	</exclusion>
+	  </exclusions>
+    </dependency>
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -40,10 +62,6 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <includes>
-                <include>net:shortninja:staffplus:*</include>
-                <include>org:inventivetalent:packetlistener:*</include>
-              </includes>
               <finalName>Staff+</finalName>
               <outputDirectory>/Users/Gavin/Desktop</outputDirectory>
             </configuration>
