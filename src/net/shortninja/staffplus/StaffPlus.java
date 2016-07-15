@@ -52,6 +52,8 @@ import net.shortninja.staffplus.util.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.inventivetalent.apihelper.APIManager;
+import org.inventivetalent.packetlistener.PacketListenerAPI;
 
 public class StaffPlus extends JavaPlugin
 {
@@ -77,6 +79,12 @@ public class StaffPlus extends JavaPlugin
 	public InfractionCoordinator infractionCoordinator;
 	public AlertCoordinator alertCoordinator;
 	public Tasks tasks;
+	
+	@Override
+	public void onLoad()
+	{
+		APIManager.require(PacketListenerAPI.class, this);
+	}
 	
 	@Override
 	public void onEnable()
@@ -145,6 +153,7 @@ public class StaffPlus extends JavaPlugin
 		
 		registerListeners();
 		new ChangelogFile();
+		APIManager.initAPI(PacketListenerAPI.class);
 		new PacketModifier();
 		message.sendConsoleMessage("Staff+ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
 		message.sendConsoleMessage("Plugin created by Shortninja.", false);
