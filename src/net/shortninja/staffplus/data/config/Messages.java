@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.data.config;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.shortninja.staffplus.StaffPlus;
@@ -16,6 +17,8 @@ public class Messages
 	{
 		this.config = language.get();
 	}
+	
+	public double langVersion = config.contains("lang-version") ? config.getDouble("lang-version") : 3.0;
 	
 	/*
 	 * Prefixes
@@ -39,6 +42,11 @@ public class Messages
 	public String commandBlocked = config.getString("command-blocked");
 	public String modeCommandBlocked = config.getString("mode-command-blocked");
 	public String commandOnCooldown = config.getString("on-cooldown");
+	public String noteAdded = langVersion >= 3.2 ? config.getString("note-added") : "&bNote added for &7%target%&b.";
+	public String noteCleared = langVersion >= 3.2 ? config.getString("note-cleared") : "&bNotes cleared for &7%target%&b.";
+	public List<String> noteListStart = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-start")) : Arrays.asList("&7%longline%");
+	public String noteListEntry = langVersion >= 3.2 ? config.getString("note-list-entry") : "&b%count% &7%note%";
+	public List<String> noteListEnd = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-end")) : Arrays.asList("&7%longline%");
 	public String noPermission = config.getString("no-permission");
 	public String playerOffline = config.getString("player-offline");
 	public String unknownCommand = config.getString("unknown-command");
@@ -69,6 +77,7 @@ public class Messages
 	 * Chat
 	 */
 	public String staffChat = config.getString("staff-chat");
+	public String staffChatStatus = langVersion >= 3.2 ? config.getString("staff-chat-status") : "&bStaff chat &7%status%&b.";
 	public String chatClearLine = config.getString("chat-clear-line");
 	public String chatCleared = config.getString("chat-cleared");
 	public String chatToggled = config.getString("chat-toggled");

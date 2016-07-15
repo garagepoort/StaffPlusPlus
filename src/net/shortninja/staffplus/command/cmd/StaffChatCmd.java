@@ -33,7 +33,7 @@ public class StaffChatCmd extends BukkitCommand
 	{
 		if(!permission.has(sender, options.permissionStaffChat))
 		{
-			message.send(sender, messages.noPermission, messages.prefixGeneral);
+			message.send(sender, messages.noPermission, messages.prefixStaffChat);
 			return true;
 		}
 		
@@ -46,7 +46,15 @@ public class StaffChatCmd extends BukkitCommand
 		{
 			User user = userManager.getUser(((Player) sender).getUniqueId());
 			
-			user.setChatting(!user.isChatting());
+			if(user.isChatting())
+			{
+				message.send(sender, messages.staffChatStatus.replace("%status%", "disabled"), messages.prefixStaffChat);
+				user.setChatting(false);
+			}else
+			{
+				message.send(sender, messages.staffChatStatus.replace("%status%", "enabled"), messages.prefixStaffChat);
+				user.setChatting(true);
+			}
 		}else message.send(sender, messages.onlyPlayers, messages.prefixStaffChat);
 		
 		return true;

@@ -42,7 +42,7 @@ public class NotesCmd extends BukkitCommand
 		{
 			String argument = args[0];
 			String option = args[1];
-			boolean hasPermission = permission.has(sender, options.permissionReport);
+			boolean hasPermission = permission.has(sender, options.permissionExamine);
 			Player player = Bukkit.getPlayer(option);
 			
 			if(argument.equalsIgnoreCase("get") && hasPermission)
@@ -74,15 +74,22 @@ public class NotesCmd extends BukkitCommand
 		{
 			List<String> notes = user.getPlayerNotes();
 			
-			message.send(sender, "&7" + message.LONG_LINE, "");
-			message.send(sender, "&7" + player.getName() + " &bhas &7" + notes.size() + " &bnotes.", messages.prefixGeneral);
-			
-			for(String note : notes)
+			for(String message : messages.noteListStart)
 			{
-				message.send(sender, "&7" + note, messages.prefixGeneral);
+				this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%notes%", Integer.toString(notes.size())), message.contains("%longline%") ? "" : messages.prefixGeneral);
 			}
-			
-			message.send(sender, "&7" + message.LONG_LINE, "");
+
+			for(int i = 0; i < notes.size(); i++)
+			{
+				String note = notes.get(i);
+				
+				message.send(sender, messages.noteListEntry.replace("%count%", Integer.toString(i + 1)).replace("%note%", note), messages.prefixGeneral);
+			}
+
+			for(String message : messages.noteListEnd)
+			{
+				this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%notes%", Integer.toString(notes.size())), message.contains("%longline%") ? "" : messages.prefixGeneral);
+			}
 		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 	}
 	
@@ -93,7 +100,7 @@ public class NotesCmd extends BukkitCommand
 		if(user != null)
 		{
 			user.getPlayerNotes().clear();
-			message.send(sender, messages.inputAccepted, messages.prefixGeneral);
+			message.send(sender, messages.noteCleared.replace("%target%", player.getName()), messages.prefixGeneral);
 		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 	}
 	
@@ -104,7 +111,7 @@ public class NotesCmd extends BukkitCommand
 		if(player != null)
 		{
 			userManager.getUser(player.getUniqueId()).addPlayerNote(note);;
-			message.send(sender, messages.inputAccepted, messages.prefixGeneral);
+			message.send(sender, messages.noteAdded.replace("%target%", player.getName()), messages.prefixGeneral);
 		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 	}
 	
