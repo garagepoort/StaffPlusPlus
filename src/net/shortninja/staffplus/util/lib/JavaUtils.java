@@ -9,6 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
 /**
@@ -156,14 +158,34 @@ public class JavaUtils
 	}
 	
 	/**
-	 * Checks if the player has inventory space by using #firstEmpty().
+	 * Gets the slot of the given item through iteration.
 	 * 
-	 * @param player The player to check for an inventory.
-	 * @return Whether or not the player has free space.
+	 * @param player The inventory to iterate through.
+	 * @param item The ItemStack to check for.
+	 * @return The found slot in the inventory.
 	 */
-	public static boolean hasInventorySpace(Player player)
+	public static int getItemSlot(PlayerInventory inventory, ItemStack item)
 	{
-		return !(player.getInventory().firstEmpty() == -1);
+		int slot = 0;
+		ItemStack[] contents = inventory.getContents();
+		
+		for(int i = 0; i < contents.length; i++)
+		{
+			ItemStack current = contents[i];
+			
+			if(current == null)
+			{
+				continue;
+			}
+			
+			if(current.equals(item))
+			{
+				slot = i;
+				break;
+			}
+		}
+		
+		return slot;
 	}
 	
 	/**
