@@ -148,24 +148,26 @@ public class GadgetHandler
 	public void onVanish(Player player, boolean shouldUpdateItem)
 	{
 		ModeItem modeItem = StaffPlus.get().modeCoordinator.MODE_ITEMS[2];
+		ItemStack item = player.getItemInHand();
+		int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 		
 		if(userManager.getUser(player.getUniqueId()).getVanishType() == options.modeVanish)
 		{
 			StaffPlus.get().vanishHandler.removeVanish(player);
 			
-			if(shouldUpdateItem && player.getItemInHand() != null)
+			if(shouldUpdateItem && item != null)
 			{
-				player.getInventory().remove(player.getItemInHand());
-				player.getInventory().addItem(versionProtocol.addNbtString(options.modeVanishItemOff, modeItem.getIdentifier()));
+				player.getInventory().remove(item);
+				player.getInventory().setItem(slot, versionProtocol.addNbtString(options.modeVanishItemOff, modeItem.getIdentifier()));
 			}
 		}else
 		{	
 			StaffPlus.get().vanishHandler.addVanish(player, options.modeVanish);
 			
-			if(shouldUpdateItem && player.getItemInHand() != null)
+			if(shouldUpdateItem && item != null)
 			{
-				player.getInventory().remove(player.getItemInHand());
-				player.getInventory().addItem(versionProtocol.addNbtString(options.modeVanishItem, modeItem.getIdentifier()));
+				player.getInventory().remove(item);
+				player.getInventory().setItem(slot, versionProtocol.addNbtString(options.modeVanishItem, modeItem.getIdentifier()));
 			}
 		}
 	}
