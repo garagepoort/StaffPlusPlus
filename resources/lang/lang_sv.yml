@@ -21,7 +21,7 @@ reports-prefix: "&dRapporter &8»"
 warnings-prefix: "&dVarningar &8»"
 
 # Prefixet för alla meddelanden i staff chat.
-staff-chat-prefix: "&dStaffChat &8»"
+staff-chat-prefix: "&dPersonalChat &8»"
 
 # Prefixet för biljetter.
 tickets-prefix: "&dBiljetter &8»"
@@ -49,6 +49,13 @@ revived-user: "&bYour inventory has been set to its previous state!"
 command-blocked: "&bThat command is blocked for staff!"
 mode-command-blocked: "&bThat command is blocked in staff mode!"
 on-cooldown: "&bYou cannot use that for &7%seconds% &bseconds."
+
+note-added: "&bNote added for &7%target%&b."
+note-cleared: "&bNotes cleared for &7%target%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Lines are separated by commas
+note-list-end: "&7%longline%"
 
 no-permission: "&cYou do not have permission to use that!"
 player-offline: "&cThat player is offline!"
@@ -93,6 +100,7 @@ infraction-item: "&bWarnings: &7%warnings%, &bReports: &7%reports%, &bReport rea
 ############################################################
 
 staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bStaff chat &7%status%&b."
 
 chat-clear-line: ""
 chat-cleared: "&bChat has been cleared by &7%player%&b."
@@ -182,3 +190,6 @@ examine-notes: "&bPlayer notes:"
 examine-notes-note: "&b%player%: &7%note%"
 
 follow: "&bYou are now &7%status% %target%&b."
+
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
+lang-version: 3.2

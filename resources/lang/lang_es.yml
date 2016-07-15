@@ -37,7 +37,7 @@ separator-color: "&b"
 
 # Lineas están separadas por comas.
 staff-list-start: "&7%longline%"
-staff-list-member: "&b%player% &%statuscolor%•"
+staff-list-entry: "&b%player% &%statuscolor%•"
 # Lineas están separadas por comas.
 staff-list-end: "&7%longline%"
 
@@ -49,6 +49,13 @@ revived-user: "&b¡Tu inventario ha sido reestablecido a su estado anterior!"
 command-blocked: "&b¡Ese comando esta bloqueado para el staff!"
 mode-command-blocked: "&b¡Ese comando esta bloqueado en modo de staff!"
 on-cooldown: "&b¡No puedes volver a usar eso hasta &7%seconds% &bsegundos."
+
+note-added: "&bNota añadido para &7%target%&b."
+note-cleared: "&bNotas limpiado para la &7%target%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Lines are separated by commas
+note-list-end: "&7%longline%"
 
 no-permission: "&c¡Tú no tienes permisos para usar eso!"
 player-offline: "&c¡Ese jugador esta desconectado!"
@@ -90,6 +97,7 @@ infraction-item: "&bAdvertencias: &7%warnings%, &bReportes: &7%reports%, &bRazó
 ############################################################
 
 staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bChat del Staff &7%status%&b."
 
 chat-clear-line: ""
 chat-cleared: "&bEl chat ha sido limpiado por &7%player%&b."
@@ -179,3 +187,6 @@ examine-notes: "&bNotas del jugador:"
 examine-notes-note: "&b%player%: &7%note%"
 
 follow: "&bAhora estas &7%status% a %target%&b."
+
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
+lang-version: 3.2

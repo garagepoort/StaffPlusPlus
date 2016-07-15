@@ -50,6 +50,13 @@ command-blocked: "&bDieser Befehl ist für Teammitglieder geblockt."
 mode-command-blocked: "&bDieser Befehl ist für Staff Modus geblockt!"
 on-cooldown: "&bDu musst noch &7%seconds% &bSekunden warten bis du diesen Befehl ausführen kannst."
 
+note-added: "&bHinweis hinzugefügt für &7%target%&b."
+note-cleared: "&bNotizen gereinigt für %target%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Lines are separated by commas
+note-list-end: "&7%longline%"
+
 no-permission: "&cDu hast nicht genug Rechte um diesen Befehl auszuführen."
 player-offline: "&cDieser Spieler ist offline."
 unknown-command: "&cUnbekannter Befehl."
@@ -93,6 +100,7 @@ infraction-item: "&bVerwarnungen: &7%warnings%, &bReports: &7%reports%, &bReport
 ############################################################
 
 staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bdTeamchat &7%status%&b."
 
 chat-clear-line: ""
 chat-cleared: "&bDer Chat wurde von &7%player%&b gereinigt."
@@ -182,3 +190,6 @@ examine-notes: "&bNotizen für diesen Spieler:"
 examine-notes-note: "&b%player%: &7%note%"
 
 follow: "&bDu &7%status% nun %target%&b."
+
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
+lang-version: 3.2
