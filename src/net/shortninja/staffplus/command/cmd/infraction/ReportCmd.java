@@ -105,7 +105,7 @@ public class ReportCmd extends BukkitCommand
 
 			for(String message : messages.reportsListEnd)
 			{
-				this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%reports%", Integer.toString(user.getReports().size())), message.contains("%longline%") ? "" : messages.prefixReports);
+				this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports);
 			}
 		}else message.send(sender, messages.playerOffline, messages.prefixReports);
 	}
