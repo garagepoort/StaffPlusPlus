@@ -15,6 +15,7 @@ import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.util.Message;
 import net.shortninja.staffplus.util.Permission;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class InfractionCoordinator
@@ -83,8 +84,9 @@ public class InfractionCoordinator
 	public void sendWarning(Player player, Warning warning)
 	{
 		User user = userManager.getUser(warning.getUuid());
+		Player p = user.getPlayer();
 		
-		if(user == null || user.getPlayer() == null)
+		if(user == null || p == null)
 		{
 			return;
 		}
@@ -97,12 +99,12 @@ public class InfractionCoordinator
 		
 		user.addWarning(warning);
 		message.send(player, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
-		message.send(user.getPlayer(), messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
-		options.warningsSound.play(user.getPlayer());
+		message.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
+		options.warningsSound.play(p);
 		
 		if(user.getWarnings().size() >= options.warningsMaximum && options.warningsMaximum > 0)
 		{
-			
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), options.warningsBanCommand.replace("%player%", p.getName()));
 		}
 	}
 }
