@@ -7,7 +7,7 @@ import net.minecraft.server.v1_7_R4.ItemStack;
 import net.minecraft.server.v1_7_R4.NBTTagCompound;
 import net.minecraft.server.v1_7_R4.PacketPlayOutChat;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.util.lib.JsonStringBuilder;
+import net.shortninja.staffplus.util.lib.json.JsonMessage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -63,8 +63,8 @@ public class Protocol_v1_7_R4 implements IProtocol
 	@Override
 	public void sendHoverableJsonMessage(Set<Player> players, String message, String hoverMessage)
 	{
-		String json = new JsonStringBuilder(message).setHoverAsTooltip(hoverMessage).save();
-		PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a(json));
+		JsonMessage json = new JsonMessage().append(message).setHoverAsTooltip(hoverMessage).save();
+		PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a(json.getMessage()));
 		
 		for(Player player : players)
 		{
