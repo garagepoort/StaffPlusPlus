@@ -122,8 +122,8 @@ public class WarnCmd extends BukkitCommand
 			
 			Warning warning = new Warning(warned.getUniqueId(), warned.getName(), reason, issuerName, issuerUuid, System.currentTimeMillis());
 			
-			StaffPlus.get().infractionCoordinator.sendWarning(issuer, warning);
-		}
+			StaffPlus.get().infractionCoordinator.sendWarning(sender, warning);
+		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 	}
 	
 	private void sendHelp(CommandSender sender)

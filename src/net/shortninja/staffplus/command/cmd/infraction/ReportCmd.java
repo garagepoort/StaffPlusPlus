@@ -37,7 +37,7 @@ public class ReportCmd extends BukkitCommand
 	@Override
 	public boolean execute(CommandSender sender, String alias, String[] args)
 	{
-		if(args.length == 2)
+		if(args.length >= 2)
 		{
 			String argument = args[0];
 			String option = args[1];
@@ -56,23 +56,23 @@ public class ReportCmd extends BukkitCommand
 				{
 					message.send(sender, messages.playerOffline, messages.prefixReports);
 				}else clearReports(sender, player);
-			}else sendReport(sender, argument, JavaUtils.compileWords(args, 1));
-		}else if(args.length >= 3)
-		{
-			long now = System.currentTimeMillis();
-			long last = sender instanceof Player ? (lastUse.containsKey(((Player) sender).getUniqueId()) ? lastUse.get(((Player) sender).getUniqueId()) : 0) : 0;
-			long remaining = (now - last) / 1000;
-			
-			if(remaining >= options.reportsCooldown)
-			{
-				message.send(sender, messages.commandOnCooldown.replace("%time%", Long.toString(remaining)), messages.prefixGeneral);
 			}else
 			{
-				sendReport(sender, args[0], JavaUtils.compileWords(args, 1));
+				long now = System.currentTimeMillis();
+				long last = sender instanceof Player ? (lastUse.containsKey(((Player) sender).getUniqueId()) ? lastUse.get(((Player) sender).getUniqueId()) : 0) : 0;
+				long remaining = (now - last) / 1000;
 				
-				if(sender instanceof Player)
+				if(remaining < options.reportsCooldown && !permission.has(sender, options.permissionReport))
 				{
-					lastUse.put(((Player) sender).getUniqueId(), now);
+					message.send(sender, messages.commandOnCooldown.replace("%seconds%", Long.toString(options.reportsCooldown - remaining)), messages.prefixGeneral);
+				}else
+				{
+					sendReport(sender, args[0], JavaUtils.compileWords(args, 1));
+					
+					if(sender instanceof Player)
+					{
+						lastUse.put(((Player) sender).getUniqueId(), now);
+					}
 				}
 			}
 		}else if(!permission.has(sender, options.permissionReport))
@@ -116,7 +116,7 @@ public class ReportCmd extends BukkitCommand
 		
 		if(user != null)
 		{
-			user.getReports().clear();
+			StaffPlus.get().infractionCoordinator.clearReports(user);
 			message.send(sender, messages.reportsCleared.replace("%target%", player.getName()), messages.prefixReports);
 		}else message.send(sender, messages.playerOffline, messages.prefixReports);
 	}
@@ -142,8 +142,8 @@ public class ReportCmd extends BukkitCommand
 			Report report = new Report(reported.getUniqueId(), reported.getName(), reason, reporterName, reporterUuid);
 			
 			StaffPlus.get().infractionCoordinator.addUnresolvedReport(report);
-			StaffPlus.get().infractionCoordinator.sendReport(reporter, report);
-		}
+			StaffPlus.get().infractionCoordinator.sendReport(sender, report);
+		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 	}
 	
 	private void sendHelp(CommandSender sender)

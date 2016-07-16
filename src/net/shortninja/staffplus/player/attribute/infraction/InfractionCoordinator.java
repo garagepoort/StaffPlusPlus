@@ -16,6 +16,7 @@ import net.shortninja.staffplus.util.Message;
 import net.shortninja.staffplus.util.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class InfractionCoordinator
@@ -59,46 +60,58 @@ public class InfractionCoordinator
 		return warnings;
 	}
 	
-	public void sendReport(Player player, Report report)
+	public void sendReport(CommandSender sender, Report report)
 	{
 		User user = userManager.getUser(report.getUuid());
 		
 		if(user == null || user.getPlayer() == null)
 		{
+			message.send(sender, messages.playerOffline, messages.prefixGeneral);
 			return;
 		}
 		
 		if(permission.has(user.getPlayer(), options.permissionReportBypass))
 		{
-			message.send(player, messages.noPermission, messages.prefixGeneral);
+			message.send(sender, messages.bypassed, messages.prefixGeneral);
 			return;
 		}
 		
 		addUnresolvedReport(report);
 		user.addReport(report);
-		message.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getName()).replace("%reason%", report.getReason()), messages.prefixReports);
+		message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getName()).replace("%reason%", report.getReason()), messages.prefixReports);
 		message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", report.getName()).replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
 		options.reportsSound.playForGroup(options.permissionReport);
 	}
 	
-	public void sendWarning(Player player, Warning warning)
+	public void clearReports(User user)
+	{
+		user.getReports().clear();
+		
+		if(unresolvedReports.containsKey(user.getUuid()))
+		{
+			unresolvedReports.remove(user.getUuid());
+		}
+	}
+	
+	public void sendWarning(CommandSender sender, Warning warning)
 	{
 		User user = userManager.getUser(warning.getUuid());
 		Player p = user.getPlayer();
 		
 		if(user == null || p == null)
 		{
+			message.send(sender, messages.playerOffline, messages.prefixGeneral);
 			return;
 		}
 		
 		if(permission.has(user.getPlayer(), options.permissionWarnBypass))
 		{
-			message.send(player, messages.noPermission, messages.prefixGeneral);
+			message.send(sender, messages.bypassed, messages.prefixGeneral);
 			return;
 		}
 		
 		user.addWarning(warning);
-		message.send(player, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
+		message.send(sender, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
 		message.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
 		options.warningsSound.play(p);
 		
