@@ -131,7 +131,7 @@ public class StaffPlus extends JavaPlugin
 		
 		dataFile = new DataFile("data.yml");
 		languageFile = new LanguageFile();
-		messages = new Messages(languageFile);
+		messages = new Messages();
 		userManager = new UserManager();
 		cpsHandler = new CpsHandler();
 		freezeHandler = new FreezeHandler();
@@ -233,6 +233,7 @@ public class StaffPlus extends JavaPlugin
 	{
 		saveUsers();
 		tasks.cancel();
+		APIManager.disableAPI(PacketListenerAPI.class);
 		
 		for(Player player : Bukkit.getOnlinePlayers())
 		{
