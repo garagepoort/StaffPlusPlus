@@ -98,7 +98,7 @@ public class TicketCmd extends BukkitCommand
 					message.send(sender, messages.ticketNotFound, messages.prefixTickets);
 				}else if(!ticket.hasBeenClosed())
 				{
-					ticketHandler.removeTicket(ticket, TicketCloseReason.STAFF);
+					ticketHandler.removeTicket(ticket, JavaUtils.compileWords(args, 2), TicketCloseReason.STAFF);
 				}else message.send(sender, messages.ticketNotFound, messages.prefixTickets);
 				break;
 		}

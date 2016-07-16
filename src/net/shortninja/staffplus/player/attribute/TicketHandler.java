@@ -80,14 +80,14 @@ public class TicketHandler
 		nextTicketId++;
 	}
 	
-	public void removeTicket(Ticket ticket, TicketCloseReason ticketCloseReason)
+	public void removeTicket(Ticket ticket, String reason, TicketCloseReason ticketCloseReason)
 	{
 		if(ticket == null)
 		{
 			return;
 		}
 		
-		String message = messages.ticketRemoved.replace("%ticket%", Integer.toString(ticket.getId())).replace("%reason%", ticketCloseReason.getMessage());
+		String message = messages.ticketRemoved.replace("%ticket%", Integer.toString(ticket.getId())).replace("%reason%", ticketCloseReason == TicketCloseReason.STAFF ? reason : ticketCloseReason.getMessage());
 		
 		this.message.sendGroupMessage(message, options.permissionTickets, messages.prefixTickets);
 		this.message.send(Bukkit.getPlayer(ticket.getName()), message, messages.prefixTickets);
