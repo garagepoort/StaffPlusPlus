@@ -49,7 +49,9 @@ public class BlockBreak implements Listener
 				
 				if(amount > 0)
 				{
-					alertCoordinator.onXray(player.getName(), amount, block.getType(), block.getLightLevel());
+					int lightLevel = block.getLightFromBlocks() + block.getLightFromSky();
+					
+					alertCoordinator.onXray(player.getName(), amount, block.getType(), lightLevel);
 				}
 			}
 			

@@ -78,7 +78,7 @@ public class AlertCoordinator
 		}
 	}
 	
-	public void onXray(String miner, int amount, Material type, byte lightLevel)
+	public void onXray(String miner, int amount, Material type, int lightLevel)
 	{
 		if(!options.alertsMentionNotify)
 		{
@@ -89,7 +89,7 @@ public class AlertCoordinator
 		{
 			if(user.shouldNotify(AlertType.XRAY) && permission.has(user.getPlayer(), options.permissionXray))
 			{
-				message.send(user.getPlayer(), messages.alertsXray.replace("%target%", miner).replace("%count%", Integer.toString(amount)).replace("%itemtype%", JavaUtils.formatTypeName(type)).replace("%lightlevel%", Byte.toString(lightLevel)), messages.prefixGeneral, options.permissionXray);
+				message.send(user.getPlayer(), messages.alertsXray.replace("%target%", miner).replace("%count%", Integer.toString(amount)).replace("%itemtype%", JavaUtils.formatTypeName(type)).replace("%lightlevel%", Integer.toString(lightLevel)), messages.prefixGeneral, options.permissionXray);
 			}
 		}
 	}
