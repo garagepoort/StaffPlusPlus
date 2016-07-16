@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.file.LanguageFile;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,11 +11,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class Messages
 {
 	private FileConfiguration config = StaffPlus.get().languageFile.get();
-	
-	public Messages(LanguageFile language)
-	{
-		this.config = language.get();
-	}
 	
 	public double langVersion = config.contains("lang-version") ? config.getDouble("lang-version") : 3.0;
 	
@@ -48,6 +42,7 @@ public class Messages
 	public String noteListEntry = langVersion >= 3.2 ? config.getString("note-list-entry") : "&b%count% &7%note%";
 	public List<String> noteListEnd = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-end")) : Arrays.asList("&7%longline%");
 	public String noPermission = config.getString("no-permission");
+	public String bypassed = langVersion >= 3.5 ? config.getString("bypassed") : "&cThat player bypassed that command!";
 	public String playerOffline = config.getString("player-offline");
 	public String unknownCommand = config.getString("unknown-command");
 	public String invalidArguments = config.getString("invalid-arguments");

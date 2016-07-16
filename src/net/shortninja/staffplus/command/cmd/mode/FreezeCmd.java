@@ -42,10 +42,10 @@ public class FreezeCmd extends BukkitCommand
 			{
 				if(option.equalsIgnoreCase("enable"))
 				{
-					freezeHandler.addFreeze(targetPlayer);
+					freezeHandler.addFreeze(sender, targetPlayer);
 				}else if(option.equalsIgnoreCase("disable"))
 				{
-					freezeHandler.removeFreeze(targetPlayer);
+					freezeHandler.removeFreeze(sender, targetPlayer);
 				}else message.send(sender, messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
 			}else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 		}else if(args.length == 1 && permission.isOp(sender))
@@ -65,12 +65,10 @@ public class FreezeCmd extends BukkitCommand
 	{
 		if(freezeHandler.isFrozen(player.getUniqueId()))
 		{
-			freezeHandler.removeFreeze(player);
-			message.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
+			freezeHandler.removeFreeze(sender, player);
 		}else
 		{
-			freezeHandler.addFreeze(player);
-			message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
+			freezeHandler.addFreeze(sender, player);
 		}
 	}
 }
