@@ -10,7 +10,7 @@
 ############################################################
 
 # The language file that will be referred to for messages.
-# Current available languages are: lang_en, lang_sv, lang_de, lang_nl, and lang_es.
+# Current available languages are: lang_en, lang_sv, lang_de, lang_nl, lang_es, and lang_hr.
 # If you would like to translate Staff+, please message me on Spigot!
 lang: "lang_en"
 
