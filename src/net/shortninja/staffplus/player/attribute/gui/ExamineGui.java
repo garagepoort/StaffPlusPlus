@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
+import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
@@ -222,11 +224,17 @@ public class ExamineGui extends AbstractGui
 	{
 		int healthLevel = (int) player.getHealth();
 		int foodLevel = player.getFoodLevel();
+		List<String> lore = new ArrayList<String>();
+		
+		for(String string : messages.examineFood)
+		{
+			lore.add(string.replace("%health%", healthLevel + "/20").replace("%hunger%", foodLevel + "/20"));
+		}
 		
 		ItemStack item = Items.builder()
 				.setMaterial(Material.BREAD).setAmount(1)
 				.setName("&bFood")
-				.addLore("&7Health @ " + healthLevel + "/20", "&7Hunger @" + foodLevel + "/20")
+				.setLore(lore)
 				.build();
 		
 		return item;
@@ -238,8 +246,8 @@ public class ExamineGui extends AbstractGui
 		
 		ItemStack item = Items.builder()
 				.setMaterial(Material.COMPASS).setAmount(1)
-				.setName("&bIP address")
-				.addLore("&7" + ip)
+				.setName("&bConnection")
+				.addLore(messages.examineIp.replace("%ipaddress%", ip))
 				.build();
 		
 		return item;
@@ -250,7 +258,7 @@ public class ExamineGui extends AbstractGui
 		ItemStack item = Items.builder()
 				.setMaterial(Material.GRASS).setAmount(1)
 				.setName("&bGamemode")
-				.addLore("&7" + player.getGameMode().toString())
+				.addLore(messages.examineGamemode.replace("%gamemode%", player.getGameMode().toString()))
 				.build();
 		
 		return item;
@@ -258,10 +266,19 @@ public class ExamineGui extends AbstractGui
 	
 	private ItemStack infractionsItem(User user)
 	{
+		List<String> lore = new ArrayList<String>();
+		Report latestReport = user.getReports().size() >= 1 ? user.getReports().get(user.getReports().size() - 1) : null;
+		String latestReason = latestReport == null ? "null" : latestReport.getReason();
+		
+		for(String string : messages.infractionItem)
+		{
+			lore.add(string.replace("%warnings%", Integer.toString(user.getWarnings().size())).replace("%reports%", Integer.toString(user.getReports().size())).replace("%reason%", latestReason));
+		}
+		
 		ItemStack item = Items.builder()
 				.setMaterial(Material.BOOK).setAmount(1)
 				.setName("&bInfractions")
-				.addLore("&7Warnings: " + user.getWarnings().size(), "&7Reports: " + user.getReports().size())
+				.setLore(lore)
 				.build();
 		
 		return item;
@@ -274,7 +291,7 @@ public class ExamineGui extends AbstractGui
 		ItemStack item = Items.builder()
 				.setMaterial(Material.MAP).setAmount(1)
 				.setName("&bLocation")
-				.addLore("&7" + location.getWorld().getName() + " &8» &7" + JavaUtils.serializeLocation(location))
+				.addLore(messages.examineLocation.replace("%location%", location.getWorld().getName() + " &8» &7" + JavaUtils.serializeLocation(location)))
 				.build();
 		
 		return item;
@@ -286,7 +303,7 @@ public class ExamineGui extends AbstractGui
 		
 		ItemStack item = Items.builder()
 				.setMaterial(Material.MAP).setAmount(1)
-				.setName("&bPlayer notes")
+				.setName(messages.examineNotes)
 				.setLore(notes)
 				.build();
 		
@@ -300,7 +317,7 @@ public class ExamineGui extends AbstractGui
 		ItemStack item = Items.builder()
 				.setMaterial(Material.BLAZE_ROD).setAmount(1)
 				.setName("&bFreeze player")
-				.setLore(Arrays.asList("&7Click to toggle freeze for this player.", "&7Currently " + frozenStatus + "frozen."))
+				.setLore(Arrays.asList(messages.examineFreeze, "&7Currently " + frozenStatus + "frozen."))
 				.build();
 		
 		return item;
@@ -311,7 +328,7 @@ public class ExamineGui extends AbstractGui
 		ItemStack item = Items.builder()
 				.setMaterial(Material.PAPER).setAmount(1)
 				.setName("&bWarn player")
-				.addLore("&7Click to warn this player.")
+				.addLore(messages.examineWarn)
 				.build();
 		
 		return item;
