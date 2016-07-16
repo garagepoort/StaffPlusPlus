@@ -58,6 +58,7 @@ note-list-entry: "&b%count% &7%note%"
 note-list-end: "&7%longline%"
 
 no-permission: "&cJe hebt geen toelatingen om dit te gebruiken!"
+bypassed: "&cDeze speler omzeild dat commando!"
 player-offline: "&cDeze speler is offline!"
 unknown-command: "&cOnbekende opdracht."
 invalid-arguments: "&cOngeldige argumenten! (%usage%)"
@@ -192,4 +193,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bJe bent nu &7%status% %target%&b."
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.2
+lang-version: 3.5

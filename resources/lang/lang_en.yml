@@ -58,6 +58,7 @@ note-list-entry: "&b%count% &7%note%"
 note-list-end: "&7%longline%"
 
 no-permission: "&cYou do not have permission to use that!"
+bypassed: "&cThat player bypassed that command!"
 player-offline: "&cThat player is offline!"
 unknown-command: "&cUnknown command."
 invalid-arguments: "&cInvalid arguments! (%usage%)"
@@ -192,4 +193,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bYou are now &7%status% %target%&b."
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.2
+lang-version: 3.5

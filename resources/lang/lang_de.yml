@@ -58,6 +58,7 @@ note-list-entry: "&b%count% &7%note%"
 note-list-end: "&7%longline%"
 
 no-permission: "&cDu hast nicht genug Rechte um diesen Befehl auszuführen."
+bypassed: "&cBefehl wurde umgangen durch den Spieler!"
 player-offline: "&cDieser Spieler ist offline."
 unknown-command: "&cUnbekannter Befehl."
 invalid-arguments: "&cUngültige Argumente. (%usage%)"
@@ -192,4 +193,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bDu &7%status% nun %target%&b."
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.2
+lang-version: 3.5
