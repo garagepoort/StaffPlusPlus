@@ -35,7 +35,7 @@ public class PlayerQuit implements Listener
 		manageUser(player);
 		modeCoordinator.removeMode(player);
 		vanishHandler.removeVanish(player);
-		ticketHandler.removeTicket(ticketHandler.getTicketByUuid(player.getUniqueId()), TicketCloseReason.QUIT);
+		ticketHandler.removeTicket(ticketHandler.getTicketByUuid(player.getUniqueId()), "", TicketCloseReason.QUIT);
 	}
 	
 	private void manageUser(Player player)
