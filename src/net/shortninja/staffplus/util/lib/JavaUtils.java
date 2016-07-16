@@ -258,7 +258,12 @@ public class JavaUtils
 		
 		for(Player p : Bukkit.getOnlinePlayers())
 		{
-			if(location.distanceSquared(p.getLocation()) > 36 || player.getWorld() != p.getWorld() || player.getName().equals(p.getName()))
+			if(player.getWorld() != p.getWorld())
+			{
+				continue;
+			}
+			
+			if(location.distanceSquared(p.getLocation()) > 36 || player.getName().equals(p.getName()))
 			{
 				continue;
 			}
