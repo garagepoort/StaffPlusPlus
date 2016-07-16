@@ -76,6 +76,6 @@ public class LanguageFile
 	
 	private static final String[] LANG_FILES =
 	{
-		"lang_en", "lang_sv", "lang_de", "lang_nl", "lang_es"
+		"lang_en", "lang_sv", "lang_de", "lang_nl", "lang_es", "lang_hr"
 	};
 }

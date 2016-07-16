@@ -191,13 +191,8 @@ public class GadgetHandler
 		
 		if(freezeHandler.isFrozen(targetPlayer.getUniqueId()))
 		{
-			freezeHandler.removeFreeze(targetPlayer);
-			message.send(sender, messages.staffUnfroze.replace("%target%", targetPlayer.getName()), messages.prefixGeneral);
-		}else
-		{
-			freezeHandler.addFreeze(targetPlayer);
-			message.send(sender, messages.staffFroze.replace("%target%", targetPlayer.getName()), messages.prefixGeneral);
-		}
+			freezeHandler.removeFreeze(sender, targetPlayer);
+		}else freezeHandler.addFreeze(sender, targetPlayer);
 	}
 	
 	public void onCps(CommandSender sender, Player targetPlayer)

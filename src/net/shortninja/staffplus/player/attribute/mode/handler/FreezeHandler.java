@@ -15,6 +15,7 @@ import net.shortninja.staffplus.util.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -35,14 +36,15 @@ public class FreezeHandler
 		return lastFrozenLocations.containsKey(uuid) || user.isFrozen();
 	}
 	
-	public void addFreeze(Player player)
+	public void addFreeze(CommandSender sender, Player player)
 	{
 		UUID uuid = player.getUniqueId();
 		
 		if(permission.has(player, options.permissionFreezeBypass))
 		{
+			message.send(sender, messages.bypassed, messages.prefixGeneral);
 			return;
-		}
+		}else message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
 		
 		userManager.getUser(player.getUniqueId()).setFrozen(true);
 		lastFrozenLocations.put(uuid, player.getLocation());
@@ -56,10 +58,16 @@ public class FreezeHandler
 		}else message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
 	}
 	
-	public void removeFreeze(Player player)
+	public void removeFreeze(CommandSender sender, Player player)
 	{
 		UUID uuid = player.getUniqueId();
 		User user = userManager.getUser(uuid);
+		
+		if(permission.has(player, options.permissionFreezeBypass))
+		{
+			message.send(sender, messages.bypassed, messages.prefixGeneral);
+			return;
+		}else message.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
 		
 		user.setFrozen(false);
 		lastFrozenLocations.remove(uuid);
