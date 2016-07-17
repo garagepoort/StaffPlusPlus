@@ -30,7 +30,7 @@ public class BlockBreak implements Listener
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onPlace(BlockBreakEvent event)
+	public void onBreak(BlockBreakEvent event)
 	{
 		Player player = event.getPlayer();
 		
