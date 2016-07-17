@@ -29,5 +29,6 @@
 	3.0.3|15 July 2016: Fixed report names, added /sc and /notes messages, and now compiling with Java 7. Finished blacklist and packet listening.
 	3.0.4|15 July 2016: Fixed 1.9-1.10 packet listening and warn ban command.
 	3.0.5|16 July 2016: Fixed target player calculation, fixed /reload packet errors, changed light level calculation, fixed ticket close reason, fixed reports/warning messages for console, added bypass message, finished Swedish messages, added Croation lang file, fixed examine names/lores, fixed report cooldown.
+	3.0.6|17 July 2016: Added Norwegian lang file, fixed item pickup/drop events, added staff mode enable/disable console commands, fixed vanish in staff list.
 
-9,252 lines of code and counting!
+9,317 lines of code and counting!

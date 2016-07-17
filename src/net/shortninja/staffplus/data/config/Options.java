@@ -124,6 +124,8 @@ public class Options
 	public boolean modeCreative = config.getBoolean("staff-mode.creative");
 	public boolean modeOriginalLocation = config.getBoolean("staff-mode.original-location");
 	public boolean modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
+	public List<String> modeEnableCommands = configVersion >= 3.16 ? JavaUtils.stringToList(config.getString("staff-mode.enable-commands")) : new ArrayList<String>();
+	public List<String> modeDisableCommands = configVersion >= 3.16 ? JavaUtils.stringToList(config.getString("staff-mode.disable-commands")) : new ArrayList<String>();
 	
 	/*
 	 * Compass
