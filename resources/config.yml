@@ -10,7 +10,7 @@
 ############################################################
 
 # The language file that will be referred to for messages.
-# Current available languages are: lang_en, lang_sv, lang_de, lang_nl, lang_es, and lang_hr.
+# Current available languages are: lang_en, lang_sv, lang_de, lang_nl, lang_es, lang_hr, and lang_no.
 # If you would like to translate Staff+, please message me on Spigot!
 lang: "lang_en"
 
@@ -253,6 +253,14 @@ staff-mode:
 
   # Whether or not staff mode will be enabled for staff when they login.
   enable-on-login: false
+
+  # Commands to execute when staff mode is enabled. Leave blank to disable.
+  # Each command is separated with a comma.
+  enable-commands: "example1 %player%, example2 %player%"
+
+  # Commands to execute when staff mode is disable. Leave blank to disable.
+  # Each command is separated with a comma.
+  disable-commands: "example1 %player%, example2 %player%"
 
   ############################################################
   # +------------------------------------------------------+ #
@@ -824,7 +832,7 @@ commands:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 3.1
+config-version: 3.16
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.

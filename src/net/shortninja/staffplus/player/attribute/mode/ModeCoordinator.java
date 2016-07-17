@@ -17,6 +17,7 @@ import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.util.Message;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -78,6 +79,7 @@ public class ModeCoordinator
 			player.setGameMode(GameMode.CREATIVE);
 		}
 		
+		runModeCommands(player.getName(), true);
 		vanishHandler.addVanish(player, options.modeVanish);
 		
 		for(ModeItem modeItem : MODE_ITEMS)
@@ -112,16 +114,25 @@ public class ModeCoordinator
 			message.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
 		}
 		
-		if(modeData.getVanishType() == VanishType.NONE)
-		{
-			vanishHandler.removeVanish(player);
-		}else vanishHandler.addVanish(player, modeData.getVanishType());
-		
+		runModeCommands(player.getName(), false);
 		player.getInventory().setContents(modeData.getItems());
 		player.getInventory().setArmorContents(modeData.getArmor());
 		player.updateInventory();
 		player.setAllowFlight(modeData.hasFlight());
 		player.setGameMode(modeData.getGameMode());
+		
+		if(modeData.getVanishType() == VanishType.NONE)
+		{
+			vanishHandler.removeVanish(player);
+		}else vanishHandler.addVanish(player, modeData.getVanishType());
+	}
+	
+	private void runModeCommands(String name, boolean isEnabled)
+	{
+		for(String command : isEnabled ? options.modeEnableCommands : options.modeDisableCommands)
+		{
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", name));
+		}
 	}
 	
 	public final ModeItem[] MODE_ITEMS =
