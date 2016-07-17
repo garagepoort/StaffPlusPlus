@@ -21,6 +21,7 @@ import net.shortninja.staffplus.listener.player.PlayerDeath;
 import net.shortninja.staffplus.listener.player.PlayerDropItem;
 import net.shortninja.staffplus.listener.player.PlayerInteract;
 import net.shortninja.staffplus.listener.player.PlayerJoin;
+import net.shortninja.staffplus.listener.player.PlayerPickupItem;
 import net.shortninja.staffplus.listener.player.PlayerQuit;
 import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.User;
@@ -217,6 +218,7 @@ public class StaffPlus extends JavaPlugin
 		new PlayerDropItem();
 		new PlayerInteract();
 		new PlayerJoin();
+		new PlayerPickupItem();
 		new PlayerQuit();
 		new BlockBreak();
 		new BlockPlace();
