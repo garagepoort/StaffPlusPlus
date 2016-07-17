@@ -68,6 +68,7 @@ public class PersonnelCmd extends BukkitCommand
 	private boolean hasStatus(User user, String status)
 	{
 		boolean hasStatus = true;
+		VanishType vanishType = user.getVanishType();
 		
 		if(!permission.has(user.getPlayer(), options.permissionMember))
 		{
@@ -78,13 +79,13 @@ public class PersonnelCmd extends BukkitCommand
 		switch(status.toLowerCase())
 		{
 			case "online":
-				hasStatus = user.getVanishType() == VanishType.NONE && user.isOnline();
+				hasStatus = vanishType == VanishType.NONE && user.isOnline();
 				break;
 			case "offline":
-				hasStatus = user.getVanishType() != VanishType.NONE && !user.isOnline();
+				hasStatus = (vanishType == VanishType.TOTAL || !user.isOnline()) || (vanishType == VanishType.LIST && !options.vanishShowAway);
 				break;
 			case "away":
-				hasStatus = user.getVanishType() != VanishType.LIST && user.isOnline() && options.vanishShowAway;
+				hasStatus = (vanishType == VanishType.NONE && user.isOnline()) || (vanishType == VanishType.LIST && options.vanishShowAway);
 				break;
 		}
 		
