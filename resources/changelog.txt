@@ -30,5 +30,6 @@
 	3.0.4|15 July 2016: Fixed 1.9-1.10 packet listening and warn ban command.
 	3.0.5|16 July 2016: Fixed target player calculation, fixed /reload packet errors, changed light level calculation, fixed ticket close reason, fixed reports/warning messages for console, added bypass message, finished Swedish messages, added Croation lang file, fixed examine names/lores, fixed report cooldown.
 	3.0.6|17 July 2016: Added Norwegian lang file, fixed item pickup/drop events, added staff mode enable/disable console commands, fixed vanish in staff list.
+	3.0.7|18 July 2016: Fixed /warn permission, fixed mode enable/disable commands not disabling, fixed staff chat handler not disabling, fixed xray blocks clearing.
 
-9,317 lines of code and counting!
+9,332 lines of code and counting!
