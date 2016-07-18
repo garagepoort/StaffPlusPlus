@@ -34,20 +34,25 @@ public class WarnCmd extends BukkitCommand
 	@Override
 	public boolean execute(CommandSender sender, String alias, String[] args)
 	{
+		if(!permission.has(sender, options.permissionWarn))
+		{
+			message.send(sender, messages.noPermission, messages.prefixWarnings);
+			return true;
+		}
+		
 		if(args.length == 2)
 		{
 			String argument = args[0];
 			String option = args[1];
-			boolean hasPermission = permission.has(sender, options.permissionWarn);
 			Player player = Bukkit.getPlayer(option);
 			
-			if(argument.equalsIgnoreCase("get") && hasPermission)
+			if(argument.equalsIgnoreCase("get"))
 			{
 				if(player == null)
 				{
 					message.send(sender, messages.playerOffline, messages.prefixWarnings);
 				}else listWarnings(sender, player);
-			}else if(argument.equalsIgnoreCase("clear") && hasPermission)
+			}else if(argument.equalsIgnoreCase("clear"))
 			{
 				if(player == null)
 				{
@@ -128,10 +133,10 @@ public class WarnCmd extends BukkitCommand
 	
 	private void sendHelp(CommandSender sender)
 	{
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 		message.send(sender, "&b/" + getName() + " &7[player] [reason]", messages.prefixReports);
 		message.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixReports);
 		message.send(sender, "&b/" + getName() + " clear &7[player]", messages.prefixReports);
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 	}
 }

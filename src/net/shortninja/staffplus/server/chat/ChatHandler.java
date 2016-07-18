@@ -59,7 +59,7 @@ public class ChatHandler
 	
 	public boolean hasHandle(String message)
 	{
-		return message.startsWith(options.staffChatHandle);
+		return message.startsWith(options.staffChatHandle) && !options.staffChatHandle.isEmpty();
 	}
 	
 	public void setChatEnabled(String name, boolean isChatEnabled)
