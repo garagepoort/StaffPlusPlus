@@ -118,7 +118,7 @@ public class User
 	
 	public boolean shouldNotify(AlertType alertType)
 	{
-		return alertOptions.get(alertType);
+		return alertOptions.get(alertType) == null ? false : alertOptions.get(alertType);
 	}
 	
 	public boolean isOnline()
