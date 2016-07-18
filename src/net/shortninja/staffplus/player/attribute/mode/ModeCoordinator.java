@@ -131,6 +131,11 @@ public class ModeCoordinator
 	{
 		for(String command : isEnabled ? options.modeEnableCommands : options.modeDisableCommands)
 		{
+			if(command.isEmpty())
+			{
+				continue;
+			}
+				
 			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", name));
 		}
 	}
