@@ -74,8 +74,8 @@ public class ChatCmd extends BukkitCommand
 	
 	private void sendHelp(CommandSender sender)
 	{
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 		message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 	}
 }

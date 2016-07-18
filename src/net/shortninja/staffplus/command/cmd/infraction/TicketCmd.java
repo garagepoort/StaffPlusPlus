@@ -144,11 +144,11 @@ public class TicketCmd extends BukkitCommand
 	
 	private void sendHelp(CommandSender sender)
 	{
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 		message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixReports);
 		message.send(sender, "&b/" + getName() + " list", messages.prefixReports);
 		message.send(sender, "&b/" + getName() + " respond &7[player | id] [message]", messages.prefixReports);
 		message.send(sender, "&b/" + getName() + " close &7[player | id] [reason]", messages.prefixReports);
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 	}
 }

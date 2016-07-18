@@ -77,6 +77,10 @@ public class AlertsCmd extends BukkitCommand
 		{
 			sendHelp(sender);
 			return;
+		}else if(user == null)
+		{
+			message.send(sender, messages.playerOffline, messages.prefixGeneral);
+			return;
 		}else alertType = AlertType.valueOf(argument.toUpperCase());
 		
 		boolean isEnabled = option.isEmpty() ? !user.shouldNotify(alertType) : (option.equalsIgnoreCase("enable") ? true : false);
@@ -114,8 +118,8 @@ public class AlertsCmd extends BukkitCommand
 	
 	private void sendHelp(CommandSender sender)
 	{
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 		message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 	}
 }

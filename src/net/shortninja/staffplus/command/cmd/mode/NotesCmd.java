@@ -117,10 +117,10 @@ public class NotesCmd extends BukkitCommand
 	
 	private void sendHelp(CommandSender sender)
 	{
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 		message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
 		message.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixGeneral);
 		message.send(sender, "&b/" + getName() + " clear &7[player]", messages.prefixGeneral);
-		message.send(sender, message.LONG_LINE, "");
+		message.send(sender, "&7" + message.LONG_LINE, "");
 	}
 }
