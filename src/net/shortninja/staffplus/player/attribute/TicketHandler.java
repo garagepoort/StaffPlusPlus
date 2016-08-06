@@ -107,7 +107,7 @@ public class TicketHandler
 			{
 				this.message.sendGroupMessage(message, options.permissionTickets, messages.prefixTickets);
 			}else this.message.send(Bukkit.getPlayer(ticket.getHandlerName()), message, messages.prefixTickets);
-		}else this.message.send(Bukkit.getPlayer(ticket.getHandlerName()), message, messages.prefixTickets);
+		}else this.message.send(Bukkit.getPlayer(ticket.getName()), message, messages.prefixTickets);
 		
 		if(!options.ticketsKeepOpen && isStaffResponse)
 		{
