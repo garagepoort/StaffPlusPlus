@@ -173,6 +173,7 @@ freeze: "&4&lDu har blitt fryst av personalet IKKE logg ut!, &4&lPlis join TeamS
 unfrozen: "&bDu har blitt ufryst"
 staff-froze: "&bDu fryste &7%target%&b."
 staff-unfroze: "&bDu ufryste &7%target%&b."
+freeze-logout: "&7%player% &blogget ut mens fryst!"
 
 cps-start: "&bKjører CPS test på &7%target% &bfor &7%seconds% &bsekunder..."
 cps-finish-normal: "&7%player% &bhar rundt &7%cps% &bCPS. &7(sannsynligvis ikke farlig)"
@@ -192,4 +193,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bDu er nå &7%status% %target%&b."
 
 # IKKE ENDRE DENNE MINDRE DU VET HVA DU GJØR!
-lang-version: 3.5
+lang-version: 3.57

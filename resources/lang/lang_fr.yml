@@ -1,0 +1,197 @@
+# Language: French/Français
+# Status: COMPLETE
+# Contribueurs(s): GetDoritoed
+
+# Supprimez le contenu d'un message pour le désactiver!
+# Les placeholders (ce qui est entre %) ne sont disponibles que sur des messages qui les ont par défaut.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Prefixes                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Le préfix de tous les messages qui n'ont pas de rapport avec un module spécifique.
+general-prefix: "&dStaff+ &8»"
+
+# Le préfix de tous les messages qui ont un rapport avec les reports.
+reports-prefix: "&dReports &8»"
+
+# Le préfix de tous les messages qui ont un rapport avec les avertissements.
+warnings-prefix: "&dAvertissements &8»"
+
+# Le prefix de tous les messages se passant de le chat staff.
+staff-chat-prefix: "&dChatStaff &8»"
+
+# Le préfix pour toutes les requêtes
+tickets-prefix: "&dRequêtes &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Général                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Couleur utilisée pour toute séparation de type virgule dans les listes
+separator-color: "&b"
+
+# Lignes séparées par des virgules
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Lignes séparées par des virgules
+staff-list-end: "&7%longline%"
+
+lockdown: "&bLe serveur est fermé pour des raisons de sécurité pour le moment. Updates @ &7shortninja.net&b!"
+
+revived-staff: "&bVous avez remis l'inventaire de &7%target%'s &bà son état précdent"
+revived-user: "&bVotre inventaire a été remis à son état précedent"
+
+command-blocked: "&bCette commande à été bloquée pour les membres du staff!"
+mode-command-blocked: "&bCette commande est bloquée en mode staff"
+on-cooldown: "&bVous ne pouvez réutiliser ceci pendant encore &7%seconds% &bseconds."
+
+note-added: "&bNote a été ajoutée au joueur &7%target%&b."
+note-cleared: "&bNotes du joueur &7%target%&b supprimées."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Lignes séparées par des virgules
+note-list-end: "&7%longline%"
+
+no-permission: "&cVous n'avez pas la permission d'utiliser ceci!"
+bypassed: "&cCe joueur a bypass cette commande!"
+player-offline: "&cCe joueur est hors-ligne!"
+unknown-command: "&cCommande inconnue."
+invalid-arguments: "&cArguments invalides! (%usage%)"
+only-players: "&bSeul les joueurs ont la permission d'éxecuter cette commande."
+no-found: "&bNON TROUVÉ!"
+type-input: "&bInserez votre input dans le chat."
+input-accepted: "&bInput accépté et soumis à révision."
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Infractions                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&bVous avez report &7%target% &bpour &7%reason%&b."
+reported-staff: "&7%player% &ba été report par &7%target% &bpour &7%reason%&b."
+reports-cleared: "&bReports supprimés du joueur &7%target%&b!"
+# Lignes séparées par des virgules
+reports-list-start: "&7%longline%, &7%target% &ba &7%reports% &breports."
+reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+# Lignes séparées par des virgules
+reports-list-end: "&7%longline%"
+
+warned: "&bLe joueur &7%target% a recu un avertissement &bpour &7%reason%&b."
+warn: "&bVous avez recu un avertissement pour &7%reason%&b."
+warnings-cleared: "&bAvertissements supprimés du joueur &7%target%&b!"
+# Lignes séparées par des virgules
+warnings-list-start: "&7%longline%, &7%target% &bhas &7%warnings% &bwarnings."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+# Lignes séparées par des virgules
+warnings-list-end: "&7%longline%"
+
+# Lignes séparées par des virgules
+infraction-item: "&bAvertissements: &7%warnings%, &bReports: &7%reports%, &bReport reason: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chat                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bChat staff &7%status%&b."
+
+chat-clear-line: ""
+chat-cleared: "&bLe chat a été clear par &7%player%&b."
+chat-toggled: "&bLe chat a été &7%status% &bpar &7%player%&b."
+chat-prevented: "&bVous ne pouvez pas utiliser le chat pour le moment!"
+chat-slowed: "&bLe chat a été ralenti de &7%seconds% secondes &bpar &7%player%&b."
+chatting-fast: "&bVous parlez trop vite!"
+
+blacklist-hover: "&bCe message a été censuré à cause de &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&bVotre vanish-total a été &7%status%&b!"
+list-vanish: "&bVotre list-vanish a été &7%status%&b!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Requêtes                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&bVotre requête a été soumise! &7(#%ticket%)"
+ticket-opened: "&bRequête &7#%ticket% &ba été enregistrée comme en cours de traitement!"
+ticket-removed: "&bRequête &7#%ticket% &ba été enregistrée comme résolue! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Staff: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - User: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bCette requête n'existe pas ou a été résolue!"
+# Lignes séparées par des virgules
+ticket-list-start: "&7%longline%, &7%tickets% &brequêtes en cours de traitement"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Lignes séparées par des virgules
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Notifications                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&7%alerttype% &bnotifications &7%status%&b."
+alerts-name: "&7%old% &ba changé son username: &7%new%&b!"
+alerts-mention: "&bVotre nom a été mentionné dans le chat par &7%target%"
+alerts-xray: "&7%target% &ba miné &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Mode Staff                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bMode staff &7%status%&b."
+mode-original-location: "&bVous avez été retéléporté a votre localisation d'origine"
+mode-random-teleport: "&bVous avez été aléatoirement téléporté"
+mode-not-enough-players: "&bNombre de joueurs insuffisants pour se téléporter aléatoirement!"
+
+gui-reports: "&bReports"
+gui-mine: "&bMineurs"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Lignes séparées par des virgules
+freeze: "&4&lVous avez été freeze NE vous deconnectez PAS!, &4&lVeuillez rejoindre le teamspeak @ shortninja.net"
+unfrozen: "&bVous avez été unfreeze"
+staff-froze: "&bVous avez freeze &7%target%&b."
+staff-unfroze: "&bVous avez unfreeze &7%target%&b."
+freeze-logout: "&7%player% &bdéconnecté tandis que freeze!"
+
+cps-start: "&bExecution de test CPS sur &7%target% &bpour &7%seconds% &bsecondes..."
+cps-finish-normal: "&7%player% &bfait environ &7%cps% &bCPS. &7(probablement inoffensif)"
+cps-finish-max: "&7%player% &bfait environ &7%cps% &bCPS. &7(autoclick potentiel)"
+
+# Lignes séparées par des virgules
+examine-food: "&bVie: &7%health%, &bHunger: &7%hunger%"
+examine-ip: "&bAdresse IP: &7%ipaddress%"
+examine-gamemode: "&bGamemode: &7%gamemode%"
+examine-location: "&bLocalisation: &7%location%"
+examine-warn: "&bAvertissez cet utilisateur"
+examine-freeze: "&bFreezez cet utilisateur"
+examine-notes: "&bNotes du joueur:"
+# Toutes les notes sont sur de nouvelles lignes.
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bVous &7%status% maintenant %target%&b."
+
+# NE PAS CHANGER A MOINS QUE VOUS SAVEZ CE QUE VOUS FAITES!
+lang-version: 3.57

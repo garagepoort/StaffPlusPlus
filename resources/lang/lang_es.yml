@@ -170,6 +170,7 @@ freeze: "&4&lHas sido congelado por el staff ¡No te salgas del juego!, &4&lPor 
 unfrozen: "&bTu has sido descongelado."
 staff-froze: "&bHas congelado a &7%target%&b."
 staff-unfroze: "&bHas descongelado a &7%target%&b."
+freeze-logout: "&7%player% &bdesconectado mientras congelado!"
 
 cps-start: "&bEjecutando un test de CPS en &7%target% &bdurante &7%seconds% &bsegundos..."
 cps-finish-normal: "&7%player% &btiene acerca &7%cps% &bCPS. &7(probablemente no peligroso)"
@@ -190,4 +191,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bAhora estas &7%status% a %target%&b."
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.5
+lang-version: 3.57

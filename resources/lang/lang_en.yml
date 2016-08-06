@@ -174,6 +174,7 @@ freeze: "&4&lYou have been frozen by staff Do NOT log out!, &4&lPlease join the 
 unfrozen: "&bYou have been unfrozen."
 staff-froze: "&bYou froze &7%target%&b."
 staff-unfroze: "&bYou unfroze &7%target%&b."
+freeze-logout: "&7%player% &blogged out while frozen!"
 
 cps-start: "&bRunning CPS test on &7%target% &bfor &7%seconds% &bseconds..."
 cps-finish-normal: "&7%player% &bhas about &7%cps% &bCPS. &7(probably not dangerous)"
@@ -193,4 +194,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bYou are now &7%status% %target%&b."
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.5
+lang-version: 3.57

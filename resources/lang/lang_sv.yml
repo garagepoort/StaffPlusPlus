@@ -174,6 +174,7 @@ freeze: "&4&lDu har varit frysta av personal STANNA UPPKOPPLAD!, &4&lVänligen a
 unfrozen: "&bDu har varit ofrysta."
 staff-froze: "&bDu frös &7%target%&b."
 staff-unfroze: "&bDu ofrös &7%target%&b."
+freeze-logout: "&7%player% &butloggad medan frysta!"
 
 cps-start: "&bKör ett CPS test på &7%target% &bför &7%seconds%&b..."
 cps-finish-normal: "&7%player% &bhar ungefär &7%cps% &bCPS. &7(antagligen inte farlig)"
@@ -193,4 +194,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bDu är nu &7%status% %target%&b."
 
 # BYTA INTE, SÅVIDA INTE DU VETA VAD DU GÖR!
-lang-version: 3.5
+lang-version: 3.57
