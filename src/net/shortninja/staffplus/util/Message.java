@@ -32,7 +32,7 @@ public class Message
 	
 	public void send(Player player, String message, String prefix, String permission)
 	{
-		if(player == null || message.isEmpty() || !this.permission.has(player, permission))
+		if(player == null || message == null || message.isEmpty() || !this.permission.has(player, permission))
 		{
 			return;
 		}
