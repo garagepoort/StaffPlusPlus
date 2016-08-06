@@ -71,7 +71,7 @@ public class AlertsCmd extends BukkitCommand
 		boolean wasChanged = false;
 		boolean isValid = JavaUtils.isValidEnum(AlertType.class, argument.toUpperCase());
 		AlertType alertType = AlertType.NAME_CHANGE;
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		
 		if(!isValid)
 		{

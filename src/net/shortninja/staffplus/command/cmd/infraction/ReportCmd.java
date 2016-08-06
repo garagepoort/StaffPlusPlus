@@ -85,7 +85,7 @@ public class ReportCmd extends BukkitCommand
 	
 	private void listReports(CommandSender sender, Player player)
 	{
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		
 		if(user != null)
 		{
@@ -112,7 +112,7 @@ public class ReportCmd extends BukkitCommand
 	
 	private void clearReports(CommandSender sender, Player player)
 	{
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		
 		if(user != null)
 		{

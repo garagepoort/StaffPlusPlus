@@ -151,7 +151,7 @@ public class GadgetHandler
 		ItemStack item = player.getItemInHand();
 		int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 		
-		if(userManager.getUser(player.getUniqueId()).getVanishType() == options.modeVanish)
+		if(userManager.get(player.getUniqueId()).getVanishType() == options.modeVanish)
 		{
 			StaffPlus.get().vanishHandler.removeVanish(player);
 			
@@ -261,7 +261,7 @@ public class GadgetHandler
 		
 		for(UUID uuid : modeUsers)
 		{
-			Player player = userManager.getUser(uuid).getPlayer();
+			Player player = userManager.get(uuid).getPlayer();
 			
 			if(player == null)
 			{

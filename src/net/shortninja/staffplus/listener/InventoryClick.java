@@ -33,7 +33,7 @@ public class InventoryClick implements Listener
 	{
 		Player player = (Player) event.getWhoClicked();
 		UUID uuid = player.getUniqueId();
-		User user = userManager.getUser(uuid);
+		User user = userManager.get(uuid);
 		ItemStack item = event.getCurrentItem();
 		int slot = event.getSlot();
 		

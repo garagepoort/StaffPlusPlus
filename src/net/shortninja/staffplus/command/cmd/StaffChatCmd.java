@@ -44,7 +44,7 @@ public class StaffChatCmd extends BukkitCommand
 			chatHandler.sendStaffChatMessage(name, JavaUtils.compileWords(args, 0));
 		}else if(sender instanceof Player)
 		{
-			User user = userManager.getUser(((Player) sender).getUniqueId());
+			User user = userManager.get(((Player) sender).getUniqueId());
 			
 			if(user.isChatting())
 			{

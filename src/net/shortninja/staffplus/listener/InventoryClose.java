@@ -28,7 +28,7 @@ public class InventoryClose implements Listener
 	public void onClose(InventoryCloseEvent event)
 	{
 		final Player player = (Player) event.getPlayer();
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		
 		if(user.isFrozen())
 		{
@@ -41,9 +41,7 @@ public class InventoryClose implements Listener
 				}
 			}.runTaskLater(StaffPlus.get(), 1L);
 			return;
-		}
-		
-		if(user.getCurrentGui() != null)
+		}else if(user.getCurrentGui() != null)
 		{
 			user.setCurrentGui(null);
 		}

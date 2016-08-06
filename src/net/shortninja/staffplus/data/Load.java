@@ -42,7 +42,7 @@ public class Load
 			user = loadUser();
 		}else user = new User(uuid, name);
 		
-		userManager.addUser(user);
+		userManager.add(user);
 	}
 	
 	private User loadUser()

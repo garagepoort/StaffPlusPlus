@@ -52,7 +52,7 @@ public class InfractionCoordinator
 	{
 		Set<Warning> warnings = new HashSet<Warning>();
 		
-		for(User user : userManager.getUsers())
+		for(User user : userManager.getAll())
 		{
 			warnings.addAll(user.getWarnings());
 		}
@@ -62,7 +62,7 @@ public class InfractionCoordinator
 	
 	public void sendReport(CommandSender sender, Report report)
 	{
-		User user = userManager.getUser(report.getUuid());
+		User user = userManager.get(report.getUuid());
 		
 		if(user == null || user.getPlayer() == null)
 		{
@@ -95,7 +95,7 @@ public class InfractionCoordinator
 	
 	public void sendWarning(CommandSender sender, Warning warning)
 	{
-		User user = userManager.getUser(warning.getUuid());
+		User user = userManager.get(warning.getUuid());
 		Player p = user.getPlayer();
 		
 		if(user == null || p == null)

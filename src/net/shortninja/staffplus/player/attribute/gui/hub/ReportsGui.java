@@ -67,7 +67,7 @@ public class ReportsGui extends AbstractGui
 		}
 		
 		player.openInventory(getInventory());
-		userManager.getUser(player.getUniqueId()).setCurrentGui(this);
+		userManager.get(player.getUniqueId()).setCurrentGui(this);
 	}
 	
 	private ItemStack reportItem(Report report)

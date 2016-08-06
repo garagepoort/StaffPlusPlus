@@ -38,7 +38,7 @@ public class EntityDamage implements Listener
 		}
 		
 		UUID uuid = ((Player) entity).getUniqueId();
-		User user = userManager.getUser(uuid);
+		User user = userManager.get(uuid);
 		
 		if((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && user.isFrozen())))
 		{

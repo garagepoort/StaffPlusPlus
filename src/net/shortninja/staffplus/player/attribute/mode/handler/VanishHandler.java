@@ -7,6 +7,7 @@ import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,6 +17,7 @@ import org.bukkit.potion.PotionEffectType;
 public class VanishHandler
 {
 	private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
+	private Permission permission = StaffPlus.get().permission;
 	private Message message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
@@ -23,7 +25,7 @@ public class VanishHandler
 	
 	public void addVanish(Player player, VanishType vanishType)
 	{
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		VanishType userVanishType = user.getVanishType();
 		
 		if(userVanishType == vanishType)
@@ -40,7 +42,7 @@ public class VanishHandler
 	
 	public void removeVanish(Player player)
 	{
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		VanishType vanishType = user.getVanishType();
 		
 		if(vanishType == VanishType.NONE)
@@ -54,7 +56,7 @@ public class VanishHandler
 	
 	public void updateVanish()
 	{
-		for(User user : userManager.getUsers())
+		for(User user : userManager.getAll())
 		{
 			Player player = user.getPlayer();
 			
@@ -74,6 +76,11 @@ public class VanishHandler
 			case TOTAL:
 				for(Player p : Bukkit.getOnlinePlayers())
 				{
+					if(permission.has(p, options.permissionVanishTotal))
+					{
+						continue;
+					}
+					
 					p.hidePlayer(player);
 				}
 				

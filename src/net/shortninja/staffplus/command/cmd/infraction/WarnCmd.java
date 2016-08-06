@@ -72,7 +72,7 @@ public class WarnCmd extends BukkitCommand
 	
 	private void listWarnings(CommandSender sender, Player player)
 	{
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		
 		if(user != null)
 		{
@@ -99,7 +99,7 @@ public class WarnCmd extends BukkitCommand
 	
 	private void clearWarnings(CommandSender sender, Player player)
 	{
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		
 		if(user != null)
 		{

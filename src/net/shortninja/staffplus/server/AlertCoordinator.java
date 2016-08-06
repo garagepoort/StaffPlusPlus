@@ -53,7 +53,7 @@ public class AlertCoordinator
 			return;
 		}
 		
-		for(User user : userManager.getUsers())
+		for(User user : userManager.getAll())
 		{
 			if(user.shouldNotify(AlertType.NAME_CHANGE) && permission.has(user.getPlayer(), options.permissionNameChange))
 			{
@@ -85,7 +85,7 @@ public class AlertCoordinator
 			return;
 		}
 		
-		for(User user : userManager.getUsers())
+		for(User user : userManager.getAll())
 		{
 			if(user.shouldNotify(AlertType.XRAY) && permission.has(user.getPlayer(), options.permissionXray))
 			{
@@ -100,7 +100,7 @@ public class AlertCoordinator
 	 */
 	private void fixInfractionNames(String originalName, String newName)
 	{
-		for(User user : userManager.getUsers())
+		for(User user : userManager.getAll())
 		{
 			for(Report report : user.getReports())
 			{

@@ -31,7 +31,7 @@ public class FreezeHandler
 	
 	public boolean isFrozen(UUID uuid)
 	{
-		User user = userManager.getUser(uuid);
+		User user = userManager.get(uuid);
 		
 		return lastFrozenLocations.containsKey(uuid) || user.isFrozen();
 	}
@@ -46,10 +46,11 @@ public class FreezeHandler
 			return;
 		}else message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
 		
-		userManager.getUser(player.getUniqueId()).setFrozen(true);
+		userManager.get(player.getUniqueId()).setFrozen(true);
 		lastFrozenLocations.put(uuid, player.getLocation());
 		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
+		options.modeFreezeSound.play(player);
 		
 		if(options.modeFreezePrompt)
 		{
@@ -61,7 +62,7 @@ public class FreezeHandler
 	public void removeFreeze(CommandSender sender, Player player)
 	{
 		UUID uuid = player.getUniqueId();
-		User user = userManager.getUser(uuid);
+		User user = userManager.get(uuid);
 		
 		if(permission.has(player, options.permissionFreezeBypass))
 		{

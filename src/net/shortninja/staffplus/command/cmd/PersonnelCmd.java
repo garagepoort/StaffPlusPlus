@@ -44,7 +44,7 @@ public class PersonnelCmd extends BukkitCommand
 		
 		for(Player player : Bukkit.getOnlinePlayers())
 		{
-			User user = userManager.getUser(player.getUniqueId());
+			User user = userManager.get(player.getUniqueId());
 			
 			if(user == null)
 			{

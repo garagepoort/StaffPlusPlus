@@ -24,7 +24,7 @@ public class ColorGui extends AbstractGui
 			@Override
 			public void click(Player player, ItemStack item, int slot)
 			{
-				userManager.getUser(player.getUniqueId()).setGlassColor(item.getDurability());
+				userManager.get(player.getUniqueId()).setGlassColor(item.getDurability());
 			}
 			
 			@Override
@@ -42,7 +42,7 @@ public class ColorGui extends AbstractGui
 		}
 		
 		player.openInventory(getInventory());
-		userManager.getUser(player.getUniqueId()).setCurrentGui(this);
+		userManager.get(player.getUniqueId()).setCurrentGui(this);
 	}
 	
 	private ItemStack glassItem(short data)

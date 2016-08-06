@@ -21,7 +21,7 @@ public class HubGui extends AbstractGui
 	{
 		super(SIZE, title);
 		
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		
 		if(options.modeGuiReports)
 		{

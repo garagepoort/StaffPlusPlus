@@ -58,12 +58,12 @@ public class ExamineGui extends AbstractGui
 		
 		if(options.modeExamineInfractions >= 0)
 		{
-			setItem(options.modeExamineInfractions, infractionsItem(userManager.getUser(targetPlayer.getUniqueId())), null);
+			setItem(options.modeExamineInfractions, infractionsItem(userManager.get(targetPlayer.getUniqueId())), null);
 		}
 		
 		setInteractiveItems(targetPlayer);
 		player.openInventory(getInventory());
-		userManager.getUser(player.getUniqueId()).setCurrentGui(this);
+		userManager.get(player.getUniqueId()).setCurrentGui(this);
 	}
 	
 	private void setInventoryContents(Player targetPlayer)
@@ -116,12 +116,12 @@ public class ExamineGui extends AbstractGui
 		
 		if(options.modeExamineNotes >= 0)
 		{
-			setItem(options.modeExamineNotes, notesItem(userManager.getUser(targetPlayer.getUniqueId())), new AbstractAction()
+			setItem(options.modeExamineNotes, notesItem(userManager.get(targetPlayer.getUniqueId())), new AbstractAction()
 			{
 				@Override
 				public void click(Player player, ItemStack item, int slot)
 				{
-					User user = userManager.getUser(player.getUniqueId());
+					User user = userManager.get(player.getUniqueId());
 					
 					message.send(player, messages.typeInput, messages.prefixGeneral);
 					
@@ -130,7 +130,7 @@ public class ExamineGui extends AbstractGui
 						@Override
 						public void execute(Player player, String input)
 						{
-							userManager.getUser(targetPlayer.getUniqueId()).addPlayerNote("&7" + input);
+							userManager.get(targetPlayer.getUniqueId()).addPlayerNote("&7" + input);
 							message.send(player, messages.inputAccepted, messages.prefixGeneral);
 						}
 						
@@ -184,7 +184,7 @@ public class ExamineGui extends AbstractGui
 				@Override
 				public void click(Player player, ItemStack item, int slot)
 				{
-					User user = userManager.getUser(player.getUniqueId());
+					User user = userManager.get(player.getUniqueId());
 					
 					message.send(player, messages.typeInput, messages.prefixGeneral);
 					

@@ -10,6 +10,7 @@ import net.shortninja.staffplus.data.file.DataFile;
 import net.shortninja.staffplus.data.file.LanguageFile;
 import net.shortninja.staffplus.listener.BlockBreak;
 import net.shortninja.staffplus.listener.BlockPlace;
+import net.shortninja.staffplus.listener.FoodLevelChange;
 import net.shortninja.staffplus.listener.InventoryClick;
 import net.shortninja.staffplus.listener.InventoryClose;
 import net.shortninja.staffplus.listener.entity.EntityDamage;
@@ -113,7 +114,7 @@ public class StaffPlus extends JavaPlugin
 	
 	public void saveUsers()
 	{
-		for(User user : userManager.getUsers())
+		for(User user : userManager.getAll())
 		{
 			new Save(new NodeUser(user));
 		}
@@ -222,6 +223,7 @@ public class StaffPlus extends JavaPlugin
 		new PlayerQuit();
 		new BlockBreak();
 		new BlockPlace();
+		new FoodLevelChange();
 		new InventoryClick();
 		new InventoryClose();
 	}

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,12 +25,12 @@ public class FreezeGui extends AbstractGui
 		
 		setItem(4, freezeItem(), null);
 		player.openInventory(getInventory());
-		userManager.getUser(player.getUniqueId()).setCurrentGui(this);
+		userManager.get(player.getUniqueId()).setCurrentGui(this);
 	}
 	
 	private ItemStack freezeItem()
 	{
-		List<String> freezeMessage = messages.freeze;
+		List<String> freezeMessage = new ArrayList<String>(messages.freeze);
 		String name = getTitle();
 		List<String> lore = Arrays.asList("&7You are currently frozen!");
 		

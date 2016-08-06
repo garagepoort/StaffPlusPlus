@@ -68,7 +68,7 @@ public class NotesCmd extends BukkitCommand
 	
 	private void listNotes(CommandSender sender, Player player)
 	{
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		
 		if(user != null)
 		{
@@ -95,7 +95,7 @@ public class NotesCmd extends BukkitCommand
 	
 	private void clearNotes(CommandSender sender, Player player)
 	{
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		
 		if(user != null)
 		{
@@ -110,7 +110,7 @@ public class NotesCmd extends BukkitCommand
 		
 		if(player != null)
 		{
-			userManager.getUser(player.getUniqueId()).addPlayerNote(note);;
+			userManager.get(player.getUniqueId()).addPlayerNote(note);;
 			message.send(sender, messages.noteAdded.replace("%target%", player.getName()), messages.prefixGeneral);
 		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 	}

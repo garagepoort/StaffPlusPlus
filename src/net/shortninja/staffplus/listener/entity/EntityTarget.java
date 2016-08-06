@@ -27,7 +27,7 @@ public class EntityTarget implements Listener
 		{
 			Player player = (Player) event.getTarget();
 			
-			if(userManager.getUser(player.getUniqueId()).getVanishType() != VanishType.TOTAL)
+			if(userManager.get(player.getUniqueId()).getVanishType() != VanishType.TOTAL)
 			{
 				return;
 			}

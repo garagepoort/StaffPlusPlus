@@ -49,9 +49,9 @@ public class PlayerJoin implements Listener
 	{
 		UUID uuid = player.getUniqueId();
 		
-		if(userManager.hasUser(uuid))
+		if(userManager.has(uuid))
 		{
-			userManager.getUser(uuid).setOnline(true);
+			userManager.get(uuid).setOnline(true);
 		}else new Load(player);
 	}
 }

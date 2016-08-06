@@ -92,7 +92,7 @@ public class AsyncPlayerChat implements Listener
 	private boolean shouldCancel(Player player, String message)
 	{
 		boolean shouldCancel = false;
-		User user = userManager.getUser(player.getUniqueId());
+		User user = userManager.get(player.getUniqueId());
 		AbstractAction queuedAction = user.getQueuedAction();
 		
 		if(queuedAction != null)
@@ -129,7 +129,7 @@ public class AsyncPlayerChat implements Listener
 	{
 		List<User> mentioned = new ArrayList<User>();
 		
-		for(User user : userManager.getUsers())
+		for(User user : userManager.getAll())
 		{
 			Player player = user.getPlayer();
 			

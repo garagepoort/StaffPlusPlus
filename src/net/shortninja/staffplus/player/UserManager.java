@@ -9,27 +9,27 @@ public class UserManager
 {
 	private static Map<UUID, User> users = new HashMap<UUID, User>();
 	
-	public Collection<User> getUsers()
+	public Collection<User> getAll()
 	{
 		return users.values();
 	}
 	
-	public User getUser(UUID uuid)
+	public User get(UUID uuid)
 	{
 		return users.get(uuid);
 	}
 	
-	public boolean hasUser(UUID uuid)
+	public boolean has(UUID uuid)
 	{
 		return users.containsKey(uuid);
 	}
 	
-	public void addUser(User user)
+	public void add(User user)
 	{
 		users.put(user.getUuid(), user);
 	}
 	
-	public void removeUser(String uuid)
+	public void remove(UUID uuid)
 	{
 		users.remove(uuid);
 	}

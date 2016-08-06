@@ -43,7 +43,7 @@ public class ModeCoordinator
 	public void addMode(Player player)
 	{
 		UUID uuid = player.getUniqueId();
-		User user = userManager.getUser(uuid);
+		User user = userManager.get(uuid);
 		ModeDataVault modeData = new ModeDataVault(uuid, player.getInventory().getContents(), player.getInventory().getArmorContents(), player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
 		
 		if(isInMode(player.getUniqueId()))
