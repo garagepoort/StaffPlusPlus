@@ -126,6 +126,7 @@ public class Messages
 	public String unfrozen = config.getString("unfrozen");
 	public String staffFroze = config.getString("staff-froze");
 	public String staffUnfroze = config.getString("staff-unfroze");
+	public String freezeLogout = langVersion >= 3.57 ? config.getString("freeze-logout") : "&7%player% &blogged out while frozen!";
 	public String cpsStart = config.getString("cps-start");
 	public String cpsFinishNormal = config.getString("cps-finish-normal");
 	public String cpsFinishMax = config.getString("cps-finish-max");
