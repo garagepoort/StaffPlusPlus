@@ -1,8 +1,5 @@
 package net.shortninja.staffplus.listener;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -44,7 +41,7 @@ public class BlockBreak implements Listener
 				int amount = 0;
 				
 				alertCoordinator.addNotified(block.getLocation());
-				getVein(block.getType(), block, new HashSet<Block>(), false);
+				calculateVein(block.getType(), block, false);
 				amount = alertCoordinator.getNotifiedAmount() - start;
 				
 				if(amount > 0)
@@ -61,16 +58,16 @@ public class BlockBreak implements Listener
 		event.setCancelled(true);
 	}
 	
-	private void getVein(Material referenceType, Block block, Set<Block> collected, boolean shouldCheck)
+	private void calculateVein(Material referenceType, Block block, boolean shouldCheck)
 	{
-		if(shouldCheck && (block.getType() != referenceType || collected.contains(block) || alertCoordinator.hasNotified(block.getLocation())))
+		if(shouldCheck && (block.getType() != referenceType || alertCoordinator.hasNotified(block.getLocation())))
 		{
 			return;
 		}else alertCoordinator.addNotified(block.getLocation());
 		
 		for(BlockFace face : FACES)
 		{
-			getVein(referenceType, block.getRelative(face), collected, true);
+			calculateVein(referenceType, block.getRelative(face), true);
 		}
 	}
 	
