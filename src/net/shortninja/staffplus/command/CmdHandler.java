@@ -31,13 +31,7 @@ public class CmdHandler
 	
 	public CmdHandler()
 	{
-		try
-		{
-			registerCommands();
-		}catch(IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException exception)
-		{
-			exception.printStackTrace();
-		}
+		registerCommands();
 	}
 	
 	public void attemptCommand(CommandSender sender, String label, String[] args)
@@ -58,7 +52,7 @@ public class CmdHandler
 		}
 	}
 	
-	private void registerCommands() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException
+	private void registerCommands()
 	{
 		for(BaseCmd baseCmd : BASES)
 		{
