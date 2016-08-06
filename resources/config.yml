@@ -10,7 +10,7 @@
 ############################################################
 
 # The language file that will be referred to for messages.
-# Current available languages are: lang_en, lang_sv, lang_de, lang_nl, lang_es, lang_hr, and lang_no.
+# Current available languages are: lang_en, lang_sv, lang_de, lang_nl, lang_es, lang_hr, lang_no, and lang_fr.
 # If you would like to translate Staff+, please message me on Spigot!
 lang: "lang_en"
 
@@ -230,10 +230,10 @@ staff-mode:
   block-manipulation: false
 
   # Whether or not a player is allowed to interact with their inventory while in staff mode.
-  inventory-interaction: false
+  inventory-interaction: true
 
   # Whether or not a player is allowed to drop/pickup items while in staff mode.
-  item-change: true
+  item-change: false
 
   # The type of vanish that will be applied when a player goes into staff mode.
   # Valid vanish types are: TOTAL, LIST, and NONE.
@@ -241,6 +241,9 @@ staff-mode:
 
   # Whether or not a player will be invincible while in staff mode.
   invincible: true
+
+  # Whether or not a player will lose hunger while in staff mode.
+  hunger-loss: false
 
   # Whether or not a player can fly while in staff mode.
   flight: true
@@ -442,6 +445,14 @@ staff-mode:
 
     # Whether or not a player is able to damage or be damaged while frozen.
     damage: false
+
+    # The interval, in seconds, at which a frozen player will be reminded that they are frozen.
+    # Disable by setting to zero.
+    timer: 5
+
+    # The sound that is played to the player when warned.
+    # Set to "NONE" to disable.
+    sound: ORB_PICKUP
 
     # Whether or not a GUI prompt will open up with a paper containing the freeze message.
     prompt: false
@@ -832,7 +843,7 @@ commands:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 3.16
+config-version: 3.17
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
