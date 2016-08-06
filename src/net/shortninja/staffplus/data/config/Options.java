@@ -120,6 +120,7 @@ public class Options
 	public VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
 	public boolean modeVanished = config.getBoolean("staff-mode.vanish");
 	public boolean modeInvincible = config.getBoolean("staff-mode.invincible");
+	public boolean modeHungerLoss = configVersion >= 3.17 ? config.getBoolean("staff-mode.hunger-loss") : true;
 	public boolean modeFlight = config.getBoolean("staff-mode.flight");
 	public boolean modeCreative = config.getBoolean("staff-mode.creative");
 	public boolean modeOriginalLocation = config.getBoolean("staff-mode.original-location");
@@ -206,6 +207,8 @@ public class Options
 	public ItemStack modeFreezeItem = Items.builder().setMaterial(modeFreezeType).setData(modeFreezeData).setName(modeFreezeName).setLore(modeFreezeLore).build();
 	public boolean modeFreezeChat = config.getBoolean("staff-mode.freeze-module.prevent-chat");
 	public boolean modeFreezeDamage = config.getBoolean("staff-mode.freeze-module.damage");
+	public int modeFreezeTimer = configVersion >= 3.17 ? config.getInt("staff-mode.freeze-module.timer") : 0;
+	public Sounds modeFreezeSound = configVersion >= 3.17 ? stringToSound(sanitize(config.getString("staff-mode.freeze-module.sound"))) : Sounds.ORB_PICKUP;
 	public boolean modeFreezePrompt = configVersion >= 3.1 ? config.getBoolean("staff-mode.freeze-module.prompt") : false;
 	public String modeFreezePromptTitle = configVersion >= 3.1 ? config.getString("staff-mode.freeze-module.prompt-title") : "&bFrozen";
 	
