@@ -37,7 +37,7 @@ public class PacketModifier
 			{
 				String packetName = packet.getPacketName();
 				
-				if(packetName.equalsIgnoreCase("PacketPlayOutNamedSoundEffect"))
+				if(packetName.equalsIgnoreCase("PacketPlayOutNamedSoundEffect") && !options.soundNames.isEmpty())
 				{
 					handleClientSound(packet);
 				}else
@@ -101,7 +101,7 @@ public class PacketModifier
 			return;
 		}
 		
-		if(userManager.getUser(packet.getPlayer().getUniqueId()).getVanishType() != VanishType.TOTAL)
+		if(userManager.get(packet.getPlayer().getUniqueId()).getVanishType() != VanishType.TOTAL)
 		{
 			return;
 		}
@@ -170,7 +170,7 @@ public class PacketModifier
 	
 	private boolean isVanished(Player player)
 	{
-		return userManager.getUser(player.getUniqueId()).getVanishType() == VanishType.TOTAL;
+		return userManager.get(player.getUniqueId()).getVanishType() == VanishType.TOTAL;
 	}
 	
 	private Chest getChest(Location location)
