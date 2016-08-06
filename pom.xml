@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.shortninja.staffplus</groupId>
   <artifactId>StaffPlus</artifactId>
-  <version>3.0.7-BETA</version>
+  <version>3.0.8-RELEASE</version>
   <name>Staff+</name>
   <description>The ultimate moderation plugin.</description>
   <repositories>
