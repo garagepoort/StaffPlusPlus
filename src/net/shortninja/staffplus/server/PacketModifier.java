@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.server;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
+import net.shortninja.staffplus.server.data.config.Options;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -25,6 +25,11 @@ public class PacketModifier
 	
 	public PacketModifier()
 	{
+		if(options.disablePackets || (options.animationPackets.isEmpty() && options.soundNames.isEmpty()))
+		{
+			return;
+		}
+		
 		initializeHandler();
 	}
 	
@@ -37,7 +42,7 @@ public class PacketModifier
 			{
 				String packetName = packet.getPacketName();
 				
-				if(packetName.equalsIgnoreCase("PacketPlayOutNamedSoundEffect") && !options.soundNames.isEmpty())
+				if(packetName.equalsIgnoreCase("PacketPlayOutNamedSoundEffect"))
 				{
 					handleClientSound(packet);
 				}else
