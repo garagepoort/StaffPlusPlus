@@ -56,6 +56,11 @@ note-list-entry: "&b%count% &7%note%"
 # Linjer er separert med komma
 note-list-end: "&7%longline%"
 
+login-register: "&bSiden du er ansatte, må du registrere et passord for å beskytte kontoen din blir kapret. Bruk &7/register &b for register."
+login-registered: "&bPassord akseptert! Du vil bli bedt om å bruke dette passordet hver gang du logger inn."
+login-waiting: "&bDu har vært frosset! Skriv inn ansatte passord for å fortsette."
+login-accepted: "&bLogget inn."
+
 no-permission: "&cDu har ikke tillatelse til å bruke det!"
 bypassed: "&cDen spilleren har forbigått den kommandoen!"
 player-offline: "&cDen spilleren er offline!"
@@ -193,4 +198,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bDu er nå &7%status% %target%&b."
 
 # IKKE ENDRE DENNE MINDRE DU VET HVA DU GJØR!
-lang-version: 3.57
+lang-version: 3.58

@@ -15,12 +15,12 @@
 lang: "lang_en"
 
 # Commands that staff will not be allowed to use at all.
-# Must have "block" permission to take effect.
+# Must have "permissions.block" permission to take effect.
 # Leave blank to disable.
 blocked-commands: "/example1, /example2, /example3"
 
 # Commands that staff will not be allowed to use while in staff mode.
-# Must have "block" permission to take effect.
+# Must have "permissions.block" permission to take effect.
 # Leave blank to disable.
 blocked-mode-commands: "/example1, /example2, /example3"
 
@@ -36,7 +36,7 @@ glass-title: "&bChoose GUI glass color"
 # +------------------------------------------------------+ #
 ############################################################
 
-# No permission required for regular users, requires "report" permission for moderator commands.
+# No permission required for regular users, requires "permissions.report" permission for moderator commands.
 reports-module:
   # Whether or not the plugin will use "/report" features.
   enabled: true
@@ -46,7 +46,7 @@ reports-module:
   sound: ORB_PICKUP
 
   # The cooldown, in seconds, for using "/report".
-  # This is disabled for players with the "report" permission.
+  # This is disabled for players with the "permissions.report" permission.
   cooldown: 10
 
   # Whether or not the player that reported another player will be visible in GUIs.
@@ -58,7 +58,7 @@ reports-module:
 # +------------------------------------------------------+ #
 ############################################################
 
-# Requires "warn" permission.
+# Requires "permissions.warn" permission.
 warnings-module:
   # Whether or not the plugin will use "/warn" features.
   enabled: true
@@ -87,7 +87,7 @@ warnings-module:
 # +------------------------------------------------------+ #
 ############################################################
 
-# Requires "sc" permission.
+# Requires "permissions.staff-chat" permission.
 staff-chat-module:
   # Whether or not the plugin will use "/sc" features.
   enabled: true
@@ -103,7 +103,7 @@ staff-chat-module:
 # +------------------------------------------------------+ #
 ############################################################
 
-# Requires "vanish" permission.
+# Requires "permissions.vanish" permission.
 vanish-module:
   # Whether or not the plugin will use "/v" features.
   enabled: true
@@ -121,7 +121,7 @@ vanish-module:
 # +------------------------------------------------------+ #
 ############################################################
 
-# Requires "chat" permission.
+# Requires "permissions.chat" permission.
 chat-module:
   # Whether or not the plugin will use "/chat" features.
   enabled: true
@@ -140,7 +140,7 @@ chat-module:
     enabled: false
 
     # Whether or not messages that have censored words in them will be hoverable.
-    # This means you will be able to hover over a chat message to see an uncensored message if you have the "blacklist" permission.
+    # This means you will be able to hover over a chat message to see an uncensored message if you have the "permissions.blacklist" permission.
     # This may not work well with other chat plugins!
     hoverable: false
 
@@ -181,7 +181,7 @@ chat-module:
 # +------------------------------------------------------+ #
 ############################################################
 
-# Requires no permission for opening tickets and requires "ticket" permission for managing.
+# Requires no permission for opening tickets and requires "permissions.ticket" permission for managing.
 tickets-module:
   # Whether or not the plugin will use ticket features.
   enabled: true
@@ -199,7 +199,7 @@ tickets-module:
 # +------------------------------------------------------+ #
 ############################################################
 
-# Requires "notify" permission.
+# Requires "permissions.notify" permission.
 alerts-module:
   # Whether or not staff will be notified when a user changes their name.
   name-notify: true
@@ -220,11 +220,26 @@ alerts-module:
 
 ############################################################
 # +------------------------------------------------------+ #
+# |                       Security                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Requires "permissions.member" permission.
+login:
+  # Whether or not /login will be enabled.
+  # This is just a security feature that can be used to prevent staff accounts from being hijacked on your server.
+  enabled: false
+
+  # The kick message that is sent when a player enters an invalid password.
+  kick-message: "&cInvalid login password!"
+
+############################################################
+# +------------------------------------------------------+ #
 # |                      Staff Mode                      | #
 # +------------------------------------------------------+ #
 ############################################################
 
-# Requires "mode" permission.
+# Requires "permissions.mode" permission.
 staff-mode:
   # Whether or not a player is allowed to break/place blocks while in staff mode.
   block-manipulation: false
@@ -777,7 +792,7 @@ permissions:
   # Permission for giving a player's previous inventory back.
   revive: "staff.revive"
 
-  # Permission for being noted as a staff member in the staff list command.
+  # Permission for being noted as a staff member in the staff list command and for login.
   # This also excludes the player from being randomly teleported to!
   member: "staff.member"
 
@@ -835,6 +850,12 @@ commands:
   # The command for listing staff members.
   staff-list: "personnel"
 
+  # The command for logging in.
+  login: "login"
+
+  # The command for registering a password.
+  register: "register"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Advanced                       | #
@@ -843,7 +864,7 @@ commands:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 3.17
+config-version: 3.2
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
@@ -852,6 +873,10 @@ auto-save: 3600
 # The interval in seconds at which calculations, like freeze checking, will be performed.
 # The higher this is, the less lag there will be.
 clock: 2
+
+# Whether or not packet modifying will be completely disabled.
+# Enable this if you get packet errors and can not fix them.
+disable-packets: false
 
 # The animation packets that will be listened for and cancelled for total vanished players.
 # Each packet is separated by a comma.

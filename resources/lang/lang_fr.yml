@@ -57,6 +57,11 @@ note-list-entry: "&b%count% &7%note%"
 # Lignes séparées par des virgules
 note-list-end: "&7%longline%"
 
+login-register: "&bPuisque vous êtes personnel, vous devez vous inscrire un mot de passe pour protéger votre compte d'être détourné. Utilisez &7/register &benregistrer."
+login-registered: "&bMot de passe accepté! Il vous sera demandé d'utiliser ce mot de passe à chaque fois que vous vous connectez."
+login-waiting: "&bVous avez été gelé! S'il vous plaît entrer votre mot de passe personnel à continuer."
+login-accepted: "&bConnecté."
+
 no-permission: "&cVous n'avez pas la permission d'utiliser ceci!"
 bypassed: "&cCe joueur a bypass cette commande!"
 player-offline: "&cCe joueur est hors-ligne!"
@@ -194,4 +199,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bVous &7%status% maintenant %target%&b."
 
 # NE PAS CHANGER A MOINS QUE VOUS SAVEZ CE QUE VOUS FAITES!
-lang-version: 3.57
+lang-version: 3.58

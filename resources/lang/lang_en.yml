@@ -57,6 +57,11 @@ note-list-entry: "&b%count% &7%note%"
 # Lines are separated by commas
 note-list-end: "&7%longline%"
 
+login-register: "&bSince you are staff, you must register a password to protect your account from being hijacked. Use &7/register &bto register."
+login-registered: "&bPassword accepted! You will be asked to use this password each time you login."
+login-waiting: "&bYou have been frozen! Please enter your staff password to continue."
+login-accepted: "&bLogged in."
+
 no-permission: "&cYou do not have permission to use that!"
 bypassed: "&cThat player bypassed that command!"
 player-offline: "&cThat player is offline!"
@@ -194,4 +199,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bYou are now &7%status% %target%&b."
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.57
+lang-version: 3.58

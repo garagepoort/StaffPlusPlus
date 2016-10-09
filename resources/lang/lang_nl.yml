@@ -57,6 +57,11 @@ note-list-entry: "&b%count% &7%note%"
 # Lines are separated by commas
 note-list-end: "&7%longline%"
 
+login-register: "&bAangezien u personeel, moet u een wachtwoord om uw account te beschermen tegen gekaapt te registreren. Gebruik & 7/register &ben BTO register."
+login-registered: "&bWachtwoord geaccepteerd! U zal worden gevraagd om dit wachtwoord te gebruiken elke keer dat u in te loggen."
+login-waiting: "&bJe bevroren zijn geweest! Vul uw medewerkers wachtwoord om verder te gaan."
+login-accepted: "&bIngelogd."
+
 no-permission: "&cJe hebt geen toelatingen om dit te gebruiken!"
 bypassed: "&cDeze speler omzeild dat commando!"
 player-offline: "&cDeze speler is offline!"
@@ -194,4 +199,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bJe bent nu &7%status% %target%&b."
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.57
+lang-version: 3.58

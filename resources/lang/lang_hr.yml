@@ -57,6 +57,11 @@ note-list-entry: "&b%count% &7%note%"
 # Linije su odvojene sa zarezima
 note-list-end: "&7%longline%"
 
+login-register: "&bBudući da su zaposlenici, morate se registrirati lozinku kako bi zaštitili svoj račun od toga da bude otet. Koristite &7/register &bse i BTO registar."
+login-registered: "&bLozinka prihvaćena! Od vas će se tražiti da koristite ovu zaporku svaki put kada se prijavite."
+login-waiting: "&bTi su zamrznuti! Unesite svoju lozinku osoblje za nastavak."
+login-accepted: "&bPrijavljeni."
+
 no-permission: "&cNemas permission da to koristis!"
 bypassed: "&cTaj igrac bajpasuje tu commandu"
 player-offline: "&cTaj igrać je offline!"
@@ -194,4 +199,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bTi si sada &7%status% %target%&b."
 
 # MEMOJ OVO PROMJENITI OSIM AKO ZNAS STO RADIS!
-lang-version: 3.57
+lang-version: 3.58

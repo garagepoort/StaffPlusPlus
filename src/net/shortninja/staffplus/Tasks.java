@@ -1,7 +1,5 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.data.config.Messages;
-import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
@@ -9,7 +7,10 @@ import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
-import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.PermissionHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,7 +20,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Tasks extends BukkitRunnable
 {
-	private Message message = StaffPlus.get().message;
+	private PermissionHandler permission = StaffPlus.get().permission;
+	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
@@ -96,7 +98,7 @@ public class Tasks extends BukkitRunnable
 			{
 				User user = userManager.get(player.getUniqueId());
 				
-				if(user.isFrozen())
+				if(user.isFrozen() && !permission.has(player, options.permissionMember))
 				{
 					options.modeFreezeSound.play(player);
 					

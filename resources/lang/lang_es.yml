@@ -57,6 +57,11 @@ note-list-entry: "&b%count% &7%note%"
 # Lines are separated by commas
 note-list-end: "&7%longline%"
 
+login-register: "&bDado que usted es el personal, debe registrarse una contraseña para proteger su cuenta de ser secuestrado. Utilizar y &7/registro &bpara registrar."
+login-registered: "&bContraseña aceptada! Se le pedirá a utilizar esta contraseña cada vez que se conecte."
+login-waiting: "&bYou have been frozen! Please enter your staff password to continue."
+login-accepted: "&bConectado."
+
 no-permission: "&c¡Tú no tienes permisos para usar eso!"
 bypassed: "&cEse jugador evita este comando!"
 player-offline: "&c¡Ese jugador esta desconectado!"
@@ -191,4 +196,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bAhora estas &7%status% a %target%&b."
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.57
+lang-version: 3.58

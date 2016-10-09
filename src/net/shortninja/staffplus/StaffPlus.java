@@ -1,32 +1,9 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.command.CmdHandler;
-import net.shortninja.staffplus.data.Load;
-import net.shortninja.staffplus.data.Save;
-import net.shortninja.staffplus.data.config.Messages;
-import net.shortninja.staffplus.data.config.Options;
-import net.shortninja.staffplus.data.file.ChangelogFile;
-import net.shortninja.staffplus.data.file.DataFile;
-import net.shortninja.staffplus.data.file.LanguageFile;
-import net.shortninja.staffplus.listener.BlockBreak;
-import net.shortninja.staffplus.listener.BlockPlace;
-import net.shortninja.staffplus.listener.FoodLevelChange;
-import net.shortninja.staffplus.listener.InventoryClick;
-import net.shortninja.staffplus.listener.InventoryClose;
-import net.shortninja.staffplus.listener.entity.EntityDamage;
-import net.shortninja.staffplus.listener.entity.EntityDamageByEntity;
-import net.shortninja.staffplus.listener.entity.EntityTarget;
-import net.shortninja.staffplus.listener.player.AsyncPlayerChat;
-import net.shortninja.staffplus.listener.player.PlayerCommandPreprocess;
-import net.shortninja.staffplus.listener.player.PlayerDeath;
-import net.shortninja.staffplus.listener.player.PlayerDropItem;
-import net.shortninja.staffplus.listener.player.PlayerInteract;
-import net.shortninja.staffplus.listener.player.PlayerJoin;
-import net.shortninja.staffplus.listener.player.PlayerPickupItem;
-import net.shortninja.staffplus.listener.player.PlayerQuit;
 import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -38,6 +15,7 @@ import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.PacketModifier;
 import net.shortninja.staffplus.server.chat.ChatHandler;
+import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.compatibility.v1_10.Protocol_v1_10_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R1;
@@ -45,11 +23,35 @@ import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R2;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R3;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R4;
 import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R1;
+import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R2;
 import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R3;
 import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R1;
 import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R2;
-import net.shortninja.staffplus.util.Message;
-import net.shortninja.staffplus.util.Permission;
+import net.shortninja.staffplus.server.data.Load;
+import net.shortninja.staffplus.server.data.Save;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.server.data.file.ChangelogFile;
+import net.shortninja.staffplus.server.data.file.DataFile;
+import net.shortninja.staffplus.server.data.file.LanguageFile;
+import net.shortninja.staffplus.server.listener.BlockBreak;
+import net.shortninja.staffplus.server.listener.BlockPlace;
+import net.shortninja.staffplus.server.listener.FoodLevelChange;
+import net.shortninja.staffplus.server.listener.InventoryClick;
+import net.shortninja.staffplus.server.listener.InventoryClose;
+import net.shortninja.staffplus.server.listener.entity.EntityDamage;
+import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
+import net.shortninja.staffplus.server.listener.entity.EntityTarget;
+import net.shortninja.staffplus.server.listener.player.AsyncPlayerChat;
+import net.shortninja.staffplus.server.listener.player.PlayerCommandPreprocess;
+import net.shortninja.staffplus.server.listener.player.PlayerDeath;
+import net.shortninja.staffplus.server.listener.player.PlayerDropItem;
+import net.shortninja.staffplus.server.listener.player.PlayerInteract;
+import net.shortninja.staffplus.server.listener.player.PlayerJoin;
+import net.shortninja.staffplus.server.listener.player.PlayerPickupItem;
+import net.shortninja.staffplus.server.listener.player.PlayerQuit;
+import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.PermissionHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -62,13 +64,14 @@ public class StaffPlus extends JavaPlugin
 	private static StaffPlus plugin;
 	
 	public IProtocol versionProtocol;
-	public Permission permission;
-	public Message message;
+	public PermissionHandler permission;
+	public MessageCoordinator message;
 	public Options options;
 	public DataFile dataFile;
     public LanguageFile languageFile;
     public Messages messages;
 	public UserManager userManager;
+	public SecurityHandler securityHandler;
 	public CpsHandler cpsHandler;
 	public FreezeHandler freezeHandler;
 	public GadgetHandler gadgetHandler;
@@ -93,8 +96,8 @@ public class StaffPlus extends JavaPlugin
 	{
 		plugin = this;
 		saveDefaultConfig();
-		permission = new Permission();
-		message = new Message();
+		permission = new PermissionHandler();
+		message = new MessageCoordinator();
 		options = new Options();
 		start(System.currentTimeMillis());
 	}
@@ -135,6 +138,7 @@ public class StaffPlus extends JavaPlugin
 		languageFile = new LanguageFile();
 		messages = new Messages();
 		userManager = new UserManager();
+		securityHandler = new SecurityHandler();
 		cpsHandler = new CpsHandler();
 		freezeHandler = new FreezeHandler();
 		gadgetHandler = new GadgetHandler();
@@ -184,7 +188,7 @@ public class StaffPlus extends JavaPlugin
 				versionProtocol = new Protocol_v1_8_R1();
 				break;
 			case "v1_8_R2":
-				versionProtocol = new Protocol_v1_8_R3();
+				versionProtocol = new Protocol_v1_8_R2();
 				break;
 			case "v1_8_R3":
 				versionProtocol = new Protocol_v1_8_R3();
@@ -251,6 +255,7 @@ public class StaffPlus extends JavaPlugin
 		options = null;
 		languageFile = null;
 		userManager = null;
+		securityHandler = null;
 		cpsHandler = null;
 		freezeHandler = null;
 		gadgetHandler = null;

@@ -57,6 +57,11 @@ note-list-entry: "&b%count% &7%note%"
 # Linjer är separerat genom komman.
 note-list-end: "&7%longline%"
 
+login-register: "&bEftersom du är en personal, du måste registrera ett lösenord. Använd &7/register&b."
+login-registered: "&bLösenord accepterad! Du kommer att frågat att använda den här lösenord varje gång du logga in."
+login-waiting: "&bDu har varit frysta! Vänligen, ange ditt lösenord."
+login-accepted: "&bInloggad."
+
 no-permission: "&cDu har inte tillåtelse!"
 bypassed: "&cDen där spelare kringgick detta kommando!"
 player-offline: "&cDen spelare är inte uppkopplad!"
@@ -194,4 +199,4 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bDu är nu &7%status% %target%&b."
 
 # BYTA INTE, SÅVIDA INTE DU VETA VAD DU GÖR!
-lang-version: 3.57
+lang-version: 3.58

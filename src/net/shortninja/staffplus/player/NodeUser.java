@@ -3,12 +3,15 @@ package net.shortninja.staffplus.player;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.AlertCoordinator.AlertType;
 
 public class NodeUser
 {
+	private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
 	private User user;
 	private String prefix;
 	
@@ -26,6 +29,11 @@ public class NodeUser
 	public String name()
 	{
 		return user.getName();
+	}
+	
+	public String password()
+	{
+		return securityHandler.getPassword(user.getUuid());
 	}
 	
 	public short glassColor()
