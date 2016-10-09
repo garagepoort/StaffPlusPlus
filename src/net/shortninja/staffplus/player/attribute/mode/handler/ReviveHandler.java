@@ -5,16 +5,16 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Messages;
 import net.shortninja.staffplus.player.attribute.mode.ModeDataVault;
-import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 
 import org.bukkit.entity.Player;
 
 public class ReviveHandler
 {
-	private Message message = StaffPlus.get().message;
+	private MessageCoordinator message = StaffPlus.get().message;
 	private Messages messages = StaffPlus.get().messages;
 	private static Map<UUID, ModeDataVault> savedInventories = new HashMap<UUID, ModeDataVault>();
 	
@@ -40,5 +40,6 @@ public class ReviveHandler
 		player.getInventory().setContents(modeDataVault.getItems());
 		player.getInventory().setArmorContents(modeDataVault.getArmor());
 		message.send(player, messages.revivedUser, messages.prefixGeneral);
+		savedInventories.remove(uuid);
 	}
 }

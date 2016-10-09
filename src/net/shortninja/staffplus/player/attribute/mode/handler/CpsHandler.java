@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Messages;
-import net.shortninja.staffplus.data.config.Options;
-import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.util.MessageCoordinator;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class CpsHandler
 {
-	private Message message = StaffPlus.get().message;
+	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private static Map<UUID, Integer> currentTests = new HashMap<UUID, Integer>();

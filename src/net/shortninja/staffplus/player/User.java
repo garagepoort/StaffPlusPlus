@@ -7,22 +7,22 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Messages;
-import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui.AbstractAction;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.server.AlertCoordinator.AlertType;
-import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.util.MessageCoordinator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class User
 {
-	private Message message = StaffPlus.get().message;
+	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UUID uuid;

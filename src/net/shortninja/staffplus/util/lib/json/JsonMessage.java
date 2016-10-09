@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.util.lib.json;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.MessageCoordinator;
 
 import org.json.simple.JSONObject;
 
@@ -11,7 +11,7 @@ import org.json.simple.JSONObject;
 
 public class JsonMessage
 {
-	private Message message = StaffPlus.get().message;
+	private MessageCoordinator message = StaffPlus.get().message;
 	String msg;
 	
 	/**

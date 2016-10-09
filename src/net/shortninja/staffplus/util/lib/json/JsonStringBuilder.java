@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.util.lib.json;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.util.MessageCoordinator;
 
 import org.json.simple.JSONObject;
 
@@ -11,7 +11,7 @@ import org.json.simple.JSONObject;
 
 public class JsonStringBuilder
 {
-	private Message pluginMessage = StaffPlus.get().message;
+	private MessageCoordinator pluginMessage = StaffPlus.get().message;
 	private final JsonMessage message;
 	private final String string;
 	private String hover = "", click = "";

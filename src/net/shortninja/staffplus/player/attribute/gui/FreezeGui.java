@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Messages;
 import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.lib.hex.Items;
 
 import org.bukkit.Material;

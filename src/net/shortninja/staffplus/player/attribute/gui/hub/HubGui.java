@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.lib.hex.Items;
 
 import org.bukkit.Material;

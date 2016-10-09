@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
-import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.hex.Items;
 
 import org.bukkit.Bukkit;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class AbstractGui
 {
-	private Message message = StaffPlus.get().message;
+	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private String title;
 	private Inventory inventory;

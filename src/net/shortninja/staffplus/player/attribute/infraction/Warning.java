@@ -3,7 +3,7 @@ package net.shortninja.staffplus.player.attribute.infraction;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Options;
+import net.shortninja.staffplus.server.data.config.Options;
 
 public class Warning
 {

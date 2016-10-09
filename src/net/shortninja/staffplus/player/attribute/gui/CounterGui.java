@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Messages;
-import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.util.Message;
-import net.shortninja.staffplus.util.Permission;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 
@@ -21,8 +21,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class CounterGui extends AbstractGui
 {
-	private Permission permission = StaffPlus.get().permission;
-	private Message message = StaffPlus.get().message;
+	private PermissionHandler permission = StaffPlus.get().permission;
+	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;

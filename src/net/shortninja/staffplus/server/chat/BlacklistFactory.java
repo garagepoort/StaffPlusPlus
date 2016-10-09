@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.regex.Pattern;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Options;
+import net.shortninja.staffplus.server.data.config.Options;
 
 public class BlacklistFactory
 {

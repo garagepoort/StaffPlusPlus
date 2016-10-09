@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Messages;
-import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.util.Message;
-import net.shortninja.staffplus.util.Permission;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.PermissionHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,8 +17,8 @@ import org.bukkit.potion.PotionEffectType;
 public class VanishHandler
 {
 	private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-	private Permission permission = StaffPlus.get().permission;
-	private Message message = StaffPlus.get().message;
+	private PermissionHandler permission = StaffPlus.get().permission;
+	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
