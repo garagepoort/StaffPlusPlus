@@ -32,5 +32,7 @@
 	3.0.6|17 July 2016: Added Norwegian lang file, fixed item pickup/drop events, added staff mode enable/disable console commands, fixed vanish in staff list.
 	3.0.7|18 July 2016: Fixed /warn permission, fixed mode enable/disable commands not disabling, fixed staff chat handler not disabling, fixed xray blocks clearing.
 	3.0.8|5 August 2016: Added French lang file, fixed vanish visibility for staff members, fixed ticket responses, freeze message timer, freeze sound effect, freeze logout notifier, fixed packet modifiers not disabling.
+3.2:
+	3.2.0|8 October 2016: Fixed several bugs, added /login feature.
 
-9,407 lines of code and counting!
+9,637 lines of code and counting!
