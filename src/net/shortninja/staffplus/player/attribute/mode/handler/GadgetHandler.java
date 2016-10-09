@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Messages;
-import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.CounterGui;
 import net.shortninja.staffplus.player.attribute.gui.ExamineGui;
@@ -17,8 +15,10 @@ import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.util.Message;
-import net.shortninja.staffplus.util.Permission;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 
 import org.bukkit.Bukkit;
@@ -30,8 +30,8 @@ import org.bukkit.util.Vector;
 public class GadgetHandler
 {
 	private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-	private Permission permission = StaffPlus.get().permission;
-	private Message message = StaffPlus.get().message;
+	private PermissionHandler permission = StaffPlus.get().permission;
+	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
@@ -125,14 +125,12 @@ public class GadgetHandler
 			
 			currentPlayer = onlinePlayers.get(lastIndex);
 			
-			if(player.getName().equals(currentPlayer.getName()) || permission.has(currentPlayer, options.permissionMember))
+			if(count >= onlinePlayers.size())
 			{
-				if(count >= onlinePlayers.size())
-				{
-					message.send(player, messages.modeNotEnoughPlayers, messages.prefixGeneral);
-					return;
-				}
-				
+				message.send(player, messages.modeNotEnoughPlayers, messages.prefixGeneral);
+				return;
+			}else if(player.getName().equals(currentPlayer.getName()) || permission.has(currentPlayer, options.permissionMember))
+			{
 				lastRandomTeleport.put(uuid, lastIndex);
 				onRandomTeleport(player, count + 1);
 				return;
@@ -191,8 +189,8 @@ public class GadgetHandler
 		
 		if(freezeHandler.isFrozen(targetPlayer.getUniqueId()))
 		{
-			freezeHandler.removeFreeze(sender, targetPlayer);
-		}else freezeHandler.addFreeze(sender, targetPlayer);
+			freezeHandler.removeFreeze(sender, targetPlayer, true);
+		}else freezeHandler.addFreeze(sender, targetPlayer, true);
 	}
 	
 	public void onCps(CommandSender sender, Player targetPlayer)
