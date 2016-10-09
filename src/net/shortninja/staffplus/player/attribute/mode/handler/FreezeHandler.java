@@ -5,13 +5,13 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.data.config.Messages;
-import net.shortninja.staffplus.data.config.Options;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
-import net.shortninja.staffplus.util.Message;
-import net.shortninja.staffplus.util.Permission;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.PermissionHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,8 +22,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class FreezeHandler
 {
-	private Permission permission = StaffPlus.get().permission;
-	private Message message = StaffPlus.get().message;
+	private PermissionHandler permission = StaffPlus.get().permission;
+	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
@@ -36,55 +36,61 @@ public class FreezeHandler
 		return lastFrozenLocations.containsKey(uuid) || user.isFrozen();
 	}
 	
-	public void addFreeze(CommandSender sender, Player player)
+	public void addFreeze(CommandSender sender, Player player, boolean shouldMessage)
 	{
 		UUID uuid = player.getUniqueId();
 		
-		if(permission.has(player, options.permissionFreezeBypass))
+		if(permission.has(player, options.permissionFreezeBypass) && shouldMessage)
 		{
 			message.send(sender, messages.bypassed, messages.prefixGeneral);
 			return;
-		}else message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
+		}else if(shouldMessage)
+		{
+			if(options.modeFreezePrompt)
+			{
+				new FreezeGui(player, options.modeFreezePromptTitle);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
+			}else message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
+		
+			message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
+		}
 		
 		userManager.get(player.getUniqueId()).setFrozen(true);
 		lastFrozenLocations.put(uuid, player.getLocation());
 		player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
 		player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
 		options.modeFreezeSound.play(player);
-		
-		if(options.modeFreezePrompt)
-		{
-			new FreezeGui(player, options.modeFreezePromptTitle);
-			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
-		}else message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
 	}
 	
-	public void removeFreeze(CommandSender sender, Player player)
+	public void removeFreeze(CommandSender sender, Player player, boolean shouldMessage)
 	{
 		UUID uuid = player.getUniqueId();
 		User user = userManager.get(uuid);
 		
-		if(permission.has(player, options.permissionFreezeBypass))
+		if(permission.has(player, options.permissionFreezeBypass) && shouldMessage)
 		{
 			message.send(sender, messages.bypassed, messages.prefixGeneral);
 			return;
-		}else message.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
+		}else if(shouldMessage)
+		{
+			if(options.modeFreezePrompt && user.getCurrentGui() != null)
+			{
+				if(user.getCurrentGui() instanceof FreezeGui)
+				{
+					player.closeInventory();
+				}
+				
+				player.removePotionEffect(PotionEffectType.BLINDNESS);
+			}
+			
+			message.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
+			message.send(player, messages.unfrozen, messages.prefixGeneral);
+		}
 		
 		user.setFrozen(false);
 		lastFrozenLocations.remove(uuid);
-		message.send(player, messages.unfrozen, messages.prefixGeneral);
 		player.removePotionEffect(PotionEffectType.JUMP);
 		player.removePotionEffect(PotionEffectType.SLOW);
-		
-		if(options.modeFreezePrompt && user.getCurrentGui() != null)
-		{
-			if(user.getCurrentGui() instanceof FreezeGui)
-			{
-				player.closeInventory();
-			}
-			
-			player.removePotionEffect(PotionEffectType.BLINDNESS);
-		}
 	}
 	
 	public void checkLocations()
