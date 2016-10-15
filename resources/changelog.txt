@@ -34,5 +34,6 @@
 	3.0.8|5 August 2016: Added French lang file, fixed vanish visibility for staff members, fixed ticket responses, freeze message timer, freeze sound effect, freeze logout notifier, fixed packet modifiers not disabling.
 3.2:
 	3.2.0|8 October 2016: Fixed several bugs, added /login feature.
+	3.2.1|14 October 2016: Fixed minor bugs, made /login more secure.
 
 9,637 lines of code and counting!
