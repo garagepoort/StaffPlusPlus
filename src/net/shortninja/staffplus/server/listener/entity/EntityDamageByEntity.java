@@ -4,6 +4,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,10 +27,18 @@ public class EntityDamageByEntity implements Listener
 		
 		if(!(event.getDamager() instanceof Player))
 		{
-			return;
+			if(event.getDamager() instanceof Arrow)
+			{
+				Arrow arrow = (Arrow) event.getDamager();
+				
+				if(arrow.getShooter() instanceof Player)
+				{
+					player = (Player) arrow.getShooter();
+				}
+			}else return;
 		}else player = (Player) event.getDamager();
 		
-		if(userManager.get(player.getUniqueId()).isFrozen())
+		if(player != null && userManager.get(player.getUniqueId()).isFrozen())
 		{
 			event.setCancelled(true);
 		}

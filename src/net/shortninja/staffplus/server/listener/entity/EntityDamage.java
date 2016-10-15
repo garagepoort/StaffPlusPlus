@@ -43,6 +43,7 @@ public class EntityDamage implements Listener
 		if((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && user.isFrozen())))
 		{
 			event.setCancelled(true);
+			return;
 		}
 	}
 }
