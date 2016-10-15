@@ -127,7 +127,7 @@ public class Messages
 	public String guiMiner = config.getString("gui-miner");
 	public String guiCounted = config.getString("gui-Counted");
 	public List<String> freeze = JavaUtils.stringToList(config.getString("freeze"));
-	public String unfrozen = config.getString("unfrozen");
+	public List<String> unfrozen = JavaUtils.stringToList(config.getString("unfrozen"));
 	public String staffFroze = config.getString("staff-froze");
 	public String staffUnfroze = config.getString("staff-unfroze");
 	public String freezeLogout = langVersion >= 3.57 ? config.getString("freeze-logout") : "&7%player% &blogged out while frozen!";

@@ -176,6 +176,7 @@ gui-counted: "&b%player%"
 
 # Lignes séparées par des virgules
 freeze: "&4&lVous avez été freeze NE vous deconnectez PAS!, &4&lVeuillez rejoindre le teamspeak @ shortninja.net"
+# Lignes séparées par des virgules
 unfrozen: "&bVous avez été unfreeze"
 staff-froze: "&bVous avez freeze &7%target%&b."
 staff-unfroze: "&bVous avez unfreeze &7%target%&b."

@@ -176,6 +176,7 @@ gui-counted: "&b%player%"
 
 # Lijnen zijn gescheiden door kommas.
 freeze: "&4&lJe bent bevroren door Personeel log NIET uit!, &4&ltreedt de TeamSpeak toe @ shortninja.net"
+# Lijnen zijn gescheiden door kommas.
 unfrozen: "&bJe bent ontdooid."
 staff-froze: "Je hebt %target% bevroren"
 staff-unfroze: "Je hebt %target% ontdooit"

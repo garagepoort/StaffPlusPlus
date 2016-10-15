@@ -176,6 +176,7 @@ gui-counted: "&b%player%"
 
 # Linije su odvojene sa zarezima.
 freeze: "&4&lZamrznut si od staffa Nemoj da izadjes!, &4&lMolimte udji u teamspeak TeamSpeak @ shortninja.net"
+# Linije su odvojene sa zarezima.
 unfrozen: "&bOdmrzneu se."
 staff-froze: "&bZamrznuo si &7%target%&b."
 staff-unfroze: "&bOdmrznuo si &7%target%&b."

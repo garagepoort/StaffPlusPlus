@@ -172,6 +172,7 @@ gui-counted: "&b%player%"
 
 # Lineas están separadas por comas.
 freeze: "&4&lHas sido congelado por el staff ¡No te salgas del juego!, &4&lPor favor, entra al Teamspeak en shortninja.net"
+# Lineas están separadas por comas.
 unfrozen: "&bTu has sido descongelado."
 staff-froze: "&bHas congelado a &7%target%&b."
 staff-unfroze: "&bHas descongelado a &7%target%&b."

@@ -176,6 +176,7 @@ gui-counted: "&b%player%"
 
 # Linien werden durch Kommas getrennt
 freeze: "&4&lDu wurdest von einem Teammitglied eingefroren TRENNE NICHT DIE VERBINDUNG! &4&lBitte verbinde dich auf unseren TeamSpeak Server. (shortninja.net)"
+# Linien werden durch Kommas getrennt
 unfrozen: "&bDu bist nun nicht mehr eingefroren."
 staff-froze: "&bDu fror &7%target%&b."
 staff-unfroze: "&bDu aufgetaut &7%target%&b."

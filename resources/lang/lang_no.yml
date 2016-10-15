@@ -175,6 +175,7 @@ gui-counted: "&b%player%"
 
 # Linjer er separert med komma
 freeze: "&4&lDu har blitt fryst av personalet IKKE logg ut!, &4&lPlis join TeamSpeak @ yourownip.net"
+# Linjer er separert med komma
 unfrozen: "&bDu har blitt ufryst"
 staff-froze: "&bDu fryste &7%target%&b."
 staff-unfroze: "&bDu ufryste &7%target%&b."

@@ -176,6 +176,7 @@ gui-counted: "&b%player%"
 
 # Lines are separated by commas.
 freeze: "&4&lYou have been frozen by staff Do NOT log out!, &4&lPlease join the TeamSpeak @ shortninja.net"
+# Lines are separated by commas.
 unfrozen: "&bYou have been unfrozen."
 staff-froze: "&bYou froze &7%target%&b."
 staff-unfroze: "&bYou unfroze &7%target%&b."
