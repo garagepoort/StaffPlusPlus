@@ -1,7 +1,9 @@
 package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
@@ -28,12 +30,18 @@ public class FreezeHandler
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
 	private static Map<UUID, Location> lastFrozenLocations = new HashMap<UUID, Location>();	
+	private static Set<UUID> loggedOut = new HashSet<UUID>();
 	
 	public boolean isFrozen(UUID uuid)
 	{
 		User user = userManager.get(uuid);
 		
 		return lastFrozenLocations.containsKey(uuid) || user.isFrozen();
+	}
+	
+	public boolean isLoggedOut(UUID uuid)
+	{
+		return loggedOut.contains(uuid);
 	}
 	
 	public void addFreeze(CommandSender sender, Player player, boolean shouldMessage)
@@ -44,7 +52,9 @@ public class FreezeHandler
 		{
 			message.send(sender, messages.bypassed, messages.prefixGeneral);
 			return;
-		}else if(shouldMessage)
+		}
+		
+		if(shouldMessage)
 		{
 			if(options.modeFreezePrompt)
 			{
@@ -53,7 +63,7 @@ public class FreezeHandler
 			}else message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
 		
 			message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
-		}
+		}else loggedOut.add(uuid);
 		
 		userManager.get(player.getUniqueId()).setFrozen(true);
 		lastFrozenLocations.put(uuid, player.getLocation());
@@ -71,7 +81,9 @@ public class FreezeHandler
 		{
 			message.send(sender, messages.bypassed, messages.prefixGeneral);
 			return;
-		}else if(shouldMessage)
+		}
+		
+		if(shouldMessage)
 		{
 			if(options.modeFreezePrompt && user.getCurrentGui() != null)
 			{
@@ -84,8 +96,8 @@ public class FreezeHandler
 			}
 			
 			message.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
-			message.send(player, messages.unfrozen, messages.prefixGeneral);
-		}
+			message.sendCollectedMessage(player, messages.unfrozen, messages.prefixGeneral);;
+		}else loggedOut.remove(uuid);
 		
 		user.setFrozen(false);
 		lastFrozenLocations.remove(uuid);
