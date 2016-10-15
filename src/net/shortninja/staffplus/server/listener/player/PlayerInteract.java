@@ -36,27 +36,34 @@ public class PlayerInteract implements Listener
 	{
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
+		Action action = event.getAction();
 		ItemStack item = player.getItemInHand();
 		
-		if(cpsHandler.isTesting(uuid) && (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK))
+		if(cpsHandler.isTesting(uuid) && (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK))
 		{
 			cpsHandler.updateCount(uuid);
+			return;
 		}
 		
-		if(!modeCoordinator.isInMode(uuid) || item == null || event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK)
+		if(!modeCoordinator.isInMode(uuid) || item == null)
 		{
 			return;
 		}
 		
-		if(handleInteraction(player, item))
+		if(handleInteraction(player, item, action))
 		{
 			event.setCancelled(true);
 		}
 	}
 	
-	private boolean handleInteraction(Player player, ItemStack item)
+	private boolean handleInteraction(Player player, ItemStack item, Action action)
 	{
 		boolean isHandled = true;
+		
+		if(action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK)
+		{
+			return isHandled = false;
+		}
 		
 		switch(gadgetHandler.getGadgetType(item, versionProtocol.getNbtString(item)))
 		{
