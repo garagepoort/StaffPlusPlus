@@ -3,8 +3,8 @@ package net.shortninja.staffplus.server.listener.player;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
+import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.server.command.BaseCmd;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -25,7 +25,7 @@ public class PlayerCommandPreprocess implements Listener
 	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
-	private UserManager userManager = StaffPlus.get().userManager;
+	private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
 	private CmdHandler cmdHandler = StaffPlus.get().cmdHandler;
 	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	
@@ -39,7 +39,7 @@ public class PlayerCommandPreprocess implements Listener
 	{
 		Player player = event.getPlayer();
 		UUID uuid = player.getUniqueId();
-		String command = event.getMessage();
+		String command = event.getMessage().toLowerCase();
 		
 		if(command.startsWith("/help staffplus") || command.startsWith("/help staff+"))
 		{
@@ -48,12 +48,7 @@ public class PlayerCommandPreprocess implements Listener
 			return;
 		}
 		
-		if(!permission.hasOnly(player, options.permissionBlock) || event.isCancelled())
-		{
-			return;
-		}
-		
-		if(options.blockedCommands.contains(command))
+		if(options.blockedCommands.contains(command) && permission.hasOnly(player, options.permissionBlock))
 		{
 			message.send(player, messages.commandBlocked, messages.prefixGeneral);
 			event.setCancelled(true);
@@ -61,7 +56,7 @@ public class PlayerCommandPreprocess implements Listener
 		{
 			message.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
 			event.setCancelled(true);
-		}else if(userManager.get(uuid).isFrozen() && !options.modeFreezeChat && !permission.has(player, options.permissionMember))
+		}else if(freezeHandler.isFrozen(uuid) && (!options.modeFreezeChat || (freezeHandler.isLoggedOut(uuid)) && !command.startsWith("/" + options.commandLogin)))
 		{
 			message.send(player, messages.chatPrevented, messages.prefixGeneral);
 			event.setCancelled(true);

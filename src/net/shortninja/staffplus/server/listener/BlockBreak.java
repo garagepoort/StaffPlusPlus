@@ -1,7 +1,10 @@
 package net.shortninja.staffplus.server.listener;
 
+import java.util.UUID;
+
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
+import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
 
@@ -18,6 +21,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 public class BlockBreak implements Listener
 {
 	private Options options = StaffPlus.get().options;
+	private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
 	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
 	
@@ -30,6 +34,13 @@ public class BlockBreak implements Listener
 	public void onBreak(BlockBreakEvent event)
 	{
 		Player player = event.getPlayer();
+		UUID uuid = player.getUniqueId();
+		
+		if(freezeHandler.isFrozen(uuid))
+		{
+			event.setCancelled(true);
+			return;
+		}
 		
 		if(options.modeBlockManipulation || !modeCoordinator.isInMode(player.getUniqueId()))
 		{

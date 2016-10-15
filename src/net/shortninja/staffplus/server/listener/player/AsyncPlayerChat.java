@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui.AbstractAction;
+import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.BlacklistFactory;
 import net.shortninja.staffplus.server.chat.ChatHandler;
@@ -33,6 +35,7 @@ public class AsyncPlayerChat implements Listener
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
+	private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
 	private ChatHandler chatHandler = StaffPlus.get().chatHandler;
 	private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
 	
@@ -93,7 +96,8 @@ public class AsyncPlayerChat implements Listener
 	private boolean shouldCancel(Player player, String message)
 	{
 		boolean shouldCancel = false;
-		User user = userManager.get(player.getUniqueId());
+		UUID uuid = player.getUniqueId();
+		User user = userManager.get(uuid);
 		AbstractAction queuedAction = user.getQueuedAction();
 		
 		if(queuedAction != null)
@@ -101,7 +105,7 @@ public class AsyncPlayerChat implements Listener
 			queuedAction.execute(player, message);
 			user.setQueuedAction(null);
 			shouldCancel = true;
-		}else if(user.isFrozen() && !options.modeFreezeChat)
+		}else if(freezeHandler.isFrozen(uuid) && (!options.modeFreezeChat || freezeHandler.isLoggedOut(uuid)))
 		{
 			this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
 			shouldCancel = true;
