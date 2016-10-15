@@ -25,11 +25,6 @@ public class PacketModifier
 	
 	public PacketModifier()
 	{
-		if(options.disablePackets || (options.animationPackets.isEmpty() && options.soundNames.isEmpty()))
-		{
-			return;
-		}
-		
 		initializeHandler();
 	}
 	

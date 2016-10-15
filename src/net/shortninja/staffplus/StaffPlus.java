@@ -99,6 +99,7 @@ public class StaffPlus extends JavaPlugin
 		permission = new PermissionHandler();
 		message = new MessageCoordinator();
 		options = new Options();
+		APIManager.initAPI(PacketListenerAPI.class);
 		start(System.currentTimeMillis());
 	}
 	
@@ -159,8 +160,12 @@ public class StaffPlus extends JavaPlugin
 		
 		registerListeners();
 		new ChangelogFile();
-		APIManager.initAPI(PacketListenerAPI.class);
-		new PacketModifier();
+		
+		if(!options.disablePackets || !options.animationPackets.isEmpty() || !options.soundNames.isEmpty())
+		{
+			new PacketModifier();
+		}
+		
 		message.sendConsoleMessage("Staff+ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
 		message.sendConsoleMessage("Plugin created by Shortninja.", false);
 	}
