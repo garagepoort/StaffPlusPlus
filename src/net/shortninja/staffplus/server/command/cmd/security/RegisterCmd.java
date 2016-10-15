@@ -39,11 +39,11 @@ public class RegisterCmd extends BukkitCommand
 		
 		if(args.length >= 2)
 		{
-			String pass = args[0];
+			String password = args[0];
 			
-			if(pass.equals(args[1]))
+			if(password.equals(args[1]))
 			{
-				securityHandler.setPassword(((Player) sender).getUniqueId(), pass, true);
+				securityHandler.setPassword(((Player) sender).getUniqueId(), password, true);
 				message.send(sender, messages.loginRegistered, messages.prefixGeneral);
 			}else message.send(sender, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixGeneral);
 		}else message.send(sender, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixGeneral);
