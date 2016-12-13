@@ -17,7 +17,7 @@ This plugin started off as a copy of HydraHCF's staff mode plugin back in July o
 #### Useful links
 * [Resource page](https://www.spigotmc.org/resources/staff-the-ultimate-moderation-plugin.15151/)
 * [Submit issues](https://github.com/Shortninja66/StaffPlus/issues)
-* [Request features or ask questions](http://staffplus.shortninja.net/)
+* [Request features or ask questions](http://staffplus.userecho.com/)
 * [Configurable files](https://github.com/Shortninja66/StaffPlus/wiki/Configurable-files)
 * [Plugin jar download](https://www.spigotmc.org/resources/staff-the-ultimate-moderation-plugin.15151/history)
 * [Help wiki](https://github.com/Shortninja66/StaffPlus/wiki)
