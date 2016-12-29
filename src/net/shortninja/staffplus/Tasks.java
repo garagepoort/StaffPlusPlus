@@ -98,7 +98,7 @@ public class Tasks extends BukkitRunnable
 			{
 				User user = userManager.get(player.getUniqueId());
 				
-				if(user.isFrozen() && !permission.has(player, options.permissionMember))
+				if(user != null && user.isFrozen() && !permission.has(player, options.permissionMember))
 				{
 					options.modeFreezeSound.play(player);
 					
