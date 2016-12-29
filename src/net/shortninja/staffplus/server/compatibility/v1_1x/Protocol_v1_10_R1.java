@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.server.compatibility.v1_10;
+package net.shortninja.staffplus.server.compatibility.v1_1x;
 
 import java.lang.reflect.Field;
 import java.util.Set;
