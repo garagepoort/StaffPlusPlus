@@ -17,6 +17,7 @@ import net.shortninja.staffplus.server.command.cmd.mode.FollowCmd;
 import net.shortninja.staffplus.server.command.cmd.mode.FreezeCmd;
 import net.shortninja.staffplus.server.command.cmd.mode.ModeCmd;
 import net.shortninja.staffplus.server.command.cmd.mode.NotesCmd;
+import net.shortninja.staffplus.server.command.cmd.mode.StripCmd;
 import net.shortninja.staffplus.server.command.cmd.mode.VanishCmd;
 import net.shortninja.staffplus.server.command.cmd.security.LoginCmd;
 import net.shortninja.staffplus.server.command.cmd.security.RegisterCmd;
@@ -87,6 +88,7 @@ public class CmdHandler
 		new BaseCmd("revive", new ReviveCmd(options.commandRevive), true, options.permissionRevive, "&7Gives the player's previous inventory back.", "[player]"),
 		new BaseCmd("staff-list", new PersonnelCmd(options.commandStaffList), true, "&7Lists all registered staff members.", "{all | online | away | offline}"),
 		new BaseCmd("login", new LoginCmd(options.commandLogin), options.loginEnabled, "&7Attempts to login with the given password.", "[password]"),
-		new BaseCmd("register", new RegisterCmd(options.commandRegister), options.loginEnabled, "&7Registers a password to login with.", "[password] [confirm-password]"),
+		new BaseCmd("register", new RegisterCmd(options.commandRegister), options.loginEnabled, "&7Registers a password to login with.", "[password] [confirm-password] ~ inventory space must be available!"),
+		new BaseCmd("strip", new StripCmd(options.commandStrip), true, "&7Completely removes the target player's armor.", "[player]"),
 	};
 }

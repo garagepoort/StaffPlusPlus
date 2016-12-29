@@ -279,4 +279,15 @@ public class JavaUtils
 		
 		return targetPlayer;
 	}
+
+	/**
+	 * Checks if the player's inventory has space with #firstEmpty()
+	 * 
+	 * @param player Player to check for inventory space.
+	 * @return Whether or not the player has any inventory space.
+	 */
+	public static boolean hasInventorySpace(Player player)
+	{
+		return player.getInventory().firstEmpty() != -1;
+	}
 }

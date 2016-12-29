@@ -11,8 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class Messages
 {
 	private FileConfiguration config = StaffPlus.get().languageFile.get();
-	
-	public double langVersion = config.contains("lang-version") ? config.getDouble("lang-version") : 3.0;
+	private int langVersion = config.contains("lang-version") ? config.getInt("lang-version") : 3;
 	
 	/*
 	 * Prefixes
@@ -143,4 +142,5 @@ public class Messages
 	public String examineNotes = config.getString("examine-notes");
 	public String examineNotesNote = config.getString("examine-notes-note");
 	public String follow = config.getString("follow");
+	public String strip = langVersion >= 6194 ? config.getString("strip") : "&7%player%'s armor has been removed!";
 }
