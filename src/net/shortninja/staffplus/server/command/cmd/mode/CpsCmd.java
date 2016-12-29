@@ -42,7 +42,7 @@ public class CpsCmd extends BukkitCommand
 			targetPlayer = Bukkit.getPlayer(args[0]);
 		}else if(!(sender instanceof Player))
 		{
-			message.send(sender, messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
+			message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
 			return true;
 		}else targetPlayer = JavaUtils.getTargetPlayer((Player) sender);
 		
