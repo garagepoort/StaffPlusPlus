@@ -144,7 +144,6 @@ public class Protocol_v1_9_R2 implements IProtocol
 		try
 		{
 			field = SoundEffect.class.getDeclaredField("b");
-			
 			field.setAccessible(true);
 			minecraftKey = (MinecraftKey) field.get(sound);
 		}catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exception)
