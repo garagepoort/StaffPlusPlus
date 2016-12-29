@@ -50,7 +50,7 @@ command-blocked: "&bDeze opdracht is geblokkeerd voor personeelsleden!"
 mode-command-blocked: "&bDeze opdracht is geblokkeerd in personeel modus!"
 on-cooldown: "&bJe kan dit niet gebruiken voor &7%seconds% &bseconden."
 
-note-added: "&bAantekening toegevoegd naar &7%target%&b."
+note-added: "&bAantekening toegevoegd aan &7%target%&b."
 note-cleared: "&bAantekeningen ontruimd voor &7%target%&b."
 note-list-start: "&7%longline%"
 note-list-entry: "&b%count% &7%note%"
@@ -62,7 +62,7 @@ login-registered: "&bWachtwoord geaccepteerd! U zal worden gevraagd om dit wacht
 login-waiting: "&bJe bevroren zijn geweest! Vul uw medewerkers wachtwoord om verder te gaan."
 login-accepted: "&bIngelogd."
 
-no-permission: "&cJe hebt geen toelatingen om dit te gebruiken!"
+no-permission: "&cJe hebt been toestemming om deze actie uit te voeren"
 bypassed: "&cDeze speler omzeild dat commando!"
 player-offline: "&cDeze speler is offline!"
 unknown-command: "&cOnbekende opdracht."
@@ -198,6 +198,7 @@ examine-notes: "&bSpeler notities:"
 examine-notes-note: "&b%player%: &7%note%"
 
 follow: "&bJe bent nu &7%status% %target%&b."
+strip: "&7%player%'s kuras is verwijderd!"
 
-# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.58
+# Niet dit veranderen tenzij je weet wat je doet!
+lang-version: 6194

@@ -35,5 +35,6 @@
 3.2:
 	3.2.0|8 October 2016: Fixed several bugs, added /login feature.
 	3.2.1|14 October 2016: Fixed minor bugs, made /login more secure.
+	3.2.2|29 December 2016: 1.11 support, added /strip, option for preventing staff mode players from attacking, fixed several bugs.
 
-9,637 lines of code and counting!
+10,000 lines of code and counting!

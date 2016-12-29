@@ -198,6 +198,7 @@ examine-notes: "&bNotizen für diesen Spieler:"
 examine-notes-note: "&b%player%: &7%note%"
 
 follow: "&bDu &7%status% nun %target%&b."
+strip: "&7%player%'s Rüstung wurde entfernt!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 3.58
+lang-version: 6194

@@ -198,6 +198,7 @@ examine-notes: "&bNotes du joueur:"
 examine-notes-note: "&b%player%: &7%note%"
 
 follow: "&bVous &7%status% maintenant %target%&b."
+strip: "&7%player%'s armure a été enlevée!"
 
 # NE PAS CHANGER A MOINS QUE VOUS SAVEZ CE QUE VOUS FAITES!
-lang-version: 3.58
+lang-version: 6194

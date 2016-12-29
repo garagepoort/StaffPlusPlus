@@ -197,6 +197,7 @@ examine-notes: "&bSpiller notater:"
 examine-notes-note: "&b%player%: &7%note%"
 
 follow: "&bDu er nå &7%status% %target%&b."
+strip: "&7%player%'s rustning har blitt fjernet!"
 
 # IKKE ENDRE DENNE MINDRE DU VET HVA DU GJØR!
-lang-version: 3.58
+lang-version: 6194

@@ -257,6 +257,9 @@ staff-mode:
   # Whether or not a player will be invincible while in staff mode.
   invincible: true
 
+  # Whether or not a player in staff mode can attack other players.
+  damage: false
+
   # Whether or not a player will lose hunger while in staff mode.
   hunger-loss: false
 
@@ -497,7 +500,7 @@ staff-mode:
 
     # The lore of the compass item.
     # Lines are separated by commas.
-    lore: "&7Runs a click per second test on, the player that was clicked."
+    lore: "&7Runs a click per second test on, &7the player that was clicked."
 
     # Amount of time, in seconds, that the test will run for.
     time: 10
@@ -796,6 +799,9 @@ permissions:
   # This also excludes the player from being randomly teleported to!
   member: "staff.member"
 
+  # Permission for using "/strip".
+  strip: "staff.strip"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #
@@ -856,6 +862,9 @@ commands:
   # The command for registering a password.
   register: "register"
 
+  # The command for stripping a player's armor.
+  strip: "strip"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Advanced                       | #
@@ -864,7 +873,7 @@ commands:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 3.2
+config-version: 6194
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
@@ -875,7 +884,7 @@ auto-save: 3600
 clock: 2
 
 # Whether or not packet modifying will be completely disabled.
-# Enable this if you get packet errors and can not fix them.
+# Enable this if you get packet errors and cannot fix them.
 disable-packets: false
 
 # The animation packets that will be listened for and cancelled for total vanished players.

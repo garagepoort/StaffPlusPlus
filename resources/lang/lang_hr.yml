@@ -198,6 +198,7 @@ examine-notes: "&bIgračeve ulaznice:"
 examine-notes-note: "&b%player%: &7%note%"
 
 follow: "&bTi si sada &7%status% %target%&b."
+strip: "&7%player%'s oklop je uklonjena!"
 
 # MEMOJ OVO PROMJENITI OSIM AKO ZNAS STO RADIS!
-lang-version: 3.58
+lang-version: 6194
