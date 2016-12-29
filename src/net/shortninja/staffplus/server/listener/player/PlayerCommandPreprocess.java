@@ -75,16 +75,16 @@ public class PlayerCommandPreprocess implements Listener
 			{
 				message.send(player, "&b/" + baseCmd.getMatch() + " &8» " + baseCmd.getDescription().toLowerCase(), "");
 				count++;
-				continue;
-			}
-			
-			for(String permission : baseCmd.getPermissions())
+			}else
 			{
-				if(this.permission.has(player, permission))
+				for(String permission : baseCmd.getPermissions())
 				{
-					message.send(player, "&b/" + baseCmd.getMatch() + " &8» " + baseCmd.getDescription().toLowerCase(), "");
-					count++;
-					break;
+					if(this.permission.has(player, permission))
+					{
+						message.send(player, "&b/" + baseCmd.getMatch() + " &8» " + baseCmd.getDescription().toLowerCase(), "");
+						count++;
+						break;
+					}
 				}
 			}
 		}
