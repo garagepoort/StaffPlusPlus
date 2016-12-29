@@ -52,7 +52,7 @@ public class PlayerJoin implements Listener
 			modeCoordinator.addMode(player);
 		}
 		
-		if(options.loginEnabled)
+		if(options.loginEnabled && permission.has(player, options.permissionMember))
 		{
 			if(securityHandler.hasPassword(uuid))
 			{
