@@ -17,7 +17,8 @@ import net.shortninja.staffplus.server.PacketModifier;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.server.compatibility.v1_10.Protocol_v1_10_R1;
+import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_10_R1;
+import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_11_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R2;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R3;
@@ -107,7 +108,12 @@ public class StaffPlus extends JavaPlugin
 	public void onDisable()
 	{
 		message.sendConsoleMessage("Staff+ is now disabling!", true);
-		stop();
+		
+		if(versionProtocol != null)
+		{
+			stop();
+		}
+		
 		plugin = null;
 	}
 	
@@ -206,6 +212,9 @@ public class StaffPlus extends JavaPlugin
 				break;
 			case "v1_10_R1":
 				versionProtocol = new Protocol_v1_10_R1();
+				break;
+			case "v1_11_R1":
+				versionProtocol = new Protocol_v1_11_R1();
 				break;
 		}
 		
