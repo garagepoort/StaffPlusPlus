@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.data.config;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,15 +19,26 @@ import net.shortninja.staffplus.util.lib.hex.Items;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 public class Options
 {
 	private static FileConfiguration config = StaffPlus.get().getConfig();
+	private static final int CURRENT_VERSION = 6194;
 	private MessageCoordinator message = StaffPlus.get().message;
+	private int configVersion = config.getInt("config-version");
 	
 	public Options()
 	{
+		/*
+		 * Configuration updating support added, but too buggy to release.
+		 */
+		if(configVersion < CURRENT_VERSION)
+		{
+			// updateConfig();
+		}
+		
 		loadCustomModules();
 	}
 	
@@ -42,7 +54,6 @@ public class Options
 	/*
 	 * Advanced
 	 */
-	public double configVersion = config.getDouble("config-version");
 	public int autoSave = config.getInt("auto-save");
 	public long clock = config.getInt("clock") * 20;
 	public boolean disablePackets = configVersion >= 3.19 ? config.getBoolean("disable-packets") : false;
@@ -127,6 +138,7 @@ public class Options
 	public VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
 	public boolean modeVanished = config.getBoolean("staff-mode.vanish");
 	public boolean modeInvincible = config.getBoolean("staff-mode.invincible");
+	public boolean modeDamage = configVersion >= 6194 ? config.getBoolean("staff-mode.damage") : false;
 	public boolean modeHungerLoss = configVersion >= 3.17 ? config.getBoolean("staff-mode.hunger-loss") : true;
 	public boolean modeFlight = config.getBoolean("staff-mode.flight");
 	public boolean modeCreative = config.getBoolean("staff-mode.creative");
@@ -303,6 +315,7 @@ public class Options
 	public String permissionLockdown = config.getString("permissions.lockdown");
 	public String permissionRevive = config.getString("permissions.revive");
 	public String permissionMember = config.getString("permissions.member");
+	public String permissionStrip = configVersion >= 6194 ? config.getString("permissions.strip") : "staff.strip";
 	
 	/*
 	 * Commands
@@ -324,6 +337,53 @@ public class Options
 	public String commandStaffList = config.getString("commands.staff-list");
 	public String commandLogin = configVersion >= 3.2 ? config.getString("commands.login") : "login";
 	public String commandRegister = configVersion >= 3.2 ? config.getString("commands.register") : "register";
+	public String commandStrip = configVersion >= 6194 ? config.getString("commands.strip") : "strip";
+	
+    private void updateConfig()
+    {
+		File dataFolder = StaffPlus.get().getDataFolder();
+		File configFile = new File(dataFolder, "config.yml");
+		YamlConfiguration oldConfig = YamlConfiguration.loadConfiguration(configFile);
+		String backup = "backup-#" + CURRENT_VERSION + ".yml";
+		String currentKey = "";
+
+		configFile.renameTo(new File(dataFolder, backup));
+		StaffPlus.get().saveDefaultConfig();
+		config = StaffPlus.get().getConfig();
+		
+		for(String key : oldConfig.getConfigurationSection("").getKeys(true))
+		{
+			if(key.equalsIgnoreCase("config-version"))
+			{
+				config.set(key, CURRENT_VERSION);
+			}else config.set(key, oldConfig.get(key));
+		}
+		
+		for(String key : config.getConfigurationSection("").getKeys(true))
+		{
+			System.out.println(key);
+			
+			if(!key.contains("."))
+			{
+				currentKey = key;
+			}
+			
+			if(!oldConfig.contains(key))
+			{
+				config.set(currentKey + key, config.get(key));
+			}
+		}
+		
+		config.options().header(" Staff+ | Made with love by Shortninja - ♥\n "
+				+ "Your configuration file has been automatically updated to file version #" + CURRENT_VERSION + "!\n "
+				+ "Unfortunately, all information comments reset when an update occurs, so you will\n "
+				+ "have to completely regenerate your config by deleting it to get comments back.\n "
+				+ "Though your settings should have been copied, your old config file was saved as\n "
+				+ "'backup.yml' in the plugin folder, so your old settings can be reviewed.");
+		config.options().copyHeader(true);
+		StaffPlus.get().saveConfig();
+		message.sendConsoleMessage("Your config has been updated to #" + CURRENT_VERSION + "! All configured values should be the same, but just in case your old configuration file is stored as a backup.", false);
+    }
 	
 	private void loadCustomModules()
 	{
