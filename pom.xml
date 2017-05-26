@@ -5,13 +5,34 @@
   <version>3.2.2-RELEASE</version>
   <name>Staff+</name>
   <description>The ultimate moderation plugin.</description>
-  <repositories>
+    <properties>
+        <bukkit.version>1.12-pre5-SNAPSHOT</bukkit.version>
+    </properties>
+    <repositories>
+	<repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+        </repository>
 	<repository>
 		<id>inventive-repo</id>
 		<url>https://repo.inventivetalent.org/content/groups/public/</url>
 	</repository>
   </repositories>
   <dependencies>
+  <!-- Spigot -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${bukkit.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bungeecord-chat</artifactId>
+                    <groupId>net.md-5</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     <dependency>
 	  <groupId>org.inventivetalent</groupId>
 	  <artifactId>apimanager</artifactId>
