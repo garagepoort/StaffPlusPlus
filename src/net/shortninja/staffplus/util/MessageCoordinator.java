@@ -10,7 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class MessageCoordinator
+public class MessageCoordinator extends Message
 {
 	public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
 	private PermissionHandler permission = StaffPlus.get().permission;

@@ -130,7 +130,7 @@ public class Protocol_v1_12_R1 implements IProtocol
 
         if(minecraftKey != null)
         {
-            soundName = minecraftKey.a();
+            soundName = minecraftKey.b();
         }
 
         return soundName;

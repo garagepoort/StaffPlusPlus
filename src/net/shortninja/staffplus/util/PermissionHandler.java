@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PermissionHandler
+public class PermissionHandler extends Permission
 {
 	public boolean has(Player player, String permission)
 	{
