@@ -115,7 +115,7 @@ public class StaffPlus extends JavaPlugin
 		{
 			stop();
 		}
-		
+		stop();
 		plugin = null;
 	}
 	
@@ -126,6 +126,9 @@ public class StaffPlus extends JavaPlugin
 	
 	public void saveUsers()
 	{
+		if (userManager.getAll() == null) {
+			return;
+		}
 		for(User user : userManager.getAll())
 		{
 			new Save(new NodeUser(user));

@@ -67,28 +67,28 @@ public class StripCmd extends BukkitCommand
 				if(armor[0] != null)
 				{
 					player.getInventory().addItem(armor[0].clone());
-					player.getInventory().setHelmet(null);
+					player.getInventory().setBoots(null);
 				}
 				break;
 			case 1:
 				if(armor[1] != null)
 				{
 					player.getInventory().addItem(armor[1].clone());
-					player.getInventory().setChestplate(null);
+					player.getInventory().setLeggings(null);
 				}
 				break;
 			case 2:
 				if(armor[2] != null)
 				{
 					player.getInventory().addItem(armor[2].clone());
-					player.getInventory().setLeggings(null);
+					player.getInventory().setChestplate(null);
 				}
 				break;
 			case 3:
 				if(armor[3] != null)
 				{
 					player.getInventory().addItem(armor[3].clone());
-					player.getInventory().setBoots(null);
+					player.getInventory().setHelmet(null);
 				}
 				break;
 			default:
