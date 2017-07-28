@@ -1,11 +1,13 @@
 package net.shortninja.staffplus.server.chat;
 
+import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.server.data.config.Options;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
-import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.data.config.Options;
+
 
 public class BlacklistFactory
 {
@@ -97,32 +99,29 @@ public class BlacklistFactory
 			}
 		}
 		
-		if(hasPeriods)
-		{
+		if(hasPeriods) {
 			String[] words = newMessage.split(Pattern.quote("."));
-			String previousWord = words[0];
-			
-			for(int i = 0; i < words.length; i++)
-			{
-				String word = words[i];
-				
-				if(containsDomain(word))
-				{
-					newMessage = censor(newMessage, word);
-					newMessage = censor(newMessage, ".");
-					
-					if(!previousWord.isEmpty())
-					{
-						newMessage = censor(newMessage, previousWord);
+			if (words.length >= 1) {
+				String previousWord = words[0];
+
+				for (int i = 0; i < words.length; i++) {
+					String word = words[i];
+
+					if (containsDomain(word)) {
+						newMessage = censor(newMessage, word);
+						newMessage = censor(newMessage, ".");
+
+						if (!previousWord.isEmpty()) {
+							newMessage = censor(newMessage, previousWord);
+						}
+
+						hasChanged = true;
 					}
-					
-					hasChanged = true;
+
+					previousWord = word;
 				}
-				
-				previousWord = word;
 			}
 		}
-		
 		return newMessage;
 	}
 	
