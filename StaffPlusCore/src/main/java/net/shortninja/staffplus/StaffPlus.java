@@ -32,6 +32,7 @@ import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.ChatHandler;
+
 import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_12_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R3;
@@ -127,10 +128,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	public void saveUsers()
 	{
 
-		if (userManager == null) System.out.println("WTF");
-		if (userManager.getAll() == null) {
-			return;
-		}
+
 		for(User user : userManager.getAll())
 		{
 			new Save(new NodeUser(user));

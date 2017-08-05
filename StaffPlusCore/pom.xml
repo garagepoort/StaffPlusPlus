@@ -5,7 +5,7 @@
     <parent>
         <artifactId>StaffPlus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
-        <version>3.2.2-RELEASE</version>
+        <version>3.2.3-RELEASE</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -16,6 +16,7 @@
 
 
     <build>
+        <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -37,6 +38,14 @@
                         </goals>
                         <configuration>
                             <finalName>Staff+</finalName>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>org.bukkit:bukkit</exclude>
+                                </excludes>
+                                <excludes>
+                                    <exclude>org.bukkit:craftbukkit</exclude>
+                                </excludes>
+                            </artifactSet>
                         </configuration>
                     </execution>
                 </executions>
@@ -54,7 +63,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusAPI</artifactId>
-            <version>3.2.2-RELEASE</version>
+            <version>3.2.3-RELEASE</version>
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>

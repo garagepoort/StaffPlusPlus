@@ -9,7 +9,7 @@
 
     <artifactId>StaffPlus</artifactId>
     <packaging>pom</packaging>
-    <version>3.2.2-RELEASE</version>
+    <version>3.2.3-RELEASE</version>
 
     <modules>
         <module>StaffPlusCore</module>
@@ -27,7 +27,9 @@
         <module>v1_11_R1</module>
         <module>v1_12_R1</module>
     </modules>
-
+    <build>
+        <defaultGoal>clean package</defaultGoal>
+    </build>
     <properties>
         <bukkit.version>1.8.8-R0.1-SNAPSHOT</bukkit.version>
         <maven.compiler.source>1.8</maven.compiler.source>
