@@ -32,7 +32,7 @@ public class CpsHandler
 		currentTests.put(uuid, count + 1);
 	}
 	
-	public void startTest(final CommandSender sender, final Player targetPlayer)
+	private void startTest(final CommandSender sender, final Player targetPlayer)
 	{
 		currentTests.put(targetPlayer.getUniqueId(), 0);
 		message.send(sender, messages.cpsStart.replace("%target%", targetPlayer.getName()).replace("%seconds%", Integer.toString((int) options.modeCpsTime / 20)), messages.prefixGeneral);
@@ -50,6 +50,8 @@ public class CpsHandler
 	public void stopTest(CommandSender sender, Player targetPlayer)
 	{
 		UUID uuid = targetPlayer.getUniqueId();
+		if(uuid==null)
+			return;
 		int cps = (int) (currentTests.get(uuid) / (options.modeCpsTime / 20));
 		String message = cps > options.modeCpsMax ? messages.cpsFinishMax : messages.cpsFinishNormal;
 		
