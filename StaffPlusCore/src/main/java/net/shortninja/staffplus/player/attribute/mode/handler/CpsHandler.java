@@ -32,7 +32,7 @@ public class CpsHandler
 		currentTests.put(uuid, count + 1);
 	}
 	
-	private void startTest(final CommandSender sender, final Player targetPlayer)
+	public void startTest(final CommandSender sender, final Player targetPlayer)
 	{
 		currentTests.put(targetPlayer.getUniqueId(), 0);
 		message.send(sender, messages.cpsStart.replace("%target%", targetPlayer.getName()).replace("%seconds%", Integer.toString((int) options.modeCpsTime / 20)), messages.prefixGeneral);

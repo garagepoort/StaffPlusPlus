@@ -37,13 +37,12 @@ public class EntityDamage implements Listener
 			return;
 		}
 		
-		UUID uuid = ((Player) entity).getUniqueId();
+		UUID uuid = entity.getUniqueId();
 		User user = userManager.get(uuid);
-		
-		if((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && user.isFrozen())))
-		{
-			event.setCancelled(true);
+		if(user == null)
 			return;
+		if((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && user.isFrozen()))) {
+			event.setCancelled(true);
 		}
 	}
 }
