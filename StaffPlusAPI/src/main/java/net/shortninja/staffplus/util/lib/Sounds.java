@@ -263,10 +263,11 @@ public enum Sounds
     {
     	for(Player player : Bukkit.getOnlinePlayers())
     	{
-    		if(IStaffPlus.get().getPermissions().has(player, permission))
-    		{
-    			play(player);
-    		}
+    	    try {
+                if (IStaffPlus.get().getPermissions().has(player, permission)) {
+                    play(player);
+                }
+            }catch (UnsupportedOperationException e){}
     	}
     }
 }

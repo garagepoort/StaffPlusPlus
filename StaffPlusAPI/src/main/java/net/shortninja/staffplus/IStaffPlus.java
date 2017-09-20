@@ -8,7 +8,6 @@ public interface IStaffPlus {
     IOptions getOptions();
 
     IPermissionsHandler getPermissions();
-
     static IStaffPlus get() {
         throw new UnsupportedOperationException("Not implemented!");
     }
