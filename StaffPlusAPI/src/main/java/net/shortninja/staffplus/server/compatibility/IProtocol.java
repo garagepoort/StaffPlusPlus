@@ -9,12 +9,12 @@ import org.bukkit.inventory.ItemStack;
 
 public interface IProtocol
 {
-	public final String NBT_IDENTIFIER = "StaffPlus";
-	public ItemStack addNbtString(ItemStack item, String value);
-	public String getNbtString(ItemStack item);
-	public void registerCommand(String match, Command command);
-	public void listVanish(Player player, boolean shouldEnable);
-	public void sendHoverableJsonMessage(Set<Player> players, String message, String hoverMessage);
-	public boolean shouldIgnorePacket(Object packetValue);
-	public String getSound(Object object);
+	String NBT_IDENTIFIER = "StaffPlus";
+	ItemStack addNbtString(ItemStack item, String value);
+	String getNbtString(ItemStack item);
+	void registerCommand(String match, Command command);
+	void listVanish(Player player, boolean shouldEnable);
+	void sendHoverableJsonMessage(Set<Player> players, String message, String hoverMessage);
+	boolean shouldIgnorePacket(Object packetValue);
+	String getSound(Object object);
 }

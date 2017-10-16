@@ -19,7 +19,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public class EntityDamage implements Listener
 {
 	private Options options = StaffPlus.get().options;
-	private UserManager userManager = StaffPlus.get().userManager;
+	private UserManager userManager = StaffPlus.get().getUserManager();
 	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	
 	public EntityDamage()
@@ -39,7 +39,7 @@ public class EntityDamage implements Listener
 		
 		UUID uuid = entity.getUniqueId();
 		User user = userManager.get(uuid);
-		if(user == null)
+		if(user == null || uuid == null)
 			return;
 		if((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && user.isFrozen()))) {
 			event.setCancelled(true);

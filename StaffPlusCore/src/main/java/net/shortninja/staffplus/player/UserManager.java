@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class UserManager
 {
-	private static Map<UUID, User> users = new HashMap<UUID, User>();
+	private static Map<UUID, User> users = new HashMap<>();
 	
 	public Collection<User> getAll()
 	{

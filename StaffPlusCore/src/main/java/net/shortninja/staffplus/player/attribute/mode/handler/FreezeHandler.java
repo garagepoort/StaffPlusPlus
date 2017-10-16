@@ -29,13 +29,14 @@ public class FreezeHandler
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
 	private UserManager userManager = StaffPlus.get().userManager;
-	private static Map<UUID, Location> lastFrozenLocations = new HashMap<UUID, Location>();	
+	private static Map<UUID, Location> lastFrozenLocations = new HashMap<>();
 	private static Set<UUID> loggedOut = new HashSet<UUID>();
 	
 	public boolean isFrozen(UUID uuid)
 	{
 		User user = userManager.get(uuid);
-		
+		if(user == null || userManager == null)
+			return false;
 		return lastFrozenLocations.containsKey(uuid) || user.isFrozen();
 	}
 	

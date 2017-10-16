@@ -264,7 +264,7 @@ public enum Sounds
     	for(Player player : Bukkit.getOnlinePlayers())
     	{
     	    try {
-                if (IStaffPlus.get().getPermissions().has(player, permission)) {
+                if (player.hasPermission(permission)) {
                     play(player);
                 }
             }catch (UnsupportedOperationException e){}

@@ -34,7 +34,7 @@ public class AsyncPlayerChat implements Listener
 	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
-	private UserManager userManager = StaffPlus.get().userManager;
+	private UserManager userManager = StaffPlus.get().getUserManager();
 	private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
 	private ChatHandler chatHandler = StaffPlus.get().chatHandler;
 	private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;

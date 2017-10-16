@@ -27,7 +27,7 @@ public class PlayerJoin implements Listener
 	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
-	private UserManager userManager = StaffPlus.get().userManager;
+	private UserManager userManager = StaffPlus.get().getUserManager();
 	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
 	private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;

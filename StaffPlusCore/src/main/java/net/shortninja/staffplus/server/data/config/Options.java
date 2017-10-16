@@ -36,7 +36,7 @@ public class Options implements IOptions
 		 */
 		if(configVersion < CURRENT_VERSION)
 		{
-			// updateConfig();
+			 //updateConfig();
 		}
 		
 		loadCustomModules();

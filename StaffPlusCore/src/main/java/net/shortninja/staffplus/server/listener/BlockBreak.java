@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.server.listener;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
@@ -9,6 +11,7 @@ import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,6 +27,7 @@ public class BlockBreak implements Listener
 	private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
 	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
+	private Set<Location> locations = new HashSet<>();
 	
 	public BlockBreak()
 	{
@@ -52,9 +56,9 @@ public class BlockBreak implements Listener
 				int amount = 0;
 				
 				alertCoordinator.addNotified(block.getLocation());
-				calculateVein(block.getType(), block, false);
+				//TODO FIX THIS calculateVein(block.getType(), block, false);
 				amount = alertCoordinator.getNotifiedAmount() - start;
-				
+				locations.clear();
 				if(amount > 0)
 				{
 					int lightLevel = player.getLocation().getBlock().getLightLevel();
@@ -68,17 +72,22 @@ public class BlockBreak implements Listener
 		
 		event.setCancelled(true);
 	}
-	
+
 	private void calculateVein(Material referenceType, Block block, boolean shouldCheck)
 	{
+		locations.add(block.getLocation());
 		if(shouldCheck && (block.getType() != referenceType || alertCoordinator.hasNotified(block.getLocation())))
 		{
 			return;
-		}else alertCoordinator.addNotified(block.getLocation());
-		
+		}else{
+		 alertCoordinator.addNotified(block.getLocation());
+		}
 		for(BlockFace face : FACES)
 		{
-			//calculateVein(referenceType, block.getRelative(face), true);
+			if(locations.contains(block.getRelative(face).getLocation()))
+				continue;
+			calculateVein(referenceType, block.getRelative(face), true);
+
 		}
 	}
 	

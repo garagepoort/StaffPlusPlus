@@ -106,7 +106,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		APIManager.initAPI(PacketListenerAPI.class);
 		start(System.currentTimeMillis());
 	}
-	
+
+	public UserManager getUserManager(){
+		return userManager;
+	}
+
 	@Override
 	public void onDisable()
 	{
@@ -139,6 +143,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 
 	private void start(long start)
 	{
+		registerListeners();
 		if(!setupVersionProtocol())
 		{
 			message.sendConsoleMessage("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.", true);
@@ -169,7 +174,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 			new Load(player);
 		}
 
-		registerListeners();
 		new ChangelogFile();
 
 		if(!options.disablePackets || !options.animationPackets.isEmpty() || !options.soundNames.isEmpty())

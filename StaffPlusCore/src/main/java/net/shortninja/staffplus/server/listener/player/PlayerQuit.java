@@ -22,7 +22,7 @@ public class PlayerQuit implements Listener
 	private MessageCoordinator message = StaffPlus.get().message;
 	private Options options = StaffPlus.get().options;
 	private Messages messages = StaffPlus.get().messages;
-	private UserManager userManager = StaffPlus.get().userManager;
+	private UserManager userManager = StaffPlus.get().getUserManager();
 	private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 	private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
 	private TicketHandler ticketHandler = StaffPlus.get().ticketHandler;
