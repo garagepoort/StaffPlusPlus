@@ -143,7 +143,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 
 	private void start(long start)
 	{
-		registerListeners();
+
 		if(!setupVersionProtocol())
 		{
 			message.sendConsoleMessage("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.", true);
@@ -168,7 +168,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		infractionCoordinator = new InfractionCoordinator();
 		alertCoordinator = new AlertCoordinator();
 		tasks = new Tasks();
-
+		registerListeners();
 		for(Player player : Bukkit.getOnlinePlayers())
 		{
 			new Load(player);
