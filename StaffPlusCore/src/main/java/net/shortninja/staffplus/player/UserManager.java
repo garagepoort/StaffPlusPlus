@@ -1,5 +1,8 @@
 package net.shortninja.staffplus.player;
 
+import net.shortninja.staffplus.StaffPlus;
+import org.bukkit.Bukkit;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,11 +10,16 @@ import java.util.UUID;
 
 public class UserManager
 {
-	private static Map<UUID, User> users = new HashMap<>();
-	
+	private final StaffPlus staffPlus;
+	private static final Map<UUID, User> users = new HashMap<>();
+
+	public UserManager(StaffPlus staffPlus){
+		this.staffPlus = staffPlus;
+	}
+
 	public Collection<User> getAll()
 	{
-		return users.values();
+		return staffPlus.users.values();
 	}
 	
 	public User get(UUID uuid)
@@ -21,16 +29,17 @@ public class UserManager
 	
 	public boolean has(UUID uuid)
 	{
-		return users.containsKey(uuid);
+		return staffPlus.users.containsKey(uuid);
 	}
 	
 	public void add(User user)
 	{
-		users.put(user.getUuid(), user);
+		staffPlus.users.put(user.getUuid(), user);
 	}
-	
+
 	public void remove(UUID uuid)
 	{
-		users.remove(uuid);
+		staffPlus.users.remove(uuid);
+		Bukkit.getServer().getLogger().info("Remove called");
 	}
 }

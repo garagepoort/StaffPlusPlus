@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.listener.player;
 
 import java.util.UUID;
 
+import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -70,5 +71,6 @@ public class PlayerJoin implements Listener
 		{
 			userManager.get(uuid).setOnline(true);
 		}else new Load(player);
+
 	}
 }

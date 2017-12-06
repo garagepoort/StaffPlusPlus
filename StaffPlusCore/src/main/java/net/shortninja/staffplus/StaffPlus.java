@@ -63,6 +63,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class StaffPlus extends JavaPlugin implements IStaffPlus
 {
 	private static StaffPlus plugin;
@@ -88,6 +91,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	public InfractionCoordinator infractionCoordinator;
 	public AlertCoordinator alertCoordinator;
 	public Tasks tasks;
+	public HashMap<UUID,User> users;
 	
 	@Override
 	public void onLoad()
@@ -141,7 +145,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		dataFile.save();
 	}
 
-	private void start(long start)
+	protected void start(long start)
 	{
 
 		if(!setupVersionProtocol())
@@ -154,7 +158,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		dataFile = new DataFile("data.yml");
 		languageFile = new LanguageFile();
 		messages = new Messages();
-		userManager = new UserManager();
+		userManager = new UserManager(this);
 		securityHandler = new SecurityHandler();
 		cpsHandler = new CpsHandler();
 		freezeHandler = new FreezeHandler();
@@ -168,12 +172,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		infractionCoordinator = new InfractionCoordinator();
 		alertCoordinator = new AlertCoordinator();
 		tasks = new Tasks();
-		registerListeners();
+
 		for(Player player : Bukkit.getOnlinePlayers())
 		{
 			new Load(player);
 		}
-
+		registerListeners();
 		new ChangelogFile();
 
 		if(!options.disablePackets || !options.animationPackets.isEmpty() || !options.soundNames.isEmpty())

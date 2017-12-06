@@ -25,7 +25,7 @@ public class BlacklistFactory
 		{
 			cleanArrays();
 		}
-		
+
 		this.originalMessage = originalMessage;
 		this.censoredMessage = originalMessage;
 	}
@@ -203,9 +203,9 @@ public class BlacklistFactory
 	
 	private void cleanArrays()
 	{
-		Collections.sort(options.chatBlacklistWords);
-		Collections.sort(options.chatBlacklistDomains);
-		Collections.sort(options.chatBlacklistPeriods);
+		//Collections.sort(options.chatBlacklistWords);
+		//Collections.sort(options.chatBlacklistDomains);
+		//Collections.sort(options.chatBlacklistPeriods);
 		words = options.chatBlacklistWords.toArray(new String[options.chatBlacklistWords.size()]);
 		domains = options.chatBlacklistDomains.toArray(new String[options.chatBlacklistDomains.size()]);
 		periods = options.chatBlacklistPeriods.toArray(new String[options.chatBlacklistPeriods.size()]);
