@@ -147,7 +147,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 
 	protected void start(long start)
 	{
-
+		users = new HashMap<>();
 		if(!setupVersionProtocol())
 		{
 			message.sendConsoleMessage("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.", true);

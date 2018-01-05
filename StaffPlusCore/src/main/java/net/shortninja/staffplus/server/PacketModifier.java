@@ -170,7 +170,10 @@ public class PacketModifier
 	
 	private boolean isVanished(Player player)
 	{
-		return userManager.get(player.getUniqueId()).getVanishType() == VanishType.TOTAL;
+	    if(userManager.get(player.getUniqueId()).getVanishType() == null)
+	        return false;
+	    else
+            return userManager.get(player.getUniqueId()).getVanishType() == VanishType.TOTAL;
 	}
 	
 	private Chest getChest(Location location)

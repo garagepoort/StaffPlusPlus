@@ -29,7 +29,8 @@ public class InventoryClose implements Listener
 	{
 		final Player player = (Player) event.getPlayer();
 		User user = userManager.get(player.getUniqueId());
-		
+		if(user == null)
+			return;
 		if(user.isFrozen() && options.modeFreezePrompt)
 		{
 			new BukkitRunnable()

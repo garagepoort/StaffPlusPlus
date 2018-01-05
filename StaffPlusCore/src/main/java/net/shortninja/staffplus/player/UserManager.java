@@ -11,10 +11,11 @@ import java.util.UUID;
 public class UserManager
 {
 	private final StaffPlus staffPlus;
-	private static final Map<UUID, User> users = new HashMap<>();
+	private static Map<UUID, User> users;
 
 	public UserManager(StaffPlus staffPlus){
-		this.staffPlus = staffPlus;
+	    this.staffPlus = staffPlus;
+	    users = staffPlus.users;
 	}
 
 	public Collection<User> getAll()
@@ -29,7 +30,7 @@ public class UserManager
 	
 	public boolean has(UUID uuid)
 	{
-		return staffPlus.users.containsKey(uuid);
+		return users.containsKey(uuid);
 	}
 	
 	public void add(User user)
@@ -39,7 +40,7 @@ public class UserManager
 
 	public void remove(UUID uuid)
 	{
-		staffPlus.users.remove(uuid);
+		users.remove(uuid);
 		Bukkit.getServer().getLogger().info("Remove called");
 	}
 }
