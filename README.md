@@ -10,7 +10,7 @@ This plugin started off as a copy of HydraHCF's staff mode plugin back in July o
 * Brand new ticket management system.
 * Better overall alerts handling.
 * Configurable messages with language support.
-* Version independence (from 1.7 to 1.11).
+* Version independence (from 1.7 to 1.12).
 * Fixed all known bugs.
 * Removed ProtocolLib dependency.
 
