@@ -36,7 +36,7 @@ public class Options implements IOptions
 		 */
 		if(configVersion < CURRENT_VERSION)
 		{
-			 //updateConfig();
+			 updateConfig();
 		}
 		
 		loadCustomModules();
@@ -228,9 +228,9 @@ public class Options implements IOptions
 	public boolean modeFreezeDamage = config.getBoolean("staff-mode.freeze-module.damage");
 	public int modeFreezeTimer = configVersion >= 3.17 ? config.getInt("staff-mode.freeze-module.timer") : 0;
 	public Sounds modeFreezeSound = configVersion >= 3.17 ? stringToSound(sanitize(config.getString("staff-mode.freeze-module.sound"))) : Sounds.ORB_PICKUP;
-	public boolean modeFreezePrompt = configVersion >= 3.1 ? config.getBoolean("staff-mode.freeze-module.prompt") : false;
+	public boolean modeFreezePrompt = configVersion >= 3.1 && config.getBoolean("staff-mode.freeze-module.prompt");
 	public String modeFreezePromptTitle = configVersion >= 3.1 ? config.getString("staff-mode.freeze-module.prompt-title") : "&bFrozen";
-	
+	public List<String> logoutCommands = (configVersion >= 6.195) ? JavaUtils.stringToList(config.getString("staff-mode.freeze-module.logout-commands")) : new ArrayList<>();
 	/*
 	 * CPS
 	 */
@@ -316,7 +316,9 @@ public class Options implements IOptions
 	public String permissionRevive = config.getString("permissions.revive");
 	public String permissionMember = config.getString("permissions.member");
 	public String permissionStrip = configVersion >= 6194 ? config.getString("permissions.strip") : "staff.strip";
-	
+	public String permissionTp = configVersion >=6195 ? config.getString("permissions.tp") : "staff.tp";
+	public String permissionStaff = configVersion >=6195 ? config.getString("permissions.staffplus") : "staff.staffplus";
+
 	/*
 	 * Commands
 	 */
@@ -338,7 +340,16 @@ public class Options implements IOptions
 	public String commandLogin = configVersion >= 3.2 ? config.getString("commands.login") : "login";
 	public String commandRegister = configVersion >= 3.2 ? config.getString("commands.register") : "register";
 	public String commandStrip = configVersion >= 6194 ? config.getString("commands.strip") : "strip";
-	
+	public String commandTp = configVersion >= 6195 ? config.getString("commands.tp") : "tp";
+
+	/*
+	 * Teleport
+	 */
+	public int minX = configVersion >=6195 ? config.getInt("Teleport.MinX") : -5000;
+	public int maxX = configVersion >=6195 ? config.getInt("Teleport.MaxX") : 5000;
+	public int minZ = configVersion >=6195 ? config.getInt("Teleport.MinZ") : -5000;
+	public int maxZ = configVersion >=6195 ? config.getInt("Teleport.MaxZ") : 5000;
+
     private void updateConfig()
     {
 		File dataFolder = StaffPlus.get().getDataFolder();

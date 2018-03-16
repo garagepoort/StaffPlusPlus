@@ -33,14 +33,21 @@ public class PlayerQuit implements Listener
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onJoin(PlayerQuitEvent event)
+	public void onQuit(PlayerQuitEvent event)
 	{
 		Player player = event.getPlayer();
-		
 		manageUser(player);
 		modeCoordinator.removeMode(player);
 		vanishHandler.removeVanish(player);
 		ticketHandler.removeTicket(ticketHandler.getTicketByUuid(player.getUniqueId()), "", TicketHandler.TicketCloseReason.QUIT);
+		if(userManager.get(player.getUniqueId()).isFrozen()) {
+			Bukkit.getLogger().info("true");
+			for (String command : options.logoutCommands) {
+				Bukkit.getLogger().info("true 1");
+				command = command.replace("%player%",player.getName());
+				Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+			}
+		}
 	}
 	
 	private void manageUser(Player player)

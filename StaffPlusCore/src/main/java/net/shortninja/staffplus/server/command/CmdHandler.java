@@ -3,11 +3,7 @@ package net.shortninja.staffplus.server.command;
 import java.util.Arrays;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.command.cmd.AlertsCmd;
-import net.shortninja.staffplus.server.command.cmd.ChatCmd;
-import net.shortninja.staffplus.server.command.cmd.PersonnelCmd;
-import net.shortninja.staffplus.server.command.cmd.ReviveCmd;
-import net.shortninja.staffplus.server.command.cmd.StaffChatCmd;
+import net.shortninja.staffplus.server.command.cmd.*;
 import net.shortninja.staffplus.server.command.cmd.infraction.ReportCmd;
 import net.shortninja.staffplus.server.command.cmd.infraction.TicketCmd;
 import net.shortninja.staffplus.server.command.cmd.infraction.WarnCmd;
@@ -90,5 +86,7 @@ public class CmdHandler
 		new BaseCmd("login", new LoginCmd(options.commandLogin), options.loginEnabled, "&7Attempts to login with the given password.", "[password]"),
 		new BaseCmd("register", new RegisterCmd(options.commandRegister), options.loginEnabled, "&7Registers a password to login with.", "[password] [confirm-password] ~ inventory space must be available!"),
 		new BaseCmd("strip", new StripCmd(options.commandStrip), true, "&7Completely removes the target player's armor.", "[player]"),
+		new BaseCmd("tp", new TpCommand(options.commandTp), true, "Randomly teleport a player", "[player]"),
+		new BaseCmd("staffplus", new StaffPlusCmd("staffplus"), true, "Used for reloading config and lang file in use", "[reload]"),
 	};
 }

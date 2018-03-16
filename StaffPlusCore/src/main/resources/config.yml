@@ -478,12 +478,14 @@ staff-mode:
     # The title of the frozen prompt GUI.
     prompt-title: "&bFrozen"
 
+    logout-commands: "ban %player%"
+
   ############################################################
   # +------------------------------------------------------+ #
   # |                         CPS                          | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # When clicked, this will test the CPS of the player and send it to the staff.
   cps-module:
     # Whether or not this feature is enabled.
@@ -513,7 +515,7 @@ staff-mode:
   # |                       Examine                        | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # When clicked, this will open the inventory of the player that the staff is looking at.
   examine-module:
     # Whether or not this feature is enabled.
@@ -568,7 +570,7 @@ staff-mode:
   # |                       Follow                         | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # When clicked, this will mount the player that the staff is looking at.
   follow-module:
     # Whether or not this feature is enabled.
@@ -595,7 +597,7 @@ staff-mode:
   # |                       Custom                         | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # When clicked, this will execute the custom action.
   # You can copy and paste one of the modules to create a new one (there are no limits on the amount of modules!).
   # All examples of available module types are shown below.
@@ -611,7 +613,7 @@ staff-mode:
 
       # The slot that this module's item is at by default.
       slot: 30
-    
+
       # The type of item for this module.
       item: DIAMOND
 
@@ -620,7 +622,7 @@ staff-mode:
 
       # The lore of the item.
       lore: "&4line1, &6line2, &3line3"
-      
+
       # The command that this item will execute.
       command: "ban Shortninja &4For coding 2hard!!11!1!one!"
 
@@ -636,7 +638,7 @@ staff-mode:
 
       # The slot that this module's item is at by default.
       slot: 31
-    
+
       # The type of item for this module.
       item: QUARTZ
 
@@ -645,7 +647,7 @@ staff-mode:
 
       # The lore of the item.
       lore: "&cyou damn lazy staff"
-      
+
       # The command that this item will execute.
       command: "ban %clicked% &6for shitposting too much with %clicker%"
 
@@ -661,7 +663,7 @@ staff-mode:
 
       # The slot that this module's item is at by default.
       slot: 33
-    
+
       # The type of item for this module.
       item: OBSIDIAN
 
@@ -670,7 +672,7 @@ staff-mode:
 
       # The lore of the item.
       lore: "&7you're so lazy"
-      
+
       # The command that this item will execute.
       command: "staff %clicker% disable"
 
@@ -685,7 +687,7 @@ staff-mode:
 
       # The slot that this module's item is at by default.
       slot: 34
-    
+
       # The type of item for this module.
       item: WOOD_AXE
 
@@ -802,6 +804,9 @@ permissions:
   # Permission for using "/strip".
   strip: "staff.strip"
 
+  # Permission for use /tp
+  tp: "staff.tp"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #
@@ -865,6 +870,26 @@ commands:
   # The command for stripping a player's armor.
   strip: "strip"
 
+  # The command for randomly tping a player
+  tp: "tp"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Teleport                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Values for the teleport command
+teleport:
+  # The minimum x a player can be teleported to
+  Minx: -5000
+  # The maximum x a player can be teleported to
+  MaxX: 5000
+  # The minimum z a player can be teleported to
+  MinZ: -5000
+  # The maximum z a player can be teleported to
+  MaxZ: 5000
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Advanced                       | #
@@ -873,7 +898,7 @@ commands:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 6194
+config-version: 6195
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
