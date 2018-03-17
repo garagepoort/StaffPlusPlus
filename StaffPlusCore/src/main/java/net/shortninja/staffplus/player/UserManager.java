@@ -15,7 +15,8 @@ public class UserManager
 
 	public UserManager(StaffPlus staffPlus){
 	    this.staffPlus = staffPlus;
-	    users = staffPlus.users;
+	    users = new HashMap<>();
+	    staffPlus.users = users;
 	}
 
 	public Collection<User> getAll()

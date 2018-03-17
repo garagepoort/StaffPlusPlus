@@ -64,6 +64,7 @@ import org.inventivetalent.apihelper.APIManager;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class StaffPlus extends JavaPlugin implements IStaffPlus
@@ -91,7 +92,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	public InfractionCoordinator infractionCoordinator;
 	public AlertCoordinator alertCoordinator;
 	public Tasks tasks;
-	public HashMap<UUID,User> users;
+	public Map<UUID,User> users;
 	
 	@Override
 	public void onLoad()

@@ -317,7 +317,7 @@ public class Options implements IOptions
 	public String permissionMember = config.getString("permissions.member");
 	public String permissionStrip = configVersion >= 6194 ? config.getString("permissions.strip") : "staff.strip";
 	public String permissionTp = configVersion >=6195 ? config.getString("permissions.tp") : "staff.tp";
-	public String permissionStaff = configVersion >=6195 ? config.getString("permissions.staffplus") : "staff.staffplus";
+	public String permissionStaff = configVersion >=6196 ? config.getString("permissions.staffplus") : "staff.staffplus";
 
 	/*
 	 * Commands
