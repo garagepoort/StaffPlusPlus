@@ -874,7 +874,7 @@ commands:
   strip: "strip"
 
   # The command for randomly tping a player
-  tp: "tp"
+  tp: "rtp"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -901,7 +901,7 @@ teleport:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 6196
+config-version: 6198
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.

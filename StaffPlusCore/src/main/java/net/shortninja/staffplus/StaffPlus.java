@@ -19,7 +19,7 @@ import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.file.DataFile;
 import net.shortninja.staffplus.server.listener.BlockBreak;
-import net.shortninja.staffplus.server.listener.player.PlayerJoin;
+import net.shortninja.staffplus.server.listener.player.*;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.player.NodeUser;
@@ -49,13 +49,6 @@ import net.shortninja.staffplus.server.listener.InventoryClose;
 import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
-import net.shortninja.staffplus.server.listener.player.AsyncPlayerChat;
-import net.shortninja.staffplus.server.listener.player.PlayerCommandPreprocess;
-import net.shortninja.staffplus.server.listener.player.PlayerDeath;
-import net.shortninja.staffplus.server.listener.player.PlayerDropItem;
-import net.shortninja.staffplus.server.listener.player.PlayerInteract;
-import net.shortninja.staffplus.server.listener.player.PlayerPickupItem;
-import net.shortninja.staffplus.server.listener.player.PlayerQuit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -261,6 +254,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		new FoodLevelChange();
 		new InventoryClick();
 		new InventoryClose();
+		new PlayerWorldChange();
 	}
 
 	/*

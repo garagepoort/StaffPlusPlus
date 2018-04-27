@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 public class Options implements IOptions
 {
 	private static FileConfiguration config = StaffPlus.get().getConfig();
-	private static final int CURRENT_VERSION = 6194;
+	private static final int CURRENT_VERSION = 6196;
 	private MessageCoordinator message = StaffPlus.get().message;
 	private int configVersion = config.getInt("config-version");
 	
