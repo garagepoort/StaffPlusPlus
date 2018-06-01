@@ -146,7 +146,7 @@ public class Options implements IOptions
 	public boolean modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
 	public List<String> modeEnableCommands = configVersion >= 3.16 ? JavaUtils.stringToList(config.getString("staff-mode.enable-commands")) : new ArrayList<String>();
 	public List<String> modeDisableCommands = configVersion >= 3.16 ? JavaUtils.stringToList(config.getString("staff-mode.disable-commands")) : new ArrayList<String>();
-	
+	public boolean worldChange = configVersion >= 6.199 ? config.getBoolean("staff-mode.disable-on-world-change") : true;
 	/*
 	 * Compass
 	 */

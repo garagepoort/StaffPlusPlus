@@ -283,6 +283,9 @@ staff-mode:
   # Each command is separated with a comma.
   disable-commands: "example1 %player%, example2 %player%"
 
+  # Should Staff mode disable on world change
+  disable-on-world-change: true
+
   ############################################################
   # +------------------------------------------------------+ #
   # |                       Compass                        | #
@@ -901,7 +904,7 @@ teleport:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 6198
+config-version: 6199
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
