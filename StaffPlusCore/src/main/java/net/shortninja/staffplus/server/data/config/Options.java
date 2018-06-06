@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 public class Options implements IOptions
 {
 	private static FileConfiguration config = StaffPlus.get().getConfig();
-	private static final int CURRENT_VERSION = 6196;
+	private static final int CURRENT_VERSION = 6200;
 	private MessageCoordinator message = StaffPlus.get().message;
 	private int configVersion = config.getInt("config-version");
 	
@@ -36,7 +36,10 @@ public class Options implements IOptions
 		 */
 		if(configVersion < CURRENT_VERSION)
 		{
-			 updateConfig();
+			 //updateConfig();
+			StaffPlus.get().getConfig().options().copyDefaults(true);
+			config.set("config-version",CURRENT_VERSION);
+			StaffPlus.get().saveConfig();
 		}
 		
 		loadCustomModules();
@@ -361,6 +364,7 @@ public class Options implements IOptions
 
 		configFile.renameTo(new File(dataFolder, backup));
 		StaffPlus.get().saveDefaultConfig();
+		//StaffPlus.get().getConfig().options().copyDefaults(true);
 		config = StaffPlus.get().getConfig();
 		
 		for(String key : oldConfig.getConfigurationSection("").getKeys(true))

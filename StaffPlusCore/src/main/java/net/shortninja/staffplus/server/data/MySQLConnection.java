@@ -52,23 +52,23 @@ public class MySQLConnection {
                             "  `Warnings_Number` INT NOT NULL,\n" +
                             "  `Reports_Number` INT NOT NULL,\n" +
                             "  `Player_UUID` VARCHAR(36) NOT NULL,\n" +
-                            "  `Alert_Options_Player_UUID` VARCHAR(36) NOT NULL,\n" +
-                            "  INDEX `fk_PlayerData_Warnings1_idx` (`warnings_Number` ASC),\n" +
-                            "  INDEX `fk_PlayerData_Reports1_idx` (`reports_Number` ASC),\n" +
-                            "  PRIMARY KEY (`Player_UUID`, `alert_options_Player_UUID`),\n" +
-                            "  INDEX `fk_PlayerData_alert_options1_idx` (`alert_options_Player_UUID` ASC),\n" +
-                            "  CONSTRAINT `fk_PlayerData_Warnings1`\n" +
-                            "    FOREIGN KEY (`warnings_Number`)\n" +
+                            "  `AlertOptions_Player_UUID` VARCHAR(36) NOT NULL,\n" +
+                            "  INDEX `fk_playerdata_Warnings_idx` (`Warnings_Number` ASC),\n" +
+                            "  INDEX `fk_playerdata_Reports_idx` (`Reports_Number` ASC),\n" +
+                            "  CONSTRAINT pk_sp_playerdata PRIMARY KEY (`Player_UUID`),\n" +
+                            "  INDEX `fk_playerdata_alert_options1_idx` (`AlertOptions_Player_UUID` ASC),\n" +
+                            "  CONSTRAINT `fk_playerdata_Warnings`\n" +
+                            "    FOREIGN KEY (`Warnings_Number`)\n" +
                             "    REFERENCES `sp_warnings` (`Number`)\n" +
                             "    ON DELETE NO ACTION\n" +
                             "    ON UPDATE NO ACTION,\n" +
-                            "  CONSTRAINT `fk_PlayerData_Reports1`\n" +
-                            "    FOREIGN KEY (`reports_Number`)\n" +
+                            "  CONSTRAINT `fk_playerdata_Reports`\n" +
+                            "    FOREIGN KEY (`Reports_Number`)\n" +
                             "    REFERENCES `sp_reports` (`Number`)\n" +
                             "    ON DELETE NO ACTION\n" +
                             "    ON UPDATE NO ACTION,\n" +
-                            "  CONSTRAINT `fk_PlayerData_AlertOptions1`\n" +
-                            "    FOREIGN KEY (`alert_options_Player_UUID`)\n" +
+                            "  CONSTRAINT `fk_playerdata_alert_options`\n" +
+                            "    FOREIGN KEY (`AlertOptions_Player_UUID`)\n" +
                             "    REFERENCES `sp_alert_options` (`Player_UUID`)\n" +
                             "    ON DELETE NO ACTION\n" +
                             "    ON UPDATE NO ACTION)ENGINE = InnoDB;");
@@ -88,7 +88,7 @@ public class MySQLConnection {
         }
     }
 
-    public Connection getConnection()throws SQLException{
+    public static Connection getConnection()throws SQLException{
             return datasource.getConnection();
     }
 

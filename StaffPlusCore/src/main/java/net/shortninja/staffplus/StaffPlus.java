@@ -57,6 +57,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -87,6 +88,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	public AlertCoordinator alertCoordinator;
 	public Tasks tasks;
 	public Map<UUID,User> users;
+	private MySQLConnection mySQLConnection;
 	
 	@Override
 	public void onLoad()
@@ -104,8 +106,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		options = new Options();
 		APIManager.initAPI(PacketListenerAPI.class);
 		start(System.currentTimeMillis());
-		MySQLConnection mySQLConnection = new MySQLConnection();
-		mySQLConnection.init();
+		if(options.storageType.equalsIgnoreCase("mysql")) {
+			mySQLConnection = new MySQLConnection();
+			mySQLConnection.init();
+		}
 	}
 
 	public UserManager getUserManager(){
@@ -123,6 +127,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		}
 		stop();
 		plugin = null;
+		if(options.storageType.equalsIgnoreCase("mysql"))
+			MySQLConnection.kill();
+
 	}
 
 	public static StaffPlus get()
@@ -265,6 +272,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	 * with memory leaks that could occur on reloads (where instances could be
 	 * handled incorrectly)
 	 */
+
 
 	private void stop()
 	{
