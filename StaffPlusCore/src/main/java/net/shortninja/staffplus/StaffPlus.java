@@ -14,6 +14,7 @@ import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R2;
 import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R1;
 import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R2;
 import net.shortninja.staffplus.server.data.Load;
+import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.server.data.Save;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -103,6 +104,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		options = new Options();
 		APIManager.initAPI(PacketListenerAPI.class);
 		start(System.currentTimeMillis());
+		MySQLConnection mySQLConnection = new MySQLConnection();
+		mySQLConnection.init();
 	}
 
 	public UserManager getUserManager(){

@@ -15,15 +15,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class DataFile
 {
 	private MessageCoordinator message;
-	private String resourceName;
 	private File file;
 	private YamlConfiguration configuration;
 
 	public DataFile(String name)
 	{
 		message = StaffPlus.get().message;
-		resourceName = name;
-		file = new File(StaffPlus.get().getDataFolder(), resourceName);
+		file = new File(StaffPlus.get().getDataFolder(), name);
 
 		if(!file.getParentFile().exists())
 		{
@@ -32,7 +30,7 @@ public class DataFile
 
 		if(!file.exists())
 		{
-			StaffPlus.get().saveResource(resourceName, false);
+			StaffPlus.get().saveResource(name, false);
 		}
 
 		configuration = YamlConfiguration.loadConfiguration(file);

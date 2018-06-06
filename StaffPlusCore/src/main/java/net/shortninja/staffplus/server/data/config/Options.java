@@ -340,17 +340,18 @@ public class Options implements IOptions
 	public String commandLogin = configVersion >= 3.2 ? config.getString("commands.login") : "login";
 	public String commandRegister = configVersion >= 3.2 ? config.getString("commands.register") : "register";
 	public String commandStrip = configVersion >= 6194 ? config.getString("commands.strip") : "strip";
-	public String commandTp = configVersion >= 6195 ? config.getString("commands.tp") : "tp";
 
 	/*
-	 * Teleport
+	 * Storage
 	 */
-	public int minX = configVersion >=6195 ? config.getInt("Teleport.MinX") : -5000;
-	public int maxX = configVersion >=6195 ? config.getInt("Teleport.MaxX") : 5000;
-	public int minZ = configVersion >=6195 ? config.getInt("Teleport.MinZ") : -5000;
-	public int maxZ = configVersion >=6195 ? config.getInt("Teleport.MaxZ") : 5000;
+	public String storageType = configVersion >=6200 ? config.getString("storage.type") : "flatfile";
+	public String mySqlHost = configVersion >=6200 ? config.getString("storage.mysql.host") : "localhost";
+	public String mySqlUser = configVersion >=6200 ? config.getString("storage.mysql.user") : "root";
+	public String database = configVersion >=6200 ? config.getString("storage.mysql.database") : "root";
+	public String mySqlPassword = configVersion >=6200 ? config.getString("storage.mysql.password") : "mypass";
+	public int mySqlPort = configVersion >=6200 ? config.getInt("storage.mysql.port") : 3306;
 
-    private void updateConfig()
+	private void updateConfig()
     {
 		File dataFolder = StaffPlus.get().getDataFolder();
 		File configFile = new File(dataFolder, "config.yml");

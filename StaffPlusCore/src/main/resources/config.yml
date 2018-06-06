@@ -881,20 +881,20 @@ commands:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                      Teleport                        | #
+# |                      Storage                         | #
 # +------------------------------------------------------+ #
 ############################################################
 
-# Values for the teleport command
-teleport:
-  # The minimum x a player can be teleported to
-  Minx: -5000
-  # The maximum x a player can be teleported to
-  MaxX: 5000
-  # The minimum z a player can be teleported to
-  MinZ: -5000
-  # The maximum z a player can be teleported to
-  MaxZ: 5000
+# How will the plugin still Data
+storage:
+  #Type is how it will store either a flatfile (yml) or mysql
+  type: 'flatfile'
+  mysql:
+    host: 'localhost'
+    user: 'root'
+    database: 'root'
+    password: 'mypass'
+    port: 3306
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -904,7 +904,7 @@ teleport:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 6199
+config-version: 6200
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
