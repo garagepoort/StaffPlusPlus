@@ -30,8 +30,7 @@ public class StaffPlusCmd extends BukkitCommand {
             if (args.length == 1 && permission.has(sender, options.permissionStaff)) {
                 if (args[0].equalsIgnoreCase("reload")) {
                     Bukkit.getPluginManager().getPlugin("StaffPlus").reloadConfig();
-                    StaffPlus.get().languageFile = new LanguageFile();
-                    StaffPlus.get().messages = new Messages();
+                    StaffPlus.get().reloadFiles();
                     StaffPlus.get().message.sendConsoleMessage("Plugin config and lang file reloaded", false);
                     StaffPlus.get().message.send((Player) sender, "Config and lang file have been reloaded","StaffPlus");
                 }
@@ -40,8 +39,7 @@ public class StaffPlusCmd extends BukkitCommand {
             if (args.length == 1 && permission.has(sender, options.permissionStaff)) {
                 if (args[0].equalsIgnoreCase("reload")) {
                     Bukkit.getPluginManager().getPlugin("StaffPlus").reloadConfig();
-                    StaffPlus.get().languageFile = new LanguageFile();
-                    StaffPlus.get().messages = new Messages();
+                    StaffPlus.get().reloadFiles();
                     StaffPlus.get().message.sendConsoleMessage("Plugin config and lang file reloaded", false);
                 }
             }

@@ -316,5 +316,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		return options;
 	}
 
+	public void reloadFiles(){
+        options = new Options();
+        languageFile = new LanguageFile();
+        messages = new Messages();
+    }
 	public PermissionHandler getPermissions() { return permission; };
 }
