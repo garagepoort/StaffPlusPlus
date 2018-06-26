@@ -43,35 +43,14 @@ public class MySQLConnection {
         getDataSource();
         try {
             StaffPlus.get().getLogger().info("Connection established with the database!");
-            PreparedStatement pr = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_reports` (  `Number` INT NOT NULL,  `Reason` VARCHAR(255) NULL,  `ReporterUUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Number`, `Player_UUID`)) ENGINE = InnoDB;");
-            PreparedStatement pw = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_warnings` (`Number` INT NOT NULL,  `Reason` VARCHAR(255) NULL,  `Warner_UUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Number`, `Player_UUID`)) ENGINE = InnoDB;");
-            PreparedStatement ao = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_alert_options` ( `NameChange` VARCHAR(5) NULL,  `Mention` VARCHAR(5) NULL,  `Xray` VARCHAR(5) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Player_UUID`)) ENGINE = InnoDB;");
+            PreparedStatement pr = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_reports` (  `Number` INT NOT NULL AUTO_INCREMENT,  `Reason` VARCHAR(255) NULL,  `Reporter_UUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Number`)) ENGINE = InnoDB;");
+            PreparedStatement pw = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_warnings` (`Number` INT NOT NULL AUTO_INCREMENT,  `Reason` VARCHAR(255) NULL,  `Warner_UUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Number`)) ENGINE = InnoDB;");
+            PreparedStatement ao = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_alert_options` ( `Name_Change` VARCHAR(5) NULL,  `Mention` VARCHAR(5) NULL,  `Xray` VARCHAR(5) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Player_UUID`)) ENGINE = InnoDB;");
             PreparedStatement pd = getConnection().prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS `sp_playerdata` ( `GlassColor` VARCHAR(45) NULL,\n" +
-                            "  `Password` VARCHAR(255) NULL,\n" +
-                            "  `Warnings_Number` INT NOT NULL,\n" +
-                            "  `Reports_Number` INT NOT NULL,\n" +
-                            "  `Player_UUID` VARCHAR(36) NOT NULL,\n" +
-                            "  `AlertOptions_Player_UUID` VARCHAR(36) NOT NULL,\n" +
-                            "  INDEX `fk_playerdata_Warnings_idx` (`Warnings_Number` ASC),\n" +
-                            "  INDEX `fk_playerdata_Reports_idx` (`Reports_Number` ASC),\n" +
-                            "  CONSTRAINT pk_sp_playerdata PRIMARY KEY (`Player_UUID`),\n" +
-                            "  INDEX `fk_playerdata_alert_options1_idx` (`AlertOptions_Player_UUID` ASC),\n" +
-                            "  CONSTRAINT `fk_playerdata_Warnings`\n" +
-                            "    FOREIGN KEY (`Warnings_Number`)\n" +
-                            "    REFERENCES `sp_warnings` (`Number`)\n" +
-                            "    ON DELETE NO ACTION\n" +
-                            "    ON UPDATE NO ACTION,\n" +
-                            "  CONSTRAINT `fk_playerdata_Reports`\n" +
-                            "    FOREIGN KEY (`Reports_Number`)\n" +
-                            "    REFERENCES `sp_reports` (`Number`)\n" +
-                            "    ON DELETE NO ACTION\n" +
-                            "    ON UPDATE NO ACTION,\n" +
-                            "  CONSTRAINT `fk_playerdata_alert_options`\n" +
-                            "    FOREIGN KEY (`AlertOptions_Player_UUID`)\n" +
-                            "    REFERENCES `sp_alert_options` (`Player_UUID`)\n" +
-                            "    ON DELETE NO ACTION\n" +
-                            "    ON UPDATE NO ACTION)ENGINE = InnoDB;");
+                    "CREATE TABLE IF NOT EXISTS `sp_playerdata` ( `GlassColor` VARCHAR(45) NULL, `Password` VARCHAR(255) NULL, `Warnings_Number` INT NOT NULL, `Reports_Number` INT NOT NULL, `Player_UUID` VARCHAR(36) NOT NULL," +
+                            "  INDEX `fk_playerdata_Warnings_idx` (`Warnings_Number` ASC), INDEX `fk_playerdata_Reports_idx` (`Reports_Number` ASC), CONSTRAINT pk_sp_playerdata PRIMARY KEY (`Player_UUID`)," + "  CONSTRAINT `fk_playerdata_Warnings`   FOREIGN KEY (`Warnings_Number`)   REFERENCES `sp_warnings` (`Number`)   " +
+                            "ON DELETE NO ACTION   ON UPDATE NO ACTION, CONSTRAINT `fk_playerdata_Reports`   FOREIGN KEY (`Reports_Number`)" + "    REFERENCES `sp_reports` (`Number`)   ON DELETE NO ACTION" + "   ON UPDATE NO ACTION, CONSTRAINT `fk_playerdata_alert_options`   FOREIGN KEY (`AlertOptions_Player_UUID`)   " +
+                            "REFERENCES `sp_alert_options` (`Player_UUID`)   ON DELETE NO ACTION ON UPDATE NO ACTION)ENGINE = InnoDB;");
             ao.executeUpdate();
             ao.close();
             pw.executeUpdate();
@@ -88,7 +67,7 @@ public class MySQLConnection {
         }
     }
 
-    public static Connection getConnection()throws SQLException{
+    public Connection getConnection()throws SQLException{
             return datasource.getConnection();
     }
 

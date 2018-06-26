@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.player;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.UUID;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
+import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
@@ -181,7 +184,25 @@ public class User
 	
 	public void addReport(Report report)
 	{
-		reports.add(report);
+	    if(!options.storageType.equalsIgnoreCase("mysql"))
+		    reports.add(report);
+	    else{
+	        MySQLConnection sql = new MySQLConnection();
+	        try {
+	            String name = report.getReporterName();
+	            String pUUID = null;
+	            if(name.equalsIgnoreCase("Console"))
+	                pUUID = "Console";
+	            else
+	                pUUID = report.getReporterUuid().toString();
+	            PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_reports(Reason,Reporter_UUID,Player_UUID) " +
+                        "VALUES(" + report.getReason() + "," + pUUID + "," + report.getUuid() + ");");
+	            inset.executeUpdate();
+	            inset.close();
+	        }catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
 	
 	public void removeReport(String uuid)
@@ -190,14 +211,32 @@ public class User
 	}
 	
 	public void addWarning(Warning warning)
-	{
-		warnings.add(warning);
-	}
+    {
+        if (!options.storageType.equalsIgnoreCase("mysql"))
+            warnings.add(warning);
+        else {
+            MySQLConnection sql = new MySQLConnection();
+            try {
+                String name = warning.getIssuerName();
+                String uuid = null;
+                if (name.equalsIgnoreCase("Console"))
+                    uuid = "Console";
+                else
+                    uuid = warning.getIssuerUuid().toString();
+                PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_reports(Reason,Reporter_UUID,Player_UUID) " +
+                        "VALUES(" + warning.getReason() + "," + uuid + "," + warning.getUuid() + ");");
+                inset.executeUpdate();
+                inset.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 	
 	public void removeWarning(UUID uuid)
-	{
-		warnings.remove(uuid);
-	}
+    {
+        warnings.remove(uuid);
+    }
 	
 	public void addPlayerNote(String note)
 	{

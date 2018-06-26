@@ -108,7 +108,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		start(System.currentTimeMillis());
 		if(options.storageType.equalsIgnoreCase("mysql")) {
 			mySQLConnection = new MySQLConnection();
-			mySQLConnection.init();
+			if(mySQLConnection.init())
+			    getLogger().info("Database created");
+
 		}
 	}
 

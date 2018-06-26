@@ -2,6 +2,7 @@ package net.shortninja.staffplus.player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
@@ -80,5 +81,9 @@ public class NodeUser
 		}
 		
 		return alertsList;
+	}
+
+	public UUID getUUID(){
+		return user.getUuid();
 	}
 }

@@ -1,8 +1,11 @@
 package net.shortninja.staffplus.server.command.cmd.infraction;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
+import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.StaffPlus;
@@ -123,10 +126,32 @@ public class WarnCmd extends BukkitCommand
 				issuer = (Player) sender;
 				issuerName = issuer.getName();
 				issuerUuid = issuer.getUniqueId();
+				if(options.storageType.equalsIgnoreCase("mysql")) {
+					MySQLConnection sql = new MySQLConnection();
+					try {
+						PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_warnings(Reason,Reporter_UUID,Player_UUID) " +
+								"VALUES(" + reason + "," + issuerUuid + "," + warned.getUniqueId() + ");");
+						inset.executeUpdate();
+						inset.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}else{
+				if(options.storageType.equalsIgnoreCase("mysql")) {
+					MySQLConnection sql = new MySQLConnection();
+					try {
+						PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_warnings(Reason,Reporter_UUID,Player_UUID) " +
+								"VALUES(" + reason + "," + "Console" + "," + warned.getUniqueId() + ");");
+						inset.executeUpdate();
+						inset.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 			
 			Warning warning = new Warning(warned.getUniqueId(), warned.getName(), reason, issuerName, issuerUuid, System.currentTimeMillis());
-			
 			StaffPlus.get().infractionCoordinator.sendWarning(sender, warning);
 		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 	}

@@ -1,11 +1,14 @@
 package net.shortninja.staffplus.server.command.cmd.infraction;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import net.shortninja.staffplus.player.attribute.infraction.Report;
+import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.StaffPlus;
@@ -138,11 +141,10 @@ public class ReportCmd extends BukkitCommand
 				reporterName = reporter.getName();
 				reporterUuid = reporter.getUniqueId();
 			}
-			
 			Report report = new Report(reported.getUniqueId(), reported.getName(), reason, reporterName, reporterUuid);
 			
 			StaffPlus.get().infractionCoordinator.addUnresolvedReport(report);
-			StaffPlus.get().infractionCoordinator.sendReport(sender, report);
+            StaffPlus.get().infractionCoordinator.sendReport(sender, report);
 		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 	}
 	
