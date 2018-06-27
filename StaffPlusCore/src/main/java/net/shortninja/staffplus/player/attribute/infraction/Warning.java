@@ -5,8 +5,7 @@ import java.util.UUID;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
 
-public class Warning
-{
+public class Warning {
 	private Options options = StaffPlus.get().options;
 	private UUID uuid;
 	private String name;
@@ -14,15 +13,25 @@ public class Warning
 	private String issuerName;
 	private UUID issuerUuid;
 	private long time;
-	
-	public Warning(UUID uuid, String name, String reason, String issuerName, UUID issuerUuid, long time)
-	{
+	private int id;
+
+	public Warning(UUID uuid, String name, String reason, String issuerName, UUID issuerUuid, long time) {
 		this.uuid = uuid;
 		this.name = name;
 		this.reason = reason;
 		this.issuerName = issuerName;
 		this.issuerUuid = issuerUuid;
 		this.time = time;
+	}
+
+	public Warning(UUID uuid, String name, int id, String reason, String issuerName, UUID issuerUuid, long time){
+		this.uuid = uuid;
+		this.name = name;
+		this.reason = reason;
+		this.issuerName = issuerName;
+		this.issuerUuid = issuerUuid;
+		this.time = time;
+		this.id = id;
 	}
 	
 	public UUID getUuid()
@@ -53,6 +62,10 @@ public class Warning
 	public long getTime()
 	{
 		return time;
+	}
+
+	public int getId(){
+		return id;
 	}
 	
 	/*

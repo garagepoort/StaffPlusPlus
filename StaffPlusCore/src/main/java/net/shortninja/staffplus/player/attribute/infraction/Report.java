@@ -9,7 +9,8 @@ public class Report
 	private String reason;
 	private String reporterName;
 	private UUID reporterUuid;
-	
+	private int id;
+
 	public Report(UUID uuid, String name, String reason, String reporterName, UUID reporterUuid)
 	{
 		this.uuid = uuid;
@@ -18,7 +19,15 @@ public class Report
 		this.reporterName = reporterName;
 		this.reporterUuid = reporterUuid;
 	}
-	
+	public Report(UUID uuid, String name, int id, String reason, String reporterName, UUID reporterUuid, long time){
+		this.uuid = uuid;
+		this.name = name;
+		this.reason = reason;
+		this.reporterName = reporterName;
+		this.reporterUuid = reporterUuid;
+		this.id = id;
+	}
+
 	public UUID getUuid()
 	{
 		return uuid;

@@ -140,9 +140,9 @@ public class ReportCmd extends BukkitCommand
 				reporter = (Player) sender;
 				reporterName = reporter.getName();
 				reporterUuid = reporter.getUniqueId();
-			}
+			}else
+				reporterUuid = StaffPlus.get().consoleUUID;
 			Report report = new Report(reported.getUniqueId(), reported.getName(), reason, reporterName, reporterUuid);
-			
 			StaffPlus.get().infractionCoordinator.addUnresolvedReport(report);
             StaffPlus.get().infractionCoordinator.sendReport(sender, report);
 		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);

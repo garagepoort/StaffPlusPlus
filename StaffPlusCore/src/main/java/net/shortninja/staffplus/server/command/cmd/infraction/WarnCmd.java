@@ -121,36 +121,12 @@ public class WarnCmd extends BukkitCommand
 		{
 			Player issuer = null;
 			
-			if(sender instanceof Player)
-			{
+			if(sender instanceof Player) {
 				issuer = (Player) sender;
 				issuerName = issuer.getName();
 				issuerUuid = issuer.getUniqueId();
-				if(options.storageType.equalsIgnoreCase("mysql")) {
-					MySQLConnection sql = new MySQLConnection();
-					try {
-						PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_warnings(Reason,Reporter_UUID,Player_UUID) " +
-								"VALUES(" + reason + "," + issuerUuid + "," + warned.getUniqueId() + ");");
-						inset.executeUpdate();
-						inset.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			}else{
-				if(options.storageType.equalsIgnoreCase("mysql")) {
-					MySQLConnection sql = new MySQLConnection();
-					try {
-						PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_warnings(Reason,Reporter_UUID,Player_UUID) " +
-								"VALUES(" + reason + "," + "Console" + "," + warned.getUniqueId() + ");");
-						inset.executeUpdate();
-						inset.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			
+			}else
+				issuerUuid = StaffPlus.get().consoleUUID;
 			Warning warning = new Warning(warned.getUniqueId(), warned.getName(), reason, issuerName, issuerUuid, System.currentTimeMillis());
 			StaffPlus.get().infractionCoordinator.sendWarning(sender, warning);
 		}else message.send(sender, messages.playerOffline, messages.prefixGeneral);

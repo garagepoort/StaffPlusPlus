@@ -86,6 +86,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	public ModeCoordinator modeCoordinator;
 	public InfractionCoordinator infractionCoordinator;
 	public AlertCoordinator alertCoordinator;
+	public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
 	public Tasks tasks;
 	public Map<UUID,User> users;
 	private MySQLConnection mySQLConnection;
