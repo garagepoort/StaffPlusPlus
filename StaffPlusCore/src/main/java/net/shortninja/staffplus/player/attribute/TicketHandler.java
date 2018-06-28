@@ -1,5 +1,8 @@
 package net.shortninja.staffplus.player.attribute;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import net.shortninja.staffplus.player.attribute.infraction.Warning;
+import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -46,19 +51,44 @@ public class TicketHandler
 	
 	public Ticket getTicketByUuid(UUID uuid)
 	{
+		if(options.storageType.equalsIgnoreCase("flatfile"))
+			return tickets.get(uuid);
+		else if(options.storageType.equalsIgnoreCase("mysql")){
+			try {
+				MySQLConnection sql = new MySQLConnection();
+				PreparedStatement ps = sql.getConnection().prepareStatement("SELECT ID FROM sp_warnings WHERE UUID=?");
+				ps.setString(1, uuid.toString());
+				ResultSet rs = ps.executeQuery();
+				tickets.put(uuid,new Ticket(uuid,Bukkit.getPlayer(uuid).getDisplayName(),rs.getInt("ID"),rs.getString("Inquiry")));
+				ps.close();
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+		}
 		return tickets.get(uuid);
 	}
 	
 	public Ticket getTicketById(int id)
 	{
 		Ticket ticket = null;
-		
-		for(Ticket t : tickets.values())
-		{
-			if(t.getId() == id)
-			{
-				ticket = t;
-				break;
+		if(options.storageType.equalsIgnoreCase("flatfile")) {
+			for (Ticket t : tickets.values()) {
+				if (t.getId() == id) {
+					ticket = t;
+					break;
+				}
+			}
+		}else if(options.storageType.equalsIgnoreCase("mysql")){
+			try {
+				MySQLConnection sql = new MySQLConnection();
+				PreparedStatement ps = sql.getConnection().prepareStatement("SELECT ID FROM sp_warnings WHERE ID=?");
+				ps.setInt(1, id);
+				ResultSet rs = ps.executeQuery();
+				ticket = new Ticket(UUID.fromString(rs.getString("UUID")),
+						Bukkit.getPlayer(UUID.fromString("UUID")).getDisplayName(),id,rs.getString("Inquiry"));
+				ps.close();
+			}catch (SQLException e){
+				e.printStackTrace();
 			}
 		}
 		
@@ -76,7 +106,19 @@ public class TicketHandler
 		
 		this.message.send(player, message, messages.prefixTickets);
 		this.message.sendGroupMessage(message, options.permissionTickets, messages.prefixTickets);
-		tickets.put(ticket.getUuid(), ticket);
+		if(options.storageType.equalsIgnoreCase("flatfile"))
+			tickets.put(ticket.getUuid(), ticket);
+		else if(options.storageType.equalsIgnoreCase("mysql")){
+			MySQLConnection sql = new MySQLConnection();
+			try {
+				PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_tickets(UUID,ID,Inquiry) " +
+						"VALUES(" + ticket.getUuid() + "," + ticket.getId() + "," + ticket.getInquiry()+ ");");
+				inset.executeUpdate();
+				inset.close();
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		nextTicketId++;
 	}
 	
@@ -92,7 +134,18 @@ public class TicketHandler
 		this.message.sendGroupMessage(message, options.permissionTickets, messages.prefixTickets);
 		this.message.send(Bukkit.getPlayer(ticket.getName()), message, messages.prefixTickets);
 		ticket.setHasBeenClosed(true);
-		tickets.remove(ticket.getUuid());
+		if(options.storageType.equalsIgnoreCase("flatfile"))
+			tickets.remove(ticket.getUuid());
+		else if(options.storageType.equalsIgnoreCase("mysql")){
+			MySQLConnection sql = new MySQLConnection();
+			try{
+				PreparedStatement delete = sql.getConnection().prepareCall("DELETE FROM TABLE sp_tickets WHERE UUID = "+ticket.getUuid().toString()+";");
+				delete.executeUpdate();
+				delete.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void sendResponse(CommandSender sender, Ticket ticket, String response, boolean isStaffResponse)

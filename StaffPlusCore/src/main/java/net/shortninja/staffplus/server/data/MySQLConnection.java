@@ -12,7 +12,6 @@ import java.sql.SQLException;
 public class MySQLConnection {
 
     private static HikariDataSource datasource;
-    private static Connection connection;
     private Options options = StaffPlus.get().options;
 
     private HikariDataSource getDataSource() {
@@ -51,6 +50,10 @@ public class MySQLConnection {
                             "  INDEX `fk_playerdata_Warnings_idx` (`Warnings_ID` ASC), INDEX `fk_playerdata_Reports_idx` (`Reports_ID` ASC), CONSTRAINT pk_sp_playerdata PRIMARY KEY (`Player_UUID`)," + "  CONSTRAINT `fk_playerdata_Warnings`   FOREIGN KEY (`Warnings_ID`)   REFERENCES `sp_warnings` (`ID`)   " +
                             "ON DELETE NO ACTION   ON UPDATE NO ACTION, CONSTRAINT `fk_playerdata_Reports`   FOREIGN KEY (`Reports_ID`)" + "    REFERENCES `sp_reports` (`ID`)   ON DELETE NO ACTION" + "   ON UPDATE NO ACTION, CONSTRAINT `fk_playerdata_alert_options`   FOREIGN KEY (`AlertOptions_Player_UUID`)   " +
                             "REFERENCES `sp_alert_options` (`Player_UUID`)   ON DELETE NO ACTION ON UPDATE NO ACTION)ENGINE = InnoDB;");
+            PreparedStatement tickets = getConnection().prepareCall("CREATE TABLE IF NOT EXISTS sp_tickets` ( `UUID` VARCHAR(36) NOT NULL, " +
+                    ", `ID` INT NOT NULL, `Inquiry` VARCHAR(255) NOT NULL, PRIMARY KEY (`UUID`)) ENGINE = InnoDB;");
+            tickets.executeUpdate();
+            tickets.close();
             ao.executeUpdate();
             ao.close();
             pw.executeUpdate();
