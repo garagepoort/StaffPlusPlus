@@ -61,13 +61,18 @@ public class Save
 				String[] nameChange = node.alertOptions().get(0).split(";");
 				String[] mention = node.alertOptions().get(1).split(";");
 				String[] xray = node .alertOptions().get(2).split(";");
-				ao.setString(1,nameChange[1]);
-				ao.setString(2, mention[1]);
-				ao.setString(3, xray[1]);
-				ao.setString(4, node.getUUID().toString());
+				ao.setString(0,nameChange[1]);
+				ao.setString(1, mention[1]);
+				ao.setString(2, xray[1]);
+				ao.setString(3,node.getUUID().toString());
 				ao.executeUpdate();
-				PreparedStatement ps = connection.getConnection().prepareStatement("Insert into sp_playerdata (GlassColor,Password,	Warnings_Number,Reports_Number)" +
+				PreparedStatement ps = connection.getConnection().prepareStatement("Insert into sp_playerdata (GlassColor,Password,UUID)" +
 						"");
+				ps.setShort(0,node.glassColor());
+				ps.setString(1,node.password());
+				ps.setString(2,node.getUUID().toString());
+				ps.executeUpdate();
+				ps.close();
 				ao.close();
 				reports.close();
 				warnings.close();
