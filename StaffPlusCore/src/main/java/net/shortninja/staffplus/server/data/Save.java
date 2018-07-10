@@ -37,26 +37,6 @@ public class Save
 			dataFile.set(node.prefix() + "alert-options", node.alertOptions());
 		}else{
 			try {
-				PreparedStatement reports = null;
-				PreparedStatement warnings = null;
-				for(String string : node.reports()){
-					String[] parts = string.split(";");
-					UUID reporterUuid = UUID.fromString(parts[2]);
-					reports = connection.getConnection().prepareStatement("Inert into sp_reports (Reason,Reporter_UUID,Player_UUID) Values(?,?,?)");
-					reports.setString(2, parts[0]);
-					reports.setString(3,reporterUuid.toString());
-					reports.setString(4,node.getUUID().toString());
-					reports.executeUpdate();
-				}
-				for(String string : node.warnings()){
-					String[] parts = string.split(";");
-					UUID warnererUuid = UUID.fromString(parts[2]);
-					warnings = connection.getConnection().prepareStatement("Inert into sp_reports (Reason,Reporter_UUID,Player_UUID) Values(?,?,?)");
-					warnings.setString(2, parts[0]);
-					warnings.setString(3,warnererUuid.toString());
-					warnings.setString(4,node.getUUID().toString());
-					warnings.executeUpdate();
-				}
 				PreparedStatement ao = connection.getConnection().prepareStatement("Inset into sp_alert_options (Name_Change,Mention,Xray,Player_UUID)");
 				String[] nameChange = node.alertOptions().get(0).split(";");
 				String[] mention = node.alertOptions().get(1).split(";");
@@ -74,8 +54,6 @@ public class Save
 				ps.executeUpdate();
 				ps.close();
 				ao.close();
-				reports.close();
-				warnings.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
