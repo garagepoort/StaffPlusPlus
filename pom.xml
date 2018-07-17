@@ -41,7 +41,7 @@
         <defaultGoal>clean package</defaultGoal>
     </build>
     <properties>
-        <bukkit.version>1.8.8-R0.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.13-pre7-R0.1-SNAPSHOT</bukkit.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
