@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -86,13 +87,21 @@ public class AbstractGui
 	
 	private ItemStack glassItem(short data)
 	{
-		ItemStack item = Items.builder()
-				.setMaterial(Material.STAINED_GLASS_PANE).setAmount(1).setData(data)
-				.setName("&bColor #" + data)
-				.addLore("&7Click to change your GUI color!")
-				.build();
-		
-		return item;
+		String[] tmp = Bukkit.getVersion().split("MC: ");
+		String version = tmp[tmp.length - 1].substring(0,4) ;
+		if(!version.equals("1.13.")) {
+			return Items.builder()
+					.setMaterial(Material.valueOf("STAINED_GLASS_PANE")).setAmount(1).setData(data)
+					.setName("&bColor #" + data)
+					.addLore("&7Click to change your GUI color!")
+					.build();
+		}else{
+			return Items.builder()
+					.setMaterial(Material.valueOf(GlassData.getName(data)))
+					.setName("&bColor #" + data)
+					.addLore("&7Click to change your GUI color!")
+					.build();
+		}
 	}
 	
 	public interface AbstractAction

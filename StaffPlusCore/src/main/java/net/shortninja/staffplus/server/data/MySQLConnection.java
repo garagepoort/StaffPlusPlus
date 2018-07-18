@@ -46,7 +46,7 @@ public class MySQLConnection {
             PreparedStatement pw = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_warnings` (`ID` INT NOT NULL AUTO_INCREMENT,  `Reason` VARCHAR(255) NULL,  `Warner_UUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;");
             PreparedStatement ao = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_alert_options` ( `Name_Change` VARCHAR(5) NULL,  `Mention` VARCHAR(5) NULL,  `Xray` VARCHAR(5) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Player_UUID`)) ENGINE = InnoDB;");
             PreparedStatement pd = getConnection().prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS `sp_playerdata` ( `GlassColor` SHORT NULL, `Password` VARCHAR(255) NULL, `Player_UUID` VARCHAR(36) NOT NULL,PRIMARY KEY (`UUID`))  ENGINE = InnoDB;");
+                    "CREATE TABLE IF NOT EXISTS `sp_playerdata` ( `GlassColor` TINYINT NULL, `Password` VARCHAR(255) NULL, `Player_UUID` VARCHAR(36) NOT NULL,PRIMARY KEY (`Player_UUID`))  ENGINE = InnoDB;");
             PreparedStatement tickets = getConnection().prepareCall("CREATE TABLE IF NOT EXISTS `sp_tickets` ( `UUID` VARCHAR(36) NOT NULL, `ID` INT NOT NULL, `Inquiry` VARCHAR(255) NOT NULL, PRIMARY KEY (`UUID`)) ENGINE = InnoDB;");
             tickets.executeUpdate();
             tickets.close();
@@ -58,6 +58,7 @@ public class MySQLConnection {
             pr.close();
             pd.executeUpdate();
             pd.close();
+            importData();
             return true;
         } catch (SQLException e) {
             StaffPlus.get().getLogger().info("Connection failed with the database! Details correct?");
@@ -72,5 +73,16 @@ public class MySQLConnection {
 
     public static void kill() {
         datasource.close();
+    }
+
+    private void importData(){
+        if(!StaffPlus.get().getConfig().getBoolean("storage.mysql.migrated"))
+        {
+            for(String key : StaffPlus.get().dataFile.getConfiguration().getConfigurationSection("").getKeys(true))
+            {
+                StaffPlus.get().getLogger().info(key);
+            }
+            //StaffPlus.get().getConfig().set("storage.mysql.migrated",true);
+        }
     }
 }
