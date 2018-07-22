@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.player.attribute;
 
+import net.shortninja.staffplus.StaffPlus;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -40,7 +42,11 @@ public class SecurityHandler
 	
 	public void setPassword(UUID uuid, String password, boolean shouldHash)
 	{
-		hashedPasswords.put(uuid, shouldHash ? hash(password, uuid) : password);
+		if(StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile"))
+			hashedPasswords.put(uuid, shouldHash ? hash(password, uuid) : password);
+		else if(StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")){
+
+		}
 	}
 	
 	private String hash(String string, UUID uuid)

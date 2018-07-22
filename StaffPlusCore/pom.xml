@@ -126,6 +126,11 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_13_R1</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.inventivetalent</groupId>
             <artifactId>apimanager</artifactId>
             <version>1.0.2</version>

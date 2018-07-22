@@ -158,7 +158,7 @@ chat-module:
 
     # All characters that will be censored.
     # These are merely characters that will be detected anywhere in messages.
-    characters: ?, ?
+    characters: 卐, 卍
 
     # All domain levels that will be censored.
     # This can prevent users from sending links in chat.

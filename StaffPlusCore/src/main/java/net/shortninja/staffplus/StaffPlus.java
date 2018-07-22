@@ -9,6 +9,7 @@ import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_10_R1;
 import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_11_R1;
+import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_13_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R2;
 import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R2;
 import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R1;
@@ -239,6 +240,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 			case "v1_12_R1":
 				versionProtocol = new Protocol_v1_12_R1(this);
 				break;
+			case "v1_13_R1":
+				versionProtocol = new Protocol_v1_13_R1(this);
 		}
 
 		if(versionProtocol != null)
