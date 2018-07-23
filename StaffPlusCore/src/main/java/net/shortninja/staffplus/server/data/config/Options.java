@@ -449,17 +449,17 @@ public class Options implements IOptions
 	private String getMateria(String current){
 		switch (current){
 			case "HEAD":
-				return Materials.HEAD.name();
+				return Materials.valueOf("HEAD").getName();
 			case "SPAWNER":
-				return Materials.SPAWNER.name();
+				return Materials.valueOf("SPAWNER").getName();
 			case "ENDEREYE":
-				return Materials.ENDEREYE.name();
+				return Materials.valueOf("ENDEREYE").getName();
 			case "CLOCK":
-				return Materials.CLOCK.name();
+				return Materials.valueOf("CLOCK").getName();
 			case "LEAD":
-				return Materials.LEAD.name();
+				return Materials.valueOf("LEAD").getName();
 			case "INK":
-				return Materials.INK.name();
+				return Materials.valueOf("INK").getName();
 			default:
 				return current;
 

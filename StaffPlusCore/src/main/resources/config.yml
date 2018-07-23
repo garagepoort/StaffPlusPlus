@@ -216,7 +216,7 @@ alerts-module:
     enabled: true
 
     # Block type that, when mined, will invoke an alert.
-    blocks: MOB_SPAWNER, DIAMOND_ORE
+    blocks: SPAWNER, DIAMOND_ORE
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -328,7 +328,7 @@ staff-mode:
     slot: 2
 
     # The type of item for this module.
-    item: EYE_OF_ENDER
+    item: ENDEREYE
 
     # The name of the compass item.
     name: "&cRandom Teleport"
@@ -356,7 +356,7 @@ staff-mode:
     slot: 3
 
     # The type of item for this module.
-    item: INK_SACK:10
+    item: INK
 
     # The name of the compass item.
     name: "&6Vanish"
@@ -366,7 +366,7 @@ staff-mode:
     lore: "&7Toggles your total vanish."
 
     # The type of item for when vanish is disabled.
-    item-off: INK_SACK:8
+    item-off: INK
 
   ############################################################
   # +------------------------------------------------------+ #
@@ -422,7 +422,7 @@ staff-mode:
     slot: 5
 
     # The type of item for this module.
-    item: SKULL_ITEM
+    item: HEAD
 
     # The name of the compass item.
     name: "&aStaff List"
@@ -498,7 +498,7 @@ staff-mode:
     slot: 7
 
     # The type of item for this module.
-    item: WATCH
+    item: CLOCK
 
     # The name of the compass item.
     name: "&3CPS"
@@ -583,7 +583,7 @@ staff-mode:
     slot: 9
 
     # The type of item for this module.
-    item: LEASH
+    item: LEAD
 
     # The name of the compass item.
     name: "&9Follow"
