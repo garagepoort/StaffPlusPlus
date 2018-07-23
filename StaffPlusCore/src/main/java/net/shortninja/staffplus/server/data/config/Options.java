@@ -9,6 +9,7 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.util.Materials;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.Sounds;
 import net.shortninja.staffplus.StaffPlus;
@@ -444,7 +445,27 @@ public class Options implements IOptions
 			moduleConfigurations.put(identifier, new ModuleConfiguration(identifier, moduleType, slot, item, action));
 		}
 	}
-	
+
+	private String getMateria(String current){
+		switch (current){
+			case "HEAD":
+				return Materials.HEAD.name();
+			case "SPAWNER":
+				return Materials.SPAWNER.name();
+			case "ENDEREYE":
+				return Materials.ENDEREYE.name();
+			case "CLOCK":
+				return Materials.CLOCK.name();
+			case "LEAD":
+				return Materials.LEAD.name();
+			case "INK":
+				return Materials.INK.name();
+			default:
+				return current;
+
+		}
+
+	}
 	private List<Material> stringToMaterialList(String commas)
 	{
 		List<Material> list = new ArrayList<Material>();
@@ -504,12 +525,12 @@ public class Options implements IOptions
 	private Material stringToMaterial(String string)
 	{
 		Material sound = Material.STONE;
-		boolean isValid = JavaUtils.isValidEnum(Material.class, string);
+		boolean isValid = JavaUtils.isValidEnum(Material.class, getMateria(string));
 		
 		if(!isValid)
 		{
 			message.sendConsoleMessage("Invalid material type '" + string + "'!", true);
-		}else sound = Material.valueOf(string);
+		}else sound = Material.valueOf(getMateria(string));
 		
 		return sound;
 	}

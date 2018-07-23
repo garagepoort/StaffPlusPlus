@@ -878,24 +878,6 @@ commands:
 
 
 
-############################################################
-# +------------------------------------------------------+ #
-# |                      Storage                         | #
-# +------------------------------------------------------+ #
-############################################################
-
-# How will the plugin still Data
-storage:
-  #Type is how it will store either a flatfile (yml) or mysql
-  type: 'flatfile'
-  mysql:
-    host: 'localhost'
-    user: 'root'
-    database: 'root'
-    password: 'mypass'
-    port: 3306
-    #DO NOT TOUCH
-    migrate: false
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -905,7 +887,7 @@ storage:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 6200
+config-version: 6199
 
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
