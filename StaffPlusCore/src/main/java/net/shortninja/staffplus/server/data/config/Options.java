@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 public class Options implements IOptions
 {
 	private static FileConfiguration config = StaffPlus.get().getConfig();
-	private static final int CURRENT_VERSION = 6200;
+	private static final int CURRENT_VERSION = 6199;
 	private MessageCoordinator message = StaffPlus.get().message;
 	private int configVersion = config.getInt("config-version");
 	
@@ -362,7 +362,8 @@ public class Options implements IOptions
 	/*
 	 * Storage
 	 */
-	public String storageType = configVersion >=6200 ? config.getString("storage.type") : "flatfile";
+
+	public String storageType = configVersion >= 6200 ? config.getString("storage.type") : "flatfile";
 	public String mySqlHost = configVersion >=6200 ? config.getString("storage.mysql.host") : "localhost";
 	public String mySqlUser = configVersion >=6200 ? config.getString("storage.mysql.user") : "root";
 	public String database = configVersion >=6200 ? config.getString("storage.mysql.database") : "root";
@@ -504,12 +505,21 @@ public class Options implements IOptions
 	private Material stringToMaterial(String string)
 	{
 		Material sound = Material.STONE;
+<<<<<<< HEAD
 		boolean isValid = JavaUtils.isValidEnum(Material.class, string);
 		
 		if(!isValid)
 		{
 			message.sendConsoleMessage("Invalid material type '" + string + "'!", true);
 		}else sound = Material.valueOf(string);
+=======
+		boolean isValid = JavaUtils.isValidEnum(Material.class, getMaterial(string));
+		if(!isValid)
+		{
+			message.sendConsoleMessage("Invalid material type '" + string + "'!", true);
+		}else
+			sound = Material.valueOf(getMaterial(string));
+>>>>>>> dc3b937... Version bump and 1.13 compat finished
 		
 		return sound;
 	}
