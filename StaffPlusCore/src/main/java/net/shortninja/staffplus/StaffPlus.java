@@ -108,12 +108,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		options = new Options();
 		APIManager.initAPI(PacketListenerAPI.class);
 		start(System.currentTimeMillis());
-		if(options.storageType.equalsIgnoreCase("mysql")) {
+		/*if(options.storageType.equalsIgnoreCase("mysql")) {
 			mySQLConnection = new MySQLConnection();
 			if(mySQLConnection.init())
 			    getLogger().info("Database created");
 
-		}
+		}*/
 	}
 
 	public UserManager getUserManager(){

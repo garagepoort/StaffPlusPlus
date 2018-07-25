@@ -446,7 +446,7 @@ public class Options implements IOptions
 		}
 	}
 
-	private String getMateria(String current){
+	private String getMaterial(String current){
 		switch (current){
 			case "HEAD":
 				return Materials.valueOf("HEAD").getName();
@@ -468,7 +468,7 @@ public class Options implements IOptions
 	}
 	private List<Material> stringToMaterialList(String commas)
 	{
-		List<Material> list = new ArrayList<Material>();
+		List<Material> list = new ArrayList<>();
 		ListIterator<String> iterator = Arrays.asList(commas.split("\\s*,\\s*")).listIterator();
 		
 		while(iterator.hasNext())
@@ -525,12 +525,12 @@ public class Options implements IOptions
 	private Material stringToMaterial(String string)
 	{
 		Material sound = Material.STONE;
-		boolean isValid = JavaUtils.isValidEnum(Material.class, getMateria(string));
+		boolean isValid = JavaUtils.isValidEnum(Material.class, getMaterial(string));
 		
 		if(!isValid)
 		{
 			message.sendConsoleMessage("Invalid material type '" + string + "'!", true);
-		}else sound = Material.valueOf(getMateria(string));
+		}else sound = Material.valueOf(getMaterial(string));
 		
 		return sound;
 	}
