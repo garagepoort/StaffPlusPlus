@@ -92,7 +92,7 @@ public class User
 	
 	public List<Report> getReports()
 	{
-	    if(options.storageType.equalsIgnoreCase("flatfile"))
+		if(options.storageType.equalsIgnoreCase("flatfile"))
 			return reports;
 	    else if(options.storageType.equalsIgnoreCase("mysql")){
 			try {
@@ -113,7 +113,7 @@ public class User
 	
 	public List<Warning> getWarnings()
 	{
-	    if(options.storageType.equalsIgnoreCase("flatfile"))
+		if(options.storageType.equalsIgnoreCase("flatfile"))
 		    return warnings;
 	    else if(options.storageType.equalsIgnoreCase("mysql")){
 	        try {
@@ -240,9 +240,9 @@ public class User
 	
 	public void addWarning(Warning warning)
     {
-        if (options.storageType.equalsIgnoreCase("flatfile"))
+    	if (options.storageType.equalsIgnoreCase("flatfile"))
             warnings.add(warning);
-        else if(options.storageType.equalsIgnoreCase("mysql")){
+       	else if(options.storageType.equalsIgnoreCase("mysql")){
             MySQLConnection sql = new MySQLConnection();
             try {
                 PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_reports(Reason,Reporter_UUID,Player_UUID) " +

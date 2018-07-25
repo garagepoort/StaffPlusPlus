@@ -9,7 +9,7 @@ public enum Materials {
     ENDEREYE("EYE_OF_ENDER","ENDER_EYE"),
     CLOCK("WATCH","CLOCK"),
     LEAD("LEASH","LEAD"),
-    INK("INK_SACK","INC_SAC");
+    INK("INK_SACK","INK_SAC");
 
     private final String oldName,newName;
     Materials(String oldName, String newName){
