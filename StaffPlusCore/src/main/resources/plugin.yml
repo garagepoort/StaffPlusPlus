@@ -5,3 +5,4 @@ description: The ultimate moderation plugin!
 author: Shortninja
 website: http://shortninja.net
 softdepend: [PacketListenerApi]
+api-version: 1.13
