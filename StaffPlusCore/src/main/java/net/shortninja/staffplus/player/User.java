@@ -87,7 +87,22 @@ public class User
 	
 	public short getGlassColor()
 	{
-		return glassColor;
+		if(options.storageType.equalsIgnoreCase("flatefile"))
+			return glassColor;
+		else if(options.storageType.equalsIgnoreCase("mysql")){
+			try {
+				MySQLConnection sql = new MySQLConnection();
+				PreparedStatement ps = sql.getConnection().prepareStatement("SELECT ID FROM sp_playerdata WHERE Player_UUID=?");
+				ps.setString(1, uuid.toString());
+				ResultSet rs = ps.executeQuery();
+				short data = rs.getShort("GlassColor");
+				ps.close();
+				return data;
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+		}
+		return (short) 0;
 	}
 	
 	public List<Report> getReports()
@@ -174,7 +189,20 @@ public class User
 	
 	public void setGlassColor(short glassColor)
 	{
-		this.glassColor = glassColor;
+		if(options.storageType.equalsIgnoreCase("flatfile"))
+			this.glassColor = glassColor;
+		else if(options.storageType.equalsIgnoreCase("mysql")){
+			MySQLConnection sql = new MySQLConnection();
+			try {
+				PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_playerdata(GlassColor,Player_UUID) " +
+						"VALUES(" + glassColor +  "," + getUuid() + ");");
+				inset.executeUpdate();
+				inset.close();
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 	
 	/**

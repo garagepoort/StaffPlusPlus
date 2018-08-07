@@ -28,7 +28,7 @@ public enum GlassData {
     public static String getName(short data){
         for(GlassData glass : GlassData.values()){
             if(glass.data == data)
-                return glass.color+"_STAINED_GLASS_PLANE";
+                return glass.color+"_STAINED_GLASS_PANE";
         }
         return "WHITE_STAINED_GLASS_PANE";
     }
