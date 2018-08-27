@@ -9,7 +9,7 @@
 
     <artifactId>StaffPlus</artifactId>
     <packaging>pom</packaging>
-    <version>3.2.6-RELEASE</version>
+    <version>3.2.7-RELEASE</version>
 
     <modules>
         <module>StaffPlusCore</module>
