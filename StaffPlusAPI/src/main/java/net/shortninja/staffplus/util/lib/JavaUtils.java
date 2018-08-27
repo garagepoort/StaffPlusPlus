@@ -280,6 +280,18 @@ public class JavaUtils
 		return targetPlayer;
 	}
 
+	public static String fixString(String string) {
+		String first = string.substring(0, 1);
+		String rest = string.substring(1,string.length()).toLowerCase();
+		string = first+rest;
+		System.out.println(string);
+		int index = string.indexOf("_");
+		char upper = Character.toUpperCase(string.charAt(index+1));
+		StringBuilder sb = new StringBuilder(string);
+		sb.setCharAt(index+1,upper);
+		return sb.toString();
+	}
+
 	/**
 	 * Checks if the player's inventory has space with #firstEmpty()
 	 * 

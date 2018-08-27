@@ -51,7 +51,7 @@ public class ColorGui extends AbstractGui
 	{
 		String[] tmp = Bukkit.getVersion().split("MC: ");
 		String version = tmp[tmp.length - 1].substring(0,4) ;
-		if(!version.equals("1.13")) {
+		if(!version.contains("1.13")) {
 			return Items.builder()
 					.setMaterial(Material.valueOf("STAINED_GLASS_PANE")).setAmount(1).setData(data)
 					.setName("&bColor #" + data)

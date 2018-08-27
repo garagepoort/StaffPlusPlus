@@ -7,9 +7,7 @@ import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.server.PacketModifier;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_10_R1;
-import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_11_R1;
-import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_13_R1;
+import net.shortninja.staffplus.server.compatibility.v1_1x.*;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R2;
 import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R2;
 import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R1;
@@ -35,7 +33,6 @@ import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 
-import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_12_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R3;
 import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R4;
@@ -62,6 +59,8 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+// TODO Add command to check e chests and offline player inventories
 
 public class StaffPlus extends JavaPlugin implements IStaffPlus
 {
@@ -180,7 +179,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		infractionCoordinator = new InfractionCoordinator();
 		alertCoordinator = new AlertCoordinator();
 		tasks = new Tasks();
-
 		for(Player player : Bukkit.getOnlinePlayers())
 		{
 			new Load(player);
@@ -201,6 +199,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	{
 		String version = Bukkit.getServer().getClass().getPackage().getName();
 		String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
+
+		message.sendConsoleMessage(formattedVersion,false);
 
 		switch(formattedVersion)
 		{
@@ -242,6 +242,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 				break;
 			case "v1_13_R1":
 				versionProtocol = new Protocol_v1_13_R1(this);
+				break;
+            case "v1_13_R2":
+				versionProtocol = new Protocol_v1_13_R2(this);
 		}
 
 		if(versionProtocol != null)
@@ -292,7 +295,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 			vanishHandler.removeVanish(player);
 		}
 
-		/*
+
 		versionProtocol = null;
 		permission = null;
 		message = null;
@@ -312,7 +315,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		infractionCoordinator = null;
 		alertCoordinator = null;
 		tasks = null;
-		*/
+
 	}
 
 	@Override

@@ -92,11 +92,12 @@ public class User
 		else if(options.storageType.equalsIgnoreCase("mysql")){
 			try {
 				MySQLConnection sql = new MySQLConnection();
-				PreparedStatement ps = sql.getConnection().prepareStatement("SELECT ID FROM sp_playerdata WHERE Player_UUID=?");
+				PreparedStatement ps = sql.getConnection().prepareStatement("SELECT GlassColor FROM sp_playerdata WHERE Player_UUID=?");
 				ps.setString(1, uuid.toString());
 				ResultSet rs = ps.executeQuery();
 				short data = rs.getShort("GlassColor");
 				ps.close();
+				rs.close();
 				return data;
 			}catch (SQLException e){
 				e.printStackTrace();
@@ -119,6 +120,7 @@ public class User
 					reports.add(new Report(UUID.fromString(rs.getString("Player_UUID")),Bukkit.getPlayer(UUID.fromString(rs.getString("Player_UUID"))).getDisplayName(),
 							rs.getInt("ID"),rs.getString("Reason"),Bukkit.getPlayer(UUID.fromString("Reporter_UUID")).getDisplayName(),UUID.fromString(rs.getString("Reporter_UUID")),System.currentTimeMillis()));
 				ps.close();
+				rs.close();
 			}catch (SQLException e){
 				e.printStackTrace();
 			}
@@ -140,6 +142,7 @@ public class User
                     warnings.add(new Warning(UUID.fromString(rs.getString("Player_UUID")),Bukkit.getPlayer(UUID.fromString(rs.getString("Player_UUID"))).getDisplayName(),
                             rs.getInt("ID"),rs.getString("Reason"),Bukkit.getPlayer(UUID.fromString("Warner_UUID")).getDisplayName(),UUID.fromString(rs.getString("Warner_UUID")),System.currentTimeMillis()));
                 ps.close();
+                rs.close();
             }catch (SQLException e){
 	            e.printStackTrace();
             }
@@ -273,7 +276,7 @@ public class User
        	else if(options.storageType.equalsIgnoreCase("mysql")){
             MySQLConnection sql = new MySQLConnection();
             try {
-                PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_reports(Reason,Reporter_UUID,Player_UUID) " +
+                PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_warnings(Reason,Warner_UUID,Player_UUID) " +
                         "VALUES(" + warning.getReason() + "," + uuid + "," + warning.getUuid() + ");");
                 inset.executeUpdate();
                 inset.close();

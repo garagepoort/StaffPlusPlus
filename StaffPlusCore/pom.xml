@@ -167,7 +167,7 @@
         <dependency>
             <groupId>org.inventivetalent.packetlistener</groupId>
             <artifactId>1_8</artifactId>
-            <version>3.7.0-SNAPSHOT</version>
+            <version>3.7.1-SNAPSHOT</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -185,6 +185,18 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.37</version>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_13_R2</artifactId>
+            <version>3.2.6-RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_13_R1</artifactId>
+            <version>3.2.6-RELEASE</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

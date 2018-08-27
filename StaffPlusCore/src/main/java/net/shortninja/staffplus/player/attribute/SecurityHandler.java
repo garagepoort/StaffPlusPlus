@@ -1,10 +1,16 @@
 package net.shortninja.staffplus.player.attribute;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.attribute.infraction.Warning;
+import net.shortninja.staffplus.server.data.MySQLConnection;
+import org.bukkit.Bukkit;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -27,17 +33,47 @@ public class SecurityHandler
 	
 	public String getPassword(UUID uuid)
 	{
-		return hashedPasswords.containsKey(uuid) ? hashedPasswords.get(uuid) : "";
+	    if(StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile"))
+		    return hashedPasswords.containsKey(uuid) ? hashedPasswords.get(uuid) : "";
+	    else if(StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")){
+	        if(!hasPassword(uuid))
+	            return "";
+	        try{
+	            MySQLConnection sql = new MySQLConnection();
+	            PreparedStatement ps = sql.getConnection().prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?");
+	            ps.setString(1, uuid.toString());
+	            ResultSet rs = ps.executeQuery();
+	            ps.close();
+	            return rs.getString("Password");
+            }catch (SQLException e){
+	            e.printStackTrace();
+            }
+        }
+        return "";
 	}
 	
 	public boolean hasPassword(UUID uuid)
 	{
-		return hashedPasswords.containsKey(uuid);
+	    if(StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile"))
+		    return hashedPasswords.containsKey(uuid);
+	    else if(StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")){
+            try {
+                MySQLConnection sql = new MySQLConnection();
+                PreparedStatement ps = sql.getConnection().prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?");
+                ps.setString(1, uuid.toString());
+                ResultSet rs = ps.executeQuery();
+                ps.close();
+                return rs.next();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return false;
 	}
 	
 	public boolean matches(UUID uuid, String input)
 	{
-		return hash(input, uuid).equals(hashedPasswords.get(uuid));
+		return hash(input, uuid).equals(getPassword(uuid));
 	}
 	
 	public void setPassword(UUID uuid, String password, boolean shouldHash)
@@ -45,8 +81,17 @@ public class SecurityHandler
 		if(StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile"))
 			hashedPasswords.put(uuid, shouldHash ? hash(password, uuid) : password);
 		else if(StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")){
-
-		}
+            try{
+                String hashPass = shouldHash ? hash(password, uuid) : password;
+		        MySQLConnection sql = new MySQLConnection();
+                PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_playerdata(Password,Player_UUID) " +
+                        "VALUES(" + hashPass +  "," + uuid + ")  ON DUPLICATE KEY UPDATE Password="+hashPass+";");
+                insert.executeUpdate();
+                insert.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 	
 	private String hash(String string, UUID uuid)
