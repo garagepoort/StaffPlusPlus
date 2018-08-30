@@ -197,10 +197,13 @@ public class User
 		else if(options.storageType.equalsIgnoreCase("mysql")){
 			MySQLConnection sql = new MySQLConnection();
 			try {
-				PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_playerdata(GlassColor,Player_UUID) " +
-						"VALUES(" + glassColor +  "," + getUuid() + ");");
-				inset.executeUpdate();
-				inset.close();
+				PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_playerdata(GlassColor, Player_UUID) " +
+						"VALUES(?, ?) ON DUPLICATE KEY UPDATE GlassColor=?;");
+				insert.setInt(1, glassColor);
+				insert.setString(2,getUuid().toString());
+				insert.setInt(3,glassColor);
+				insert.executeUpdate();
+				insert.close();
 			}catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -254,10 +257,13 @@ public class User
 	    else if(options.storageType.equalsIgnoreCase("mysql")){
 	        MySQLConnection sql = new MySQLConnection();
 	        try {
-	            PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_reports(Reason,Reporter_UUID,Player_UUID) " +
-                        "VALUES(" + report.getReason() + "," + report.getReporterUuid() + "," + report.getUuid() + ");");
-	            inset.executeUpdate();
-	            inset.close();
+	            PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
+                        "VALUES(?, ?, ?);");
+	            insert.setString(1,report.getReason());
+	            insert.setString(2,report.getReporterUuid().toString());
+	            insert.setString(3,report.getUuid().toString());
+	            insert.executeUpdate();
+	            insert.close();
 	        }catch (SQLException e) {
 	            e.printStackTrace();
 	        }
@@ -276,10 +282,13 @@ public class User
        	else if(options.storageType.equalsIgnoreCase("mysql")){
             MySQLConnection sql = new MySQLConnection();
             try {
-                PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_warnings(Reason,Warner_UUID,Player_UUID) " +
-                        "VALUES(" + warning.getReason() + "," + uuid + "," + warning.getUuid() + ");");
-                inset.executeUpdate();
-                inset.close();
+                PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
+                        "VALUES(? ,?, ?);");
+				insert.setString(1,warning.getReason());
+				insert.setString(2,warning.getIssuerUuid().toString());
+				insert.setString(3,warning.getUuid().toString());
+                insert.executeUpdate();
+                insert.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

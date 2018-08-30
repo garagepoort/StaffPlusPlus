@@ -50,6 +50,7 @@ import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
@@ -123,15 +124,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	public void onDisable()
 	{
 		message.sendConsoleMessage("Staff+ is now disabling!", true);
-		
 		if(versionProtocol != null)
 		{
 			stop();
-		}
-		stop();
-		plugin = null;
-		if(options.storageType.equalsIgnoreCase("mysql"))
-			MySQLConnection.kill();
+		}else
+		    stop();
 
 	}
 
@@ -142,8 +139,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 
 	public void saveUsers()
 	{
-
-
 		for(User user : userManager.getAll())
 		{
 			new Save(new NodeUser(user));
@@ -199,9 +194,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	{
 		String version = Bukkit.getServer().getClass().getPackage().getName();
 		String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
-
-		message.sendConsoleMessage(formattedVersion,false);
-
+		
 		switch(formattedVersion)
 		{
 			case "v1_7_R1":
@@ -285,7 +278,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 
 	private void stop()
 	{
-		saveUsers();
+	    saveUsers();
 		tasks.cancel();
 		APIManager.disableAPI(PacketListenerAPI.class);
 
@@ -295,6 +288,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 			vanishHandler.removeVanish(player);
 		}
 
+        if(options.storageType.equalsIgnoreCase("mysql"))
+            MySQLConnection.kill();
 
 		versionProtocol = null;
 		permission = null;
@@ -315,6 +310,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 		infractionCoordinator = null;
 		alertCoordinator = null;
 		tasks = null;
+		plugin = null;
 
 	}
 

@@ -16,9 +16,6 @@ public class MySQLConnection {
     private static HikariDataSource datasource;
     private Options options = StaffPlus.get().options;
 
-    /*TODO Data Migration
-    */
-
 
     private  HikariDataSource getDataSource() {
         if(datasource == null) {
@@ -52,7 +49,7 @@ public class MySQLConnection {
             PreparedStatement pw = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_warnings` (`ID` INT NOT NULL AUTO_INCREMENT,  `Reason` VARCHAR(255) NULL,  `Warner_UUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;");
             PreparedStatement ao = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_alert_options` ( `Name_Change` VARCHAR(5) NULL,  `Mention` VARCHAR(5) NULL,  `Xray` VARCHAR(5) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Player_UUID`)) ENGINE = InnoDB;");
             PreparedStatement pd = getConnection().prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS `sp_playerdata` ( `GlassColor` INT NULL, `Password` VARCHAR(255) NOT NULL, `Player_UUID` VARCHAR(36) NOT NULL, `Name` VARCHAR(36) NOT NULL, PRIMARY KEY (`Player_UUID`))  ENGINE = InnoDB;");
+                    "CREATE TABLE IF NOT EXISTS `sp_playerdata` ( `GlassColor` INT NULL, `Password` VARCHAR(255) NOT NULL, `Player_UUID` VARCHAR(36) NOT NULL, `Name` VARCHAR(18) NOT NULL, PRIMARY KEY (`Player_UUID`))  ENGINE = InnoDB;");
             PreparedStatement tickets = getConnection().prepareCall("CREATE TABLE IF NOT EXISTS `sp_tickets` ( `UUID` VARCHAR(36) NOT NULL, `ID` INT NOT NULL, `Inquiry` VARCHAR(255) NOT NULL, PRIMARY KEY (`UUID`)) ENGINE = InnoDB;");
             PreparedStatement commands = getConnection().prepareCall("CREATE TABLE IF NOT EXISTS `sp_commands` (`Command_Name` VARCHAR(36) NOT NULL, `Command` VARCHAR(36) NOT NULL, PRIMARY KEY (`Command_Name`)) ENGINE = InnoDB");
             commands.executeUpdate();
@@ -90,31 +87,62 @@ public class MySQLConnection {
         {
             try {
                 for (String key : save.getConfigurationSection("").getKeys(false)) {
-                    PreparedStatement pd = getConnection().prepareStatement("INSERT INTO sp_playerdata(GlassColor,Password,Player_UUID,Name)" +
-                            "VALUES("+save.getInt(key+".glass-color")+","+save.getString(key+".password")+"," +
-                            key+","+save.getString(key+".name")+") ON DUPLICATE KEY IGNORE;");
+                    PreparedStatement pd = getConnection().prepareStatement("INSERT INTO sp_playerdata(GlassColor, Password, Player_UUID, Name)" +
+                            "VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE Player_UUID=?;");
+                    pd.setInt(1,save.getInt(key+".glass-color"));
+                    pd.setString(2,save.getString(key+".password"));
+                    pd.setString(3,key);
+                    pd.setString(4,save.getString(key+".name"));
+                    pd.setString(5,key);
                     pd.executeUpdate();
                     pd.close();
                     for(String reportInfo : save.getStringList(key+".reports")){
                         String[] info = reportInfo.split(";");
-                        PreparedStatement report = getConnection().prepareStatement("INSERT INTO sp_reports(Reason,Reporter_UUID,Player_UUID) " +
-                                "VALUES(" + info[0] + "," + info[2] + "," + key + ");");
+                        PreparedStatement report = getConnection().prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
+                                "VALUES(?, ?, ?);");
+                        report.setString(1,info[0]);
+                        report.setString(2,info[2]);
+                        report.setString(3,key);
                         report.executeUpdate();
                         report.close();
                     }
                     for(String warnInfo : save.getStringList(key+".warnings")){
                         String[] info = warnInfo.split(";");
-                        PreparedStatement warn = getConnection().prepareStatement("INSERT INTO sp_warnings(Reason,Warner_UUID,Player_UUID) " +
-                                "VALUES(" + info[0] + "," + info[2] + "," + key + ");");
+                        PreparedStatement warn = getConnection().prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
+                                "VALUES(?, ?, ?);");
+                        warn.setString(1,info[0]);
+                        warn.setString(2,info[2]);
+                        warn.setString(3,key);
                         warn.executeUpdate();
                         warn.close();
                     }
                     for(String alertOptions : save.getStringList(key+".alert-options")){
                         String[] info = alertOptions.split(";");
-                        PreparedStatement alert = getConnection().prepareStatement("INSERT INTO sp_alert_options("+JavaUtils.fixString(info[0])+",Player_UUID) " +
-                                "VALUES(" +info[1] + "," + key + ") ON DUPLICATE KEY UPDATE "+JavaUtils.fixString(info[0])+"="+info[1]+";");
-                        alert.executeUpdate();
-                        alert.close();
+                        if(info[0].equalsIgnoreCase("name_change")) {
+                            PreparedStatement alert = getConnection().prepareStatement("INSERT INTO sp_alert_options(Name_Change, Player_UUID) " +
+                                    "VALUES(?, ?) ON DUPLICATE KEY UPDATE Name_Change=?;");
+                            alert.setString(1,info[1]);
+                            alert.setString(2,key);
+                            alert.setString(3, info[1]);
+                            alert.executeUpdate();
+                            alert.close();
+                        }else if(info[0].equalsIgnoreCase("xray")){
+                            PreparedStatement alert = getConnection().prepareStatement("INSERT INTO sp_alert_options(Xray, Player_UUID) " +
+                                    "VALUES(?, ?) ON DUPLICATE KEY UPDATE Xray=?;");
+                            alert.setString(1,info[1]);
+                            alert.setString(2,key);
+                            alert.setString(3, info[1]);
+                            alert.executeUpdate();
+                            alert.close();
+                        }else if(info[0].equalsIgnoreCase("mention")){
+                            PreparedStatement alert = getConnection().prepareStatement("INSERT INTO sp_alert_options(Mention, Player_UUID) " +
+                                    "VALUES(?, ?) ON DUPLICATE KEY UPDATE Mention=?;");
+                            alert.setString(1,info[1]);
+                            alert.setString(2,key);
+                            alert.setString(3, info[1]);
+                            alert.executeUpdate();
+                            alert.close();
+                        }
                     }
                 }
             }catch (SQLException e){
@@ -123,5 +151,4 @@ public class MySQLConnection {
             StaffPlus.get().getConfig().set("storage.mysql.migrated",true);
         }
     }
-
 }

@@ -84,8 +84,11 @@ public class SecurityHandler
             try{
                 String hashPass = shouldHash ? hash(password, uuid) : password;
 		        MySQLConnection sql = new MySQLConnection();
-                PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_playerdata(Password,Player_UUID) " +
-                        "VALUES(" + hashPass +  "," + uuid + ")  ON DUPLICATE KEY UPDATE Password="+hashPass+";");
+                PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_playerdata(Password, Player_UUID) " +
+                        "VALUES(?, ?)  ON DUPLICATE KEY UPDATE Password=?;");
+                insert.setString(1,hashPass);
+                insert.setString(2,uuid.toString());
+                insert.setString(3,hashPass);
                 insert.executeUpdate();
                 insert.close();
             } catch (SQLException e) {
