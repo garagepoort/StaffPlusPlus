@@ -194,7 +194,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus
 	{
 		String version = Bukkit.getServer().getClass().getPackage().getName();
 		String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
-		
+
 		switch(formattedVersion)
 		{
 			case "v1_7_R1":

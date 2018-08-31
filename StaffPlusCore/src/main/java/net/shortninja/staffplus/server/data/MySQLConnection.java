@@ -86,65 +86,65 @@ public class MySQLConnection {
         if(!StaffPlus.get().getConfig().getBoolean("storage.mysql.migrated"))
         {
             try {
+                PreparedStatement pd = getConnection().prepareStatement("INSERT INTO sp_playerdata(GlassColor, Password, Player_UUID, Name)" +
+                        "VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE Player_UUID=?;");
+                PreparedStatement report = getConnection().prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
+                        "VALUES(?, ?, ?);");
+                PreparedStatement warn = getConnection().prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
+                        "VALUES(?, ?, ?);");
+                PreparedStatement name =  getConnection().prepareStatement("INSERT INTO sp_alert_options(Name_Change, Player_UUID) " +
+                        "VALUES(?, ?) ON DUPLICATE KEY UPDATE Name_Change=?;");
+                PreparedStatement xray = getConnection().prepareStatement("INSERT INTO sp_alert_options(Xray, Player_UUID) " +
+                        "VALUES(?, ?) ON DUPLICATE KEY UPDATE Xray=?;");
+                PreparedStatement mention = getConnection().prepareStatement("INSERT INTO sp_alert_options(Mention, Player_UUID) " +
+                        "VALUES(?, ?) ON DUPLICATE KEY UPDATE Mention=?;");
                 for (String key : save.getConfigurationSection("").getKeys(false)) {
-                    PreparedStatement pd = getConnection().prepareStatement("INSERT INTO sp_playerdata(GlassColor, Password, Player_UUID, Name)" +
-                            "VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE Player_UUID=?;");
                     pd.setInt(1,save.getInt(key+".glass-color"));
                     pd.setString(2,save.getString(key+".password"));
                     pd.setString(3,key);
                     pd.setString(4,save.getString(key+".name"));
                     pd.setString(5,key);
                     pd.executeUpdate();
-                    pd.close();
                     for(String reportInfo : save.getStringList(key+".reports")){
                         String[] info = reportInfo.split(";");
-                        PreparedStatement report = getConnection().prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
-                                "VALUES(?, ?, ?);");
                         report.setString(1,info[0]);
                         report.setString(2,info[2]);
                         report.setString(3,key);
                         report.executeUpdate();
-                        report.close();
                     }
                     for(String warnInfo : save.getStringList(key+".warnings")){
                         String[] info = warnInfo.split(";");
-                        PreparedStatement warn = getConnection().prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
-                                "VALUES(?, ?, ?);");
                         warn.setString(1,info[0]);
                         warn.setString(2,info[2]);
                         warn.setString(3,key);
                         warn.executeUpdate();
-                        warn.close();
                     }
                     for(String alertOptions : save.getStringList(key+".alert-options")){
                         String[] info = alertOptions.split(";");
                         if(info[0].equalsIgnoreCase("name_change")) {
-                            PreparedStatement alert = getConnection().prepareStatement("INSERT INTO sp_alert_options(Name_Change, Player_UUID) " +
-                                    "VALUES(?, ?) ON DUPLICATE KEY UPDATE Name_Change=?;");
-                            alert.setString(1,info[1]);
-                            alert.setString(2,key);
-                            alert.setString(3, info[1]);
-                            alert.executeUpdate();
-                            alert.close();
+                            name.setString(1,info[1]);
+                            name.setString(2,key);
+                            name.setString(3, info[1]);
+                            name.executeUpdate();
                         }else if(info[0].equalsIgnoreCase("xray")){
-                            PreparedStatement alert = getConnection().prepareStatement("INSERT INTO sp_alert_options(Xray, Player_UUID) " +
-                                    "VALUES(?, ?) ON DUPLICATE KEY UPDATE Xray=?;");
-                            alert.setString(1,info[1]);
-                            alert.setString(2,key);
-                            alert.setString(3, info[1]);
-                            alert.executeUpdate();
-                            alert.close();
+                            xray.setString(1,info[1]);
+                            xray.setString(2,key);
+                            xray.setString(3, info[1]);
+                            xray.executeUpdate();
                         }else if(info[0].equalsIgnoreCase("mention")){
-                            PreparedStatement alert = getConnection().prepareStatement("INSERT INTO sp_alert_options(Mention, Player_UUID) " +
-                                    "VALUES(?, ?) ON DUPLICATE KEY UPDATE Mention=?;");
-                            alert.setString(1,info[1]);
-                            alert.setString(2,key);
-                            alert.setString(3, info[1]);
-                            alert.executeUpdate();
-                            alert.close();
+                            mention.setString(1,info[1]);
+                            mention.setString(2,key);
+                            mention.setString(3, info[1]);
+                            mention.executeUpdate();
                         }
                     }
                 }
+                pd.close();
+                report.close();
+                warn.close();
+                name.close();
+                xray.close();
+                mention.close();
             }catch (SQLException e){
                 e.printStackTrace();
             }
