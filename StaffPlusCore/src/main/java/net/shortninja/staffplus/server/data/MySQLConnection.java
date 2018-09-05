@@ -16,7 +16,6 @@ public class MySQLConnection {
     private static HikariDataSource datasource;
     private Options options = StaffPlus.get().options;
 
-
     private  HikariDataSource getDataSource() {
         if(datasource == null) {
             try {
@@ -31,7 +30,9 @@ public class MySQLConnection {
             config.setJdbcUrl("jdbc:mysql://"+host+":"+port+"/"+db+"?autoReconnect=true&useSSL=false");
             config.setUsername(options.mySqlUser);
             config.setPassword(options.mySqlPassword);
-            config.setMaximumPoolSize(10);
+            config.setMaximumPoolSize(20);
+            config.setIdleTimeout(30000);
+            config.setLeakDetectionThreshold(2000);
             config.setAutoCommit(false);
             config.addDataSourceProperty("cachePrepStmts", "true");
             config.addDataSourceProperty("prepStmtCacheSize", "250");
@@ -85,18 +86,26 @@ public class MySQLConnection {
         FileConfiguration save = StaffPlus.get().dataFile.getConfiguration();
         if(!StaffPlus.get().getConfig().getBoolean("storage.mysql.migrated"))
         {
+            Connection connection = null;
+            PreparedStatement pd = null;
+            PreparedStatement report = null;
+            PreparedStatement warn = null;
+            PreparedStatement name = null;
+            PreparedStatement xray = null;
+            PreparedStatement mention = null;
             try {
-                PreparedStatement pd = getConnection().prepareStatement("INSERT INTO sp_playerdata(GlassColor, Password, Player_UUID, Name)" +
+                connection = getConnection();
+                pd = connection.prepareStatement("INSERT INTO sp_playerdata(GlassColor, Password, Player_UUID, Name)" +
                         "VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE Player_UUID=?;");
-                PreparedStatement report = getConnection().prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
+                report = connection.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
                         "VALUES(?, ?, ?);");
-                PreparedStatement warn = getConnection().prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
+                warn = connection.prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
                         "VALUES(?, ?, ?);");
-                PreparedStatement name =  getConnection().prepareStatement("INSERT INTO sp_alert_options(Name_Change, Player_UUID) " +
+                name =  connection.prepareStatement("INSERT INTO sp_alert_options(Name_Change, Player_UUID) " +
                         "VALUES(?, ?) ON DUPLICATE KEY UPDATE Name_Change=?;");
-                PreparedStatement xray = getConnection().prepareStatement("INSERT INTO sp_alert_options(Xray, Player_UUID) " +
+                xray= connection.prepareStatement("INSERT INTO sp_alert_options(Xray, Player_UUID) " +
                         "VALUES(?, ?) ON DUPLICATE KEY UPDATE Xray=?;");
-                PreparedStatement mention = getConnection().prepareStatement("INSERT INTO sp_alert_options(Mention, Player_UUID) " +
+                mention = connection.prepareStatement("INSERT INTO sp_alert_options(Mention, Player_UUID) " +
                         "VALUES(?, ?) ON DUPLICATE KEY UPDATE Mention=?;");
                 for (String key : save.getConfigurationSection("").getKeys(false)) {
                     pd.setInt(1,save.getInt(key+".glass-color"));
@@ -145,8 +154,23 @@ public class MySQLConnection {
                 name.close();
                 xray.close();
                 mention.close();
+                connection.close();
             }catch (SQLException e){
                 e.printStackTrace();
+            }finally{
+               if(connection!=null){
+                   try {
+                       pd.close();
+                       report.close();
+                       warn.close();
+                       name.close();
+                       xray.close();
+                       mention.close();
+                       connection.close();
+                   } catch (SQLException e) {
+                       e.printStackTrace();
+                   }
+               }
             }
             StaffPlus.get().getConfig().set("storage.mysql.migrated",true);
         }
