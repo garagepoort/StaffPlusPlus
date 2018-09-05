@@ -45,14 +45,15 @@ public class MySQLConnection {
     public boolean init() {
         getDataSource();
         try {
+            Connection connection = getConnection();
             StaffPlus.get().getLogger().info("Connection established with the database!");
-            PreparedStatement pr = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_reports` (  `ID` INT NOT NULL AUTO_INCREMENT,  `Reason` VARCHAR(255) NULL,  `Reporter_UUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;");
-            PreparedStatement pw = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_warnings` (`ID` INT NOT NULL AUTO_INCREMENT,  `Reason` VARCHAR(255) NULL,  `Warner_UUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;");
-            PreparedStatement ao = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS `sp_alert_options` ( `Name_Change` VARCHAR(5) NULL,  `Mention` VARCHAR(5) NULL,  `Xray` VARCHAR(5) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Player_UUID`)) ENGINE = InnoDB;");
-            PreparedStatement pd = getConnection().prepareStatement(
+            PreparedStatement pr = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `sp_reports` (  `ID` INT NOT NULL AUTO_INCREMENT,  `Reason` VARCHAR(255) NULL,  `Reporter_UUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;");
+            PreparedStatement pw = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `sp_warnings` (`ID` INT NOT NULL AUTO_INCREMENT,  `Reason` VARCHAR(255) NULL,  `Warner_UUID` VARCHAR(36) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`ID`)) ENGINE = InnoDB;");
+            PreparedStatement ao = connection.prepareStatement("CREATE TABLE IF NOT EXISTS `sp_alert_options` ( `Name_Change` VARCHAR(5) NULL,  `Mention` VARCHAR(5) NULL,  `Xray` VARCHAR(5) NULL,  `Player_UUID` VARCHAR(36) NOT NULL,  PRIMARY KEY (`Player_UUID`)) ENGINE = InnoDB;");
+            PreparedStatement pd = connection.prepareStatement(
                     "CREATE TABLE IF NOT EXISTS `sp_playerdata` ( `GlassColor` INT NULL, `Password` VARCHAR(255) NOT NULL, `Player_UUID` VARCHAR(36) NOT NULL, `Name` VARCHAR(18) NOT NULL, PRIMARY KEY (`Player_UUID`))  ENGINE = InnoDB;");
-            PreparedStatement tickets = getConnection().prepareCall("CREATE TABLE IF NOT EXISTS `sp_tickets` ( `UUID` VARCHAR(36) NOT NULL, `ID` INT NOT NULL, `Inquiry` VARCHAR(255) NOT NULL, PRIMARY KEY (`UUID`)) ENGINE = InnoDB;");
-            PreparedStatement commands = getConnection().prepareCall("CREATE TABLE IF NOT EXISTS `sp_commands` (`Command_Name` VARCHAR(36) NOT NULL, `Command` VARCHAR(36) NOT NULL, PRIMARY KEY (`Command_Name`)) ENGINE = InnoDB");
+            PreparedStatement tickets = connection.prepareCall("CREATE TABLE IF NOT EXISTS `sp_tickets` ( `UUID` VARCHAR(36) NOT NULL, `ID` INT NOT NULL, `Inquiry` VARCHAR(255) NOT NULL, PRIMARY KEY (`UUID`)) ENGINE = InnoDB;");
+            PreparedStatement commands = connection.prepareCall("CREATE TABLE IF NOT EXISTS `sp_commands` (`Command_Name` VARCHAR(36) NOT NULL, `Command` VARCHAR(36) NOT NULL, PRIMARY KEY (`Command_Name`)) ENGINE = InnoDB");
             commands.executeUpdate();
             commands.close();
             tickets.executeUpdate();
@@ -65,6 +66,7 @@ public class MySQLConnection {
             pr.close();
             pd.executeUpdate();
             pd.close();
+            connection.close();
             importData();
             return true;
         } catch (SQLException e) {
@@ -158,7 +160,9 @@ public class MySQLConnection {
             }catch (SQLException e){
                 e.printStackTrace();
             }finally{
-               if(connection!=null){
+               if(connection!=null &&
+                       pd != null && report != null && warn !=null &&
+                       name !=null && xray !=null && mention !=null){
                    try {
                        pd.close();
                        report.close();
@@ -172,7 +176,9 @@ public class MySQLConnection {
                    }
                }
             }
+            StaffPlus.get().message.sendConsoleMessage("Data has been imported to MySQL from flatfile",false);
             StaffPlus.get().getConfig().set("storage.mysql.migrated",true);
+            StaffPlus.get().saveConfig();
         }
     }
 }
