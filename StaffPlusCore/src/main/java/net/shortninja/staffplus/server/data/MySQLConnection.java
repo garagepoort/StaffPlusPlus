@@ -45,8 +45,7 @@ public class MySQLConnection {
                     "CREATE TABLE IF NOT EXISTS sp_playerdata ( GlassColor INT NOT NULL DEFAULT 0, Password VARCHAR(255) NOT NULL DEFAULT '', Player_UUID VARCHAR(36) NOT NULL, Name VARCHAR(18) NOT NULL, PRIMARY KEY (Player_UUID))  ENGINE = InnoDB;");
             PreparedStatement tickets = connection.prepareCall("CREATE TABLE IF NOT EXISTS sp_tickets ( UUID VARCHAR(36) NOT NULL, ID INT NOT NULL, Inquiry VARCHAR(255) NOT NULL, PRIMARY KEY (UUID)) ENGINE = InnoDB;");
             PreparedStatement commands = connection.prepareCall("CREATE TABLE IF NOT EXISTS sp_commands (Command_Name VARCHAR(36) NOT NULL, Command VARCHAR(36) NOT NULL, PRIMARY KEY (Command_Name)) ENGINE = InnoDB;");
-            PreparedStatement alter = connection.prepareStatement("ALTER TABLE sp_playerdata CHANGE Password Password VARCHAR(255) NOT NULL DEFAULT '';");
-            PreparedStatement test = connection.prepareStatement("INSERT INTO sp_playerdata VALUES ('6', 'Password12!', '3387b518-c5d5-4e8d-821d-417bfd7ee094', 'Qball');")){
+            PreparedStatement alter = connection.prepareStatement("ALTER TABLE sp_playerdata CHANGE Password Password VARCHAR(255) NOT NULL DEFAULT '';")){;
             StaffPlus.get().getLogger().info("Connection established with the database!");
             commands.executeUpdate();
             tickets.executeUpdate();
@@ -55,7 +54,6 @@ public class MySQLConnection {
             pr.executeUpdate();
             pd.executeUpdate();
             alter.executeUpdate();
-            System.out.println(test.executeUpdate());
             connection.close();
             System.out.println(connection.isClosed());
             importData();
