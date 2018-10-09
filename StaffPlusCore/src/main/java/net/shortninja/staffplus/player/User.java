@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -90,18 +91,18 @@ public class User
 		if(options.storageType.equalsIgnoreCase("flatefile"))
 			return glassColor;
 		else if(options.storageType.equalsIgnoreCase("mysql")){
-			try {
-				MySQLConnection sql = new MySQLConnection();
-				PreparedStatement ps = sql.getConnection().prepareStatement("SELECT GlassColor FROM sp_playerdata WHERE Player_UUID=?");
+			try (Connection sql = MySQLConnection.getConnection();
+				 PreparedStatement ps = sql.prepareStatement("SELECT GlassColor FROM sp_playerdata WHERE Player_UUID=?")){
 				ps.setString(1, uuid.toString());
-				ResultSet rs = ps.executeQuery();
-				short data = rs.getShort("GlassColor");
-				ps.close();
-				rs.close();
+				short data;
+				try(ResultSet rs = ps.executeQuery()) {
+					data = rs.getShort("GlassColor");
+				}
 				return data;
 			}catch (SQLException e){
 				e.printStackTrace();
 			}
+
 		}
 		return (short) 0;
 	}
@@ -111,16 +112,14 @@ public class User
 		if(options.storageType.equalsIgnoreCase("flatfile"))
 			return reports;
 	    else if(options.storageType.equalsIgnoreCase("mysql")){
-			try {
-				MySQLConnection sql = new MySQLConnection();
-				PreparedStatement ps = sql.getConnection().prepareStatement("SELECT ID FROM sp_reports WHERE Player_UUID=?");
+			try(Connection sql = MySQLConnection.getConnection();
+				PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_reports WHERE Player_UUID=?");){
 				ps.setString(1, uuid.toString());
-				ResultSet rs = ps.executeQuery();
-				while(rs.next())
-					reports.add(new Report(UUID.fromString(rs.getString("Player_UUID")),Bukkit.getPlayer(UUID.fromString(rs.getString("Player_UUID"))).getDisplayName(),
-							rs.getInt("ID"),rs.getString("Reason"),Bukkit.getPlayer(UUID.fromString("Reporter_UUID")).getDisplayName(),UUID.fromString(rs.getString("Reporter_UUID")),System.currentTimeMillis()));
-				ps.close();
-				rs.close();
+				try(ResultSet rs = ps.executeQuery()) {
+					while (rs.next())
+						reports.add(new Report(UUID.fromString(rs.getString("Player_UUID")), Bukkit.getPlayer(UUID.fromString(rs.getString("Player_UUID"))).getDisplayName(),
+								rs.getInt("ID"), rs.getString("Reason"), Bukkit.getPlayer(UUID.fromString("Reporter_UUID")).getDisplayName(), UUID.fromString(rs.getString("Reporter_UUID")), System.currentTimeMillis()));
+				}
 			}catch (SQLException e){
 				e.printStackTrace();
 			}
@@ -133,16 +132,15 @@ public class User
 		if(options.storageType.equalsIgnoreCase("flatfile"))
 		    return warnings;
 	    else if(options.storageType.equalsIgnoreCase("mysql")){
-	        try {
-                MySQLConnection sql = new MySQLConnection();
-                PreparedStatement ps = sql.getConnection().prepareStatement("SELECT ID FROM sp_warnings WHERE Player_UUID=?");
-                ps.setString(1, uuid.toString());
-                ResultSet rs = ps.executeQuery();
-                while(rs.next())
-                    warnings.add(new Warning(UUID.fromString(rs.getString("Player_UUID")),Bukkit.getPlayer(UUID.fromString(rs.getString("Player_UUID"))).getDisplayName(),
-                            rs.getInt("ID"),rs.getString("Reason"),Bukkit.getPlayer(UUID.fromString("Warner_UUID")).getDisplayName(),UUID.fromString(rs.getString("Warner_UUID")),System.currentTimeMillis()));
-                ps.close();
-                rs.close();
+	        try (Connection sql = MySQLConnection.getConnection();
+				 PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_warnings WHERE Player_UUID=?");
+			){
+	        	ps.setString(1, uuid.toString());
+                try(ResultSet rs = ps.executeQuery()) {
+					while (rs.next())
+						warnings.add(new Warning(UUID.fromString(rs.getString("Player_UUID")), Bukkit.getPlayer(UUID.fromString(rs.getString("Player_UUID"))).getDisplayName(),
+								rs.getInt("ID"), rs.getString("Reason"), Bukkit.getPlayer(UUID.fromString("Warner_UUID")).getDisplayName(), UUID.fromString(rs.getString("Warner_UUID")), System.currentTimeMillis()));
+				}
             }catch (SQLException e){
 	            e.printStackTrace();
             }
@@ -195,15 +193,13 @@ public class User
 		if(options.storageType.equalsIgnoreCase("flatfile"))
 			this.glassColor = glassColor;
 		else if(options.storageType.equalsIgnoreCase("mysql")){
-			MySQLConnection sql = new MySQLConnection();
-			try {
-				PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_playerdata(GlassColor, Player_UUID) " +
-						"VALUES(?, ?) ON DUPLICATE KEY UPDATE GlassColor=?;");
+			try(Connection sql = MySQLConnection.getConnection();
+				PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_playerdata(GlassColor, Player_UUID) " +
+						"VALUES(?, ?) ON DUPLICATE KEY UPDATE GlassColor=?;")) {
 				insert.setInt(1, glassColor);
 				insert.setString(2,getUuid().toString());
 				insert.setInt(3,glassColor);
 				insert.executeUpdate();
-				insert.close();
 			}catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -255,15 +251,13 @@ public class User
 	    if(options.storageType.equalsIgnoreCase("flatfile"))
 		    reports.add(report);
 	    else if(options.storageType.equalsIgnoreCase("mysql")){
-	        MySQLConnection sql = new MySQLConnection();
-	        try {
-	            PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
-                        "VALUES(?, ?, ?);");
+	        try (Connection sql = MySQLConnection.getConnection();
+				 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
+						 "VALUES(?, ?, ?);");){
 	            insert.setString(1,report.getReason());
 	            insert.setString(2,report.getReporterUuid().toString());
 	            insert.setString(3,report.getUuid().toString());
 	            insert.executeUpdate();
-	            insert.close();
 	        }catch (SQLException e) {
 	            e.printStackTrace();
 	        }
@@ -280,15 +274,13 @@ public class User
     	if (options.storageType.equalsIgnoreCase("flatfile"))
             warnings.add(warning);
        	else if(options.storageType.equalsIgnoreCase("mysql")){
-            MySQLConnection sql = new MySQLConnection();
-            try {
-                PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
-                        "VALUES(? ,?, ?);");
+            try (Connection sql = MySQLConnection.getConnection();
+				 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
+						 "VALUES(? ,?, ?);");){
 				insert.setString(1,warning.getReason());
 				insert.setString(2,warning.getIssuerUuid().toString());
 				insert.setString(3,warning.getUuid().toString());
                 insert.executeUpdate();
-                insert.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

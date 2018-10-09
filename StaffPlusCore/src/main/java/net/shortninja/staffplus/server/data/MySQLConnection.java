@@ -27,7 +27,7 @@ public class MySQLConnection {
             config.setPassword(options.mySqlPassword);
             config.setMaximumPoolSize(5);
             config.setLeakDetectionThreshold(2000);
-            config.setAutoCommit(false);
+            config.setAutoCommit(true);
             config.addDataSourceProperty("cachePrepStmts", "true");
             config.addDataSourceProperty("prepStmtCacheSize", "250");
             config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
@@ -45,7 +45,7 @@ public class MySQLConnection {
                     "CREATE TABLE IF NOT EXISTS sp_playerdata ( GlassColor INT NOT NULL DEFAULT 0, Password VARCHAR(255) NOT NULL DEFAULT '', Player_UUID VARCHAR(36) NOT NULL, Name VARCHAR(18) NOT NULL, PRIMARY KEY (Player_UUID))  ENGINE = InnoDB;");
             PreparedStatement tickets = connection.prepareCall("CREATE TABLE IF NOT EXISTS sp_tickets ( UUID VARCHAR(36) NOT NULL, ID INT NOT NULL, Inquiry VARCHAR(255) NOT NULL, PRIMARY KEY (UUID)) ENGINE = InnoDB;");
             PreparedStatement commands = connection.prepareCall("CREATE TABLE IF NOT EXISTS sp_commands (Command_Name VARCHAR(36) NOT NULL, Command VARCHAR(36) NOT NULL, PRIMARY KEY (Command_Name)) ENGINE = InnoDB;");
-            PreparedStatement alter = connection.prepareStatement("ALTER TABLE sp_playerdata CHANGE Password Password VARCHAR(255) NOT NULL DEFAULT '';")){;
+            PreparedStatement alter = connection.prepareStatement("ALTER TABLE sp_playerdata CHANGE Password Password VARCHAR(255) NOT NULL DEFAULT '';")){
             StaffPlus.get().getLogger().info("Connection established with the database!");
             commands.executeUpdate();
             tickets.executeUpdate();
@@ -55,7 +55,6 @@ public class MySQLConnection {
             pd.executeUpdate();
             alter.executeUpdate();
             connection.close();
-            System.out.println(connection.isClosed());
             importData();
             return true;
         } catch (SQLException e) {
@@ -66,7 +65,7 @@ public class MySQLConnection {
 
     }
 
-    public Connection getConnection()throws SQLException{
+    public static Connection getConnection()throws SQLException{
             return datasource.getConnection();
     }
 
@@ -82,68 +81,71 @@ public class MySQLConnection {
                     PreparedStatement pd = connection.prepareStatement("INSERT INTO sp_playerdata " +
                             "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE Player_UUID=?");
                     PreparedStatement report = connection.prepareStatement("INSERT INTO sp_reports " +
-                            "VALUES(?, ?, ?);");
+                            "VALUES(?, ?, ?)");
                     PreparedStatement warn = connection.prepareStatement("INSERT INTO sp_warnings " +
-                            "VALUES (?, ?, ?);");
+                            "VALUES (?, ?, ?)");
                     PreparedStatement  name =  connection.prepareStatement("INSERT INTO sp_alert_options(Name_Change, Player_UUID) " +
-                            "VALUES (?, ?) ON DUPLICATE KEY UPDATE Name_Change=?;");
-                    PreparedStatement xray= connection.prepareStatement("INSERT INTO sp_alert_options(Xray, Player_UUID) " +
-                            "VALUES (?, ?) ON DUPLICATE KEY UPDATE Xray=?;");
+                            "VALUES (?, ?) ON DUPLICATE KEY UPDATE Name_Change=?");
+                    PreparedStatement xray = connection.prepareStatement("INSERT INTO sp_alert_options(Xray, Player_UUID) " +
+                            "VALUES (?, ?) ON DUPLICATE KEY UPDATE Xray=?");
                     PreparedStatement mention = connection.prepareStatement("INSERT INTO sp_alert_options(Mention, Player_UUID) " +
-                            "VALUES (?, ?) ON DUPLICATE KEY UPDATE Mention=?;")){
+                            "VALUES (?, ?) ON DUPLICATE KEY UPDATE Mention=?")){
                     for (String key : save.getConfigurationSection("").getKeys(false)) {
-                        if(connection.isClosed()){
-                            StaffPlus.get().message.sendConsoleMessage("Connection is closed for some reason",true);
+                        if (connection.isClosed()) {
+                            StaffPlus.get().message.sendConsoleMessage("Connection is closed for some reason", true);
                         }
-                        StaffPlus.get().message.sendConsoleMessage(key +" "+save.getString(key+".name")+" "+
-                                save.getInt(key+".glass-color")+ " "+save.getString(key+".password"),false);
-                        pd.setInt(1,save.getInt(key+".glass-color"));
-                        pd.setString(2,save.getString(key+".password"));
-                        pd.setString(3,key);
-                        pd.setString(4,save.getString(key+".name"));
-                        pd.setString(5,key);
-                        StaffPlus.get().message.sendConsoleMessage("Update returned "+pd.executeUpdate(),false);
-                        pd.executeUpdate();
-                        for(String reportInfo : save.getStringList(key+".reports")){
+                        pd.setInt(1, save.getInt(key + ".glass-color"));
+                        pd.setString(2, save.getString(key + ".password"));
+                        pd.setString(3, key);
+                        pd.setString(4, save.getString(key + ".name"));
+                        pd.setString(5, key);
+                        pd.addBatch();
+                        for (String reportInfo : save.getStringList(key + ".reports")) {
                             String[] info = reportInfo.split(";");
-                            report.setString(1,info[0]);
-                            report.setString(2,info[2]);
-                            report.setString(3,key);
-                            report.executeUpdate();
+                            report.setString(1, info[0]);
+                            report.setString(2, info[2]);
+                            report.setString(3, key);
+                            report.addBatch();
                         }
-                        for(String warnInfo : save.getStringList(key+".warnings")){
+                        for (String warnInfo : save.getStringList(key + ".warnings")) {
                             String[] info = warnInfo.split(";");
-                            warn.setString(1,info[0]);
-                            warn.setString(2,info[2]);
-                            warn.setString(3,key);
-                            warn.executeUpdate();
+                            warn.setString(1, info[0]);
+                            warn.setString(2, info[2]);
+                            warn.setString(3, key);
+                            warn.addBatch();
                         }
-                        for(String alertOptions : save.getStringList(key+".alert-options")){
+                        for (String alertOptions : save.getStringList(key + ".alert-options")) {
                             String[] info = alertOptions.split(";");
-                            if(info[0].equalsIgnoreCase("name_change")) {
-                                name.setString(1,info[1]);
-                                name.setString(2,key);
+                            if (info[0].equalsIgnoreCase("name_change")) {
+                                name.setString(1, info[1]);
+                                name.setString(2, key);
                                 name.setString(3, info[1]);
-                                name.executeUpdate();
-                            }else if(info[0].equalsIgnoreCase("xray")){
-                                xray.setString(1,info[1]);
-                                xray.setString(2,key);
+                                name.addBatch();
+                            } else if (info[0].equalsIgnoreCase("xray")) {
+                                xray.setString(1, info[1]);
+                                xray.setString(2, key);
                                 xray.setString(3, info[1]);
-                                xray.executeUpdate();
-                            }else if(info[0].equalsIgnoreCase("mention")){
-                                mention.setString(1,info[1]);
-                                mention.setString(2,key);
+                                xray.addBatch();
+                            } else if (info[0].equalsIgnoreCase("mention")) {
+                                mention.setString(1, info[1]);
+                                mention.setString(2, key);
                                 mention.setString(3, info[1]);
-                                mention.executeUpdate();
+                                mention.addBatch();
                             }
                         }
                     }
+                    pd.executeBatch();
+                    warn.executeBatch();
+                    report.executeBatch();
+                    name.executeBatch();
+                    xray.executeBatch();
+                    mention.executeBatch();
                 }catch (SQLException e){
                     e.printStackTrace();
                 }
 
                 StaffPlus.get().message.sendConsoleMessage("Data has been imported to MySQL from flatfile",false);
-                //StaffPlus.get().getConfig().set("storage.mysql.migrated",true);
+                StaffPlus.get().getConfig().set("storage.mysql.migrated",true);
 
                 StaffPlus.get().saveConfig();
         }

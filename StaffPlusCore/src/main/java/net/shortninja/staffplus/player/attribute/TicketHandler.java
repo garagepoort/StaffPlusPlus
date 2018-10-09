@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,13 +55,12 @@ public class TicketHandler
 		if(options.storageType.equalsIgnoreCase("flatfile"))
 			return tickets.get(uuid);
 		else if(options.storageType.equalsIgnoreCase("mysql")){
-			try {
-				MySQLConnection sql = new MySQLConnection();
-				PreparedStatement ps = sql.getConnection().prepareStatement("SELECT ID FROM sp_warnings WHERE UUID=?");
+			try(Connection sql = MySQLConnection.getConnection();
+				PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_warnings WHERE UUID=?")){
 				ps.setString(1, uuid.toString());
-				ResultSet rs = ps.executeQuery();
-				tickets.put(uuid,new Ticket(uuid,Bukkit.getPlayer(uuid).getDisplayName(),rs.getInt("ID"),rs.getString("Inquiry")));
-				ps.close();
+				try(ResultSet rs = ps.executeQuery()) {
+					tickets.put(uuid, new Ticket(uuid, Bukkit.getPlayer(uuid).getDisplayName(), rs.getInt("ID"), rs.getString("Inquiry")));
+				}
 			}catch (SQLException e){
 				e.printStackTrace();
 			}
@@ -79,14 +79,13 @@ public class TicketHandler
 				}
 			}
 		}else if(options.storageType.equalsIgnoreCase("mysql")){
-			try {
-				MySQLConnection sql = new MySQLConnection();
-				PreparedStatement ps = sql.getConnection().prepareStatement("SELECT ID FROM sp_warnings WHERE ID=?");
+			try(Connection sql = MySQLConnection.getConnection();
+				PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_warnings WHERE ID=?")) {
 				ps.setInt(1, id);
-				ResultSet rs = ps.executeQuery();
-				ticket = new Ticket(UUID.fromString(rs.getString("UUID")),
-						Bukkit.getPlayer(UUID.fromString("UUID")).getDisplayName(),id,rs.getString("Inquiry"));
-				ps.close();
+				try(ResultSet rs = ps.executeQuery()) {
+					ticket = new Ticket(UUID.fromString(rs.getString("UUID")),
+							Bukkit.getPlayer(UUID.fromString("UUID")).getDisplayName(), id, rs.getString("Inquiry"));
+				}
 			}catch (SQLException e){
 				e.printStackTrace();
 			}
@@ -109,12 +108,13 @@ public class TicketHandler
 		if(options.storageType.equalsIgnoreCase("flatfile"))
 			tickets.put(ticket.getUuid(), ticket);
 		else if(options.storageType.equalsIgnoreCase("mysql")){
-			MySQLConnection sql = new MySQLConnection();
-			try {
-				PreparedStatement inset = sql.getConnection().prepareStatement("INSERT INTO sp_tickets(UUID,ID,Inquiry) " +
-						"VALUES(" + ticket.getUuid() + "," + ticket.getId() + "," + ticket.getInquiry()+ ");");
-				inset.executeUpdate();
-				inset.close();
+			try(Connection sql = MySQLConnection.getConnection();
+				PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_tickets(UUID,ID,Inquiry) " +
+						"VALUES(?, ?, ?);")){
+				insert.setString(1,ticket.getUuid().toString());
+				insert.setInt(2, ticket.getId());
+				insert.setString(3, ticket.getInquiry());
+				insert.executeUpdate();
 			}catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -137,11 +137,10 @@ public class TicketHandler
 		if(options.storageType.equalsIgnoreCase("flatfile"))
 			tickets.remove(ticket.getUuid());
 		else if(options.storageType.equalsIgnoreCase("mysql")){
-			MySQLConnection sql = new MySQLConnection();
-			try{
-				PreparedStatement delete = sql.getConnection().prepareCall("DELETE FROM TABLE sp_tickets WHERE UUID = "+ticket.getUuid().toString()+";");
+			try(Connection sql = MySQLConnection.getConnection();
+				PreparedStatement delete = sql.prepareCall("DELETE FROM TABLE sp_tickets WHERE UUID =?;")){
+				delete.setString(1,ticket.getUuid().toString());
 				delete.executeUpdate();
-				delete.close();
 			}catch(SQLException e){
 				e.printStackTrace();
 			}

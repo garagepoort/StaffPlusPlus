@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,13 +39,12 @@ public class SecurityHandler
 	    else if(StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")){
 	        if(!hasPassword(uuid))
 	            return "";
-	        try{
-	            MySQLConnection sql = new MySQLConnection();
-	            PreparedStatement ps = sql.getConnection().prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?");
-	            ps.setString(1, uuid.toString());
-	            ResultSet rs = ps.executeQuery();
-	            ps.close();
-	            return rs.getString("Password");
+	        try(Connection sql = MySQLConnection.getConnection();
+				PreparedStatement ps = sql.prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?");){
+	        	ps.setString(1, uuid.toString());
+	            try(ResultSet rs = ps.executeQuery()) {
+					return rs.getString("Password");
+				}
             }catch (SQLException e){
 	            e.printStackTrace();
             }
@@ -57,13 +57,12 @@ public class SecurityHandler
 	    if(StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile"))
 		    return hashedPasswords.containsKey(uuid);
 	    else if(StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")){
-            try {
-                MySQLConnection sql = new MySQLConnection();
-                PreparedStatement ps = sql.getConnection().prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?");
-                ps.setString(1, uuid.toString());
-                ResultSet rs = ps.executeQuery();
-                ps.close();
-                return rs.next();
+            try(Connection sql = MySQLConnection.getConnection();
+				PreparedStatement ps = sql.prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?");){
+            	ps.setString(1, uuid.toString());
+                try(ResultSet rs = ps.executeQuery()) {
+					return rs.next();
+				}
             }catch (SQLException e){
                 e.printStackTrace();
             }
@@ -81,16 +80,14 @@ public class SecurityHandler
 		if(StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile"))
 			hashedPasswords.put(uuid, shouldHash ? hash(password, uuid) : password);
 		else if(StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")){
-            try{
+            try(Connection sql = MySQLConnection.getConnection();
+				PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_playerdata(Password, Player_UUID) " +
+						"VALUES(?, ?)  ON DUPLICATE KEY UPDATE Password=?;")){
                 String hashPass = shouldHash ? hash(password, uuid) : password;
-		        MySQLConnection sql = new MySQLConnection();
-                PreparedStatement insert = sql.getConnection().prepareStatement("INSERT INTO sp_playerdata(Password, Player_UUID) " +
-                        "VALUES(?, ?)  ON DUPLICATE KEY UPDATE Password=?;");
                 insert.setString(1,hashPass);
                 insert.setString(2,uuid.toString());
                 insert.setString(3,hashPass);
                 insert.executeUpdate();
-                insert.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
