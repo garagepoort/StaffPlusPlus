@@ -13,14 +13,13 @@ public class PlayerWorldChange implements Listener {
     private Options options = StaffPlus.get().options;
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
-    public PlayerWorldChange()
-    {
+    public PlayerWorldChange() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onWorldChange(PlayerChangedWorldEvent event){
-        if(modeCoordinator.isInMode(event.getPlayer().getUniqueId())&&options.worldChange)
+    public void onWorldChange(PlayerChangedWorldEvent event) {
+        if (modeCoordinator.isInMode(event.getPlayer().getUniqueId()) && options.worldChange)
             modeCoordinator.removeMode(event.getPlayer());
     }
 }

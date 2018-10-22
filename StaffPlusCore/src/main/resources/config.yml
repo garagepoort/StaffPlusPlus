@@ -926,4 +926,7 @@ animation-packets: PacketPlayOutBlockBreakAnimation, PacketPlayOutBlockAction
 # Each name is separated by a comma.
 sound-names: random.chestopen, random.chestclosed
 
+#Used to turn on or off metrics please keep true
+metrics: true
+
 # you're done with the config file, shit waddup
