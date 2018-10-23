@@ -23,7 +23,8 @@ This plugin started off as a copy of HydraHCF's staff mode plugin back in July o
 * [Help wiki](https://github.com/Shortninja66/StaffPlus/wiki)
 
 #### Contributing
-* Clone this repo
+* Fork this repo
+* Clone your repo
 * Make your changes
 * Submit a pull request
 
