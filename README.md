@@ -21,3 +21,13 @@ This plugin started off as a copy of HydraHCF's staff mode plugin back in July o
 * [Configurable files](https://github.com/Shortninja66/StaffPlus/wiki/Configurable-files)
 * [Plugin jar download](https://www.spigotmc.org/resources/staff-the-ultimate-moderation-plugin-1-7-1-13.41500/history)
 * [Help wiki](https://github.com/Shortninja66/StaffPlus/wiki)
+
+#### Contributing
+* Clone this repo
+* Make your changes
+* Submit a pull request
+
+#### Building
+* Clone this repo
+* Run mvn clean package
+* Wait (if you have never ran BuildTools before it will take a while future builds will be faster)
