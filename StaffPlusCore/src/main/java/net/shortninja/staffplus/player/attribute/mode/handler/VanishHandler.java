@@ -20,6 +20,7 @@ public class VanishHandler {
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().userManager;
+    private StaffPlus staffPlus = StaffPlus.get();
 
     public void addVanish(Player player, VanishType vanishType) {
         User user = userManager.get(player.getUniqueId());
@@ -63,14 +64,14 @@ public class VanishHandler {
         switch (vanishType) {
             case TOTAL:
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    if (permission.has(p, options.permissionVanishTotal)) {
+                    if (permission.has(player, options.permissionVanishTotal)) {
+                        p.hidePlayer(staffPlus, player);
                         continue;
                     }
-
-                    p.hidePlayer(player);
+                    p.hidePlayer(staffPlus,player);
                 }
 
-                player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
+                //player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
                 message = messages.totalVanish.replace("%status%", "enabled");
                 break;
             case LIST:
@@ -95,7 +96,7 @@ public class VanishHandler {
         switch (vanishType) {
             case TOTAL:
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.showPlayer(player);
+                    p.showPlayer(staffPlus,player);
                 }
 
                 player.removePotionEffect(PotionEffectType.INVISIBILITY);

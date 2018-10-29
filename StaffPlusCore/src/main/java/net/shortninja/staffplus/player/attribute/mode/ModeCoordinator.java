@@ -3,6 +3,7 @@ package net.shortninja.staffplus.player.attribute.mode;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.attribute.InventorySaver;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
@@ -14,6 +15,7 @@ import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +54,6 @@ public class ModeCoordinator {
         UUID uuid = player.getUniqueId();
         User user = userManager.get(uuid);
         ModeDataVault modeData = new ModeDataVault(uuid, player.getInventory().getContents(), player.getInventory().getArmorContents(), player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
-
         if (isInMode(player.getUniqueId())) {
             return;
         }
@@ -103,6 +104,7 @@ public class ModeCoordinator {
     private void unsetPassive(Player player) {
         UUID uuid = player.getUniqueId();
         ModeDataVault modeData = modeUsers.get(uuid);
+        InventorySaver saver = new InventorySaver(player.getUniqueId());
 
         if (options.modeOriginalLocation) {
             player.teleport(modeData.getPreviousLocation().setDirection(player.getLocation().getDirection()));
@@ -110,8 +112,11 @@ public class ModeCoordinator {
         }
 
         runModeCommands(player.getName(), false);
-        player.getInventory().setContents(modeData.getItems());
-        player.getInventory().setArmorContents(modeData.getArmor());
+        //player.getInventory().setContents(modeData.getItems());
+        //player.getInventory().setArmorContents(modeData.getArmor());
+        player.getInventory().setContents(saver.getContents());
+        player.getInventory().setArmorContents(saver.getArmor());
+        saver.deleteFile();
         player.updateInventory();
         player.setAllowFlight(modeData.hasFlight());
         player.setGameMode(modeData.getGameMode());

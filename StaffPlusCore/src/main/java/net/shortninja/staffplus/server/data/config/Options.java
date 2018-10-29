@@ -239,7 +239,7 @@ public class Options implements IOptions {
     public boolean modeHungerLoss = configVersion >= 3.17 ? config.getBoolean("staff-mode.hunger-loss") : true;
     public List<String> modeEnableCommands = configVersion >= 3.16 ? JavaUtils.stringToList(config.getString("staff-mode.enable-commands")) : new ArrayList<String>();
     public List<String> modeDisableCommands = configVersion >= 3.16 ? JavaUtils.stringToList(config.getString("staff-mode.disable-commands")) : new ArrayList<String>();
-    public boolean worldChange = configVersion >= 6.199 ? config.getBoolean("staff-mode.disable-on-world-change") : true;
+    public boolean worldChange = configVersion >= 6199 ? config.getBoolean("staff-mode.disable-on-world-change") : false;
     public int modeFreezeTimer = configVersion >= 3.17 ? config.getInt("staff-mode.freeze-module.timer") : 0;
     public Sounds modeFreezeSound = configVersion >= 3.17 ? stringToSound(sanitize(config.getString("staff-mode.freeze-module.sound"))) : Sounds.ORB_PICKUP;
     public boolean modeFreezePrompt = configVersion >= 3.1 && config.getBoolean("staff-mode.freeze-module.prompt");

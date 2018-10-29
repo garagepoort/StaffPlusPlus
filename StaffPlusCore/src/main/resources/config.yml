@@ -284,7 +284,7 @@ staff-mode:
   disable-commands: "example1 %player%, example2 %player%"
 
   # Should Staff mode disable on world change
-  disable-on-world-change: true
+  disable-on-world-change: false
 
   ############################################################
   # +------------------------------------------------------+ #

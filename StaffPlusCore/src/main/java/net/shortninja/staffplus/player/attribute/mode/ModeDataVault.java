@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.player.attribute.mode;
 
+import net.shortninja.staffplus.player.attribute.InventorySaver;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
@@ -18,12 +20,14 @@ public class ModeDataVault {
 
     public ModeDataVault(UUID uuid, ItemStack[] items, ItemStack[] armor, Location previousLocation, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
         this.uuid = uuid;
-        this.items = items;
-        this.armor = armor;
+        //this.items = items;
+        //this.armor = armor;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
         this.gameMode = gameMode;
         this.vanishType = vanishType;
+        InventorySaver save = new InventorySaver(uuid);
+        save.save(Bukkit.getPlayer(uuid),items,armor);
     }
 
     public ModeDataVault(UUID uuid, ItemStack[] items, ItemStack[] armor) {
