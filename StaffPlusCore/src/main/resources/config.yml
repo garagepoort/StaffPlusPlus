@@ -813,6 +813,9 @@ permissions:
   # Permission for using /staffplus
   staffplus: "staff.staffplus"
 
+  #Use this for players who's ip should not be shown in examine mode
+  ipPerm: "staff.staffplus.hideip"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #
@@ -908,7 +911,7 @@ storage:
 config-version: 6200
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
-auto-save: 3600
+auto-save: 3601
 
 # The interval in seconds at which calculations, like freeze checking, will be performed.
 # The higher this is, the less lag there will be.

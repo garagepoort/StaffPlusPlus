@@ -65,13 +65,14 @@ public class VanishHandler {
             case TOTAL:
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (permission.has(player, options.permissionVanishTotal)) {
-                        p.hidePlayer(staffPlus, player);
+                        p.hidePlayer( player);
+                        player.sendMessage("No one should see me");
                         continue;
                     }
-                    p.hidePlayer(staffPlus,player);
+                    //player.sendMessage("Outside the if");
+                    //p.hidePlayer(staffPlus,player);
                 }
 
-                //player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0));
                 message = messages.totalVanish.replace("%status%", "enabled");
                 break;
             case LIST:
@@ -96,7 +97,7 @@ public class VanishHandler {
         switch (vanishType) {
             case TOTAL:
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.showPlayer(staffPlus,player);
+                    p.showPlayer(player);
                 }
 
                 player.removePotionEffect(PotionEffectType.INVISIBILITY);
@@ -116,6 +117,6 @@ public class VanishHandler {
     }
 
     public enum VanishType {
-        TOTAL, LIST, NONE;
+        TOTAL, LIST, NONE
     }
 }

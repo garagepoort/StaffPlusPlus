@@ -58,8 +58,8 @@ public class InventorySaver {
 
     public void save(Player p, ItemStack[] items, ItemStack[] armor) {
         inventory = YamlConfiguration.loadConfiguration(file);
-        for (int i = 0; i <= items.length-1; i++) {
-            inventory.set("Inventory." + i, items[i]);
+        for (int i = 0; i <= p.getInventory().getContents().length-1; i++) {
+            inventory.set("Inventory." + i, p.getInventory().getContents()[i]);
         }
         for (int i = 0; i <= armor.length-1; i++) {
             inventory.set("Armor." + i,armor[i]);

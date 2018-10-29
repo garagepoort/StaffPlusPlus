@@ -204,6 +204,9 @@ public class Options implements IOptions {
     public String permissionLockdown = config.getString("permissions.lockdown");
     public String permissionRevive = config.getString("permissions.revive");
     public String permissionMember = config.getString("permissions.member");
+    public String ipHidePerm = config.getString("permissions.ipPerm");
+
+
     /*
      * Commands
      */
@@ -301,6 +304,7 @@ public class Options implements IOptions {
     private String modeExamineName = config.getString("staff-mode.examine-module.name");
     private List<String> modeExamineLore = JavaUtils.stringToList(config.getString("staff-mode.examine-module.lore"));
     public ItemStack modeExamineItem = Items.builder().setMaterial(modeExamineType).setData(modeExamineData).setName(modeExamineName).setLore(modeExamineLore).build();
+
 
     /*
      * Storage
