@@ -99,15 +99,31 @@ public class InventorySerializer {
         }
     }
 
-    public ItemStack[] getContents(){
-        ArrayList<ItemStack> items = new ArrayList<>();
-        HashMap<String,ItemStack> hashItems = new HashMap<>();
+    public void save(HashMap<String,ItemStack> items, ItemStack[] armor, ItemStack[] offHand) {
+        inventory = YamlConfiguration.loadConfiguration(file);
+        for (String i : items.keySet()) {
+            inventory.set("Inventory." + i, items.get(i));
+        }
+        for (int i = 0; i <= armor.length-1; i++) {
+            inventory.set("Armor." + i,armor[i]);
+        }
+        for (int i = 0; i <= offHand.length-1; i++) {
+            inventory.set("OffHand." + i,offHand[i]);
+        }
+        try {
+            inventory.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public HashMap<String, ItemStack> getContents(){
+        HashMap<String,ItemStack> items = new HashMap<>();
         inventory = YamlConfiguration.loadConfiguration(file);
         for(String num : inventory.getConfigurationSection("Inventory").getKeys(false)){
-            Bukkit.getPlayer("Qballl_").sendMessage(num);
-            items.add(inventory.getItemStack("Inventory."+num));
+            items.put(num, inventory.getItemStack("Inventory."+num));
         }
-        return items.toArray(new ItemStack[0]);
+        return items;
     }
 
     public ItemStack[] getArmor(){

@@ -12,13 +12,16 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class PlayerJoin implements Listener {
@@ -68,7 +71,9 @@ public class PlayerJoin implements Listener {
     private void loadInv(Player p){
         InventorySerializer serializer = new InventorySerializer(p.getUniqueId());
         if(serializer.shouldLoad()){
-            p.getInventory().setContents(serializer.getContents());
+            HashMap<String, ItemStack> items = serializer.getContents();
+            for(String num : items.keySet())
+                p.getInventory().setItem(Integer.parseInt(num),items.get(num));
             serializer.deleteFile();
         }
     }

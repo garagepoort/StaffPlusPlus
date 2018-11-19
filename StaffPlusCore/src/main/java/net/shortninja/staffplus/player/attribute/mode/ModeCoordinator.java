@@ -116,7 +116,7 @@ public class ModeCoordinator {
         }
 
         runModeCommands(player.getName(), false);
-        player.getInventory().setContents(saver.getContents());
+        getItems(player,saver);
         player.getInventory().setArmorContents(saver.getArmor());
         if(StaffPlus.get().nineteenPlus)
             player.getInventory().setExtraContents(saver.getOffHand());
@@ -140,21 +140,22 @@ public class ModeCoordinator {
         }
     }
 
-    private ItemStack[] getContents(Player p){
-        if(StaffPlus.get().nineteenPlus){
-            ArrayList<ItemStack> itemStacks = new ArrayList<>();
-            for(int i = 0; i<=35; i++){
-                if(p.getInventory().getItem(i) != null) {
-                    itemStacks.add(p.getInventory().getItem(i));
-                }
+    public static HashMap<String, ItemStack> getContents(Player p) {
+        ArrayList<ItemStack> itemStacks = new ArrayList<>();
+        HashMap<String, ItemStack> itemHash = new HashMap<>();
+        for (int i = 0; i <= 35; i++) {
+            if (p.getInventory().getItem(i) != null) {
+                itemStacks.add(p.getInventory().getItem(i));
+                itemHash.put(String.valueOf(i), p.getInventory().getItem(i));
             }
-            ItemStack[] items = itemStacks.toArray(new ItemStack[0]);
-            for(ItemStack item : items) {
-                p.sendMessage(item.getType().toString());
-            }
-            return items;
-        }else
-            return p.getInventory().getContents();
+        }
+        return itemHash;
+    }
+
+    private void getItems(Player p, InventorySerializer saver){
+        HashMap<String, ItemStack> items = saver.getContents();
+        for(String num : items.keySet())
+            p.getInventory().setItem(Integer.parseInt(num),items.get(num));
     }
 
 }
