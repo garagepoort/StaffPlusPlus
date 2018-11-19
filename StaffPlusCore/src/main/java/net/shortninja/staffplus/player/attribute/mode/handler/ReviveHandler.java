@@ -34,6 +34,8 @@ public class ReviveHandler {
         JavaUtils.clearInventory(player);
         player.getInventory().setContents(modeDataVault.getItems());
         player.getInventory().setArmorContents(modeDataVault.getArmor());
+        if(StaffPlus.get().nineteenPlus)
+            player.getInventory().setExtraContents(modeDataVault.getOffHand());
         message.send(player, messages.revivedUser, messages.prefixGeneral);
         savedInventories.remove(uuid);
     }

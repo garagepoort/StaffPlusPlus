@@ -3,7 +3,7 @@ package net.shortninja.staffplus.player.attribute.mode;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.InventorySaver;
+import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
@@ -17,10 +17,8 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+
+import java.util.*;
 
 public class ModeCoordinator {
     private static Map<UUID, ModeDataVault> modeUsers = new HashMap<UUID, ModeDataVault>();
@@ -53,11 +51,16 @@ public class ModeCoordinator {
     public void addMode(Player player) {
         UUID uuid = player.getUniqueId();
         User user = userManager.get(uuid);
-        ModeDataVault modeData = new ModeDataVault(uuid, player.getInventory().getContents(), player.getInventory().getArmorContents(), player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
+        ModeDataVault modeData;
+        if(!StaffPlus.get().nineteenPlus)
+            modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(),
+                    player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
+        else
+            modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
+                    player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
         if (isInMode(player.getUniqueId())) {
             return;
         }
-
         JavaUtils.clearInventory(player);
         modeUsers.put(uuid, modeData);
         setPassive(player, user);
@@ -65,6 +68,7 @@ public class ModeCoordinator {
     }
 
     public void removeMode(Player player) {
+        System.out.println(isInMode(player.getUniqueId())+"");
         if (!isInMode(player.getUniqueId())) {
             return;
         }
@@ -104,7 +108,7 @@ public class ModeCoordinator {
     private void unsetPassive(Player player) {
         UUID uuid = player.getUniqueId();
         ModeDataVault modeData = modeUsers.get(uuid);
-        InventorySaver saver = new InventorySaver(player.getUniqueId());
+        InventorySerializer saver = new InventorySerializer(player.getUniqueId());
 
         if (options.modeOriginalLocation) {
             player.teleport(modeData.getPreviousLocation().setDirection(player.getLocation().getDirection()));
@@ -112,10 +116,10 @@ public class ModeCoordinator {
         }
 
         runModeCommands(player.getName(), false);
-        //player.getInventory().setContents(modeData.getItems());
-        //player.getInventory().setArmorContents(modeData.getArmor());
         player.getInventory().setContents(saver.getContents());
         player.getInventory().setArmorContents(saver.getArmor());
+        if(StaffPlus.get().nineteenPlus)
+            player.getInventory().setExtraContents(saver.getOffHand());
         saver.deleteFile();
         player.updateInventory();
         player.setAllowFlight(modeData.hasFlight());
@@ -135,4 +139,22 @@ public class ModeCoordinator {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", name));
         }
     }
+
+    private ItemStack[] getContents(Player p){
+        if(StaffPlus.get().nineteenPlus){
+            ArrayList<ItemStack> itemStacks = new ArrayList<>();
+            for(int i = 0; i<=35; i++){
+                if(p.getInventory().getItem(i) != null) {
+                    itemStacks.add(p.getInventory().getItem(i));
+                }
+            }
+            ItemStack[] items = itemStacks.toArray(new ItemStack[0]);
+            for(ItemStack item : items) {
+                p.sendMessage(item.getType().toString());
+            }
+            return items;
+        }else
+            return p.getInventory().getContents();
+    }
+
 }

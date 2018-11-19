@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
@@ -38,7 +39,6 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        UUID uuid = player.getUniqueId();
 
         manageUser(player);
         vanishHandler.updateVanish();
@@ -48,11 +48,12 @@ public class PlayerJoin implements Listener {
         }
 
         if (options.loginEnabled && permission.has(player, options.permissionMember)) {
-            if (securityHandler.hasPassword(uuid)) {
+            if (securityHandler.hasPassword(player.getUniqueId())) {
                 freezeHandler.addFreeze(player, player, false);
                 message.send(player, messages.loginWaiting, messages.prefixGeneral);
             } else message.send(player, messages.loginRegister, messages.prefixGeneral);
         }
+        loadInv(player);
     }
 
     private void manageUser(Player player) {
@@ -62,5 +63,13 @@ public class PlayerJoin implements Listener {
             userManager.get(uuid).setOnline(true);
         } else new Load(player);
 
+    }
+
+    private void loadInv(Player p){
+        InventorySerializer serializer = new InventorySerializer(p.getUniqueId());
+        if(serializer.shouldLoad()){
+            p.getInventory().setContents(serializer.getContents());
+            serializer.deleteFile();
+        }
     }
 }

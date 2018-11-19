@@ -22,4 +22,5 @@ public interface IProtocol {
     boolean shouldIgnorePacket(Object packetValue);
 
     String getSound(Object object);
+
 }

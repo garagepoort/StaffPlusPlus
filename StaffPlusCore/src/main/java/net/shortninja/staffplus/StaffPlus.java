@@ -41,7 +41,9 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
@@ -79,6 +81,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public Tasks tasks;
     public Map<UUID, User> users;
     private MySQLConnection mySQLConnection;
+    public boolean nineteenPlus;
+    public HashMap<Inventory,Block> viewedChest = new HashMap<>();
+
 
     public static StaffPlus get() {
         return plugin;
@@ -137,6 +142,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+        String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
+        String version = tmp[tmp.length - 1].substring(0, 3);
+        if(!version.equalsIgnoreCase("1.8")||!version.equalsIgnoreCase("1.7"))
+            nineteenPlus = true;
+        else
+            nineteenPlus = false;
 
         dataFile = new DataFile("data.yml");
         languageFile = new LanguageFile();

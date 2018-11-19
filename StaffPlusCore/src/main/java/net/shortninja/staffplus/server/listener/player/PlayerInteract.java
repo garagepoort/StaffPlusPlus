@@ -8,12 +8,15 @@ import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
@@ -28,7 +31,7 @@ public class PlayerInteract implements Listener {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST )
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
@@ -42,6 +45,18 @@ public class PlayerInteract implements Listener {
 
         if (!modeCoordinator.isInMode(uuid) || item == null) {
             return;
+        }
+
+        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+            if(event.getClickedBlock().getState() instanceof Container
+                    && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())){
+                event.setCancelled(true);
+                Container container = (Container) event.getClickedBlock().getState();
+                Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getType());
+                chestView.setContents(container.getInventory().getContents());
+                event.getPlayer().openInventory(chestView);
+                StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+            }
         }
 
         if (handleInteraction(player, item, action)) {

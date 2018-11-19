@@ -66,11 +66,8 @@ public class VanishHandler {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (permission.has(player, options.permissionVanishTotal)) {
                         p.hidePlayer( player);
-                        player.sendMessage("No one should see me");
-                        continue;
                     }
-                    //player.sendMessage("Outside the if");
-                    //p.hidePlayer(staffPlus,player);
+
                 }
 
                 message = messages.totalVanish.replace("%status%", "enabled");

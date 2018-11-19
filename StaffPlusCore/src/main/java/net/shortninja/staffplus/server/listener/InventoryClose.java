@@ -6,11 +6,13 @@ import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryClose implements Listener {
@@ -37,6 +39,14 @@ public class InventoryClose implements Listener {
             return;
         } else if (user.getCurrentGui() != null) {
             user.setCurrentGui(null);
+        }
+        if(StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())){
+            for(Inventory inventory : StaffPlus.get().viewedChest.keySet()){
+                if(event.getInventory().equals(inventory)){
+                    Container container = (Container) StaffPlus.get().viewedChest.get(inventory).getState();
+                    container.getInventory().setContents(inventory.getContents());
+                }
+            }
         }
     }
 }

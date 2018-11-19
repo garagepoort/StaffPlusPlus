@@ -64,7 +64,7 @@
         </repository> -->
         <repository>
             <id>qball-repo</id>
-            <url>http://qball.frostalf.net</url> <!-- shhhhhh -->
+            <url>https://qball.frostalf.net</url> <!-- shhhhhh -->
         </repository>
     </repositories>
 
