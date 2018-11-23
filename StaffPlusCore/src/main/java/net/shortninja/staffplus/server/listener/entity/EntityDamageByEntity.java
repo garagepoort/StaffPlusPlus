@@ -34,7 +34,9 @@ public class EntityDamageByEntity implements Listener {
                 }
             } else return;
         } else player = (Player) event.getDamager();
-
+        if(userManager==null)
+            return;
+        //line 45\/
         if (player != null && (userManager.get(player.getUniqueId()).isFrozen() || (!options.modeDamage && modeCoordinator.isInMode(player.getUniqueId())))) {
             event.setCancelled(true);
         }

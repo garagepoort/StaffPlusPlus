@@ -224,6 +224,7 @@ public class Options implements IOptions {
     public String commandFollow = config.getString("commands.follow");
     public String commandRevive = config.getString("commands.revive");
     public String commandStaffList = config.getString("commands.staff-list");
+    public String commandClearInv = config.getString("commands.clearInv");
     private MessageCoordinator message = StaffPlus.get().message;
     public Sounds reportsSound = stringToSound(sanitize(config.getString("reports-module.sound")));
     public Sounds warningsSound = stringToSound(sanitize(config.getString("warnings-module.sound")));

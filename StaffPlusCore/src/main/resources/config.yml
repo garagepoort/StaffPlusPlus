@@ -879,6 +879,9 @@ commands:
   # The command for stripping a player's armor.
   strip: "strip"
 
+  # The command for clearing a players inventory
+  clearInv: "clear"
+
 
 
 ############################################################
@@ -908,7 +911,7 @@ storage:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 6200
+config-version: 6201
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
 auto-save: 3601

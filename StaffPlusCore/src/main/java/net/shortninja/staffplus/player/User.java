@@ -26,8 +26,8 @@ public class User {
     private UUID uuid;
     private String name;
     private short glassColor;
-    private List<Report> reports = new ArrayList<Report>();
-    private List<Warning> warnings = new ArrayList<Warning>();
+    private List<Report> reports = new ArrayList<>();
+    private List<Warning> warnings = new ArrayList<>();
     private VanishType vanishType = VanishType.NONE;
     private List<String> playerNotes = new ArrayList<String>();
     private AbstractGui currentGui = null;

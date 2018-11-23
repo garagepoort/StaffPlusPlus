@@ -36,6 +36,5 @@ public class UserManager {
 
     public void remove(UUID uuid) {
         users.remove(uuid);
-        Bukkit.getServer().getLogger().info("Remove called");
     }
 }
