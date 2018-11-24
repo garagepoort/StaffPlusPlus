@@ -27,24 +27,30 @@ public class MessageCoordinator extends Message {
         if (player == null || message.isEmpty()) {
             return;
         }
-
-        player.sendMessage(colorize(prefix + " " + message));
+        if(!prefix.equals(""))
+            player.sendMessage(colorize(prefix + " " + message));
+        else
+            player.sendMessage(colorize(prefix + "" + message));
     }
 
     public void send(Player player, String message, String prefix, String permission) {
         if (player == null || message == null || message.isEmpty() || !this.permission.has(player, permission)) {
             return;
         }
-
-        player.sendMessage(colorize(prefix + " " + message));
+        if(!prefix.equals(""))
+            player.sendMessage(colorize(prefix + " " + message));
+        else
+            player.sendMessage(colorize(prefix + "" + message));
     }
 
     public void send(CommandSender sender, String message, String prefix) {
         if (sender == null || message.isEmpty()) {
             return;
         }
-
-        sender.sendMessage(colorize(prefix + " " + message));
+        if(!prefix.equals(""))
+            sender.sendMessage(colorize(prefix + " " + message));
+        else
+            sender.sendMessage(colorize(prefix + "" + message));
     }
 
     public void sendConsoleMessage(String message, boolean isError) {
@@ -57,8 +63,10 @@ public class MessageCoordinator extends Message {
         if (message.isEmpty() && !prefix.isEmpty()) {
             return;
         }
-
-        Bukkit.broadcastMessage(colorize(prefix + " " + message));
+        if(!prefix.equals(""))
+            Bukkit.broadcastMessage(colorize(prefix + " " + message));
+        else
+            Bukkit.broadcastMessage(colorize(prefix + "" + message));
     }
 
     public void sendGroupMessage(String message, String permission, String prefix) {

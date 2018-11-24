@@ -14,12 +14,17 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 //TODO: replace this with something that isn't horribly coupled...
 public class Options implements IOptions {
-    private static final int CURRENT_VERSION = 6199;
+    private static final int CURRENT_VERSION = 6200;
     private static FileConfiguration config = StaffPlus.get().getConfig();
+    private InputStream stream = StaffPlus.get().getResource("config.yml");
+    YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+
     /*
      * General
      */
@@ -205,7 +210,7 @@ public class Options implements IOptions {
     public String permissionRevive = config.getString("permissions.revive");
     public String permissionMember = config.getString("permissions.member");
     public String ipHidePerm = config.getString("permissions.ipPerm");
-
+    public String permissionClearInv = config.getString("permissions.invClear");
 
     /*
      * Commands
@@ -231,7 +236,7 @@ public class Options implements IOptions {
     public Sounds alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
     public List<Material> alertsXrayBlocks = stringToMaterialList(config.getString("alerts-module.xray-alerts.blocks"));
     public VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
-    private int configVersion = config.getInt("config-version");
+    private int configVersion = configuration.getInt("config-version");
     public boolean disablePackets = configVersion >= 3.19 ? config.getBoolean("disable-packets") : false;
     /*
      * Security
@@ -319,7 +324,7 @@ public class Options implements IOptions {
         /*
          * Configuration updating support added, but too buggy to release.
          */
-        if (configVersion < CURRENT_VERSION) {
+        if (CURRENT_VERSION < configVersion) {
             //updateConfig();
             File dataFolder = StaffPlus.get().getDataFolder();
             File configFile = new File(dataFolder, "config.yml");
@@ -338,6 +343,7 @@ public class Options implements IOptions {
                     + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml\n"
                     + "The storage types are flatfile and mysql also under the MySQL section there is a field called migrated do not ever touch that unless told.");
             config.options().copyHeader();
+            config.set("config-version",configVersion);
             StaffPlus.get().saveConfig();
         }
 

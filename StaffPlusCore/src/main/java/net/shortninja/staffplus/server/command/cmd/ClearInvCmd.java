@@ -17,7 +17,6 @@ public class ClearInvCmd extends BukkitCommand {
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
-    private ChatHandler chatHandler = StaffPlus.get().chatHandler;
 
     public ClearInvCmd(String name){
         super(name);
@@ -26,11 +25,15 @@ public class ClearInvCmd extends BukkitCommand {
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
         if(args.length == 1){
-            if(Bukkit.getServer().getPlayer(args[0]) != null){
-                Player p = Bukkit.getServer().getPlayer(args[0]);
-                JavaUtils.clearInventory(p);
-                sender.sendMessage(p.getName()+"'s inventory has been cleared");
-                return true;
+            if(sender instanceof Player) {
+                Player player = (Player) sender;
+                if(permission.has(player,options.permissionClearInv))
+                if (Bukkit.getServer().getPlayer(args[0]) != null) {
+                    Player target = Bukkit.getServer().getPlayer(args[0]);
+                    JavaUtils.clearInventory(target);
+                    sender.sendMessage(target.getName() + "'s inventory has been cleared");
+                    return true;
+                }
             }
         }else
             sendHelp(sender);

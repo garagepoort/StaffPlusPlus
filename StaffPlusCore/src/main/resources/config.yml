@@ -813,8 +813,13 @@ permissions:
   # Permission for using /staffplus
   staffplus: "staff.staffplus"
 
-  #Use this for players who's ip should not be shown in examine mode
+  # Use this for players who's ip should not be shown in examine mode
   ipPerm: "staff.staffplus.hideip"
+
+  # Permission for using the clear inventory config
+  invClear: "staff.staffplus.clearinv"
+
+
 
 ############################################################
 # +------------------------------------------------------+ #

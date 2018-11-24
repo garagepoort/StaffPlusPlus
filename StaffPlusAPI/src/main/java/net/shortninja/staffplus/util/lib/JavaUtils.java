@@ -206,9 +206,7 @@ public class JavaUtils {
     public static List<Player> getOnlinePlayers() {
         List<Player> onlinePlayers = new ArrayList<Player>();
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            onlinePlayers.add(player);
-        }
+        onlinePlayers.addAll(Bukkit.getOnlinePlayers());
 
         return onlinePlayers;
     }
