@@ -10,7 +10,8 @@ import java.io.*;
 public class LanguageFile {
     private static final String[] LANG_FILES =
             {
-                    "lang_en", "lang_sv", "lang_de", "lang_nl", "lang_es", "lang_hr", "lang_no", "lang_fr"
+                    "lang_en", "lang_sv", "lang_de", "lang_nl", "lang_es", "lang_hr", "lang_no", "lang_fr", "lang_hu", "lang_it",
+                    "lang_zh"
             };
     private final String FILE_NAME = StaffPlus.get().getConfig().getString("lang") + ".yml";
     private FileConfiguration lang;
