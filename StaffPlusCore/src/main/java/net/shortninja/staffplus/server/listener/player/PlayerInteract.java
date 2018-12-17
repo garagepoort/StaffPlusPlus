@@ -49,7 +49,8 @@ public class PlayerInteract implements Listener {
 
         if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
             if(event.getClickedBlock().getState() instanceof Container
-                    && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())){
+               && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId()) 
+               && player.isSneaking() == false ){
                 event.setCancelled(true);
                 Container container = (Container) event.getClickedBlock().getState();
                 Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getType());
