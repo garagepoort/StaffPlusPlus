@@ -20,7 +20,7 @@ import java.util.*;
 
 //TODO: replace this with something that isn't horribly coupled...
 public class Options implements IOptions {
-    private static final int CURRENT_VERSION = 6200;
+    private static final int CURRENT_VERSION = 6201;
     private static FileConfiguration config = StaffPlus.get().getConfig();
     private InputStream stream = StaffPlus.get().getResource("config.yml");
     YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
@@ -103,6 +103,8 @@ public class Options implements IOptions {
     public boolean modeCreative = config.getBoolean("staff-mode.creative");
     public boolean modeOriginalLocation = config.getBoolean("staff-mode.original-location");
     public boolean modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
+    public List<String> preLoginBlock = JavaUtils.stringToList("stafff-mode.prelogin-blocked-commands");
+    public boolean staffView = config.getBoolean("staff-mode.staff-see-staff-in-mode");
     /*
      * Compass
      */
@@ -211,6 +213,7 @@ public class Options implements IOptions {
     public String permissionMember = config.getString("permissions.member");
     public String ipHidePerm = config.getString("permissions.ipPerm");
     public String permissionClearInv = config.getString("permissions.invClear");
+    public String permissionResetPassword = config.getString("permissions.resetPass");
 
     /*
      * Commands
@@ -238,6 +241,7 @@ public class Options implements IOptions {
     public VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
     private int configVersion = configuration.getInt("config-version");
     public boolean disablePackets = configVersion >= 3.19 ? config.getBoolean("disable-packets") : false;
+    public String commandRestPass = config.getString("commands.resetPass");
     /*
      * Security
      */

@@ -69,6 +69,8 @@ unknown-command: "&cComando desconocido."
 invalid-arguments: "&c¡Argumentos invalidos! (%usage%)"
 only-players: "&b¡Solo jugadores pueden ejecutar este comando!"
 
+enabled: "habilitado"
+disabled: "deshabilitado"
 ############################################################
 # +------------------------------------------------------+ #
 # |                     Infracciones                     | #
@@ -198,4 +200,4 @@ follow: "&bAhora estas &7%status% a %target%&b."
 strip: "&7%player%'s armadura ha sido removida!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6194
+lang-version: 6195

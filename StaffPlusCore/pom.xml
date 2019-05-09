@@ -27,7 +27,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -129,6 +129,16 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_13_R2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+		<dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_14_R1</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.inventivetalent</groupId>
             <artifactId>apimanager</artifactId>
             <version>1.0.2</version>
@@ -199,6 +209,18 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>v1_13_R1</artifactId>
+            <version>3.2.8-RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_13_R2</artifactId>
+            <version>3.2.8-RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_13_R2</artifactId>
             <version>3.2.8-RELEASE</version>
             <scope>compile</scope>
         </dependency>

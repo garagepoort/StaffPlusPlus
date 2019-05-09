@@ -21,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -34,6 +35,7 @@ public class PlayerJoin implements Listener {
     private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
+    public static ArrayList<UUID> needLogin = new ArrayList<>();
 
     public PlayerJoin() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -52,6 +54,7 @@ public class PlayerJoin implements Listener {
 
         if (options.loginEnabled && permission.has(player, options.permissionMember)) {
             if (securityHandler.hasPassword(player.getUniqueId())) {
+                needLogin.add(event.getPlayer().getUniqueId());
                 freezeHandler.addFreeze(player, player, false);
                 message.send(player, messages.loginWaiting, messages.prefixGeneral);
             } else message.send(player, messages.loginRegister, messages.prefixGeneral);

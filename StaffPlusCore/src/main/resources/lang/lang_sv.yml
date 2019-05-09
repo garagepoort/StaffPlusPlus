@@ -72,6 +72,8 @@ no-found: "&bIngen hittades!"
 type-input: "&bSkriv i chatt din inmatning."
 input-accepted: "&bInmatning har blivit accepterat och överlämnat!"
 
+enabled: "aktiverad"
+disabled: "inaktiverad"
 ############################################################
 # +------------------------------------------------------+ #
 # |                     Overträdelser                    | #
@@ -201,4 +203,4 @@ follow: "&bDu är nu &7%status% %target%&b."
 strip: "&7%player%'s pansar har tagits bort!"
 
 # BYTA INTE, SÅVIDA INTE DU VETA VAD DU GÖR!
-lang-version: 6194
+lang-version: 6195

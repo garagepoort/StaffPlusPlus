@@ -43,7 +43,7 @@ public class TicketHandler {
             return tickets.get(uuid);
         else if (options.storageType.equalsIgnoreCase("mysql")) {
             try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_warnings WHERE UUID=?")) {
+                 PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_warnings WHERE PLAYER_UUID=?")) {
                 ps.setString(1, uuid.toString());
                 try (ResultSet rs = ps.executeQuery()) {
                     tickets.put(uuid, new Ticket(uuid, Bukkit.getPlayer(uuid).getDisplayName(), rs.getInt("ID"), rs.getString("Inquiry")));
@@ -93,7 +93,7 @@ public class TicketHandler {
             tickets.put(ticket.getUuid(), ticket);
         else if (options.storageType.equalsIgnoreCase("mysql")) {
             try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_tickets(UUID,ID,Inquiry) " +
+                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_tickets(WARNER_UUID,ID,Inquiry) " +
                          "VALUES(?, ?, ?);")) {
                 insert.setString(1, ticket.getUuid().toString());
                 insert.setInt(2, ticket.getId());
@@ -120,7 +120,7 @@ public class TicketHandler {
             tickets.remove(ticket.getUuid());
         else if (options.storageType.equalsIgnoreCase("mysql")) {
             try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement delete = sql.prepareCall("DELETE FROM TABLE sp_tickets WHERE UUID =?;")) {
+                 PreparedStatement delete = sql.prepareCall("DELETE FROM TABLE sp_tickets WHERE WARNER_UUID =?;")) {
                 delete.setString(1, ticket.getUuid().toString());
                 delete.executeUpdate();
             } catch (SQLException e) {

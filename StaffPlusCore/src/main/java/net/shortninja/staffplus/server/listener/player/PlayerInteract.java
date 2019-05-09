@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.CpsHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
@@ -8,6 +9,7 @@ import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -47,18 +49,29 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-            if(event.getClickedBlock().getState() instanceof Container
-                    && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())){
-                event.setCancelled(true);
-                Container container = (Container) event.getClickedBlock().getState();
-                Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getType());
-                chestView.setContents(container.getInventory().getContents());
-                event.getPlayer().openInventory(chestView);
-                StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (StaffPlus.get().twelvePlus) {
+                if (event.getClickedBlock().getState() instanceof Container
+                        && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())) {
+                    event.setCancelled(true);
+                    Container container = (Container) event.getClickedBlock().getState();
+                    Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getSize());
+                    chestView.setContents(container.getInventory().getContents());
+                    event.getPlayer().openInventory(chestView);
+                    StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+                }
+            }else{
+                if(event.getClickedBlock().getState() instanceof Chest &&
+                        StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())){
+                    Chest chest = (Chest) event.getClickedBlock().getState();
+                    Inventory view = chest.getInventory();
+                    Inventory chestView = Bukkit.createInventory(event.getPlayer(),view.getSize());
+                    chestView.setContents(view.getContents());
+                    event.getPlayer().openInventory(chestView);
+                    StaffPlus.get().viewedChest.put(chestView,event.getClickedBlock());
+                }
             }
         }
-
         if (handleInteraction(player, item, action)) {
             event.setCancelled(true);
         }

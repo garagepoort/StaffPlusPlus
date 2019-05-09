@@ -37,7 +37,7 @@ public class ModeDataVault {
         this.gameMode = gameMode;
         this.vanishType = vanishType;
         InventorySerializer save = new InventorySerializer(uuid);
-        save.save(itemHash,armor,offHand);
+        save.save(itemHash,armor);
     }
 
     public ModeDataVault(UUID uuid,HashMap<String, ItemStack> items, ItemStack[] armor) {

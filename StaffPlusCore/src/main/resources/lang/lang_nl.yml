@@ -72,6 +72,8 @@ no-found: "&bNiet gevonden!"
 type-input: "&bTyp uw inbreng in de chat"
 input-accepted: "&bAanvaard en ingediende"
 
+enabled: "ingeschakeld"
+disabled: "uitgeschakeld"
 ############################################################
 # +------------------------------------------------------+ #
 # |                     Overtredingen                    | #
@@ -201,4 +203,4 @@ follow: "&bJe bent nu &7%status% %target%&b."
 strip: "&7%player%'s kuras is verwijderd!"
 
 # Niet dit veranderen tenzij je weet wat je doet!
-lang-version: 6194
+lang-version: 6195

@@ -63,11 +63,17 @@ public class VanishHandler {
 
         switch (vanishType) {
             case TOTAL:
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    if (permission.has(player, options.permissionVanishTotal)) {
-                        p.hidePlayer( player);
+                if (permission.has(player, options.permissionVanishTotal)) {
+                    if(options.staffView) {
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            if(!permission.has(p,options.permissionMode))
+                                p.hidePlayer(player);
+                        }
+                    }else{
+                        for (Player p : Bukkit.getOnlinePlayers()){
+                            p.hidePlayer(player);
+                        }
                     }
-
                 }
 
                 message = messages.totalVanish.replace("%status%", "enabled");

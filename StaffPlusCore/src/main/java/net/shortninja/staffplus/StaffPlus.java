@@ -40,6 +40,7 @@ import net.shortninja.staffplus.server.listener.player.*;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -48,6 +49,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -81,9 +83,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public Tasks tasks;
     public Map<UUID, User> users;
     private MySQLConnection mySQLConnection;
-    public boolean nineteenPlus;
+    public boolean ninePlus = false;
     public HashMap<Inventory,Block> viewedChest = new HashMap<>();
-
+    public boolean twelvePlus = false;
 
     public static StaffPlus get() {
         return plugin;
@@ -124,7 +126,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             stop();
         } else
             stop();
-
     }
 
     public void saveUsers() {
@@ -143,12 +144,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             return;
         }
         String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
-        String version = tmp[tmp.length - 1].substring(0, 3);
-        if(!version.equalsIgnoreCase("1.8")||!version.equalsIgnoreCase("1.7"))
-            nineteenPlus = true;
-        else
-            nineteenPlus = false;
-
+        String version = tmp[tmp.length - 1].substring(0, 4);
+        ninePlus = JavaUtils.parseMcVer(version)>=9;
+        System.out.println("ninePlus is: "+ninePlus);
+        twelvePlus = JavaUtils.parseMcVer(version) >= 12;
+        System.out.println("twelvePlus is: "+twelvePlus);
         dataFile = new DataFile("data.yml");
         languageFile = new LanguageFile();
         messages = new Messages();
@@ -226,6 +226,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
                 break;
             case "v1_13_R2":
                 versionProtocol = new Protocol_v1_13_R2(this);
+            case "v1_14_R1":
+                versionProtocol = new Protocol_v1_14_R1(this);
         }
 
         if (versionProtocol != null) {
@@ -252,6 +254,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new FoodLevelChange();
         new InventoryClick();
         new InventoryClose();
+        new InventoryOpen();
         new PlayerWorldChange();
     }
 

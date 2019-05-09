@@ -9,11 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>StaffPlusAPI</artifactId>
+    <artifactId>v1_14_R1</artifactId>
+
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>StaffPlusAPI</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
             <version>1.14-R0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

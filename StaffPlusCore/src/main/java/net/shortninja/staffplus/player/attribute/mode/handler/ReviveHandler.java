@@ -9,7 +9,6 @@ import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -26,7 +25,7 @@ public class ReviveHandler {
     public void cacheInventory(Player player) {
         UUID uuid = player.getUniqueId();
         ModeDataVault modeDataVault;
-        if(!StaffPlus.get().nineteenPlus)
+        if(!StaffPlus.get().ninePlus)
             modeDataVault = new ModeDataVault(uuid, ModeCoordinator.getContents(player), player.getInventory().getArmorContents());
         else
             modeDataVault = new ModeDataVault(uuid,ModeCoordinator.getContents(player),player.getInventory().getArmorContents(),player.getInventory().getExtraContents());
@@ -40,7 +39,7 @@ public class ReviveHandler {
         JavaUtils.clearInventory(player);
         getItems(player,modeDataVault);
         player.getInventory().setArmorContents(modeDataVault.getArmor());
-        if(StaffPlus.get().nineteenPlus)
+        if(StaffPlus.get().ninePlus)
             player.getInventory().setExtraContents(modeDataVault.getOffHand());
         message.send(player, messages.revivedUser, messages.prefixGeneral);
         savedInventories.remove(uuid);

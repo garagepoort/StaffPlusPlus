@@ -275,6 +275,9 @@ staff-mode:
   # Whether or not staff mode will be enabled for staff when they login.
   enable-on-login: false
 
+  # Name says it all what commands do you want to block while the player is not logged in
+  prelogin-blocked-commands: "/ban"
+
   # Commands to execute when staff mode is enabled. Leave blank to disable.
   # Each command is separated with a comma.
   enable-commands: "example1 %player%, example2 %player%"
@@ -285,6 +288,9 @@ staff-mode:
 
   # Should Staff mode disable on world change
   disable-on-world-change: false
+
+  # Should other staff be able to see staff that are in mode while they are not in mode.
+  staff-see-staff-in-mode: false
 
   ############################################################
   # +------------------------------------------------------+ #
@@ -819,7 +825,8 @@ permissions:
   # Permission for using the clear inventory config
   invClear: "staff.staffplus.clearinv"
 
-
+  # Permission for using the /resetPassword command
+  resetPass: "staff.staffplus.resetpassword"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -887,7 +894,8 @@ commands:
   # The command for clearing a players inventory
   clearInv: "clear"
 
-
+  # The command for resetting a users password
+  resetPass: "resetPassword"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -916,10 +924,10 @@ storage:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 6201
+config-version: 6202
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
-auto-save: 3601
+auto-save: 3602
 
 # The interval in seconds at which calculations, like freeze checking, will be performed.
 # The higher this is, the less lag there will be.

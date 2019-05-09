@@ -34,6 +34,12 @@ public class LanguageFile {
     public void setup() {
         langFile = new File(StaffPlus.get().getDataFolder() + "/lang/", FILE_NAME);
         lang = YamlConfiguration.loadConfiguration(langFile);
+        lang.options().copyDefaults(true);
+        try {
+            lang.save(langFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public FileConfiguration get() {
@@ -50,7 +56,9 @@ public class LanguageFile {
             file.createNewFile();
             message.sendConsoleMessage("Creating language file '" + fileName + "'.", false);
 
-        } else return;
+        } else{
+            return;
+        }
 
         OutputStream out = new FileOutputStream(file);
         byte[] buffer = new byte[1024];
@@ -58,6 +66,7 @@ public class LanguageFile {
 
         while ((current = in.read(buffer)) > -1) {
             out.write(buffer, 0, current);
+            System.out.println(buffer+" "+current);
         }
 
         out.close();

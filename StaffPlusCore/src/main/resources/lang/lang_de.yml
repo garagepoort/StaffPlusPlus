@@ -72,6 +72,8 @@ no-found: "&bNicht gefunden!"
 type-input: "&bGeben Sie Ihre Eingabe im Chat!"
 input-accepted: "&bakzeptiert und eingereicht."
 
+enabled: "aktiviert"
+disabled: "deaktiviert"
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Verwarnungen                    | #
@@ -201,4 +203,4 @@ follow: "&bDu &7%status% nun %target%&b."
 strip: "&7%player%'s Rüstung wurde entfernt!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6194
+lang-version: 6195

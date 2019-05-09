@@ -52,30 +52,30 @@ public class ModeCoordinator {
         UUID uuid = player.getUniqueId();
         User user = userManager.get(uuid);
         ModeDataVault modeData;
-        if(!StaffPlus.get().nineteenPlus)
+        if(!StaffPlus.get().ninePlus) {
             modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(),
                     player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
-        else
+        }else {
             modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
                     player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
+        }
         if (isInMode(player.getUniqueId())) {
             return;
         }
         JavaUtils.clearInventory(player);
         modeUsers.put(uuid, modeData);
         setPassive(player, user);
-        message.send(player, messages.modeStatus.replace("%status%", "enabled"), messages.prefixGeneral);
+        message.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
 
     public void removeMode(Player player) {
-        System.out.println(isInMode(player.getUniqueId())+"");
         if (!isInMode(player.getUniqueId())) {
             return;
         }
 
         unsetPassive(player);
         modeUsers.remove(player.getUniqueId());
-        message.send(player, messages.modeStatus.replace("%status%", "disabled"), messages.prefixGeneral);
+        message.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
     private void setPassive(Player player, User user) {
@@ -116,9 +116,10 @@ public class ModeCoordinator {
         }
 
         runModeCommands(player.getName(), false);
+        JavaUtils.clearInventory(player);
         getItems(player,saver);
         player.getInventory().setArmorContents(saver.getArmor());
-        if(StaffPlus.get().nineteenPlus)
+        if(StaffPlus.get().ninePlus)
             player.getInventory().setExtraContents(saver.getOffHand());
         saver.deleteFile();
         player.updateInventory();

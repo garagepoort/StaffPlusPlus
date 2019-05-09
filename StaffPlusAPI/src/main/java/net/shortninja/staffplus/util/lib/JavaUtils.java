@@ -253,4 +253,14 @@ public class JavaUtils {
     public static boolean hasInventorySpace(Player player) {
         return player.getInventory().firstEmpty() != -1;
     }
+
+    /**
+     * Parses a mc version and returns what the main version is
+     *
+     * @param ver Version string to be parsed.
+     * @return Second number of the version i.e 13.
+     */
+    public static int parseMcVer(String ver){
+        return Integer.parseInt(ver.split("\\.")[1]);
+    }
 }

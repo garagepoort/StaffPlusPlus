@@ -71,6 +71,8 @@ no-found: "&bIkke funnet!"
 type-input: "&bSkriv inn din inngang i chatten!"
 input-accepted: "&bInngang akseptert og sendt inn."
 
+enabled: "aktivert"
+disabled: "deaktivert"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Brudd                          | #
@@ -200,4 +202,4 @@ follow: "&bDu er nå &7%status% %target%&b."
 strip: "&7%player%'s rustning har blitt fjernet!"
 
 # IKKE ENDRE DENNE MINDRE DU VET HVA DU GJØR!
-lang-version: 6194
+lang-version: 6195

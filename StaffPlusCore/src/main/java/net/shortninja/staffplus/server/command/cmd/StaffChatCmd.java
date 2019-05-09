@@ -34,7 +34,6 @@ public class StaffChatCmd extends BukkitCommand {
 
         if (args.length > 0) {
             String name = sender instanceof Player ? sender.getName() : "Console";
-
             chatHandler.sendStaffChatMessage(name, JavaUtils.compileWords(args, 0));
         } else if (sender instanceof Player) {
             User user = userManager.get(((Player) sender).getUniqueId());

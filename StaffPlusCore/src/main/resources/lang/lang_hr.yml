@@ -72,6 +72,8 @@ no-found: "&bNiti jedan pronađen!"
 type-input: "&bUpisi svoj odgovor u chat!"
 input-accepted: "&bOdgovor primnjen i acceptan."
 
+enabled: "omogućeno"
+disabled: "onemogućeno"
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Infrakcije                      | #
@@ -201,4 +203,4 @@ follow: "&bTi si sada &7%status% %target%&b."
 strip: "&7%player%'s oklop je uklonjena!"
 
 # MEMOJ OVO PROMJENITI OSIM AKO ZNAS STO RADIS!
-lang-version: 6194
+lang-version: 6195

@@ -72,6 +72,8 @@ no-found: "&bNON TROVATO!"
 type-input: "&bInserisci il tuo input in chat!"
 input-accepted: "&bInput accettato ed inviato."
 
+enabled: "abilitato"
+disabled: "disabilitato"
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Infrazioni                     | #
@@ -201,4 +203,4 @@ follow: "&bStai ora &7%status% %target%&b."
 strip: "&7L'armatura del giocatore %player% è stata rimossa!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6194
+lang-version: 6195
