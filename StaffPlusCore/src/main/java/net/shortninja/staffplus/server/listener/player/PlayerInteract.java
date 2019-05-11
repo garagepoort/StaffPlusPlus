@@ -49,6 +49,7 @@ public class PlayerInteract implements Listener {
             return;
         }
 
+<<<<<<< HEAD
         if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (StaffPlus.get().twelvePlus) {
                 if (event.getClickedBlock().getState() instanceof Container
@@ -70,6 +71,18 @@ public class PlayerInteract implements Listener {
                     event.getPlayer().openInventory(chestView);
                     StaffPlus.get().viewedChest.put(chestView,event.getClickedBlock());
                 }
+=======
+        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+            if(event.getClickedBlock().getState() instanceof Container
+               && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId()) 
+               && player.isSneaking() == false ){
+                event.setCancelled(true);
+                Container container = (Container) event.getClickedBlock().getState();
+                Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getType());
+                chestView.setContents(container.getInventory().getContents());
+                event.getPlayer().openInventory(chestView);
+                StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+>>>>>>> 4dff6c5d1622f2e3f70469edf94d3fb12f27e9d4
             }
         }
         if (handleInteraction(player, item, action)) {
