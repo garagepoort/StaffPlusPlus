@@ -43,6 +43,7 @@
                                 <excludes>
                                     <exclude>org.bukkit:craftbukkit</exclude>
                                 </excludes>
+
                             </artifactSet>
                         </configuration>
                     </execution>
@@ -55,7 +56,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.13-pre7-R0.1-SNAPSHOT</version>
+            <version>1.14-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -199,30 +200,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.37</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_13_R2</artifactId>
-            <version>3.2.8-RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_13_R1</artifactId>
-            <version>3.2.8-RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_13_R2</artifactId>
-            <version>3.2.8-RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_13_R2</artifactId>
-            <version>3.2.8-RELEASE</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
