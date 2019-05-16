@@ -43,7 +43,6 @@
                                 <excludes>
                                     <exclude>org.bukkit:craftbukkit</exclude>
                                 </excludes>
-
                             </artifactSet>
                         </configuration>
                     </execution>
@@ -200,6 +199,13 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.37</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.14-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
