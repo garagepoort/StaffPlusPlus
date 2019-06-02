@@ -5,7 +5,7 @@
     <parent>
         <artifactId>StaffPlus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
-        <version>3.2.8-RELEASE</version>
+        <version>3.2.9-RELEASE</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusAPI</artifactId>
-            <version>3.2.8-RELEASE</version>
+            <version>3.2.9-RELEASE</version>
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>

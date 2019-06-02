@@ -36,7 +36,7 @@ tickets-prefix: "&dTickets &8»"
 separator-color: "&b"
 
 # Lines are separated by commas
-staff-list-start: "&7%longline%"
+staff-list-start: "%&7longline%"
 staff-list-member: "&b%player% &%statuscolor%•"
 # Lines are separated by commas
 staff-list-end: "&7%longline%"
@@ -71,7 +71,6 @@ only-players: "&bOnly players are allowed to execute that command!"
 no-found: "&bNO FOUND!"
 type-input: "&bEnter your input in chat!"
 input-accepted: "&bInput accepted and submitted."
-
 enabled: "enabled"
 disabled: "disabled"
 ############################################################

@@ -22,7 +22,7 @@ public class LanguageFile {
         for (String fileName : LANG_FILES) {
             try {
                 copyFile(fileName);
-            } catch (IOException exception) {
+            } catch (Exception exception) {
                 System.out.println(exception);
                 message.sendConsoleMessage("Error occured while initializing '" + fileName + "'!", true);
             }
@@ -34,12 +34,6 @@ public class LanguageFile {
     public void setup() {
         langFile = new File(StaffPlus.get().getDataFolder() + "/lang/", FILE_NAME);
         lang = YamlConfiguration.loadConfiguration(langFile);
-        lang.options().copyDefaults(true);
-        try {
-            lang.save(langFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public FileConfiguration get() {
@@ -49,16 +43,28 @@ public class LanguageFile {
     private void copyFile(String fileName) throws IOException {
         File file = new File(StaffPlus.get().getDataFolder() + "/lang/", fileName + ".yml");
         InputStream in = this.getClass().getResourceAsStream("/lang/" + fileName + ".yml");
-
+        YamlConfiguration newLang = YamlConfiguration.loadConfiguration(new InputStreamReader(in));
+        in = this.getClass().getResourceAsStream("/lang/" + fileName + ".yml");
         if (!file.exists()) {
             StaffPlus.get().getDataFolder().mkdirs();
             file.getParentFile().mkdirs();
             file.createNewFile();
             message.sendConsoleMessage("Creating language file '" + fileName + "'.", false);
-
-        } else{
+        } else if (YamlConfiguration.loadConfiguration(file).getInt("lang-version") <
+                newLang.getInt("lang-version")) {
+            YamlConfiguration oldLang = YamlConfiguration.loadConfiguration(file);
+            for (String key : newLang.getKeys(false)) {
+                if (oldLang.getString(key, "").equals("")) {
+                    oldLang.set(key, newLang.get(key));
+                    oldLang.save(file);
+                }
+            }
+            oldLang.set("lang-version", newLang.getInt("lang-version"));
+            oldLang.save(file);
+            in.close();
             return;
-        }
+        } else
+            return;
 
         OutputStream out = new FileOutputStream(file);
         byte[] buffer = new byte[1024];
@@ -66,7 +72,6 @@ public class LanguageFile {
 
         while ((current = in.read(buffer)) > -1) {
             out.write(buffer, 0, current);
-            System.out.println(buffer+" "+current);
         }
 
         out.close();
