@@ -60,6 +60,7 @@ login-register: "&bSiden du er ansatte, må du registrere et passord for å besk
 login-registered: "&bPassord akseptert! Du vil bli bedt om å bruke dette passordet hver gang du logger inn."
 login-waiting: "&bDu har vært frosset! Skriv inn ansatte passord for å fortsette."
 login-accepted: "&bLogget inn."
+passwords-dont-match: "&bPassordene stemmer ikke overens"
 
 no-permission: "&cDu har ikke tillatelse til å bruke det!"
 bypassed: "&cDen spilleren har forbigått den kommandoen!"
@@ -202,4 +203,4 @@ follow: "&bDu er nå &7%status% %target%&b."
 strip: "&7%player%'s rustning har blitt fjernet!"
 
 # IKKE ENDRE DENNE MINDRE DU VET HVA DU GJØR!
-lang-version: 6195
+lang-version: 6196

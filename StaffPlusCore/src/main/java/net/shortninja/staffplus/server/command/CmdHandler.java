@@ -6,7 +6,8 @@ import net.shortninja.staffplus.server.command.cmd.infraction.ReportCmd;
 import net.shortninja.staffplus.server.command.cmd.infraction.TicketCmd;
 import net.shortninja.staffplus.server.command.cmd.infraction.WarnCmd;
 import net.shortninja.staffplus.server.command.cmd.mode.*;
-import net.shortninja.staffplus.server.command.cmd.security.ResetPass;
+import net.shortninja.staffplus.server.command.cmd.security.ChangePassCmd;
+import net.shortninja.staffplus.server.command.cmd.security.ResetPassCmd;
 import net.shortninja.staffplus.server.command.cmd.security.LoginCmd;
 import net.shortninja.staffplus.server.command.cmd.security.RegisterCmd;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -45,7 +46,8 @@ public class CmdHandler {
                     new BaseCmd("strip", new StripCmd(options.commandStrip), true, "&7Completely removes the target player's armor.", "[player]"),
                     new BaseCmd("staffplus", new StaffPlusCmd("staffplus"), true, "Used for reloading config and lang file in use", "[reload]"),
                     new BaseCmd("clearInv", new ClearInvCmd(options.commandClearInv), true, "Used to clear a desired player's inventory", "[player]"),
-                    //new BaseCmd("resetPass", new ResetPass(options.commandRestPass),true,"Used to reset the password of a user who has forgotten theirs","[player] [password]")
+                    new BaseCmd("resetPass", new ResetPassCmd(options.commandRestPass),true,"Used to reset the password of a user who has forgotten theirs","[player] [password]"),
+                    new BaseCmd("changePassword", new ChangePassCmd(options.commandChangePass),true,"Used to change your own password","[password] [change-password]")
             };
 
     public CmdHandler() {

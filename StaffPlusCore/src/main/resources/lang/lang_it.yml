@@ -61,6 +61,7 @@ login-register: "&bSiccome sei un membro dello staff, devi impostare una passwor
 login-registered: "&bPassword accettata! Ti verrà chiesto di usare questa password ogni volta che entrerai nel server."
 login-waiting: "&bSei stato congelato! Per favore, inserisci la tua password per continuare."
 login-accepted: "&bAccesso eseguito."
+passwords-dont-match: "&bLe password non corrispondono"
 
 no-permission: "&cNon hai il permesso di usarlo!"
 bypassed: "&cQuel giocatore ha aggirato il comando!"
@@ -203,4 +204,4 @@ follow: "&bStai ora &7%status% %target%&b."
 strip: "&7L'armatura del giocatore %player% è stata rimossa!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6195
+lang-version: 6196

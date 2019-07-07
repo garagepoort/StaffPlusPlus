@@ -131,6 +131,7 @@ public class Messages {
     public String loginRegistered = langVersion >= 3.58 ? config.getString("login-registered") : "&bPassword accepted! You will be asked to use this password each time you login.";
     public String loginWaiting = langVersion >= 3.58 ? config.getString("login-waiting") : "&bYou have been frozen! Please enter your staff password to continue.";
     public String loginAccepted = langVersion >= 3.58 ? config.getString("login-accepted") : "&bLogged in.";
+    public String passwordsNoMatch = config.getString("passwords-dont-match");
     public String bypassed = langVersion >= 3.5 ? config.getString("bypassed") : "&cThat player bypassed that command!";
     public String staffChatStatus = langVersion >= 3.2 ? config.getString("staff-chat-status") : "&bStaff chat &7%status%&b.";
     public String freezeLogout = langVersion >= 3.57 ? config.getString("freeze-logout") : "&7%player% &blogged out while frozen!";

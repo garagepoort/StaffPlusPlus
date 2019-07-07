@@ -5,6 +5,7 @@ import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -77,7 +78,7 @@ public class AbstractGui {
     private ItemStack glassItem(short data) {
         String[] tmp = Bukkit.getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
-        if (!version.contains("1.13")) {
+        if (JavaUtils.parseMcVer(version)<13) {
             return Items.builder()
                     .setMaterial(Material.valueOf("STAINED_GLASS_PANE")).setAmount(1).setData(data)
                     .setName("&bColor #" + data)

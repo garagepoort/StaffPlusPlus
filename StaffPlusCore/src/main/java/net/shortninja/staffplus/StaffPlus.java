@@ -48,6 +48,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
+import org.inventivetalent.update.spiget.SpigetUpdate;
+import org.inventivetalent.update.spiget.UpdateCallback;
+import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,6 +116,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
+        checkUpdate();
     }
 
     public UserManager getUserManager() {
@@ -146,9 +150,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
         ninePlus = JavaUtils.parseMcVer(version)>=9;
-        System.out.println("ninePlus is: "+ninePlus);
         twelvePlus = JavaUtils.parseMcVer(version) >= 12;
-        System.out.println("twelvePlus is: "+twelvePlus);
         dataFile = new DataFile("data.yml");
         languageFile = new LanguageFile();
         messages = new Messages();
@@ -177,7 +179,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
 
         message.sendConsoleMessage("Staff+ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
-        message.sendConsoleMessage("Plugin created by Shortninja.", false);
+        message.sendConsoleMessage("Plugin created by Shortninja continued by Qball.", false);
     }
 
     private boolean setupVersionProtocol() {
@@ -259,6 +261,33 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new InventoryOpen();
         new PlayerWorldChange();
     }
+
+    private void checkUpdate() {
+        SpigetUpdate updater = new SpigetUpdate(this, 41500);
+        updater.setVersionComparator(VersionComparator.SEM_VER);
+        updater.checkForUpdate(new UpdateCallback() {
+            @Override
+            public void updateAvailable(String newVersion, String downloadUrl, boolean hasDirectDownload) {
+                if (options.autoUpdate) {
+                    if (hasDirectDownload) {
+                        if (updater.downloadUpdate()) {
+                            getLogger().info("New version of the plugin downloaded and will be loaded on restart");
+                        } else {
+                            getLogger().warning("Update download failed, reason is " + updater.getFailReason());
+                        }
+                    }
+                } else {
+                    getLogger().info("There is an update available please go download it");
+                }
+            }
+
+            @Override
+            public void upToDate() {
+                getLogger().info("You are using the latest version thanks");
+            }
+        });
+    }
+
 
     /*
      * Nullifying all of the instances is sort of an experimental thing to deal

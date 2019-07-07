@@ -61,6 +61,7 @@ login-register: "&bDa Sie Mitarbeiter sind, müssen Sie ein Passwort registriere
 login-registered: "&bKennwort akzeptiert! Sie werden aufgefordert, dieses Passwort jedes Mal, die Sie verwenden anmelden."
 login-waiting: "&bSie wurden eingefroren! Bitte geben Sie Ihre Mitarbeiter Passwort, um fortzufahren."
 login-accepted: "&bEingeloggt."
+passwords-dont-match: "&bDie Passwörter stimmen nicht überein"
 
 no-permission: "&cDu hast nicht genug Rechte um diesen Befehl auszuführen."
 bypassed: "&cBefehl wurde umgangen durch den Spieler!"
@@ -203,4 +204,4 @@ follow: "&bDu &7%status% nun %target%&b."
 strip: "&7%player%'s Rüstung wurde entfernt!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6195
+lang-version: 6196

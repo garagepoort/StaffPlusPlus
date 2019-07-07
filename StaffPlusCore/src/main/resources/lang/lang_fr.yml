@@ -61,6 +61,7 @@ login-register: "&bPuisque vous êtes personnel, vous devez vous inscrire un mot
 login-registered: "&bMot de passe accepté! Il vous sera demandé d'utiliser ce mot de passe à chaque fois que vous vous connectez."
 login-waiting: "&bVous avez été gelé! S'il vous plaît entrer votre mot de passe personnel à continuer."
 login-accepted: "&bConnecté."
+passwords-dont-match: "&bLes mots de passe ne correspondent pas"
 
 no-permission: "&cVous n'avez pas la permission d'utiliser ceci!"
 bypassed: "&cCe joueur a bypass cette commande!"
@@ -203,4 +204,4 @@ follow: "&bVous &7%status% maintenant %target%&b."
 strip: "&7%player%'s armure a été enlevée!"
 
 # NE PAS CHANGER A MOINS QUE VOUS SAVEZ CE QUE VOUS FAITES!
-lang-version: 6195
+lang-version: 6196
