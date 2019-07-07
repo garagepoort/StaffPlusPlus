@@ -1,7 +1,10 @@
 package net.shortninja.staffplus.util.lib;
 
 
-import org.json.simple.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import net.shortninja.staffplus.util.JsonUtils;
 
 /**
  * @author JustisR, Shortninja
@@ -21,7 +24,7 @@ public class JsonStringBuilder {
     }
 
     private String esc(String s) {
-        return JSONObject.escape(Message.colorize(s));
+        return JsonUtils.escape(s);
     }
 
     /**

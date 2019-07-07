@@ -52,7 +52,7 @@
     <repositories>
         <repository>
             <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>inventive-repo</id>
@@ -62,10 +62,10 @@
             <id>mikeprim-repo</id>
             <url>http://repo.mikeprimm.com/</url>
         </repository>
-       <!-- <repository>
-            <id>qball-repo</id>
-            <url>https://qball.frostalf.net</url>
-        </repository> -->
+<!--       <repository>-->
+<!--            <id>qball-repo</id>-->
+<!--            <url>https://qball.frostalf.net</url>-->
+<!--        </repository>-->
         <repository>
             <id>qball-repo</id>
             <url>http://qballsrepo.tk/repo</url>
@@ -76,8 +76,8 @@
     <dependencies>
         <!-- Spigot -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
             <version>${bukkit.version}</version>
             <scope>provided</scope>
             <exclusions>
