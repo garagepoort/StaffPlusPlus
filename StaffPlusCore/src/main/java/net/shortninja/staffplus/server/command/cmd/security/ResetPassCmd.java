@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class ResetPass extends BukkitCommand {
+public class ResetPassCmd extends BukkitCommand {
 
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
@@ -21,7 +21,7 @@ public class ResetPass extends BukkitCommand {
     private Messages messages = StaffPlus.get().messages;
     private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
 
-    public ResetPass(String name){
+    public ResetPassCmd(String name){
         super(name);
     }
 

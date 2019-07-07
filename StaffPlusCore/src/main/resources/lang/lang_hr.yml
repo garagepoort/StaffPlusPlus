@@ -61,6 +61,7 @@ login-register: "&bBudući da su zaposlenici, morate se registrirati lozinku kak
 login-registered: "&bLozinka prihvaćena! Od vas će se tražiti da koristite ovu zaporku svaki put kada se prijavite."
 login-waiting: "&bTi su zamrznuti! Unesite svoju lozinku osoblje za nastavak."
 login-accepted: "&bPrijavljeni."
+passwords-dont-match: "&bZaporke se ne podudaraju"
 
 no-permission: "&cNemas permission da to koristis!"
 bypassed: "&cTaj igrac bajpasuje tu commandu"
@@ -203,4 +204,4 @@ follow: "&bTi si sada &7%status% %target%&b."
 strip: "&7%player%'s oklop je uklonjena!"
 
 # MEMOJ OVO PROMJENITI OSIM AKO ZNAS STO RADIS!
-lang-version: 6195
+lang-version: 6196

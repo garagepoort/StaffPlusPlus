@@ -20,7 +20,7 @@ import java.util.*;
 
 //TODO: replace this with something that isn't horribly coupled...
 public class Options implements IOptions {
-    private static final int CURRENT_VERSION = 6201;
+    private static final int CURRENT_VERSION = 6204;
     private static FileConfiguration config = StaffPlus.get().getConfig();
     private InputStream stream = StaffPlus.get().getResource("config.yml");
     YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
@@ -36,6 +36,8 @@ public class Options implements IOptions {
     /*
      * Advanced
      */
+    private int configVersion = configuration.getInt("config-version");
+    public boolean autoUpdate = configVersion >=6203 ?  config.getBoolean("AutoUpdate") : true;
     public int autoSave = config.getInt("auto-save");
     public long clock = config.getInt("clock") * 20;
     public List<String> animationPackets = JavaUtils.stringToList(config.getString("animation-packets"));
@@ -239,9 +241,9 @@ public class Options implements IOptions {
     public Sounds alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
     public List<Material> alertsXrayBlocks = stringToMaterialList(config.getString("alerts-module.xray-alerts.blocks"));
     public VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
-    private int configVersion = configuration.getInt("config-version");
     public boolean disablePackets = configVersion >= 3.19 ? config.getBoolean("disable-packets") : false;
-    public String commandRestPass = config.getString("commands.resetPass");
+    public String commandRestPass = configVersion >= 6203 ? config.getString("commands.resetPass") : "resetpass";
+    public String commandChangePass = configVersion >= 6204 ? config.getString("commands.changePass") : "changepassword";
     /*
      * Security
      */

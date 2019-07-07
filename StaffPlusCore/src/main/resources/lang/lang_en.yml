@@ -61,6 +61,7 @@ login-register: "&bSince you are staff, you must register a password to protect 
 login-registered: "&bPassword accepted! You will be asked to use this password each time you login."
 login-waiting: "&bYou have been frozen! Please enter your staff password to continue."
 login-accepted: "&bLogged in."
+passwords-dont-match: "&bThe passwords don''t match"
 
 no-permission: "&cYou do not have permission to use that!"
 bypassed: "&cThat player bypassed that command!"
@@ -202,4 +203,4 @@ follow: "&bYou are now &7%status% %target%&b."
 strip: "&7%player%'s armor has been removed!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6195
+lang-version: 6196

@@ -61,6 +61,7 @@ login-register: "&bMivel személyzet vagy, be kell regisztrálnia a jelszavát, 
 login-registered: "&bJelszó elfogadva! A bejelentkezéskor minden jelszóval fel kell kérni."
 login-waiting: "&bLe vagy fagyasztva! Kérjük, adja meg a személyzet jelszavát a folytatáshoz."
 login-accepted: "&bBejelentkezve."
+passwords-dont-match: "&bA jelszavak nem egyeznek"
 
 no-permission: "&cNincs jogod ennek a használatára!"
 bypassed: "&cEz a játékos megkerülte ezt a parancsot!"
@@ -204,4 +205,4 @@ follow: "&bMost vagy &7%status% %target%&b."
 strip: "&7%player% páncélját eltávolították!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6195
+lang-version: 6196

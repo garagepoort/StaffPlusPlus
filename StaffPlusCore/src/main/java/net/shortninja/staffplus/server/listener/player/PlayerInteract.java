@@ -48,7 +48,9 @@ public class PlayerInteract implements Listener {
         if (!modeCoordinator.isInMode(uuid) || item == null) {
             return;
         }
-
+        if (handleInteraction(player, item, action)) {
+            event.setCancelled(true);
+        }
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (StaffPlus.get().twelvePlus) {
                 if (event.getClickedBlock().getState() instanceof Container
@@ -82,11 +84,8 @@ public class PlayerInteract implements Listener {
                         StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
                     }
                 }
-                if (handleInteraction(player, item, action)) {
-                    event.setCancelled(true);
-                }
             }
-        }
+        }//end of if click block
     }
 
     private boolean handleInteraction(Player player, ItemStack item, Action action) {

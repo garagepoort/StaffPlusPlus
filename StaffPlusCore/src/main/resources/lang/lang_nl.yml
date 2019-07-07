@@ -61,6 +61,7 @@ login-register: "&bAangezien u personeel, moet u een wachtwoord om uw account te
 login-registered: "&bWachtwoord geaccepteerd! U zal worden gevraagd om dit wachtwoord te gebruiken elke keer dat u in te loggen."
 login-waiting: "&bJe bevroren zijn geweest! Vul uw medewerkers wachtwoord om verder te gaan."
 login-accepted: "&bIngelogd."
+passwords-dont-match: "&bDe wachtwoorden komen niet overeen"
 
 no-permission: "&cJe hebt been toestemming om deze actie uit te voeren"
 bypassed: "&cDeze speler omzeild dat commando!"
@@ -203,4 +204,4 @@ follow: "&bJe bent nu &7%status% %target%&b."
 strip: "&7%player%'s kuras is verwijderd!"
 
 # Niet dit veranderen tenzij je weet wat je doet!
-lang-version: 6195
+lang-version: 6196

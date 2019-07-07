@@ -61,6 +61,7 @@ login-register: "&bEftersom du är en personal, du måste registrera ett löseno
 login-registered: "&bLösenord accepterad! Du kommer att frågat att använda den här lösenord varje gång du logga in."
 login-waiting: "&bDu har varit frysta! Vänligen, ange ditt lösenord."
 login-accepted: "&bInloggad."
+passwords-dont-match: "&bLösenorden stämmer inte överens"
 
 no-permission: "&cDu har inte tillåtelse!"
 bypassed: "&cDen där spelare kringgick detta kommando!"
@@ -203,4 +204,4 @@ follow: "&bDu är nu &7%status% %target%&b."
 strip: "&7%player%'s pansar har tagits bort!"
 
 # BYTA INTE, SÅVIDA INTE DU VETA VAD DU GÖR!
-lang-version: 6195
+lang-version: 6196
