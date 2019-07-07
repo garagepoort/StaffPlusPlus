@@ -56,6 +56,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Filter;
+import java.util.logging.LogRecord;
 
 // TODO Add command to check e chests and offline player inventories
 
@@ -97,6 +99,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     @Override
     public void onLoad() {
         APIManager.require(PacketListenerAPI.class, this);
+
+        Bukkit.getLogger().setFilter(new PasswordFilter());
     }
 
     @Override
@@ -348,4 +352,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     ;
+
+    private static final class PasswordFilter implements Filter {
+
+        @Override
+        public boolean isLoggable(LogRecord record) {
+            return !record.getMessage().toLowerCase().contains("/register") && !record.getMessage().toLowerCase().contains("/login");
+        }
+    }
 }
