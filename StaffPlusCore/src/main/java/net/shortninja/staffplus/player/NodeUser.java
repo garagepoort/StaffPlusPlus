@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.attribute.SecurityHandler;
+//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.AlertCoordinator.AlertType;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class NodeUser {
-    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
+//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
     private User user;
     private String prefix;
 
@@ -28,9 +28,9 @@ public class NodeUser {
         return user.getName();
     }
 
-    public String password() {
-        return securityHandler.getPassword(user.getUuid());
-    }
+//    public String password() {
+//        return securityHandler.getPassword(user.getUuid());
+//    }
 
     public short glassColor() {
         return user.getGlassColor();

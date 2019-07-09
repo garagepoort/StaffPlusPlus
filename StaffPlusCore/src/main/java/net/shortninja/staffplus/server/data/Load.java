@@ -3,7 +3,7 @@ package net.shortninja.staffplus.server.data;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.SecurityHandler;
+//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.AlertCoordinator;
@@ -17,7 +17,7 @@ import java.util.*;
 public class Load {
     private FileConfiguration dataFile = StaffPlus.get().dataFile.getConfiguration();
     private UserManager userManager = StaffPlus.get().userManager;
-    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
+//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
     private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
     private String name;
     private UUID uuid;
@@ -48,9 +48,9 @@ public class Load {
         List<String> playerNotes = loadPlayerNotes();
         Map<AlertType, Boolean> alertOptions = loadAlertOptions();
 
-        if (password != null && !password.isEmpty()) {
-            securityHandler.setPassword(uuid, password, false);
-        }
+//        if (password != null && !password.isEmpty()) {
+//            securityHandler.setPassword(uuid, password, false);
+//        }
 
         if (!this.name.equals(name)) {
             alertCoordinator.onNameChange(name, this.name);

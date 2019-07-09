@@ -247,7 +247,7 @@ public class Options implements IOptions {
     /*
      * Security
      */
-    public boolean loginEnabled = configVersion >= 3.2 ? config.getBoolean("login.enabled") : false;
+    public boolean loginEnabled = /* configVersion >= 3.2 ? config.getBoolean("login.enabled") : false */ false;
     public String loginKick = configVersion >= 3.2 ? config.getString("login.kick-message") : "&cInvalid login password!";
     public boolean modeItemChange = configVersion >= 3.1 ? config.getBoolean("staff-mode.item-change") : true;
     public boolean modeDamage = configVersion >= 6194 ? config.getBoolean("staff-mode.damage") : false;
