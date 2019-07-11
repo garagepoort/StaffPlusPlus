@@ -20,7 +20,7 @@ public class Save {
     private void saveUser() {
         if (options.storageType.equalsIgnoreCase("flatfile")) {
             dataFile.set(node.prefix() + "name", node.name());
-            dataFile.set(node.prefix() + "password", node.password());
+//            dataFile.set(node.prefix() + "password", node.password());
             dataFile.set(node.prefix() + "glass-color", node.glassColor());
             dataFile.set(node.prefix() + "reports", node.reports());
             dataFile.set(node.prefix() + "warnings", node.warnings());

@@ -3,7 +3,7 @@ package net.shortninja.staffplus;
 import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.SecurityHandler;
+//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -72,7 +72,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public LanguageFile languageFile;
     public Messages messages;
     public UserManager userManager;
-    public SecurityHandler securityHandler;
+//    public SecurityHandler securityHandler; // FIXME
     public CpsHandler cpsHandler;
     public FreezeHandler freezeHandler;
     public GadgetHandler gadgetHandler;
@@ -100,7 +100,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public void onLoad() {
         APIManager.require(PacketListenerAPI.class, this);
 
-        Bukkit.getLogger().setFilter(new PasswordFilter());
+//        Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
     }
 
     @Override
@@ -159,7 +159,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         languageFile = new LanguageFile();
         messages = new Messages();
         userManager = new UserManager(this);
-        securityHandler = new SecurityHandler();
+//        securityHandler = new SecurityHandler(); // FIXME
         cpsHandler = new CpsHandler();
         freezeHandler = new FreezeHandler();
         gadgetHandler = new GadgetHandler();
@@ -319,7 +319,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         options = null;
         languageFile = null;
         userManager = null;
-        securityHandler = null;
+//        securityHandler = null; // FIXME
         cpsHandler = null;
         freezeHandler = null;
         gadgetHandler = null;
@@ -353,11 +353,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     ;
 
-    private static final class PasswordFilter implements Filter {
-
-        @Override
-        public boolean isLoggable(LogRecord record) {
-            return !record.getMessage().toLowerCase().contains("/register") && !record.getMessage().toLowerCase().contains("/login");
-        }
-    }
+//    private static final class PasswordFilter implements Filter {
+//
+//        @Override
+//        public boolean isLoggable(LogRecord record) {
+//            return !record.getMessage().toLowerCase().contains("/register") && !record.getMessage().toLowerCase().contains("/login");
+//        }
+//    }
+// FIXME
 }

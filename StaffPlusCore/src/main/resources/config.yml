@@ -224,6 +224,11 @@ alerts-module:
 # +------------------------------------------------------+ #
 ############################################################
 
+####
+# WARNING: This module is in the current release fundamentally broken and should not be enabled.
+# Enabling will not toggle any functionality because those are functionally-dismantled too.
+####
+
 # Requires "permissions.member" permission.
 login:
   # Whether or not /login will be enabled.

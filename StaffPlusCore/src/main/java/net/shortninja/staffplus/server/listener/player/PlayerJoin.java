@@ -3,7 +3,7 @@ package net.shortninja.staffplus.server.listener.player;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
-import net.shortninja.staffplus.player.attribute.SecurityHandler;
+//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
@@ -32,7 +32,7 @@ public class PlayerJoin implements Listener {
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().getUserManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
-    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
+//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler; // FIXME
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
     public static ArrayList<UUID> needLogin = new ArrayList<>();
@@ -52,13 +52,15 @@ public class PlayerJoin implements Listener {
             modeCoordinator.addMode(player);
         }
 
-        if (options.loginEnabled && permission.has(player, options.permissionMember)) {
-            if (securityHandler.hasPassword(player.getUniqueId())) {
-                needLogin.add(event.getPlayer().getUniqueId());
-                freezeHandler.addFreeze(player, player, false);
-                message.send(player, messages.loginWaiting, messages.prefixGeneral);
-            } else message.send(player, messages.loginRegister, messages.prefixGeneral);
-        }
+//        if (options.loginEnabled && permission.has(player, options.permissionMember)) {
+//            if (securityHandler.hasPassword(player.getUniqueId())) {
+//                needLogin.add(event.getPlayer().getUniqueId());
+//                freezeHandler.addFreeze(player, player, false);
+//                message.send(player, messages.loginWaiting, messages.prefixGeneral);
+//            } else message.send(player, messages.loginRegister, messages.prefixGeneral);
+//        }
+// FIXME
+
         loadInv(player);
     }
 

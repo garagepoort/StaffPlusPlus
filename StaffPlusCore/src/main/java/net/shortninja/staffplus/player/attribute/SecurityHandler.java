@@ -1,92 +1,84 @@
 package net.shortninja.staffplus.player.attribute;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.MySQLConnection;
+import net.shortninja.staffplus.server.data.file.EncodedDataFile;
+import org.bukkit.entity.Player;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.Arrays;
 
-public class SecurityHandler {
-    private static Map<UUID, String> hashedPasswords = new HashMap<UUID, String>();
-    private MessageDigest encrypter;
+public final class SecurityHandler {
+
+    private final EncodedDataFile dataFile = new EncodedDataFile("passwords.yml");
+    private final SecureRandom random = new SecureRandom();
+    private final BCrypt.Verifyer verifyer;
+    private final BCrypt.Hasher hasher;
+    private final int cost = 12;
 
     public SecurityHandler() {
-        try {
-            encrypter = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException exception) {
-            exception.printStackTrace();
-        }
+        this.verifyer = BCrypt.verifyer();
+        this.hasher = BCrypt.with(BCrypt.Version.VERSION_2Y, random, LongPasswordStrategies.strict());
     }
 
-    public String getPassword(UUID uuid) {
-        if (StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile"))
-            return hashedPasswords.containsKey(uuid) ? hashedPasswords.get(uuid) : "";
-        else if (StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")) {
-            if (!hasPassword(uuid))
-                return "";
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement ps = sql.prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?");) {
-                ps.setString(1, uuid.toString());
-                try (ResultSet rs = ps.executeQuery()) {
-                    return rs.getString("Password");
+    public String getPassword(Player player) {
+        if (StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile")) {
+            dataFile.load();
+            return dataFile.getString(player.getUniqueId().toString());
+        } else if (StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")) {
+            try (Connection c = MySQLConnection.getConnection();
+                 PreparedStatement ps = c.prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?;")) {
+                ps.setString(1, player.getUniqueId().toString());
+
+                try (ResultSet set = ps.executeQuery()) {
+                    return set.next() ? set.getString("Password") : null;
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new IllegalStateException("Could not open connection.", e);
             }
         }
-        return "";
+
+        return null;
     }
 
-    public boolean hasPassword(UUID uuid) {
-        if (StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile"))
-            return hashedPasswords.containsKey(uuid);
-        else if (StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement ps = sql.prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?");) {
-                ps.setString(1, uuid.toString());
-                try (ResultSet rs = ps.executeQuery()) {
-                    return rs.next();
-                }
+    public boolean hasPassword(Player player) {
+        String password = this.getPassword(player);
+
+        return password != null && !password.isEmpty();
+    }
+
+    public void setPassword(Player player, String password) {
+        byte[] pass = password.getBytes(StandardCharsets.UTF_8);
+        byte[] hashed = hasher.hash(cost, pass);
+
+        if (StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile")) {
+            dataFile.load();
+            dataFile.getConfiguration().set(player.getUniqueId().toString(), hashed);
+            dataFile.save();
+        } else if (StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")) {
+            try (Connection c = MySQLConnection.getConnection();
+                 PreparedStatement ps = c.prepareStatement("INSERT INTO sp_playerdata (Player_UUID, Password) VALUES (?, ?) ON DUPLICATE KEY UPDATE Password=?;")) {
+                ps.setString(1, player.getUniqueId().toString());
+                ps.setBytes(2, hashed);
+                ps.setBytes(3, hashed);
+                ps.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new IllegalStateException("Could not open connection.", e);
             }
         }
-        return false;
+
+        Arrays.fill(pass, (byte) 0x0);
+        Arrays.fill(hashed, (byte) 0x0);
     }
 
-    public boolean matches(UUID uuid, String input) {
-        return hash(input, uuid).equals(getPassword(uuid));
-    }
-
-    public void setPassword(UUID uuid, String password, boolean shouldHash) {
-        if (StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile"))
-            hashedPasswords.put(uuid, shouldHash ? hash(password, uuid) : password);
-        else if (StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_playerdata(Password, Player_UUID) " +
-                         "VALUES(?, ?)  ON DUPLICATE KEY UPDATE Password=?;")) {
-                String hashPass = shouldHash ? hash(password, uuid) : password;
-                insert.setString(1, hashPass);
-                insert.setString(2, uuid.toString());
-                insert.setString(3, hashPass);
-                insert.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String hash(String string, UUID uuid) {
-        string += uuid.toString();
-        encrypter.update(string.getBytes(), 0, string.length());
-        return new BigInteger(1, encrypter.digest()).toString(16);
+    public boolean isPasswordMatch(String password, String hash) {
+        return verifyer.verify(password.getBytes(StandardCharsets.UTF_8), hash.getBytes(StandardCharsets.UTF_8)).verified;
     }
 }
