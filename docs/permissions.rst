@@ -6,32 +6,32 @@
     Use this to give a player all Staff+ permissions.
     Take note that this will NOT give the player the "block" permission.
     This also gives the player permission to toggle other player's vanish, staff mode, and etc.
-   
+.. code::
 wild-card: "staff.*"
 
 .. note::
     Permission for blocking listed commands at "blocked-commands" and "blocked-mode-commands".
-    
+.. code::
 block: "staff.block"
 
 .. note::
   Permission for clearing/getting player reports.
-  
+.. code::
 report: "staff.report"
 
 .. note::
     Permission for bypassing reports.
-    
+.. code:: 
 report-bypass: "staff.report.bypass"
 
 .. note::
     Permission for using "/warn" and clearing/getting player warnings.
-    
+.. code::  
 warn: "staff.warn"
 
 .. note::
   Permission for bypassing warnings.
-  
+.. code::
 warn-bypass: "staff.warn.bypass"
 
 # Permission for using staff chat.
