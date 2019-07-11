@@ -1,1 +1,5 @@
+================
+   StaffPlus
+================
 
+- Permissions: :ref:`permissions`
