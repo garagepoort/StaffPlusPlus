@@ -1,7 +1,7 @@
 # Staff+
 This plugin started off as a copy of HydraHCF's staff mode plugin back in July of 2015. After selling over ninety copies on MCM and making multiple revisions, it is now free to the public! 
-
-#### General Status:
+----
+![CircleCI](https://img.shields.io/circleci/build/github/Azoraqua/StaffPlus/master.svg?style=default)
 [![Documentation Status](https://readthedocs.org/projects/staffplus/badge/?version=latest)](https://staffplus.readthedocs.io/en/latest/?badge=latest)
 
 #### Version 3.0 changelog (major features)
