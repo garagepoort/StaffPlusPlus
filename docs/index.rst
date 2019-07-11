@@ -1,7 +1,6 @@
 ================
    StaffPlus
 ================
-.. content::
-  Permissions
+.. content:: Table of contents
 
 .. include:: permissions.rst
