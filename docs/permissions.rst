@@ -2,6 +2,9 @@
   Permissions
 ================
 
+.. note::
+  All permissions listed here are subject to added, changed or removed altogether at any given time.
+
 **Use this to give a player all Staff+ permissions.**
 **Take note that this will NOT give the player the "block" permission.**
 **This also gives the player permission to toggle other player's vanish, staff mode, and etc.**
