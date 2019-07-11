@@ -1,6 +1,9 @@
 # Staff+
 This plugin started off as a copy of HydraHCF's staff mode plugin back in July of 2015. After selling over ninety copies on MCM and making multiple revisions, it is now free to the public! 
 
+#### General Status:
+[![Documentation Status](https://readthedocs.org/projects/staffplus/badge/?version=latest)](https://staffplus.readthedocs.io/en/latest/?badge=latest)
+
 #### Version 3.0 changelog (major features)
 * TONS of new configuration options.
 * GUI hub in staff mode that allows for multiple different teleportation and management options.
