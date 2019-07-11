@@ -2,4 +2,5 @@
    StaffPlus
 ================
 
-- Permissions: :ref:`permissions`
+- Permissions: 
+include:: permissions.rst
