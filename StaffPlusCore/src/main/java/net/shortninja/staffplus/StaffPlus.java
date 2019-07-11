@@ -4,6 +4,7 @@ import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 //import net.shortninja.staffplus.player.attribute.SecurityHandler;
+import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -72,7 +73,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public LanguageFile languageFile;
     public Messages messages;
     public UserManager userManager;
-//    public SecurityHandler securityHandler; // FIXME
+
     public CpsHandler cpsHandler;
     public FreezeHandler freezeHandler;
     public GadgetHandler gadgetHandler;
@@ -82,6 +83,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public TicketHandler ticketHandler;
     public CmdHandler cmdHandler;
     public ModeCoordinator modeCoordinator;
+    public SecurityHandler securityHandler;
     public InfractionCoordinator infractionCoordinator;
     public AlertCoordinator alertCoordinator;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
@@ -159,7 +161,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         languageFile = new LanguageFile();
         messages = new Messages();
         userManager = new UserManager(this);
-//        securityHandler = new SecurityHandler(); // FIXME
+        securityHandler = new SecurityHandler(); // FIXME
         cpsHandler = new CpsHandler();
         freezeHandler = new FreezeHandler();
         gadgetHandler = new GadgetHandler();
