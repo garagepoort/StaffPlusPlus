@@ -3,4 +3,4 @@
 ================
 
 - Permissions: 
-include:: permissions.rst
+.. include:: permissions.rst
