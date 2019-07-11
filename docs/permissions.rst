@@ -3,17 +3,17 @@
 ================
 
 .. note::
-  All permissions listed here are subject to added, changed or removed altogether at any given time.
+  All permissions listed here are subject to addition, modification and/or removal at any given time.
 
 **Use this to give a player all Staff+ permissions.**
 **Take note that this will NOT give the player the "block" permission.**
 **This also gives the player permission to toggle other player's vanish, staff mode, and etc.**
 
-``wild-card: "staff.*"``
+``staff.*``
 
 **Permission for blocking listed commands at "blocked-commands" and "blocked-mode-commands".**
 
-``block: "staff.block"``
+``staff.block``
 
 **Permission for clearing/getting player reports.**
 
