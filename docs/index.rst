@@ -2,7 +2,8 @@
    StaffPlus
 ================
 
-.. contents:: 
-   :depth: 2
+.. contents::
+   :depth: 1
 
+.. include:: commands.rst
 .. include:: permissions.rst
