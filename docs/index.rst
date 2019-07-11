@@ -1,6 +1,7 @@
 ================
    StaffPlus
 ================
-.. content:: Table of contents
+.. toctree::
+ :numbered:
 
 .. include:: permissions.rst
