@@ -28,11 +28,15 @@ public class DataFile {
             StaffPlus.get().saveResource(name, false);
         }
 
-        configuration = YamlConfiguration.loadConfiguration(file);
+        this.load();
     }
 
     public FileConfiguration getConfiguration() {
         return configuration;
+    }
+
+    public File getFile() {
+        return file;
     }
 
     public void save() {
@@ -41,6 +45,10 @@ public class DataFile {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void load() {
+        configuration = YamlConfiguration.loadConfiguration(file);
     }
 
     public double getDouble(String path) {
