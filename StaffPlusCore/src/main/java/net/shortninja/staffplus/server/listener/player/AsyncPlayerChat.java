@@ -102,6 +102,9 @@ public class AsyncPlayerChat implements Listener {
         } else if (!chatHandler.isChatEnabled(player) || (user.isFrozen() && !options.modeFreezeChat)) {
             this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
             shouldCancel = true;
+        } else if (StaffPlus.get().options.vanishEnabled && !StaffPlus.get().options.vanishChatEnabled && StaffPlus.get().vanishHandler.isVanished(player)) {
+            this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
+            shouldCancel = true;
         }
 
         return shouldCancel;

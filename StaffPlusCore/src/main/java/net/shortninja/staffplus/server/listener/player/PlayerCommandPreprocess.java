@@ -15,8 +15,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.server.TabCompleteEvent;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PlayerCommandPreprocess implements Listener {
     private PermissionHandler permission = StaffPlus.get().permission;
@@ -54,6 +57,16 @@ public class PlayerCommandPreprocess implements Listener {
         } else if (freezeHandler.isFrozen(uuid) && (!options.modeFreezeChat || (freezeHandler.isLoggedOut(uuid)) && !command.startsWith("/" + options.commandLogin))) {
             message.send(player, messages.chatPrevented, messages.prefixGeneral);
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onTabComplete(TabCompleteEvent e) {
+        if (StaffPlus.get().options.vanishEnabled && !StaffPlus.get().options.vanishSuggestionsEnabled) {
+            e.getCompletions().removeIf(s -> StaffPlus.get().vanishHandler.getVanished()
+                    .stream()
+                    .map(Player::getName)
+                    .anyMatch(x -> x.equalsIgnoreCase(s)));
         }
     }
 

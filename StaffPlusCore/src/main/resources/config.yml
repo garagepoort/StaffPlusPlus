@@ -115,6 +115,12 @@ vanish-module:
   # Whether or not list vanish users will be shown as "away" or "offline" in the staff list.
   show-away: false
 
+  # Whether or not user should be shown in command tab-complete suggestions.
+  suggestions: false
+
+  # Whether or not chat can be used when vanished.
+  chat: false
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                         Chat                         | #

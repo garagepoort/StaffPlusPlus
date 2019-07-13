@@ -67,6 +67,8 @@ public class Options implements IOptions {
     public boolean vanishEnabled = config.getBoolean("vanish-module.enabled");
     public boolean vanishTabList = config.getBoolean("vanish-module.tab-list");
     public boolean vanishShowAway = config.getBoolean("vanish-module.show-away");
+    public boolean vanishSuggestionsEnabled = config.getBoolean("vanish-module.suggestions");
+    public boolean vanishChatEnabled = config.getBoolean("vanish-module.chat");
     /*
      * Chat
      */
@@ -124,6 +126,7 @@ public class Options implements IOptions {
      */
     public boolean modeVanishEnabled = config.getBoolean("staff-mode.vanish-module.enabled");
     public int modeVanishSlot = config.getInt("staff-mode.vanish-module.slot") - 1;
+
     /*
      * GUI Hub
      */
