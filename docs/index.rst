@@ -7,3 +7,4 @@
 
 .. include:: commands.rst
 .. include:: permissions.rst
+.. include:: configuration.rst
