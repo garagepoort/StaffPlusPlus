@@ -3,7 +3,7 @@
 ================
 
 # Staff+ | Made with love by Shortninja.
-## Maintained by QBall with help from [contributors](https://github.com/Qballl/StaffPlus/graphs/contributors).
+## Maintained by QBall with help from `contributors <https://github.com/Qballl/StaffPlus/graphs/contributors>`_.
 
 # If you're having trouble with item type names, refer to here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 # All item slots are how they "should be", meaning the first slot of an inventory will be one. Maximum is 36.
