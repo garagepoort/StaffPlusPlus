@@ -36,6 +36,8 @@
                         </goals>
                         <configuration>
                             <finalName>Staff+</finalName>
+                            <minimizeJar>true</minimizeJar>
+
                             <artifactSet>
                                 <excludes>
                                     <exclude>org.bukkit:bukkit</exclude>
