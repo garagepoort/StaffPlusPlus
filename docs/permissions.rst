@@ -53,7 +53,7 @@
 ``staff.alerts.mention``
 
 **Permission for receiving name change alerts.**:
-staff.alerts.namechange``
+``staff.alerts.namechange``
 
 **Permission for receiving xray alerts.**:
 ``staff.alerts.xray``
