@@ -1,6 +1,6 @@
-================
-  Permissions
-================
+=============================================================
+   Permissions (Can be configured in the configuration file)
+=============================================================
 
 .. note::
   All permissions listed here are subject to addition, modification and/or removal at any given time.
