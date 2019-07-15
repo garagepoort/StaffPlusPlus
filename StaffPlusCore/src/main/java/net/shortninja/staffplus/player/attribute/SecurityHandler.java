@@ -17,28 +17,29 @@ import java.util.Arrays;
 
 public final class SecurityHandler {
 
-    private final EncodedDataFile dataFile = new EncodedDataFile("passwords.yml");
+    private static final int HASH_COST = 12;
+
+    private static final EncodedDataFile dataFile = new EncodedDataFile("passwords.yml");
     private final SecureRandom random = new SecureRandom();
     private final BCrypt.Verifyer verifyer;
     private final BCrypt.Hasher hasher;
-    private final int cost = 12;
 
     public SecurityHandler() {
         this.verifyer = BCrypt.verifyer();
         this.hasher = BCrypt.with(BCrypt.Version.VERSION_2Y, random, LongPasswordStrategies.strict());
     }
 
-    public String getPassword(Player player) {
+    public byte[] getPassword(final Player player) {
         if (StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile")) {
             dataFile.load();
-            return dataFile.getString(player.getUniqueId().toString());
+            return dataFile.getString(player.getUniqueId().toString()).getBytes(StandardCharsets.UTF_8);
         } else if (StaffPlus.get().options.storageType.equalsIgnoreCase("mysql")) {
             try (Connection c = MySQLConnection.getConnection();
                  PreparedStatement ps = c.prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?;")) {
                 ps.setString(1, player.getUniqueId().toString());
 
                 try (ResultSet set = ps.executeQuery()) {
-                    return set.next() ? set.getString("Password") : null;
+                    return set.next() ? set.getBytes("Password") : null;
                 }
             } catch (SQLException e) {
                 throw new IllegalStateException("Could not open connection.", e);
@@ -48,15 +49,16 @@ public final class SecurityHandler {
         return null;
     }
 
-    public boolean hasPassword(Player player) {
-        String password = this.getPassword(player);
+    public boolean hasPassword(final Player player) {
+        byte[] password = this.getPassword(player);
+        boolean result = password != null && password.length > 0;
+        Arrays.fill(password, (byte) 0x0);
 
-        return password != null && !password.isEmpty();
+        return result;
     }
 
-    public void setPassword(Player player, String password) {
-        byte[] pass = password.getBytes(StandardCharsets.UTF_8);
-        byte[] hashed = hasher.hash(cost, pass);
+    public void setPassword(final Player player, final byte[] password) {
+        final byte[] hashed = this.hash(password);
 
         if (StaffPlus.get().options.storageType.equalsIgnoreCase("flatfile")) {
             dataFile.load();
@@ -74,11 +76,24 @@ public final class SecurityHandler {
             }
         }
 
-        Arrays.fill(pass, (byte) 0x0);
+        Arrays.fill(password, (byte) 0x0);
         Arrays.fill(hashed, (byte) 0x0);
     }
 
-    public boolean isPasswordMatch(String password, String hash) {
-        return verifyer.verify(password.getBytes(StandardCharsets.UTF_8), hash.getBytes(StandardCharsets.UTF_8)).verified;
+    public boolean isPasswordMatch(final byte[] password, final byte[] passwordVerify) {
+        final byte[] passwordHash = this.hash(password);
+        final byte[] verifyHash = this.hash(passwordVerify);
+
+        boolean result = verifyer.verify(passwordHash, verifyHash).verified;
+        Arrays.fill(password, (byte) 0x0);
+        Arrays.fill(passwordVerify, (byte) 0x0);
+        Arrays.fill(passwordHash, (byte) 0x0);
+        Arrays.fill(verifyHash, (byte) 0x0);
+
+        return result;
+    }
+
+    private byte[] hash(final byte[] password) {
+        return hasher.hash(SecurityHandler.HASH_COST, password);
     }
 }
