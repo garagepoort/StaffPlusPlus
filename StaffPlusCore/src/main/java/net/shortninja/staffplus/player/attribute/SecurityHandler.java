@@ -51,8 +51,10 @@ public final class SecurityHandler {
 
     public boolean hasPassword(final Player player) {
         byte[] password = this.getPassword(player);
+        boolean result = password != null && password.length > 0;
+        Arrays.fill(password, (byte) 0x0);
 
-        return password != null && password.length > 0;
+        return result;
     }
 
     public void setPassword(final Player player, final byte[] password) {
@@ -74,6 +76,7 @@ public final class SecurityHandler {
             }
         }
 
+        Arrays.fill(password, (byte) 0x0);
         Arrays.fill(hashed, (byte) 0x0);
     }
 
@@ -82,6 +85,8 @@ public final class SecurityHandler {
         final byte[] verifyHash = this.hash(passwordVerify);
 
         boolean result = verifyer.verify(passwordHash, verifyHash).verified;
+        Arrays.fill(password, (byte) 0x0);
+        Arrays.fill(passwordVerify, (byte) 0x0);
         Arrays.fill(passwordHash, (byte) 0x0);
         Arrays.fill(verifyHash, (byte) 0x0);
 
