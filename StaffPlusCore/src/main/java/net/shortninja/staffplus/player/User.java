@@ -211,7 +211,11 @@ public class User {
     }
 
     public void setAlertOption(AlertType alertType, boolean isEnabled) {
-        alertOptions.put(alertType, isEnabled);
+        if (alertOptions.containsKey(alertType)) {
+            alertOptions.replace(alertType, isEnabled);
+        } else {
+            alertOptions.put(alertType, isEnabled);
+        }
     }
 
     public void addReport(Report report) {
