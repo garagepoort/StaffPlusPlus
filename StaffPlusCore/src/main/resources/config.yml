@@ -222,7 +222,7 @@ alerts-module:
     enabled: true
 
     # Block type that, when mined, will invoke an alert.
-    blocks: SPAWNER, DIAMOND_ORE
+    blocks: SPAWNER, EMERALD_ORE, DIAMOND_ORE, GOLD_ORE, IRON_ORE, COAL_ORE, LAPIS_ORE, REDSTONE_ORE
 
 ############################################################
 # +------------------------------------------------------+ #
