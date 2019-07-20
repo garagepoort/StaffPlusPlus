@@ -39,6 +39,8 @@ public class EChestView extends BukkitCommand {
         if(Bukkit.getServer().getPlayer(args[0])!=null){
             p.openInventory(InventoryFactory.createEnderchestInventory(Bukkit.getServer().getPlayer(args[0])));
             return true;
+        }else{
+            p.openInventory(InventoryFactory.createVirtualEnderChest(Bukkit.getOfflinePlayer(args[0])));
         }
         return false;
     }

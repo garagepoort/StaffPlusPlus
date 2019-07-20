@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import java.nio.charset.StandardCharsets;
+
 public class RegisterCmd extends BukkitCommand {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
@@ -35,7 +37,7 @@ public class RegisterCmd extends BukkitCommand {
             String password = args[0];
 
             if (password.equals(args[1])) {
-                securityHandler.setPassword(((Player) sender), password);
+                securityHandler.setPassword(((Player) sender), password.getBytes(StandardCharsets.UTF_8));
                 message.send(sender, messages.loginRegistered, messages.prefixGeneral);
             } else
                 message.send(sender, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixGeneral);

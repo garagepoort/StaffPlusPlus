@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import java.nio.charset.StandardCharsets;
+
 public class ChangePassCmd extends BukkitCommand {
 
     private PermissionHandler permission = StaffPlus.get().permission;
@@ -39,7 +41,7 @@ public class ChangePassCmd extends BukkitCommand {
                 String newPass = args[0];
                 String confirmPass = args[1];
                 if(newPass.equals(confirmPass)){
-                    securityHandler.setPassword(p,newPass);
+                    securityHandler.setPassword(p,newPass.getBytes(StandardCharsets.UTF_8));
                     message.send(p,messages.loginRegistered,messages.prefixGeneral);
                 }else
                     message.send(p,messages.passwordsNoMatch,messages.prefixGeneral);

@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class ResetPassCmd extends BukkitCommand {
@@ -39,7 +40,7 @@ public class ResetPassCmd extends BukkitCommand {
         }
         if(permission.hasOnly((Player)sender,options.permissionResetPassword)){
             UUID uuid = Bukkit.getPlayer(args[0]).getUniqueId();
-            securityHandler.setPassword(Bukkit.getPlayer(uuid),args[1]);
+            securityHandler.setPassword(Bukkit.getPlayer(uuid),args[1].getBytes(StandardCharsets.UTF_8));
             return true;
         }else{
             message.send(sender, messages.noPermission, messages.prefixGeneral);

@@ -9,6 +9,7 @@ import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,6 +44,9 @@ public class PlayerQuit implements Listener {
                 command = command.replace("%player%", player.getName());
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
             }
+        }
+        if(!InventoryFactory.isInventoryEmpty(event.getPlayer().getEnderChest())){
+            InventoryFactory.saveEnderChest(event.getPlayer());
         }
     }
 

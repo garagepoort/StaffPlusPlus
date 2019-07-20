@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class LoginCmd extends BukkitCommand {
@@ -44,7 +45,7 @@ public class LoginCmd extends BukkitCommand {
 
 
         if (securityHandler.hasPassword(player)) {
-            if (securityHandler.isPasswordMatch(args[0],securityHandler.getPassword(player))) {
+            if (securityHandler.isPasswordMatch(args[0].getBytes(StandardCharsets.UTF_8),securityHandler.getPassword(player))) {
                 freezeHandler.removeFreeze(player, player, false);
                 PlayerJoin.needLogin.remove(player.getUniqueId());
                 message.send(sender, messages.loginAccepted, messages.prefixGeneral);

@@ -102,7 +102,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public void onLoad() {
         APIManager.require(PacketListenerAPI.class, this);
 
-//        Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
+        Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
     }
 
     @Override
@@ -122,7 +122,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
-        checkUpdate();
+        //checkUpdate();
     }
 
     public UserManager getUserManager() {
