@@ -20,7 +20,7 @@ import java.util.*;
 
 //TODO: replace this with something that isn't horribly coupled...
 public class Options implements IOptions {
-    private static final int CURRENT_VERSION = 6204;
+    private static final int CURRENT_VERSION = 6203;
     private static FileConfiguration config = StaffPlus.get().getConfig();
     private InputStream stream = StaffPlus.get().getResource("config.yml");
     YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
@@ -246,7 +246,8 @@ public class Options implements IOptions {
     public VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
     public boolean disablePackets = configVersion >= 3.19 ? config.getBoolean("disable-packets") : false;
     public String commandRestPass = configVersion >= 6203 ? config.getString("commands.resetPass") : "resetpass";
-    public String commandChangePass = configVersion >= 6204 ? config.getString("commands.changePass") : "changepassword";
+    public String commandChangePass = configVersion >= 6203 ? config.getString("commands.changePass") : "changepassword";
+    public String commandEChestView = configVersion >= 6203 ? config.getString("commands.echest_view") : "eview";
     /*
      * Security
      */

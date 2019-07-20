@@ -91,7 +91,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public Map<UUID, User> users;
     private MySQLConnection mySQLConnection;
     public boolean ninePlus = false;
-    public HashMap<Inventory,Block> viewedChest = new HashMap<>();
+    public HashMap<Inventory, Block> viewedChest = new HashMap<>();
     public boolean twelvePlus = false;
 
     public static StaffPlus get() {
@@ -102,7 +102,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public void onLoad() {
         APIManager.require(PacketListenerAPI.class, this);
 
-//        Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
+        Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
     }
 
     @Override
@@ -122,7 +122,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
-        checkUpdate();
+        //checkUpdate();
     }
 
     public UserManager getUserManager() {
@@ -155,7 +155,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
         String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
-        ninePlus = JavaUtils.parseMcVer(version)>=9;
+        ninePlus = JavaUtils.parseMcVer(version) >= 9;
         twelvePlus = JavaUtils.parseMcVer(version) >= 12;
         dataFile = new DataFile("data.yml");
         languageFile = new LanguageFile();
@@ -321,7 +321,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         options = null;
         languageFile = null;
         userManager = null;
-//        securityHandler = null; // FIXME
+        securityHandler = null; // FIXME
         cpsHandler = null;
         freezeHandler = null;
         gadgetHandler = null;
@@ -353,14 +353,13 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         return permission;
     }
 
-    ;
 
-//    private static final class PasswordFilter implements Filter {
-//
-//        @Override
-//        public boolean isLoggable(LogRecord record) {
-//            return !record.getMessage().toLowerCase().contains("/register") && !record.getMessage().toLowerCase().contains("/login");
-//        }
-//    }
-// FIXME
+
+    private static final class PasswordFilter implements Filter {
+
+        @Override
+        public boolean isLoggable(LogRecord record) {
+            return !record.getMessage().toLowerCase().contains("/register") && !record.getMessage().toLowerCase().contains("/login");
+        }
+    }
 }

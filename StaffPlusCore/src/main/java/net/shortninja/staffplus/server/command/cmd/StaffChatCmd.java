@@ -39,10 +39,10 @@ public class StaffChatCmd extends BukkitCommand {
             User user = userManager.get(((Player) sender).getUniqueId());
 
             if (user.isChatting()) {
-                message.send(sender, messages.staffChatStatus.replace("%status%", "disabled"), messages.prefixStaffChat);
+                message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);
                 user.setChatting(false);
             } else {
-                message.send(sender, messages.staffChatStatus.replace("%status%", "enabled"), messages.prefixStaffChat);
+                message.send(sender, messages.staffChatStatus.replace("%status%", messages.enabled), messages.prefixStaffChat);
                 user.setChatting(true);
             }
         } else message.send(sender, messages.onlyPlayers, messages.prefixStaffChat);
