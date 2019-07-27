@@ -42,8 +42,9 @@ public final class InventoryFactory {
     public static void saveEnderChest(Player player){
         File file = new File(StaffPlus.get().getDataFolder()+"/EnderChests.yml");
         if(!file.exists()){
+            return;
+        }else{
             try {
-                file.createNewFile();
                 YamlConfiguration enderChests = YamlConfiguration.loadConfiguration(file);
                 int i = 0;
                 for(ItemStack stack : player.getEnderChest().getContents()){
