@@ -23,6 +23,11 @@
             <artifactId>StaffPlusAPI</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.14-R0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
