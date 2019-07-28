@@ -11,8 +11,6 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.inventivetalent.packetlistener.PacketListenerAPI;
-import org.inventivetalent.packetlistener.handler.PacketHandler;
 import org.inventivetalent.packetlistener.handler.ReceivedPacket;
 import org.inventivetalent.packetlistener.handler.SentPacket;
 
@@ -26,37 +24,37 @@ public class PacketModifier {
     }
 
     private void initializeHandler() {
-        PacketListenerAPI.addPacketHandler(new PacketHandler(StaffPlus.get()) {
-            @Override
-            public void onSend(SentPacket packet) {
-                String packetName = packet.getPacketName();
-
-                if (packetName.equalsIgnoreCase("PacketPlayOutNamedSoundEffect")) {
-                    handleClientSound(packet);
-                } else {
-                    for (String string : options.animationPackets) {
-                        if (packetName.equalsIgnoreCase(string)) {
-                            handleClientAnimation(packet);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onReceive(ReceivedPacket packet) {
-                if (!packet.isCancelled()) {
-                    String packetName = packet.getPacketName();
-
-                    for (String string : options.animationPackets) {
-                        if (packetName.equalsIgnoreCase(string)) {
-                            handleServerSide(packet, false);
-                            break;
-                        }
-                    }
-                }
-            }
-        });
+//        PacketListenerAPI.addPacketHandler(new PacketHandler(StaffPlus.get()) {
+//            @Override
+//            public void onSend(SentPacket packet) {
+//                String packetName = packet.getPacketName();
+//
+//                if (packetName.equalsIgnoreCase("PacketPlayOutNamedSoundEffect")) {
+//                    handleClientSound(packet);
+//                } else {
+//                    for (String string : options.animationPackets) {
+//                        if (packetName.equalsIgnoreCase(string)) {
+//                            handleClientAnimation(packet);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onReceive(ReceivedPacket packet) {
+//                if (!packet.isCancelled()) {
+//                    String packetName = packet.getPacketName();
+//
+//                    for (String string : options.animationPackets) {
+//                        if (packetName.equalsIgnoreCase(string)) {
+//                            handleServerSide(packet, false);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//        });
     }
 
     private void handleClientSound(SentPacket packet) {
