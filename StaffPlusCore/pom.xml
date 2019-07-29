@@ -38,15 +38,6 @@
                             <finalName>Staff+</finalName>
                             <minimizeJar>true</minimizeJar>
 
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>org.bukkit:bukkit</exclude>
-                                </excludes>
-                                <excludes>
-                                    <exclude>org.bukkit:craftbukkit</exclude>
-                                </excludes>
-                            </artifactSet>
-
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>

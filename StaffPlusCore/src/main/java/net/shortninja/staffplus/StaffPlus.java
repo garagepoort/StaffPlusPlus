@@ -31,6 +31,8 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.file.ChangelogFile;
 import net.shortninja.staffplus.server.data.file.DataFile;
 import net.shortninja.staffplus.server.data.file.LanguageFile;
+import net.shortninja.staffplus.server.hook.HookHandler;
+import net.shortninja.staffplus.server.hook.SuperVanishHook;
 import net.shortninja.staffplus.server.listener.*;
 import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
@@ -74,6 +76,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public Messages messages;
     public UserManager userManager;
 
+    public HookHandler hookHandler;
     public CpsHandler cpsHandler;
     public FreezeHandler freezeHandler;
     public GadgetHandler gadgetHandler;
@@ -123,6 +126,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
         //checkUpdate();
+
+        hookHandler.addHook(new SuperVanishHook(this));
+        hookHandler.enableAll();
     }
 
     public UserManager getUserManager() {
@@ -159,6 +165,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         messages = new Messages();
         userManager = new UserManager(this);
 //        securityHandler = new SecurityHandler(); // FIXME
+        hookHandler = new HookHandler();
         cpsHandler = new CpsHandler();
         freezeHandler = new FreezeHandler();
         gadgetHandler = new GadgetHandler();
@@ -301,6 +308,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
 
     private void stop() {
+        hookHandler.disableAll();
+
         saveUsers();
         tasks.cancel();
 //        APIManager.disableAPI(PacketListenerAPI.class);
