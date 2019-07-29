@@ -17,8 +17,8 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Field;
 import java.util.Set;
 
-public class Protocol_v1_14_R1 extends AbstractProtocol implements IProtocol {
-    public Protocol_v1_14_R1(IStaffPlus staffPlus) {
+public class Protocol_v1_14_R2 extends AbstractProtocol implements IProtocol {
+    public Protocol_v1_14_R2(IStaffPlus staffPlus) {
         super(staffPlus);
     }
 
@@ -94,7 +94,7 @@ public class Protocol_v1_14_R1 extends AbstractProtocol implements IProtocol {
         MinecraftKey minecraftKey = getMinecraftKey(sound);
 
         if (minecraftKey != null) {
-            soundName = minecraftKey.b();
+            soundName = minecraftKey.getNamespace();
 
         }
 
