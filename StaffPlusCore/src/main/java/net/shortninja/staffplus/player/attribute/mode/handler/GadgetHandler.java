@@ -2,9 +2,9 @@ package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.CounterGui;
-import net.shortninja.staffplus.player.attribute.gui.ExamineGui;
-import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
+import net.shortninja.staffplus.player.attribute.gui.CounterIGui;
+import net.shortninja.staffplus.player.attribute.gui.ExamineIGui;
+import net.shortninja.staffplus.player.attribute.gui.hub.HubIGui;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -147,11 +147,11 @@ public class GadgetHandler {
     }
 
     public void onGuiHub(Player player) {
-        new HubGui(player, options.modeGuiItem.getItemMeta().getDisplayName());
+        new HubIGui(player, options.modeGuiItem.getItemMeta().getDisplayName());
     }
 
     public void onCounter(Player player) {
-        new CounterGui(player, options.modeCounterTitle);
+        new CounterIGui(player, options.modeCounterTitle);
     }
 
     public void onFreeze(CommandSender sender, Player targetPlayer) {
@@ -177,7 +177,7 @@ public class GadgetHandler {
             return;
         }
 
-        new ExamineGui(player, targetPlayer, options.modeExamineTitle);
+        new ExamineIGui(player, targetPlayer, options.modeExamineTitle);
     }
 
     public void onFollow(Player player, Player targetPlayer) {
@@ -218,13 +218,13 @@ public class GadgetHandler {
         Set<UUID> modeUsers = StaffPlus.get().modeCoordinator.getModeUsers();
 
         for (UUID uuid : modeUsers) {
-            Player player = userManager.get(uuid).getPlayer();
+            Optional<Player> player = userManager.get(uuid).getPlayer();
 
-            if (player == null) {
+            if (!player.isPresent()) {
                 continue;
             }
 
-            for (ItemStack item : player.getInventory().getContents()) {
+            for (ItemStack item : player.get().getInventory().getContents()) {
                 if (item == null) {
                     continue;
                 }

@@ -1,7 +1,6 @@
 package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.player.NodeUser;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
@@ -38,6 +37,7 @@ import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -91,7 +91,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public AlertCoordinator alertCoordinator;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
-    public Map<UUID, User> users;
+    public Map<UUID, IUser> users;
     private MySQLConnection mySQLConnection;
     public boolean ninePlus = false;
     public HashMap<Inventory, Block> viewedChest = new HashMap<>();
@@ -142,7 +142,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     public void saveUsers() {
-        for (User user : userManager.getAll()) {
+        for (IUser user : userManager.getAll()) {
             new Save(new NodeUser(user));
         }
 

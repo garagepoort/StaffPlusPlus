@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.AlertType;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -57,9 +57,9 @@ public class AlertsCmd extends BukkitCommand {
         argument = argument.substring(0, 1).toUpperCase() + argument.substring(1);
 
         boolean wasChanged = false;
-        boolean isValid = JavaUtils.isValidEnum(AlertCoordinator.AlertType.class, argument.toUpperCase());
-        AlertCoordinator.AlertType alertType = AlertCoordinator.AlertType.NAME_CHANGE;
-        User user = userManager.get(player.getUniqueId());
+        boolean isValid = JavaUtils.isValidEnum(AlertType.class, argument.toUpperCase());
+        AlertType alertType = AlertType.NAME_CHANGE;
+        IUser user = userManager.get(player.getUniqueId());
 
         if (!isValid) {
             sendHelp(sender);
@@ -67,7 +67,7 @@ public class AlertsCmd extends BukkitCommand {
         } else if (user == null) {
             message.send(sender, messages.playerOffline, messages.prefixGeneral);
             return;
-        } else alertType = AlertCoordinator.AlertType.valueOf(argument.toUpperCase());
+        } else alertType = AlertType.valueOf(argument.toUpperCase());
 
         boolean isEnabled = option.isEmpty() ? !user.shouldNotify(alertType) : (option.equalsIgnoreCase("enable") ? true : false);
 

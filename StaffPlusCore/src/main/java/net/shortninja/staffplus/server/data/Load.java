@@ -3,16 +3,19 @@ package net.shortninja.staffplus.server.data;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.AlertCoordinator;
-import net.shortninja.staffplus.server.AlertCoordinator.AlertType;
+import net.shortninja.staffplus.unordered.AlertType;
+import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+
+//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 
 public class Load {
     private FileConfiguration dataFile = StaffPlus.get().dataFile.getConfiguration();
@@ -43,8 +46,8 @@ public class Load {
         String name = dataFile.getString(prefix + "name");
         String password = dataFile.getString(prefix + "password");
         short glassColor = (short) dataFile.getInt(prefix + "glass-color");
-        List<Report> reports = loadReports();
-        List<Warning> warnings = loadWarnings();
+        List<IReport> reports = loadReports();
+        List<IWarning> warnings = loadWarnings();
         List<String> playerNotes = loadPlayerNotes();
         Map<AlertType, Boolean> alertOptions = loadAlertOptions();
 
@@ -59,8 +62,8 @@ public class Load {
         return new User(uuid, name, glassColor, reports, warnings, playerNotes, alertOptions);
     }
 
-    private List<Report> loadReports() {
-        List<Report> reports = new ArrayList<Report>();
+    private List<IReport> loadReports() {
+        List<IReport> reports = new ArrayList<>();
 
         for (String string : dataFile.getStringList(prefix + "reports")) {
             String[] parts = string.split(";");
@@ -74,8 +77,8 @@ public class Load {
         return reports;
     }
 
-    private List<Warning> loadWarnings() {
-        List<Warning> warnings = new ArrayList<Warning>();
+    private List<IWarning> loadWarnings() {
+        List<IWarning> warnings = new ArrayList<>();
 
         for (String string : dataFile.getStringList(prefix + "warnings")) {
             String[] parts = string.split(";");

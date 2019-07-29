@@ -1,8 +1,10 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.unordered.IGui;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -16,14 +18,14 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbstractGui {
+public class AbstractIGui implements IGui {
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private String title;
     private Inventory inventory;
-    private Map<Integer, AbstractAction> actions = new HashMap<Integer, AbstractAction>();
+    private Map<Integer, IAction> actions = new HashMap<>();
 
-    public AbstractGui(int size, String title) {
+    public AbstractIGui(int size, String title) {
         this.title = title;
         inventory = Bukkit.createInventory(null, size, message.colorize(title));
     }
@@ -36,11 +38,11 @@ public class AbstractGui {
         return inventory;
     }
 
-    public AbstractAction getAction(int slot) {
+    public IAction getAction(int slot) {
         return actions.get(slot);
     }
 
-    public void setItem(int slot, ItemStack item, AbstractAction action) {
+    public void setItem(int slot, ItemStack item, IAction action) {
         inventory.setItem(slot, item);
 
         if (action != null) {
@@ -48,13 +50,13 @@ public class AbstractGui {
         }
     }
 
-    public void setGlass(User user) {
+    public void setGlass(IUser user) {
         ItemStack item = glassItem(user.getGlassColor());
 
-        AbstractAction action = new AbstractAction() {
+        IAction action = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                new ColorGui(player, options.glassTitle);
+                new ColorIGui(player, options.glassTitle);
             }
 
             @Override
@@ -91,13 +93,5 @@ public class AbstractGui {
                     .addLore("&7Click to change your GUI color!")
                     .build();
         }
-    }
-
-    public interface AbstractAction {
-        void click(Player player, ItemStack item, int slot);
-
-        boolean shouldClose();
-
-        void execute(Player player, String input);
     }
 }

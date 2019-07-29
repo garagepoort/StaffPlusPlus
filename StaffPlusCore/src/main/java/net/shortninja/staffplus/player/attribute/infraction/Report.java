@@ -1,8 +1,10 @@
 package net.shortninja.staffplus.player.attribute.infraction;
 
+import net.shortninja.staffplus.unordered.IReport;
+
 import java.util.UUID;
 
-public class Report {
+public class Report implements IReport {
     private UUID uuid;
     private String name;
     private String reason;

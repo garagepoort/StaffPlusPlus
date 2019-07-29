@@ -5,6 +5,7 @@ import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CounterGui extends AbstractGui {
+public class CounterIGui extends AbstractIGui {
     private static final int SIZE = 54;
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
@@ -27,10 +28,10 @@ public class CounterGui extends AbstractGui {
     private UserManager userManager = StaffPlus.get().userManager;
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
-    public CounterGui(Player player, String title) {
+    public CounterIGui(Player player, String title) {
         super(SIZE, title);
 
-        AbstractAction action = new AbstractAction() {
+        IAction action = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 Player p = Bukkit.getPlayer(item.getItemMeta().getDisplayName().substring(2));

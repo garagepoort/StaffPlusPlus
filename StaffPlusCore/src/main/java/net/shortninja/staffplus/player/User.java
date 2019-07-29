@@ -1,14 +1,12 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
-import net.shortninja.staffplus.server.AlertCoordinator.AlertType;
 import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.*;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,25 +17,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class User {
+public class User implements IUser {
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
     private UUID uuid;
     private String name;
     private short glassColor;
-    private List<Report> reports = new ArrayList<>();
-    private List<Warning> warnings = new ArrayList<>();
+    private List<IReport> reports = new ArrayList<>();
+    private List<IWarning> warnings = new ArrayList<>();
     private VanishType vanishType = VanishType.NONE;
     private List<String> playerNotes = new ArrayList<String>();
-    private AbstractGui currentGui = null;
-    private AbstractGui.AbstractAction queuedAction = null;
+    private IGui currentGui = null;
+    private IAction queuedAction = null;
     private Map<AlertType, Boolean> alertOptions = new HashMap<AlertType, Boolean>();
     private boolean isOnline = true;
     private boolean isChatting = false;
     private boolean isFrozen = false;
 
-    public User(UUID uuid, String name, short glassColor, List<Report> reports, List<Warning> warnings, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
+    public User(UUID uuid, String name, short glassColor, List<IReport> reports, List<IWarning> warnings, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
@@ -60,9 +58,10 @@ public class User {
     /**
      * This method can return a null player if the user is not online, so be sure
      * to check!
+     * @return
      */
-    public Player getPlayer() {
-        return Bukkit.getPlayer(name);
+    public Optional<Player> getPlayer() {
+        return Optional.ofNullable(Bukkit.getPlayer(name));
     }
 
     public UUID getUuid() {
@@ -111,7 +110,7 @@ public class User {
 
     }
 
-    public List<Report> getReports() {
+    public List<IReport> getReports() {
         if (options.storageType.equalsIgnoreCase("flatfile"))
             return reports;
         else if (options.storageType.equalsIgnoreCase("mysql")) {
@@ -130,7 +129,7 @@ public class User {
         return reports;
     }
 
-    public List<Warning> getWarnings() {
+    public List<IWarning> getWarnings() {
         if (options.storageType.equalsIgnoreCase("flatfile"))
             return warnings;
         else if (options.storageType.equalsIgnoreCase("mysql")) {
@@ -166,19 +165,19 @@ public class User {
         this.vanishType = vanishType;
     }
 
-    public AbstractGui getCurrentGui() {
-        return currentGui;
+    public Optional<IGui> getCurrentGui() {
+        return Optional.ofNullable(currentGui);
     }
 
-    public void setCurrentGui(AbstractGui currentGui) {
+    public void setCurrentGui(IGui currentGui) {
         this.currentGui = currentGui;
     }
 
-    public AbstractGui.AbstractAction getQueuedAction() {
+    public IAction getQueuedAction() {
         return queuedAction;
     }
 
-    public void setQueuedAction(AbstractGui.AbstractAction queuedAction) {
+    public void setQueuedAction(IAction queuedAction) {
         this.queuedAction = queuedAction;
     }
 
@@ -218,7 +217,7 @@ public class User {
         }
     }
 
-    public void addReport(Report report) {
+    public void addReport(IReport report) {
         if (options.storageType.equalsIgnoreCase("flatfile"))
             reports.add(report);
         else if (options.storageType.equalsIgnoreCase("mysql")) {
@@ -239,7 +238,7 @@ public class User {
         reports.remove(uuid);
     }
 
-    public void addWarning(Warning warning) {
+    public void addWarning(IWarning warning) {
         if (options.storageType.equalsIgnoreCase("flatfile"))
             warnings.add(warning);
         else if (options.storageType.equalsIgnoreCase("mysql")) {

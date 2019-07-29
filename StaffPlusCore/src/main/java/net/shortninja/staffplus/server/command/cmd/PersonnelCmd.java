@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -37,7 +37,7 @@ public class PersonnelCmd extends BukkitCommand {
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            User user = userManager.get(player.getUniqueId());
+            IUser user = userManager.get(player.getUniqueId());
 
             if (user == null) {
                 continue;
@@ -55,11 +55,15 @@ public class PersonnelCmd extends BukkitCommand {
         return true;
     }
 
-    private boolean hasStatus(User user, String status) {
+    private boolean hasStatus(IUser user, String status) {
+        if (!user.getPlayer().isPresent()) {
+            return false;
+        }
+
         boolean hasStatus = true;
         VanishType vanishType = user.getVanishType();
 
-        if (!permission.has(user.getPlayer(), options.permissionMember)) {
+        if (!permission.has(user.getPlayer().get(), options.permissionMember)) {
             hasStatus = false;
             return hasStatus;
         }
@@ -79,7 +83,7 @@ public class PersonnelCmd extends BukkitCommand {
         return hasStatus;
     }
 
-    private String getStatusColor(User user) {
+    private String getStatusColor(IUser user) {
         String statusColor = "4";
 
         if (hasStatus(user, "online")) {
