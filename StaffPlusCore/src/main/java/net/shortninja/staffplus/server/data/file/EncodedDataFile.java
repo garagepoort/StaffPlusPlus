@@ -1,20 +1,18 @@
 package net.shortninja.staffplus.server.data.file;
 
 import org.bukkit.configuration.InvalidConfigurationException;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Base64;
 
 public final class EncodedDataFile extends DataFile {
 
-    private final BASE64Encoder encoder = new BASE64Encoder();
-    private final BASE64Decoder decoder = new BASE64Decoder();
+    private static final Base64.Encoder encoder = Base64.getEncoder();
+    private static final Base64.Decoder decoder = Base64.getDecoder();
     private final File encodedFile;
 
     public EncodedDataFile(String name) {
@@ -34,9 +32,9 @@ public final class EncodedDataFile extends DataFile {
             }
         }
 
-        try (FileWriter writer = new FileWriter(encodedFile)) {
-            writer.write(encoder.encode(super.getConfiguration().saveToString().getBytes(StandardCharsets.UTF_8)));
-            writer.flush();
+        try (FileOutputStream fos = new FileOutputStream(encodedFile)) {
+            fos.write(encoder.encode(super.getConfiguration().saveToString().getBytes(StandardCharsets.UTF_8)));
+            fos.flush();
         } catch (IOException e) {
             throw new IllegalStateException("Could not save file.", e);
         }
@@ -50,7 +48,7 @@ public final class EncodedDataFile extends DataFile {
 
         try {
             byte[] encoded = Files.readAllBytes(encodedFile.toPath());
-            byte[] decoded = decoder.decodeBuffer(new String(encoded));
+            byte[] decoded = decoder.decode(new String(encoded));
 
             super.getConfiguration().loadFromString(new String(decoded));
         } catch (IOException e) {

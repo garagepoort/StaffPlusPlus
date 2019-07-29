@@ -3,7 +3,6 @@ package net.shortninja.staffplus;
 import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
@@ -53,12 +52,13 @@ import org.inventivetalent.update.spiget.SpigetUpdate;
 import org.inventivetalent.update.spiget.UpdateCallback;
 import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
+
+//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 
 // TODO Add command to check e chests and offline player inventories
 
@@ -132,10 +132,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     @Override
     public void onDisable() {
         message.sendConsoleMessage("Staff+ is now disabling!", true);
-        if (versionProtocol != null) {
-            stop();
-        } else
-            stop();
+        stop();
     }
 
     public void saveUsers() {
