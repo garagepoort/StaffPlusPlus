@@ -48,6 +48,8 @@ public class PlayerQuit implements Listener {
         if(!InventoryFactory.isInventoryEmpty(event.getPlayer().getEnderChest())){
             InventoryFactory.saveEnderChest(event.getPlayer());
         }
+
+        StaffPlus.get().versionProtocol.uninject(player);
     }
 
     private void manageUser(Player player) {

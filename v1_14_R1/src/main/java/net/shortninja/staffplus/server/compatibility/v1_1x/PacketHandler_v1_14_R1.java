@@ -4,12 +4,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import net.minecraft.server.v1_14_R1.IChatBaseComponent;
 import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
-import net.shortninja.staffplus.server.compatibility.AbstractPacketModifier;
+import net.shortninja.staffplus.server.compatibility.AbstractPacketHandler;
 import org.bukkit.entity.Player;
 
-public final class PacketModifier_v1_14_R1 extends AbstractPacketModifier {
+public final class PacketHandler_v1_14_R1 extends AbstractPacketHandler {
 
-    public PacketModifier_v1_14_R1(Player player) {
+    public PacketHandler_v1_14_R1(Player player) {
         super(player);
     }
 
@@ -26,7 +26,7 @@ public final class PacketModifier_v1_14_R1 extends AbstractPacketModifier {
     }
 
     @Override
-    public boolean onReceive(ChannelHandlerContext context, Object packet) throws Exception {
+    public boolean onReceive(ChannelHandlerContext context, Object o) throws Exception {
         return true;
     }
 }
