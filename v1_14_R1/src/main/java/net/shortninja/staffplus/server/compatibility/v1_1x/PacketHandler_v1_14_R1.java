@@ -7,6 +7,8 @@ import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
 import net.shortninja.staffplus.server.compatibility.AbstractPacketHandler;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
+
 public final class PacketHandler_v1_14_R1 extends AbstractPacketHandler {
 
     public PacketHandler_v1_14_R1(Player player) {
@@ -16,10 +18,8 @@ public final class PacketHandler_v1_14_R1 extends AbstractPacketHandler {
     @Override
     public boolean onSend(ChannelHandlerContext context, Object o, ChannelPromise promise) throws Exception {
         if (o instanceof PacketPlayOutChat) {
-            final PacketPlayOutChat packet = (PacketPlayOutChat) o;
-            final IChatBaseComponent baseComponent = (IChatBaseComponent) PacketPlayOutChat.class.getDeclaredField("a").get(packet);
-
-            player.sendMessage("INTERCEPTED >> Chat Message: " + baseComponent.getText());
+            player.sendMessage("INTERCEPTED >> Chat Message");
+            return false;
         }
 
         return true;
@@ -28,5 +28,12 @@ public final class PacketHandler_v1_14_R1 extends AbstractPacketHandler {
     @Override
     public boolean onReceive(ChannelHandlerContext context, Object o) throws Exception {
         return true;
+    }
+
+    private IChatBaseComponent getChatComponent(PacketPlayOutChat packet) throws NoSuchFieldException, IllegalAccessException {
+        Field field = PacketPlayOutChat.class.getDeclaredField("a");
+        field.setAccessible(true);
+
+        return (IChatBaseComponent) field.get(packet);
     }
 }

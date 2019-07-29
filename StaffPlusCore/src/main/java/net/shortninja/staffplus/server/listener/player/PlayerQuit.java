@@ -32,6 +32,8 @@ public class PlayerQuit implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onQuit(PlayerQuitEvent event) {
+        StaffPlus.get().versionProtocol.uninject(event.getPlayer());
+
         Player player = event.getPlayer();
         manageUser(player);
         modeCoordinator.removeMode(player);
@@ -48,8 +50,6 @@ public class PlayerQuit implements Listener {
         if(!InventoryFactory.isInventoryEmpty(event.getPlayer().getEnderChest())){
             InventoryFactory.saveEnderChest(event.getPlayer());
         }
-
-        StaffPlus.get().versionProtocol.uninject(player);
     }
 
     private void manageUser(Player player) {
