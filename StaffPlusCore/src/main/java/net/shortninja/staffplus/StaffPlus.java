@@ -131,6 +131,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         hookHandler.enableAll();
     }
 
+    @Override
     public UserManager getUserManager() {
         return userManager;
     }

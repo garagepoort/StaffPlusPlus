@@ -33,7 +33,7 @@ public class InventoryClick implements Listener {
         ItemStack item = event.getCurrentItem();
         int slot = event.getSlot();
 
-        if (user.getCurrentGui().isPresent() || item == null) {
+        if (!user.getCurrentGui().isPresent() || item == null) {
             if (modeCoordinator.isInMode(uuid) && !options.modeInventoryInteraction) {
                 event.setCancelled(true);
             }
