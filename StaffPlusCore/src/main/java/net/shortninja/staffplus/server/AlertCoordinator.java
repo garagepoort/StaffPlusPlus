@@ -1,12 +1,13 @@
 package net.shortninja.staffplus.server;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.infraction.Report;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.AlertType;
+import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -45,23 +46,27 @@ public class AlertCoordinator {
             return;
         }
 
-        for (User user : userManager.getAll()) {
-            if (user.shouldNotify(AlertType.NAME_CHANGE) && permission.has(user.getPlayer(), options.permissionNameChange)) {
-                message.send(user.getPlayer(), messages.alertsName.replace("%old%", originalName).replace("%new%", newName), messages.prefixGeneral, options.permissionNameChange);
+        for (IUser user : userManager.getAll()) {
+            if (!user.getPlayer().isPresent()) { // How?
+                continue;
+            }
+
+            if (user.shouldNotify(AlertType.NAME_CHANGE) && permission.has(user.getPlayer().get(), options.permissionNameChange)) {
+                message.send(user.getPlayer().get(), messages.alertsName.replace("%old%", originalName).replace("%new%", newName), messages.prefixGeneral, options.permissionNameChange);
             }
         }
 
         fixInfractionNames(originalName, newName);
     }
 
-    public void onMention(User user, String mentioner) {
-        if (!options.alertsMentionNotify || user == null) {
+    public void onMention(IUser user, String mentioner) {
+        if (!options.alertsMentionNotify || user == null || !user.getPlayer().isPresent()) {
             return;
         }
 
-        if (user.shouldNotify(AlertType.MENTION) && permission.has(user.getPlayer(), options.permissionMention)) {
-            message.send(user.getPlayer(), messages.alertsMention.replace("%target%", mentioner), messages.prefixGeneral, options.permissionMention);
-            options.alertsSound.play(user.getPlayer());
+        if (user.shouldNotify(AlertType.MENTION) && permission.has(user.getPlayer().get(), options.permissionMention)) {
+            message.send(user.getPlayer().get(), messages.alertsMention.replace("%target%", mentioner), messages.prefixGeneral, options.permissionMention);
+            options.alertsSound.play(user.getPlayer().get());
         }
     }
 
@@ -70,9 +75,13 @@ public class AlertCoordinator {
             return;
         }
 
-        for (User user : userManager.getAll()) {
-            if (user.shouldNotify(AlertType.XRAY) && permission.has(user.getPlayer(), options.permissionXray)) {
-                message.send(user.getPlayer(), messages.alertsXray.replace("%target%", miner).replace("%count%", Integer.toString(amount)).replace("%itemtype%", JavaUtils.formatTypeName(type)).replace("%lightlevel%", Integer.toString(lightLevel)), messages.prefixGeneral, options.permissionXray);
+        for (IUser user : userManager.getAll()) {
+            if (!user.getPlayer().isPresent()) {
+                continue; // How?
+            }
+
+            if (user.shouldNotify(AlertType.XRAY) && permission.has(user.getPlayer().get(), options.permissionXray)) {
+                message.send(user.getPlayer().get(), messages.alertsXray.replace("%target%", miner).replace("%count%", Integer.toString(amount)).replace("%itemtype%", JavaUtils.formatTypeName(type)).replace("%lightlevel%", Integer.toString(lightLevel)), messages.prefixGeneral, options.permissionXray);
             }
         }
     }
@@ -82,22 +91,18 @@ public class AlertCoordinator {
      * a player changes his or her name. Any unhandled fixes will be done on reload.
      */
     private void fixInfractionNames(String originalName, String newName) {
-        for (User user : userManager.getAll()) {
-            for (Report report : user.getReports()) {
+        for (IUser user : userManager.getAll()) {
+            for (IReport report : user.getReports()) {
                 if (report.getReporterName().equals(originalName)) {
                     report.setReporterName(newName);
                 }
             }
 
-            for (Warning warning : user.getWarnings()) {
+            for (IWarning warning : user.getWarnings()) {
                 if (warning.getIssuerName().equals(originalName)) {
                     warning.setIssuerName(newName);
                 }
             }
         }
-    }
-
-    public enum AlertType {
-        NAME_CHANGE, MENTION, XRAY;
     }
 }

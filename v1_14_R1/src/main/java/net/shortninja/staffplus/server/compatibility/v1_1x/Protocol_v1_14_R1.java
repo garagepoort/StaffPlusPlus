@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.server.compatibility.v1_1x;
 
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelPipeline;
 import net.minecraft.server.v1_14_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_14_R1.*;
 import net.minecraft.server.v1_14_R1.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
@@ -87,6 +89,18 @@ public class Protocol_v1_14_R1 extends AbstractProtocol implements IProtocol {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public void inject(Player player) {
+        final ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.pipeline();
+        pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_14_R1(player));
+    }
+
+    @Override
+    public void uninject(Player player) {
+        final Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
+        channel.eventLoop().submit(() -> channel.pipeline().remove(player.getUniqueId().toString()));
     }
 
     private String getSoundName(SoundEffect sound) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {

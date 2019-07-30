@@ -1,10 +1,11 @@
 package net.shortninja.staffplus.player.attribute.infraction;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -37,10 +38,10 @@ public class InfractionCoordinator {
         unresolvedReports.remove(uuid);
     }
 
-    public Set<Warning> getWarnings() {
-        Set<Warning> warnings = new HashSet<Warning>();
+    public Set<IWarning> getWarnings() {
+        Set<IWarning> warnings = new HashSet<>();
 
-        for (User user : userManager.getAll()) {
+        for (IUser user : userManager.getAll()) {
             warnings.addAll(user.getWarnings());
         }
 
@@ -48,14 +49,14 @@ public class InfractionCoordinator {
     }
 
     public void sendReport(CommandSender sender, Report report) {
-        User user = userManager.get(report.getUuid());
+        IUser user = userManager.get(report.getUuid());
 
-        if (user == null || user.getPlayer() == null) {
+        if (user == null || !user.getPlayer().isPresent()) {
             message.send(sender, messages.playerOffline, messages.prefixGeneral);
             return;
         }
 
-        if (permission.has(user.getPlayer(), options.permissionReportBypass)) {
+        if (permission.has(user.getPlayer().get(), options.permissionReportBypass)) {
             message.send(sender, messages.bypassed, messages.prefixGeneral);
             return;
         }
@@ -67,7 +68,7 @@ public class InfractionCoordinator {
         options.reportsSound.playForGroup(options.permissionReport);
     }
 
-    public void clearReports(User user) {
+    public void clearReports(IUser user) {
         user.getReports().clear();
 
         if (unresolvedReports.containsKey(user.getUuid())) {
@@ -75,27 +76,27 @@ public class InfractionCoordinator {
         }
     }
 
-    public void sendWarning(CommandSender sender, Warning warning) {
-        User user = userManager.get(warning.getUuid());
-        Player p = user.getPlayer();
+    public void sendWarning(CommandSender sender, IWarning warning) {
+        IUser user = userManager.get(warning.getUuid());
+        Optional<Player> p = user.getPlayer();
 
-        if (user == null || p == null) {
+        if (!p.isPresent()) {
             message.send(sender, messages.playerOffline, messages.prefixGeneral);
             return;
         }
 
-        if (permission.has(user.getPlayer(), options.permissionWarnBypass)) {
+        if (permission.has(user.getPlayer().get(), options.permissionWarnBypass)) {
             message.send(sender, messages.bypassed, messages.prefixGeneral);
             return;
         }
 
         user.addWarning(warning);
         message.send(sender, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
-        message.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
-        options.warningsSound.play(p);
+        message.send(p.get(), messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
+        options.warningsSound.play(p.get());
 
         if (user.getWarnings().size() >= options.warningsMaximum && options.warningsMaximum > 0) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), options.warningsBanCommand.replace("%player%", p.getName()));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), options.warningsBanCommand.replace("%player%", p.get().getName()));
         }
     }
 }

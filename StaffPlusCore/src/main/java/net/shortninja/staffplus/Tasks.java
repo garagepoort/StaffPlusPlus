@@ -1,14 +1,14 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -48,9 +48,9 @@ public class Tasks extends BukkitRunnable {
     }
 
     private void checkWarnings() {
-        for (Warning warning : infractionCoordinator.getWarnings()) {
+        for (IWarning warning : infractionCoordinator.getWarnings()) {
             if (warning.shouldRemove()) {
-                User user = userManager.get(warning.getUuid());
+                IUser user = userManager.get(warning.getUuid());
 
                 if (user == null) {
                     continue;
@@ -82,7 +82,7 @@ public class Tasks extends BukkitRunnable {
 
         if (freezeInterval >= options.modeFreezeTimer && freezeInterval > 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                User user = userManager.get(player.getUniqueId());
+                IUser user = userManager.get(player.getUniqueId());
 
                 if (user != null && user.isFrozen() && !permission.has(player, options.permissionMember)) {
                     options.modeFreezeSound.play(player);

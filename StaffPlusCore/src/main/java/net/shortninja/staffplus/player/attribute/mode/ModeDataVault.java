@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.player.attribute.mode;
 
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
+import net.shortninja.staffplus.unordered.VanishType;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;

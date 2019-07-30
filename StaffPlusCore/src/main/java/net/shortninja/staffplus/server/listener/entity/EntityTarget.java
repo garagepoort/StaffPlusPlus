@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.listener.entity;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
+import net.shortninja.staffplus.unordered.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

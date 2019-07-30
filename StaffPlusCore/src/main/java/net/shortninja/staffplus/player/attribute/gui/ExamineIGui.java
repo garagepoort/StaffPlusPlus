@@ -1,15 +1,16 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
-import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -23,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class ExamineGui extends AbstractGui {
+public class ExamineIGui extends AbstractIGui {
     private static final int SIZE = 54;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
@@ -33,7 +34,7 @@ public class ExamineGui extends AbstractGui {
     private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
 
-    public ExamineGui(Player player, Player targetPlayer, String title) {
+    public ExamineIGui(Player player, Player targetPlayer, String title) {
         super(SIZE, title);
 
         setInventoryContents(targetPlayer);
@@ -80,12 +81,10 @@ public class ExamineGui extends AbstractGui {
 
     private void setInteractiveItems(final Player targetPlayer) {
         if (options.modeExamineLocation >= 0) {
-            setItem(options.modeExamineLocation, locationItem(targetPlayer), new AbstractAction() {
+            setItem(options.modeExamineLocation, locationItem(targetPlayer), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    if (targetPlayer != null) {
-                        player.teleport(targetPlayer);
-                    } else message.send(player, messages.playerOffline, messages.prefixGeneral);
+                    player.teleport(targetPlayer);
                 }
 
                 @Override
@@ -100,14 +99,14 @@ public class ExamineGui extends AbstractGui {
         }
 
         if (options.modeExamineNotes >= 0) {
-            setItem(options.modeExamineNotes, notesItem(userManager.get(targetPlayer.getUniqueId())), new AbstractAction() {
+            setItem(options.modeExamineNotes, notesItem(userManager.get(targetPlayer.getUniqueId())), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    User user = userManager.get(player.getUniqueId());
+                    IUser user = userManager.get(player.getUniqueId());
 
                     message.send(player, messages.typeInput, messages.prefixGeneral);
 
-                    user.setQueuedAction(new AbstractAction() {
+                    user.setQueuedAction(new IAction() {
                         @Override
                         public void execute(Player player, String input) {
                             userManager.get(targetPlayer.getUniqueId()).addPlayerNote("&7" + input);
@@ -137,12 +136,10 @@ public class ExamineGui extends AbstractGui {
         }
 
         if (options.modeExamineFreeze >= 0) {
-            setItem(options.modeExamineFreeze, freezeItem(targetPlayer), new AbstractAction() {
+            setItem(options.modeExamineFreeze, freezeItem(targetPlayer), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    if (targetPlayer != null) {
-                        gadgetHandler.onFreeze(player, targetPlayer);
-                    } else message.send(player, messages.playerOffline, messages.prefixGeneral);
+                    gadgetHandler.onFreeze(player, targetPlayer);
                 }
 
                 @Override
@@ -157,14 +154,14 @@ public class ExamineGui extends AbstractGui {
         }
 
         if (options.modeExamineWarn >= 0) {
-            setItem(options.modeExamineWarn, warnItem(), new AbstractAction() {
+            setItem(options.modeExamineWarn, warnItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    User user = userManager.get(player.getUniqueId());
+                    IUser user = userManager.get(player.getUniqueId());
 
                     message.send(player, messages.typeInput, messages.prefixGeneral);
 
-                    user.setQueuedAction(new AbstractAction() {
+                    user.setQueuedAction(new IAction() {
                         @Override
                         public void execute(Player player, String input) {
                             UUID uuid = targetPlayer.getUniqueId();
@@ -236,9 +233,9 @@ public class ExamineGui extends AbstractGui {
         return item;
     }
 
-    private ItemStack infractionsItem(User user) {
+    private ItemStack infractionsItem(IUser user) {
         List<String> lore = new ArrayList<String>();
-        Report latestReport = user.getReports().size() >= 1 ? user.getReports().get(user.getReports().size() - 1) : null;
+        IReport latestReport = user.getReports().size() >= 1 ? user.getReports().get(user.getReports().size() - 1) : null;
         String latestReason = latestReport == null ? "null" : latestReport.getReason();
 
         for (String string : messages.infractionItem) {
@@ -266,7 +263,7 @@ public class ExamineGui extends AbstractGui {
         return item;
     }
 
-    private ItemStack notesItem(User user) {
+    private ItemStack notesItem(IUser user) {
         List<String> notes = user.getPlayerNotes().isEmpty() ? Arrays.asList("&7No notes found") : user.getPlayerNotes();
 
         ItemStack item = Items.builder()
