@@ -4,7 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.MySQLConnection;
-import net.shortninja.staffplus.server.data.file.EncodedDataFile;
+import net.shortninja.staffplus.server.data.file.DataFile;
 import org.bukkit.entity.Player;
 
 import java.nio.charset.StandardCharsets;
@@ -19,7 +19,7 @@ public final class SecurityHandler {
 
     private static final int HASH_COST = 12;
 
-    private static final EncodedDataFile dataFile = new EncodedDataFile("passwords.yml");
+    private static final DataFile dataFile = new DataFile("passwords.yml");
     private final SecureRandom random = new SecureRandom();
     private final BCrypt.Verifyer verifyer;
     private final BCrypt.Hasher hasher;

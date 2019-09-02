@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.data.file;
 
+import net.shortninja.staffplus.StaffPlus;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import java.io.File;
@@ -17,7 +18,6 @@ public final class EncodedDataFile extends DataFile {
 
     public EncodedDataFile(String name) {
         super(name);
-
         this.encodedFile = new File(name.substring(0, name.lastIndexOf('.')) + ".bin");
         this.load();
     }
