@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -56,7 +56,7 @@ public class NotesCmd extends BukkitCommand {
     }
 
     private void listNotes(CommandSender sender, Player player) {
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
 
         if (user != null) {
             List<String> notes = user.getPlayerNotes();
@@ -78,7 +78,7 @@ public class NotesCmd extends BukkitCommand {
     }
 
     private void clearNotes(CommandSender sender, Player player) {
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
 
         if (user != null) {
             user.getPlayerNotes().clear();

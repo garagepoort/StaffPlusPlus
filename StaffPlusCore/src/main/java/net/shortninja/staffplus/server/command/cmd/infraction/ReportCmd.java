@@ -1,11 +1,12 @@
 package net.shortninja.staffplus.server.command.cmd.infraction;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -70,17 +71,17 @@ public class ReportCmd extends BukkitCommand {
     }
 
     private void listReports(CommandSender sender, Player player) {
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
 
         if (user != null) {
-            List<Report> reports = user.getReports();
+            List<IReport> reports = user.getReports();
 
             for (String message : messages.reportsListStart) {
                 this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports);
             }
 
             for (int i = 0; i < reports.size(); i++) {
-                Report report = reports.get(i);
+                IReport report = reports.get(i);
 
                 message.send(sender, messages.reportsListEntry.replace("%count%", Integer.toString(i + 1)).replace("%reason%", report.getReason()).replace("%reporter%", report.getReporterName()), messages.prefixReports);
             }
@@ -92,7 +93,7 @@ public class ReportCmd extends BukkitCommand {
     }
 
     private void clearReports(CommandSender sender, Player player) {
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
 
         if (user != null) {
             StaffPlus.get().infractionCoordinator.clearReports(user);

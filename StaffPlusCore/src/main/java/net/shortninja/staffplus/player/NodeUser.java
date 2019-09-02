@@ -1,21 +1,22 @@
 package net.shortninja.staffplus.player;
 
-import net.shortninja.staffplus.StaffPlus;
-//import net.shortninja.staffplus.player.attribute.SecurityHandler;
-import net.shortninja.staffplus.player.attribute.infraction.Report;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
-import net.shortninja.staffplus.server.AlertCoordinator.AlertType;
+import net.shortninja.staffplus.unordered.AlertType;
+import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IWarning;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+//import net.shortninja.staffplus.player.attribute.SecurityHandler;
+
 public class NodeUser {
 //    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
-    private User user;
+    private IUser user;
     private String prefix;
 
-    public NodeUser(User user) {
+    public NodeUser(IUser user) {
         this.user = user;
         this.prefix = user.getUuid() + ".";
     }
@@ -39,7 +40,7 @@ public class NodeUser {
     public List<String> reports() {
         List<String> reportsList = new ArrayList<String>();
 
-        for (Report report : user.getReports()) {
+        for (IReport report : user.getReports()) {
             reportsList.add(report.getReason() + ";" + report.getReporterName() + ";" + (report.getReporterUuid() == null ? "null" : report.getReporterUuid().toString()));
         }
 
@@ -49,7 +50,7 @@ public class NodeUser {
     public List<String> warnings() {
         List<String> warningsList = new ArrayList<String>();
 
-        for (Warning warning : user.getWarnings()) {
+        for (IWarning warning : user.getWarnings()) {
             warningsList.add(warning.getReason() + ";" + warning.getIssuerName() + ";" + (warning.getIssuerUuid() == null ? "null" : warning.getIssuerUuid().toString()) + ";" + Long.toString(warning.getTime()));
         }
 
@@ -57,14 +58,14 @@ public class NodeUser {
     }
 
     public List<String> playerNotes() {
-        return user.getPlayerNotes();
+        return new ArrayList<>(user.getPlayerNotes());
     }
 
     public List<String> alertOptions() {
-        List<String> alertsList = new ArrayList<String>();
+        List<String> alertsList = new ArrayList<>();
 
         for (AlertType alertType : AlertType.values()) {
-            alertsList.add(alertType.name() + ";" + Boolean.toString(user.shouldNotify(alertType)));
+            alertsList.add(alertType.name() + ";" + user.shouldNotify(alertType));
         }
 
         return alertsList;

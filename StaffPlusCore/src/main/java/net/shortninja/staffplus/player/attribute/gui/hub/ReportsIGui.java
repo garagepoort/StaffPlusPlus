@@ -2,11 +2,12 @@ package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.player.attribute.gui.AbstractIGui;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
@@ -16,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportsGui extends AbstractGui {
+public class ReportsIGui extends AbstractIGui {
     private static final int SIZE = 54;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
@@ -24,10 +25,10 @@ public class ReportsGui extends AbstractGui {
     private UserManager userManager = StaffPlus.get().userManager;
     private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
 
-    public ReportsGui(Player player, String title) {
+    public ReportsIGui(Player player, String title) {
         super(SIZE, title);
 
-        AbstractAction action = new AbstractAction() {
+        IAction action = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 Player p = Bukkit.getPlayer(item.getItemMeta().getDisplayName().substring(2));

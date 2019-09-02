@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.server.listener;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.unordered.IUser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,11 +29,11 @@ public class InventoryClick implements Listener {
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         UUID uuid = player.getUniqueId();
-        User user = userManager.get(uuid);
+        IUser user = userManager.get(uuid);
         ItemStack item = event.getCurrentItem();
         int slot = event.getSlot();
 
-        if (user.getCurrentGui() == null || item == null) {
+        if (!user.getCurrentGui().isPresent() || item == null) {
             if (modeCoordinator.isInMode(uuid) && !options.modeInventoryInteraction) {
                 event.setCancelled(true);
             }
@@ -41,7 +41,7 @@ public class InventoryClick implements Listener {
             return;
         }
 
-        AbstractGui.AbstractAction action = user.getCurrentGui().getAction(slot);
+        IAction action = user.getCurrentGui().get().getAction(slot);
 
         if (action != null) {
             action.click(player, item, slot);

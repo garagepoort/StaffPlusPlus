@@ -1,30 +1,31 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.player.attribute.gui.AbstractIGui;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class HubGui extends AbstractGui {
+public class HubIGui extends AbstractIGui {
     private static final int SIZE = 27;
     private Options options = StaffPlus.get().options;
     private UserManager userManager = StaffPlus.get().userManager;
 
-    public HubGui(Player player, String title) {
+    public HubIGui(Player player, String title) {
         super(SIZE, title);
 
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
 
         if (options.modeGuiReports) {
-            setItem(options.modeGuiMiner ? 12 : 13, reportsItem(), new AbstractAction() {
+            setItem(options.modeGuiMiner ? 12 : 13, reportsItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new ReportsGui(player, options.modeGuiReportsTitle);
+                    new ReportsIGui(player, options.modeGuiReportsTitle);
                 }
 
                 @Override
@@ -39,10 +40,10 @@ public class HubGui extends AbstractGui {
         }
 
         if (options.modeGuiMiner) {
-            setItem(options.modeGuiReports ? 14 : 13, minerItem(), new AbstractAction() {
+            setItem(options.modeGuiReports ? 14 : 13, minerItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new MinerGui(player, options.modeGuiMinerTitle);
+                    new MinerIGui(player, options.modeGuiMinerTitle);
                 }
 
                 @Override

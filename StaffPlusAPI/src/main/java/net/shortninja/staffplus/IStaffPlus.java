@@ -1,6 +1,7 @@
 package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.server.data.config.IOptions;
+import net.shortninja.staffplus.unordered.IUserManager;
 import net.shortninja.staffplus.util.IPermissionsHandler;
 
 public interface IStaffPlus {
@@ -13,5 +14,5 @@ public interface IStaffPlus {
 
     IPermissionsHandler getPermissions();
 
-
+    IUserManager getUserManager();
 }

@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.server.compatibility.v1_7;
 
-import net.minecraft.server.v1_7_R3.ChatSerializer;
-import net.minecraft.server.v1_7_R3.ItemStack;
-import net.minecraft.server.v1_7_R3.NBTTagCompound;
-import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
+import net.minecraft.server.v1_7_R3.*;
+import net.minecraft.util.io.netty.channel.Channel;
+import net.minecraft.util.io.netty.channel.ChannelHandler;
+import net.minecraft.util.io.netty.channel.ChannelPipeline;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -15,6 +15,7 @@ import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_7_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.util.Set;
 
 public class Protocol_v1_7_R3 extends AbstractProtocol implements IProtocol {
@@ -71,5 +72,30 @@ public class Protocol_v1_7_R3 extends AbstractProtocol implements IProtocol {
     @Override
     public String getSound(Object object) {
         return object instanceof String ? (String) object : null;
+    }
+
+    @Override
+    public void inject(Player player) {
+        final ChannelPipeline pipeline = this.getChannel(player).pipeline();
+
+        // Probably will go wrong at runtime but I have no clue how to fix it. - Ronald.
+        pipeline.addBefore("packet_handler", player.getUniqueId().toString(), (ChannelHandler) new PacketHandler_v1_7_R3(player));
+    }
+
+    @Override
+    public void uninject(Player player) {
+        final Channel channel = this.getChannel(player);
+        channel.eventLoop().submit(() -> channel.pipeline().remove(player.getUniqueId().toString()));
+    }
+
+    private Channel getChannel(Player player) {
+        try {
+            Field field = NetworkManager.class.getDeclaredField("m");
+            field.setAccessible(true);
+
+            return (Channel) field.get(((CraftPlayer) player).getHandle().playerConnection.networkManager);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

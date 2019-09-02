@@ -1,9 +1,7 @@
 package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.BlacklistFactory;
@@ -11,6 +9,8 @@ import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -47,10 +47,10 @@ public class AsyncPlayerChat implements Listener {
             return;
         }
 
-        List<User> mentioned = getMentioned(message);
+        List<IUser> mentioned = getMentioned(message);
 
         if (!mentioned.isEmpty()) {
-            for (User user : mentioned) {
+            for (IUser user : mentioned) {
                 alertCoordinator.onMention(user, player.getName());
             }
         }
@@ -80,8 +80,8 @@ public class AsyncPlayerChat implements Listener {
     private boolean shouldCancel(Player player, String message) {
         boolean shouldCancel = false;
         UUID uuid = player.getUniqueId();
-        User user = userManager.get(uuid);
-        AbstractGui.AbstractAction queuedAction = user.getQueuedAction();
+        IUser user = userManager.get(uuid);
+        IAction queuedAction = user.getQueuedAction();
 
         if (queuedAction != null) {
             queuedAction.execute(player, message);
@@ -110,15 +110,15 @@ public class AsyncPlayerChat implements Listener {
         return shouldCancel;
     }
 
-    private List<User> getMentioned(String message) {
-        List<User> mentioned = new ArrayList<User>();
+    private List<IUser> getMentioned(String message) {
+        List<IUser> mentioned = new ArrayList<>();
 
-        for (User user : userManager.getAll()) {
-            Player player = user.getPlayer();
-
-            if (player == null) {
-                continue;
+        for (IUser user : userManager.getAll()) {
+            if (!user.getPlayer().isPresent()) {
+                continue; // How?
             }
+
+            Player player = user.getPlayer().get();
 
             if (message.toLowerCase().contains(user.getName().toLowerCase())) {
                 mentioned.add(user);

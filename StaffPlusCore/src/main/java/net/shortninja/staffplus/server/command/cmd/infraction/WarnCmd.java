@@ -1,11 +1,12 @@
 package net.shortninja.staffplus.server.command.cmd.infraction;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -59,17 +60,17 @@ public class WarnCmd extends BukkitCommand {
     }
 
     private void listWarnings(CommandSender sender, Player player) {
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
 
         if (user != null) {
-            List<Warning> warnings = user.getWarnings();
+            List<IWarning> warnings = user.getWarnings();
 
             for (String message : messages.warningsListStart) {
                 this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%warnings%", Integer.toString(warnings.size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
             }
 
             for (int i = 0; i < warnings.size(); i++) {
-                Warning warning = warnings.get(i);
+                IWarning warning = warnings.get(i);
 
                 message.send(sender, messages.warningsListEntry.replace("%count%", Integer.toString(i + 1)).replace("%reason%", warning.getReason()).replace("%issuer%", warning.getIssuerName()), messages.prefixWarnings);
             }
@@ -81,7 +82,7 @@ public class WarnCmd extends BukkitCommand {
     }
 
     private void clearWarnings(CommandSender sender, Player player) {
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
 
         if (user != null) {
             user.getWarnings().clear();
