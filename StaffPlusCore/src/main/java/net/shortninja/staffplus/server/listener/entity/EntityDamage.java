@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.server.listener.entity;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -33,8 +33,8 @@ public class EntityDamage implements Listener {
         }
 
         UUID uuid = entity.getUniqueId();
-        User user = userManager.get(uuid);
-        if (user == null || uuid == null)
+        IUser user = userManager.get(uuid);
+        if (user == null)
             return;
         if ((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && user.isFrozen()))) {
             event.setCancelled(true);

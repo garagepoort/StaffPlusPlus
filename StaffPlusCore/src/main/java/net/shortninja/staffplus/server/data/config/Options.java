@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.server.data.config;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.Materials;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;

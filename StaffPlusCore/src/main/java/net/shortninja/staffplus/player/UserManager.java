@@ -1,15 +1,16 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
-import org.bukkit.Bukkit;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IUserManager;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class UserManager {
-    private static Map<UUID, User> users;
+public class UserManager implements IUserManager {
+    private static Map<UUID, IUser> users;
     private final StaffPlus staffPlus;
 
     public UserManager(StaffPlus staffPlus) {
@@ -18,11 +19,13 @@ public class UserManager {
         staffPlus.users = users;
     }
 
-    public Collection<User> getAll() {
+    @Override
+    public Collection<IUser> getAll() {
         return staffPlus.users.values();
     }
 
-    public User get(UUID uuid) {
+    @Override
+    public IUser get(UUID uuid) {
         return users.get(uuid);
     }
 

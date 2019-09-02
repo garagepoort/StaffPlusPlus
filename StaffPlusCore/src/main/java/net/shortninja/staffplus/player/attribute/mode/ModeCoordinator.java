@@ -1,15 +1,15 @@
 package net.shortninja.staffplus.player.attribute.mode;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
@@ -17,7 +17,6 @@ import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
 
 import java.util.*;
 
@@ -51,7 +50,7 @@ public class ModeCoordinator {
 
     public void addMode(Player player) {
         UUID uuid = player.getUniqueId();
-        User user = userManager.get(uuid);
+        IUser user = userManager.get(uuid);
         ModeDataVault modeData;
         if(!StaffPlus.get().ninePlus) {
             modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(),
@@ -79,7 +78,7 @@ public class ModeCoordinator {
         message.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
-    private void setPassive(Player player, User user) {
+    private void setPassive(Player player, IUser user) {
         if (options.modeFlight && !options.modeCreative) {
             player.setAllowFlight(true);
         } else if (options.modeCreative) {

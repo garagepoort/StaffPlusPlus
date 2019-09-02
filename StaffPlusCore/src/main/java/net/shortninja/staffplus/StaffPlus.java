@@ -1,9 +1,7 @@
 package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.player.NodeUser;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -32,11 +30,14 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.file.ChangelogFile;
 import net.shortninja.staffplus.server.data.file.DataFile;
 import net.shortninja.staffplus.server.data.file.LanguageFile;
+import net.shortninja.staffplus.server.hook.HookHandler;
+import net.shortninja.staffplus.server.hook.SuperVanishHook;
 import net.shortninja.staffplus.server.listener.*;
 import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -46,17 +47,18 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.inventivetalent.apihelper.APIManager;
-import org.inventivetalent.packetlistener.PacketListenerAPI;
-import org.inventivetalent.update.spiget.SpigetUpdate;
-import org.inventivetalent.update.spiget.UpdateCallback;
-import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
+
+//import org.inventivetalent.apihelper.APIManager;
+//import org.inventivetalent.packetlistener.PacketListenerAPI;
+//import org.inventivetalent.update.spiget.SpigetUpdate;
+//import org.inventivetalent.update.spiget.UpdateCallback;
+//import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
 //import net.shortninja.staffplus.player.attribute.SecurityHandler;
 
@@ -74,6 +76,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public Messages messages;
     public UserManager userManager;
 
+    public HookHandler hookHandler;
     public CpsHandler cpsHandler;
     public FreezeHandler freezeHandler;
     public GadgetHandler gadgetHandler;
@@ -83,12 +86,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public TicketHandler ticketHandler;
     public CmdHandler cmdHandler;
     public ModeCoordinator modeCoordinator;
-    public SecurityHandler securityHandler;
+//    public SecurityHandler securityHandler;
     public InfractionCoordinator infractionCoordinator;
     public AlertCoordinator alertCoordinator;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
-    public Map<UUID, User> users;
+    public Map<UUID, IUser> users;
     private MySQLConnection mySQLConnection;
     public boolean ninePlus = false;
     public HashMap<Inventory, Block> viewedChest = new HashMap<>();
@@ -100,7 +103,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public void onLoad() {
-        APIManager.require(PacketListenerAPI.class, this);
+//        APIManager.require(PacketListenerAPI.class, this);
 
         Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
     }
@@ -112,7 +115,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         permission = new PermissionHandler(this);
         message = new MessageCoordinator(this);
         options = new Options();
-        APIManager.initAPI(PacketListenerAPI.class);
+//        APIManager.initAPI(PacketListenerAPI.class);
         start(System.currentTimeMillis());
         if (options.storageType.equalsIgnoreCase("mysql")) {
             mySQLConnection = new MySQLConnection();
@@ -123,8 +126,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
         //checkUpdate();
+
+        hookHandler.addHook(new SuperVanishHook(this));
+        hookHandler.enableAll();
     }
 
+    @Override
     public UserManager getUserManager() {
         return userManager;
     }
@@ -136,7 +143,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     public void saveUsers() {
-        for (User user : userManager.getAll()) {
+        for (IUser user : userManager.getAll()) {
             new Save(new NodeUser(user));
         }
 
@@ -158,7 +165,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         languageFile = new LanguageFile();
         messages = new Messages();
         userManager = new UserManager(this);
-        securityHandler = new SecurityHandler(); // FIXME
+//        securityHandler = new SecurityHandler(); // FIXME
+        hookHandler = new HookHandler();
         cpsHandler = new CpsHandler();
         freezeHandler = new FreezeHandler();
         gadgetHandler = new GadgetHandler();
@@ -259,6 +267,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new PlayerDeath();
         new PlayerDropItem();
         new PlayerInteract();
+        new PlayerLogin();
         new PlayerJoin();
         new PlayerPickupItem();
         new PlayerQuit();
@@ -271,31 +280,31 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new PlayerWorldChange();
     }
 
-    private void checkUpdate() {
-        SpigetUpdate updater = new SpigetUpdate(this, 41500);
-        updater.setVersionComparator(VersionComparator.SEM_VER);
-        updater.checkForUpdate(new UpdateCallback() {
-            @Override
-            public void updateAvailable(String newVersion, String downloadUrl, boolean hasDirectDownload) {
-                if (options.autoUpdate) {
-                    if (hasDirectDownload) {
-                        if (updater.downloadUpdate()) {
-                            getLogger().info("New version of the plugin downloaded and will be loaded on restart");
-                        } else {
-                            getLogger().warning("Update download failed, reason is " + updater.getFailReason());
-                        }
-                    }
-                } else {
-                    getLogger().info("There is an update available please go download it");
-                }
-            }
-
-            @Override
-            public void upToDate() {
-                getLogger().info("You are using the latest version thanks");
-            }
-        });
-    }
+//    private void checkUpdate() {
+//        SpigetUpdate updater = new SpigetUpdate(this, 41500);
+//        updater.setVersionComparator(VersionComparator.SEM_VER);
+//        updater.checkForUpdate(new UpdateCallback() {
+//            @Override
+//            public void updateAvailable(String newVersion, String downloadUrl, boolean hasDirectDownload) {
+//                if (options.autoUpdate) {
+//                    if (hasDirectDownload) {
+//                        if (updater.downloadUpdate()) {
+//                            getLogger().info("New version of the plugin downloaded and will be loaded on restart");
+//                        } else {
+//                            getLogger().warning("Update download failed, reason is " + updater.getFailReason());
+//                        }
+//                    }
+//                } else {
+//                    getLogger().info("There is an update available please go download it");
+//                }
+//            }
+//
+//            @Override
+//            public void upToDate() {
+//                getLogger().info("You are using the latest version thanks");
+//            }
+//        });
+//    }
 
 
     /*
@@ -306,9 +315,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
 
     private void stop() {
+        hookHandler.disableAll();
+
         saveUsers();
         tasks.cancel();
-        APIManager.disableAPI(PacketListenerAPI.class);
+//        APIManager.disableAPI(PacketListenerAPI.class);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             modeCoordinator.removeMode(player);
@@ -324,7 +335,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         options = null;
         languageFile = null;
         userManager = null;
-        securityHandler = null; // FIXME
+//        securityHandler = null; // FIXME
         cpsHandler = null;
         freezeHandler = null;
         gadgetHandler = null;

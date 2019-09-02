@@ -1,24 +1,20 @@
 package net.shortninja.staffplus.player.attribute.mode.handler;
 
-import com.google.common.collect.Lists;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class VanishHandler {
@@ -31,7 +27,7 @@ public class VanishHandler {
     private StaffPlus staffPlus = StaffPlus.get();
 
     public void addVanish(Player player, VanishType vanishType) {
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
         VanishType userVanishType = user.getVanishType();
 
         if (userVanishType == vanishType) {
@@ -45,7 +41,7 @@ public class VanishHandler {
     }
 
     public void removeVanish(Player player) {
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
         VanishType vanishType = user.getVanishType();
 
         if (vanishType == VanishType.NONE) {
@@ -61,17 +57,17 @@ public class VanishHandler {
     }
 
     public boolean isVanished(Player player) {
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
 
         return user.getVanishType() != VanishType.NONE;
     }
 
     public void updateVanish() {
-        for (User user : userManager.getAll()) {
-            Player player = user.getPlayer();
+        for (IUser user : userManager.getAll()) {
+            Optional<Player> player = user.getPlayer();
 
-            if (player != null && user.getVanishType() == VanishType.TOTAL) {
-                applyVanish(player, user.getVanishType(), false);
+            if (player.isPresent() && user.getVanishType() == VanishType.TOTAL) {
+                applyVanish(player.get(), user.getVanishType(), false);
             }
         }
     }
@@ -135,9 +131,5 @@ public class VanishHandler {
         if (shouldMessage && !message.isEmpty()) {
             this.message.send(player, message, messages.prefixGeneral);
         }
-    }
-
-    public enum VanishType {
-        TOTAL, LIST, NONE
     }
 }

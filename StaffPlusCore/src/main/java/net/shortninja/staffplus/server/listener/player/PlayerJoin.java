@@ -3,7 +3,6 @@ package net.shortninja.staffplus.server.listener.player;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
-//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
@@ -12,7 +11,6 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,6 +22,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+
+//import net.shortninja.staffplus.player.attribute.SecurityHandler;
 
 public class PlayerJoin implements Listener {
     private PermissionHandler permission = StaffPlus.get().permission;
@@ -43,6 +43,8 @@ public class PlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onJoin(PlayerJoinEvent event) {
+        StaffPlus.get().versionProtocol.inject(event.getPlayer());
+
         Player player = event.getPlayer();
 
         manageUser(player);

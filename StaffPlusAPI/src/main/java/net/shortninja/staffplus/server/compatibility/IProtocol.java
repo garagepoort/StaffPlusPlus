@@ -23,4 +23,7 @@ public interface IProtocol {
 
     String getSound(Object object);
 
+    void inject(Player player);
+
+    void uninject(Player player);
 }

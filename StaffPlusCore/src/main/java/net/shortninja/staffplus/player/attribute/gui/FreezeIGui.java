@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FreezeGui extends AbstractGui {
+public class FreezeIGui extends AbstractIGui {
     private static final int SIZE = 9;
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().userManager;
 
-    public FreezeGui(Player player, String title) {
+    public FreezeIGui(Player player, String title) {
         super(SIZE, title);
 
         setItem(4, freezeItem(), null);

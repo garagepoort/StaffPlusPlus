@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
+import net.shortninja.staffplus.player.attribute.gui.FreezeIGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -27,7 +27,7 @@ public class FreezeHandler {
     private UserManager userManager = StaffPlus.get().userManager;
 
     public boolean isFrozen(UUID uuid) {
-        User user = userManager.get(uuid);
+        IUser user = userManager.get(uuid);
         if (user == null || userManager == null)
             return false;
         return lastFrozenLocations.containsKey(uuid) || user.isFrozen();
@@ -47,7 +47,7 @@ public class FreezeHandler {
 
         if (shouldMessage) {
             if (options.modeFreezePrompt) {
-                new FreezeGui(player, options.modeFreezePromptTitle);
+                new FreezeIGui(player, options.modeFreezePromptTitle);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
             } else message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
 
@@ -63,7 +63,7 @@ public class FreezeHandler {
 
     public void removeFreeze(CommandSender sender, Player player, boolean shouldMessage) {
         UUID uuid = player.getUniqueId();
-        User user = userManager.get(uuid);
+        IUser user = userManager.get(uuid);
 
         if (permission.has(player, options.permissionFreezeBypass) && shouldMessage) {
             message.send(sender, messages.bypassed, messages.prefixGeneral);
@@ -71,8 +71,8 @@ public class FreezeHandler {
         }
 
         if (shouldMessage) {
-            if (options.modeFreezePrompt && user.getCurrentGui() != null) {
-                if (user.getCurrentGui() instanceof FreezeGui) {
+            if (options.modeFreezePrompt && user.getCurrentGui().isPresent()) {
+                if (user.getCurrentGui().get() instanceof FreezeIGui) {
                     player.closeInventory();
                 }
 

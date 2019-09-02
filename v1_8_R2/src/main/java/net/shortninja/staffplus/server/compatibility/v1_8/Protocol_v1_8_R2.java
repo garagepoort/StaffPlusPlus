@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.server.compatibility.v1_8;
 
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelPipeline;
 import net.minecraft.server.v1_8_R2.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_8_R2.*;
 import net.minecraft.server.v1_8_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
@@ -78,11 +80,21 @@ public class Protocol_v1_8_R2 extends AbstractProtocol implements IProtocol {
         return object instanceof String ? (String) object : null;
     }
 
+    @Override
+    public void inject(Player player) {
+        final ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.k.pipeline();
+        pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_8_R2(player));
+    }
+
+    @Override
+    public void uninject(Player player) {
+        final Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.k;
+        channel.eventLoop().submit(() -> channel.pipeline().remove(player.getUniqueId().toString()));
+    }
+
     private void sendGlobalPacket(Packet<?> packet) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
         }
     }
-
-
 }

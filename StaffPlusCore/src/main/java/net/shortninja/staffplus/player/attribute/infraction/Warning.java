@@ -2,10 +2,11 @@ package net.shortninja.staffplus.player.attribute.infraction;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IWarning;
 
 import java.util.UUID;
 
-public class Warning {
+public class Warning implements IWarning {
     private Options options = StaffPlus.get().options;
     private UUID uuid;
     private String name;

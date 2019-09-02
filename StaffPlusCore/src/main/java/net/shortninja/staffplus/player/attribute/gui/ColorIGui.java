@@ -2,6 +2,7 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -10,15 +11,15 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class ColorGui extends AbstractGui {
+public class ColorIGui extends AbstractIGui {
     private static final int SIZE = 27;
     private MessageCoordinator message = StaffPlus.get().message;
     private UserManager userManager = StaffPlus.get().userManager;
 
-    public ColorGui(Player player, String title) {
+    public ColorIGui(Player player, String title) {
         super(SIZE, StaffPlus.get().message.colorize(title));
 
-        AbstractAction action = new AbstractAction() {
+        IAction action = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 userManager.get(player.getUniqueId()).setGlassColor(item.getDurability());

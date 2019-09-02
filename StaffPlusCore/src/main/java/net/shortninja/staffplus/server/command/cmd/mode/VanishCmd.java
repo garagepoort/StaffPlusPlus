@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler.VanishType;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -56,7 +56,7 @@ public class VanishCmd extends BukkitCommand {
     private void handleVanishArgument(CommandSender sender, String argument, Player player, boolean shouldCheckPermission) {
         boolean isValid = JavaUtils.isValidEnum(VanishType.class, argument.toUpperCase());
         VanishType vanishType = VanishType.NONE;
-        User user = userManager.get(player.getUniqueId());
+        IUser user = userManager.get(player.getUniqueId());
 
         if (!isValid) {
             sendHelp(sender);

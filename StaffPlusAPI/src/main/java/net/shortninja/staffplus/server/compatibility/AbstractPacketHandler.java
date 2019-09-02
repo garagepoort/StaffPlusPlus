@@ -5,11 +5,11 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import org.bukkit.entity.Player;
 
-public abstract class AbstractPacketModifier extends ChannelDuplexHandler implements IPacketModifier {
+public abstract class AbstractPacketHandler extends ChannelDuplexHandler implements IPacketHandler {
 
     protected final Player player;
 
-    public AbstractPacketModifier(Player player) {
+    public AbstractPacketHandler(Player player) {
         this.player = player;
     }
 
