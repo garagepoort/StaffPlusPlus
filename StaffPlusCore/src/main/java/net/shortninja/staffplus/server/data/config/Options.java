@@ -271,12 +271,6 @@ public class Options implements IOptions {
     public String commandLogin = configVersion >= 3.2 ? config.getString("commands.login") : "login";
     public String commandRegister = configVersion >= 3.2 ? config.getString("commands.register") : "register";
     public String commandStrip = configVersion >= 6194 ? config.getString("commands.strip") : "strip";
-    public String storageType = configVersion >= 6200 ? config.getString("storage.type") : "flatfile";
-    public String mySqlHost = configVersion >= 6200 ? config.getString("storage.mysql.host") : "localhost";
-    public String mySqlUser = configVersion >= 6200 ? config.getString("storage.mysql.user") : "root";
-    public String database = configVersion >= 6200 ? config.getString("storage.mysql.database") : "root";
-    public String mySqlPassword = configVersion >= 6200 ? config.getString("storage.mysql.password") : "mypass";
-    public int mySqlPort = configVersion >= 6200 ? config.getInt("storage.mysql.port") : 3306;
     private Material modeCompassType = stringToMaterial(sanitize(config.getString("staff-mode.compass-module.item")));
     private short modeCompassData = getMaterialData(config.getString("staff-mode.compass-module.item"));
     private String modeCompassName = config.getString("staff-mode.compass-module.name");
@@ -325,6 +319,13 @@ public class Options implements IOptions {
     /*
      * Storage
      */
+    public String storageType = configVersion >= 6200 ? config.getString("storage.type") : "flatfile";
+    public String mySqlHost = configVersion >= 6200 ? config.getString("storage.mysql.host") : "localhost";
+    public String mySqlUser = configVersion >= 6200 ? config.getString("storage.mysql.user") : "root";
+    public String database = configVersion >= 6200 ? config.getString("storage.mysql.database") : "root";
+    public String mySqlPassword = configVersion >= 6200 ? config.getString("storage.mysql.password") : "mypass";
+    public int mySqlPort = configVersion >= 6200 ? config.getInt("storage.mysql.port") : 3306;
+
     private Material modeFollowType = stringToMaterial(sanitize(config.getString("staff-mode.follow-module.item")));
     private short modeFollowData = getMaterialData(config.getString("staff-mode.follow-module.item"));
     private String modeFollowName = config.getString("staff-mode.follow-module.name");

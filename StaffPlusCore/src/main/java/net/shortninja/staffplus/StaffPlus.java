@@ -25,9 +25,7 @@ import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R2;
 import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R3;
 import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R1;
 import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R2;
-import net.shortninja.staffplus.server.data.Load;
-import net.shortninja.staffplus.server.data.MySQLConnection;
-import net.shortninja.staffplus.server.data.Save;
+import net.shortninja.staffplus.server.data.*;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -64,9 +62,6 @@ import org.inventivetalent.update.spiget.SpigetUpdate;
 import org.inventivetalent.update.spiget.UpdateCallback;
 import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
-
-import net.shortninja.staffplus.player.attribute.SecurityHandler;
-
 // TODO Add command to check e chests and offline player inventories
 
 public class StaffPlus extends JavaPlugin implements IStaffPlus {
@@ -101,6 +96,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public boolean ninePlus = false;
     public HashMap<Inventory, Block> viewedChest = new HashMap<>();
     public boolean twelvePlus = false;
+    public IStorage storage;
 
     public static StaffPlus get() {
         return plugin;
@@ -123,11 +119,14 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         APIManager.initAPI(PacketListenerAPI.class);
         start(System.currentTimeMillis());
         if (options.storageType.equalsIgnoreCase("mysql")) {
+            storage = new MySQLStorage();
             mySQLConnection = new MySQLConnection();
             if (mySQLConnection.init())
                 getLogger().info("Database created");
 
-        }
+        }else if(options.storageType.equalsIgnoreCase("flatfile"))
+            storage = new FlatFileStorage();
+
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
         checkUpdate();
@@ -153,6 +152,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
 
         dataFile.save();
+    }
+
+    public IStorage getStorage(){
+        return storage;
     }
 
     protected void start(long start) {
