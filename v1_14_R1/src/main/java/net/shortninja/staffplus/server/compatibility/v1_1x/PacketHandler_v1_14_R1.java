@@ -5,7 +5,10 @@ import io.netty.channel.ChannelPromise;
 import net.minecraft.server.v1_14_R1.PacketPlayOutNamedSoundEffect;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.server.compatibility.AbstractPacketHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 public final class PacketHandler_v1_14_R1 extends AbstractPacketHandler {
 
@@ -16,9 +19,14 @@ public final class PacketHandler_v1_14_R1 extends AbstractPacketHandler {
     @Override
     public boolean onSend(ChannelHandlerContext context, Object o, ChannelPromise promise) throws Exception {
         if (o instanceof PacketPlayOutNamedSoundEffect) {
-            if (IStaffPlus.get().getUserManager().get(player.getUniqueId()).isVanished()) {
-                return false;
+            RegisteredServiceProvider<IStaffPlus> provider = Bukkit.getServicesManager().getRegistration(IStaffPlus.class);
+            if (provider != null) {
+                IStaffPlus api = provider.getProvider();
+                if (api.getUserManager().get(player.getUniqueId()).isVanished()) {
+                    return false;
+                }
             }
+
         }
 
         return true;

@@ -38,31 +38,24 @@ public class PlayerInteract implements Listener {
         Action action = event.getAction();
         ItemStack item = player.getItemInHand();
 
-        player.sendMessage("Test 1");
 
         if (cpsHandler.isTesting(uuid) && (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK)) {
-            player.sendMessage("Test 2");
             cpsHandler.updateCount(uuid);
             return;
         }
 
         if (!modeCoordinator.isInMode(uuid) || item == null) {
-            player.sendMessage("Test 3");
             return;
         }
         if (handleInteraction(player, item, action)) {
-            player.sendMessage("Test 4");
             event.setCancelled(true);
         }
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            player.sendMessage("Test 5");
 
             if (StaffPlus.get().twelvePlus) {
-                player.sendMessage("Test 5.1");
 
                 if (event.getClickedBlock().getState() instanceof Container
                         && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())) {
-                    player.sendMessage("Test 6.1");
 
                     event.setCancelled(true);
                     Container container = (Container) event.getClickedBlock().getState();
@@ -72,11 +65,9 @@ public class PlayerInteract implements Listener {
                     StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
                 }
             } else {
-                player.sendMessage("Test 5.2");
 
                 if (event.getClickedBlock().getState() instanceof Chest &&
                         StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())) {
-                    player.sendMessage("Test 6.2");
 
                     Chest chest = (Chest) event.getClickedBlock().getState();
                     Inventory view = chest.getInventory();
@@ -89,7 +80,6 @@ public class PlayerInteract implements Listener {
                     if (event.getClickedBlock().getState() instanceof Container
                             && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
                             && player.isSneaking() == false) {
-                        player.sendMessage("Test 6.3");
                         event.setCancelled(true);
                         Container container = (Container) event.getClickedBlock().getState();
                         Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getType());
