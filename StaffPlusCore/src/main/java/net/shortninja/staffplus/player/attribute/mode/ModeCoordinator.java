@@ -45,6 +45,8 @@ public class ModeCoordinator {
     }
 
     public boolean isInMode(UUID uuid) {
+        if(modeUsers == null)
+            modeUsers = new HashMap<>();
         return modeUsers.containsKey(uuid);
     }
 

@@ -3,8 +3,6 @@ package net.shortninja.staffplus.player.attribute;
 import net.shortninja.staffplus.StaffPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -84,10 +82,13 @@ public class InventorySerializer {
     public void save(HashMap<String,ItemStack> items, ItemStack[] armor) {
         inventory = YamlConfiguration.loadConfiguration(file);
         for (String i : items.keySet()) {
+            staff.getLogger().info("Items " +items.get(i).toString());
             inventory.set("Inventory." + i, items.get(i));
         }
         for (int i = 0; i <= armor.length-1; i++) {
-            inventory.set("Armor." + i,armor[i]);
+           staff.getLogger().info("Armor "+armor[i].toString());
+            if(armor[i]!=null)
+                inventory.set("Armor." + i,armor[i]);
         }
         try{
             inventory.save(file);

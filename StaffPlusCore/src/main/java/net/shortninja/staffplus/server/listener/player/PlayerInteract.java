@@ -47,8 +47,10 @@ public class PlayerInteract implements Listener {
         if (!modeCoordinator.isInMode(uuid) || item == null) {
             return;
         }
-        if (handleInteraction(player, item, action)) {
-            event.setCancelled(true);
+        if(modeCoordinator.isInMode(uuid)) {
+            if (handleInteraction(player, item, action)) {
+                event.setCancelled(true);
+            }
         }
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 
@@ -63,6 +65,7 @@ public class PlayerInteract implements Listener {
                     chestView.setContents(container.getInventory().getContents());
                     event.getPlayer().openInventory(chestView);
                     StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+                    //StaffPlus.get().inventoryHandler.addVirtualUser();
                 }
             } else {
 
@@ -75,6 +78,7 @@ public class PlayerInteract implements Listener {
                     chestView.setContents(view.getContents());
                     event.getPlayer().openInventory(chestView);
                     StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+                    //StaffPlus.get().inventoryHandler.addVirtualUser(p);
                 }
                 if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                     if (event.getClickedBlock().getState() instanceof Container
@@ -86,6 +90,7 @@ public class PlayerInteract implements Listener {
                         chestView.setContents(container.getInventory().getContents());
                         event.getPlayer().openInventory(chestView);
                         StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+                        //StaffPlus.get().inventoryHandler.addVirtualUser(p);
                     }
                 }
             }

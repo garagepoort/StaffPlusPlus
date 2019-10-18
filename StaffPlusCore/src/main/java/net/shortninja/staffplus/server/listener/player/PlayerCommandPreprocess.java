@@ -60,17 +60,6 @@ public class PlayerCommandPreprocess implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onTabComplete(TabCompleteEvent e) {
-        if (StaffPlus.get().options.vanishEnabled && !StaffPlus.get().options.vanishSuggestionsEnabled) {
-            final List<String> modified = e.getCompletions().stream().filter(s -> StaffPlus.get().vanishHandler.getVanished()
-                    .stream()
-                    .map(Player::getName)
-                    .anyMatch(x -> x.equalsIgnoreCase(s))).collect(Collectors.toList());
-
-            e.setCompletions(modified);
-        }
-    }
 
     private void sendHelp(Player player) {
         int count = 0;

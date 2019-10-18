@@ -54,5 +54,7 @@ public class InventoryClose implements Listener {
                 }
             }
         }
+        if(StaffPlus.get().inventoryHandler.isInVirtualInv(event.getPlayer().getUniqueId()))
+            StaffPlus.get().inventoryHandler.removeVirtualUser(event.getPlayer().getUniqueId());
     }
 }

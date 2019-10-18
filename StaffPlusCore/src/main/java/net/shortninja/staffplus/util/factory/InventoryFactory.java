@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.util.factory;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.server.data.file.DataFile;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -34,46 +35,43 @@ public final class InventoryFactory {
     }
     public static boolean isInventoryEmpty(Inventory inv){
         for(ItemStack stack : inv.getContents())
-            if (stack == null)
+            if (stack != null)
                 return false;
         return true;
     }
 
     public static void saveEnderChest(Player player){
-        File file = new File(StaffPlus.get().getDataFolder()+"/EnderChests.yml");
-        if(!file.exists()){
-            return;
-        }else{
-            try {
-                YamlConfiguration enderChests = YamlConfiguration.loadConfiguration(file);
-                int i = 0;
-                for(ItemStack stack : player.getEnderChest().getContents()){
-                    if(stack !=null){
-                        enderChests.set(player.getUniqueId().toString()+"."+i,stack);
-                        i++;
-                    }
+        File file = new File(StaffPlus.get().getDataFolder(),"EnderChests.yml");
+        try{
+            if(!file.exists())
+                file.createNewFile();
+            YamlConfiguration enderChests = YamlConfiguration.loadConfiguration(file);
+            int i = 0;
+            for (ItemStack stack : player.getEnderChest().getContents()) {
+                if (stack != null) {
+                    enderChests.set(player.getUniqueId().toString() + "." + i, stack);
+                    i++;
                 }
-                enderChests.save(file);
-            } catch (IOException e) {
-                e.printStackTrace();
+            enderChests.save(file);
             }
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
     public static Inventory createVirtualEnderChest(OfflinePlayer p){
-        File file = new File(StaffPlus.get().getDataFolder()+"/EnderChests.yml");
+        File file = new File(StaffPlus.get().getDataFolder(),"EnderChests.yml");
         Inventory eChest = Bukkit.createInventory(null,InventoryType.ENDER_CHEST);
-        if(!file.exists()) {
-            try {
+        try {
+            if(!file.exists())
                 file.createNewFile();
-                YamlConfiguration enderChests = YamlConfiguration.loadConfiguration(file);
-                for(String key : enderChests.getConfigurationSection(p.getUniqueId().toString()).getKeys(false)){
-                    ItemStack stack = enderChests.getItemStack(p.getUniqueId().toString()+"."+key);
-                    eChest.addItem(stack);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            YamlConfiguration enderChests = YamlConfiguration.loadConfiguration(file);
+            for(String key : enderChests.getConfigurationSection(p.getUniqueId().toString()).getKeys(false)){
+                ItemStack stack = enderChests.getItemStack(p.getUniqueId().toString()+"."+key);
+                eChest.addItem(stack);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return eChest;
     }

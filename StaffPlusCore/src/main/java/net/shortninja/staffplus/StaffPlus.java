@@ -50,6 +50,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -97,6 +98,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public HashMap<Inventory, Block> viewedChest = new HashMap<>();
     public boolean twelvePlus = false;
     public IStorage storage;
+    public InventoryHandler inventoryHandler;
 
     public static StaffPlus get() {
         return plugin;
@@ -187,6 +189,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         infractionCoordinator = new InfractionCoordinator();
         alertCoordinator = new AlertCoordinator();
         tasks = new Tasks();
+        inventoryHandler = new InventoryHandler();
         for (Player player : Bukkit.getOnlinePlayers()) {
             new Load(player);
         }
@@ -286,6 +289,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new InventoryClose();
         new InventoryOpen();
         new PlayerWorldChange();
+        String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
+        String version = tmp[tmp.length - 1].substring(0, 4);
+        if(JavaUtils.parseMcVer(version)>=10)
+            new TabComplete();
     }
 
     private void checkUpdate() {

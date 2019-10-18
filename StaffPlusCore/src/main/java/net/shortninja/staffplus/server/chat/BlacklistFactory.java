@@ -2,8 +2,10 @@ package net.shortninja.staffplus.server.chat;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
+import org.bukkit.Bukkit;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 
@@ -63,7 +65,6 @@ public class BlacklistFactory {
                 hasChanged = true;
             }
         }
-
         return newMessage;
     }
 
@@ -176,6 +177,7 @@ public class BlacklistFactory {
         words = options.chatBlacklistWords.toArray(new String[options.chatBlacklistWords.size()]);
         domains = options.chatBlacklistDomains.toArray(new String[options.chatBlacklistDomains.size()]);
         periods = options.chatBlacklistPeriods.toArray(new String[options.chatBlacklistPeriods.size()]);
+        Arrays.sort(words);
         sanitize(words);
         sanitize(domains);
         sanitize(periods);
