@@ -212,7 +212,7 @@ public class ExamineIGui extends AbstractIGui {
     }
 
     private ItemStack ipItem(Player player) {
-        String ip = player.getAddress().getAddress().getHostAddress().replace("/", "");
+        String ip = player.hasPermission(options.ipHidePerm) ? "127.0.0.1" : player.getAddress().getAddress().getHostAddress().replace("/", "");
 
         ItemStack item = Items.builder()
                 .setMaterial(Material.COMPASS).setAmount(1)

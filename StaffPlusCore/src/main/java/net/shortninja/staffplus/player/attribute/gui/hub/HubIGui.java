@@ -65,8 +65,8 @@ public class HubIGui extends AbstractIGui {
     private ItemStack reportsItem() {
         ItemStack item = Items.builder()
                 .setMaterial(Material.PAPER).setAmount(1)
-                .setName("&bUnresolved reports GUI")
-                .addLore("&7Shows all reports that haven't been resolved.")
+                .setName(options.modeGuiReportsName)
+                .addLore(options.modeGuiReportsLore)
                 .build();
 
         return item;
@@ -75,8 +75,8 @@ public class HubIGui extends AbstractIGui {
     private ItemStack minerItem() {
         ItemStack item = Items.builder()
                 .setMaterial(Material.STONE_PICKAXE).setAmount(1)
-                .setName("&bMiner GUI")
-                .addLore("&7Shows all players under the set Y value.")
+                .setName(options.modeGuiMinerName)
+                .addLore(options.modeGuiMinerLore)
                 .build();
 
         return item;

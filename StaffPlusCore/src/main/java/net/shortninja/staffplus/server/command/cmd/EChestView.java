@@ -7,6 +7,7 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -38,10 +39,12 @@ public class EChestView extends BukkitCommand {
         }
         if(Bukkit.getServer().getPlayer(args[0])!=null){
             p.openInventory(InventoryFactory.createEnderchestInventory(Bukkit.getServer().getPlayer(args[0])));
+            StaffPlus.get().inventoryHandler.addVirtualUser(p.getUniqueId());
             return true;
         }else{
             p.openInventory(InventoryFactory.createVirtualEnderChest(Bukkit.getOfflinePlayer(args[0])));
+            StaffPlus.get().inventoryHandler.addVirtualUser(p.getUniqueId());
+            return true;
         }
-        return false;
     }
 }

@@ -415,11 +415,23 @@ staff-mode:
     # The title of the unresolved reports GUI.
     reports-title: "&bUnresolved reports"
 
+    # The name of the reports item
+    reports-name: "&bUnresolved reports GUI"
+
+    # The lore of the reports item
+    reports-lore: "&7Shows all reports that haven't been resolved."
+
     # Whether or not the miner GUI is enabled in the hub.
     miner-gui: true
 
     # The title of the miner GUI.
     miner-title: "&bUnderground users"
+
+    # The name of the miner item
+    miner-name: "&bMiner GUI"
+
+    # The lore of the miner item
+    miner-lore: "&7Shows all players under the set Y value."
 
     # The y-level at which a player will be marked as a miner.
     xray-level: 16
@@ -584,6 +596,10 @@ staff-mode:
 
       # Warn button.
       warn: 0
+
+  enderchest-module:
+    enabled: true
+    offline-viewing: true
 
   ############################################################
   # +------------------------------------------------------+ #
@@ -941,7 +957,7 @@ storage:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 6203
+config-version: 6204
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
 auto-save: 3602

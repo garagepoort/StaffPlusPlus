@@ -81,8 +81,8 @@ public class Protocol_v1_8_R3 extends AbstractProtocol implements IProtocol {
 
     @Override
     public void inject(Player player) {
-        final ChannelPipeline pipeline = this.getChannel(player).pipeline();
-
+        //final ChannelPipeline pipeline = this.getChannel(player).pipeline();
+        final ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.pipeline();
         // Probably will go wrong at runtime but I have no clue how to fix it. - Ronald.
         pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_8_R3(player));
     }

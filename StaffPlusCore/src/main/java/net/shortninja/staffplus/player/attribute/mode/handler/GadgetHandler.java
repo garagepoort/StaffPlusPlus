@@ -173,7 +173,7 @@ public class GadgetHandler {
     }
 
     public void onExamine(Player player, Player targetPlayer) {
-        if (targetPlayer == null || targetPlayer.hasPermission(options.ipHidePerm)) {
+        if (targetPlayer == null) {
             return;
         }
 

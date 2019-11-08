@@ -20,7 +20,7 @@ import java.util.*;
 public class Load {
     private FileConfiguration dataFile = StaffPlus.get().dataFile.getConfiguration();
     private UserManager userManager = StaffPlus.get().userManager;
-//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
+    //private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
     private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
     private String name;
     private UUID uuid;
