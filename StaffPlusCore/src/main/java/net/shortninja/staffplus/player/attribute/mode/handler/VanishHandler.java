@@ -90,14 +90,14 @@ public class VanishHandler {
                     }
                 }
 
-                message = messages.totalVanish.replace("%status%", "enabled");
+                message = messages.totalVanish.replace("%status%", messages.enabled);
                 break;
             case LIST:
                 if (options.vanishTabList) {
                     versionProtocol.listVanish(player, true);
                 }
 
-                message = messages.listVanish.replace("%status%", "enabled");
+                message = messages.listVanish.replace("%status%", messages.enabled);
                 break;
             default:
                 break;
@@ -118,11 +118,11 @@ public class VanishHandler {
                 }
 
                 player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                message = messages.totalVanish.replace("%status%", "disabled");
+                message = messages.totalVanish.replace("%status%", messages.disabled);
                 break;
             case LIST:
                 versionProtocol.listVanish(player, false);
-                message = messages.listVanish.replace("%status%", "disabled");
+                message = messages.listVanish.replace("%status%", messages.disabled);
                 break;
             default:
                 break;
