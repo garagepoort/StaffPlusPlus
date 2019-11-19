@@ -3,11 +3,29 @@ package net.shortninja.staffplus.server.data;
 import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IWarning;
+import org.bukkit.Bukkit;
 
 import java.util.List;
 import java.util.UUID;
 
 public class MySQLStorage implements IStorage {
+
+    private final MySQLConnection connection;
+
+    public MySQLStorage(MySQLConnection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public void onEnable() {
+        if (connection.init())
+            Bukkit.getLogger().info("Database created");
+    }
+
+    @Override
+    public void onDisable() {
+        connection.kill();
+    }
 
     @Override
     public String getPassword(UUID uuid) {

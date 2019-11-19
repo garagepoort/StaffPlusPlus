@@ -12,8 +12,8 @@
     <version>3.3.0-PRERELEASE</version>
 
     <modules>
-        <module>StaffPlusCore</module>
         <module>StaffPlusAPI</module>
+        <module>StaffPlusCore</module>
         <module>v1_7_R1</module>
         <module>v1_7_R2</module>
         <module>v1_7_R3</module>
@@ -31,19 +31,23 @@
 		<module>v1_14_R1</module>
         <module>v1_14_R2</module>
     </modules>
+
     <build>
+        <defaultGoal>clean package</defaultGoal>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
+
                 <configuration>
                     <goals>deploy</goals>
                 </configuration>
             </plugin>
         </plugins>
-        <defaultGoal>clean package</defaultGoal>
     </build>
+
     <properties>
         <bukkit.version>1.14.4-R0.1-SNAPSHOT</bukkit.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -51,6 +55,11 @@
     </properties>
 
     <repositories>
+        <repository>
+            <id>qball-repo</id>
+            <url>http://74.222.192.12/repo</url>
+        </repository>
+
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -67,20 +76,6 @@
 <!--            <id>qball-repo</id>-->
 <!--            <url>https://qball.frostalf.net</url>-->
 <!--        </repository>-->
-        <repository>
-            <id>qball-repo</id>
-            <url>http://qballsrepo.tk/repo</url>
-            <releases>
-                <enabled>false</enabled>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </snapshots>
-        </repository>
     </repositories>
 
 

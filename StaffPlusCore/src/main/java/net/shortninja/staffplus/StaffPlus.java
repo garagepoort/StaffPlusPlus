@@ -121,17 +121,15 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         APIManager.initAPI(PacketListenerAPI.class);
         start(System.currentTimeMillis());
         if (options.storageType.equalsIgnoreCase("mysql")) {
-            storage = new MySQLStorage();
-            mySQLConnection = new MySQLConnection();
-            if (mySQLConnection.init())
-                getLogger().info("Database created");
-
-        }else if(options.storageType.equalsIgnoreCase("flatfile"))
+            storage = new MySQLStorage(new MySQLConnection());
+        } else if(options.storageType.equalsIgnoreCase("flatfile"))
             storage = new FlatFileStorage();
 
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
         checkUpdate();
+
+        storage.onEnable();
 
         hookHandler.addHook(new SuperVanishHook(this));
         hookHandler.enableAll();
@@ -341,8 +339,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             vanishHandler.removeVanish(player);
         }
 
-        if (options.storageType.equalsIgnoreCase("mysql"))
-            MySQLConnection.kill();
+        storage.onDisable();
 
         versionProtocol = null;
         permission = null;
