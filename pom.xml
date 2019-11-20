@@ -57,7 +57,7 @@
     <repositories>
         <repository>
             <id>qball-repo</id>
-            <url>http://74.222.192.12/repo</url>
+            <url>http://qballsrepo.tk/repo</url>
         </repository>
 
         <repository>
