@@ -19,7 +19,7 @@ public class MySQLConnection {
         return datasource.getConnection();
     }
 
-    public static void kill() {
+    public void kill() {
         datasource.close();
     }
 

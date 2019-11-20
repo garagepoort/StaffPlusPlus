@@ -9,6 +9,10 @@ import java.util.UUID;
 
 public interface IStorage {
 
+    void onEnable();
+
+    void onDisable();
+
      String getPassword(UUID uuid);
 
      void setPassword(UUID uuid, String password);

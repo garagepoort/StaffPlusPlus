@@ -8,6 +8,18 @@ import java.util.List;
 import java.util.UUID;
 
 public class FlatFileStorage implements IStorage {
+
+
+    @Override
+    public void onEnable() {
+
+    }
+
+    @Override
+    public void onDisable() {
+
+    }
+
     @Override
     public String getPassword(UUID uuid) {
         return null;
