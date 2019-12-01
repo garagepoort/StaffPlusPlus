@@ -15,7 +15,9 @@ import org.bukkit.craftbukkit.v1_8_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class Protocol_v1_8_R1 extends AbstractProtocol implements IProtocol {
     public Protocol_v1_8_R1(IStaffPlus staffPlus) {
@@ -105,7 +107,7 @@ public class Protocol_v1_8_R1 extends AbstractProtocol implements IProtocol {
     }
 
     private void sendGlobalPacket(Packet packet) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
+        for (Object player : ((CraftServer) Bukkit.getServer()).getHandle().players) {
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
         }
     }

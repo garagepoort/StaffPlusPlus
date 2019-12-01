@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.util;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
@@ -79,7 +79,7 @@ public class Metrics {
         // Check if the config file exists
         if (!config.isSet("serverUuid")) {
 
-            // Add default values
+            // put default values
             config.addDefault("enabled", true);
             // Every server gets it's unique random id.
             config.addDefault("serverUuid", UUID.randomUUID().toString());
@@ -137,7 +137,7 @@ public class Metrics {
      * @param data   The data to send.
      * @throws Exception If the request failed.
      */
-    private static void sendData(Plugin plugin, JsonObject data) throws Exception {
+    private static void sendData(Plugin plugin, JSONObject data) throws Exception {
         if (data == null) {
             throw new IllegalArgumentException("Data cannot be null!");
         }
@@ -152,7 +152,7 @@ public class Metrics {
         // Compress the data to save bandwidth
         byte[] compressedData = compress(data.toString());
 
-        // Add headers
+        // put headers
         connection.setRequestMethod("POST");
         connection.addRequestProperty("Accept", "application/json");
         connection.addRequestProperty("Connection", "close");
@@ -212,7 +212,7 @@ public class Metrics {
     /**
      * Adds a custom chart.
      *
-     * @param chart The chart to addProperty.
+     * @param chart The chart to put.
      */
     public void addCustomChart(CustomChart chart) {
         if (chart == null) {
@@ -254,24 +254,24 @@ public class Metrics {
      *
      * @return The plugin specific data.
      */
-    public JsonObject getPluginData() {
-        JsonObject data = new JsonObject();
+    public JSONObject getPluginData() {
+        JSONObject data = new JSONObject();
 
         String pluginName = plugin.getDescription().getName();
         String pluginVersion = plugin.getDescription().getVersion();
 
-        data.addProperty("pluginName", pluginName); // Append the name of the plugin
-        data.addProperty("pluginVersion", pluginVersion); // Append the version of the plugin
-        JsonArray customCharts = new JsonArray();
+        data.put("pluginName", pluginName); // Append the name of the plugin
+        data.put("pluginVersion", pluginVersion); // Append the version of the plugin
+        JSONArray customCharts = new JSONArray();
         for (CustomChart customChart : charts) {
-            // Add the data of the custom charts
-            JsonObject chart = customChart.getRequestJsonObject();
+            // put the data of the custom charts
+            JSONObject chart = customChart.getRequestJsonObject();
             if (chart == null) { // If the chart is null, we skip it
                 continue;
             }
             customCharts.add(chart);
         }
-        data.add("customCharts", customCharts);
+        data.put("customCharts", customCharts);
 
         return data;
     }
@@ -281,7 +281,7 @@ public class Metrics {
      *
      * @return The server specific data.
      */
-    private JsonObject getServerData() {
+    private JSONObject getServerData() {
         // Minecraft specific data
         int playerAmount;
         try {
@@ -304,19 +304,19 @@ public class Metrics {
         String osVersion = System.getProperty("os.version");
         int coreCount = Runtime.getRuntime().availableProcessors();
 
-        JsonObject data = new JsonObject();
+        JSONObject data = new JSONObject();
 
-        data.addProperty("serverUUID", serverUUID);
+        data.put("serverUUID", serverUUID);
 
-        data.addProperty("playerAmount", playerAmount);
-        data.addProperty("onlineMode", onlineMode);
-        data.addProperty("bukkitVersion", bukkitVersion);
+        data.put("playerAmount", playerAmount);
+        data.put("onlineMode", onlineMode);
+        data.put("bukkitVersion", bukkitVersion);
 
-        data.addProperty("javaVersion", javaVersion);
-        data.addProperty("osName", osName);
-        data.addProperty("osArch", osArch);
-        data.addProperty("osVersion", osVersion);
-        data.addProperty("coreCount", coreCount);
+        data.put("javaVersion", javaVersion);
+        data.put("osName", osName);
+        data.put("osArch", osArch);
+        data.put("osVersion", osVersion);
+        data.put("coreCount", coreCount);
 
         return data;
     }
@@ -325,9 +325,9 @@ public class Metrics {
      * Collects the data and sends it afterwards.
      */
     private void submitData() {
-        final JsonObject data = getServerData();
+        final JSONObject data = getServerData();
 
-        JsonArray pluginData = new JsonArray();
+        JSONArray pluginData = new JSONArray();
         // Search for all other bStats Metrics classes to get their plugin data
         for (Class<?> service : Bukkit.getServicesManager().getKnownServices()) {
             try {
@@ -343,7 +343,7 @@ public class Metrics {
             }
         }
 
-        data.add("plugins", pluginData);
+        data.put("plugins", pluginData);
 
         // Create a new thread for the connection to the bStats server
         new Thread(new Runnable() {
@@ -382,16 +382,16 @@ public class Metrics {
             this.chartId = chartId;
         }
 
-        private JsonObject getRequestJsonObject() {
-            JsonObject chart = new JsonObject();
-            chart.addProperty("chartId", chartId);
+        private JSONObject getRequestJsonObject() {
+            JSONObject chart = new JSONObject();
+            chart.put("chartId", chartId);
             try {
-                JsonObject data = getChartData();
+                JSONObject data = getChartData();
                 if (data == null) {
                     // If the data is null we don't send the chart.
                     return null;
                 }
-                chart.add("data", data);
+                chart.put("data", data);
             } catch (Throwable t) {
                 if (logFailedRequests) {
                     Bukkit.getLogger().log(Level.WARNING, "Failed to get data for custom chart with id " + chartId, t);
@@ -401,7 +401,7 @@ public class Metrics {
             return chart;
         }
 
-        protected abstract JsonObject getChartData() throws Exception;
+        protected abstract JSONObject getChartData() throws Exception;
 
     }
 
@@ -424,14 +424,14 @@ public class Metrics {
         }
 
         @Override
-        protected JsonObject getChartData() throws Exception {
-            JsonObject data = new JsonObject();
+        protected JSONObject getChartData() throws Exception {
+            JSONObject data = new JSONObject();
             String value = callable.call();
             if (value == null || value.isEmpty()) {
                 // Null = skip the chart
                 return null;
             }
-            data.addProperty("value", value);
+            data.put("value", value);
             return data;
         }
     }
@@ -455,9 +455,9 @@ public class Metrics {
         }
 
         @Override
-        protected JsonObject getChartData() throws Exception {
-            JsonObject data = new JsonObject();
-            JsonObject values = new JsonObject();
+        protected JSONObject getChartData() throws Exception {
+            JSONObject data = new JSONObject();
+            JSONObject values = new JSONObject();
             Map<String, Integer> map = callable.call();
             if (map == null || map.isEmpty()) {
                 // Null = skip the chart
@@ -469,13 +469,13 @@ public class Metrics {
                     continue; // Skip this invalid
                 }
                 allSkipped = false;
-                values.addProperty(entry.getKey(), entry.getValue());
+                values.put(entry.getKey(), entry.getValue());
             }
             if (allSkipped) {
                 // Null = skip the chart
                 return null;
             }
-            data.add("values", values);
+            data.put("values", values);
             return data;
         }
     }
@@ -499,9 +499,9 @@ public class Metrics {
         }
 
         @Override
-        public JsonObject getChartData() throws Exception {
-            JsonObject data = new JsonObject();
-            JsonObject values = new JsonObject();
+        public JSONObject getChartData() throws Exception {
+            JSONObject data = new JSONObject();
+            JSONObject values = new JSONObject();
             Map<String, Map<String, Integer>> map = callable.call();
             if (map == null || map.isEmpty()) {
                 // Null = skip the chart
@@ -509,22 +509,22 @@ public class Metrics {
             }
             boolean reallyAllSkipped = true;
             for (Map.Entry<String, Map<String, Integer>> entryValues : map.entrySet()) {
-                JsonObject value = new JsonObject();
+                JSONObject value = new JSONObject();
                 boolean allSkipped = true;
                 for (Map.Entry<String, Integer> valueEntry : map.get(entryValues.getKey()).entrySet()) {
-                    value.addProperty(valueEntry.getKey(), valueEntry.getValue());
+                    value.put(valueEntry.getKey(), valueEntry.getValue());
                     allSkipped = false;
                 }
                 if (!allSkipped) {
                     reallyAllSkipped = false;
-                    values.add(entryValues.getKey(), value);
+                    values.put(entryValues.getKey(), value);
                 }
             }
             if (reallyAllSkipped) {
                 // Null = skip the chart
                 return null;
             }
-            data.add("values", values);
+            data.put("values", values);
             return data;
         }
     }
@@ -548,14 +548,14 @@ public class Metrics {
         }
 
         @Override
-        protected JsonObject getChartData() throws Exception {
-            JsonObject data = new JsonObject();
+        protected JSONObject getChartData() throws Exception {
+            JSONObject data = new JSONObject();
             int value = callable.call();
             if (value == 0) {
                 // Null = skip the chart
                 return null;
             }
-            data.addProperty("value", value);
+            data.put("value", value);
             return data;
         }
 
@@ -580,9 +580,9 @@ public class Metrics {
         }
 
         @Override
-        protected JsonObject getChartData() throws Exception {
-            JsonObject data = new JsonObject();
-            JsonObject values = new JsonObject();
+        protected JSONObject getChartData() throws Exception {
+            JSONObject data = new JSONObject();
+            JSONObject values = new JSONObject();
             Map<String, Integer> map = callable.call();
             if (map == null || map.isEmpty()) {
                 // Null = skip the chart
@@ -594,13 +594,13 @@ public class Metrics {
                     continue; // Skip this invalid
                 }
                 allSkipped = false;
-                values.addProperty(entry.getKey(), entry.getValue());
+                values.put(entry.getKey(), entry.getValue());
             }
             if (allSkipped) {
                 // Null = skip the chart
                 return null;
             }
-            data.add("values", values);
+            data.put("values", values);
             return data;
         }
 
@@ -625,20 +625,20 @@ public class Metrics {
         }
 
         @Override
-        protected JsonObject getChartData() throws Exception {
-            JsonObject data = new JsonObject();
-            JsonObject values = new JsonObject();
+        protected JSONObject getChartData() throws Exception {
+            JSONObject data = new JSONObject();
+            JSONObject values = new JSONObject();
             Map<String, Integer> map = callable.call();
             if (map == null || map.isEmpty()) {
                 // Null = skip the chart
                 return null;
             }
             for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                JsonArray categoryValues = new JsonArray();
+                JSONArray categoryValues = new JSONArray();
                 categoryValues.add(entry.getValue());
-                values.add(entry.getKey(), categoryValues);
+                values.put(entry.getKey(), categoryValues);
             }
-            data.add("values", values);
+            data.put("values", values);
             return data;
         }
 
@@ -663,9 +663,9 @@ public class Metrics {
         }
 
         @Override
-        protected JsonObject getChartData() throws Exception {
-            JsonObject data = new JsonObject();
-            JsonObject values = new JsonObject();
+        protected JSONObject getChartData() throws Exception {
+            JSONObject data = new JSONObject();
+            JSONObject values = new JSONObject();
             Map<String, int[]> map = callable.call();
             if (map == null || map.isEmpty()) {
                 // Null = skip the chart
@@ -677,17 +677,17 @@ public class Metrics {
                     continue; // Skip this invalid
                 }
                 allSkipped = false;
-                JsonArray categoryValues = new JsonArray();
+                JSONArray categoryValues = new JSONArray();
                 for (int categoryValue : entry.getValue()) {
                     categoryValues.add(categoryValue);
                 }
-                values.add(entry.getKey(), categoryValues);
+                values.put(entry.getKey(), categoryValues);
             }
             if (allSkipped) {
                 // Null = skip the chart
                 return null;
             }
-            data.add("values", values);
+            data.put("values", values);
             return data;
         }
 

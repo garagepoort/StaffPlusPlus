@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 //import net.shortninja.staffplus.player.attribute.SecurityHandler;
@@ -72,7 +73,6 @@ public class PlayerJoin implements Listener {
         if (userManager.has(uuid)) {
             userManager.get(uuid).setOnline(true);
         } else new Load(player);
-
     }
 
     private void loadInv(Player p){
