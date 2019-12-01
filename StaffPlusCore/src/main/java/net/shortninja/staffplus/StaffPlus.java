@@ -13,6 +13,13 @@ import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
+import net.shortninja.staffplus.server.compatibility.v1_7_R1.Protocol_v1_7_R1;
+import net.shortninja.staffplus.server.compatibility.v1_7_R2.Protocol_v1_7_R2;
+import net.shortninja.staffplus.server.compatibility.v1_7_R3.Protocol_v1_7_R3;
+import net.shortninja.staffplus.server.compatibility.v1_7_R4.Protocol_v1_7_R4;
+import net.shortninja.staffplus.server.compatibility.v1_8_R1.Protocol_v1_8_R1;
+import net.shortninja.staffplus.server.compatibility.v1_8_R2.Protocol_v1_8_R2;
+import net.shortninja.staffplus.server.compatibility.v1_8_R3.Protocol_v1_8_R3;
 import net.shortninja.staffplus.server.data.*;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -122,6 +129,20 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         hookHandler.addHook(new SuperVanishHook(this));
         hookHandler.enableAll();
+
+//        protocols:
+//        {
+//            // 1.7.x
+//            registerProtocol(Protocol_v1_7_R1.class);
+//            registerProtocol(Protocol_v1_7_R2.class);
+//            registerProtocol(Protocol_v1_7_R3.class);
+//            registerProtocol(Protocol_v1_7_R4.class);
+//
+//            // 1.8.x
+//            registerProtocol(Protocol_v1_8_R1.class);
+//            registerProtocol(Protocol_v1_8_R2.class);
+//            registerProtocol(Protocol_v1_8_R3.class);
+//        }
     }
 
     @Override
@@ -198,14 +219,23 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         final String version = Bukkit.getServer().getClass().getPackage().getName();
         final String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
+        Bukkit.getLogger().config("Formatted Version = " + formattedVersion);
+
+        Class<?> protocolClass;
 
         try {
-            final Constructor<? extends AbstractProtocol> constructor = protocolMap.get(formattedVersion).getDeclaredConstructor(IStaffPlus.class);
+            if (protocolMap.containsKey(formattedVersion)) {
+                protocolClass = protocolMap.get(formattedVersion);
+            } else {
+                protocolClass = Class.forName(String.format("net.shortninja.staffplus.server.compatibility.%s.Protocol_%s", formattedVersion, formattedVersion));
+            }
+
+            final Constructor<?> constructor = protocolClass.getDeclaredConstructor(IStaffPlus.class);
 
             if (constructor != null) {
-                versionProtocol = constructor.newInstance(this);
+                versionProtocol = (IProtocol) constructor.newInstance(this);
             }
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
             throw new IllegalStateException("Cannot initialize protocol", e);
         }
 //        switch (formattedVersion) {
@@ -379,6 +409,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     public PermissionHandler getPermissions() {
         return permission;
+    }
+
+    public void registerProtocol(Class<? extends AbstractProtocol> protocolClass) {
+        final String name = protocolClass.getSimpleName().replace("Protocol_", "");
+
+        registerProtocol(name, protocolClass);
     }
 
     public void registerProtocol(String name, Class<? extends AbstractProtocol> protocolClass) {
