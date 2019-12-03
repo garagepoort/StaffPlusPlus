@@ -13,6 +13,13 @@ import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
+import net.shortninja.staffplus.server.compatibility.v1_10_R1.Protocol_v1_10_R1;
+import net.shortninja.staffplus.server.compatibility.v1_11_R1.Protocol_v1_11_R1;
+import net.shortninja.staffplus.server.compatibility.v1_12_R1.Protocol_v1_12_R1;
+import net.shortninja.staffplus.server.compatibility.v1_13_R1.Protocol_v1_13_R1;
+import net.shortninja.staffplus.server.compatibility.v1_13_R2.Protocol_v1_13_R2;
+import net.shortninja.staffplus.server.compatibility.v1_14_R1.Protocol_v1_14_R1;
+import net.shortninja.staffplus.server.compatibility.v1_14_R2.Protocol_v1_14_R2;
 import net.shortninja.staffplus.server.compatibility.v1_7_R1.Protocol_v1_7_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7_R2.Protocol_v1_7_R2;
 import net.shortninja.staffplus.server.compatibility.v1_7_R3.Protocol_v1_7_R3;
@@ -20,6 +27,8 @@ import net.shortninja.staffplus.server.compatibility.v1_7_R4.Protocol_v1_7_R4;
 import net.shortninja.staffplus.server.compatibility.v1_8_R1.Protocol_v1_8_R1;
 import net.shortninja.staffplus.server.compatibility.v1_8_R2.Protocol_v1_8_R2;
 import net.shortninja.staffplus.server.compatibility.v1_8_R3.Protocol_v1_8_R3;
+import net.shortninja.staffplus.server.compatibility.v1_9_R1.Protocol_v1_9_R1;
+import net.shortninja.staffplus.server.compatibility.v1_9_R2.Protocol_v1_9_R2;
 import net.shortninja.staffplus.server.data.*;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -62,7 +71,6 @@ import java.util.logging.LogRecord;
 
 public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private static StaffPlus plugin;
-    private static Map<String, Class<? extends AbstractProtocol>> protocolMap = new HashMap<>();
 
     public IProtocol versionProtocol;
     public PermissionHandler permission;
@@ -129,20 +137,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         hookHandler.addHook(new SuperVanishHook(this));
         hookHandler.enableAll();
-
-//        protocols:
-//        {
-//            // 1.7.x
-//            registerProtocol(Protocol_v1_7_R1.class);
-//            registerProtocol(Protocol_v1_7_R2.class);
-//            registerProtocol(Protocol_v1_7_R3.class);
-//            registerProtocol(Protocol_v1_7_R4.class);
-//
-//            // 1.8.x
-//            registerProtocol(Protocol_v1_8_R1.class);
-//            registerProtocol(Protocol_v1_8_R2.class);
-//            registerProtocol(Protocol_v1_8_R3.class);
-//        }
     }
 
     @Override
@@ -213,84 +207,61 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     private boolean setupVersionProtocol() {
-        if (protocolMap.isEmpty()) {
-            throw new IllegalStateException("ProtocolMap is empty thus cannot initialize");
-        }
-
         final String version = Bukkit.getServer().getClass().getPackage().getName();
         final String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
-        Bukkit.getLogger().config("Formatted Version = " + formattedVersion);
-
-        Class<?> protocolClass;
-
-        try {
-            if (protocolMap.containsKey(formattedVersion)) {
-                protocolClass = protocolMap.get(formattedVersion);
-            } else {
-                protocolClass = Class.forName(String.format("net.shortninja.staffplus.server.compatibility.%s.Protocol_%s", formattedVersion, formattedVersion));
-            }
-
-            final Constructor<?> constructor = protocolClass.getDeclaredConstructor(IStaffPlus.class);
-
-            if (constructor != null) {
-                versionProtocol = (IProtocol) constructor.newInstance(this);
-            }
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException | ClassNotFoundException e) {
-            throw new IllegalStateException("Cannot initialize protocol", e);
+        switch (formattedVersion) {
+            case "v1_7_R1":
+                versionProtocol = new Protocol_v1_7_R1(this);
+                break;
+            case "v1_7_R2":
+                versionProtocol = new Protocol_v1_7_R2(this);
+                break;
+            case "v1_7_R3":
+                versionProtocol = new Protocol_v1_7_R3(this);
+                break;
+            case "v1_7_R4":
+                versionProtocol = new Protocol_v1_7_R4(this);
+                break;
+            case "v1_8_R1":
+                versionProtocol = new Protocol_v1_8_R1(this);
+                break;
+            case "v1_8_R2":
+                versionProtocol = new Protocol_v1_8_R2(this);
+                break;
+            case "v1_8_R3":
+                versionProtocol = new Protocol_v1_8_R3(this);
+                break;
+            case "v1_9_R1":
+                versionProtocol = new Protocol_v1_9_R1(this);
+                break;
+            case "v1_9_R2":
+                versionProtocol = new Protocol_v1_9_R2(this);
+                break;
+            case "v1_10_R1":
+                versionProtocol = new Protocol_v1_10_R1(this);
+                break;
+            case "v1_11_R1":
+                versionProtocol = new Protocol_v1_11_R1(this);
+                break;
+            case "v1_12_R1":
+                versionProtocol = new Protocol_v1_12_R1(this);
+                break;
+            case "v1_13_R1":
+                versionProtocol = new Protocol_v1_13_R1(this);
+                break;
+            case "v1_13_R2":
+                versionProtocol = new Protocol_v1_13_R2(this);
+                break;
+            case "v1_14_R1":
+                String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
+                String ver = tmp[tmp.length - 1].substring(0, 6);
+                System.out.println(ver);
+                if(ver.equals("1.14.3")||ver.equals("1.14.4"))
+                    versionProtocol = new Protocol_v1_14_R2(this);
+                else
+                    versionProtocol = new Protocol_v1_14_R1(this);
+                break;
         }
-//        switch (formattedVersion) {
-//            case "v1_7_R1":
-//                versionProtocol = new Protocol_v1_7_R1(this);
-//                break;
-//            case "v1_7_R2":
-//                versionProtocol = new Protocol_v1_7_R2(this);
-//                break;
-//            case "v1_7_R3":
-//                versionProtocol = new Protocol_v1_7_R3(this);
-//                break;
-//            case "v1_7_R4":
-//                versionProtocol = new Protocol_v1_7_R4(this);
-//                break;
-//            case "v1_8_R1":
-//                versionProtocol = new Protocol_v1_8_R1(this);
-//                break;
-//            case "v1_8_R2":
-//                versionProtocol = new Protocol_v1_8_R2(this);
-//                break;
-//            case "v1_8_R3":
-//                versionProtocol = new Protocol_v1_8_R3(this);
-//                break;
-//            case "v1_9_R1":
-//                versionProtocol = new Protocol_v1_9_R1(this);
-//                break;
-//            case "v1_9_R2":
-//                versionProtocol = new Protocol_v1_9_R2(this);
-//                break;
-//            case "v1_10_R1":
-//                versionProtocol = new Protocol_v1_10_R1(this);
-//                break;
-//            case "v1_11_R1":
-//                versionProtocol = new Protocol_v1_11_R1(this);
-//                break;
-//            case "v1_12_R1":
-//                versionProtocol = new Protocol_v1_12_R1(this);
-//                break;
-//            case "v1_13_R1":
-//                versionProtocol = new Protocol_v1_13_R1(this);
-//                break;
-//            case "v1_13_R2":
-//                versionProtocol = new Protocol_v1_13_R2(this);
-//                break;
-//            case "v1_14_R1":
-//                String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
-//                String ver = tmp[tmp.length - 1].substring(0, 6);
-//                System.out.println(ver);
-//                if(ver.equals("1.14.3")||ver.equals("1.14.4"))
-//                    versionProtocol = new Protocol_v1_14_R2(this);
-//                else
-//                    versionProtocol = new Protocol_v1_14_R1(this);
-//                break;
-//        }
 
         if (versionProtocol != null) {
             message.sendConsoleMessage("Version protocol set to '" + formattedVersion + "'.", false);
@@ -409,16 +380,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     public PermissionHandler getPermissions() {
         return permission;
-    }
-
-    public void registerProtocol(Class<? extends AbstractProtocol> protocolClass) {
-        final String name = protocolClass.getSimpleName().replace("Protocol_", "");
-
-        registerProtocol(name, protocolClass);
-    }
-
-    public void registerProtocol(String name, Class<? extends AbstractProtocol> protocolClass) {
-        protocolMap.putIfAbsent(name, protocolClass);
     }
 
     private static final class PasswordFilter implements Filter {
