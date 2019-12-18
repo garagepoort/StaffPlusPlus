@@ -2,10 +2,7 @@ package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.UserManager;
-
-
 import net.shortninja.staffplus.player.attribute.SecurityHandler;
-
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -14,17 +11,24 @@ import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.PacketModifier;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.command.CmdHandler;
+import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.server.compatibility.v1_1x.*;
-import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R1;
-import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R2;
-import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R3;
-import net.shortninja.staffplus.server.compatibility.v1_7.Protocol_v1_7_R4;
-import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R1;
-import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R2;
-import net.shortninja.staffplus.server.compatibility.v1_8.Protocol_v1_8_R3;
-import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R1;
-import net.shortninja.staffplus.server.compatibility.v1_9.Protocol_v1_9_R2;
+import net.shortninja.staffplus.server.compatibility.v1_10_R1.Protocol_v1_10_R1;
+import net.shortninja.staffplus.server.compatibility.v1_11_R1.Protocol_v1_11_R1;
+import net.shortninja.staffplus.server.compatibility.v1_12_R1.Protocol_v1_12_R1;
+import net.shortninja.staffplus.server.compatibility.v1_13_R1.Protocol_v1_13_R1;
+import net.shortninja.staffplus.server.compatibility.v1_13_R2.Protocol_v1_13_R2;
+import net.shortninja.staffplus.server.compatibility.v1_14_R1.Protocol_v1_14_R1;
+import net.shortninja.staffplus.server.compatibility.v1_14_R2.Protocol_v1_14_R2;
+import net.shortninja.staffplus.server.compatibility.v1_7_R1.Protocol_v1_7_R1;
+import net.shortninja.staffplus.server.compatibility.v1_7_R2.Protocol_v1_7_R2;
+import net.shortninja.staffplus.server.compatibility.v1_7_R3.Protocol_v1_7_R3;
+import net.shortninja.staffplus.server.compatibility.v1_7_R4.Protocol_v1_7_R4;
+import net.shortninja.staffplus.server.compatibility.v1_8_R1.Protocol_v1_8_R1;
+import net.shortninja.staffplus.server.compatibility.v1_8_R2.Protocol_v1_8_R2;
+import net.shortninja.staffplus.server.compatibility.v1_8_R3.Protocol_v1_8_R3;
+import net.shortninja.staffplus.server.compatibility.v1_9_R1.Protocol_v1_9_R1;
+import net.shortninja.staffplus.server.compatibility.v1_9_R2.Protocol_v1_9_R2;
 import net.shortninja.staffplus.server.data.*;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -49,19 +53,19 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
-
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.logging.Filter;
-import java.util.logging.LogRecord;
-
 import org.inventivetalent.apihelper.APIManager;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
 import org.inventivetalent.update.spiget.SpigetUpdate;
 import org.inventivetalent.update.spiget.UpdateCallback;
 import org.inventivetalent.update.spiget.comparator.VersionComparator;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.logging.Filter;
+import java.util.logging.LogRecord;
 
 // TODO Add command to check e chests and offline player inventories
 
@@ -122,7 +126,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         start(System.currentTimeMillis());
         if (options.storageType.equalsIgnoreCase("mysql")) {
             storage = new MySQLStorage(new MySQLConnection());
-        } else if(options.storageType.equalsIgnoreCase("flatfile"))
+        } else if (options.storageType.equalsIgnoreCase("flatfile"))
             storage = new FlatFileStorage();
 
         if (getConfig().getBoolean("metrics"))
@@ -154,7 +158,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         dataFile.save();
     }
 
-    public IStorage getStorage(){
+    public IStorage getStorage() {
         return storage;
     }
 
@@ -203,9 +207,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     private boolean setupVersionProtocol() {
-        String version = Bukkit.getServer().getClass().getPackage().getName();
-        String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
-
+        final String version = Bukkit.getServer().getClass().getPackage().getName();
+        final String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
         switch (formattedVersion) {
             case "v1_7_R1":
                 versionProtocol = new Protocol_v1_7_R1(this);
@@ -292,7 +295,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new PlayerWorldChange();
         String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
-        if(JavaUtils.parseMcVer(version)>=10)
+        if (JavaUtils.parseMcVer(version) >= 10)
             new TabComplete();
     }
 
@@ -381,8 +384,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public PermissionHandler getPermissions() {
         return permission;
     }
-
-
 
     private static final class PasswordFilter implements Filter {
 

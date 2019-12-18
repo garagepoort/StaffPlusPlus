@@ -31,7 +31,7 @@ public class PlayerInteract implements Listener {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST )
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
@@ -47,7 +47,7 @@ public class PlayerInteract implements Listener {
         if (!modeCoordinator.isInMode(uuid) || item == null) {
             return;
         }
-        if(modeCoordinator.isInMode(uuid)) {
+        if (modeCoordinator.isInMode(uuid)) {
             if (handleInteraction(player, item, action)) {
                 event.setCancelled(true);
             }
@@ -80,6 +80,21 @@ public class PlayerInteract implements Listener {
                     event.getPlayer().openInventory(chestView);
                     StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
                     //StaffPlus.get().inventoryHandler.addVirtualUser(p);
+                }
+                if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+
+                    if (event.getClickedBlock().getState() instanceof Container
+                            && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+                            && player.isSneaking() == false) {
+                        event.setCancelled(true);
+
+                        Container container = (Container) event.getClickedBlock().getState();
+                        Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getType());
+                        chestView.setContents(container.getInventory().getContents());
+                        event.getPlayer().openInventory(chestView);
+                        StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+                        //StaffPlus.get().inventoryHandler.addVirtualUser(p);
+                    }
                 }
             }
         }//end of if click block
