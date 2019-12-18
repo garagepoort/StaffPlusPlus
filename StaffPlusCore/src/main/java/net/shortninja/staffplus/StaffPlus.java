@@ -258,6 +258,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
                 else
                     versionProtocol = new Protocol_v1_14_R1(this);
                 break;
+            case "v1_15_R1":
+                versionProtocol = new Protocol_v1_15_R1(this);
+                break;
         }
 
         if (versionProtocol != null) {
