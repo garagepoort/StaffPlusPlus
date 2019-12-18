@@ -33,7 +33,6 @@ public class ModeDataVault {
     }
 
     public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, Location previousLocation, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
-        Bukkit.getPlayer(uuid).sendMessage("Called constructor 2");
         this.uuid = uuid;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
@@ -44,14 +43,12 @@ public class ModeDataVault {
     }
 
     public ModeDataVault(UUID uuid,HashMap<String, ItemStack> items, ItemStack[] armor) {
-        Bukkit.getPlayer(uuid).sendMessage("Called constructor 3");
         this.uuid = uuid;
         this.items = items;
         this.armor = armor;
     }
 
     public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand) {
-        Bukkit.getPlayer(uuid).sendMessage("Called constructor 4");
         this.uuid = uuid;
         this.offHand = offHand;
         this.items = itemHash;

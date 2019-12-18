@@ -57,8 +57,8 @@ public class PlayerInteract implements Listener {
             if (StaffPlus.get().twelvePlus) {
 
                 if (event.getClickedBlock().getState() instanceof Container
-                        && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())) {
-
+                        && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+                        && !player.isSneaking()) {
                     event.setCancelled(true);
                     Container container = (Container) event.getClickedBlock().getState();
                     Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getSize());
@@ -70,8 +70,9 @@ public class PlayerInteract implements Listener {
             } else {
 
                 if (event.getClickedBlock().getState() instanceof Chest &&
-                        StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())) {
-
+                        StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+                    && !player.isSneaking()) {
+                    event.setCancelled(true);
                     Chest chest = (Chest) event.getClickedBlock().getState();
                     Inventory view = chest.getInventory();
                     Inventory chestView = Bukkit.createInventory(event.getPlayer(), view.getSize());
