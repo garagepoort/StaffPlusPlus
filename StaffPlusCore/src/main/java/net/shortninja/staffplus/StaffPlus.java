@@ -20,6 +20,7 @@ import net.shortninja.staffplus.server.compatibility.v1_13_R1.Protocol_v1_13_R1;
 import net.shortninja.staffplus.server.compatibility.v1_13_R2.Protocol_v1_13_R2;
 import net.shortninja.staffplus.server.compatibility.v1_14_R1.Protocol_v1_14_R1;
 import net.shortninja.staffplus.server.compatibility.v1_14_R2.Protocol_v1_14_R2;
+import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_15_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7_R1.Protocol_v1_7_R1;
 import net.shortninja.staffplus.server.compatibility.v1_7_R2.Protocol_v1_7_R2;
 import net.shortninja.staffplus.server.compatibility.v1_7_R3.Protocol_v1_7_R3;
