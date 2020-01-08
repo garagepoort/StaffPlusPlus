@@ -21,7 +21,6 @@ public class ModeDataVault {
     private VanishType vanishType;
 
     public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
-        Bukkit.getPlayer(uuid).sendMessage("Called constructor 1");
         this.uuid = uuid;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
