@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.player.attribute.infraction;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.event.ReportPlayerEvent;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -32,6 +33,7 @@ public class InfractionCoordinator {
 
     public void addUnresolvedReport(Report report) {
         unresolvedReports.put(report.getUuid(), report);
+        Bukkit.getPluginManager().callEvent(new ReportPlayerEvent(report));
     }
 
     public void removeUnresolvedReport(UUID uuid) {
