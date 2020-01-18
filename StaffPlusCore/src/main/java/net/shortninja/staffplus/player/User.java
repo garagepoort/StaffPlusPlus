@@ -123,11 +123,13 @@ public class User implements IUser {
                  PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ?")) {
                 ps.setString(1, uuid.toString());
                 try (ResultSet rs = ps.executeQuery()) {
-                    UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
-                    UUID reporterUuidUUID = UUID.fromString(rs.getString("Reporter_UUID"));
-                    int id = rs.getInt("ID");
-                    while (rs.next())
-                        reports.add(new Report(uuid, Bukkit.getPlayer(uuid).getDisplayName(), id, rs.getString("Reason"), Bukkit.getPlayer(reporterUuidUUID).getDisplayName(), reporterUuidUUID, System.currentTimeMillis()));
+                    while (rs.next()) {
+                        UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
+                        UUID reporterUUID = UUID.fromString(rs.getString("Reporter_UUID"));
+                        String reporterName = reporterUUID.equals(StaffPlus.get().consoleUUID) ? "Console" : Bukkit.getPlayer(reporterUUID).getDisplayName();
+                        int id = rs.getInt("ID");
+                        reports.add(new Report(playerUUID, Bukkit.getPlayer(playerUUID).getDisplayName(), id, rs.getString("Reason"), reporterName, reporterUUID, System.currentTimeMillis()));
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -148,8 +150,9 @@ public class User implements IUser {
                     while (rs.next()) {
                         UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
                         UUID warnerUuid = UUID.fromString(rs.getString("Warner_UUID"));
+                        String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : Bukkit.getPlayer(warnerUuid).getDisplayName();
                         int id = rs.getInt("ID");
-                        warnings.add(new Warning(playerUUID, Bukkit.getPlayer(playerUUID).getDisplayName(), id, rs.getString("Reason"), Bukkit.getPlayer(warnerUuid).getDisplayName(), warnerUuid, System.currentTimeMillis()));
+                        warnings.add(new Warning(playerUUID, Bukkit.getPlayer(playerUUID).getDisplayName(), id, rs.getString("Reason"), warnerName, warnerUuid, System.currentTimeMillis()));
                     }
                 }
             } catch (SQLException e) {
