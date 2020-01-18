@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.server.data;
 
+import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IWarning;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface IStorage {
 
@@ -13,32 +13,32 @@ public interface IStorage {
 
     void onDisable();
 
-     String getPassword(UUID uuid);
+    String getPassword(User user);
 
-     void setPassword(UUID uuid, String password);
+    void setPassword(User user, String password);
 
-     short getGlassColor(UUID uuid);
+    short getGlassColor(User user);
 
-    void setGlassColor(UUID uuid,short color);
+    void setGlassColor(User user,short color);
 
-    List<IReport> getReports(UUID uuid);
+    List<IReport> getReports(User user);
 
-    List<IWarning> getWarnings(UUID uuid);
+    List<IWarning> getWarnings(User user);
 
     void addReport(IReport report);
 
     void addWarning(IWarning warning);
 
-    void removeReport(UUID uuid);
+    void removeReport(User user);
 
-    void removeWarning(UUID uuid);
+    void removeWarning(User user);
 
-    Ticket getTicketByUUID(UUID uuid);
+    Ticket getTicketByUUID(User user);
 
     Ticket getTickById(int id);
 
     void addTicket(Ticket ticket);
 
-    void removeTicket(UUID uuid);
+    void removeTicket(User user);
 
 }

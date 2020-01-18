@@ -23,7 +23,7 @@ public class User implements IUser {
     private Messages messages = StaffPlus.get().messages;
     private UUID uuid;
     private String name;
-    private short glassColor;
+    protected short glassColor;
     private List<IReport> reports = new ArrayList<>();
     private List<IWarning> warnings = new ArrayList<>();
     private VanishType vanishType = VanishType.NONE;
@@ -72,6 +72,11 @@ public class User implements IUser {
         return name;
     }
 
+
+    private short getColorColor(){
+        return glassColor;
+    }
+
     public short getGlassColor() {
         if (options.storageType.equalsIgnoreCase("flatefile"))
             return glassColor;
@@ -115,12 +120,16 @@ public class User implements IUser {
             return reports;
         else if (options.storageType.equalsIgnoreCase("mysql")) {
             try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_reports WHERE Player_UUID=?");) {
+                 PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ?")) {
                 ps.setString(1, uuid.toString());
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next())
-                        reports.add(new Report(UUID.fromString(rs.getString("Player_UUID")), Bukkit.getPlayer(UUID.fromString(rs.getString("Player_UUID"))).getDisplayName(),
-                                rs.getInt("ID"), rs.getString("Reason"), Bukkit.getPlayer(UUID.fromString("Reporter_UUID")).getDisplayName(), UUID.fromString(rs.getString("Reporter_UUID")), System.currentTimeMillis()));
+                    while (rs.next()) {
+                        UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
+                        UUID reporterUUID = UUID.fromString(rs.getString("Reporter_UUID"));
+                        String reporterName = reporterUUID.equals(StaffPlus.get().consoleUUID) ? "Console" : Bukkit.getPlayer(reporterUUID).getDisplayName();
+                        int id = rs.getInt("ID");
+                        reports.add(new Report(playerUUID, Bukkit.getPlayer(playerUUID).getDisplayName(), id, rs.getString("Reason"), reporterName, reporterUUID, System.currentTimeMillis()));
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -134,13 +143,17 @@ public class User implements IUser {
             return warnings;
         else if (options.storageType.equalsIgnoreCase("mysql")) {
             try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_warnings WHERE Player_UUID=?");
+                 PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings WHERE Player_UUID = ?")
             ) {
                 ps.setString(1, uuid.toString());
                 try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next())
-                        warnings.add(new Warning(UUID.fromString(rs.getString("Player_UUID")), Bukkit.getPlayer(UUID.fromString(rs.getString("Player_UUID"))).getDisplayName(),
-                                rs.getInt("ID"), rs.getString("Reason"), Bukkit.getPlayer(UUID.fromString("Warner_UUID")).getDisplayName(), UUID.fromString(rs.getString("Warner_UUID")), System.currentTimeMillis()));
+                    while (rs.next()) {
+                        UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
+                        UUID warnerUuid = UUID.fromString(rs.getString("Warner_UUID"));
+                        String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : Bukkit.getPlayer(warnerUuid).getDisplayName();
+                        int id = rs.getInt("ID");
+                        warnings.add(new Warning(playerUUID, Bukkit.getPlayer(playerUUID).getDisplayName(), id, rs.getString("Reason"), warnerName, warnerUuid, System.currentTimeMillis()));
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

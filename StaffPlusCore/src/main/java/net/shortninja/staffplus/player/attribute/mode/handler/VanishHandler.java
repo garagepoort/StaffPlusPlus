@@ -109,17 +109,17 @@ public class VanishHandler {
     }
 
     private void unapplyVanish(Player player, VanishType vanishType, boolean shouldMessage) {
-        String message = "";
+                String message = "";
 
-        switch (vanishType) {
-            case TOTAL:
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.showPlayer(player);
-                }
+                switch (vanishType) {
+                    case TOTAL:
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            p.showPlayer(player);
+                        }
 
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                message = messages.totalVanish.replace("%status%", messages.disabled);
-                break;
+                        player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                        message = messages.totalVanish.replace("%status%", messages.disabled);
+                        break;
             case LIST:
                 versionProtocol.listVanish(player, false);
                 message = messages.listVanish.replace("%status%", messages.disabled);
