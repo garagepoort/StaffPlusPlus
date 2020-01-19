@@ -1,0 +1,207 @@
+# Language: German/Deutsch
+# Status: COMPLETE
+# Contributor(s): wyyh
+
+# Lasse irgendein Feld frei um eine Meldung zu deaktivieren.
+# Platzhalter sind nur für Nachrichten verfügbar die diese normalerweise schon haben.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Prefixes                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Allgemeines Prefix für alle Befehle (abgesehen von Befehlen die einen eigenen Prefix haben!)
+general-prefix: "&dStaff+ &8»"
+
+# Prefix für alle Nachrichten bezüglich reports.
+reports-prefix: "&dReports &8»"
+
+# Prefix für alle Nachrichten bezüglich Verwarnungen.
+warnings-prefix: "&dVerwarnungen &8»"
+
+# Prefix für alle Nachrichten die im Teammitglied-Chat geschrieben werden.
+staff-chat-prefix: "&dTeamchat &8»"
+
+# Prefix für alle Fahrkarte Nachrichten.
+tickets-prefix: "&dTickets &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Generell                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Dies ist die Farbe, die für Dinge wie Kommas in Listen verwendet wird.
+separator-color: "&b"
+
+# Linien werden durch Kommas getrennt
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Linien werden durch Kommas getrennt
+staff-list-end: "&7%longline%"
+
+lockdown-message: "&bDieser Server ist momentan aus Sicherheitsgründen gesperrt. Updates auf &7shortninja.net&b!"
+
+revived-staff: "&bDu hast &7%target%'s &bInventar auf den vorherigen Stand zurückgesetzt."
+revived-user: "&bDein Inventar wurde auf den vorherigen Stand zurückgesetzt!"
+
+command-blocked: "&bDieser Befehl ist für Teammitglieder geblockt."
+mode-command-blocked: "&bDieser Befehl ist für Staff Modus geblockt!"
+on-cooldown: "&bDu musst noch &7%seconds% &bSekunden warten bis du diesen Befehl ausführen kannst."
+
+note-added: "&bHinweis hinzugefügt für &7%target%&b."
+note-cleared: "&bNotizen gereinigt für %target%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Lines are separated by commas
+note-list-end: "&7%longline%"
+
+login-register: "&bDa Sie Mitarbeiter sind, müssen Sie ein Passwort registrieren Sie Ihr Konto aus werden entführt zu schützen. Verwenden Sie &7/register &bzu registrieren."
+login-registered: "&bKennwort akzeptiert! Sie werden aufgefordert, dieses Passwort jedes Mal, die Sie verwenden anmelden."
+login-waiting: "&bSie wurden eingefroren! Bitte geben Sie Ihre Mitarbeiter Passwort, um fortzufahren."
+login-accepted: "&bEingeloggt."
+passwords-dont-match: "&bDie Passwörter stimmen nicht überein"
+
+no-permission: "&cDu hast nicht genug Rechte um diesen Befehl auszuführen."
+bypassed: "&cBefehl wurde umgangen durch den Spieler!"
+player-offline: "&cDieser Spieler ist offline."
+unknown-command: "&cUnbekannter Befehl."
+invalid-arguments: "&cUngültige Argumente. (%usage%)"
+only-players: "&bKonsole nicht erlaubt diesen Befehl zu verwenden."
+no-found: "&bNicht gefunden!"
+type-input: "&bGeben Sie Ihre Eingabe im Chat!"
+input-accepted: "&bakzeptiert und eingereicht."
+
+enabled: "aktiviert"
+disabled: "deaktiviert"
+############################################################
+# +------------------------------------------------------+ #
+# |                      Verwarnungen                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&bDu hast &7%target% &baus dem Grund &7%reason%&b reportet."
+reported-staff: "&7%player% &breportet &7%target% &bfür &7%reason%&b."
+reports-cleared: "&bDu hast alle Reports von &7%target%&b geöscht."
+# Linien werden durch Kommas getrennt
+reports-list-start: "&7%longline%, &7%target% &bhat &7%reports% &breports."
+reports-list-entry: "&b%count%: &7%reason%"
+# Linien werden durch Kommas getrennt
+reports-list-end: "&7%longline%"
+
+warned: "&bDu hast &7%target% &bverwarnt mit dem Grund: &7%reason%&b."
+warn: "&bDu wurdest gewarnt für &7%reason%&b."
+warnings-cleared: "&bVerwarnungen gelöscht für den Spieler &7%target%&b."
+# Linien werden durch Kommas getrennt
+warnings-list-start: "&7%longline%, &7%target% &bhas &7%warnings% &bwarnings."
+warnings-list-entry: "&b%count%: &7%reason%"
+# Linien werden durch Kommas getrennt
+warnings-list-end: "&7%longline%"
+
+# Linien werden durch Kommas getrennt
+infraction-item: "&bVerwarnungen: &7%warnings%, &bReports: &7%reports%, &bReport Grund: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                         Chat                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bdTeamchat &7%status%&b."
+
+chat-clear-line: ""
+chat-cleared: "&bDer Chat wurde von &7%player%&b gereinigt."
+chat-toggled: "&bDer Chat wurde &7%status% &bvon &7%player%&b."
+chat-prevented: "&bDu darfst zurzeit nicht im Chat schreiben."
+chat-slowed: "&bDer Chat wurde verlangsamt auf &7%seconds% &bvon &7%player%&b."
+chatting-fast: "&bYou are chatting too fast!"
+
+blacklist-hover: "&bDiese Nachricht wurde zensiert weil &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&bTotal Vanish wurde &7%status%&b."
+list-vanish: "&bTablist Vanish wurde &7%status%&b."
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Tickets                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&bDein Ticket wurde eingereicht. &7(#%ticket%)"
+ticket-opened: "&bTicket &7#%ticket% &bwurde als von dir geöffnet markiert."
+ticket-removed: "&bTicket &7#%ticket% &bwurde bearbeitet. (%reason%)"
+ticket-response-staff: "&b#%ticket% - Teammitglied: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Spieler: &7%player% &8» &7%message%"
+ticket: "&b#%Ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bDass nicht existiert oder geschlossen!"
+# Linien werden durch Kommas getrennt
+ticket-list-start: "&7%longline%, &7%tickets% &boffenen Tickets"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Linien werden durch Kommas getrennt
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   Benachrichtigungen                 | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&7%alerttype% &bBenachrichtigungen &7%status%&b."
+alerts-name: "&7%old% &bhat seinen Namen in &7%new%&b geändert."
+alerts-mention: "&7%target% &bhat deinen Namen im Chat erwähnt."
+alerts-xray: "&7%target% &bhat &7%count% %itemtype% &babgebaut! &7(%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Staff Modus                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bStaff-Modus wurde &7%status%&b."
+mode-original-location: "&bDu wurdest zurück zum alten Ort teleportiert."
+mode-random-teleport: "&bDu wurdest zufällig zu einem Spieler teleportiert!"
+mode-not-enough-players: "&bEs sind nicht genug Spieler online um dich zu einem zufälligen Spieler zu teleportieren."
+
+gui-reports: "&bReports"
+gui-mine: "&bMiners"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Linien werden durch Kommas getrennt
+freeze: "&4&lDu wurdest von einem Teammitglied eingefroren TRENNE NICHT DIE VERBINDUNG! &4&lBitte verbinde dich auf unseren TeamSpeak Server. (shortninja.net)"
+# Linien werden durch Kommas getrennt
+unfrozen: "&bDu bist nun nicht mehr eingefroren."
+staff-froze: "&bDu fror &7%target%&b."
+staff-unfroze: "&bDu aufgetaut &7%target%&b."
+freeze-logout: "&7%player% &babgemeldet und war eingefroren!"
+
+cps-start: "&bStarte CPS-Check für &7%target% &bfür &7%seconds%&b..."
+cps-finish-normal: "&7%player% &bhat ungefähr &7%cps% &bCPS. &7(Wahrscheinlich benutzt er kein Autoclicker!)"
+cps-finish-max: "&7%player% &bhat ungefähr &7%cps% &bCPS. &7(Wahrscheinlich  benutzt er Autoclicker!)"
+
+# Linien werden durch Kommas getrennt
+examine-food: "&bLeben: &7%health%, &bHunger: &7%hunger%"
+examine-ip: "&bIP Adresse: &7%ipaddress%"
+examine-gamemode: "&bSpielmodus: &7%gamemode%"
+examine-location: "&bOrt: &7%location%"
+examine-warn: "&bVerwarne diesen Spieler"
+examine-freeze: "&bFriere diesen Spieler ein"
+examine-notes: "&bNotizen für diesen Spieler:"
+# Alle Kommentare werden durch Kommas getrennt
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bDu &7%status% nun %target%&b."
+strip: "&7%player%'s Rüstung wurde entfernt!"
+
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
+lang-version: 6196

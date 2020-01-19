@@ -1,0 +1,208 @@
+# Language: Hungarian
+# Status: COMPLETE
+# Contributor(s): montlikadani
+
+# Leave ANY of these messages blank to disable them!
+# Placeholders are only available on messages that have them by default.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Prefixes                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# The prefix for all messages that are not related to any specific module.
+general-prefix: "&dStaff+ &8»"
+
+# The prefix for all messages related to reports.
+reports-prefix: "&dJelentések &8»"
+
+# The prefix for all messages related to warnings.
+warnings-prefix: "&dFigyelmeztetések &8»"
+
+# The prefix for all messages in staff chat.
+staff-chat-prefix: "&dStaffChat &8»"
+
+# The prefix for all ticket messages
+tickets-prefix: "&dJegyek &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       General                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# This is the color that will be used for things like commas in message lists.
+separator-color: "&b"
+
+# Lines are separated by commas
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Lines are separated by commas
+staff-list-end: "&7%longline%"
+
+lockdown: "&bA szerver jelenleg biztonsági okokból zárva van. Frissítés @ &7shortninja.net&b!"
+
+revived-staff: "&bVisszaállítottad &7%target% &beszköztárát a korábbi állapotába!"
+revived-user: "&bAz eszköztárad a korábbi állapotára lett beállítva!"
+
+command-blocked: "&bEz a parancs blokkolja a személyzetet!"
+mode-command-blocked: "&bEz a parancs személyzet üzemmódban blokkolódik!"
+on-cooldown: "&bEzt nem használhatja &7%seconds% &bmásodpercig."
+
+note-added: "&bMegjegyzés hozzáadva a következőhöz: &7%target%&b."
+note-cleared: "&bMegjegyzések törölve &7%target%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Lines are separated by commas
+note-list-end: "&7%longline%"
+
+login-register: "&bMivel személyzet vagy, be kell regisztrálnia a jelszavát, hogy megóvja fiókját a hackeléstől. Használat &7/register &ba regisztráláshoz."
+login-registered: "&bJelszó elfogadva! A bejelentkezéskor minden jelszóval fel kell kérni."
+login-waiting: "&bLe vagy fagyasztva! Kérjük, adja meg a személyzet jelszavát a folytatáshoz."
+login-accepted: "&bBejelentkezve."
+passwords-dont-match: "&bA jelszavak nem egyeznek"
+
+no-permission: "&cNincs jogod ennek a használatára!"
+bypassed: "&cEz a játékos megkerülte ezt a parancsot!"
+player-offline: "&cEz a játékos offline állapotban van!"
+unknown-command: "&cIsmeretlen parancs."
+invalid-arguments: "&cÉrvénytelen argumentumok! (%usage%)"
+only-players: "&bCsak a játékosok engedélyezhetik a parancs végrehajtását!"
+no-found: "&bNINCS TALÁLAT!"
+type-input: "&bÍrja be a bevitelt a csevegésben!"
+input-accepted: "&bBevitel elfogadva és benyújtva."
+
+enabled: "omogućeno"
+disabled: "onemogućeno"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Infractions                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&bJelentve &7%target% &boka &7%reason%&b."
+reported-staff: "&7%player% &bjátékos jelentve &7%target% &báltal, oka &7%reason%&b."
+reports-cleared: "&bJelentések törölve &7%target%&b-tól/-től!"
+# Lines are separated by commas.
+reports-list-start: "&7%longline%, &7%target% &bvan &7%reports% &bjelentése."
+reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+# Lines are separated by commas.
+reports-list-end: "&7%longline%"
+
+warned: "&bFigyelmeztetve &7%target% &bjátékos, oka &7%reason%&b."
+warn: "&bFigyelmeztetve lettél, oka &7%reason%&b."
+warnings-cleared: "&bFigyelmeztetések törölve &7%target%&b-tól/-től!"
+# Lines are separated by commas.
+warnings-list-start: "&7%longline%, &7%target% &bvan &7%warnings% &bfigyelmeztetése."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+# Lines are separated by commas.
+warnings-list-end: "&7%longline%"
+
+# Lines are separated by commas.
+infraction-item: "&bFigyelmeztetések: &7%warnings%, &bJelentések: &7%reports%, &bJelentés oka: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chat                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bStaff chat &7%status%&b."
+
+chat-clear-line: ""
+chat-cleared: "&bA chat törölve &7%player%&b által."
+chat-toggled: "&bA chat &7%status% &bvolt &7%player%&b által."
+chat-prevented: "&bMost nem lehet beszélgetni!"
+chat-slowed: "&bA csevegést lassította &7%seconds% másodpercre &7%player%&b."
+chatting-fast: "&bTúl gyorsan beszélgetsz!"
+
+blacklist-hover: "&bEzt az üzenetet cenzúrázta &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&bA teljes eltűnt &7%status%&b!"
+list-vanish: "&bA listája eltűnt &7%status%&b!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Tickets                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&bA jegyet elküldték! &7(#%ticket%)"
+ticket-opened: "&bA jegy &7#%ticket% &báltalad megjelöltek!"
+ticket-removed: "&bA jegy &7#%ticket% &bmár megjelölve feloldva! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Staff: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Felhasználó: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bA jegy nem létezik, vagy zárt!"
+# Lines are separated by commas.
+ticket-list-start: "&7%longline%, &7%tickets% &bnyitott jegyek"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Lines are separated by commas.
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Alerts                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&7%alerttype% &bfigyelmeztetések &7%status%&b."
+alerts-name: "&7%old% &bmegváltoztatta a nevét &7%new%&b!"
+alerts-mention: "&7%target% &bmegemlítette a nevét a csevegésben!"
+alerts-xray: "&7%target% &bbányászott &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Staff Mode                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bSzemélyzeti mód &7%status%&b."
+mode-original-location: "&bElteleportált az eredeti helyre!"
+mode-random-teleport: "&bVéletlenszerűen teleportált!"
+mode-not-enough-players: "&bNem elég játékos van online a véletlenszerű teleportáláshoz!"
+
+gui-reports: "&bJelentések"
+gui-mine: "&bBányászok"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Lines are separated by commas.
+freeze: "&4&lA személyzet befagyasztotta a személyzetet NEM jelentkezett ki!, &4&lKérjük, csatlakozzon a TeamSpeak @ shortninja.net"
+# Lines are separated by commas.
+unfrozen: "&bFagyott voltál."
+staff-froze: "&7%target%&b megfagyasztva."
+staff-unfroze: "&7%target%&b visszafagyasztva."
+freeze-logout: "&7%player% &bnaplózott, fagyasztva!"
+
+cps-start: "&bA CPS teszt futása &7%target% &7%seconds% &bmásodperc múlva..."
+cps-finish-normal: "&7%player% &bvan körülbelül &7%cps% &bCPS. &7(valószínűleg nem veszélyes)"
+cps-finish-max: "&7%player% &bvan körülbelül &7%cps% &bCPS. &7(potenciálisan automatikus kattintás)"
+
+# Lines are separated by commas
+examine-food: "&bÉleterő: &7%health%, &bÉhség: &7%hunger%"
+examine-ip: "&bIP cím: &7%ipaddress%"
+examine-gamemode: "&bJátékmód: &7%gamemode%"
+examine-location: "&bHely: &7%location%"
+examine-warn: "&bVigyázzon erre a felhasználóra"
+examine-freeze: "&bFagyassza le ezt a felhasználót"
+examine-notes: "&bA játékos megjegyzi:"
+# All notes are separated on new lines.
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bMost vagy &7%status% %target%&b."
+strip: "&7%player% páncélját eltávolították!"
+
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
+lang-version: 6196

@@ -1,0 +1,207 @@
+# Language: Swedish/Svenska
+# Status: COMPLETE
+# Contributor(s): Shortninja
+
+# Inaktivera ett meddelande genom att lämnar det tomt!
+# Platshållare är bara användbar i meddelanden det har dem som standard.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Prefixer                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Prefixet för alla meddelanden som är kategoriseras inte.
+general-prefix: "&dStaff+ &8»"
+
+# Prefixet för alla meddelanden relaterat till rapporter.
+reports-prefix: "&dRapporter &8»"
+
+# Prefixet för alla meddelanden relaterat till varningar.
+warnings-prefix: "&dVarningar &8»"
+
+# Prefixet för alla meddelanden i staff chat.
+staff-chat-prefix: "&dPersonalChatt &8»"
+
+# Prefixet för biljetter.
+tickets-prefix: "&dBiljetter &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Allmän                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Den här är färgen använd för komman i meddelanden.
+separator-color: "&b"
+
+# Linjer är separerat genom komman.
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Linjer är separerat genom komman.
+staff-list-end: "&7%longline%"
+
+lockdown-message: "&bServern är låst för säkerhet. Uppdateringar @ &7shortninja.net&b!"
+
+revived-staff: "&bDu har återställt &7%target%'s inventarium!"
+revived-user: "&bDitt inventarium har blivit återställt!"
+
+command-blocked: "&bDetta kommando är blockerad för personal!"
+mode-command-blocked: "&bDetta kommando är blockerad medan i staff mode!"
+on-cooldown: "&bDu kan inte änvanda den här för &7%seconds% &bsekunder."
+
+note-added: "&bAnteckning lagt till &7%target%&b."
+note-cleared: "&bAnteckningar tömde till &7%target%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Linjer är separerat genom komman.
+note-list-end: "&7%longline%"
+
+login-register: "&bEftersom du är en personal, du måste registrera ett lösenord. Använd &7/register&b."
+login-registered: "&bLösenord accepterad! Du kommer att frågat att använda den här lösenord varje gång du logga in."
+login-waiting: "&bDu har varit frysta! Vänligen, ange ditt lösenord."
+login-accepted: "&bInloggad."
+passwords-dont-match: "&bLösenorden stämmer inte överens"
+
+no-permission: "&cDu har inte tillåtelse!"
+bypassed: "&cDen där spelare kringgick detta kommando!"
+player-offline: "&cDen spelare är inte uppkopplad!"
+unknown-command: "&cOkänd kommando."
+invalid-arguments: "&cOkänd argument! (%usage%)"
+only-players: "&bBara spelare är tillåtna att verkställa den där kommando!"
+no-found: "&bIngen hittades!"
+type-input: "&bSkriv i chatt din inmatning."
+input-accepted: "&bInmatning har blivit accepterat och överlämnat!"
+
+enabled: "aktiverad"
+disabled: "inaktiverad"
+############################################################
+# +------------------------------------------------------+ #
+# |                     Overträdelser                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&bDu rapporterade &7%target% &bför &7%reason%&b."
+reported-staff: "&7%player% &bhar blivit rapporterat av &7%target% &bför &7%reason%&b."
+reports-cleared: "&bRapporter tömde till &7%target%&b!"
+# Linjer är separerat genom komman.
+reports-list-start: "&7%longline%, &7%target% &bhar &7%reports% &brapporter."
+reports-list-entry: "&b%count%: &7%reason%"
+# Linjer är separerat genom komman.
+reports-list-end: "&7%longline%"
+
+warned: "&bVarnade &7%target% &bför &7%reason%&b."
+warn: "&bDu har blivit varnat för &7%reason%&b."
+warnings-cleared: "&bVarningar tömde till &7%target%&b!"
+# Linjer är separerat genom komman.
+warnings-list-start: "&7%longline%, &7%target% &bhas &7%warnings% &bwarnings."
+warnings-list-entry: "&b%count%: &7%reason%"
+# Linjer är separerat genom komman.
+warnings-list-end: "&7%longline%"
+
+# Linjer är separerat genom komman.
+infraction-item: "&bVarningar: &7%warnings%, &bRapporter: &7%reports%, &bRapport anledning: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chatt                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bPersonal chatt &7%status%&b."
+
+chat-clear-line: ""
+chat-cleared: "&bChatt har varit tömts av &7%player%&b."
+chat-toggled: "&bChatt har varit &7%status% &bav &7%player%&b."
+chat-prevented: "&bDu får inte till chatt just nu!"
+chat-slowed: "&bChatt har varit saktat för &7%seconds% &bav &7%player%&b."
+chatting-fast: "&bDu är chattar för snabbt"
+
+blacklist-hover: "&bDetta är censurerade för: &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&bDin total vanish har varit &7%status%&b!"
+list-vanish: "&bDin list vanish har varit &7%status%&b!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Biljetter                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&bDin biljett har varit överlämnat! &7(#%ticket%)"
+ticket-opened: "&bBiljett &7#%ticket% &bhar blivit märkt som öppen av dig!"
+ticket-removed: "&bBiljett &7#%ticket% &bhar varit löst! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Personal: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Användare: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bDen där biljett existerar inte!"
+# Linjer är separerat genom komman.
+ticket-list-start: "&7%longline%, &7%tickets% &böppen biljetter"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Linjer är separerat genom komman.
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                    Underrättelser                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&7%alerttype% &bunderrättelser &7%status%&b."
+alerts-name: "&7%old% &bhar förändrat deras namn till &7%new%&b!"
+alerts-mention: "&7%target% &bhar nämnt dig i chatt!"
+alerts-xray: "&7%target% &bminerade &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Staff Mode                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bStaff mode har varit &7%status%&b."
+mode-original-location: "&bDu har varit teleported tillbaka till din originalplats!"
+mode-random-teleport: "&bDu har varit slumpvis teleported!"
+mode-not-enough-players: "&bInte tillräckligt spelare är uppkopplad för slumpvis teleport!"
+
+gui-reports: "&bRapporter"
+gui-mine: "&bGruvarbetare"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Linjer är separerat genom komman.
+freeze: "&4&lDu har varit frysta av personal STANNA UPPKOPPLAD!, &4&lVänligen ansluta den TeamSpeak @ shortninja.net"
+# Linjer är separerat genom komman.
+unfrozen: "&bDu har varit ofrysta."
+staff-froze: "&bDu frös &7%target%&b."
+staff-unfroze: "&bDu ofrös &7%target%&b."
+freeze-logout: "&7%player% &butloggad medan frysta!"
+
+cps-start: "&bKör ett CPS test på &7%target% &bför &7%seconds%&b..."
+cps-finish-normal: "&7%player% &bhar ungefär &7%cps% &bCPS. &7(antagligen inte farlig)"
+cps-finish-max: "&7%player% &bhar ungefär &7%cps% &bCPS. &7(möjligen autoclicking!)"
+
+# Linjer är separerat genom komman.
+examine-food: "&bHälsa: &7%health%, &bHunger: &7%hunger%"
+examine-ip: "&bIP adress: &7%ipaddress%"
+examine-gamemode: "&bSpelläge: &7%gamemode%"
+examine-location: "&bPlats: &7%location%"
+examine-warn: "&bVarna den här användare"
+examine-freeze: "&bFrys den här användare"
+examine-notes: "&bSpelare anteckningar:"
+# Alla anteckningar är separerat på ny linjer
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bDu är nu &7%status% %target%&b."
+strip: "&7%player%'s pansar har tagits bort!"
+
+# BYTA INTE, SÅVIDA INTE DU VETA VAD DU GÖR!
+lang-version: 6196

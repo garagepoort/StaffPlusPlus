@@ -1,0 +1,40 @@
+0.9:
+	0.9.1|10 July 2015: Release
+	0.9.2|11 July 2015: UUID support, more configuration options.
+	0.9.3|12 July 2015: Player teleportation caveat fixed.
+	0.9.4|16 July 2015: Silent chest opening.
+	0.9.5|20 July 2015: Save old inventories and locations, follow tool, name updates, toggle staff chat.
+	0.9.5|27 July 2015: Staff mode on login option.
+	0.9.6|4 August 2015: /v command, option to change warnings ban commmand.
+	0.9.7|5 August 2015: /chat clear command, /chat toggle command.
+	0.9.8|6 August 2015: /v total command, /v list command, /staff list.
+	0.9.9|9 August 2015: ProtocolLib dependency failure fix.
+1.0:
+	1.0.1|12 August 2015: Separate permission for staff chat.
+	1.0.2|13 August 2015: Option to block certain commands, staff mode permission.
+	1.0.3|19 August 2015: Compiling with Java 7.
+2.0:
+	2.0.1|25 September 2015: HUGE REVAMP; Too many additions to list! :c
+	2.1.1|26 September 2015: Efficiency improvements, small caveats fixed.
+	2.1.2|16 October 2015: Small caveat fixes.
+	2.1.3|2 November 2015: Disable staff mode when plugin disables.
+	2.1.4|1 December 2015: Small bug fixes, option to disable item pickup while in staff mode.
+	2.1.5|2 December 2015: Small caveat fixes.
+	2.1.6|21 December 2015: Fixed all random teleport issues.
+	2.1.7|23 December 2015: Fixed examine warning, fixed warning banning, event caveat fixes.
+3.0:
+	3.0.0|13 July 2016: Another HUGE revamp; too many changes to list!
+	3.0.1|13 July 2016: Fixed recursive crashes and CraftPlayer issue.
+	3.0.2|14 July 2016: Fixed frozen players attacking, custom module slots, and ticket responding. Added  freeze GUI and /notes command.
+	3.0.3|15 July 2016: Fixed report names, added /sc and /notes messages, and now compiling with Java 7. Finished blacklist and packet listening.
+	3.0.4|15 July 2016: Fixed 1.9-1.10 packet listening and warn ban command.
+	3.0.5|16 July 2016: Fixed target player calculation, fixed /reload packet errors, changed light level calculation, fixed ticket close reason, fixed reports/warning messages for console, added bypass message, finished Swedish messages, added Croation lang file, fixed examine names/lores, fixed report cooldown.
+	3.0.6|17 July 2016: Added Norwegian lang file, fixed item pickup/drop events, added staff mode enable/disable console commands, fixed vanish in staff list.
+	3.0.7|18 July 2016: Fixed /warn permission, fixed mode enable/disable commands not disabling, fixed staff chat handler not disabling, fixed xray blocks clearing.
+	3.0.8|5 August 2016: Added French lang file, fixed vanish visibility for staff members, fixed ticket responses, freeze message timer, freeze sound effect, freeze logout notifier, fixed packet modifiers not disabling.
+3.2:
+	3.2.0|8 October 2016: Fixed several bugs, added /login feature.
+	3.2.1|14 October 2016: Fixed minor bugs, made /login more secure.
+	3.2.2|29 December 2016: 1.11 support, added /strip, option for preventing staff mode players from attacking, fixed several bugs.
+
+10,000 lines of code and counting!

@@ -1,0 +1,207 @@
+# Language: Simplified Chinese
+# Status: COMPLETE
+# Contributor(s): Mrkwtkr
+
+# 信息留空可禁用对应选项!
+# 占位符仅在信息默认包含时有效.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                         前缀                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+# 与特定模块无关联的所有信息的前缀.
+general-prefix: "&dStaff+ &8»"
+
+# 所有举报相关信息的前缀.
+reports-prefix: "&d举报 &8»"
+
+# 所有警告相关信息的前缀.
+warnings-prefix: "&d警告 &8»"
+
+# 所有管理聊天信息的前缀.
+staff-chat-prefix: "&dStaff频道 &8»"
+
+# 所有标签信息的前缀
+tickets-prefix: "&d标签 &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                         通用                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+# 用于信息列表中逗号一类内容的颜色.
+separator-color: "&b"
+
+# 行通过逗号分隔
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# 行通过逗号分隔
+staff-list-end: "&7%longline%"
+
+lockdown: "&b出于安全因素, 服务器目前锁定中. 更新请前往 @ &7shortninja.net&b!"
+
+revived-staff: "&b已将 &7%target% 的&b背包重置为前一次状态!"
+revived-user: "&b你的背包已被恢复到前一次的状态!"
+
+command-blocked: "&b指令不可用!"
+mode-command-blocked: "&b指令在staff模式下不可用!"
+on-cooldown: "&b你需要等待冷却 &7%seconds% &b秒."
+
+note-added: "&b备注已添加至 &7%target%&b."
+note-cleared: "&b已清除 &7%target%&b 的备注."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# 行通过逗号分隔
+note-list-end: "&7%longline%"
+
+login-register: "&b作为管理人员, 你有必要注册密码以保护你的账号以防盗用. 使用&7/register &b开始注册."
+login-registered: "&b密码注册成功! 你需要在每次登录时使用."
+login-waiting: "&b你被冻结了! 请输入你的密码以继续."
+login-accepted: "&b登陆成功."
+passwords-dont-match: "&b密码不匹配"
+
+no-permission: "&c你没有权限那么做!"
+bypassed: "&c目标玩家拥有此指令的忽略权限!"
+player-offline: "&c目标玩家离线中!"
+unknown-command: "&c未知指令."
+invalid-arguments: "&c无效的参数值! (%usage%)"
+only-players: "&b只有玩家才能执行那条指令!"
+no-found: "&b未找到!"
+type-input: "&b请在聊天栏输入信息!"
+input-accepted: "&b输入信息已接收并提交."
+
+enabled: "启用"
+disabled: "痡"
+############################################################
+# +------------------------------------------------------+ #
+# |                        违规行为                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&b举报 &7%target% &b原因 &7%reason%&b."
+reported-staff: "&7%player% &b已被 &7%target% 举报 &b原因 &7%reason%&b."
+reports-cleared: "&b已清空 &7%target%&b 的举报!"
+# 行通过逗号分隔.
+reports-list-start: "&7%longline%, &7%target% &b被举报 &7%reports% &b次."
+reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+# 行通过逗号分隔.
+reports-list-end: "&7%longline%"
+
+warned: "&b警告 &7%target% &b原因 &7%reason%&b."
+warn: "&b你被警告了, 原因是 &7%reason%&b."
+warnings-cleared: "&b已清空 &7%target%&b 的警告!"
+# 行通过逗号分隔.
+warnings-list-start: "&7%longline%, &7%target% &b被警告 &7%warnings% &b次."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+# 行通过逗号分隔.
+warnings-list-end: "&7%longline%"
+
+# 行通过逗号分隔.
+infraction-item: "&b警告: &7%warnings%, &b举报: &7%reports%, &b举报原因: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                         聊天                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bStaff chat &7%status%&b."
+
+chat-clear-line: ""
+chat-cleared: "&b聊天已被&7%player%&b清空."
+chat-toggled: "&b聊天已被&7%player%&b设为&7%status%&b."
+chat-prevented: "&b你现在不能发言!"
+chat-slowed: "&b聊天已被&7%player%&b减缓&7%seconds%&b秒."
+chatting-fast: "&b你聊天的速度太快了!"
+
+blacklist-hover: "&b此信息出于审查状态, &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                          隐身                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&b完全隐身已被设为&7%status%&b!"
+list-vanish: "&b列表隐身已被设为&7%status%&b!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                         标签                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&b你的标签已提交! &7(#%ticket%)"
+ticket-opened: "&b标签 &7#%ticket% &b标记为打开状态!"
+ticket-removed: "&b标签 &7#%ticket% &b标记为已解决状态! (%reason%)"
+ticket-response-staff: "&b#%ticket% - 管理: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - 玩家: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&b标签不存在或已被关闭!"
+# 行通过逗号分隔.
+ticket-list-start: "&7%longline%, &7%tickets% &b开放中标签"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# 行通过逗号分隔.
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        警告                           | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&7%alerttype%&b警报已设为&7%status%&b."
+alerts-name: "&7%old%&b名称已改为&7%new%&b!"
+alerts-mention: "&7%target%&b在聊天中提到了你!"
+alerts-xray: "&7%target%&b挖到了&7%count%个%itemtype%&b! (&b光照等级&7%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      管理模式                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bStaff模式已被设为&7%status%&b."
+mode-original-location: "&b你已传送回原始位置!"
+mode-random-teleport: "&b你已随机传送!"
+mode-not-enough-players: "&b无法随机传送, 在线玩家不足!"
+
+gui-reports: "&b举报"
+gui-mine: "&b矿工"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# 行通过逗号分隔.
+freeze: "&4&l你被冻结了, 请不要随意登出!"
+# 行通过逗号分隔.
+unfrozen: "&b你被解冻了."
+staff-froze: "&b你冻结了&7%target%&b."
+staff-unfroze: "&b你解冻了&7%target%&b."
+freeze-logout: "&7%player% &b在被冻结时等出了!"
+
+cps-start: "&b对&7%target%&b开启CPS测试&7%seconds%&b秒..."
+cps-finish-normal: "&7%player%&b测试结果为&7%cps%&bCPS. &7(正常)"
+cps-finish-max: "&7%player%&b测试结果为&7%cps%&bCPS. &7(可能为连点器)"
+
+# 行通过逗号分隔
+examine-food: "&b生命值: &7%health%, &b饥饿值: &7%hunger%"
+examine-ip: "&bIP地址: &7%ipaddress%"
+examine-gamemode: "&b游戏模式: &7%gamemode%"
+examine-location: "&b坐标: &7%location%"
+examine-warn: "&b警告该玩家"
+examine-freeze: "&b冻结该玩家"
+examine-notes: "&b玩家备注:"
+# 所有备注以单独的行分隔.
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&b你现在已设为&7%status%模式, 目标为%target%&b."
+strip: "&7%player%的盔甲已被移除!"
+
+# 请勿修改此数除非你知道你你在做什么!
+lang-version: 6196

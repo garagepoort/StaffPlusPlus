@@ -1,0 +1,207 @@
+# Language: Croatian/Hrvatski
+# Status: COMPLETED
+# Contributor(s): SlimeJitters
+
+# Ostavi BILOKOJE od ovih poruka prazno da ih disables!
+# Placeholders su samo dostupni na onim porukama koja ih već ima.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Prefiks                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Prefiks za sve poruke koje nisu povezane za specifićan modul.
+general-prefix: "&dStaff+ &8»"
+
+# Prefiks za sve poruke povezane sa prijavama.
+reports-prefix: "&dPrijave &8»"
+
+# Prefiks za sve poruke povezane sa upozorenjima.
+warnings-prefix: "&dUpozorenja &8»"
+
+# Prefiks za sve poruke u staff chatu.
+staff-chat-prefix: "&dStaffChat &8»"
+
+# Prefiks za sve ulazinca poruke.
+tickets-prefix: "&dUlaznice &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Osnovno                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Ovo je boja koja će se koristiti za stvari kao zarezi u porukama lista.
+separator-color: "&b"
+
+# Linije su odvojene sa zarezima
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Linije su odvojene sa zarezima
+staff-list-end: "&7%longline%"
+
+lockdown: "&bServer je upravo dolje zbog sigurnosnig razoga. Updajtovi @ &7shortninja.net&b!"
+
+revived-staff: "&bResetirao si &7%target%'s &binventory na njegovo prijašnje stanje!"
+revived-user: "&bTvoj inventory se promjenio na prijašnje stanje!"
+
+command-blocked: "&bOva komanda je blokana za staff!"
+mode-command-blocked: "&bOva komanda je blokana u staff modu!"
+on-cooldown: "&bNe mozes to koristiti jos &7%seconds% &bsekundi."
+
+note-added: "&bZabilješka dodata za &7%target%&b."
+note-cleared: "&bZabilješka obrisana za &7%target%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Linije su odvojene sa zarezima
+note-list-end: "&7%longline%"
+
+login-register: "&bBudući da su zaposlenici, morate se registrirati lozinku kako bi zaštitili svoj račun od toga da bude otet. Koristite &7/register &bse i BTO registar."
+login-registered: "&bLozinka prihvaćena! Od vas će se tražiti da koristite ovu zaporku svaki put kada se prijavite."
+login-waiting: "&bTi su zamrznuti! Unesite svoju lozinku osoblje za nastavak."
+login-accepted: "&bPrijavljeni."
+passwords-dont-match: "&bZaporke se ne podudaraju"
+
+no-permission: "&cNemas permission da to koristis!"
+bypassed: "&cTaj igrac bajpasuje tu commandu"
+player-offline: "&cTaj igrać je offline!"
+unknown-command: "&cNepoznata komanda."
+invalid-arguments: "&cNevažeći argumenti! (%usage%)"
+only-players: "&bSamo igraći mogu izvrišiti tu komandu!"
+no-found: "&bNiti jedan pronađen!"
+type-input: "&bUpisi svoj odgovor u chat!"
+input-accepted: "&bOdgovor primnjen i acceptan."
+
+enabled: "omogućeno"
+disabled: "onemogućeno"
+############################################################
+# +------------------------------------------------------+ #
+# |                      Infrakcije                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&bReportan &7%target% &bfor &7%reason%&b."
+reported-staff: "&7%player% &bje bio reportan od &7%target% &bza &7%reason%&b."
+reports-cleared: "&bPrijave obrisane za &7%target%&b!"
+# Linije su odvojene sa zarezima.
+reports-list-start: "&7%longline%, &7%target% &bima &7%reports% &bprijave."
+reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+# Linije su odvojene sa zarezima.
+reports-list-end: "&7%longline%"
+
+warned: "&bUpozorio &7%target% &bzbog &7%reason%&b."
+warn: "&bBio si upozoren za &7%reason%&b."
+warnings-cleared: "&bUpozorenja obrisana za &7%target%&b!"
+# Linije su odvojene sa zarezima.
+warnings-list-start: "&7%longline%, &7%target% &bima &7%warnings% &bwarnings."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+# Linije su odvojene sa zarezima.
+warnings-list-end: "&7%longline%"
+
+# Linije su odvojene sa zarezima.
+infraction-item: "&bUpozorenja: &7%warnings%, &bPrijave: &7%reports%, &bPrijava razlog: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chat                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bStaff chat &7%status%&b."
+
+chat-clear-line: ""
+chat-cleared: "&bChat je obrisan od &7%player%&b."
+chat-toggled: "&bChat je &7%status% &bod &7%player%&b."
+chat-prevented: "&bNemozes ovo sad da napravis!"
+chat-slowed: "&bChat je usporen za &7%seconds% sekundi &bod &7%player%&b."
+chatting-fast: "&bGovoris pre-brzo!"
+
+blacklist-hover: "&bOva poruka je bila cenzoirana &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&bVas totalni vanish je &7%status%&b!"
+list-vanish: "&bVas totalni list vanish je &7%status%&b!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Ulaznice                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&bPostavio si ulaznicu! &7(#%ticket%)"
+ticket-opened: "&bUlaznice &7#%ticket% &bje otvorena po tebi!"
+ticket-removed: "&bUlaznice &7#%ticket% &bje oznacena kao riješena! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Staff: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - User: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bTa ulaznica ne postoji ili je obrisana!"
+# Lines are separated by commas.
+ticket-list-start: "&7%longline%, &7%tickets% &bopen tickets"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Lines are separated by commas.
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                    Obaviještenja                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&7%alerttype% &bobaviještenje &7%status%&b."
+alerts-name: "&7%old% &bje promijenio ime na &7%new%&b!"
+alerts-mention: "&7%target% &bte spomenuo u chatu!"
+alerts-xray: "&7%target% &bje iskopao &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Staff Mode                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bStaff mode se &7%status%&b."
+mode-original-location: "&bVratio si se na početni položaj!"
+mode-random-teleport: "&bRandom si se teleporto!"
+mode-not-enough-players: "&bNema dovoljno igrača!"
+
+gui-reports: "&bPrijave"
+gui-mine: "&bKopači"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Linije su odvojene sa zarezima.
+freeze: "&4&lZamrznut si od staffa Nemoj da izadjes!, &4&lMolimte udji u teamspeak TeamSpeak @ shortninja.net"
+# Linije su odvojene sa zarezima.
+unfrozen: "&bOdmrzneu se."
+staff-froze: "&bZamrznuo si &7%target%&b."
+staff-unfroze: "&bOdmrznuo si &7%target%&b."
+freeze-logout: "&7%player% &bodjavljen dok zamrznut!"
+
+cps-start: "&bIde CPS test na &7%target% &bza &7%seconds% &bsekundi..."
+cps-finish-normal: "&7%player% &bima oko &7%cps% &bCPS. &7(nije opasan)"
+cps-finish-max: "&7%player% &bima oko &7%cps% &bCPS. &7(mozda autoclicka)"
+
+# Linije su odvojene sa zarezima
+examine-food: "&bSrca: &7%health%, &bHunger: &7%hunger%"
+examine-ip: "&bAdresa: &7%ipaddress%"
+examine-gamemode: "&bGamemode: &7%gamemode%"
+examine-location: "&bLokacija: &7%location%"
+examine-warn: "&bUpozori igrača"
+examine-freeze: "&bZamrzni igrača"
+examine-notes: "&bIgračeve ulaznice:"
+# Linije su odvojene sa zarezima.
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bTi si sada &7%status% %target%&b."
+strip: "&7%player%'s oklop je uklonjena!"
+
+# MEMOJ OVO PROMJENITI OSIM AKO ZNAS STO RADIS!
+lang-version: 6196

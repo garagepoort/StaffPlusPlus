@@ -1,0 +1,207 @@
+# Language: Italian
+# Status: COMPLETE
+# Contributor(s): SpaicyGaming
+
+# Leave ANY of these messages blank to disable them!
+# Placeholders are only available on messages that have them by default.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Prefissi                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Il prefisso per tutti i messaggi non inerenti a uno specifico modulo.
+general-prefix: "&dStaff+ &8»"
+
+# Il prefisso per tutti i messaggi inerenti alle segnalazioni.
+reports-prefix: "&dSegnalazioni &8»"
+
+# Il prefisso per tutti i messaggi inerenti agli avvertimenti.
+warnings-prefix: "&dAvvertimenti &8»"
+
+# Il prefisso per tutti i messaggi della chat dello staff.
+staff-chat-prefix: "&dStaffChat &8»"
+
+# Il prefisso per tutti i messaggi inerenti ai tickets
+tickets-prefix: "&dTickets &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Generale                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Questo è il colore che verrà usato per cose come le virgole nelle liste di messaggi.
+separator-color: "&b"
+
+# Le linee sono separate da virgole
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Le linne sono separate da virgole
+staff-list-end: "&7%longline%"
+
+lockdown: "&bIl server è attualmente bloccato per motivi di sicurezza. Aggiornameti @ &7shortninja.net&b!"
+
+revived-staff: "&bHai resettato l'inventario di &7%target%'s &bal suo stato precedente!"
+revived-user: "&bIl tuo inventario è stato impostato al suo stato precedente!"
+
+command-blocked: "&bQuel comando è bloccato per lo staff!"
+mode-command-blocked: "&bQuel comando è bloccato in staff mode!"
+on-cooldown: "&bNon puoi usarlo per &7%seconds% &bsecondi."
+
+note-added: "&bCommento aggiunto per &7%target%&b."
+note-cleared: "&bCommenti azzerati per &7%target%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Le linee sono separate da virgole
+note-list-end: "&7%longline%"
+
+login-register: "&bSiccome sei un membro dello staff, devi impostare una password per proteggere il tuo account da eventuali furti. Usa &7/register &bper registrarla."
+login-registered: "&bPassword accettata! Ti verrà chiesto di usare questa password ogni volta che entrerai nel server."
+login-waiting: "&bSei stato congelato! Per favore, inserisci la tua password per continuare."
+login-accepted: "&bAccesso eseguito."
+passwords-dont-match: "&bLe password non corrispondono"
+
+no-permission: "&cNon hai il permesso di usarlo!"
+bypassed: "&cQuel giocatore ha aggirato il comando!"
+player-offline: "&cQuel giocatore è offline!"
+unknown-command: "&cComando sconosciuto."
+invalid-arguments: "&cArguments invalidi! (%usage%)"
+only-players: "&bQuesto comando può essere eseguito solo dai giocatori!"
+no-found: "&bNON TROVATO!"
+type-input: "&bInserisci il tuo input in chat!"
+input-accepted: "&bInput accettato ed inviato."
+
+enabled: "abilitato"
+disabled: "disabilitato"
+############################################################
+# +------------------------------------------------------+ #
+# |                      Infrazioni                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&bSegnalato &7%target% &bper &7%reason%&b."
+reported-staff: "&7%player% &bè stato segnalato da &7%target% &bper &7%reason%&b."
+reports-cleared: "&bSegnalazioni azzerate per &7%target%&b!"
+# Le linee sono separate da virgole.
+reports-list-start: "&7%longline%, &7%target% &bha &7%reports% &bsegnalazioni."
+reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+# Le linee sono separate da virgole.
+reports-list-end: "&7%longline%"
+
+warned: "&bAvvertito &7%target% &bper &7%reason%&b."
+warn: "&bSei stato avvertito per &7%reason%&b."
+warnings-cleared: "&bAvvertimenti azzerati per &7%target%&b!"
+# Le linee sono separate da virgole.
+warnings-list-start: "&7%longline%, &7%target% &bha &7%warnings% &bavvertimenti."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+# Le linee sono separate da virgole.
+warnings-list-end: "&7%longline%"
+
+# Le linee sono separate da virgole.
+infraction-item: "&bAvvertimenti: &7%warnings%, &bSegnalazioni: &7%reports%, &bMotivo segnalazione: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chat                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bStaff chat &7%status%&b."
+
+chat-clear-line: ""
+chat-cleared: "&bLa chat è stata pulita da &7%player%&b."
+chat-toggled: "&bLa chat è stata &7%status% &bda &7%player%&b."
+chat-prevented: "&bAttualmente non hai il permesso di utilizzare la chat!"
+chat-slowed: "&bLa chat è stata rallentata per &7%seconds% secondi &bda &7%player%&b."
+chatting-fast: "&bStai inviando messaggi troppo velocemente!"
+
+blacklist-hover: "&bQuesto messaggio è stato censurato per &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&bLa tua vanish totale è stata &7%status%&b!"
+list-vanish: "&bLa tua list-vanish è stata &7%status%&b!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Tickets                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&bIl tuo ticket è stato inviato! &7(#%ticket%)"
+ticket-opened: "&bIl ticket &7#%ticket% &bè stato contrassegnato come aperto da te!"
+ticket-removed: "&bil ticket &7#%ticket% &bè stato contrassegnato come risolto! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Staff: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Utente: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bQuel ticket è inesistente o è chiuso!"
+# Le linee sono separate da virgole.
+ticket-list-start: "&7%longline%, &7%tickets% &btickets aperti"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Le linee sono separate da virgole.
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Avvisi                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&7%alerttype% &bavvisi &7%status%&b."
+alerts-name: "&7%old% &bha cambiato il nome in &7%new%&b!"
+alerts-mention: "&7%target% &bha menzionato il tuo nome in chat"
+alerts-xray: "&7%target% &bha minato &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Staff Mode                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bLa staff mode è stata &7%status%&b."
+mode-original-location: "&bSei stato teletrasportato alla tua posizione originale!"
+mode-random-teleport: "&bSei stato teletrasportato randomicamente!"
+mode-not-enough-players: "&bNon ci sono abbastanza giocatori online per poterti teletrasportare randomicamente!"
+
+gui-reports: "&bSegnalazioni"
+gui-mine: "&bScavatori"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Le linee sono separate da virgole.
+freeze: "&4&lSei stato teletrasportato da un membro dello staff, NON USCIRE dal server! &4&lPer favore entra nel TeamSpeak @ shortninja.net"
+# Le linee sono separate da virgole.
+unfrozen: "&bSei stato scongelato."
+staff-froze: "&bHai congelato &7%target%&b."
+staff-unfroze: "&bHai scongelato &7%target%&b."
+freeze-logout: "&7%player% &bè uscito dal server mentra era congelato!"
+
+cps-start: "&bCPS test in corso su &7%target% &bper &7%seconds% &bsecondi..."
+cps-finish-normal: "&7%player% &bha circa &7%cps% &bCPS. &7(probabilmente non pericoloso)"
+cps-finish-max: "&7%player% &bha circa &7%cps% &bCPS. &7(potenzialmente ha autoclick)"
+
+# Le linee sono separate da virgole.
+examine-food: "&bVita: &7%health%, &bFame: &7%hunger%"
+examine-ip: "&bIndirizzo IP: &7%ipaddress%"
+examine-gamemode: "&bGamemode: &7%gamemode%"
+examine-location: "&bPosizione: &7%location%"
+examine-warn: "&bAvvisa questo giocatore"
+examine-freeze: "&bCongela questo utente"
+examine-notes: "&bCommenti sul giocatore:"
+# Ogni commento è separato su una nuova linea.
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bStai ora &7%status% %target%&b."
+strip: "&7L'armatura del giocatore %player% è stata rimossa!"
+
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
+lang-version: 6196

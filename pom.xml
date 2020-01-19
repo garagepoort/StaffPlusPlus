@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.shortninja.staffplus</groupId>
+    <name>Staff+</name>
+    <description>The ultimate moderation plugin.</description>
+
+    <artifactId>StaffPlus</artifactId>
+    <packaging>pom</packaging>
+    <version>3.3.1.0-PRERELEASE</version>
+
+    <modules>
+        <module>StaffPlusAPI</module>
+        <module>StaffPlusCore</module>
+        <module>v1_7_R1</module>
+        <module>v1_7_R2</module>
+        <module>v1_7_R3</module>
+        <module>v1_7_R4</module>
+        <module>v1_8_R1</module>
+        <module>v1_8_R2</module>
+        <module>v1_8_R3</module>
+        <module>v1_9_R1</module>
+        <module>v1_9_R2</module>
+        <module>v1_10_R1</module>
+        <module>v1_11_R1</module>
+        <module>v1_12_R1</module>
+        <module>v1_13_R1</module>
+        <module>v1_13_R2</module>
+		<module>v1_14_R1</module>
+        <module>v1_14_R2</module>
+        <module>v1_15_R1</module>
+    </modules>
+
+    <build>
+        <defaultGoal>clean package</defaultGoal>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+
+                <configuration>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <properties>
+        <bukkit.version>1.14.4-R0.1-SNAPSHOT</bukkit.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>qball-repo</id>
+            <url>http://qballsrepo.tk/repo</url>
+        </repository>
+
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>inventive-repo</id>
+            <url>https://repo.inventivetalent.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>mikeprim-repo</id>
+            <url>http://repo.mikeprimm.com/</url>
+        </repository>
+<!--       <repository>-->
+<!--            <id>qball-repo</id>-->
+<!--            <url>https://qball.frostalf.net</url>-->
+<!--        </repository>-->
+    </repositories>
+
+    <dependencies>
+        <!-- Spigot -->
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>${bukkit.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bungeecord-chat</artifactId>
+                    <groupId>net.md-5</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.6</version>
+		</dependency>
+
+        <!-- Minecraft -->
+    </dependencies>
+</project>

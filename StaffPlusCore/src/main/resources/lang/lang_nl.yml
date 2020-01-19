@@ -1,0 +1,207 @@
+# Language: Dutch/Nederlands
+# Status: COMPLETE
+# Contributor(s): MineHeads
+
+# Laat een optie open om het onbruikbaar te maken!
+# Placeholders zijn enkel beschikbaar voor opties die ze standaard hebben.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                    Voorvoegsels                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Het voorvoegsel voor alle berichten die niet verwant zijn met een bepaalde module.
+general-prefix: "&dStaff+ &8»"
+
+# Het voorvoegsel voor alle berichten die verwant zijn met aangiftes.
+reports-prefix: "&dAangiftes &8»"
+
+# Het voorvoegsel voor alle berichten die verwant zijn met waarschuwingen.
+warnings-prefix: "&dWaarschuwingen &8»"
+
+# Het voorvoegsel voor alle berichten in de chat van het personeel.
+staff-chat-prefix: "&dPersoneelChat &8»"
+
+# Het voorvoegsel voor alle ticket berichten.
+tickets-prefix: "&dTickets &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Algemeen                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Dit is de kleur die gebruikt zal worden voor dingen zoals kommas in lijsten.
+separator-color: "&b"
+
+# Lijnen zijn gescheiden door kommas.
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Lijnen zijn gescheiden door kommas.
+staff-list-end: "&7%longline%"
+
+lockdown: "&bDe server is momenteel geblokkeerd voor veiligheidsredenen. Updates @ &7shortninja.net&b!"
+
+revived-staff: "&bJe hebt &7%target%'s &binventaris gereset naar een vorige versie!"
+revived-user: "&bJe inventaris is naar een vorige versie gezet!"
+
+command-blocked: "&bDeze opdracht is geblokkeerd voor personeelsleden!"
+mode-command-blocked: "&bDeze opdracht is geblokkeerd in personeel modus!"
+on-cooldown: "&bJe kan dit niet gebruiken voor &7%seconds% &bseconden."
+
+note-added: "&bAantekening toegevoegd aan &7%target%&b."
+note-cleared: "&bAantekeningen ontruimd voor &7%target%&b."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Lines are separated by commas
+note-list-end: "&7%longline%"
+
+login-register: "&bAangezien u personeel, moet u een wachtwoord om uw account te beschermen tegen gekaapt te registreren. Gebruik & 7/register &ben BTO register."
+login-registered: "&bWachtwoord geaccepteerd! U zal worden gevraagd om dit wachtwoord te gebruiken elke keer dat u in te loggen."
+login-waiting: "&bJe bevroren zijn geweest! Vul uw medewerkers wachtwoord om verder te gaan."
+login-accepted: "&bIngelogd."
+passwords-dont-match: "&bDe wachtwoorden komen niet overeen"
+
+no-permission: "&cJe hebt been toestemming om deze actie uit te voeren"
+bypassed: "&cDeze speler omzeild dat commando!"
+player-offline: "&cDeze speler is offline!"
+unknown-command: "&cOnbekende opdracht."
+invalid-arguments: "&cOngeldige argumenten! (%usage%)"
+only-players: "&bEnkel spelers kunnen deze opdracht uitvoeren!"
+no-found: "&bNiet gevonden!"
+type-input: "&bTyp uw inbreng in de chat"
+input-accepted: "&bAanvaard en ingediende"
+
+enabled: "ingeschakeld"
+disabled: "uitgeschakeld"
+############################################################
+# +------------------------------------------------------+ #
+# |                     Overtredingen                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&bJe hebt &7%target% &bgerapporteerd voor &7%reason%&b."
+reported-staff: "&7%player% &bis gerapporteerd door &7%target% &bvoor &7%reason%&b."
+reports-cleared: "&bAangiftes van &7%target%&b verwijderd!"
+# Lijnen zijn gescheiden door kommas.
+reports-list-start: "&7%longline%, &7%target% &bheeft &7%reports% &baangiftes."
+reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+# Lijnen zijn gescheiden door kommas.
+reports-list-end: "&7%longline%"
+
+warned: "&bJe hebt &7%target% &bgewaarschuwd voor &7%reason%&b."
+warn: "&bJe bent gewaarschuwd voor &7%reason%&b."
+warnings-cleared: "&bWaarschuwingen van &7%target% &bverwijderd!"
+# Lijnen zijn gescheiden door kommas.
+warnings-list-start: "&7%longline%, &7%target% &bheeft &7%warnings% &bwaarschuwingen."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+# Lijnen zijn gescheiden door kommas.
+warnings-list-end: "&7%longline%"
+
+# Lijnen zijn gescheiden door kommas.
+infraction-item: "&bWaarschuwingen: &7%warnings%, &bAangiftes: &7%reports%, &bReden: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chat                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&dPersoneel chat &7%status%&b."
+
+chat-clear-line: ""
+chat-cleared: "&bChat is verwijderd door &7%player%&b."
+chat-toggled: "&bChat is &7%status% &bdoor &7%player%&b."
+chat-prevented: "&bJe hebt momenteel geen toelating om de chat te gebruiken!"
+chat-slowed: "&bChat is vertraagd voor &7%seconds% &bdoor &7%player%&b."
+chatting-fast: "&bJe bent te snel aan het typen!"
+
+blacklist-hover: "&bDit bericht is gecensureerd voor &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Verdwijnen                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&bJe totale verdwijning is &7%status%&b!"
+list-vanish: "&bJe verdwijning van de spelerlijst is &7%status%&b!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Tickets                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&bJe ticket is ingediend! &7(#%ticket%)"
+ticket-opened: "&bJe hebt &7#%ticket% &bgeopend!"
+ticket-removed: "&bTicket &7#%ticket% &bis opgelost! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Personeel: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Gebruiker: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bDat ticket is gesloten of bestaat niet!"
+# Lijnen zijn gescheiden door kommas.
+ticket-list-start: "&7%longline%, &7%tickets% &bopen tickets"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Lijnen zijn gescheiden door kommas.
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Alarmen                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&7%alerttype% &bAlarmen &7%status%&b."
+alerts-name: "&7%old% &bheeft zijn naam veranderd naar &7%new%&b!"
+alerts-mention: "&7%target% &bheeft je naam genoemd in chat!"
+alerts-xray: "&7%target% &bheeft &7%count% %itemtype% &bgehakt! &7(%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   Personeel modus                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bPersoneel modus is &7%status%&b."
+mode-original-location: "&bJe bent terug geteleporteerd naar je oorspronkelijke locatie!"
+mode-random-teleport: "&bJe bent willekeurig geteleporteerd!"
+mode-not-enough-players: "&bEr zijn niet genoeg spelers online om willekeurig te teleporteren!"
+
+gui-reports: "&bAangiftes"
+gui-mine: "&bMiners"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Lijnen zijn gescheiden door kommas.
+freeze: "&4&lJe bent bevroren door Personeel log NIET uit!, &4&ltreedt de TeamSpeak toe @ shortninja.net"
+# Lijnen zijn gescheiden door kommas.
+unfrozen: "&bJe bent ontdooid."
+staff-froze: "Je hebt %target% bevroren"
+staff-unfroze: "Je hebt %target% ontdooit"
+freeze-logout: "&7%player% &buitgelogd terwijl bevroren!"
+
+cps-start: "&bCPS test gestart op &7%target% &bvoor &7%seconds%&b..."
+cps-finish-normal: "&7%player% &bheeft ongeveer &7%cps% &bCPS. &7(waarschijnlijk niet gevaarlijk)"
+cps-finish-max: "&7%player% &bheeft ongeveer &7%cps% &bCPS. &7(mogelijk automatisch klikken)"
+
+# Lijnen zijn gescheiden door kommas.
+examine-food: "&bGezondheid: &7%health%, &bHonger: &7%hunger%"
+examine-ip: "&bIP adres: &7%ipaddress%"
+examine-gamemode: "&bSpelmodus: &7%gamemode%"
+examine-location: "&bLocatie: &7%location%"
+examine-warn: "&bWaarschuw deze speler"
+examine-freeze: "&bBevries deze speler"
+examine-notes: "&bSpeler notities:"
+# Alle notities worden weergegeven op nieuwe lijnen.
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bJe bent nu &7%status% %target%&b."
+strip: "&7%player%'s kuras is verwijderd!"
+
+# Niet dit veranderen tenzij je weet wat je doet!
+lang-version: 6196

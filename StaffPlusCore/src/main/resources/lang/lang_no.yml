@@ -1,0 +1,206 @@
+# Language: Norwegian/Norsk
+# Status: COMPLETED
+# Contributor(s): nitramleo
+
+# La noen av disse meldingene tomme å deaktivere dem!
+# Plassholdere er kun tilgjengelig på meldinger som har dem som standard.
+############################################################
+# +------------------------------------------------------+ #
+# |                      Prefixer                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Prefikset for alle meldinger som ikke er relatert til noen bestemt modul.
+general-prefix: "&dStaff+ &8»"
+
+# Prefikset for alle meldinger relatert til rapporter.
+reports-prefix: "&dRapporter &8»"
+
+# Prefikset for alle meldinger relatert til advarsler.
+warnings-prefix: "&dadvarsler &8»"
+
+# Prefikset for alle meldinger i staff chat.
+staff-chat-prefix: "&dStaffChat &8»"
+
+# Prefikset for alle billett meldinger.
+tickets-prefix: "&dbilletter &8»"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Generell                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Dette er fargen som skal brukes til ting som komma i meldingslister.
+separator-color: "&b"
+
+# Linjer er separert med komma
+staff-list-start: "&7%longline%"
+staff-list-member: "&b%player% &%statuscolor%•"
+# Linjer er separert med komma
+staff-list-end: "&7%longline%"
+
+lockdown: "&bServeren er for øyeblikket låst av sikkerhetshensyn . Oppdateringer @ &7shortninja.net&b!"
+
+revived-staff: "Du har resat &7%target%'s &binventory til sin tidligere tilstand!"
+revived-user: "&bDin invetory er satt til sin tidligere tilstand!"
+
+command-blocked: "&bDen kommandoen er sperret for ansatte!"
+mode-command-blocked: "&bDen kommandoen er blokkert i staff modus!"
+on-cooldown: "&bDu kan ikke bruke det for for &7%seconds% &bseconds."
+
+note-added: "&bNotat lagt til for &7%target%&b."
+note-cleared: "&bNotater klarert for &7%target%&b ."
+note-list-start: "&7%longline%"
+note-list-entry: "&b%count% &7%note%"
+# Linjer er separert med komma
+note-list-end: "&7%longline%"
+
+login-register: "&bSiden du er ansatte, må du registrere et passord for å beskytte kontoen din blir kapret. Bruk &7/register &b for register."
+login-registered: "&bPassord akseptert! Du vil bli bedt om å bruke dette passordet hver gang du logger inn."
+login-waiting: "&bDu har vært frosset! Skriv inn ansatte passord for å fortsette."
+login-accepted: "&bLogget inn."
+passwords-dont-match: "&bPassordene stemmer ikke overens"
+
+no-permission: "&cDu har ikke tillatelse til å bruke det!"
+bypassed: "&cDen spilleren har forbigått den kommandoen!"
+player-offline: "&cDen spilleren er offline!"
+unknown-command: "&cUkjent kommando."
+invalid-arguments: "&cUgyldige argumenter! (%usage%)"
+only-players: "&bKun spillere har lov til å utføre denne kommandoen!"
+no-found: "&bIkke funnet!"
+type-input: "&bSkriv inn din inngang i chatten!"
+input-accepted: "&bInngang akseptert og sendt inn."
+
+enabled: "aktivert"
+disabled: "deaktivert"
+############################################################
+# +------------------------------------------------------+ #
+# |                       Brudd                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+reported: "&bRapporterte &7%target% &bfor &7%reason%&b."
+reported-staff: "&7%player% &bhar blitt rapportert av &7%target% &bfor &7%reason%&b."
+reports-cleared: "&bRapporter ryddet for &7%target%&b!"
+# Linjer er separert med komma
+reports-list-start: "&7%longline%, &7%target% &bhar &7%reports% &brapporter."
+reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+# Linjer er separert med komma
+reports-list-end: "&7%longline%"
+
+warned: "&bAdvarte  &7%target% &bfor &7%reason%&b."
+warn: "&bDu har blitt advart for &7%reason%&b."
+warnings-cleared: "&bAdvarsler klarert for &7%target%&b!"
+# Linjer er separert med komma
+warnings-list-start: "&7%longline%, &7%target% &bhar &7%warnings% &badvarsler."
+warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
+# Linjer er separert med komma
+warnings-list-end: "&7%longline%"
+
+# Linjer er separert med komma
+infraction-item: "&bAdvarsler: &7%warnings%, &bRapporter: &7%reports%, &bRapporter grunn: &7%reason%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chat                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat: "&b%player% &8» &7%message%"
+staff-chat-status: "&bStaff chat &7%status%&b."
+
+chat-clear-line: ""
+chat-cleared: "&bChat har blitt klarert av &7%player%&b."
+chat-toggled: "&bChat har blitt &7%status% &bav &7%player%&b."
+chat-prevented: "&bDu har ikke lov til å prate akkurat nå!"
+chat-slowed: "&bChat har blitt bremset for  &7%seconds% sekunder &bav &7%player%&b."
+chatting-fast: "&bDu prater for fort!"
+
+blacklist-hover: "&bDenne meldingen har blitt sensurert på grunn av &7%censoredlist%&b."
+blacklist-censor-color: ""
+blacklist-chat-format: "&7%player% &8» &7%message%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Usynlig                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: "&bDin totale Vanish har blitt &7%status%&b!"
+list-vanish: "&bDin list Vanish har blitt &7%status%&b!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Billett                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: "&bBilletten er sendt! &7(#%ticket%)"
+ticket-opened: "&bBillett &7#%ticket% &bhar blitt merket som åpen av deg!"
+ticket-removed: "&bBillett &7#%ticket% &bhar blitt merket som løst! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Staff: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Spiller: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&bDet billett finnes ikke eller er stengt!"
+# Linjer er separert med komma
+ticket-list-start: "&7%longline%, &7%tickets% &båpne billetter"
+ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
+# Linjer er separert med komma
+ticket-list-end: "&7%longline%"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Varsler                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: "&7%alerttype% &bvarsler &7%status%&b."
+alerts-name: "&7%old% &bhar byttet dems navn til &7%new%&b!"
+alerts-mention: "&7%target% &bhar nevnt navnet ditt i chat!"
+alerts-xray: "&7%target% &bhar minet &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Staff Modus                      | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: "&bStaff modus har blitt &7%status%&b."
+mode-original-location: "&bDu har blitt teleportert tilbake til den opprinnelige plasseringen!"
+mode-random-teleport: "&bDu har vært tilfeldig teleportert!"
+mode-not-enough-players: "&bIkke nok spillere er online til og tilfeldig teleportere!"
+
+gui-reports: "&bRapporter"
+gui-mine: "&bMinere"
+gui-miner: "&b%player% @ &7%locationy%"
+gui-counted: "&b%player%"
+
+# Linjer er separert med komma
+freeze: "&4&lDu har blitt fryst av personalet IKKE logg ut!, &4&lPlis join TeamSpeak @ yourownip.net"
+# Linjer er separert med komma
+unfrozen: "&bDu har blitt ufryst"
+staff-froze: "&bDu fryste &7%target%&b."
+staff-unfroze: "&bDu ufryste &7%target%&b."
+freeze-logout: "&7%player% &blogget ut mens fryst!"
+
+cps-start: "&bKjører CPS test på &7%target% &bfor &7%seconds% &bsekunder..."
+cps-finish-normal: "&7%player% &bhar rundt &7%cps% &bCPS. &7(sannsynligvis ikke farlig)"
+cps-finish-max: "&7%player% &bhar rundt &7%cps% &bCPS. &7(potensielt autoclicking)"
+
+# Linjer er separert med komma
+examine-food: "&bLiv: &7%health%, &bSult: &7%hunger%"
+examine-ip: "&bIP addresse: &7%ipaddress%"
+examine-gamemode: "&bSpillermodus: &7%gamemode%"
+examine-location: "&bLokasjon: &7%location%"
+examine-warn: "&bVarsle denne brukeren"
+examine-freeze: "&bFrys denne brukeren"
+examine-notes: "&bSpiller notater:"
+# Alle notater skilles på nye linjer.
+examine-notes-note: "&b%player%: &7%note%"
+
+follow: "&bDu er nå &7%status% %target%&b."
+strip: "&7%player%'s rustning har blitt fjernet!"
+
+# IKKE ENDRE DENNE MINDRE DU VET HVA DU GJØR!
+lang-version: 6196
