@@ -4,6 +4,7 @@ import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IWarning;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -13,13 +14,13 @@ public interface IStorage {
 
     void onDisable();
 
-    String getPassword(User user);
+    byte[] getPassword(Player player);
 
-    void setPassword(User user, String password);
+    void setPassword(Player player, byte[] password);
 
     short getGlassColor(User user);
 
-    void setGlassColor(User user,short color);
+    void setGlassColor(User user,short glassColor);
 
     List<IReport> getReports(User user);
 

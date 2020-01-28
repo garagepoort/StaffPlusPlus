@@ -78,64 +78,15 @@ public class User implements IUser {
     }
 
     public short getGlassColor() {
-        if (options.storageType.equalsIgnoreCase("flatefile"))
-            return glassColor;
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement ps = sql.prepareStatement("SELECT GlassColor FROM sp_playerdata WHERE Player_UUID=?")) {
-                ps.setString(1, uuid.toString());
-                short data;
-                try (ResultSet rs = ps.executeQuery()) {
-                    data = rs.getShort("GlassColor");
-                }
-                return data;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return (short) 0;
+        return StaffPlus.get().storage.getGlassColor(this);
     }
 
     public void setGlassColor(short glassColor) {
-        if (options.storageType.equalsIgnoreCase("flatfile"))
-            this.glassColor = glassColor;
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_playerdata(GlassColor, Player_UUID) " +
-                         "VALUES(?, ?) ON DUPLICATE KEY UPDATE GlassColor=?;")) {
-                insert.setInt(1, glassColor);
-                insert.setString(2, getUuid().toString());
-                insert.setInt(3, glassColor);
-                insert.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
+        StaffPlus.get().storage.setGlassColor(this,glassColor);
     }
 
     public List<IReport> getReports() {
-        if (options.storageType.equalsIgnoreCase("flatfile"))
-            return reports;
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ?")) {
-                ps.setString(1, uuid.toString());
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
-                        UUID reporterUUID = UUID.fromString(rs.getString("Reporter_UUID"));
-                        String reporterName = reporterUUID.equals(StaffPlus.get().consoleUUID) ? "Console" : Bukkit.getPlayer(reporterUUID).getDisplayName();
-                        int id = rs.getInt("ID");
-                        reports.add(new Report(playerUUID, Bukkit.getPlayer(playerUUID).getDisplayName(), id, rs.getString("Reason"), reporterName, reporterUUID, System.currentTimeMillis()));
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return reports;
+        return StaffPlus.get().storage.getReports(this);
     }
 
     public List<IWarning> getWarnings() {
