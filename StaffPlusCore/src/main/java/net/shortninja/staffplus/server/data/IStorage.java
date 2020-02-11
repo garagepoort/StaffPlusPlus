@@ -7,6 +7,7 @@ import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface IStorage {
 
@@ -22,9 +23,9 @@ public interface IStorage {
 
     void setGlassColor(User user,short glassColor);
 
-    List<IReport> getReports(User user);
+    List<IReport> getReports(UUID uuid);
 
-    List<IWarning> getWarnings(User user);
+    List<IWarning> getWarnings(UUID uuid);
 
     void addReport(IReport report);
 
@@ -32,7 +33,7 @@ public interface IStorage {
 
     void removeReport(User user);
 
-    void removeWarning(User user);
+    void removeWarning(UUID uuid);
 
     Ticket getTicketByUUID(User user);
 

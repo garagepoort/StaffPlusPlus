@@ -86,31 +86,11 @@ public class User implements IUser {
     }
 
     public List<IReport> getReports() {
-        return StaffPlus.get().storage.getReports(this);
+        return StaffPlus.get().storage.getReports(getUuid());
     }
 
     public List<IWarning> getWarnings() {
-        if (options.storageType.equalsIgnoreCase("flatfile"))
-            return warnings;
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings WHERE Player_UUID = ?")
-            ) {
-                ps.setString(1, uuid.toString());
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
-                        UUID warnerUuid = UUID.fromString(rs.getString("Warner_UUID"));
-                        String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : Bukkit.getPlayer(warnerUuid).getDisplayName();
-                        int id = rs.getInt("ID");
-                        warnings.add(new Warning(playerUUID, Bukkit.getPlayer(playerUUID).getDisplayName(), id, rs.getString("Reason"), warnerName, warnerUuid, System.currentTimeMillis()));
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return warnings;
+       return StaffPlus.get().storage.getWarnings(getUuid());
     }
 
     public List<String> getPlayerNotes() {
@@ -182,20 +162,7 @@ public class User implements IUser {
     }
 
     public void addReport(IReport report) {
-        if (options.storageType.equalsIgnoreCase("flatfile"))
-            reports.add(report);
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
-                         "VALUES(?, ?, ?);");) {
-                insert.setString(1, report.getReason());
-                insert.setString(2, report.getReporterUuid().toString());
-                insert.setString(3, report.getUuid().toString());
-                insert.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        StaffPlus.get().storage.addReport(report);
     }
 
     public void removeReport(String uuid) {
@@ -203,24 +170,11 @@ public class User implements IUser {
     }
 
     public void addWarning(IWarning warning) {
-        if (options.storageType.equalsIgnoreCase("flatfile"))
-            warnings.add(warning);
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
-                         "VALUES(? ,?, ?);");) {
-                insert.setString(1, warning.getReason());
-                insert.setString(2, warning.getIssuerUuid().toString());
-                insert.setString(3, warning.getUuid().toString());
-                insert.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        StaffPlus.get().storage.addWarning(warning);
     }
 
     public void removeWarning(UUID uuid) {
-        warnings.remove(uuid);
+        StaffPlus.get().storage.removeWarning(uuid);
     }
 
     public void addPlayerNote(String note) {

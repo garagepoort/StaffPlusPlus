@@ -19,39 +19,44 @@ public class ModeDataVault {
     private boolean hasFlight;
     private GameMode gameMode;
     private VanishType vanishType;
+    private float xp;
 
-    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
+    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
         this.uuid = uuid;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
         this.gameMode = gameMode;
         this.vanishType = vanishType;
         this.offHand = offHand;
+        this.xp = xp;
         InventorySerializer save = new InventorySerializer(uuid);
-        save.save(itemHash,armor,offHand);
+        save.save(itemHash,armor,offHand,xp);
     }
 
-    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, Location previousLocation, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
+    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
         this.uuid = uuid;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
         this.gameMode = gameMode;
         this.vanishType = vanishType;
+        this.xp = xp;
         InventorySerializer save = new InventorySerializer(uuid);
-        save.save(itemHash,armor);
+        save.save(itemHash,armor,xp);
     }
 
-    public ModeDataVault(UUID uuid,HashMap<String, ItemStack> items, ItemStack[] armor) {
+    public ModeDataVault(UUID uuid,HashMap<String, ItemStack> items, ItemStack[] armor, float xp) {
         this.uuid = uuid;
         this.items = items;
         this.armor = armor;
+        this.xp = xp;
     }
 
-    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand) {
+    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, float xp) {
         this.uuid = uuid;
         this.offHand = offHand;
         this.items = itemHash;
         this.armor = armor;
+        this.xp = xp;
     }
 
     public UUID getUuid() {
@@ -85,5 +90,9 @@ public class ModeDataVault {
 
     public ItemStack[] getOffHand() {
         return offHand;
+    }
+
+    public float getXp(){
+        return xp;
     }
 }

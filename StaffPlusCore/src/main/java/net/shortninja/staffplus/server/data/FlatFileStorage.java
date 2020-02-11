@@ -6,17 +6,16 @@ import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.file.DataFile;
-import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class FlatFileStorage implements IStorage {
@@ -56,35 +55,41 @@ public class FlatFileStorage implements IStorage {
     @Override
     public void setGlassColor(User user, short glassColor) {
         dataFile.set(user.getUuid().toString()+"." + "glass-color",glassColor);
+        try {
+            dataFile.save(StaffPlus.get().dataFile.getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public List<IReport> getReports(User user) {
+    public List<IReport> getReports(UUID uuid) {
         List<IReport> reports = new ArrayList<>();
 
-        for (String string : dataFile.getStringList(user.getUuid().toString() + ".reports")) {
+        for (String string : dataFile.getStringList(uuid.toString() + ".reports")) {
             String[] parts = string.split(";");
             UUID reporterUuid = UUID.fromString(parts[2]);
             String offlineName = Bukkit.getOfflinePlayer(reporterUuid).getName();
             String reporterName = offlineName == null ? parts[1] : offlineName;
 
-            reports.add(new Report(user.getUuid(), user.getName(), parts[0], reporterName, reporterUuid));
+            reports.add(new Report(uuid, Bukkit.getPlayer(uuid).getName(), parts[0], reporterName, reporterUuid));
         }
 
         return reports;
     }
 
+
     @Override
-    public List<IWarning> getWarnings(User user) {
+    public List<IWarning> getWarnings(UUID uuid) {
         List<IWarning> warnings = new ArrayList<>();
 
-        for (String string : dataFile.getStringList(user.getUuid().toString() + ".warnings")) {
+        for (String string : dataFile.getStringList(uuid.toString() + ".warnings")) {
             String[] parts = string.split(";");
             UUID issuerUuid = UUID.fromString(parts[2]);
             String offlineName = Bukkit.getOfflinePlayer(issuerUuid).getName();
             String issuerName = offlineName == null ? parts[1] : offlineName;
 
-            warnings.add(new Warning(user.getUuid(), user.getName(), parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
+            warnings.add(new Warning(uuid, Bukkit.getPlayer(uuid).getName(), parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
         }
 
         return warnings;
@@ -92,12 +97,38 @@ public class FlatFileStorage implements IStorage {
 
     @Override
     public void addReport(IReport report) {
-
+        List<IReport> reports = getReports(report.getUuid());
+        reports.add(report);
+        List<String> reportsList = new ArrayList<String>();
+        for (IReport r : reports) {
+            reportsList.add(r.getReason() + ";" + r.getReporterName() + ";" + (r.getReporterUuid() == null ? "null" : r.getReporterUuid().toString()));
+        }
+        dataFile.set(report.getUuid().toString()+".reports",reportsList);
+        reports.clear();
+        reportsList.clear();
+        try {
+            dataFile.save(StaffPlus.get().dataFile.getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void addWarning(IWarning warning) {
-
+        List<IWarning> warnings = getWarnings(warning.getUuid());
+        warnings.add(warning);
+        List<String> warningList = new ArrayList<String>();
+        for (IWarning r : warnings) {
+            warningList.add(r.getReason() + ";" + r.getIssuerName() + ";" + (r.getIssuerUuid() == null ? "null" : r.getIssuerUuid().toString()));
+        }
+        dataFile.set(warning.getUuid().toString()+".warnings",warningList);
+        warnings.clear();
+        warningList.clear();
+        try {
+            dataFile.save(StaffPlus.get().dataFile.getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -106,8 +137,13 @@ public class FlatFileStorage implements IStorage {
     }
 
     @Override
-    public void removeWarning(User user) {
-
+    public void removeWarning(UUID uuid) {
+        dataFile.set(uuid.toString()+".warnings",new ArrayList<>());
+        try {
+            dataFile.save(StaffPlus.get().dataFile.getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

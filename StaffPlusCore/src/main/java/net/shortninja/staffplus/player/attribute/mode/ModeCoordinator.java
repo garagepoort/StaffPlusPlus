@@ -56,14 +56,15 @@ public class ModeCoordinator {
         ModeDataVault modeData;
         if(!StaffPlus.get().ninePlus) {
             modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(),
-                    player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
+                    player.getLocation(),player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
         }else {
             modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
-                    player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
+                    player.getLocation(),player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
         }
         if (isInMode(player.getUniqueId())) {
             return;
         }
+
         JavaUtils.clearInventory(player);
         modeUsers.put(uuid, modeData);
         setPassive(player, user);
@@ -120,6 +121,7 @@ public class ModeCoordinator {
         runModeCommands(player, false);
         JavaUtils.clearInventory(player);
         getItems(player,saver);
+        player.setExp(saver.getXp());
         player.getInventory().setArmorContents(saver.getArmor());
         if(StaffPlus.get().ninePlus)
             player.getInventory().setExtraContents(saver.getOffHand());

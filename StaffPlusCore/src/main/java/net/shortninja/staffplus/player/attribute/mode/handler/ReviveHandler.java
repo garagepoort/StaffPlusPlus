@@ -26,9 +26,9 @@ public class ReviveHandler {
         UUID uuid = player.getUniqueId();
         ModeDataVault modeDataVault;
         if(!StaffPlus.get().ninePlus)
-            modeDataVault = new ModeDataVault(uuid, ModeCoordinator.getContents(player), player.getInventory().getArmorContents());
+            modeDataVault = new ModeDataVault(uuid, ModeCoordinator.getContents(player), player.getInventory().getArmorContents(),player.getExp());
         else
-            modeDataVault = new ModeDataVault(uuid,ModeCoordinator.getContents(player),player.getInventory().getArmorContents(),player.getInventory().getExtraContents());
+            modeDataVault = new ModeDataVault(uuid,ModeCoordinator.getContents(player),player.getInventory().getArmorContents(),player.getInventory().getExtraContents(),player.getExp());
         savedInventories.put(uuid, modeDataVault);
     }
 
