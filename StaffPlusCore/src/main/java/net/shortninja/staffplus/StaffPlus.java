@@ -11,7 +11,6 @@ import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.PacketModifier;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.command.CmdHandler;
-import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.compatibility.v1_10_R1.Protocol_v1_10_R1;
 import net.shortninja.staffplus.server.compatibility.v1_11_R1.Protocol_v1_11_R1;
@@ -53,6 +52,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
@@ -60,8 +60,6 @@ import org.inventivetalent.update.spiget.SpigetUpdate;
 import org.inventivetalent.update.spiget.UpdateCallback;
 import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -104,6 +102,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public boolean twelvePlus = false;
     public IStorage storage;
     public InventoryHandler inventoryHandler;
+    public boolean usesPlaceholderAPI;
 
     public static StaffPlus get() {
         return plugin;
@@ -112,8 +111,13 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     @Override
     public void onLoad() {
         APIManager.require(PacketListenerAPI.class, this);
-
         Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
+
+        Plugin placeholderPlugin;
+        if ((placeholderPlugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")) != null) {
+            usesPlaceholderAPI = true;
+            Bukkit.getLogger().info("Hooked into PlaceholderAPI " + placeholderPlugin.getDescription().getVersion());
+        }
     }
 
     @Override

@@ -3,5 +3,5 @@ name: StaffPlus
 version: 3.3.2.0
 description: The ultimate moderation plugin!
 author: Shortninja,Qball
-softdepend: [PacketListenerApi]
+softdepend: [PacketListenerApi, PlaceholderAPI]
 api-version: 1.13

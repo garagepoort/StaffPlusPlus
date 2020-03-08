@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.util;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.util.lib.Message;
@@ -27,7 +28,12 @@ public class MessageCoordinator extends Message {
         if (player == null || message.isEmpty()) {
             return;
         }
-        if(!prefix.equals(""))
+
+        if (StaffPlus.get().usesPlaceholderAPI) {
+            PlaceholderAPI.setPlaceholders(player, message);
+        }
+
+        if (!prefix.equals(""))
             player.sendMessage(colorize(prefix + " " + message));
         else
             player.sendMessage(colorize(prefix + "" + message));
@@ -37,7 +43,12 @@ public class MessageCoordinator extends Message {
         if (player == null || message == null || message.isEmpty() || !this.permission.has(player, permission)) {
             return;
         }
-        if(!prefix.equals(""))
+
+        if (StaffPlus.get().usesPlaceholderAPI) {
+            PlaceholderAPI.setPlaceholders(player, message);
+        }
+
+        if (!prefix.equals(""))
             player.sendMessage(colorize(prefix + " " + message));
         else
             player.sendMessage(colorize(prefix + "" + message));
@@ -47,7 +58,14 @@ public class MessageCoordinator extends Message {
         if (sender == null || message.isEmpty()) {
             return;
         }
-        if(!prefix.equals(""))
+
+        if (sender instanceof Player) {
+            if (StaffPlus.get().usesPlaceholderAPI) {
+                PlaceholderAPI.setPlaceholders((Player) sender, message);
+            }
+        }
+
+        if (!prefix.equals(""))
             sender.sendMessage(colorize(prefix + " " + message));
         else
             sender.sendMessage(colorize(prefix + "" + message));
@@ -63,7 +81,7 @@ public class MessageCoordinator extends Message {
         if (message.isEmpty() && !prefix.isEmpty()) {
             return;
         }
-        if(!prefix.equals(""))
+        if (!prefix.equals(""))
             Bukkit.broadcastMessage(colorize(prefix + " " + message));
         else
             Bukkit.broadcastMessage(colorize(prefix + "" + message));
@@ -71,12 +89,20 @@ public class MessageCoordinator extends Message {
 
     public void sendGroupMessage(String message, String permission, String prefix) {
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if (StaffPlus.get().usesPlaceholderAPI) {
+                PlaceholderAPI.setPlaceholders(player, message);
+            }
+
             send(player, message, prefix, permission);
         }
     }
 
     public void sendCollectedMessage(Player player, Collection<String> messages, String prefix) {
         for (String message : messages) {
+            if (StaffPlus.get().usesPlaceholderAPI) {
+                PlaceholderAPI.setPlaceholders(player, message);
+            }
+
             send(player, message, prefix);
         }
     }
