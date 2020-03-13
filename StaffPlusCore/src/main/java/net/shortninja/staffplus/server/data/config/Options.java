@@ -29,6 +29,7 @@ public class Options implements IOptions {
      * General
      */
     public String language = config.getString("lang");
+    public boolean bungee = config.getBoolean("bungee");
     public List<String> blockedCommands = JavaUtils.stringToList(config.getString("blocked-commands"));
     public List<String> blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands"));
     public short glassColor = (short) config.getInt("glass-color");

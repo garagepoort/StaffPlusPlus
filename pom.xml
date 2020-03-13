@@ -14,6 +14,7 @@
     <modules>
         <module>StaffPlusAPI</module>
         <module>StaffPlusCore</module>
+        <module>StaffPlusBungee</module>
         <module>v1_7_R1</module>
         <module>v1_7_R2</module>
         <module>v1_7_R3</module>

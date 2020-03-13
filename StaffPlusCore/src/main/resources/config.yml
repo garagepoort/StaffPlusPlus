@@ -14,6 +14,9 @@
 # If you would like to translate Staff+, please message me on Spigot!
 lang: "lang_en"
 
+# Whether the plugin uses BungeeCord. By default disabled.
+bungee: false
+
 # Commands that staff will not be allowed to use at all.
 # Must have "permissions.block" permission to take effect.
 # Leave blank to disable.
