@@ -11,7 +11,9 @@ import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.InputStream;
@@ -423,8 +425,19 @@ public class Options implements IOptions {
             short data = getMaterialData(config.getString("staff-mode.custom-modules." + identifier + ".item"));
             String name = config.getString("staff-mode.custom-modules." + identifier + ".name");
             List<String> lore = JavaUtils.stringToList(config.getString("staff-mode.custom-modules." + identifier + ".lore"));
-            ItemStack item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
+            ItemStack item = new ItemStack(Material.STICK);
+            if(!config.getString("staff-mode.custom-modules." + identifier + ".enchantment","").equalsIgnoreCase("")) {
+                String enchantInfo = config.getString("staff-mode.custom-modules." + identifier + ".enchantment");
+                String[] enchantInfoParts = enchantInfo.split(":");
+                Enchantment enchantment = Enchantment.getByName(enchantInfoParts[0]);
+                int level = Integer.parseInt(enchantInfoParts[1]);
+                item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore)
+                        .addEnchantment(enchantment,level).build();
+            }else
+                item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
+
             String action = "";
+
 
             if (moduleType != ModuleConfiguration.ModuleType.ITEM) {
                 action = config.getString("staff-mode.custom-modules." + identifier + ".command");

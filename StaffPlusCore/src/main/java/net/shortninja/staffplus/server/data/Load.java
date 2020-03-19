@@ -80,16 +80,17 @@ public class Load {
     private List<IWarning> loadWarnings() {
         List<IWarning> warnings = new ArrayList<>();
 
-        for (String string : dataFile.getStringList(prefix + "warnings")) {
+
+        /*for (String string : dataFile.getStringList(prefix + "warnings")) {
             String[] parts = string.split(";");
             UUID issuerUuid = UUID.fromString(parts[2]);
             String offlineName = getOfflineName(issuerUuid);
             String issuerName = offlineName == null ? parts[1] : offlineName;
 
             warnings.add(new Warning(uuid, name, parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
-        }
+        }*/
 
-        return warnings;
+        return StaffPlus.get().storage.getWarnings(uuid);
     }
 
     private Map<AlertType, Boolean> loadAlertOptions() {

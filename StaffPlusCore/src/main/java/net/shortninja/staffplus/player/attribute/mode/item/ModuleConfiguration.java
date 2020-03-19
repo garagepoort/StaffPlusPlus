@@ -8,6 +8,8 @@ public class ModuleConfiguration {
     private int slot;
     private ItemStack item;
     private String action;
+    private String enchantment;
+    private int level;
 
     public ModuleConfiguration(String identifier, ModuleType moduleType, int slot, ItemStack item, String action) {
         this.identifier = identifier;
@@ -15,6 +17,8 @@ public class ModuleConfiguration {
         this.slot = slot;
         this.item = item;
         this.action = action;
+        this.enchantment = "";
+        this.level = 0;
     }
 
     public String getIdentifier() {
@@ -39,6 +43,14 @@ public class ModuleConfiguration {
 
     public String getAction() {
         return action;
+    }
+
+    public String getEnchantment(){
+        return enchantment;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public enum ModuleType {

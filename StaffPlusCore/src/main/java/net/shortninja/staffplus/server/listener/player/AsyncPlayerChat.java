@@ -62,7 +62,7 @@ public class AsyncPlayerChat implements Listener {
                 event.setMessage(blacklistFactory.getResult());
 
                 if (options.chatBlacklistHoverable) {
-                    Set<Player> staffPlayers = new HashSet<Player>();
+                    Set<Player> staffPlayers = new HashSet<>();
 
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         if (permission.has(p, options.permissionBlacklist)) {
@@ -80,6 +80,8 @@ public class AsyncPlayerChat implements Listener {
     private boolean shouldCancel(Player player, String message) {
         boolean shouldCancel = false;
         UUID uuid = player.getUniqueId();
+        if(userManager == null)
+            return false;
         IUser user = userManager.get(uuid);
         IAction queuedAction = user.getQueuedAction();
 
@@ -115,7 +117,7 @@ public class AsyncPlayerChat implements Listener {
 
         for (IUser user : userManager.getAll()) {
             if (!user.getPlayer().isPresent()) {
-                continue; // How?
+                continue; // How?8
             }
 
             Player player = user.getPlayer().get();
