@@ -14,7 +14,7 @@
     <modules>
         <module>StaffPlusAPI</module>
         <module>StaffPlusCore</module>
-        <module>StaffPlusBungee</module>
+        <!--><module>StaffPlusBungee</module> Will uncomment when module is fully ready for release-->
         <module>v1_7_R1</module>
         <module>v1_7_R2</module>
         <module>v1_7_R3</module>
@@ -29,7 +29,7 @@
         <module>v1_12_R1</module>
         <module>v1_13_R1</module>
         <module>v1_13_R2</module>
-		<module>v1_14_R1</module>
+        <module>v1_14_R1</module>
         <module>v1_14_R2</module>
         <module>v1_15_R1</module>
     </modules>

@@ -4,13 +4,13 @@ import java.util.UUID;
 
 public interface IReport {
 
-	String getReason();
+    String getReason();
 
-	String getReporterName();
+    String getReporterName();
 
-	UUID getReporterUuid();
+    UUID getReporterUuid();
 
-	void setReporterName(String newName);
+    void setReporterName(String newName);
 
-	UUID getUuid();
+    UUID getUuid();
 }

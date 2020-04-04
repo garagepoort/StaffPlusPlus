@@ -1,7 +1,5 @@
 package net.shortninja.staffplus.player.attribute.mode.handler;
 
-import org.bukkit.Bukkit;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -10,19 +8,19 @@ public class InventoryHandler {
 
     private static List<UUID> virtualInvUsers;
 
-    public InventoryHandler(){
+    public InventoryHandler() {
         virtualInvUsers = new ArrayList<>();
     }
 
-    public void addVirtualUser(UUID id){
+    public void addVirtualUser(UUID id) {
         virtualInvUsers.add(id);
     }
 
-    public boolean isInVirtualInv(UUID id){
+    public boolean isInVirtualInv(UUID id) {
         return virtualInvUsers.contains(id);
     }
 
-    public void removeVirtualUser(UUID id){
+    public void removeVirtualUser(UUID id) {
         virtualInvUsers.remove(id);
     }
 }

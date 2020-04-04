@@ -5,13 +5,13 @@ import org.bukkit.inventory.ItemStack;
 
 public interface IGui {
 
-	String getTitle();
+    String getTitle();
 
-	Inventory getInventory();
+    Inventory getInventory();
 
-	IAction getAction(int slot);
+    IAction getAction(int slot);
 
-	void setItem(int slot, ItemStack item, IAction action);
+    void setItem(int slot, ItemStack item, IAction action);
 
-	void setGlass(IUser user);
+    void setGlass(IUser user);
 }

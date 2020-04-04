@@ -80,7 +80,7 @@ public class AsyncPlayerChat implements Listener {
     private boolean shouldCancel(Player player, String message) {
         boolean shouldCancel = false;
         UUID uuid = player.getUniqueId();
-        if(userManager == null)
+        if (userManager == null)
             return false;
         IUser user = userManager.get(uuid);
         IAction queuedAction = user.getQueuedAction();

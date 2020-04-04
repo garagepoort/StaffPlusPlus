@@ -9,13 +9,13 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 
 public class InventoryOpen implements Listener {
 
-    public InventoryOpen(){
+    public InventoryOpen() {
         Bukkit.getServer().getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler
-    public void onOpen(InventoryOpenEvent event){
-        if(PlayerJoin.needLogin.contains(event.getPlayer().getUniqueId())){
+    public void onOpen(InventoryOpenEvent event) {
+        if (PlayerJoin.needLogin.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }

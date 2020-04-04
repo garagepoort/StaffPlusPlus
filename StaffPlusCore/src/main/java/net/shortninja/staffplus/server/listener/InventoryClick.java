@@ -33,12 +33,12 @@ public class InventoryClick implements Listener {
         ItemStack item = event.getCurrentItem();
         int slot = event.getSlot();
 
-        if(StaffPlus.get().inventoryHandler.isInVirtualInv(uuid)||
-            StaffPlus.get().viewedChest.containsKey(event.getInventory())){
+        if (StaffPlus.get().inventoryHandler.isInVirtualInv(uuid) ||
+                StaffPlus.get().viewedChest.containsKey(event.getInventory())) {
             event.setCancelled(true);
         }
 
-        if(user == null)
+        if (user == null)
             return;
         if (!user.getCurrentGui().isPresent() || item == null) {
             if (modeCoordinator.isInMode(uuid) && !options.modeInventoryInteraction) {

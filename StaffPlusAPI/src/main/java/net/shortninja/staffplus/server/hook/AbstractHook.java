@@ -5,22 +5,22 @@ import org.bukkit.plugin.Plugin;
 
 public abstract class AbstractHook implements IHook {
 
-	private final Plugin plugin;
+    private final Plugin plugin;
 
-	protected AbstractHook(Plugin plugin) {
-		this.plugin = plugin;
-	}
+    protected AbstractHook(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
-	@Override
-	public boolean canHook() {
-		Plugin hook = Bukkit.getPluginManager().getPlugin(getPluginName());
+    @Override
+    public boolean canHook() {
+        Plugin hook = Bukkit.getPluginManager().getPlugin(getPluginName());
 
-		if (hook != null) {
-			if (hook.getDescription().getVersion().equals(getPluginVersion())) {
-				return true;
-			}
-		}
+        if (hook != null) {
+            if (hook.getDescription().getVersion().equals(getPluginVersion())) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

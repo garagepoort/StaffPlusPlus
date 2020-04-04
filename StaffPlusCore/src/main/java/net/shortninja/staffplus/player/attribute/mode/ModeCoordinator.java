@@ -45,7 +45,7 @@ public class ModeCoordinator {
     }
 
     public boolean isInMode(UUID uuid) {
-        if(modeUsers == null)
+        if (modeUsers == null)
             modeUsers = new HashMap<>();
         return modeUsers.containsKey(uuid);
     }
@@ -54,12 +54,12 @@ public class ModeCoordinator {
         UUID uuid = player.getUniqueId();
         IUser user = userManager.get(uuid);
         ModeDataVault modeData;
-        if(!StaffPlus.get().ninePlus) {
+        if (!StaffPlus.get().ninePlus) {
             modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(),
-                    player.getLocation(),player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
-        }else {
+                    player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
+        } else {
             modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
-                    player.getLocation(),player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
+                    player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
         }
         if (isInMode(player.getUniqueId())) {
             return;
@@ -120,10 +120,10 @@ public class ModeCoordinator {
 
         runModeCommands(player, false);
         JavaUtils.clearInventory(player);
-        getItems(player,saver);
+        getItems(player, saver);
         player.setExp(saver.getXp());
         player.getInventory().setArmorContents(saver.getArmor());
-        if(StaffPlus.get().ninePlus)
+        if (StaffPlus.get().ninePlus)
             player.getInventory().setExtraContents(saver.getOffHand());
         saver.deleteFile();
         player.updateInventory();
@@ -142,7 +142,7 @@ public class ModeCoordinator {
             }
 
             CommandSender target = (command.trim().startsWith("%player%")) ? player : Bukkit.getConsoleSender();
-            command = (command.trim().startsWith("%player%)")) ? command.replaceFirst("%player%","").trim() : command;
+            command = (command.trim().startsWith("%player%)")) ? command.replaceFirst("%player%", "").trim() : command;
             Bukkit.dispatchCommand(target, command.replace("%player%", player.getName()));
         }
     }
@@ -159,10 +159,10 @@ public class ModeCoordinator {
         return itemHash;
     }
 
-    private void getItems(Player p, InventorySerializer saver){
+    private void getItems(Player p, InventorySerializer saver) {
         HashMap<String, ItemStack> items = saver.getContents();
-        for(String num : items.keySet())
-            p.getInventory().setItem(Integer.parseInt(num),items.get(num));
+        for (String num : items.keySet())
+            p.getInventory().setItem(Integer.parseInt(num), items.get(num));
     }
 
 }

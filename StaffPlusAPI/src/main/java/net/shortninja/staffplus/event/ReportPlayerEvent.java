@@ -5,7 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
- *  This event is called when a new unresolved report is added
+ * This event is called when a new unresolved report is added
  */
 public class ReportPlayerEvent extends Event {
 
@@ -22,6 +22,7 @@ public class ReportPlayerEvent extends Event {
 
     /**
      * Returns the report
+     *
      * @return report
      */
     public IReport getReport() {

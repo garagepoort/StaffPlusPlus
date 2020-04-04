@@ -53,7 +53,7 @@ public class VanishHandler {
     }
 
     public List<Player> getVanished() {
-       return Bukkit.getOnlinePlayers().stream().filter(this::isVanished).collect(Collectors.toList());
+        return Bukkit.getOnlinePlayers().stream().filter(this::isVanished).collect(Collectors.toList());
     }
 
     public boolean isVanished(Player player) {
@@ -78,13 +78,13 @@ public class VanishHandler {
         switch (vanishType) {
             case TOTAL:
                 if (permission.has(player, options.permissionVanishTotal)) {
-                    if(options.staffView) {
+                    if (options.staffView) {
                         for (Player p : Bukkit.getOnlinePlayers()) {
-                            if(!permission.has(p,options.permissionMode))
+                            if (!permission.has(p, options.permissionMode))
                                 p.hidePlayer(player);
                         }
-                    }else{
-                        for (Player p : Bukkit.getOnlinePlayers()){
+                    } else {
+                        for (Player p : Bukkit.getOnlinePlayers()) {
                             p.hidePlayer(player);
                         }
                     }
@@ -109,17 +109,17 @@ public class VanishHandler {
     }
 
     private void unapplyVanish(Player player, VanishType vanishType, boolean shouldMessage) {
-                String message = "";
+        String message = "";
 
-                switch (vanishType) {
-                    case TOTAL:
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            p.showPlayer(player);
-                        }
+        switch (vanishType) {
+            case TOTAL:
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.showPlayer(player);
+                }
 
-                        player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                        message = messages.totalVanish.replace("%status%", messages.disabled);
-                        break;
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                message = messages.totalVanish.replace("%status%", messages.disabled);
+                break;
             case LIST:
                 versionProtocol.listVanish(player, false);
                 message = messages.listVanish.replace("%status%", messages.disabled);

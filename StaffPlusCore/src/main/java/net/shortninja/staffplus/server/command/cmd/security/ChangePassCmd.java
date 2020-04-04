@@ -21,34 +21,34 @@ public class ChangePassCmd extends BukkitCommand {
     private Messages messages = StaffPlus.get().messages;
     private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
 
-    public ChangePassCmd(String name){
+    public ChangePassCmd(String name) {
         super(name);
     }
 
     @Override
     public boolean execute(CommandSender sender, String s, String[] args) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             Player p = (Player) sender;
-            if (PlayerJoin.needLogin.contains(p.getUniqueId())){
-                message.send(p,messages.loginWaiting,messages.prefixGeneral);
+            if (PlayerJoin.needLogin.contains(p.getUniqueId())) {
+                message.send(p, messages.loginWaiting, messages.prefixGeneral);
                 return true;
-            }else if(!securityHandler.hasPassword(p)){
-                message.send(p,messages.loginRegister,messages.prefixGeneral);
+            } else if (!securityHandler.hasPassword(p)) {
+                message.send(p, messages.loginRegister, messages.prefixGeneral);
                 return true;
             }
-             //changepass <pass> <confirm>
-            if(args.length >= 2){
+            //changepass <pass> <confirm>
+            if (args.length >= 2) {
                 String newPass = args[0];
                 String confirmPass = args[1];
-                if(newPass.equals(confirmPass)){
-                    securityHandler.setPassword(p,newPass.getBytes(StandardCharsets.UTF_8));
-                    message.send(p,messages.loginRegistered,messages.prefixGeneral);
-                }else
-                    message.send(p,messages.passwordsNoMatch,messages.prefixGeneral);
-            }else
+                if (newPass.equals(confirmPass)) {
+                    securityHandler.setPassword(p, newPass.getBytes(StandardCharsets.UTF_8));
+                    message.send(p, messages.loginRegistered, messages.prefixGeneral);
+                } else
+                    message.send(p, messages.passwordsNoMatch, messages.prefixGeneral);
+            } else
                 message.send(p, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixGeneral);
-        }else
-            message.send(sender,"Only players can use this command",messages.prefixGeneral);
+        } else
+            message.send(sender, "Only players can use this command", messages.prefixGeneral);
         return true;
     }
 }

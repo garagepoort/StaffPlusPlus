@@ -150,16 +150,16 @@
             <artifactId>v1_13_R2</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>v1_14_R1</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-        <groupId>net.shortninja.staffplus</groupId>
-        <artifactId>v1_15_R1</artifactId>
-        <version>${project.parent.version}</version>
-    </dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_15_R1</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.inventivetalent</groupId>
             <artifactId>apimanager</artifactId>
@@ -181,27 +181,27 @@
             <version>3.7.5-SNAPSHOT</version>
         </dependency>
         <dependency>
-        <groupId>org.inventivetalent.packetlistener</groupId>
-        <artifactId>1_7</artifactId>
-        <version>3.7.5-SNAPSHOT</version>
-        <exclusions>
-            <exclusion>
-                <artifactId>craftbukkit</artifactId>
-                <groupId>org.bukkit</groupId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-    <dependency>
-        <groupId>org.inventivetalent.packetlistener</groupId>
-        <artifactId>1_8</artifactId>
-        <version>3.7.5-SNAPSHOT</version>
-        <exclusions>
-            <exclusion>
-                <artifactId>craftbukkit</artifactId>
-                <groupId>org.bukkit</groupId>
-            </exclusion>
-        </exclusions>
-    </dependency>
+            <groupId>org.inventivetalent.packetlistener</groupId>
+            <artifactId>1_7</artifactId>
+            <version>3.7.5-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>craftbukkit</artifactId>
+                    <groupId>org.bukkit</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.inventivetalent.packetlistener</groupId>
+            <artifactId>1_8</artifactId>
+            <version>3.7.5-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>craftbukkit</artifactId>
+                    <groupId>org.bukkit</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>

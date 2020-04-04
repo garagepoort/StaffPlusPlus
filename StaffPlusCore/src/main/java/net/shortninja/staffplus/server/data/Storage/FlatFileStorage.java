@@ -1,8 +1,9 @@
-package net.shortninja.staffplus.server.data;
+package net.shortninja.staffplus.server.data.Storage;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.attribute.Ticket;
+import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.file.DataFile;
@@ -49,12 +50,12 @@ public class FlatFileStorage implements IStorage {
 
     @Override
     public short getGlassColor(User user) {
-        return (short) dataFile.getInt(user.getUuid().toString()+"." + "glass-color",0);
+        return (short) dataFile.getInt(user.getUuid().toString() + "." + "glass-color", 0);
     }
 
     @Override
     public void setGlassColor(User user, short glassColor) {
-        dataFile.set(user.getUuid().toString()+"." + "glass-color",glassColor);
+        dataFile.set(user.getUuid().toString() + "." + "glass-color", glassColor);
         try {
             dataFile.save(StaffPlus.get().dataFile.getFile());
         } catch (IOException e) {
@@ -103,7 +104,7 @@ public class FlatFileStorage implements IStorage {
         for (IReport r : reports) {
             reportsList.add(r.getReason() + ";" + r.getReporterName() + ";" + (r.getReporterUuid() == null ? "null" : r.getReporterUuid().toString()));
         }
-        dataFile.set(report.getUuid().toString()+".reports",reportsList);
+        dataFile.set(report.getUuid().toString() + ".reports", reportsList);
         reports.clear();
         reportsList.clear();
         try {
@@ -121,7 +122,7 @@ public class FlatFileStorage implements IStorage {
         for (IWarning r : warnings) {
             warningList.add(r.getReason() + ";" + r.getIssuerName() + ";" + (r.getIssuerUuid() == null ? "null" : r.getIssuerUuid().toString()));
         }
-        dataFile.set(warning.getUuid().toString()+".warnings",warningList);
+        dataFile.set(warning.getUuid().toString() + ".warnings", warningList);
         warnings.clear();
         warningList.clear();
         try {
@@ -138,7 +139,7 @@ public class FlatFileStorage implements IStorage {
 
     @Override
     public void removeWarning(UUID uuid) {
-        dataFile.set(uuid.toString()+".warnings",new ArrayList<>());
+        dataFile.set(uuid.toString() + ".warnings", new ArrayList<>());
         try {
             dataFile.save(StaffPlus.get().dataFile.getFile());
         } catch (IOException e) {
@@ -147,22 +148,27 @@ public class FlatFileStorage implements IStorage {
     }
 
     @Override
-    public Ticket getTicketByUUID(User user) {
-        return null;
+    public Ticket getTicketByUUID(UUID uuid) {
+        return TicketHandler.getTicketsMap().get(uuid);
     }
 
     @Override
     public Ticket getTickById(int id) {
+        for (Ticket t : TicketHandler.getTicketsMap().values()) {
+            if (t.getId() == id) {
+                return t;
+            }
+        }
         return null;
     }
 
     @Override
     public void addTicket(Ticket ticket) {
-
+        TicketHandler.getTicketsMap().put(ticket.getUuid(), ticket);
     }
 
     @Override
-    public void removeTicket(User user) {
-
+    public void removeTicket(Ticket ticket) {
+        TicketHandler.getTicketsMap().remove(ticket.getUuid());
     }
 }

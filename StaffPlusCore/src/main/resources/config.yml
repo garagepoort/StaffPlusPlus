@@ -311,7 +311,7 @@ staff-mode:
   # |                       Compass                        | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # When clicked, this launches the staff towards the direction they are facing.
   compass-module:
     # Whether or not this feature is enabled.
@@ -338,7 +338,7 @@ staff-mode:
   # |                    Random Teleport                   | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # When clicked, this teleports the staff to a random player.
   random-teleport-module:
     # Whether or not this feature is enabled.
@@ -366,7 +366,7 @@ staff-mode:
   # |                        Vanish                        | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # When clicked, this will toggle the staff"s invisibility.
   vanish-module:
     # Whether or not this feature is enabled.
@@ -393,7 +393,7 @@ staff-mode:
   # |                       GUI Hub                        | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # When clicked, this will open unresolved reports in a GUI.
   gui-module:
     # Whether or not this feature is enabled.
@@ -444,7 +444,7 @@ staff-mode:
   # |                        Counter                       | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # Simply shows all staff online and in staff mode.
   counter-module:
     # Whether or not this feature is enabled.
@@ -474,7 +474,7 @@ staff-mode:
   # |                        Freeze                        | #
   # +------------------------------------------------------+ #
   ############################################################
-  
+
   # When clicked, this will freeze the player that the staff is looking at.
   freeze-module:
     # Whether or not this feature is enabled.

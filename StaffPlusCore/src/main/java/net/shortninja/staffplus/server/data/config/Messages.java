@@ -38,8 +38,8 @@ public class Messages {
     public String noFound = config.getString("no-found");
     public String typeInput = config.getString("type-input");
     public String inputAccepted = config.getString("input-accepted");
-    public String enabled = config.getString("enabled","enabled");
-    public String disabled = config.getString("disabled","disabled");
+    public String enabled = config.getString("enabled", "enabled");
+    public String disabled = config.getString("disabled", "disabled");
     /*
      * Infractions
      */

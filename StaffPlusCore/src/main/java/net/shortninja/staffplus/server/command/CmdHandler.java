@@ -47,9 +47,9 @@ public class CmdHandler {
                     new BaseCmd("strip", new StripCmd(options.commandStrip), true, "&7Completely removes the target player's armor.", "[player]"),
                     new BaseCmd("staffplus", new StaffPlusCmd("staffplus"), true, "Used for reloading config and lang file in use", "[reload]"),
                     new BaseCmd("clearInv", new ClearInvCmd(options.commandClearInv), true, "Used to clear a desired player's inventory", "[player]"),
-                    new BaseCmd("resetPass", new ResetPassCmd(options.commandRestPass),true,"Used to reset the password of a user who has forgotten theirs","[player] [password]"), // FIXME
-                    new BaseCmd("changePassword", new ChangePassCmd(options.commandChangePass),true,"Used to change your own password","[password] [change-password]"), // FIXME
-                    new BaseCmd("echest-view",new EChestView(options.commandEChestView), options.enderChestEnabled,"Used to view a players ender chest", "[player]")
+                    new BaseCmd("resetPass", new ResetPassCmd(options.commandRestPass), true, "Used to reset the password of a user who has forgotten theirs", "[player] [password]"), // FIXME
+                    new BaseCmd("changePassword", new ChangePassCmd(options.commandChangePass), true, "Used to change your own password", "[password] [change-password]"), // FIXME
+                    new BaseCmd("echest-view", new EChestView(options.commandEChestView), options.enderChestEnabled, "Used to view a players ender chest", "[player]")
             };
 
     public CmdHandler() {

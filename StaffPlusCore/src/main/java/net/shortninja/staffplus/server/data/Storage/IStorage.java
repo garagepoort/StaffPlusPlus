@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.server.data;
+package net.shortninja.staffplus.server.data.Storage;
 
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.attribute.Ticket;
@@ -21,7 +21,7 @@ public interface IStorage {
 
     short getGlassColor(User user);
 
-    void setGlassColor(User user,short glassColor);
+    void setGlassColor(User user, short glassColor);
 
     List<IReport> getReports(UUID uuid);
 
@@ -35,12 +35,12 @@ public interface IStorage {
 
     void removeWarning(UUID uuid);
 
-    Ticket getTicketByUUID(User user);
+    Ticket getTicketByUUID(UUID uuid);
 
     Ticket getTickById(int id);
 
     void addTicket(Ticket ticket);
 
-    void removeTicket(User user);
+    void removeTicket(Ticket ticket);
 
 }

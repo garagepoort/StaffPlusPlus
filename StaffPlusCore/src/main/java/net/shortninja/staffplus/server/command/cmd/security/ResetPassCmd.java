@@ -22,7 +22,7 @@ public class ResetPassCmd extends BukkitCommand {
     private Messages messages = StaffPlus.get().messages;
     private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
 
-    public ResetPassCmd(String name){
+    public ResetPassCmd(String name) {
         super(name);
     }
 
@@ -38,11 +38,11 @@ public class ResetPassCmd extends BukkitCommand {
             message.send(sender, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixGeneral);
             return true;
         }
-        if(permission.hasOnly((Player)sender,options.permissionResetPassword)){
+        if (permission.hasOnly((Player) sender, options.permissionResetPassword)) {
             UUID uuid = Bukkit.getPlayer(args[0]).getUniqueId();
-            securityHandler.setPassword(Bukkit.getPlayer(uuid),args[1].getBytes(StandardCharsets.UTF_8));
+            securityHandler.setPassword(Bukkit.getPlayer(uuid), args[1].getBytes(StandardCharsets.UTF_8));
             return true;
-        }else{
+        } else {
             message.send(sender, messages.noPermission, messages.prefixGeneral);
         }
         return false;

@@ -45,7 +45,7 @@ public class ModuleConfiguration {
         return action;
     }
 
-    public String getEnchantment(){
+    public String getEnchantment() {
         return enchantment;
     }
 

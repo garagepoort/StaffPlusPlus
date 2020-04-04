@@ -15,4 +15,6 @@ public interface IStaffPlus {
     IPermissionsHandler getPermissions();
 
     IUserManager getUserManager();
+
+
 }

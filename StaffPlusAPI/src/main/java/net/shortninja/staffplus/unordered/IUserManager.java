@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface IUserManager {
 
-	Collection<IUser> getAll();
+    Collection<IUser> getAll();
 
-	IUser get(UUID id);
+    IUser get(UUID id);
 }

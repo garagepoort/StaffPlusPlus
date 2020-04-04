@@ -41,20 +41,20 @@ public class InventoryClose implements Listener {
         } else if (user.getCurrentGui().isPresent()) {
             user.setCurrentGui(null);
         }
-        if(StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())){
-            for(Inventory inventory : StaffPlus.get().viewedChest.keySet()){
-                if(event.getInventory().equals(inventory)){
-                    if(StaffPlus.get().twelvePlus) {
+        if (StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())) {
+            for (Inventory inventory : StaffPlus.get().viewedChest.keySet()) {
+                if (event.getInventory().equals(inventory)) {
+                    if (StaffPlus.get().twelvePlus) {
                         Container container = (Container) StaffPlus.get().viewedChest.get(inventory).getState();
                         container.getInventory().setContents(inventory.getContents());
-                    }else{
+                    } else {
                         Chest chest = (Chest) StaffPlus.get().viewedChest.get(inventory).getState();
                         chest.getInventory().setContents(inventory.getContents());
                     }
                 }
             }
         }
-        if(StaffPlus.get().inventoryHandler.isInVirtualInv(event.getPlayer().getUniqueId()))
+        if (StaffPlus.get().inventoryHandler.isInVirtualInv(event.getPlayer().getUniqueId()))
             StaffPlus.get().inventoryHandler.removeVirtualUser(event.getPlayer().getUniqueId());
     }
 }

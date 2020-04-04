@@ -5,9 +5,9 @@ import org.bukkit.inventory.ItemStack;
 
 public interface IAction {
 
-	void click(Player player, ItemStack item, int slot);
+    void click(Player player, ItemStack item, int slot);
 
-	boolean shouldClose();
+    boolean shouldClose();
 
-	void execute(Player player, String input);
+    void execute(Player player, String input);
 }

@@ -4,7 +4,6 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.unordered.IReport;

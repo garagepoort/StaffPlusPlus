@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -18,24 +17,24 @@ public class ClearInvCmd extends BukkitCommand {
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
 
-    public ClearInvCmd(String name){
+    public ClearInvCmd(String name) {
         super(name);
     }
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        if(args.length == 1){
-            if(sender instanceof Player) {
+        if (args.length == 1) {
+            if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if(permission.has(player,options.permissionClearInv))
-                if (Bukkit.getServer().getPlayer(args[0]) != null) {
-                    Player target = Bukkit.getServer().getPlayer(args[0]);
-                    JavaUtils.clearInventory(target);
-                    sender.sendMessage(target.getName() + "'s inventory has been cleared");
-                    return true;
-                }
+                if (permission.has(player, options.permissionClearInv))
+                    if (Bukkit.getServer().getPlayer(args[0]) != null) {
+                        Player target = Bukkit.getServer().getPlayer(args[0]);
+                        JavaUtils.clearInventory(target);
+                        sender.sendMessage(target.getName() + "'s inventory has been cleared");
+                        return true;
+                    }
             }
-        }else
+        } else
             sendHelp(sender);
         return true;
     }

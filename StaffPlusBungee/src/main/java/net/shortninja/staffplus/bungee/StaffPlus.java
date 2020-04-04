@@ -25,6 +25,7 @@ public final class StaffPlus extends Plugin implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void on(ChatEvent e) {
+
         if (e.isCommand()) {
             final String[] split = e.getMessage().split(" ");
             final String command = split[0].substring(1);

@@ -108,7 +108,7 @@ public class Protocol_v1_9_R1 extends AbstractProtocol implements IProtocol {
     }
 
     private Channel getChannel(Player player) {
-       return ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
+        return ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
     }
 
     private String getSoundName(SoundEffect sound) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {

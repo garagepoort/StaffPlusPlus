@@ -4,19 +4,19 @@ import java.util.UUID;
 
 public interface IWarning {
 
-	String getReason();
+    String getReason();
 
-	String getIssuerName();
+    String getIssuerName();
 
-	UUID getIssuerUuid();
+    UUID getIssuerUuid();
 
-	long getTime();
+    long getTime();
 
-	void setIssuerName(String newName);
+    void setIssuerName(String newName);
 
-	UUID getUuid();
+    UUID getUuid();
 
-	boolean shouldRemove();
+    boolean shouldRemove();
 
-	String getName();
+    String getName();
 }

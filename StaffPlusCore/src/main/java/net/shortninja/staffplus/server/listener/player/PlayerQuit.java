@@ -45,7 +45,7 @@ public class PlayerQuit implements Listener {
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
             }
         }
-        if(options.enderOfflineChestEnabled && !InventoryFactory.isInventoryEmpty(event.getPlayer().getEnderChest())){
+        if (options.enderOfflineChestEnabled && !InventoryFactory.isInventoryEmpty(event.getPlayer().getEnderChest())) {
             InventoryFactory.saveEnderChest(event.getPlayer());
         }
     }

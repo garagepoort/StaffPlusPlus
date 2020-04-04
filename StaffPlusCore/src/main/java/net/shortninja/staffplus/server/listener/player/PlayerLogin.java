@@ -8,10 +8,11 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 public final class PlayerLogin implements Listener {
 
-	public PlayerLogin() {
-		Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
-	}
+    public PlayerLogin() {
+        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
+    }
 
-	@EventHandler
-	public void onLogin(PlayerLoginEvent e) { }
+    @EventHandler
+    public void onLogin(PlayerLoginEvent e) {
+    }
 }

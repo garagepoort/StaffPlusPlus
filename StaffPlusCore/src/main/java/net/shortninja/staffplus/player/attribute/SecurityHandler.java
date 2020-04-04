@@ -1,20 +1,12 @@
-
 package net.shortninja.staffplus.player.attribute;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.data.IStorage;
-import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.server.data.file.DataFile;
 import org.bukkit.entity.Player;
 
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 public final class SecurityHandler {
@@ -36,7 +28,6 @@ public final class SecurityHandler {
     }
 
 
-
     public boolean hasPassword(final Player player) {
         byte[] password = this.getPassword(player);
         boolean result = password != null && password.length > 0;
@@ -47,7 +38,7 @@ public final class SecurityHandler {
 
     public void setPassword(final Player player, final byte[] password) {
         final byte[] hashed = this.hash(password);
-        StaffPlus.get().storage.setPassword(player,hashed);
+        StaffPlus.get().storage.setPassword(player, hashed);
         Arrays.fill(password, (byte) 0x0);
         Arrays.fill(hashed, (byte) 0x0);
     }

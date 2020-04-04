@@ -52,7 +52,7 @@ public class PlayerInteract implements Listener {
                 event.setCancelled(true);
             }
         }
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 
             if (StaffPlus.get().twelvePlus) {
 

@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.server.data.file;
 
-import net.shortninja.staffplus.StaffPlus;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import java.io.File;

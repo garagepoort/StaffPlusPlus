@@ -8,59 +8,59 @@ import java.util.UUID;
 
 public interface IUser {
 
-	UUID getUuid();
+    UUID getUuid();
 
-	String getName();
+    String getName();
 
-	void setVanishType(VanishType vanishType);
+    void setVanishType(VanishType vanishType);
 
-	VanishType getVanishType();
+    VanishType getVanishType();
 
-	default boolean isVanished() {
-		return this.getVanishType() == VanishType.TOTAL;
-	}
+    default boolean isVanished() {
+        return this.getVanishType() == VanishType.TOTAL;
+    }
 
-	void setGlassColor(short color);
+    void setGlassColor(short color);
 
-	short getGlassColor();
+    short getGlassColor();
 
-	List<IReport> getReports();
+    List<IReport> getReports();
 
-	List<IWarning> getWarnings();
+    List<IWarning> getWarnings();
 
-	List<String> getPlayerNotes();
+    List<String> getPlayerNotes();
 
-	boolean shouldNotify(AlertType alertType);
+    boolean shouldNotify(AlertType alertType);
 
-	void setFrozen(boolean frozen);
+    void setFrozen(boolean frozen);
 
-	boolean isFrozen();
+    boolean isFrozen();
 
-	Optional<Player> getPlayer();
+    Optional<Player> getPlayer();
 
-	void setCurrentGui(IGui gui);
+    void setCurrentGui(IGui gui);
 
-	Optional<IGui> getCurrentGui();
+    Optional<IGui> getCurrentGui();
 
-	void setQueuedAction(IAction action);
+    void setQueuedAction(IAction action);
 
-	void addPlayerNote(String s);
+    void addPlayerNote(String s);
 
-	void addReport(IReport report);
+    void addReport(IReport report);
 
-	void addWarning(IWarning warning);
+    void addWarning(IWarning warning);
 
-	void removeWarning(UUID uuid);
+    void removeWarning(UUID uuid);
 
-	IAction getQueuedAction();
+    IAction getQueuedAction();
 
-	boolean isChatting();
+    boolean isChatting();
 
-	void setChatting(boolean b);
+    void setChatting(boolean b);
 
-	void setAlertOption(AlertType alertType, boolean isEnabled);
+    void setAlertOption(AlertType alertType, boolean isEnabled);
 
-	boolean isOnline();
+    boolean isOnline();
 
-	void setOnline(boolean b);
+    void setOnline(boolean b);
 }

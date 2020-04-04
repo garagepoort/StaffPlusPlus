@@ -47,7 +47,7 @@ public class ColorIGui extends AbstractIGui {
     private ItemStack glassItem(short data) {
         String[] tmp = Bukkit.getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
-        if (JavaUtils.parseMcVer(version)<13) {
+        if (JavaUtils.parseMcVer(version) < 13) {
             return Items.builder()
                     .setMaterial(Material.valueOf("STAINED_GLASS_PANE")).setAmount(1).setData(data)
                     .setName("&bColor #" + data)

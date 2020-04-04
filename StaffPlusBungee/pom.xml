@@ -17,6 +17,10 @@
             <id>bungeecord-repo</id>
             <url>http://repo.md-5.net/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>bungeecord</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
     </repositories>
 
     <dependencies>

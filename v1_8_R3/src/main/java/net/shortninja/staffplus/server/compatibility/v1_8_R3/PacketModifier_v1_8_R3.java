@@ -3,7 +3,6 @@ package net.shortninja.staffplus.server.compatibility.v1_8_R3;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.shortninja.staffplus.server.compatibility.AbstractPacketModifier;

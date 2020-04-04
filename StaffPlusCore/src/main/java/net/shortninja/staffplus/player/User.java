@@ -1,9 +1,6 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.attribute.infraction.Report;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
-import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.*;
@@ -11,10 +8,6 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 public class User implements IUser {
@@ -58,6 +51,7 @@ public class User implements IUser {
     /**
      * This method can return a null player if the user is not online, so be sure
      * to check!
+     *
      * @return
      */
     public Optional<Player> getPlayer() {
@@ -73,7 +67,7 @@ public class User implements IUser {
     }
 
 
-    private short getColorColor(){
+    private short getColorColor() {
         return glassColor;
     }
 
@@ -82,7 +76,7 @@ public class User implements IUser {
     }
 
     public void setGlassColor(short glassColor) {
-        StaffPlus.get().storage.setGlassColor(this,glassColor);
+        StaffPlus.get().storage.setGlassColor(this, glassColor);
     }
 
     public List<IReport> getReports() {
@@ -90,7 +84,7 @@ public class User implements IUser {
     }
 
     public List<IWarning> getWarnings() {
-       return StaffPlus.get().storage.getWarnings(getUuid());
+        return StaffPlus.get().storage.getWarnings(getUuid());
     }
 
     public List<String> getPlayerNotes() {

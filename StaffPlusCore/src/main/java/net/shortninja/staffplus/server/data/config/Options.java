@@ -13,7 +13,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.InputStream;
@@ -40,7 +39,7 @@ public class Options implements IOptions {
      * Advanced
      */
     private int configVersion = configuration.getInt("config-version");
-    public boolean autoUpdate = configVersion >=6203 ?  config.getBoolean("AutoUpdate") : true;
+    public boolean autoUpdate = configVersion >= 6203 ? config.getBoolean("AutoUpdate") : true;
     public int autoSave = config.getInt("auto-save");
     public long clock = config.getInt("clock") * 20;
     public List<String> animationPackets = JavaUtils.stringToList(config.getString("animation-packets"));
@@ -340,6 +339,7 @@ public class Options implements IOptions {
     private String modeFollowName = config.getString("staff-mode.follow-module.name");
     private List<String> modeFollowLore = JavaUtils.stringToList(config.getString("staff-mode.follow-module.lore"));
     public ItemStack modeFollowItem = Items.builder().setMaterial(modeFollowType).setData(modeFollowData).setName(modeFollowName).setLore(modeFollowLore).build();
+
     public Options() {
         /*
          * Configuration updating support added, but too buggy to release.
@@ -363,7 +363,7 @@ public class Options implements IOptions {
                     + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml\n"
                     + "The storage types are flatfile and mysql also under the MySQL section there is a field called migrated do not ever touch that unless told.");
             config.options().copyHeader();
-            config.set("config-version",configVersion);
+            config.set("config-version", configVersion);
             StaffPlus.get().saveConfig();
         }
 
@@ -426,14 +426,14 @@ public class Options implements IOptions {
             String name = config.getString("staff-mode.custom-modules." + identifier + ".name");
             List<String> lore = JavaUtils.stringToList(config.getString("staff-mode.custom-modules." + identifier + ".lore"));
             ItemStack item = new ItemStack(Material.STICK);
-            if(!config.getString("staff-mode.custom-modules." + identifier + ".enchantment","").equalsIgnoreCase("")) {
+            if (!config.getString("staff-mode.custom-modules." + identifier + ".enchantment", "").equalsIgnoreCase("")) {
                 String enchantInfo = config.getString("staff-mode.custom-modules." + identifier + ".enchantment");
                 String[] enchantInfoParts = enchantInfo.split(":");
                 Enchantment enchantment = Enchantment.getByName(enchantInfoParts[0]);
                 int level = Integer.parseInt(enchantInfoParts[1]);
                 item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore)
-                        .addEnchantment(enchantment,level).build();
-            }else
+                        .addEnchantment(enchantment, level).build();
+            } else
                 item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
 
             String action = "";

@@ -55,7 +55,7 @@ public final class Items {
         String[] tmp = Bukkit.getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
         ItemStack skull;
-        if (JavaUtils.parseMcVer(version)<13) {
+        if (JavaUtils.parseMcVer(version) < 13) {
             skull = new ItemStack(Material.valueOf("SKULL_ITEM"), 1);
             SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
             skullMeta.setOwner(name);
