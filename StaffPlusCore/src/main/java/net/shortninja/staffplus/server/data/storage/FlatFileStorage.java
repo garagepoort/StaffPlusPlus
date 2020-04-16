@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.server.data.Storage;
+package net.shortninja.staffplus.server.data.storage;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
@@ -15,9 +15,7 @@ import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class FlatFileStorage implements IStorage {
 
@@ -134,7 +132,12 @@ public class FlatFileStorage implements IStorage {
 
     @Override
     public void removeReport(User user) {
-
+        dataFile.set(user.getUuid().toString() + ".reports", new ArrayList<>());
+        try {
+            dataFile.save(StaffPlus.get().dataFile.getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -170,5 +173,18 @@ public class FlatFileStorage implements IStorage {
     @Override
     public void removeTicket(Ticket ticket) {
         TicketHandler.getTicketsMap().remove(ticket.getUuid());
+    }
+
+    @Override
+    public Set<Ticket> getTickets(){
+        Set<Ticket> tickets = new HashSet<Ticket>();
+
+        for (Ticket ticket : TicketHandler.getTicketsMap().values()) {
+            if (ticket.isOpen()) {
+                tickets.add(ticket);
+            }
+        }
+
+        return tickets;
     }
 }

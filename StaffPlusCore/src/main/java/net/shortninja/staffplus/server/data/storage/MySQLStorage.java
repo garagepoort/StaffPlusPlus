@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.server.data.Storage;
+package net.shortninja.staffplus.server.data.storage;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
@@ -6,7 +6,6 @@ import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.MySQLConnection;
-import net.shortninja.staffplus.server.data.Storage.IStorage;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
@@ -16,9 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class MySQLStorage implements IStorage {
 
@@ -171,7 +168,13 @@ public class MySQLStorage implements IStorage {
 
     @Override
     public void removeReport(User user) {
-
+        try (Connection sql = MySQLConnection.getConnection();
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE UUID = ?");) {
+            insert.setString(1, user.getUuid().toString());
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -188,10 +191,13 @@ public class MySQLStorage implements IStorage {
     @Override
     public Ticket getTicketByUUID(UUID uuid) {
         try (Connection sql = MySQLConnection.getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_tickets WHERE UUID=?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_tickets WHERE UUID=?")) {
             ps.setString(1, uuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
-                return new Ticket(uuid, Bukkit.getPlayer(uuid).getDisplayName(), rs.getInt("ID"), rs.getString("Inquiry"));
+                if(rs.next()) {
+                    return new Ticket(uuid, Bukkit.getPlayer(uuid).getDisplayName(),
+                            rs.getInt("ID"), rs.getString("Inquiry"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -202,11 +208,12 @@ public class MySQLStorage implements IStorage {
     @Override
     public Ticket getTickById(int id) {
         try (Connection sql = MySQLConnection.getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT ID FROM sp_tickets WHERE ID=?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_tickets WHERE ID=?")) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
-                return new Ticket(UUID.fromString(rs.getString("UUID")),
-                        Bukkit.getPlayer(UUID.fromString("UUID")).getDisplayName(), id, rs.getString("Inquiry"));
+                if(rs.next())
+                    return new Ticket(UUID.fromString(rs.getString("UUID")),
+                        Bukkit.getPlayer(UUID.fromString(rs.getString("UUID"))).getDisplayName(), id, rs.getString("Inquiry"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -231,11 +238,28 @@ public class MySQLStorage implements IStorage {
     @Override
     public void removeTicket(Ticket ticket) {
         try (Connection sql = MySQLConnection.getConnection();
-             PreparedStatement delete = sql.prepareCall("DELETE FROM TABLE sp_tickets WHERE UUID =?;")) {
+             PreparedStatement delete = sql.prepareCall("DELETE FROM sp_tickets WHERE UUID =?")) {
             delete.setString(1, ticket.getUuid().toString());
             delete.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Set<Ticket> getTickets() {
+        Set<Ticket> tickets = new HashSet<>();
+        try(Connection sql = MySQLConnection.getConnection();
+            PreparedStatement get = sql.prepareCall("SELECT UUID, ID, Inquiry FROM sp_tickets ")){
+            try(ResultSet rs = get.executeQuery()){
+                while(rs.next()){
+                    tickets.add(new Ticket(UUID.fromString(rs.getString("UUID")),
+                            Bukkit.getPlayer(UUID.fromString(rs.getString("UUID"))).getDisplayName(),rs.getInt("ID"), rs.getString("Inquiry")));
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return tickets;
     }
 }

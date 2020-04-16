@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.server.data.Storage;
+package net.shortninja.staffplus.server.data.storage;
 
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.attribute.Ticket;
@@ -7,6 +7,7 @@ import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface IStorage {
@@ -34,6 +35,8 @@ public interface IStorage {
     void removeReport(User user);
 
     void removeWarning(UUID uuid);
+
+    Set<Ticket> getTickets();
 
     Ticket getTicketByUUID(UUID uuid);
 

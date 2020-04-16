@@ -261,6 +261,33 @@ public class JavaUtils {
      * @return Second number of the version i.e 13.
      */
     public static int parseMcVer(String ver) {
-        return Integer.parseInt(ver.split("\\.")[1]);
+        return Integer.parseInt(ver.split("\\.")[1].replaceAll("[^0-9]",""));
+    }
+
+    /**
+     * Makes a velocity safe ie greater than -4 and less than 4
+     * @param velocity velocity to make safe
+     * @return A safe velocity
+     */
+    public static Vector makeVelocitySafe(Vector velocity){
+        while(velocity.getX() > 4){
+            velocity.setX(velocity.getX()-.5);
+        }
+        while(velocity.getY() > 4){
+            velocity.setY(velocity.getY()-.5);
+        }
+        while(velocity.getZ() > 4){
+            velocity.setZ(velocity.getZ()-.5);
+        }
+        while(velocity.getX() < -4){
+            velocity.setX(velocity.getX()+.5);
+        }
+        while(velocity.getY() < -4){
+            velocity.setY(velocity.getY()+.5);
+        }
+        while(velocity.getZ() < -4){
+            velocity.setZ(velocity.getZ()+.5);
+        }
+        return velocity;
     }
 }

@@ -22,15 +22,7 @@ public class TicketHandler {
     }
 
     public Set<Ticket> getOpenTickets() {
-        Set<Ticket> tickets = new HashSet<Ticket>();
-
-        for (Ticket ticket : this.tickets.values()) {
-            if (ticket.isOpen()) {
-                tickets.add(ticket);
-            }
-        }
-
-        return tickets;
+        return StaffPlus.get().storage.getTickets();
     }
 
     public Ticket getTicketByUuid(UUID uuid) {

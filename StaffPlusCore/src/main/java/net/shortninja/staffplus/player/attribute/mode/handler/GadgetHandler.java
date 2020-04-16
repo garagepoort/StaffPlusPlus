@@ -79,7 +79,7 @@ public class GadgetHandler {
     public void onCompass(Player player) {
         Vector vector = player.getLocation().getDirection();
 
-        player.setVelocity(vector.multiply(options.modeCompassVelocity));
+        player.setVelocity(JavaUtils.makeVelocitySafe(vector.multiply(options.modeCompassVelocity)));
     }
 
     public void onRandomTeleport(Player player, int count) {
