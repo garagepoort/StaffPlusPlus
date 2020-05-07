@@ -41,6 +41,27 @@ public class Load {
         userManager.add(user);
     }
 
+    public User getUser(){
+
+        String name = dataFile.getString(prefix + "name");
+        String password = dataFile.getString(prefix + "password");
+        short glassColor = (short) dataFile.getInt(prefix + "glass-color");
+        List<IReport> reports = loadReports();
+        List<IWarning> warnings = loadWarnings();
+        List<String> playerNotes = loadPlayerNotes();
+        Map<AlertType, Boolean> alertOptions = loadAlertOptions();
+
+//        if (password != null && !password.isEmpty()) {
+//            securityHandler.setPassword(uuid, password, false);
+//        }
+
+        if (!this.name.equals(name)) {
+            alertCoordinator.onNameChange(name, this.name);
+        }
+
+        return new User(uuid, name, glassColor, reports, warnings, playerNotes, alertOptions);
+    }
+
     private User loadUser() {
         String name = dataFile.getString(prefix + "name");
         String password = dataFile.getString(prefix + "password");

@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.util.lib.hex;
 
-import com.google.common.collect.Lists;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -15,10 +14,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author TigerHix, Shortninja
@@ -200,7 +196,7 @@ public final class Items {
 
         public ItemStackBuilder setLore(String... lore) {
             ItemMeta itemMeta = itemStack.getItemMeta();
-            itemMeta.setLore(Strings.format(Lists.newArrayList(lore)));
+            itemMeta.setLore(Strings.format(Arrays.asList(lore)));
             itemStack.setItemMeta(itemMeta);
             return this;
         }

@@ -1,11 +1,13 @@
 package net.shortninja.staffplus.player.attribute.mode;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
@@ -53,6 +55,8 @@ public class ModeCoordinator {
     public void addMode(Player player) {
         UUID uuid = player.getUniqueId();
         IUser user = userManager.get(uuid);
+        if(user == null)
+            user = new Load(player).getUser();
         ModeDataVault modeData;
         if (!StaffPlus.get().ninePlus) {
             modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(),

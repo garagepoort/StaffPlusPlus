@@ -66,13 +66,16 @@ public class FlatFileStorage implements IStorage {
         List<IReport> reports = new ArrayList<>();
 
         for (String string : dataFile.getStringList(uuid.toString() + ".reports")) {
+            if(string==null)
+                return reports;
             String[] parts = string.split(";");
             UUID reporterUuid = UUID.fromString(parts[2]);
             String offlineName = Bukkit.getOfflinePlayer(reporterUuid).getName();
             String reporterName = offlineName == null ? parts[1] : offlineName;
-
-            reports.add(new Report(uuid, Bukkit.getPlayer(uuid).getName(), parts[0], reporterName, reporterUuid));
-        }
+            try {
+                reports.add(new Report(uuid, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName(), parts[0], reporterName, reporterUuid));
+            }catch (NullPointerException e ){}
+            }
 
         return reports;
     }

@@ -42,6 +42,7 @@ import net.shortninja.staffplus.server.data.file.LanguageFile;
 import net.shortninja.staffplus.server.hook.HookHandler;
 import net.shortninja.staffplus.server.hook.SuperVanishHook;
 import net.shortninja.staffplus.server.listener.*;
+import net.shortninja.staffplus.server.listener.entity.EntityChangeBlock;
 import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
@@ -301,6 +302,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new InventoryClose();
         new InventoryOpen();
         new PlayerWorldChange();
+        new EntityChangeBlock();
         String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
         if (JavaUtils.parseMcVer(version) >= 10)
