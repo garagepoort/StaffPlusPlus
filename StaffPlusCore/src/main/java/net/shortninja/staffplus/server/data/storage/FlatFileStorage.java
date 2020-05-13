@@ -33,17 +33,21 @@ public class FlatFileStorage implements IStorage {
 
     @Override
     public byte[] getPassword(Player player) {
-        DataFile dataFile = new DataFile("passwords.yml");
-        dataFile.load();
-        return dataFile.getString(player.getUniqueId().toString()).getBytes(StandardCharsets.UTF_8);
+        return new byte[0]; // Due to insecurity in the backend, let it gracefully pass.
+
+//        DataFile dataFile = new DataFile("passwords.yml");
+//        dataFile.load();
+//        return dataFile.getString(player.getUniqueId().toString()).getBytes(StandardCharsets.UTF_8);
     }
 
     @Override
     public void setPassword(Player player, byte[] password) {
-        DataFile dataFile = new DataFile("passwords.yml");
-        dataFile.load();
-        dataFile.getConfiguration().set(player.getUniqueId().toString(), password);
-        dataFile.save();
+        // Due to insecurity in the backend, let it gracefully pass.
+
+//        DataFile dataFile = new DataFile("passwords.yml");
+//        dataFile.load();
+//        dataFile.getConfiguration().set(player.getUniqueId().toString(), password);
+//        dataFile.save();
     }
 
     @Override

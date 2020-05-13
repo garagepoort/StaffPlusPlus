@@ -39,7 +39,7 @@ public class Options implements IOptions {
      * Advanced
      */
     private int configVersion = configuration.getInt("config-version");
-    public boolean autoUpdate = configVersion >= 6203 ? config.getBoolean("AutoUpdate") : true;
+    public boolean autoUpdate = configVersion < 6203 || config.getBoolean("AutoUpdate");
     public int autoSave = config.getInt("auto-save");
     public long clock = config.getInt("clock") * 20;
     public List<String> animationPackets = JavaUtils.stringToList(config.getString("animation-packets"));

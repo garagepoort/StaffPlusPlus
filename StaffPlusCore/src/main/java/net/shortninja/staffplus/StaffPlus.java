@@ -32,6 +32,7 @@ import net.shortninja.staffplus.server.compatibility.v1_9_R2.Protocol_v1_9_R2;
 import net.shortninja.staffplus.server.data.*;
 import net.shortninja.staffplus.server.data.storage.FlatFileStorage;
 import net.shortninja.staffplus.server.data.storage.IStorage;
+import net.shortninja.staffplus.server.data.storage.MemoryStorage;
 import net.shortninja.staffplus.server.data.storage.MySQLStorage;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -135,8 +136,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         start(System.currentTimeMillis());
         if (options.storageType.equalsIgnoreCase("mysql")) {
             storage = new MySQLStorage(new MySQLConnection());
-        } else if (options.storageType.equalsIgnoreCase("flatfile"))
+        } else if (options.storageType.equalsIgnoreCase("flatfile")) {
             storage = new FlatFileStorage();
+        } else {
+            storage = new MemoryStorage();
+            Bukkit.getLogger().warning("Storage type is invalid, defaulting to memory-based storage. IMPORTANT: Any changes are not persistent.");
+        }
 
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
