@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ExamineIGui extends AbstractIGui {
-    private static final int SIZE = 54;
+    private static final int SIZE = 64;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
@@ -46,6 +47,10 @@ public class ExamineIGui extends AbstractIGui {
         if (options.modeExamineIp >= 0) {
             setItem(options.modeExamineIp, ipItem(targetPlayer), null);
         }
+
+//        if (options.modeExaminePing >= 0) {
+//            setItem(options.modeExaminePing, pingItem(targetPlayer), null);
+//        }
 
         if (options.modeExamineGamemode >= 0) {
             setItem(options.modeExamineGamemode, gameModeItem(targetPlayer), null);
@@ -218,6 +223,16 @@ public class ExamineIGui extends AbstractIGui {
                 .setMaterial(Material.COMPASS).setAmount(1)
                 .setName("&bConnection")
                 .addLore(messages.examineIp.replace("%ipaddress%", ip))
+                .build();
+
+        return item;
+    }
+
+    private ItemStack pingItem(Player player) {
+        ItemStack item = Items.builder()
+                .setMaterial(Material.PAPER).setAmount(1)
+                .setName("&bPing")
+                .addLore(messages.examineIp.replace("%ping%", String.valueOf(User.getPing(player))))
                 .build();
 
         return item;

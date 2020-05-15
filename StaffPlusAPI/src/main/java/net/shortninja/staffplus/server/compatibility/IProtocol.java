@@ -9,6 +9,14 @@ import java.util.Set;
 public interface IProtocol {
     String NBT_IDENTIFIER = "StaffPlus";
 
+    default String getName() {
+        return getClass().getSimpleName();
+    }
+
+    default String getVersion() {
+        return getName().replace("Protocol_v", "");
+    }
+
     ItemStack addNbtString(ItemStack item, String value);
 
     String getNbtString(ItemStack item);

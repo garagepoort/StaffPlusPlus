@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 //TODO: replace this with something that isn't horribly coupled...
@@ -24,15 +25,15 @@ public class Options implements IOptions {
     private static final int CURRENT_VERSION = 6204;
     private static FileConfiguration config = StaffPlus.get().getConfig();
     private InputStream stream = StaffPlus.get().getResource("config.yml");
-    YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+    YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
 
     /*
      * General
      */
     public String language = config.getString("lang");
     public boolean bungee = config.getBoolean("bungee");
-    public List<String> blockedCommands = JavaUtils.stringToList(config.getString("blocked-commands"));
-    public List<String> blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands"));
+    public List<String> blockedCommands = JavaUtils.stringToList(config.getString("blocked-commands", ""));
+    public List<String> blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands", ""));
     public short glassColor = (short) config.getInt("glass-color");
     public String glassTitle = config.getString("glass-title");
     /*
@@ -167,19 +168,20 @@ public class Options implements IOptions {
     /*
      * Examine
      */
-    public boolean enderChestEnabled = configVersion >= 6204 ? config.getBoolean("staff-mode.enderchest-module.enabled") : true;
-    public boolean enderOfflineChestEnabled = configVersion >= 6204 ? config.getBoolean("staff-mode.enderchest-module.offline-viewing") : true;
+    public boolean enderChestEnabled = configVersion < 6204 || config.getBoolean("staff-mode.enderchest-module.enabled");
+    public boolean enderOfflineChestEnabled = configVersion < 6204 || config.getBoolean("staff-mode.enderchest-module.offline-viewing");
     public boolean modeExamineEnabled = config.getBoolean("staff-mode.examine-module.enabled");
     public int modeExamineSlot = config.getInt("staff-mode.examine-module.slot") - 1;
     public String modeExamineTitle = config.getString("staff-mode.examine-module.title");
-    public int modeExamineFood = config.getInt("staff-mode.examine-module.info-line.food") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.food") + 44;
-    public int modeExamineIp = config.getInt("staff-mode.examine-module.info-line.ip-address") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ip-address") + 44;
-    public int modeExamineGamemode = config.getInt("staff-mode.examine-module.info-line.gamemode") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.gamemode") + 44;
-    public int modeExamineInfractions = config.getInt("staff-mode.examine-module.info-line.infractions") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.infractions") + 44;
-    public int modeExamineLocation = config.getInt("staff-mode.examine-module.info-line.location") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.location") + 44;
-    public int modeExamineNotes = config.getInt("staff-mode.examine-module.info-line.notes") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.notes") + 44;
-    public int modeExamineFreeze = config.getInt("staff-mode.examine-module.info-line.freeze") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.freeze") + 44;
-    public int modeExamineWarn = config.getInt("staff-mode.examine-module.info-line.warn") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.warn") + 44;
+    public int modeExamineFood = config.getInt("staff-mode.examine-module.info-line.food") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.food");
+    public int modeExamineIp = config.getInt("staff-mode.examine-module.info-line.ip-address") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ip-address");
+    public int modeExaminePing = config.getInt("staff-mode.examine-module.info-line.ping") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ping");
+    public int modeExamineGamemode = config.getInt("staff-mode.examine-module.info-line.gamemode") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.gamemode");
+    public int modeExamineInfractions = config.getInt("staff-mode.examine-module.info-line.infractions") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.infractions");
+    public int modeExamineLocation = config.getInt("staff-mode.examine-module.info-line.location") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.location");
+    public int modeExamineNotes = config.getInt("staff-mode.examine-module.info-line.notes") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.notes");
+    public int modeExamineFreeze = config.getInt("staff-mode.examine-module.info-line.freeze") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.freeze");
+    public int modeExamineWarn = config.getInt("staff-mode.examine-module.info-line.warn") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.warn");
     /*
      * Follow
      */

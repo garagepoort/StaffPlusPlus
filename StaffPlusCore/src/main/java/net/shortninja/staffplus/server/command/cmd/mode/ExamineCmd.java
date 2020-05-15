@@ -41,6 +41,7 @@ public class ExamineCmd extends BukkitCommand {
 
         if (targetPlayer != null) {
             gadgetHandler.onExamine((Player) sender, targetPlayer);
+//            targetPlayer.sendMessage("Ping: " + User.getPing(targetPlayer));
         } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
 
         return true;

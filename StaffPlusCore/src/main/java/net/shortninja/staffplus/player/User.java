@@ -8,6 +8,8 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class User implements IUser {
@@ -27,6 +29,29 @@ public class User implements IUser {
     private boolean isOnline = true;
     private boolean isChatting = false;
     private boolean isFrozen = false;
+
+    private static Class<?> craftPlayerClass;
+    private static Class<?> entityPlayerClass;
+    private static Class<?> playerConnectionClass;
+    private static Method getHandleMethod;
+    private static Field playerConnectionField;
+    private static Field pingField;
+
+    static {
+        try {
+            final String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+//            final String version = StaffPlus.get().versionProtocol.getVersion();
+
+            craftPlayerClass = Class.forName("org.bukkit.craftbukkit." + version + ".entity.CraftPlayer");
+            entityPlayerClass = Class.forName("net.minecraft.server." + version + ".EntityPlayer");
+            playerConnectionClass = Class.forName("net.minecraft.server." + version + ".PlayerConnection");
+            getHandleMethod = craftPlayerClass.getDeclaredMethod("getHandle");
+            playerConnectionField = entityPlayerClass.getDeclaredField("playerConnection");
+            pingField = playerConnectionClass.getDeclaredField("ping");
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public User(UUID uuid, String name, short glassColor, List<IReport> reports, List<IWarning> warnings, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
         this.uuid = uuid;
@@ -141,6 +166,18 @@ public class User implements IUser {
 
     public boolean isFrozen() {
         return isFrozen;
+    }
+
+    public static int getPing(Player player) {
+        try {
+            Object entityPlayer = getHandleMethod.invoke(player);
+            Object playerConnection = playerConnectionField.get(entityPlayer);
+
+            return (int) pingField.get(playerConnection);
+        } catch (ReflectiveOperationException e) {
+            Bukkit.getLogger().warning(e.getMessage());
+            return -1;
+        }
     }
 
     public void setFrozen(boolean isFrozen) {
