@@ -34,10 +34,22 @@ public class EntityDamageByEntity implements Listener {
                 }
             } else return;
         } else player = (Player) event.getDamager();
+<<<<<<< HEAD
         if(userManager==null)
             return;
 
         if (player != null && (userManager.get(player.getUniqueId()).isFrozen() || (!options.modeDamage && modeCoordinator.isInMode(player.getUniqueId())))) {
+=======
+        if (userManager == null)
+            userManager = StaffPlus.get().userManager;
+        if (options == null)
+            options = StaffPlus.get().options;
+        if (modeCoordinator == null)
+            modeCoordinator = StaffPlus.get().modeCoordinator;
+        if (userManager == null)
+            return;
+        /*NPE*/if (userManager.get(player.getUniqueId()).isFrozen() || (!options.modeDamage && modeCoordinator.isInMode(player.getUniqueId()))) {
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             event.setCancelled(true);
         }
     }

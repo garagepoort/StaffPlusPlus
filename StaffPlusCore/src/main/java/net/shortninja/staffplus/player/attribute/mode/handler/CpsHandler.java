@@ -29,7 +29,11 @@ public class CpsHandler {
     }
 
     public void startTest(final CommandSender sender, final Player targetPlayer) {
+<<<<<<< HEAD
         if(currentTests.containsKey(targetPlayer.getUniqueId()))
+=======
+        if (currentTests.containsKey(targetPlayer.getUniqueId()))
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             return;
         currentTests.put(targetPlayer.getUniqueId(), 0);
         message.send(sender, messages.cpsStart.replace("%target%", targetPlayer.getName()).replace("%seconds%", Integer.toString((int) options.modeCpsTime / 20)), messages.prefixGeneral);

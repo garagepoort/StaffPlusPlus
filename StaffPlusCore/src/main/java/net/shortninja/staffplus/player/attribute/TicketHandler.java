@@ -1,7 +1,10 @@
 package net.shortninja.staffplus.player.attribute;
 
 import net.shortninja.staffplus.StaffPlus;
+<<<<<<< HEAD
 import net.shortninja.staffplus.server.data.MySQLConnection;
+=======
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -9,10 +12,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+=======
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import java.util.*;
 
 public class TicketHandler {
@@ -27,6 +33,7 @@ public class TicketHandler {
     }
 
     public Set<Ticket> getOpenTickets() {
+<<<<<<< HEAD
         Set<Ticket> tickets = new HashSet<Ticket>();
 
         for (Ticket ticket : this.tickets.values()) {
@@ -78,6 +85,17 @@ public class TicketHandler {
         }
 
         return ticket;
+=======
+        return StaffPlus.get().storage.getTickets();
+    }
+
+    public Ticket getTicketByUuid(UUID uuid) {
+        return StaffPlus.get().storage.getTicketByUUID(uuid);
+    }
+
+    public Ticket getTicketById(int id) {
+        return StaffPlus.get().storage.getTickById(id);
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     public int getNextId() {
@@ -89,6 +107,7 @@ public class TicketHandler {
 
         this.message.send(player, message, messages.prefixTickets);
         this.message.sendGroupMessage(message, options.permissionTickets, messages.prefixTickets);
+<<<<<<< HEAD
         if (options.storageType.equalsIgnoreCase("flatfile"))
             tickets.put(ticket.getUuid(), ticket);
         else if (options.storageType.equalsIgnoreCase("mysql")) {
@@ -103,6 +122,9 @@ public class TicketHandler {
                 e.printStackTrace();
             }
         }
+=======
+        StaffPlus.get().storage.addTicket(ticket);
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         nextTicketId++;
     }
 
@@ -116,6 +138,7 @@ public class TicketHandler {
         this.message.sendGroupMessage(message, options.permissionTickets, messages.prefixTickets);
         this.message.send(Bukkit.getPlayer(ticket.getName()), message, messages.prefixTickets);
         ticket.setHasBeenClosed(true);
+<<<<<<< HEAD
         if (options.storageType.equalsIgnoreCase("flatfile"))
             tickets.remove(ticket.getUuid());
         else if (options.storageType.equalsIgnoreCase("mysql")) {
@@ -127,6 +150,10 @@ public class TicketHandler {
                 e.printStackTrace();
             }
         }
+=======
+        StaffPlus.get().storage.removeTicket(ticket);
+
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     public void sendResponse(CommandSender sender, Ticket ticket, String response, boolean isStaffResponse) {
@@ -158,4 +185,11 @@ public class TicketHandler {
             return message;
         }
     }
+<<<<<<< HEAD
+=======
+
+    public static Map<UUID, Ticket> getTicketsMap() {
+        return tickets;
+    }
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 }

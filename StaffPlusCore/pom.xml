@@ -5,7 +5,11 @@
     <parent>
         <artifactId>StaffPlus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
+<<<<<<< HEAD
         <version>3.3.1.0-PRERELEASE</version>
+=======
+        <version>3.3.2.0-RELEASE</version>
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -20,6 +24,10 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
+<<<<<<< HEAD
+=======
+                    <encoding>UTF-8</encoding>
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
@@ -73,7 +81,11 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusAPI</artifactId>
+<<<<<<< HEAD
             <version>3.3.1.0-PRERELEASE</version>
+=======
+            <version>3.3.2.0-RELEASE</version>
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -150,16 +162,27 @@
             <artifactId>v1_13_R2</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+<<<<<<< HEAD
 		<dependency>
+=======
+        <dependency>
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>v1_14_R1</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+<<<<<<< HEAD
         <groupId>net.shortninja.staffplus</groupId>
         <artifactId>v1_15_R1</artifactId>
         <version>${project.parent.version}</version>
     </dependency>
+=======
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_15_R1</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         <dependency>
             <groupId>org.inventivetalent</groupId>
             <artifactId>apimanager</artifactId>
@@ -181,6 +204,7 @@
             <version>3.7.5-SNAPSHOT</version>
         </dependency>
         <dependency>
+<<<<<<< HEAD
         <groupId>org.inventivetalent.packetlistener</groupId>
         <artifactId>1_7</artifactId>
         <version>3.7.5-SNAPSHOT</version>
@@ -202,6 +226,29 @@
             </exclusion>
         </exclusions>
     </dependency>
+=======
+            <groupId>org.inventivetalent.packetlistener</groupId>
+            <artifactId>1_7</artifactId>
+            <version>3.7.5-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>craftbukkit</artifactId>
+                    <groupId>org.bukkit</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.inventivetalent.packetlistener</groupId>
+            <artifactId>1_8</artifactId>
+            <version>3.7.5-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>craftbukkit</artifactId>
+                    <groupId>org.bukkit</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
@@ -259,12 +306,21 @@
             <artifactId>v1_14_R2</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+<<<<<<< HEAD
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+=======
+        <!--        <dependency>-->
+        <!--            <groupId>org.spigotmc</groupId>-->
+        <!--            <artifactId>spigot</artifactId>-->
+        <!--            <version>1.14.4-R0.1-SNAPSHOT</version>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     </dependencies>
 
     <properties>

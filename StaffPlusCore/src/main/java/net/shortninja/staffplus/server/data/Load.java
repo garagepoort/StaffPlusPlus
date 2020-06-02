@@ -4,7 +4,10 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
+<<<<<<< HEAD
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
+=======
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.unordered.IReport;
@@ -42,6 +45,30 @@ public class Load {
         userManager.add(user);
     }
 
+<<<<<<< HEAD
+=======
+    public User getUser(){
+
+        String name = dataFile.getString(prefix + "name");
+        String password = dataFile.getString(prefix + "password");
+        short glassColor = (short) dataFile.getInt(prefix + "glass-color");
+        List<IReport> reports = loadReports();
+        List<IWarning> warnings = loadWarnings();
+        List<String> playerNotes = loadPlayerNotes();
+        Map<AlertType, Boolean> alertOptions = loadAlertOptions();
+
+//        if (password != null && !password.isEmpty()) {
+//            securityHandler.setPassword(uuid, password, false);
+//        }
+
+        if (!this.name.equals(name)) {
+            alertCoordinator.onNameChange(name, this.name);
+        }
+
+        return new User(uuid, name, glassColor, reports, warnings, playerNotes, alertOptions);
+    }
+
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     private User loadUser() {
         String name = dataFile.getString(prefix + "name");
         String password = dataFile.getString(prefix + "password");
@@ -80,16 +107,27 @@ public class Load {
     private List<IWarning> loadWarnings() {
         List<IWarning> warnings = new ArrayList<>();
 
+<<<<<<< HEAD
         for (String string : dataFile.getStringList(prefix + "warnings")) {
+=======
+
+        /*for (String string : dataFile.getStringList(prefix + "warnings")) {
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             String[] parts = string.split(";");
             UUID issuerUuid = UUID.fromString(parts[2]);
             String offlineName = getOfflineName(issuerUuid);
             String issuerName = offlineName == null ? parts[1] : offlineName;
 
             warnings.add(new Warning(uuid, name, parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
+<<<<<<< HEAD
         }
 
         return warnings;
+=======
+        }*/
+
+        return StaffPlus.get().storage.getWarnings(uuid);
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     private Map<AlertType, Boolean> loadAlertOptions() {

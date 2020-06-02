@@ -1,9 +1,12 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
+<<<<<<< HEAD
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.MySQLConnection;
+=======
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.*;
@@ -11,10 +14,15 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+=======
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import java.util.*;
 
 public class User implements IUser {
@@ -35,6 +43,32 @@ public class User implements IUser {
     private boolean isChatting = false;
     private boolean isFrozen = false;
 
+<<<<<<< HEAD
+=======
+    private static Class<?> craftPlayerClass;
+    private static Class<?> entityPlayerClass;
+    private static Class<?> playerConnectionClass;
+    private static Method getHandleMethod;
+    private static Field playerConnectionField;
+    private static Field pingField;
+
+    static {
+        try {
+            final String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+//            final String version = StaffPlus.get().versionProtocol.getVersion();
+
+            craftPlayerClass = Class.forName("org.bukkit.craftbukkit." + version + ".entity.CraftPlayer");
+            entityPlayerClass = Class.forName("net.minecraft.server." + version + ".EntityPlayer");
+            playerConnectionClass = Class.forName("net.minecraft.server." + version + ".PlayerConnection");
+            getHandleMethod = craftPlayerClass.getDeclaredMethod("getHandle");
+            playerConnectionField = entityPlayerClass.getDeclaredField("playerConnection");
+            pingField = playerConnectionClass.getDeclaredField("ping");
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     public User(UUID uuid, String name, short glassColor, List<IReport> reports, List<IWarning> warnings, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
         this.uuid = uuid;
         this.name = name;
@@ -58,6 +92,10 @@ public class User implements IUser {
     /**
      * This method can return a null player if the user is not online, so be sure
      * to check!
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
      * @return
      */
     public Optional<Player> getPlayer() {
@@ -73,11 +111,16 @@ public class User implements IUser {
     }
 
 
+<<<<<<< HEAD
     private short getColorColor(){
+=======
+    private short getColorColor() {
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         return glassColor;
     }
 
     public short getGlassColor() {
+<<<<<<< HEAD
         if (options.storageType.equalsIgnoreCase("flatefile"))
             return glassColor;
         else if (options.storageType.equalsIgnoreCase("mysql")) {
@@ -160,6 +203,21 @@ public class User implements IUser {
             }
         }
         return warnings;
+=======
+        return StaffPlus.get().storage.getGlassColor(this);
+    }
+
+    public void setGlassColor(short glassColor) {
+        StaffPlus.get().storage.setGlassColor(this, glassColor);
+    }
+
+    public List<IReport> getReports() {
+        return StaffPlus.get().storage.getReports(getUuid());
+    }
+
+    public List<IWarning> getWarnings() {
+        return StaffPlus.get().storage.getWarnings(getUuid());
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     public List<String> getPlayerNotes() {
@@ -218,6 +276,21 @@ public class User implements IUser {
         return isFrozen;
     }
 
+<<<<<<< HEAD
+=======
+    public static int getPing(Player player) {
+        try {
+            Object entityPlayer = getHandleMethod.invoke(player);
+            Object playerConnection = playerConnectionField.get(entityPlayer);
+
+            return (int) pingField.get(playerConnection);
+        } catch (ReflectiveOperationException e) {
+            Bukkit.getLogger().warning(e.getMessage());
+            return -1;
+        }
+    }
+
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     public void setFrozen(boolean isFrozen) {
         this.isFrozen = isFrozen;
     }
@@ -231,6 +304,7 @@ public class User implements IUser {
     }
 
     public void addReport(IReport report) {
+<<<<<<< HEAD
         if (options.storageType.equalsIgnoreCase("flatfile"))
             reports.add(report);
         else if (options.storageType.equalsIgnoreCase("mysql")) {
@@ -245,6 +319,9 @@ public class User implements IUser {
                 e.printStackTrace();
             }
         }
+=======
+        StaffPlus.get().storage.addReport(report);
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     public void removeReport(String uuid) {
@@ -252,6 +329,7 @@ public class User implements IUser {
     }
 
     public void addWarning(IWarning warning) {
+<<<<<<< HEAD
         if (options.storageType.equalsIgnoreCase("flatfile"))
             warnings.add(warning);
         else if (options.storageType.equalsIgnoreCase("mysql")) {
@@ -270,6 +348,13 @@ public class User implements IUser {
 
     public void removeWarning(UUID uuid) {
         warnings.remove(uuid);
+=======
+        StaffPlus.get().storage.addWarning(warning);
+    }
+
+    public void removeWarning(UUID uuid) {
+        StaffPlus.get().storage.removeWarning(uuid);
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     public void addPlayerNote(String note) {

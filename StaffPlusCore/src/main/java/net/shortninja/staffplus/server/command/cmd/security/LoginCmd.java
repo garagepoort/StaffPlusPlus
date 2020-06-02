@@ -45,12 +45,20 @@ public class LoginCmd extends BukkitCommand {
 
 
         if (securityHandler.hasPassword(player)) {
+<<<<<<< HEAD
             if (securityHandler.isPasswordMatch(args[0].getBytes(StandardCharsets.UTF_8),securityHandler.getPassword(player))) {
+=======
+            if (securityHandler.isPasswordMatch(args[0].getBytes(StandardCharsets.UTF_8), securityHandler.getPassword(player))) {
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
                 freezeHandler.removeFreeze(player, player, false);
                 PlayerJoin.needLogin.remove(player.getUniqueId());
                 message.send(sender, messages.loginAccepted, messages.prefixGeneral);
             } else {
+<<<<<<< HEAD
                 freezeHandler.removeFreeze(player,player,false);
+=======
+                freezeHandler.removeFreeze(player, player, false);
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
                 player.kickPlayer(message.colorize(options.loginKick));
             }
         } else message.send(sender, messages.loginRegister, messages.prefixGeneral);

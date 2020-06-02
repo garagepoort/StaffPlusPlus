@@ -17,7 +17,11 @@ public class PlayerWorldChange implements Listener {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
+<<<<<<< HEAD
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+=======
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     public void onWorldChange(PlayerChangedWorldEvent event) {
         if (modeCoordinator.isInMode(event.getPlayer().getUniqueId()) && options.worldChange) {
             modeCoordinator.removeMode(event.getPlayer());

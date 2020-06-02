@@ -8,6 +8,11 @@ public class ModuleConfiguration {
     private int slot;
     private ItemStack item;
     private String action;
+<<<<<<< HEAD
+=======
+    private String enchantment;
+    private int level;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
     public ModuleConfiguration(String identifier, ModuleType moduleType, int slot, ItemStack item, String action) {
         this.identifier = identifier;
@@ -15,6 +20,11 @@ public class ModuleConfiguration {
         this.slot = slot;
         this.item = item;
         this.action = action;
+<<<<<<< HEAD
+=======
+        this.enchantment = "";
+        this.level = 0;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     public String getIdentifier() {
@@ -41,6 +51,17 @@ public class ModuleConfiguration {
         return action;
     }
 
+<<<<<<< HEAD
+=======
+    public String getEnchantment() {
+        return enchantment;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     public enum ModuleType {
         COMMAND_STATIC, COMMAND_DYNAMIC, COMMAND_CONSOLE, ITEM;
     }

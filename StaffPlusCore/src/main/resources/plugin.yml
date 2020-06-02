@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 main: net.shortninja.staffplus.StaffPlus
 name: StaffPlus
 version: 3.3.1.0
@@ -5,3 +6,12 @@ description: The ultimate moderation plugin!
 author: Shortninja,Qball
 softdepend: [PacketListenerApi]
 api-version: 1.13
+=======
+main: net.shortninja.staffplus.StaffPlus
+name: StaffPlus
+version: 3.3.2.3
+description: The ultimate moderation plugin!
+author: Shortninja,Qball
+softdepend: [PacketListenerApi, PlaceholderAPI]
+api-version: 1.13
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857

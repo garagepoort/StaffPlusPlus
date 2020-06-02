@@ -5,7 +5,11 @@
     <parent>
         <artifactId>StaffPlus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
+<<<<<<< HEAD
         <version>3.3.1.0-PRERELEASE</version>
+=======
+        <version>3.3.2.0-RELEASE</version>
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,8 +23,13 @@
         </dependency>
 
         <dependency>
+<<<<<<< HEAD
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
+=======
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
