@@ -74,7 +74,7 @@ type-input: "&bInserez votre input dans le chat."
 input-accepted: "&bInput accépté et soumis à révision."
 
 enabled: "activé"
-disbaled: "désactivé"
+disabled: "désactivé"
 
 ############################################################
 # +------------------------------------------------------+ #

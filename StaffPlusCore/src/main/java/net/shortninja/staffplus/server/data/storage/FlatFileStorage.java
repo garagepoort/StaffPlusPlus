@@ -66,16 +66,22 @@ public class FlatFileStorage implements IStorage {
         List<IReport> reports = new ArrayList<>();
 
         for (String string : dataFile.getStringList(uuid.toString() + ".reports")) {
-            if(string==null)
+            if (string == null)
                 return reports;
             String[] parts = string.split(";");
             UUID reporterUuid = UUID.fromString(parts[2]);
             String offlineName = Bukkit.getOfflinePlayer(reporterUuid).getName();
             String reporterName = offlineName == null ? parts[1] : offlineName;
-            try {
-                reports.add(new Report(uuid, Objects.requireNonNull(Bukkit.getPlayer(uuid)).getName(), parts[0], reporterName, reporterUuid));
-            }catch (NullPointerException e ){}
-            }
+            Player p = Bukkit.getPlayer(uuid);
+            String pName;
+            if(p==null)
+                pName = "Console";
+            else
+                pName = p.getName();
+            if (pName == null)
+                pName = "Console";
+            reports.add(new Report(uuid, pName, parts[0], reporterName, reporterUuid));
+        }
 
         return reports;
     }
@@ -90,8 +96,15 @@ public class FlatFileStorage implements IStorage {
             UUID issuerUuid = UUID.fromString(parts[2]);
             String offlineName = Bukkit.getOfflinePlayer(issuerUuid).getName();
             String issuerName = offlineName == null ? parts[1] : offlineName;
-
-            warnings.add(new Warning(uuid, Bukkit.getPlayer(uuid).getName(), parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
+            Player p = Bukkit.getPlayer(uuid);
+            String pName;
+            if(p==null)
+                pName = "Console";
+            else
+                pName = p.getName();
+            if(pName == null)
+                pName = "Console";
+            warnings.add(new Warning(uuid, pName, parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
         }
 
         return warnings;

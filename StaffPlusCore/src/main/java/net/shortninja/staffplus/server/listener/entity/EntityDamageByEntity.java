@@ -40,9 +40,9 @@ public class EntityDamageByEntity implements Listener {
             options = StaffPlus.get().options;
         if (modeCoordinator == null)
             modeCoordinator = StaffPlus.get().modeCoordinator;
-        if (player == null)
+        if (userManager == null)
             return;
-        if (userManager.get(player.getUniqueId()).isFrozen() || (!options.modeDamage && modeCoordinator.isInMode(player.getUniqueId()))) {
+        /*NPE*/if (userManager.get(player.getUniqueId()).isFrozen() || (!options.modeDamage && modeCoordinator.isInMode(player.getUniqueId()))) {
             event.setCancelled(true);
         }
     }
