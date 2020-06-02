@@ -11,7 +11,6 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * @author Shortninja, DarkSeraphim, ...
@@ -63,16 +62,11 @@ public class JavaUtils {
      * @return The split string List.
      */
     public static List<String> stringToList(String commas) {
-        List<String> list = new ArrayList<String>();
-        ListIterator<String> iterator = Arrays.asList(commas.split("\\s*,\\s*")).listIterator();
+        if (commas == null) {
+            throw new IllegalArgumentException("Commas may not be null.");
+        }
 
-        if (iterator != null) {
-            while (iterator.hasNext()) {
-                list.add(iterator.next());
-            }
-        } else list = Arrays.asList(commas);
-
-        return list;
+        return new ArrayList<>(Arrays.asList(commas.split("\\s*,\\s*")));
     }
 
     /**
@@ -93,7 +87,7 @@ public class JavaUtils {
                 suffix = "";
             }
 
-            builder.append(word + suffix);
+            builder.append(word).append(suffix);
         }
 
         return builder.toString();
@@ -110,7 +104,7 @@ public class JavaUtils {
         StringBuilder builder = new StringBuilder();
 
         for (int i = index; i < args.length; i++) {
-            builder.append(args[i] + " ");
+            builder.append(args[i]).append(" ");
         }
 
         return builder.toString().trim();
@@ -122,13 +116,11 @@ public class JavaUtils {
      *
      * @param array The array to reverse.
      */
-    public static void reverse(Object array[]) {
-        if (array == null) {
-            return;
-        } else {
+    public static void reverse(Object[] array) {
+        if (array != null) {
             int i = 0;
 
-            for (int j = Math.min(array.length, array.length) - 1; j > i; i++) {
+            for (int j = array.length; j > i; i++) {
                 Object tmp = array[j];
                 array[j] = array[i];
                 array[i] = tmp;
@@ -204,11 +196,7 @@ public class JavaUtils {
      * @return List of all online players from Bukkit#getOnlinePlayers().
      */
     public static List<Player> getOnlinePlayers() {
-        List<Player> onlinePlayers = new ArrayList<Player>();
-
-        onlinePlayers.addAll(Bukkit.getOnlinePlayers());
-
-        return onlinePlayers;
+        return new ArrayList<>(Bukkit.getOnlinePlayers());
     }
 
     /**

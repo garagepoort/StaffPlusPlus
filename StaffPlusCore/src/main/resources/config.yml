@@ -577,10 +577,13 @@ staff-mode:
     # Remember that the maximum amount of allowed items within this line is nine!
     info-line:
       # Food and hunger information.
-      food: 2
+      food: 1
 
       # IP address information.
-      ip-address: 3
+      ip-address: 2
+
+      # Ping information.
+      ping: 3
 
       # Gamemode and flight information.
       gamemode: 4
@@ -598,7 +601,7 @@ staff-mode:
       freeze: 8
 
       # Warn button.
-      warn: 0
+      warn: 9
 
   enderchest-module:
     enabled: true

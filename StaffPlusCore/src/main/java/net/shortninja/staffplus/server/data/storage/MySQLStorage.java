@@ -38,29 +38,33 @@ public class MySQLStorage implements IStorage {
 
     @Override
     public byte[] getPassword(Player player) {
-        try (Connection c = MySQLConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?;")) {
-            ps.setString(1, player.getUniqueId().toString());
+        return new byte[0]; // Due to insecurity in the backend, let it gracefully pass.
 
-            try (ResultSet set = ps.executeQuery()) {
-                return set.next() ? set.getBytes("Password") : null;
-            }
-        } catch (SQLException e) {
-            throw new IllegalStateException("Could not open connection.", e);
-        }
+//        try (Connection c = MySQLConnection.getConnection();
+//             PreparedStatement ps = c.prepareStatement("SELECT Password FROM sp_playerdata WHERE Player_UUID=?;")) {
+//            ps.setString(1, player.getUniqueId().toString());
+//
+//            try (ResultSet set = ps.executeQuery()) {
+//                return set.next() ? set.getBytes("Password") : null;
+//            }
+//        } catch (SQLException e) {
+//            throw new IllegalStateException("Could not open connection.", e);
+//        }
     }
 
     @Override
     public void setPassword(Player player, byte[] password) {
-        try (Connection c = MySQLConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement("INSERT INTO sp_playerdata (Player_UUID, Password) VALUES (?, ?) ON DUPLICATE KEY UPDATE Password=?;")) {
-            ps.setString(1, player.getUniqueId().toString());
-            ps.setBytes(2, password);
-            ps.setBytes(3, password);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("Could not open connection.", e);
-        }
+        // Due to insecurity in the backend, let it gracefully pass.
+
+//        try (Connection c = MySQLConnection.getConnection();
+//             PreparedStatement ps = c.prepareStatement("INSERT INTO sp_playerdata (Player_UUID, Password) VALUES (?, ?) ON DUPLICATE KEY UPDATE Password=?;")) {
+//            ps.setString(1, player.getUniqueId().toString());
+//            ps.setBytes(2, password);
+//            ps.setBytes(3, password);
+//            ps.executeUpdate();
+//        } catch (SQLException e) {
+//            throw new IllegalStateException("Could not open connection.", e);
+//        }
     }
 
     @Override
