@@ -100,7 +100,7 @@ public class Load {
     }
 
     private List<IWarning> loadWarnings() {
-        List<IWarning> warnings = new ArrayList<>();
+        /*List<IWarning> warnings = new ArrayList<>();
 
         for (String string : dataFile.getStringList(prefix + "warnings")) {
 

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 0.9:
 	0.9.1|10 July 2015: Release
 	0.9.2|11 July 2015: UUID support, more configuration options.
@@ -78,5 +77,4 @@
 	3.2.1|14 October 2016: Fixed minor bugs, made /login more secure.
 	3.2.2|29 December 2016: 1.11 support, added /strip, option for preventing staff mode players from attacking, fixed several bugs.
 
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 10,000 lines of code and counting!

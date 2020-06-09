@@ -37,6 +37,8 @@ public class EntityDamageByEntity implements Listener {
 
             }
         } else player = (Player) event.getDamager();
+        if(player == null)
+            return;
         if(userManager==null)
             return;
         if (userManager == null)

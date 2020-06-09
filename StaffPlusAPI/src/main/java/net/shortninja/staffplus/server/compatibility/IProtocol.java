@@ -9,8 +9,7 @@ import java.util.Set;
 public interface IProtocol {
     String NBT_IDENTIFIER = "StaffPlus";
 
-<<<<<<< HEAD
-=======
+
     default String getName() {
         return getClass().getSimpleName();
     }
@@ -19,7 +18,6 @@ public interface IProtocol {
         return getName().replace("Protocol_v", "");
     }
 
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     ItemStack addNbtString(ItemStack item, String value);
 
     String getNbtString(ItemStack item);

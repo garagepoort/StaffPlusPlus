@@ -2,15 +2,12 @@ package net.shortninja.staffplus.server.chat;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
-<<<<<<< HEAD
 import org.bukkit.Bukkit;
 
 import java.util.Arrays;
 import java.util.Collections;
-=======
 
-import java.util.Arrays;
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
+
 import java.util.regex.Pattern;
 
 

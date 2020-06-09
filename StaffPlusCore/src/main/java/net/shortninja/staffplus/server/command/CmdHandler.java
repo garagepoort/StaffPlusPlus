@@ -6,27 +6,23 @@ import net.shortninja.staffplus.server.command.cmd.infraction.ReportCmd;
 import net.shortninja.staffplus.server.command.cmd.infraction.TicketCmd;
 import net.shortninja.staffplus.server.command.cmd.infraction.WarnCmd;
 import net.shortninja.staffplus.server.command.cmd.mode.*;
-<<<<<<< HEAD
-=======
 import net.shortninja.staffplus.server.command.cmd.security.ChangePassCmd;
 import net.shortninja.staffplus.server.command.cmd.security.LoginCmd;
 import net.shortninja.staffplus.server.command.cmd.security.RegisterCmd;
 import net.shortninja.staffplus.server.command.cmd.security.ResetPassCmd;
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Options;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
 
-<<<<<<< HEAD
 //import net.shortninja.staffplus.server.command.cmd.security.ChangePassCmd;
 //import net.shortninja.staffplus.server.command.cmd.security.ResetPassCmd;
 //import net.shortninja.staffplus.server.command.cmd.security.LoginCmd;
 //import net.shortninja.staffplus.server.command.cmd.security.RegisterCmd;
-=======
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
+
 
 public class CmdHandler {
     private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
@@ -52,7 +48,6 @@ public class CmdHandler {
                     new BaseCmd("follow", new FollowCmd(options.commandFollow), true, options.permissionFollow, "&7Follows or unfollows the player.", "{player}"),
                     new BaseCmd("revive", new ReviveCmd(options.commandRevive), true, options.permissionRevive, "&7Gives the player's previous inventory back.", "[player]"),
                     new BaseCmd("staff-list", new PersonnelCmd(options.commandStaffList), true, "&7Lists all registered staff members.", "{all | online | away | offline}"),
-<<<<<<< HEAD
 //                    new BaseCmd("login", new LoginCmd(options.commandLogin), options.loginEnabled, "&7Attempts to login with the given password.", "[password]"), // FIXME
 //                    new BaseCmd("register", new RegisterCmd(options.commandRegister), options.loginEnabled, "&7Registers a password to login with.", "[password] [confirm-password] ~ inventory space must be available!"), // FIXME
                     new BaseCmd("strip", new StripCmd(options.commandStrip), true, "&7Completely removes the target player's armor.", "[player]"),
@@ -61,16 +56,6 @@ public class CmdHandler {
 //                    new BaseCmd("resetPass", new ResetPassCmd(options.commandRestPass),true,"Used to reset the password of a user who has forgotten theirs","[player] [password]"), // FIXME
 //                    new BaseCmd("changePassword", new ChangePassCmd(options.commandChangePass),true,"Used to change your own password","[password] [change-password]"), // FIXME
                     new BaseCmd("echest-view",new EChestView(options.commandEChestView), options.enderChestEnabled,"Used to view a players ender chest", "[player]")
-=======
-                    new BaseCmd("login", new LoginCmd(options.commandLogin), options.loginEnabled, "&7Attempts to login with the given password.", "[password]"), // FIXME
-                    new BaseCmd("register", new RegisterCmd(options.commandRegister), options.loginEnabled, "&7Registers a password to login with.", "[password] [confirm-password] ~ inventory space must be available!"), // FIXME
-                    new BaseCmd("strip", new StripCmd(options.commandStrip), true, "&7Completely removes the target player's armor.", "[player]"),
-                    new BaseCmd("staffplus", new StaffPlusCmd("staffplus"), true, "Used for reloading config and lang file in use", "[reload]"),
-                    new BaseCmd("clearInv", new ClearInvCmd(options.commandClearInv), true, "Used to clear a desired player's inventory", "[player]"),
-                    new BaseCmd("resetPass", new ResetPassCmd(options.commandRestPass), true, "Used to reset the password of a user who has forgotten theirs", "[player] [password]"), // FIXME
-                    new BaseCmd("changePassword", new ChangePassCmd(options.commandChangePass), true, "Used to change your own password", "[password] [change-password]"), // FIXME
-                    new BaseCmd("echest-view", new EChestView(options.commandEChestView), options.enderChestEnabled, "Used to view a players ender chest", "[player]")
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             };
 
     public CmdHandler() {

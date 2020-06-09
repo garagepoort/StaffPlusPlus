@@ -41,7 +41,6 @@ public class InventoryClose implements Listener {
         } else if (user.getCurrentGui().isPresent()) {
             user.setCurrentGui(null);
         }
-<<<<<<< HEAD
         if(StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())){
             for(Inventory inventory : StaffPlus.get().viewedChest.keySet()){
                 if(event.getInventory().equals(inventory)){
@@ -56,10 +55,6 @@ public class InventoryClose implements Listener {
             }
         }
         if(StaffPlus.get().inventoryHandler.isInVirtualInv(event.getPlayer().getUniqueId()))
-=======
-
-        if (StaffPlus.get().inventoryHandler.isInVirtualInv(event.getPlayer().getUniqueId()))
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             StaffPlus.get().inventoryHandler.removeVirtualUser(event.getPlayer().getUniqueId());
     }
 }
