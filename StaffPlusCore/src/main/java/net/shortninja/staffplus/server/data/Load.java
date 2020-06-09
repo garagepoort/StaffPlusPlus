@@ -110,7 +110,10 @@ public class Load {
             warnings.add(new Warning(uuid, name, parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
         }*/
 
-        return StaffPlus.get().storage.getWarnings(uuid);
+        if(StaffPlus.get().storage.getWarnings(uuid) == null)
+            return new ArrayList<IWarning>();
+        else
+            return StaffPlus.get().storage.getWarnings(uuid);
     }
 
     private Map<AlertType, Boolean> loadAlertOptions() {
