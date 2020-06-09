@@ -15,16 +15,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-<<<<<<< HEAD
 import org.bukkit.event.server.TabCompleteEvent;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-=======
 
 import java.util.UUID;
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
+
 
 public class PlayerCommandPreprocess implements Listener {
     private PermissionHandler permission = StaffPlus.get().permission;
@@ -51,11 +49,8 @@ public class PlayerCommandPreprocess implements Listener {
             return;
         }
 
-<<<<<<< HEAD
+
         if(PlayerJoin.needLogin.contains(event.getPlayer().getUniqueId()) && options.preLoginBlock.contains(command))
-=======
-        if (PlayerJoin.needLogin.contains(event.getPlayer().getUniqueId()) && options.preLoginBlock.contains(command))
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             event.setCancelled(true);
         if (options.blockedCommands.contains(command) && permission.hasOnly(player, options.permissionBlock)) {
             message.send(player, messages.commandBlocked, messages.prefixGeneral);

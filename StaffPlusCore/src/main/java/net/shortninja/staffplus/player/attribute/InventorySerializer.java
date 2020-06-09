@@ -64,11 +64,8 @@ public class InventorySerializer {
         inventory = null;*/
     }
 
-<<<<<<< HEAD
-    public void save(ItemStack[] items, ItemStack[] armor) {
-=======
+
     public void save(ItemStack[] items, ItemStack[] armor,float xp) {
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         inventory = YamlConfiguration.loadConfiguration(file);
         for (int i = 0; i <= items.length-1; i++) {
             inventory.set("Inventory." + i, items[i]);
@@ -76,10 +73,8 @@ public class InventorySerializer {
         for (int i = 0; i <= armor.length-1; i++) {
             inventory.set("Armor." + i,armor[i]);
         }
-<<<<<<< HEAD
-=======
+
         inventory.set("Xp",xp);
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         try {
             inventory.save(file);
         } catch (IOException e) {
@@ -87,11 +82,8 @@ public class InventorySerializer {
         }
     }
 
-<<<<<<< HEAD
-    public void save(HashMap<String,ItemStack> items, ItemStack[] armor) {
-=======
+
     public void save(HashMap<String,ItemStack> items, ItemStack[] armor,float xp) {
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         inventory = YamlConfiguration.loadConfiguration(file);
         for (String i : items.keySet()) {
             staff.getLogger().info("Items " +items.get(i).toString());
@@ -102,10 +94,8 @@ public class InventorySerializer {
             if(armor[i]!=null)
                 inventory.set("Armor." + i,armor[i]);
         }
-<<<<<<< HEAD
-=======
+
         inventory.set("Xp",xp);
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         try{
             inventory.save(file);
         } catch (IOException e) {
@@ -114,11 +104,8 @@ public class InventorySerializer {
     }
 
 
-<<<<<<< HEAD
-    public void save(HashMap<String,ItemStack> items, ItemStack[] armor, ItemStack[] offHand) {
-=======
+
     public void save(HashMap<String,ItemStack> items, ItemStack[] armor, ItemStack[] offHand,float xp) {
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         inventory = YamlConfiguration.loadConfiguration(file);
         for (String i : items.keySet()) {
             inventory.set("Inventory." + i, items.get(i));
@@ -129,10 +116,8 @@ public class InventorySerializer {
         for (int i = 0; i <= offHand.length-1; i++) {
             inventory.set("OffHand." + i,offHand[i]);
         }
-<<<<<<< HEAD
-=======
+
         inventory.set("Xp",xp);
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         try {
             inventory.save(file);
         } catch (IOException e) {
@@ -167,12 +152,10 @@ public class InventorySerializer {
         return items.toArray(new ItemStack[0]);
     }
 
-<<<<<<< HEAD
-=======
+
     public float getXp(){
         inventory = YamlConfiguration.loadConfiguration(file);
         return (float)inventory.getDouble("Xp");
     }
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
 }

@@ -21,10 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-<<<<<<< HEAD
 import java.util.List;
-=======
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import java.util.UUID;
 
 //import net.shortninja.staffplus.player.attribute.SecurityHandler;
@@ -36,11 +33,10 @@ public class PlayerJoin implements Listener {
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().getUserManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
-<<<<<<< HEAD
+
 //    private SecurityHandler securityHandler = StaffPlus.get().securityHandler; // FIXME
-=======
-    //    private SecurityHandler securityHandler = StaffPlus.get().securityHandler; // FIXME
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
+//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler; // FIXME
+
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
     public static ArrayList<UUID> needLogin = new ArrayList<>();
@@ -82,21 +78,13 @@ public class PlayerJoin implements Listener {
         } else new Load(player);
     }
 
-<<<<<<< HEAD
-    private void loadInv(Player p){
-        InventorySerializer serializer = new InventorySerializer(p.getUniqueId());
-        if(serializer.shouldLoad()){
-            HashMap<String, ItemStack> items = serializer.getContents();
-            for(String num : items.keySet())
-                p.getInventory().setItem(Integer.parseInt(num),items.get(num));
-=======
+
     private void loadInv(Player p) {
         InventorySerializer serializer = new InventorySerializer(p.getUniqueId());
         if (serializer.shouldLoad()) {
             HashMap<String, ItemStack> items = serializer.getContents();
             for (String num : items.keySet())
                 p.getInventory().setItem(Integer.parseInt(num), items.get(num));
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             serializer.deleteFile();
         }
     }

@@ -1,19 +1,15 @@
 package net.shortninja.staffplus.player.attribute.mode;
 
 import net.shortninja.staffplus.StaffPlus;
-<<<<<<< HEAD
-=======
+
 import net.shortninja.staffplus.player.User;
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
-<<<<<<< HEAD
-=======
+
 import net.shortninja.staffplus.server.data.Load;
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
@@ -53,11 +49,7 @@ public class ModeCoordinator {
     }
 
     public boolean isInMode(UUID uuid) {
-<<<<<<< HEAD
         if(modeUsers == null)
-=======
-        if (modeUsers == null)
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             modeUsers = new HashMap<>();
         return modeUsers.containsKey(uuid);
     }
@@ -65,15 +57,6 @@ public class ModeCoordinator {
     public void addMode(Player player) {
         UUID uuid = player.getUniqueId();
         IUser user = userManager.get(uuid);
-<<<<<<< HEAD
-        ModeDataVault modeData;
-        if(!StaffPlus.get().ninePlus) {
-            modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(),
-                    player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
-        }else {
-            modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
-                    player.getLocation(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
-=======
         if(user == null)
             user = new Load(player).getUser();
         ModeDataVault modeData;
@@ -83,15 +66,11 @@ public class ModeCoordinator {
         } else {
             modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
                     player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         }
         if (isInMode(player.getUniqueId())) {
             return;
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         JavaUtils.clearInventory(player);
         modeUsers.put(uuid, modeData);
         setPassive(player, user);
@@ -147,16 +126,10 @@ public class ModeCoordinator {
 
         runModeCommands(player, false);
         JavaUtils.clearInventory(player);
-<<<<<<< HEAD
-        getItems(player,saver);
-        player.getInventory().setArmorContents(saver.getArmor());
-        if(StaffPlus.get().ninePlus)
-=======
         getItems(player, saver);
         player.setExp(saver.getXp());
         player.getInventory().setArmorContents(saver.getArmor());
         if (StaffPlus.get().ninePlus)
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             player.getInventory().setExtraContents(saver.getOffHand());
         saver.deleteFile();
         player.updateInventory();
@@ -175,11 +148,7 @@ public class ModeCoordinator {
             }
 
             CommandSender target = (command.trim().startsWith("%player%")) ? player : Bukkit.getConsoleSender();
-<<<<<<< HEAD
-            command = (command.trim().startsWith("%player%)")) ? command.replaceFirst("%player%","").trim() : command;
-=======
             command = (command.trim().startsWith("%player%)")) ? command.replaceFirst("%player%", "").trim() : command;
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             Bukkit.dispatchCommand(target, command.replace("%player%", player.getName()));
         }
     }
@@ -196,17 +165,11 @@ public class ModeCoordinator {
         return itemHash;
     }
 
-<<<<<<< HEAD
     private void getItems(Player p, InventorySerializer saver){
         HashMap<String, ItemStack> items = saver.getContents();
         for(String num : items.keySet())
             p.getInventory().setItem(Integer.parseInt(num),items.get(num));
-=======
-    private void getItems(Player p, InventorySerializer saver) {
-        HashMap<String, ItemStack> items = saver.getContents();
-        for (String num : items.keySet())
-            p.getInventory().setItem(Integer.parseInt(num), items.get(num));
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
+
     }
 
 }

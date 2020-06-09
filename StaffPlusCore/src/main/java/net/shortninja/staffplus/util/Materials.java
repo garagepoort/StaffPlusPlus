@@ -1,9 +1,6 @@
 package net.shortninja.staffplus.util;
 
-<<<<<<< HEAD
-import net.shortninja.staffplus.StaffPlus;
-=======
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
+
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 
@@ -26,11 +23,7 @@ public enum Materials {
         String[] tmp = Bukkit.getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
         int ver = JavaUtils.parseMcVer(version);
-<<<<<<< HEAD
-            if(ver>=13) {
-=======
-        if (ver >= 13) {
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
+        if(ver>=13) {
             return newName;
         } else
             return oldName;
