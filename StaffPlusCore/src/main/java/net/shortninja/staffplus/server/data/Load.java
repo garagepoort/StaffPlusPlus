@@ -4,6 +4,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
+import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.unordered.IReport;
@@ -62,6 +63,7 @@ public class Load {
         return new User(uuid, name, glassColor, reports, warnings, playerNotes, alertOptions);
     }
 
+
     private User loadUser() {
         String name = dataFile.getString(prefix + "name");
         String password = dataFile.getString(prefix + "password");
@@ -100,14 +102,19 @@ public class Load {
     private List<IWarning> loadWarnings() {
         List<IWarning> warnings = new ArrayList<>();
 
+        for (String string : dataFile.getStringList(prefix + "warnings")) {
 
-        /*for (String string : dataFile.getStringList(prefix + "warnings")) {
             String[] parts = string.split(";");
             UUID issuerUuid = UUID.fromString(parts[2]);
             String offlineName = getOfflineName(issuerUuid);
             String issuerName = offlineName == null ? parts[1] : offlineName;
 
             warnings.add(new Warning(uuid, name, parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
+
+        }
+
+        return warnings;
+
         }*/
 
         if(StaffPlus.get().storage.getWarnings(uuid) == null)

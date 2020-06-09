@@ -1,6 +1,12 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
+<<<<<<< HEAD
+import net.shortninja.staffplus.player.attribute.infraction.Report;
+import net.shortninja.staffplus.player.attribute.infraction.Warning;
+import net.shortninja.staffplus.server.data.MySQLConnection;
+=======
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.*;
@@ -8,8 +14,15 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+<<<<<<< HEAD
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+=======
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import java.util.*;
 
 public class User implements IUser {
@@ -30,6 +43,8 @@ public class User implements IUser {
     private boolean isChatting = false;
     private boolean isFrozen = false;
 
+<<<<<<< HEAD
+=======
     private static Class<?> craftPlayerClass;
     private static Class<?> entityPlayerClass;
     private static Class<?> playerConnectionClass;
@@ -53,6 +68,7 @@ public class User implements IUser {
         }
     }*/
 
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     public User(UUID uuid, String name, short glassColor, List<IReport> reports, List<IWarning> warnings, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
         this.uuid = uuid;
         this.name = name;
@@ -76,7 +92,10 @@ public class User implements IUser {
     /**
      * This method can return a null player if the user is not online, so be sure
      * to check!
+<<<<<<< HEAD
+=======
      *
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
      * @return
      */
     public Optional<Player> getPlayer() {
@@ -92,11 +111,99 @@ public class User implements IUser {
     }
 
 
+<<<<<<< HEAD
+    private short getColorColor(){
+=======
     private short getColorColor() {
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         return glassColor;
     }
 
     public short getGlassColor() {
+<<<<<<< HEAD
+        if (options.storageType.equalsIgnoreCase("flatefile"))
+            return glassColor;
+        else if (options.storageType.equalsIgnoreCase("mysql")) {
+            try (Connection sql = MySQLConnection.getConnection();
+                 PreparedStatement ps = sql.prepareStatement("SELECT GlassColor FROM sp_playerdata WHERE Player_UUID=?")) {
+                ps.setString(1, uuid.toString());
+                short data;
+                try (ResultSet rs = ps.executeQuery()) {
+                    data = rs.getShort("GlassColor");
+                }
+                return data;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return (short) 0;
+    }
+
+    public void setGlassColor(short glassColor) {
+        if (options.storageType.equalsIgnoreCase("flatfile"))
+            this.glassColor = glassColor;
+        else if (options.storageType.equalsIgnoreCase("mysql")) {
+            try (Connection sql = MySQLConnection.getConnection();
+                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_playerdata(GlassColor, Player_UUID) " +
+                         "VALUES(?, ?) ON DUPLICATE KEY UPDATE GlassColor=?;")) {
+                insert.setInt(1, glassColor);
+                insert.setString(2, getUuid().toString());
+                insert.setInt(3, glassColor);
+                insert.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public List<IReport> getReports() {
+        if (options.storageType.equalsIgnoreCase("flatfile"))
+            return reports;
+        else if (options.storageType.equalsIgnoreCase("mysql")) {
+            try (Connection sql = MySQLConnection.getConnection();
+                 PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ?")) {
+                ps.setString(1, uuid.toString());
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
+                        UUID reporterUUID = UUID.fromString(rs.getString("Reporter_UUID"));
+                        String reporterName = reporterUUID.equals(StaffPlus.get().consoleUUID) ? "Console" : Bukkit.getPlayer(reporterUUID).getDisplayName();
+                        int id = rs.getInt("ID");
+                        reports.add(new Report(playerUUID, Bukkit.getPlayer(playerUUID).getDisplayName(), id, rs.getString("Reason"), reporterName, reporterUUID, System.currentTimeMillis()));
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return reports;
+    }
+
+    public List<IWarning> getWarnings() {
+        if (options.storageType.equalsIgnoreCase("flatfile"))
+            return warnings;
+        else if (options.storageType.equalsIgnoreCase("mysql")) {
+            try (Connection sql = MySQLConnection.getConnection();
+                 PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings WHERE Player_UUID = ?")
+            ) {
+                ps.setString(1, uuid.toString());
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
+                        UUID warnerUuid = UUID.fromString(rs.getString("Warner_UUID"));
+                        String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : Bukkit.getPlayer(warnerUuid).getDisplayName();
+                        int id = rs.getInt("ID");
+                        warnings.add(new Warning(playerUUID, Bukkit.getPlayer(playerUUID).getDisplayName(), id, rs.getString("Reason"), warnerName, warnerUuid, System.currentTimeMillis()));
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return warnings;
+=======
         return StaffPlus.get().storage.getGlassColor(this);
     }
 
@@ -110,6 +217,7 @@ public class User implements IUser {
 
     public List<IWarning> getWarnings() {
         return StaffPlus.get().storage.getWarnings(getUuid());
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     public List<String> getPlayerNotes() {
@@ -168,6 +276,8 @@ public class User implements IUser {
         return isFrozen;
     }
 
+<<<<<<< HEAD
+=======
     public static int getPing(Player player) {
         try {
             Object entityPlayer = getHandleMethod.invoke(player);
@@ -180,6 +290,7 @@ public class User implements IUser {
         }
     }
 
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     public void setFrozen(boolean isFrozen) {
         this.isFrozen = isFrozen;
     }
@@ -193,7 +304,24 @@ public class User implements IUser {
     }
 
     public void addReport(IReport report) {
+<<<<<<< HEAD
+        if (options.storageType.equalsIgnoreCase("flatfile"))
+            reports.add(report);
+        else if (options.storageType.equalsIgnoreCase("mysql")) {
+            try (Connection sql = MySQLConnection.getConnection();
+                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
+                         "VALUES(?, ?, ?);");) {
+                insert.setString(1, report.getReason());
+                insert.setString(2, report.getReporterUuid().toString());
+                insert.setString(3, report.getUuid().toString());
+                insert.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+=======
         StaffPlus.get().storage.addReport(report);
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     public void removeReport(String uuid) {
@@ -201,11 +329,32 @@ public class User implements IUser {
     }
 
     public void addWarning(IWarning warning) {
+<<<<<<< HEAD
+        if (options.storageType.equalsIgnoreCase("flatfile"))
+            warnings.add(warning);
+        else if (options.storageType.equalsIgnoreCase("mysql")) {
+            try (Connection sql = MySQLConnection.getConnection();
+                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
+                         "VALUES(? ,?, ?);");) {
+                insert.setString(1, warning.getReason());
+                insert.setString(2, warning.getIssuerUuid().toString());
+                insert.setString(3, warning.getUuid().toString());
+                insert.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void removeWarning(UUID uuid) {
+        warnings.remove(uuid);
+=======
         StaffPlus.get().storage.addWarning(warning);
     }
 
     public void removeWarning(UUID uuid) {
         StaffPlus.get().storage.removeWarning(uuid);
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     public void addPlayerNote(String note) {

@@ -1,6 +1,12 @@
+<<<<<<< HEAD
+# Language: Spanish/Español
+# Status: COMPLETED
+# Contributor(s): MrJaime
+=======
 # Lenguaje: Castellano
 # Estado: Completado
 # Traducido por: Hixyz#4996
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
 # Deja un mensaje vacio para desactivarlo.
 # Los placeholders solo estan disponibles en mensajes que los tienen por defecto.
@@ -12,7 +18,11 @@
 ############################################################
 
 # El prefijo para todos los mensajes que no estan relacionados con un modulo en concreto.
+<<<<<<< HEAD
+general-prefix: "&dStaff+ &8»"
+=======
 general-prefix: "&dStaff &8»"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
 # El prefijo para todos los mensajes relacionados con reportes.
 reports-prefix: "&dReportes &8»"
@@ -41,6 +51,18 @@ staff-list-entry: "&b%player% &%statuscolor%•"
 # Lineas están separadas por comas.
 staff-list-end: "&7%longline%"
 
+<<<<<<< HEAD
+lockdown: "&bEste servidor esta cerrado para fines de seguridad. Actualizaciones en &7shortninja.net"
+
+revived-staff: "&b¡Has reestablecido el inventario de &7%target%'s &ba su estado anterior!"
+revived-user: "&b¡Tu inventario ha sido reestablecido a su estado anterior!"
+
+command-blocked: "&b¡Ese comando esta bloqueado para el staff!"
+mode-command-blocked: "&b¡Ese comando esta bloqueado en modo de staff!"
+on-cooldown: "&b¡No puedes volver a usar eso hasta &7%seconds% &bsegundos."
+
+note-added: "&bNota añadido para &7%target%&b."
+=======
 lockdown: "&bEste servidor esta cerrado para fines de seguridad."
 
 revived-staff: "&bHas reestablecido el inventario de &7%target%'s &ba su estado anterior!"
@@ -51,6 +73,7 @@ mode-command-blocked: "&bEse comando esta bloqueado en modo de staff!"
 on-cooldown: "&bNo puedes volver a usar eso hasta &7%seconds% &bsegundos."
 
 note-added: "&bNota agregado para &7%target%&b."
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 note-cleared: "&bNotas limpiado para la &7%target%&b."
 note-list-start: "&7%longline%"
 note-list-entry: "&b%count% &7%note%"
@@ -63,12 +86,21 @@ login-waiting: "&bYou have been frozen! Please enter your staff password to cont
 login-accepted: "&bConectado."
 passwords-dont-match: "&bLas contraseñas no coinciden"
 
+<<<<<<< HEAD
+no-permission: "&c¡Tú no tienes permisos para usar eso!"
+bypassed: "&cEse jugador evita este comando!"
+player-offline: "&c¡Ese jugador esta desconectado!"
+unknown-command: "&cComando desconocido."
+invalid-arguments: "&c¡Argumentos invalidos! (%usage%)"
+only-players: "&b¡Solo jugadores pueden ejecutar este comando!"
+=======
 no-permission: "&cTu no tienes permisos para usar eso!"
 bypassed: "&cEse jugador evita este comando!"
 player-offline: "&cEse jugador esta desconectado!"
 unknown-command: "&cComando desconocido."
 invalid-arguments: "&cArgumentos invalidos! (%usage%)"
 only-players: "&bSolo jugadores pueden ejecutar este comando!"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
 enabled: "habilitado"
 disabled: "deshabilitado"
@@ -80,7 +112,11 @@ disabled: "deshabilitado"
 
 reported: "&bHas reportado a &7%target%. &bRazón: &7%reason%&b."
 reported-staff: "&7%player% &bha sido reportado por &7%target%. &bRazón: &7%reason%&b."
+<<<<<<< HEAD
+reports-cleared: "&b¡Los reportes de &7%target%&b han sido limpiados!"
+=======
 reports-cleared: "&bLos reportes de &7%target%&b han sido limpiados!"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 # Lineas están separadas por comas.
 reports-list-start: "&7%longline%, &7%target% &btiene &7%reports% &breportes."
 reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
@@ -89,7 +125,11 @@ reports-list-end: "&7%longline%"
 
 warned: "&bHas advertido a &7%target% &bRazón: &7%reason%&b."
 warn: "&bHas sido advertido por la razón: &7%reason%&b."
+<<<<<<< HEAD
+warnings-cleared: "&b¡Las advertencias de &7%target%&b han sido limpiadas!"
+=======
 warnings-cleared: "&bLas advertencias de &7%target%&b han sido limpiadas!"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 # Lineas están separadas por comas.
 warnings-list-start: "&7%longline%, &7%target% &btiene &7%warnings% &badvertencias."
 warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
@@ -111,9 +151,15 @@ staff-chat-status: "&bChat del Staff &7%status%&b."
 chat-clear-line: ""
 chat-cleared: "&bEl chat ha sido limpiado por &7%player%&b."
 chat-toggled: "&bEl chat ha sido &7%status% &bpor &7%player%&b."
+<<<<<<< HEAD
+chat-prevented: "&b¡No tienes permitido el uso del chat de momento!"
+chat-slowed: "&bEl chat se ha ralentizado &7%seconds% &bsegundos por &7%player%&b."
+chatting-fast: "&b¡Estas enviando demasiados mensajes!"
+=======
 chat-prevented: "&bNo tienes permitido el uso del chat de momento!"
 chat-slowed: "&bEl chat se ha ralentizado &7%seconds% &bsegundos por &7%player%&b."
 chatting-fast: "&bEstas enviando demasiados mensajes!"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
 blacklist-hover: "&bEste mensaje ha sido censorado por &7%censoredlist%&b."
 blacklist-censor-color: ""
@@ -125,8 +171,13 @@ blacklist-chat-format: "&7%player% &8» &7%message%"
 # +------------------------------------------------------+ #
 ############################################################
 
+<<<<<<< HEAD
+total-vanish: "&b¡Tu vanish total ha sido &7%status%&b!"
+list-vanish: "&b¡Tu lista de vanish ha sido &7%status%&b!"
+=======
 total-vanish: "&bTu invisibilidad &7%status%&b!"
 list-vanish: "&bTu lista de invisibilidad ha sido &7%status%&b!"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -134,6 +185,15 @@ list-vanish: "&bTu lista de invisibilidad ha sido &7%status%&b!"
 # +------------------------------------------------------+ #
 ############################################################
 
+<<<<<<< HEAD
+ticket-submitted: "&b¡Tu ticket ha sido entregado! &7(#%ticket%)"
+ticket-opened: "&b¡El ticket &7#%ticket% &bha sido marcado como abierto por ti!"
+ticket-removed: "&b¡El ticket &7#%ticket% &bha sido marcado como resuelto! (%reason%)"
+ticket-response-staff: "&b#%ticket% - Staff: &7%player% &8» &7%message%"
+ticket-response-user: "&b#%ticket% - Usuario: &7%player% &8» &7%message%"
+ticket: "&b#%ticket%: &7%player% &8» &7%message%"
+ticket-not-found: "&b¡Ese ticket no existe o esta cerrado!"
+=======
 ticket-submitted: "&bTu ticket ha sido entregado! &7(#%ticket%)"
 ticket-opened: "&bEl ticket &7#%ticket% &bha sido marcado como abierto por ti!"
 ticket-removed: "&bEl ticket &7#%ticket% &bha sido marcado como resuelto! (%reason%)"
@@ -141,6 +201,7 @@ ticket-response-staff: "&b#%ticket% - Staff: &7%player% &8» &7%message%"
 ticket-response-user: "&b#%ticket% - Usuario: &7%player% &8» &7%message%"
 ticket: "&b#%ticket%: &7%player% &8» &7%message%"
 ticket-not-found: "&bEse ticket no existe o esta cerrado!"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 # Lineas están separadas por comas.
 ticket-list-start: "&7%longline%, &7%tickets% &btickets abiertos"
 ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
@@ -153,9 +214,15 @@ ticket-list-end: "&7%longline%"
 # +------------------------------------------------------+ #
 ############################################################
 
+<<<<<<< HEAD
+alerts-name: "&b¡&7%old% &bha cambiado su nombre a &7%new%&b!"
+alerts-mention: "&7¡%target% &bha mencionado tu nombre en el chat!"
+alerts-xray: "&b¡&7%target% &bha minado &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+=======
 alerts-name: "&b&7%old% &bha cambiado su nombre a &7%new%&b!"
 alerts-mention: "&7%target% &bha mencionado tu nombre en el chat!"
 alerts-xray: "&b&7%target% &bha minado &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -163,10 +230,17 @@ alerts-xray: "&b&7%target% &bha minado &7%count% %itemtype%&b! &7(%lightlevel%&7
 # +------------------------------------------------------+ #
 ############################################################
 
+<<<<<<< HEAD
+mode-status: "&bEl modo staff ha sido &7%status%&b."
+mode-original-location: "&b¡Has sido transportado a tu ubicación original!"
+mode-random-teleport: "&b¡Has sido transportado a una ubicación aleatoria!"
+mode-not-enough-players: "&b¡No hay suficientes jugadores conectados para transportar aleatoriamente!"
+=======
 mode-status: "&bTu servicio como staff fue &7%status%&b."
 mode-original-location: "&bHas sido transportado a tu ubicacion original!"
 mode-random-teleport: "&bHas sido transportado a una ubicacion aleatoria!"
 mode-not-enough-players: "&bNo hay suficientes jugadores conectados para transportar aleatoriamente!"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
 gui-reports: "&bReportes"
 gui-mine: "&bMineros"
@@ -174,7 +248,11 @@ gui-miner: "&b%player% @ &7%locationy%"
 gui-counted: "&b%player%"
 
 # Lineas están separadas por comas.
+<<<<<<< HEAD
+freeze: "&4&lHas sido congelado por el staff ¡No te salgas del juego!, &4&lPor favor, entra al Teamspeak en shortninja.net"
+=======
 freeze: "&4&lHas sido congelado por el staff No te salgas del juego!, &4&lPor favor, entra a discord.gg/hqZJPKz"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 # Lineas están separadas por comas.
 unfrozen: "&bTu has sido descongelado."
 staff-froze: "&bHas congelado a &7%target%&b."
@@ -187,9 +265,15 @@ cps-finish-max: "&7%player% &btiene acerca &7%cps% &bCPS. &7(probablemente autoc
 
 # Lineas están separadas por comas.
 examine-food: "&bVida: &7%health%, &bHambre: &7%hunger%"
+<<<<<<< HEAD
+examine-ip: "&bDirección IP: &7%ipaddress%"
+examine-gamemode: "&bModo de juego: &7%gamemode%"
+examine-location: "&bUbicación: &7%location%"
+=======
 examine-ip: "&bDireccion IP: &7%ipaddress%"
 examine-gamemode: "&bModo de juego: &7%gamemode%"
 examine-location: "&bUbicacion: &7%location%"
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 examine-warn: "&bAlertar a este usuario"
 examine-freeze: "&bCongelar a este usuario"
 examine-notes: "&bNotas del jugador:"
@@ -200,5 +284,10 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bAhora estas &7%status% a %target%&b."
 strip: "&7%player%'s armadura ha sido removida!"
 
+<<<<<<< HEAD
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
+lang-version: 6196
+=======
 # No cambies esto si no sabes que es!!!!!!
 lang-version: 6197
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857

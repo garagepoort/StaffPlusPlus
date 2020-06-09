@@ -11,13 +11,19 @@ import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+<<<<<<< HEAD
+=======
 import org.bukkit.enchantments.Enchantment;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+<<<<<<< HEAD
+=======
 import java.nio.charset.StandardCharsets;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import java.util.*;
 
 //TODO: replace this with something that isn't horribly coupled...
@@ -25,22 +31,35 @@ public class Options implements IOptions {
     private static final int CURRENT_VERSION = 6204;
     private static FileConfiguration config = StaffPlus.get().getConfig();
     private InputStream stream = StaffPlus.get().getResource("config.yml");
+<<<<<<< HEAD
+    YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream));
+=======
     YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
     /*
      * General
      */
     public String language = config.getString("lang");
+<<<<<<< HEAD
+    public List<String> blockedCommands = JavaUtils.stringToList(config.getString("blocked-commands"));
+    public List<String> blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands"));
+=======
     public boolean bungee = config.getBoolean("bungee");
     public List<String> blockedCommands = JavaUtils.stringToList(config.getString("blocked-commands", ""));
     public List<String> blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands", ""));
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     public short glassColor = (short) config.getInt("glass-color");
     public String glassTitle = config.getString("glass-title");
     /*
      * Advanced
      */
     private int configVersion = configuration.getInt("config-version");
+<<<<<<< HEAD
+    public boolean autoUpdate = configVersion >=6203 ?  config.getBoolean("AutoUpdate") : true;
+=======
     public boolean autoUpdate = configVersion < 6203 || config.getBoolean("AutoUpdate");
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     public int autoSave = config.getInt("auto-save");
     public long clock = config.getInt("clock") * 20;
     public List<String> animationPackets = JavaUtils.stringToList(config.getString("animation-packets"));
@@ -168,6 +187,21 @@ public class Options implements IOptions {
     /*
      * Examine
      */
+<<<<<<< HEAD
+    public boolean enderChestEnabled = configVersion >= 6204 ? config.getBoolean("staff-mode.enderchest-module.enabled") : true;
+    public boolean enderOfflineChestEnabled = configVersion >= 6204 ? config.getBoolean("staff-mode.enderchest-module.offline-viewing") : true;
+    public boolean modeExamineEnabled = config.getBoolean("staff-mode.examine-module.enabled");
+    public int modeExamineSlot = config.getInt("staff-mode.examine-module.slot") - 1;
+    public String modeExamineTitle = config.getString("staff-mode.examine-module.title");
+    public int modeExamineFood = config.getInt("staff-mode.examine-module.info-line.food") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.food") + 44;
+    public int modeExamineIp = config.getInt("staff-mode.examine-module.info-line.ip-address") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ip-address") + 44;
+    public int modeExamineGamemode = config.getInt("staff-mode.examine-module.info-line.gamemode") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.gamemode") + 44;
+    public int modeExamineInfractions = config.getInt("staff-mode.examine-module.info-line.infractions") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.infractions") + 44;
+    public int modeExamineLocation = config.getInt("staff-mode.examine-module.info-line.location") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.location") + 44;
+    public int modeExamineNotes = config.getInt("staff-mode.examine-module.info-line.notes") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.notes") + 44;
+    public int modeExamineFreeze = config.getInt("staff-mode.examine-module.info-line.freeze") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.freeze") + 44;
+    public int modeExamineWarn = config.getInt("staff-mode.examine-module.info-line.warn") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.warn") + 44;
+=======
     public boolean enderChestEnabled = configVersion < 6204 || config.getBoolean("staff-mode.enderchest-module.enabled");
     public boolean enderOfflineChestEnabled = configVersion < 6204 || config.getBoolean("staff-mode.enderchest-module.offline-viewing");
     public boolean modeExamineEnabled = config.getBoolean("staff-mode.examine-module.enabled");
@@ -182,6 +216,7 @@ public class Options implements IOptions {
     public int modeExamineNotes = config.getInt("staff-mode.examine-module.info-line.notes") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.notes");
     public int modeExamineFreeze = config.getInt("staff-mode.examine-module.info-line.freeze") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.freeze");
     public int modeExamineWarn = config.getInt("staff-mode.examine-module.info-line.warn") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.warn");
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     /*
      * Follow
      */
@@ -341,7 +376,10 @@ public class Options implements IOptions {
     private String modeFollowName = config.getString("staff-mode.follow-module.name");
     private List<String> modeFollowLore = JavaUtils.stringToList(config.getString("staff-mode.follow-module.lore"));
     public ItemStack modeFollowItem = Items.builder().setMaterial(modeFollowType).setData(modeFollowData).setName(modeFollowName).setLore(modeFollowLore).build();
+<<<<<<< HEAD
+=======
 
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     public Options() {
         /*
          * Configuration updating support added, but too buggy to release.
@@ -365,7 +403,11 @@ public class Options implements IOptions {
                     + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml\n"
                     + "The storage types are flatfile and mysql also under the MySQL section there is a field called migrated do not ever touch that unless told.");
             config.options().copyHeader();
+<<<<<<< HEAD
+            config.set("config-version",configVersion);
+=======
             config.set("config-version", configVersion);
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             StaffPlus.get().saveConfig();
         }
 
@@ -427,6 +469,11 @@ public class Options implements IOptions {
             short data = getMaterialData(config.getString("staff-mode.custom-modules." + identifier + ".item"));
             String name = config.getString("staff-mode.custom-modules." + identifier + ".name");
             List<String> lore = JavaUtils.stringToList(config.getString("staff-mode.custom-modules." + identifier + ".lore"));
+<<<<<<< HEAD
+            ItemStack item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
+            String action = "";
+
+=======
             ItemStack item = new ItemStack(Material.STICK);
             if (!config.getString("staff-mode.custom-modules." + identifier + ".enchantment", "").equalsIgnoreCase("")) {
                 String enchantInfo = config.getString("staff-mode.custom-modules." + identifier + ".enchantment");
@@ -441,6 +488,7 @@ public class Options implements IOptions {
             String action = "";
 
 
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
             if (moduleType != ModuleConfiguration.ModuleType.ITEM) {
                 action = config.getString("staff-mode.custom-modules." + identifier + ".command");
             }

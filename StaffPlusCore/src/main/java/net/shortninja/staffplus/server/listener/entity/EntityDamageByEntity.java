@@ -37,6 +37,8 @@ public class EntityDamageByEntity implements Listener {
 
             }
         } else player = (Player) event.getDamager();
+        if(userManager==null)
+            return;
         if (userManager == null)
             userManager = StaffPlus.get().userManager;
         if (options == null)
@@ -45,6 +47,7 @@ public class EntityDamageByEntity implements Listener {
             modeCoordinator = StaffPlus.get().modeCoordinator;
         if (userManager == null)
             return;
+
         if (!userManager.has(player.getUniqueId()))
             return;
 

@@ -11,6 +11,10 @@ import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.PacketModifier;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.command.CmdHandler;
+<<<<<<< HEAD
+import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
+=======
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.compatibility.v1_10_R1.Protocol_v1_10_R1;
 import net.shortninja.staffplus.server.compatibility.v1_11_R1.Protocol_v1_11_R1;
@@ -30,10 +34,13 @@ import net.shortninja.staffplus.server.compatibility.v1_8_R3.Protocol_v1_8_R3;
 import net.shortninja.staffplus.server.compatibility.v1_9_R1.Protocol_v1_9_R1;
 import net.shortninja.staffplus.server.compatibility.v1_9_R2.Protocol_v1_9_R2;
 import net.shortninja.staffplus.server.data.*;
+<<<<<<< HEAD
+=======
 import net.shortninja.staffplus.server.data.storage.FlatFileStorage;
 import net.shortninja.staffplus.server.data.storage.IStorage;
 import net.shortninja.staffplus.server.data.storage.MemoryStorage;
 import net.shortninja.staffplus.server.data.storage.MySQLStorage;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -43,7 +50,10 @@ import net.shortninja.staffplus.server.data.file.LanguageFile;
 import net.shortninja.staffplus.server.hook.HookHandler;
 import net.shortninja.staffplus.server.hook.SuperVanishHook;
 import net.shortninja.staffplus.server.listener.*;
+<<<<<<< HEAD
+=======
 import net.shortninja.staffplus.server.listener.entity.EntityChangeBlock;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
@@ -57,7 +67,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+<<<<<<< HEAD
+=======
 import org.bukkit.plugin.Plugin;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import org.bukkit.plugin.java.JavaPlugin;
 import org.inventivetalent.apihelper.APIManager;
 import org.inventivetalent.packetlistener.PacketListenerAPI;
@@ -65,6 +78,11 @@ import org.inventivetalent.update.spiget.SpigetUpdate;
 import org.inventivetalent.update.spiget.UpdateCallback;
 import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
+<<<<<<< HEAD
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+=======
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -108,7 +126,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public boolean thirteenPlus = false;
     public IStorage storage;
     public InventoryHandler inventoryHandler;
+<<<<<<< HEAD
+=======
     public boolean usesPlaceholderAPI;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
     public static StaffPlus get() {
         return plugin;
@@ -117,6 +138,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     @Override
     public void onLoad() {
         APIManager.require(PacketListenerAPI.class, this);
+<<<<<<< HEAD
+
+        Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
+=======
         Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
 
         Plugin placeholderPlugin;
@@ -124,6 +149,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             usesPlaceholderAPI = true;
             Bukkit.getLogger().info("Hooked into PlaceholderAPI " + placeholderPlugin.getDescription().getVersion());
         }
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     }
 
     @Override
@@ -137,12 +163,17 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         start(System.currentTimeMillis());
         if (options.storageType.equalsIgnoreCase("mysql")) {
             storage = new MySQLStorage(new MySQLConnection());
+<<<<<<< HEAD
+        } else if (options.storageType.equalsIgnoreCase("flatfile"))
+            storage = new FlatFileStorage();
+=======
         } else if (options.storageType.equalsIgnoreCase("flatfile")) {
             storage = new FlatFileStorage();
         } else {
             storage = new MemoryStorage();
             Bukkit.getLogger().warning("Storage type is invalid, defaulting to memory-based storage. IMPORTANT: Any changes are not persistent.");
         }
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
@@ -309,7 +340,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new InventoryClose();
         new InventoryOpen();
         new PlayerWorldChange();
+<<<<<<< HEAD
+=======
         new EntityChangeBlock();
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
         if (JavaUtils.parseMcVer(version) >= 10)

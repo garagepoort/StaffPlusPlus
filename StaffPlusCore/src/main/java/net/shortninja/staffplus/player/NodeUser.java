@@ -12,7 +12,11 @@ import java.util.UUID;
 //import net.shortninja.staffplus.player.attribute.SecurityHandler;
 
 public class NodeUser {
+<<<<<<< HEAD
+//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
+=======
     //    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     private IUser user;
     private String prefix;
 

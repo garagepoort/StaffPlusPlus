@@ -5,7 +5,9 @@
     <parent>
         <artifactId>StaffPlus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
+
         <version>3.3.2.4-RELEASE</version>
+
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -151,16 +153,19 @@
             <artifactId>v1_13_R2</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>v1_14_R1</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+      
         <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_15_R1</artifactId>
-            <version>${project.parent.version}</version>
+        <groupId>net.shortninja.staffplus</groupId>
+        <artifactId>v1_15_R1</artifactId>
+        <version>${project.parent.version}</version>
         </dependency>
+      
         <dependency>
             <groupId>org.inventivetalent</groupId>
             <artifactId>apimanager</artifactId>
@@ -182,6 +187,29 @@
             <version>3.7.5-SNAPSHOT</version>
         </dependency>
         <dependency>
+
+        <groupId>org.inventivetalent.packetlistener</groupId>
+        <artifactId>1_7</artifactId>
+        <version>3.7.5-SNAPSHOT</version>
+        <exclusions>
+            <exclusion>
+                <artifactId>craftbukkit</artifactId>
+                <groupId>org.bukkit</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>org.inventivetalent.packetlistener</groupId>
+        <artifactId>1_8</artifactId>
+        <version>3.7.5-SNAPSHOT</version>
+        <exclusions>
+            <exclusion>
+                <artifactId>craftbukkit</artifactId>
+                <groupId>org.bukkit</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
             <groupId>org.inventivetalent.packetlistener</groupId>
             <artifactId>1_7</artifactId>
             <version>3.7.5-SNAPSHOT</version>
@@ -260,12 +288,13 @@
             <artifactId>v1_14_R2</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.spigotmc</groupId>-->
-        <!--            <artifactId>spigot</artifactId>-->
-        <!--            <version>1.14.4-R0.1-SNAPSHOT</version>-->
-        <!--            <scope>provided</scope>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <properties>

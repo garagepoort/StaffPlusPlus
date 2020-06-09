@@ -1,7 +1,10 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.StaffPlus;
+<<<<<<< HEAD
+=======
 import net.shortninja.staffplus.player.User;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
@@ -26,7 +29,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class ExamineIGui extends AbstractIGui {
+<<<<<<< HEAD
+    private static final int SIZE = 54;
+=======
     private static final int SIZE = 64;
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
@@ -48,10 +55,13 @@ public class ExamineIGui extends AbstractIGui {
             setItem(options.modeExamineIp, ipItem(targetPlayer), null);
         }
 
+<<<<<<< HEAD
+=======
 //        if (options.modeExaminePing >= 0) {
 //            setItem(options.modeExaminePing, pingItem(targetPlayer), null);
 //        }
 
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
         if (options.modeExamineGamemode >= 0) {
             setItem(options.modeExamineGamemode, gameModeItem(targetPlayer), null);
         }
@@ -228,6 +238,8 @@ public class ExamineIGui extends AbstractIGui {
         return item;
     }
 
+<<<<<<< HEAD
+=======
     private ItemStack pingItem(Player player) {
         ItemStack item = Items.builder()
                 .setMaterial(Material.PAPER).setAmount(1)
@@ -238,6 +250,7 @@ public class ExamineIGui extends AbstractIGui {
         return item;
     }
 
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
     private ItemStack gameModeItem(Player player) {
         ItemStack item = Items.builder()
                 .setMaterial(Material.GRASS).setAmount(1)

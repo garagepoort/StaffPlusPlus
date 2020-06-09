@@ -2,6 +2,45 @@ package net.shortninja.staffplus.server.hook;
 
 public interface IHook {
 
+<<<<<<< HEAD
+	/**
+	 * The name of the hooked plugin.
+	 *
+	 * @return The plugin name.
+	 * @since 3.2.9
+	 */
+	String getPluginName();
+
+	/**
+	 * The version of the hooked plugin.
+	 *
+	 * @return The plugin version.
+	 * @since 3.2.9
+	 */
+	String getPluginVersion();
+
+	/**
+	 * When enabling the hook.
+	 *
+	 * @since 3.2.9
+	 */
+	void onEnable();
+
+	/**
+	 * When disabling the hook.
+	 *
+	 * @since 3.2.9
+	 */
+	void onDisable();
+
+	/**
+	 * Whether the hook can actually hook.
+	 *
+	 * @return True if can be hooked otherwise false.
+	 * @since 3.2.9
+	 */
+	boolean canHook();
+=======
     /**
      * The name of the hooked plugin.
      *
@@ -39,4 +78,5 @@ public interface IHook {
      * @since 3.2.9
      */
     boolean canHook();
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 }

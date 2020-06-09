@@ -7,6 +7,21 @@ import org.bukkit.entity.Player;
 
 public class PacketHandler_v1_8_R1 extends AbstractPacketHandler {
 
+<<<<<<< HEAD
+	public PacketHandler_v1_8_R1(Player player) {
+		super(player);
+	}
+
+	@Override
+	public boolean onSend(ChannelHandlerContext context, Object o, ChannelPromise promise) throws Exception {
+		return false;
+	}
+
+	@Override
+	public boolean onReceive(ChannelHandlerContext context, Object o) throws Exception {
+		return false;
+	}
+=======
     public PacketHandler_v1_8_R1(Player player) {
         super(player);
     }
@@ -20,4 +35,5 @@ public class PacketHandler_v1_8_R1 extends AbstractPacketHandler {
     public boolean onReceive(ChannelHandlerContext context, Object o) throws Exception {
         return false;
     }
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 }

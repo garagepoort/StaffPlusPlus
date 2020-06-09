@@ -74,8 +74,12 @@ type-input: "&bInserez votre input dans le chat."
 input-accepted: "&bInput accépté et soumis à révision."
 
 enabled: "activé"
+<<<<<<< HEAD
+disbaled: "désactivé"
+=======
 disabled: "désactivé"
 
+>>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
 ############################################################
 # +------------------------------------------------------+ #
 # |                     Infractions                      | #
