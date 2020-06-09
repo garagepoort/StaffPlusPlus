@@ -5,12 +5,7 @@
     <parent>
         <artifactId>StaffPlus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
-<<<<<<< HEAD
-        <version>3.3.1.0-PRERELEASE</version>
-=======
-        <version>3.3.2.0-RELEASE</version>
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
-    </parent>
+        <version>3.3.2.4-RELEASE</version>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>v1_10_R1</artifactId>

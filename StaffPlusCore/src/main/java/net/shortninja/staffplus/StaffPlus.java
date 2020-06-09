@@ -123,6 +123,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public boolean ninePlus = false;
     public HashMap<Inventory, Block> viewedChest = new HashMap<>();
     public boolean twelvePlus = false;
+    public boolean thirteenPlus = false;
     public IStorage storage;
     public InventoryHandler inventoryHandler;
 <<<<<<< HEAD
@@ -218,6 +219,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         String version = tmp[tmp.length - 1].substring(0, 4);
         ninePlus = JavaUtils.parseMcVer(version) >= 9;
         twelvePlus = JavaUtils.parseMcVer(version) >= 12;
+        thirteenPlus = JavaUtils.parseMcVer(version) >= 13;
         dataFile = new DataFile("data.yml");
         languageFile = new LanguageFile();
         messages = new Messages();

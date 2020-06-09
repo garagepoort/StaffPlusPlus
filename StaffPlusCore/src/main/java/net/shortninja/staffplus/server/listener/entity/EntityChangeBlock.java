@@ -22,7 +22,7 @@ public class EntityChangeBlock implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockChange(EntityChangeBlockEvent event){
         String material;
-        if(StaffPlus.get().twelvePlus)
+        if(StaffPlus.get().thirteenPlus)
             material = "FARMLAND";
         else
             material = "CROPS";
