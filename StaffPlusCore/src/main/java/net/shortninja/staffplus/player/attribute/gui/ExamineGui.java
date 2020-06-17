@@ -26,9 +26,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class ExamineIGui extends AbstractIGui {
+public class ExamineGui extends AbstractGui {
 
-    private static final int SIZE = 64;
+    private static final int SIZE = 54;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
@@ -37,7 +37,7 @@ public class ExamineIGui extends AbstractIGui {
     private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
 
-    public ExamineIGui(Player player, Player targetPlayer, String title) {
+    public ExamineGui(Player player, Player targetPlayer, String title) {
         super(SIZE, title);
 
         setInventoryContents(targetPlayer);
@@ -73,16 +73,14 @@ public class ExamineIGui extends AbstractIGui {
         ItemStack[] armor = targetPlayer.getInventory().getArmorContents();
 
         JavaUtils.reverse(armor);
-
         for (int i = 0; i < items.length; i++) {
             setItem(i, items[i], null);
         }
-
-        for (int i = 0; i <= armor.length - 1; i++) {
+        for (int i = 0; i <= armor.length - 1; i++)
+        {
             if (i == 3) {
                 setItem(39 + i, targetPlayer.getItemInHand(), null);
             }
-
             setItem(38 + i, armor[i], null);
         }
     }

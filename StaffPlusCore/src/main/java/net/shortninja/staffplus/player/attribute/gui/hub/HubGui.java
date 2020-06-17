@@ -2,7 +2,7 @@ package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.AbstractIGui;
+import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.unordered.IUser;
@@ -11,12 +11,12 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class HubIGui extends AbstractIGui {
+public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
     private Options options = StaffPlus.get().options;
     private UserManager userManager = StaffPlus.get().userManager;
 
-    public HubIGui(Player player, String title) {
+    public HubGui(Player player, String title) {
         super(SIZE, title);
 
         IUser user = userManager.get(player.getUniqueId());
@@ -25,7 +25,7 @@ public class HubIGui extends AbstractIGui {
             setItem(options.modeGuiMiner ? 12 : 13, reportsItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new ReportsIGui(player, options.modeGuiReportsTitle);
+                    new ReportsGui(player, options.modeGuiReportsTitle);
                 }
 
                 @Override
@@ -43,7 +43,7 @@ public class HubIGui extends AbstractIGui {
             setItem(options.modeGuiReports ? 14 : 13, minerItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new MinerIGui(player, options.modeGuiMinerTitle);
+                    new MinerGui(player, options.modeGuiMinerTitle);
                 }
 
                 @Override

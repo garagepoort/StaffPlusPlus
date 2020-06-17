@@ -120,7 +120,7 @@ public class JavaUtils {
         if (array != null) {
             int i = 0;
 
-            for (int j = array.length; j > i; i++) {
+            for (int j = array.length-1; j > i; i++) {
                 Object tmp = array[j];
                 array[j] = array[i];
                 array[i] = tmp;

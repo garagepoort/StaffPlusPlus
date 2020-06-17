@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class ModeDataVault {
     private UUID uuid;
-    private HashMap<String, ItemStack> items;
+    private HashMap<Integer, ItemStack> items;
     private ItemStack[] armor;
     private ItemStack[] offHand;
     private Location previousLocation;
@@ -23,7 +23,7 @@ public class ModeDataVault {
 
     private float xp;
 
-    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
+    public ModeDataVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
         this.uuid = uuid;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
@@ -34,13 +34,13 @@ public class ModeDataVault {
         save.save(itemHash,armor,offHand,xp);
     }
 
-    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, Location previousLocation, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
+    public ModeDataVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, Location previousLocation, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
         this.xp = xp;
         InventorySerializer save = new InventorySerializer(uuid);
         save.save(itemHash,armor,offHand,xp);
     }
 
-    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
+    public ModeDataVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
         this.uuid = uuid;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
@@ -50,26 +50,26 @@ public class ModeDataVault {
         save.save(itemHash,armor, xp);
     }
 
-    public ModeDataVault(UUID uuid,HashMap<String, ItemStack> items, ItemStack[] armor) {
+    public ModeDataVault(UUID uuid,HashMap<Integer, ItemStack> items, ItemStack[] armor) {
         this.uuid = uuid;
         this.items = items;
         this.armor = armor;
     }
 
-    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand) {
+    public ModeDataVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand) {
         this.xp = xp;
         InventorySerializer save = new InventorySerializer(uuid);
         save.save(itemHash,armor,xp);
     }
 
-    public ModeDataVault(UUID uuid,HashMap<String, ItemStack> items, ItemStack[] armor, float xp) {
+    public ModeDataVault(UUID uuid,HashMap<Integer, ItemStack> items, ItemStack[] armor, float xp) {
         this.uuid = uuid;
         this.items = items;
         this.armor = armor;
         this.xp = xp;
     }
 
-    public ModeDataVault(UUID uuid, HashMap<String, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, float xp) {
+    public ModeDataVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, float xp) {
         this.uuid = uuid;
         this.offHand = offHand;
         this.items = itemHash;

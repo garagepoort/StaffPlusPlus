@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-//import net.shortninja.staffplus.player.attribute.SecurityHandler;
+import net.shortninja.staffplus.player.attribute.SecurityHandler;
 
 public class PlayerJoin implements Listener {
     private PermissionHandler permission = StaffPlus.get().permission;
@@ -34,8 +34,7 @@ public class PlayerJoin implements Listener {
     private UserManager userManager = StaffPlus.get().getUserManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
-//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler; // FIXME
-//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler; // FIXME
+    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;  //FIXME
 
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
@@ -47,7 +46,7 @@ public class PlayerJoin implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onJoin(PlayerJoinEvent event) {
-        //StaffPlus.get().versionProtocol.inject(event.getPlayer());
+        StaffPlus.get().versionProtocol.inject(event.getPlayer());
 
         Player player = event.getPlayer();
 
@@ -58,14 +57,14 @@ public class PlayerJoin implements Listener {
             modeCoordinator.addMode(player);
         }
 
-//        if (options.loginEnabled && permission.has(player, options.permissionMember)) {
-//            if (securityHandler.hasPassword(player.getUniqueId())) {
-//                needLogin.add(event.getPlayer().getUniqueId());
-//                freezeHandler.addFreeze(player, player, false);
-//                message.send(player, messages.loginWaiting, messages.prefixGeneral);
-//            } else message.send(player, messages.loginRegister, messages.prefixGeneral);
-//        }
-// FIXME
+        /*if (options.loginEnabled && permission.has(player, options.permissionMember)) {
+            if (securityHandler.hasPassword(player.getUniqueId())) {
+                needLogin.add(event.getPlayer().getUniqueId());
+                freezeHandler.addFreeze(player, player, false);
+                message.send(player, messages.loginWaiting, messages.prefixGeneral);
+            } else message.send(player, messages.loginRegister, messages.prefixGeneral);
+        }
+ FIXME*/
 
         loadInv(player);
     }
@@ -81,10 +80,10 @@ public class PlayerJoin implements Listener {
 
     private void loadInv(Player p) {
         InventorySerializer serializer = new InventorySerializer(p.getUniqueId());
-        if (serializer.shouldLoad()) {
-            HashMap<String, ItemStack> items = serializer.getContents();
+        if (serializer.shouldLoad()) {HashMap<String, ItemStack> items = serializer.getContents();
             for (String num : items.keySet())
                 p.getInventory().setItem(Integer.parseInt(num), items.get(num));
+
             serializer.deleteFile();
         }
     }

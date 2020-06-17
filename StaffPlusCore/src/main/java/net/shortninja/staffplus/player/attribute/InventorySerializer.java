@@ -3,6 +3,9 @@ package net.shortninja.staffplus.player.attribute;
 import net.shortninja.staffplus.StaffPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -11,14 +14,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * This class is used to save inventories to a file so users in mode
+ * do not lose their inventory if the server crashes
+ */
 public class InventorySerializer {
     private  File file;
     private YamlConfiguration inventory;
     private StaffPlus staff = StaffPlus.get();
     private UUID uuid;
 
+
     public InventorySerializer(UUID uuid){
         this.uuid = uuid;
+        Bukkit.getServer().broadcastMessage(uuid.toString());
         file = new File(staff.getDataFolder(), "StaffInv/" + uuid.toString() + ".yml");
         createFile();
     }
@@ -47,15 +56,21 @@ public class InventorySerializer {
 
     public boolean shouldLoad(){
         file = new File(staff.getDataFolder()+File.separator+"StaffInv"+File.separator+uuid.toString()+".yml");
-        if (file.exists())
-            return true;
-        else
+        if (file.exists()) {
+            Player p = Bukkit.getPlayer(uuid);
+            Inventory inv = Bukkit.createInventory(p, InventoryType.PLAYER);
+            HashMap<String, ItemStack> items = getContents();
+            for (String num : items.keySet())
+                inv.setItem(Integer.parseInt(num), items.get(num));
+            return areInvsSame(p.getInventory(),inv);
+        }else
             return false;
     }
 
     public void deleteFile(){
         file = new File(staff.getDataFolder()+File.separator+"StaffInv"+File.separator+uuid.toString()+".yml");
-        file.delete();
+        if(file.exists())
+            file.delete();
         /*try {
             inventory.save(file);
         } catch (IOException e) {
@@ -83,14 +98,12 @@ public class InventorySerializer {
     }
 
 
-    public void save(HashMap<String,ItemStack> items, ItemStack[] armor,float xp) {
+    public void save(HashMap<Integer,ItemStack> items, ItemStack[] armor,float xp) {
         inventory = YamlConfiguration.loadConfiguration(file);
-        for (String i : items.keySet()) {
-            staff.getLogger().info("Items " +items.get(i).toString());
+        for (int i : items.keySet()) {
             inventory.set("Inventory." + i, items.get(i));
         }
         for (int i = 0; i <= armor.length-1; i++) {
-           staff.getLogger().info("Armor "+armor[i].toString());
             if(armor[i]!=null)
                 inventory.set("Armor." + i,armor[i]);
         }
@@ -105,9 +118,9 @@ public class InventorySerializer {
 
 
 
-    public void save(HashMap<String,ItemStack> items, ItemStack[] armor, ItemStack[] offHand,float xp) {
+    public void save(HashMap<Integer,ItemStack> items, ItemStack[] armor, ItemStack[] offHand,float xp) {
         inventory = YamlConfiguration.loadConfiguration(file);
-        for (String i : items.keySet()) {
+        for (int i : items.keySet()) {
             inventory.set("Inventory." + i, items.get(i));
         }
         for (int i = 0; i <= armor.length-1; i++) {
@@ -157,5 +170,15 @@ public class InventorySerializer {
         inventory = YamlConfiguration.loadConfiguration(file);
         return (float)inventory.getDouble("Xp");
     }
+
+    private boolean areInvsSame(Inventory pInv, Inventory inv){
+        for(int i = 0; i < pInv.getSize(); i++){
+            if(pInv.getItem(i) != null && inv.getItem(i)!=null)
+                if(!pInv.getItem(i).equals(inv.getItem(i)))
+                    return false;
+        }
+        return true;
+    }
+
 
 }
