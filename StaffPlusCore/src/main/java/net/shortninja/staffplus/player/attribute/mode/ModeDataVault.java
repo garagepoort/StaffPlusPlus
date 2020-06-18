@@ -54,10 +54,16 @@ public class ModeDataVault {
         this.uuid = uuid;
         this.items = items;
         this.armor = armor;
+        InventorySerializer save = new InventorySerializer(uuid);
+        save.save(items,armor,xp);
     }
 
     public ModeDataVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand) {
         this.xp = xp;
+        this.items = itemHash;
+        this.armor = armor;
+        this.offHand = offHand;
+        this.uuid = uuid;
         InventorySerializer save = new InventorySerializer(uuid);
         save.save(itemHash,armor,xp);
     }
@@ -84,6 +90,10 @@ public class ModeDataVault {
     public HashMap<String, ItemStack> getItems() {
         InventorySerializer serializer = new InventorySerializer(uuid);
         return serializer.getContents();
+    }
+
+    public HashMap<Integer, ItemStack> getInventory(){
+        return items;
     }
 
     public ItemStack[] getArmor() {

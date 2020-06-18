@@ -6,6 +6,7 @@ import net.shortninja.staffplus.player.attribute.mode.ModeDataVault;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -51,8 +52,8 @@ public class ReviveHandler {
 
 
     private void getItems(Player p, ModeDataVault modeDataVault) {
-        HashMap<String, ItemStack> items = modeDataVault.getItems();
-        for (String num : items.keySet())
-            p.getInventory().setItem(Integer.parseInt(num), items.get(num));
+        HashMap<Integer, ItemStack> items = modeDataVault.getInventory();
+        for (int num : items.keySet())
+            p.getInventory().setItem(num, items.get(num));
     }
 }

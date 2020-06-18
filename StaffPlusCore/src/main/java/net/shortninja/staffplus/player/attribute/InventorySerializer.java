@@ -27,7 +27,6 @@ public class InventorySerializer {
 
     public InventorySerializer(UUID uuid){
         this.uuid = uuid;
-        Bukkit.getServer().broadcastMessage(uuid.toString());
         file = new File(staff.getDataFolder(), "StaffInv/" + uuid.toString() + ".yml");
         createFile();
     }
