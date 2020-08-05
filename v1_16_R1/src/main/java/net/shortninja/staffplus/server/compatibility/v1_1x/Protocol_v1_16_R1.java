@@ -1,26 +1,28 @@
-package net.shortninja.staffplus.server.compatibility.v1_12_R1;
+package net.shortninja.staffplus.server.compatibility.v1_1x;
 
+import com.google.gson.JsonElement;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
-import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_12_R1.*;
-import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import net.minecraft.server.v1_16_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_16_R1.*;
+import net.minecraft.server.v1_16_R1.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.json.JsonMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_16_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.util.Set;
+import java.util.UUID;
 
-public class Protocol_v1_12_R1 extends AbstractProtocol implements IProtocol {
-    public Protocol_v1_12_R1(IStaffPlus staffPlus) {
+public class Protocol_v1_16_R1 extends AbstractProtocol implements IProtocol {
+    public Protocol_v1_16_R1(IStaffPlus staffPlus) {
         super(staffPlus);
     }
 
@@ -68,7 +70,7 @@ public class Protocol_v1_12_R1 extends AbstractProtocol implements IProtocol {
     @Override
     public void sendHoverableJsonMessage(Set<Player> players, String message, String hoverMessage) {
         JsonMessage json = new JsonMessage().append(message).setHoverAsTooltip(hoverMessage).save();
-        PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a(json.getMessage()));
+        PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a(json.getMessage()),ChatMessageType.CHAT,UUID.fromString(""));
 
         for (Player player : players) {
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
@@ -91,30 +93,13 @@ public class Protocol_v1_12_R1 extends AbstractProtocol implements IProtocol {
         }
     }
 
-    @Override
-    public void inject(Player player) {
-        final ChannelPipeline pipeline = this.getChannel(player).pipeline();
-
-        // Probably will go wrong at runtime but I have no clue how to fix it. - Ronald.
-        //pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_12_R1(player));
-    }
-
-    @Override
-    public void uninject(Player player) {
-        final Channel channel = this.getChannel(player);
-        channel.eventLoop().submit(() -> channel.pipeline().remove(player.getUniqueId().toString()));
-    }
-
-    private Channel getChannel(Player player) {
-        return ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
-    }
-
     private String getSoundName(SoundEffect sound) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         String soundName = "";
         MinecraftKey minecraftKey = getMinecraftKey(sound);
 
         if (minecraftKey != null) {
-            soundName = minecraftKey.b();
+            soundName = minecraftKey.getNamespace();
+
         }
 
         return soundName;
@@ -125,7 +110,7 @@ public class Protocol_v1_12_R1 extends AbstractProtocol implements IProtocol {
         Field field = null;
 
         try {
-            field = SoundEffect.class.getDeclaredField("b");
+            field = SoundEffect.class.getDeclaredField("a");
             field.setAccessible(true);
             minecraftKey = (MinecraftKey) field.get(sound);
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exception) {
@@ -133,5 +118,17 @@ public class Protocol_v1_12_R1 extends AbstractProtocol implements IProtocol {
         }
 
         return minecraftKey;
+    }
+
+    @Override
+    public void inject(Player player) {
+        final ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.pipeline();
+        pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_16_R1(player));
+    }
+
+    @Override
+    public void uninject(Player player) {
+        final Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
+        channel.eventLoop().submit(() -> channel.pipeline().remove(player.getUniqueId().toString()));
     }
 }

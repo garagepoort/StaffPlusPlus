@@ -79,7 +79,7 @@ public class Protocol_v1_7_R4 extends AbstractProtocol implements IProtocol {
         final ChannelPipeline pipeline = this.getChannel(player).pipeline();
 
         // Probably will go wrong at runtime but I have no clue how to fix it. - Ronald.
-        pipeline.addBefore("packet_handler", player.getUniqueId().toString(), (ChannelHandler) new PacketHandler_v1_7_R4(player));
+        //pipeline.addBefore("packet_handler", player.getUniqueId().toString(), (ChannelHandler) new PacketHandler_v1_7_R4(player));
     }
 
     @Override

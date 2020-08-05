@@ -27,12 +27,12 @@ public class InventorySerializer {
 
     public InventorySerializer(UUID uuid){
         this.uuid = uuid;
-        file = new File(staff.getDataFolder(), "StaffInv/" + uuid.toString() + ".yml");
+        file = new File(staff.getDataFolder(), "Invs/" + uuid.toString() + ".yml");
         createFile();
     }
 
     private void createFile(){
-        File folder = new File(staff.getDataFolder(),"StaffInv");
+        File folder = new File(staff.getDataFolder(),"Invs");
         if(!folder.exists()){
             folder.mkdir();
         }
@@ -54,7 +54,7 @@ public class InventorySerializer {
     }
 
     public boolean shouldLoad(){
-        file = new File(staff.getDataFolder()+File.separator+"StaffInv"+File.separator+uuid.toString()+".yml");
+        file = new File(staff.getDataFolder()+File.separator+"Invs"+File.separator+uuid.toString()+".yml");
         if (file.exists()) {
             Player p = Bukkit.getPlayer(uuid);
             Inventory inv = Bukkit.createInventory(p, InventoryType.PLAYER);
@@ -67,7 +67,7 @@ public class InventorySerializer {
     }
 
     public void deleteFile(){
-        file = new File(staff.getDataFolder()+File.separator+"StaffInv"+File.separator+uuid.toString()+".yml");
+        file = new File(staff.getDataFolder()+File.separator+"Invs"+File.separator+uuid.toString()+".yml");
         if(file.exists())
             file.delete();
         /*try {

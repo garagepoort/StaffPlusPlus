@@ -197,7 +197,7 @@ public class Options implements IOptions {
     /*
      * Custom
      */
-    public Map<String, ModuleConfiguration> moduleConfigurations = new HashMap<String, ModuleConfiguration>();
+    public Map<String, ModuleConfiguration> moduleConfigurations = new HashMap<>();
     /*
      * Permissions
      */
@@ -442,6 +442,9 @@ public class Options implements IOptions {
                 String enchantInfo = config.getString("staff-mode.custom-modules." + identifier + ".enchantment");
                 String[] enchantInfoParts = enchantInfo.split(":");
                 Enchantment enchantment = Enchantment.getByName(enchantInfoParts[0]);
+                if(enchantment == null){
+                    enchantment = Enchantment.DURABILITY;
+                }
                 int level = Integer.parseInt(enchantInfoParts[1]);
                 item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore)
                         .addEnchantment(enchantment, level).build();

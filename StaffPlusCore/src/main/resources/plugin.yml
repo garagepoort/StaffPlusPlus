@@ -1,6 +1,6 @@
 main: net.shortninja.staffplus.StaffPlus
 name: StaffPlus
-version: 3.3.2.5
+version: 3.3.3.0
 description: The ultimate moderation plugin!
 author: Shortninja,Qball
 softdepend: [PacketListenerApi, PlaceholderAPI]

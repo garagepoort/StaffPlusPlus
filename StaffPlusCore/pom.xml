@@ -262,6 +262,12 @@
             <version>1.14.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.shortninja.staffplus</groupId>
+            <artifactId>v1_16_R1</artifactId>
+            <version>3.3.2.4-RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 
