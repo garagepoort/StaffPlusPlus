@@ -8,4 +8,4 @@ if [ "$filename" = "" ]; then
 fi
 mvn versions:set -DnewVersion=$filename -DgenerateBackupPoms=false
 
-mvn clean package
+mvn clean install

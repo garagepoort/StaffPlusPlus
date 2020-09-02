@@ -87,7 +87,10 @@ public class PlayerInteract implements Listener {
     private boolean handleInteraction(Player player, ItemStack item, Action action) {
         boolean isHandled = true;
 
-        if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK) {
+        /*if (action != Action.RIGHT_CLICK_AIR) {
+            return isHandled = false;
+        }*/
+        if(!action.toString().contains("CLICK_AIR")){
             return isHandled = false;
         }
 
