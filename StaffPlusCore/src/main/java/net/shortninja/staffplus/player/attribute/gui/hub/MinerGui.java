@@ -2,30 +2,26 @@ package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.AbstractIGui;
-import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
-import net.shortninja.staffplus.player.attribute.infraction.Report;
+import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ReportsIGui extends AbstractIGui {
+public class MinerGui extends AbstractGui {
     private static final int SIZE = 54;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().userManager;
-    private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
 
-    public ReportsIGui(Player player, String title) {
+    public MinerGui(Player player, String title) {
         super(SIZE, title);
 
         IAction action = new IAction() {
@@ -34,7 +30,6 @@ public class ReportsIGui extends AbstractIGui {
                 Player p = Bukkit.getPlayer(item.getItemMeta().getDisplayName().substring(2));
 
                 if (p != null) {
-                    infractionCoordinator.removeUnresolvedReport(p.getUniqueId());
                     player.teleport(p);
                 } else message.send(player, messages.playerOffline, messages.prefixGeneral);
             }
@@ -49,33 +44,29 @@ public class ReportsIGui extends AbstractIGui {
             }
         };
 
-        int count = 0; // Using this with an enhanced for loop because it is much faster than converting to an array.
+        int slot = 0; // Better to use this because not every iteration is going to have a result.
 
-        for (Report report : infractionCoordinator.getUnresolvedReports()) {
-            if ((count + 1) >= SIZE) {
+        for (Player p : JavaUtils.getOnlinePlayers()) {
+            if (p.getLocation().getBlockY() > options.modeGuiMinerLevel) {
+                continue;
+            } else if ((slot + 1) >= SIZE) {
                 break;
             }
 
-            setItem(count, reportItem(report), action);
-            count++;
+            setItem(slot, minerItem(p), action);
+            slot++;
         }
 
         player.openInventory(getInventory());
         userManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
-    private ItemStack reportItem(Report report) {
-        List<String> lore = new ArrayList<String>();
+    private ItemStack minerItem(Player player) {
+        Location location = player.getLocation();
 
-        lore.add("&bReason: " + report.getReason());
-
-        if (options.reportsShowReporter) {
-            lore.add("&bReporter: " + report.getReporterName());
-        }
-
-        ItemStack item = Items.editor(Items.createSkull(report.getName())).setAmount(1)
-                .setName("&b" + report.getName())
-                .setLore(lore)
+        ItemStack item = Items.editor(Items.createSkull(player.getName())).setAmount(1)
+                .setName("&b" + player.getName())
+                .addLore("&7" + location.getWorld().getName() + " &8� &7" + JavaUtils.serializeLocation(location))
                 .build();
 
         return item;

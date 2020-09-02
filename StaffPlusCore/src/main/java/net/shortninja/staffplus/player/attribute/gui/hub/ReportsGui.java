@@ -1,34 +1,31 @@
-package net.shortninja.staffplus.player.attribute.gui;
+package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
+import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
+import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class CounterIGui extends AbstractIGui {
+public class ReportsGui extends AbstractGui {
     private static final int SIZE = 54;
-    private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().userManager;
-    private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
 
-    public CounterIGui(Player player, String title) {
+    public ReportsGui(Player player, String title) {
         super(SIZE, title);
 
         IAction action = new IAction() {
@@ -37,6 +34,7 @@ public class CounterIGui extends AbstractIGui {
                 Player p = Bukkit.getPlayer(item.getItemMeta().getDisplayName().substring(2));
 
                 if (p != null) {
+                    infractionCoordinator.removeUnresolvedReport(p.getUniqueId());
                     player.teleport(p);
                 } else message.send(player, messages.playerOffline, messages.prefixGeneral);
             }
@@ -51,44 +49,33 @@ public class CounterIGui extends AbstractIGui {
             }
         };
 
-        List<Player> players = options.modeCounterShowStaffMode ? getModePlayers() : JavaUtils.getOnlinePlayers();
-        int slot = 0; // Better to use this because not every iteration is going to have a result.
+        int count = 0; // Using this with an enhanced for loop because it is much faster than converting to an array.
 
-        for (Player p : players) {
-            if (!permission.has(p, options.permissionMember)) {
-                continue;
-            } else if ((slot + 1) >= SIZE) {
+        for (Report report : infractionCoordinator.getUnresolvedReports()) {
+            if ((count + 1) >= SIZE) {
                 break;
             }
 
-            setItem(slot, modePlayerItem(p), action);
-            slot++;
+            setItem(count, reportItem(report), action);
+            count++;
         }
 
         player.openInventory(getInventory());
         userManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
-    private List<Player> getModePlayers() {
-        List<Player> modePlayers = new ArrayList<Player>();
+    private ItemStack reportItem(Report report) {
+        List<String> lore = new ArrayList<String>();
 
-        for (UUID uuid : modeCoordinator.getModeUsers()) {
-            Player player = Bukkit.getPlayer(uuid);
+        lore.add("&bReason: " + report.getReason());
 
-            if (player != null) {
-                modePlayers.add(player);
-            }
+        if (options.reportsShowReporter) {
+            lore.add("&bReporter: " + report.getReporterName());
         }
 
-        return modePlayers;
-    }
-
-    private ItemStack modePlayerItem(Player player) {
-        Location location = player.getLocation();
-
-        ItemStack item = Items.editor(Items.createSkull(player.getName()))
-                .setName("&b" + player.getName())
-                .addLore("&7" + location.getWorld().getName() + " &8� &7" + JavaUtils.serializeLocation(location))
+        ItemStack item = Items.editor(Items.createSkull(report.getName())).setAmount(1)
+                .setName("&b" + report.getName())
+                .setLore(lore)
                 .build();
 
         return item;

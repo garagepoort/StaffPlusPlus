@@ -2,7 +2,7 @@ package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.FreezeIGui;
+import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
@@ -47,7 +47,7 @@ public class FreezeHandler {
 
         if (shouldMessage) {
             if (options.modeFreezePrompt) {
-                new FreezeIGui(player, options.modeFreezePromptTitle);
+                new FreezeGui(player, options.modeFreezePromptTitle);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
             } else message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
 
@@ -72,7 +72,7 @@ public class FreezeHandler {
 
         if (shouldMessage) {
             if (options.modeFreezePrompt && user.getCurrentGui().isPresent()) {
-                if (user.getCurrentGui().get() instanceof FreezeIGui) {
+                if (user.getCurrentGui().get() instanceof FreezeGui) {
                     player.closeInventory();
                 }
 

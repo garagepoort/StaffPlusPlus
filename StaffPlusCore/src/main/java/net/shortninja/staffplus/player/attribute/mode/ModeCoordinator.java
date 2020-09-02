@@ -153,13 +153,13 @@ public class ModeCoordinator {
         }
     }
 
-    public static HashMap<String, ItemStack> getContents(Player p) {
+    public static HashMap<Integer, ItemStack> getContents(Player p) {
         ArrayList<ItemStack> itemStacks = new ArrayList<>();
-        HashMap<String, ItemStack> itemHash = new HashMap<>();
+        HashMap<Integer, ItemStack> itemHash = new HashMap<>();
         for (int i = 0; i <= 35; i++) {
             if (p.getInventory().getItem(i) != null) {
                 itemStacks.add(p.getInventory().getItem(i));
-                itemHash.put(String.valueOf(i), p.getInventory().getItem(i));
+                itemHash.put(i, p.getInventory().getItem(i));
             }
         }
         return itemHash;

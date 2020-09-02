@@ -51,8 +51,8 @@ public class ReviveHandler {
 
 
     private void getItems(Player p, ModeDataVault modeDataVault) {
-        HashMap<String, ItemStack> items = modeDataVault.getItems();
-        for (String num : items.keySet())
-            p.getInventory().setItem(Integer.parseInt(num), items.get(num));
+        HashMap<Integer, ItemStack> items = modeDataVault.getInventory();
+        for (int num : items.keySet())
+            p.getInventory().setItem(num, items.get(num));
     }
 }

@@ -2,9 +2,9 @@ package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.CounterIGui;
-import net.shortninja.staffplus.player.attribute.gui.ExamineIGui;
-import net.shortninja.staffplus.player.attribute.gui.hub.HubIGui;
+import net.shortninja.staffplus.player.attribute.gui.CounterGui;
+import net.shortninja.staffplus.player.attribute.gui.ExamineGui;
+import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -148,11 +148,11 @@ public class GadgetHandler {
     }
 
     public void onGuiHub(Player player) {
-        new HubIGui(player, options.modeGuiItem.getItemMeta().getDisplayName());
+        new HubGui(player, options.modeGuiItem.getItemMeta().getDisplayName());
     }
 
     public void onCounter(Player player) {
-        new CounterIGui(player, options.modeCounterTitle);
+        new CounterGui(player, options.modeCounterTitle);
     }
 
     public void onFreeze(CommandSender sender, Player targetPlayer) {
@@ -178,7 +178,7 @@ public class GadgetHandler {
             return;
         }
 
-        new ExamineIGui(player, targetPlayer, options.modeExamineTitle);
+        new ExamineGui(player, targetPlayer, options.modeExamineTitle);
     }
 
     public void onFollow(Player player, Player targetPlayer) {

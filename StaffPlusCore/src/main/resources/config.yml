@@ -739,28 +739,28 @@ staff-mode:
       # The lore of the item.
       lore: "&8don't grief shitlord!!"
 
-      Whip:
-        # Whether or not this module is enabled.
-        enabled: true
+    Whip:
+      # Whether or not this module is enabled.
+      enabled: true
 
-        # The type of module this is.
-        # An item is just an item; it does nothing but sit there.
-        type: ITEM
+      # The type of module this is.
+      # An item is just an item; it does nothing but sit there.
+      type: ITEM
 
-        # The slot that this module's item is at by default.
-        slot: 34
+      # The slot that this module's item is at by default.
+      slot: 34
 
-        # The type of item for this module.
-        item: STICK
+      # The type of item for this module.
+      item: STICK
 
-        # The real name of the item.
-        name: "&7Knock out stick"
+      # The real name of the item.
+      name: "&7Knock out stick"
 
-        # The lore of the item.
-        lore: "&8Knock em out!!"
+      # The lore of the item.
+      lore: "&8Knock em out!!"
 
-        # The enchantment for the item format is name:level for names of enchantments reference https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
-        enchantment: "knockback:2"
+      # The enchantment for the item format is name:level for names of enchantments reference https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
+      enchantment: "knockback:2"
 
 ############################################################
 # +------------------------------------------------------+ #

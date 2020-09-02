@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.listener;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.FreezeIGui;
+import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
 import org.bukkit.Bukkit;
@@ -34,7 +34,7 @@ public class InventoryClose implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    new FreezeIGui(player, options.modeFreezePromptTitle);
+                    new FreezeGui(player, options.modeFreezePromptTitle);
                 }
             }.runTaskLater(StaffPlus.get(), 1L);
             return;

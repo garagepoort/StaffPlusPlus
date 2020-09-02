@@ -1,10 +1,8 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.unordered.IGui;
-import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -12,56 +10,25 @@ import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class AbstractIGui implements IGui {
+public class ColorGui extends AbstractGui {
+    private static final int SIZE = 27;
     private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
-    private String title;
-    private Inventory inventory;
-    private Map<Integer, IAction> actions = new HashMap<>();
+    private UserManager userManager = StaffPlus.get().userManager;
 
-    public AbstractIGui(int size, String title) {
-        this.title = title;
-        inventory = Bukkit.createInventory(null, size, message.colorize(title));
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public IAction getAction(int slot) {
-        return actions.get(slot);
-    }
-
-    public void setItem(int slot, ItemStack item, IAction action) {
-        inventory.setItem(slot, item);
-
-        if (action != null) {
-            actions.put(slot, action);
-        }
-    }
-
-    public void setGlass(IUser user) {
-        ItemStack item = glassItem(user.getGlassColor());
+    public ColorGui(Player player, String title) {
+        super(SIZE, StaffPlus.get().message.colorize(title));
 
         IAction action = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                new ColorIGui(player, options.glassTitle);
+                userManager.get(player.getUniqueId()).setGlassColor(item.getDurability());
             }
 
             @Override
             public boolean shouldClose() {
-                return false;
+                return true;
             }
 
             @Override
@@ -69,19 +36,18 @@ public class AbstractIGui implements IGui {
             }
         };
 
-        for (int i = 0; i < 3; i++) {
-            int slot = 9 * i;
-
-            setItem(slot, item, action);
-            setItem(slot + 8, item, action);
+        for (short i = 0; i < 15; i++) {
+            setItem(i, glassItem(i), action);
         }
+
+        player.openInventory(getInventory());
+        userManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     private ItemStack glassItem(short data) {
         String[] tmp = Bukkit.getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
         if (JavaUtils.parseMcVer(version)<13) {
-
             return Items.builder()
                     .setMaterial(Material.valueOf("STAINED_GLASS_PANE")).setAmount(1).setData(data)
                     .setName("&bColor #" + data)
@@ -94,5 +60,6 @@ public class AbstractIGui implements IGui {
                     .addLore("&7Click to change your GUI color!")
                     .build();
         }
+
     }
 }

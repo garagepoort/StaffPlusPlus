@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -18,5 +19,7 @@ public class PlayerDeath implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onDeath(PlayerDeathEvent event) {
         reviveHandler.cacheInventory(event.getEntity());
+        InventorySerializer serializer = new InventorySerializer(event.getEntity().getUniqueId());
+        serializer.deleteFile();
     }
 }

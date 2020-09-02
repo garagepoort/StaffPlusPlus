@@ -6,10 +6,9 @@
     <groupId>net.shortninja.staffplus</groupId>
     <name>Staff+</name>
     <description>The ultimate moderation plugin.</description>
-
     <artifactId>StaffPlus</artifactId>
     <packaging>pom</packaging>
-    <version>3.3.2.4-RELEASE</version>
+    <version>3.3.3.2</version>
 
     <modules>
         <module>StaffPlusAPI</module>
@@ -32,6 +31,8 @@
         <module>v1_14_R1</module>
         <module>v1_14_R2</module>
         <module>v1_15_R1</module>
+        <module>v1_16_R1</module>
+		<module>v1_16_R2</module>
     </modules>
 
     <build>
