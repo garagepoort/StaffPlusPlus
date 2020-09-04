@@ -10,11 +10,13 @@ import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Container;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -60,7 +62,7 @@ public class PlayerInteract implements Listener {
                         && !player.isSneaking()) {
                     event.setCancelled(true);
                     Container container = (Container) event.getClickedBlock().getState();
-                    Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getType());
+                    Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getSize());
                     chestView.setContents(container.getInventory().getContents());
                     event.getPlayer().openInventory(chestView);
                     StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>StaffPlus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
-        <version>3.3.3.2</version>
+        <version>3.3.3.3</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -80,7 +80,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusAPI</artifactId>
-            <version>3.3.3.2</version>
+            <version>3.3.3.3</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -173,14 +173,14 @@
 		<dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>v1_16_R1</artifactId>
-            <version>3.3.3.2</version>
+            <version>3.3.3.3</version>
             <scope>compile</scope>
         </dependency>
 		
 		<dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>v1_16_R2</artifactId>
-            <version>3.3.3.2</version>
+            <version>3.3.3.3</version>
             <scope>compile</scope>
         </dependency>
       
