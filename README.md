@@ -11,8 +11,6 @@ The main reason for this is so that we can start implementing new features easil
 ![release1.15.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.15.0/badge.svg)
 ![release1.14.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.14.0/badge.svg)
 ![release1.13.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.13.0/badge.svg)
-![release1.12.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.12.0/badge.svg)
-![release1.11.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.11.0/badge.svg)
 
 ## Versions
 With this new release cycle a new versioning strategy is introduced:
@@ -26,8 +24,8 @@ Example:
 
 ## Support 
 - New features will be added to all versions >= 1.15
-- Bugs will be fixed on all versions  >= 1.11
-- End Of Life, no support will be provided for versions < 1.11
+- Bugs will be fixed on all versions  >= 1.13
+- End Of Life, no support will be provided for versions <= 1.12
 
 ----
 #### Useful links
