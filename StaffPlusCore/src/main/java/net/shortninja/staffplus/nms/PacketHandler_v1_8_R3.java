@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.server.compatibility.v1_8_R3;
+package net.shortninja.staffplus.nms;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;

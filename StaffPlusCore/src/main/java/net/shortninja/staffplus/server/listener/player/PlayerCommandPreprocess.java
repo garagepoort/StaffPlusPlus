@@ -15,11 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.server.TabCompleteEvent;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 import java.util.UUID;
 
