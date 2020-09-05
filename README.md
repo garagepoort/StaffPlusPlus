@@ -5,7 +5,8 @@ I forked this repository to implement a release cycle strategy in which differen
 The main reason for this is so that we can start implementing new features easily using new versions of the spigot api, without worrying about backwards compatibility.
 
 ## Builds
-- Master: https://github.com/garagepoort/StaffPlusPlus/workflows/MasterBuild/badge.svg
+![master]https://github.com/garagepoort/StaffPlusPlus/workflows/MasterBuild/badge.svg
+
 ## Versions
 With this new release cycle a new versioning strategy is introduced:
 
