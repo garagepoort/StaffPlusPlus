@@ -6,7 +6,7 @@ import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -43,8 +43,8 @@ public class InventoryClose implements Listener {
         if(StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())){
             for(Inventory inventory : StaffPlus.get().viewedChest.keySet()){
                 if(event.getInventory().equals(inventory)){
-                    Chest chest = (Chest) StaffPlus.get().viewedChest.get(inventory).getState();
-                    chest.getInventory().setContents(inventory.getContents());
+                    Container container = (Container) StaffPlus.get().viewedChest.get(inventory).getState();
+                    container.getInventory().setContents(inventory.getContents());
                 }
             }
         }
