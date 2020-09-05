@@ -7,7 +7,7 @@ declare -a VERSIONS=(
 )
 for i in "${VERSIONS[@]}"; do
 
-  RELEASE_BRANCH="release/$i."
+  RELEASE_BRANCH="release/$i"
   BRANCH="feature/$i_$1"
   git checkout -b $BRANCH $RELEASE_BRANCH
   git fetch origin
