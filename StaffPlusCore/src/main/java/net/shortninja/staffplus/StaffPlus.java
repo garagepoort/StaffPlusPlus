@@ -130,7 +130,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
-        checkUpdate();
 
         storage.onEnable();
 
@@ -232,32 +231,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new InventoryOpen();
         new PlayerWorldChange();
         new EntityChangeBlock();
-    }
-
-    private void checkUpdate() {
-        SpigetUpdate updater = new SpigetUpdate(this, 41500);
-        updater.setVersionComparator(VersionComparator.SEM_VER);
-        updater.checkForUpdate(new UpdateCallback() {
-            @Override
-            public void updateAvailable(String newVersion, String downloadUrl, boolean hasDirectDownload) {
-                if (options.autoUpdate) {
-                    if (hasDirectDownload) {
-                        if (updater.downloadUpdate()) {
-                            getLogger().info("New version of the plugin downloaded and will be loaded on restart");
-                        } else {
-                            getLogger().warning("Update download failed, reason is " + updater.getFailReason());
-                        }
-                    }
-                } else {
-                    getLogger().info("There is an update available please go download it");
-                }
-            }
-
-            @Override
-            public void upToDate() {
-                getLogger().info("You are using the latest version thanks");
-            }
-        });
     }
 
 
