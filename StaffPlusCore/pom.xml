@@ -80,7 +80,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusAPI</artifactId>
-            <version>1.8.0</version>
+            <version>1.15.0</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
