@@ -1,28 +1,31 @@
-# Staff+
-This plugin started off as a copy of HydraHCF's staff mode plugin back in July of 2015. After selling over ninety copies on MCM and making multiple revisions, it is now free to the public! 
+# Staff++
+Forked from QBall StaffPlus github's repository.
+
+I forked this repository to implement a release cycle strategy in which different versions for different server will be supported.
+The main reason for this is so that we can start implementing new features easily using new versions of the spigot api, without worrying about backwards compatibility.
+
+##Versions
+With this new release cycle a new versioning strategy is introduced:
+
+For every spigot version we will create a new release. This means that you must download not the newest update but the one suitable for your server.
+Example:
+
+- Server on Spigot 1.8.x -> StaffPlusPlus 1.8.x
+- Server on Spigot 1.14.x -> StaffPlusPlus 1.14.x
+- Server on Spigot 1.16.x -> StaffPlusPlus 1.16.x
+
+##Support 
+- New features will be added to all versions >= 1.15
+- Bugs will be fixed on all versions  >= 1.11
+- End Of Life, no support will be provided for versions < 1.11
+
 ----
-[![CI/CD](https://img.shields.io/circleci/build/github/Azoraqua/StaffPlus/master.svg?style=default)]()
-[![Documentation](https://readthedocs.org/projects/staffplus/badge/?version=latest)](https://staffplus.readthedocs.io/en/latest/)
-
-#### Version 3.0 changelog (major features)
-* TONS of new configuration options.
-* GUI hub in staff mode that allows for multiple different teleportation and management options.
-* Counter item in staff mode shows amount of staff online or amount of staff in staff mode. Also allows for teleportation.
-* Multiple examine improvements.
-* Ability to add unlimited custom modules with tons of options.
-* Brand new ticket management system.
-* Better overall alerts handling.
-* Configurable messages with language support.
-* Version independence (from 1.7 to 1.12).
-* Fixed all known bugs.
-* Removed ProtocolLib dependency.
-
 #### Useful links
-* [Resource page](https://www.spigotmc.org/resources/staff-the-ultimate-moderation-plugin-1-7-1-13.41500/)
-* [Submit issues](https://github.com/Qballl/StaffPlus/issues)
+* [Resource page](https://www.spigotmc.org/resources/staffplusplus.83562/)
+* [Submit issues](https://github.com/garagepoort/StaffPlusPlus/issues)
 * [Request features or ask questions](https://discord.gg/N6VqtYC)
 * [Configurable files](https://github.com/Shortninja66/StaffPlus/wiki/Configurable-files)
-* [Plugin jar download](https://www.spigotmc.org/resources/staff-the-ultimate-moderation-plugin-1-7-1-13.41500/history)
+* [Plugin jar download](https://www.spigotmc.org/resources/staffplusplus.83562/history)
 * [Help wiki](https://github.com/Shortninja66/StaffPlus/wiki)
 
 #### Contributing
