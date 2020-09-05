@@ -1,6 +1,6 @@
 #!/bin/bash
 declare -a VERSIONS=(
-  1.7.10-R0.1-SNAPSHOT
+  1.13.2-R0.1-SNAPSHOT
 )
 
 if [[ ! -d "lib" ]]; then
