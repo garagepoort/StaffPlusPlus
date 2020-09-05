@@ -12,6 +12,6 @@ for i in "${VERSIONS[@]}"; do
   git checkout -b $BRANCH $RELEASE_BRANCH
   git fetch origin
   git reset --hard origin/master
-  git cherry-pick $1
+  git cherry-pick -m 1 $1
   git push origin $BRANCH:$BRANCH
 done
