@@ -2,25 +2,25 @@ package net.shortninja.staffplus.nms;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
-import net.minecraft.server.v1_11_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_11_R1.*;
-import net.minecraft.server.v1_11_R1.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.json.JsonMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.craftbukkit.v1_11_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.util.Set;
 
-public class Protocol_v1_11 extends AbstractProtocol implements IProtocol {
-    public Protocol_v1_11(IStaffPlus staffPlus) {
+public class Protocol_v1_12 extends AbstractProtocol implements IProtocol {
+    public Protocol_v1_12(IStaffPlus staffPlus) {
         super(staffPlus);
     }
 
@@ -96,7 +96,7 @@ public class Protocol_v1_11 extends AbstractProtocol implements IProtocol {
         final ChannelPipeline pipeline = this.getChannel(player).pipeline();
 
         // Probably will go wrong at runtime but I have no clue how to fix it. - Ronald.
-        //pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_11_R1(player));
+        //pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_12_R1(player));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class Protocol_v1_11 extends AbstractProtocol implements IProtocol {
         MinecraftKey minecraftKey = getMinecraftKey(sound);
 
         if (minecraftKey != null) {
-            soundName = minecraftKey.a();
+            soundName = minecraftKey.b();
         }
 
         return soundName;
