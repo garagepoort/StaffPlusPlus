@@ -44,11 +44,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.inventivetalent.apihelper.APIManager;
-import org.inventivetalent.packetlistener.PacketListenerAPI;
-import org.inventivetalent.update.spiget.SpigetUpdate;
-import org.inventivetalent.update.spiget.UpdateCallback;
-import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -97,7 +92,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public void onLoad() {
-        APIManager.require(PacketListenerAPI.class, this);
 
         Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
 
@@ -116,7 +110,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         permission = new PermissionHandler(this);
         message = new MessageCoordinator(this);
         options = new Options();
-        APIManager.initAPI(PacketListenerAPI.class);
         start(System.currentTimeMillis());
         if (options.storageType.equalsIgnoreCase("mysql")) {
             storage = new MySQLStorage(new MySQLConnection());
@@ -246,7 +239,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         saveUsers();
         tasks.cancel();
-        APIManager.disableAPI(PacketListenerAPI.class);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             modeCoordinator.removeMode(player);
