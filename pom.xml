@@ -49,10 +49,6 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>inventive-repo</id>
-            <url>https://repo.inventivetalent.org/content/groups/public/</url>
-        </repository>
-        <repository>
             <id>mikeprim-repo</id>
             <url>http://repo.mikeprimm.com/</url>
         </repository>
