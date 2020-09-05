@@ -1,14 +1,11 @@
 package net.shortninja.staffplus.player.attribute.mode;
 
 import net.shortninja.staffplus.StaffPlus;
-
-import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
-
 import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -60,8 +57,8 @@ public class ModeCoordinator {
         if(user == null)
             user = new Load(player).getUser();
         ModeDataVault modeData;
-            modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(),
-                    player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
+        modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
+                player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
         if (isInMode(player.getUniqueId())) {
             return;
         }
@@ -124,6 +121,8 @@ public class ModeCoordinator {
         getItems(player, saver);
         player.setExp(saver.getXp());
         player.getInventory().setArmorContents(saver.getArmor());
+        player.getInventory().setExtraContents(saver.getOffHand());
+
         saver.deleteFile();
         player.updateInventory();
         player.setAllowFlight(modeData.hasFlight());
