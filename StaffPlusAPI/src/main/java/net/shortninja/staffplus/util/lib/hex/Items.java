@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.util.lib.hex;
 
-import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,16 +50,9 @@ public final class Items {
         String[] tmp = Bukkit.getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
         ItemStack skull;
-        if (JavaUtils.parseMcVer(version) < 13) {
-            skull = new ItemStack(Material.valueOf("SKULL_ITEM"), 1);
-            SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-            skullMeta.setOwner(name);
-        } else {
-            skull = new ItemStack(Material.PLAYER_HEAD, 1);
-            SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-            skullMeta.setOwner(name);
-            skull.setItemMeta(skullMeta);
-        }
+        skull = new ItemStack(Material.valueOf("SKULL_ITEM"), 1);
+        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+        skullMeta.setOwner(name);
         return skull;
     }
 

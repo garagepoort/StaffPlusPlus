@@ -8,31 +8,12 @@
     <description>The ultimate moderation plugin.</description>
     <artifactId>StaffPlus</artifactId>
     <packaging>pom</packaging>
-    <version>3.3.3.3</version>
+    <version>1.8.0</version>
 
     <modules>
         <module>StaffPlusAPI</module>
         <module>StaffPlusCore</module>
         <!--><module>StaffPlusBungee</module> Will uncomment when module is fully ready for release-->
-        <module>v1_7_R1</module>
-        <module>v1_7_R2</module>
-        <module>v1_7_R3</module>
-        <module>v1_7_R4</module>
-        <module>v1_8_R1</module>
-        <module>v1_8_R2</module>
-        <module>v1_8_R3</module>
-        <module>v1_9_R1</module>
-        <module>v1_9_R2</module>
-        <module>v1_10_R1</module>
-        <module>v1_11_R1</module>
-        <module>v1_12_R1</module>
-        <module>v1_13_R1</module>
-        <module>v1_13_R2</module>
-        <module>v1_14_R1</module>
-        <module>v1_14_R2</module>
-        <module>v1_15_R1</module>
-        <module>v1_16_R1</module>
-		<module>v1_16_R2</module>
     </modules>
 
     <build>
@@ -52,7 +33,6 @@
     </build>
 
     <properties>
-        <bukkit.version>1.16.2-R0.1-SNAPSHOT</bukkit.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -86,19 +66,6 @@
     </repositories>
 
     <dependencies>
-        <!-- Spigot -->
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>${bukkit.version}</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>bungeecord-chat</artifactId>
-                    <groupId>net.md-5</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

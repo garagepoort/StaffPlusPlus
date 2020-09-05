@@ -5,7 +5,7 @@
     <parent>
         <artifactId>StaffPlus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
-        <version>3.3.3.3</version>
+        <version>1.8.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -80,110 +80,13 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusAPI</artifactId>
-            <version>3.3.3.3</version>
+            <version>1.8.0</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_7_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_7_R2</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_7_R3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_7_R4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_8_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_8_R2</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_8_R3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_9_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_9_R2</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_10_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_11_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_12_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_13_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_13_R2</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_14_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-      
-        <dependency>
-        <groupId>net.shortninja.staffplus</groupId>
-        <artifactId>v1_15_R1</artifactId>
-        <version>${project.parent.version}</version>
-        </dependency>
-		
-		<dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_16_R1</artifactId>
-            <version>3.3.3.3</version>
-            <scope>compile</scope>
-        </dependency>
-		
-		<dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_16_R2</artifactId>
-            <version>3.3.3.3</version>
-            <scope>compile</scope>
-        </dependency>
-      
         <dependency>
             <groupId>org.inventivetalent</groupId>
             <artifactId>apimanager</artifactId>
@@ -205,28 +108,27 @@
             <version>3.7.8-SNAPSHOT</version>
         </dependency>
         <dependency>
-
-        <groupId>org.inventivetalent.packetlistener</groupId>
-        <artifactId>1_7</artifactId>
-        <version>3.7.8-SNAPSHOT</version>
-        <exclusions>
-            <exclusion>
-                <artifactId>craftbukkit</artifactId>
-                <groupId>org.bukkit</groupId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-    <dependency>
-        <groupId>org.inventivetalent.packetlistener</groupId>
-        <artifactId>1_8</artifactId>
-        <version>3.7.8-SNAPSHOT</version>
-        <exclusions>
-            <exclusion>
-                <artifactId>craftbukkit</artifactId>
-                <groupId>org.bukkit</groupId>
-            </exclusion>
-        </exclusions>
-    </dependency>
+            <groupId>org.inventivetalent.packetlistener</groupId>
+            <artifactId>1_7</artifactId>
+            <version>3.7.8-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>craftbukkit</artifactId>
+                    <groupId>org.bukkit</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.inventivetalent.packetlistener</groupId>
+            <artifactId>1_8</artifactId>
+            <version>3.7.8-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>craftbukkit</artifactId>
+                    <groupId>org.bukkit</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.inventivetalent.packetlistener</groupId>
             <artifactId>1_7</artifactId>
@@ -272,14 +174,15 @@
             <version>0.8.0</version>
         </dependency>
         <dependency>
-            <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>v1_14_R2</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

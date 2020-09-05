@@ -1,26 +1,25 @@
-package net.shortninja.staffplus.server.compatibility.v1_10_R1;
+package net.shortninja.staffplus.nms;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
-import net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_10_R1.*;
-import net.minecraft.server.v1_10_R1.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.json.JsonMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.craftbukkit.v1_10_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Field;
 import java.util.Set;
 
-public class Protocol_v1_10_R1 extends AbstractProtocol implements IProtocol {
-    public Protocol_v1_10_R1(IStaffPlus staffPlus) {
+public class Protocol_v1_8_R3 extends AbstractProtocol implements IProtocol {
+    public Protocol_v1_8_R3(IStaffPlus staffPlus) {
         super(staffPlus);
     }
 
@@ -29,7 +28,7 @@ public class Protocol_v1_10_R1 extends AbstractProtocol implements IProtocol {
         ItemStack craftItem = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbtCompound = craftItem.getTag() == null ? new NBTTagCompound() : craftItem.getTag();
 
-        nbtCompound.setString(NBT_IDENTIFIER, value);
+        nbtCompound.setString(IProtocol.NBT_IDENTIFIER, value);
         craftItem.setTag(nbtCompound);
 
         return CraftItemStack.asCraftMirror(craftItem);
@@ -45,7 +44,7 @@ public class Protocol_v1_10_R1 extends AbstractProtocol implements IProtocol {
 
         NBTTagCompound nbtCompound = craftItem.getTag() == null ? new NBTTagCompound() : craftItem.getTag();
 
-        return nbtCompound.getString(NBT_IDENTIFIER);
+        return nbtCompound.getString(IProtocol.NBT_IDENTIFIER);
     }
 
     @Override
@@ -75,28 +74,17 @@ public class Protocol_v1_10_R1 extends AbstractProtocol implements IProtocol {
         }
     }
 
-
-    private void sendGlobalPacket(Packet<?> packet) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-        }
-    }
-
     @Override
     public String getSound(Object object) {
-        try {
-            return object instanceof SoundEffect ? getSoundName((SoundEffect) object) : null;
-        } catch (Exception e) {
-            return null;
-        }
+        return object instanceof String ? (String) object : null;
     }
 
     @Override
     public void inject(Player player) {
-        final ChannelPipeline pipeline = this.getChannel(player).pipeline();
-
+        //final ChannelPipeline pipeline = this.getChannel(player).pipeline();
+        final ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.pipeline();
         // Probably will go wrong at runtime but I have no clue how to fix it. - Ronald.
-        //pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_10_R1(player));
+        //pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_8_R3(player));
     }
 
     @Override
@@ -109,30 +97,9 @@ public class Protocol_v1_10_R1 extends AbstractProtocol implements IProtocol {
         return ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
     }
 
-    private String getSoundName(SoundEffect sound) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        String soundName = "";
-        MinecraftKey minecraftKey = getMinecraftKey(sound);
-
-        if (minecraftKey != null) {
-            soundName = minecraftKey.a();
+    private void sendGlobalPacket(Packet<?> packet) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
         }
-
-        return soundName;
-    }
-
-    private MinecraftKey getMinecraftKey(SoundEffect sound) {
-        MinecraftKey minecraftKey = null;
-        Field field = null;
-
-        try {
-            field = SoundEffect.class.getDeclaredField("b");
-
-            field.setAccessible(true);
-            minecraftKey = (MinecraftKey) field.get(sound);
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exception) {
-            exception.printStackTrace();
-        }
-
-        return minecraftKey;
     }
 }

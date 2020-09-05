@@ -9,14 +9,11 @@ import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Chest;
-import org.bukkit.block.Container;
-import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -54,34 +51,18 @@ public class PlayerInteract implements Listener {
                 event.setCancelled(true);
             }
         }
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-
-            if (StaffPlus.get().thirteenPlus) {
-                if (event.getClickedBlock().getState() instanceof Container
-                        && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
-                        && !player.isSneaking()) {
-                    event.setCancelled(true);
-                    Container container = (Container) event.getClickedBlock().getState();
-                    Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getSize());
-                    chestView.setContents(container.getInventory().getContents());
-                    event.getPlayer().openInventory(chestView);
-                    StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
-                    StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
-                }
-            } else {
-
-                if (event.getClickedBlock().getState() instanceof Chest &&
-                        StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
-                        && !player.isSneaking()) {
-                    event.setCancelled(true);
-                    Chest chest = (Chest) event.getClickedBlock().getState();
-                    Inventory view = chest.getInventory();
-                    Inventory chestView = Bukkit.createInventory(event.getPlayer(), view.getType());
-                    chestView.setContents(view.getContents());
-                    event.getPlayer().openInventory(chestView);
-                    StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
-                    StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
-                }
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (event.getClickedBlock().getState() instanceof Chest &&
+                    StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+                    && !player.isSneaking()) {
+                event.setCancelled(true);
+                Chest chest = (Chest) event.getClickedBlock().getState();
+                Inventory view = chest.getInventory();
+                Inventory chestView = Bukkit.createInventory(event.getPlayer(), view.getType());
+                chestView.setContents(view.getContents());
+                event.getPlayer().openInventory(chestView);
+                StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+                StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
             }
         }//end of if click block
     }
@@ -92,7 +73,7 @@ public class PlayerInteract implements Listener {
         /*if (action != Action.RIGHT_CLICK_AIR) {
             return isHandled = false;
         }*/
-        if(!action.toString().contains("CLICK_AIR")){
+        if (!action.toString().contains("CLICK_AIR")) {
             return isHandled = false;
         }
 
