@@ -894,13 +894,10 @@ storage:
 
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
-config-version: 6204
+config-version: 6205
 # The interval in seconds at which auto saves will be performed.
 # The higher this is, the less lag there will be.
 auto-save: 3602
-
-# Do you want the plugin to auto update
-AutoUpdate: true
 
 # The interval in seconds at which calculations, like freeze checking, will be performed.
 # The higher this is, the less lag there will be.
