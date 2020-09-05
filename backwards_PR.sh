@@ -6,7 +6,7 @@ declare -a VERSIONS=(
   1.13.0
 )
 for i in "${VERSIONS[@]}"; do
-
+  git checkout master
   RELEASE_BRANCH="release/$i"
   BRANCH="feature/$i_$1"
   git checkout -b $BRANCH $RELEASE_BRANCH
