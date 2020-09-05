@@ -23,7 +23,7 @@ import java.util.*;
 
 //TODO: replace this with something that isn't horribly coupled...
 public class Options implements IOptions {
-    private static final int CURRENT_VERSION = 6204;
+    private static final int CURRENT_VERSION = 6205;
     private static FileConfiguration config = StaffPlus.get().getConfig();
     private InputStream stream = StaffPlus.get().getResource("config.yml");
 
@@ -43,8 +43,6 @@ public class Options implements IOptions {
      * Advanced
      */
     private int configVersion = configuration.getInt("config-version");
-
-    public boolean autoUpdate = configVersion >=6203 ?  config.getBoolean("AutoUpdate") : true;
 
     public int autoSave = config.getInt("auto-save");
     public long clock = config.getInt("clock") * 20;
@@ -279,7 +277,7 @@ public class Options implements IOptions {
     public Sounds modeFreezeSound = configVersion >= 3.17 ? stringToSound(sanitize(config.getString("staff-mode.freeze-module.sound"))) : Sounds.ORB_PICKUP;
     public boolean modeFreezePrompt = configVersion >= 3.1 && config.getBoolean("staff-mode.freeze-module.prompt");
     public String modeFreezePromptTitle = configVersion >= 3.1 ? config.getString("staff-mode.freeze-module.prompt-title") : "&bFrozen";
-    public List<String> logoutCommands = (configVersion >= 6.195) ? JavaUtils.stringToList(config.getString("staff-mode.freeze-module.logout-commands")) : new ArrayList<>();
+    public List<String> logoutCommands = (configVersion >= 6195) ? JavaUtils.stringToList(config.getString("staff-mode.freeze-module.logout-commands")) : new ArrayList<>();
     public String permissionStrip = configVersion >= 6194 ? config.getString("permissions.strip") : "staff.strip";
     public String permissionTp = configVersion >= 6195 ? config.getString("permissions.tp") : "staff.tp";
     public String permissionStaff = configVersion >= 6196 ? config.getString("permissions.staffplus") : "staff.staffplus";
