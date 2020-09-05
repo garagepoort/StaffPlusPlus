@@ -1,25 +1,25 @@
 package net.shortninja.staffplus.nms;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
-import net.minecraft.server.v1_9_R2.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_9_R2.*;
-import net.minecraft.server.v1_9_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_10_R1.*;
+import net.minecraft.server.v1_10_R1.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.json.JsonMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.craftbukkit.v1_9_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_9_R2.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_10_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.util.Set;
 
-public class Protocol_v1_9 extends AbstractProtocol implements IProtocol {
-    public Protocol_v1_9(IStaffPlus staffPlus) {
+public class Protocol_v1_10 extends AbstractProtocol implements IProtocol {
+    public Protocol_v1_10(IStaffPlus staffPlus) {
         super(staffPlus);
     }
 
@@ -28,7 +28,7 @@ public class Protocol_v1_9 extends AbstractProtocol implements IProtocol {
         ItemStack craftItem = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbtCompound = craftItem.getTag() == null ? new NBTTagCompound() : craftItem.getTag();
 
-        nbtCompound.setString(IProtocol.NBT_IDENTIFIER, value);
+        nbtCompound.setString(NBT_IDENTIFIER, value);
         craftItem.setTag(nbtCompound);
 
         return CraftItemStack.asCraftMirror(craftItem);
@@ -44,7 +44,7 @@ public class Protocol_v1_9 extends AbstractProtocol implements IProtocol {
 
         NBTTagCompound nbtCompound = craftItem.getTag() == null ? new NBTTagCompound() : craftItem.getTag();
 
-        return nbtCompound.getString(IProtocol.NBT_IDENTIFIER);
+        return nbtCompound.getString(NBT_IDENTIFIER);
     }
 
     @Override
@@ -74,6 +74,7 @@ public class Protocol_v1_9 extends AbstractProtocol implements IProtocol {
         }
     }
 
+
     private void sendGlobalPacket(Packet<?> packet) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
@@ -94,7 +95,7 @@ public class Protocol_v1_9 extends AbstractProtocol implements IProtocol {
         final ChannelPipeline pipeline = this.getChannel(player).pipeline();
 
         // Probably will go wrong at runtime but I have no clue how to fix it. - Ronald.
-        //pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_9_R2(player));
+        //pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_10_R1(player));
     }
 
     @Override
@@ -124,6 +125,7 @@ public class Protocol_v1_9 extends AbstractProtocol implements IProtocol {
 
         try {
             field = SoundEffect.class.getDeclaredField("b");
+
             field.setAccessible(true);
             minecraftKey = (MinecraftKey) field.get(sound);
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exception) {
