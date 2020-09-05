@@ -8,7 +8,7 @@ declare -a VERSIONS=(
 for i in "${VERSIONS[@]}"; do
   git checkout master
   RELEASE_BRANCH="release/$i"
-  BRANCH="feature/$i_$1"
+  BRANCH="feature/${i}_${1}"
   git checkout -b $BRANCH $RELEASE_BRANCH
   git fetch origin
   git reset --hard origin/master
