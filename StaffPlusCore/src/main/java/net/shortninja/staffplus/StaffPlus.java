@@ -1,6 +1,6 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.nms.Protocol_v1_13;
+import net.shortninja.staffplus.nms.Protocol_v1_14;
 import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.SecurityHandler;
@@ -206,7 +206,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private boolean setupVersionProtocol() {
         final String version = Bukkit.getServer().getClass().getPackage().getName();
         final String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
-        versionProtocol = new Protocol_v1_13(this);
+        versionProtocol = new Protocol_v1_14(this);
         message.sendConsoleMessage("Version protocol set to '" + formattedVersion + "'.", false);
         return versionProtocol != null;
     }
