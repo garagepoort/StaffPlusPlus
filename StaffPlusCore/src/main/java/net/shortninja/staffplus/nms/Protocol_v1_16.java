@@ -1,26 +1,26 @@
 package net.shortninja.staffplus.nms;
-
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelPipeline;
-import net.minecraft.server.v1_15_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_15_R1.*;
-import net.minecraft.server.v1_15_R1.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import net.minecraft.server.v1_16_R2.*;
+import net.minecraft.server.v1_16_R2.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_16_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.server.compatibility.AbstractProtocol;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.json.JsonMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.craftbukkit.v1_15_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_16_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.util.Set;
+import java.util.UUID;
 
-public class Protocol_v1_15 extends AbstractProtocol implements IProtocol {
-    public Protocol_v1_15(IStaffPlus staffPlus) {
+public class Protocol_v1_16 extends AbstractProtocol implements IProtocol {
+    public Protocol_v1_16(IStaffPlus staffPlus) {
         super(staffPlus);
     }
 
@@ -68,7 +68,7 @@ public class Protocol_v1_15 extends AbstractProtocol implements IProtocol {
     @Override
     public void sendHoverableJsonMessage(Set<Player> players, String message, String hoverMessage) {
         JsonMessage json = new JsonMessage().append(message).setHoverAsTooltip(hoverMessage).save();
-        PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a(json.getMessage()));
+        PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a(json.getMessage()),ChatMessageType.CHAT,UUID.fromString(""));
 
         for (Player player : players) {
             ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
@@ -121,7 +121,7 @@ public class Protocol_v1_15 extends AbstractProtocol implements IProtocol {
     @Override
     public void inject(Player player) {
         final ChannelPipeline pipeline = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel.pipeline();
-        pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_15(player));
+        pipeline.addBefore("packet_handler", player.getUniqueId().toString(), new PacketHandler_v1_16(player));
     }
 
     @Override
