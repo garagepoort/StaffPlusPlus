@@ -4,7 +4,7 @@ declare -a VERSIONS=(
 )
 
 if [[ ! -d "lib" ]]; then
-  sudo mkdir "lib"
+  mkdir "lib"
 fi
 cd "lib"
 for i in "${VERSIONS[@]}"; do
@@ -12,11 +12,12 @@ for i in "${VERSIONS[@]}"; do
 
   if [[ ! -f "lib/$FILE" ]]; then
     echo "Downloading $FILE..."
-    sudo curl "http://static.azoraqua.com/craftbukkit/craftbukkit-$i.jar" -s -o "$FILE"
+    curl "http://static.azoraqua.com/craftbukkit/craftbukkit-$i.jar" -s -o "$FILE"
+
   fi
 
-  sudo mvn install:install-file -Dfile="$FILE" -Dpackaging=jar -DgeneratePom=true -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion="$i"
+  mvn install:install-file -Dfile="$FILE" -Dpackaging=jar -DgeneratePom=true -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion="$i"
   echo "Installed $FILE to your local Maven repository."
-  sudo rm "$FILE"
+  rm "$FILE"
 done
-sudo rm -rf "lib"
+rm "lib"
