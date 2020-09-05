@@ -21,6 +21,6 @@ jobs:
       with:
         java-version: 1.8
     - name: Install dependencies
-      run: sudo ./install-dependencies.sh
+      run: chmod +x ./install-dependencies.sh && ./install-dependencies.sh
     - name: Build with Maven
       run: mvn -B package --file pom.xml
