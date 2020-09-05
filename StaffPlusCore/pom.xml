@@ -42,7 +42,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>Staff+</finalName>
+                            <finalName>Staff++_${version}</finalName>
                             <minimizeJar>false</minimizeJar>
                             <artifactSet>
                                 <excludes>
