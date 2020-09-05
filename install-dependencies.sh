@@ -20,4 +20,5 @@ for i in "${VERSIONS[@]}"; do
   echo "Installed $FILE to your local Maven repository."
   rm "$FILE"
 done
-rm "lib"
+cd ..
+rm -rf "lib"
