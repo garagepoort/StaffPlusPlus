@@ -8,10 +8,10 @@ declare -a VERSIONS=(
 for i in "${VERSIONS[@]}"; do
 
   RELEASE_BRANCH="release/$i."
-  BRANCH="feature/$i_$2"
+  BRANCH="feature/$i_$1"
   git checkout -b $BRANCH $RELEASE_BRANCH
   git fetch origin
   git reset --hard origin/master
-  git cherry-pick -m 1 $1
+  git cherry-pick -m 1 $2
   git push origin $BRANCH:$BRANCH
 done
