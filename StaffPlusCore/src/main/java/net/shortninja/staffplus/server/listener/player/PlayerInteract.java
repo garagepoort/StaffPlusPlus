@@ -8,7 +8,7 @@ import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -51,20 +51,17 @@ public class PlayerInteract implements Listener {
                 event.setCancelled(true);
             }
         }
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            if (event.getClickedBlock().getState() instanceof Chest &&
-                    StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
-                    && !player.isSneaking()) {
-                event.setCancelled(true);
-                Chest chest = (Chest) event.getClickedBlock().getState();
-                Inventory view = chest.getInventory();
-                Inventory chestView = Bukkit.createInventory(event.getPlayer(), view.getType());
-                chestView.setContents(view.getContents());
-                event.getPlayer().openInventory(chestView);
-                StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
-                StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
-            }
-        }//end of if click block
+        if (event.getClickedBlock().getState() instanceof Container
+                && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+                && !player.isSneaking()) {
+            event.setCancelled(true);
+            Container container = (Container) event.getClickedBlock().getState();
+            Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getSize());
+            chestView.setContents(container.getInventory().getContents());
+            event.getPlayer().openInventory(chestView);
+            StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+            StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
+        }
     }
 
     private boolean handleInteraction(Player player, ItemStack item, Action action) {

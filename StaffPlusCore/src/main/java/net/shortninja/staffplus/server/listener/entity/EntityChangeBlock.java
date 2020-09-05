@@ -21,7 +21,7 @@ public class EntityChangeBlock implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockChange(EntityChangeBlockEvent event){
-        String material = "CROPS";
+        String material = "FARMLAND";
         if(event.getEntityType().equals(EntityType.PLAYER)){
             if(event.getBlock().getType().equals(Material.valueOf(material))){
                 if(modeCoordinator.isInMode(event.getEntity().getUniqueId()) ||
