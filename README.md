@@ -4,6 +4,8 @@ Forked from QBall StaffPlus github's repository.
 I forked this repository to implement a release cycle strategy in which different versions for different server will be supported.
 The main reason for this is so that we can start implementing new features easily using new versions of the spigot api, without worrying about backwards compatibility.
 
+## Builds
+- Master: https://github.com/garagepoort/StaffPlusPlus/workflows/MasterBuild/badge.svg
 ## Versions
 With this new release cycle a new versioning strategy is introduced:
 
