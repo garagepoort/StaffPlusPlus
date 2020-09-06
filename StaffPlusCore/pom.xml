@@ -13,8 +13,10 @@
     <artifactId>StaffPlus-Core</artifactId>
 
 
+
     <build>
         <defaultGoal>clean package</defaultGoal>
+        <finalName>Staff++_${version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -29,14 +31,6 @@
                     <encoding>UTF-8</encoding>
                     <source>1.8</source>
                     <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <finalName>Staff++_${version}</finalName>
                 </configuration>
             </plugin>
             <plugin>
