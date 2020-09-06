@@ -33,6 +33,14 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <finalName>Staff++_${version}</finalName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <executions>
@@ -42,9 +50,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>true</shadedClassifierName>
-                            <finalName>Staff++_${version}</finalName>
+                            <outputFile>${project.build.outputDirectory}\Staff++_${version}.jar</outputFile>
                             <minimizeJar>false</minimizeJar>
                             <artifactSet>
                                 <excludes>
