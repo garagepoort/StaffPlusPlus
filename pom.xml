@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.shortninja.staffplus</groupId>
-    <name>Staff++</name>
+    <name>Staff+</name>
     <description>The ultimate moderation plugin.</description>
-    <artifactId>StaffPlusPlus</artifactId>
+    <artifactId>StaffPlus</artifactId>
     <packaging>pom</packaging>
     <version>1.16.0</version>
 
