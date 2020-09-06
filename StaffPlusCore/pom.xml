@@ -5,7 +5,7 @@
     <parent>
         <artifactId>StaffPlus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
-        <version>1.16.0</version>
+        <version>1.17.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -15,6 +15,7 @@
 
     <build>
         <defaultGoal>clean package</defaultGoal>
+        <finalName>Staff++_${version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -34,7 +35,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -42,7 +43,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>Staff++_${version}</finalName>
+                            <outputFile>${project.build.outputDirectory}\Staff++_${version}.jar</outputFile>
                             <minimizeJar>false</minimizeJar>
                             <artifactSet>
                                 <excludes>
@@ -80,7 +81,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusAPI</artifactId>
-            <version>1.16.0</version>
+            <version>1.17.0</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
