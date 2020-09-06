@@ -16,7 +16,6 @@
 
     <build>
         <defaultGoal>clean package</defaultGoal>
-        <finalName>Staff++_${version}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -44,7 +43,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <outputFile>${project.build.outputDirectory}\Staff++_${version}.jar</outputFile>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>false</minimizeJar>
                             <artifactSet>
                                 <excludes>
