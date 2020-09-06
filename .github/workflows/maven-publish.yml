@@ -44,6 +44,6 @@ jobs:
         git commit -m "Bump version to ${{ github.event.inputs.version }}" -a
         
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: ad-m/github-push-action
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
