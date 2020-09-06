@@ -26,13 +26,6 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Declare some variables
-      id: vars
-      shell: bash
-      run: |
-        echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     
@@ -51,6 +44,6 @@ jobs:
         git commit -m "Bump version to ${{ github.event.inputs.version }}" -a
         
     - name: Push changes
-      uses: ad-m/github-push-action@${{ steps.vars.outputs.branch }}
+      uses: ad-m/github-push-action@release/1.16.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
