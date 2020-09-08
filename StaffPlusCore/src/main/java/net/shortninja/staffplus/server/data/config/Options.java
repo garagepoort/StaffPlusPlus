@@ -8,6 +8,7 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.Sounds;
 import net.shortninja.staffplus.util.lib.hex.Items;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -50,6 +51,7 @@ public class Options implements IOptions {
     public List<String> soundNames = JavaUtils.stringToList(config.getString("sound-names"));
     public boolean offlinePlayersModeEnabled = config.getBoolean("offline-players-mode");
     public String playerProvider = config.getString("player-provider");
+    public Map<String, Location> locations = LocationLoader.loadLocations();
     /*
      * Reports
      */
