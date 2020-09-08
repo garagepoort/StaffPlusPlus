@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.listener;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
+import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.server.data.config.Options;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

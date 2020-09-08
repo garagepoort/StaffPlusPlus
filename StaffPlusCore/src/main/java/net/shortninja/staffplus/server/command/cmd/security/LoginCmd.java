@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.command.cmd.security;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.SecurityHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
+import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.listener.player.PlayerJoin;
