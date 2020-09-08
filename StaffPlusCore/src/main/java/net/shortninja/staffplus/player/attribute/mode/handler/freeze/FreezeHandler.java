@@ -1,10 +1,11 @@
-package net.shortninja.staffplus.player.attribute.mode.handler;
+package net.shortninja.staffplus.player.attribute.mode.handler.freeze;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.teleport.TeleportService;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -26,6 +27,19 @@ public class FreezeHandler {
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().userManager;
 
+    public void execute(FreezeRequest freezeRequest) {
+        if (!permission.has(freezeRequest.getCommandSender(), options.permissionFreeze)) {
+            message.send(freezeRequest.getPlayer(), messages.noPermission, messages.prefixGeneral);
+            return;
+        }
+
+        if (freezeRequest.isEnableFreeze()) {
+            addFreeze(freezeRequest.getCommandSender(), freezeRequest.getPlayer(), true, freezeRequest.getTeleportLocation());
+        } else {
+            removeFreeze(freezeRequest.getCommandSender(), freezeRequest.getPlayer(), true);
+        }
+    }
+
     public boolean isFrozen(UUID uuid) {
         IUser user = userManager.get(uuid);
         if (user == null || userManager == null)
@@ -37,7 +51,7 @@ public class FreezeHandler {
         return loggedOut.contains(uuid);
     }
 
-    public void addFreeze(CommandSender sender, Player player, boolean shouldMessage) {
+    private void addFreeze(CommandSender sender, Player player, boolean shouldMessage, String locationId) {
         UUID uuid = player.getUniqueId();
 
         if (permission.has(player, options.permissionFreezeBypass) && shouldMessage) {
@@ -54,11 +68,15 @@ public class FreezeHandler {
             message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
         } else loggedOut.add(uuid);
 
+        if (locationId != null) {
+            TeleportService.getInstance().teleportPlayer(sender, player, locationId);
+        }
         userManager.get(player.getUniqueId()).setFrozen(true);
         lastFrozenLocations.put(uuid, player.getLocation());
         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
         options.modeFreezeSound.play(player);
+
     }
 
     public void removeFreeze(CommandSender sender, Player player, boolean shouldMessage) {
@@ -88,6 +106,7 @@ public class FreezeHandler {
         lastFrozenLocations.remove(uuid);
         player.removePotionEffect(PotionEffectType.JUMP);
         player.removePotionEffect(PotionEffectType.SLOW);
+
     }
 
     public void checkLocations() {
