@@ -135,7 +135,7 @@ public class FlatFileStorage implements IStorage {
         warnings.add(warning);
         List<String> warningList = new ArrayList<String>();
         for (IWarning r : warnings) {
-            warningList.add(r.getReason() + ";" + r.getIssuerName() + ";" + (r.getIssuerUuid() == null ? "null" : r.getIssuerUuid().toString()));
+            warningList.add(r.getReason() + ";" + r.getIssuerName() + ";" + (r.getIssuerUuid() == null ? "null" : r.getIssuerUuid().toString()) +";" + r.getTime());
         }
         try {
             dataFile.set(warning.getUuid().toString() + ".warnings", warningList);
