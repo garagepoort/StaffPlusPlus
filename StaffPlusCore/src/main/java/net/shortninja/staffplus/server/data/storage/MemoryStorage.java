@@ -3,6 +3,7 @@ package net.shortninja.staffplus.server.data.storage;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.entity.Player;
 
@@ -62,12 +63,12 @@ public final class MemoryStorage implements IStorage {
     }
 
     @Override
-    public void removeReport(User user) {
+    public void removeReports(IUser user) {
         getOrPut(user.getUuid()).reports.removeIf(r -> r.getUuid().equals(user.getUuid()));
     }
 
     @Override
-    public void removeWarning(UUID uuid) {
+    public void removeWarnings(UUID uuid) {
         getOrPut(uuid).warnings.removeIf(r -> r.getUuid().equals(uuid));
     }
 

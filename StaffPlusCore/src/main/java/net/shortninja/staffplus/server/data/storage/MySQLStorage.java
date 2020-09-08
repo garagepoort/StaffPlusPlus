@@ -7,6 +7,7 @@ import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -171,7 +172,7 @@ public class MySQLStorage implements IStorage {
     }
 
     @Override
-    public void removeReport(User user) {
+    public void removeReports(IUser user) {
         try (Connection sql = MySQLConnection.getConnection();
              PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE UUID = ?");) {
             insert.setString(1, user.getUuid().toString());
@@ -182,7 +183,7 @@ public class MySQLStorage implements IStorage {
     }
 
     @Override
-    public void removeWarning(UUID uuid) {
+    public void removeWarnings(UUID uuid) {
         try (Connection sql = MySQLConnection.getConnection();
              PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_warnings WHERE UUID = ?");) {
              insert.setString(1, uuid.toString());
