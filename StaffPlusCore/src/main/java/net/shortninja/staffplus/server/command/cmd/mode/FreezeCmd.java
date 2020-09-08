@@ -71,6 +71,9 @@ public class FreezeCmd extends BukkitCommand {
 
         boolean freeze = enabled.isPresent() || (!disabled.isPresent() && !freezeHandler.isFrozen(targetPlayer.getUniqueId()));
 
+        if (teleportLocation.isPresent()) {
+            teleportLocation = Optional.of(teleportLocation.get().substring(2));
+        }
         return new FreezeRequest(
                 sender,
                 targetPlayer,

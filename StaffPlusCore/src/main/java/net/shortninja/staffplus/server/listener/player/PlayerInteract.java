@@ -95,7 +95,9 @@ public class PlayerInteract implements Listener {
                 break;
             case FREEZE:
                 Player targetPlayer = JavaUtils.getTargetPlayer(player);
-                freezeHandler.execute(new FreezeRequest(player, targetPlayer, freezeHandler.isFrozen(targetPlayer.getUniqueId())));
+                if(targetPlayer != null){
+                    freezeHandler.execute(new FreezeRequest(player, targetPlayer, freezeHandler.isFrozen(targetPlayer.getUniqueId())));
+                }
                 break;
             case CPS:
                 gadgetHandler.onCps(player, JavaUtils.getTargetPlayer(player));
