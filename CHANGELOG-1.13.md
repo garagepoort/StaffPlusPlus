@@ -4,7 +4,7 @@
 #### Features
 - Allow reporting/warning offline users
 - Locations implemented
-- Freeze command now has the ability to take a teleport to location parameter
+- Freeze command now has the ability to take a teleportLocation parameter `/freeze myplayer -Tspawn`
 
 ### V1.13.2
 #### Features
