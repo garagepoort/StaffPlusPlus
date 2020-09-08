@@ -36,6 +36,22 @@ glass-title: "&bChoose GUI glass color"
 # Enable offline player mode
 # report-bypass & warn-bypass does not work for offline players
 offline-players-mode: false
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Locations                        | #
+# +------------------------------------------------------+ #
+############################################################
+# Used to predefine certain locations in the world which can be used in other commands
+# Type in the location identifier and location using format: x;y;z
+# ex. config
+# locations:
+#     spawn: 14;45;62
+# ex. /freeze myplayer -Tspawn
+# This will freeze the player and teleport him to spawn location.
+locations:
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Reports                        | #

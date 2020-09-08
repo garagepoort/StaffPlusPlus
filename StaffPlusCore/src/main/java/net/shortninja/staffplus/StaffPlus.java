@@ -9,6 +9,7 @@ import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.*;
+import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.ext.bukkit.BukkitOfflinePlayerProvider;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.PacketModifier;
