@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.14
 
-### V1.14.2
+### V1.14.3
 #### Features
 - Allow reporting/warning offline users
 - Locations implemented
