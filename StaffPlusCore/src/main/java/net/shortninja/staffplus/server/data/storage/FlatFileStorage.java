@@ -6,7 +6,6 @@ import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
-import net.shortninja.staffplus.server.data.file.DataFile;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
@@ -14,7 +13,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class FlatFileStorage implements IStorage {
@@ -122,10 +120,8 @@ public class FlatFileStorage implements IStorage {
         for (IReport r : reports) {
             reportsList.add(r.getReason() + ";" + r.getReporterName() + ";" + (r.getReporterUuid() == null ? "null" : r.getReporterUuid().toString()));
         }
-        dataFile.set(report.getUuid().toString() + ".reports", reportsList);
-        reports.clear();
-        reportsList.clear();
         try {
+            dataFile.set(report.getUuid().toString() + ".reports", reportsList);
             dataFile.save(StaffPlus.get().dataFile.getFile());
         } catch (IOException e) {
             e.printStackTrace();

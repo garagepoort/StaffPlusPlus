@@ -48,6 +48,8 @@ public class Options implements IOptions {
     public long clock = config.getInt("clock") * 20;
     public List<String> animationPackets = JavaUtils.stringToList(config.getString("animation-packets"));
     public List<String> soundNames = JavaUtils.stringToList(config.getString("sound-names"));
+    public boolean offlinePlayersModeEnabled = config.getBoolean("offline-players-mode");
+    public String playerProvider = config.getString("player-provider");
     /*
      * Reports
      */
@@ -179,7 +181,6 @@ public class Options implements IOptions {
     public String modeExamineTitle = config.getString("staff-mode.examine-module.title");
     public int modeExamineFood = config.getInt("staff-mode.examine-module.info-line.food") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.food");
     public int modeExamineIp = config.getInt("staff-mode.examine-module.info-line.ip-address") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ip-address");
-    public int modeExaminePing = config.getInt("staff-mode.examine-module.info-line.ping") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ping");
     public int modeExamineGamemode = config.getInt("staff-mode.examine-module.info-line.gamemode") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.gamemode");
     public int modeExamineInfractions = config.getInt("staff-mode.examine-module.info-line.infractions") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.infractions");
     public int modeExamineLocation = config.getInt("staff-mode.examine-module.info-line.location") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.location");
@@ -191,7 +192,6 @@ public class Options implements IOptions {
      */
     public boolean modeFollowEnabled = config.getBoolean("staff-mode.follow-module.enabled");
     public int modeFollowSlot = config.getInt("staff-mode.follow-module.slot") - 1;
-    public boolean modeUseMount = config.getBoolean("staff-mode.follow-module.use-mount");
     /*
      * Custom
      */
@@ -217,17 +217,11 @@ public class Options implements IOptions {
     public String permissionNameChange = config.getString("permissions.name-change");
     public String permissionXray = config.getString("permissions.xray");
     public String permissionMode = config.getString("permissions.mode");
-    public String permissionCompass = config.getString("permissions.compass");
-    public String permissionRandomTeleport = config.getString("permissions.random-teleport");
-    public String permissionGui = config.getString("permissions.gui");
-    public String permissionCounter = config.getString("permissions.counter");
     public String permissionFreeze = config.getString("permissions.freeze");
     public String permissionFreezeBypass = config.getString("permissions.freeze-bypass");
     public String permissionCps = config.getString("permissions.cps");
     public String permissionExamine = config.getString("permissions.examine");
-    public String permissionExamineModify = config.getString("permissions.examine-modify");
     public String permissionFollow = config.getString("permissions.follow");
-    public String permissionLockdown = config.getString("permissions.lockdown");
     public String permissionRevive = config.getString("permissions.revive");
     public String permissionMember = config.getString("permissions.member");
     public String ipHidePerm = config.getString("permissions.ipPerm");

@@ -74,7 +74,7 @@ public class PlayerJoin implements Listener {
 
         if (userManager.has(uuid)) {
             userManager.get(uuid).setOnline(true);
-        } else new Load(player);
+        } else new Load().load(player);
     }
 
 
