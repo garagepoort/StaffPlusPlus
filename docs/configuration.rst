@@ -36,7 +36,7 @@ glass-color: 0
 glass-title: "&bChoose GUI glass color"
 
 # Enable offline player mode
-# report-bypass does not work for offline players
+# report-bypass & warn-bypass does not work for offline players
 offline-players-mode: false
 
 +++++++++++++++++++
