@@ -1,8 +1,6 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.attribute.infraction.Report;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -11,12 +9,11 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 public class User implements IUser {
@@ -81,15 +78,6 @@ public class User implements IUser {
         }
     }
 
-    /**
-     * This method can return a null player if the user is not online, so be sure
-     * to check!
-<<<<<<< HEAD
-=======
-     *
->>>>>>> b2eb803718fc6d2d09f3ef627210b17920278857
-     * @return
-     */
     public Optional<Player> getPlayer() {
         return Optional.ofNullable(Bukkit.getPlayer(name));
     }
@@ -204,23 +192,6 @@ public class User implements IUser {
     public void addReport(IReport report) {
         if (options.storageType.equalsIgnoreCase("flatfile"))
             reports.add(report);
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID) " +
-                         "VALUES(?, ?, ?);");) {
-                insert.setString(1, report.getReason());
-                insert.setString(2, report.getReporterUuid().toString());
-                insert.setString(3, report.getUuid().toString());
-                insert.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        StaffPlus.get().storage.addReport(report);
-    }
-
-    public void removeReport(String uuid) {
-        reports.remove(uuid);
     }
 
     public void addWarning(IWarning warning) {
