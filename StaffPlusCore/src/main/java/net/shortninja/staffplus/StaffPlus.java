@@ -2,12 +2,14 @@ package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.nms.Protocol_v1_16;
 import net.shortninja.staffplus.player.NodeUser;
+import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.*;
+import net.shortninja.staffplus.player.ext.bukkit.BukkitOfflinePlayerProvider;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.PacketModifier;
 import net.shortninja.staffplus.server.chat.ChatHandler;
@@ -71,6 +73,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public GadgetHandler gadgetHandler;
     public ReviveHandler reviveHandler;
     public VanishHandler vanishHandler;
+    public OfflinePlayerProvider offlinePlayerProvider;
     public ChatHandler chatHandler;
     public TicketHandler ticketHandler;
     public CmdHandler cmdHandler;
@@ -111,15 +114,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         message = new MessageCoordinator(this);
         options = new Options();
         start(System.currentTimeMillis());
-        if (options.storageType.equalsIgnoreCase("mysql")) {
-            storage = new MySQLStorage(new MySQLConnection());
-        } else if (options.storageType.equalsIgnoreCase("flatfile"))
-            storage = new FlatFileStorage();
-        else {
-            storage = new MemoryStorage();
-            Bukkit.getLogger().warning("Storage type is invalid, defaulting to memory-based storage. IMPORTANT: Any changes are not persistent.");
-        }
-
+        loadStorageHandler();
+        loadPlayerProvider();
 
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
@@ -129,7 +125,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         hookHandler.addHook(new SuperVanishHook(this));
         hookHandler.enableAll();
     }
-
 
     @Override
     public UserManager getUserManager() {
@@ -182,7 +177,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         tasks = new Tasks();
         inventoryHandler = new InventoryHandler();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            new Load(player);
+            new Load().load(player);
         }
         registerListeners();
         new ChangelogFile();
@@ -291,6 +286,23 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         @Override
         public boolean isLoggable(LogRecord record) {
             return !record.getMessage().toLowerCase().contains("/register") && !record.getMessage().toLowerCase().contains("/login");
+        }
+    }
+
+    private void loadPlayerProvider() {
+        if (options.offlinePlayersModeEnabled) {
+            offlinePlayerProvider = new BukkitOfflinePlayerProvider();
+        }
+    }
+
+    private void loadStorageHandler() {
+        if (options.storageType.equalsIgnoreCase("mysql")) {
+            storage = new MySQLStorage(new MySQLConnection());
+        } else if (options.storageType.equalsIgnoreCase("flatfile"))
+            storage = new FlatFileStorage();
+        else {
+            storage = new MemoryStorage();
+            Bukkit.getLogger().warning("Storage type is invalid, defaulting to memory-based storage. IMPORTANT: Any changes are not persistent.");
         }
     }
 }

@@ -8,4 +8,8 @@ public interface IUserManager {
 	Collection<IUser> getAll();
 
 	IUser get(UUID id);
+
+	IUser getOffline(String playerName);
+
+    IUser getOnOrOfflineUser(String playerName);
 }

@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.IUserManager;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class UserManager implements IUserManager {
     private static Map<UUID, IUser> users;
@@ -28,6 +28,44 @@ public class UserManager implements IUserManager {
     public IUser get(UUID uuid) {
         return users.get(uuid);
     }
+
+    @Override
+    public IUser getOffline(String playerName) {
+        if (staffPlus.options.offlinePlayersModeEnabled) {
+            Optional<ProvidedPlayer> user = staffPlus.offlinePlayerProvider.findUser(playerName);
+            if (user.isPresent()) {
+                User loadedUser = new Load().build(user.get().getId(), user.get().getUsername());
+                loadedUser.setOnline(false);
+                return loadedUser;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public IUser getOnOrOfflineUser(String playerName) {
+        IUser user = null;
+
+        Player reported = Bukkit.getPlayer(playerName);
+        if (reported == null && !staffPlus.options.offlinePlayersModeEnabled) {
+            return null;
+        }
+
+        if (reported == null) {
+            user = getOffline(playerName);
+        } else {
+            user = get(reported.getUniqueId());
+            if (user == null) {
+                if (staffPlus.options.offlinePlayersModeEnabled) {
+                    user = getOffline(playerName);
+                } else {
+                    return null;
+                }
+            }
+        }
+        return user;
+    }
+
 
     public boolean has(UUID uuid) {
         return users.containsKey(uuid);

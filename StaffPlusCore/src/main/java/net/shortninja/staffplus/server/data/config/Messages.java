@@ -32,6 +32,7 @@ public class Messages {
     public String commandOnCooldown = config.getString("on-cooldown");
     public String noPermission = config.getString("no-permission");
     public String playerOffline = config.getString("player-offline");
+    public String playerNotRegistered = config.getString("player-not-registered");
     public String unknownCommand = config.getString("unknown-command");
     public String invalidArguments = config.getString("invalid-arguments");
     public String onlyPlayers = config.getString("only-players");

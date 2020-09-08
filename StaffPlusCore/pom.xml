@@ -122,7 +122,6 @@
             <version>${spigot.version}</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <properties>
