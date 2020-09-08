@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.player.attribute.mode.handler;
+package net.shortninja.staffplus.player.attribute.mode.handler.freeze;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
@@ -26,6 +26,19 @@ public class FreezeHandler {
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().userManager;
 
+    public void execute(FreezeRequest freezeRequest) {
+        if (!permission.has(freezeRequest.getCommandSender(), options.permissionFreeze)) {
+            message.send(freezeRequest.getPlayer(), messages.noPermission, messages.prefixGeneral);
+            return;
+        }
+
+        if (freezeRequest.isEnableFreeze()) {
+            addFreeze(freezeRequest.getCommandSender(), freezeRequest.getPlayer(), true);
+        } else {
+            removeFreeze(freezeRequest.getCommandSender(), freezeRequest.getPlayer(), true);
+        }
+    }
+
     public boolean isFrozen(UUID uuid) {
         IUser user = userManager.get(uuid);
         if (user == null || userManager == null)
@@ -37,7 +50,7 @@ public class FreezeHandler {
         return loggedOut.contains(uuid);
     }
 
-    public void addFreeze(CommandSender sender, Player player, boolean shouldMessage) {
+    private void addFreeze(CommandSender sender, Player player, boolean shouldMessage) {
         UUID uuid = player.getUniqueId();
 
         if (permission.has(player, options.permissionFreezeBypass) && shouldMessage) {
