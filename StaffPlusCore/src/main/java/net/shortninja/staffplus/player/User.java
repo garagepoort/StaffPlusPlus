@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.*;
@@ -11,9 +10,6 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.*;
 
 public class User implements IUser {
@@ -197,22 +193,10 @@ public class User implements IUser {
     public void addWarning(IWarning warning) {
         if (options.storageType.equalsIgnoreCase("flatfile"))
             warnings.add(warning);
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
-                         "VALUES(? ,?, ?);");) {
-                insert.setString(1, warning.getReason());
-                insert.setString(2, warning.getIssuerUuid().toString());
-                insert.setString(3, warning.getUuid().toString());
-                insert.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void removeWarning(UUID uuid) {
-        StaffPlus.get().storage.removeWarning(uuid);
+        StaffPlus.get().storage.removeWarnings(uuid);
     }
 
     public void addPlayerNote(String note) {
