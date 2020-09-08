@@ -33,6 +33,9 @@ glass-color: 0
 # The title of the glass color chooser GUI.
 glass-title: "&bChoose GUI glass color"
 
+# Enable offline player mode
+# report-bypass does not work for offline players
+offline-players-mode: false
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Reports                        | #
