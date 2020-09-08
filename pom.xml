@@ -39,11 +39,6 @@
     </properties>
 
     <repositories>
-        <!--        <repository>-->
-        <!--            <id>qball-repo</id>-->
-        <!--            <url>http://qballsrepo.tk/repo</url>-->
-        <!--        </repository>-->
-
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -52,13 +47,13 @@
             <id>mikeprim-repo</id>
             <url>http://repo.mikeprimm.com/</url>
         </repository>
-        <!--       <repository>-->
-        <!--            <id>qball-repo</id>-->
-        <!--            <url>https://qball.frostalf.net</url>-->
-        <!--        </repository>-->
         <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
     </repositories>
 

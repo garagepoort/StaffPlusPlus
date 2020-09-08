@@ -4,6 +4,8 @@
 
 # Staff+ | Made with love by Shortninja.
 ## Maintained by QBall with help from `contributors <https://github.com/Qballl/StaffPlus/graphs/contributors>`_.
+## Enhanced by Garagepoort
+## In loving memory of Shortninja who was beloved by the Spigot and Minecraft community and laid the groundwork for this awesome plugin.
 
 # If you're having trouble with item type names, refer to here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 # All item slots are how they "should be", meaning the first slot of an inventory will be one. Maximum is 36.
@@ -32,6 +34,10 @@ glass-color: 0
 
 # The title of the glass color chooser GUI.
 glass-title: "&bChoose GUI glass color"
+
+# Enable offline player mode
+# report-bypass does not work for offline players
+offline-players-mode: false
 
 +++++++++++++++++++
   Reports

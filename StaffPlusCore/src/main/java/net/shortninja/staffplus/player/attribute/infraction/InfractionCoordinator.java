@@ -3,6 +3,7 @@ package net.shortninja.staffplus.player.attribute.infraction;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.event.ReportPlayerEvent;
 import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
@@ -22,6 +23,7 @@ public class InfractionCoordinator {
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().userManager;
+    private ReportService reportService = ReportService.getInstance();
 
     public Collection<Report> getUnresolvedReports() {
         return unresolvedReports.values();
@@ -50,21 +52,26 @@ public class InfractionCoordinator {
         return warnings;
     }
 
-    public void sendReport(CommandSender sender, Report report) {
-        IUser user = userManager.get(report.getUuid());
-
-        if (user == null || !user.getPlayer().isPresent()) {
+    public void sendReport(CommandSender sender, String playerName, String reason) {
+        IUser user = userManager.getOnOrOfflineUser(playerName);
+        if (user == null) {
             message.send(sender, messages.playerOffline, messages.prefixGeneral);
             return;
         }
 
-        if (permission.has(user.getPlayer().get(), options.permissionReportBypass)) {
+        String reporterName = sender instanceof Player ? sender.getName() : "Console";
+        UUID reporterUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
+        Report report = new Report(user.getUuid(), user.getName(), reason, reporterName, reporterUuid);
+
+        // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
+        if (user.isOnline() && permission.has(user.getPlayer().get(), options.permissionReportBypass)) {
             message.send(sender, messages.bypassed, messages.prefixGeneral);
             return;
         }
 
         addUnresolvedReport(report);
         user.addReport(report);
+        reportService.addReport(report);
         message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getName()).replace("%reason%", report.getReason()), messages.prefixReports);
         message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", report.getName()).replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
         options.reportsSound.playForGroup(options.permissionReport);
