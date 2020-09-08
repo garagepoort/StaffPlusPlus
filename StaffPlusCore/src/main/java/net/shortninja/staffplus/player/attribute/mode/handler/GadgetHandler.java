@@ -5,6 +5,7 @@ import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.CounterGui;
 import net.shortninja.staffplus.player.attribute.gui.ExamineGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
+import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -153,16 +154,6 @@ public class GadgetHandler {
 
     public void onCounter(Player player) {
         new CounterGui(player, options.modeCounterTitle);
-    }
-
-    public void onFreeze(CommandSender sender, Player targetPlayer) {
-        if (targetPlayer == null) {
-            return;
-        }
-
-        if (freezeHandler.isFrozen(targetPlayer.getUniqueId())) {
-            freezeHandler.removeFreeze(sender, targetPlayer, true);
-        } else freezeHandler.addFreeze(sender, targetPlayer, true);
     }
 
     public void onCps(CommandSender sender, Player targetPlayer) {
