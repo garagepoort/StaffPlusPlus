@@ -7,6 +7,7 @@ import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -134,12 +135,10 @@ public class FlatFileStorage implements IStorage {
         warnings.add(warning);
         List<String> warningList = new ArrayList<String>();
         for (IWarning r : warnings) {
-            warningList.add(r.getReason() + ";" + r.getIssuerName() + ";" + (r.getIssuerUuid() == null ? "null" : r.getIssuerUuid().toString()));
+            warningList.add(r.getReason() + ";" + r.getIssuerName() + ";" + (r.getIssuerUuid() == null ? "null" : r.getIssuerUuid().toString()) +";" + r.getTime());
         }
-        dataFile.set(warning.getUuid().toString() + ".warnings", warningList);
-        warnings.clear();
-        warningList.clear();
         try {
+            dataFile.set(warning.getUuid().toString() + ".warnings", warningList);
             dataFile.save(StaffPlus.get().dataFile.getFile());
         } catch (IOException e) {
             e.printStackTrace();
@@ -147,9 +146,9 @@ public class FlatFileStorage implements IStorage {
     }
 
     @Override
-    public void removeReport(User user) {
-        dataFile.set(user.getUuid().toString() + ".reports", new ArrayList<>());
+    public void removeReports(IUser user) {
         try {
+            dataFile.set(user.getUuid().toString() + ".reports", new ArrayList<>());
             dataFile.save(StaffPlus.get().dataFile.getFile());
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,9 +156,9 @@ public class FlatFileStorage implements IStorage {
     }
 
     @Override
-    public void removeWarning(UUID uuid) {
-        dataFile.set(uuid.toString() + ".warnings", new ArrayList<>());
+    public void removeWarnings(UUID uuid) {
         try {
+            dataFile.set(uuid.toString() + ".warnings", new ArrayList<>());
             dataFile.save(StaffPlus.get().dataFile.getFile());
         } catch (IOException e) {
             e.printStackTrace();
