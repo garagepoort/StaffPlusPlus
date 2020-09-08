@@ -4,6 +4,8 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.CpsHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
+import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -25,6 +27,7 @@ public class PlayerInteract implements Listener {
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
     private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
+    private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
 
     public PlayerInteract() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -91,7 +94,10 @@ public class PlayerInteract implements Listener {
                 gadgetHandler.onCounter(player);
                 break;
             case FREEZE:
-                gadgetHandler.onFreeze(player, JavaUtils.getTargetPlayer(player));
+                Player targetPlayer = JavaUtils.getTargetPlayer(player);
+                if(targetPlayer != null){
+                    freezeHandler.execute(new FreezeRequest(player, targetPlayer, freezeHandler.isFrozen(targetPlayer.getUniqueId())));
+                }
                 break;
             case CPS:
                 gadgetHandler.onCps(player, JavaUtils.getTargetPlayer(player));
