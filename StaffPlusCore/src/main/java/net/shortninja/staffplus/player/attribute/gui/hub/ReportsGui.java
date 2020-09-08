@@ -5,6 +5,7 @@ import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.infraction.Report;
+import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
@@ -24,6 +25,7 @@ public class ReportsGui extends AbstractGui {
     private Messages messages = StaffPlus.get().messages;
     private UserManager userManager = StaffPlus.get().userManager;
     private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
+    private ReportService reportService = ReportService.getInstance();
 
     public ReportsGui(Player player, String title) {
         super(SIZE, title);
@@ -34,7 +36,7 @@ public class ReportsGui extends AbstractGui {
                 Player p = Bukkit.getPlayer(item.getItemMeta().getDisplayName().substring(2));
 
                 if (p != null) {
-                    infractionCoordinator.removeUnresolvedReport(p.getUniqueId());
+                    ReportService.getInstance().removeUnresolvedReport(p.getUniqueId());
                     player.teleport(p);
                 } else message.send(player, messages.playerOffline, messages.prefixGeneral);
             }
@@ -51,7 +53,7 @@ public class ReportsGui extends AbstractGui {
 
         int count = 0; // Using this with an enhanced for loop because it is much faster than converting to an array.
 
-        for (Report report : infractionCoordinator.getUnresolvedReports()) {
+        for (Report report : reportService.getUnresolvedReports()) {
             if ((count + 1) >= SIZE) {
                 break;
             }

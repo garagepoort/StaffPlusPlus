@@ -1,11 +1,9 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.StaffPlus;
-
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.player.attribute.mode.handler.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -24,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class ExamineGui extends AbstractGui {
 
@@ -170,9 +167,7 @@ public class ExamineGui extends AbstractGui {
                     user.setQueuedAction(new IAction() {
                         @Override
                         public void execute(Player player, String input) {
-                            UUID uuid = targetPlayer.getUniqueId();
-
-                            infractionCoordinator.sendWarning(player, new Warning(uuid, targetPlayer.getName(), input, player.getName(), player.getUniqueId(), System.currentTimeMillis()));
+                            infractionCoordinator.sendWarning(player, targetPlayer.getName(), input);
                             message.send(player, messages.inputAccepted, messages.prefixGeneral);
                         }
 

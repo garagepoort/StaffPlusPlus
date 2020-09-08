@@ -3,6 +3,7 @@ package net.shortninja.staffplus.server.data.storage;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.entity.Player;
 
@@ -32,9 +33,9 @@ public interface IStorage {
 
     void addWarning(IWarning warning);
 
-    void removeReport(User user);
+    void removeReports(IUser user);
 
-    void removeWarning(UUID uuid);
+    void removeWarnings(UUID uuid);
 
     Set<Ticket> getTickets();
 
