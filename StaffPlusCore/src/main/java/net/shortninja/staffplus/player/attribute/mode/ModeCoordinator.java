@@ -55,7 +55,7 @@ public class ModeCoordinator {
         UUID uuid = player.getUniqueId();
         IUser user = userManager.get(uuid);
         if(user == null)
-            user = new Load(player).getUser();
+            user = new Load().getUser(player.getName(), player.getUniqueId());
         ModeDataVault modeData;
         modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
                 player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
