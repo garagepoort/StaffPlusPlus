@@ -2,7 +2,6 @@ package net.shortninja.staffplus.server.command.cmd.infraction;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
@@ -10,13 +9,11 @@ import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
-import org.bukkit.Bukkit;
+import net.shortninja.staffplus.warn.WarnService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.UUID;
 
 public class WarnCmd extends BukkitCommand {
     private PermissionHandler permission = StaffPlus.get().permission;
@@ -38,17 +35,12 @@ public class WarnCmd extends BukkitCommand {
 
         if (args.length == 2) {
             String argument = args[0];
-            String option = args[1];
-            Player player = Bukkit.getPlayer(option);
+            String playerName = args[1];
 
             if (argument.equalsIgnoreCase("get")) {
-                if (player == null) {
-                    message.send(sender, messages.playerOffline, messages.prefixWarnings);
-                } else listWarnings(sender, player);
+                listWarnings(sender, playerName);
             } else if (argument.equalsIgnoreCase("clear")) {
-                if (player == null) {
-                    message.send(sender, messages.playerOffline, messages.prefixWarnings);
-                } else clearWarnings(sender, player);
+                clearWarnings(sender, playerName);
             } else sendWarning(sender, argument, JavaUtils.compileWords(args, 1));
         } else if (args.length >= 3) {
             sendWarning(sender, args[0], JavaUtils.compileWords(args, 1));
@@ -59,14 +51,14 @@ public class WarnCmd extends BukkitCommand {
         return true;
     }
 
-    private void listWarnings(CommandSender sender, Player player) {
-        IUser user = userManager.get(player.getUniqueId());
+    private void listWarnings(CommandSender sender, String playerName) {
+        IUser user = userManager.getOnOrOfflineUser(playerName);
 
         if (user != null) {
             List<IWarning> warnings = user.getWarnings();
 
             for (String message : messages.warningsListStart) {
-                this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%warnings%", Integer.toString(warnings.size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
+                this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", playerName).replace("%warnings%", Integer.toString(warnings.size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
             }
 
             for (int i = 0; i < warnings.size(); i++) {
@@ -76,37 +68,22 @@ public class WarnCmd extends BukkitCommand {
             }
 
             for (String message : messages.warningsListEnd) {
-                this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%warnings%", Integer.toString(user.getReports().size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
+                this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", playerName).replace("%warnings%", Integer.toString(user.getReports().size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
             }
         } else message.send(sender, messages.playerOffline, messages.prefixWarnings);
     }
 
-    private void clearWarnings(CommandSender sender, Player player) {
-        IUser user = userManager.get(player.getUniqueId());
+    private void clearWarnings(CommandSender sender, String playerName) {
+        IUser user = userManager.getOnOrOfflineUser(playerName);
 
         if (user != null) {
-            user.getWarnings().clear();
-            message.send(sender, messages.warningsCleared.replace("%target%", player.getName()), messages.prefixWarnings);
+            WarnService.getInstance().clearWarnings(user);
+            message.send(sender, messages.warningsCleared.replace("%target%", playerName), messages.prefixWarnings);
         } else message.send(sender, messages.playerOffline, messages.prefixWarnings);
     }
 
     private void sendWarning(CommandSender sender, String option, String reason) {
-        String issuerName = "Console"; // The name "Console" is taken, but it is capitalized as "CONSOLE".
-        UUID issuerUuid = null;
-        Player warned = Bukkit.getPlayer(option);
-
-        if (warned != null) {
-            Player issuer = null;
-
-            if (sender instanceof Player) {
-                issuer = (Player) sender;
-                issuerName = issuer.getName();
-                issuerUuid = issuer.getUniqueId();
-            } else
-                issuerUuid = StaffPlus.get().consoleUUID;
-            Warning warning = new Warning(warned.getUniqueId(), warned.getName(), reason, issuerName, issuerUuid, System.currentTimeMillis());
-            StaffPlus.get().infractionCoordinator.sendWarning(sender, warning);
-        } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+        StaffPlus.get().infractionCoordinator.sendWarning(sender, option, reason);
     }
 
     private void sendHelp(CommandSender sender) {

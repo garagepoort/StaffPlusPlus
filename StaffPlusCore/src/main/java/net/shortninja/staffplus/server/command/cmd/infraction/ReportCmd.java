@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.command.cmd.infraction;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IReport;
@@ -89,7 +90,7 @@ public class ReportCmd extends BukkitCommand {
         IUser user = userManager.getOnOrOfflineUser(playerName);
 
         if (user != null) {
-            StaffPlus.get().infractionCoordinator.clearReports(user);
+            ReportService.getInstance().clearReports(user);
             message.send(sender, messages.reportsCleared.replace("%target%", playerName), messages.prefixReports);
         } else message.send(sender, messages.playerOffline, messages.prefixReports);
     }
