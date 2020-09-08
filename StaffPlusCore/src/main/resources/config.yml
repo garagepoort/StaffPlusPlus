@@ -44,11 +44,11 @@ offline-players-mode: false
 # +------------------------------------------------------+ #
 ############################################################
 # Used to predefine certain locations in the world which can be used in other commands
-# Type in the spawn name and location x;y;z
+# Type in the location identifier and location using format: x;y;z
 # ex. config
 # locations:
 #     spawn: 14;45;62
-# ex. /freezer myplayer spawn
+# ex. /freeze myplayer -Tspawn
 # This will freeze the player and teleport him to spawn location.
 locations:
 
