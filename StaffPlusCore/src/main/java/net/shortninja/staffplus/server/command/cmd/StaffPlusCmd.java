@@ -28,21 +28,13 @@ public class StaffPlusCmd extends BukkitCommand {
             message.send(sender, messages.noPermission, messages.prefixGeneral);
             return true;
         }
-        if (sender instanceof Player) {
-            if (args.length == 1 && permission.has(sender, options.permissionStaff)) {
-                if (args[0].equalsIgnoreCase("reload")) {
-                    Bukkit.getPluginManager().getPlugin("StaffPlus").reloadConfig();
-                    StaffPlus.get().reloadFiles();
-                    StaffPlus.get().message.sendConsoleMessage("Plugin config and lang file reloaded", false);
+        if (args.length == 1 && permission.has(sender, options.permissionStaff)) {
+            if (args[0].equalsIgnoreCase("reload")) {
+                Bukkit.getPluginManager().getPlugin("StaffPlus").reloadConfig();
+                StaffPlus.get().reloadFiles();
+                StaffPlus.get().message.sendConsoleMessage("Plugin config and lang file reloaded", false);
+                if (sender instanceof Player) {
                     StaffPlus.get().message.send((Player) sender, "Config and lang file have been reloaded", "StaffPlus");
-                }
-            }
-        } else {
-            if (args.length == 1 && permission.has(sender, options.permissionStaff)) {
-                if (args[0].equalsIgnoreCase("reload")) {
-                    Bukkit.getPluginManager().getPlugin("StaffPlus").reloadConfig();
-                    StaffPlus.get().reloadFiles();
-                    StaffPlus.get().message.sendConsoleMessage("Plugin config and lang file reloaded", false);
                 }
             }
         }

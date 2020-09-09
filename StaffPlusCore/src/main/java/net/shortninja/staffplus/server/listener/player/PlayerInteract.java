@@ -22,6 +22,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
+import static net.shortninja.staffplus.common.CommandUtil.playerAction;
+
 public class PlayerInteract implements Listener {
     private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
@@ -94,10 +96,12 @@ public class PlayerInteract implements Listener {
                 gadgetHandler.onCounter(player);
                 break;
             case FREEZE:
-                Player targetPlayer = JavaUtils.getTargetPlayer(player);
-                if(targetPlayer != null){
-                    freezeHandler.execute(new FreezeRequest(player, targetPlayer, freezeHandler.isFrozen(targetPlayer.getUniqueId())));
-                }
+                playerAction(player, () -> {
+                    Player targetPlayer = JavaUtils.getTargetPlayer(player);
+                    if(targetPlayer != null){
+                        freezeHandler.execute(new FreezeRequest(player, targetPlayer, freezeHandler.isFrozen(targetPlayer.getUniqueId())));
+                    }
+                });
                 break;
             case CPS:
                 gadgetHandler.onCps(player, JavaUtils.getTargetPlayer(player));
