@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.teleport;
 
 import net.shortninja.staffplus.ui.ArgumentExecutor;
+import net.shortninja.staffplus.ui.ArgumentType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +19,7 @@ public class TeleportArgumentExecutor implements ArgumentExecutor {
     }
 
     @Override
-    public String getArgsPrefix() {
-        return "-T";
+    public ArgumentType getType() {
+        return ArgumentType.TELEPORT;
     }
 }
