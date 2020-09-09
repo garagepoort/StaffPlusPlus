@@ -5,8 +5,8 @@ import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
 import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.ui.ArgumentProcessor;
-import net.shortninja.staffplus.ui.ArgumentType;
+import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.server.command.arguments.ArgumentType;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -18,10 +18,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
-import static net.shortninja.staffplus.ui.ArgumentType.TELEPORT;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.STRIP;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.TELEPORT;
 
 public class FreezeCmd extends BukkitCommand {
-    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT);
+    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP);
 
     private PermissionHandler permission = StaffPlus.get().permission;
     private Messages messages = StaffPlus.get().messages;
