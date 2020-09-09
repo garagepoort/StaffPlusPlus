@@ -1,7 +1,8 @@
-package net.shortninja.staffplus.teleport;
+package net.shortninja.staffplus.server.command.arguments;
 
-import net.shortninja.staffplus.ui.ArgumentExecutor;
-import net.shortninja.staffplus.ui.ArgumentType;
+import net.shortninja.staffplus.server.command.arguments.ArgumentExecutor;
+import net.shortninja.staffplus.server.command.arguments.ArgumentType;
+import net.shortninja.staffplus.teleport.TeleportService;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
