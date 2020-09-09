@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.ui;
+package net.shortninja.staffplus.server.command.arguments;
 
 import org.bukkit.command.CommandSender;
 
