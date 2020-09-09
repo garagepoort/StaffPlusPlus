@@ -6,6 +6,7 @@ import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.ui.ArgumentProcessor;
+import net.shortninja.staffplus.ui.ArgumentType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.command.CommandSender;
@@ -17,10 +18,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
+import static net.shortninja.staffplus.ui.ArgumentType.TELEPORT;
 import static net.shortninja.staffplus.util.lib.JavaUtils.getTargetPlayer;
 import static org.bukkit.Bukkit.getPlayer;
 
 public class ReviveCmd extends BukkitCommand {
+    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT);
+
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
@@ -52,7 +56,7 @@ public class ReviveCmd extends BukkitCommand {
 
             if (reviveHandler.hasSavedInventory(targetPlayer.getUniqueId())) {
                 reviveHandler.restoreInventory(targetPlayer);
-                argumentProcessor.parseArguments(sender, targetPlayer.getName(), Arrays.asList(args));
+                argumentProcessor.parseArguments(sender, targetPlayer.getName(), Arrays.asList(args), VALID_ARGUMENTS);
                 message.send(sender, messages.revivedStaff.replace("%target%", targetPlayer.getName()), messages.prefixGeneral);
             } else {
                 message.send(sender, messages.noFound, messages.prefixGeneral);

@@ -4,6 +4,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.ui.ArgumentProcessor;
+import net.shortninja.staffplus.ui.ArgumentType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -16,13 +17,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
+import static net.shortninja.staffplus.ui.ArgumentType.TELEPORT;
 
 public class ClearInvCmd extends BukkitCommand {
+    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT);
+
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
     private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
+
 
     public ClearInvCmd(String name) {
         super(name);
@@ -42,7 +47,7 @@ public class ClearInvCmd extends BukkitCommand {
                             Player target = Bukkit.getServer().getPlayer(args[0]);
                             JavaUtils.clearInventory(target);
                             sender.sendMessage(target.getName() + "'s inventory has been cleared");
-                            argumentProcessor.parseArguments(sender, args[0], arguments);
+                            argumentProcessor.parseArguments(sender, args[0], arguments, VALID_ARGUMENTS);
                             return true;
                         }
                 }

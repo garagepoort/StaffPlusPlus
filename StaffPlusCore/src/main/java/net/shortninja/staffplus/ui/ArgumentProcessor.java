@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class ArgumentProcessor {
 
@@ -22,16 +23,19 @@ public class ArgumentProcessor {
         return instance;
     }
 
-    public void parseArguments(CommandSender commandSender, String playerName, List<String> options) {
+    public void parseArguments(CommandSender commandSender, String playerName, List<String> options, List<ArgumentType> validTypes) {
+        List<ArgumentExecutor> validExecutors = argumentExecutors.stream()
+                .filter(a -> validTypes.contains(a.getType()))
+                .collect(Collectors.toList());
+
         for (String option : options) {
-            Optional<ArgumentExecutor> argumentExecutor = argumentExecutors.stream()
-                    .filter(a -> option.startsWith(a.getArgsPrefix()))
+            Optional<ArgumentExecutor> argumentExecutor = validExecutors.stream()
+                    .filter(a -> option.startsWith(a.getType().getPrefix()))
                     .findFirst();
 
-
             if (argumentExecutor.isPresent()) {
-                String value = option.replace(argumentExecutor.get().getArgsPrefix(), "");
-                Bukkit.getLogger().log(Level.INFO, "Executing argument: [" + argumentExecutor.get().getArgsPrefix() + "]");
+                String value = option.replace(argumentExecutor.get().getType().getPrefix(), "");
+                Bukkit.getLogger().log(Level.INFO, "Executing argument: [" + argumentExecutor.get().getType() + "]");
                 argumentExecutor.get().execute(commandSender, playerName, value);
             }
         }

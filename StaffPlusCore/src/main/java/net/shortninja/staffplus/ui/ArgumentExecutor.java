@@ -6,5 +6,5 @@ public interface ArgumentExecutor {
 
     boolean execute(CommandSender commandSender, String playerName, String value);
 
-    String getArgsPrefix();
+    ArgumentType getType();
 }

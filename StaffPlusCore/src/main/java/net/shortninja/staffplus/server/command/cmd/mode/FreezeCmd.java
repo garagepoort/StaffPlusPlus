@@ -6,6 +6,7 @@ import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandl
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.ui.ArgumentProcessor;
+import net.shortninja.staffplus.ui.ArgumentType;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -17,8 +18,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
+import static net.shortninja.staffplus.ui.ArgumentType.TELEPORT;
 
 public class FreezeCmd extends BukkitCommand {
+    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT);
+
     private PermissionHandler permission = StaffPlus.get().permission;
     private Messages messages = StaffPlus.get().messages;
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
@@ -45,7 +49,7 @@ public class FreezeCmd extends BukkitCommand {
             }
 
             freezeHandler.validatePermissions(sender, targetPlayer);
-            argumentProcessor.parseArguments(sender, args[0], options);
+            argumentProcessor.parseArguments(sender, args[0], options, VALID_ARGUMENTS);
             if (options.isEmpty()) {
                 // No options given, simple freeze
                 freezeHandler.execute(new FreezeRequest(sender, targetPlayer, !freezeHandler.isFrozen(targetPlayer.getUniqueId())));
