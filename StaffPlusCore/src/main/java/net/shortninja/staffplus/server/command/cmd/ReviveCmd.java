@@ -1,16 +1,24 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.ui.ArgumentProcessor;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.util.lib.JavaUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
+import static net.shortninja.staffplus.util.lib.JavaUtils.getTargetPlayer;
+import static org.bukkit.Bukkit.getPlayer;
 
 public class ReviveCmd extends BukkitCommand {
     private PermissionHandler permission = StaffPlus.get().permission;
@@ -18,6 +26,7 @@ public class ReviveCmd extends BukkitCommand {
     private Options options = StaffPlus.get().options;
     private Messages messages = StaffPlus.get().messages;
     private ReviveHandler reviveHandler = StaffPlus.get().reviveHandler;
+    private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
 
     public ReviveCmd(String name) {
         super(name);
@@ -25,27 +34,31 @@ public class ReviveCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        Player targetPlayer = null;
+        return executeCommand(sender, () -> {
 
-        if (!permission.has(sender, options.permissionRevive)) {
-            message.send(sender, messages.noPermission, messages.prefixGeneral);
-            return true;
-        }
+            if (!permission.has(sender, options.permissionRevive)) {
+                throw new BusinessException(messages.noPermission, messages.prefixGeneral);
+            }
 
-        if (args.length == 1) {
-            targetPlayer = Bukkit.getPlayer(args[0]);
-        } else if (!(sender instanceof Player)) {
-            message.send(sender, messages.invalidArguments, messages.prefixGeneral);
-            return true;
-        } else targetPlayer = JavaUtils.getTargetPlayer((Player) sender);
+            List<String> nonArguments = Arrays.stream(args).filter(a -> !a.startsWith("-")).collect(Collectors.toList());
+            if (nonArguments.size() == 0 && !(sender instanceof Player)) {
+                throw new BusinessException(messages.invalidArguments, messages.prefixGeneral);
+            }
 
-        if (targetPlayer != null) {
+            Player targetPlayer = nonArguments.size() == 1 ? getPlayer(nonArguments.get(0)) : getTargetPlayer((Player) sender);
+            if (targetPlayer == null) {
+                throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
+            }
+
             if (reviveHandler.hasSavedInventory(targetPlayer.getUniqueId())) {
                 reviveHandler.restoreInventory(targetPlayer);
+                argumentProcessor.parseArguments(sender, targetPlayer.getName(), Arrays.asList(args));
                 message.send(sender, messages.revivedStaff.replace("%target%", targetPlayer.getName()), messages.prefixGeneral);
-            } else message.send(sender, messages.noFound, messages.prefixGeneral);
-        } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+            } else {
+                message.send(sender, messages.noFound, messages.prefixGeneral);
+            }
 
-        return true;
+            return true;
+        });
     }
 }
