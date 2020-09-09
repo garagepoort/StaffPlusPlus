@@ -1,8 +1,9 @@
-package net.shortninja.staffplus.ui;
+package net.shortninja.staffplus.server.command.arguments;
 
 public enum ArgumentType {
 
-    TELEPORT("-T");
+    TELEPORT("-T"),
+    STRIP("-S");
 
     private String prefix;
 

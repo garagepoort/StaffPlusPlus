@@ -3,8 +3,8 @@ package net.shortninja.staffplus.server.command.cmd;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.ui.ArgumentProcessor;
-import net.shortninja.staffplus.ui.ArgumentType;
+import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.server.command.arguments.ArgumentType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
-import static net.shortninja.staffplus.ui.ArgumentType.TELEPORT;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.TELEPORT;
 
 public class ClearInvCmd extends BukkitCommand {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT);
