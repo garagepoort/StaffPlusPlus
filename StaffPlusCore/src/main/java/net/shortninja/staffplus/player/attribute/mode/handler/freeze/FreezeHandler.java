@@ -1,11 +1,12 @@
 package net.shortninja.staffplus.player.attribute.mode.handler.freeze;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.CommandPermissionValidator;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.teleport.TeleportService;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -18,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-public class FreezeHandler {
+public class FreezeHandler implements CommandPermissionValidator {
     private static Map<UUID, Location> lastFrozenLocations = new HashMap<>();
     private static Set<UUID> loggedOut = new HashSet<UUID>();
     private PermissionHandler permission = StaffPlus.get().permission;
@@ -28,13 +29,9 @@ public class FreezeHandler {
     private UserManager userManager = StaffPlus.get().userManager;
 
     public void execute(FreezeRequest freezeRequest) {
-        if (!permission.has(freezeRequest.getCommandSender(), options.permissionFreeze)) {
-            message.send(freezeRequest.getPlayer(), messages.noPermission, messages.prefixGeneral);
-            return;
-        }
-
+        validatePermissions(freezeRequest.getCommandSender(), freezeRequest.getPlayer());
         if (freezeRequest.isEnableFreeze()) {
-            addFreeze(freezeRequest.getCommandSender(), freezeRequest.getPlayer(), true, freezeRequest.getTeleportLocation());
+            addFreeze(freezeRequest.getCommandSender(), freezeRequest.getPlayer(), true);
         } else {
             removeFreeze(freezeRequest.getCommandSender(), freezeRequest.getPlayer(), true);
         }
@@ -51,14 +48,8 @@ public class FreezeHandler {
         return loggedOut.contains(uuid);
     }
 
-    private void addFreeze(CommandSender sender, Player player, boolean shouldMessage, String locationId) {
+    private void addFreeze(CommandSender sender, Player player, boolean shouldMessage) {
         UUID uuid = player.getUniqueId();
-
-        if (permission.has(player, options.permissionFreezeBypass) && shouldMessage) {
-            message.send(sender, messages.bypassed, messages.prefixGeneral);
-            return;
-        }
-
         if (shouldMessage) {
             if (options.modeFreezePrompt) {
                 new FreezeGui(player, options.modeFreezePromptTitle);
@@ -68,9 +59,6 @@ public class FreezeHandler {
             message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
         } else loggedOut.add(uuid);
 
-        if (locationId != null) {
-            TeleportService.getInstance().teleportPlayer(sender, player, locationId);
-        }
         userManager.get(player.getUniqueId()).setFrozen(true);
         lastFrozenLocations.put(uuid, player.getLocation());
         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
@@ -132,5 +120,15 @@ public class FreezeHandler {
      */
     private boolean compareLocations(Location previous, Location current) {
         return previous.getBlockX() == current.getBlockX() && previous.getBlockY() == current.getBlockY() && previous.getBlockZ() == current.getBlockZ();
+    }
+
+    @Override
+    public void validatePermissions(CommandSender commandSender, Player target) {
+        if (!permission.has(commandSender, options.permissionFreeze)) {
+            throw new BusinessException(messages.noPermission, messages.prefixGeneral);
+        }
+        if (permission.has(target, options.permissionFreezeBypass)) {
+            throw new BusinessException(messages.bypassed, messages.prefixGeneral);
+        }
     }
 }
