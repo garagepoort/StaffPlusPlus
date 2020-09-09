@@ -1,6 +1,5 @@
-package net.shortninja.staffplus.ui;
+package net.shortninja.staffplus.server.command.arguments;
 
-import net.shortninja.staffplus.teleport.TeleportArgumentExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class ArgumentProcessor {
 
-    private final List<ArgumentExecutor> argumentExecutors = Arrays.asList(new TeleportArgumentExecutor());
+    private final List<ArgumentExecutor> argumentExecutors = Arrays.asList(new TeleportArgumentExecutor(), new StripArgumentExecutor());
 
     private static ArgumentProcessor instance;
 
