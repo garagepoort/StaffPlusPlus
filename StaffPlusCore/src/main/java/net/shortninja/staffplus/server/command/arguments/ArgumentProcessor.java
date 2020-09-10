@@ -40,4 +40,13 @@ public class ArgumentProcessor {
         }
     }
 
+    public List<String> getArgumentsSuggestions(CommandSender commandSender, String currentArg, List<ArgumentType> validTypes) {
+        List<ArgumentExecutor> validExecutors = argumentExecutors.stream()
+                .filter(a -> validTypes.contains(a.getType()))
+                .filter(a -> currentArg.length() <= 1 || a.getType().getPrefix().startsWith(currentArg))
+                .collect(Collectors.toList());
+
+        return validExecutors.stream().flatMap(e -> e.complete(commandSender, currentArg).stream()).collect(Collectors.toList());
+    }
+
 }
