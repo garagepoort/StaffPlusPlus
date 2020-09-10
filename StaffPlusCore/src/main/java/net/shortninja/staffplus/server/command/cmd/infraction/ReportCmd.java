@@ -10,14 +10,15 @@ import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ReportCmd extends BukkitCommand {
     private static Map<UUID, Long> lastUse = new HashMap<UUID, Long>();
@@ -105,5 +106,32 @@ public class ReportCmd extends BukkitCommand {
         message.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixReports);
         message.send(sender, "&b/" + getName() + " clear &7[player]", messages.prefixReports);
         message.send(sender, "&7" + message.LONG_LINE, "");
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        boolean hasPermission = permission.has(sender, options.permissionReport);
+
+        List<String> onlinePLayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+        List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
+        List<String> suggestions = new ArrayList<>();
+        if (args.length == 1 && (!args[0].equals("get") && !args[0].equals("clear"))) {
+            if(hasPermission) {
+                suggestions.add("get");
+                suggestions.add("clear");
+            }
+
+            suggestions.addAll(onlinePLayers);
+            suggestions.addAll(offlinePlayers);
+            return suggestions;
+        }
+
+        if (args.length >= 1) {
+            suggestions.addAll(onlinePLayers);
+            suggestions.addAll(offlinePlayers);
+            return suggestions;
+        }
+
+        return super.tabComplete(sender, alias, args);
     }
 }

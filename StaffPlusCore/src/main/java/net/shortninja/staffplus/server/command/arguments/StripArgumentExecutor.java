@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.server.command.arguments;
 
 import net.shortninja.staffplus.player.StripService;
-import net.shortninja.staffplus.server.command.arguments.ArgumentExecutor;
-import net.shortninja.staffplus.server.command.arguments.ArgumentType;
-import net.shortninja.staffplus.teleport.TeleportService;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Collections;
+import java.util.List;
 
 public class StripArgumentExecutor implements ArgumentExecutor {
     @Override
@@ -23,5 +23,10 @@ public class StripArgumentExecutor implements ArgumentExecutor {
     @Override
     public ArgumentType getType() {
         return ArgumentType.STRIP;
+    }
+
+    @Override
+    public List<String> complete(CommandSender sender, String currentArg) {
+        return Collections.singletonList(getType().getPrefix());
     }
 }
