@@ -4,18 +4,21 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
-import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
+import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.STRIP;
@@ -54,7 +57,7 @@ public class FreezeCmd extends BukkitCommand {
             if (options.isEmpty()) {
                 // No options given, simple freeze
                 freezeHandler.execute(new FreezeRequest(sender, targetPlayer, !freezeHandler.isFrozen(targetPlayer.getUniqueId())));
-            }else{
+            } else {
                 freezeHandler.execute(buildFreezeRequest(sender, options, targetPlayer));
             }
 
@@ -78,5 +81,44 @@ public class FreezeCmd extends BukkitCommand {
                 targetPlayer,
                 freeze
         );
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        boolean hasPermission = permission.isOp(sender);
+
+        List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+        List<String> suggestions = new ArrayList<>();
+
+        if (args.length == 1) {
+            // /freeze <>
+            if (!args[0].equals("enabled") && !args[0].equals("disabled")) {
+                if (hasPermission) {
+                    suggestions.add("enabled");
+                    suggestions.add("disabled");
+                }
+
+                suggestions.addAll(onlinePlayers);
+                return suggestions;
+            } else {
+                //freeze <>
+                suggestions.addAll(onlinePlayers);
+                return suggestions;
+            }
+        }
+
+        if(args.length > 1) {
+            if (args[0].equals("enabled") || args[0].equals("disabled")) {
+                //freeze enabled <>
+                suggestions.addAll(onlinePlayers);
+                return suggestions;
+            } else {
+                //freeze playername <>
+                suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length-1], VALID_ARGUMENTS));
+                return  suggestions;
+            }
+        }
+
+        return super.tabComplete(sender, alias, args);
     }
 }
