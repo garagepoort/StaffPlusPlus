@@ -1,5 +1,13 @@
 # Changelog Staff++ | v1.14
 
+### V1.14.4
+#### Features
+- New arguments system implemented
+- Added strip argument. Example: `/freeze player -S`
+- Added wiki to github
+- Autocompletion for offline players
+- Autocompletion for arguments
+
 ### V1.14.3
 #### Features
 - Allow reporting/warning offline users
