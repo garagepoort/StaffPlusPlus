@@ -11,10 +11,13 @@ import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.TELEPORT;
@@ -62,5 +65,19 @@ public class ClearInvCmd extends BukkitCommand {
         message.send(sender, "&7" + message.LONG_LINE, "");
         message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
         message.send(sender, "&7" + message.LONG_LINE, "");
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+        List<String> suggestions = new ArrayList<>();
+
+        if (args.length == 1) {
+            suggestions.addAll(onlinePlayers);
+            return suggestions;
+        }
+
+        suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length-1], VALID_ARGUMENTS));
+        return  suggestions;
     }
 }
