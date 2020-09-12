@@ -1,10 +1,9 @@
 package net.shortninja.staffplus.player;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.*;
-import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -13,13 +12,10 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class User implements IUser {
-    private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
     private UUID uuid;
     private String name;
     protected short glassColor;
-    private List<IReport> reports = new ArrayList<>();
     private List<IWarning> warnings = new ArrayList<>();
     private VanishType vanishType = VanishType.NONE;
     private List<String> playerNotes = new ArrayList<String>();
@@ -54,11 +50,10 @@ public class User implements IUser {
         }
     }*/
 
-    public User(UUID uuid, String name, short glassColor, List<IReport> reports, List<IWarning> warnings, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
+    public User(UUID uuid, String name, short glassColor, List<IWarning> warnings, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
-        this.reports = reports;
         this.warnings = warnings;
         this.playerNotes = playerNotes;
         this.alertOptions = alertOptions;
@@ -89,19 +84,15 @@ public class User implements IUser {
 
 
     public short getGlassColor() {
-        return StaffPlus.get().getStorage().getGlassColor(this);
+        return IocContainer.getStorage().getGlassColor(this);
     }
 
     public void setGlassColor(short glassColor) {
-        StaffPlus.get().storage.setGlassColor(this, glassColor);
-    }
-
-    public List<IReport> getReports() {
-        return StaffPlus.get().storage.getReports(getUuid());
+        IocContainer.getStorage().setGlassColor(this, glassColor);
     }
 
     public List<IWarning> getWarnings() {
-        return StaffPlus.get().storage.getWarnings(getUuid());
+        return IocContainer.getStorage().getWarnings(getUuid());
     }
 
     public List<String> getPlayerNotes() {
@@ -185,18 +176,13 @@ public class User implements IUser {
         }
     }
 
-    public void addReport(IReport report) {
-        if (options.storageType.equalsIgnoreCase("flatfile"))
-            reports.add(report);
-    }
-
     public void addWarning(IWarning warning) {
         if (options.storageType.equalsIgnoreCase("flatfile"))
             warnings.add(warning);
     }
 
     public void removeWarning(UUID uuid) {
-        StaffPlus.get().storage.removeWarnings(uuid);
+        IocContainer.getStorage().removeWarnings(uuid);
     }
 
     public void addPlayerNote(String note) {

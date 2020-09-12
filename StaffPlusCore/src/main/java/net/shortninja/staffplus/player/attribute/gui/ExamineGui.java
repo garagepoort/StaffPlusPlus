@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.User;
@@ -8,6 +9,8 @@ import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinato
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
+import net.shortninja.staffplus.reporting.Report;
+import net.shortninja.staffplus.reporting.ReportPlayerService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
@@ -30,14 +33,16 @@ public class ExamineGui extends AbstractGui {
     private static final int SIZE = 54;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
+    private ReportPlayerService reportPlayerService;
 
     public ExamineGui(Player player, Player targetPlayer, String title) {
         super(SIZE, title);
+        reportPlayerService = IocContainer.getReportPlayerService();
 
         setInventoryContents(targetPlayer);
 
@@ -250,12 +255,14 @@ public class ExamineGui extends AbstractGui {
     }
 
     private ItemStack infractionsItem(IUser user) {
+        List<Report> reports = reportPlayerService.getReports(user.getUuid());
+
         List<String> lore = new ArrayList<String>();
-        IReport latestReport = user.getReports().size() >= 1 ? user.getReports().get(user.getReports().size() - 1) : null;
+        IReport latestReport = reports.size() >= 1 ? reports.get(reports.size() - 1) : null;
         String latestReason = latestReport == null ? "null" : latestReport.getReason();
 
         for (String string : messages.infractionItem) {
-            lore.add(string.replace("%warnings%", Integer.toString(user.getWarnings().size())).replace("%reports%", Integer.toString(user.getReports().size())).replace("%reason%", latestReason));
+            lore.add(string.replace("%warnings%", Integer.toString(user.getWarnings().size())).replace("%reports%", Integer.toString(reports.size())).replace("%reason%", latestReason));
         }
 
         ItemStack item = Items.builder()

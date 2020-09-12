@@ -933,6 +933,9 @@ commands:
   # The command for reporting and managing reports.
   report: "report"
 
+  # The command for reporting and managing reports specifically targeting a player.
+  reportPlayer: "reportPlayer"
+
   # The command for warning and managing warnings.
   warn: "warn"
 

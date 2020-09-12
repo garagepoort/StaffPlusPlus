@@ -1,5 +1,8 @@
 package net.shortninja.staffplus.player;
 
+import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.reporting.Report;
+import net.shortninja.staffplus.reporting.ReportPlayerService;
 import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IUser;
@@ -12,14 +15,16 @@ import java.util.UUID;
 //import net.shortninja.staffplus.player.attribute.SecurityHandler;
 
 public class NodeUser {
-//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
+    //    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
     //    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
     private IUser user;
     private String prefix;
+    private ReportPlayerService reportPlayerService;
 
     public NodeUser(IUser user) {
         this.user = user;
         this.prefix = user.getUuid() + ".";
+        reportPlayerService = IocContainer.getReportPlayerService();
     }
 
     public String prefix() {
@@ -41,7 +46,8 @@ public class NodeUser {
     public List<String> reports() {
         List<String> reportsList = new ArrayList<String>();
 
-        for (IReport report : user.getReports()) {
+        List<Report> reports = reportPlayerService.getReports(user.getUuid());
+        for (IReport report : reports) {
             reportsList.add(report.getReason() + ";" + report.getReporterName() + ";" + (report.getReporterUuid() == null ? "null" : report.getReporterUuid().toString()));
         }
 

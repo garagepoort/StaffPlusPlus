@@ -1,20 +1,22 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
-import net.shortninja.staffplus.player.attribute.infraction.Report;
-import net.shortninja.staffplus.reporting.ReportService;
+import net.shortninja.staffplus.reporting.Report;
+import net.shortninja.staffplus.reporting.ReportPlayerService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.hex.Items;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +24,10 @@ public class ReportsGui extends AbstractGui {
     private static final int SIZE = 54;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
     private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
-    private ReportService reportService = ReportService.getInstance();
+    private ReportPlayerService reportPlayerService = IocContainer.getReportPlayerService();
 
     public ReportsGui(Player player, String title) {
         super(SIZE, title);
@@ -33,12 +35,10 @@ public class ReportsGui extends AbstractGui {
         IAction action = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                Player p = Bukkit.getPlayer(item.getItemMeta().getDisplayName().substring(2));
-
-                if (p != null) {
-                    ReportService.getInstance().removeUnresolvedReport(p.getUniqueId());
-                    player.teleport(p);
-                } else message.send(player, messages.playerOffline, messages.prefixGeneral);
+                CommandUtil.playerAction(player, () -> {
+                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+                    IocContainer.getReportPlayerService().acceptReport(player, reportId);
+                });
             }
 
             @Override
@@ -53,7 +53,7 @@ public class ReportsGui extends AbstractGui {
 
         int count = 0; // Using this with an enhanced for loop because it is much faster than converting to an array.
 
-        for (Report report : reportService.getUnresolvedReports()) {
+        for (Report report : reportPlayerService.getUnresolvedReports()) {
             if ((count + 1) >= SIZE) {
                 break;
             }
@@ -62,6 +62,7 @@ public class ReportsGui extends AbstractGui {
             count++;
         }
 
+        player.closeInventory();
         player.openInventory(getInventory());
         userManager.get(player.getUniqueId()).setCurrentGui(this);
     }
@@ -69,17 +70,20 @@ public class ReportsGui extends AbstractGui {
     private ItemStack reportItem(Report report) {
         List<String> lore = new ArrayList<String>();
 
-        lore.add("&bReason: " + report.getReason());
-
+        lore.add("&bStatus: " + report.getReportStatus());
+        lore.add("&bTimeStamp: " + report.getTimestamp().format(DateTimeFormatter.ofPattern("dd/mm/YYYY-HH:mm")));
         if (options.reportsShowReporter) {
             lore.add("&bReporter: " + report.getReporterName());
         }
 
-        ItemStack item = Items.editor(Items.createSkull(report.getName())).setAmount(1)
-                .setName("&b" + report.getName())
+        lore.add("&bReason: " + report.getReason());
+
+        String culprit = report.getCulpritName() == null ? "Unknown" : report.getCulpritName();
+        ItemStack item = Items.editor(Items.createSkull(report.getCulpritName())).setAmount(1)
+                .setName("&bCulprit: " + culprit)
                 .setLore(lore)
                 .build();
 
-        return item;
+        return StaffPlus.get().versionProtocol.addNbtString(item, String.valueOf(report.getId()));
     }
 }

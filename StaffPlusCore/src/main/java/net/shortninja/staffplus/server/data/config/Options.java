@@ -239,6 +239,7 @@ public class Options implements IOptions {
     public String commandCps = config.getString("commands.cps");
     public String commandStaffChat = config.getString("commands.staff-chat");
     public String commandReport = config.getString("commands.report");
+    public String commandReportPlayer = config.getString("commands.reportPlayer");
     public String commandWarn = config.getString("commands.warn");
     public String commandVanish = config.getString("commands.vanish");
     public String commandChat = config.getString("commands.chat");

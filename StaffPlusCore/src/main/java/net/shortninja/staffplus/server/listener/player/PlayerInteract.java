@@ -56,16 +56,18 @@ public class PlayerInteract implements Listener {
                 event.setCancelled(true);
             }
         }
-        if (event.getClickedBlock().getState() instanceof Container
-                && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
-                && !player.isSneaking()) {
-            event.setCancelled(true);
-            Container container = (Container) event.getClickedBlock().getState();
-            Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getSize());
-            chestView.setContents(container.getInventory().getContents());
-            event.getPlayer().openInventory(chestView);
-            StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
-            StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
+        if(event.getClickedBlock() != null) {
+            if (event.getClickedBlock().getState() instanceof Container
+                    && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+                    && !player.isSneaking()) {
+                event.setCancelled(true);
+                Container container = (Container) event.getClickedBlock().getState();
+                Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getSize());
+                chestView.setContents(container.getInventory().getContents());
+                event.getPlayer().openInventory(chestView);
+                StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+                StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
+            }
         }
     }
 

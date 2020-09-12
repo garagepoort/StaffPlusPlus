@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
@@ -14,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
     private Options options = StaffPlus.get().options;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private UserManager userManager = IocContainer.getUserManager();
 
     public HubGui(Player player, String title) {
         super(SIZE, title);

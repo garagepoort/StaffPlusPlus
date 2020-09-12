@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.warn;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
@@ -25,7 +26,7 @@ public class WarnService {
 
     public void addWarn(IUser user, IWarning warning) {
         user.addWarning(warning);
-        StaffPlus.get().storage.addWarning(warning);
+        IocContainer.getStorage().addWarning(warning);
     }
 
     public void checkBan(IUser user) {
@@ -37,7 +38,7 @@ public class WarnService {
     public void clearWarnings(IUser user) {
         List<IWarning> warnings = user.getWarnings();
         for (IWarning warning : warnings) {
-            StaffPlus.get().storage.removeWarnings(warning.getUuid());
+            IocContainer.getStorage().removeWarnings(warning.getUuid());
         }
         user.getWarnings().clear();
     }

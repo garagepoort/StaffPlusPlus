@@ -4,7 +4,6 @@ import net.shortninja.staffplus.nms.Protocol_v1_16;
 import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.SecurityHandler;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -17,18 +16,12 @@ import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.Load;
-import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.server.data.Save;
 import net.shortninja.staffplus.server.data.config.IOptions;
-import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.file.ChangelogFile;
 import net.shortninja.staffplus.server.data.file.DataFile;
 import net.shortninja.staffplus.server.data.file.LanguageFile;
-import net.shortninja.staffplus.server.data.storage.FlatFileStorage;
-import net.shortninja.staffplus.server.data.storage.IStorage;
-import net.shortninja.staffplus.server.data.storage.MemoryStorage;
-import net.shortninja.staffplus.server.data.storage.MySQLStorage;
 import net.shortninja.staffplus.server.hook.HookHandler;
 import net.shortninja.staffplus.server.hook.SuperVanishHook;
 import net.shortninja.staffplus.server.listener.*;
@@ -41,6 +34,7 @@ import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplus.util.database.DatabaseInitializer;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -65,8 +59,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public Options options;
     public DataFile dataFile;
     public LanguageFile languageFile;
-    public Messages messages;
-    public UserManager userManager;
 
     public HookHandler hookHandler;
     public CpsHandler cpsHandler;
@@ -79,16 +71,15 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public TicketHandler ticketHandler;
     public CmdHandler cmdHandler;
     public ModeCoordinator modeCoordinator;
-    public SecurityHandler securityHandler;
     public InfractionCoordinator infractionCoordinator;
     public AlertCoordinator alertCoordinator;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
     public Map<UUID, IUser> users;
     public HashMap<Inventory, Block> viewedChest = new HashMap<>();
-    public IStorage storage;
     public InventoryHandler inventoryHandler;
     public boolean usesPlaceholderAPI;
+    private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
 
     public static StaffPlus get() {
         return plugin;
@@ -110,18 +101,16 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     @Override
     public void onEnable() {
         plugin = this;
+        IocContainer.init(this);
         saveDefaultConfig();
         permission = new PermissionHandler(this);
         message = new MessageCoordinator(this);
         options = new Options();
         start(System.currentTimeMillis());
-        loadStorageHandler();
         loadPlayerProvider();
 
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
-
-        storage.onEnable();
 
         hookHandler.addHook(new SuperVanishHook(this));
         hookHandler.enableAll();
@@ -129,7 +118,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public UserManager getUserManager() {
-        return userManager;
+        return IocContainer.getUserManager();
     }
 
     @Override
@@ -139,15 +128,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     public void saveUsers() {
-        for (IUser user : userManager.getAll()) {
+        for (IUser user : IocContainer.getUserManager().getAll()) {
             new Save(new NodeUser(user));
         }
 
         dataFile.save();
-    }
-
-    public IStorage getStorage() {
-        return storage;
     }
 
     protected void start(long start) {
@@ -160,9 +145,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
         dataFile = new DataFile("data.yml");
         languageFile = new LanguageFile();
-        messages = new Messages();
-        userManager = new UserManager(this);
-        securityHandler = new SecurityHandler(); // FIXME
         hookHandler = new HookHandler();
         cpsHandler = new CpsHandler();
         freezeHandler = new FreezeHandler();
@@ -177,6 +159,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         alertCoordinator = new AlertCoordinator();
         tasks = new Tasks();
         inventoryHandler = new InventoryHandler();
+        this.databaseInitializer.initialize();
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             new Load().load(player);
         }
@@ -241,15 +225,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             vanishHandler.removeVanish(player);
         }
 
-        storage.onDisable();
-
         versionProtocol = null;
         permission = null;
         message = null;
         options = null;
         languageFile = null;
-        userManager = null;
-        securityHandler = null; // FIXME
         cpsHandler = null;
         freezeHandler = null;
         gadgetHandler = null;
@@ -271,12 +251,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         return options;
     }
 
-    public void reloadFiles() {
-        options = new Options();
-        languageFile = new LanguageFile();
-        messages = new Messages();
-    }
-
     public PermissionHandler getPermissions() {
         return permission;
     }
@@ -296,14 +270,4 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
     }
 
-    private void loadStorageHandler() {
-        if (options.storageType.equalsIgnoreCase("mysql")) {
-            storage = new MySQLStorage(new MySQLConnection());
-        } else if (options.storageType.equalsIgnoreCase("flatfile"))
-            storage = new FlatFileStorage();
-        else {
-            storage = new MemoryStorage();
-            Bukkit.getLogger().warning("Storage type is invalid, defaulting to memory-based storage. IMPORTANT: Any changes are not persistent.");
-        }
-    }
 }

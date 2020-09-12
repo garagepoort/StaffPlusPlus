@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.listener.player;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
@@ -23,7 +24,7 @@ public class PlayerCommandPreprocess implements Listener {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private CmdHandler cmdHandler = StaffPlus.get().cmdHandler;
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;

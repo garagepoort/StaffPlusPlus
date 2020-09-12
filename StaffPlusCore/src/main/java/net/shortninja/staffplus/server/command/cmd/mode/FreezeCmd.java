@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
@@ -21,14 +22,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
-import static net.shortninja.staffplus.server.command.arguments.ArgumentType.STRIP;
-import static net.shortninja.staffplus.server.command.arguments.ArgumentType.TELEPORT;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
 public class FreezeCmd extends BukkitCommand {
-    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP);
+    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
 
     private PermissionHandler permission = StaffPlus.get().permission;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
 

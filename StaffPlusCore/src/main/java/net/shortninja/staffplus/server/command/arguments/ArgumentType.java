@@ -3,6 +3,7 @@ package net.shortninja.staffplus.server.command.arguments;
 public enum ArgumentType {
 
     TELEPORT("-T"),
+    HEALTH("-H"),
     STRIP("-S");
 
     private String prefix;

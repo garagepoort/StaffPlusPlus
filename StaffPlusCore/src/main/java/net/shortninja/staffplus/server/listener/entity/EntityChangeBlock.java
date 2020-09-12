@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.listener.entity;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -14,7 +15,7 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 public class EntityChangeBlock implements Listener {
 
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private UserManager userManager = IocContainer.getUserManager();
     public EntityChangeBlock() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }

@@ -43,21 +43,59 @@ public class UserManager implements IUserManager {
     }
 
     @Override
+    public IUser getOffline(UUID playerUuid) {
+        if (staffPlus.options.offlinePlayersModeEnabled) {
+            Optional<ProvidedPlayer> user = staffPlus.offlinePlayerProvider.findUser(playerUuid);
+            if (user.isPresent()) {
+                User loadedUser = new Load().build(user.get().getId(), user.get().getUsername());
+                loadedUser.setOnline(false);
+                return loadedUser;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public IUser getOnOrOfflineUser(String playerName) {
         IUser user = null;
 
-        Player reported = Bukkit.getPlayer(playerName);
-        if (reported == null && !staffPlus.options.offlinePlayersModeEnabled) {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player == null && !staffPlus.options.offlinePlayersModeEnabled) {
             return null;
         }
 
-        if (reported == null) {
+        if (player == null) {
             user = getOffline(playerName);
         } else {
-            user = get(reported.getUniqueId());
+            user = get(player.getUniqueId());
             if (user == null) {
                 if (staffPlus.options.offlinePlayersModeEnabled) {
                     user = getOffline(playerName);
+                } else {
+                    return null;
+                }
+            }
+        }
+        return user;
+    }
+
+
+    @Override
+    public IUser getOnOrOfflineUser(UUID playerUuid) {
+        IUser user = null;
+
+        Player player = Bukkit.getPlayer(playerUuid);
+        if (player == null && !staffPlus.options.offlinePlayersModeEnabled) {
+            return null;
+        }
+
+        if (player == null) {
+            user = getOffline(playerUuid);
+        } else {
+            user = get(player.getUniqueId());
+            if (user == null) {
+                if (staffPlus.options.offlinePlayersModeEnabled) {
+                    user = getOffline(playerUuid);
                 } else {
                     return null;
                 }

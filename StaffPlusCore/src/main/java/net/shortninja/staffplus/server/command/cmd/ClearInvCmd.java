@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -20,15 +21,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.TELEPORT;
 
 public class ClearInvCmd extends BukkitCommand {
-    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT);
+    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, HEALTH);
 
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
     private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
 
 

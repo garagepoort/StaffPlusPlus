@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.util.lib.hex;
 
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -47,10 +46,8 @@ public final class Items {
     }
 
     public static ItemStack createSkull(String name) {
-        String[] tmp = Bukkit.getVersion().split("MC: ");
-        String version = tmp[tmp.length - 1].substring(0, 4);
         ItemStack skull;
-        skull = new ItemStack(Material.valueOf("SKULL_ITEM"), 1);
+        skull = new ItemStack(Material.valueOf("PLAYER_HEAD"), 1);
         SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
         skullMeta.setOwner(name);
         return skull;

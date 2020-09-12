@@ -1,13 +1,12 @@
 package net.shortninja.staffplus.server;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IUser;
-import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -22,8 +21,8 @@ public class AlertCoordinator {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
 
     public boolean hasNotified(Location location) {
         return notifiedLocations.contains(location);
@@ -55,8 +54,6 @@ public class AlertCoordinator {
                 message.send(user.getPlayer().get(), messages.alertsName.replace("%old%", originalName).replace("%new%", newName), messages.prefixGeneral, options.permissionNameChange);
             }
         }
-
-        fixInfractionNames(originalName, newName);
     }
 
     public void onMention(IUser user, String mentioner) {
@@ -82,26 +79,6 @@ public class AlertCoordinator {
 
             if (user.shouldNotify(AlertType.XRAY) && permission.has(user.getPlayer().get(), options.permissionXray)) {
                 message.send(user.getPlayer().get(), messages.alertsXray.replace("%target%", miner).replace("%count%", Integer.toString(amount)).replace("%itemtype%", JavaUtils.formatTypeName(type)).replace("%lightlevel%", Integer.toString(lightLevel)), messages.prefixGeneral, options.permissionXray);
-            }
-        }
-    }
-
-    /**
-     * This fixes the issue with reports and warnings having incorrect names after
-     * a player changes his or her name. Any unhandled fixes will be done on reload.
-     */
-    private void fixInfractionNames(String originalName, String newName) {
-        for (IUser user : userManager.getAll()) {
-            for (IReport report : user.getReports()) {
-                if (report.getReporterName().equals(originalName)) {
-                    report.setReporterName(newName);
-                }
-            }
-
-            for (IWarning warning : user.getWarnings()) {
-                if (warning.getIssuerName().equals(originalName)) {
-                    warning.setIssuerName(newName);
-                }
             }
         }
     }

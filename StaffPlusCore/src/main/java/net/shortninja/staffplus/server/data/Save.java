@@ -8,7 +8,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class Save {
     private FileConfiguration dataFile = StaffPlus.get().dataFile.getConfiguration();
     private NodeUser node;
-    private MySQLConnection connection = new MySQLConnection();
     private Options options = StaffPlus.get().options;
 
     public Save(NodeUser node) {

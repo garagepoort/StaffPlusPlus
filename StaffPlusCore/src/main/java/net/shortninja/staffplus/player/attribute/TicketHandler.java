@@ -1,19 +1,18 @@
 package net.shortninja.staffplus.player.attribute;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.data.MySQLConnection;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.database.migrations.mysql.MySQLConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.util.*;
 
 public class TicketHandler {
@@ -21,7 +20,7 @@ public class TicketHandler {
     private static int nextTicketId = 1;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
 
     public Collection<Ticket> getTickets() {
         return tickets.values();
@@ -41,11 +40,11 @@ public class TicketHandler {
 
 
     public Ticket getTicketByUuid(UUID uuid) {
-        return StaffPlus.get().storage.getTicketByUUID(uuid);
+        return IocContainer.getStorage().getTicketByUUID(uuid);
     }
 
     public Ticket getTicketById(int id) {
-        return StaffPlus.get().storage.getTickById(id);
+        return IocContainer.getStorage().getTickById(id);
     }
 
     public int getNextId() {
@@ -71,7 +70,7 @@ public class TicketHandler {
                 e.printStackTrace();
             }
         }
-        StaffPlus.get().storage.addTicket(ticket);
+        IocContainer.getStorage().addTicket(ticket);
         nextTicketId++;
     }
 
@@ -96,7 +95,7 @@ public class TicketHandler {
                 e.printStackTrace();
             }
         }
-        StaffPlus.get().storage.removeTicket(ticket);
+        IocContainer.getStorage().removeTicket(ticket);
 
     }
 

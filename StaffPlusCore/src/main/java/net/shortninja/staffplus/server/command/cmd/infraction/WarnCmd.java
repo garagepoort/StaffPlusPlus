@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd.infraction;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -25,8 +26,8 @@ public class WarnCmd extends BukkitCommand {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
 
     public WarnCmd(String name) {
         super(name);
@@ -74,7 +75,7 @@ public class WarnCmd extends BukkitCommand {
             }
 
             for (String message : messages.warningsListEnd) {
-                this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", playerName).replace("%warnings%", Integer.toString(user.getReports().size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
+                this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", playerName).replace("%warnings%", Integer.toString(user.getWarnings().size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
             }
         } else message.send(sender, messages.playerOffline, messages.prefixWarnings);
     }

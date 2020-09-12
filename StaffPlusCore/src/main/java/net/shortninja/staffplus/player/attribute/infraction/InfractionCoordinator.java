@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.player.attribute.infraction;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
@@ -13,15 +13,17 @@ import net.shortninja.staffplus.warn.WarnService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 public class InfractionCoordinator {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
-    private ReportService reportService = ReportService.getInstance();
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
     private WarnService warnService = WarnService.getInstance();
 
     public Set<IWarning> getWarnings() {
@@ -32,29 +34,6 @@ public class InfractionCoordinator {
         }
 
         return warnings;
-    }
-
-    public void sendReport(CommandSender sender, String playerName, String reason) {
-        IUser user = userManager.getOnOrOfflineUser(playerName);
-        if (user == null) {
-            message.send(sender, messages.playerOffline, messages.prefixGeneral);
-            return;
-        }
-
-        String reporterName = sender instanceof Player ? sender.getName() : "Console";
-        UUID reporterUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
-        Report report = new Report(user.getUuid(), user.getName(), reason, reporterName, reporterUuid);
-
-        // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
-        if (user.isOnline() && permission.has(user.getPlayer().get(), options.permissionReportBypass)) {
-            message.send(sender, messages.bypassed, messages.prefixGeneral);
-            return;
-        }
-
-        reportService.addReport(user, report);
-        message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getName()).replace("%reason%", report.getReason()), messages.prefixReports);
-        message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", report.getName()).replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
-        options.reportsSound.playForGroup(options.permissionReport);
     }
 
     public void sendWarning(CommandSender sender, String playerName, String reason) {
