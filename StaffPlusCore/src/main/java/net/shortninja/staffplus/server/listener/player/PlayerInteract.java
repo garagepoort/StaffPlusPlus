@@ -10,12 +10,13 @@ import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Container;
+import org.bukkit.block.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -62,7 +63,28 @@ public class PlayerInteract implements Listener {
                     && !player.isSneaking()) {
                 event.setCancelled(true);
                 Container container = (Container) event.getClickedBlock().getState();
-                Inventory chestView = Bukkit.createInventory(event.getPlayer(), container.getInventory().getSize());
+
+                Inventory chestView = Bukkit.createInventory(player, InventoryType.CHEST);
+                // Only have to check for similar inventory types as the items will map.
+                if (container instanceof Furnace || container instanceof BlastFurnace || container instanceof Smoker) {
+                    chestView = Bukkit.createInventory(player, InventoryType.FURNACE);
+                } else if (container instanceof BrewingStand) {
+                    chestView = Bukkit.createInventory(player, InventoryType.BREWING);
+                } else if (container instanceof Dispenser || container instanceof Dropper) {
+                    chestView = Bukkit.createInventory(player, InventoryType.DISPENSER);
+                } else if (container instanceof Hopper) {
+                    chestView = Bukkit.createInventory(player, InventoryType.HOPPER);
+                } else {
+                    // Either Chest, Chest-like or new block.
+                    // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
+                    int containerSize = container.getInventory().getSize();
+                    if (containerSize % 9 != 0) {
+                        Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
+                        containerSize += (9 - containerSize % 9);
+                    }
+                    chestView = Bukkit.createInventory(player, containerSize);
+                }
+
                 chestView.setContents(container.getInventory().getContents());
                 event.getPlayer().openInventory(chestView);
                 StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
