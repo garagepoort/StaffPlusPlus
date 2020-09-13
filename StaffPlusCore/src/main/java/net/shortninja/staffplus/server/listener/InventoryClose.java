@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.listener;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
@@ -17,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryClose implements Listener {
     private Options options = StaffPlus.get().options;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private UserManager userManager = IocContainer.getUserManager();
 
     public InventoryClose() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

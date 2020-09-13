@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.mode.handler;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -16,7 +17,7 @@ public class CpsHandler {
     private static Map<UUID, Integer> currentTests = new HashMap<UUID, Integer>();
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
 
     public boolean isTesting(UUID uuid) {
         return currentTests.containsKey(uuid);

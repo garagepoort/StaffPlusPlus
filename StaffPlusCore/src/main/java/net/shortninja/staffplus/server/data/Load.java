@@ -1,12 +1,11 @@
 package net.shortninja.staffplus.server.data;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.infraction.Report;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,7 +17,7 @@ import java.util.*;
 
 public class Load {
     private FileConfiguration dataFile = StaffPlus.get().dataFile.getConfiguration();
-    private UserManager userManager = StaffPlus.get().userManager;
+    private UserManager userManager = IocContainer.getUserManager();
     //private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
     private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
 
@@ -41,7 +40,6 @@ public class Load {
         String name = dataFile.getString(uuid + ".name");
         String password = dataFile.getString(uuid + ".password");
         short glassColor = (short) dataFile.getInt(uuid + ".glass-color");
-        List<IReport> reports = loadReports(playerName, uuid);
         List<IWarning> warnings = loadWarnings(uuid);
         List<String> playerNotes = loadPlayerNotes(uuid);
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
@@ -54,7 +52,7 @@ public class Load {
             alertCoordinator.onNameChange(name, playerName);
         }
 
-        return new User(uuid, name, glassColor, reports, warnings, playerNotes, alertOptions);
+        return new User(uuid, name, glassColor, warnings, playerNotes, alertOptions);
     }
 
 
@@ -62,7 +60,6 @@ public class Load {
         String name = dataFile.getString(uuid + ".name");
         String password = dataFile.getString(uuid + ".password");
         short glassColor = (short) dataFile.getInt(uuid + ".glass-color");
-        List<IReport> reports = loadReports(playerName, uuid);
         List<IWarning> warnings = loadWarnings(uuid);
         List<String> playerNotes = loadPlayerNotes(uuid);
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
@@ -75,46 +72,14 @@ public class Load {
             alertCoordinator.onNameChange(name,playerName);
         }
 
-        return new User(uuid, name, glassColor, reports, warnings, playerNotes, alertOptions);
-    }
-
-    private List<IReport> loadReports(String playerName, UUID uuid) {
-        List<IReport> reports = new ArrayList<>();
-
-        for (String string : dataFile.getStringList(uuid + ".reports")) {
-            String[] parts = string.split(";");
-            UUID reporterUuid = UUID.fromString(parts[2]);
-            String offlineName = getOfflineName(reporterUuid);
-            String reporterName = offlineName == null ? parts[1] : offlineName;
-
-            reports.add(new Report(uuid, playerName, parts[0], reporterName, reporterUuid));
-        }
-
-        return reports;
+        return new User(uuid, name, glassColor, warnings, playerNotes, alertOptions);
     }
 
     private List<IWarning> loadWarnings(UUID uuid) {
-        /*List<IWarning> warnings = new ArrayList<>();
-
-        for (String string : dataFile.getStringList(prefix + "warnings")) {
-
-            String[] parts = string.split(";");
-            UUID issuerUuid = UUID.fromString(parts[2]);
-            String offlineName = getOfflineName(issuerUuid);
-            String issuerName = offlineName == null ? parts[1] : offlineName;
-
-            warnings.add(new Warning(uuid, name, parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
-
-        }
-
-        return warnings;
-
-        }*/
-
-        if (StaffPlus.get().storage.getWarnings(uuid) == null)
+        if (IocContainer.getStorage().getWarnings(uuid) == null)
             return new ArrayList<IWarning>();
         else
-            return StaffPlus.get().storage.getWarnings(uuid);
+            return IocContainer.getStorage().getWarnings(uuid);
     }
 
     private Map<AlertType, Boolean> loadAlertOptions(UUID uuid) {

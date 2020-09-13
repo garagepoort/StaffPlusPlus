@@ -10,19 +10,7 @@ import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Container;
-import org.bukkit.block.Dispenser;
-import org.bukkit.block.DoubleChest;
-import org.bukkit.block.Dropper;
-import org.bukkit.block.EnderChest;
-import org.bukkit.block.Furnace;
-import org.bukkit.block.Hopper;
-import org.bukkit.block.ShulkerBox;
-import org.bukkit.block.Smoker;
-import org.bukkit.block.Barrel;
-import org.bukkit.block.BlastFurnace;
-import org.bukkit.block.BrewingStand;
-import org.bukkit.block.Chest;
+import org.bukkit.block.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -69,37 +57,39 @@ public class PlayerInteract implements Listener {
                 event.setCancelled(true);
             }
         }
-        if (event.getClickedBlock().getState() instanceof Container
-                && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
-                && !player.isSneaking()) {
-            event.setCancelled(true);
-            Container container = (Container) event.getClickedBlock().getState();
+        if(event.getClickedBlock() != null) {
+            if (event.getClickedBlock().getState() instanceof Container
+                    && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+                    && !player.isSneaking()) {
+                event.setCancelled(true);
+                Container container = (Container) event.getClickedBlock().getState();
 
-            Inventory chestView = Bukkit.createInventory(player, InventoryType.CHEST);
-            // Only have to check for similar inventory types as the items will map.
-            if (container instanceof Furnace || container instanceof BlastFurnace || container instanceof Smoker) {
-                chestView = Bukkit.createInventory(player, InventoryType.FURNACE);
-            } else if (container instanceof BrewingStand) {
-                chestView = Bukkit.createInventory(player, InventoryType.BREWING);
-            } else if (container instanceof Dispenser || container instanceof Dropper) {
-                chestView = Bukkit.createInventory(player, InventoryType.DISPENSER);
-            } else if (container instanceof Hopper) {
-                chestView = Bukkit.createInventory(player, InventoryType.HOPPER);
-            } else {
-                // Either Chest, Chest-like or new block.
-                // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
-                int containerSize = container.getInventory().getSize();
-                if (containerSize % 9 != 0) {
-                    Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
-                    containerSize += (9 - containerSize % 9);
+                Inventory chestView = Bukkit.createInventory(player, InventoryType.CHEST);
+                // Only have to check for similar inventory types as the items will map.
+                if (container instanceof Furnace || container instanceof BlastFurnace || container instanceof Smoker) {
+                    chestView = Bukkit.createInventory(player, InventoryType.FURNACE);
+                } else if (container instanceof BrewingStand) {
+                    chestView = Bukkit.createInventory(player, InventoryType.BREWING);
+                } else if (container instanceof Dispenser || container instanceof Dropper) {
+                    chestView = Bukkit.createInventory(player, InventoryType.DISPENSER);
+                } else if (container instanceof Hopper) {
+                    chestView = Bukkit.createInventory(player, InventoryType.HOPPER);
+                } else {
+                    // Either Chest, Chest-like or new block.
+                    // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
+                    int containerSize = container.getInventory().getSize();
+                    if (containerSize % 9 != 0) {
+                        Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
+                        containerSize += (9 - containerSize % 9);
+                    }
+                    chestView = Bukkit.createInventory(player, containerSize);
                 }
-                chestView = Bukkit.createInventory(player, containerSize);
-            }
 
-            chestView.setContents(container.getInventory().getContents());
-            event.getPlayer().openInventory(chestView);
-            StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
-            StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
+                chestView.setContents(container.getInventory().getContents());
+                event.getPlayer().openInventory(chestView);
+                StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+                StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
+            }
         }
     }
 

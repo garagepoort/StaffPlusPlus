@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.listener;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 public class InventoryClick implements Listener {
     private Options options = StaffPlus.get().options;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private UserManager userManager = IocContainer.getUserManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
     public InventoryClick() {
