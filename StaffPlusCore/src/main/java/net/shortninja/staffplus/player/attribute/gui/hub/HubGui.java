@@ -1,8 +1,12 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.player.attribute.gui.hub.reports.ClosedReportsGui;
+import net.shortninja.staffplus.player.attribute.gui.hub.reports.MyReportsGui;
+import net.shortninja.staffplus.player.attribute.gui.hub.reports.OpenReportsGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.unordered.IUser;
@@ -14,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
     private Options options = StaffPlus.get().options;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private UserManager userManager = IocContainer.getUserManager();
 
     public HubGui(Player player, String title) {
         super(SIZE, title);
@@ -22,10 +26,40 @@ public class HubGui extends AbstractGui {
         IUser user = userManager.get(player.getUniqueId());
 
         if (options.modeGuiReports) {
-            setItem(options.modeGuiMiner ? 12 : 13, reportsItem(), new IAction() {
+            setItem(1, reportsItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new ReportsGui(player, options.modeGuiReportsTitle);
+                    new OpenReportsGui(player, options.modeGuiReportsTitle, 0);
+                }
+
+                @Override
+                public boolean shouldClose() {
+                    return false;
+                }
+
+                @Override
+                public void execute(Player player, String input) {
+                }
+            });
+            setItem(2, myReportsItem(), new IAction() {
+                @Override
+                public void click(Player player, ItemStack item, int slot) {
+                    new MyReportsGui(player, options.modeGuiMyReportsTitle, 0);
+                }
+
+                @Override
+                public boolean shouldClose() {
+                    return false;
+                }
+
+                @Override
+                public void execute(Player player, String input) {
+                }
+            });
+            setItem(3, closedReportsItem(), new IAction() {
+                @Override
+                public void click(Player player, ItemStack item, int slot) {
+                    new ClosedReportsGui(player, options.modeGuiClosedReportsTitle, 0);
                 }
 
                 @Override
@@ -40,7 +74,7 @@ public class HubGui extends AbstractGui {
         }
 
         if (options.modeGuiMiner) {
-            setItem(options.modeGuiReports ? 14 : 13, minerItem(), new IAction() {
+            setItem(10, minerItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     new MinerGui(player, options.modeGuiMinerTitle);
@@ -67,6 +101,25 @@ public class HubGui extends AbstractGui {
                 .setMaterial(Material.PAPER).setAmount(1)
                 .setName(options.modeGuiReportsName)
                 .addLore(options.modeGuiReportsLore)
+                .build();
+
+        return item;
+    }
+    private ItemStack myReportsItem() {
+        ItemStack item = Items.builder()
+                .setMaterial(Material.PAPER).setAmount(1)
+                .setName(options.modeGuiMyReportsTitle)
+                .addLore(options.modeGuiMyReportsLore)
+                .build();
+
+        return item;
+    }
+
+    private ItemStack closedReportsItem() {
+        ItemStack item = Items.builder()
+                .setMaterial(Material.PAPER).setAmount(1)
+                .setName(options.modeGuiClosedReportsTitle)
+                .addLore(options.modeGuiClosedReportsLore)
                 .build();
 
         return item;
