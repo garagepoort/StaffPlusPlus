@@ -1,5 +1,17 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.6
+#### Features
+- Added HEALTH argument
+- New reporting system implemented
+
+#### Bugs
+- Fix bug when opening different inventories (BrewingStand, Furnace, Dispenser, ...)
+
+#### Breaking
+- Dropped support for flatfiles
+- Implemented Sqlite, Mysql databases
+
 ### V1.15.5
 #### Features
 - New arguments system implemented
