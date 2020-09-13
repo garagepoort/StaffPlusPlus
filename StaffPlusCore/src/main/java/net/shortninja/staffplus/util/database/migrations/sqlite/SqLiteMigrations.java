@@ -25,7 +25,6 @@ public class SqLiteMigrations implements SqlMigrations {
             new V4_CreatePlayerDataTableMigration(),
             new V5_CreateTicketsTableMigration(),
             new V6_CreateCommandsTableMigration(),
-            new V7_AlterPlayerDataTableAddPasswordMigration(),
             new V8_AlterReportTableAddStatusMigration(),
             new V9_AlterReportTableAddTimestampMigration(),
             new V10_AlterReportTableAddStaffNameMigration(),

@@ -104,6 +104,20 @@ public class UserManager implements IUserManager {
         return user;
     }
 
+    public Optional<ProvidedPlayer> getOnOrOfflinePlayer(UUID playerUuid) {
+        IUser user = null;
+
+        Player player = Bukkit.getPlayer(playerUuid);
+        if (player == null && !staffPlus.options.offlinePlayersModeEnabled) {
+            return Optional.empty();
+        }
+
+        if (player == null) {
+            return staffPlus.offlinePlayerProvider.findUser(playerUuid);
+        }
+        return Optional.of(new ProvidedPlayer(playerUuid, player.getName()));
+    }
+
 
     public boolean has(UUID uuid) {
         return users.containsKey(uuid);

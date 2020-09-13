@@ -334,7 +334,7 @@ public class Options implements IOptions {
     /*
      * Storage
      */
-    public String storageType = configVersion >= 6200 ? config.getString("storage.type") : "flatfile";
+    public String storageType = configVersion >= 6200 ? config.getString("storage.type") : "sqlite";
     public String mySqlHost = configVersion >= 6200 ? config.getString("storage.mysql.host") : "localhost";
     public String mySqlUser = configVersion >= 6200 ? config.getString("storage.mysql.user") : "root";
     public String database = configVersion >= 6200 ? config.getString("storage.mysql.database") : "root";
@@ -367,8 +367,7 @@ public class Options implements IOptions {
                     + "have to completely regenerate your config by deleting it to get comments back.\n "
                     + "Though your settings should have been copied, your old config file was saved as\n "
                     + "'backup.yml' in the plugin folder, so your old settings can be reviewed. \n"
-                    + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml\n"
-                    + "The storage types are flatfile and mysql also under the MySQL section there is a field called migrated do not ever touch that unless told.");
+                    + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
             config.options().copyHeader();
             config.set("config-version",configVersion);
 
@@ -414,8 +413,7 @@ public class Options implements IOptions {
                 + "have to completely regenerate your config by deleting it to get comments back.\n "
                 + "Though your settings should have been copied, your old config file was saved as\n "
                 + "'backup.yml' in the plugin folder, so your old settings can be reviewed. \n"
-                + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml\n"
-                + "The storage types are flatfile and mysql also under the MySQL section there is a field called migrated do not ever touch that unless told.");
+                + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
         config.options().copyHeader(true);
         StaffPlus.get().saveConfig();
         message.sendConsoleMessage("Your config has been updated to #" + CURRENT_VERSION + "! All configured values should be the same, but just in case your old configuration file is stored as a backup.", false);

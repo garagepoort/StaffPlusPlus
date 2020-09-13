@@ -45,8 +45,6 @@ public interface IUser {
 
     void addPlayerNote(String s);
 
-    void addWarning(IWarning warning);
-
     void removeWarning(UUID uuid);
 
     IAction getQueuedAction();

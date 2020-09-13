@@ -24,8 +24,7 @@ public class WarnService {
         return instance;
     }
 
-    public void addWarn(IUser user, IWarning warning) {
-        user.addWarning(warning);
+    public void addWarn(IWarning warning) {
         IocContainer.getStorage().addWarning(warning);
     }
 

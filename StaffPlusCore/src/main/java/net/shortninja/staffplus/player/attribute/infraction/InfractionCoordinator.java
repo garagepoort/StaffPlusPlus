@@ -54,7 +54,7 @@ public class InfractionCoordinator {
             return;
         }
 
-        warnService.addWarn(user, warning);
+        warnService.addWarn(warning);
         message.send(sender, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
 
         if(user.isOnline()) {

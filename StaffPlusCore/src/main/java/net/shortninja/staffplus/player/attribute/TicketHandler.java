@@ -5,14 +5,10 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.database.migrations.mysql.MySQLConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.*;
 
 public class TicketHandler {
@@ -56,20 +52,6 @@ public class TicketHandler {
 
         this.message.send(player, message, messages.prefixTickets);
         this.message.sendGroupMessage(message, options.permissionTickets, messages.prefixTickets);
-        if (options.storageType.equalsIgnoreCase("flatfile"))
-            tickets.put(ticket.getUuid(), ticket);
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_tickets(WARNER_UUID,ID,Inquiry) " +
-                         "VALUES(?, ?, ?);")) {
-                insert.setString(1, ticket.getUuid().toString());
-                insert.setInt(2, ticket.getId());
-                insert.setString(3, ticket.getInquiry());
-                insert.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
         IocContainer.getStorage().addTicket(ticket);
         nextTicketId++;
     }
@@ -84,17 +66,6 @@ public class TicketHandler {
         this.message.sendGroupMessage(message, options.permissionTickets, messages.prefixTickets);
         this.message.send(Bukkit.getPlayer(ticket.getName()), message, messages.prefixTickets);
         ticket.setHasBeenClosed(true);
-        if (options.storageType.equalsIgnoreCase("flatfile"))
-            tickets.remove(ticket.getUuid());
-        else if (options.storageType.equalsIgnoreCase("mysql")) {
-            try (Connection sql = MySQLConnection.getConnection();
-                 PreparedStatement delete = sql.prepareCall("DELETE FROM TABLE sp_tickets WHERE WARNER_UUID =?;")) {
-                delete.setString(1, ticket.getUuid().toString());
-                delete.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
         IocContainer.getStorage().removeTicket(ticket);
 
     }

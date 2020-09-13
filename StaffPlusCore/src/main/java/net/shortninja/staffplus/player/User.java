@@ -176,11 +176,6 @@ public class User implements IUser {
         }
     }
 
-    public void addWarning(IWarning warning) {
-        if (options.storageType.equalsIgnoreCase("flatfile"))
-            warnings.add(warning);
-    }
-
     public void removeWarning(UUID uuid) {
         IocContainer.getStorage().removeWarnings(uuid);
     }

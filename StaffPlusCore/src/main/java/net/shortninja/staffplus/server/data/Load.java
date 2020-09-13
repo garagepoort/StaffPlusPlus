@@ -76,23 +76,6 @@ public class Load {
     }
 
     private List<IWarning> loadWarnings(UUID uuid) {
-        /*List<IWarning> warnings = new ArrayList<>();
-
-        for (String string : dataFile.getStringList(prefix + "warnings")) {
-
-            String[] parts = string.split(";");
-            UUID issuerUuid = UUID.fromString(parts[2]);
-            String offlineName = getOfflineName(issuerUuid);
-            String issuerName = offlineName == null ? parts[1] : offlineName;
-
-            warnings.add(new Warning(uuid, name, parts[0], issuerName, issuerUuid, Long.valueOf(parts[3])));
-
-        }
-
-        return warnings;
-
-        }*/
-
         if (IocContainer.getStorage().getWarnings(uuid) == null)
             return new ArrayList<IWarning>();
         else
