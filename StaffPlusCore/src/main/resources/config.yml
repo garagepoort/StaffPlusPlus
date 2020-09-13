@@ -437,11 +437,23 @@ staff-mode:
     # The title of the unresolved reports GUI.
     reports-title: "&bUnresolved reports"
 
+    # The title of the my reports GUI.
+    my-reports-title: "&bReports assigned to you"
+
+    # The title of the my reports GUI.
+    closed-reports-title: "&bClosed reports"
+
     # The name of the reports item
     reports-name: "&bUnresolved reports GUI"
 
     # The lore of the reports item
-    reports-lore: "&7Shows all reports that haven't been resolved."
+    reports-lore: "&7Shows all open reports."
+
+    # The lore of the assigned reports item
+    my-reports-lore: "&7Shows reports currently assigned to you."
+
+    # The lore of the reports item
+    closed-reports-lore: "&7History off all closed reports."
 
     # Whether or not the miner GUI is enabled in the hub.
     miner-gui: true
@@ -930,8 +942,14 @@ commands:
   # The command for toggling and using staff chat.
   staff-chat: "sc"
 
+  # The command for reporting and managing reports specifically targeting a player.
+  reports: "reports"
+
   # The command for reporting and managing reports.
   report: "report"
+
+  # The command for reporting and managing reports specifically targeting a player.
+  reportPlayer: "reportPlayer"
 
   # The command for warning and managing warnings.
   warn: "warn"
@@ -986,16 +1004,14 @@ commands:
 
 # How will the plugin still Data
 storage:
-  #Type is how it will store either a flatfile (yml) or mysql
-  type: 'flatfile'
+  #Type is how it will store either a sqlite or mysql
+  type: 'sqlite'
   mysql:
     host: 'localhost'
     user: 'root'
     database: 'root'
     password: 'mypass'
     port: 3306
-    #DO NOT TOUCH
-    migrated: false
 
 ############################################################
 # +------------------------------------------------------+ #

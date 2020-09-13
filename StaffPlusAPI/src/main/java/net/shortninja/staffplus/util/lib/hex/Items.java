@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.util.lib.hex;
 
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -41,16 +40,38 @@ public final class Items {
         return leatherArmor;
     }
 
+    public static ItemStack createGreenColoredGlass(String name, String lore) {
+        return Items.builder()
+                .setMaterial(Material.GREEN_STAINED_GLASS_PANE)
+                .setName(name)
+                .addLore(lore)
+                .build();
+    }
+
+    public static ItemStack createRedColoredGlass(String name, String lore) {
+        return Items.builder()
+                .setMaterial(Material.RED_STAINED_GLASS_PANE)
+                .setName(name)
+                .addLore(lore)
+                .build();
+    }
+
+    public static ItemStack createGrayColoredGlass(String name, String lore) {
+        return Items.builder()
+                .setMaterial(Material.GRAY_STAINED_GLASS_PANE)
+                .setName(name)
+                .addLore(lore)
+                .build();
+    }
+
     public static ItemStack createColoredArmor(Armor armor, Color color) {
         return createColoredArmor(armor, color,
                 "&l" + WordUtils.capitalize(armor.name().toLowerCase()));
     }
 
     public static ItemStack createSkull(String name) {
-        String[] tmp = Bukkit.getVersion().split("MC: ");
-        String version = tmp[tmp.length - 1].substring(0, 4);
         ItemStack skull;
-        skull = new ItemStack(Material.valueOf("SKULL_ITEM"), 1);
+        skull = new ItemStack(Material.valueOf("PLAYER_HEAD"), 1);
         SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
         skullMeta.setOwner(name);
         return skull;

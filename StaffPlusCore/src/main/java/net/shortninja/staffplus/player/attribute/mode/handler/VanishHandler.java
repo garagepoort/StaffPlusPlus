@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.mode.handler;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -22,9 +23,8 @@ public class VanishHandler {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
-    private StaffPlus staffPlus = StaffPlus.get();
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
 
     public void addVanish(Player player, VanishType vanishType) {
         IUser user = userManager.get(player.getUniqueId());

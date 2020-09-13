@@ -144,8 +144,12 @@ public class Options implements IOptions {
     public int modeGuiSlot = config.getInt("staff-mode.gui-module.slot") - 1;
     public boolean modeGuiReports = config.getBoolean("staff-mode.gui-module.reports-gui");
     public String modeGuiReportsTitle = config.getString("staff-mode.gui-module.reports-title");
+    public String modeGuiMyReportsTitle = config.getString("staff-mode.gui-module.my-reports-title");
+    public String modeGuiClosedReportsTitle = config.getString("staff-mode.gui-module.closed-reports-title");
     public String modeGuiReportsName = config.getString("staff-mode.gui-module.reports-name");
     public String modeGuiReportsLore = config.getString("staff-mode.gui-module.reports-lore");
+    public String modeGuiMyReportsLore = config.getString("staff-mode.gui-module.my-reports-lore");
+    public String modeGuiClosedReportsLore = config.getString("staff-mode.gui-module.closed-reports-lore");
     public boolean modeGuiMiner = config.getBoolean("staff-mode.gui-module.miner-gui");
     public String modeGuiMinerTitle = config.getString("staff-mode.gui-module.miner-title");
     public String modeGuiMinerName = config.getString("staff-mode.gui-module.miner-name");
@@ -239,6 +243,8 @@ public class Options implements IOptions {
     public String commandCps = config.getString("commands.cps");
     public String commandStaffChat = config.getString("commands.staff-chat");
     public String commandReport = config.getString("commands.report");
+    public String commandReportPlayer = config.getString("commands.reportPlayer");
+    public String commandReports = config.getString("commands.reports");
     public String commandWarn = config.getString("commands.warn");
     public String commandVanish = config.getString("commands.vanish");
     public String commandChat = config.getString("commands.chat");
@@ -329,7 +335,7 @@ public class Options implements IOptions {
     /*
      * Storage
      */
-    public String storageType = configVersion >= 6200 ? config.getString("storage.type") : "flatfile";
+    public String storageType = configVersion >= 6200 ? config.getString("storage.type") : "sqlite";
     public String mySqlHost = configVersion >= 6200 ? config.getString("storage.mysql.host") : "localhost";
     public String mySqlUser = configVersion >= 6200 ? config.getString("storage.mysql.user") : "root";
     public String database = configVersion >= 6200 ? config.getString("storage.mysql.database") : "root";
@@ -362,8 +368,7 @@ public class Options implements IOptions {
                     + "have to completely regenerate your config by deleting it to get comments back.\n "
                     + "Though your settings should have been copied, your old config file was saved as\n "
                     + "'backup.yml' in the plugin folder, so your old settings can be reviewed. \n"
-                    + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml\n"
-                    + "The storage types are flatfile and mysql also under the MySQL section there is a field called migrated do not ever touch that unless told.");
+                    + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
             config.options().copyHeader();
             config.set("config-version",configVersion);
 
@@ -409,8 +414,7 @@ public class Options implements IOptions {
                 + "have to completely regenerate your config by deleting it to get comments back.\n "
                 + "Though your settings should have been copied, your old config file was saved as\n "
                 + "'backup.yml' in the plugin folder, so your old settings can be reviewed. \n"
-                + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml\n"
-                + "The storage types are flatfile and mysql also under the MySQL section there is a field called migrated do not ever touch that unless told.");
+                + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
         config.options().copyHeader(true);
         StaffPlus.get().saveConfig();
         message.sendConsoleMessage("Your config has been updated to #" + CURRENT_VERSION + "! All configured values should be the same, but just in case your old configuration file is stored as a backup.", false);
