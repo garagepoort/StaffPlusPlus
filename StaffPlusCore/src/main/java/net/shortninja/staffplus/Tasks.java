@@ -21,8 +21,8 @@ public class Tasks extends BukkitRunnable {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;

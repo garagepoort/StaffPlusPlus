@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.common;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.IocContainer;
 
 public class NoPermissionException extends BusinessException {
     public NoPermissionException(String prefix) {
-        super(StaffPlus.get().messages.noPermission, prefix);
+        super(IocContainer.getMessages().noPermission, prefix);
     }
 }
