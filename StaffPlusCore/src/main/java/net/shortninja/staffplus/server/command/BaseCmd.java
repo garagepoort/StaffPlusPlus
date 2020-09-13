@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.command;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class BaseCmd {
     private MessageCoordinator message = StaffPlus.get().message;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
     private String node;
     private Command command;
     private boolean isEnabled;

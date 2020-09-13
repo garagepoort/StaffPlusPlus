@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.listener.entity;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.unordered.VanishType;
@@ -11,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
 public class EntityTarget implements Listener {
-    private UserManager userManager = StaffPlus.get().userManager;
+    private UserManager userManager = IocContainer.getUserManager();
 
     public EntityTarget() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

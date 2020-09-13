@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -16,7 +17,7 @@ public class ExamineCmd extends BukkitCommand {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
     private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
 
     public ExamineCmd(String name) {

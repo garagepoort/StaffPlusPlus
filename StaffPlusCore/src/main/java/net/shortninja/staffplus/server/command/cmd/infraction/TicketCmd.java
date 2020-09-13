@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd.infraction;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
@@ -19,7 +20,7 @@ public class TicketCmd extends BukkitCommand {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
     private TicketHandler ticketHandler = StaffPlus.get().ticketHandler;
 
     public TicketCmd(String name) {

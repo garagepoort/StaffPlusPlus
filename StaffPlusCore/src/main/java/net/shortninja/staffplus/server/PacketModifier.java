@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -17,7 +18,7 @@ import org.bukkit.entity.Player;
 public class PacketModifier {
     private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
     private Options options = StaffPlus.get().options;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private UserManager userManager = IocContainer.getUserManager();
 
     public PacketModifier() {
 //        initializeHandler();

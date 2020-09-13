@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.listener.player;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
@@ -20,7 +21,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerQuit implements Listener {
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
     private UserManager userManager = StaffPlus.get().getUserManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;

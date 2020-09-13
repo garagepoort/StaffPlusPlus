@@ -25,8 +25,6 @@ public interface IUser {
 
     short getGlassColor();
 
-    List<IReport> getReports();
-
     List<IWarning> getWarnings();
 
     List<String> getPlayerNotes();
@@ -46,10 +44,6 @@ public interface IUser {
     void setQueuedAction(IAction action);
 
     void addPlayerNote(String s);
-
-    void addReport(IReport report);
-
-    void addWarning(IWarning warning);
 
     void removeWarning(UUID uuid);
 
