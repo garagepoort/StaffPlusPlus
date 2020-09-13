@@ -144,8 +144,12 @@ public class Options implements IOptions {
     public int modeGuiSlot = config.getInt("staff-mode.gui-module.slot") - 1;
     public boolean modeGuiReports = config.getBoolean("staff-mode.gui-module.reports-gui");
     public String modeGuiReportsTitle = config.getString("staff-mode.gui-module.reports-title");
+    public String modeGuiMyReportsTitle = config.getString("staff-mode.gui-module.my-reports-title");
+    public String modeGuiClosedReportsTitle = config.getString("staff-mode.gui-module.closed-reports-title");
     public String modeGuiReportsName = config.getString("staff-mode.gui-module.reports-name");
     public String modeGuiReportsLore = config.getString("staff-mode.gui-module.reports-lore");
+    public String modeGuiMyReportsLore = config.getString("staff-mode.gui-module.my-reports-lore");
+    public String modeGuiClosedReportsLore = config.getString("staff-mode.gui-module.closed-reports-lore");
     public boolean modeGuiMiner = config.getBoolean("staff-mode.gui-module.miner-gui");
     public String modeGuiMinerTitle = config.getString("staff-mode.gui-module.miner-title");
     public String modeGuiMinerName = config.getString("staff-mode.gui-module.miner-name");

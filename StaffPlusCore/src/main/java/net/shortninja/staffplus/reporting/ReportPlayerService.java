@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.reporting;
 
-import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.event.ReportPlayerEvent;
@@ -9,7 +8,6 @@ import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.reporting.database.ReportRepository;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.server.data.storage.IStorage;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -28,7 +26,6 @@ public class ReportPlayerService {
     private Options options = StaffPlus.get().options;
     private Messages messages;
     private UserManager userManager;
-    private IStorage storage = IocContainer.getStorage();
     private ReportRepository reportRepository;
 
     public ReportPlayerService(ReportRepository reportRepository, UserManager userManager, Messages messages) {
@@ -83,6 +80,10 @@ public class ReportPlayerService {
         return reportRepository.getUnresolvedReports();
     }
 
+    public Collection<Report> getAssignedReports(UUID staffUuid) {
+        return reportRepository.getAssignedReports(staffUuid);
+    }
+
     public Collection<Report> getUnresolvedReports(UUID playerUuid) {
         return reportRepository.getUnresolvedReports(playerUuid);
     }
@@ -127,5 +128,41 @@ public class ReportPlayerService {
         reportRepository.updateReport(report);
         message.sendGroupMessage(player.getName() + " accepted report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
 
+    }
+
+    public Report getReport(int reportId) {
+        return reportRepository.findReport(reportId)
+                .orElseThrow(() -> new BusinessException("Report with id [" + reportId + "] not found", messages.prefixReports));
+    }
+
+    public void resolveReport(Player player, int reportId) {
+        Report report = getReport(reportId);
+        changeStatus(player, report, ReportStatus.RESOLVED);
+        message.sendGroupMessage(player.getName() + " resolved report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+    }
+
+    public void reopenReport(Player player, int reportId) {
+        Report report = getReport(reportId);
+        changeStatus(player, report, ReportStatus.OPEN);
+        message.sendGroupMessage(player.getName() + " reopened report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+    }
+
+    public void rejectReport(Player player, int reportId) {
+        Report report = getReport(reportId);
+        changeStatus(player, report, ReportStatus.REJECTED);
+        message.sendGroupMessage(player.getName() + " closed report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+    }
+
+    private void changeStatus(Player player, Report report, ReportStatus rejected) {
+        if (!report.getStaffUuid().equals(player.getUniqueId())) {
+            throw new BusinessException("You cannot change the status of a report you are not assigned to", messages.prefixReports);
+        }
+
+        report.setReportStatus(rejected);
+        reportRepository.updateReport(report);
+    }
+
+    public List<Report> getClosedReports() {
+        return reportRepository.getClosedReports();
     }
 }

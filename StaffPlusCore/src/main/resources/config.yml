@@ -437,11 +437,23 @@ staff-mode:
     # The title of the unresolved reports GUI.
     reports-title: "&bUnresolved reports"
 
+    # The title of the my reports GUI.
+    my-reports-title: "&bReports assigned to you"
+
+    # The title of the my reports GUI.
+    closed-reports-title: "&bClosed reports"
+
     # The name of the reports item
     reports-name: "&bUnresolved reports GUI"
 
     # The lore of the reports item
-    reports-lore: "&7Shows all reports that haven't been resolved."
+    reports-lore: "&7Shows all open reports."
+
+    # The lore of the assigned reports item
+    my-reports-lore: "&7Shows reports currently assigned to you."
+
+    # The lore of the reports item
+    closed-reports-lore: "&7History off all closed reports."
 
     # Whether or not the miner GUI is enabled in the hub.
     miner-gui: true

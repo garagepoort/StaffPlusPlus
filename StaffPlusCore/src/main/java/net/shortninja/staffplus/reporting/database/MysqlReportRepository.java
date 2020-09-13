@@ -71,6 +71,25 @@ public class MysqlReportRepository implements ReportRepository {
     }
 
     @Override
+    public List<Report> getClosedReports() {
+        List<Report> reports = new ArrayList<>();
+        try (Connection sql = MySQLConnection.getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status IN (?,?,?)")) {
+            ps.setString(1, ReportStatus.REJECTED.toString());
+            ps.setString(2, ReportStatus.RESOLVED.toString());
+            ps.setString(3, ReportStatus.EXPIRED.toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    reports.add(buildReport(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reports;
+    }
+
+    @Override
     public Optional<Report> findOpenReport(int reportId) {
         try (Connection sql = MySQLConnection.getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE id = ? AND status = ?")) {
@@ -88,6 +107,38 @@ public class MysqlReportRepository implements ReportRepository {
         return Optional.empty();
     }
 
+
+    @Override
+    public Optional<Report> findReport(int reportId) {
+        try (Connection sql = MySQLConnection.getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE id = ?")) {
+            ps.setInt(1, reportId);
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.first();
+                if(first){
+                    return Optional.of(buildReport(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void updateReport(Report report) {
+        try (Connection sql = MySQLConnection.getConnection();
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_reports set staff_name=?, staff_uuid=?, status=? WHERE id=?");) {
+            insert.setString(1, report.getStaffName());
+            insert.setString(2, report.getStaffUuid().toString());
+            insert.setString(3, report.getReportStatus().toString());
+            insert.setInt(4, report.getId());
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public List<Report> getUnresolvedReports(UUID playerUuid) {
         List<Report> reports = new ArrayList<>();
@@ -95,6 +146,24 @@ public class MysqlReportRepository implements ReportRepository {
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND status = ?")) {
             ps.setString(1, playerUuid.toString());
             ps.setString(2, ReportStatus.OPEN.toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    reports.add(buildReport(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reports;
+    }
+
+    @Override
+    public List<Report> getAssignedReports(UUID staffUuid) {
+        List<Report> reports = new ArrayList<>();
+        try (Connection sql = MySQLConnection.getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE staff_uuid = ? AND status = ? ORDER BY timestamp DESC")) {
+            ps.setString(1, staffUuid.toString());
+            ps.setString(2, ReportStatus.IN_PROGRESS.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));

@@ -20,5 +20,11 @@ public interface ReportRepository {
 
     Optional<Report> findOpenReport(int reportId);
 
+    Optional<Report> findReport(int reportId);
+
     void updateReport(Report report);
+
+    List<Report> getAssignedReports(UUID staffUuid);
+
+    List<Report> getClosedReports();
 }

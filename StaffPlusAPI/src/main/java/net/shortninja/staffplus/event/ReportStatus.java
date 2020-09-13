@@ -4,5 +4,10 @@ public enum ReportStatus {
     OPEN,
     RESOLVED,
     EXPIRED,
-    IN_PROGRESS, CLOSED
+    IN_PROGRESS,
+    REJECTED;
+
+    public boolean isClosed() {
+        return this == RESOLVED || this == EXPIRED || this == REJECTED;
+    }
 }

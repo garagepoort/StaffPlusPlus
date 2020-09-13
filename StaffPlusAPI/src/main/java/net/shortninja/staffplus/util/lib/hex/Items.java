@@ -40,6 +40,30 @@ public final class Items {
         return leatherArmor;
     }
 
+    public static ItemStack createGreenColoredGlass(String name, String lore) {
+        return Items.builder()
+                .setMaterial(Material.GREEN_STAINED_GLASS_PANE)
+                .setName(name)
+                .addLore(lore)
+                .build();
+    }
+
+    public static ItemStack createRedColoredGlass(String name, String lore) {
+        return Items.builder()
+                .setMaterial(Material.RED_STAINED_GLASS_PANE)
+                .setName(name)
+                .addLore(lore)
+                .build();
+    }
+
+    public static ItemStack createGrayColoredGlass(String name, String lore) {
+        return Items.builder()
+                .setMaterial(Material.GRAY_STAINED_GLASS_PANE)
+                .setName(name)
+                .addLore(lore)
+                .build();
+    }
+
     public static ItemStack createColoredArmor(Armor armor, Color color) {
         return createColoredArmor(armor, color,
                 "&l" + WordUtils.capitalize(armor.name().toLowerCase()));

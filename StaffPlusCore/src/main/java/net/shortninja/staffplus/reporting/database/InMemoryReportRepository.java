@@ -22,6 +22,13 @@ public final class InMemoryReportRepository implements ReportRepository {
                 .filter(r -> r.getReportStatus() == ReportStatus.OPEN)
                 .collect(Collectors.toList());
     }
+    @Override
+    public List<Report> getClosedReports() {
+        return data.values().stream()
+                .flatMap(dataHolder -> dataHolder.reports.stream())
+                .filter(r -> r.getReportStatus().isClosed())
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<Report> getUnresolvedReports(UUID playerUuid) {
@@ -42,7 +49,32 @@ public final class InMemoryReportRepository implements ReportRepository {
 
     @Override
     public Optional<Report> findOpenReport(int reportId) {
-        return getUnresolvedReports().stream().filter(r -> r.getId() == reportId).findFirst();
+        return getUnresolvedReports().stream()
+                .filter(r -> r.getId() == reportId)
+                .filter(report -> report.getReportStatus() == ReportStatus.OPEN)
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Report> findReport(int reportId) {
+        return getUnresolvedReports().stream()
+                .filter(r -> r.getId() == reportId)
+                .findFirst();
+    }
+
+    @Override
+    public void updateReport(Report report) {
+        //not implemented.
+    }
+
+    @Override
+    public List<Report> getAssignedReports(UUID staffUuid) {
+        return data.values().stream()
+                .flatMap(dataHolder -> dataHolder.reports.stream())
+                .filter(r -> r.getReportStatus() == ReportStatus.IN_PROGRESS)
+                .filter(r -> r.getStaffUuid() == staffUuid)
+                .sorted(Comparator.comparing(Report::getTimestamp))
+                .collect(Collectors.toList());
     }
 
     private DataHolder getOrPut(UUID id) {
