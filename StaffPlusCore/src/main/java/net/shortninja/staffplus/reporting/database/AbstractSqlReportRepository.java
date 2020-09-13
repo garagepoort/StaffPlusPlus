@@ -43,7 +43,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getReports(UUID uuid) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? ORDER BY timestamp DESC")) {
             ps.setString(1, uuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -60,7 +60,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getUnresolvedReports() {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status = ?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status = ?  ORDER BY timestamp DESC")) {
             ps.setString(1, ReportStatus.OPEN.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -77,7 +77,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getClosedReports() {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status IN (?,?,?)")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status IN (?,?,?)  ORDER BY timestamp DESC")) {
             ps.setString(1, ReportStatus.REJECTED.toString());
             ps.setString(2, ReportStatus.RESOLVED.toString());
             ps.setString(3, ReportStatus.EXPIRED.toString());
@@ -130,7 +130,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     @Override
     public void updateReport(Report report) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_reports set staff_name=?, staff_uuid=?, status=? WHERE id=?");) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_reports set staff_name=?, staff_uuid=?, status=? WHERE id=?")) {
             insert.setString(1, report.getStaffName());
             insert.setString(2, report.getStaffUuid().toString());
             insert.setString(3, report.getReportStatus().toString());
@@ -145,7 +145,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getUnresolvedReports(UUID playerUuid) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND status = ?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND status = ? ORDER BY timestamp DESC")) {
             ps.setString(1, playerUuid.toString());
             ps.setString(2, ReportStatus.OPEN.toString());
             try (ResultSet rs = ps.executeQuery()) {
