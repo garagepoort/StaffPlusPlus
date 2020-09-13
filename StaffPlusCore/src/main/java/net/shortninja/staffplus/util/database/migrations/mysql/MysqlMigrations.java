@@ -30,7 +30,8 @@ public class MysqlMigrations implements SqlMigrations {
             new V8_AlterReportTableAddStatusMigration(),
             new V9_AlterReportTableAddTimestampMigration(),
             new V10_AlterReportTableAddStaffNameMigration(),
-            new V11_AlterReportTableAddStaffUuidMigration());
+            new V11_AlterReportTableAddStaffUuidMigration(),
+            new V12_AlterReportTablePlayerUuidNullableMigration());
 
     private final DataSource datasource;
 

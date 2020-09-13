@@ -76,6 +76,31 @@ public class ReportPlayerService {
         Bukkit.getPluginManager().callEvent(new ReportPlayerEvent(report));
     }
 
+    public void sendReport(CommandSender sender, String reason) {
+        validateCoolDown(sender);
+
+        String reporterName = sender instanceof Player ? sender.getName() : "Console";
+        UUID reporterUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
+        Report report = new Report(
+                null,
+                null,
+                reason,
+                reporterName,
+                reporterUuid,
+                ReportStatus.OPEN);
+
+        reportRepository.addReport(report);
+
+        message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
+        message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", "unknown").replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
+        options.reportsSound.playForGroup(options.permissionReport);
+
+        if (sender instanceof Player) {
+            lastUse.put(reporterUuid, System.currentTimeMillis());
+        }
+        Bukkit.getPluginManager().callEvent(new ReportPlayerEvent(report));
+    }
+
     public Collection<Report> getUnresolvedReports() {
         return reportRepository.getUnresolvedReports();
     }

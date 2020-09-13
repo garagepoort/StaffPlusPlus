@@ -2,10 +2,7 @@ package net.shortninja.staffplus.server.command;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.command.cmd.*;
-import net.shortninja.staffplus.server.command.cmd.infraction.ReportCmd;
-import net.shortninja.staffplus.server.command.cmd.infraction.ReportPlayerCmd;
-import net.shortninja.staffplus.server.command.cmd.infraction.TicketCmd;
-import net.shortninja.staffplus.server.command.cmd.infraction.WarnCmd;
+import net.shortninja.staffplus.server.command.cmd.infraction.*;
 import net.shortninja.staffplus.server.command.cmd.mode.*;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -29,6 +26,7 @@ public class CmdHandler {
                     new BaseCmd("notes", new NotesCmd(options.commandNotes), true, options.permissionExamine, "&7Adds or manages a player's notes", "[player] [note]"),
                     new BaseCmd("cps", new CpsCmd(options.commandCps), true, options.permissionCps, "&7Starts a CPS test on the player.", "{player}"),
                     new BaseCmd("staff-chat", new StaffChatCmd(options.commandStaffChat), options.staffChatEnabled, options.permissionStaffChat, "&7Sends a message or toggles staff chat.", "{message}"),
+                    new BaseCmd("reports", new ReportsCmd(options.commandReports), options.reportsEnabled, "&7Manage Reports.", "[get,clear] [player]"),
                     new BaseCmd("report", new ReportCmd(options.commandReport), options.reportsEnabled, "&7Sends a report without a specific player.", "[reason]"),
                     new BaseCmd("reportPlayer", new ReportPlayerCmd(options.commandReportPlayer), options.reportsEnabled, "&7Sends a report with the given player and reason.", "[player] [reason]"),
                     new BaseCmd("warn", new WarnCmd(options.commandWarn), options.warningsEnabled, options.permissionWarn, "&7Sends or manages a warning.", "[player] [reason]"),

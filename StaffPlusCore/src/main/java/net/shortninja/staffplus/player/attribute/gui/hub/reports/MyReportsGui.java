@@ -25,7 +25,7 @@ public class MyReportsGui extends AbstractGui {
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     Report report = reportPlayerService.getReport(reportId);
-                    new ManageReportGui(player, "Report by: " + report.getCulpritName(), report);
+                    new ManageReportGui(player, "Report by: " + report.getReporterName(), report);
                 });
             }
 

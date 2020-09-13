@@ -30,7 +30,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                      "VALUES(?, ?, ?, ?, ?);");) {
             insert.setString(1, report.getReason());
             insert.setString(2, report.getReporterUuid().toString());
-            insert.setString(3, report.getCulpritUuid().toString());
+            insert.setString(3, report.getCulpritUuid() == null ? null : report.getCulpritUuid().toString());
             insert.setString(4, report.getReportStatus().toString());
             insert.setLong(5, System.currentTimeMillis());
             insert.executeUpdate();
@@ -109,7 +109,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         }
         return Optional.empty();
     }
-    
+
     @Override
     public Optional<Report> findReport(int reportId) {
         try (Connection sql = getConnection();
@@ -189,7 +189,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     private Report buildReport(ResultSet rs) throws SQLException {
-        UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
+        String player_uuid = rs.getString("Player_UUID");
         UUID reporterUUID = UUID.fromString(rs.getString("Reporter_UUID"));
         UUID staffUUID = rs.getString("staff_uuid") != null ? UUID.fromString(rs.getString("staff_uuid")) : null;
 
@@ -201,8 +201,13 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             reporterName = reporter.map(ProvidedPlayer::getUsername).orElse(null);
         }
 
-        Optional<ProvidedPlayer> player = getUserManager().getOnOrOfflinePlayer(playerUUID);
-        String culpritName = player.map(ProvidedPlayer::getUsername).orElse(null);
+        UUID playerUUID = null;
+        String culpritName = null;
+        if(player_uuid != null) {
+            playerUUID = UUID.fromString(player_uuid);
+            Optional<ProvidedPlayer> player = getUserManager().getOnOrOfflinePlayer(playerUUID);
+            culpritName = player.map(ProvidedPlayer::getUsername).orElse(null);
+        }
 
         int id = rs.getInt("ID");
         return new Report(playerUUID, culpritName, id,

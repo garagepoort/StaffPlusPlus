@@ -942,6 +942,9 @@ commands:
   # The command for toggling and using staff chat.
   staff-chat: "sc"
 
+  # The command for reporting and managing reports specifically targeting a player.
+  reports: "reports"
+
   # The command for reporting and managing reports.
   report: "report"
 
