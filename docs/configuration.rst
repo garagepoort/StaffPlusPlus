@@ -897,16 +897,14 @@ commands:
 
 # How will the plugin still Data
 storage:
-  #Type is how it will store either a flatfile (yml) or mysql
-  type: 'flatfile'
+  #Type is how it will store either a sqlite or mysql
+  type: 'sqlite'
   mysql:
     host: 'localhost'
     user: 'root'
     database: 'root'
     password: 'mypass'
     port: 3306
-    #DO NOT TOUCH
-    migrated: false
 
 +++++++++++++
   Advanced

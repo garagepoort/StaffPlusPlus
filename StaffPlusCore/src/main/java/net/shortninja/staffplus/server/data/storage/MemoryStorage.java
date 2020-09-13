@@ -3,9 +3,7 @@ package net.shortninja.staffplus.server.data.storage;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.unordered.IReport;
-import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.IWarning;
-import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,24 +11,6 @@ import java.util.stream.Collectors;
 public final class MemoryStorage implements IStorage {
 
     private final Map<UUID, DataHolder> data = new HashMap<>();
-
-    @Override
-    public void onEnable() {
-    }
-
-    @Override
-    public void onDisable() {
-    }
-
-    @Override
-    public byte[] getPassword(Player player) {
-        return new byte[0]; // Due to insecurity in the backend, let it gracefully pass.
-    }
-
-    @Override
-    public void setPassword(Player player, byte[] password) {
-        // Due to insecurity in the backend, let it gracefully pass.
-    }
 
     @Override
     public short getGlassColor(User user) {
@@ -43,28 +23,13 @@ public final class MemoryStorage implements IStorage {
     }
 
     @Override
-    public List<IReport> getReports(UUID uuid) {
-        return getOrPut(uuid).reports;
-    }
-
-    @Override
     public List<IWarning> getWarnings(UUID uuid) {
         return getOrPut(uuid).warnings;
     }
 
     @Override
-    public void addReport(IReport report) {
-        getOrPut(report.getUuid()).reports.add(report);
-    }
-
-    @Override
     public void addWarning(IWarning warning) {
         getOrPut(warning.getUuid()).warnings.add(warning);
-    }
-
-    @Override
-    public void removeReports(IUser user) {
-        getOrPut(user.getUuid()).reports.removeIf(r -> r.getUuid().equals(user.getUuid()));
     }
 
     @Override
