@@ -27,7 +27,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public void addReport(Report report) {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID, status, timestamp) " +
-                     "VALUES(?, ?, ?, ?, ?);");) {
+                     "VALUES(?, ?, ?, ?, ?);")) {
             insert.setString(1, report.getReason());
             insert.setString(2, report.getReporterUuid().toString());
             insert.setString(3, report.getCulpritUuid() == null ? null : report.getCulpritUuid().toString());
@@ -40,11 +40,13 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     @Override
-    public List<Report> getReports(UUID uuid) {
+    public List<Report> getReports(UUID uuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? ORDER BY timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, uuid.toString());
+            ps.setInt(2, offset);
+            ps.setInt(3, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -57,11 +59,13 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     @Override
-    public List<Report> getUnresolvedReports() {
+    public List<Report> getUnresolvedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status = ?  ORDER BY timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status = ?  ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, ReportStatus.OPEN.toString());
+            ps.setInt(2, offset);
+            ps.setInt(3, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -74,13 +78,15 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     @Override
-    public List<Report> getClosedReports() {
+    public List<Report> getClosedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status IN (?,?,?)  ORDER BY timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status IN (?,?,?)  ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, ReportStatus.REJECTED.toString());
             ps.setString(2, ReportStatus.RESOLVED.toString());
             ps.setString(3, ReportStatus.EXPIRED.toString());
+            ps.setInt(4, offset);
+            ps.setInt(5, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -142,12 +148,14 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     @Override
-    public List<Report> getUnresolvedReports(UUID playerUuid) {
+    public List<Report> getUnresolvedReports(UUID playerUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND status = ? ORDER BY timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND status = ? ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, playerUuid.toString());
             ps.setString(2, ReportStatus.OPEN.toString());
+            ps.setInt(3, offset);
+            ps.setInt(4, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -160,12 +168,14 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     @Override
-    public List<Report> getAssignedReports(UUID staffUuid) {
+    public List<Report> getAssignedReports(UUID staffUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE staff_uuid = ? AND status = ? ORDER BY timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE staff_uuid = ? AND status = ? ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, staffUuid.toString());
             ps.setString(2, ReportStatus.IN_PROGRESS.toString());
+            ps.setInt(3, offset);
+            ps.setInt(4, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));

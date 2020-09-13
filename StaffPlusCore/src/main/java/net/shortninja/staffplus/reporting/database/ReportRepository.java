@@ -10,11 +10,11 @@ public interface ReportRepository {
 
     void addReport(Report report);
 
-    List<Report> getReports(UUID uuid);
+    List<Report> getReports(UUID uuid, int offset, int amount);
 
-    List<Report> getUnresolvedReports();
+    List<Report> getUnresolvedReports(int offset, int amount);
 
-    List<Report> getUnresolvedReports(UUID playerUuid);
+    List<Report> getUnresolvedReports(UUID playerUuid, int offset, int amount);
 
     void removeReports(UUID playerUuid);
 
@@ -24,7 +24,7 @@ public interface ReportRepository {
 
     void updateReport(Report report);
 
-    List<Report> getAssignedReports(UUID staffUuid);
+    List<Report> getAssignedReports(UUID staffUuid, int offset, int amount);
 
-    List<Report> getClosedReports();
+    List<Report> getClosedReports(int offset, int amount);
 }

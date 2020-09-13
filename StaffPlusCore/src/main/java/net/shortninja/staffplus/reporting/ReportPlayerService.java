@@ -34,14 +34,14 @@ public class ReportPlayerService {
         this.messages = messages;
     }
 
-    public List<Report> getReports(String playerName) {
+    public List<Report> getReports(String playerName, int offset, int amount) {
         IUser user = getUser(playerName);
-        return reportRepository.getReports(user.getUuid());
+        return reportRepository.getReports(user.getUuid(), offset, amount);
     }
 
-    public List<Report> getReports(UUID playerUuid) {
+    public List<Report> getReports(UUID playerUuid, int offset, int amount) {
         IUser user = getUser(playerUuid);
-        return reportRepository.getReports(user.getUuid());
+        return reportRepository.getReports(user.getUuid(), offset, amount);
     }
 
     public void sendReport(CommandSender sender, String playerName, String reason) {
@@ -101,16 +101,16 @@ public class ReportPlayerService {
         Bukkit.getPluginManager().callEvent(new ReportPlayerEvent(report));
     }
 
-    public Collection<Report> getUnresolvedReports() {
-        return reportRepository.getUnresolvedReports();
+    public Collection<Report> getUnresolvedReports(int offset, int amount) {
+        return reportRepository.getUnresolvedReports(offset, amount);
     }
 
-    public Collection<Report> getAssignedReports(UUID staffUuid) {
-        return reportRepository.getAssignedReports(staffUuid);
+    public Collection<Report> getAssignedReports(UUID staffUuid, int offset, int amount) {
+        return reportRepository.getAssignedReports(staffUuid, offset, amount);
     }
 
-    public Collection<Report> getUnresolvedReports(UUID playerUuid) {
-        return reportRepository.getUnresolvedReports(playerUuid);
+    public Collection<Report> getUnresolvedReports(UUID playerUuid, int offset, int amount) {
+        return reportRepository.getUnresolvedReports(playerUuid, offset, amount);
     }
 
     public void clearReports(String playerName) {
@@ -187,7 +187,7 @@ public class ReportPlayerService {
         reportRepository.updateReport(report);
     }
 
-    public List<Report> getClosedReports() {
-        return reportRepository.getClosedReports();
+    public List<Report> getClosedReports(int offset, int amount) {
+        return reportRepository.getClosedReports(offset, amount);
     }
 }

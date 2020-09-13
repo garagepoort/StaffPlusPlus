@@ -3,30 +3,33 @@ package net.shortninja.staffplus.player.attribute.gui.hub.reports;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
-import net.shortninja.staffplus.reporting.Report;
-import net.shortninja.staffplus.reporting.ReportPlayerService;
-import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.unordered.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class OpenReportsGui extends AbstractGui {
-    private static final int SIZE = 54;
-    private Options options = StaffPlus.get().options;
-    private UserManager userManager = IocContainer.getUserManager();
-    private ReportPlayerService reportPlayerService = IocContainer.getReportPlayerService();
+import java.util.List;
+import java.util.stream.Collectors;
 
-    public OpenReportsGui(Player player, String title) {
-        super(SIZE, title);
+public class OpenReportsGui extends PagedGui {
 
-        IAction action = new IAction() {
+    public OpenReportsGui(Player player, String title, int page) {
+        super(player, title, page);
+    }
+
+    @Override
+    protected void getNextUi(Player player, String title, int page) {
+        new OpenReportsGui(player, title, page);
+    }
+
+    @Override
+    public IAction getAction() {
+        return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    reportPlayerService.acceptReport(player, reportId);
+                    IocContainer.getReportPlayerService().acceptReport(player, reportId);
                 });
             }
 
@@ -39,21 +42,12 @@ public class OpenReportsGui extends AbstractGui {
             public void execute(Player player, String input) {
             }
         };
-
-        int count = 0; // Using this with an enhanced for loop because it is much faster than converting to an array.
-
-        for (Report report : reportPlayerService.getUnresolvedReports()) {
-            if ((count + 1) >= SIZE) {
-                break;
-            }
-
-            setItem(count, ReportItemBuilder.build(report), action);
-            count++;
-        }
-
-        player.closeInventory();
-        player.openInventory(getInventory());
-        userManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
+    @Override
+    public List<ItemStack> getItems(Player player, int offset, int amount) {
+        return IocContainer.getReportPlayerService().getUnresolvedReports(offset, amount).stream()
+                .map(ReportItemBuilder::build)
+                .collect(Collectors.toList());
+    }
 }

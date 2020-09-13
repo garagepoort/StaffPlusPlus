@@ -20,7 +20,6 @@ public class Save {
         dataFile.set(node.prefix() + "name", node.name());
 //            dataFile.set(node.prefix() + "password", node.password());
         dataFile.set(node.prefix() + "glass-color", node.glassColor());
-        dataFile.set(node.prefix() + "reports", node.reports());
         dataFile.set(node.prefix() + "warnings", node.warnings());
         dataFile.set(node.prefix() + "notes", node.playerNotes());
         dataFile.set(node.prefix() + "alert-options", node.alertOptions());

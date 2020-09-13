@@ -60,7 +60,7 @@ public class ReportsCmd extends BukkitCommand {
     }
 
     private void listReports(CommandSender sender, String playerName) {
-        List<Report> reports = reportPlayerService.getReports(playerName);
+        List<Report> reports = reportPlayerService.getReports(playerName, 0, 40);
 
         for (String message : messages.reportsListStart) {
             this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", playerName).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports);

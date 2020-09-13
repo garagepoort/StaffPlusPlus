@@ -29,7 +29,7 @@ public class HubGui extends AbstractGui {
             setItem(1, reportsItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new OpenReportsGui(player, options.modeGuiReportsTitle);
+                    new OpenReportsGui(player, options.modeGuiReportsTitle, 0);
                 }
 
                 @Override
@@ -44,7 +44,7 @@ public class HubGui extends AbstractGui {
             setItem(2, myReportsItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new MyReportsGui(player, options.modeGuiMyReportsTitle);
+                    new MyReportsGui(player, options.modeGuiMyReportsTitle, 0);
                 }
 
                 @Override
@@ -59,7 +59,7 @@ public class HubGui extends AbstractGui {
             setItem(3, closedReportsItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new ClosedReportsGui(player, options.modeGuiClosedReportsTitle);
+                    new ClosedReportsGui(player, options.modeGuiClosedReportsTitle, 0);
                 }
 
                 @Override

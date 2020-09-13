@@ -1,33 +1,35 @@
 package net.shortninja.staffplus.player.attribute.gui.hub.reports;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
-import net.shortninja.staffplus.reporting.Report;
-import net.shortninja.staffplus.reporting.ReportPlayerService;
+import net.shortninja.staffplus.player.attribute.gui.PagedGui;
+import net.shortninja.staffplus.unordered.IAction;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-public class ClosedReportsGui extends AbstractGui {
-    private static final int SIZE = 54;
-    private UserManager userManager = IocContainer.getUserManager();
-    private ReportPlayerService reportPlayerService = IocContainer.getReportPlayerService();
+import java.util.List;
+import java.util.stream.Collectors;
 
-    public ClosedReportsGui(Player player, String title) {
-        super(SIZE, title);
+public class ClosedReportsGui extends PagedGui {
 
-        int count = 0; // Using this with an enhanced for loop because it is much faster than converting to an array.
+    public ClosedReportsGui(Player player, String title, int page) {
+        super(player, title, page);
+    }
 
-        for (Report report : reportPlayerService.getClosedReports()) {
-            if ((count + 1) >= SIZE) {
-                break;
-            }
+    @Override
+    protected void getNextUi(Player player, String title, int page) {
+        new ClosedReportsGui(player, title, page);
+    }
 
-            setItem(count, ReportItemBuilder.build(report), null);
-            count++;
-        }
+    @Override
+    public IAction getAction() {
+        return null;
+    }
 
-        player.closeInventory();
-        player.openInventory(getInventory());
-        userManager.get(player.getUniqueId()).setCurrentGui(this);
+    @Override
+    public List<ItemStack> getItems(Player player, int offset, int amount) {
+        return IocContainer.getReportPlayerService().getClosedReports(offset, amount)
+                .stream()
+                .map(ReportItemBuilder::build)
+                .collect(Collectors.toList());
     }
 }

@@ -2,7 +2,6 @@ package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.reporting.ReportPlayerService;
-import net.shortninja.staffplus.reporting.database.InMemoryReportRepository;
 import net.shortninja.staffplus.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.reporting.database.ReportRepository;
 import net.shortninja.staffplus.reporting.database.SqliteReportRepository;
@@ -36,7 +35,7 @@ public class IocContainer {
             } else if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
                 reportRepository = new SqliteReportRepository();
             } else {
-                reportRepository = new InMemoryReportRepository();
+                throw new RuntimeException("Unsupported database type");
             }
         }
         return reportRepository;

@@ -255,7 +255,7 @@ public class ExamineGui extends AbstractGui {
     }
 
     private ItemStack infractionsItem(IUser user) {
-        List<Report> reports = reportPlayerService.getReports(user.getUuid());
+        List<Report> reports = reportPlayerService.getReports(user.getUuid(), 0, 40);
 
         List<String> lore = new ArrayList<String>();
         IReport latestReport = reports.size() >= 1 ? reports.get(reports.size() - 1) : null;
