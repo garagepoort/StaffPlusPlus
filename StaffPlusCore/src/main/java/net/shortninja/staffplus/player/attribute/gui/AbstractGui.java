@@ -7,7 +7,6 @@ import net.shortninja.staffplus.unordered.IGui;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -80,19 +79,10 @@ public class AbstractGui implements IGui {
     private ItemStack glassItem(short data) {
         String[] tmp = Bukkit.getVersion().split("MC: ");
         String version = tmp[tmp.length - 1].substring(0, 4);
-        if (JavaUtils.parseMcVer(version)<13) {
-
-            return Items.builder()
-                    .setMaterial(Material.valueOf("STAINED_GLASS_PANE")).setAmount(1).setData(data)
-                    .setName("&bColor #" + data)
-                    .addLore("&7Click to change your GUI color!")
-                    .build();
-        } else {
-            return Items.builder()
-                    .setMaterial(Material.valueOf(GlassData.getName(data)))
-                    .setName("&bColor #" + data)
-                    .addLore("&7Click to change your GUI color!")
-                    .build();
-        }
+        return Items.builder()
+                .setMaterial(Material.valueOf(GlassData.getName(data)))
+                .setName("&bColor #" + data)
+                .addLore("&7Click to change your GUI color!")
+                .build();
     }
 }

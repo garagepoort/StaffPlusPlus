@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -24,8 +25,8 @@ public class CounterGui extends AbstractGui {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
     public CounterGui(Player player, String title) {

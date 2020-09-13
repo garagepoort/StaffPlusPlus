@@ -1,12 +1,13 @@
 package net.shortninja.staffplus.server.command.cmd;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -21,18 +22,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
-import static net.shortninja.staffplus.server.command.arguments.ArgumentType.STRIP;
-import static net.shortninja.staffplus.server.command.arguments.ArgumentType.TELEPORT;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 import static net.shortninja.staffplus.util.lib.JavaUtils.getTargetPlayer;
 import static org.bukkit.Bukkit.getPlayer;
 
 public class ReviveCmd extends BukkitCommand {
-    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP);
+    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
 
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
     private ReviveHandler reviveHandler = StaffPlus.get().reviveHandler;
     private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
 
