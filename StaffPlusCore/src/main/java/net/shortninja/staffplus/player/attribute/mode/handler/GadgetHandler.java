@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.player.attribute.mode.handler;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.CounterGui;
 import net.shortninja.staffplus.player.attribute.gui.ExamineGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
-import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
@@ -28,10 +28,9 @@ public class GadgetHandler {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
     private CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
-    private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
 
     public GadgetType getGadgetType(ItemStack item, String value) {
         GadgetType gadgetType = GadgetType.CUSTOM;

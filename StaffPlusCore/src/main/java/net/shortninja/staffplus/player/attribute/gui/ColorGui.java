@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.unordered.IAction;
@@ -15,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 public class ColorGui extends AbstractGui {
     private static final int SIZE = 27;
     private MessageCoordinator message = StaffPlus.get().message;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private UserManager userManager = IocContainer.getUserManager();
 
     public ColorGui(Player player, String title) {
         super(SIZE, StaffPlus.get().message.colorize(title));

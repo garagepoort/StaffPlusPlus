@@ -5,19 +5,19 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
+
+import static net.shortninja.staffplus.IocContainer.getMessages;
 
 public class StaffPlusCmd extends BukkitCommand {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = getMessages();
 
     public StaffPlusCmd(String name) {
         super(name);
@@ -30,12 +30,7 @@ public class StaffPlusCmd extends BukkitCommand {
         }
         if (args.length == 1 && permission.has(sender, options.permissionStaff)) {
             if (args[0].equalsIgnoreCase("reload")) {
-                Bukkit.getPluginManager().getPlugin("StaffPlus").reloadConfig();
-                StaffPlus.get().reloadFiles();
-                StaffPlus.get().message.sendConsoleMessage("Plugin config and lang file reloaded", false);
-                if (sender instanceof Player) {
-                    StaffPlus.get().message.send((Player) sender, "Config and lang file have been reloaded", "StaffPlus");
-                }
+                StaffPlus.get().message.sendConsoleMessage("This feature is disabled until we have implemented a robust way of reloading", true);
             }
         }
         return true;

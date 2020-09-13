@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.chat;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -16,7 +17,7 @@ public class ChatHandler {
     private PermissionHandler permission = StaffPlus.get().permission;
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
     private boolean isChatEnabled = true;
     private long chatSlowLength = 0;
     private long chatSlowStart = 0;

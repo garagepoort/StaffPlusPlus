@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -14,8 +14,9 @@ import java.util.List;
 
 public class FreezeGui extends AbstractGui {
     private static final int SIZE = 9;
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
+
 
     public FreezeGui(Player player, String title) {
         super(SIZE, title);
