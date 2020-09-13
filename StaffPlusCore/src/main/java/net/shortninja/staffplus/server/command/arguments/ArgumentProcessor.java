@@ -11,7 +11,10 @@ import java.util.stream.Collectors;
 
 public class ArgumentProcessor {
 
-    private final List<ArgumentExecutor> argumentExecutors = Arrays.asList(new TeleportArgumentExecutor(), new StripArgumentExecutor());
+    private final List<ArgumentExecutor> argumentExecutors = Arrays.asList(
+            new TeleportArgumentExecutor(),
+            new StripArgumentExecutor(),
+            new HealthArgumentExecutor());
 
     private static ArgumentProcessor instance;
 

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -13,7 +14,7 @@ public class StripService {
     private static StripService instance;
 
     private MessageCoordinator message = StaffPlus.get().message;
-    private Messages messages = StaffPlus.get().messages;
+    private Messages messages = IocContainer.getMessages();
 
     public static StripService getInstance() {
         if(instance == null) {

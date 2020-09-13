@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.IWarning;
 
@@ -9,11 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-//import net.shortninja.staffplus.player.attribute.SecurityHandler;
-
 public class NodeUser {
-//    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
-    //    private SecurityHandler securityHandler = StaffPlus.get().securityHandler;
     private IUser user;
     private String prefix;
 
@@ -36,16 +31,6 @@ public class NodeUser {
 
     public short glassColor() {
         return user.getGlassColor();
-    }
-
-    public List<String> reports() {
-        List<String> reportsList = new ArrayList<String>();
-
-        for (IReport report : user.getReports()) {
-            reportsList.add(report.getReason() + ";" + report.getReporterName() + ";" + (report.getReporterUuid() == null ? "null" : report.getReporterUuid().toString()));
-        }
-
-        return reportsList;
     }
 
     public List<String> warnings() {

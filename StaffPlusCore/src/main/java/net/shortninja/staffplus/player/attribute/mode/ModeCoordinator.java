@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.mode;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
@@ -37,8 +38,8 @@ public class ModeCoordinator {
                     new ModeItem("examine", options.modeExamineItem, options.modeExamineSlot, options.modeExamineEnabled),
                     new ModeItem("follow", options.modeFollowItem, options.modeFollowSlot, options.modeFollowEnabled),
             };
-    private Messages messages = StaffPlus.get().messages;
-    private UserManager userManager = StaffPlus.get().userManager;
+    private Messages messages = IocContainer.getMessages();
+    private UserManager userManager = IocContainer.getUserManager();
     private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
 
     public Set<UUID> getModeUsers() {
