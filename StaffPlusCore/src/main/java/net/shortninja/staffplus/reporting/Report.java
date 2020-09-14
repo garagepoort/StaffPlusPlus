@@ -3,9 +3,7 @@ package net.shortninja.staffplus.reporting;
 import net.shortninja.staffplus.event.ReportStatus;
 import net.shortninja.staffplus.unordered.IReport;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.UUID;
 
 public class Report implements IReport {
@@ -17,16 +15,8 @@ public class Report implements IReport {
     private String staffName;
     private UUID staffUuid;
     private ReportStatus reportStatus;
-    private LocalDateTime timestamp;
+    private ZonedDateTime timestamp;
     private int id;
-
-    public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid) {
-        this.culpritUuid = culpritUuid;
-        this.culpritName = culpritName;
-        this.reason = reason;
-        this.reporterName = reporterName;
-        this.reporterUuid = reporterUuid;
-    }
 
     public Report(UUID culpritUuid, String culpritName, int id, String reason, String reporterName, UUID reporterUuid, long time,
                   ReportStatus reportStatus,
@@ -38,19 +28,20 @@ public class Report implements IReport {
         this.reporterName = reporterName;
         this.reporterUuid = reporterUuid;
         this.id = id;
-        this.timestamp = Instant.ofEpochMilli(time).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        this.timestamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
         this.reportStatus = reportStatus;
         this.staffName = staffName;
         this.staffUuid = staffUuid;
     }
 
-    public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus) {
+    public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus, ZonedDateTime timestamp) {
         this.culpritUuid = culpritUuid;
         this.culpritName = culpritName;
         this.reason = reason;
         this.reporterName = reporterName;
         this.reporterUuid = reporterUuid;
         this.reportStatus = reportStatus;
+        this.timestamp = timestamp;
     }
 
     public int getId() {
@@ -115,7 +106,7 @@ public class Report implements IReport {
     }
 
     @Override
-    public LocalDateTime getTimestamp() {
+    public ZonedDateTime getTimestamp() {
         return timestamp;
     }
 }
