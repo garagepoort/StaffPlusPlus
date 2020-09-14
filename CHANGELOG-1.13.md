@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.13
 
-### UPCOMING RELEASE V1.13.6 
+### V1.13.6 
 #### Features
 - Implement new reportEvents
 
