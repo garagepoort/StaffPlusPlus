@@ -3,6 +3,7 @@
 ### V1.16.12
 #### Features
 - Implement new reportEvents
+- Added Discord Integration for reporting events
 
 #### Bugs
 - Use ZonedDateTimeFor Reporting
