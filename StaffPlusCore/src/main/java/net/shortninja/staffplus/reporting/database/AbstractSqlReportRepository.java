@@ -32,10 +32,10 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             insert.setString(2, report.getReporterUuid().toString());
             insert.setString(3, report.getCulpritUuid() == null ? null : report.getCulpritUuid().toString());
             insert.setString(4, report.getReportStatus().toString());
-            insert.setLong(5, System.currentTimeMillis());
+            insert.setLong(5, report.getTimestamp().toInstant().toEpochMilli());
             insert.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -53,7 +53,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return reports;
     }
@@ -72,7 +72,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return reports;
     }
@@ -93,7 +93,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return reports;
     }
@@ -111,7 +111,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return Optional.empty();
     }
@@ -128,7 +128,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return Optional.empty();
     }
@@ -138,12 +138,12 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("UPDATE sp_reports set staff_name=?, staff_uuid=?, status=? WHERE id=?")) {
             insert.setString(1, report.getStaffName());
-            insert.setString(2, report.getStaffUuid().toString());
+            insert.setString(2, report.getStaffUuid() != null ? report.getStaffUuid().toString() : null);
             insert.setString(3, report.getReportStatus().toString());
             insert.setInt(4, report.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -162,7 +162,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return reports;
     }
@@ -182,7 +182,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return reports;
     }
@@ -194,7 +194,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             insert.setString(1, playerUuid.toString());
             insert.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
