@@ -10,7 +10,7 @@ import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
 import net.shortninja.staffplus.reporting.Report;
-import net.shortninja.staffplus.reporting.ReportPlayerService;
+import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
@@ -38,11 +38,11 @@ public class ExamineGui extends AbstractGui {
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
-    private ReportPlayerService reportPlayerService;
+    private ReportService reportService;
 
     public ExamineGui(Player player, Player targetPlayer, String title) {
         super(SIZE, title);
-        reportPlayerService = IocContainer.getReportPlayerService();
+        reportService = IocContainer.getReportService();
 
         setInventoryContents(targetPlayer);
 
@@ -255,7 +255,7 @@ public class ExamineGui extends AbstractGui {
     }
 
     private ItemStack infractionsItem(IUser user) {
-        List<Report> reports = reportPlayerService.getReports(user.getUuid(), 0, 40);
+        List<Report> reports = reportService.getReports(user.getUuid(), 0, 40);
 
         List<String> lore = new ArrayList<String>();
         IReport latestReport = reports.size() >= 1 ? reports.get(reports.size() - 1) : null;

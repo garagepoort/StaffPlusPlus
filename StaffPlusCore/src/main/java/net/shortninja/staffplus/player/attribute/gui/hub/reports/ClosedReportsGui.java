@@ -27,7 +27,7 @@ public class ClosedReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, int offset, int amount) {
-        return IocContainer.getReportPlayerService().getClosedReports(offset, amount)
+        return IocContainer.getReportService().getClosedReports(offset, amount)
                 .stream()
                 .map(ReportItemBuilder::build)
                 .collect(Collectors.toList());
