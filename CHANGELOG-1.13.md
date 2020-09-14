@@ -1,5 +1,13 @@
 # Changelog Staff++ | v1.13
 
+### UPCOMING RELEASE V1.13.6 
+#### Features
+- Implement new reportEvents
+
+#### Bugs
+- Use ZonedDateTimeFor Reporting
+- Remove silent sql failure
+
 ### V1.13.5
 #### Features
 - Added HEALTH argument
