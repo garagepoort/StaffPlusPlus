@@ -117,7 +117,7 @@
         </dependency>
         <dependency>
             <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
+            <artifactId>craftbukkit</artifactId>
             <version>${spigot.version}</version>
             <scope>provided</scope>
         </dependency>
