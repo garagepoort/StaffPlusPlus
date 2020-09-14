@@ -40,12 +40,6 @@
             <version>${spigot.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>${spigot.version}</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <build>
