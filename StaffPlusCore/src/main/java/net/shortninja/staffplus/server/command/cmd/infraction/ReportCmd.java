@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.command.cmd.infraction;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.reporting.ReportPlayerService;
+import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -21,7 +21,7 @@ public class ReportCmd extends BukkitCommand {
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = IocContainer.getMessages();
-    private ReportPlayerService reportPlayerService = IocContainer.getReportPlayerService();
+    private ReportService reportService = IocContainer.getReportService();
 
     public ReportCmd(String name) {
         super(name);
@@ -36,7 +36,7 @@ public class ReportCmd extends BukkitCommand {
             }
 
             String reason = JavaUtils.compileWords(args, 0);
-            reportPlayerService.sendReport(sender, reason);
+            reportService.sendReport(sender, reason);
             return true;
         });
     }
