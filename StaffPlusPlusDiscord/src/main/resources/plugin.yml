@@ -1,5 +1,5 @@
 name: StaffPlusPlusDiscord
 main: be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord
-version: 1.17.0
+version: 1.16.12
 api-version: 1.13
 depend: [StaffPlus]

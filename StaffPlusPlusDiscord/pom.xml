@@ -32,7 +32,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusAPI</artifactId>
-            <version>1.17.0</version>
+            <version>1.16.12</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
