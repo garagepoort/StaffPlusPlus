@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.NoPermissionException;
 import net.shortninja.staffplus.reporting.Report;
-import net.shortninja.staffplus.reporting.ReportPlayerService;
+import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IReport;
@@ -24,7 +24,7 @@ public class ReportsCmd extends BukkitCommand {
     private MessageCoordinator message = StaffPlus.get().message;
     private Options options = StaffPlus.get().options;
     private Messages messages = IocContainer.getMessages();
-    private ReportPlayerService reportPlayerService = IocContainer.getReportPlayerService();
+    private ReportService reportService = IocContainer.getReportService();
 
     public ReportsCmd(String name) {
         super(name);
@@ -60,7 +60,7 @@ public class ReportsCmd extends BukkitCommand {
     }
 
     private void listReports(CommandSender sender, String playerName) {
-        List<Report> reports = reportPlayerService.getReports(playerName, 0, 40);
+        List<Report> reports = reportService.getReports(playerName, 0, 40);
 
         for (String message : messages.reportsListStart) {
             this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", playerName).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports);
@@ -79,7 +79,7 @@ public class ReportsCmd extends BukkitCommand {
     }
 
     private void clearReports(CommandSender sender, String playerName) {
-        reportPlayerService.clearReports(playerName);
+        reportService.clearReports(playerName);
         message.send(sender, messages.reportsCleared.replace("%target%", playerName), messages.prefixReports);
     }
 

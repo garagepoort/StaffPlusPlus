@@ -1,9 +1,37 @@
 # Changelog Staff++ | v1.15
 
+### UPCOMING RELEASE V1.15.7
+#### Features
+- Implement new reportEvents
+
+#### Bugs
+- Use ZonedDateTimeFor Reporting
+- Remove silent sql failure
+
+### V1.15.6
+#### Features
+- Added HEALTH argument
+- New reporting system implemented
+
+#### Bugs
+- Fix bug when opening different inventories (BrewingStand, Furnace, Dispenser, ...)
+
+#### Breaking
+- Dropped support for flatfiles
+- Implemented Sqlite, Mysql databases
+
+### V1.15.5
+#### Features
+- New arguments system implemented
+- Added strip argument. Example: `/freeze player -S`
+- Added wiki to github
+- Autocompletion for offline players
+- Autocompletion for arguments
+
 ### V1.15.4
 #### Features
 - Locations implemented
-- Freeze command now has the ability to take a teleport to location parameter
+- Freeze command now has the ability to take a teleportLocation parameter `/freeze myplayer -Tspawn`
 
 ### V1.15.3
 #### Features
