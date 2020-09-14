@@ -2,12 +2,14 @@ package net.shortninja.staffplus.unordered;
 
 import net.shortninja.staffplus.event.ReportStatus;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public interface IReport {
 
     String getReason();
+
+    String getStaffName();
 
     String getReporterName();
 
@@ -19,7 +21,11 @@ public interface IReport {
 
     UUID getCulpritUuid();
 
+    String getCulpritName();
+
     ReportStatus getReportStatus();
 
-    LocalDateTime getTimestamp();
+    ZonedDateTime getTimestamp();
+
+    UUID getStaffUuid();
 }
