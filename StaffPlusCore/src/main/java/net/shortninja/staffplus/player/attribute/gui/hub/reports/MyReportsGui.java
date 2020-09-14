@@ -30,7 +30,7 @@ public class MyReportsGui extends PagedGui {
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    Report report = IocContainer.getReportPlayerService().getReport(reportId);
+                    Report report = IocContainer.getReportService().getReport(reportId);
                     new ManageReportGui(player, "Report by: " + report.getReporterName(), report);
                 });
             }
@@ -48,7 +48,7 @@ public class MyReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, int offset, int amount) {
-        return IocContainer.getReportPlayerService()
+        return IocContainer.getReportService()
                 .getAssignedReports(player.getUniqueId(), offset, amount)
                 .stream()
                 .map(ReportItemBuilder::build)
