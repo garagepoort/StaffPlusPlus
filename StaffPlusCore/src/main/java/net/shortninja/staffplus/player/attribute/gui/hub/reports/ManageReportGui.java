@@ -6,7 +6,7 @@ import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.reporting.Report;
-import net.shortninja.staffplus.reporting.ReportPlayerService;
+import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.entity.Player;
@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 public class ManageReportGui extends AbstractGui {
     private static final int SIZE = 54;
     private UserManager userManager = IocContainer.getUserManager();
-    private ReportPlayerService reportPlayerService = IocContainer.getReportPlayerService();
+    private ReportService reportService = IocContainer.getReportService();
 
     public ManageReportGui(Player player, String title, Report report) {
         super(SIZE, title);
@@ -25,7 +25,7 @@ public class ManageReportGui extends AbstractGui {
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    reportPlayerService.resolveReport(player, reportId);
+                    reportService.resolveReport(player, reportId);
                 });
             }
 
@@ -44,7 +44,7 @@ public class ManageReportGui extends AbstractGui {
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    reportPlayerService.reopenReport(player, reportId);
+                    reportService.reopenReport(player, reportId);
                 });
             }
 
@@ -62,7 +62,7 @@ public class ManageReportGui extends AbstractGui {
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    reportPlayerService.rejectReport(player, reportId);
+                    reportService.rejectReport(player, reportId);
                 });
             }
 

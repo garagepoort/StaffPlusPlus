@@ -1,7 +1,7 @@
 package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.reporting.ReportPlayerService;
+import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.reporting.database.ReportRepository;
 import net.shortninja.staffplus.reporting.database.SqliteReportRepository;
@@ -16,7 +16,7 @@ import net.shortninja.staffplus.util.database.DatabaseUtil;
 
 public class IocContainer {
 
-    private static ReportPlayerService reportPlayerService;
+    private static ReportService reportService;
     private static ReportRepository reportRepository;
     private static UserManager userManager;
     private static StaffPlus staffPlus;
@@ -41,11 +41,11 @@ public class IocContainer {
         return reportRepository;
     }
 
-    public static ReportPlayerService getReportPlayerService() {
-        if (reportPlayerService == null) {
-            reportPlayerService = new ReportPlayerService(getReportRepository(), getUserManager(), getMessages());
+    public static ReportService getReportService() {
+        if (reportService == null) {
+            reportService = new ReportService(getReportRepository(), getUserManager(), getMessages());
         }
-        return reportPlayerService;
+        return reportService;
     }
 
     public static IStorage getStorage() {

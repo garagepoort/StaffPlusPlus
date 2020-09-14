@@ -1,0 +1,13 @@
+StaffPlusPlusDiscord:
+  # The discord webhook url. This can be found in you discord server settings
+  webhookUrl: ""
+ # Trigger a discord message when some player opens a new report
+  notifyOpen: true
+ # Trigger a discord message when a staff member for some reason decides to not handle a report and he unassigns himself
+  notifyReopen: true
+  # Trigger a discord message when a staff member assigns himself to an open report
+  notifyAccept: true
+  # Trigger a discord message when a staff member rejects a report
+  notifyReject: true
+  # Trigger a discord message when a staff member resolves a report
+  notifyResolve: true
