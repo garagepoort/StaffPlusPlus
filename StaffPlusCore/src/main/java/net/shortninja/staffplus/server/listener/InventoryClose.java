@@ -17,7 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryClose implements Listener {
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private UserManager userManager = IocContainer.getUserManager();
 
     public InventoryClose() {

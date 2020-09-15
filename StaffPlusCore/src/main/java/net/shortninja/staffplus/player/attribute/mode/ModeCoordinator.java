@@ -24,8 +24,8 @@ import java.util.*;
 
 public class ModeCoordinator {
     private static Map<UUID, ModeDataVault> modeUsers = new HashMap<UUID, ModeDataVault>();
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     public final ModeItem[] MODE_ITEMS =
             {
                     new ModeItem("compass", options.modeCompassItem, options.modeCompassSlot, options.modeCompassEnabled),

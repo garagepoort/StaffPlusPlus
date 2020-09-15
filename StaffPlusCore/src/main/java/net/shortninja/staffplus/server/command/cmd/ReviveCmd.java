@@ -29,9 +29,9 @@ import static org.bukkit.Bukkit.getPlayer;
 public class ReviveCmd extends BukkitCommand {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
 
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private ReviveHandler reviveHandler = StaffPlus.get().reviveHandler;
     private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.listener.player;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
@@ -13,7 +14,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import java.util.UUID;
 
 public class PlayerDropItem implements Listener {
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
