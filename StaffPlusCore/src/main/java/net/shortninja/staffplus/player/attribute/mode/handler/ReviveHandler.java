@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class ReviveHandler {
     private static Map<UUID, ModeDataVault> savedInventories = new HashMap<UUID, ModeDataVault>();
-    private MessageCoordinator message = StaffPlus.get().message;
+    private MessageCoordinator message = IocContainer.getMessage();
     private Messages messages = IocContainer.getMessages();
 
     public boolean hasSavedInventory(UUID uuid) {

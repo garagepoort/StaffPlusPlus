@@ -16,7 +16,13 @@ public interface IWarning {
 
     UUID getUuid();
 
+    int getId();
+
     boolean shouldRemove();
 
     String getName();
+
+    int getScore();
+
+    String getSeverity();
 }

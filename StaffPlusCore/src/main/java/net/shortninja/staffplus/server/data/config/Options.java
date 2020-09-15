@@ -2,12 +2,14 @@ package net.shortninja.staffplus.server.data.config;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.server.data.config.warning.WarningConfiguration;
+import net.shortninja.staffplus.server.data.config.warning.WarningModuleLoader;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.Materials;
-import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.Sounds;
 import net.shortninja.staffplus.util.lib.hex.Items;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,10 +17,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -51,7 +51,9 @@ public class Options implements IOptions {
     public List<String> soundNames = JavaUtils.stringToList(config.getString("sound-names"));
     public boolean offlinePlayersModeEnabled = config.getBoolean("offline-players-mode");
     public String playerProvider = config.getString("player-provider");
+
     public Map<String, Location> locations = LocationLoader.loadLocations();
+
     /*
      * Reports
      */
@@ -61,11 +63,10 @@ public class Options implements IOptions {
     /*
      * Warnings
      */
-    public boolean warningsEnabled = config.getBoolean("warnings-module.enabled");
+    public WarningConfiguration warningConfiguration = WarningModuleLoader.loadWarningModule();
     public int warningsMaximum = config.getInt("warnings-module.maximum");
     public String warningsBanCommand = config.getString("warnings-module.ban-command");
-    public long warningsClear = config.getLong("warnings-module.clear");
-    public boolean warningsShowIssuer = config.getBoolean("warnings-module.show-issuer");
+
     /*
      * Staff Chat
      */
@@ -249,6 +250,7 @@ public class Options implements IOptions {
     public String commandReportPlayer = config.getString("commands.reportPlayer");
     public String commandReports = config.getString("commands.reports");
     public String commandWarn = config.getString("commands.warn");
+    public String commandWarns = config.getString("commands.warns");
     public String commandVanish = config.getString("commands.vanish");
     public String commandChat = config.getString("commands.chat");
     public String commandTicket = config.getString("commands.ticket");
@@ -257,7 +259,7 @@ public class Options implements IOptions {
     public String commandRevive = config.getString("commands.revive");
     public String commandStaffList = config.getString("commands.staff-list");
     public String commandClearInv = config.getString("commands.clearInv");
-    private MessageCoordinator message = StaffPlus.get().message;
+
     public Sounds reportsSound = stringToSound(sanitize(config.getString("reports-module.sound")));
     public Sounds warningsSound = stringToSound(sanitize(config.getString("warnings-module.sound")));
     public Sounds alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
@@ -352,75 +354,9 @@ public class Options implements IOptions {
     public ItemStack modeFollowItem = Items.builder().setMaterial(modeFollowType).setData(modeFollowData).setName(modeFollowName).setLore(modeFollowLore).build();
 
     public Options() {
-        /*
-         * Configuration updating support added, but too buggy to release.
-         */
-        if (CURRENT_VERSION < configVersion) {
-            //updateConfig();
-            File dataFolder = StaffPlus.get().getDataFolder();
-            File configFile = new File(dataFolder, "config.yml");
-            YamlConfiguration oldConfig = YamlConfiguration.loadConfiguration(configFile);
-            String backup = "backup-#" + CURRENT_VERSION + ".yml";
 
-            configFile.renameTo(new File(dataFolder, backup));
-            StaffPlus.get().getConfig().options().copyDefaults(true);
-            config.set("config-version", CURRENT_VERSION);
-            config.options().header(" Staff+ | Made with love by Shortninja continued by Qball - ♥\n "
-                    + "Your configuration file has been automatically updated to file version #" + CURRENT_VERSION + "!\n "
-                    + "Unfortunately, all information comments reset when an update occurs, so you will\n "
-                    + "have to completely regenerate your config by deleting it to get comments back.\n "
-                    + "Though your settings should have been copied, your old config file was saved as\n "
-                    + "'backup.yml' in the plugin folder, so your old settings can be reviewed. \n"
-                    + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
-            config.options().copyHeader();
-            config.set("config-version",configVersion);
-
-            StaffPlus.get().saveConfig();
-        }
 
         loadCustomModules();
-    }
-
-    private void updateConfig() {
-        File dataFolder = StaffPlus.get().getDataFolder();
-        File configFile = new File(dataFolder, "config.yml");
-        YamlConfiguration oldConfig = YamlConfiguration.loadConfiguration(configFile);
-        String backup = "backup-#" + CURRENT_VERSION + ".yml";
-        String currentKey = "";
-
-        configFile.renameTo(new File(dataFolder, backup));
-        StaffPlus.get().saveDefaultConfig();
-        //StaffPlus.get().getConfig().options().copyDefaults(true);
-        config = StaffPlus.get().getConfig();
-
-        for (String key : oldConfig.getConfigurationSection("").getKeys(true)) {
-            if (key.equalsIgnoreCase("config-version")) {
-                config.set(key, CURRENT_VERSION);
-            } else config.set(key, oldConfig.get(key));
-        }
-
-        for (String key : config.getConfigurationSection("").getKeys(true)) {
-            System.out.println(key);
-
-            if (!key.contains(".")) {
-                currentKey = key;
-            }
-
-            if (!oldConfig.contains(key)) {
-                config.set(currentKey + key, config.get(key));
-            }
-        }
-
-        config.options().header(" Staff+ | Made with love by Shortninja continued by Qball - ♥\n "
-                + "Your configuration file has been automatically updated to file version #" + CURRENT_VERSION + "!\n "
-                + "Unfortunately, all information comments reset when an update occurs, so you will\n "
-                + "have to completely regenerate your config by deleting it to get comments back.\n "
-                + "Though your settings should have been copied, your old config file was saved as\n "
-                + "'backup.yml' in the plugin folder, so your old settings can be reviewed. \n"
-                + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
-        config.options().copyHeader(true);
-        StaffPlus.get().saveConfig();
-        message.sendConsoleMessage("Your config has been updated to #" + CURRENT_VERSION + "! All configured values should be the same, but just in case your old configuration file is stored as a backup.", false);
     }
 
     private void loadCustomModules() {
@@ -503,7 +439,7 @@ public class Options implements IOptions {
             if (JavaUtils.isInteger(dataString)) {
                 data = (short) Integer.parseInt(dataString);
             } else
-                message.sendConsoleMessage("Invalid material data '" + dataString + "' from '" + string + "'!", true);
+                Bukkit.getLogger().severe("Invalid material data '" + dataString + "' from '" + string + "'!");
         }
 
         return data;
@@ -514,7 +450,8 @@ public class Options implements IOptions {
         boolean isValid = JavaUtils.isValidEnum(Sounds.class, string);
 
         if (!isValid) {
-            message.sendConsoleMessage("Invalid sound name '" + string + "'!", true);
+
+            Bukkit.getLogger().severe("Invalid sound name '" + string + "'!");
         } else sound = Sounds.valueOf(string);
 
         return sound;
@@ -525,7 +462,7 @@ public class Options implements IOptions {
         boolean isValid = JavaUtils.isValidEnum(VanishType.class, string);
 
         if (!isValid) {
-            message.sendConsoleMessage("Invalid vanish type '" + string + "'!", true);
+            Bukkit.getLogger().severe("Invalid vanish type '" + string + "'!");
         } else vanishType = VanishType.valueOf(string);
 
         return vanishType;
@@ -536,7 +473,7 @@ public class Options implements IOptions {
 
         boolean isValid = JavaUtils.isValidEnum(Material.class, getMaterial(string));
         if (!isValid) {
-            message.sendConsoleMessage("Invalid material type '" + string + "'!", true);
+            Bukkit.getLogger().severe("Invalid material type '" + string + "'!");
         } else
             sound = Material.valueOf(getMaterial(string));
 
@@ -548,7 +485,7 @@ public class Options implements IOptions {
         boolean isValid = JavaUtils.isValidEnum(ModuleConfiguration.ModuleType.class, string);
 
         if (!isValid) {
-            message.sendConsoleMessage("Invalid module type '" + string + "'!", true);
+            Bukkit.getLogger().severe("Invalid module type '" + string + "'!");
         } else moduleType = ModuleConfiguration.ModuleType.valueOf(string);
 
         return moduleType;

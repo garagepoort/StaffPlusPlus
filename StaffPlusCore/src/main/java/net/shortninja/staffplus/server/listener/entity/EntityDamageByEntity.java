@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class EntityDamageByEntity implements Listener {
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private UserManager userManager = IocContainer.getUserManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
@@ -45,7 +45,7 @@ public class EntityDamageByEntity implements Listener {
         if (userManager == null)
             userManager = IocContainer.getUserManager();
         if (options == null)
-            options = StaffPlus.get().options;
+            options = IocContainer.getOptions();
         if (modeCoordinator == null)
             modeCoordinator = StaffPlus.get().modeCoordinator;
         if (userManager == null)

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.data.file;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 
 import java.io.*;
@@ -9,7 +10,7 @@ public class ChangelogFile {
         try {
             copyFile();
         } catch (IOException | NullPointerException exception) {
-            StaffPlus.get().message.sendConsoleMessage("Error occurred while copying 'changelog.txt'!", true);
+            IocContainer.getMessage().sendConsoleMessage("Error occurred while copying 'changelog.txt'!", true);
         }
     }
 

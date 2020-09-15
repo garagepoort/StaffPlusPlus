@@ -5,7 +5,6 @@ import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
-import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.*;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
@@ -18,7 +17,6 @@ import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.server.data.Save;
 import net.shortninja.staffplus.server.data.config.IOptions;
-import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.file.ChangelogFile;
 import net.shortninja.staffplus.server.data.file.DataFile;
 import net.shortninja.staffplus.server.data.file.LanguageFile;
@@ -31,7 +29,6 @@ import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
 import net.shortninja.staffplus.unordered.IUser;
-import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseInitializer;
@@ -54,9 +51,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private static StaffPlus plugin;
 
     public IProtocol versionProtocol;
-    public PermissionHandler permission;
-    public MessageCoordinator message;
-    public Options options;
     public DataFile dataFile;
     public LanguageFile languageFile;
 
@@ -71,7 +65,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public TicketHandler ticketHandler;
     public CmdHandler cmdHandler;
     public ModeCoordinator modeCoordinator;
-    public InfractionCoordinator infractionCoordinator;
     public AlertCoordinator alertCoordinator;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
@@ -103,9 +96,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         plugin = this;
         IocContainer.init(this);
         saveDefaultConfig();
-        permission = new PermissionHandler(this);
-        message = new MessageCoordinator(this);
-        options = new Options();
         start(System.currentTimeMillis());
         loadPlayerProvider();
 
@@ -123,7 +113,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public void onDisable() {
-        message.sendConsoleMessage("Staff+ is now disabling!", true);
+        IocContainer.getMessage().sendConsoleMessage("Staff+ is now disabling!", true);
         stop();
     }
 
@@ -138,7 +128,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     protected void start(long start) {
         users = new HashMap<>();
         if (!setupVersionProtocol()) {
-            message.sendConsoleMessage("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.", true);
+            IocContainer.getMessage().sendConsoleMessage("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.", true);
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
@@ -155,7 +145,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         ticketHandler = new TicketHandler();
         cmdHandler = new CmdHandler();
         modeCoordinator = new ModeCoordinator();
-        infractionCoordinator = new InfractionCoordinator();
         alertCoordinator = new AlertCoordinator();
         tasks = new Tasks();
         inventoryHandler = new InventoryHandler();
@@ -167,19 +156,19 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         registerListeners();
         new ChangelogFile();
 
-        if (!options.disablePackets || !options.animationPackets.isEmpty() || !options.soundNames.isEmpty()) {
+        if (!IocContainer.getOptions().disablePackets || !IocContainer.getOptions().animationPackets.isEmpty() || !IocContainer.getOptions().soundNames.isEmpty()) {
             new PacketModifier();
         }
 
-        message.sendConsoleMessage("Staff+ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
-        message.sendConsoleMessage("Plugin created by Shortninja continued by Qball.", false);
+        IocContainer.getMessage().sendConsoleMessage("Staff+ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
+        IocContainer.getMessage().sendConsoleMessage("Plugin created by Shortninja continued by Qball.", false);
     }
 
     private boolean setupVersionProtocol() {
         final String version = Bukkit.getServer().getClass().getPackage().getName();
         final String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
         versionProtocol = new Protocol_v1_14(this);
-        message.sendConsoleMessage("Version protocol set to '" + formattedVersion + "'.", false);
+        IocContainer.getMessage().sendConsoleMessage("Version protocol set to '" + formattedVersion + "'.", false);
         return versionProtocol != null;
     }
 
@@ -226,9 +215,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
 
         versionProtocol = null;
-        permission = null;
-        message = null;
-        options = null;
         languageFile = null;
         cpsHandler = null;
         freezeHandler = null;
@@ -239,7 +225,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         ticketHandler = null;
         cmdHandler = null;
         modeCoordinator = null;
-        infractionCoordinator = null;
         alertCoordinator = null;
         tasks = null;
         plugin = null;
@@ -248,11 +233,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public IOptions getOptions() {
-        return options;
+        return IocContainer.getOptions();
     }
 
     public PermissionHandler getPermissions() {
-        return permission;
+        return IocContainer.getPermissionHandler();
     }
 
 
@@ -265,7 +250,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     private void loadPlayerProvider() {
-        if (options.offlinePlayersModeEnabled) {
+        if (IocContainer.getOptions().offlinePlayersModeEnabled) {
             offlinePlayerProvider = new BukkitOfflinePlayerProvider();
         }
     }

@@ -28,7 +28,7 @@ public class TeleportCmd extends BukkitCommand {
 
     private Messages messages = IocContainer.getMessages();
     private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
-    private final Options options = StaffPlus.get().options;
+    private final Options options = IocContainer.getOptions();
 
     public TeleportCmd(String name) {
         super(name);

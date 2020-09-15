@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.reporting;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.event.*;
@@ -24,9 +25,9 @@ public class ReportService {
 
     private static Map<UUID, Long> lastUse = new HashMap<UUID, Long>();
 
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages;
     private UserManager userManager;
     private ReportRepository reportRepository;
