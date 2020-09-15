@@ -23,21 +23,6 @@ public final class MemoryStorage implements IStorage {
     }
 
     @Override
-    public List<IWarning> getWarnings(UUID uuid) {
-        return getOrPut(uuid).warnings;
-    }
-
-    @Override
-    public void addWarning(IWarning warning) {
-        getOrPut(warning.getUuid()).warnings.add(warning);
-    }
-
-    @Override
-    public void removeWarnings(UUID uuid) {
-        getOrPut(uuid).warnings.removeIf(r -> r.getUuid().equals(uuid));
-    }
-
-    @Override
     public Set<Ticket> getTickets() {
         final Set<Ticket> tickets = new HashSet<>();
 

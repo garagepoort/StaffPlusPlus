@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseCmd {
-    private MessageCoordinator message = StaffPlus.get().message;
+    private MessageCoordinator message = IocContainer.getMessage();
     private Messages messages = IocContainer.getMessages();
     private String node;
     private Command command;

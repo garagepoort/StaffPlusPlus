@@ -2,7 +2,6 @@ package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.unordered.IUser;
-import net.shortninja.staffplus.unordered.IWarning;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +30,6 @@ public class NodeUser {
 
     public short glassColor() {
         return user.getGlassColor();
-    }
-
-    public List<String> warnings() {
-        List<String> warningsList = new ArrayList<String>();
-
-        for (IWarning warning : user.getWarnings()) {
-            warningsList.add(warning.getReason() + ";" + warning.getIssuerName() + ";" + (warning.getIssuerUuid() == null ? "null" : warning.getIssuerUuid().toString()) + ";" + Long.toString(warning.getTime()));
-        }
-
-        return warningsList;
     }
 
     public List<String> playerNotes() {

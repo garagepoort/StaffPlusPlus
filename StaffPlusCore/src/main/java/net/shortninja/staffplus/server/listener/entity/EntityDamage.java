@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.listener.entity;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
@@ -16,7 +17,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.util.UUID;
 
 public class EntityDamage implements Listener {
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private UserManager userManager = StaffPlus.get().getUserManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
