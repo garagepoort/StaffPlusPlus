@@ -225,6 +225,8 @@ public class Options implements IOptions {
     public String permissionMode = config.getString("permissions.mode");
     public String permissionFreeze = config.getString("permissions.freeze");
     public String permissionFreezeBypass = config.getString("permissions.freeze-bypass");
+    public String permissionTeleport = config.getString("permissions.teleport");
+    public String permissionTeleportBypass = config.getString("permissions.teleport-bypass");
     public String permissionCps = config.getString("permissions.cps");
     public String permissionExamine = config.getString("permissions.examine");
     public String permissionFollow = config.getString("permissions.follow");
@@ -239,6 +241,7 @@ public class Options implements IOptions {
      */
     public String commandStaffMode = config.getString("commands.staff-mode");
     public String commandFreeze = config.getString("commands.freeze");
+    public String commandTeleport = config.getString("commands.teleport");
     public String commandExamine = config.getString("commands.examine");
     public String commandCps = config.getString("commands.cps");
     public String commandStaffChat = config.getString("commands.staff-chat");
