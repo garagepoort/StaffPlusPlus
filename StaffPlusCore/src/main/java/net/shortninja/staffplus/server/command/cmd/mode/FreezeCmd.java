@@ -43,10 +43,6 @@ public class FreezeCmd extends BukkitCommand {
                 throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
             }
             List<String> options = Arrays.asList(Arrays.copyOfRange(args, 1, args.length));
-            if (options.size() > 2) {
-                throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
-            }
-
             Player targetPlayer = Bukkit.getPlayer(args[0]);
             if (targetPlayer == null) {
                 throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
