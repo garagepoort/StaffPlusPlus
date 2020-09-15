@@ -2,10 +2,7 @@ package net.shortninja.staffplus.util.database.migrations.mysql;
 
 import net.shortninja.staffplus.util.database.migrations.Migration;
 import net.shortninja.staffplus.util.database.migrations.SqlMigrations;
-import net.shortninja.staffplus.util.database.migrations.common.V10_AlterReportTableAddStaffNameMigration;
-import net.shortninja.staffplus.util.database.migrations.common.V11_AlterReportTableAddStaffUuidMigration;
-import net.shortninja.staffplus.util.database.migrations.common.V8_AlterReportTableAddStatusMigration;
-import net.shortninja.staffplus.util.database.migrations.common.V9_AlterReportTableAddTimestampMigration;
+import net.shortninja.staffplus.util.database.migrations.common.*;
 import org.bukkit.Bukkit;
 
 import javax.sql.DataSource;
@@ -31,7 +28,10 @@ public class MysqlMigrations implements SqlMigrations {
             new V9_AlterReportTableAddTimestampMigration(),
             new V10_AlterReportTableAddStaffNameMigration(),
             new V11_AlterReportTableAddStaffUuidMigration(),
-            new V12_AlterReportTablePlayerUuidNullableMigration());
+            new V12_AlterReportTablePlayerUuidNullableMigration(),
+            new V13_AlterWarningsTableAddScoreMigration(),
+            new V14_AlterWarningsTableAddSeverityMigration(),
+            new V15_CreateDelayedActionsTableMigration());
 
     private final DataSource datasource;
 

@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.util;
 
-
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.StaffPlus;
@@ -15,10 +14,11 @@ import java.util.Collection;
 
 public class MessageCoordinator extends Message {
     public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
-    private PermissionHandler permission = StaffPlus.get().permission;
+    private PermissionHandler permission;
 
-    public MessageCoordinator(IStaffPlus staffPlus) {
+    public MessageCoordinator(IStaffPlus staffPlus, PermissionHandler permission) {
         super(staffPlus);
+        this.permission = permission;
     }
 
     public static String colorize(String message) {
