@@ -6,7 +6,6 @@ import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -40,7 +39,6 @@ public class Load {
         String name = dataFile.getString(uuid + ".name");
         String password = dataFile.getString(uuid + ".password");
         short glassColor = (short) dataFile.getInt(uuid + ".glass-color");
-        List<IWarning> warnings = loadWarnings(uuid);
         List<String> playerNotes = loadPlayerNotes(uuid);
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
 
@@ -52,7 +50,7 @@ public class Load {
             alertCoordinator.onNameChange(name, playerName);
         }
 
-        return new User(uuid, name, glassColor, warnings, playerNotes, alertOptions);
+        return new User(uuid, name, glassColor, playerNotes, alertOptions);
     }
 
 
@@ -60,7 +58,6 @@ public class Load {
         String name = dataFile.getString(uuid + ".name");
         String password = dataFile.getString(uuid + ".password");
         short glassColor = (short) dataFile.getInt(uuid + ".glass-color");
-        List<IWarning> warnings = loadWarnings(uuid);
         List<String> playerNotes = loadPlayerNotes(uuid);
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
 
@@ -72,14 +69,7 @@ public class Load {
             alertCoordinator.onNameChange(name,playerName);
         }
 
-        return new User(uuid, name, glassColor, warnings, playerNotes, alertOptions);
-    }
-
-    private List<IWarning> loadWarnings(UUID uuid) {
-        if (IocContainer.getStorage().getWarnings(uuid) == null)
-            return new ArrayList<IWarning>();
-        else
-            return IocContainer.getStorage().getWarnings(uuid);
+        return new User(uuid, name, glassColor, playerNotes, alertOptions);
     }
 
     private Map<AlertType, Boolean> loadAlertOptions(UUID uuid) {

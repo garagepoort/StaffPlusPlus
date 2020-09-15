@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private UserManager userManager = IocContainer.getUserManager();
 
     public HubGui(Player player, String title) {

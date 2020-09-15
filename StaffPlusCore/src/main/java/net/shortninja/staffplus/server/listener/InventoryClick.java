@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class InventoryClick implements Listener {
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private UserManager userManager = IocContainer.getUserManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 

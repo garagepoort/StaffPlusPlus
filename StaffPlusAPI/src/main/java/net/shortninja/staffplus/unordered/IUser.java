@@ -25,8 +25,6 @@ public interface IUser {
 
     short getGlassColor();
 
-    List<IWarning> getWarnings();
-
     List<String> getPlayerNotes();
 
     boolean shouldNotify(AlertType alertType);
@@ -44,8 +42,6 @@ public interface IUser {
     void setQueuedAction(IAction action);
 
     void addPlayerNote(String s);
-
-    void removeWarning(UUID uuid);
 
     IAction getQueuedAction();
 

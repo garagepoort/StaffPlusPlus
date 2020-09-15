@@ -13,7 +13,7 @@ public class StripService {
 
     private static StripService instance;
 
-    private MessageCoordinator message = StaffPlus.get().message;
+    private MessageCoordinator message = IocContainer.getMessage();
     private Messages messages = IocContainer.getMessages();
 
     public static StripService getInstance() {

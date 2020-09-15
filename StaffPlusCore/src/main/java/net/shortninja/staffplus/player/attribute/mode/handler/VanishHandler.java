@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 
 public class VanishHandler {
     private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private UserManager userManager = IocContainer.getUserManager();
 

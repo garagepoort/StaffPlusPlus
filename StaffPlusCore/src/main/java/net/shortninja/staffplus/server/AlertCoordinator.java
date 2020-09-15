@@ -18,9 +18,9 @@ import java.util.Set;
 
 public class AlertCoordinator {
     private static Set<Location> notifiedLocations = new HashSet<Location>();
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private UserManager userManager = IocContainer.getUserManager();
 

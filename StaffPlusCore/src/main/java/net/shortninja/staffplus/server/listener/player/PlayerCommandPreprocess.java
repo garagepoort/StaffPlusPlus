@@ -21,9 +21,9 @@ import java.util.UUID;
 
 
 public class PlayerCommandPreprocess implements Listener {
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private CmdHandler cmdHandler = StaffPlus.get().cmdHandler;

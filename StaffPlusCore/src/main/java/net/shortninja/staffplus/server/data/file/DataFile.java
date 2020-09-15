@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.data.file;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,7 +18,7 @@ public class DataFile {
     private YamlConfiguration configuration;
 
     public DataFile(String name) {
-        message = StaffPlus.get().message;
+        message = IocContainer.getMessage();
         file = new File(StaffPlus.get().getDataFolder(), name);
 
         if (!file.getParentFile().exists()) {
