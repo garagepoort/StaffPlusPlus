@@ -23,7 +23,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.server.data.config.warning.WarningActionRunStrategy.*;
-import static org.bukkit.Bukkit.getScheduler;
 
 public class WarnService {
 
@@ -66,8 +65,23 @@ public class WarnService {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
         Warning warning = new Warning(user.getUuid(), playerName, reason, issuerName, issuerUuid, System.currentTimeMillis(), severity);
+        createWarning(sender, user, warning);
+    }
 
+    public void sendWarning(CommandSender sender, String playerName, String reason) {
+        IUser user = userManager.getOnOrOfflineUser(playerName);
+        if (user == null) {
+            message.send(sender, messages.playerOffline, messages.prefixGeneral);
+            return;
+        }
 
+        String issuerName = sender instanceof Player ? sender.getName() : "Console";
+        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
+        Warning warning = new Warning(user.getUuid(), playerName, reason, issuerName, issuerUuid, System.currentTimeMillis());
+        createWarning(sender, user, warning);
+    }
+
+    private void createWarning(CommandSender sender, IUser user, Warning warning) {
         // Offline users cannot bypass being warned this way. Permissions are taken away upon logging out
         if (user.isOnline() && permission.has(user.getPlayer().get(), options.permissionWarnBypass)) {
             message.send(sender, messages.bypassed, messages.prefixGeneral);
@@ -86,24 +100,22 @@ public class WarnService {
     }
 
     private void handleTresholds(IUser user) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            int totalScore = warnRepository.getTotalScore(user.getUuid());
-            List<WarningThresholdConfiguration> tresholds = options.warningConfiguration.getTresholds();
-            Optional<WarningThresholdConfiguration> treshold = tresholds.stream()
-                    .sorted((o1, o2) -> o2.getScore() - o1.getScore())
-                    .filter(w -> w.getScore() <= totalScore)
-                    .findFirst();
-            if (!treshold.isPresent()) {
-                return;
+        int totalScore = warnRepository.getTotalScore(user.getUuid());
+        List<WarningThresholdConfiguration> tresholds = options.warningConfiguration.getTresholds();
+        Optional<WarningThresholdConfiguration> treshold = tresholds.stream()
+                .sorted((o1, o2) -> o2.getScore() - o1.getScore())
+                .filter(w -> w.getScore() <= totalScore)
+                .findFirst();
+        if (!treshold.isPresent()) {
+            return;
+        }
+        for (WarningAction action : treshold.get().getActions()) {
+            if (action.getRunStrategy() == ALWAYS || (action.getRunStrategy() == ONLINE && user.isOnline())) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getName()));
+            } else if (action.getRunStrategy() == DELAY && !user.isOnline()) {
+                delayedActionsRepository.saveDelayedAction(user.getUuid(), action.getCommand());
             }
-            for (WarningAction action : treshold.get().getActions()) {
-                if (action.getRunStrategy() == ALWAYS || (action.getRunStrategy() == ONLINE && user.isOnline())) {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getName()));
-                } else if (action.getRunStrategy() == DELAY && !user.isOnline()) {
-                    delayedActionsRepository.saveDelayedAction(user.getUuid(), action.getCommand());
-                }
-            }
-        });
+        }
     }
 
     public void clearWarnings(IUser user) {

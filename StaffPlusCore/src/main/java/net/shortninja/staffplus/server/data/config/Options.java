@@ -17,7 +17,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -355,31 +354,7 @@ public class Options implements IOptions {
     public ItemStack modeFollowItem = Items.builder().setMaterial(modeFollowType).setData(modeFollowData).setName(modeFollowName).setLore(modeFollowLore).build();
 
     public Options() {
-        /*
-         * Configuration updating support added, but too buggy to release.
-         */
-        if (CURRENT_VERSION < configVersion) {
-            //updateConfig();
-            File dataFolder = StaffPlus.get().getDataFolder();
-            File configFile = new File(dataFolder, "config.yml");
-            YamlConfiguration oldConfig = YamlConfiguration.loadConfiguration(configFile);
-            String backup = "backup-#" + CURRENT_VERSION + ".yml";
 
-            configFile.renameTo(new File(dataFolder, backup));
-            StaffPlus.get().getConfig().options().copyDefaults(true);
-            config.set("config-version", CURRENT_VERSION);
-            config.options().header(" Staff+ | Made with love by Shortninja continued by Qball - ♥\n "
-                    + "Your configuration file has been automatically updated to file version #" + CURRENT_VERSION + "!\n "
-                    + "Unfortunately, all information comments reset when an update occurs, so you will\n "
-                    + "have to completely regenerate your config by deleting it to get comments back.\n "
-                    + "Though your settings should have been copied, your old config file was saved as\n "
-                    + "'backup.yml' in the plugin folder, so your old settings can be reviewed. \n"
-                    + "For a config with comments looks here https://github.com/Qballl/StaffPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
-            config.options().copyHeader();
-            config.set("config-version",configVersion);
-
-            StaffPlus.get().saveConfig();
-        }
 
         loadCustomModules();
     }

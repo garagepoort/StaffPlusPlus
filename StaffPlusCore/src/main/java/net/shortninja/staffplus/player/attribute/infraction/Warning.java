@@ -42,6 +42,16 @@ public class Warning implements IWarning {
         this.severity = severity;
     }
 
+    public Warning(UUID uuid, String playerName, String reason, String issuerName, UUID issuerUuid, long currentTimeMillis) {
+        this.uuid = uuid;
+        this.name = playerName;
+        this.reason = reason;
+        this.issuerName = issuerName;
+        this.issuerUuid = issuerUuid;
+        this.time = currentTimeMillis;
+        this.score = 0;
+    }
+
     public UUID getUuid() {
         return uuid;
     }

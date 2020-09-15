@@ -34,7 +34,7 @@ public abstract class AbstractSqlDelayedActionsRepository implements DelayedActi
             ps.setString(1, uuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    actions.add(rs.getString(0));
+                    actions.add(rs.getString("command"));
                 }
             }
         } catch (SQLException e) {

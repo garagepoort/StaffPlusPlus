@@ -23,8 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static org.bukkit.Bukkit.getScheduler;
-
 public class PlayerJoin implements Listener {
     private PermissionHandler permission = IocContainer.getPermissionHandler();
     private Options options = IocContainer.getOptions();
@@ -60,13 +58,11 @@ public class PlayerJoin implements Listener {
         IUser iUser = userManager.has(uuid) ? userManager.get(uuid) : new Load().load(player);
         iUser.setOnline(true);
 
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            List<String> delayedActions = IocContainer.getDelayedActionsRepository().getDelayedActions(uuid);
-            delayedActions.forEach(delayedAction -> {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), delayedAction.replace("%player%", player.getName()));
-            });
-            IocContainer.getDelayedActionsRepository().clearDelayedActions(uuid);
+        List<String> delayedActions = IocContainer.getDelayedActionsRepository().getDelayedActions(uuid);
+        delayedActions.forEach(delayedAction -> {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), delayedAction.replace("%player%", player.getName()));
         });
+        IocContainer.getDelayedActionsRepository().clearDelayedActions(uuid);
     }
 
 
