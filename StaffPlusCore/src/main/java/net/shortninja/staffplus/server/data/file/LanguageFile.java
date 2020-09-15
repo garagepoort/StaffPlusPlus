@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.data.file;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,7 +17,7 @@ public class LanguageFile {
     private final String FILE_NAME = StaffPlus.get().getConfig().getString("lang") + ".yml";
     private FileConfiguration lang;
     private File langFile;
-    private MessageCoordinator message = StaffPlus.get().message;
+    private MessageCoordinator message = IocContainer.getMessage();
 
     public LanguageFile() {
         for (String fileName : LANG_FILES) {

@@ -5,8 +5,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
-import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
 import net.shortninja.staffplus.reporting.Report;
@@ -31,13 +30,11 @@ import java.util.List;
 public class ExamineGui extends AbstractGui {
 
     private static final int SIZE = 54;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private UserManager userManager = IocContainer.getUserManager();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
-    private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
-    private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
     private ReportService reportService;
 
     public ExamineGui(Player player, Player targetPlayer, String title) {
@@ -177,7 +174,7 @@ public class ExamineGui extends AbstractGui {
                     user.setQueuedAction(new IAction() {
                         @Override
                         public void execute(Player player, String input) {
-                            infractionCoordinator.sendWarning(player, targetPlayer.getName(), input);
+                            IocContainer.getWarnService().sendWarning(player, targetPlayer.getName(), input, null);
                             message.send(player, messages.inputAccepted, messages.prefixGeneral);
                         }
 
@@ -262,7 +259,8 @@ public class ExamineGui extends AbstractGui {
         String latestReason = latestReport == null ? "null" : latestReport.getReason();
 
         for (String string : messages.infractionItem) {
-            lore.add(string.replace("%warnings%", Integer.toString(user.getWarnings().size())).replace("%reports%", Integer.toString(reports.size())).replace("%reason%", latestReason));
+            List<Warning> warnings = IocContainer.getWarnService().getWarnings(user.getUuid());
+            lore.add(string.replace("%warnings%", Integer.toString(warnings.size())).replace("%reports%", Integer.toString(reports.size())).replace("%reason%", latestReason));
         }
 
         ItemStack item = Items.builder()

@@ -1,7 +1,6 @@
 package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.infraction.InfractionCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
@@ -18,14 +17,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 //TODO: Remove debug.
 
 public class Tasks extends BukkitRunnable {
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private UserManager userManager = IocContainer.getUserManager();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
-    private InfractionCoordinator infractionCoordinator = StaffPlus.get().infractionCoordinator;
     private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
     private int saveInterval;
     private int freezeInterval;
@@ -48,7 +46,7 @@ public class Tasks extends BukkitRunnable {
     }
 
     private void checkWarnings() {
-        for (IWarning warning : infractionCoordinator.getWarnings()) {
+        for (IWarning warning : IocContainer.getWarnService().getWarnings()) {
             if (warning.shouldRemove()) {
                 IUser user = userManager.get(warning.getUuid());
 
@@ -56,7 +54,7 @@ public class Tasks extends BukkitRunnable {
                     continue;
                 }
 
-                user.removeWarning(warning.getUuid());
+                IocContainer.getWarnService().removeWarning(warning.getId());
             }
         }
     }
@@ -73,7 +71,7 @@ public class Tasks extends BukkitRunnable {
 
         if (saveInterval >= options.autoSave && saveInterval > 0) {
             StaffPlus.get().saveUsers();
-            StaffPlus.get().message.sendConsoleMessage("Staff+ is now auto saving...", false);
+            IocContainer.getMessage().sendConsoleMessage("Staff+ is now auto saving...", false);
             alertCoordinator.clearNotified();
             saveInterval = 0;
         } else if (options.autoSave <= 0 && saveInterval >= 1800) {

@@ -25,9 +25,9 @@ import java.util.*;
 
 public class AsyncPlayerChat implements Listener {
     private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private UserManager userManager = StaffPlus.get().getUserManager();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
@@ -107,7 +107,7 @@ public class AsyncPlayerChat implements Listener {
         } else if (!chatHandler.isChatEnabled(player) || (user.isFrozen() && !options.modeFreezeChat)) {
             this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
             shouldCancel = true;
-        } else if (StaffPlus.get().options.vanishEnabled && !StaffPlus.get().options.vanishChatEnabled && StaffPlus.get().vanishHandler.isVanished(player)) {
+        } else if (IocContainer.getOptions().vanishEnabled && !IocContainer.getOptions().vanishChatEnabled && StaffPlus.get().vanishHandler.isVanished(player)) {
             this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
             shouldCancel = true;
         }

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui.hub.reports;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.reporting.Report;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -16,7 +17,7 @@ public class ReportItemBuilder {
 
         lore.add("&bStatus: " + report.getReportStatus());
         lore.add("&bTimeStamp: " + report.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/YYYY-HH:mm")));
-        if (StaffPlus.get().options.reportsShowReporter) {
+        if (IocContainer.getOptions().reportsShowReporter) {
             lore.add("&bReporter: " + report.getReporterName());
         }
 

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.listener;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
@@ -27,7 +28,7 @@ public class BlockBreak implements Listener {
                     BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST,
                     BlockFace.UP, BlockFace.DOWN
             };
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
