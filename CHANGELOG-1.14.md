@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.14
 
+### V1.14.7 
+#### Features
+- Teleport command added
+
+#### Breaking
+- Added new warning system
+
 ### V1.14.6
 #### Features
 - Implement new reportEvents
