@@ -50,6 +50,7 @@ public class PlayerJoin implements Listener {
         }
 
         loadInv(player);
+        delayedActions(player);
     }
 
     private void manageUser(Player player) {
@@ -57,15 +58,16 @@ public class PlayerJoin implements Listener {
 
         IUser iUser = userManager.has(uuid) ? userManager.get(uuid) : new Load().load(player);
         iUser.setOnline(true);
+    }
 
-        List<String> delayedActions = IocContainer.getDelayedActionsRepository().getDelayedActions(uuid);
+    private void delayedActions(Player player) {
+        List<String> delayedActions = IocContainer.getDelayedActionsRepository().getDelayedActions(player.getUniqueId());
         delayedActions.forEach(delayedAction -> {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), delayedAction.replace("%player%", player.getName()));
         });
-        IocContainer.getDelayedActionsRepository().clearDelayedActions(uuid);
+        IocContainer.getDelayedActionsRepository().clearDelayedActions(player.getUniqueId());
     }
-
-
+    
     private void loadInv(Player p) {
         InventorySerializer serializer = new InventorySerializer(p.getUniqueId());
         if (serializer.shouldLoad()) {HashMap<String, ItemStack> items = serializer.getContents();
