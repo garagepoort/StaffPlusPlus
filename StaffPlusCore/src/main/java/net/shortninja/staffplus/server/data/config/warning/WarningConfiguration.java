@@ -10,16 +10,16 @@ public class WarningConfiguration {
     private boolean showIssuer;
     private Sounds sound;
     private long clear;
-    private List<WarningThresholdConfiguration> tresholds;
+    private List<WarningThresholdConfiguration> thresholds;
     private List<WarningSeverityConfiguration> severityLevels;
 
 
-    public WarningConfiguration(boolean enabled, boolean showIssuer, Sounds sound, long clear, List<WarningThresholdConfiguration> tresholds, List<WarningSeverityConfiguration> severityLevels) {
+    public WarningConfiguration(boolean enabled, boolean showIssuer, Sounds sound, long clear, List<WarningThresholdConfiguration> thresholds, List<WarningSeverityConfiguration> severityLevels) {
         this.enabled = enabled;
         this.showIssuer = showIssuer;
         this.sound = sound;
         this.clear = clear;
-        this.tresholds = tresholds;
+        this.thresholds = thresholds;
         this.severityLevels = severityLevels;
     }
 
@@ -39,8 +39,8 @@ public class WarningConfiguration {
         return clear;
     }
 
-    public List<WarningThresholdConfiguration> getTresholds() {
-        return tresholds;
+    public List<WarningThresholdConfiguration> getThresholds() {
+        return thresholds;
     }
 
     public List<WarningSeverityConfiguration> getSeverityLevels() {
