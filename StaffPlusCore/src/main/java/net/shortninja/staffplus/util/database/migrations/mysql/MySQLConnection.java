@@ -2,7 +2,7 @@ package net.shortninja.staffplus.util.database.migrations.mysql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
 
 import javax.sql.DataSource;
@@ -13,7 +13,7 @@ public class MySQLConnection {
 
     private static MySQLConnection instance;
     private static HikariDataSource datasource;
-    private static Options options = StaffPlus.get().options;
+    private static Options options = IocContainer.getOptions();
 
     public static MySQLConnection getInstance() {
         if(instance == null) {

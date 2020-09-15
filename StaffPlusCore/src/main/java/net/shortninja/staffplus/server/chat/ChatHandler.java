@@ -14,9 +14,9 @@ import java.util.UUID;
 
 public class ChatHandler {
     private static Map<UUID, Long> userChatTimes = new HashMap<UUID, Long>();
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private boolean isChatEnabled = true;
     private long chatSlowLength = 0;

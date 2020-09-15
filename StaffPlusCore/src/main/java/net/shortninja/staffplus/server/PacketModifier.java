@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 public class PacketModifier {
     private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private UserManager userManager = IocContainer.getUserManager();
 
     public PacketModifier() {

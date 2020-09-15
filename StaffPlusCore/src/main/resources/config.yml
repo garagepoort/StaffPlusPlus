@@ -89,19 +89,26 @@ warnings-module:
   # Set to "NONE" to disable.
   sound: ORB_PICKUP
 
-  # The amount of warnings required before "ban-command" is executed.
-  # Set to 0 if you want to disable this.
-  maximum: 3
-
-  # The command executed when a player reaches the "maximum".
-  ban-command: "ban %player% &4Met three warnings. Appeal @ &7www.shithcf.net&4."
-
   # The amount of time, in seconds, that it will take for a warning to be removed.
   # Set to zero to disable.
   clear: 604800
 
   # Whether or not the player issued the warning will be visible in GUIs.
   show-issuer: true
+
+  severity-levels:
+    - name: MINOR
+      score: 1
+    - name: MAJOR
+      score: 3
+    - name: CRITICAL
+      score: 5
+  # Define tresholds for the warning system. Whenever the player reaches a treshold the actions are triggered
+  tresholds:
+    - score: 6
+      actions:
+        - command: "ban %player% &4Met three warnings. Appeal @ &7www.shithcf.net&4."
+          run-strategy: DELAY
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -957,8 +964,11 @@ commands:
   # The command for reporting and managing reports specifically targeting a player.
   reportPlayer: "reportPlayer"
 
-  # The command for warning and managing warnings.
+  # The command for warning players
   warn: "warn"
+
+  # The command for warning and managing warnings.
+  warns: "warns"
 
   # The command for toggling vanish modes.
   vanish: "vanish"

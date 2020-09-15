@@ -25,9 +25,9 @@ import java.util.*;
 public class GadgetHandler {
     private static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
     private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private UserManager userManager = IocContainer.getUserManager();
     private CpsHandler cpsHandler = StaffPlus.get().cpsHandler;

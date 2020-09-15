@@ -15,11 +15,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class ColorGui extends AbstractGui {
     private static final int SIZE = 27;
-    private MessageCoordinator message = StaffPlus.get().message;
+    private MessageCoordinator message = IocContainer.getMessage();
     private UserManager userManager = IocContainer.getUserManager();
 
     public ColorGui(Player player, String title) {
-        super(SIZE, StaffPlus.get().message.colorize(title));
+        super(SIZE, IocContainer.getMessage().colorize(title));
 
         IAction action = new IAction() {
             @Override

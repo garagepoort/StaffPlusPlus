@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -14,9 +15,9 @@ import java.util.List;
 import static net.shortninja.staffplus.IocContainer.getMessages;
 
 public class StaffPlusCmd extends BukkitCommand {
-    private PermissionHandler permission = StaffPlus.get().permission;
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = getMessages();
 
     public StaffPlusCmd(String name) {
@@ -30,7 +31,7 @@ public class StaffPlusCmd extends BukkitCommand {
         }
         if (args.length == 1 && permission.has(sender, options.permissionStaff)) {
             if (args[0].equalsIgnoreCase("reload")) {
-                StaffPlus.get().message.sendConsoleMessage("This feature is disabled until we have implemented a robust way of reloading", true);
+                IocContainer.getMessage().sendConsoleMessage("This feature is disabled until we have implemented a robust way of reloading", true);
             }
         }
         return true;
