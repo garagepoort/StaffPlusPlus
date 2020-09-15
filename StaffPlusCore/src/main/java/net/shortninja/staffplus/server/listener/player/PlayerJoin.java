@@ -67,7 +67,7 @@ public class PlayerJoin implements Listener {
         });
         IocContainer.getDelayedActionsRepository().clearDelayedActions(player.getUniqueId());
     }
-    
+
     private void loadInv(Player p) {
         InventorySerializer serializer = new InventorySerializer(p.getUniqueId());
         if (serializer.shouldLoad()) {HashMap<String, ItemStack> items = serializer.getContents();

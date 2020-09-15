@@ -31,6 +31,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         ) {
             ps.setString(1, uuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
                 return rs.getInt("sum");
             }
         } catch (SQLException e) {
