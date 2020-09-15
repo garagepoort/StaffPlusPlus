@@ -875,6 +875,9 @@ permissions:
   # Permission for bypassing freeze.
   freeze-bypass: "staff.freeze.bypass"
 
+  # Permission for bypassing teleport.
+  teleport-bypass: "staff.teleport.bypass"
+
   # Permission for initializing clicks per second tests
   cps: "staff.cps"
 
@@ -929,6 +932,9 @@ commands:
 
   # The command for toggling freeze on players.
   freeze: "freeze"
+
+  # The command for teleporting a player to predefined locations
+  teleport: "teleport"
 
   # The command for examining players' inventory
   examine: "examine"
