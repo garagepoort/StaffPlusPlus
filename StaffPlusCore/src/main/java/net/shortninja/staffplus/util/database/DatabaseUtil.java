@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.util.database;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.database.migrations.mysql.MySQLConnection;
 
@@ -9,7 +9,7 @@ public class DatabaseUtil {
     private static DatabaseUtil instance;
     private static final String MYSQL_STRING = "MYSQL";
     private static final String SQLITE_STRING = "SQLITE";
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
 
     private DatabaseType databaseType;
 

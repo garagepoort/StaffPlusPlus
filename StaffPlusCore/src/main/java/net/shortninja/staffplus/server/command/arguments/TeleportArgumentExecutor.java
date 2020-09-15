@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.server.command.arguments;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.teleport.TeleportService;
 import org.bukkit.Bukkit;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class TeleportArgumentExecutor implements ArgumentExecutor {
 
-    private final Options options = StaffPlus.get().options;
+    private final Options options = IocContainer.getOptions();
 
     @Override
     public boolean execute(CommandSender commandSender, String playerName, String value) {

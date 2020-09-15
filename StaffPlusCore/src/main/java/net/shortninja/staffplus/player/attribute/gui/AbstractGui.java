@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
@@ -18,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AbstractGui implements IGui {
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private String title;
     private Inventory inventory;
     private Map<Integer, IAction> actions = new HashMap<>();

@@ -2,10 +2,7 @@ package net.shortninja.staffplus.util.database.migrations.sqlite;
 
 import net.shortninja.staffplus.util.database.migrations.Migration;
 import net.shortninja.staffplus.util.database.migrations.SqlMigrations;
-import net.shortninja.staffplus.util.database.migrations.common.V10_AlterReportTableAddStaffNameMigration;
-import net.shortninja.staffplus.util.database.migrations.common.V11_AlterReportTableAddStaffUuidMigration;
-import net.shortninja.staffplus.util.database.migrations.common.V8_AlterReportTableAddStatusMigration;
-import net.shortninja.staffplus.util.database.migrations.common.V9_AlterReportTableAddTimestampMigration;
+import net.shortninja.staffplus.util.database.migrations.common.*;
 import org.bukkit.Bukkit;
 
 import java.sql.*;
@@ -28,7 +25,10 @@ public class SqLiteMigrations implements SqlMigrations {
             new V8_AlterReportTableAddStatusMigration(),
             new V9_AlterReportTableAddTimestampMigration(),
             new V10_AlterReportTableAddStaffNameMigration(),
-            new V11_AlterReportTableAddStaffUuidMigration());
+            new V11_AlterReportTableAddStaffUuidMigration(),
+            new V13_AlterWarningsTableAddScoreMigration(),
+            new V14_AlterWarningsTableAddSeverityMigration(),
+            new V15_CreateDelayedActionsTableMigration());
 
     private SqLiteMigrations() {
     }

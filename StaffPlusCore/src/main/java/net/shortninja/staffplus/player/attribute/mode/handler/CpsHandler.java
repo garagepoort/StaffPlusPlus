@@ -15,8 +15,8 @@ import java.util.UUID;
 
 public class CpsHandler {
     private static Map<UUID, Integer> currentTests = new HashMap<UUID, Integer>();
-    private MessageCoordinator message = StaffPlus.get().message;
-    private Options options = StaffPlus.get().options;
+    private MessageCoordinator message = IocContainer.getMessage();
+    private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
 
     public boolean isTesting(UUID uuid) {

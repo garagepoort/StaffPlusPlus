@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.*;
 import org.bukkit.Bukkit;
@@ -12,11 +11,10 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class User implements IUser {
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private UUID uuid;
     private String name;
     protected short glassColor;
-    private List<IWarning> warnings = new ArrayList<>();
     private VanishType vanishType = VanishType.NONE;
     private List<String> playerNotes = new ArrayList<String>();
     private IGui currentGui = null;
@@ -50,11 +48,10 @@ public class User implements IUser {
         }
     }*/
 
-    public User(UUID uuid, String name, short glassColor, List<IWarning> warnings, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
+    public User(UUID uuid, String name, short glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
-        this.warnings = warnings;
         this.playerNotes = playerNotes;
         this.alertOptions = alertOptions;
     }
@@ -89,10 +86,6 @@ public class User implements IUser {
 
     public void setGlassColor(short glassColor) {
         IocContainer.getStorage().setGlassColor(this, glassColor);
-    }
-
-    public List<IWarning> getWarnings() {
-        return IocContainer.getStorage().getWarnings(getUuid());
     }
 
     public List<String> getPlayerNotes() {
@@ -174,10 +167,6 @@ public class User implements IUser {
         } else {
             alertOptions.put(alertType, isEnabled);
         }
-    }
-
-    public void removeWarning(UUID uuid) {
-        IocContainer.getStorage().removeWarnings(uuid);
     }
 
     public void addPlayerNote(String note) {
