@@ -1,13 +1,9 @@
 package net.shortninja.staffplus.server.chat;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
-import org.bukkit.Bukkit;
 
 import java.util.Arrays;
-import java.util.Collections;
-
-
 import java.util.regex.Pattern;
 
 
@@ -15,7 +11,7 @@ public class BlacklistFactory {
     private static String[] words = null;
     private static String[] domains = null;
     private static String[] periods = null;
-    private Options options = StaffPlus.get().options;
+    private Options options = IocContainer.getOptions();
     private String originalMessage;
     private String censoredMessage;
     private boolean hasChanged = false;

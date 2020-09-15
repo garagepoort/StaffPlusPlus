@@ -1,20 +1,16 @@
 package net.shortninja.staffplus.server.data.storage;
 
-import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.ProvidedPlayer;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.attribute.Ticket;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
-import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
-
-import static net.shortninja.staffplus.IocContainer.getUserManager;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public abstract class AbstractStorage implements IStorage {
 
@@ -45,59 +41,6 @@ public abstract class AbstractStorage implements IStorage {
             insert.setInt(1, glassColor);
             insert.setString(2, user.getUuid().toString());
             insert.setInt(3, glassColor);
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public List<IWarning> getWarnings(UUID uuid) {
-        List<IWarning> warnings = new ArrayList<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings WHERE Player_UUID = ?")
-        ) {
-            ps.setString(1, uuid.toString());
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
-                    UUID warnerUuid = UUID.fromString(rs.getString("Warner_UUID"));
-
-                    Optional<ProvidedPlayer> warner = getUserManager().getOnOrOfflinePlayer(warnerUuid);
-                    String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : warner.map(ProvidedPlayer::getUsername).orElse("Unknown user");
-                    int id = rs.getInt("ID");
-                    //NPE \/
-                    Optional<ProvidedPlayer> player = getUserManager().getOnOrOfflinePlayer(playerUUID);
-                    String name = player.map(ProvidedPlayer::getUsername).orElse("Unknown user");
-                    warnings.add(new Warning(playerUUID, name, id, rs.getString("Reason"), warnerName, warnerUuid, System.currentTimeMillis()));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return warnings;
-    }
-
-    @Override
-    public void addWarning(IWarning warning) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID) " +
-                     "VALUES(? ,?, ?);");) {
-            insert.setString(1, warning.getReason());
-            insert.setString(2, warning.getIssuerUuid().toString());
-            insert.setString(3, warning.getUuid().toString());
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @Override
-    public void removeWarnings(UUID uuid) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_warnings WHERE UUID = ?");) {
-            insert.setString(1, uuid.toString());
             insert.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

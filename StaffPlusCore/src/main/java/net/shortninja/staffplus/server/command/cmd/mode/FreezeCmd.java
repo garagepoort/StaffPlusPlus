@@ -27,7 +27,7 @@ import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 public class FreezeCmd extends BukkitCommand {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
 
-    private PermissionHandler permission = StaffPlus.get().permission;
+    private PermissionHandler permission = IocContainer.getPermissionHandler();
     private Messages messages = IocContainer.getMessages();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();

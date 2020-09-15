@@ -2,6 +2,7 @@ package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.Load;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.IUserManager;
 import org.bukkit.Bukkit;
@@ -12,9 +13,11 @@ import java.util.*;
 public class UserManager implements IUserManager {
     private static Map<UUID, IUser> users;
     private final StaffPlus staffPlus;
+    private final Options options;
 
-    public UserManager(StaffPlus staffPlus) {
+    public UserManager(StaffPlus staffPlus, Options options) {
         this.staffPlus = staffPlus;
+        this.options = options;
         users = new HashMap<>();
         staffPlus.users = users;
     }
@@ -31,7 +34,7 @@ public class UserManager implements IUserManager {
 
     @Override
     public IUser getOffline(String playerName) {
-        if (staffPlus.options.offlinePlayersModeEnabled) {
+        if (options.offlinePlayersModeEnabled) {
             Optional<ProvidedPlayer> user = staffPlus.offlinePlayerProvider.findUser(playerName);
             if (user.isPresent()) {
                 User loadedUser = new Load().build(user.get().getId(), user.get().getUsername());
@@ -44,7 +47,7 @@ public class UserManager implements IUserManager {
 
     @Override
     public IUser getOffline(UUID playerUuid) {
-        if (staffPlus.options.offlinePlayersModeEnabled) {
+        if (options.offlinePlayersModeEnabled) {
             Optional<ProvidedPlayer> user = staffPlus.offlinePlayerProvider.findUser(playerUuid);
             if (user.isPresent()) {
                 User loadedUser = new Load().build(user.get().getId(), user.get().getUsername());
@@ -60,7 +63,7 @@ public class UserManager implements IUserManager {
         IUser user = null;
 
         Player player = Bukkit.getPlayer(playerName);
-        if (player == null && !staffPlus.options.offlinePlayersModeEnabled) {
+        if (player == null && !options.offlinePlayersModeEnabled) {
             return null;
         }
 
@@ -69,7 +72,7 @@ public class UserManager implements IUserManager {
         } else {
             user = get(player.getUniqueId());
             if (user == null) {
-                if (staffPlus.options.offlinePlayersModeEnabled) {
+                if (options.offlinePlayersModeEnabled) {
                     user = getOffline(playerName);
                 } else {
                     return null;
@@ -85,7 +88,7 @@ public class UserManager implements IUserManager {
         IUser user = null;
 
         Player player = Bukkit.getPlayer(playerUuid);
-        if (player == null && !staffPlus.options.offlinePlayersModeEnabled) {
+        if (player == null && !options.offlinePlayersModeEnabled) {
             return null;
         }
 
@@ -94,7 +97,7 @@ public class UserManager implements IUserManager {
         } else {
             user = get(player.getUniqueId());
             if (user == null) {
-                if (staffPlus.options.offlinePlayersModeEnabled) {
+                if (options.offlinePlayersModeEnabled) {
                     user = getOffline(playerUuid);
                 } else {
                     return null;
@@ -108,7 +111,7 @@ public class UserManager implements IUserManager {
         IUser user = null;
 
         Player player = Bukkit.getPlayer(playerUuid);
-        if (player == null && !staffPlus.options.offlinePlayersModeEnabled) {
+        if (player == null && !options.offlinePlayersModeEnabled) {
             return Optional.empty();
         }
 
