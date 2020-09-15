@@ -91,7 +91,7 @@ public class WarnService {
         warnRepository.addWarning(warning);
         message.send(sender, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
 
-        handleTresholds(user);
+        handleThresholds(user);
         if (user.isOnline()) {
             Optional<Player> p = user.getPlayer();
             message.send(p.get(), messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
@@ -99,17 +99,17 @@ public class WarnService {
         }
     }
 
-    private void handleTresholds(IUser user) {
+    private void handleThresholds(IUser user) {
         int totalScore = warnRepository.getTotalScore(user.getUuid());
-        List<WarningThresholdConfiguration> tresholds = options.warningConfiguration.getTresholds();
-        Optional<WarningThresholdConfiguration> treshold = tresholds.stream()
+        List<WarningThresholdConfiguration> thresholds = options.warningConfiguration.getThresholds();
+        Optional<WarningThresholdConfiguration> threshold = thresholds.stream()
                 .sorted((o1, o2) -> o2.getScore() - o1.getScore())
                 .filter(w -> w.getScore() <= totalScore)
                 .findFirst();
-        if (!treshold.isPresent()) {
+        if (!threshold.isPresent()) {
             return;
         }
-        for (WarningAction action : treshold.get().getActions()) {
+        for (WarningAction action : threshold.get().getActions()) {
             if (action.getRunStrategy() == ALWAYS || (action.getRunStrategy() == ONLINE && user.isOnline())) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getName()));
             } else if (action.getRunStrategy() == DELAY && !user.isOnline()) {
