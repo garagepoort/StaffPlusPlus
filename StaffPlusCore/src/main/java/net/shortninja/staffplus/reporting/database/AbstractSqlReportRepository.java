@@ -15,11 +15,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static net.shortninja.staffplus.IocContainer.getUserManager;
-
 public abstract class AbstractSqlReportRepository implements ReportRepository {
 
-    private final UserManager userManager = StaffPlus.get().getUserManager();
+    private final UserManager userManager;
+
+    protected AbstractSqlReportRepository(UserManager userManager) {
+        this.userManager = userManager;
+    }
 
     protected abstract Connection getConnection() throws SQLException;
 
@@ -190,7 +192,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     @Override
     public void removeReports(UUID playerUuid) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE UUID = ?");) {
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE Player_UUID = ?");) {
             insert.setString(1, playerUuid.toString());
             insert.executeUpdate();
         } catch (SQLException e) {
@@ -207,7 +209,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         if (reporterUUID.equals(StaffPlus.get().consoleUUID)) {
             reporterName = "Console";
         } else {
-            Optional<ProvidedPlayer> reporter = getUserManager().getOnOrOfflinePlayer(reporterUUID);
+            Optional<ProvidedPlayer> reporter = userManager.getOnOrOfflinePlayer(reporterUUID);
             reporterName = reporter.map(ProvidedPlayer::getUsername).orElse(null);
         }
 
@@ -215,7 +217,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         String culpritName = null;
         if(player_uuid != null) {
             playerUUID = UUID.fromString(player_uuid);
-            Optional<ProvidedPlayer> player = getUserManager().getOnOrOfflinePlayer(playerUUID);
+            Optional<ProvidedPlayer> player = userManager.getOnOrOfflinePlayer(playerUUID);
             culpritName = player.map(ProvidedPlayer::getUsername).orElse(null);
         }
 

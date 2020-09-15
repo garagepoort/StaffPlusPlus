@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.teleport;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 public class TeleportService {
 
     private static TeleportService instance;
-    private final Options options = StaffPlus.get().options;
+    private final Options options = IocContainer.getOptions();
 
     private TeleportService() {
     }

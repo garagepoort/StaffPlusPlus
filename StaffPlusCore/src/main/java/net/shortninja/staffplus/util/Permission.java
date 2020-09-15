@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.util;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.IocContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,18 +31,18 @@ public class Permission {
     }
 
     public boolean isOp(Player player) {
-        return player.hasPermission(StaffPlus.get().options.permissionWildcard);
+        return player.hasPermission(IocContainer.getOptions().permissionWildcard);
     }
 
     public boolean isOp(CommandSender sender) {
-        return sender.hasPermission(StaffPlus.get().options.permissionWildcard);
+        return sender.hasPermission(IocContainer.getOptions().permissionWildcard);
     }
 
     public int getStaffCount() {
         int count = 0;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (has(player, StaffPlus.get().options.permissionMember)) {
+            if (has(player, IocContainer.getOptions().permissionMember)) {
                 count++;
             }
         }

@@ -1,15 +1,15 @@
 package net.shortninja.staffplus.util;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.server.data.config.Options;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class PermissionHandler extends Permission implements IPermissionsHandler {
-    private StaffPlus staffPlus;
+    private Options options;
 
-    public PermissionHandler(StaffPlus staffPlus) {
-        this.staffPlus = staffPlus;
+    public PermissionHandler(Options options) {
+        this.options = options;
     }
 
     public boolean has(Player player, String permission) {
@@ -37,18 +37,18 @@ public class PermissionHandler extends Permission implements IPermissionsHandler
     }
 
     public boolean isOp(Player player) {
-        return player.hasPermission(staffPlus.options.permissionWildcard);
+        return player.hasPermission(options.permissionWildcard);
     }
 
     public boolean isOp(CommandSender sender) {
-        return sender.hasPermission(staffPlus.options.permissionWildcard);
+        return sender.hasPermission(options.permissionWildcard);
     }
 
     public int getStaffCount() {
         int count = 0;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (has(player, StaffPlus.get().options.permissionMember)) {
+            if (has(player, options.permissionMember)) {
                 count++;
             }
         }
