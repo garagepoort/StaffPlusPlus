@@ -21,7 +21,7 @@ public class WarningModuleLoader {
         boolean showIssuer = config.getBoolean("warnings-module.show-issuer");
         Sounds sound = stringToSound(sanitize(config.getString("warnings-module.sound")));
 
-        return new WarningConfiguration(enabled, showIssuer, sound, clearInterval, getTresholds(), getSeverityLevels());
+        return new WarningConfiguration(enabled, showIssuer, sound, clearInterval, getThresholds(), getSeverityLevels());
     }
 
     private static Sounds stringToSound(String string) {
@@ -35,13 +35,13 @@ public class WarningModuleLoader {
         return sound;
     }
 
-    private static List<WarningThresholdConfiguration> getTresholds() {
-        List list = config.getList("warnings-module.tresholds", new ArrayList<>());
+    private static List<WarningThresholdConfiguration> getThresholds() {
+        List list = config.getList("warnings-module.thresholds", new ArrayList<>());
 
         return (List<WarningThresholdConfiguration>) list.stream().map(o -> {
             LinkedHashMap<String, Object> map = (LinkedHashMap) o;
             if(!map.containsKey("score") || !map.containsKey("actions")) {
-                throw new RuntimeException("Invalid warnings configuration. Treshold should define a score and actions");
+                throw new RuntimeException("Invalid warnings configuration. Threshold should define a score and actions");
             }
             int score = (Integer) map.get("score");
             List<WarningAction> actions = map.containsKey("actions") ? loadActions((List<LinkedHashMap<String, Object>>) map.get("actions")) : Collections.emptyList();
@@ -55,7 +55,7 @@ public class WarningModuleLoader {
         return list.stream().map(o -> {
             LinkedHashMap map = o;
             if(!map.containsKey("command")) {
-                throw new RuntimeException("Invalid warnings actions configuration. Treshold actions should define a command");
+                throw new RuntimeException("Invalid warnings actions configuration. Threshold actions should define a command");
             }
             String command = (String) map.get("command");
             WarningActionRunStrategy runStrategy = map.containsKey("run-strategy") ? WarningActionRunStrategy.valueOf((String) map.get("run-strategy")) : WarningActionRunStrategy.DELAY;
