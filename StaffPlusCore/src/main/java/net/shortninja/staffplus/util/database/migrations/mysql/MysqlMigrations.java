@@ -31,7 +31,8 @@ public class MysqlMigrations implements SqlMigrations {
             new V12_AlterReportTablePlayerUuidNullableMigration(),
             new V13_AlterWarningsTableAddScoreMigration(),
             new V14_AlterWarningsTableAddSeverityMigration(),
-            new V15_CreateDelayedActionsTableMigration());
+            new V15_CreateDelayedActionsTableMigration(),
+            new V16_AlterDelayedActionsTableAddTimestampMigration());
 
     private final DataSource datasource;
 
