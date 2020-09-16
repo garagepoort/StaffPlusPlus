@@ -30,6 +30,6 @@ public class TeleportService {
         Location location = options.locations.get(locationId);
         location.setWorld(targetPlayer.getWorld());
         targetPlayer.teleport(location);
-        commandSender.sendMessage(targetPlayer.getName() + " teleported to " + locationId);
+        IocContainer.getMessage().send(commandSender, targetPlayer.getName() + " teleported to " + locationId, IocContainer.getMessages().prefixGeneral);
     }
 }

@@ -46,6 +46,11 @@ public class UserManager implements IUserManager {
     }
 
     @Override
+    public boolean playerExists(String playerName) {
+        return getOnOrOfflineUser(playerName) != null;
+    }
+
+    @Override
     public IUser getOffline(UUID playerUuid) {
         if (options.offlinePlayersModeEnabled) {
             Optional<ProvidedPlayer> user = staffPlus.offlinePlayerProvider.findUser(playerUuid);
