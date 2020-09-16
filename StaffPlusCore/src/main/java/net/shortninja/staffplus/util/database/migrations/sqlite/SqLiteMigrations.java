@@ -28,7 +28,8 @@ public class SqLiteMigrations implements SqlMigrations {
             new V11_AlterReportTableAddStaffUuidMigration(),
             new V13_AlterWarningsTableAddScoreMigration(),
             new V14_AlterWarningsTableAddSeverityMigration(),
-            new V15_CreateDelayedActionsTableMigration());
+            new V15_CreateDelayedActionsTableMigration(),
+            new V16_AlterDelayedActionsTableAddTimestampMigration());
 
     private SqLiteMigrations() {
     }

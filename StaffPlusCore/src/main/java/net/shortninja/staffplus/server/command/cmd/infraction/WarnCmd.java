@@ -78,13 +78,17 @@ public class WarnCmd extends BukkitCommand {
                 List<String> severityNames = severityLevels.stream().map(WarningSeverityConfiguration::getName).collect(Collectors.toList());
                 suggestions.addAll(severityNames);
             }
-            return suggestions;
+            return suggestions.stream()
+                    .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                    .collect(Collectors.toList());
         }
 
         if (args.length == 2 && !severityLevels.isEmpty()) {
             suggestions.addAll(onlinePLayers);
             suggestions.addAll(offlinePlayers);
-            return suggestions;
+            return suggestions.stream()
+                    .filter(s -> args[1].isEmpty() || s.contains(args[1]))
+                    .collect(Collectors.toList());
         }
 
         return Collections.emptyList();
