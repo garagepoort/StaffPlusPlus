@@ -110,7 +110,9 @@ public class WarnService {
             return;
         }
         for (WarningAction action : threshold.get().getActions()) {
-            if (action.getRunStrategy() == ALWAYS || (action.getRunStrategy() == ONLINE && user.isOnline())) {
+            if (action.getRunStrategy() == ALWAYS
+                    || (action.getRunStrategy() == ONLINE && user.isOnline())
+                    || (action.getRunStrategy() == DELAY && user.isOnline())) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getName()));
             } else if (action.getRunStrategy() == DELAY && !user.isOnline()) {
                 delayedActionsRepository.saveDelayedAction(user.getUuid(), action.getCommand());
