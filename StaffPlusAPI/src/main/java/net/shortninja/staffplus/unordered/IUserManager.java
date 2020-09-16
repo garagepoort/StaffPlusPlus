@@ -11,7 +11,9 @@ public interface IUserManager {
 
 	IUser getOffline(String playerName);
 
-    IUser getOffline(UUID playerUuid);
+	boolean playerExists(String playerName);
+
+	IUser getOffline(UUID playerUuid);
 
     IUser getOnOrOfflineUser(String playerName);
 

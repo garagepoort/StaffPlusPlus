@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.command.arguments;
 
 public enum ArgumentType {
 
+    DELAY("-D"),
     TELEPORT("-T"),
     HEALTH("-H"),
     STRIP("-S");
