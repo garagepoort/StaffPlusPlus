@@ -124,9 +124,6 @@ public class FreezeHandler implements CommandPermissionValidator {
 
     @Override
     public void validatePermissions(CommandSender commandSender, Player target) {
-        if (!permission.has(commandSender, options.permissionFreeze)) {
-            throw new BusinessException(messages.noPermission, messages.prefixGeneral);
-        }
         if (permission.has(target, options.permissionFreezeBypass)) {
             throw new BusinessException(messages.bypassed, messages.prefixGeneral);
         }

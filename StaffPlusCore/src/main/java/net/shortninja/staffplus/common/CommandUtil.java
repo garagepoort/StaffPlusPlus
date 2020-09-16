@@ -1,10 +1,13 @@
 package net.shortninja.staffplus.common;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.server.command.arguments.DelayArgumentExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandUtil {
+
+    private static final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
 
     public static boolean executeCommand(CommandSender sender, CommandInterface commandInterface) {
         try {
@@ -14,6 +17,7 @@ public class CommandUtil {
             return false;
         }
     }
+
     public static void playerAction(Player player, PlayerActionInterface commandInterface) {
         try {
             commandInterface.execute();
