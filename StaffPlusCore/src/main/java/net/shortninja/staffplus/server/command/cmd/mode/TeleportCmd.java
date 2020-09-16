@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
@@ -61,17 +60,20 @@ public class TeleportCmd extends BukkitCommand {
         if (args.length == 1) {
             List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
             suggestions.addAll(onlinePlayers);
+            return suggestions.stream()
+                    .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                    .collect(Collectors.toList());
         }
         if (args.length == 2) {
             options.locations.forEach((k,v) -> {
                 suggestions.add(k);
             });
+            return suggestions.stream()
+                    .filter(s -> args[1].isEmpty() || s.contains(args[1]))
+                    .collect(Collectors.toList());
         }
 
-        if(args.length > 2) {
-            suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length-1], VALID_ARGUMENTS));
-        }
-
+        suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length-1], VALID_ARGUMENTS));
         return suggestions;
     }
 }

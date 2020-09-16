@@ -15,6 +15,7 @@ import org.bukkit.entity.HumanEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,9 +64,11 @@ public class ReportPlayerCmd extends BukkitCommand {
         if (args.length == 1) {
             suggestions.addAll(onlinePLayers);
             suggestions.addAll(offlinePlayers);
-            return suggestions;
+            return suggestions.stream()
+                    .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                    .collect(Collectors.toList());
         }
 
-        return super.tabComplete(sender, alias, args);
+        return Collections.emptyList();
     }
 }

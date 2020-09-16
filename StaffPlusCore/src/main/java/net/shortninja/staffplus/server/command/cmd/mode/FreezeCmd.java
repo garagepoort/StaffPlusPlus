@@ -5,72 +5,75 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
-import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
+import net.shortninja.staffplus.server.command.cmd.StaffPlusPlusCmd;
 import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
-public class FreezeCmd extends BukkitCommand {
+public class FreezeCmd extends StaffPlusPlusCmd {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
+    public static final String ENABLED = "enabled";
+    public static final String DISABLED = "disabled";
 
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
     private Messages messages = IocContainer.getMessages();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
-    private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
 
     public FreezeCmd(String name) {
         super(name);
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return executeCommand(sender, () -> {
-            if (args.length < 1) {
-                throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
-            }
-            List<String> options = Arrays.asList(Arrays.copyOfRange(args, 1, args.length));
-            Player targetPlayer = Bukkit.getPlayer(args[0]);
-            if (targetPlayer == null) {
-                throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
-            }
-
-            freezeHandler.validatePermissions(sender, targetPlayer);
-            argumentProcessor.parseArguments(sender, args[0], options, VALID_ARGUMENTS);
-            if (options.isEmpty()) {
-                // No options given, simple freeze
-                freezeHandler.execute(new FreezeRequest(sender, targetPlayer, !freezeHandler.isFrozen(targetPlayer.getUniqueId())));
-            } else {
-                freezeHandler.execute(buildFreezeRequest(sender, options, targetPlayer));
-            }
-
-
-            return true;
-        });
-    }
-
-    private FreezeRequest buildFreezeRequest(CommandSender sender, List<String> options, Player targetPlayer) {
-        Optional<String> enabled = options.stream().filter(o -> o.equals("enabled")).findFirst();
-        Optional<String> disabled = options.stream().filter(o -> o.startsWith("disabled")).findFirst();
-
-        if ((enabled.isPresent() || disabled.isPresent()) && !permission.isOp(sender)) {
-            throw new BusinessException(messages.noPermission, messages.prefixGeneral);
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args) {
+        List<String> options = Arrays.asList(Arrays.copyOfRange(args, getMinimumArguments(args), args.length));
+        Player targetPlayer = Bukkit.getPlayer(getPlayerName(args));
+        if (targetPlayer == null) {
+            throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
         }
 
-        boolean freeze = enabled.isPresent() || (!disabled.isPresent() && !freezeHandler.isFrozen(targetPlayer.getUniqueId()));
+        freezeHandler.validatePermissions(sender, targetPlayer);
+        argumentProcessor.parseArguments(sender, getPlayerName(args), options, VALID_ARGUMENTS);
+        freezeHandler.execute(buildFreezeRequest(sender, args, targetPlayer));
+        return true;
+    }
+
+    @Override
+    protected String getPlayerName(String[] args) {
+        if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
+            return args[1];
+        }
+        return args[0];
+    }
+
+    @Override
+    protected int getMinimumArguments(String[] args) {
+        if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
+            return 2;
+        }
+        return 1;
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return true;
+    }
+
+    private FreezeRequest buildFreezeRequest(CommandSender sender, String[] args, Player targetPlayer) {
+        boolean freeze = !freezeHandler.isFrozen(targetPlayer.getUniqueId());
+
+        if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
+            freeze = args[0].equalsIgnoreCase(ENABLED);
+        }
 
         return new FreezeRequest(
                 sender,
@@ -81,40 +84,35 @@ public class FreezeCmd extends BukkitCommand {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        boolean hasPermission = permission.isOp(sender);
-
         List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+        List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
+
         List<String> suggestions = new ArrayList<>();
 
         if (args.length == 1) {
-            // /freeze <>
-            if (!args[0].equals("enabled") && !args[0].equals("disabled")) {
-                if (hasPermission) {
-                    suggestions.add("enabled");
-                    suggestions.add("disabled");
-                }
+            if (!args[0].equalsIgnoreCase(ENABLED) && !args[0].equalsIgnoreCase(DISABLED)) {
+                    suggestions.add(ENABLED);
+                    suggestions.add(DISABLED);
+            }
+            suggestions.addAll(onlinePlayers);
+            suggestions.addAll(offlinePlayers);
+            return suggestions.stream()
+                    .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                    .collect(Collectors.toList());
+        }
 
+        if (args.length == 2) {
+            if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
                 suggestions.addAll(onlinePlayers);
-                return suggestions;
-            } else {
-                //freeze <>
-                suggestions.addAll(onlinePlayers);
-                return suggestions;
+                suggestions.addAll(offlinePlayers);
+                return suggestions.stream()
+                        .filter(s -> args[1].isEmpty() || s.contains(args[1]))
+                        .collect(Collectors.toList());
             }
         }
 
-        if(args.length > 1) {
-            if (args[0].equals("enabled") || args[0].equals("disabled")) {
-                //freeze enabled <>
-                suggestions.addAll(onlinePlayers);
-                return suggestions;
-            } else {
-                //freeze playername <>
-                suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length-1], VALID_ARGUMENTS));
-                return  suggestions;
-            }
-        }
-
-        return super.tabComplete(sender, alias, args);
+        suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length - 1], VALID_ARGUMENTS));
+        suggestions.add(DELAY.getPrefix());
+        return suggestions;
     }
 }
