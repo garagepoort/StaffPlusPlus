@@ -23,14 +23,14 @@ import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
 public class FreezeCmd extends StaffPlusPlusCmd {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
-    public static final String ENABLED = "enabled";
-    public static final String DISABLED = "disabled";
+    private static final String ENABLED = "enabled";
+    private static final String DISABLED = "disabled";
 
     private Messages messages = IocContainer.getMessages();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
 
     public FreezeCmd(String name) {
-        super(name);
+        super(name, IocContainer.getOptions().permissionFreeze);
     }
 
     @Override
