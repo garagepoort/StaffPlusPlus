@@ -7,10 +7,7 @@ on:
   workflow_dispatch:
     branches:
         - release/*
-    inputs:
-      version:
-        description: 'Next version'     
-        required: true
+
 
 jobs:
   build:
@@ -42,14 +39,14 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
 
     - name: Bump version
-      run: mvn versions:set -DnewVersion=${{ github.event.inputs.version }} -DgenerateBackupPoms=false
+      run: chmod +x ./bump_version.sh && ./bump_version.sh
 
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -m "Bump version to ${{ github.event.inputs.version }}" -a
-        
+        git commit -m "Bumped version" -a
+
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
