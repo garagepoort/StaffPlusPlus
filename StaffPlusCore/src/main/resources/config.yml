@@ -1,4 +1,4 @@
-# Staff+ | Made with love by Shortninja and continued by Qball - ?
+# Staff++ | Made with love by Shortninja and continued by Qball - Revisited by Garagepoort
 
 # If you're having trouble with item type names, refer to here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
 # All item slots are how they "should be", meaning the first slot of an inventory will be one. Maximum is 36.
@@ -11,7 +11,7 @@
 
 # The language file that will be referred to for messages.
 # Current available languages are: lang_en, lang_sv, lang_de, lang_nl, lang_es, lang_hr, lang_no, and lang_fr.
-# If you would like to translate Staff+, please message me on Spigot!
+# If you would like to translate Staff++, please message me on Spigot!
 lang: "lang_en"
 
 # Whether the plugin uses BungeeCord. By default disabled.
