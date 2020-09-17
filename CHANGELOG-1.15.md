@@ -3,6 +3,7 @@
 ### V1.15.11
 #### Features
 - Delay argument has been added
+- Implemented automatic update for the config file 
 
 #### Bugs
 - teleport command was not present in the configuration file
