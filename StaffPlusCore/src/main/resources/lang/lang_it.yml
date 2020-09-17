@@ -12,7 +12,7 @@
 ############################################################
 
 # Il prefisso per tutti i messaggi non inerenti a uno specifico modulo.
-general-prefix: "&dStaff+ &8»"
+general-prefix: "&dStaff++ &8»"
 
 # Il prefisso per tutti i messaggi inerenti alle segnalazioni.
 reports-prefix: "&dSegnalazioni &8»"

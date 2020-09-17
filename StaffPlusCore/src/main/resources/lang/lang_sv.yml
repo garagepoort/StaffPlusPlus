@@ -12,7 +12,7 @@
 ############################################################
 
 # Prefixet för alla meddelanden som är kategoriseras inte.
-general-prefix: "&dStaff+ &8»"
+general-prefix: "&dStaff++ &8»"
 
 # Prefixet för alla meddelanden relaterat till rapporter.
 reports-prefix: "&dRapporter &8»"
