@@ -16,6 +16,7 @@ import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.server.data.Save;
+import net.shortninja.staffplus.server.data.config.AutoUpdater;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.file.ChangelogFile;
 import net.shortninja.staffplus.server.data.file.DataFile;
@@ -96,6 +97,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         plugin = this;
         IocContainer.init(this);
         saveDefaultConfig();
+        AutoUpdater.updateConfig(this);
+
         start(System.currentTimeMillis());
         loadPlayerProvider();
 
