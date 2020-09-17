@@ -11,7 +11,7 @@
 ############################################################
 
 # Prefikset for alle meldinger som ikke er relatert til noen bestemt modul.
-general-prefix: "&dStaff+ &8»"
+general-prefix: "&dStaff++ &8»"
 
 # Prefikset for alle meldinger relatert til rapporter.
 reports-prefix: "&dRapporter &8»"

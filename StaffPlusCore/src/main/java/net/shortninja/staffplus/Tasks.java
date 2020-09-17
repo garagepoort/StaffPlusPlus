@@ -71,7 +71,7 @@ public class Tasks extends BukkitRunnable {
 
         if (saveInterval >= options.autoSave && saveInterval > 0) {
             StaffPlus.get().saveUsers();
-            IocContainer.getMessage().sendConsoleMessage("Staff+ is now auto saving...", false);
+            IocContainer.getMessage().sendConsoleMessage("Staff++ is now auto saving...", false);
             alertCoordinator.clearNotified();
             saveInterval = 0;
         } else if (options.autoSave <= 0 && saveInterval >= 1800) {

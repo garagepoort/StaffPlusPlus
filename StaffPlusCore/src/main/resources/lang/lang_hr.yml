@@ -12,7 +12,7 @@
 ############################################################
 
 # Prefiks za sve poruke koje nisu povezane za specifićan modul.
-general-prefix: "&dStaff+ &8»"
+general-prefix: "&dStaff++ &8»"
 
 # Prefiks za sve poruke povezane sa prijavama.
 reports-prefix: "&dPrijave &8»"
