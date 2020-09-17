@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.data.config;
 
 import com.google.common.base.Charsets;
 import net.shortninja.staffplus.StaffPlus;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -21,13 +22,13 @@ public class AutoUpdater {
     public static void updateConfig(StaffPlus staffPlus) {
         FileConfiguration config = staffPlus.getConfig();
         loadConfig().forEach((k, v) -> {
-            if (!config.contains(k, true)) {
+            if (!config.contains(k, true) && !(v instanceof ConfigurationSection)) {
                 config.set(k, v);
             }
         });
         staffPlus.saveConfig();
     }
-    
+
     private static Map<String, Object> loadConfig() {
         Map<String, Object> configurations = new HashMap<>();
         InputStream defConfigStream = getResource(CONFIG_FILE);
