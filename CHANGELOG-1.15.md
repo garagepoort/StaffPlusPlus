@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.11
+#### Features
+- Delay argument has been added
+
+#### Bugs
+- teleport command was not present in the configuration file
+
 ### V1.15.10
 #### Bugs
 - DELAY Action type not working when users are online
