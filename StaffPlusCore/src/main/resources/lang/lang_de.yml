@@ -12,7 +12,7 @@
 ############################################################
 
 # Allgemeines Prefix für alle Befehle (abgesehen von Befehlen die einen eigenen Prefix haben!)
-general-prefix: "&dStaff+ &8»"
+general-prefix: "&dStaff++ &8»"
 
 # Prefix für alle Nachrichten bezüglich reports.
 reports-prefix: "&dReports &8»"

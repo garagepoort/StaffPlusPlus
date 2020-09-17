@@ -116,7 +116,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public void onDisable() {
-        IocContainer.getMessage().sendConsoleMessage("Staff+ is now disabling!", true);
+        IocContainer.getMessage().sendConsoleMessage("Staff++ is now disabling!", true);
         stop();
     }
 
@@ -163,7 +163,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             new PacketModifier();
         }
 
-        IocContainer.getMessage().sendConsoleMessage("Staff+ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
+        IocContainer.getMessage().sendConsoleMessage("Staff++ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
         IocContainer.getMessage().sendConsoleMessage("Plugin created by Shortninja continued by Qball.", false);
     }
 

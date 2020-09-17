@@ -12,7 +12,7 @@
 ############################################################
 
 # Le préfix de tous les messages qui n'ont pas de rapport avec un module spécifique.
-general-prefix: "&dStaff+ &8»"
+general-prefix: "&dStaff++ &8»"
 
 # Le préfix de tous les messages qui ont un rapport avec les reports.
 reports-prefix: "&dReports &8»"
