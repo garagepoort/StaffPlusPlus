@@ -882,6 +882,9 @@ permissions:
   # Permission for bypassing freeze.
   freeze-bypass: "staff.freeze.bypass"
 
+  # Permission for using teleport.
+  teleport: "staff.teleport"
+
   # Permission for bypassing teleport.
   teleport-bypass: "staff.teleport.bypass"
 
