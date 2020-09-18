@@ -29,6 +29,7 @@ import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
+import net.shortninja.staffplus.staffchat.BungeeStaffChatListener;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -78,6 +79,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public void onLoad() {
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeStaffChatListener());
 
         Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
 
