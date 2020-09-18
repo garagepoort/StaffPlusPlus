@@ -9,8 +9,10 @@ import net.shortninja.staffplus.server.command.arguments.DelayArgumentExecutor;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.PermissionHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -35,11 +37,20 @@ public abstract class StaffPlusPlusCmd extends BukkitCommand {
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
         return executeCommand(sender, () -> {
-            validateCommandExecution(sender, args);
-
+            if (!permission.has(sender, getPermission())) {
+                throw new NoPermissionException(messages.prefixGeneral);
+            }
+            if (args.length < getMinimumArguments(args)) {
+                throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
+            }
             String playerName = getPlayerName(args);
             if(!userManager.playerExists(playerName)) {
                 throw new BusinessException(messages.playerNotRegistered, messages.prefixGeneral);
+            }
+
+            Player player = Bukkit.getServer().getPlayer(playerName);
+            if (player != null && canBypass(player)) {
+                throw new BusinessException(messages.bypassed, messages.prefixGeneral);
             }
 
             if(shouldDelay(args)) {
@@ -59,19 +70,7 @@ public abstract class StaffPlusPlusCmd extends BukkitCommand {
 
     protected abstract boolean isDelayable();
 
-    protected abstract boolean canBypass(CommandSender commandSender);
-
-    private void validateCommandExecution(CommandSender sender, String[] args) {
-        if (!permission.has(sender, getPermission())) {
-            throw new NoPermissionException(messages.prefixGeneral);
-        }
-        if (args.length < getMinimumArguments(args)) {
-            throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
-        }
-        if (canBypass(sender)) {
-            throw new BusinessException(messages.bypassed, messages.prefixGeneral);
-        }
-    }
+    protected abstract boolean canBypass(Player player);
 
     private String getDelayedCommand(String alias, String[] args) {
         return alias + " " + Stream.of(args).filter(a -> !a.equals(delayArgumentExecutor.getType().getPrefix())).collect(Collectors.joining(" "));
