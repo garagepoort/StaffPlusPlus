@@ -87,7 +87,7 @@ public class PlayerInteract implements Listener {
 
                 chestView.setContents(container.getInventory().getContents());
                 event.getPlayer().openInventory(chestView);
-                StaffPlus.get().viewedChest.put(chestView, event.getClickedBlock());
+                StaffPlus.get().viewedChest.add(chestView);
                 StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
             }
         }

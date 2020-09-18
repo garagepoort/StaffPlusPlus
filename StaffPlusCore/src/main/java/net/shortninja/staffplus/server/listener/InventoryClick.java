@@ -36,7 +36,7 @@ public class InventoryClick implements Listener {
 
 
         if(StaffPlus.get().inventoryHandler.isInVirtualInv(uuid)||
-            StaffPlus.get().viewedChest.containsKey(event.getInventory())){
+            StaffPlus.get().viewedChest.contains(event.getInventory())){
             event.setCancelled(true);
         }
 
