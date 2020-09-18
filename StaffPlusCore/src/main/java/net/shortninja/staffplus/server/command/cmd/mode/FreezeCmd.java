@@ -41,7 +41,6 @@ public class FreezeCmd extends StaffPlusPlusCmd {
             throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
         }
 
-        freezeHandler.validatePermissions(sender, targetPlayer);
         argumentProcessor.parseArguments(sender, getPlayerName(args), options, VALID_ARGUMENTS);
         freezeHandler.execute(buildFreezeRequest(sender, args, targetPlayer));
         return true;
@@ -66,6 +65,11 @@ public class FreezeCmd extends StaffPlusPlusCmd {
     @Override
     protected boolean isDelayable() {
         return true;
+    }
+
+    @Override
+    protected boolean canBypass(CommandSender commandSender) {
+        return permission.has(commandSender, options.permissionFreezeBypass);
     }
 
     private FreezeRequest buildFreezeRequest(CommandSender sender, String[] args, Player targetPlayer) {
