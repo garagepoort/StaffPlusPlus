@@ -34,15 +34,12 @@ import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseInitializer;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 
@@ -70,7 +67,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
     public Map<UUID, IUser> users;
-    public HashMap<Inventory, Block> viewedChest = new HashMap<>();
+    public List<Inventory> viewedChest = new ArrayList<>();
     public InventoryHandler inventoryHandler;
     public boolean usesPlaceholderAPI;
     private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
