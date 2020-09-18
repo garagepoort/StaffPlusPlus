@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.13
 
+### V1.13.12
+#### Features
+- Add clear inventory bypass permission
+
+#### Bugs
+- Plugins directory was wrongly named which made it crash on Linux machines 
+
 ### V1.13.10
 #### Features
 - Delay argument has been added
