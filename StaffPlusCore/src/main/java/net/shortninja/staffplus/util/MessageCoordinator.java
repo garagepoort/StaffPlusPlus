@@ -30,13 +30,15 @@ public class MessageCoordinator extends Message {
             return;
         }
         if (StaffPlus.get().usesPlaceholderAPI) {
-            PlaceholderAPI.setPlaceholders(player, message);
+            message = PlaceholderAPI.setPlaceholders(player, message);
         }
 
-        if (!prefix.equals(""))
+        if (!prefix.equals("")) {
             player.sendMessage(colorize(prefix + " " + message));
-        else
+
+        } else {
             player.sendMessage(colorize(prefix + "" + message));
+        }
     }
 
     public void send(Player player, String message, String prefix, String permission) {
@@ -45,7 +47,7 @@ public class MessageCoordinator extends Message {
         }
 
         if (StaffPlus.get().usesPlaceholderAPI) {
-            PlaceholderAPI.setPlaceholders(player, message);
+            message = PlaceholderAPI.setPlaceholders(player, message);
         }
 
         if (!prefix.equals(""))
@@ -62,7 +64,7 @@ public class MessageCoordinator extends Message {
 
         if (sender instanceof Player) {
             if (StaffPlus.get().usesPlaceholderAPI) {
-                PlaceholderAPI.setPlaceholders((Player) sender, message);
+                message = PlaceholderAPI.setPlaceholders((Player) sender, message);
             }
         }
 
@@ -82,7 +84,7 @@ public class MessageCoordinator extends Message {
         if (message.isEmpty() && !prefix.isEmpty()) {
             return;
         }
-        if(!prefix.equals(""))
+        if (!prefix.equals(""))
             Bukkit.broadcastMessage(colorize(prefix + " " + message));
         else
             Bukkit.broadcastMessage(colorize(prefix + "" + message));
@@ -91,7 +93,7 @@ public class MessageCoordinator extends Message {
     public void sendGroupMessage(String message, String permission, String prefix) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (StaffPlus.get().usesPlaceholderAPI) {
-                PlaceholderAPI.setPlaceholders(player, message);
+                message = PlaceholderAPI.setPlaceholders(player, message);
             }
 
             send(player, message, prefix, permission);
@@ -101,7 +103,7 @@ public class MessageCoordinator extends Message {
     public void sendCollectedMessage(Player player, Collection<String> messages, String prefix) {
         for (String message : messages) {
             if (StaffPlus.get().usesPlaceholderAPI) {
-                PlaceholderAPI.setPlaceholders(player, message);
+                message = PlaceholderAPI.setPlaceholders(player, message);
             }
 
             send(player, message, prefix);
