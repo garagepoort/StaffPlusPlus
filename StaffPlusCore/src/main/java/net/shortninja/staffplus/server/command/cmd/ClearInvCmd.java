@@ -58,6 +58,11 @@ public class ClearInvCmd extends StaffPlusPlusCmd {
     }
 
     @Override
+    protected boolean canBypass(CommandSender commandSender) {
+        return permission.has(commandSender, options.permissionClearInvBypass);
+    }
+
+    @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
         List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
