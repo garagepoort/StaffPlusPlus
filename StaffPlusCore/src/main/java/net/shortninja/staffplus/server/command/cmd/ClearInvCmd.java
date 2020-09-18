@@ -58,8 +58,8 @@ public class ClearInvCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected boolean canBypass(CommandSender commandSender) {
-        return permission.has(commandSender, options.permissionClearInvBypass);
+    protected boolean canBypass(Player player) {
+        return permission.has(player, options.permissionClearInvBypass);
     }
 
     @Override
