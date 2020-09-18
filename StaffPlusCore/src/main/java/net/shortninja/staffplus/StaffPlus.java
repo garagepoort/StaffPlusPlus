@@ -34,6 +34,7 @@ import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseInitializer;
+import net.shortninja.staffplus.util.updates.UpdateNotifier;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -43,6 +44,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
+
+import static org.bukkit.Bukkit.getScheduler;
 
 // TODO Add command to check e chests and offline player inventories
 
@@ -135,7 +138,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-        String[] tmp = Bukkit.getServer().getVersion().split("MC: ");
+
+        getScheduler().runTaskAsynchronously(this, () -> {
+            new UpdateNotifier().checkUpdate();
+        });
+
         dataFile = new DataFile("data.yml");
         languageFile = new LanguageFile();
         hookHandler = new HookHandler();
