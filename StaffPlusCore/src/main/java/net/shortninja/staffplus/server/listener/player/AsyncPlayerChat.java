@@ -10,6 +10,7 @@ import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staffchat.StaffChatService;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -29,6 +30,7 @@ public class AsyncPlayerChat implements Listener {
     private MessageCoordinator message = IocContainer.getMessage();
     private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
+    private StaffChatService staffChatService = IocContainer.getStaffChatService();
     private UserManager userManager = StaffPlus.get().getUserManager();
     private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
     private ChatHandler chatHandler = StaffPlus.get().chatHandler;
@@ -96,10 +98,10 @@ public class AsyncPlayerChat implements Listener {
             this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
             shouldCancel = true;
         } else if (user.isChatting()) {
-            chatHandler.sendStaffChatMessage(player.getName(), message);
+            staffChatService.sendMessage(player, message);
             shouldCancel = true;
         } else if (chatHandler.hasHandle(message) && permission.has(player, options.permissionStaffChat)) {
-            chatHandler.sendStaffChatMessage(player.getName(), message.substring(1));
+            staffChatService.sendMessage(player, message.substring(1));
             shouldCancel = true;
         } else if (!chatHandler.canChat(player)) {
             this.message.send(player, messages.chattingFast, messages.prefixGeneral);

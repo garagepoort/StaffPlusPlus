@@ -6,6 +6,7 @@ import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staffchat.StaffChatService;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -20,6 +21,7 @@ public class StaffChatCmd extends BukkitCommand {
     private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private UserManager userManager = IocContainer.getUserManager();
+    private StaffChatService staffChatService = IocContainer.getStaffChatService();
     private ChatHandler chatHandler = StaffPlus.get().chatHandler;
 
     public StaffChatCmd(String name) {
@@ -34,8 +36,7 @@ public class StaffChatCmd extends BukkitCommand {
         }
 
         if (args.length > 0) {
-            String name = sender instanceof Player ? sender.getName() : "Console";
-            chatHandler.sendStaffChatMessage(name, JavaUtils.compileWords(args, 0));
+            staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
         } else if (sender instanceof Player) {
             IUser user = userManager.get(((Player) sender).getUniqueId());
 

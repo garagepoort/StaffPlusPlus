@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.server.chat;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -65,10 +64,6 @@ public class ChatHandler {
         chatSlowLength = time * 1000;
         chatSlowStart = System.currentTimeMillis();
         message.sendGlobalMessage(messages.chatSlowed.replace("%seconds%", Integer.toString(time)).replace("%player%", name), messages.prefixGeneral);
-    }
-
-    public void sendStaffChatMessage(String name, String message) {
-        this.message.sendGroupMessage(messages.staffChat.replace("%player%", name).replace("%message%", message), options.permissionStaffChat, messages.prefixStaffChat);
     }
 
     public void clearChat(String name) {
