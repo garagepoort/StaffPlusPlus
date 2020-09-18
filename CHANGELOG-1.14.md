@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.14
 
+### V1.14.13
+#### Bugs
+- Players could always bypass clear, freeze and teleport commands
+- Resolved issue: https://github.com/garagepoort/StaffPlusPlus/issues/91
+Items got removed when inspecting a chest. 
+
 ### V1.14.12
 #### Features
 - Add clear inventory bypass permission
