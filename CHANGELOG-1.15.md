@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.15
+#### Features
+- BungeeCord support. StaffChat will now be synced over all servers inside the bungee network.
+- Update notifier implemented
+
 ### V1.15.14
 #### Bugs
 - Players could always bypass clear, freeze and teleport commands
