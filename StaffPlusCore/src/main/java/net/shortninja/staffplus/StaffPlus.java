@@ -164,7 +164,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
 
         IocContainer.getMessage().sendConsoleMessage("Staff++ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
-        IocContainer.getMessage().sendConsoleMessage("Plugin created by Shortninja continued by Qball.", false);
+        IocContainer.getMessage().sendConsoleMessage("Plugin created by Shortninja continued by Qball - Revisited by Garagepoort", false);
     }
 
     private boolean setupVersionProtocol() {

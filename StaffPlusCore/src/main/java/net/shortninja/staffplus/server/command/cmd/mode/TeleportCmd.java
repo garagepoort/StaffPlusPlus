@@ -63,6 +63,11 @@ public class TeleportCmd extends StaffPlusPlusCmd {
     }
 
     @Override
+    protected boolean canBypass(CommandSender commandSender) {
+        return permission.has(commandSender, options.permissionTeleportBypass);
+    }
+
+    @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         List<String> suggestions = new ArrayList<>();
 
