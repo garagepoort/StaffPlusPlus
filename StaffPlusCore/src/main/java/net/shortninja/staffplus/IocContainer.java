@@ -14,6 +14,7 @@ import net.shortninja.staffplus.server.data.storage.IStorage;
 import net.shortninja.staffplus.server.data.storage.MemoryStorage;
 import net.shortninja.staffplus.server.data.storage.MySQLStorage;
 import net.shortninja.staffplus.server.data.storage.SqliteStorage;
+import net.shortninja.staffplus.staffchat.StaffChatService;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseType;
@@ -37,6 +38,7 @@ public class IocContainer {
     private static IStorage storage;
     private static WarnService warnService;
     private static MessageCoordinator message;
+    private static StaffChatService staffChatService;
 
     public static void init(StaffPlus staffPlus) {
         IocContainer.staffPlus = staffPlus;
@@ -148,5 +150,11 @@ public class IocContainer {
             options = new Options();
         }
         return options;
+    }
+    public static StaffChatService getStaffChatService() {
+        if (staffChatService == null) {
+            staffChatService = new StaffChatService(getMessages(), getOptions());
+        }
+        return staffChatService;
     }
 }
