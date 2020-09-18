@@ -68,8 +68,8 @@ public class FreezeCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected boolean canBypass(CommandSender commandSender) {
-        return permission.has(commandSender, options.permissionFreezeBypass);
+    protected boolean canBypass(Player player) {
+        return permission.has(player, options.permissionFreezeBypass);
     }
 
     private FreezeRequest buildFreezeRequest(CommandSender sender, String[] args, Player targetPlayer) {
