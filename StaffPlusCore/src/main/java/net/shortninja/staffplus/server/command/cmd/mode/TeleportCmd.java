@@ -63,8 +63,8 @@ public class TeleportCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected boolean canBypass(CommandSender commandSender) {
-        return permission.has(commandSender, options.permissionTeleportBypass);
+    protected boolean canBypass(Player player) {
+        return permission.has(player, options.permissionTeleportBypass);
     }
 
     @Override
