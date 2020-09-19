@@ -31,10 +31,10 @@ Example:
 #### Useful links
 * [Resource page](https://www.spigotmc.org/resources/staffplusplus.83562/)
 * [Submit issues](https://github.com/garagepoort/StaffPlusPlus/issues)
-* [Request features or ask questions](https://discord.gg/N6VqtYC)
+* [Request features or ask questions](https://discord.gg/Nwvubuz)
 * [Configurable files](https://github.com/Shortninja66/StaffPlus/wiki/Configurable-files)
 * [Plugin jar download](https://www.spigotmc.org/resources/staffplusplus.83562/history)
-* [Help wiki](https://github.com/Shortninja66/StaffPlus/wiki)
+* [Help wiki](https://github.com/garagepoort/StaffPlusPlus/wiki)
 
 #### Contributing
 * Fork this repo
