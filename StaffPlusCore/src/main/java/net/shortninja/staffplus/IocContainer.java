@@ -48,45 +48,21 @@ public class IocContainer {
 
     public static ReportRepository getReportRepository() {
         if (reportRepository == null) {
-            reportRepository = RepositoryFactory.get("REPORT");
-
-//            if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
-//                reportRepository = new MysqlReportRepository(getUserManager());
-//            } else if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
-//                reportRepository = new SqliteReportRepository(getUserManager());
-//            } else {
-//                throw new RuntimeException("Unsupported database type");
-//            }
+            reportRepository = RepositoryFactory.create("REPORT");
         }
         return reportRepository;
     }
 
     public static WarnRepository getWarnRepository() {
         if (warnRepository == null) {
-            warnRepository = RepositoryFactory.get("WARN");
-
-//            if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
-//                warnRepository = new MysqlWarnRepository(getUserManager());
-//            } else if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
-//                warnRepository = new SqliteWarnRepository(getUserManager());
-//            } else {
-//                throw new RuntimeException("Unsupported database type");
-//            }
+            warnRepository = RepositoryFactory.create("WARN");
         }
         return warnRepository;
     }
 
     public static DelayedActionsRepository getDelayedActionsRepository() {
         if (delayedActionsRepository == null) {
-            delayedActionsRepository = RepositoryFactory.get("DELAYED_ACTIONS");
-
-//            if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
-//                delayedActionsRepository = new MysqlDelayedActionsRepository();
-//            } else if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
-//                delayedActionsRepository = new SqliteDelayedActionsRepository();
-//            } else {
-//                throw new RuntimeException("Unsupported database type");
-//            }
+            delayedActionsRepository = RepositoryFactory.create("DELAYED_ACTIONS");
         }
         return delayedActionsRepository;
     }
@@ -184,9 +160,8 @@ public class IocContainer {
             MAP.put("DELAYED_ACTIONS", DatabaseType.SQLITE, new SqliteDelayedActionsRepository());
         }
 
-        // Could retrieve information from caller method but for sake of demonstration and ease, let's try this way.
         @SuppressWarnings("unchecked")
-        public static <T extends Repository> T get(String type) {
+        public static <T extends Repository> T create(String type) {
             if (type == null) {
                 throw new IllegalArgumentException("Type may not be null.");
             }
