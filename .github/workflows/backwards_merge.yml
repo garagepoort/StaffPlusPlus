@@ -33,7 +33,6 @@ jobs:
                     1.15.0
                     1.16.0
                   )
-                  cd StaffPlusPlus
                   for i in "${VERSIONS[@]}"; do
                     RELEASE_BRANCH="release/$i"
                     BRANCH="feature/${i}_${1}"
