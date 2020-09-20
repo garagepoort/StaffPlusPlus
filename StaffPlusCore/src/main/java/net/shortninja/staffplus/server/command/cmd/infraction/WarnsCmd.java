@@ -80,7 +80,7 @@ public class WarnsCmd extends BukkitCommand {
         IUser user = userManager.getOnOrOfflineUser(playerName);
 
         if (user != null) {
-            warnService.clearWarnings(user);
+            warnService.clearWarnings(sender, user);
             message.send(sender, messages.warningsCleared.replace("%target%", playerName), messages.prefixWarnings);
         } else {
             message.send(sender, messages.playerOffline, messages.prefixWarnings);
