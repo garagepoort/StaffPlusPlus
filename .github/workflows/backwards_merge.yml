@@ -1,0 +1,44 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java#apache-maven-with-a-settings-path
+
+name: Maven Package
+
+on:
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
+
+jobs:
+    build:
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Declare some variables
+              id: vars
+              shell: bash
+              run: |
+                  echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+                  echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+            - name: Commit files
+              shell: bash
+              run: |
+                  set -e
+                  declare -a VERSIONS=(
+                    1.13.0
+                    1.14.0
+                    1.15.0
+                    1.16.0
+                  )
+                  cd StaffPlusPlus
+                  for i in "${VERSIONS[@]}"; do
+                    RELEASE_BRANCH="release/$i"
+                    BRANCH="feature/${i}_${1}"
+                    git checkout $RELEASE_BRANCH
+                    git pull
+                    git cherry-pick -m 1 $2
+                    git push
+                  done
