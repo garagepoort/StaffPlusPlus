@@ -35,9 +35,8 @@ jobs:
                   )
                   for i in "${VERSIONS[@]}"; do
                     RELEASE_BRANCH="release/$i"
-                    BRANCH="feature/${i}_${1}"
                     git checkout $RELEASE_BRANCH
                     git pull
-                    git cherry-pick -m 1 $2
+                    git cherry-pick -m 1 ${{ steps.vars.outputs.sha_short }}
                     git push
                   done
