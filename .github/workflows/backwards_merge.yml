@@ -23,20 +23,62 @@ jobs:
                   echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
                   echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
+#           ============  1.13   =====================
+            - uses: actions/checkout@v2
+              with:
+                  ref: release/1.13.0
+
             - name: Commit files
               shell: bash
-              run: |
-                  set -e
-                  declare -a VERSIONS=(
-                    1.13.0
-                    1.14.0
-                    1.15.0
-                    1.16.0
-                  )
-                  for i in "${VERSIONS[@]}"; do
-                    RELEASE_BRANCH="release/$i"
-                    git checkout $RELEASE_BRANCH
-                    git pull
-                    git cherry-pick -m 1 ${{ steps.vars.outputs.sha_short }}
-                    git push
-                  done
+              run: git cherry-pick -m 1 ${{ steps.vars.outputs.sha_short }}
+
+            -   name: Push changes
+                uses: ad-m/github-push-action@master
+                with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    branch: release/1.13.0
+
+#           ============  1.14   =====================
+            - uses: actions/checkout@v2
+              with:
+                  ref: release/1.14.0
+
+            - name: Commit files
+              shell: bash
+              run: git cherry-pick -m 1 ${{ steps.vars.outputs.sha_short }}
+
+            -   name: Push changes
+                uses: ad-m/github-push-action@master
+                with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    branch: release/1.14.0
+
+#           ============  1.15   =====================
+            - uses: actions/checkout@v2
+              with:
+                  ref: release/1.14.0
+
+            - name: Commit files
+              shell: bash
+              run: git cherry-pick -m 1 ${{ steps.vars.outputs.sha_short }}
+
+            -   name: Push changes
+                uses: ad-m/github-push-action@master
+                with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    branch: release/1.14.0
+
+#           ============  1.16   =====================
+            - uses: actions/checkout@v2
+              with:
+                  ref: release/1.14.0
+
+            - name: Commit files
+              shell: bash
+              run: git cherry-pick -m 1 ${{ steps.vars.outputs.sha_short }}
+
+            -   name: Push changes
+                uses: ad-m/github-push-action@master
+                with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    branch: release/1.14.0
