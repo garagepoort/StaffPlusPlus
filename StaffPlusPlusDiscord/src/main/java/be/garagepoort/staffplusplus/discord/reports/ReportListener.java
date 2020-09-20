@@ -1,4 +1,4 @@
-package be.garagepoort.staffplusplus.discord;
+package be.garagepoort.staffplusplus.discord.reports;
 
 import be.garagepoort.staffplusplus.discord.api.*;
 import feign.Feign;
