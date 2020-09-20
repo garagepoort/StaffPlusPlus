@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.warn.database;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.ProvidedPlayer;
 import net.shortninja.staffplus.player.UserManager;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class AbstractSqlWarnRepository implements WarnRepository {
+public abstract class AbstractSqlWarnRepository implements WarnRepository, IocContainer.Repository {
 
     private final UserManager userManager;
 

@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.actions.database;
 
+import net.shortninja.staffplus.IocContainer;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class AbstractSqlDelayedActionsRepository implements DelayedActionsRepository {
+public abstract class AbstractSqlDelayedActionsRepository implements DelayedActionsRepository, IocContainer.Repository {
 
     protected abstract Connection getConnection() throws SQLException;
 
