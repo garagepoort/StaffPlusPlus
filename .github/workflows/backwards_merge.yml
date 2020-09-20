@@ -49,7 +49,7 @@ jobs:
                         echo "Merge commit"
                       else
                         echo "Normal commit"
-                        git cherry-pick -m 1 $COMMIT_HASH
+                        git cherry-pick $COMMIT_HASH
                       fi
                       git push
                     done
