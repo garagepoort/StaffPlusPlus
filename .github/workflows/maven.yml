@@ -48,10 +48,10 @@ jobs:
                       1.16.0
                     )
                     git clone https://garagepoort:${GITHUB_TOKEN}@github.com/garagepoort/StaffPlusPlus.git
-                    git config --local user.email "action@github.com"
-                    git config --local user.name "GitHub Action"
                     cd StaffPlusPlus
 
+                    git config --local user.email "action@github.com"
+                    git config --local user.name "GitHub Action"
                     parents=$(git show --no-patch --format="%P" $COMMIT_HASH)
                     IFS=' ' read -ra arr <<<"$parents"
                     for i in "${VERSIONS[@]}"; do
