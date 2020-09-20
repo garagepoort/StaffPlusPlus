@@ -14,11 +14,21 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         ConfigUpdater.updateConfig(this);
         FileConfiguration config = getConfig();
 
-        if(config.getString("StaffPlusPlusDiscord.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.webhookUrl").isEmpty()) {
-            throw new RuntimeException("Cannot enable StaffPlusPlusDiscord. No webhookUrl provided in the configuration");
+        ReportListener reportListener = new ReportListener(config);
+        WarningListener warningListener = new WarningListener(config);
+
+        if(reportListener.isEnabled() &&
+                (config.getString("StaffPlusPlusDiscord.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.webhookUrl").isEmpty())) {
+            throw new RuntimeException("Cannot enable StaffPlusPlusDiscord. No report webhookUrl provided in the configuration.");
         }
-        getServer().getPluginManager().registerEvents(new ReportListener(config), this);
-        getServer().getPluginManager().registerEvents(new WarningListener(config), this);
+
+        if(warningListener.isEnabled() &&
+                (config.getString("StaffPlusPlusDiscord.warnings.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.warnings.webhookUrl").isEmpty())) {
+            throw new RuntimeException("Cannot enable StaffPlusPlusDiscord. No warning webhookUrl provided in the configuration.");
+        }
+
+        getServer().getPluginManager().registerEvents(reportListener, this);
+        getServer().getPluginManager().registerEvents(warningListener, this);
     }
 
     @Override

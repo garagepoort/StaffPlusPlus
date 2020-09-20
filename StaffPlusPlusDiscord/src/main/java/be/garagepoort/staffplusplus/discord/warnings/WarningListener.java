@@ -36,7 +36,7 @@ public class WarningListener implements Listener {
                 .decoder(new GsonDecoder())
                 .logger(new Slf4jLogger(DiscordClient.class))
                 .logLevel(Logger.Level.FULL)
-                .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.warnings.warningWebhookUrl", ""));
+                .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.warnings.webhookUrl", ""));
         this.config = config;
     }
 
@@ -119,5 +119,11 @@ public class WarningListener implements Listener {
                 new DiscordMessageFooter("Provided by StaffPlusPlus", "https://cdn.discordapp.com/embed/avatars/0.png"),
                 fields
         )));
+    }
+
+    public boolean isEnabled() {
+        return config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCreate") ||
+                config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCleared") ||
+                config.getBoolean("StaffPlusPlusDiscord.warnings.notifyThresholdReached");
     }
 }

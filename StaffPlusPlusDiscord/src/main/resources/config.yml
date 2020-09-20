@@ -15,7 +15,7 @@ StaffPlusPlusDiscord:
   notifyResolve: true
 
   warnings:
-    warningWebhookUrl: ""
+    webhookUrl: ""
     notifyCleared: true
     notifyCreate: true
     notifyThresholdReached: true

@@ -41,7 +41,7 @@ public class ReportListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleCreateReport(CreateReportEvent event) {
-        if(!config.getBoolean("StaffPlusPlusDiscord.notifyOpen")) {
+        if (!config.getBoolean("StaffPlusPlusDiscord.notifyOpen")) {
             return;
         }
 
@@ -51,7 +51,7 @@ public class ReportListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleReopenReport(ReopenReportEvent event) {
-        if(!config.getBoolean("StaffPlusPlusDiscord.notifyReopen")) {
+        if (!config.getBoolean("StaffPlusPlusDiscord.notifyReopen")) {
             return;
         }
 
@@ -62,7 +62,7 @@ public class ReportListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleAcceptReport(AcceptReportEvent event) {
-        if(!config.getBoolean("StaffPlusPlusDiscord.notifyAccept")) {
+        if (!config.getBoolean("StaffPlusPlusDiscord.notifyAccept")) {
             return;
         }
 
@@ -73,7 +73,7 @@ public class ReportListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleRejectReport(RejectReportEvent event) {
-        if(!config.getBoolean("StaffPlusPlusDiscord.notifyReject")) {
+        if (!config.getBoolean("StaffPlusPlusDiscord.notifyReject")) {
             return;
         }
 
@@ -83,7 +83,7 @@ public class ReportListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleResolveReport(ResolveReportEvent event) {
-        if(!config.getBoolean("StaffPlusPlusDiscord.notifyResolve")) {
+        if (!config.getBoolean("StaffPlusPlusDiscord.notifyResolve")) {
             return;
         }
 
@@ -102,7 +102,7 @@ public class ReportListener implements Listener {
         ArrayList<DiscordMessageField> fields = new ArrayList<>();
         fields.add(new DiscordMessageField("Reporter", reporter, true));
         fields.add(new DiscordMessageField("Culprit", culprit, true));
-        if(showStaff) {
+        if (showStaff) {
             String staff = report.getStaffName() + "\n[" + report.getStaffUuid() + "]";
             fields.add(new DiscordMessageField("Staff", staff));
         }
@@ -117,5 +117,13 @@ public class ReportListener implements Listener {
                 new DiscordMessageFooter("Provided by StaffPlusPlus", "https://cdn.discordapp.com/embed/avatars/0.png"),
                 fields
         )));
+    }
+
+    public boolean isEnabled() {
+        return config.getBoolean("StaffPlusPlusDiscord.notifyOpen") ||
+                config.getBoolean("StaffPlusPlusDiscord.notifyReopen") ||
+                config.getBoolean("StaffPlusPlusDiscord.notifyAccept") ||
+                config.getBoolean("StaffPlusPlusDiscord.notifyReject") ||
+                config.getBoolean("StaffPlusPlusDiscord.notifyResolve");
     }
 }
