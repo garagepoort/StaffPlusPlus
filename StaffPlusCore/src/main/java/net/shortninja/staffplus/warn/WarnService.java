@@ -3,6 +3,9 @@ package net.shortninja.staffplus.warn;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.actions.database.DelayedActionsRepository;
 import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
+import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
+import net.shortninja.staffplus.event.warnings.WarningsClearedEvent;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -17,12 +20,15 @@ import net.shortninja.staffplus.warn.database.WarnRepository;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.server.data.config.warning.WarningActionRunStrategy.*;
+import static org.bukkit.Bukkit.getScheduler;
 
 public class WarnService {
 
@@ -91,6 +97,7 @@ public class WarnService {
         warnRepository.addWarning(warning);
         message.send(sender, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
 
+        sendEvent(new WarningCreatedEvent(warning));
         handleThresholds(user);
         if (user.isOnline()) {
             Optional<Player> p = user.getPlayer();
@@ -109,19 +116,27 @@ public class WarnService {
         if (!threshold.isPresent()) {
             return;
         }
+        List<String> validCommands = new ArrayList<>();
         for (WarningAction action : threshold.get().getActions()) {
             if (action.getRunStrategy() == ALWAYS
                     || (action.getRunStrategy() == ONLINE && user.isOnline())
                     || (action.getRunStrategy() == DELAY && user.isOnline())) {
+
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getName()));
+                validCommands.add(action.getCommand());
             } else if (action.getRunStrategy() == DELAY && !user.isOnline()) {
                 delayedActionsRepository.saveDelayedAction(user.getUuid(), action.getCommand());
+                validCommands.add(action.getCommand());
             }
         }
+        sendEvent(new WarningThresholdReachedEvent(user.getName(), user.getUuid(), threshold.get().getScore(), validCommands));
     }
 
-    public void clearWarnings(IUser user) {
+    public void clearWarnings(CommandSender sender, IUser user) {
+        String issuerName = sender instanceof Player ? sender.getName() : "Console";
+        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
         warnRepository.removeWarnings(user.getUuid());
+        sendEvent(new WarningsClearedEvent(issuerName, issuerUuid, user.getName(), user.getUuid()));
     }
 
     public List<Warning> getWarnings(UUID uuid) {
@@ -134,5 +149,11 @@ public class WarnService {
 
     public void removeWarning(int id) {
         warnRepository.removeWarning(id);
+    }
+
+    private void sendEvent(Event event) {
+        getScheduler().runTask(StaffPlus.get(), () -> {
+            Bukkit.getPluginManager().callEvent(event);
+        });
     }
 }
