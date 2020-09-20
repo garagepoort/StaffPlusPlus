@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.unordered;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public interface IWarning {
@@ -9,8 +10,6 @@ public interface IWarning {
     String getIssuerName();
 
     UUID getIssuerUuid();
-
-    long getTime();
 
     void setIssuerName(String newName);
 
@@ -25,4 +24,6 @@ public interface IWarning {
     int getScore();
 
     String getSeverity();
+
+    ZonedDateTime getTimestamp();
 }
