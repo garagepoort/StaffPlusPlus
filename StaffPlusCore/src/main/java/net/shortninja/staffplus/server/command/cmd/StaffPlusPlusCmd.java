@@ -21,13 +21,13 @@ import java.util.stream.Stream;
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
 
 public abstract class StaffPlusPlusCmd extends BukkitCommand {
-    private static DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
+    private static final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
 
-    private UserManager userManager = IocContainer.getUserManager();
-    private Messages messages = IocContainer.getMessages();
-    protected ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
-    protected PermissionHandler permission = IocContainer.getPermissionHandler();
-    protected Options options = IocContainer.getOptions();
+    protected final UserManager userManager = IocContainer.getUserManager();
+    protected final Messages messages = IocContainer.getMessages();
+    protected final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
+    protected final PermissionHandler permission = IocContainer.getPermissionHandler();
+    protected final Options options = IocContainer.getOptions();
 
     protected StaffPlusPlusCmd(String name, String permission) {
         super(name);

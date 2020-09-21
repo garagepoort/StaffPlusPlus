@@ -27,6 +27,7 @@ import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsReposit
 import net.shortninja.staffplus.staff.freeze.FreezeChatPreventer;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
+import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.vanish.VanishChatPreventer;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.staff.warn.WarnService;
@@ -160,6 +161,10 @@ public class IocContainer {
 
     public static FreezeHandler getFreezeHandler() {
         return initBean(FreezeHandler.class, () -> new FreezeHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getUserManager()));
+    }
+
+    public static TraceService getTraceService() {
+        return initBean(TraceService.class, () -> new TraceService(getUserManager(), getMessages()));
     }
 
     public static BlacklistService getBlacklistService() {

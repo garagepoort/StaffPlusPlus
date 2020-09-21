@@ -230,6 +230,8 @@ public class Options implements IOptions {
     public String permissionFreezeBypass = config.getString("permissions.freeze-bypass");
     public String permissionTeleport = config.getString("permissions.teleport");
     public String permissionTeleportBypass = config.getString("permissions.teleport-bypass");
+    public String permissionTrace = config.getString("permissions.trace");
+    public String permissionTraceBypass = config.getString("permissions.trace-bypass");
     public String permissionCps = config.getString("permissions.cps");
     public String permissionExamine = config.getString("permissions.examine");
     public String permissionFollow = config.getString("permissions.follow");

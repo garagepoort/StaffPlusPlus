@@ -888,6 +888,12 @@ permissions:
   # Permission for bypassing teleport.
   teleport-bypass: "staff.teleport.bypass"
 
+  # Permission for using trace.
+  trace: "staff.trace"
+
+  # Permission for bypassing teleport.
+  trace-bypass: "staff.trace.bypass"
+
   # Permission for initializing clicks per second tests
   cps: "staff.cps"
 

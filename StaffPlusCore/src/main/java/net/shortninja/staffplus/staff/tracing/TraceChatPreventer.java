@@ -9,13 +9,13 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.List;
 
-public class TracingChatPreventer implements ChatPreventer, ChatReceivePreventer {
+public class TraceChatPreventer implements ChatPreventer, ChatReceivePreventer {
 
     private final TraceService traceService;
     private final Messages messages;
     private final MessageCoordinator message;
 
-    public TracingChatPreventer(TraceService traceService, Messages messages, MessageCoordinator message) {
+    public TraceChatPreventer(TraceService traceService, Messages messages, MessageCoordinator message) {
         this.traceService = traceService;
         this.messages = messages;
         this.message = message;

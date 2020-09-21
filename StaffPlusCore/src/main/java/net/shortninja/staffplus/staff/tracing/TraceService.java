@@ -1,9 +1,11 @@
 package net.shortninja.staffplus.staff.tracing;
 
+import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -21,19 +23,25 @@ public class TraceService {
         this.messages = messages;
     }
 
-    public void startTrace(Player tracer, String tracedPlayerName) {
+    public void startTrace(CommandSender tracer, String tracedPlayerName) {
+        UUID tracerUuid = tracer instanceof Player ? ((Player) tracer).getUniqueId() : StaffPlus.get().consoleUUID;
         Player traced = userManager.getOnlinePlayer(tracedPlayerName);
-        if (tracedPlayers.containsKey(tracer.getUniqueId())) {
+        if(traced == null) {
+            throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
+        }
+
+        if (tracedPlayers.containsKey(tracerUuid)) {
             throw new BusinessException("Cannot start a trace. You are already tracing a player", messages.prefixGeneral);
         }
-        tracedPlayers.put(tracer.getUniqueId(), traced.getUniqueId());
+        tracedPlayers.put(tracerUuid, traced.getUniqueId());
     }
 
-    public void stopTrace(Player tracer) {
-        if (!tracedPlayers.containsKey(tracer.getUniqueId())) {
+    public void stopTrace(CommandSender tracer) {
+        UUID tracerUuid = tracer instanceof Player ? ((Player) tracer).getUniqueId() : StaffPlus.get().consoleUUID;
+        if (!tracedPlayers.containsKey(tracerUuid)) {
             throw new BusinessException("You are currently not tracing anyone", messages.prefixGeneral);
         }
-        tracedPlayers.remove(tracer.getUniqueId());
+        tracedPlayers.remove(tracerUuid);
     }
 
     public boolean isPlayerTracing(Player player) {
