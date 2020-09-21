@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.server.chat;
 
-import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -12,14 +11,21 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ChatHandler {
-    private static Map<UUID, Long> userChatTimes = new HashMap<UUID, Long>();
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
+    private final static Map<UUID, Long> userChatTimes = new HashMap<UUID, Long>();
+    private final PermissionHandler permission;
+    private final MessageCoordinator message;
+    private final Options options;
+    private final Messages messages;
     private boolean isChatEnabled = true;
     private long chatSlowLength = 0;
     private long chatSlowStart = 0;
+
+    public ChatHandler(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages) {
+        this.permission = permission;
+        this.message = message;
+        this.options = options;
+        this.messages = messages;
+    }
 
     public boolean isChatEnabled() {
         return isChatEnabled;
@@ -47,10 +53,6 @@ public class ChatHandler {
         }
 
         return canChat;
-    }
-
-    public boolean hasHandle(String message) {
-        return message.startsWith(options.staffChatHandle) && !options.staffChatHandle.isEmpty();
     }
 
     public void setChatEnabled(String name, boolean isChatEnabled) {

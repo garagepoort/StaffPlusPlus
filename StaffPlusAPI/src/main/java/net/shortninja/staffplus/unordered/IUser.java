@@ -45,7 +45,7 @@ public interface IUser {
 
     IAction getQueuedAction();
 
-    boolean isChatting();
+    boolean inStaffChatMode();
 
     void setChatting(boolean b);
 

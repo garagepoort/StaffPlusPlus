@@ -8,7 +8,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.config.warning.WarningSeverityConfiguration;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
-import net.shortninja.staffplus.warn.WarnService;
+import net.shortninja.staffplus.staff.warn.WarnService;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;

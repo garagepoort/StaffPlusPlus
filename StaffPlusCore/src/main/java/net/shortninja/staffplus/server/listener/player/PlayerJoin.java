@@ -5,7 +5,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
@@ -24,12 +24,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class PlayerJoin implements Listener {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private Options options = IocContainer.getOptions();
-    private UserManager userManager = StaffPlus.get().getUserManager();
-    private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final Options options = IocContainer.getOptions();
+    private final UserManager userManager = StaffPlus.get().getUserManager();
+    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
-    private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
     public static ArrayList<UUID> needLogin = new ArrayList<>();
 
     public PlayerJoin() {
