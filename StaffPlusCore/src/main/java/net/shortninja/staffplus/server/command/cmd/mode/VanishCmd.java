@@ -1,11 +1,10 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -17,12 +16,12 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 public class VanishCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
-    private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final UserManager userManager = IocContainer.getUserManager();
+    private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
     public VanishCmd(String name) {
         super(name);

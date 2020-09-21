@@ -6,7 +6,7 @@ import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
 import net.shortninja.staffplus.server.command.cmd.StaffPlusPlusCmd;
 import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.teleport.TeleportService;
+import net.shortninja.staffplus.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
