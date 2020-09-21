@@ -23,11 +23,11 @@ import java.util.UUID;
 
 public class BlockBreak implements Listener {
     private final BlockFace[] FACES =
-            {
-                    BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST,
-                    BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST,
-                    BlockFace.UP, BlockFace.DOWN
-            };
+        {
+            BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST,
+            BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST,
+            BlockFace.UP, BlockFace.DOWN
+        };
     private final Options options = IocContainer.getOptions();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
@@ -66,6 +66,8 @@ public class BlockBreak implements Listener {
                 }
             }
 
+            IocContainer.getTraceService().sendTraceMessage(event.getPlayer().getUniqueId(),
+                String.format("Block [%s] broken at [%s,%s,%s]", block.getType(), block.getX(), block.getY(), block.getZ()));
             return;
         }
 

@@ -31,7 +31,10 @@ public class TraceChatPreventer implements ChatPreventer, ChatReceivePreventer {
 
     @Override
     public void preventReceival(AsyncPlayerChatEvent event) {
-        List<Player> tracingPlayers = traceService.getTracingPlayers();
-        event.getRecipients().removeAll(tracingPlayers);
+        List<Player> allTracers = traceService.getTracingPlayers();
+        event.getRecipients().removeAll(allTracers);
+
+        Player player = event.getPlayer();
+        traceService.sendTraceMessage(player.getUniqueId(), event.getMessage());
     }
 }

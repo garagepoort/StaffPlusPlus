@@ -27,6 +27,7 @@ public class PlayerDropItem implements Listener {
         UUID uuid = event.getPlayer().getUniqueId();
 
         if ((options.modeItemChange || !modeCoordinator.isInMode(uuid)) && !freezeHandler.isFrozen(uuid)) {
+            IocContainer.getTraceService().sendTraceMessage(event.getPlayer().getUniqueId(), String.format("Dropped item [%s]", event.getItemDrop().getType()));
             return;
         }
 

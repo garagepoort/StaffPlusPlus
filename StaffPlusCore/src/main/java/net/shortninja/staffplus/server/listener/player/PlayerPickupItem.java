@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 
 public class PlayerPickupItem implements Listener {
     private Options options = IocContainer.getOptions();
@@ -20,13 +20,16 @@ public class PlayerPickupItem implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onPickup(PlayerPickupItemEvent event) {
-        Player player = event.getPlayer();
+    public void onPickup(EntityPickupItemEvent event) {
+        if (event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
 
-        if (options.modeItemChange || !modeCoordinator.isInMode(player.getUniqueId())) {
-            return;
+            if (options.modeItemChange || !modeCoordinator.isInMode(player.getUniqueId())) {
+                IocContainer.getTraceService().sendTraceMessage(player.getUniqueId(), String.format("Picked up item [%s]", event.getItem().getType()));
+                return;
+            }
+            event.setCancelled(true);
         }
 
-        event.setCancelled(true);
     }
 }

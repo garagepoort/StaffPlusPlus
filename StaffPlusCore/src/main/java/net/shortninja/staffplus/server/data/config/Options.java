@@ -264,6 +264,7 @@ public class Options implements IOptions {
     public String commandRevive = config.getString("commands.revive");
     public String commandStaffList = config.getString("commands.staff-list");
     public String commandClearInv = config.getString("commands.clearInv");
+    public String commandTrace = config.getString("commands.trace");
 
     public Sounds reportsSound = stringToSound(sanitize(config.getString("reports-module.sound")));
     public Sounds warningsSound = stringToSound(sanitize(config.getString("warnings-module.sound")));

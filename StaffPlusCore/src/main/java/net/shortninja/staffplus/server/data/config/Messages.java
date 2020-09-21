@@ -17,6 +17,7 @@ public class Messages {
     public String prefixWarnings = config.getString("warnings-prefix");
     public String prefixStaffChat = config.getString("staff-chat-prefix");
     public String prefixTickets = config.getString("tickets-prefix");
+    public String prefixTrace = config.getString("trace-prefix", "&dTrace &8»");
     /*
      * General
      */

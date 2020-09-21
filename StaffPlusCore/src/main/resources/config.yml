@@ -1012,6 +1012,9 @@ commands:
   # The command for clearing a players inventory
   clearInv: "clear"
 
+  # The command to start/stop tracing a player
+  trace: "trace"
+
   # The command for resetting a users password
   resetPass: "resetPassword"
 

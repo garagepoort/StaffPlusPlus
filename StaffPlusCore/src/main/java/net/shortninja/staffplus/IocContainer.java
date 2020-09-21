@@ -29,6 +29,7 @@ import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsReposit
 import net.shortninja.staffplus.staff.freeze.FreezeChatPreventer;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
+import net.shortninja.staffplus.staff.tracing.TraceChatPreventer;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.vanish.VanishChatPreventer;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
@@ -62,24 +63,15 @@ public class IocContainer {
     }
 
     public static ReportRepository getReportRepository() {
-        if (reportRepository == null) {
-            reportRepository = RepositoryFactory.create("REPORT");
-        }
-        return reportRepository;
+        return initBean(ReportRepository.class, () -> RepositoryFactory.create("REPORT"));
     }
 
     public static WarnRepository getWarnRepository() {
-        if (warnRepository == null) {
-            warnRepository = RepositoryFactory.create("WARN");
-        }
-        return warnRepository;
+        return initBean(WarnRepository.class, () -> RepositoryFactory.create("WARN"));
     }
 
     public static DelayedActionsRepository getDelayedActionsRepository() {
-        if (delayedActionsRepository == null) {
-            delayedActionsRepository = RepositoryFactory.create("DELAYED_ACTIONS");
-        }
-        return delayedActionsRepository;
+        return initBean(DelayedActionsRepository.class, () -> RepositoryFactory.create("DELAYED_ACTIONS"));
     }
 
     public static ReportService getReportService() {
@@ -149,7 +141,7 @@ public class IocContainer {
     }
 
     public static TraceService getTraceService() {
-        return initBean(TraceService.class, () -> new TraceService(getUserManager(), getMessages()));
+        return initBean(TraceService.class, () -> new TraceService(getUserManager(), getMessages(), getMessage()));
     }
 
     public static BlacklistService getBlacklistService() {
@@ -168,6 +160,7 @@ public class IocContainer {
     public static List<ChatPreventer> getChatPreventers() {
         return Arrays.asList(
             new UserQueuedActionChatPreventer(getUserManager()),
+            new TraceChatPreventer(getTraceService(), getMessages(), getMessage()),
             new FreezeChatPreventer(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
             new VanishChatPreventer(getVanishHandler(), getOptions(), getMessage(), getMessages()),
             new GeneralChatPreventer(getChatHandler(), getMessage(), getMessages())
@@ -175,7 +168,7 @@ public class IocContainer {
     }
 
     public static List<ChatReceivePreventer> getChatReceivePreventers() {
-        return Arrays.asList();
+        return Arrays.asList(new TraceChatPreventer(getTraceService(), getMessages(), getMessage()));
     }
 
     private static <T> T initBean(Class<T> clazz, Supplier<T> consumer) {

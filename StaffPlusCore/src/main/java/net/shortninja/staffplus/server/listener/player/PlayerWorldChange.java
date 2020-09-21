@@ -24,5 +24,6 @@ public class PlayerWorldChange implements Listener {
         if (modeCoordinator.isInMode(event.getPlayer().getUniqueId()) && options.worldChange) {
             modeCoordinator.removeMode(event.getPlayer());
         }
+        IocContainer.getTraceService().sendTraceMessage(event.getPlayer().getUniqueId(), String.format("World changed from [%s] to [%s]", event.getFrom().getName(), event.getPlayer().getWorld().getName()));
     }
 }

@@ -25,7 +25,7 @@ staff-chat-prefix: "&dStaffChat &8»"
 
 # Prefiks za sve ulazinca poruke.
 tickets-prefix: "&dUlaznice &8»"
-
+trace-prefix: "&dTrace &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Osnovno                        | #
