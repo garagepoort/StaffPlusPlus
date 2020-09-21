@@ -132,7 +132,7 @@ public class User implements IUser {
         this.isOnline = isOnline;
     }
 
-    public boolean isChatting() {
+    public boolean inStaffChatMode() {
         return isChatting;
     }
 

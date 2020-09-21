@@ -1,17 +1,16 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.User;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
-import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
 import net.shortninja.staffplus.reporting.Report;
 import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.unordered.IUser;
@@ -34,7 +33,7 @@ public class ExamineGui extends AbstractGui {
     private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
     private UserManager userManager = IocContainer.getUserManager();
-    private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
+    private FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private ReportService reportService;
 
     public ExamineGui(Player player, Player targetPlayer, String title) {

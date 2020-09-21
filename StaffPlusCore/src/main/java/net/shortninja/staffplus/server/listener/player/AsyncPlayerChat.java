@@ -3,18 +3,9 @@ package net.shortninja.staffplus.server.listener.player;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
-import net.shortninja.staffplus.server.chat.BlacklistFactory;
-import net.shortninja.staffplus.server.chat.ChatHandler;
-import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.staffchat.StaffChatService;
-import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.server.chat.ChatPreventer;
 import net.shortninja.staffplus.unordered.IUser;
-import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,19 +13,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AsyncPlayerChat implements Listener {
-    private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private StaffChatService staffChatService = IocContainer.getStaffChatService();
-    private UserManager userManager = StaffPlus.get().getUserManager();
-    private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
-    private ChatHandler chatHandler = StaffPlus.get().chatHandler;
-    private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
+    private final UserManager userManager = IocContainer.getUserManager();
+    private final AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
+    private final List<ChatPreventer> chatPreventers = IocContainer.getChatPreventers();
 
     public AsyncPlayerChat() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -58,63 +43,11 @@ public class AsyncPlayerChat implements Listener {
             }
         }
 
-        if (options.chatBlacklistEnabled && options.chatEnabled) {
-            BlacklistFactory blacklistFactory = new BlacklistFactory(message);
-
-            if (blacklistFactory.runCheck().hasChanged() && !permission.has(player, options.permissionBlacklist)) {
-                event.setMessage(blacklistFactory.getResult());
-
-                if (options.chatBlacklistHoverable) {
-                    Set<Player> staffPlayers = new HashSet<Player>();
-
-
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (permission.has(p, options.permissionBlacklist)) {
-                            event.getRecipients().remove(p);
-                            staffPlayers.add(p);
-                        }
-                    }
-
-                    versionProtocol.sendHoverableJsonMessage(staffPlayers, messages.blacklistChatFormat.replace("%player%", player.getName()).replace("%message%", blacklistFactory.getResult()), message);
-                }
-            }
-        }
+        IocContainer.getBlacklistService().censorMessage(player, event);
     }
 
     private boolean shouldCancel(Player player, String message) {
-        boolean shouldCancel = false;
-        UUID uuid = player.getUniqueId();
-
-        if (userManager == null)
-            return false;
-        IUser user = userManager.get(uuid);
-        IAction queuedAction = user.getQueuedAction();
-
-        if (queuedAction != null) {
-            queuedAction.execute(player, message);
-            user.setQueuedAction(null);
-            shouldCancel = true;
-        } else if (freezeHandler.isFrozen(uuid) && (!options.modeFreezeChat || freezeHandler.isLoggedOut(uuid))) {
-            this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
-            shouldCancel = true;
-        } else if (user.isChatting()) {
-            staffChatService.sendMessage(player, message);
-            shouldCancel = true;
-        } else if (chatHandler.hasHandle(message) && permission.has(player, options.permissionStaffChat)) {
-            staffChatService.sendMessage(player, message.substring(1));
-            shouldCancel = true;
-        } else if (!chatHandler.canChat(player)) {
-            this.message.send(player, messages.chattingFast, messages.prefixGeneral);
-            shouldCancel = true;
-        } else if (!chatHandler.isChatEnabled(player) || (user.isFrozen() && !options.modeFreezeChat)) {
-            this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
-            shouldCancel = true;
-        } else if (IocContainer.getOptions().vanishEnabled && !IocContainer.getOptions().vanishChatEnabled && StaffPlus.get().vanishHandler.isVanished(player)) {
-            this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
-            shouldCancel = true;
-        }
-
-        return shouldCancel;
+        return chatPreventers.stream().anyMatch(c -> c.shouldPrevent(player, message));
     }
 
     private List<IUser> getMentioned(String message) {
@@ -124,8 +57,6 @@ public class AsyncPlayerChat implements Listener {
             if (!user.getPlayer().isPresent()) {
                 continue; // How?
             }
-
-            Player player = user.getPlayer().get();
 
             if (message.toLowerCase().contains(user.getName().toLowerCase())) {
                 mentioned.add(user);

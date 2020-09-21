@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -13,11 +12,11 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 public class ChatCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private ChatHandler chatHandler = StaffPlus.get().chatHandler;
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final ChatHandler chatHandler = IocContainer.getChatHandler();
 
     public ChatCmd(String name) {
         super(name);
