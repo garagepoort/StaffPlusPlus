@@ -5,7 +5,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
@@ -19,13 +19,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuit implements Listener {
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = StaffPlus.get().getUserManager();
-    private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
-    private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
-    private TicketHandler ticketHandler = StaffPlus.get().ticketHandler;
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final UserManager userManager = StaffPlus.get().getUserManager();
+    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final VanishHandler vanishHandler =IocContainer.getVanishHandler();
+    private final TicketHandler ticketHandler = StaffPlus.get().ticketHandler;
 
     public PlayerQuit() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

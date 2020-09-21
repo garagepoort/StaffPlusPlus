@@ -2,6 +2,8 @@ package net.shortninja.staffplus.server.data.config;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
+import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
 import net.shortninja.staffplus.server.data.config.warning.WarningConfiguration;
 import net.shortninja.staffplus.server.data.config.warning.WarningModuleLoader;
 import net.shortninja.staffplus.unordered.VanishType;
@@ -64,6 +66,7 @@ public class Options implements IOptions {
      * Warnings
      */
     public WarningConfiguration warningConfiguration = WarningModuleLoader.loadWarningModule();
+    public BlackListConfiguration blackListConfiguration = BlackListConfigurationLoader.load();
     public int warningsMaximum = config.getInt("warnings-module.maximum");
     public String warningsBanCommand = config.getString("warnings-module.ban-command");
 
@@ -89,7 +92,6 @@ public class Options implements IOptions {
     public boolean chatBlacklistEnabled = config.getBoolean("chat-module.blacklist-module.enabled");
     public boolean chatBlacklistHoverable = config.getBoolean("chat-module.blacklist-module.hoverable");
     public String chatBlacklistCharacter = config.getString("chat-module.blacklist-module.character");
-    public boolean chatBlacklistMerging = config.getBoolean("chat-module.blacklist-module.merging");
     public List<String> chatBlacklistWords = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.words"));
     public List<String> chatBlacklistCharacters = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.characters"));
     public List<String> chatBlacklistDomains = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.domains"));
