@@ -1,5 +1,7 @@
 package net.shortninja.staffplus;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.UserQueuedActionChatPreventer;
 import net.shortninja.staffplus.reporting.ReportService;
@@ -59,39 +61,21 @@ public class IocContainer {
 
     public static ReportRepository getReportRepository() {
         if (reportRepository == null) {
-            if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
-                reportRepository = new MysqlReportRepository(getUserManager());
-            } else if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
-                reportRepository = new SqliteReportRepository(getUserManager());
-            } else {
-                throw new RuntimeException("Unsupported database type");
-            }
+            reportRepository = RepositoryFactory.create("REPORT");
         }
         return reportRepository;
     }
 
     public static WarnRepository getWarnRepository() {
         if (warnRepository == null) {
-            if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
-                warnRepository = new MysqlWarnRepository(getUserManager());
-            } else if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
-                warnRepository = new SqliteWarnRepository(getUserManager());
-            } else {
-                throw new RuntimeException("Unsupported database type");
-            }
+            warnRepository = RepositoryFactory.create("WARN");
         }
         return warnRepository;
     }
 
     public static DelayedActionsRepository getDelayedActionsRepository() {
         if (delayedActionsRepository == null) {
-            if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
-                delayedActionsRepository = new MysqlDelayedActionsRepository();
-            } else if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
-                delayedActionsRepository = new SqliteDelayedActionsRepository();
-            } else {
-                throw new RuntimeException("Unsupported database type");
-            }
+            delayedActionsRepository = RepositoryFactory.create("DELAYED_ACTIONS");
         }
         return delayedActionsRepository;
     }
@@ -102,15 +86,16 @@ public class IocContainer {
 
     public static WarnService getWarnService() {
         return initBean(WarnService.class, () -> new WarnService(
-            getPermissionHandler(),
-            getMessage(),
-            getOptions(),
-            getMessages(),
-            getUserManager(),
-            getWarnRepository(),
-            getDelayedActionsRepository()));
+                getPermissionHandler(),
+                getMessage(),
+                getOptions(),
+                getMessages(),
+                getUserManager(),
+                getWarnRepository(),
+                getDelayedActionsRepository()));
     }
 
+    // Could use a factory but for sake of simplicity of the factory demonstration, not going to do.
     public static IStorage getStorage() {
         if (storage == null) {
             if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
@@ -188,5 +173,37 @@ public class IocContainer {
             beans.put(clazz, consumer.get());
         }
         return (T) beans.get(clazz);
+    }
+
+    public static interface Repository {
+    }
+
+    private static final class RepositoryFactory {
+
+        private static final Table<String, DatabaseType, Repository> MAP = HashBasedTable.create();
+
+        static {
+            MAP.put("WARN", DatabaseType.MYSQL, new MysqlWarnRepository(getUserManager()));
+            MAP.put("WARN", DatabaseType.SQLITE, new SqliteWarnRepository(getUserManager()));
+            MAP.put("REPORT", DatabaseType.MYSQL, new MysqlReportRepository(getUserManager()));
+            MAP.put("REPORT", DatabaseType.SQLITE, new SqliteReportRepository(getUserManager()));
+            MAP.put("DELAYED_ACTIONS", DatabaseType.MYSQL, new MysqlDelayedActionsRepository());
+            MAP.put("DELAYED_ACTIONS", DatabaseType.SQLITE, new SqliteDelayedActionsRepository());
+        }
+
+        @SuppressWarnings("unchecked")
+        public static <T extends Repository> T create(String type) {
+            if (type == null) {
+                throw new IllegalArgumentException("Type may not be null.");
+            }
+
+            final DatabaseType dbType = DatabaseUtil.database().getType();
+
+            if (!MAP.contains(type, dbType)) {
+                throw new IllegalStateException("No repository registered for type.");
+            }
+
+            return (T) MAP.get(type, dbType);
+        }
     }
 }
