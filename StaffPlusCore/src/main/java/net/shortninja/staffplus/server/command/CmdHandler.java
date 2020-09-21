@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.command;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.staff.freeze.FreezeCmd;
 import net.shortninja.staffplus.server.command.cmd.*;
 import net.shortninja.staffplus.server.command.cmd.infraction.*;
 import net.shortninja.staffplus.server.command.cmd.mode.*;

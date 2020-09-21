@@ -1,28 +1,43 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.actions.database.DelayedActionsRepository;
-import net.shortninja.staffplus.actions.database.MysqlDelayedActionsRepository;
-import net.shortninja.staffplus.actions.database.SqliteDelayedActionsRepository;
+import net.shortninja.staffplus.player.UserQueuedActionChatPreventer;
+import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
+import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsRepository;
+import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
+import net.shortninja.staffplus.staff.freeze.FreezeChatPreventer;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.reporting.database.ReportRepository;
 import net.shortninja.staffplus.reporting.database.SqliteReportRepository;
+import net.shortninja.staffplus.server.chat.ChatHandler;
+import net.shortninja.staffplus.server.chat.ChatPreventer;
+import net.shortninja.staffplus.server.chat.GeneralChatPreventer;
+import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
+import net.shortninja.staffplus.server.chat.blacklist.censors.DomainChatCensor;
+import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalCharactersChatCensor;
+import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalWordsChatCensor;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.storage.IStorage;
 import net.shortninja.staffplus.server.data.storage.MemoryStorage;
 import net.shortninja.staffplus.server.data.storage.MySQLStorage;
 import net.shortninja.staffplus.server.data.storage.SqliteStorage;
-import net.shortninja.staffplus.staffchat.StaffChatService;
+import net.shortninja.staffplus.staff.staffchat.StaffChatService;
+import net.shortninja.staffplus.staff.vanish.VanishChatPreventer;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseType;
 import net.shortninja.staffplus.util.database.DatabaseUtil;
-import net.shortninja.staffplus.warn.WarnService;
-import net.shortninja.staffplus.warn.database.MysqlWarnRepository;
-import net.shortninja.staffplus.warn.database.SqliteWarnRepository;
-import net.shortninja.staffplus.warn.database.WarnRepository;
+import net.shortninja.staffplus.staff.warn.WarnService;
+import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
+import net.shortninja.staffplus.staff.warn.database.SqliteWarnRepository;
+import net.shortninja.staffplus.staff.warn.database.WarnRepository;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class IocContainer {
 
@@ -93,13 +108,13 @@ public class IocContainer {
     public static WarnService getWarnService() {
         if (warnService == null) {
             warnService = new WarnService(
-                    getPermissionHandler(),
-                    getMessage(),
-                    getOptions(),
-                    getMessages(),
-                    getUserManager(),
-                    getWarnRepository(),
-                    getDelayedActionsRepository());
+                getPermissionHandler(),
+                getMessage(),
+                getOptions(),
+                getMessages(),
+                getUserManager(),
+                getWarnRepository(),
+                getDelayedActionsRepository());
         }
         return warnService;
     }
@@ -151,10 +166,41 @@ public class IocContainer {
         }
         return options;
     }
+
     public static StaffChatService getStaffChatService() {
         if (staffChatService == null) {
             staffChatService = new StaffChatService(getMessages(), getOptions());
         }
         return staffChatService;
+    }
+
+    public static BlacklistService getBlacklistService() {
+        return new BlacklistService(getOptions(), getPermissionHandler(), getMessages(), Arrays.asList(
+            new IllegalWordsChatCensor(getOptions()),
+            new IllegalCharactersChatCensor(getOptions()),
+            new DomainChatCensor(getOptions())
+        ));
+    }
+
+    public static List<ChatPreventer> getChatPreventers() {
+        return Arrays.asList(
+            new UserQueuedActionChatPreventer(getUserManager()),
+            new FreezeChatPreventer(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
+            new VanishChatPreventer(getVanishHandler(), getOptions(), getMessage(), getMessages()),
+            new GeneralChatPreventer(getChatHandler(), getMessage(), getMessages())
+        );
+    }
+
+    public static VanishHandler getVanishHandler() {
+        return new VanishHandler(StaffPlus.get().versionProtocol, getPermissionHandler(),
+            getMessage(), getOptions(), getMessages(), getUserManager());
+    }
+
+    public static ChatHandler getChatHandler() {
+        return new ChatHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages());
+    }
+
+    public static FreezeHandler getFreezeHandler() {
+        return new FreezeHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getUserManager());
     }
 }

@@ -1,12 +1,10 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.staffchat.StaffChatService;
+import net.shortninja.staffplus.staff.staffchat.StaffChatService;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -16,13 +14,12 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 public class StaffChatCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
-    private StaffChatService staffChatService = IocContainer.getStaffChatService();
-    private ChatHandler chatHandler = StaffPlus.get().chatHandler;
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final UserManager userManager = IocContainer.getUserManager();
+    private final StaffChatService staffChatService = IocContainer.getStaffChatService();
 
     public StaffChatCmd(String name) {
         super(name);
@@ -40,7 +37,7 @@ public class StaffChatCmd extends BukkitCommand {
         } else if (sender instanceof Player) {
             IUser user = userManager.get(((Player) sender).getUniqueId());
 
-            if (user.isChatting()) {
+            if (user.inStaffChatMode()) {
                 message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);
                 user.setChatting(false);
             } else {

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -17,14 +17,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 //TODO: Remove debug.
 
 public class Tasks extends BukkitRunnable {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
-    private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
-    private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
-    private AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final UserManager userManager = IocContainer.getUserManager();
+    private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
+    private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
+    private final AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
     private int saveInterval;
     private int freezeInterval;
     private long now;

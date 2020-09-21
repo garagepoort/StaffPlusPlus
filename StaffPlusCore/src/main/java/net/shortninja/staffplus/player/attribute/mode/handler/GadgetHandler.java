@@ -11,6 +11,7 @@ import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -23,14 +24,15 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 public class GadgetHandler {
-    private static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
-    private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
-    private CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
+    private final static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
+    private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final UserManager userManager = IocContainer.getUserManager();
+    private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
+    private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
     public GadgetType getGadgetType(ItemStack item, String value) {
         GadgetType gadgetType = GadgetType.CUSTOM;
@@ -131,14 +133,14 @@ public class GadgetHandler {
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
         if (userManager.get(player.getUniqueId()).getVanishType() == options.modeVanish) {
-            StaffPlus.get().vanishHandler.removeVanish(player);
+            vanishHandler.removeVanish(player);
 
             if (shouldUpdateItem && item != null) {
                 player.getInventory().remove(item);
                 player.getInventory().setItem(slot, versionProtocol.addNbtString(options.modeVanishItemOff, modeItem.getIdentifier()));
             }
         } else {
-            StaffPlus.get().vanishHandler.addVanish(player, options.modeVanish);
+            vanishHandler.addVanish(player, options.modeVanish);
 
             if (shouldUpdateItem && item != null) {
                 player.getInventory().remove(item);
