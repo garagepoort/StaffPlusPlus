@@ -1,6 +1,7 @@
 package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.player.UserQueuedActionChatPreventer;
+import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
 import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
@@ -36,8 +37,7 @@ import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
 import net.shortninja.staffplus.staff.warn.database.SqliteWarnRepository;
 import net.shortninja.staffplus.staff.warn.database.WarnRepository;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class IocContainer {
 
@@ -202,5 +202,9 @@ public class IocContainer {
 
     public static FreezeHandler getFreezeHandler() {
         return new FreezeHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getUserManager());
+    }
+
+    public static List<ChatReceivePreventer> getChatReceivePreventers() {
+        return Arrays.asList();
     }
 }

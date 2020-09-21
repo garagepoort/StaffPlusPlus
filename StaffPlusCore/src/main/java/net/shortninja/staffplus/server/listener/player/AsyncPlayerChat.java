@@ -5,6 +5,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.ChatPreventer;
+import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
 import net.shortninja.staffplus.unordered.IUser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ public class AsyncPlayerChat implements Listener {
     private final UserManager userManager = IocContainer.getUserManager();
     private final AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
     private final List<ChatPreventer> chatPreventers = IocContainer.getChatPreventers();
+    private final List<ChatReceivePreventer> chatReceivePreventers = IocContainer.getChatReceivePreventers();
 
     public AsyncPlayerChat() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -35,8 +37,9 @@ public class AsyncPlayerChat implements Listener {
             return;
         }
 
-        List<IUser> mentioned = getMentioned(message);
+        chatReceivePreventers.forEach(preventer -> preventer.preventReceival(event));
 
+        List<IUser> mentioned = getMentioned(message);
         if (!mentioned.isEmpty()) {
             for (IUser user : mentioned) {
                 alertCoordinator.onMention(user, player.getName());
