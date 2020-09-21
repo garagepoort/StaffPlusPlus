@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.reporting.database;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.event.ReportStatus;
 import net.shortninja.staffplus.player.ProvidedPlayer;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class AbstractSqlReportRepository implements ReportRepository {
+public abstract class AbstractSqlReportRepository implements ReportRepository, IocContainer.Repository {
 
     private final UserManager userManager;
 
