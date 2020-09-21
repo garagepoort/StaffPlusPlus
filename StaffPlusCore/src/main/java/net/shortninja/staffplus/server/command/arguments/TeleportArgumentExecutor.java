@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.command.arguments;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.teleport.TeleportService;
+import net.shortninja.staffplus.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

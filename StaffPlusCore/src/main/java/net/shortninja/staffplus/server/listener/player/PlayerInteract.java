@@ -1,13 +1,14 @@
 package net.shortninja.staffplus.server.listener.player;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.CpsHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeRequest;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.*;
@@ -26,11 +27,11 @@ import java.util.UUID;
 import static net.shortninja.staffplus.common.CommandUtil.playerAction;
 
 public class PlayerInteract implements Listener {
-    private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
-    private CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
-    private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
-    private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
+    private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
+    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
+    private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
+    private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
 
     public PlayerInteract() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

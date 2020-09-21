@@ -6,12 +6,13 @@ import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.player.attribute.mode.handler.*;
-import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
+import net.shortninja.staffplus.player.attribute.mode.handler.CpsHandler;
+import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.player.attribute.mode.handler.InventoryHandler;
+import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.player.ext.bukkit.BukkitOfflinePlayerProvider;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.PacketModifier;
-import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.Load;
@@ -29,7 +30,7 @@ import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
-import net.shortninja.staffplus.staffchat.BungeeStaffChatListener;
+import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -58,12 +59,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     public HookHandler hookHandler;
     public CpsHandler cpsHandler;
-    public FreezeHandler freezeHandler;
     public GadgetHandler gadgetHandler;
     public ReviveHandler reviveHandler;
-    public VanishHandler vanishHandler;
     public OfflinePlayerProvider offlinePlayerProvider;
-    public ChatHandler chatHandler;
     public TicketHandler ticketHandler;
     public CmdHandler cmdHandler;
     public ModeCoordinator modeCoordinator;
@@ -147,11 +145,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         languageFile = new LanguageFile();
         hookHandler = new HookHandler();
         cpsHandler = new CpsHandler();
-        freezeHandler = new FreezeHandler();
         gadgetHandler = new GadgetHandler();
         reviveHandler = new ReviveHandler();
-        vanishHandler = new VanishHandler();
-        chatHandler = new ChatHandler();
         ticketHandler = new TicketHandler();
         cmdHandler = new CmdHandler();
         modeCoordinator = new ModeCoordinator();
@@ -221,17 +216,14 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             modeCoordinator.removeMode(player);
-            vanishHandler.removeVanish(player);
+            IocContainer.getVanishHandler().removeVanish(player);
         }
 
         versionProtocol = null;
         languageFile = null;
         cpsHandler = null;
-        freezeHandler = null;
         gadgetHandler = null;
         reviveHandler = null;
-        vanishHandler = null;
-        chatHandler = null;
         ticketHandler = null;
         cmdHandler = null;
         modeCoordinator = null;
