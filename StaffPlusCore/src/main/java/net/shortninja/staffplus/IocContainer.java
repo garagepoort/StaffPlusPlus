@@ -10,6 +10,7 @@ import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.chat.ChatPreventer;
 import net.shortninja.staffplus.server.chat.GeneralChatPreventer;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
+import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.DomainChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalCharactersChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalWordsChatCensor;
@@ -157,15 +158,20 @@ public class IocContainer {
     }
 
     public static FreezeHandler getFreezeHandler() {
-        return new FreezeHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getUserManager());
+        return initBean(FreezeHandler.class, () -> new FreezeHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getUserManager()));
     }
 
     public static BlacklistService getBlacklistService() {
-        return new BlacklistService(getOptions(), getPermissionHandler(), getMessages(), Arrays.asList(
+        return initBean(BlacklistService.class,
+            () -> new BlacklistService(getOptions(), getPermissionHandler(), getMessages(), getChatCensors()));
+    }
+
+    public static List<ChatCensor> getChatCensors() {
+        return Arrays.asList(
             new IllegalWordsChatCensor(getOptions()),
             new IllegalCharactersChatCensor(getOptions()),
             new DomainChatCensor(getOptions())
-        ));
+        );
     }
 
     public static List<ChatPreventer> getChatPreventers() {
