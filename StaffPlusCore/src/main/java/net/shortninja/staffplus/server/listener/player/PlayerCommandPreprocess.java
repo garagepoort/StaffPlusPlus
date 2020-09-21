@@ -3,7 +3,7 @@ package net.shortninja.staffplus.server.listener.player;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.player.attribute.mode.handler.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.server.command.BaseCmd;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -25,7 +25,7 @@ public class PlayerCommandPreprocess implements Listener {
     private MessageCoordinator message = IocContainer.getMessage();
     private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
-    private FreezeHandler freezeHandler = StaffPlus.get().freezeHandler;
+    private FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private CmdHandler cmdHandler = StaffPlus.get().cmdHandler;
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
@@ -54,7 +54,7 @@ public class PlayerCommandPreprocess implements Listener {
         } else if (modeCoordinator.isInMode(uuid) && options.blockedModeCommands.contains(command)) {
             message.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
-        } else if (freezeHandler.isFrozen(uuid) && (!options.modeFreezeChat || (freezeHandler.isLoggedOut(uuid)) && !command.startsWith("/" + options.commandLogin))) {
+        } else if (freezeHandler.isFrozen(uuid) && (!options.modeFreezeChat && !command.startsWith("/" + options.commandLogin))) {
             message.send(player, messages.chatPrevented, messages.prefixGeneral);
             event.setCancelled(true);
         }

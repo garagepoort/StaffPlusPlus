@@ -5,6 +5,9 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.config.warning.WarningSeverityConfiguration;
 import net.shortninja.staffplus.unordered.IWarning;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class Warning implements IWarning {
@@ -80,10 +83,6 @@ public class Warning implements IWarning {
         return issuerUuid;
     }
 
-    public long getTime() {
-        return time;
-    }
-
     public int getId() {
         return id;
     }
@@ -104,5 +103,10 @@ public class Warning implements IWarning {
 
     public String getSeverity() {
         return severity;
+    }
+
+    @Override
+    public ZonedDateTime getTimestamp() {
+        return ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
     }
 }

@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.unordered;
 
+import org.bukkit.entity.Player;
+
 import java.util.Collection;
 import java.util.UUID;
 
@@ -13,7 +15,9 @@ public interface IUserManager {
 
 	boolean playerExists(String playerName);
 
-	IUser getOffline(UUID playerUuid);
+    Player getOnlinePlayer(String playerName);
+
+    IUser getOffline(UUID playerUuid);
 
     IUser getOnOrOfflineUser(String playerName);
 

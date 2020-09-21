@@ -51,6 +51,11 @@ public class UserManager implements IUserManager {
     }
 
     @Override
+    public Player getOnlinePlayer(String playerName) {
+        return Bukkit.getPlayer(playerName);
+    }
+
+    @Override
     public IUser getOffline(UUID playerUuid) {
         if (options.offlinePlayersModeEnabled) {
             Optional<ProvidedPlayer> user = staffPlus.offlinePlayerProvider.findUser(playerUuid);
@@ -94,6 +99,7 @@ public class UserManager implements IUserManager {
 
         Player player = Bukkit.getPlayer(playerUuid);
         if (player == null && !options.offlinePlayersModeEnabled) {
+
             return null;
         }
 

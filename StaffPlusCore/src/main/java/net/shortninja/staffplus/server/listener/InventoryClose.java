@@ -3,7 +3,7 @@ package net.shortninja.staffplus.server.listener;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.gui.FreezeGui;
+import net.shortninja.staffplus.staff.freeze.FreezeGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IUser;
 import org.bukkit.Bukkit;

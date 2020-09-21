@@ -9,7 +9,7 @@ import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.warn.WarnService;
+import net.shortninja.staffplus.staff.warn.WarnService;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -80,7 +80,7 @@ public class WarnsCmd extends BukkitCommand {
         IUser user = userManager.getOnOrOfflineUser(playerName);
 
         if (user != null) {
-            warnService.clearWarnings(user);
+            warnService.clearWarnings(sender, user);
             message.send(sender, messages.warningsCleared.replace("%target%", playerName), messages.prefixWarnings);
         } else {
             message.send(sender, messages.playerOffline, messages.prefixWarnings);

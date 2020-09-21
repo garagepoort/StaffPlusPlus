@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
-import net.shortninja.staffplus.player.attribute.mode.handler.VanishHandler;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.data.Load;
@@ -24,8 +24,8 @@ import java.util.*;
 
 public class ModeCoordinator {
     private static Map<UUID, ModeDataVault> modeUsers = new HashMap<UUID, ModeDataVault>();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
     public final ModeItem[] MODE_ITEMS =
             {
                     new ModeItem("compass", options.modeCompassItem, options.modeCompassSlot, options.modeCompassEnabled),
@@ -38,9 +38,10 @@ public class ModeCoordinator {
                     new ModeItem("examine", options.modeExamineItem, options.modeExamineSlot, options.modeExamineEnabled),
                     new ModeItem("follow", options.modeFollowItem, options.modeFollowSlot, options.modeFollowEnabled),
             };
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
-    private VanishHandler vanishHandler = StaffPlus.get().vanishHandler;
+
+    private final Messages messages = IocContainer.getMessages();
+    private final UserManager userManager = IocContainer.getUserManager();
+    private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
     public Set<UUID> getModeUsers() {
         return modeUsers.keySet();
