@@ -30,9 +30,6 @@ jobs:
         echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
-    - name: Install dependencies
-      run: chmod +x ./install-dependencies.sh && ./install-dependencies.sh
-
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
