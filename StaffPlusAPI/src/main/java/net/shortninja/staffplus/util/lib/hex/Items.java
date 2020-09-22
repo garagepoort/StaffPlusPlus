@@ -42,7 +42,7 @@ public final class Items {
 
     public static ItemStack createGreenColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.GREEN_STAINED_GLASS_PANE)
+                .setMaterial(Material.GREEN_GLAZED_TERRACOTTA)
                 .setName(name)
                 .addLore(lore)
                 .build();
@@ -50,7 +50,7 @@ public final class Items {
 
     public static ItemStack createRedColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.RED_STAINED_GLASS_PANE)
+                .setMaterial(Material.RED_GLAZED_TERRACOTTA)
                 .setName(name)
                 .addLore(lore)
                 .build();
@@ -58,7 +58,7 @@ public final class Items {
 
     public static ItemStack createGrayColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.GRAY_STAINED_GLASS_PANE)
+                .setMaterial(Material.GRAY_GLAZED_TERRACOTTA)
                 .setName(name)
                 .addLore(lore)
                 .build();
@@ -71,7 +71,7 @@ public final class Items {
 
     public static ItemStack createSkull(String name) {
         ItemStack skull;
-        skull = new ItemStack(Material.valueOf("PLAYER_HEAD"), 1);
+        skull = new ItemStack(Material.valueOf("SKULL_ITEM"), 1);
         SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
         skullMeta.setOwner(name);
         return skull;

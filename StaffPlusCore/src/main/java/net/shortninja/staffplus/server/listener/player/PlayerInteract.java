@@ -67,7 +67,7 @@ public class PlayerInteract implements Listener {
 
                 Inventory chestView = Bukkit.createInventory(player, InventoryType.CHEST);
                 // Only have to check for similar inventory types as the items will map.
-                if (container instanceof Furnace || container instanceof BlastFurnace || container instanceof Smoker) {
+                if (container instanceof Furnace) {
                     chestView = Bukkit.createInventory(player, InventoryType.FURNACE);
                 } else if (container instanceof BrewingStand) {
                     chestView = Bukkit.createInventory(player, InventoryType.BREWING);

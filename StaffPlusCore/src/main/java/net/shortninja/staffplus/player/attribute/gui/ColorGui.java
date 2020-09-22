@@ -1,14 +1,10 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -46,21 +42,11 @@ public class ColorGui extends AbstractGui {
     }
 
     private ItemStack glassItem(short data) {
-        String[] tmp = Bukkit.getVersion().split("MC: ");
-        String version = tmp[tmp.length - 1].substring(0, 4);
-        if (JavaUtils.parseMcVer(version)<13) {
-            return Items.builder()
-                    .setMaterial(Material.valueOf("STAINED_GLASS_PANE")).setAmount(1).setData(data)
-                    .setName("&bColor #" + data)
-                    .addLore("&7Click to change your GUI color!")
-                    .build();
-        } else {
-            return Items.builder()
-                    .setMaterial(Material.valueOf(GlassData.getName(data)))
-                    .setName("&bColor #" + data)
-                    .addLore("&7Click to change your GUI color!")
-                    .build();
-        }
+        return Items.builder()
+            .setMaterial(Material.STAINED_GLASS_PANE).setAmount(1).setData(data)
+            .setName("&bColor #" + data)
+            .addLore("&7Click to change your GUI color!")
+            .build();
 
     }
 }

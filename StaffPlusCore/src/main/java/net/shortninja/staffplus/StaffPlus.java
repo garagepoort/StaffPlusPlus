@@ -1,6 +1,6 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.nms.Protocol_v1_16;
+import net.shortninja.staffplus.nms.Protocol_v1_12;
 import net.shortninja.staffplus.player.NodeUser;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.UserManager;
@@ -172,7 +172,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private boolean setupVersionProtocol() {
         final String version = Bukkit.getServer().getClass().getPackage().getName();
         final String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
-        versionProtocol = new Protocol_v1_16(this);
+        versionProtocol = new Protocol_v1_12(this);
         IocContainer.getMessage().sendConsoleMessage("Version protocol set to '" + formattedVersion + "'.", false);
         return versionProtocol != null;
     }

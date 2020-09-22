@@ -8,7 +8,7 @@
     <description>The ultimate moderation plugin.</description>
     <artifactId>StaffPlus</artifactId>
     <packaging>pom</packaging>
-    <version>1.17.0</version>
+    <version>1.12.1</version>
 
     <modules>
         <module>StaffPlusAPI</module>
@@ -34,7 +34,7 @@
     </build>
 
     <properties>
-        <spigot.version>1.16.3-R0.1-SNAPSHOT</spigot.version>
+        <spigot.version>1.12.2-R0.1-SNAPSHOT</spigot.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -45,16 +45,17 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>mikeprim-repo</id>
-            <url>http://repo.mikeprimm.com/</url>
-        </repository>
-        <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <repository>
             <id>codemc-repo</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>repsy</id>
+            <name>Spigot-server-deps</name>
+            <url>https://repo.repsy.io/mvn/garagepoort/spigot</url>
         </repository>
     </repositories>
 
