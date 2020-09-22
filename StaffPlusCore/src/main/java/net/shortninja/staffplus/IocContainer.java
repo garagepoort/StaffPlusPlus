@@ -31,6 +31,7 @@ import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
 import net.shortninja.staffplus.staff.tracing.TraceChatPreventer;
 import net.shortninja.staffplus.staff.tracing.TraceService;
+import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
 import net.shortninja.staffplus.staff.vanish.VanishChatPreventer;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.staff.warn.WarnService;
@@ -141,7 +142,11 @@ public class IocContainer {
     }
 
     public static TraceService getTraceService() {
-        return initBean(TraceService.class, () -> new TraceService(getUserManager(), getMessages(), getMessage()));
+        return initBean(TraceService.class, () -> new TraceService(getUserManager(), getMessages(), getMessage(), getTraceWriterFactory()));
+    }
+
+    public static TraceWriterFactory getTraceWriterFactory() {
+        return initBean(TraceWriterFactory.class, () -> new TraceWriterFactory(getMessage(), getMessages()));
     }
 
     public static BlacklistService getBlacklistService() {

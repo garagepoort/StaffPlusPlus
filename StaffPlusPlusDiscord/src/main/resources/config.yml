@@ -19,3 +19,8 @@ StaffPlusPlusDiscord:
     notifyCleared: true
     notifyCreate: true
     notifyThresholdReached: true
+  trace:
+    webhookUrl: ""
+    notifyStartTrace: false
+    notifyStopTrace: false
+    notifyTraceLogFile: true

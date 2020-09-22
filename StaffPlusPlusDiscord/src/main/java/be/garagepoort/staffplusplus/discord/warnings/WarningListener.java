@@ -1,5 +1,6 @@
 package be.garagepoort.staffplusplus.discord.warnings;
 
+import be.garagepoort.staffplusplus.discord.Constants;
 import be.garagepoort.staffplusplus.discord.api.*;
 import feign.Feign;
 import feign.Logger;
@@ -31,12 +32,12 @@ public class WarningListener implements Listener {
 
     public WarningListener(FileConfiguration config) {
         discordClient = Feign.builder()
-                .client(new OkHttpClient())
-                .encoder(new GsonEncoder())
-                .decoder(new GsonDecoder())
-                .logger(new Slf4jLogger(DiscordClient.class))
-                .logLevel(Logger.Level.FULL)
-                .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.warnings.webhookUrl", ""));
+            .client(new OkHttpClient())
+            .encoder(new GsonEncoder())
+            .decoder(new GsonDecoder())
+            .logger(new Slf4jLogger(DiscordClient.class))
+            .logLevel(Logger.Level.FULL)
+            .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.warnings.webhookUrl", ""));
         this.config = config;
     }
 
@@ -82,7 +83,7 @@ public class WarningListener implements Listener {
         fields.add(new DiscordMessageField("Culprit", culprit, true));
         fields.add(new DiscordMessageField("Reason", "```" + warning.getReason() + "```"));
 
-        createFooter(title, color, time, fields);
+        sendEvent(title, color, time, fields);
     }
 
     private void buildClearedMessage(WarningsClearedEvent event, String title, String color) {
@@ -95,7 +96,7 @@ public class WarningListener implements Listener {
         fields.add(new DiscordMessageField("Issuer", issuer, true));
         fields.add(new DiscordMessageField("Culprit", culprit, true));
         fields.add(new DiscordMessageField("Message", "All warnings removed for player: " + culprit));
-        createFooter(title, color, time, fields);
+        sendEvent(title, color, time, fields);
     }
 
     private void buildThresholdReachedMessage(WarningThresholdReachedEvent event, String title, String color) {
@@ -107,23 +108,23 @@ public class WarningListener implements Listener {
         fields.add(new DiscordMessageField("Culprit", culprit, true));
         fields.add(new DiscordMessageField("Message", culprit + " has reached threshold of score: [" + event.getThresholdScore() + "]"));
         fields.add(new DiscordMessageField("Commands triggered", "```" + String.join("\n", event.getCommandsTriggered()) + "```"));
-        createFooter(title, color, time, fields);
+        sendEvent(title, color, time, fields);
     }
 
-    private void createFooter(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
+    private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
         discordClient.sendEvent(new DiscordMessage("Warning update from StaffPlusPlus", new DiscordMessageEmbed(
-                title,
-                "https://www.spigotmc.org/resources/staff.83562/",
-                color,
-                time,
-                new DiscordMessageFooter("Provided by StaffPlusPlus", "https://cdn.discordapp.com/embed/avatars/0.png"),
-                fields
+            title,
+            Constants.STAFFPLUSPLUS_URL,
+            color,
+            time,
+            DiscordUtil.createFooter(),
+            fields
         )));
     }
 
     public boolean isEnabled() {
         return config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCreate") ||
-                config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCleared") ||
-                config.getBoolean("StaffPlusPlusDiscord.warnings.notifyThresholdReached");
+            config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCleared") ||
+            config.getBoolean("StaffPlusPlusDiscord.warnings.notifyThresholdReached");
     }
 }
