@@ -23,4 +23,4 @@ StaffPlusPlusDiscord:
     webhookUrl: ""
     notifyStartTrace: false
     notifyStopTrace: false
-    notifyTraceLogFile: true
+    notifyTraceLogFile: false

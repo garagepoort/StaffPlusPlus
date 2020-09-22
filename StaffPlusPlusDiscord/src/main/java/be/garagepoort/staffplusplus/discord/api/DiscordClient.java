@@ -10,6 +10,6 @@ public interface DiscordClient {
     void sendEvent(DiscordMessage discordMessage);
 
     @RequestLine("POST")
-    @Headers("Content-Type: multipart/form-data")
-    void sendFileEvent(DiscordFileMessage discordMessage);
+    @Headers("Content-Type: application/json")
+    void sendFileEvent(DiscordFileMessage discordFileMessage);
 }

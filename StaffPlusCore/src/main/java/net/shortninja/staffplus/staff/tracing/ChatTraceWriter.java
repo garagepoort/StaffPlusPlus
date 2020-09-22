@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class ChatTraceWriter implements TraceWriter {
@@ -27,7 +28,7 @@ public class ChatTraceWriter implements TraceWriter {
     public void writeToTrace(String message) {
         Player player = Bukkit.getPlayer(tracerUuid);
         if(player != null) {
-            String traceMessage = "[" + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) + "] : " + message;
+            String traceMessage = "[" + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_DATE_TIME) + "] : " + message;
             this.message.send(player, traceMessage, messages.prefixTrace);
         }
     }

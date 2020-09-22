@@ -18,8 +18,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -55,9 +55,9 @@ public class TraceListener implements Listener {
 
         if (config.getBoolean("StaffPlusPlusDiscord.trace.notifyTraceLogFile")) {
             try {
-                byte[] bytes = getTraceFile(event);
-                if (bytes == null) return;
-                buildTraceStoppedMessage(event.getTrace(), "Trace Stopped", THRESHOLD_COLOR, bytes);
+                File file = getTraceFile(event);
+                if (file == null) return;
+                buildTraceStoppedMessage(event.getTrace(), "Trace Stopped", THRESHOLD_COLOR, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -67,7 +67,7 @@ public class TraceListener implements Listener {
 
     }
 
-    private byte[] getTraceFile(StopTraceEvent event) throws IOException {
+    private File getTraceFile(StopTraceEvent event) throws IOException {
         List<TraceWriter> writers = event.getTrace().getWriters();
         Optional<TraceWriter> traceWriter = writers.stream()
             .filter(tw -> tw.getType() == TraceWriterType.FILE)
@@ -81,10 +81,10 @@ public class TraceListener implements Listener {
         String resource = traceWriter.get().getResource();
         Path path = Paths.get(resource);
 
-        return Files.readAllBytes(path);
+        return path.toFile();
     }
 
-    private void buildTraceStoppedMessage(ITrace trace, String title, String color, byte[] bytes) {
+    private void buildTraceStoppedMessage(ITrace trace, String title, String color, File file) {
         String time = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
         String tracer = trace.getTracerUuid() + "\n[" + trace.getTracerUuid() + "]";
@@ -94,18 +94,15 @@ public class TraceListener implements Listener {
         fields.add(new DiscordMessageField("Tracer", tracer, true));
         fields.add(new DiscordMessageField("Traced", traced, true));
 
-        if(bytes != null) {
-            sendFileEvent(title, color, time, fields, bytes);
+        if(file != null) {
+            sendFileEvent(title, color, time, fields, file);
         }else{
             sendEvent(title, color, time, fields);
         }
     }
 
-    private void sendFileEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields, byte[] file) {
-        discordClient.sendFileEvent(new DiscordFileMessage(
-            file,
-            new DiscordMessage("Trace file from StaffPlusPlus", getEmbed(title, color, time, fields))
-        ));
+    private void sendFileEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields, File file) {
+        discordClient.sendEvent(new DiscordMessage("Trace file from StaffPlusPlus", file, getEmbed(title, color, time, fields)));
     }
 
     private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
