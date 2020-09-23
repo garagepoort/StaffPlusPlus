@@ -1,5 +1,6 @@
 package be.garagepoort.staffplusplus.discord.reports;
 
+import be.garagepoort.staffplusplus.discord.Constants;
 import be.garagepoort.staffplusplus.discord.api.*;
 import feign.Feign;
 import feign.Logger;
@@ -30,12 +31,12 @@ public class ReportListener implements Listener {
 
     public ReportListener(FileConfiguration config) {
         discordClient = Feign.builder()
-                .client(new OkHttpClient())
-                .encoder(new GsonEncoder())
-                .decoder(new GsonDecoder())
-                .logger(new Slf4jLogger(DiscordClient.class))
-                .logLevel(Logger.Level.FULL)
-                .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.webhookUrl"));
+            .client(new OkHttpClient())
+            .encoder(new GsonEncoder())
+            .decoder(new GsonDecoder())
+            .logger(new Slf4jLogger(DiscordClient.class))
+            .logLevel(Logger.Level.FULL)
+            .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.webhookUrl"));
         this.config = config;
     }
 
@@ -110,20 +111,20 @@ public class ReportListener implements Listener {
         fields.add(new DiscordMessageField("Status", "**" + report.getReportStatus() + "**"));
 
         discordClient.sendEvent(new DiscordMessage("Report update from StaffPlusPlus", new DiscordMessageEmbed(
-                title,
-                "https://www.spigotmc.org/resources/staff.83562/",
-                color,
-                time,
-                new DiscordMessageFooter("Provided by StaffPlusPlus", "https://cdn.discordapp.com/embed/avatars/0.png"),
-                fields
+            title,
+            Constants.STAFFPLUSPLUS_URL,
+            color,
+            time,
+            DiscordUtil.createFooter(),
+            fields
         )));
     }
 
     public boolean isEnabled() {
         return config.getBoolean("StaffPlusPlusDiscord.notifyOpen") ||
-                config.getBoolean("StaffPlusPlusDiscord.notifyReopen") ||
-                config.getBoolean("StaffPlusPlusDiscord.notifyAccept") ||
-                config.getBoolean("StaffPlusPlusDiscord.notifyReject") ||
-                config.getBoolean("StaffPlusPlusDiscord.notifyResolve");
+            config.getBoolean("StaffPlusPlusDiscord.notifyReopen") ||
+            config.getBoolean("StaffPlusPlusDiscord.notifyAccept") ||
+            config.getBoolean("StaffPlusPlusDiscord.notifyReject") ||
+            config.getBoolean("StaffPlusPlusDiscord.notifyResolve");
     }
 }

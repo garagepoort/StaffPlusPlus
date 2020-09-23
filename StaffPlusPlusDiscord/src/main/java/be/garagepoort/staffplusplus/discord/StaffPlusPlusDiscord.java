@@ -1,6 +1,7 @@
 package be.garagepoort.staffplusplus.discord;
 
 import be.garagepoort.staffplusplus.discord.reports.ReportListener;
+import be.garagepoort.staffplusplus.discord.trace.TraceListener;
 import be.garagepoort.staffplusplus.discord.warnings.WarningListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +17,7 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
 
         ReportListener reportListener = new ReportListener(config);
         WarningListener warningListener = new WarningListener(config);
+        TraceListener traceListener = new TraceListener(config);
 
         if(reportListener.isEnabled() &&
                 (config.getString("StaffPlusPlusDiscord.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.webhookUrl").isEmpty())) {
@@ -26,9 +28,14 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
                 (config.getString("StaffPlusPlusDiscord.warnings.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.warnings.webhookUrl").isEmpty())) {
             throw new RuntimeException("Cannot enable StaffPlusPlusDiscord. No warning webhookUrl provided in the configuration.");
         }
+        if(traceListener.isEnabled() &&
+                (config.getString("StaffPlusPlusDiscord.trace.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.trace.webhookUrl").isEmpty())) {
+            throw new RuntimeException("Cannot enable StaffPlusPlusDiscord. No trace webhookUrl provided in the configuration.");
+        }
 
         getServer().getPluginManager().registerEvents(reportListener, this);
         getServer().getPluginManager().registerEvents(warningListener, this);
+        getServer().getPluginManager().registerEvents(traceListener, this);
     }
 
     @Override

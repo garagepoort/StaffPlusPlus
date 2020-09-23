@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
 
 public class WarnCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private WarnService warnService = IocContainer.getWarnService();
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final WarnService warnService = IocContainer.getWarnService();
 
     public WarnCmd(String name) {
         super(name);
@@ -39,7 +39,7 @@ public class WarnCmd extends BukkitCommand {
             if (!permission.has(sender, options.permissionWarn)) {
                 throw new NoPermissionException(messages.prefixWarnings);
             }
-            List<WarningSeverityConfiguration> severityLevels = IocContainer.getOptions().warningConfiguration.getSeverityLevels();
+            List<WarningSeverityConfiguration> severityLevels = options.warningConfiguration.getSeverityLevels();
             if (severityLevels.isEmpty()) {
                 if (args.length < 2) {
                     throw new BusinessException(messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixWarnings);
@@ -69,7 +69,7 @@ public class WarnCmd extends BukkitCommand {
         List<String> onlinePLayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
         List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
         List<String> suggestions = new ArrayList<>();
-        List<WarningSeverityConfiguration> severityLevels = IocContainer.getOptions().warningConfiguration.getSeverityLevels();
+        List<WarningSeverityConfiguration> severityLevels = options.warningConfiguration.getSeverityLevels();
         if (args.length == 1) {
             if (severityLevels.isEmpty()) {
                 suggestions.addAll(onlinePLayers);

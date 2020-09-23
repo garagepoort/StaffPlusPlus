@@ -25,7 +25,7 @@ staff-chat-prefix: "&dPersoneelChat &8»"
 
 # Het voorvoegsel voor alle ticket berichten.
 tickets-prefix: "&dTickets &8»"
-
+trace-prefix: "&dTrace &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Algemeen                       | #
