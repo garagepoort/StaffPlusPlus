@@ -1,5 +1,9 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.16
+#### Features
+- Warning discord integration
+
 ### V1.15.15
 #### Features
 - BungeeCord support. StaffChat will now be synced over all servers inside the bungee network.
