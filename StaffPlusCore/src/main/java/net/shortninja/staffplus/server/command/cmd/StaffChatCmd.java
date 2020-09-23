@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -27,25 +28,27 @@ public class StaffChatCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        if (!permission.has(sender, options.permissionStaffChat)) {
-            message.send(sender, messages.noPermission, messages.prefixStaffChat);
-            return true;
-        }
-
-        if (args.length > 0) {
-            staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
-        } else if (sender instanceof Player) {
-            IUser user = userManager.get(((Player) sender).getUniqueId());
-
-            if (user.inStaffChatMode()) {
-                message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);
-                user.setChatting(false);
-            } else {
-                message.send(sender, messages.staffChatStatus.replace("%status%", messages.enabled), messages.prefixStaffChat);
-                user.setChatting(true);
+        return CommandUtil.executeCommand(sender, true, () -> {
+            if (!permission.has(sender, options.permissionStaffChat)) {
+                message.send(sender, messages.noPermission, messages.prefixStaffChat);
+                return true;
             }
-        } else message.send(sender, messages.onlyPlayers, messages.prefixStaffChat);
 
-        return true;
+            if (args.length > 0) {
+                staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
+            } else if (sender instanceof Player) {
+                IUser user = userManager.get(((Player) sender).getUniqueId());
+
+                if (user.inStaffChatMode()) {
+                    message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);
+                    user.setChatting(false);
+                } else {
+                    message.send(sender, messages.staffChatStatus.replace("%status%", messages.enabled), messages.prefixStaffChat);
+                    user.setChatting(true);
+                }
+            } else message.send(sender, messages.onlyPlayers, messages.prefixStaffChat);
+
+            return true;
+        });
     }
 }

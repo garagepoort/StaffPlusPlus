@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.server.command.cmd.infraction;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.common.NoPermissionException;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -35,23 +37,24 @@ public class WarnsCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        if (!permission.has(sender, options.permissionWarn)) {
-            message.send(sender, messages.noPermission, messages.prefixWarnings);
-            return true;
-        }
+        return CommandUtil.executeCommand(sender, true, () -> {
+            if (!permission.has(sender, options.permissionWarn)) {
+                throw new NoPermissionException();
+            }
 
-        if (args.length == 2) {
-            String argument = args[0];
-            String playerName = args[1];
+            if (args.length == 2) {
+                String argument = args[0];
+                String playerName = args[1];
 
-            if (argument.equalsIgnoreCase("get")) {
-                listWarnings(sender, playerName);
-            } else if (argument.equalsIgnoreCase("clear")) {
-                clearWarnings(sender, playerName);
+                if (argument.equalsIgnoreCase("get")) {
+                    listWarnings(sender, playerName);
+                } else if (argument.equalsIgnoreCase("clear")) {
+                    clearWarnings(sender, playerName);
+                } else sendHelp(sender);
             } else sendHelp(sender);
-        } else sendHelp(sender);
 
-        return true;
+            return true;
+        });
     }
 
     private void listWarnings(CommandSender sender, String playerName) {
