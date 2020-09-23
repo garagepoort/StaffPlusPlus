@@ -1,5 +1,7 @@
 # Staff++
-Forked from QBall StaffPlus github's repository.
+Originally created by Shortninja66. After his early passing QBall continued maintaining and developing the plugin.
+
+Now after a while I stumbled upon it and its background. My goal is to add new functionalities and fix a lot of the open bugs, hopefully making this plugin very robust with many features useful for small and big servers.
 
 I forked this repository to implement a release cycle strategy in which different versions for different server will be supported.
 The main reason for this is so that we can start implementing new features easily using new versions of the spigot api, without worrying about backwards compatibility.
