@@ -1,8 +1,50 @@
 # Changelog Staff++ | v1.13
 
-### UPCOMING RELEASE V1.13.6 
+### V1.13.15
+#### Features
+- Warning discord integration
+
+### V1.13.14
+#### Features
+- BungeeCord support. StaffChat will now be synced over all servers inside the bungee network.
+- Update notifier implemented
+
+### V1.13.13
+#### Bugs
+- Players could always bypass clear, freeze and teleport commands
+- Resolved issue: https://github.com/garagepoort/StaffPlusPlus/issues/91
+Items got removed when inspecting a chest. 
+
+### V1.13.12
+#### Features
+- Add clear inventory bypass permission
+
+#### Bugs
+- Plugins directory was wrongly named which made it crash on Linux machines 
+
+### V1.13.10
+#### Features
+- Delay argument has been added
+- Implemented automatic update for the config file 
+
+#### Bugs
+- teleport command was not present in the configuration file
+
+### V1.13.9
+#### Bugs
+- DELAY Action type not working when users are online
+
+### V1.13.8
+#### Features
+- Teleport command added
+
+#### Breaking
+- Added new warning system
+
+### V1.13.6 
 #### Features
 - Implement new reportEvents
+- Added Discord Integration for reporting events
 
 #### Bugs
 - Use ZonedDateTimeFor Reporting
