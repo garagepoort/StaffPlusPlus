@@ -6,6 +6,8 @@ import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.ChatPreventer;
 import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
+import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
+import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.unordered.IUser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,11 +19,15 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.shortninja.staffplus.staff.tracing.TraceType.CHAT;
+
 public class AsyncPlayerChat implements Listener {
     private final UserManager userManager = IocContainer.getUserManager();
     private final AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
     private final List<ChatPreventer> chatPreventers = IocContainer.getChatPreventers();
     private final List<ChatReceivePreventer> chatReceivePreventers = IocContainer.getChatReceivePreventers();
+    private final BlacklistService blacklistService = IocContainer.getBlacklistService();
+    private final TraceService traceService = IocContainer.getTraceService();
 
     public AsyncPlayerChat() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -38,6 +44,7 @@ public class AsyncPlayerChat implements Listener {
         }
 
         chatReceivePreventers.forEach(preventer -> preventer.preventReceival(event));
+        traceService.sendTraceMessage(CHAT, player.getUniqueId(), event.getMessage());
 
         List<IUser> mentioned = getMentioned(message);
         if (!mentioned.isEmpty()) {
@@ -46,7 +53,7 @@ public class AsyncPlayerChat implements Listener {
             }
         }
 
-        IocContainer.getBlacklistService().censorMessage(player, event);
+        blacklistService.censorMessage(player, event);
     }
 
     private boolean shouldCancel(Player player, String message) {

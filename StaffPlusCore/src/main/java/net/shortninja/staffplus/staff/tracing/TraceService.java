@@ -76,11 +76,7 @@ public class TraceService {
         tracedPlayers.values().removeIf(t -> t.getTracedUuid() == tracedUuid);
     }
 
-    public void sendTraceMessage(TraceType traceType, UUID tracedUuid, String message) {
-        if (!traceConfiguration.isTraceTypeEnabled(traceType)) {
-            return;
-        }
-
+    public void sendTraceMessage(UUID tracedUuid, String message) {
         List<UUID> tracers = tracedPlayers.entrySet().stream()
             .filter(e -> e.getValue().getTracedUuid() == tracedUuid)
             .map(Map.Entry::getKey)
@@ -97,6 +93,13 @@ public class TraceService {
 
             tracedPlayers.get(tracerUuid).writeToTrace(message);
         }
+    }
+
+    public void sendTraceMessage(TraceType traceType, UUID tracedUuid, String message) {
+        if (!traceConfiguration.isTraceTypeEnabled(traceType)) {
+            return;
+        }
+        sendTraceMessage(tracedUuid, message);
     }
 
     public boolean isPlayerTracing(Player player) {

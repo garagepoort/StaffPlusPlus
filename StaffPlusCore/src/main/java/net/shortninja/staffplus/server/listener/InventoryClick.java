@@ -18,9 +18,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class InventoryClick implements Listener {
-    private Options options = IocContainer.getOptions();
-    private UserManager userManager = IocContainer.getUserManager();
-    private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final Options options = IocContainer.getOptions();
+    private final UserManager userManager = IocContainer.getUserManager();
+    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
     public InventoryClick() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -34,27 +34,25 @@ public class InventoryClick implements Listener {
         ItemStack item = event.getCurrentItem();
         int slot = event.getSlot();
 
-
         if(StaffPlus.get().inventoryHandler.isInVirtualInv(uuid)||
             StaffPlus.get().viewedChest.contains(event.getInventory())){
             event.setCancelled(true);
         }
 
-        if (user == null)
+        if (user == null) {
             return;
+        }
+
         if (!user.getCurrentGui().isPresent() || item == null) {
             if (modeCoordinator.isInMode(uuid) && !options.modeInventoryInteraction) {
                 event.setCancelled(true);
             }
-
             return;
         }
 
         IAction action = user.getCurrentGui().get().getAction(slot);
-
         if (action != null) {
             action.click(player, item, slot);
-
             if (action.shouldClose()) {
                 player.closeInventory();
             }

@@ -7,5 +7,5 @@ public enum TraceType {
     BLOCK_PLACE,
     COMMANDS,
     CHAT,
-    WORLD_CHANGE;
+    WORLD_CHANGE, INVENTORY, DAMAGE;
 }

@@ -307,9 +307,6 @@ staff-mode:
   # Whether or not staff mode will be enabled for staff when they login.
   enable-on-login: false
 
-  # Name says it all what commands do you want to block while the player is not logged in
-  prelogin-blocked-commands: "/ban"
-
   # Commands to execute when staff mode is enabled. Leave blank to disable.
   # Each command is separated with a comma.
   enable-commands: "example1 %player%, example2 %player%"

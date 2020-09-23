@@ -5,10 +5,10 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.staff.tracing.TraceService;
-import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.tracing.TraceService;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
@@ -52,6 +52,7 @@ public class PlayerQuit implements Listener {
             InventoryFactory.saveEnderChest(event.getPlayer());
         }
 
+        traceService.sendTraceMessage(player.getUniqueId(), "Left the game");
         traceService.stopAllTracesForPlayer(player.getUniqueId());
     }
 

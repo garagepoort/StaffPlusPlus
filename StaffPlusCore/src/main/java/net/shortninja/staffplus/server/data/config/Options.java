@@ -110,13 +110,11 @@ public class Options implements IOptions {
      */
     public final boolean modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
     public final boolean modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
-    public final boolean modeVanished = config.getBoolean("staff-mode.vanish");
     public final boolean modeInvincible = config.getBoolean("staff-mode.invincible");
     public final boolean modeFlight = config.getBoolean("staff-mode.flight");
     public final boolean modeCreative = config.getBoolean("staff-mode.creative");
     public final boolean modeOriginalLocation = config.getBoolean("staff-mode.original-location");
     public final boolean modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
-    public final List<String> preLoginBlock = JavaUtils.stringToList("stafff-mode.prelogin-blocked-commands");
     public final boolean staffView = config.getBoolean("staff-mode.staff-see-staff-in-mode");
     /*
      * Compass

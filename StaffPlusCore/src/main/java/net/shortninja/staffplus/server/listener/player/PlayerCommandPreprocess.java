@@ -50,8 +50,6 @@ public class PlayerCommandPreprocess implements Listener {
             return;
         }
 
-        if (PlayerJoin.needLogin.contains(event.getPlayer().getUniqueId()) && options.preLoginBlock.contains(command))
-            event.setCancelled(true);
         if (options.blockedCommands.contains(command) && permission.hasOnly(player, options.permissionBlock)) {
             message.send(player, messages.commandBlocked, messages.prefixGeneral);
             event.setCancelled(true);

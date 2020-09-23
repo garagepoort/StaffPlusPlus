@@ -6,6 +6,7 @@ import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.tracing.TraceService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -35,6 +36,7 @@ public class BlockBreak implements Listener {
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private final AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
     private final Set<Location> locations = new HashSet<>();
+    private final TraceService traceService = IocContainer.getTraceService();
 
     public BlockBreak() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -68,7 +70,7 @@ public class BlockBreak implements Listener {
                 }
             }
 
-            IocContainer.getTraceService().sendTraceMessage(BLOCK_BREAK, event.getPlayer().getUniqueId(),
+            traceService.sendTraceMessage(BLOCK_BREAK, event.getPlayer().getUniqueId(),
                 String.format("Block [%s] broken at [%s,%s,%s]", block.getType(), block.getX(), block.getY(), block.getZ()));
             return;
         }
