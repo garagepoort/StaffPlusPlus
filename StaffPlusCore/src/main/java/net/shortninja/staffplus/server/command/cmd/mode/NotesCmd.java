@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.common.NoPermissionException;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -29,31 +30,32 @@ public class NotesCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        if (!permission.has(sender, options.permissionExamine)) {
-            message.send(sender, messages.noPermission, messages.prefixGeneral);
+        return CommandUtil.executeCommand(sender, true, () -> {
+            if (!permission.has(sender, options.permissionExamine)) {
+                throw new NoPermissionException();
+            }
+
+            if (args.length == 2) {
+                String argument = args[0];
+                String option = args[1];
+                boolean hasPermission = permission.has(sender, options.permissionExamine);
+                Player player = Bukkit.getPlayer(option);
+
+                if (argument.equalsIgnoreCase("get") && hasPermission) {
+                    if (player == null) {
+                        message.send(sender, messages.playerOffline, messages.prefixGeneral);
+                    } else listNotes(sender, player);
+                } else if (argument.equalsIgnoreCase("clear") && hasPermission) {
+                    if (player == null) {
+                        message.send(sender, messages.playerOffline, messages.prefixGeneral);
+                    } else clearNotes(sender, player);
+                } else addNote(sender, argument, JavaUtils.compileWords(args, 1));
+            } else if (args.length >= 3) {
+                addNote(sender, args[0], JavaUtils.compileWords(args, 1));
+            } else sendHelp(sender);
+
             return true;
-        }
-
-        if (args.length == 2) {
-            String argument = args[0];
-            String option = args[1];
-            boolean hasPermission = permission.has(sender, options.permissionExamine);
-            Player player = Bukkit.getPlayer(option);
-
-            if (argument.equalsIgnoreCase("get") && hasPermission) {
-                if (player == null) {
-                    message.send(sender, messages.playerOffline, messages.prefixGeneral);
-                } else listNotes(sender, player);
-            } else if (argument.equalsIgnoreCase("clear") && hasPermission) {
-                if (player == null) {
-                    message.send(sender, messages.playerOffline, messages.prefixGeneral);
-                } else clearNotes(sender, player);
-            } else addNote(sender, argument, JavaUtils.compileWords(args, 1));
-        } else if (args.length >= 3) {
-            addNote(sender, args[0], JavaUtils.compileWords(args, 1));
-        } else sendHelp(sender);
-
-        return true;
+        });
     }
 
     private void listNotes(CommandSender sender, Player player) {

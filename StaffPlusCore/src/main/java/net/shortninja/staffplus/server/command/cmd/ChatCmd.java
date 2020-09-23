@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -24,13 +25,15 @@ public class ChatCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        if (args.length >= 2 && permission.isOp(sender)) {
-            handleChatArgument(sender, args[0], args[1], false);
-        } else if (args.length == 1) {
-            handleChatArgument(sender, args[0], "", true);
-        } else sendHelp(sender);
+        return CommandUtil.executeCommand(sender, true, () -> {
+            if (args.length >= 2 && permission.isOp(sender)) {
+                handleChatArgument(sender, args[0], args[1], false);
+            } else if (args.length == 1) {
+                handleChatArgument(sender, args[0], "", true);
+            } else sendHelp(sender);
 
-        return true;
+            return true;
+        });
     }
 
     private void handleChatArgument(CommandSender sender, String argument, String option, boolean shouldCheckPermission) {
