@@ -31,7 +31,7 @@ public class ReportsCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        return executeCommand(sender, () -> {
+        return executeCommand(sender, true, () -> {
             if (!permission.has(sender, options.permissionReport)) {
                 throw new NoPermissionException(messages.prefixReports);
             }

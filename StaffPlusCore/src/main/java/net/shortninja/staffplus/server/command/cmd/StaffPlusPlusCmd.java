@@ -37,7 +37,7 @@ public abstract class StaffPlusPlusCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        return executeCommand(sender, () -> {
+        return executeCommand(sender, isAuthenticationRequired(),() -> {
             if (!permission.has(sender, getPermission())) {
                 throw new NoPermissionException(messages.prefixGeneral);
             }
@@ -73,6 +73,8 @@ public abstract class StaffPlusPlusCmd extends BukkitCommand {
     protected abstract int getMinimumArguments(String[] args);
 
     protected abstract boolean isDelayable();
+
+    protected abstract boolean isAuthenticationRequired();
 
     protected abstract boolean canBypass(Player player);
 

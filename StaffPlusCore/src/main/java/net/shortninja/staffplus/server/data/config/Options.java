@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.server.data.config;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.authentication.AuthenticationConfiguration;
+import net.shortninja.staffplus.authentication.AuthenticationConfigurationLoader;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
@@ -54,6 +56,7 @@ public class Options implements IOptions {
     public final boolean offlinePlayersModeEnabled = config.getBoolean("offline-players-mode");
 
     public Map<String, Location> locations = LocationLoader.loadLocations();
+    public final AuthenticationConfiguration authenticationConfiguration = AuthenticationConfigurationLoader.load();
 
     /*
      * Reports

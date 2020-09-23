@@ -28,7 +28,7 @@ public class ReportCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        return executeCommand(sender, () -> {
+        return executeCommand(sender, false, () -> {
             if (args.length < 1) {
                 sendHelp(sender);
                 return true;

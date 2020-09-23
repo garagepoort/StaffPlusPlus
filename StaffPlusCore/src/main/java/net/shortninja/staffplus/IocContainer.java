@@ -2,6 +2,10 @@ package net.shortninja.staffplus;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import net.shortninja.staffplus.authentication.AuthenticationProvider;
+import net.shortninja.staffplus.authentication.AuthenticationService;
+import net.shortninja.staffplus.authentication.authme.AuthMeAuthenticationService;
+import net.shortninja.staffplus.authentication.authme.NoopAuthenticationService;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.UserQueuedActionChatPreventer;
 import net.shortninja.staffplus.reporting.ReportService;
@@ -51,6 +55,7 @@ import java.util.function.Supplier;
 
 public class IocContainer {
 
+    public static final String AUTHME = "AUTHME";
     private static ReportRepository reportRepository;
     private static WarnRepository warnRepository;
     private static DelayedActionsRepository delayedActionsRepository;
@@ -81,13 +86,13 @@ public class IocContainer {
 
     public static WarnService getWarnService() {
         return initBean(WarnService.class, () -> new WarnService(
-                getPermissionHandler(),
-                getMessage(),
-                getOptions(),
-                getMessages(),
-                getUserManager(),
-                getWarnRepository(),
-                getDelayedActionsRepository()));
+            getPermissionHandler(),
+            getMessage(),
+            getOptions(),
+            getMessages(),
+            getUserManager(),
+            getWarnRepository(),
+            getDelayedActionsRepository()));
     }
 
     // Could use a factory but for sake of simplicity of the factory demonstration, not going to do.
@@ -181,6 +186,17 @@ public class IocContainer {
             beans.put(clazz, consumer.get());
         }
         return (T) beans.get(clazz);
+    }
+
+    public static AuthenticationService getAuthenticationService() {
+        return initBean(AuthenticationService.class,
+            () -> {
+                AuthenticationProvider authenticationProvider = getOptions().authenticationConfiguration.getAuthenticationProvider();
+                if (authenticationProvider == AuthenticationProvider.AUTHME) {
+                    return new AuthMeAuthenticationService();
+                }
+                return new NoopAuthenticationService();
+            });
     }
 
     public static interface Repository {

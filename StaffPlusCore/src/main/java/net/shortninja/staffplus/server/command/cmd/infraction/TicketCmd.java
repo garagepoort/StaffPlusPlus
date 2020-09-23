@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.command.cmd.infraction;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.attribute.Ticket;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -29,35 +30,37 @@ public class TicketCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        boolean hasPermission = permission.has(sender, options.permissionTickets);
+        return CommandUtil.executeCommand(sender, true, () -> {
+            boolean hasPermission = permission.has(sender, options.permissionTickets);
 
-        if (args.length >= 3 && hasPermission) {
-            if (manageTicket(sender, args)) {
-                return true;
+            if (args.length >= 3 && hasPermission) {
+                if (manageTicket(sender, args)) {
+                    return true;
+                }
             }
-        }
 
-        if (args.length >= 1) {
-            String argument = args[0];
+            if (args.length >= 1) {
+                String argument = args[0];
 
-            if (argument.equalsIgnoreCase("list") && hasPermission) {
-                listTickets(sender);
-            } else if (sender instanceof Player) {
-                Player player = (Player) sender;
-                Ticket ticket = ticketHandler.getTicketByUuid(player.getUniqueId());
+                if (argument.equalsIgnoreCase("list") && hasPermission) {
+                    listTickets(sender);
+                } else if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    Ticket ticket = ticketHandler.getTicketByUuid(player.getUniqueId());
 
-                if (ticket == null) {
-                    ticketHandler.addTicket(player, new Ticket(player.getUniqueId(), player.getName(), ticketHandler.getNextId(), JavaUtils.compileWords(args, 0)));
-                } else if (!ticket.hasBeenClosed() && ticket.getName().equals(player.getName())) {
-                    ticketHandler.sendResponse(sender, ticket, JavaUtils.compileWords(args, 0), false);
-                } else
-                    ticketHandler.addTicket(player, new Ticket(player.getUniqueId(), player.getName(), ticketHandler.getNextId(), JavaUtils.compileWords(args, 0)));
-            } else message.send(sender, messages.onlyPlayers, messages.prefixTickets);
-        } else if (!hasPermission) {
-            message.send(sender, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixTickets);
-        } else sendHelp(sender);
+                    if (ticket == null) {
+                        ticketHandler.addTicket(player, new Ticket(player.getUniqueId(), player.getName(), ticketHandler.getNextId(), JavaUtils.compileWords(args, 0)));
+                    } else if (!ticket.hasBeenClosed() && ticket.getName().equals(player.getName())) {
+                        ticketHandler.sendResponse(sender, ticket, JavaUtils.compileWords(args, 0), false);
+                    } else
+                        ticketHandler.addTicket(player, new Ticket(player.getUniqueId(), player.getName(), ticketHandler.getNextId(), JavaUtils.compileWords(args, 0)));
+                } else message.send(sender, messages.onlyPlayers, messages.prefixTickets);
+            } else if (!hasPermission) {
+                message.send(sender, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixTickets);
+            } else sendHelp(sender);
 
-        return true;
+            return true;
+        });
     }
 
     private boolean manageTicket(CommandSender sender, String[] args) {
