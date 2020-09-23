@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -26,24 +27,26 @@ public class FollowCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        Player targetPlayer = null;
+        return CommandUtil.executeCommand(sender, true, () -> {
+            Player targetPlayer = null;
 
-        if (!permission.has(sender, options.permissionFollow)) {
-            message.send(sender, messages.noPermission, messages.prefixGeneral);
+            if (!permission.has(sender, options.permissionFollow)) {
+                message.send(sender, messages.noPermission, messages.prefixGeneral);
+                return true;
+            }
+
+            if (args.length == 1) {
+                targetPlayer = Bukkit.getPlayer(args[0]);
+            } else if (!(sender instanceof Player)) {
+                message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
+                return true;
+            } else targetPlayer = JavaUtils.getTargetPlayer((Player) sender);
+
+            if (targetPlayer != null) {
+                gadgetHandler.onFollow((Player) sender, targetPlayer);
+            } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+
             return true;
-        }
-
-        if (args.length == 1) {
-            targetPlayer = Bukkit.getPlayer(args[0]);
-        } else if (!(sender instanceof Player)) {
-            message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
-            return true;
-        } else targetPlayer = JavaUtils.getTargetPlayer((Player) sender);
-
-        if (targetPlayer != null) {
-            gadgetHandler.onFollow((Player) sender, targetPlayer);
-        } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-
-        return true;
+        });
     }
 }
