@@ -26,7 +26,7 @@ staff-chat-prefix: "&dChat del Staff&8»"
 
 # El prefijo para todos los mensajes relacionados con tickets
 tickets-prefix: "&dTickets &8»"
-
+trace-prefix: "&dTrace &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       General                        | #

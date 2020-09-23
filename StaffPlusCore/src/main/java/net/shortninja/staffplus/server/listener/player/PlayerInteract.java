@@ -42,7 +42,7 @@ public class PlayerInteract implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         Action action = event.getAction();
-        ItemStack item = player.getItemInHand();
+        ItemStack item = player.getInventory().getItemInMainHand();
 
 
         if (cpsHandler.isTesting(uuid) && (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK)) {
@@ -67,7 +67,7 @@ public class PlayerInteract implements Listener {
 
                 Inventory chestView = Bukkit.createInventory(player, InventoryType.CHEST);
                 // Only have to check for similar inventory types as the items will map.
-                if (container instanceof Furnace || container instanceof BlastFurnace || container instanceof Smoker) {
+                if (container instanceof Furnace) {
                     chestView = Bukkit.createInventory(player, InventoryType.FURNACE);
                 } else if (container instanceof BrewingStand) {
                     chestView = Bukkit.createInventory(player, InventoryType.BREWING);
@@ -97,11 +97,8 @@ public class PlayerInteract implements Listener {
     private boolean handleInteraction(Player player, ItemStack item, Action action) {
         boolean isHandled = true;
 
-        /*if (action != Action.RIGHT_CLICK_AIR) {
-            return isHandled = false;
-        }*/
         if (!action.toString().contains("CLICK_AIR")) {
-            return isHandled = false;
+            return false;
         }
 
         switch (gadgetHandler.getGadgetType(item, versionProtocol.getNbtString(item))) {
@@ -142,8 +139,9 @@ public class PlayerInteract implements Listener {
 
                 if (moduleConfiguration != null) {
                     gadgetHandler.onCustom(player, JavaUtils.getTargetPlayer(player), moduleConfiguration);
-                } else isHandled = false;
-
+                } else {
+                    isHandled = false;
+                }
                 break;
         }
 

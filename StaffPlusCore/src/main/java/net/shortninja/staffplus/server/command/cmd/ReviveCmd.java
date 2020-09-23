@@ -3,6 +3,7 @@ package net.shortninja.staffplus.server.command.cmd;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.PlayerOfflineException;
 import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
@@ -29,12 +30,12 @@ import static org.bukkit.Bukkit.getPlayer;
 public class ReviveCmd extends BukkitCommand {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
 
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private ReviveHandler reviveHandler = StaffPlus.get().reviveHandler;
-    private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final ReviveHandler reviveHandler = StaffPlus.get().reviveHandler;
+    private final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
 
     public ReviveCmd(String name) {
         super(name);
@@ -55,7 +56,7 @@ public class ReviveCmd extends BukkitCommand {
 
             Player targetPlayer = nonArguments.size() == 1 ? getPlayer(nonArguments.get(0)) : getTargetPlayer((Player) sender);
             if (targetPlayer == null) {
-                throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
+                throw new PlayerOfflineException();
             }
 
             if (reviveHandler.hasSavedInventory(targetPlayer.getUniqueId())) {

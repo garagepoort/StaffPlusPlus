@@ -255,29 +255,21 @@ alerts-module:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                       Security                       | #
+# |                       TRACE                          | #
 # +------------------------------------------------------+ #
 ############################################################
 
-####
-# WARNING: This module is in the current release fundamentally broken and should not be enabled.
-# Enabling will not toggle any functionality because those are functionally-dismantled too.
-####
-
-# Requires "permissions.member" permission.
-login:
-  # Whether or not /login will be enabled.
-  # This is just a security feature that can be used to prevent staff accounts from being hijacked on your server.
-  enabled: false
-
-  # The kick message that is sent when a player enters an invalid password.
-  kick-message: "&cInvalid login password!"
-
-############################################################
-# +------------------------------------------------------+ #
-# |                      Staff Mode                      | #
-# +------------------------------------------------------+ #
-############################################################
+# Requires the trace permission before staff members can use this
+trace-module:
+    enabled: true
+    # List all the events that should be traced separated by ";"
+    # Possible values: PICKUP_ITEM|DROP_ITEM|BLOCK_BREAK|BLOCK_PLACE|COMMANDS|CHAT|WORLD_CHANGE|INVENTORY|DAMAGE
+    # For a more detailed explanation of what each event traces please refer to the wiki
+    trace-events: PICKUP_ITEM;DROP_ITEM;BLOCK_BREAK;BLOCK_PLACE;COMMANDS;CHAT;WORLD_CHANGE;INVENTORY;DAMAGE
+    # The channels determines where the trace will be printed to separated by ";". Multiple channels are possible.
+    # If FILE is used, the trace files will be saved to a 'trace' directory underneath the StaffPlus plugin folder.
+    # Possible values: CHAT|FILE
+    output-channels: CHAT;FILE
 
 # Requires "permissions.mode" permission.
 staff-mode:
@@ -314,9 +306,6 @@ staff-mode:
 
   # Whether or not staff mode will be enabled for staff when they login.
   enable-on-login: false
-
-  # Name says it all what commands do you want to block while the player is not logged in
-  prelogin-blocked-commands: "/ban"
 
   # Commands to execute when staff mode is enabled. Leave blank to disable.
   # Each command is separated with a comma.
@@ -888,6 +877,12 @@ permissions:
   # Permission for bypassing teleport.
   teleport-bypass: "staff.teleport.bypass"
 
+  # Permission for using trace.
+  trace: "staff.trace"
+
+  # Permission for bypassing teleport.
+  trace-bypass: "staff.trace.bypass"
+
   # Permission for initializing clicks per second tests
   cps: "staff.cps"
 
@@ -1005,6 +1000,9 @@ commands:
 
   # The command for clearing a players inventory
   clearInv: "clear"
+
+  # The command to start/stop tracing a player
+  trace: "trace"
 
   # The command for resetting a users password
   resetPass: "resetPassword"

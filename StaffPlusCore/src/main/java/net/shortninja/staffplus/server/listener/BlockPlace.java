@@ -5,6 +5,8 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.tracing.TraceService;
+import net.shortninja.staffplus.staff.tracing.TraceType;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,9 +16,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import java.util.UUID;
 
 public class BlockPlace implements Listener {
-    private Options options = IocContainer.getOptions();
-    private FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
-    private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final Options options = IocContainer.getOptions();
+    private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
+    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final TraceService traceService = IocContainer.getTraceService();
 
     public BlockPlace() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -27,6 +30,7 @@ public class BlockPlace implements Listener {
         UUID uuid = event.getPlayer().getUniqueId();
 
         if ((options.modeBlockManipulation || !modeCoordinator.isInMode(uuid)) && !freezeHandler.isFrozen(uuid)) {
+            traceService.sendTraceMessage(TraceType.BLOCK_PLACE, uuid, "Blocked [" + event.getBlock().getType() + "] placed");
             return;
         }
 

@@ -8,4 +8,8 @@ public interface DiscordClient {
     @RequestLine("POST")
     @Headers("Content-Type: application/json")
     void sendEvent(DiscordMessage discordMessage);
+
+    @RequestLine("POST")
+    @Headers("Content-Type: application/json")
+    void sendFileEvent(DiscordFileMessage discordFileMessage);
 }

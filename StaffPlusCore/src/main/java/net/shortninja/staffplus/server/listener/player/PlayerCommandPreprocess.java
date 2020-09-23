@@ -3,11 +3,12 @@ package net.shortninja.staffplus.server.listener.player;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.server.command.BaseCmd;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -19,15 +20,18 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.UUID;
 
+import static net.shortninja.staffplus.staff.tracing.TraceType.COMMANDS;
+
 
 public class PlayerCommandPreprocess implements Listener {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
-    private CmdHandler cmdHandler = StaffPlus.get().cmdHandler;
-    private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
+    private final CmdHandler cmdHandler = StaffPlus.get().cmdHandler;
+    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final TraceService traceService = IocContainer.getTraceService();
 
     public PlayerCommandPreprocess() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -38,6 +42,7 @@ public class PlayerCommandPreprocess implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         String command = event.getMessage().toLowerCase();
+        traceService.sendTraceMessage(COMMANDS, uuid, "Player invoked command: [" + command + "]");
 
         if (command.startsWith("/help staffplus") || command.startsWith("/help staff+")) {
             sendHelp(player);
@@ -45,9 +50,6 @@ public class PlayerCommandPreprocess implements Listener {
             return;
         }
 
-
-        if(PlayerJoin.needLogin.contains(event.getPlayer().getUniqueId()) && options.preLoginBlock.contains(command))
-            event.setCancelled(true);
         if (options.blockedCommands.contains(command) && permission.hasOnly(player, options.permissionBlock)) {
             message.send(player, messages.commandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
