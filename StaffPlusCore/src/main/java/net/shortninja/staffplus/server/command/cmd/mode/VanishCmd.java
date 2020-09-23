@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -29,28 +30,30 @@ public class VanishCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        if (args.length >= 3 && permission.isOp(sender)) {
-            Player targetPlayer = Bukkit.getPlayer(args[1]);
-            String option = args[2];
+        return CommandUtil.executeCommand(sender, true, () -> {
+            if (args.length >= 3 && permission.isOp(sender)) {
+                Player targetPlayer = Bukkit.getPlayer(args[1]);
+                String option = args[2];
 
-            if (targetPlayer != null) {
-                if (option.equalsIgnoreCase("enable")) {
+                if (targetPlayer != null) {
+                    if (option.equalsIgnoreCase("enable")) {
+                        handleVanishArgument(sender, args[0], targetPlayer, false);
+                    } else vanishHandler.removeVanish(targetPlayer);
+                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+            } else if (args.length == 2 && permission.isOp(sender)) {
+                Player targetPlayer = Bukkit.getPlayer(args[1]);
+
+                if (targetPlayer != null) {
                     handleVanishArgument(sender, args[0], targetPlayer, false);
-                } else vanishHandler.removeVanish(targetPlayer);
-            } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-        } else if (args.length == 2 && permission.isOp(sender)) {
-            Player targetPlayer = Bukkit.getPlayer(args[1]);
+                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+            } else if (args.length == 1 && permission.isOp(sender)) {
+                if ((sender instanceof Player)) {
+                    handleVanishArgument(sender, args[0], (Player) sender, true);
+                } else message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
+            } else sendHelp(sender);
 
-            if (targetPlayer != null) {
-                handleVanishArgument(sender, args[0], targetPlayer, false);
-            } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-        } else if (args.length == 1 && permission.isOp(sender)) {
-            if ((sender instanceof Player)) {
-                handleVanishArgument(sender, args[0], (Player) sender, true);
-            } else message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
-        } else sendHelp(sender);
-
-        return true;
+            return true;
+        });
     }
 
     private void handleVanishArgument(CommandSender sender, String argument, Player player, boolean shouldCheckPermission) {
