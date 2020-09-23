@@ -43,7 +43,7 @@ public class ReviveCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        return executeCommand(sender, () -> {
+        return executeCommand(sender, true, () -> {
 
             if (!permission.has(sender, options.permissionRevive)) {
                 throw new BusinessException(messages.noPermission, messages.prefixGeneral);

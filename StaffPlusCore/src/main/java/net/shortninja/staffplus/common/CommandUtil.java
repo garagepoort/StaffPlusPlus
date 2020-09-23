@@ -1,16 +1,16 @@
 package net.shortninja.staffplus.common;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.server.command.arguments.DelayArgumentExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandUtil {
 
-    private static final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
-
-    public static boolean executeCommand(CommandSender sender, CommandInterface commandInterface) {
+    public static boolean executeCommand(CommandSender sender, boolean authenticated, CommandInterface commandInterface) {
         try {
+            if(authenticated && sender instanceof Player) {
+                IocContainer.getAuthenticationService().checkAuthentication((Player) sender);
+            }
             return commandInterface.execute();
         } catch (BusinessException e) {
             IocContainer.getMessage().send(sender, e.getMessage(), e.getPrefix());

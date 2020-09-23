@@ -64,6 +64,11 @@ public class FreezeCmd extends StaffPlusPlusCmd {
     }
 
     @Override
+    protected boolean isAuthenticationRequired() {
+        return true;
+    }
+
+    @Override
     protected boolean canBypass(Player player) {
         return permission.has(player, options.permissionFreezeBypass);
     }

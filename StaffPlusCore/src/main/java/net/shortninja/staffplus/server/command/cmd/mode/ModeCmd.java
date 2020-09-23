@@ -2,6 +2,8 @@ package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.common.NoPermissionException;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -23,34 +25,35 @@ public class ModeCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        if (!permission.has(sender, options.permissionMode)) {
-            message.send(sender, messages.noPermission, messages.prefixGeneral);
+        return CommandUtil.executeCommand(sender, true, () -> {
+            if (!permission.has(sender, options.permissionMode)) {
+                throw new NoPermissionException();
+            }
+
+            if (args.length >= 2 && permission.isOp(sender)) {
+                Player targetPlayer = Bukkit.getPlayer(args[0]);
+                String option = args[1];
+
+                if (targetPlayer != null) {
+                    if (option.equalsIgnoreCase("enable")) {
+                        StaffPlus.get().modeCoordinator.addMode(targetPlayer);
+                    } else if (option.equalsIgnoreCase("disable")) {
+                        StaffPlus.get().modeCoordinator.removeMode(targetPlayer);
+                    } else
+                        message.send(sender, messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
+                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+            } else if (args.length == 1 && permission.isOp(sender)) {
+                Player targetPlayer = Bukkit.getPlayer(args[0]);
+
+                if (targetPlayer != null) {
+                    toggleMode(targetPlayer);
+                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+            } else if (sender instanceof Player) {
+                toggleMode((Player) sender);
+            } else message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
+
             return true;
-        }
-
-        if (args.length >= 2 && permission.isOp(sender)) {
-            Player targetPlayer = Bukkit.getPlayer(args[0]);
-            String option = args[1];
-
-            if (targetPlayer != null) {
-                if (option.equalsIgnoreCase("enable")) {
-                    StaffPlus.get().modeCoordinator.addMode(targetPlayer);
-                } else if (option.equalsIgnoreCase("disable")) {
-                    StaffPlus.get().modeCoordinator.removeMode(targetPlayer);
-                } else
-                    message.send(sender, messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
-            } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-        } else if (args.length == 1 && permission.isOp(sender)) {
-            Player targetPlayer = Bukkit.getPlayer(args[0]);
-
-            if (targetPlayer != null) {
-                toggleMode(targetPlayer);
-            } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-        } else if (sender instanceof Player) {
-            toggleMode((Player) sender);
-        } else message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
-
-        return true;
+        });
     }
 
     private void toggleMode(Player player) {
