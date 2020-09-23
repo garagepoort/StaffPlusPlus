@@ -6,7 +6,6 @@
 - Added strip argument. Example: `/freeze player -S`
 - Allow reporting/warning offline users
 - Locations implemented
-- Allow reporting/warning offline users
 - Added HEALTH argument
 - New reporting system implemented
 - Implement new reportEvents
@@ -17,6 +16,7 @@
 - Add clear inventory bypass permission
 - BungeeCord support. StaffChat will now be synced over all servers inside the bungee network.
 - Update notifier implemented
+- Warning discord integration
 
 #### Breaking
 - Dropped support for flatfiles
