@@ -11,21 +11,23 @@ The main reason for this is so that we can start implementing new features easil
 ![release1.15.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.15.0/badge.svg)
 ![release1.14.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.14.0/badge.svg)
 ![release1.13.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.13.0/badge.svg)
+![release1.12.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.12.0/badge.svg)
 
 ## Versions
 With this new release cycle a new versioning strategy is introduced:
 
 For every spigot version we will create a new release. This means that you must download not the newest update but the one suitable for your server.
-Example:
 
-- Server on Spigot 1.8.x -> StaffPlusPlus 1.8.x
+- Server on Spigot 1.12.x -> StaffPlusPlus 1.12.x
+- Server on Spigot 1.13.x -> StaffPlusPlus 1.13.x
 - Server on Spigot 1.14.x -> StaffPlusPlus 1.14.x
+- Server on Spigot 1.15.x -> StaffPlusPlus 1.15.x
 - Server on Spigot 1.16.x -> StaffPlusPlus 1.16.x
 
 ## Support 
-- New features will be added to all versions >= 1.15
-- Bugs will be fixed on all versions  >= 1.13
-- End Of Life, no support will be provided for versions <= 1.12
+- New features will be added to all versions >= 1.12
+- Bugs will be fixed on all versions  >= 1.12
+- End Of Life, no support will be provided for versions < 1.12
 
 ----
 #### Useful links
