@@ -3,9 +3,10 @@ package net.shortninja.staffplus.server.listener;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.tracing.TraceService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,18 +22,21 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static net.shortninja.staffplus.staff.tracing.TraceType.BLOCK_BREAK;
+
 public class BlockBreak implements Listener {
     private final BlockFace[] FACES =
-            {
-                    BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST,
-                    BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST,
-                    BlockFace.UP, BlockFace.DOWN
-            };
+        {
+            BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST,
+            BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST,
+            BlockFace.UP, BlockFace.DOWN
+        };
     private final Options options = IocContainer.getOptions();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private final AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
     private final Set<Location> locations = new HashSet<>();
+    private final TraceService traceService = IocContainer.getTraceService();
 
     public BlockBreak() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -66,6 +70,8 @@ public class BlockBreak implements Listener {
                 }
             }
 
+            traceService.sendTraceMessage(BLOCK_BREAK, event.getPlayer().getUniqueId(),
+                String.format("Block [%s] broken at [%s,%s,%s]", block.getType(), block.getX(), block.getY(), block.getZ()));
             return;
         }
 
