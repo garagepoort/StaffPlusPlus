@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -25,16 +25,18 @@ public class StaffPlusCmd extends BukkitCommand {
     }
 
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        if (!permission.has(sender, options.permissionStaff)) {
-            message.send(sender, messages.noPermission, messages.prefixGeneral);
-            return true;
-        }
-        if (args.length == 1 && permission.has(sender, options.permissionStaff)) {
-            if (args[0].equalsIgnoreCase("reload")) {
-                IocContainer.getMessage().sendConsoleMessage("This feature is disabled until we have implemented a robust way of reloading", true);
+        return CommandUtil.executeCommand(sender, true, () -> {
+            if (!permission.has(sender, options.permissionStaff)) {
+                message.send(sender, messages.noPermission, messages.prefixGeneral);
+                return true;
             }
-        }
-        return true;
+            if (args.length == 1 && permission.has(sender, options.permissionStaff)) {
+                if (args[0].equalsIgnoreCase("reload")) {
+                    IocContainer.getMessage().sendConsoleMessage("This feature is disabled until we have implemented a robust way of reloading", true);
+                }
+            }
+            return true;
+        });
     }
 
     @Override

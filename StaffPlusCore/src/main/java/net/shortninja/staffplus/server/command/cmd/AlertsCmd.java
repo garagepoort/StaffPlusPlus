@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -28,26 +28,28 @@ public class AlertsCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        if (args.length >= 3 && permission.isOp(sender)) {
-            Player targetPlayer = Bukkit.getPlayer(args[1]);
-            String option = args[2];
+        return CommandUtil.executeCommand(sender, true, () -> {
+            if (args.length >= 3 && permission.isOp(sender)) {
+                Player targetPlayer = Bukkit.getPlayer(args[1]);
+                String option = args[2];
 
-            if (targetPlayer != null) {
-                handleAlertsArgument(sender, args[0], targetPlayer, false, option);
-            } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-        } else if (args.length == 2 && permission.isOp(sender)) {
-            Player targetPlayer = Bukkit.getPlayer(args[1]);
+                if (targetPlayer != null) {
+                    handleAlertsArgument(sender, args[0], targetPlayer, false, option);
+                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+            } else if (args.length == 2 && permission.isOp(sender)) {
+                Player targetPlayer = Bukkit.getPlayer(args[1]);
 
-            if (targetPlayer != null) {
-                handleAlertsArgument(sender, args[0], targetPlayer, false, "");
-            } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-        } else if (args.length == 1 && permission.isOp(sender)) {
-            if ((sender instanceof Player)) {
-                handleAlertsArgument(sender, args[0], (Player) sender, true, "");
-            } else message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
-        } else sendHelp(sender);
+                if (targetPlayer != null) {
+                    handleAlertsArgument(sender, args[0], targetPlayer, false, "");
+                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+            } else if (args.length == 1 && permission.isOp(sender)) {
+                if ((sender instanceof Player)) {
+                    handleAlertsArgument(sender, args[0], (Player) sender, true, "");
+                } else message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
+            } else sendHelp(sender);
 
-        return true;
+            return true;
+        });
     }
 
     private void handleAlertsArgument(CommandSender sender, String argument, Player player, boolean shouldCheckPermission, String option) {

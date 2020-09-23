@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -27,33 +27,35 @@ public class PersonnelCmd extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        String status = "all";
+        return CommandUtil.executeCommand(sender, true, () -> {
+            String status = "all";
 
-        if (args.length == 1) {
-            status = args[0];
-        }
-
-        for (String message : messages.staffListStart) {
-            this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE), message.contains("%longline%") ? "" : messages.prefixGeneral);
-        }
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            IUser user = userManager.get(player.getUniqueId());
-
-            if (user == null) {
-                continue;
+            if (args.length == 1) {
+                status = args[0];
             }
 
-            if (hasStatus(user, status)) {
-                message.send(sender, messages.staffListMember.replace("%player%", player.getName()).replace("%statuscolor%", getStatusColor(user)), messages.prefixGeneral);
+            for (String message : messages.staffListStart) {
+                this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE), message.contains("%longline%") ? "" : messages.prefixGeneral);
             }
-        }
 
-        for (String message : messages.staffListEnd) {
-            this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE), message.contains("%longline%") ? "" : messages.prefixGeneral);
-        }
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                IUser user = userManager.get(player.getUniqueId());
 
-        return true;
+                if (user == null) {
+                    continue;
+                }
+
+                if (hasStatus(user, status)) {
+                    message.send(sender, messages.staffListMember.replace("%player%", player.getName()).replace("%statuscolor%", getStatusColor(user)), messages.prefixGeneral);
+                }
+            }
+
+            for (String message : messages.staffListEnd) {
+                this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE), message.contains("%longline%") ? "" : messages.prefixGeneral);
+            }
+
+            return true;
+        });
     }
 
     private boolean hasStatus(IUser user, String status) {

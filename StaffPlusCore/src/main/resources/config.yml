@@ -17,6 +17,11 @@ lang: "lang_en"
 # Whether the plugin uses BungeeCord. By default disabled.
 bungee: false
 
+# Chooses the authentication provider. Default "noop", no authentication will be done.
+# AuthMe is supported. When the provider is authMe, Staff++ will enforce that the user is authenticated through AuthMe before being able to execute the commands.
+authentication:
+    provider: noop
+
 # Commands that staff will not be allowed to use at all.
 # Must have "permissions.block" permission to take effect.
 # Leave blank to disable.
