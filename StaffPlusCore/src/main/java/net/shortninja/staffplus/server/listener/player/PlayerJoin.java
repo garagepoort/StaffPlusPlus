@@ -5,9 +5,9 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -18,7 +18,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -29,8 +28,6 @@ public class PlayerJoin implements Listener {
     private final UserManager userManager = StaffPlus.get().getUserManager();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
-
-    public static ArrayList<UUID> needLogin = new ArrayList<>();
 
     public PlayerJoin() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

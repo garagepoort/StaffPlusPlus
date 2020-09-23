@@ -19,3 +19,10 @@ StaffPlusPlusDiscord:
     notifyCleared: true
     notifyCreate: true
     notifyThresholdReached: true
+  trace:
+    webhookUrl: ""
+    notifyStartTrace: false
+    # Notify when someone has stopped tracing a player.
+    notifyStopTrace: false
+        # If notifyStopTrace is enabled. This option enables sending the trace file to discord.
+        includeTraceLogFile: false

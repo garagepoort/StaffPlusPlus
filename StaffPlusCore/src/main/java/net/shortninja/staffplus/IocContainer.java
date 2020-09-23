@@ -10,6 +10,7 @@ import net.shortninja.staffplus.reporting.database.ReportRepository;
 import net.shortninja.staffplus.reporting.database.SqliteReportRepository;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.chat.ChatPreventer;
+import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
 import net.shortninja.staffplus.server.chat.GeneralChatPreventer;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
 import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
@@ -28,6 +29,9 @@ import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsReposit
 import net.shortninja.staffplus.staff.freeze.FreezeChatPreventer;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
+import net.shortninja.staffplus.staff.tracing.TraceChatPreventer;
+import net.shortninja.staffplus.staff.tracing.TraceService;
+import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
 import net.shortninja.staffplus.staff.vanish.VanishChatPreventer;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.staff.warn.WarnService;
@@ -60,24 +64,15 @@ public class IocContainer {
     }
 
     public static ReportRepository getReportRepository() {
-        if (reportRepository == null) {
-            reportRepository = RepositoryFactory.create("REPORT");
-        }
-        return reportRepository;
+        return initBean(ReportRepository.class, () -> RepositoryFactory.create("REPORT"));
     }
 
     public static WarnRepository getWarnRepository() {
-        if (warnRepository == null) {
-            warnRepository = RepositoryFactory.create("WARN");
-        }
-        return warnRepository;
+        return initBean(WarnRepository.class, () -> RepositoryFactory.create("WARN"));
     }
 
     public static DelayedActionsRepository getDelayedActionsRepository() {
-        if (delayedActionsRepository == null) {
-            delayedActionsRepository = RepositoryFactory.create("DELAYED_ACTIONS");
-        }
-        return delayedActionsRepository;
+        return initBean(DelayedActionsRepository.class, () -> RepositoryFactory.create("DELAYED_ACTIONS"));
     }
 
     public static ReportService getReportService() {
@@ -146,6 +141,14 @@ public class IocContainer {
         return initBean(FreezeHandler.class, () -> new FreezeHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getUserManager()));
     }
 
+    public static TraceService getTraceService() {
+        return initBean(TraceService.class, () -> new TraceService(getUserManager(), getTraceWriterFactory(), getOptions()));
+    }
+
+    public static TraceWriterFactory getTraceWriterFactory() {
+        return initBean(TraceWriterFactory.class, () -> new TraceWriterFactory(getMessage(), getMessages(), getOptions()));
+    }
+
     public static BlacklistService getBlacklistService() {
         return initBean(BlacklistService.class,
             () -> new BlacklistService(getOptions(), getPermissionHandler(), getMessages(), getChatCensors()));
@@ -162,10 +165,15 @@ public class IocContainer {
     public static List<ChatPreventer> getChatPreventers() {
         return Arrays.asList(
             new UserQueuedActionChatPreventer(getUserManager()),
+            new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()),
             new FreezeChatPreventer(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
             new VanishChatPreventer(getVanishHandler(), getOptions(), getMessage(), getMessages()),
             new GeneralChatPreventer(getChatHandler(), getMessage(), getMessages())
         );
+    }
+
+    public static List<ChatReceivePreventer> getChatReceivePreventers() {
+        return Arrays.asList(new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()));
     }
 
     private static <T> T initBean(Class<T> clazz, Supplier<T> consumer) {

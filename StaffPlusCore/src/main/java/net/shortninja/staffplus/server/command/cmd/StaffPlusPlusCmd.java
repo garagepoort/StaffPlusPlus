@@ -15,19 +15,20 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
 
 public abstract class StaffPlusPlusCmd extends BukkitCommand {
-    private static DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
+    private static final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
 
-    private UserManager userManager = IocContainer.getUserManager();
-    private Messages messages = IocContainer.getMessages();
-    protected ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
-    protected PermissionHandler permission = IocContainer.getPermissionHandler();
-    protected Options options = IocContainer.getOptions();
+    protected final UserManager userManager = IocContainer.getUserManager();
+    protected final Messages messages = IocContainer.getMessages();
+    protected final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
+    protected final PermissionHandler permission = IocContainer.getPermissionHandler();
+    protected final Options options = IocContainer.getOptions();
 
     protected StaffPlusPlusCmd(String name, String permission) {
         super(name);
@@ -43,19 +44,22 @@ public abstract class StaffPlusPlusCmd extends BukkitCommand {
             if (args.length < getMinimumArguments(args)) {
                 throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
             }
-            String playerName = getPlayerName(args);
-            if(!userManager.playerExists(playerName)) {
-                throw new BusinessException(messages.playerNotRegistered, messages.prefixGeneral);
-            }
 
-            Player player = Bukkit.getServer().getPlayer(playerName);
-            if (player != null && canBypass(player)) {
-                throw new BusinessException(messages.bypassed, messages.prefixGeneral);
-            }
+            Optional<String> playerName = getPlayerName(args);
+            if(playerName.isPresent()) {
+                if(!userManager.playerExists(playerName.get())) {
+                    throw new BusinessException(messages.playerNotRegistered, messages.prefixGeneral);
+                }
 
-            if(shouldDelay(args)) {
-                delayCommand(sender, alias, args, playerName);
-                return true;
+                Player player = Bukkit.getServer().getPlayer(playerName.get());
+                if (player != null && canBypass(player)) {
+                    throw new BusinessException(messages.bypassed, messages.prefixGeneral);
+                }
+
+                if(shouldDelay(args)) {
+                    delayCommand(sender, alias, args, playerName.get());
+                    return true;
+                }
             }
 
             return executeCmd(sender, alias, args);
@@ -64,7 +68,7 @@ public abstract class StaffPlusPlusCmd extends BukkitCommand {
 
     protected abstract boolean executeCmd(CommandSender sender, String alias, String[] args);
 
-    protected abstract String getPlayerName(String[] args);
+    protected abstract Optional<String> getPlayerName(String[] args);
 
     protected abstract int getMinimumArguments(String[] args);
 
