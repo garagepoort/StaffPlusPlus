@@ -2,13 +2,21 @@ package net.shortninja.staffplus.staff.tracing;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.command.cmd.StaffPlusPlusCmd;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TraceCmd extends StaffPlusPlusCmd {
 
-    public static final String START = "start";
-    public static final String STOP = "stop";
+    private static final String START = "start";
+    private static final String STOP = "stop";
     private TraceService traceService;
 
     public TraceCmd(String name) {
@@ -22,21 +30,27 @@ public class TraceCmd extends StaffPlusPlusCmd {
         if(command.equalsIgnoreCase(START)) {
             String playerName = args[1];
             traceService.startTrace(sender, playerName);
+            sender.sendMessage("-----------------------------------");
+            sender.sendMessage("---------- Trace Started ----------");
+            sender.sendMessage("-----------------------------------");
             return true;
         }
         if(command.equalsIgnoreCase(STOP)) {
             traceService.stopTrace(sender);
+            sender.sendMessage("-----------------------------------");
+            sender.sendMessage("---------- Trace Stopped ----------");
+            sender.sendMessage("-----------------------------------");
             return true;
         }
         return true;
     }
 
     @Override
-    protected String getPlayerName(String[] args) {
+    protected Optional<String> getPlayerName(String[] args) {
         if(args.length > 1) {
-            return args[1];
+            return Optional.ofNullable(args[1]);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -55,5 +69,27 @@ public class TraceCmd extends StaffPlusPlusCmd {
     @Override
     protected boolean canBypass(Player player) {
         return player.hasPermission(options.permissionTraceBypass);
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        List<String> onlinePLayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+        List<String> suggestions = new ArrayList<>();
+        if (args.length == 1) {
+            suggestions.add(START);
+            suggestions.add(STOP);
+            return suggestions.stream()
+                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .collect(Collectors.toList());
+        }
+
+        if (args.length == 2) {
+            suggestions.addAll(onlinePLayers);
+            return suggestions.stream()
+                .filter(s -> args[1].isEmpty() || s.contains(args[1]))
+                .collect(Collectors.toList());
+        }
+
+        return Collections.emptyList();
     }
 }

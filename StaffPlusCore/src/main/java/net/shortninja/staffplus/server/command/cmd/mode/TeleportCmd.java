@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
@@ -33,7 +34,7 @@ public class TeleportCmd extends StaffPlusPlusCmd {
         List<String> options = Arrays.asList(Arrays.copyOfRange(args, getMinimumArguments(args), args.length));
 
         String locationName = args[1];
-        String playerName = getPlayerName(args);
+        String playerName = getPlayerName(args).get();
 
         Player targetPlayer = Bukkit.getPlayer(playerName);
         if (targetPlayer == null) {
@@ -46,8 +47,8 @@ public class TeleportCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected String getPlayerName(String[] args) {
-        return args[0];
+    protected Optional<String> getPlayerName(String[] args) {
+        return Optional.ofNullable(args[0]);
     }
 
     @Override

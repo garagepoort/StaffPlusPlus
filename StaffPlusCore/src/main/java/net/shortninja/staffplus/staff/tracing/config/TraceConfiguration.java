@@ -32,4 +32,8 @@ public class TraceConfiguration {
     public List<TraceOutputChannel> getOutputChannels() {
         return outputChannels;
     }
+
+    public boolean hasChannel(TraceOutputChannel channel) {
+        return outputChannels.contains(channel);
+    }
 }

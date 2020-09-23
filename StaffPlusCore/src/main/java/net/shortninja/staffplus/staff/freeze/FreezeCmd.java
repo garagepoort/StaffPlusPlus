@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
@@ -31,22 +32,22 @@ public class FreezeCmd extends StaffPlusPlusCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args) {
         List<String> options = Arrays.asList(Arrays.copyOfRange(args, getMinimumArguments(args), args.length));
-        Player targetPlayer = Bukkit.getPlayer(getPlayerName(args));
+        Player targetPlayer = Bukkit.getPlayer(getPlayerName(args).get());
         if (targetPlayer == null) {
             throw new PlayerOfflineException();
         }
 
-        argumentProcessor.parseArguments(sender, getPlayerName(args), options, VALID_ARGUMENTS);
+        argumentProcessor.parseArguments(sender, getPlayerName(args).get(), options, VALID_ARGUMENTS);
         freezeHandler.execute(buildFreezeRequest(sender, args, targetPlayer));
         return true;
     }
 
     @Override
-    protected String getPlayerName(String[] args) {
+    protected Optional<String> getPlayerName(String[] args) {
         if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
-            return args[1];
+            return Optional.ofNullable(args[1]);
         }
-        return args[0];
+        return Optional.of(args[0]);
     }
 
     @Override

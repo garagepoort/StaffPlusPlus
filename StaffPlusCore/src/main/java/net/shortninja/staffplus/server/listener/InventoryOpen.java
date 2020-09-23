@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,7 @@ public class InventoryOpen implements Listener {
 
     private String getInventoryContent(Inventory inventory) {
         return Arrays.stream(inventory.getContents())
+            .filter(Objects::nonNull)
             .map(i -> i.getAmount() + " " + i.getType())
             .collect(Collectors.joining(" - "));
     }

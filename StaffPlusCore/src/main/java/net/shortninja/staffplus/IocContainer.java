@@ -165,7 +165,7 @@ public class IocContainer {
     public static List<ChatPreventer> getChatPreventers() {
         return Arrays.asList(
             new UserQueuedActionChatPreventer(getUserManager()),
-            new TraceChatPreventer(getTraceService(), getMessages(), getMessage()),
+            new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()),
             new FreezeChatPreventer(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
             new VanishChatPreventer(getVanishHandler(), getOptions(), getMessage(), getMessages()),
             new GeneralChatPreventer(getChatHandler(), getMessage(), getMessages())
@@ -173,7 +173,7 @@ public class IocContainer {
     }
 
     public static List<ChatReceivePreventer> getChatReceivePreventers() {
-        return Arrays.asList(new TraceChatPreventer(getTraceService(), getMessages(), getMessage()));
+        return Arrays.asList(new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()));
     }
 
     private static <T> T initBean(Class<T> clazz, Supplier<T> consumer) {

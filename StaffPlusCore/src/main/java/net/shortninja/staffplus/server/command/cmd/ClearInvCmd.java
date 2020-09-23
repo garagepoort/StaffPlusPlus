@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
@@ -43,8 +44,8 @@ public class ClearInvCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected String getPlayerName(String[] args) {
-        return args[0];
+    protected Optional<String> getPlayerName(String[] args) {
+        return Optional.ofNullable(args[0]);
     }
 
     @Override

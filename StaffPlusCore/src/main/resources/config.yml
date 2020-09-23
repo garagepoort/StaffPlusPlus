@@ -263,9 +263,9 @@ alerts-module:
 trace-module:
     enabled: true
     # List all the events that should be traced separated by ";"
-    # Possible values: BLOCK_BREAK|BLOCK_PLACE|COMMANDS|CHAT
+    # Possible values: PICKUP_ITEM|DROP_ITEM|BLOCK_BREAK|BLOCK_PLACE|COMMANDS|CHAT|WORLD_CHANGE|INVENTORY|DAMAGE
     # For a more detailed explanation of what each event traces please refer to the wiki
-    trace-events: BLOCK_BREAK;BLOCK_PLACE
+    trace-events: PICKUP_ITEM;DROP_ITEM;BLOCK_BREAK;BLOCK_PLACE;COMMANDS;CHAT;WORLD_CHANGE;INVENTORY;DAMAGE
     # The channels determines where the trace will be printed to separated by ";". Multiple channels are possible.
     # If FILE is used, the trace files will be saved to a 'trace' directory underneath the StaffPlus plugin folder.
     # Possible values: CHAT|FILE

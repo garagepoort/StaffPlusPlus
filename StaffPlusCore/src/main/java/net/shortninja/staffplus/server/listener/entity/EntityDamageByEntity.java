@@ -36,7 +36,7 @@ public class EntityDamageByEntity implements Listener {
 
         Optional<Player> damager = getDamager(event.getEntity());
 
-        if(damager.isPresent()) {
+        if (damager.isPresent()) {
             UUID playerUuid = damager.get().getUniqueId();
             if (userManager.has(playerUuid)) {
                 if (userManager.get(playerUuid).isFrozen() || (!options.modeDamage && modeCoordinator.isInMode(playerUuid))) {
@@ -44,22 +44,26 @@ public class EntityDamageByEntity implements Listener {
                     return;
                 }
             }
-            logTrace(damager.get(), damaged);
         }
 
+        if (damager.isPresent() || damaged instanceof Player) {
+            logTrace(event.getDamager(), damaged);
+        }
     }
 
-    private void logTrace(Player player, Entity damaged) {
+    private void logTrace(Entity damager, Entity damaged) {
+        String damagerName = damager instanceof Player ? damager.getName() : damager.getType().toString();
         String damagedName = damaged instanceof Player ? damaged.getName() : damaged.getType().toString();
-        traceService.sendTraceMessage(TraceType.DAMAGE, damaged.getUniqueId(), String.format("Player received damage from [%s]", damagedName));
-        traceService.sendTraceMessage(TraceType.DAMAGE, player.getUniqueId(), String.format("Player dealt damage to [%s]", damagedName));
+
+        traceService.sendTraceMessage(TraceType.DAMAGE, damaged.getUniqueId(), String.format("Player received damage from [%s]", damagerName));
+        traceService.sendTraceMessage(TraceType.DAMAGE, damager.getUniqueId(), String.format("Player dealt damage to [%s]", damagedName));
     }
 
     public Optional<Player> getDamager(Entity damager) {
-        if(damager instanceof Player) {
+        if (damager instanceof Player) {
             return Optional.of((Player) damager);
         }
-        if(damager instanceof Arrow) {
+        if (damager instanceof Arrow) {
             ProjectileSource shooter = ((Arrow) damager).getShooter();
             if (shooter instanceof Player) {
                 return Optional.of((Player) shooter);
