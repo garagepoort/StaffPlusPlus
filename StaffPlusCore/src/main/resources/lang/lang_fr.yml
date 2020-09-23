@@ -25,7 +25,7 @@ staff-chat-prefix: "&dChatStaff &8»"
 
 # Le préfix pour toutes les requêtes
 tickets-prefix: "&dRequêtes &8»"
-
+trace-prefix: "&dTrace &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Général                        | #

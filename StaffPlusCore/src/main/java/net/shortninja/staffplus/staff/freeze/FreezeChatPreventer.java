@@ -7,8 +7,7 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.entity.Player;
 
 public class FreezeChatPreventer implements ChatPreventer {
-
-
+    
     private final FreezeHandler freezeHandler;
     private final Options options;
     private final Messages messages;

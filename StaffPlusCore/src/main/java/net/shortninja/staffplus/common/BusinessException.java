@@ -1,7 +1,14 @@
 package net.shortninja.staffplus.common;
 
+import net.shortninja.staffplus.IocContainer;
+
 public class BusinessException extends RuntimeException {
-    private String prefix;
+    private final String prefix;
+
+    public BusinessException(String message) {
+        super(message);
+        this.prefix = IocContainer.getMessages().prefixGeneral;
+    }
 
     public BusinessException(String message, String prefix) {
         super(message);

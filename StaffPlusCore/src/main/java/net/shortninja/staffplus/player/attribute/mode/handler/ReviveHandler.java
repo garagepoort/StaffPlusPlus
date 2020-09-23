@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.ModeDataVault;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -15,9 +14,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ReviveHandler {
-    private static Map<UUID, ModeDataVault> savedInventories = new HashMap<UUID, ModeDataVault>();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Messages messages = IocContainer.getMessages();
+    private final static Map<UUID, ModeDataVault> savedInventories = new HashMap<UUID, ModeDataVault>();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Messages messages = IocContainer.getMessages();
 
     public boolean hasSavedInventory(UUID uuid) {
         return savedInventories.containsKey(uuid);

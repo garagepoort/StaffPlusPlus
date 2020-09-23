@@ -15,8 +15,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryClose implements Listener {
-    private Options options = IocContainer.getOptions();
-    private UserManager userManager = IocContainer.getUserManager();
+    private final Options options = IocContainer.getOptions();
+    private final UserManager userManager = IocContainer.getUserManager();
 
     public InventoryClose() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -26,8 +26,11 @@ public class InventoryClose implements Listener {
     public void onClose(InventoryCloseEvent event) {
         final Player player = (Player) event.getPlayer();
         IUser user = userManager.get(player.getUniqueId());
-        if (user == null)
+
+        if (user == null) {
             return;
+        }
+
         if (user.isFrozen() && options.modeFreezePrompt) {
             new BukkitRunnable() {
                 @Override
@@ -36,10 +39,14 @@ public class InventoryClose implements Listener {
                 }
             }.runTaskLater(StaffPlus.get(), 1L);
             return;
-        } else if (user.getCurrentGui().isPresent()) {
+        }
+
+        if (user.getCurrentGui().isPresent()) {
             user.setCurrentGui(null);
         }
-        if(StaffPlus.get().inventoryHandler.isInVirtualInv(event.getPlayer().getUniqueId()))
+
+        if (StaffPlus.get().inventoryHandler.isInVirtualInv(event.getPlayer().getUniqueId())) {
             StaffPlus.get().inventoryHandler.removeVirtualUser(event.getPlayer().getUniqueId());
+        }
     }
 }

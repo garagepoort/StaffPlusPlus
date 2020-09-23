@@ -14,7 +14,6 @@
         <module>StaffPlusAPI</module>
         <module>StaffPlusCore</module>
         <module>StaffPlusPlusDiscord</module>
-        <!--><module>StaffPlusBungee</module> Will uncomment when module is fully ready for release-->
     </modules>
 
     <build>
@@ -81,8 +80,6 @@
             <version>2.10.4</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Minecraft -->
     </dependencies>
 
     <distributionManagement>

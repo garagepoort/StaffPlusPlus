@@ -14,10 +14,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class CpsHandler {
-    private static Map<UUID, Integer> currentTests = new HashMap<UUID, Integer>();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
+    private final static Map<UUID, Integer> currentTests = new HashMap<UUID, Integer>();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
 
     public boolean isTesting(UUID uuid) {
         return currentTests.containsKey(uuid);
