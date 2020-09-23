@@ -11,6 +11,7 @@ The main reason for this is so that we can start implementing new features easil
 ![release1.15.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.15.0/badge.svg)
 ![release1.14.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.14.0/badge.svg)
 ![release1.13.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.13.0/badge.svg)
+![release1.12.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.12.0/badge.svg)
 
 ## Versions
 With this new release cycle a new versioning strategy is introduced:
