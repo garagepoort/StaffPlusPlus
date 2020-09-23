@@ -1,11 +1,9 @@
 package net.shortninja.staffplus.staff.freeze;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.PlayerOfflineException;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
 import net.shortninja.staffplus.server.command.cmd.StaffPlusPlusCmd;
-import net.shortninja.staffplus.server.data.config.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -24,8 +22,7 @@ public class FreezeCmd extends StaffPlusPlusCmd {
     private static final String ENABLED = "enabled";
     private static final String DISABLED = "disabled";
 
-    private Messages messages = IocContainer.getMessages();
-    private FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
+    private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
 
     public FreezeCmd(String name) {
         super(name, IocContainer.getOptions().permissionFreeze);
@@ -36,7 +33,7 @@ public class FreezeCmd extends StaffPlusPlusCmd {
         List<String> options = Arrays.asList(Arrays.copyOfRange(args, getMinimumArguments(args), args.length));
         Player targetPlayer = Bukkit.getPlayer(getPlayerName(args));
         if (targetPlayer == null) {
-            throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
+            throw new PlayerOfflineException();
         }
 
         argumentProcessor.parseArguments(sender, getPlayerName(args), options, VALID_ARGUMENTS);

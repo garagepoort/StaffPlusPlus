@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.tracing;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.unordered.trace.TraceWriter;
-import net.shortninja.staffplus.unordered.trace.TraceWriterType;
+import net.shortninja.staffplus.unordered.trace.TraceOutputChannel;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -70,7 +70,7 @@ public class FileTraceWriter implements TraceWriter {
     }
 
     @Override
-    public TraceWriterType getType() {
-        return TraceWriterType.FILE;
+    public TraceOutputChannel getType() {
+        return TraceOutputChannel.FILE;
     }
 }

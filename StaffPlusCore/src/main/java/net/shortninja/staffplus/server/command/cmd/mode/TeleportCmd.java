@@ -1,11 +1,10 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.PlayerOfflineException;
 import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
 import net.shortninja.staffplus.server.command.cmd.StaffPlusPlusCmd;
-import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -23,7 +22,6 @@ import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 public class TeleportCmd extends StaffPlusPlusCmd {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(STRIP, HEALTH);
 
-    private Messages messages = IocContainer.getMessages();
     private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
 
     public TeleportCmd(String name) {
@@ -39,7 +37,7 @@ public class TeleportCmd extends StaffPlusPlusCmd {
 
         Player targetPlayer = Bukkit.getPlayer(playerName);
         if (targetPlayer == null) {
-            throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
+            throw new PlayerOfflineException();
         }
 
         TeleportService.getInstance().teleportPlayer(sender, targetPlayer, locationName);

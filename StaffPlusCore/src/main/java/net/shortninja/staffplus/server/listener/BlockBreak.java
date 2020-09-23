@@ -3,9 +3,9 @@ package net.shortninja.staffplus.server.listener;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,6 +20,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import static net.shortninja.staffplus.staff.tracing.TraceType.BLOCK_BREAK;
 
 public class BlockBreak implements Listener {
     private final BlockFace[] FACES =
@@ -66,7 +68,7 @@ public class BlockBreak implements Listener {
                 }
             }
 
-            IocContainer.getTraceService().sendTraceMessage(event.getPlayer().getUniqueId(),
+            IocContainer.getTraceService().sendTraceMessage(BLOCK_BREAK, event.getPlayer().getUniqueId(),
                 String.format("Block [%s] broken at [%s,%s,%s]", block.getType(), block.getX(), block.getY(), block.getZ()));
             return;
         }

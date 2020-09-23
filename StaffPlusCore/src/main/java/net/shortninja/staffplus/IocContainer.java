@@ -142,11 +142,11 @@ public class IocContainer {
     }
 
     public static TraceService getTraceService() {
-        return initBean(TraceService.class, () -> new TraceService(getUserManager(), getMessages(), getMessage(), getTraceWriterFactory()));
+        return initBean(TraceService.class, () -> new TraceService(getUserManager(), getTraceWriterFactory(), getOptions()));
     }
 
     public static TraceWriterFactory getTraceWriterFactory() {
-        return initBean(TraceWriterFactory.class, () -> new TraceWriterFactory(getMessage(), getMessages()));
+        return initBean(TraceWriterFactory.class, () -> new TraceWriterFactory(getMessage(), getMessages(), getOptions()));
     }
 
     public static BlacklistService getBlacklistService() {

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.PlayerOfflineException;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -31,7 +31,7 @@ public class ClearInvCmd extends StaffPlusPlusCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args) {
         Player player = Bukkit.getServer().getPlayer(args[0]);
         if (player == null) {
-            throw new BusinessException(messages.playerOffline, messages.prefixGeneral);
+            throw new PlayerOfflineException();
         }
 
         List<String> arguments = Arrays.asList(Arrays.copyOfRange(args, 1, args.length));

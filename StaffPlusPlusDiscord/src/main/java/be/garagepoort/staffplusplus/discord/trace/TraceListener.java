@@ -11,7 +11,7 @@ import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.trace.StopTraceEvent;
 import net.shortninja.staffplus.unordered.trace.ITrace;
 import net.shortninja.staffplus.unordered.trace.TraceWriter;
-import net.shortninja.staffplus.unordered.trace.TraceWriterType;
+import net.shortninja.staffplus.unordered.trace.TraceOutputChannel;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static be.garagepoort.staffplusplus.discord.Constants.*;
+
 public class TraceListener implements Listener {
 
     private static final String CLEAR_COLOR = "6431896";
@@ -43,17 +45,17 @@ public class TraceListener implements Listener {
             .decoder(new GsonDecoder())
             .logger(new Slf4jLogger(DiscordClient.class))
             .logLevel(Logger.Level.FULL)
-            .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.warnings.webhookUrl", ""));
+            .target(DiscordClient.class, config.getString(TRACE_WEBHOOK_URL, ""));
         this.config = config;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleTraceStopped(StopTraceEvent event) {
-        if (!config.getBoolean("StaffPlusPlusDiscord.trace.notifyStopTrace")) {
+        if (!config.getBoolean(NOTIFY_STOP_TRACE)) {
             return;
         }
 
-        if (config.getBoolean("StaffPlusPlusDiscord.trace.notifyTraceLogFile")) {
+        if (config.getBoolean(INCLUDE_TRACE_LOG_FILE)) {
             try {
                 File file = getTraceFile(event);
                 if (file == null) return;
@@ -70,7 +72,7 @@ public class TraceListener implements Listener {
     private File getTraceFile(StopTraceEvent event) throws IOException {
         List<TraceWriter> writers = event.getTrace().getWriters();
         Optional<TraceWriter> traceWriter = writers.stream()
-            .filter(tw -> tw.getType() == TraceWriterType.FILE)
+            .filter(tw -> tw.getType() == TraceOutputChannel.FILE)
             .findFirst();
 
         if (!traceWriter.isPresent()) {
@@ -121,8 +123,7 @@ public class TraceListener implements Listener {
     }
 
     public boolean isEnabled() {
-        return config.getBoolean("StaffPlusPlusDiscord.trace.notifyStartTrace") ||
-            config.getBoolean("StaffPlusPlusDiscord.trace.notifyStopTrace") ||
-            config.getBoolean("StaffPlusPlusDiscord.trace.notifyTraceLogFile");
+        return config.getBoolean(NOTIFY_START_TRACE) ||
+            config.getBoolean(NOTIFY_STOP_TRACE);
     }
 }

@@ -9,6 +9,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.List;
 
+import static net.shortninja.staffplus.staff.tracing.TraceType.CHAT;
+
 public class TraceChatPreventer implements ChatPreventer, ChatReceivePreventer {
 
     private final TraceService traceService;
@@ -35,6 +37,6 @@ public class TraceChatPreventer implements ChatPreventer, ChatReceivePreventer {
         event.getRecipients().removeAll(allTracers);
 
         Player player = event.getPlayer();
-        traceService.sendTraceMessage(player.getUniqueId(), event.getMessage());
+        traceService.sendTraceMessage(CHAT, player.getUniqueId(), event.getMessage());
     }
 }

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.unordered.trace;
 
-public enum TraceWriterType {
+public enum TraceOutputChannel {
     FILE,
     CHAT;
 }

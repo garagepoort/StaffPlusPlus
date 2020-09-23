@@ -8,5 +8,5 @@ public interface TraceWriter {
 
     String getResource();
 
-    TraceWriterType getType();
+    TraceOutputChannel getType();
 }
