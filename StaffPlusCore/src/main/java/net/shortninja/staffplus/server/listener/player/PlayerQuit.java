@@ -5,9 +5,10 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.tracing.TraceService;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
@@ -24,8 +25,9 @@ public class PlayerQuit implements Listener {
     private final Messages messages = IocContainer.getMessages();
     private final UserManager userManager = StaffPlus.get().getUserManager();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
-    private final VanishHandler vanishHandler =IocContainer.getVanishHandler();
+    private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
     private final TicketHandler ticketHandler = StaffPlus.get().ticketHandler;
+    private final TraceService traceService = IocContainer.getTraceService();
 
     public PlayerQuit() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -46,9 +48,12 @@ public class PlayerQuit implements Listener {
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
             }
         }
-        if(options.enderOfflineChestEnabled && !InventoryFactory.isInventoryEmpty(event.getPlayer().getEnderChest())){
+        if (options.enderOfflineChestEnabled && !InventoryFactory.isInventoryEmpty(event.getPlayer().getEnderChest())) {
             InventoryFactory.saveEnderChest(event.getPlayer());
         }
+
+        traceService.sendTraceMessage(player.getUniqueId(), "Left the game");
+        traceService.stopAllTracesForPlayer(player.getUniqueId());
     }
 
     private void manageUser(Player player) {

@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.warn;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.PlayerOfflineException;
 import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
@@ -77,8 +78,7 @@ public class WarnService {
     public void sendWarning(CommandSender sender, String playerName, String reason) {
         IUser user = userManager.getOnOrOfflineUser(playerName);
         if (user == null) {
-            message.send(sender, messages.playerOffline, messages.prefixGeneral);
-            return;
+            throw new PlayerOfflineException();
         }
 
         String issuerName = sender instanceof Player ? sender.getName() : "Console";

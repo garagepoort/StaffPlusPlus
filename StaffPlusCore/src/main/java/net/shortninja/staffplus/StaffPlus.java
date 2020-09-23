@@ -186,7 +186,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new PlayerDeath();
         new PlayerDropItem();
         new PlayerInteract();
-        new PlayerLogin();
         new PlayerJoin();
         new PlayerPickupItem();
         new PlayerQuit();

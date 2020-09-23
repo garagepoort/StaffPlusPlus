@@ -17,6 +17,7 @@ public class Messages {
     public String prefixWarnings = config.getString("warnings-prefix");
     public String prefixStaffChat = config.getString("staff-chat-prefix");
     public String prefixTickets = config.getString("tickets-prefix");
+    public String prefixTrace = config.getString("trace-prefix", "&dTrace &8»");
     /*
      * General
      */
@@ -32,7 +33,7 @@ public class Messages {
     public String commandOnCooldown = config.getString("on-cooldown");
     public String noPermission = config.getString("no-permission");
     public String playerOffline = config.getString("player-offline");
-    public String playerNotRegistered = config.getString("player-not-registered");
+    public String playerNotRegistered = config.getString("player-not-registered", "This player does not exist");
     public String unknownCommand = config.getString("unknown-command");
     public String invalidArguments = config.getString("invalid-arguments");
     public String onlyPlayers = config.getString("only-players");
