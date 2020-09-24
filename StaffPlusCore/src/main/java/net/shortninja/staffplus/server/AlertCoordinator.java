@@ -1,12 +1,10 @@
 package net.shortninja.staffplus.server;
 
-import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -17,12 +15,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AlertCoordinator {
-    private static Set<Location> notifiedLocations = new HashSet<Location>();
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
+    private final static Set<Location> notifiedLocations = new HashSet<>();
+    private final PermissionHandler permission;
+    private final MessageCoordinator message;
+    private final Options options;
+    private final Messages messages;
+    private final SessionManager sessionManager;
+
+    public AlertCoordinator(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManager sessionManager) {
+        this.permission = permission;
+        this.message = message;
+        this.options = options;
+        this.messages = messages;
+        this.sessionManager = sessionManager;
+    }
 
     public boolean hasNotified(Location location) {
         return notifiedLocations.contains(location);
@@ -45,18 +51,18 @@ public class AlertCoordinator {
             return;
         }
 
-        for (IUser user : userManager.getAll()) {
-            if (!user.getPlayer().isPresent()) { // How?
+        for (IPlayerSession playerSession : sessionManager.getAll()) {
+            if (!playerSession.getPlayer().isPresent()) { // How?
                 continue;
             }
 
-            if (user.shouldNotify(AlertType.NAME_CHANGE) && permission.has(user.getPlayer().get(), options.permissionNameChange)) {
-                message.send(user.getPlayer().get(), messages.alertsName.replace("%old%", originalName).replace("%new%", newName), messages.prefixGeneral, options.permissionNameChange);
+            if (playerSession.shouldNotify(AlertType.NAME_CHANGE) && permission.has(playerSession.getPlayer().get(), options.permissionNameChange)) {
+                message.send(playerSession.getPlayer().get(), messages.alertsName.replace("%old%", originalName).replace("%new%", newName), messages.prefixGeneral, options.permissionNameChange);
             }
         }
     }
 
-    public void onMention(IUser user, String mentioner) {
+    public void onMention(IPlayerSession user, String mentioner) {
         if (!options.alertsMentionNotify || user == null || !user.getPlayer().isPresent()) {
             return;
         }
@@ -72,7 +78,7 @@ public class AlertCoordinator {
             return;
         }
 
-        for (IUser user : userManager.getAll()) {
+        for (IPlayerSession user : sessionManager.getAll()) {
             if (!user.getPlayer().isPresent()) {
                 continue; // How?
             }

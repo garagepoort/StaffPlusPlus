@@ -2,14 +2,13 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.Bukkit;
@@ -23,10 +22,9 @@ public class PlayerQuit implements Listener {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final UserManager userManager = StaffPlus.get().getUserManager();
+    private final SessionManager sessionManager = StaffPlus.get().getUserManager();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
-    private final TicketHandler ticketHandler = StaffPlus.get().ticketHandler;
     private final TraceService traceService = IocContainer.getTraceService();
 
     public PlayerQuit() {
@@ -41,8 +39,7 @@ public class PlayerQuit implements Listener {
         manageUser(player);
         modeCoordinator.removeMode(player);
         vanishHandler.removeVanish(player);
-        ticketHandler.removeTicket(ticketHandler.getTicketByUuid(player.getUniqueId()), "", TicketHandler.TicketCloseReason.QUIT);
-        if (userManager.get(player.getUniqueId()).isFrozen()) {
+        if (sessionManager.get(player.getUniqueId()).isFrozen()) {
             for (String command : options.logoutCommands) {
                 command = command.replace("%player%", player.getName());
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
@@ -57,12 +54,10 @@ public class PlayerQuit implements Listener {
     }
 
     private void manageUser(Player player) {
-        IUser user = userManager.get(player.getUniqueId());
-
-        user.setOnline(false);
-
-        if (user.isFrozen()) {
+        IPlayerSession session = sessionManager.get(player.getUniqueId());
+        if (session.isFrozen()) {
             message.sendGroupMessage(messages.freezeLogout.replace("%player%", player.getName()), options.permissionFreeze, messages.prefixGeneral);
         }
+        sessionManager.unload(player.getUniqueId());
     }
 }

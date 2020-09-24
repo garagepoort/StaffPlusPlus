@@ -1,17 +1,17 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class NodeUser {
-    private IUser user;
+    private IPlayerSession user;
     private String prefix;
 
-    public NodeUser(IUser user) {
+    public NodeUser(IPlayerSession user) {
         this.user = user;
         this.prefix = user.getUuid() + ".";
     }

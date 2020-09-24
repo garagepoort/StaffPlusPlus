@@ -1,15 +1,13 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.reports.ClosedReportsGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.reports.MyReportsGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.reports.OpenReportsGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,13 +15,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
-    private Options options = IocContainer.getOptions();
-    private UserManager userManager = IocContainer.getUserManager();
+    private final Options options = IocContainer.getOptions();
 
     public HubGui(Player player, String title) {
         super(SIZE, title);
-
-        IUser user = userManager.get(player.getUniqueId());
 
         if (options.modeGuiReports) {
             setItem(1, reportsItem(), new IAction() {
@@ -91,9 +86,10 @@ public class HubGui extends AbstractGui {
             });
         }
 
-        setGlass(user);
+        IPlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
+        setGlass(playerSession);
         player.openInventory(getInventory());
-        user.setCurrentGui(this);
+        playerSession.setCurrentGui(this);
     }
 
     private ItemStack reportsItem() {

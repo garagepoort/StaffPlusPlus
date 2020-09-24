@@ -2,58 +2,89 @@ package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.common.NoPermissionException;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
-import org.bukkit.Bukkit;
+import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class ModeCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
+import java.util.Optional;
+
+public class ModeCmd extends AbstractCmd {
+    public static final String ENABLE = "enable";
+    public static final String DISABLE = "disable";
 
     public ModeCmd(String name) {
-        super(name);
+        super(name, IocContainer.getOptions().permissionMode);
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return CommandUtil.executeCommand(sender, true, () -> {
-            if (!permission.has(sender, options.permissionMode)) {
-                throw new NoPermissionException();
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+        if (args.length >= 2 && permission.isOp(sender)) {
+            String option = args[1];
+
+            if (option.equalsIgnoreCase(ENABLE)) {
+                StaffPlus.get().modeCoordinator.addMode(targetPlayer.getPlayer());
+            } else if (option.equalsIgnoreCase(DISABLE)) {
+                StaffPlus.get().modeCoordinator.removeMode(targetPlayer.getPlayer());
+            } else {
+                throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
             }
 
-            if (args.length >= 2 && permission.isOp(sender)) {
-                Player targetPlayer = Bukkit.getPlayer(args[0]);
-                String option = args[1];
+        } else if (args.length == 1 && permission.isOp(sender)) {
+            toggleMode(targetPlayer.getPlayer());
+        } else if (sender instanceof Player) {
+            toggleMode((Player) sender);
+        } else {
+            throw new BusinessException(messages.onlyPlayers);
+        }
 
-                if (targetPlayer != null) {
-                    if (option.equalsIgnoreCase("enable")) {
-                        StaffPlus.get().modeCoordinator.addMode(targetPlayer);
-                    } else if (option.equalsIgnoreCase("disable")) {
-                        StaffPlus.get().modeCoordinator.removeMode(targetPlayer);
-                    } else
-                        message.send(sender, messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
-                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-            } else if (args.length == 1 && permission.isOp(sender)) {
-                Player targetPlayer = Bukkit.getPlayer(args[0]);
+        return true;
+    }
 
-                if (targetPlayer != null) {
-                    toggleMode(targetPlayer);
-                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-            } else if (sender instanceof Player) {
-                toggleMode((Player) sender);
-            } else message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
 
-            return true;
-        });
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        if (args.length >= 2) {
+            if (args[1].equalsIgnoreCase(ENABLE) || args[1].equalsIgnoreCase(DISABLE)) {
+                return 2;
+            }
+        }
+        if (args.length == 1) {
+            return 1;
+        }
+        if (sender instanceof Player) {
+            return 0;
+        }
+        return 1;
+    }
+
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.ONLINE;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        if (args.length == 0 && (sender instanceof Player)) {
+            return Optional.of(sender.getName());
+        }
+        return Optional.of(args[0]);
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return false;
     }
 
     private void toggleMode(Player player) {
