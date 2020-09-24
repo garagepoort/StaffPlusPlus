@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.unordered.IGui;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
@@ -48,7 +48,7 @@ public class AbstractGui implements IGui {
         }
     }
 
-    public void setGlass(IUser user) {
+    public void setGlass(IPlayerSession user) {
         ItemStack item = glassItem(user.getGlassColor());
 
         IAction action = new IAction() {

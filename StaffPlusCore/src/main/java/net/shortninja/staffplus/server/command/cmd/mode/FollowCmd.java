@@ -2,51 +2,61 @@ package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.util.lib.JavaUtils;
-import org.bukkit.Bukkit;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class FollowCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
+import java.util.Optional;
+
+public class FollowCmd extends AbstractCmd {
+
+    private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
 
     public FollowCmd(String name) {
-        super(name);
+        super(name, IocContainer.getOptions().permissionFollow);
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return CommandUtil.executeCommand(sender, true, () -> {
-            Player targetPlayer = null;
+    public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+        if (!(sender instanceof Player)) {
+            throw new BusinessException(messages.onlyPlayers);
+        }
 
-            if (!permission.has(sender, options.permissionFollow)) {
-                message.send(sender, messages.noPermission, messages.prefixGeneral);
-                return true;
-            }
+        gadgetHandler.onFollow((Player) sender, targetPlayer.getPlayer());
+        return true;
+    }
 
-            if (args.length == 1) {
-                targetPlayer = Bukkit.getPlayer(args[0]);
-            } else if (!(sender instanceof Player)) {
-                message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
-                return true;
-            } else targetPlayer = JavaUtils.getTargetPlayer((Player) sender);
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
 
-            if (targetPlayer != null) {
-                gadgetHandler.onFollow((Player) sender, targetPlayer);
-            } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        return 1;
+    }
 
-            return true;
-        });
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.ONLINE;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        return Optional.ofNullable(args[0]);
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return false;
     }
 }

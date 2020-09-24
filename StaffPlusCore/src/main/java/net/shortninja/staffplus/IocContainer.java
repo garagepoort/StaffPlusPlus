@@ -6,12 +6,17 @@ import net.shortninja.staffplus.authentication.AuthenticationProvider;
 import net.shortninja.staffplus.authentication.AuthenticationService;
 import net.shortninja.staffplus.authentication.authme.AuthMeAuthenticationService;
 import net.shortninja.staffplus.authentication.authme.NoopAuthenticationService;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.OfflinePlayerProvider;
+import net.shortninja.staffplus.player.PlayerManager;
+import net.shortninja.staffplus.player.ext.bukkit.BukkitOfflinePlayerProvider;
+import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.UserQueuedActionChatPreventer;
 import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.reporting.database.ReportRepository;
 import net.shortninja.staffplus.reporting.database.SqliteReportRepository;
+import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.chat.ChatPreventer;
 import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
@@ -21,6 +26,7 @@ import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.DomainChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalCharactersChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalWordsChatCensor;
+import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.storage.IStorage;
@@ -81,7 +87,7 @@ public class IocContainer {
     }
 
     public static ReportService getReportService() {
-        return initBean(ReportService.class, () -> new ReportService(getReportRepository(), getUserManager(), getMessages()));
+        return initBean(ReportService.class, () -> new ReportService(getReportRepository(), getMessages(), getPlayerManager()));
     }
 
     public static WarnService getWarnService() {
@@ -90,7 +96,7 @@ public class IocContainer {
             getMessage(),
             getOptions(),
             getMessages(),
-            getUserManager(),
+            getPlayerManager(),
             getWarnRepository(),
             getDelayedActionsRepository()));
     }
@@ -109,8 +115,12 @@ public class IocContainer {
         return storage;
     }
 
-    public static UserManager getUserManager() {
-        return initBean(UserManager.class, () -> new UserManager(staffPlus, getOptions()));
+    public static SessionManager getSessionManager() {
+        return initBean(SessionManager.class, () -> new SessionManager(getSessionLoader()));
+    }
+
+    public static PlayerManager getPlayerManager() {
+        return initBean(PlayerManager.class, () -> new PlayerManager(getOfflinePlayerProvider()));
     }
 
     public static Messages getMessages() {
@@ -135,7 +145,7 @@ public class IocContainer {
 
     public static VanishHandler getVanishHandler() {
         return initBean(VanishHandler.class, () -> new VanishHandler(StaffPlus.get().versionProtocol, getPermissionHandler(),
-            getMessage(), getOptions(), getMessages(), getUserManager()));
+            getMessage(), getOptions(), getMessages(), getSessionManager()));
     }
 
     public static ChatHandler getChatHandler() {
@@ -143,15 +153,32 @@ public class IocContainer {
     }
 
     public static FreezeHandler getFreezeHandler() {
-        return initBean(FreezeHandler.class, () -> new FreezeHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getUserManager()));
+        return initBean(FreezeHandler.class, () -> new FreezeHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getSessionManager()));
     }
 
     public static TraceService getTraceService() {
-        return initBean(TraceService.class, () -> new TraceService(getUserManager(), getTraceWriterFactory(), getOptions()));
+        return initBean(TraceService.class, () -> new TraceService(getTraceWriterFactory(), getOptions()));
     }
 
     public static TraceWriterFactory getTraceWriterFactory() {
         return initBean(TraceWriterFactory.class, () -> new TraceWriterFactory(getMessage(), getMessages(), getOptions()));
+    }
+
+    public static SessionLoader getSessionLoader() {
+        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager()));
+    }
+
+    public static AlertCoordinator getAlertCoordinator() {
+        return initBean(AlertCoordinator.class, () -> new AlertCoordinator(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getSessionManager()));
+    }
+
+    public static OfflinePlayerProvider getOfflinePlayerProvider() {
+        return initBean(OfflinePlayerProvider.class, () -> {
+            if(getOptions().offlinePlayersModeEnabled) {
+                return new BukkitOfflinePlayerProvider();
+            }
+            return new NoopOfflinePlayerProvider();
+        });
     }
 
     public static BlacklistService getBlacklistService() {
@@ -169,7 +196,7 @@ public class IocContainer {
 
     public static List<ChatPreventer> getChatPreventers() {
         return Arrays.asList(
-            new UserQueuedActionChatPreventer(getUserManager()),
+            new UserQueuedActionChatPreventer(getSessionManager()),
             new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()),
             new FreezeChatPreventer(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
             new VanishChatPreventer(getVanishHandler(), getOptions(), getMessage(), getMessages()),
@@ -207,10 +234,10 @@ public class IocContainer {
         private static final Table<String, DatabaseType, Repository> MAP = HashBasedTable.create();
 
         static {
-            MAP.put("WARN", DatabaseType.MYSQL, new MysqlWarnRepository(getUserManager()));
-            MAP.put("WARN", DatabaseType.SQLITE, new SqliteWarnRepository(getUserManager()));
-            MAP.put("REPORT", DatabaseType.MYSQL, new MysqlReportRepository(getUserManager()));
-            MAP.put("REPORT", DatabaseType.SQLITE, new SqliteReportRepository(getUserManager()));
+            MAP.put("WARN", DatabaseType.MYSQL, new MysqlWarnRepository(getPlayerManager()));
+            MAP.put("WARN", DatabaseType.SQLITE, new SqliteWarnRepository(getPlayerManager()));
+            MAP.put("REPORT", DatabaseType.MYSQL, new MysqlReportRepository(getPlayerManager()));
+            MAP.put("REPORT", DatabaseType.SQLITE, new SqliteReportRepository(getPlayerManager()));
             MAP.put("DELAYED_ACTIONS", DatabaseType.MYSQL, new MysqlDelayedActionsRepository());
             MAP.put("DELAYED_ACTIONS", DatabaseType.SQLITE, new SqliteDelayedActionsRepository());
         }

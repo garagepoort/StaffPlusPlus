@@ -130,7 +130,7 @@ vanish-module:
   # Whether or not list vanish users will be shown as "away" or "offline" in the staff list.
   show-away: false
 
-  # Whether or not user should be shown in command tab-complete suggestions.
+  # Whether or not playerSession should be shown in command tab-complete suggestions.
   suggestions: false
 
   # Whether or not chat can be used when vanished.
@@ -216,7 +216,7 @@ tickets-module:
 
 # Requires "permissions.notify" permission.
 alerts-module:
-  # Whether or not staff will be notified when a user changes their name.
+  # Whether or not staff will be notified when a playerSession changes their name.
   name-notify: true
 
   # Whether or not staff will be notified when they are mentioned.
@@ -898,7 +898,7 @@ storage:
   type: 'sqlite'
   mysql:
     host: 'localhost'
-    user: 'root'
+    playerSession: 'root'
     database: 'root'
     password: 'mypass'
     port: 3306
