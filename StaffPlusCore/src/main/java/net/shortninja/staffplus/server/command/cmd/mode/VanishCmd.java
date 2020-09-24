@@ -1,27 +1,32 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class VanishCmd extends BukkitCommand {
+import java.util.Optional;
+
+import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.ONLINE;
+
+public class VanishCmd extends AbstractCmd {
     private final PermissionHandler permission = IocContainer.getPermissionHandler();
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final UserManager userManager = IocContainer.getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
     public VanishCmd(String name) {
@@ -29,37 +34,78 @@ public class VanishCmd extends BukkitCommand {
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return CommandUtil.executeCommand(sender, true, () -> {
-            if (args.length >= 3 && permission.isOp(sender)) {
-                Player targetPlayer = Bukkit.getPlayer(args[1]);
-                String option = args[2];
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+        if (args.length >= 3 && permission.isOp(sender)) {
+            String option = args[2];
 
-                if (targetPlayer != null) {
-                    if (option.equalsIgnoreCase("enable")) {
-                        handleVanishArgument(sender, args[0], targetPlayer, false);
-                    } else vanishHandler.removeVanish(targetPlayer);
-                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-            } else if (args.length == 2 && permission.isOp(sender)) {
-                Player targetPlayer = Bukkit.getPlayer(args[1]);
-
-                if (targetPlayer != null) {
-                    handleVanishArgument(sender, args[0], targetPlayer, false);
-                } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
-            } else if (args.length == 1 && permission.isOp(sender)) {
-                if ((sender instanceof Player)) {
-                    handleVanishArgument(sender, args[0], (Player) sender, true);
-                } else message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
-            } else sendHelp(sender);
-
+            if (option.equalsIgnoreCase("enable")) {
+                handleVanishArgument(sender, args[0], targetPlayer.getPlayer(), false);
+            } else {
+                vanishHandler.removeVanish(targetPlayer.getPlayer());
+            }
             return true;
-        });
+        }
+
+        if (args.length == 2 && permission.isOp(sender)) {
+            handleVanishArgument(sender, args[0], targetPlayer.getPlayer(), false);
+            return true;
+        }
+
+        if (args.length == 1 && permission.isOp(sender)) {
+            if (!(sender instanceof Player)) {
+                throw new BusinessException(messages.onlyPlayers);
+            }
+            handleVanishArgument(sender, args[0], (Player) sender, true);
+            return true;
+        }
+
+        sendHelp(sender);
+        return true;
+    }
+
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
+
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        if(sender instanceof Player) {
+            return 1;
+        }
+        return 2;
+    }
+
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return ONLINE;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        if (args.length > 1) {
+            return Optional.of(args[1]);
+        }
+        if (sender instanceof Player) {
+            return Optional.of(sender.getName());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return false;
     }
 
     private void handleVanishArgument(CommandSender sender, String argument, Player player, boolean shouldCheckPermission) {
         boolean isValid = JavaUtils.isValidEnum(VanishType.class, argument.toUpperCase());
         VanishType vanishType = VanishType.NONE;
-        IUser user = userManager.get(player.getUniqueId());
+        IPlayerSession user = sessionManager.get(player.getUniqueId());
 
         if (!isValid) {
             sendHelp(sender);

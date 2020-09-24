@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.staff.vanish;
 
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -22,20 +22,20 @@ public class VanishHandler {
     private final MessageCoordinator message;
     private final Options options;
     private final Messages messages;
-    private final UserManager userManager;
+    private final SessionManager sessionManager;
 
-    public VanishHandler(IProtocol versionProtocol, PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, UserManager userManager) {
+    public VanishHandler(IProtocol versionProtocol, PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManager sessionManager) {
         this.versionProtocol = versionProtocol;
         this.permission = permission;
         this.message = message;
         this.options = options;
         this.messages = messages;
-        this.userManager = userManager;
+        this.sessionManager = sessionManager;
     }
 
     public void addVanish(Player player, VanishType vanishType) {
-        IUser user = userManager.get(player.getUniqueId());
-        VanishType userVanishType = user.getVanishType();
+        IPlayerSession session = sessionManager.get(player.getUniqueId());
+        VanishType userVanishType = session.getVanishType();
 
         if (userVanishType == vanishType) {
             return;
@@ -44,11 +44,11 @@ public class VanishHandler {
         }
 
         applyVanish(player, vanishType, true);
-        user.setVanishType(vanishType);
+        session.setVanishType(vanishType);
     }
 
     public void removeVanish(Player player) {
-        IUser user = userManager.get(player.getUniqueId());
+        IPlayerSession user = sessionManager.get(player.getUniqueId());
         VanishType vanishType = user.getVanishType();
 
         if (vanishType == VanishType.NONE) {
@@ -65,13 +65,13 @@ public class VanishHandler {
     }
 
     public boolean isVanished(Player player) {
-        IUser user = userManager.get(player.getUniqueId());
+        IPlayerSession user = sessionManager.get(player.getUniqueId());
 
         return user.getVanishType() != VanishType.NONE;
     }
 
     public void updateVanish() {
-        for (IUser user : userManager.getAll()) {
+        for (IPlayerSession user : sessionManager.getAll()) {
             Optional<Player> player = user.getPlayer();
 
             if (player.isPresent() && user.getVanishType() == VanishType.TOTAL) {

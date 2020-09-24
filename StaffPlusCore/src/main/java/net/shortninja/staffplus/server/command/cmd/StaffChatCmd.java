@@ -1,54 +1,78 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class StaffChatCmd extends BukkitCommand {
-    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+import java.util.Optional;
+
+public class StaffChatCmd extends AbstractCmd {
     private final MessageCoordinator message = IocContainer.getMessage();
-    private final Options options = IocContainer.getOptions();
-    private final Messages messages = IocContainer.getMessages();
-    private final UserManager userManager = IocContainer.getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final StaffChatService staffChatService = IocContainer.getStaffChatService();
 
     public StaffChatCmd(String name) {
-        super(name);
+        super(name, IocContainer.getOptions().permissionStaffChat);
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return CommandUtil.executeCommand(sender, true, () -> {
-            if (!permission.has(sender, options.permissionStaffChat)) {
-                message.send(sender, messages.noPermission, messages.prefixStaffChat);
-                return true;
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+        if(!(sender instanceof Player)) {
+            throw new BusinessException(messages.onlyPlayers);
+        }
+        if (args.length > 0) {
+            staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
+        } else {
+            IPlayerSession user = sessionManager.get(((Player) sender).getUniqueId());
+
+            if (user.inStaffChatMode()) {
+                message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);
+                user.setChatting(false);
+            } else {
+                message.send(sender, messages.staffChatStatus.replace("%status%", messages.enabled), messages.prefixStaffChat);
+                user.setChatting(true);
             }
+        }
 
-            if (args.length > 0) {
-                staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
-            } else if (sender instanceof Player) {
-                IUser user = userManager.get(((Player) sender).getUniqueId());
+        return true;
+    }
 
-                if (user.inStaffChatMode()) {
-                    message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);
-                    user.setChatting(false);
-                } else {
-                    message.send(sender, messages.staffChatStatus.replace("%status%", messages.enabled), messages.prefixStaffChat);
-                    user.setChatting(true);
-                }
-            } else message.send(sender, messages.onlyPlayers, messages.prefixStaffChat);
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
 
-            return true;
-        });
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        return 0;
+    }
+
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.NONE;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        return Optional.empty();
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return false;
     }
 }

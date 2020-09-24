@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface OfflinePlayerProvider {
 
-    Optional<ProvidedPlayer> findUser(String username);
+    Optional<SppPlayer> findUser(String username);
 
-    Optional<ProvidedPlayer> findUser(UUID playerUuid);
+    Optional<SppPlayer> findUser(UUID playerUuid);
 }
