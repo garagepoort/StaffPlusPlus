@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.server.data.storage;
 
-import net.shortninja.staffplus.player.User;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.attribute.Ticket;
 
 import java.util.Set;
@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public interface IStorage {
 
-    short getGlassColor(User user);
+    short getGlassColor(PlayerSession playerSession);
 
-    void setGlassColor(User user, short glassColor);
+    void setGlassColor(PlayerSession playerSession, short glassColor);
 
     Set<Ticket> getTickets();
 

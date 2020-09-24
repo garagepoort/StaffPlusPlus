@@ -2,10 +2,10 @@ package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -15,11 +15,11 @@ import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 public class PersonnelCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
 
     public PersonnelCmd(String name) {
         super(name);
@@ -39,14 +39,9 @@ public class PersonnelCmd extends BukkitCommand {
             }
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                IUser user = userManager.get(player.getUniqueId());
-
-                if (user == null) {
-                    continue;
-                }
-
-                if (hasStatus(user, status)) {
-                    message.send(sender, messages.staffListMember.replace("%player%", player.getName()).replace("%statuscolor%", getStatusColor(user)), messages.prefixGeneral);
+                IPlayerSession session = sessionManager.get(player.getUniqueId());
+                if (hasStatus(session, status, player)) {
+                    message.send(sender, messages.staffListMember.replace("%player%", player.getName()).replace("%statuscolor%", getStatusColor(session, player)), messages.prefixGeneral);
                 }
             }
 
@@ -58,40 +53,29 @@ public class PersonnelCmd extends BukkitCommand {
         });
     }
 
-    private boolean hasStatus(IUser user, String status) {
-        if (!user.getPlayer().isPresent()) {
+    private boolean hasStatus(IPlayerSession session, String status, Player player) {
+        VanishType vanishType = session.getVanishType();
+        if (!permission.has(player, options.permissionMember)) {
             return false;
-        }
-
-        boolean hasStatus = true;
-        VanishType vanishType = user.getVanishType();
-
-        if (!permission.has(user.getPlayer().get(), options.permissionMember)) {
-            hasStatus = false;
-            return hasStatus;
         }
 
         switch (status.toLowerCase()) {
             case "online":
-                hasStatus = vanishType == VanishType.NONE && user.isOnline();
-                break;
+                return vanishType == VanishType.NONE;
             case "offline":
-                hasStatus = (vanishType == VanishType.TOTAL || !user.isOnline()) || (vanishType == VanishType.LIST && !options.vanishShowAway);
-                break;
+                return vanishType == VanishType.TOTAL || (vanishType == VanishType.LIST && !options.vanishShowAway);
             case "away":
-                hasStatus = (vanishType == VanishType.NONE && user.isOnline()) || (vanishType == VanishType.LIST && options.vanishShowAway);
-                break;
+                return vanishType == VanishType.NONE || (vanishType == VanishType.LIST && options.vanishShowAway);
         }
-
-        return hasStatus;
+        return true;
     }
 
-    private String getStatusColor(IUser user) {
+    private String getStatusColor(IPlayerSession user, Player player) {
         String statusColor = "4";
 
-        if (hasStatus(user, "online")) {
+        if (hasStatus(user, "online", player)) {
             statusColor = "a";
-        } else if (hasStatus(user, "away")) {
+        } else if (hasStatus(user, "away", player)) {
             statusColor = "e";
         }
 

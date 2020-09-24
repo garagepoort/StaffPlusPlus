@@ -3,13 +3,14 @@ package net.shortninja.staffplus.server.command.cmd;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.common.NoPermissionException;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.PlayerManager;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.server.command.arguments.DelayArgumentExecutor;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.util.PermissionHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -24,7 +25,8 @@ import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
 public abstract class StaffPlusPlusCmd extends BukkitCommand {
     private static final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
 
-    protected final UserManager userManager = IocContainer.getUserManager();
+    protected final SessionManager sessionManager = IocContainer.getSessionManager();
+    protected final PlayerManager playerManager = IocContainer.getPlayerManager();
     protected final Messages messages = IocContainer.getMessages();
     protected final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
     protected final PermissionHandler permission = IocContainer.getPermissionHandler();
@@ -47,12 +49,12 @@ public abstract class StaffPlusPlusCmd extends BukkitCommand {
 
             Optional<String> playerName = getPlayerName(args);
             if(playerName.isPresent()) {
-                if(!userManager.playerExists(playerName.get())) {
+                Optional<SppPlayer> sppPlayer = playerManager.getOnOrOfflinePlayer(playerName.get());
+                if(!sppPlayer.isPresent()) {
                     throw new BusinessException(messages.playerNotRegistered, messages.prefixGeneral);
                 }
 
-                Player player = Bukkit.getServer().getPlayer(playerName.get());
-                if (player != null && canBypass(player)) {
+                if (sppPlayer.get().isOnline() && canBypass(sppPlayer.get().getPlayer())) {
                     throw new BusinessException(messages.bypassed, messages.prefixGeneral);
                 }
 

@@ -2,13 +2,13 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.ChatPreventer;
 import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
 import net.shortninja.staffplus.staff.tracing.TraceService;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,8 +22,8 @@ import java.util.List;
 import static net.shortninja.staffplus.staff.tracing.TraceType.CHAT;
 
 public class AsyncPlayerChat implements Listener {
-    private final UserManager userManager = IocContainer.getUserManager();
-    private final AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
     private final List<ChatPreventer> chatPreventers = IocContainer.getChatPreventers();
     private final List<ChatReceivePreventer> chatReceivePreventers = IocContainer.getChatReceivePreventers();
     private final BlacklistService blacklistService = IocContainer.getBlacklistService();
@@ -46,9 +46,9 @@ public class AsyncPlayerChat implements Listener {
         chatReceivePreventers.forEach(preventer -> preventer.preventReceival(event));
         traceService.sendTraceMessage(CHAT, player.getUniqueId(), event.getMessage());
 
-        List<IUser> mentioned = getMentioned(message);
+        List<IPlayerSession> mentioned = getMentioned(message);
         if (!mentioned.isEmpty()) {
-            for (IUser user : mentioned) {
+            for (IPlayerSession user : mentioned) {
                 alertCoordinator.onMention(user, player.getName());
             }
         }
@@ -60,10 +60,10 @@ public class AsyncPlayerChat implements Listener {
         return chatPreventers.stream().anyMatch(c -> c.shouldPrevent(player, message));
     }
 
-    private List<IUser> getMentioned(String message) {
-        List<IUser> mentioned = new ArrayList<>();
+    private List<IPlayerSession> getMentioned(String message) {
+        List<IPlayerSession> mentioned = new ArrayList<>();
 
-        for (IUser user : userManager.getAll()) {
+        for (IPlayerSession user : sessionManager.getAll()) {
             if (!user.getPlayer().isPresent()) {
                 continue; // How?
             }

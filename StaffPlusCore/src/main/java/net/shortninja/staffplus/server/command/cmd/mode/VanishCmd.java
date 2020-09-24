@@ -2,11 +2,11 @@ package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -21,7 +21,7 @@ public class VanishCmd extends BukkitCommand {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final UserManager userManager = IocContainer.getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
     public VanishCmd(String name) {
@@ -59,7 +59,7 @@ public class VanishCmd extends BukkitCommand {
     private void handleVanishArgument(CommandSender sender, String argument, Player player, boolean shouldCheckPermission) {
         boolean isValid = JavaUtils.isValidEnum(VanishType.class, argument.toUpperCase());
         VanishType vanishType = VanishType.NONE;
-        IUser user = userManager.get(player.getUniqueId());
+        IPlayerSession user = sessionManager.get(player.getUniqueId());
 
         if (!isValid) {
             sendHelp(sender);

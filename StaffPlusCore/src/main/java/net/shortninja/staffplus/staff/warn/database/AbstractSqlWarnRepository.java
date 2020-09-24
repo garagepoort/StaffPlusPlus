@@ -2,8 +2,8 @@ package net.shortninja.staffplus.staff.warn.database;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.ProvidedPlayer;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.PlayerManager;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 
 import java.sql.Connection;
@@ -17,10 +17,10 @@ import java.util.UUID;
 
 public abstract class AbstractSqlWarnRepository implements WarnRepository, IocContainer.Repository {
 
-    private final UserManager userManager;
+    private final PlayerManager playerManager;
 
-    protected AbstractSqlWarnRepository(UserManager userManager) {
-        this.userManager = userManager;
+    protected AbstractSqlWarnRepository(PlayerManager playerManager) {
+        this.playerManager = playerManager;
     }
 
     protected abstract Connection getConnection() throws SQLException;
@@ -121,12 +121,12 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository, IocCo
         int score = rs.getInt("score");
         String severity = rs.getString("severity") == null ? "No Severity" : rs.getString("severity");
 
-        Optional<ProvidedPlayer> warner = userManager.getOnOrOfflinePlayer(warnerUuid);
-        String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : warner.map(ProvidedPlayer::getUsername).orElse("Unknown user");
+        Optional<SppPlayer> warner = playerManager.getOnOrOfflinePlayer(warnerUuid);
+        String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : warner.map(SppPlayer::getUsername).orElse("Unknown user");
         int id = rs.getInt("ID");
 
-        Optional<ProvidedPlayer> player = userManager.getOnOrOfflinePlayer(playerUUID);
-        String name = player.map(ProvidedPlayer::getUsername).orElse("Unknown user");
+        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUUID);
+        String name = player.map(SppPlayer::getUsername).orElse("Unknown user");
         return new Warning(playerUUID, name, id, rs.getString("Reason"), warnerName, warnerUuid, System.currentTimeMillis(), score, severity);
     }
 

@@ -2,11 +2,11 @@ package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -19,7 +19,7 @@ public class StaffChatCmd extends BukkitCommand {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final UserManager userManager = IocContainer.getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final StaffChatService staffChatService = IocContainer.getStaffChatService();
 
     public StaffChatCmd(String name) {
@@ -37,7 +37,7 @@ public class StaffChatCmd extends BukkitCommand {
             if (args.length > 0) {
                 staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
             } else if (sender instanceof Player) {
-                IUser user = userManager.get(((Player) sender).getUniqueId());
+                IPlayerSession user = sessionManager.get(((Player) sender).getUniqueId());
 
                 if (user.inStaffChatMode()) {
                     message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);

@@ -1,23 +1,23 @@
 package net.shortninja.staffplus.staff.warn;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.PlayerOfflineException;
-import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.PlayerOfflineException;
 import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
 import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
 import net.shortninja.staffplus.event.warnings.WarningsClearedEvent;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.PlayerManager;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.server.data.config.warning.WarningAction;
 import net.shortninja.staffplus.server.data.config.warning.WarningSeverityConfiguration;
 import net.shortninja.staffplus.server.data.config.warning.WarningThresholdConfiguration;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
+import net.shortninja.staffplus.staff.warn.database.WarnRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.staff.warn.database.WarnRepository;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,33 +33,33 @@ import static org.bukkit.Bukkit.getScheduler;
 
 public class WarnService {
 
-    private PermissionHandler permission;
-    private MessageCoordinator message;
-    private Options options;
-    private Messages messages;
-    private UserManager userManager;
-    private WarnRepository warnRepository;
-    private DelayedActionsRepository delayedActionsRepository;
+    private final PermissionHandler permission;
+    private final MessageCoordinator message;
+    private final Options options;
+    private final Messages messages;
+    private final PlayerManager playerManager;
+    private final WarnRepository warnRepository;
+    private final DelayedActionsRepository delayedActionsRepository;
 
     public WarnService(PermissionHandler permission,
                        MessageCoordinator message,
                        Options options,
                        Messages messages,
-                       UserManager userManager,
+                       PlayerManager playerManager,
                        WarnRepository warnRepository,
                        DelayedActionsRepository delayedActionsRepository) {
         this.permission = permission;
         this.message = message;
         this.options = options;
         this.messages = messages;
-        this.userManager = userManager;
+        this.playerManager = playerManager;
         this.warnRepository = warnRepository;
         this.delayedActionsRepository = delayedActionsRepository;
     }
 
     public void sendWarning(CommandSender sender, String playerName, String reason, String severityLevel) {
-        IUser user = userManager.getOnOrOfflineUser(playerName);
-        if (user == null) {
+        Optional<SppPlayer> user = playerManager.getOnOrOfflinePlayer(playerName);
+        if (!user.isPresent()) {
             message.send(sender, messages.playerOffline, messages.prefixGeneral);
             return;
         }
@@ -71,25 +71,25 @@ public class WarnService {
 
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
-        Warning warning = new Warning(user.getUuid(), playerName, reason, issuerName, issuerUuid, System.currentTimeMillis(), severity);
-        createWarning(sender, user, warning);
+        Warning warning = new Warning(user.get().getId(), playerName, reason, issuerName, issuerUuid, System.currentTimeMillis(), severity);
+        createWarning(sender, user.get(), warning);
     }
 
     public void sendWarning(CommandSender sender, String playerName, String reason) {
-        IUser user = userManager.getOnOrOfflineUser(playerName);
-        if (user == null) {
+        Optional<SppPlayer> user = playerManager.getOnOrOfflinePlayer(playerName);
+        if (!user.isPresent()) {
             throw new PlayerOfflineException();
         }
 
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
-        Warning warning = new Warning(user.getUuid(), playerName, reason, issuerName, issuerUuid, System.currentTimeMillis());
-        createWarning(sender, user, warning);
+        Warning warning = new Warning(user.get().getId(), playerName, reason, issuerName, issuerUuid, System.currentTimeMillis());
+        createWarning(sender, user.get(), warning);
     }
 
-    private void createWarning(CommandSender sender, IUser user, Warning warning) {
+    private void createWarning(CommandSender sender, SppPlayer user, Warning warning) {
         // Offline users cannot bypass being warned this way. Permissions are taken away upon logging out
-        if (user.isOnline() && permission.has(user.getPlayer().get(), options.permissionWarnBypass)) {
+        if (user.isOnline() && permission.has(user.getPlayer(), options.permissionWarnBypass)) {
             message.send(sender, messages.bypassed, messages.prefixGeneral);
             return;
         }
@@ -100,14 +100,14 @@ public class WarnService {
         sendEvent(new WarningCreatedEvent(warning));
         handleThresholds(user);
         if (user.isOnline()) {
-            Optional<Player> p = user.getPlayer();
-            message.send(p.get(), messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
-            options.warningsSound.play(p.get());
+            Player p = user.getPlayer();
+            message.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
+            options.warningsSound.play(p);
         }
     }
 
-    private void handleThresholds(IUser user) {
-        int totalScore = warnRepository.getTotalScore(user.getUuid());
+    private void handleThresholds(SppPlayer user) {
+        int totalScore = warnRepository.getTotalScore(user.getId());
         List<WarningThresholdConfiguration> thresholds = options.warningConfiguration.getThresholds();
         Optional<WarningThresholdConfiguration> threshold = thresholds.stream()
                 .sorted((o1, o2) -> o2.getScore() - o1.getScore())
@@ -122,21 +122,21 @@ public class WarnService {
                     || (action.getRunStrategy() == ONLINE && user.isOnline())
                     || (action.getRunStrategy() == DELAY && user.isOnline())) {
 
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getName()));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getUsername()));
                 validCommands.add(action.getCommand());
             } else if (action.getRunStrategy() == DELAY && !user.isOnline()) {
-                delayedActionsRepository.saveDelayedAction(user.getUuid(), action.getCommand());
+                delayedActionsRepository.saveDelayedAction(user.getId(), action.getCommand());
                 validCommands.add(action.getCommand());
             }
         }
-        sendEvent(new WarningThresholdReachedEvent(user.getName(), user.getUuid(), threshold.get().getScore(), validCommands));
+        sendEvent(new WarningThresholdReachedEvent(user.getUsername(), user.getId(), threshold.get().getScore(), validCommands));
     }
 
-    public void clearWarnings(CommandSender sender, IUser user) {
+    public void clearWarnings(CommandSender sender, SppPlayer player) {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
-        warnRepository.removeWarnings(user.getUuid());
-        sendEvent(new WarningsClearedEvent(issuerName, issuerUuid, user.getName(), user.getUuid()));
+        warnRepository.removeWarnings(player.getId());
+        sendEvent(new WarningsClearedEvent(issuerName, issuerUuid, player.getUsername(), player.getId()));
     }
 
     public List<Warning> getWarnings(UUID uuid) {

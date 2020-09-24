@@ -1,9 +1,7 @@
 package net.shortninja.staffplus.server.data.storage;
 
-import net.shortninja.staffplus.player.User;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.attribute.Ticket;
-import net.shortninja.staffplus.unordered.IReport;
-import net.shortninja.staffplus.unordered.IWarning;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,13 +11,13 @@ public final class MemoryStorage implements IStorage {
     private final Map<UUID, DataHolder> data = new HashMap<>();
 
     @Override
-    public short getGlassColor(User user) {
-        return getOrPut(user.getUuid()).glassColor;
+    public short getGlassColor(PlayerSession playerSession) {
+        return getOrPut(playerSession.getUuid()).glassColor;
     }
 
     @Override
-    public void setGlassColor(User user, short glassColor) {
-        getOrPut(user.getUuid()).glassColor = glassColor;
+    public void setGlassColor(PlayerSession playerSession, short glassColor) {
+        getOrPut(playerSession.getUuid()).glassColor = glassColor;
     }
 
     @Override
@@ -65,10 +63,7 @@ public final class MemoryStorage implements IStorage {
     }
 
     private static class DataHolder {
-
         private final List<Ticket> tickets = new ArrayList<>();
-        private final List<IReport> reports = new ArrayList<>();
-        private final List<IWarning> warnings = new ArrayList<>();
         private short glassColor;
     }
 }

@@ -3,8 +3,8 @@ package net.shortninja.staffplus.reporting.database;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.event.ReportStatus;
-import net.shortninja.staffplus.player.ProvidedPlayer;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.PlayerManager;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.reporting.Report;
 
 import java.sql.Connection;
@@ -18,10 +18,10 @@ import java.util.UUID;
 
 public abstract class AbstractSqlReportRepository implements ReportRepository, IocContainer.Repository {
 
-    private final UserManager userManager;
+    private final PlayerManager playerManager;
 
-    protected AbstractSqlReportRepository(UserManager userManager) {
-        this.userManager = userManager;
+    protected AbstractSqlReportRepository(PlayerManager playerManager) {
+        this.playerManager = playerManager;
     }
 
     protected abstract Connection getConnection() throws SQLException;
@@ -210,16 +210,16 @@ public abstract class AbstractSqlReportRepository implements ReportRepository, I
         if (reporterUUID.equals(StaffPlus.get().consoleUUID)) {
             reporterName = "Console";
         } else {
-            Optional<ProvidedPlayer> reporter = userManager.getOnOrOfflinePlayer(reporterUUID);
-            reporterName = reporter.map(ProvidedPlayer::getUsername).orElse(null);
+            Optional<SppPlayer> reporter = playerManager.getOnOrOfflinePlayer(reporterUUID);
+            reporterName = reporter.map(SppPlayer::getUsername).orElse(null);
         }
 
         UUID playerUUID = null;
         String culpritName = null;
         if(player_uuid != null) {
             playerUUID = UUID.fromString(player_uuid);
-            Optional<ProvidedPlayer> player = userManager.getOnOrOfflinePlayer(playerUUID);
-            culpritName = player.map(ProvidedPlayer::getUsername).orElse(null);
+            Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUUID);
+            culpritName = player.map(SppPlayer::getUsername).orElse(null);
         }
 
         int id = rs.getInt("ID");

@@ -3,15 +3,16 @@ package net.shortninja.staffplus.server.command.cmd.infraction;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.common.NoPermissionException;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.PlayerManager;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.warn.WarnService;
 import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.staff.warn.WarnService;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -21,15 +22,17 @@ import org.bukkit.entity.HumanEntity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class WarnsCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
-    private WarnService warnService = IocContainer.getWarnService();
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final WarnService warnService = IocContainer.getWarnService();
+    private final PlayerManager playerManager = IocContainer.getPlayerManager();
 
     public WarnsCmd(String name) {
         super(name);
@@ -58,10 +61,10 @@ public class WarnsCmd extends BukkitCommand {
     }
 
     private void listWarnings(CommandSender sender, String playerName) {
-        IUser user = userManager.getOnOrOfflineUser(playerName);
+        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerName);
 
-        if (user != null) {
-            List<Warning> warnings = warnService.getWarnings(user.getUuid());
+        if (player.isPresent()) {
+            List<Warning> warnings = warnService.getWarnings(player.get().getId());
 
             for (String message : messages.warningsListStart) {
                 this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", playerName).replace("%warnings%", Integer.toString(warnings.size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
@@ -80,10 +83,10 @@ public class WarnsCmd extends BukkitCommand {
     }
 
     private void clearWarnings(CommandSender sender, String playerName) {
-        IUser user = userManager.getOnOrOfflineUser(playerName);
+        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerName);
 
-        if (user != null) {
-            warnService.clearWarnings(sender, user);
+        if (player.isPresent()) {
+            warnService.clearWarnings(sender, player.get());
             message.send(sender, messages.warningsCleared.replace("%target%", playerName), messages.prefixWarnings);
         } else {
             message.send(sender, messages.playerOffline, messages.prefixWarnings);

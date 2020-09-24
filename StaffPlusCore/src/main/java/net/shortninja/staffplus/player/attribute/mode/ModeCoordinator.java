@@ -2,15 +2,14 @@ package net.shortninja.staffplus.player.attribute.mode;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
-import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
-import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.staff.vanish.VanishHandler;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -40,7 +39,7 @@ public class ModeCoordinator {
             };
 
     private final Messages messages = IocContainer.getMessages();
-    private final UserManager userManager = IocContainer.getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
     public Set<UUID> getModeUsers() {
@@ -55,19 +54,17 @@ public class ModeCoordinator {
 
     public void addMode(Player player) {
         UUID uuid = player.getUniqueId();
-        IUser user = userManager.get(uuid);
-        if(user == null)
-            user = new Load().getUser(player.getName(), player.getUniqueId());
+        IPlayerSession session = sessionManager.get(uuid);
         ModeDataVault modeData;
         modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
-                player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), user.getVanishType());
+                player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), session.getVanishType());
         if (isInMode(player.getUniqueId())) {
             return;
         }
 
         JavaUtils.clearInventory(player);
         modeUsers.put(uuid, modeData);
-        setPassive(player, user);
+        setPassive(player, session);
         message.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
 
@@ -81,7 +78,7 @@ public class ModeCoordinator {
         message.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
-    private void setPassive(Player player, IUser user) {
+    private void setPassive(Player player, IPlayerSession session) {
         if (options.modeFlight && !options.modeCreative) {
             player.setAllowFlight(true);
         } else if (options.modeCreative) {
@@ -97,7 +94,7 @@ public class ModeCoordinator {
             }
 
             if (modeItem.getIdentifier().equals("vanish")) {
-                modeItem.setItem(user.getVanishType() == options.modeVanish ? options.modeVanishItem : options.modeVanishItemOff);
+                modeItem.setItem(session.getVanishType() == options.modeVanish ? options.modeVanishItem : options.modeVanishItemOff);
             }
 
             player.getInventory().setItem(modeItem.getSlot(), StaffPlus.get().versionProtocol.addNbtString(modeItem.getItem(), modeItem.getIdentifier()));

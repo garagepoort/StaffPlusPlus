@@ -14,5 +14,5 @@ public interface IGui {
 
     void setItem(int slot, ItemStack item, IAction action);
 
-    void setGlass(IUser user);
+    void setGlass(IPlayerSession user);
 }

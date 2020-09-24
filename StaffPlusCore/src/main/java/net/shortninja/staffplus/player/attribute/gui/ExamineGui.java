@@ -2,8 +2,8 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.player.User;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.reporting.Report;
 import net.shortninja.staffplus.reporting.ReportService;
@@ -12,8 +12,8 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.IReport;
-import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -29,16 +29,15 @@ import java.util.List;
 public class ExamineGui extends AbstractGui {
 
     private static final int SIZE = 54;
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
-    private FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
-    private ReportService reportService;
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
+    private final ReportService reportService = IocContainer.getReportService();
 
     public ExamineGui(Player player, Player targetPlayer, String title) {
         super(SIZE, title);
-        reportService = IocContainer.getReportService();
 
         setInventoryContents(targetPlayer);
 
@@ -60,12 +59,12 @@ public class ExamineGui extends AbstractGui {
         }
 
         if (options.modeExamineInfractions >= 0) {
-            setItem(options.modeExamineInfractions, infractionsItem(userManager.get(targetPlayer.getUniqueId())), null);
+            setItem(options.modeExamineInfractions, infractionsItem(sessionManager.get(targetPlayer.getUniqueId())), null);
         }
 
         setInteractiveItems(targetPlayer);
         player.openInventory(getInventory());
-        userManager.get(player.getUniqueId()).setCurrentGui(this);
+        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     private void setInventoryContents(Player targetPlayer) {
@@ -104,17 +103,17 @@ public class ExamineGui extends AbstractGui {
         }
 
         if (options.modeExamineNotes >= 0) {
-            setItem(options.modeExamineNotes, notesItem(userManager.get(targetPlayer.getUniqueId())), new IAction() {
+            setItem(options.modeExamineNotes, notesItem(sessionManager.get(targetPlayer.getUniqueId())), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    IUser user = userManager.get(player.getUniqueId());
+                    IPlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
                     message.send(player, messages.typeInput, messages.prefixGeneral);
 
-                    user.setQueuedAction(new IAction() {
+                    playerSession.setQueuedAction(new IAction() {
                         @Override
                         public void execute(Player player, String input) {
-                            userManager.get(targetPlayer.getUniqueId()).addPlayerNote("&7" + input);
+                            sessionManager.get(targetPlayer.getUniqueId()).addPlayerNote("&7" + input);
                             message.send(player, messages.inputAccepted, messages.prefixGeneral);
                         }
 
@@ -166,11 +165,11 @@ public class ExamineGui extends AbstractGui {
             setItem(options.modeExamineWarn, warnItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    IUser user = userManager.get(player.getUniqueId());
+                    IPlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
                     message.send(player, messages.typeInput, messages.prefixGeneral);
 
-                    user.setQueuedAction(new IAction() {
+                    playerSession.setQueuedAction(new IAction() {
                         @Override
                         public void execute(Player player, String input) {
                             IocContainer.getWarnService().sendWarning(player, targetPlayer.getName(), input, null);
@@ -234,7 +233,7 @@ public class ExamineGui extends AbstractGui {
         ItemStack item = Items.builder()
                 .setMaterial(Material.PAPER).setAmount(1)
                 .setName("&bPing")
-                .addLore(messages.examineIp.replace("%ping%", String.valueOf(User.getPing(player))))
+                .addLore(messages.examineIp.replace("%ping%", String.valueOf(PlayerSession.getPing(player))))
                 .build();
 
         return item;
@@ -250,15 +249,15 @@ public class ExamineGui extends AbstractGui {
         return item;
     }
 
-    private ItemStack infractionsItem(IUser user) {
-        List<Report> reports = reportService.getReports(user.getUuid(), 0, 40);
+    private ItemStack infractionsItem(IPlayerSession playerSession) {
+        List<Report> reports = reportService.getReports(playerSession.getUuid(), 0, 40);
 
         List<String> lore = new ArrayList<String>();
         IReport latestReport = reports.size() >= 1 ? reports.get(reports.size() - 1) : null;
         String latestReason = latestReport == null ? "null" : latestReport.getReason();
 
         for (String string : messages.infractionItem) {
-            List<Warning> warnings = IocContainer.getWarnService().getWarnings(user.getUuid());
+            List<Warning> warnings = IocContainer.getWarnService().getWarnings(playerSession.getUuid());
             lore.add(string.replace("%warnings%", Integer.toString(warnings.size())).replace("%reports%", Integer.toString(reports.size())).replace("%reason%", latestReason));
         }
 
@@ -283,8 +282,8 @@ public class ExamineGui extends AbstractGui {
         return item;
     }
 
-    private ItemStack notesItem(IUser user) {
-        List<String> notes = user.getPlayerNotes().isEmpty() ? Arrays.asList("&7No notes found") : user.getPlayerNotes();
+    private ItemStack notesItem(IPlayerSession playerSession) {
+        List<String> notes = playerSession.getPlayerNotes().isEmpty() ? Arrays.asList("&7No notes found") : playerSession.getPlayerNotes();
 
         ItemStack item = Items.builder()
                 .setMaterial(Material.MAP).setAmount(1)
