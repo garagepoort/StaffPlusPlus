@@ -2,54 +2,60 @@ package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class EChestView extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
+import java.util.Optional;
+
+public class EChestView extends AbstractCmd {
 
     public EChestView(String name) {
-        super(name);
+        super(name, IocContainer.getOptions().permissionExamine);
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return CommandUtil.executeCommand(sender, true, () -> {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage("Command can only be used by players");
-                return true;
-            }
-            Player p = (Player) sender;
-            if (!permission.has(p, options.permissionExamine)) {
-                message.send(p, messages.noPermission, messages.prefixGeneral);
-                return true;
-            }
-            if (args.length == 0) {
-                message.send(p, messages.invalidArguments, messages.prefixGeneral);
-                return true;
-            }
-            if (Bukkit.getServer().getPlayer(args[0]) != null) {
-                p.openInventory(InventoryFactory.createEnderchestInventory(Bukkit.getServer().getPlayer(args[0])));
-                StaffPlus.get().inventoryHandler.addVirtualUser(p.getUniqueId());
-                return true;
-            } else {
-                if (!permission.has(p, options.permissionExamine)) {
-                    message.send(p, messages.noPermission, messages.prefixGeneral);
-                    return true;
-                }
-            }
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("Command can only be used by players");
             return true;
-        });
+        }
+        Player p = (Player) sender;
+        p.openInventory(InventoryFactory.createEnderchestInventory(player.getPlayer()));
+        StaffPlus.get().inventoryHandler.addVirtualUser(p.getUniqueId());
+        return true;
+    }
+
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
+
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        return 1;
+    }
+
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.ONLINE;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        return Optional.of(args[0]);
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return false;
     }
 }
