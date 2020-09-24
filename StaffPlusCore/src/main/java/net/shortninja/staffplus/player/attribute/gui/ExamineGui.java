@@ -2,7 +2,9 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.reporting.Report;
@@ -25,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class ExamineGui extends AbstractGui {
 
@@ -34,6 +37,7 @@ public class ExamineGui extends AbstractGui {
     private final Messages messages = IocContainer.getMessages();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
+    private final PlayerManager playerManager = IocContainer.getPlayerManager();
     private final ReportService reportService = IocContainer.getReportService();
 
     public ExamineGui(Player player, Player targetPlayer, String title) {
@@ -172,8 +176,13 @@ public class ExamineGui extends AbstractGui {
                     playerSession.setQueuedAction(new IAction() {
                         @Override
                         public void execute(Player player, String input) {
-                            IocContainer.getWarnService().sendWarning(player, targetPlayer.getName(), input, null);
-                            message.send(player, messages.inputAccepted, messages.prefixGeneral);
+                            Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getUniqueId());
+                            if (!onOrOfflinePlayer.isPresent()) {
+                                message.send(player, messages.playerOffline, messages.prefixGeneral);
+                            } else {
+                                IocContainer.getWarnService().sendWarning(player, onOrOfflinePlayer.get(), input);
+                                message.send(player, messages.inputAccepted, messages.prefixGeneral);
+                            }
                         }
 
                         @Override
@@ -209,10 +218,10 @@ public class ExamineGui extends AbstractGui {
         }
 
         ItemStack item = Items.builder()
-                .setMaterial(Material.BREAD).setAmount(1)
-                .setName("&bFood")
-                .setLore(lore)
-                .build();
+            .setMaterial(Material.BREAD).setAmount(1)
+            .setName("&bFood")
+            .setLore(lore)
+            .build();
 
         return item;
     }
@@ -221,30 +230,30 @@ public class ExamineGui extends AbstractGui {
         String ip = player.hasPermission(options.ipHidePerm) ? "127.0.0.1" : player.getAddress().getAddress().getHostAddress().replace("/", "");
 
         ItemStack item = Items.builder()
-                .setMaterial(Material.COMPASS).setAmount(1)
-                .setName("&bConnection")
-                .addLore(messages.examineIp.replace("%ipaddress%", ip))
-                .build();
+            .setMaterial(Material.COMPASS).setAmount(1)
+            .setName("&bConnection")
+            .addLore(messages.examineIp.replace("%ipaddress%", ip))
+            .build();
 
         return item;
     }
 
     private ItemStack pingItem(Player player) {
         ItemStack item = Items.builder()
-                .setMaterial(Material.PAPER).setAmount(1)
-                .setName("&bPing")
-                .addLore(messages.examineIp.replace("%ping%", String.valueOf(PlayerSession.getPing(player))))
-                .build();
+            .setMaterial(Material.PAPER).setAmount(1)
+            .setName("&bPing")
+            .addLore(messages.examineIp.replace("%ping%", String.valueOf(PlayerSession.getPing(player))))
+            .build();
 
         return item;
     }
 
     private ItemStack gameModeItem(Player player) {
         ItemStack item = Items.builder()
-                .setMaterial(Material.GRASS).setAmount(1)
-                .setName("&bGamemode")
-                .addLore(messages.examineGamemode.replace("%gamemode%", player.getGameMode().toString()))
-                .build();
+            .setMaterial(Material.GRASS).setAmount(1)
+            .setName("&bGamemode")
+            .addLore(messages.examineGamemode.replace("%gamemode%", player.getGameMode().toString()))
+            .build();
 
         return item;
     }
@@ -262,10 +271,10 @@ public class ExamineGui extends AbstractGui {
         }
 
         ItemStack item = Items.builder()
-                .setMaterial(Material.BOOK).setAmount(1)
-                .setName("&bInfractions")
-                .setLore(lore)
-                .build();
+            .setMaterial(Material.BOOK).setAmount(1)
+            .setName("&bInfractions")
+            .setLore(lore)
+            .build();
 
         return item;
     }
@@ -274,10 +283,10 @@ public class ExamineGui extends AbstractGui {
         Location location = player.getLocation();
 
         ItemStack item = Items.builder()
-                .setMaterial(Material.MAP).setAmount(1)
-                .setName("&bLocation")
-                .addLore(messages.examineLocation.replace("%location%", location.getWorld().getName() + " &8� &7" + JavaUtils.serializeLocation(location)))
-                .build();
+            .setMaterial(Material.MAP).setAmount(1)
+            .setName("&bLocation")
+            .addLore(messages.examineLocation.replace("%location%", location.getWorld().getName() + " &8� &7" + JavaUtils.serializeLocation(location)))
+            .build();
 
         return item;
     }
@@ -286,10 +295,10 @@ public class ExamineGui extends AbstractGui {
         List<String> notes = playerSession.getPlayerNotes().isEmpty() ? Arrays.asList("&7No notes found") : playerSession.getPlayerNotes();
 
         ItemStack item = Items.builder()
-                .setMaterial(Material.MAP).setAmount(1)
-                .setName(messages.examineNotes)
-                .setLore(notes)
-                .build();
+            .setMaterial(Material.MAP).setAmount(1)
+            .setName(messages.examineNotes)
+            .setLore(notes)
+            .build();
 
         return item;
     }
@@ -298,20 +307,20 @@ public class ExamineGui extends AbstractGui {
         String frozenStatus = freezeHandler.isFrozen(player.getUniqueId()) ? "" : "not ";
 
         ItemStack item = Items.builder()
-                .setMaterial(Material.BLAZE_ROD).setAmount(1)
-                .setName("&bFreeze player")
-                .setLore(Arrays.asList(messages.examineFreeze, "&7Currently " + frozenStatus + "frozen."))
-                .build();
+            .setMaterial(Material.BLAZE_ROD).setAmount(1)
+            .setName("&bFreeze player")
+            .setLore(Arrays.asList(messages.examineFreeze, "&7Currently " + frozenStatus + "frozen."))
+            .build();
 
         return item;
     }
 
     private ItemStack warnItem() {
         ItemStack item = Items.builder()
-                .setMaterial(Material.PAPER).setAmount(1)
-                .setName("&bWarn player")
-                .addLore(messages.examineWarn)
-                .build();
+            .setMaterial(Material.PAPER).setAmount(1)
+            .setName("&bWarn player")
+            .addLore(messages.examineWarn)
+            .build();
 
         return item;
     }

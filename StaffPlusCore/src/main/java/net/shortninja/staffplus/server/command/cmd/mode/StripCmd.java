@@ -1,54 +1,71 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.StripService;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class StripCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private  StripService stripService = StripService.getInstance();
+import java.util.Optional;
+
+import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.ONLINE;
+
+public class StripCmd extends AbstractCmd {
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final StripService stripService = StripService.getInstance();
 
     public StripCmd(String name) {
-        super(name);
+        super(name, IocContainer.getOptions().permissionStrip);
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return CommandUtil.executeCommand(sender, true, () -> {
-            Player targetPlayer = null;
+    public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+        if (JavaUtils.hasInventorySpace(targetPlayer.getPlayer())) {
+            stripService.strip(sender, targetPlayer.getPlayer());
+        } else {
+            message.send(sender, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixGeneral);
+        }
 
-            if (!permission.has(sender, options.permissionStrip)) {
-                message.send(sender, messages.noPermission, messages.prefixGeneral);
-                return true;
-            }
+        return true;
+    }
 
-            if (args.length == 1) {
-                targetPlayer = Bukkit.getPlayer(args[0]);
-            } else if (!(sender instanceof Player)) {
-                message.send(sender, messages.onlyPlayers, messages.prefixGeneral);
-                return true;
-            } else targetPlayer = JavaUtils.getTargetPlayer((Player) sender);
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
 
-            if (targetPlayer != null) {
-                if (JavaUtils.hasInventorySpace(targetPlayer)) {
-                    stripService.strip(sender, targetPlayer);
-                } else
-                    message.send(sender, messages.invalidArguments.replace("%usage%", usageMessage), messages.prefixGeneral);
-            } else message.send(sender, messages.playerOffline, messages.prefixGeneral);
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        if (sender instanceof Player) {
+            return 0;
+        }
+        return 1;
+    }
 
-            return true;
-        });
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return ONLINE;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        if (args.length == 0 && (sender instanceof Player)) {
+            return Optional.of(sender.getName());
+        }
+        return Optional.of(args[0]);
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return true;
     }
 }

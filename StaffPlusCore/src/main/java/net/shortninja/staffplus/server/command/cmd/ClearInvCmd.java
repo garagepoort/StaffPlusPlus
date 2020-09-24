@@ -1,9 +1,10 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.PlayerOfflineException;
+import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
-import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -17,39 +18,33 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
-public class ClearInvCmd extends StaffPlusPlusCmd {
+public class ClearInvCmd extends AbstractCmd {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, HEALTH);
-
-    private Messages messages = IocContainer.getMessages();
 
     public ClearInvCmd(String name) {
         super(name, IocContainer.getOptions().permissionClearInv);
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args) {
-        Player player = Bukkit.getServer().getPlayer(args[0]);
-        if (player == null) {
-            throw new PlayerOfflineException();
-        }
-
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
         List<String> arguments = Arrays.asList(Arrays.copyOfRange(args, 1, args.length));
 
-        JavaUtils.clearInventory(player);
-        sender.sendMessage(player.getName() + "'s inventory has been cleared");
+        JavaUtils.clearInventory(targetPlayer.getPlayer());
+        sender.sendMessage(targetPlayer.getPlayer().getName() + "'s inventory has been cleared");
         argumentProcessor.parseArguments(sender, args[0], arguments, VALID_ARGUMENTS);
         return true;
     }
 
     @Override
-    protected Optional<String> getPlayerName(String[] args) {
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.ofNullable(args[0]);
     }
 
     @Override
-    protected int getMinimumArguments(String[] args) {
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
     }
 
@@ -61,6 +56,11 @@ public class ClearInvCmd extends StaffPlusPlusCmd {
     @Override
     protected boolean isAuthenticationRequired() {
         return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return ONLINE;
     }
 
     @Override

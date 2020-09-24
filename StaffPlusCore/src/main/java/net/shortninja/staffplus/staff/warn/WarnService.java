@@ -2,7 +2,6 @@ package net.shortninja.staffplus.staff.warn;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
-import net.shortninja.staffplus.common.PlayerOfflineException;
 import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
 import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
 import net.shortninja.staffplus.event.warnings.WarningsClearedEvent;
@@ -57,13 +56,7 @@ public class WarnService {
         this.delayedActionsRepository = delayedActionsRepository;
     }
 
-    public void sendWarning(CommandSender sender, String playerName, String reason, String severityLevel) {
-        Optional<SppPlayer> user = playerManager.getOnOrOfflinePlayer(playerName);
-        if (!user.isPresent()) {
-            message.send(sender, messages.playerOffline, messages.prefixGeneral);
-            return;
-        }
-
+    public void sendWarning(CommandSender sender, SppPlayer user, String reason, String severityLevel) {
         WarningSeverityConfiguration severity = options.warningConfiguration.getSeverityLevels().stream()
                 .filter(s -> s.getName().equalsIgnoreCase(severityLevel))
                 .findFirst()
@@ -71,20 +64,15 @@ public class WarnService {
 
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
-        Warning warning = new Warning(user.get().getId(), playerName, reason, issuerName, issuerUuid, System.currentTimeMillis(), severity);
-        createWarning(sender, user.get(), warning);
+        Warning warning = new Warning(user.getId(), user.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis(), severity);
+        createWarning(sender, user, warning);
     }
 
-    public void sendWarning(CommandSender sender, String playerName, String reason) {
-        Optional<SppPlayer> user = playerManager.getOnOrOfflinePlayer(playerName);
-        if (!user.isPresent()) {
-            throw new PlayerOfflineException();
-        }
-
+    public void sendWarning(CommandSender sender, SppPlayer user, String reason) {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
-        Warning warning = new Warning(user.get().getId(), playerName, reason, issuerName, issuerUuid, System.currentTimeMillis());
-        createWarning(sender, user.get(), warning);
+        Warning warning = new Warning(user.getId(), user.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis());
+        createWarning(sender, user, warning);
     }
 
     private void createWarning(CommandSender sender, SppPlayer user, Warning warning) {

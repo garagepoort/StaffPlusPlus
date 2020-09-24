@@ -38,9 +38,8 @@ public class ReportService {
         this.playerManager = playerManager;
     }
 
-    public List<Report> getReports(String playerName, int offset, int amount) {
-        SppPlayer user = getUser(playerName);
-        return reportRepository.getReports(user.getId(), offset, amount);
+    public List<Report> getReports(SppPlayer player, int offset, int amount) {
+        return reportRepository.getReports(player.getId(), offset, amount);
     }
 
     public List<Report> getReports(UUID playerUuid, int offset, int amount) {
@@ -48,10 +47,9 @@ public class ReportService {
         return reportRepository.getReports(user.getId(), offset, amount);
     }
 
-    public void sendReport(CommandSender sender, String playerName, String reason) {
+    public void sendReport(CommandSender sender, SppPlayer user, String reason) {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             validateCoolDown(sender);
-            SppPlayer user = getUser(playerName);
 
             // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
             if (user.isOnline() && permission.has(user.getPlayer(), options.permissionReportBypass)) {
@@ -123,9 +121,8 @@ public class ReportService {
         return reportRepository.getUnresolvedReports(playerUuid, offset, amount);
     }
 
-    public void clearReports(String playerName) {
-        SppPlayer user = getUser(playerName);
-        reportRepository.removeReports(user.getId());
+    public void clearReports(SppPlayer player) {
+        reportRepository.removeReports(player.getId());
     }
 
     private void validateCoolDown(CommandSender sender) {

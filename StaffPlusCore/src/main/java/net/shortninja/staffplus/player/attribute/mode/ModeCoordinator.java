@@ -22,48 +22,46 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 public class ModeCoordinator {
-    private static Map<UUID, ModeDataVault> modeUsers = new HashMap<UUID, ModeDataVault>();
+    private static final Map<UUID, InventoryVault> staffMembersSavedData = new HashMap<>();
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     public final ModeItem[] MODE_ITEMS =
-            {
-                    new ModeItem("compass", options.modeCompassItem, options.modeCompassSlot, options.modeCompassEnabled),
-                    new ModeItem("randomTeleport", options.modeRandomTeleportItem, options.modeRandomTeleportSlot, options.modeRandomTeleportEnabled),
-                    new ModeItem("vanish", options.modeVanishItem, options.modeVanishSlot, options.modeVanishEnabled),
-                    new ModeItem("guiHub", options.modeGuiItem, options.modeGuiSlot, options.modeGuiEnabled),
-                    new ModeItem("counter", options.modeCounterItem, options.modeCounterSlot, options.modeCounterEnabled),
-                    new ModeItem("freeze", options.modeFreezeItem, options.modeFreezeSlot, options.modeFreezeEnabled),
-                    new ModeItem("cps", options.modeCpsItem, options.modeCpsSlot, options.modeCpsEnabled),
-                    new ModeItem("examine", options.modeExamineItem, options.modeExamineSlot, options.modeExamineEnabled),
-                    new ModeItem("follow", options.modeFollowItem, options.modeFollowSlot, options.modeFollowEnabled),
-            };
+        {
+            new ModeItem("compass", options.modeCompassItem, options.modeCompassSlot, options.modeCompassEnabled),
+            new ModeItem("randomTeleport", options.modeRandomTeleportItem, options.modeRandomTeleportSlot, options.modeRandomTeleportEnabled),
+            new ModeItem("vanish", options.modeVanishItem, options.modeVanishSlot, options.modeVanishEnabled),
+            new ModeItem("guiHub", options.modeGuiItem, options.modeGuiSlot, options.modeGuiEnabled),
+            new ModeItem("counter", options.modeCounterItem, options.modeCounterSlot, options.modeCounterEnabled),
+            new ModeItem("freeze", options.modeFreezeItem, options.modeFreezeSlot, options.modeFreezeEnabled),
+            new ModeItem("cps", options.modeCpsItem, options.modeCpsSlot, options.modeCpsEnabled),
+            new ModeItem("examine", options.modeExamineItem, options.modeExamineSlot, options.modeExamineEnabled),
+            new ModeItem("follow", options.modeFollowItem, options.modeFollowSlot, options.modeFollowEnabled),
+        };
 
     private final Messages messages = IocContainer.getMessages();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
     public Set<UUID> getModeUsers() {
-        return modeUsers.keySet();
+        return staffMembersSavedData.keySet();
     }
 
     public boolean isInMode(UUID uuid) {
-        if(modeUsers == null)
-            modeUsers = new HashMap<>();
-        return modeUsers.containsKey(uuid);
+        return staffMembersSavedData.containsKey(uuid);
     }
 
     public void addMode(Player player) {
         UUID uuid = player.getUniqueId();
         IPlayerSession session = sessionManager.get(uuid);
-        ModeDataVault modeData;
-        modeData = new ModeDataVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
-                player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), session.getVanishType());
         if (isInMode(player.getUniqueId())) {
             return;
         }
 
+        InventoryVault modeData = new InventoryVault(uuid, getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents(),
+            player.getLocation(), player.getExp(), player.getAllowFlight(), player.getGameMode(), session.getVanishType());
+        staffMembersSavedData.put(uuid, modeData);
+
         JavaUtils.clearInventory(player);
-        modeUsers.put(uuid, modeData);
         setPassive(player, session);
         message.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
@@ -74,7 +72,7 @@ public class ModeCoordinator {
         }
 
         unsetPassive(player);
-        modeUsers.remove(player.getUniqueId());
+        staffMembersSavedData.remove(player.getUniqueId());
         message.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
@@ -107,7 +105,7 @@ public class ModeCoordinator {
 
     private void unsetPassive(Player player) {
         UUID uuid = player.getUniqueId();
-        ModeDataVault modeData = modeUsers.get(uuid);
+        InventoryVault modeData = staffMembersSavedData.get(uuid);
         InventorySerializer saver = new InventorySerializer(player.getUniqueId());
 
         if (options.modeOriginalLocation) {
@@ -156,10 +154,11 @@ public class ModeCoordinator {
         return itemHash;
     }
 
-    private void getItems(Player p, InventorySerializer saver){
+    private void getItems(Player p, InventorySerializer saver) {
         HashMap<String, ItemStack> items = saver.getContents();
-        for(String num : items.keySet())
-            p.getInventory().setItem(Integer.parseInt(num),items.get(num));
+        for (String num : items.keySet()) {
+            p.getInventory().setItem(Integer.parseInt(num), items.get(num));
+        }
 
     }
 

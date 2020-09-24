@@ -34,8 +34,8 @@ public class VanishHandler {
     }
 
     public void addVanish(Player player, VanishType vanishType) {
-        IPlayerSession user = sessionManager.get(player.getUniqueId());
-        VanishType userVanishType = user.getVanishType();
+        IPlayerSession session = sessionManager.get(player.getUniqueId());
+        VanishType userVanishType = session.getVanishType();
 
         if (userVanishType == vanishType) {
             return;
@@ -44,7 +44,7 @@ public class VanishHandler {
         }
 
         applyVanish(player, vanishType, true);
-        user.setVanishType(vanishType);
+        session.setVanishType(vanishType);
     }
 
     public void removeVanish(Player player) {

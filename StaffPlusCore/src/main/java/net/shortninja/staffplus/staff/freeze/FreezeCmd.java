@@ -1,9 +1,10 @@
 package net.shortninja.staffplus.staff.freeze;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.PlayerOfflineException;
+import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
-import net.shortninja.staffplus.server.command.cmd.StaffPlusPlusCmd;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -16,9 +17,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
-public class FreezeCmd extends StaffPlusPlusCmd {
+public class FreezeCmd extends AbstractCmd {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
     private static final String ENABLED = "enabled";
     private static final String DISABLED = "disabled";
@@ -30,20 +32,15 @@ public class FreezeCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args) {
-        List<String> options = Arrays.asList(Arrays.copyOfRange(args, getMinimumArguments(args), args.length));
-        Player targetPlayer = Bukkit.getPlayer(getPlayerName(args).get());
-        if (targetPlayer == null) {
-            throw new PlayerOfflineException();
-        }
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer sppPlayer) {
+        argumentProcessor.parseArguments(sender, getPlayerName(sender, args).get(), getSppArguments(sender, args), VALID_ARGUMENTS);
 
-        argumentProcessor.parseArguments(sender, getPlayerName(args).get(), options, VALID_ARGUMENTS);
-        freezeHandler.execute(buildFreezeRequest(sender, args, targetPlayer));
+        freezeHandler.execute(buildFreezeRequest(sender, args, sppPlayer.getPlayer()));
         return true;
     }
 
     @Override
-    protected Optional<String> getPlayerName(String[] args) {
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
             return Optional.ofNullable(args[1]);
         }
@@ -51,7 +48,7 @@ public class FreezeCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected int getMinimumArguments(String[] args) {
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
         if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
             return 2;
         }
@@ -69,6 +66,11 @@ public class FreezeCmd extends StaffPlusPlusCmd {
     }
 
     @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return ONLINE;
+    }
+
+    @Override
     protected boolean canBypass(Player player) {
         return permission.has(player, options.permissionFreezeBypass);
     }
@@ -80,11 +82,7 @@ public class FreezeCmd extends StaffPlusPlusCmd {
             freeze = args[0].equalsIgnoreCase(ENABLED);
         }
 
-        return new FreezeRequest(
-                sender,
-                targetPlayer,
-                freeze
-        );
+        return new FreezeRequest(sender, targetPlayer, freeze);
     }
 
     @Override

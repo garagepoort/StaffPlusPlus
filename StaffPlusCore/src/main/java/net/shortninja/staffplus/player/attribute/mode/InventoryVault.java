@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class ModeDataVault {
+public class InventoryVault {
     private UUID uuid;
     private HashMap<Integer, ItemStack> items;
     private ItemStack[] armor;
@@ -22,7 +22,7 @@ public class ModeDataVault {
 
     private float xp;
 
-    public ModeDataVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
+    public InventoryVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
         this.uuid = uuid;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
@@ -34,7 +34,7 @@ public class ModeDataVault {
     }
 
 
-    public ModeDataVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand) {
+    public InventoryVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand) {
         this.items = itemHash;
         this.armor = armor;
         this.offHand = offHand;

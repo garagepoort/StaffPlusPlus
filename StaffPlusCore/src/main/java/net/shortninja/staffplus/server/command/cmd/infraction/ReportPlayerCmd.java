@@ -1,54 +1,62 @@
 package net.shortninja.staffplus.server.command.cmd.infraction;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.reporting.ReportService;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
-
-public class ReportPlayerCmd extends BukkitCommand {
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Messages messages = IocContainer.getMessages();
-    private ReportService reportService = IocContainer.getReportService();
+public class ReportPlayerCmd extends AbstractCmd {
+    private final ReportService reportService = IocContainer.getReportService();
 
     public ReportPlayerCmd(String name) {
         super(name);
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return executeCommand(sender, false, () -> {
-            if (args.length < 2) {
-                sendHelp(sender);
-                return true;
-            }
-
-            String playerName = args[0];
-            String reason = JavaUtils.compileWords(args, 1);
-            reportService.sendReport(sender, playerName, reason);
-            return true;
-        });
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+        String reason = JavaUtils.compileWords(args, 1);
+        reportService.sendReport(sender, player, reason);
+        return true;
     }
 
-    private void sendHelp(CommandSender sender) {
-        message.send(sender, "&7" + message.LONG_LINE, "");
-        message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixReports);
-        message.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixReports);
-        message.send(sender, "&b/" + getName() + " clear &7[player]", messages.prefixReports);
-        message.send(sender, "&7" + message.LONG_LINE, "");
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
+
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        return 2;
+    }
+
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return false;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.BOTH;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        return Optional.of(args[0]);
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return false;
     }
 
     @Override
@@ -61,8 +69,8 @@ public class ReportPlayerCmd extends BukkitCommand {
             suggestions.addAll(onlinePLayers);
             suggestions.addAll(offlinePlayers);
             return suggestions.stream()
-                    .filter(s -> args[0].isEmpty() || s.contains(args[0]))
-                    .collect(Collectors.toList());
+                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .collect(Collectors.toList());
         }
 
         return Collections.emptyList();

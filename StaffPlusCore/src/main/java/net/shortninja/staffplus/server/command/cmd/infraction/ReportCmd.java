@@ -1,50 +1,60 @@
 package net.shortninja.staffplus.server.command.cmd.infraction;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.reporting.ReportService;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
-
-public class ReportCmd extends BukkitCommand {
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private ReportService reportService = IocContainer.getReportService();
+public class ReportCmd extends AbstractCmd {
+    private final ReportService reportService = IocContainer.getReportService();
 
     public ReportCmd(String name) {
         super(name);
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return executeCommand(sender, false, () -> {
-            if (args.length < 1) {
-                sendHelp(sender);
-                return true;
-            }
-
-            String reason = JavaUtils.compileWords(args, 0);
-            reportService.sendReport(sender, reason);
-            return true;
-        });
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+        String reason = JavaUtils.compileWords(args, 0);
+        reportService.sendReport(sender, reason);
+        return true;
     }
 
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
 
-    private void sendHelp(CommandSender sender) {
-        message.send(sender, "&7" + message.LONG_LINE, "");
-        message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixReports);
-        message.send(sender, "&7" + message.LONG_LINE, "");
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        return 1;
+    }
+
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return false;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.NONE;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        return Optional.empty();
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return false;
     }
 
     @Override
