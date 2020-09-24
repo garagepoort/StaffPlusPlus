@@ -97,12 +97,6 @@ public class Options implements IOptions {
     public final List<String> chatBlacklistPeriods = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.periods"));
     public final List<String> chatBlacklistAllowed = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.allowed"));
     /*
-     * Tickets
-     */
-    public final boolean ticketsEnabled = config.getBoolean("tickets-module.enabled");
-    public final boolean ticketsGlobal = config.getBoolean("tickets-module.global");
-    public final boolean ticketsKeepOpen = config.getBoolean("tickets-module.keep-open");
-    /*
      * Alerts
      */
     public final boolean alertsNameNotify = config.getBoolean("alerts-module.name-notify");
@@ -205,6 +199,7 @@ public class Options implements IOptions {
     /*
      * Permissions
      */
+    public final String permissionAlerts = config.getString("permissions.alerts");;
     public final String permissionWildcard = config.getString("permissions.wild-card");
     public final String permissionBlock = config.getString("permissions.block");
     public final String permissionReport = config.getString("permissions.report");
@@ -255,7 +250,6 @@ public class Options implements IOptions {
     public final String commandWarns = config.getString("commands.warns");
     public final String commandVanish = config.getString("commands.vanish");
     public final String commandChat = config.getString("commands.chat");
-    public final String commandTicket = config.getString("commands.ticket");
     public final String commandAlerts = config.getString("commands.alerts");
     public final String commandFollow = config.getString("commands.follow");
     public final String commandRevive = config.getString("commands.revive");

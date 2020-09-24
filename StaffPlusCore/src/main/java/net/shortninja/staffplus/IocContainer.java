@@ -157,7 +157,7 @@ public class IocContainer {
     }
 
     public static TraceService getTraceService() {
-        return initBean(TraceService.class, () -> new TraceService(getPlayerManager(), getTraceWriterFactory(), getOptions()));
+        return initBean(TraceService.class, () -> new TraceService(getTraceWriterFactory(), getOptions()));
     }
 
     public static TraceWriterFactory getTraceWriterFactory() {

@@ -2,7 +2,6 @@ package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.BusinessException;
-import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
@@ -27,12 +26,12 @@ public class StaffChatCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
-        if(!(sender instanceof PlayerManager)) {
+        if(!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
         if (args.length > 0) {
             staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
-        } else if (sender instanceof Player) {
+        } else {
             IPlayerSession user = sessionManager.get(((Player) sender).getUniqueId());
 
             if (user.inStaffChatMode()) {

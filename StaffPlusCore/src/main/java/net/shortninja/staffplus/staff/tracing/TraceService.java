@@ -2,10 +2,8 @@ package net.shortninja.staffplus.staff.tracing;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
-import net.shortninja.staffplus.common.PlayerOfflineException;
 import net.shortninja.staffplus.event.trace.StartTraceEvent;
 import net.shortninja.staffplus.event.trace.StopTraceEvent;
-import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.tracing.config.TraceConfiguration;
@@ -24,29 +22,23 @@ public class TraceService {
 
     private final Map<UUID, Trace> tracedPlayers = new HashMap<>();
 
-    private final PlayerManager playerManager;
     private final TraceWriterFactory traceWriterFactory;
     private final TraceConfiguration traceConfiguration;
 
-    public TraceService(PlayerManager playerManager, TraceWriterFactory traceWriterFactory, Options options) {
-        this.playerManager = playerManager;
+    public TraceService(TraceWriterFactory traceWriterFactory, Options options) {
         this.traceWriterFactory = traceWriterFactory;
         this.traceConfiguration = options.traceConfiguration;
     }
 
-    public void startTrace(CommandSender tracer, String tracedPlayerName) {
+    public void startTrace(CommandSender tracer, SppPlayer traced) {
         UUID tracerUuid = tracer instanceof Player ? ((Player) tracer).getUniqueId() : StaffPlus.get().consoleUUID;
-        Optional<SppPlayer> traced = playerManager.getOnlinePlayer(tracedPlayerName);
-        if (!traced.isPresent()) {
-            throw new PlayerOfflineException();
-        }
 
         if (tracedPlayers.containsKey(tracerUuid)) {
             throw new BusinessException("Cannot start a trace. You are already tracing a player");
         }
 
-        List<TraceWriter> traceWriters = traceWriterFactory.buildTraceWriters(tracerUuid, traced.get().getId());
-        Trace trace = new Trace(traced.get().getPlayer(), tracerUuid, traceWriters);
+        List<TraceWriter> traceWriters = traceWriterFactory.buildTraceWriters(tracerUuid, traced.getId());
+        Trace trace = new Trace(traced.getPlayer(), tracerUuid, traceWriters);
         tracedPlayers.put(tracerUuid, trace);
         sendEvent(new StartTraceEvent(trace));
     }

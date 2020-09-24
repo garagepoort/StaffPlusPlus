@@ -2,7 +2,6 @@ package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.nms.Protocol_v1_16;
 import net.shortninja.staffplus.player.NodeUser;
-import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.CpsHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
@@ -60,7 +59,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public CpsHandler cpsHandler;
     public GadgetHandler gadgetHandler;
     public ReviveHandler reviveHandler;
-    public TicketHandler ticketHandler;
     public CmdHandler cmdHandler;
     public ModeCoordinator modeCoordinator;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
@@ -70,7 +68,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public InventoryHandler inventoryHandler;
     public boolean usesPlaceholderAPI;
     private final DatabaseInitializer databaseInitializer = new DatabaseInitializer();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
 
     public static StaffPlus get() {
         return plugin;
@@ -143,7 +140,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         cpsHandler = new CpsHandler();
         gadgetHandler = new GadgetHandler();
         reviveHandler = new ReviveHandler();
-        ticketHandler = new TicketHandler();
         cmdHandler = new CmdHandler();
         modeCoordinator = new ModeCoordinator();
         tasks = new Tasks();
@@ -151,7 +147,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         this.databaseInitializer.initialize();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            sessionManager.initialize(player);
+            IocContainer.getSessionManager().initialize(player);
         }
         registerListeners();
         new ChangelogFile();
@@ -218,7 +214,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         cpsHandler = null;
         gadgetHandler = null;
         reviveHandler = null;
-        ticketHandler = null;
         cmdHandler = null;
         modeCoordinator = null;
         tasks = null;

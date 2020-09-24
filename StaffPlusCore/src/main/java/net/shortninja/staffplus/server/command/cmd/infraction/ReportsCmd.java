@@ -16,8 +16,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
-
 public class ReportsCmd extends AbstractCmd {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final ReportService reportService = IocContainer.getReportService();
@@ -28,21 +26,19 @@ public class ReportsCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
-        return executeCommand(sender, true, () -> {
-            String argument = args[0];
+        String argument = args[0];
 
-            if (argument.equalsIgnoreCase("get")) {
-                listReports(sender, player);
-                return true;
-            }
-            if (argument.equalsIgnoreCase("clear")) {
-                clearReports(sender, player);
-                return true;
-            }
-
-            sendHelp(sender);
+        if (argument.equalsIgnoreCase("get")) {
+            listReports(sender, player);
             return true;
-        });
+        }
+        if (argument.equalsIgnoreCase("clear")) {
+            clearReports(sender, player);
+            return true;
+        }
+
+        sendHelp(sender);
+        return true;
     }
 
     @Override
@@ -85,13 +81,13 @@ public class ReportsCmd extends AbstractCmd {
         for (int i = 0; i < reports.size(); i++) {
             IReport report = reports.get(i);
             message.send(sender, messages.reportsListEntry
-                    .replace("%count%", Integer.toString(i + 1))
-                    .replace("%reason%", report.getReason())
-                    .replace("%reporter%", report.getReporterName()), messages.prefixReports);
+                .replace("%count%", Integer.toString(i + 1))
+                .replace("%reason%", report.getReason())
+                .replace("%reporter%", report.getReporterName()), messages.prefixReports);
         }
 
         messages.reportsListEnd
-                .forEach(message -> this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getUsername()).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports));
+            .forEach(message -> this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getUsername()).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports));
     }
 
     private void clearReports(CommandSender sender, SppPlayer player) {

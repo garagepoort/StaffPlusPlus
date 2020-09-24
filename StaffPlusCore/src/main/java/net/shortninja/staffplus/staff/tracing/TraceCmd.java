@@ -1,7 +1,9 @@
 package net.shortninja.staffplus.staff.tracing;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.server.command.cmd.StaffPlusPlusCmd;
+import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
@@ -13,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class TraceCmd extends StaffPlusPlusCmd {
+public class TraceCmd extends AbstractCmd {
 
     private static final String START = "start";
     private static final String STOP = "stop";
@@ -25,11 +27,10 @@ public class TraceCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         String command = args[0];
         if(command.equalsIgnoreCase(START)) {
-            String playerName = args[1];
-            traceService.startTrace(sender, playerName);
+            traceService.startTrace(sender, player);
             sender.sendMessage("-----------------------------------");
             sender.sendMessage("---------- Trace Started ----------");
             sender.sendMessage("-----------------------------------");
@@ -46,7 +47,7 @@ public class TraceCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected Optional<String> getPlayerName(String[] args) {
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         if(args.length > 1) {
             return Optional.ofNullable(args[1]);
         }
@@ -54,7 +55,7 @@ public class TraceCmd extends StaffPlusPlusCmd {
     }
 
     @Override
-    protected int getMinimumArguments(String[] args) {
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
         if(args[0].equalsIgnoreCase(START)) {
             return 2;
         }
@@ -69,6 +70,11 @@ public class TraceCmd extends StaffPlusPlusCmd {
     @Override
     protected boolean isAuthenticationRequired() {
         return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.ONLINE;
     }
 
     @Override

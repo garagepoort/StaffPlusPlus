@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.CommandUtil;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
@@ -29,26 +28,24 @@ public class NotesCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
-        return CommandUtil.executeCommand(sender, true, () -> {
-            if (args.length == 2) {
-                String argument = args[0];
-                boolean hasPermission = permission.has(sender, options.permissionExamine);
+        if (args.length == 2) {
+            String argument = args[0];
+            boolean hasPermission = permission.has(sender, options.permissionExamine);
 
-                if (argument.equalsIgnoreCase(GET) && hasPermission) {
-                    listNotes(sender, targetPlayer.getPlayer());
-                } else if (argument.equalsIgnoreCase(CLEAR) && hasPermission) {
-                    clearNotes(sender, targetPlayer.getPlayer());
-                } else {
-                    addNote(sender, targetPlayer.getPlayer(), JavaUtils.compileWords(args, 1));
-                }
-            } else if (args.length >= 3) {
-                addNote(sender, targetPlayer.getPlayer(), JavaUtils.compileWords(args, 1));
+            if (argument.equalsIgnoreCase(GET) && hasPermission) {
+                listNotes(sender, targetPlayer.getPlayer());
+            } else if (argument.equalsIgnoreCase(CLEAR) && hasPermission) {
+                clearNotes(sender, targetPlayer.getPlayer());
             } else {
-                sendHelp(sender);
+                addNote(sender, targetPlayer.getPlayer(), JavaUtils.compileWords(args, 1));
             }
+        } else if (args.length >= 3) {
+            addNote(sender, targetPlayer.getPlayer(), JavaUtils.compileWords(args, 1));
+        } else {
+            sendHelp(sender);
+        }
 
-            return true;
-        });
+        return true;
     }
 
     @Override

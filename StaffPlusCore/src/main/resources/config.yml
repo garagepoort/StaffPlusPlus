@@ -928,6 +928,9 @@ permissions:
   # Permission for using the /resetPassword command
   resetPass: "staff.staffplus.resetpassword"
 
+  # Permission for managing the alerts you will get
+  alerts: "staff.staffplus.alerts"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #

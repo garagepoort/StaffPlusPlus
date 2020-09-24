@@ -2,11 +2,10 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.unordered.IPlayerSession;
@@ -26,7 +25,6 @@ public class PlayerQuit implements Listener {
     private final SessionManager sessionManager = StaffPlus.get().getUserManager();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
-    private final TicketHandler ticketHandler = StaffPlus.get().ticketHandler;
     private final TraceService traceService = IocContainer.getTraceService();
 
     public PlayerQuit() {
@@ -41,7 +39,6 @@ public class PlayerQuit implements Listener {
         manageUser(player);
         modeCoordinator.removeMode(player);
         vanishHandler.removeVanish(player);
-        ticketHandler.removeTicket(ticketHandler.getTicketByUuid(player.getUniqueId()), "", TicketHandler.TicketCloseReason.QUIT);
         if (sessionManager.get(player.getUniqueId()).isFrozen()) {
             for (String command : options.logoutCommands) {
                 command = command.replace("%player%", player.getName());
