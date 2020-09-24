@@ -3,7 +3,7 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public abstract class PagedGui extends AbstractGui {
     private static final int SIZE = 54;
-    private UserManager userManager = IocContainer.getUserManager();
+    private SessionManager sessionManager = IocContainer.getSessionManager();
 
     public PagedGui(Player player, String title, int currentPage) {
         super(SIZE, title);
@@ -74,7 +74,7 @@ public abstract class PagedGui extends AbstractGui {
 
         player.closeInventory();
         player.openInventory(getInventory());
-        userManager.get(player.getUniqueId()).setCurrentGui(this);
+        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     protected abstract void getNextUi(Player player, String title, int page);

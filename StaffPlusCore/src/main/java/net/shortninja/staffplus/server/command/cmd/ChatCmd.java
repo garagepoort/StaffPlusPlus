@@ -1,22 +1,21 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.chat.ChatHandler;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
-public class ChatCmd extends BukkitCommand {
-    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+import java.util.Optional;
+
+import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.NONE;
+
+public class ChatCmd extends AbstractCmd {
     private final MessageCoordinator message = IocContainer.getMessage();
-    private final Options options = IocContainer.getOptions();
-    private final Messages messages = IocContainer.getMessages();
     private final ChatHandler chatHandler = IocContainer.getChatHandler();
 
     public ChatCmd(String name) {
@@ -24,16 +23,46 @@ public class ChatCmd extends BukkitCommand {
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return CommandUtil.executeCommand(sender, true, () -> {
-            if (args.length >= 2 && permission.isOp(sender)) {
-                handleChatArgument(sender, args[0], args[1], false);
-            } else if (args.length == 1) {
-                handleChatArgument(sender, args[0], "", true);
-            } else sendHelp(sender);
+    public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+        if (args.length >= 2 && permission.isOp(sender)) {
+            handleChatArgument(sender, args[0], args[1], false);
+        } else if (args.length == 1) {
+            handleChatArgument(sender, args[0], "", true);
+        } else {
+            sendHelp(sender);
+        }
 
-            return true;
-        });
+        return true;
+    }
+
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
+
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        return 1;
+    }
+
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return NONE;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        return Optional.empty();
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return false;
     }
 
     private void handleChatArgument(CommandSender sender, String argument, String option, boolean shouldCheckPermission) {
@@ -41,17 +70,17 @@ public class ChatCmd extends BukkitCommand {
 
         switch (argument.toLowerCase()) {
             case "clear":
-                if (permission.has(sender, options.permissionChatClear) || !shouldCheckPermission) {
+                if (!shouldCheckPermission || permission.has(sender, options.permissionChatClear)) {
                     chatHandler.clearChat(name);
                 } else message.send(sender, messages.noPermission, messages.prefixGeneral);
                 break;
             case "toggle":
-                if (permission.has(sender, options.permissionChatToggle) || !shouldCheckPermission) {
-                    chatHandler.setChatEnabled(name, option.isEmpty() ? !chatHandler.isChatEnabled() : Boolean.valueOf(option));
+                if (!shouldCheckPermission || permission.has(sender, options.permissionChatToggle)) {
+                    chatHandler.setChatEnabled(name, option.isEmpty() ? !chatHandler.isChatEnabled() : Boolean.parseBoolean(option));
                 } else message.send(sender, messages.noPermission, messages.prefixGeneral);
                 break;
             case "slow":
-                if (permission.has(sender, options.permissionChatSlow) || !shouldCheckPermission) {
+                if (!shouldCheckPermission || permission.has(sender, options.permissionChatSlow)) {
                     if (JavaUtils.isInteger(option)) {
                         chatHandler.setChatSlow(name, Integer.parseInt(option));
                     } else

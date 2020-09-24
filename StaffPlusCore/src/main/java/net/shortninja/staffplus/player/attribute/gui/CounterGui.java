@@ -2,7 +2,7 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -26,7 +26,7 @@ public class CounterGui extends AbstractGui {
     private MessageCoordinator message = IocContainer.getMessage();
     private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
+    private SessionManager sessionManager = IocContainer.getSessionManager();
     private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
 
     public CounterGui(Player player, String title) {
@@ -67,7 +67,7 @@ public class CounterGui extends AbstractGui {
         }
 
         player.openInventory(getInventory());
-        userManager.get(player.getUniqueId()).setCurrentGui(this);
+        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     private List<Player> getModePlayers() {

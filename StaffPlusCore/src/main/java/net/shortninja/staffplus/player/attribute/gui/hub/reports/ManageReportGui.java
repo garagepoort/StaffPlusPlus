@@ -3,7 +3,7 @@ package net.shortninja.staffplus.player.attribute.gui.hub.reports;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.reporting.Report;
 import net.shortninja.staffplus.reporting.ReportService;
@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ManageReportGui extends AbstractGui {
     private static final int SIZE = 54;
-    private UserManager userManager = IocContainer.getUserManager();
+    private SessionManager sessionManager = IocContainer.getSessionManager();
     private ReportService reportService = IocContainer.getReportService();
 
     public ManageReportGui(Player player, String title, Report report) {
@@ -98,7 +98,7 @@ public class ManageReportGui extends AbstractGui {
 
         player.closeInventory();
         player.openInventory(getInventory());
-        userManager.get(player.getUniqueId()).setCurrentGui(this);
+        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     private void addResolveItem(Report report, IAction action, int slot) {

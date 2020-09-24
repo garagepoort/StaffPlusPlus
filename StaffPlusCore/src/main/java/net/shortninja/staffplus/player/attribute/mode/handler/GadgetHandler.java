@@ -2,7 +2,7 @@ package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.gui.CounterGui;
 import net.shortninja.staffplus.player.attribute.gui.ExamineGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
@@ -30,7 +30,7 @@ public class GadgetHandler {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final UserManager userManager = IocContainer.getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
@@ -132,7 +132,7 @@ public class GadgetHandler {
         ItemStack item = player.getItemInHand();
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
-        if (userManager.get(player.getUniqueId()).getVanishType() == options.modeVanish) {
+        if (sessionManager.get(player.getUniqueId()).getVanishType() == options.modeVanish) {
             vanishHandler.removeVanish(player);
 
             if (shouldUpdateItem && item != null) {
@@ -211,7 +211,7 @@ public class GadgetHandler {
         Set<UUID> modeUsers = StaffPlus.get().modeCoordinator.getModeUsers();
 
         for (UUID uuid : modeUsers) {
-            Optional<Player> player = userManager.get(uuid).getPlayer();
+            Optional<Player> player = sessionManager.get(uuid).getPlayer();
 
             if (!player.isPresent()) {
                 continue;

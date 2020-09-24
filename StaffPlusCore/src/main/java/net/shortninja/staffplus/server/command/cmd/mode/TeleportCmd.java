@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.PlayerOfflineException;
-import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
-import net.shortninja.staffplus.server.command.cmd.StaffPlusPlusCmd;
 import net.shortninja.staffplus.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -20,39 +20,29 @@ import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
-public class TeleportCmd extends StaffPlusPlusCmd {
+public class TeleportCmd extends AbstractCmd {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(STRIP, HEALTH);
-
-    private ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
 
     public TeleportCmd(String name) {
         super(name, IocContainer.getOptions().permissionTeleport);
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args) {
-        List<String> options = Arrays.asList(Arrays.copyOfRange(args, getMinimumArguments(args), args.length));
-
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
         String locationName = args[1];
-        String playerName = getPlayerName(args).get();
 
-        Player targetPlayer = Bukkit.getPlayer(playerName);
-        if (targetPlayer == null) {
-            throw new PlayerOfflineException();
-        }
-
-        TeleportService.getInstance().teleportPlayer(sender, targetPlayer, locationName);
-        argumentProcessor.parseArguments(sender, playerName, options, VALID_ARGUMENTS);
+        TeleportService.getInstance().teleportPlayer(sender, targetPlayer.getPlayer(), locationName);
+        argumentProcessor.parseArguments(sender, targetPlayer.getUsername(), getSppArguments(sender, args), VALID_ARGUMENTS);
         return true;
     }
 
     @Override
-    protected Optional<String> getPlayerName(String[] args) {
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.ofNullable(args[0]);
     }
 
     @Override
-    protected int getMinimumArguments(String[] args) {
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 2;
     }
 
@@ -64,6 +54,11 @@ public class TeleportCmd extends StaffPlusPlusCmd {
     @Override
     protected boolean isAuthenticationRequired() {
         return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.ONLINE;
     }
 
     @Override

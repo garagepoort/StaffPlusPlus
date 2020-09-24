@@ -4,11 +4,11 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.event.*;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.PlayerManager;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.reporting.database.ReportRepository;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IUser;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -23,38 +23,36 @@ import static org.bukkit.Bukkit.getScheduler;
 
 public class ReportService {
 
-    private static Map<UUID, Long> lastUse = new HashMap<UUID, Long>();
+    private static final Map<UUID, Long> lastUse = new HashMap<UUID, Long>();
 
-    private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages;
-    private UserManager userManager;
-    private ReportRepository reportRepository;
+    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages;
+    private final PlayerManager playerManager;
+    private final ReportRepository reportRepository;
 
-    public ReportService(ReportRepository reportRepository, UserManager userManager, Messages messages) {
+    public ReportService(ReportRepository reportRepository, Messages messages, PlayerManager playerManager) {
         this.reportRepository = reportRepository;
-        this.userManager = userManager;
         this.messages = messages;
+        this.playerManager = playerManager;
     }
 
-    public List<Report> getReports(String playerName, int offset, int amount) {
-        IUser user = getUser(playerName);
-        return reportRepository.getReports(user.getUuid(), offset, amount);
+    public List<Report> getReports(SppPlayer player, int offset, int amount) {
+        return reportRepository.getReports(player.getId(), offset, amount);
     }
 
     public List<Report> getReports(UUID playerUuid, int offset, int amount) {
-        IUser user = getUser(playerUuid);
-        return reportRepository.getReports(user.getUuid(), offset, amount);
+        SppPlayer user = getUser(playerUuid);
+        return reportRepository.getReports(user.getId(), offset, amount);
     }
 
-    public void sendReport(CommandSender sender, String playerName, String reason) {
+    public void sendReport(CommandSender sender, SppPlayer user, String reason) {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             validateCoolDown(sender);
-            IUser user = getUser(playerName);
 
             // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
-            if (user.isOnline() && permission.has(user.getPlayer().get(), options.permissionReportBypass)) {
+            if (user.isOnline() && permission.has(user.getPlayer(), options.permissionReportBypass)) {
                 message.send(sender, messages.bypassed, messages.prefixGeneral);
                 return;
             }
@@ -62,8 +60,8 @@ public class ReportService {
             String reporterName = sender instanceof Player ? sender.getName() : "Console";
             UUID reporterUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
             Report report = new Report(
-                    user.getUuid(),
-                    user.getName(),
+                    user.getId(),
+                    user.getUsername(),
                     reason,
                     reporterName,
                     reporterUuid,
@@ -123,9 +121,8 @@ public class ReportService {
         return reportRepository.getUnresolvedReports(playerUuid, offset, amount);
     }
 
-    public void clearReports(String playerName) {
-        IUser user = getUser(playerName);
-        reportRepository.removeReports(user.getUuid());
+    public void clearReports(SppPlayer player) {
+        reportRepository.removeReports(player.getId());
     }
 
     private void validateCoolDown(CommandSender sender) {
@@ -137,20 +134,20 @@ public class ReportService {
         }
     }
 
-    private IUser getUser(String playerName) {
-        IUser user = userManager.getOnOrOfflineUser(playerName);
-        if (user == null) {
+    private SppPlayer getUser(String playerName) {
+        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerName);
+        if (!player.isPresent()) {
             throw new BusinessException(messages.playerNotRegistered, messages.prefixGeneral);
         }
-        return user;
+        return player.get();
     }
 
-    private IUser getUser(UUID playerUuid) {
-        IUser user = userManager.getOnOrOfflineUser(playerUuid);
-        if (user == null) {
+    private SppPlayer getUser(UUID playerUuid) {
+        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUuid);
+        if (!player.isPresent()) {
             throw new BusinessException(messages.playerNotRegistered, messages.prefixGeneral);
         }
-        return user;
+        return player.get();
     }
 
     public void acceptReport(Player player, int reportId) {

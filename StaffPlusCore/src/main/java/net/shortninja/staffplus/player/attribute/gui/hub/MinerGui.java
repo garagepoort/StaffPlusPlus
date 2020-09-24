@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -20,7 +19,7 @@ public class MinerGui extends AbstractGui {
     private MessageCoordinator message = IocContainer.getMessage();
     private Options options = IocContainer.getOptions();
     private Messages messages = IocContainer.getMessages();
-    private UserManager userManager = IocContainer.getUserManager();
+    private SessionManager sessionManager = IocContainer.getSessionManager();
 
     public MinerGui(Player player, String title) {
         super(SIZE, title);
@@ -59,7 +58,7 @@ public class MinerGui extends AbstractGui {
         }
 
         player.openInventory(getInventory());
-        userManager.get(player.getUniqueId()).setCurrentGui(this);
+        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     private ItemStack minerItem(Player player) {
