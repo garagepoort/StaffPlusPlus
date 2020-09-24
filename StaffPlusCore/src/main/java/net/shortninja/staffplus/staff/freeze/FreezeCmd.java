@@ -34,7 +34,6 @@ public class FreezeCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer sppPlayer) {
         argumentProcessor.parseArguments(sender, getPlayerName(sender, args).get(), getSppArguments(sender, args), VALID_ARGUMENTS);
-
         freezeHandler.execute(buildFreezeRequest(sender, args, sppPlayer.getPlayer()));
         return true;
     }
@@ -49,8 +48,10 @@ public class FreezeCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
-            return 2;
+        if(args.length > 0) {
+            if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
+                return 2;
+            }
         }
         return 1;
     }

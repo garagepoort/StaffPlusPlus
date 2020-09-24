@@ -88,14 +88,14 @@ public abstract class AbstractCmd extends BukkitCommand {
 
         Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(getPlayerName(sender, args).get());
         if (!player.isPresent()) {
-            throw new BusinessException(messages.playerNotRegistered, messages.prefixGeneral);
+            throw new BusinessException(messages.playerNotRegistered);
         }
 
         switch (strategy) {
             case BOTH:
                 return player.get();
             case ONLINE:
-                if (!player.get().isOnline()) {
+                if (!player.get().isOnline() && !shouldDelay(args)) {
                     throw new PlayerOfflineException();
                 }
                 return player.get();
