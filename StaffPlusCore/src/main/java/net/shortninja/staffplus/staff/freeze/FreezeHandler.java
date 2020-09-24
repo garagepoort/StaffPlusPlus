@@ -2,10 +2,10 @@ package net.shortninja.staffplus.staff.freeze;
 
 import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.common.CommandPermissionValidator;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -25,14 +25,14 @@ public class FreezeHandler implements CommandPermissionValidator {
     private final MessageCoordinator message;
     private final Options options;
     private final Messages messages;
-    private final UserManager userManager;
+    private final SessionManager sessionManager;
 
-    public FreezeHandler(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, UserManager userManager) {
+    public FreezeHandler(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManager sessionManager) {
         this.permission = permission;
         this.message = message;
         this.options = options;
         this.messages = messages;
-        this.userManager = userManager;
+        this.sessionManager = sessionManager;
     }
 
     public void execute(FreezeRequest freezeRequest) {
@@ -45,7 +45,7 @@ public class FreezeHandler implements CommandPermissionValidator {
     }
 
     public boolean isFrozen(UUID uuid) {
-        IUser user = userManager.get(uuid);
+        IPlayerSession user = sessionManager.get(uuid);
         if (user == null)
             return false;
         return lastFrozenLocations.containsKey(uuid) || user.isFrozen();
@@ -62,7 +62,7 @@ public class FreezeHandler implements CommandPermissionValidator {
 
         message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
 
-        userManager.get(player.getUniqueId()).setFrozen(true);
+        sessionManager.get(player.getUniqueId()).setFrozen(true);
         lastFrozenLocations.put(uuid, player.getLocation());
         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
@@ -72,7 +72,7 @@ public class FreezeHandler implements CommandPermissionValidator {
 
     public void removeFreeze(CommandSender sender, Player player) {
         UUID uuid = player.getUniqueId();
-        IUser user = userManager.get(uuid);
+        IPlayerSession user = sessionManager.get(uuid);
 
         if (permission.has(player, options.permissionFreezeBypass)) {
             message.send(sender, messages.bypassed, messages.prefixGeneral);

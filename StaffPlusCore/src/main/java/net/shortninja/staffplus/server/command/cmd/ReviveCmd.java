@@ -2,73 +2,83 @@ package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.BusinessException;
-import net.shortninja.staffplus.common.PlayerOfflineException;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
-import net.shortninja.staffplus.server.command.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.server.command.AbstractCmd;
+import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.common.CommandUtil.executeCommand;
+import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
-import static net.shortninja.staffplus.util.lib.JavaUtils.getTargetPlayer;
-import static org.bukkit.Bukkit.getPlayer;
 
-public class ReviveCmd extends BukkitCommand {
+public class ReviveCmd extends AbstractCmd {
     private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
 
-    private final PermissionHandler permission = IocContainer.getPermissionHandler();
     private final MessageCoordinator message = IocContainer.getMessage();
-    private final Options options = IocContainer.getOptions();
-    private final Messages messages = IocContainer.getMessages();
     private final ReviveHandler reviveHandler = StaffPlus.get().reviveHandler;
-    private final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
 
     public ReviveCmd(String name) {
-        super(name);
+        super(name, IocContainer.getOptions().permissionRevive);
     }
 
     @Override
-    public boolean execute(CommandSender sender, String alias, String[] args) {
-        return executeCommand(sender, true, () -> {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+        if (reviveHandler.hasSavedInventory(player.getPlayer().getUniqueId())) {
+            reviveHandler.restoreInventory(player.getPlayer());
+            argumentProcessor.parseArguments(sender, player.getPlayer().getName(), Arrays.asList(args), VALID_ARGUMENTS);
+            message.send(sender, messages.revivedStaff.replace("%target%", player.getPlayer().getName()), messages.prefixGeneral);
+        } else {
+            message.send(sender, messages.noFound, messages.prefixGeneral);
+        }
 
-            if (!permission.has(sender, options.permissionRevive)) {
-                throw new BusinessException(messages.noPermission, messages.prefixGeneral);
-            }
+        return true;
+    }
 
-            List<String> nonArguments = Arrays.stream(args).filter(a -> !a.startsWith("-")).collect(Collectors.toList());
-            if (nonArguments.size() == 0 && !(sender instanceof Player)) {
-                throw new BusinessException(messages.invalidArguments, messages.prefixGeneral);
-            }
+    @Override
+    protected boolean canBypass(Player player) {
+        return false;
+    }
 
-            Player targetPlayer = nonArguments.size() == 1 ? getPlayer(nonArguments.get(0)) : getTargetPlayer((Player) sender);
-            if (targetPlayer == null) {
-                throw new PlayerOfflineException();
-            }
+    @Override
+    protected int getMinimumArguments(CommandSender sender, String[] args) {
+        if(sender instanceof Player) {
+            return 0;
+        }
+        return 1;
+    }
 
-            if (reviveHandler.hasSavedInventory(targetPlayer.getUniqueId())) {
-                reviveHandler.restoreInventory(targetPlayer);
-                argumentProcessor.parseArguments(sender, targetPlayer.getName(), Arrays.asList(args), VALID_ARGUMENTS);
-                message.send(sender, messages.revivedStaff.replace("%target%", targetPlayer.getName()), messages.prefixGeneral);
-            } else {
-                message.send(sender, messages.noFound, messages.prefixGeneral);
-            }
+    @Override
+    protected boolean isAuthenticationRequired() {
+        return true;
+    }
 
-            return true;
-        });
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return ONLINE;
+    }
+
+    @Override
+    protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        if (args.length == 0 && (sender instanceof Player)) {
+            return Optional.of(sender.getName());
+        }
+        return Optional.of(args[0]);
+    }
+
+    @Override
+    protected boolean isDelayable() {
+        return true;
     }
 
     @Override
@@ -81,7 +91,7 @@ public class ReviveCmd extends BukkitCommand {
             return suggestions;
         }
 
-        suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length-1], VALID_ARGUMENTS));
-        return  suggestions;
+        suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length - 1], VALID_ARGUMENTS));
+        return suggestions;
     }
 }

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.staff.warn.database;
 
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.util.database.migrations.mysql.MySQLConnection;
 
 import java.sql.Connection;
@@ -8,8 +8,8 @@ import java.sql.SQLException;
 
 public class MysqlWarnRepository extends AbstractSqlWarnRepository {
 
-    public MysqlWarnRepository(UserManager userManager) {
-        super(userManager);
+    public MysqlWarnRepository(PlayerManager playerManager) {
+        super(playerManager);
     }
 
     @Override

@@ -2,7 +2,7 @@ package net.shortninja.staffplus.player.attribute.mode.handler;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.player.attribute.mode.ModeDataVault;
+import net.shortninja.staffplus.player.attribute.mode.InventoryVault;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ReviveHandler {
-    private final static Map<UUID, ModeDataVault> savedInventories = new HashMap<UUID, ModeDataVault>();
+    private final static Map<UUID, InventoryVault> savedInventories = new HashMap<UUID, InventoryVault>();
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Messages messages = IocContainer.getMessages();
 
@@ -24,28 +24,28 @@ public class ReviveHandler {
 
     public void cacheInventory(Player player) {
         UUID uuid = player.getUniqueId();
-        ModeDataVault modeDataVault;
+        InventoryVault inventoryVault;
 
-        modeDataVault = new ModeDataVault(uuid,ModeCoordinator.getContents(player),player.getInventory().getArmorContents(),player.getInventory().getExtraContents());
+        inventoryVault = new InventoryVault(uuid,ModeCoordinator.getContents(player),player.getInventory().getArmorContents(),player.getInventory().getExtraContents());
 
-        savedInventories.put(uuid, modeDataVault);
+        savedInventories.put(uuid, inventoryVault);
     }
 
     public void restoreInventory(Player player) {
         UUID uuid = player.getUniqueId();
-        ModeDataVault modeDataVault = savedInventories.get(uuid);
+        InventoryVault inventoryVault = savedInventories.get(uuid);
 
         JavaUtils.clearInventory(player);
 
-        getItems(player, modeDataVault);
-        player.getInventory().setArmorContents(modeDataVault.getArmor());
-        player.getInventory().setExtraContents(modeDataVault.getOffHand());
+        getItems(player, inventoryVault);
+        player.getInventory().setArmorContents(inventoryVault.getArmor());
+        player.getInventory().setExtraContents(inventoryVault.getOffHand());
         message.send(player, messages.revivedUser, messages.prefixGeneral);
         savedInventories.remove(uuid);
     }
 
-    private void getItems(Player p, ModeDataVault modeDataVault) {
-        HashMap<Integer, ItemStack> items = modeDataVault.getInventory();
+    private void getItems(Player p, InventoryVault inventoryVault) {
+        HashMap<Integer, ItemStack> items = inventoryVault.getInventory();
         for (int num : items.keySet())
             p.getInventory().setItem(num, items.get(num));
     }

@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.VanishType;
@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
 public class PacketModifier {
     private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
     private Options options = IocContainer.getOptions();
-    private UserManager userManager = IocContainer.getUserManager();
+    private SessionManager sessionManager = IocContainer.getSessionManager();
 
     public PacketModifier() {
 //        initializeHandler();
@@ -136,10 +136,10 @@ public class PacketModifier {
 //    }
 
     private boolean isVanished(Player player) {
-        if (userManager.get(player.getUniqueId()).getVanishType() == null)
+        if (sessionManager.get(player.getUniqueId()).getVanishType() == null)
             return false;
         else
-            return userManager.get(player.getUniqueId()).getVanishType() == VanishType.TOTAL;
+            return sessionManager.get(player.getUniqueId()).getVanishType() == VanishType.TOTAL;
     }
 
     private Chest getChest(Location location) {

@@ -34,7 +34,7 @@ public class BlockBreak implements Listener {
     private final Options options = IocContainer.getOptions();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
-    private final AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
+    private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
     private final Set<Location> locations = new HashSet<>();
     private final TraceService traceService = IocContainer.getTraceService();
 

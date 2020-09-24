@@ -1,12 +1,12 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -21,10 +21,10 @@ public class Tasks extends BukkitRunnable {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final UserManager userManager = IocContainer.getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
-    private final AlertCoordinator alertCoordinator = StaffPlus.get().alertCoordinator;
+    private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
     private int saveInterval;
     private int freezeInterval;
     private long now;
@@ -48,7 +48,7 @@ public class Tasks extends BukkitRunnable {
     private void checkWarnings() {
         for (IWarning warning : IocContainer.getWarnService().getWarnings()) {
             if (warning.shouldRemove()) {
-                IUser user = userManager.get(warning.getUuid());
+                IPlayerSession user = sessionManager.get(warning.getUuid());
 
                 if (user == null) {
                     continue;
@@ -80,7 +80,7 @@ public class Tasks extends BukkitRunnable {
 
         if (freezeInterval >= options.modeFreezeTimer && freezeInterval > 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                IUser user = userManager.get(player.getUniqueId());
+                IPlayerSession user = sessionManager.get(player.getUniqueId());
 
                 if (user != null && user.isFrozen() && !permission.has(player, options.permissionMember)) {
                     options.modeFreezeSound.play(player);

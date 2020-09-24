@@ -2,20 +2,14 @@ package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.nms.Protocol_v1_16;
 import net.shortninja.staffplus.player.NodeUser;
-import net.shortninja.staffplus.player.OfflinePlayerProvider;
-import net.shortninja.staffplus.player.UserManager;
-import net.shortninja.staffplus.player.attribute.TicketHandler;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.player.attribute.mode.handler.CpsHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.InventoryHandler;
 import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
-import net.shortninja.staffplus.player.ext.bukkit.BukkitOfflinePlayerProvider;
-import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.PacketModifier;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.server.data.Load;
 import net.shortninja.staffplus.server.data.Save;
 import net.shortninja.staffplus.server.data.config.AutoUpdater;
 import net.shortninja.staffplus.server.data.config.IOptions;
@@ -30,8 +24,9 @@ import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseInitializer;
@@ -42,7 +37,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 
@@ -61,18 +59,15 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public CpsHandler cpsHandler;
     public GadgetHandler gadgetHandler;
     public ReviveHandler reviveHandler;
-    public OfflinePlayerProvider offlinePlayerProvider;
-    public TicketHandler ticketHandler;
     public CmdHandler cmdHandler;
     public ModeCoordinator modeCoordinator;
-    public AlertCoordinator alertCoordinator;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
-    public Map<UUID, IUser> users;
+    public Map<UUID, IPlayerSession> playerSessions;
     public List<Inventory> viewedChest = new ArrayList<>();
     public InventoryHandler inventoryHandler;
     public boolean usesPlaceholderAPI;
-    private DatabaseInitializer databaseInitializer = new DatabaseInitializer();
+    private final DatabaseInitializer databaseInitializer = new DatabaseInitializer();
 
     public static StaffPlus get() {
         return plugin;
@@ -101,7 +96,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         AutoUpdater.updateConfig(this);
 
         start(System.currentTimeMillis());
-        loadPlayerProvider();
 
         if (getConfig().getBoolean("metrics"))
             new Metrics(this);
@@ -111,8 +105,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     @Override
-    public UserManager getUserManager() {
-        return IocContainer.getUserManager();
+    public SessionManager getUserManager() {
+        return IocContainer.getSessionManager();
     }
 
     @Override
@@ -122,7 +116,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     public void saveUsers() {
-        for (IUser user : IocContainer.getUserManager().getAll()) {
+        for (IPlayerSession user : IocContainer.getSessionManager().getAll()) {
             new Save(new NodeUser(user));
         }
 
@@ -130,7 +124,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     protected void start(long start) {
-        users = new HashMap<>();
         if (!setupVersionProtocol()) {
             IocContainer.getMessage().sendConsoleMessage("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.", true);
             Bukkit.getPluginManager().disablePlugin(this);
@@ -147,16 +140,14 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         cpsHandler = new CpsHandler();
         gadgetHandler = new GadgetHandler();
         reviveHandler = new ReviveHandler();
-        ticketHandler = new TicketHandler();
         cmdHandler = new CmdHandler();
         modeCoordinator = new ModeCoordinator();
-        alertCoordinator = new AlertCoordinator();
         tasks = new Tasks();
         inventoryHandler = new InventoryHandler();
         this.databaseInitializer.initialize();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            new Load().load(player);
+            IocContainer.getSessionManager().initialize(player);
         }
         registerListeners();
         new ChangelogFile();
@@ -223,10 +214,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         cpsHandler = null;
         gadgetHandler = null;
         reviveHandler = null;
-        ticketHandler = null;
         cmdHandler = null;
         modeCoordinator = null;
-        alertCoordinator = null;
         tasks = null;
         plugin = null;
 
@@ -247,12 +236,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         @Override
         public boolean isLoggable(LogRecord record) {
             return !record.getMessage().toLowerCase().contains("/register") && !record.getMessage().toLowerCase().contains("/login");
-        }
-    }
-
-    private void loadPlayerProvider() {
-        if (IocContainer.getOptions().offlinePlayersModeEnabled) {
-            offlinePlayerProvider = new BukkitOfflinePlayerProvider();
         }
     }
 

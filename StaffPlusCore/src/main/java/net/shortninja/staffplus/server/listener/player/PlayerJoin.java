@@ -2,13 +2,13 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.server.data.Load;
+import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
-import net.shortninja.staffplus.unordered.IUser;
+import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,9 +25,10 @@ import java.util.UUID;
 public class PlayerJoin implements Listener {
     private final PermissionHandler permission = IocContainer.getPermissionHandler();
     private final Options options = IocContainer.getOptions();
-    private final UserManager userManager = StaffPlus.get().getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
+    private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
 
     public PlayerJoin() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -52,9 +53,11 @@ public class PlayerJoin implements Listener {
 
     private void manageUser(Player player) {
         UUID uuid = player.getUniqueId();
+        IPlayerSession playerSession = sessionManager.get(uuid);
 
-        IUser iUser = userManager.has(uuid) ? userManager.get(uuid) : new Load().load(player);
-        iUser.setOnline(true);
+        if (!playerSession.getName().equals(player.getName())) {
+            alertCoordinator.onNameChange(playerSession.getName(), player.getName());
+        }
     }
 
     private void delayedActions(Player player) {

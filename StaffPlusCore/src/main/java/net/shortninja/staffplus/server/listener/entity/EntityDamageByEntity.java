@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.listener.entity;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.UserManager;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.tracing.TraceService;
@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class EntityDamageByEntity implements Listener {
     private final Options options = IocContainer.getOptions();
-    private final UserManager userManager = IocContainer.getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private final TraceService traceService = IocContainer.getTraceService();
 
@@ -38,11 +38,9 @@ public class EntityDamageByEntity implements Listener {
 
         if (damager.isPresent()) {
             UUID playerUuid = damager.get().getUniqueId();
-            if (userManager.has(playerUuid)) {
-                if (userManager.get(playerUuid).isFrozen() || (!options.modeDamage && modeCoordinator.isInMode(playerUuid))) {
-                    event.setCancelled(true);
-                    return;
-                }
+            if (sessionManager.get(playerUuid).isFrozen() || (!options.modeDamage && modeCoordinator.isInMode(playerUuid))) {
+                event.setCancelled(true);
+                return;
             }
         }
 

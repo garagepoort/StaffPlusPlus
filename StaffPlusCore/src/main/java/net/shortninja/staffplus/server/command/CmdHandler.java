@@ -2,12 +2,12 @@ package net.shortninja.staffplus.server.command;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.staff.freeze.FreezeCmd;
 import net.shortninja.staffplus.server.command.cmd.*;
 import net.shortninja.staffplus.server.command.cmd.infraction.*;
 import net.shortninja.staffplus.server.command.cmd.mode.*;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.freeze.FreezeCmd;
 import net.shortninja.staffplus.staff.tracing.TraceCmd;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -30,14 +30,13 @@ public class CmdHandler {
                     new BaseCmd("notes", new NotesCmd(options.commandNotes), true, options.permissionExamine, "&7Adds or manages a player's notes", "[player] [note]"),
                     new BaseCmd("cps", new CpsCmd(options.commandCps), true, options.permissionCps, "&7Starts a CPS test on the player.", "{player}"),
                     new BaseCmd("staff-chat", new StaffChatCmd(options.commandStaffChat), options.staffChatEnabled, options.permissionStaffChat, "&7Sends a message or toggles staff chat.", "{message}"),
-                    new BaseCmd("reports", new ReportsCmd(options.commandReports), options.reportsEnabled, "&7Manage Reports.", "[get,clear] [player]"),
+                    new BaseCmd("reports", new ReportsCmd(options.commandReports), options.reportsEnabled, "&7Manage Reports.", "[get|clear] [player]"),
                     new BaseCmd("report", new ReportCmd(options.commandReport), options.reportsEnabled, "&7Sends a report without a specific player.", "[reason]"),
                     new BaseCmd("reportPlayer", new ReportPlayerCmd(options.commandReportPlayer), options.reportsEnabled, "&7Sends a report with the given player and reason.", "[player] [reason]"),
-                    new BaseCmd("warn", new WarnCmd(options.commandWarn), options.warningConfiguration.isEnabled(), options.permissionWarn, "&7Sends or manages a warning.", "[player] [reason]"),
-                    new BaseCmd("warns", new WarnsCmd(options.commandWarns), options.warningConfiguration.isEnabled(), options.permissionWarn, "&7Sends or manages a warning.", "[player] [reason]"),
+                    new BaseCmd("warn", new WarnCmd(options.commandWarn), options.warningConfiguration.isEnabled(), options.permissionWarn, "&7Issues a warning.", "[severity] [player] [reason]"),
+                    new BaseCmd("warns", new WarnsCmd(options.commandWarns), options.warningConfiguration.isEnabled(), options.permissionWarn, "&7Clear or list all warnings of a player.", "[get|clear] [player]"),
                     new BaseCmd("vanish", new VanishCmd(options.commandVanish), options.vanishEnabled, Arrays.asList(options.permissionVanishTotal, options.permissionVanishList), "&7Enables or disables the type of vanish for the player.", "[total | list] {player} {enable | disable}"),
                     new BaseCmd("chat", new ChatCmd(options.commandChat), options.chatEnabled, Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle), "&7Executes the given chat management action.", "[clear | toggle | slow] {enable | disable | time}"),
-                    new BaseCmd("ticket", new TicketCmd(options.commandTicket), options.ticketsEnabled, "&7Sends a ticket to staff with your inquiry.", "[message]"),
                     new BaseCmd("alerts", new AlertsCmd(options.commandAlerts), true, Arrays.asList(options.permissionMention, options.permissionNameChange, options.permissionXray), "&7Enables or disables the alert type.", "[namechange | mention | xray] {player} {enable | disable}"),
                     new BaseCmd("follow", new FollowCmd(options.commandFollow), true, options.permissionFollow, "&7Follows or unfollows the player.", "{player}"),
                     new BaseCmd("revive", new ReviveCmd(options.commandRevive), true, options.permissionRevive, "&7Gives the player's previous inventory back.", "[player]"),
