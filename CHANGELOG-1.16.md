@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.22
+#### Features
+- Report closing reason support
+- Authme integration for supporting staff login
+- Trace log feature added
+
 ### V1.16.21
 #### Features
 - Warning discord integration
