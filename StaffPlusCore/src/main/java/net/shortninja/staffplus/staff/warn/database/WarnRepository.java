@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.staff.warn.database;
 
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
+import net.shortninja.staffplus.staff.warn.Warning;
 
 import java.util.List;
 import java.util.UUID;

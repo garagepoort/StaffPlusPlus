@@ -4,6 +4,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import net.minecraft.server.v1_14_R1.PacketPlayOutNamedSoundEffect;
 import net.shortninja.staffplus.IStaffPlus;
+import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.compatibility.AbstractPacketHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,8 +22,8 @@ public final class PacketHandler_v1_14_R2 extends AbstractPacketHandler {
         if (o instanceof PacketPlayOutNamedSoundEffect) {
             RegisteredServiceProvider<IStaffPlus> provider = Bukkit.getServicesManager().getRegistration(IStaffPlus.class);
             if (provider != null) {
-                IStaffPlus api = provider.getProvider();
-                if (api.getUserManager().get(player.getUniqueId()).isVanished()) {
+                PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
+                if (playerSession.isVanished()) {
                     return false;
                 }
             }
