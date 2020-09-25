@@ -21,7 +21,6 @@ import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.ON
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
 public class FreezeCmd extends AbstractCmd {
-    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
     private static final String ENABLED = "enabled";
     private static final String DISABLED = "disabled";
 
@@ -33,9 +32,13 @@ public class FreezeCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer sppPlayer) {
-        argumentProcessor.parseArguments(sender, getPlayerName(sender, args).get(), getSppArguments(sender, args), VALID_ARGUMENTS);
         freezeHandler.execute(buildFreezeRequest(sender, args, sppPlayer.getPlayer()));
         return true;
+    }
+
+    @Override
+    protected List<ArgumentType> getPreExecutionSppArguments() {
+        return Arrays.asList(TELEPORT, STRIP, HEALTH);
     }
 
     @Override
@@ -58,11 +61,6 @@ public class FreezeCmd extends AbstractCmd {
 
     @Override
     protected boolean isDelayable() {
-        return true;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
         return true;
     }
 
@@ -115,8 +113,6 @@ public class FreezeCmd extends AbstractCmd {
             }
         }
 
-        suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length - 1], VALID_ARGUMENTS));
-        suggestions.add(DELAY.getPrefix());
-        return suggestions;
+        return getSppArgumentsSuggestions(sender, args);
     }
 }

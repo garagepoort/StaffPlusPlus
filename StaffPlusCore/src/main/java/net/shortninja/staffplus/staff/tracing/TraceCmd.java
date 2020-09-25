@@ -65,16 +65,6 @@ public class TraceCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean isDelayable() {
-        return false;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
-    }
-
-    @Override
     protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
         return PlayerRetrievalStrategy.ONLINE;
     }

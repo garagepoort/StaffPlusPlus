@@ -52,11 +52,6 @@ public class TeleportCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
-    }
-
-    @Override
     protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
         return PlayerRetrievalStrategy.ONLINE;
     }

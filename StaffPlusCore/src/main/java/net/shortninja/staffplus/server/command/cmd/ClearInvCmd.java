@@ -22,7 +22,6 @@ import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.ON
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
 public class ClearInvCmd extends AbstractCmd {
-    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, HEALTH);
 
     public ClearInvCmd(String name) {
         super(name, IocContainer.getOptions().permissionClearInv);
@@ -34,8 +33,12 @@ public class ClearInvCmd extends AbstractCmd {
 
         JavaUtils.clearInventory(targetPlayer.getPlayer());
         sender.sendMessage(targetPlayer.getPlayer().getName() + "'s inventory has been cleared");
-        argumentProcessor.parseArguments(sender, args[0], arguments, VALID_ARGUMENTS);
         return true;
+    }
+
+    @Override
+    protected List<ArgumentType> getPostExecutionSppArguments() {
+        return Arrays.asList(TELEPORT, HEALTH);
     }
 
     @Override
@@ -50,11 +53,6 @@ public class ClearInvCmd extends AbstractCmd {
 
     @Override
     protected boolean isDelayable() {
-        return true;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
         return true;
     }
 
@@ -82,8 +80,6 @@ public class ClearInvCmd extends AbstractCmd {
                     .collect(Collectors.toList());
         }
 
-        suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length - 1], VALID_ARGUMENTS));
-        suggestions.add(DELAY.getPrefix());
-        return suggestions;
+        return getSppArgumentsSuggestions(sender, args);
     }
 }
