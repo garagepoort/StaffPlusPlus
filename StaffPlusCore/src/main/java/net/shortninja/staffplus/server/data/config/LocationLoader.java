@@ -1,9 +1,8 @@
 package net.shortninja.staffplus.server.data.config;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.ConfigLoader;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,10 +10,10 @@ import java.util.Map;
 
 import static java.lang.Double.parseDouble;
 
-public class LocationLoader {
-    private static FileConfiguration config = StaffPlus.get().getConfig();
+public class LocationLoader extends ConfigLoader<Map<String, Location>> {
 
-    public static Map<String, Location> loadLocations() {
+    @Override
+    public Map<String, Location> load() {
         ConfigurationSection locationsConfig = config.getConfigurationSection("locations");
         if (locationsConfig == null) {
             return Collections.emptyMap();

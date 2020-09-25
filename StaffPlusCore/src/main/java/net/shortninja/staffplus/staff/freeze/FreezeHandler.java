@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.staff.freeze;
 
-import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.CommandPermissionValidator;
 import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Messages;

@@ -2,7 +2,7 @@ package net.shortninja.staffplus.player.attribute.gui.hub.reports;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.reporting.Report;
+import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,8 +16,8 @@ public class ReportItemBuilder {
         List<String> lore = new ArrayList<String>();
 
         lore.add("&bStatus: " + report.getReportStatus());
-        lore.add("&bTimeStamp: " + report.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/YYYY-HH:mm")));
-        if (IocContainer.getOptions().reportsShowReporter) {
+        lore.add("&bTimeStamp: " + report.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm")));
+        if (IocContainer.getOptions().reportConfiguration.isShowReporter()) {
             lore.add("&bReporter: " + report.getReporterName());
         }
 

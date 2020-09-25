@@ -2,7 +2,7 @@ package net.shortninja.staffplus.player.attribute.infraction;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.server.data.config.warning.WarningSeverityConfiguration;
+import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.unordered.IWarning;
 
 import java.time.Instant;

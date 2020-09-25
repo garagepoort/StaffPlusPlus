@@ -13,10 +13,10 @@ import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
 import net.shortninja.staffplus.server.chat.*;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.ChatActionChatPreventer;
-import net.shortninja.staffplus.reporting.ReportService;
-import net.shortninja.staffplus.reporting.database.MysqlReportRepository;
-import net.shortninja.staffplus.reporting.database.ReportRepository;
-import net.shortninja.staffplus.reporting.database.SqliteReportRepository;
+import net.shortninja.staffplus.staff.reporting.ReportService;
+import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
+import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
+import net.shortninja.staffplus.staff.reporting.database.SqliteReportRepository;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
 import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
@@ -58,10 +58,6 @@ import java.util.function.Supplier;
 
 public class IocContainer {
 
-    public static final String AUTHME = "AUTHME";
-    private static ReportRepository reportRepository;
-    private static WarnRepository warnRepository;
-    private static DelayedActionsRepository delayedActionsRepository;
     private static StaffPlus staffPlus;
     private static IStorage storage;
 
@@ -98,18 +94,14 @@ public class IocContainer {
             getDelayedActionsRepository()));
     }
 
-    // Could use a factory but for sake of simplicity of the factory demonstration, not going to do.
     public static IStorage getStorage() {
-        if (storage == null) {
-            if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
-                storage = new MySQLStorage();
-            } else if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
-                storage = new SqliteStorage();
-            } else {
-                storage = new MemoryStorage();
-            }
+        if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
+            return initBean(IStorage.class, MySQLStorage::new);
         }
-        return storage;
+        if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
+            return initBean(IStorage.class, SqliteStorage::new);
+        }
+        return initBean(IStorage.class, MemoryStorage::new);
     }
 
     public static SessionManager getSessionManager() {
@@ -171,7 +163,7 @@ public class IocContainer {
 
     public static OfflinePlayerProvider getOfflinePlayerProvider() {
         return initBean(OfflinePlayerProvider.class, () -> {
-            if(getOptions().offlinePlayersModeEnabled) {
+            if (getOptions().offlinePlayersModeEnabled) {
                 return new BukkitOfflinePlayerProvider();
             }
             return new NoopOfflinePlayerProvider();

@@ -1,20 +1,18 @@
 package net.shortninja.staffplus.staff.tracing.config;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.ConfigLoader;
 import net.shortninja.staffplus.staff.tracing.TraceType;
 import net.shortninja.staffplus.unordered.trace.TraceOutputChannel;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TraceModuleLoader {
+public class TraceModuleLoader extends ConfigLoader<TraceConfiguration> {
 
-    private final static FileConfiguration config = StaffPlus.get().getConfig();
-
-    public static TraceConfiguration load() {
+    @Override
+    public TraceConfiguration load() {
         boolean enabled = config.getBoolean("trace-module.enabled");
         if (!enabled) {
             return new TraceConfiguration(false, Collections.emptyList(), Collections.emptyList());
@@ -25,7 +23,7 @@ public class TraceModuleLoader {
         return new TraceConfiguration(true, traceTypes, traceOutputChannels);
     }
 
-    private static List<TraceOutputChannel> getTraceOutputChannels() {
+    private List<TraceOutputChannel> getTraceOutputChannels() {
         String outputChannelsString = config.getString("trace-module.output-channels");
         if (outputChannelsString == null || outputChannelsString.isEmpty()) {
             throw new RuntimeException("Invalid configuration: no output channels registered for the tracing module");
@@ -35,7 +33,7 @@ public class TraceModuleLoader {
             .collect(Collectors.toList());
     }
 
-    private static List<TraceType> getTraceTypes() {
+    private List<TraceType> getTraceTypes() {
         String traceEventsString = config.getString("trace-module.trace-events");
         if (traceEventsString == null || traceEventsString.isEmpty()) {
             throw new RuntimeException("Invalid configuration: no trace events registered for the tracing module");

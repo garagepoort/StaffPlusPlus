@@ -6,8 +6,10 @@ import net.shortninja.staffplus.authentication.AuthenticationConfigurationLoader
 import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
-import net.shortninja.staffplus.server.data.config.warning.WarningConfiguration;
-import net.shortninja.staffplus.server.data.config.warning.WarningModuleLoader;
+import net.shortninja.staffplus.staff.reporting.config.ReportConfiguration;
+import net.shortninja.staffplus.staff.reporting.config.ReportingModuleLoader;
+import net.shortninja.staffplus.staff.warn.config.WarningConfiguration;
+import net.shortninja.staffplus.staff.warn.config.WarningModuleLoader;
 import net.shortninja.staffplus.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.staff.tracing.config.TraceModuleLoader;
 import net.shortninja.staffplus.unordered.VanishType;
@@ -55,19 +57,12 @@ public class Options implements IOptions {
     public final List<String> soundNames = JavaUtils.stringToList(config.getString("sound-names"));
     public final boolean offlinePlayersModeEnabled = config.getBoolean("offline-players-mode");
 
-    public Map<String, Location> locations = LocationLoader.loadLocations();
-    public final AuthenticationConfiguration authenticationConfiguration = AuthenticationConfigurationLoader.load();
-
-    /*
-     * Reports
-     */
-    public final boolean reportsEnabled = config.getBoolean("reports-module.enabled");
-    public final int reportsCooldown = config.getInt("reports-module.cooldown");
-    public final boolean reportsShowReporter = config.getBoolean("reports-module.show-reporter");
-
-    public final WarningConfiguration warningConfiguration = WarningModuleLoader.loadWarningModule();
-    public final BlackListConfiguration blackListConfiguration = BlackListConfigurationLoader.load();
-    public final TraceConfiguration traceConfiguration = TraceModuleLoader.load();
+    public Map<String, Location> locations = new LocationLoader().load();
+    public final AuthenticationConfiguration authenticationConfiguration = new AuthenticationConfigurationLoader().load();
+    public final ReportConfiguration reportConfiguration = new ReportingModuleLoader().load();
+    public final WarningConfiguration warningConfiguration = new WarningModuleLoader().load();
+    public final BlackListConfiguration blackListConfiguration = new BlackListConfigurationLoader().load();
+    public final TraceConfiguration traceConfiguration = new TraceModuleLoader().load();
 
     /*
      * Staff Chat
@@ -257,8 +252,6 @@ public class Options implements IOptions {
     public final String commandClearInv = config.getString("commands.clearInv");
     public final String commandTrace = config.getString("commands.trace");
 
-    public final Sounds reportsSound = stringToSound(sanitize(config.getString("reports-module.sound")));
-    public final Sounds warningsSound = stringToSound(sanitize(config.getString("warnings-module.sound")));
     public final Sounds alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
     public final List<Material> alertsXrayBlocks = stringToMaterialList(config.getString("alerts-module.xray-alerts.blocks"));
     public final VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));

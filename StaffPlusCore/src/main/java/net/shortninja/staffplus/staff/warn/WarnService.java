@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.warn;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
 import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
 import net.shortninja.staffplus.event.warnings.WarningsClearedEvent;
@@ -10,9 +10,9 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.server.data.config.warning.WarningAction;
-import net.shortninja.staffplus.server.data.config.warning.WarningSeverityConfiguration;
-import net.shortninja.staffplus.server.data.config.warning.WarningThresholdConfiguration;
+import net.shortninja.staffplus.staff.warn.config.WarningAction;
+import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
+import net.shortninja.staffplus.staff.warn.config.WarningThresholdConfiguration;
 import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.staff.warn.database.WarnRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static net.shortninja.staffplus.server.data.config.warning.WarningActionRunStrategy.*;
+import static net.shortninja.staffplus.staff.warn.config.WarningActionRunStrategy.*;
 import static org.bukkit.Bukkit.getScheduler;
 
 public class WarnService {
@@ -90,7 +90,7 @@ public class WarnService {
         if (user.isOnline()) {
             Player p = user.getPlayer();
             message.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
-            options.warningsSound.play(p);
+            options.warningConfiguration.getSound().play(p);
         }
     }
 

@@ -1,17 +1,15 @@
 package net.shortninja.staffplus.authentication;
 
-import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.ConfigLoader;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import static net.shortninja.staffplus.authentication.AuthenticationProvider.AUTHME;
 
-public class AuthenticationConfigurationLoader {
+public class AuthenticationConfigurationLoader extends ConfigLoader<AuthenticationConfiguration> {
 
-    private final static FileConfiguration config = StaffPlus.get().getConfig();
-
-    public static AuthenticationConfiguration load() {
+    @Override
+    public AuthenticationConfiguration load() {
         String authenticationProviderName = config.getString("authentication.provider", "NOOP");
         AuthenticationProvider authenticationProvider = AuthenticationProvider.valueOf(authenticationProviderName.toUpperCase());
         if(authenticationProvider == AUTHME) {
