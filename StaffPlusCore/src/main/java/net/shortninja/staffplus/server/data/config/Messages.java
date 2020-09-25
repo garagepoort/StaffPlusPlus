@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Messages {
-    private FileConfiguration config = StaffPlus.get().languageFile.get();
+    private final FileConfiguration config = StaffPlus.get().languageFile.get();
     /*
      * Prefixes
      */
@@ -79,19 +79,6 @@ public class Messages {
     public String totalVanish = config.getString("total-vanish");
     public String listVanish = config.getString("list-vanish");
     /*
-     * Tickets
-     */
-    public String ticketSubmitted = config.getString("ticket-submitted");
-    public String ticketOpened = config.getString("ticked-opened");
-    public String ticketRemoved = config.getString("ticket-removed");
-    public String ticketResponseStaff = config.getString("ticket-response-staff");
-    public String ticketResponseUser = config.getString("ticket-response-user");
-    public String ticket = config.getString("ticket");
-    public String ticketNotFound = config.getString("ticket-not-found");
-    public List<String> ticketListStart = JavaUtils.stringToList(config.getString("ticket-list-start"));
-    public String ticketsListEntry = config.getString("ticket-list-entry");
-    public List<String> ticketListEnd = JavaUtils.stringToList(config.getString("ticket-list-end"));
-    /*
      * Alerts
      */
     public String alertChanged = config.getString("alert-changed");
@@ -131,11 +118,6 @@ public class Messages {
     public List<String> noteListStart = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-start")) : Arrays.asList("&7%longline%");
     public String noteListEntry = langVersion >= 3.2 ? config.getString("note-list-entry") : "&b%count% &7%note%";
     public List<String> noteListEnd = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-end")) : Arrays.asList("&7%longline%");
-    public String loginRegister = langVersion >= 3.58 ? config.getString("login-register") : "&bSince you are staff, you must register a password to protect your account from being hijacked. Use &7/register &bto register.";
-    public String loginRegistered = langVersion >= 3.58 ? config.getString("login-registered") : "&bPassword accepted! You will be asked to use this password each time you login.";
-    public String loginWaiting = langVersion >= 3.58 ? config.getString("login-waiting") : "&bYou have been frozen! Please enter your staff password to continue.";
-    public String loginAccepted = langVersion >= 3.58 ? config.getString("login-accepted") : "&bLogged in.";
-    public String passwordsNoMatch = config.getString("passwords-dont-match");
     public String bypassed = langVersion >= 3.5 ? config.getString("bypassed") : "&cThat player bypassed that command!";
     public String staffChatStatus = langVersion >= 3.2 ? config.getString("staff-chat-status") : "&bStaff chat &7%status%&b.";
     public String freezeLogout = langVersion >= 3.57 ? config.getString("freeze-logout") : "&7%player% &blogged out while frozen!";

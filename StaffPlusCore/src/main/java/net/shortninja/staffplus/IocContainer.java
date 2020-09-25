@@ -10,17 +10,14 @@ import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.ext.bukkit.BukkitOfflinePlayerProvider;
 import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
+import net.shortninja.staffplus.server.chat.*;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.player.UserQueuedActionChatPreventer;
-import net.shortninja.staffplus.reporting.ReportService;
-import net.shortninja.staffplus.reporting.database.MysqlReportRepository;
-import net.shortninja.staffplus.reporting.database.ReportRepository;
-import net.shortninja.staffplus.reporting.database.SqliteReportRepository;
+import net.shortninja.staffplus.player.ChatActionChatInterceptor;
+import net.shortninja.staffplus.staff.reporting.ReportService;
+import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
+import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
+import net.shortninja.staffplus.staff.reporting.database.SqliteReportRepository;
 import net.shortninja.staffplus.server.AlertCoordinator;
-import net.shortninja.staffplus.server.chat.ChatHandler;
-import net.shortninja.staffplus.server.chat.ChatPreventer;
-import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
-import net.shortninja.staffplus.server.chat.GeneralChatPreventer;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
 import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.DomainChatCensor;
@@ -36,13 +33,13 @@ import net.shortninja.staffplus.server.data.storage.SqliteStorage;
 import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
-import net.shortninja.staffplus.staff.freeze.FreezeChatPreventer;
+import net.shortninja.staffplus.staff.freeze.FreezeChatInterceptor;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
-import net.shortninja.staffplus.staff.tracing.TraceChatPreventer;
+import net.shortninja.staffplus.staff.tracing.TraceChatInterceptor;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
-import net.shortninja.staffplus.staff.vanish.VanishChatPreventer;
+import net.shortninja.staffplus.staff.vanish.VanishChatInterceptor;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.staff.warn.WarnService;
 import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
@@ -61,10 +58,6 @@ import java.util.function.Supplier;
 
 public class IocContainer {
 
-    public static final String AUTHME = "AUTHME";
-    private static ReportRepository reportRepository;
-    private static WarnRepository warnRepository;
-    private static DelayedActionsRepository delayedActionsRepository;
     private static StaffPlus staffPlus;
     private static IStorage storage;
 
@@ -101,18 +94,14 @@ public class IocContainer {
             getDelayedActionsRepository()));
     }
 
-    // Could use a factory but for sake of simplicity of the factory demonstration, not going to do.
     public static IStorage getStorage() {
-        if (storage == null) {
-            if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
-                storage = new MySQLStorage();
-            } else if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
-                storage = new SqliteStorage();
-            } else {
-                storage = new MemoryStorage();
-            }
+        if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
+            return initBean(IStorage.class, MySQLStorage::new);
         }
-        return storage;
+        if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
+            return initBean(IStorage.class, SqliteStorage::new);
+        }
+        return initBean(IStorage.class, MemoryStorage::new);
     }
 
     public static SessionManager getSessionManager() {
@@ -174,7 +163,7 @@ public class IocContainer {
 
     public static OfflinePlayerProvider getOfflinePlayerProvider() {
         return initBean(OfflinePlayerProvider.class, () -> {
-            if(getOptions().offlinePlayersModeEnabled) {
+            if (getOptions().offlinePlayersModeEnabled) {
                 return new BukkitOfflinePlayerProvider();
             }
             return new NoopOfflinePlayerProvider();
@@ -194,18 +183,14 @@ public class IocContainer {
         );
     }
 
-    public static List<ChatPreventer> getChatPreventers() {
+    public static List<ChatInterceptor> getChatInterceptors() {
         return Arrays.asList(
-            new UserQueuedActionChatPreventer(getSessionManager()),
-            new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()),
-            new FreezeChatPreventer(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
-            new VanishChatPreventer(getVanishHandler(), getOptions(), getMessage(), getMessages()),
-            new GeneralChatPreventer(getChatHandler(), getMessage(), getMessages())
+            new ChatActionChatInterceptor(getSessionManager()),
+            new TraceChatInterceptor(getTraceService(), getMessages(), getMessage(), getOptions()),
+            new FreezeChatInterceptor(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
+            new VanishChatInterceptor(getVanishHandler(), getOptions(), getMessage(), getMessages()),
+            new GeneralChatInterceptor(getChatHandler(), getMessage(), getMessages())
         );
-    }
-
-    public static List<ChatReceivePreventer> getChatReceivePreventers() {
-        return Arrays.asList(new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()));
     }
 
     private static <T> T initBean(Class<T> clazz, Supplier<T> consumer) {

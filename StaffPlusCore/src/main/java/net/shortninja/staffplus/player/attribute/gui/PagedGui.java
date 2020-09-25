@@ -2,7 +2,7 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -37,10 +37,6 @@ public abstract class PagedGui extends AbstractGui {
             public boolean shouldClose() {
                 return false;
             }
-
-            @Override
-            public void execute(Player player, String input) {
-            }
         };
 
         IAction previousPageAction = new IAction() {
@@ -54,10 +50,6 @@ public abstract class PagedGui extends AbstractGui {
             @Override
             public boolean shouldClose() {
                 return false;
-            }
-
-            @Override
-            public void execute(Player player, String input) {
             }
         };
 

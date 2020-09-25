@@ -1,10 +1,9 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.unordered.IGui;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -49,7 +48,7 @@ public class AbstractGui implements IGui {
         }
     }
 
-    public void setGlass(IPlayerSession user) {
+    public void setGlass(PlayerSession user) {
         ItemStack item = glassItem(user.getGlassColor());
 
         IAction action = new IAction() {
@@ -63,9 +62,6 @@ public class AbstractGui implements IGui {
                 return false;
             }
 
-            @Override
-            public void execute(Player player, String input) {
-            }
         };
 
         for (int i = 0; i < 3; i++) {

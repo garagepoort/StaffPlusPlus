@@ -30,10 +30,6 @@ public class ColorGui extends AbstractGui {
             public boolean shouldClose() {
                 return true;
             }
-
-            @Override
-            public void execute(Player player, String input) {
-            }
         };
 
         for (short i = 0; i < 15; i++) {
