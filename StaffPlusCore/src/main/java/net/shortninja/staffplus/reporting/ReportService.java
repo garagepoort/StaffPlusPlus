@@ -117,10 +117,6 @@ public class ReportService {
         return reportRepository.getAssignedReports(staffUuid, offset, amount);
     }
 
-    public Collection<Report> getUnresolvedReports(UUID playerUuid, int offset, int amount) {
-        return reportRepository.getUnresolvedReports(playerUuid, offset, amount);
-    }
-
     public void clearReports(SppPlayer player) {
         reportRepository.removeReports(player.getId());
     }
@@ -132,14 +128,6 @@ public class ReportService {
         if (remaining < options.reportsCooldown && !permission.has(sender, options.permissionReport)) {
             throw new BusinessException(messages.commandOnCooldown.replace("%seconds%", Long.toString(options.reportsCooldown - remaining)), messages.prefixGeneral);
         }
-    }
-
-    private SppPlayer getUser(String playerName) {
-        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerName);
-        if (!player.isPresent()) {
-            throw new BusinessException(messages.playerNotRegistered, messages.prefixGeneral);
-        }
-        return player.get();
     }
 
     private SppPlayer getUser(UUID playerUuid) {
@@ -170,15 +158,6 @@ public class ReportService {
                 .orElseThrow(() -> new BusinessException("Report with id [" + reportId + "] not found", messages.prefixReports));
     }
 
-    public void resolveReport(Player player, int reportId) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            Report report = getReport(reportId);
-            changeStatus(player, report, ReportStatus.RESOLVED);
-            message.sendGroupMessage(player.getName() + " resolved report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
-            sendEvent(new ResolveReportEvent(report));
-        });
-    }
-
     public void reopenReport(Player player, int reportId) {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             Report report = getReport(reportId);
@@ -195,21 +174,40 @@ public class ReportService {
         });
     }
 
-    public void rejectReport(Player player, int reportId) {
+    public void closeReport(Player player, CloseReportRequest closeReportRequest) {
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            Report report = getReport(closeReportRequest.getReportId());
+            closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
+            message.sendGroupMessage(player.getName() + " resolved report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+            sendEvent(new ResolveReportEvent(report));
+        });
+    }
+
+    public void resolveReport(Player player, int reportId, String closeReason) {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             Report report = getReport(reportId);
-            changeStatus(player, report, ReportStatus.REJECTED);
+            closedReport(player, report, ReportStatus.RESOLVED, closeReason);
+            message.sendGroupMessage(player.getName() + " resolved report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+            sendEvent(new ResolveReportEvent(report));
+        });
+    }
+
+    public void rejectReport(Player player, int reportId, String closeReason) {
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            Report report = getReport(reportId);
+            closedReport(player, report, ReportStatus.REJECTED, closeReason);
             message.sendGroupMessage(player.getName() + " closed report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
             sendEvent(new RejectReportEvent(report));
         });
     }
 
-    private void changeStatus(Player player, Report report, ReportStatus rejected) {
+    private void closedReport(Player player, Report report, ReportStatus rejected, String closeReason) {
         if (!report.getStaffUuid().equals(player.getUniqueId())) {
             throw new BusinessException("You cannot change the status of a report you are not assigned to", messages.prefixReports);
         }
 
         report.setReportStatus(rejected);
+        report.setCloseReason(closeReason);
         reportRepository.updateReport(report);
     }
 

@@ -2,6 +2,7 @@ package net.shortninja.staffplus.player.attribute.mode;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.player.attribute.mode.item.ModeItem;
@@ -9,7 +10,6 @@ import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -52,7 +52,7 @@ public class ModeCoordinator {
 
     public void addMode(Player player) {
         UUID uuid = player.getUniqueId();
-        IPlayerSession session = sessionManager.get(uuid);
+        PlayerSession session = sessionManager.get(uuid);
         if (isInMode(player.getUniqueId())) {
             return;
         }
@@ -76,7 +76,7 @@ public class ModeCoordinator {
         message.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
-    private void setPassive(Player player, IPlayerSession session) {
+    private void setPassive(Player player, PlayerSession session) {
         if (options.modeFlight && !options.modeCreative) {
             player.setAllowFlight(true);
         } else if (options.modeCreative) {

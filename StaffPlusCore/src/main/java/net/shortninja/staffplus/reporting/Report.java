@@ -7,21 +7,23 @@ import java.time.*;
 import java.util.UUID;
 
 public class Report implements IReport {
-    private UUID culpritUuid;
-    private String culpritName;
-    private String reason;
+    private final UUID culpritUuid;
+    private final String culpritName;
+    private final String reason;
+    private final ZonedDateTime timestamp;
+    private final UUID reporterUuid;
     private String reporterName;
-    private UUID reporterUuid;
     private String staffName;
     private UUID staffUuid;
     private ReportStatus reportStatus;
-    private ZonedDateTime timestamp;
     private int id;
+    private String closeReason;
 
     public Report(UUID culpritUuid, String culpritName, int id, String reason, String reporterName, UUID reporterUuid, long time,
                   ReportStatus reportStatus,
                   String staffName,
-                  UUID staffUuid) {
+                  UUID staffUuid,
+                  String closeReason) {
         this.culpritUuid = culpritUuid;
         this.culpritName = culpritName;
         this.reason = reason;
@@ -32,6 +34,7 @@ public class Report implements IReport {
         this.reportStatus = reportStatus;
         this.staffName = staffName;
         this.staffUuid = staffUuid;
+        this.closeReason = closeReason;
     }
 
     public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus, ZonedDateTime timestamp) {
@@ -108,5 +111,14 @@ public class Report implements IReport {
     @Override
     public ZonedDateTime getTimestamp() {
         return timestamp;
+    }
+
+    @Override
+    public String getCloseReason() {
+        return closeReason;
+    }
+
+    public void setCloseReason(String closeReason) {
+        this.closeReason = closeReason;
     }
 }

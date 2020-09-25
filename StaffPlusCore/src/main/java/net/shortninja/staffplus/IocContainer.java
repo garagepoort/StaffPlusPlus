@@ -10,17 +10,14 @@ import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.ext.bukkit.BukkitOfflinePlayerProvider;
 import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
+import net.shortninja.staffplus.server.chat.*;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.player.UserQueuedActionChatPreventer;
+import net.shortninja.staffplus.player.ChatActionChatPreventer;
 import net.shortninja.staffplus.reporting.ReportService;
 import net.shortninja.staffplus.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.reporting.database.ReportRepository;
 import net.shortninja.staffplus.reporting.database.SqliteReportRepository;
 import net.shortninja.staffplus.server.AlertCoordinator;
-import net.shortninja.staffplus.server.chat.ChatHandler;
-import net.shortninja.staffplus.server.chat.ChatPreventer;
-import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
-import net.shortninja.staffplus.server.chat.GeneralChatPreventer;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
 import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.DomainChatCensor;
@@ -194,18 +191,14 @@ public class IocContainer {
         );
     }
 
-    public static List<ChatPreventer> getChatPreventers() {
+    public static List<ChatInterceptor> getChatInterceptors() {
         return Arrays.asList(
-            new UserQueuedActionChatPreventer(getSessionManager()),
+            new ChatActionChatPreventer(getSessionManager()),
             new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()),
             new FreezeChatPreventer(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
             new VanishChatPreventer(getVanishHandler(), getOptions(), getMessage(), getMessages()),
             new GeneralChatPreventer(getChatHandler(), getMessage(), getMessages())
         );
-    }
-
-    public static List<ChatReceivePreventer> getChatReceivePreventers() {
-        return Arrays.asList(new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()));
     }
 
     private static <T> T initBean(Class<T> clazz, Supplier<T> consumer) {

@@ -16,7 +16,7 @@ public class MysqlMigrations implements SqlMigrations {
 
     private static MysqlMigrations instance;
     // Define all migrations in this list.
-    private static List<Migration> migrations = Arrays.asList(
+    private static final List<Migration> migrations = Arrays.asList(
             new V1_CreateReportsTableMigration(),
             new V2_CreateWarningsTableMigration(),
             new V3_CreateAlertOptionsTableMigration(),
@@ -32,7 +32,8 @@ public class MysqlMigrations implements SqlMigrations {
             new V13_AlterWarningsTableAddScoreMigration(),
             new V14_AlterWarningsTableAddSeverityMigration(),
             new V15_CreateDelayedActionsTableMigration(),
-            new V16_AlterDelayedActionsTableAddTimestampMigration());
+            new V16_AlterDelayedActionsTableAddTimestampMigration(),
+            new V17_AlterReportTableAddCloseReasonMigration());
 
     private final DataSource datasource;
 

@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.staff.freeze;
 
-import net.shortninja.staffplus.server.chat.ChatPreventer;
+import net.shortninja.staffplus.server.chat.ChatInterceptor;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class FreezeChatPreventer implements ChatPreventer {
-    
+public class FreezeChatPreventer implements ChatInterceptor {
+
     private final FreezeHandler freezeHandler;
     private final Options options;
     private final Messages messages;
@@ -21,9 +21,9 @@ public class FreezeChatPreventer implements ChatPreventer {
     }
 
     @Override
-    public boolean shouldPrevent(Player player, String message) {
-        if (freezeHandler.isFrozen(player.getUniqueId()) && !options.modeFreezeChat) {
-            this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
+    public boolean intercept(AsyncPlayerChatEvent event) {
+        if (freezeHandler.isFrozen(event.getPlayer().getUniqueId()) && !options.modeFreezeChat) {
+            this.message.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }
         return false;

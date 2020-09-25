@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.staff.tracing;
 
-import net.shortninja.staffplus.server.chat.ChatPreventer;
-import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
+import net.shortninja.staffplus.server.chat.ChatInterceptor;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -12,7 +11,7 @@ import java.util.List;
 
 import static net.shortninja.staffplus.unordered.trace.TraceOutputChannel.CHAT;
 
-public class TraceChatPreventer implements ChatPreventer, ChatReceivePreventer {
+public class TraceChatPreventer implements ChatInterceptor {
 
     private final TraceService traceService;
     private final Messages messages;
@@ -27,18 +26,16 @@ public class TraceChatPreventer implements ChatPreventer, ChatReceivePreventer {
     }
 
     @Override
-    public boolean shouldPrevent(Player player, String message) {
-        if (traceService.isPlayerTracing(player) && options.traceConfiguration.hasChannel(CHAT)) {
-            this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
+    public boolean intercept(AsyncPlayerChatEvent event) {
+        if (traceService.isPlayerTracing(event.getPlayer()) && options.traceConfiguration.hasChannel(CHAT)) {
+            this.message.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
+            return true;
         }
-        return false;
-    }
 
-    @Override
-    public void preventReceival(AsyncPlayerChatEvent event) {
         if(options.traceConfiguration.hasChannel(CHAT)) {
             List<Player> allTracers = traceService.getTracingPlayers();
             event.getRecipients().removeAll(allTracers);
         }
+        return false;
     }
 }

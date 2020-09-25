@@ -2,12 +2,12 @@ package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
@@ -32,7 +32,7 @@ public class StaffChatCmd extends AbstractCmd {
         if (args.length > 0) {
             staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
         } else {
-            IPlayerSession user = sessionManager.get(((Player) sender).getUniqueId());
+            PlayerSession user = sessionManager.get(((Player) sender).getUniqueId());
 
             if (user.inStaffChatMode()) {
                 message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);

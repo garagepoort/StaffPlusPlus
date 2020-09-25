@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
@@ -70,7 +70,7 @@ public class NotesCmd extends AbstractCmd {
     }
 
     private void listNotes(CommandSender sender, Player player) {
-        IPlayerSession user = sessionManager.get(player.getUniqueId());
+        PlayerSession user = sessionManager.get(player.getUniqueId());
 
         List<String> notes = user.getPlayerNotes();
 
@@ -90,7 +90,7 @@ public class NotesCmd extends AbstractCmd {
     }
 
     private void clearNotes(CommandSender sender, Player player) {
-        IPlayerSession user = sessionManager.get(player.getUniqueId());
+        PlayerSession user = sessionManager.get(player.getUniqueId());
 
         user.getPlayerNotes().clear();
         message.send(sender, messages.noteCleared.replace("%target%", player.getName()), messages.prefixGeneral);

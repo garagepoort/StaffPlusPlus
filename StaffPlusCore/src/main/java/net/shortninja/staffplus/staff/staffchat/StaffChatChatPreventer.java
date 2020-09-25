@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.staff.staffchat;
 
-import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.server.chat.ChatPreventer;
+import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.server.chat.ChatInterceptor;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IPlayerSession;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.util.PermissionHandler;
-import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class StaffChatChatPreventer implements ChatPreventer {
+public class StaffChatChatPreventer implements ChatInterceptor {
     private final StaffChatService staffChatService;
     private final PermissionHandler permission;
     private final Options options;
@@ -21,16 +21,16 @@ public class StaffChatChatPreventer implements ChatPreventer {
     }
 
     @Override
-    public boolean shouldPrevent(Player player, String message) {
-        IPlayerSession user = sessionManager.get(player.getUniqueId());
+    public boolean intercept(AsyncPlayerChatEvent event) {
+        PlayerSession session = sessionManager.get(event.getPlayer().getUniqueId());
 
-        if (user.inStaffChatMode()) {
-            staffChatService.sendMessage(player, message);
+        if (session.inStaffChatMode()) {
+            staffChatService.sendMessage(event.getPlayer(), event.getMessage());
             return true;
         }
 
-        if (staffChatService.hasHandle(message) && permission.has(player, options.permissionStaffChat)) {
-            staffChatService.sendMessage(player, message.substring(1));
+        if (staffChatService.hasHandle(event.getMessage()) && permission.has(event.getPlayer(), options.permissionStaffChat)) {
+            staffChatService.sendMessage(event.getPlayer(), event.getMessage().substring(1));
             return true;
         }
         return false;

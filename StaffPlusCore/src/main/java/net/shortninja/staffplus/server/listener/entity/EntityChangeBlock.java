@@ -14,8 +14,8 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 
 public class EntityChangeBlock implements Listener {
 
-    private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
-    private SessionManager sessionManager = IocContainer.getSessionManager();
+    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     public EntityChangeBlock() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }

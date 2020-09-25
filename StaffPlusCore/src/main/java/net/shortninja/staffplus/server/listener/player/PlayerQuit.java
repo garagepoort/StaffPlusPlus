@@ -2,13 +2,13 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.Bukkit;
@@ -22,7 +22,7 @@ public class PlayerQuit implements Listener {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final SessionManager sessionManager = StaffPlus.get().getUserManager();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
     private final TraceService traceService = IocContainer.getTraceService();
@@ -54,7 +54,7 @@ public class PlayerQuit implements Listener {
     }
 
     private void manageUser(Player player) {
-        IPlayerSession session = sessionManager.get(player.getUniqueId());
+        PlayerSession session = sessionManager.get(player.getUniqueId());
         if (session.isFrozen()) {
             message.sendGroupMessage(messages.freezeLogout.replace("%player%", player.getName()), options.permissionFreeze, messages.prefixGeneral);
         }

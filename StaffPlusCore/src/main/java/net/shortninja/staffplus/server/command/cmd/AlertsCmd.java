@@ -2,12 +2,12 @@ package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
@@ -71,7 +71,7 @@ public class AlertsCmd extends AbstractCmd {
 
         boolean wasChanged = false;
         boolean isValid = JavaUtils.isValidEnum(AlertType.class, alertTypeName.toUpperCase());
-        IPlayerSession session = sessionManager.get(player.getUniqueId());
+        PlayerSession session = sessionManager.get(player.getUniqueId());
 
         if (!isValid) {
             sendHelp(sender);

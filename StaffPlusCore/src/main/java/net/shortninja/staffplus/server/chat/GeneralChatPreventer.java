@@ -2,9 +2,9 @@ package net.shortninja.staffplus.server.chat;
 
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class GeneralChatPreventer implements ChatPreventer{
+public class GeneralChatPreventer implements ChatInterceptor {
 
     private final ChatHandler chatHandler;
     private final MessageCoordinator message;
@@ -16,14 +16,15 @@ public class GeneralChatPreventer implements ChatPreventer{
         this.messages = messages;
     }
 
-    public boolean shouldPrevent(Player player, String message){
-        if (!chatHandler.canChat(player)) {
-            this.message.send(player, messages.chattingFast, messages.prefixGeneral);
+    @Override
+    public boolean intercept(AsyncPlayerChatEvent event) {
+        if (!chatHandler.canChat(event.getPlayer())) {
+            this.message.send(event.getPlayer(), messages.chattingFast, messages.prefixGeneral);
             return true;
         }
 
-        if (!chatHandler.isChatEnabled(player)) {
-            this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
+        if (!chatHandler.isChatEnabled(event.getPlayer())) {
+            this.message.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }
 

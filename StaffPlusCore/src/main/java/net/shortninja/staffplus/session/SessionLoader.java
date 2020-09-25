@@ -7,7 +7,6 @@ import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.Save;
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -73,7 +72,7 @@ public class SessionLoader {
         return playerNotes;
     }
 
-    public void saveSession(IPlayerSession playerSession) {
+    public void saveSession(PlayerSession playerSession) {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             new Save(new NodeUser(playerSession));
             StaffPlus.get().dataFile.save();

@@ -1,12 +1,13 @@
-package net.shortninja.staffplus.player.attribute.gui.hub.reports;
+package net.shortninja.staffplus.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.CommandUtil;
-import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.player.attribute.gui.hub.reports.ReportItemBuilder;
 import net.shortninja.staffplus.reporting.Report;
 import net.shortninja.staffplus.reporting.ReportService;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.entity.Player;
@@ -14,30 +15,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class ManageReportGui extends AbstractGui {
     private static final int SIZE = 54;
-    private SessionManager sessionManager = IocContainer.getSessionManager();
-    private ReportService reportService = IocContainer.getReportService();
+
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final ReportService reportService = IocContainer.getReportService();
 
     public ManageReportGui(Player player, String title, Report report) {
         super(SIZE, title);
 
-        IAction resolveAction = new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    reportService.resolveReport(player, reportId);
-                });
-            }
-
-            @Override
-            public boolean shouldClose() {
-                return true;
-            }
-
-            @Override
-            public void execute(Player player, String input) {
-            }
-        };
 
         IAction reopenAction = new IAction() {
             @Override
@@ -52,29 +36,10 @@ public class ManageReportGui extends AbstractGui {
             public boolean shouldClose() {
                 return true;
             }
-
-            @Override
-            public void execute(Player player, String input) {
-            }
         };
-        IAction rejectAction = new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    reportService.rejectReport(player, reportId);
-                });
-            }
 
-            @Override
-            public boolean shouldClose() {
-                return true;
-            }
-
-            @Override
-            public void execute(Player player, String input) {
-            }
-        };
+        IAction resolveAction = new ResolveReportAction();
+        IAction rejectAction = new RejectReportAction();
 
         setItem(13, ReportItemBuilder.build(report), null);
 
@@ -103,25 +68,25 @@ public class ManageReportGui extends AbstractGui {
 
     private void addResolveItem(Report report, IAction action, int slot) {
         ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
-                Items.editor(Items.createGreenColoredGlass("Resolve report", "Click to mark this report as resolved"))
-                        .setAmount(1)
-                        .build(), String.valueOf(report.getId()));
+            Items.editor(Items.createGreenColoredGlass("Resolve report", "Click to mark this report as resolved"))
+                .setAmount(1)
+                .build(), String.valueOf(report.getId()));
         setItem(slot, item, action);
     }
 
     private void addRejectItem(Report report, IAction action, int slot) {
         ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
-                Items.editor(Items.createRedColoredGlass("Reject report", "Click to mark this report as rejected"))
-                        .setAmount(1)
-                        .build(), String.valueOf(report.getId()));
+            Items.editor(Items.createRedColoredGlass("Reject report", "Click to mark this report as rejected"))
+                .setAmount(1)
+                .build(), String.valueOf(report.getId()));
         setItem(slot, item, action);
     }
 
     private void addReopenItem(Report report, IAction action, int slot) {
         ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
-                Items.editor(Items.createGrayColoredGlass("Unassign", "Click to unassign yourself from this report"))
-                        .setAmount(1)
-                        .build(), String.valueOf(report.getId()));
+            Items.editor(Items.createGrayColoredGlass("Unassign", "Click to unassign yourself from this report"))
+                .setAmount(1)
+                .build(), String.valueOf(report.getId()));
         setItem(slot, item, action);
     }
 }

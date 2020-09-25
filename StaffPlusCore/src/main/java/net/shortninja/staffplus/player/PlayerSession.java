@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.player;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.attribute.gui.IGui;
+import net.shortninja.staffplus.server.chat.ChatAction;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.*;
 import org.bukkit.Bukkit;
@@ -10,14 +12,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class PlayerSession implements IPlayerSession {
+public class PlayerSession {
+
     private final Options options = IocContainer.getOptions();
     private final UUID uuid;
     private final String name;
     protected short glassColor;
     private VanishType vanishType = VanishType.NONE;
     private IGui currentGui = null;
-    private IAction queuedAction = null;
+    private ChatAction chatAction = null;
     private Map<AlertType, Boolean> alertOptions = new HashMap<>();
     private List<String> playerNotes = new ArrayList<>();
 
@@ -118,12 +121,12 @@ public class PlayerSession implements IPlayerSession {
         this.currentGui = currentGui;
     }
 
-    public IAction getQueuedAction() {
-        return queuedAction;
+    public ChatAction getChatAction() {
+        return chatAction;
     }
 
-    public void setQueuedAction(IAction queuedAction) {
-        this.queuedAction = queuedAction;
+    public void setChatAction(ChatAction chatAction) {
+        this.chatAction = chatAction;
     }
 
     public boolean shouldNotify(AlertType alertType) {
@@ -169,5 +172,9 @@ public class PlayerSession implements IPlayerSession {
 
     public void addPlayerNote(String note) {
         playerNotes.add(note);
+    }
+
+    public boolean isVanished() {
+        return this.getVanishType() == VanishType.TOTAL;
     }
 }

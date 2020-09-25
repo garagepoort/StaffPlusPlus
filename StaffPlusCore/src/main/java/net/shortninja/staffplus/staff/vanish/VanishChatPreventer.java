@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.staff.vanish;
 
-import net.shortninja.staffplus.server.chat.ChatPreventer;
+import net.shortninja.staffplus.server.chat.ChatInterceptor;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import org.bukkit.entity.Player;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class VanishChatPreventer implements ChatPreventer {
+public class VanishChatPreventer implements ChatInterceptor {
 
     private final VanishHandler vanishHandler;
     private final Options options;
@@ -21,9 +21,9 @@ public class VanishChatPreventer implements ChatPreventer {
     }
 
     @Override
-    public boolean shouldPrevent(Player player, String message) {
-        if (options.vanishEnabled && !options.vanishChatEnabled && vanishHandler.isVanished(player)) {
-            this.message.send(player, messages.chatPrevented, messages.prefixGeneral);
+    public boolean intercept(AsyncPlayerChatEvent event) {
+        if (options.vanishEnabled && !options.vanishChatEnabled && vanishHandler.isVanished(event.getPlayer())) {
+            this.message.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }
         return false;

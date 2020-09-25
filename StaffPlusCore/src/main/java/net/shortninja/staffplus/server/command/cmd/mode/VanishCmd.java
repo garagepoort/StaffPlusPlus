@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
@@ -9,7 +10,6 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -90,7 +90,7 @@ public class VanishCmd extends AbstractCmd {
     private void handleVanishArgument(CommandSender sender, String argument, Player player, boolean shouldCheckPermission) {
         boolean isValid = JavaUtils.isValidEnum(VanishType.class, argument.toUpperCase());
         VanishType vanishType = VanishType.NONE;
-        IPlayerSession user = sessionManager.get(player.getUniqueId());
+        PlayerSession user = sessionManager.get(player.getUniqueId());
 
         if (!isValid) {
             sendHelp(sender);

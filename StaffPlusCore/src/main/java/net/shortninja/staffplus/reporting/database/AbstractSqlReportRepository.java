@@ -30,7 +30,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository, I
     public void addReport(Report report) {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID, status, timestamp) " +
-                     "VALUES(?, ?, ?, ?, ?);")) {
+                 "VALUES(?, ?, ?, ?, ?);")) {
             insert.setString(1, report.getReason());
             insert.setString(2, report.getReporterUuid().toString());
             insert.setString(3, report.getCulpritUuid() == null ? null : report.getCulpritUuid().toString());
@@ -109,7 +109,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository, I
             ps.setString(2, ReportStatus.OPEN.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
-                if(first){
+                if (first) {
                     return Optional.of(buildReport(rs));
                 }
             }
@@ -126,7 +126,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository, I
             ps.setInt(1, reportId);
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
-                if(first){
+                if (first) {
                     return Optional.of(buildReport(rs));
                 }
             }
@@ -139,11 +139,12 @@ public abstract class AbstractSqlReportRepository implements ReportRepository, I
     @Override
     public void updateReport(Report report) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_reports set staff_name=?, staff_uuid=?, status=? WHERE id=?")) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_reports set staff_name=?, staff_uuid=?, status=?, close_reason=? WHERE id=?")) {
             insert.setString(1, report.getStaffName());
             insert.setString(2, report.getStaffUuid() != null ? report.getStaffUuid().toString() : null);
             insert.setString(3, report.getReportStatus().toString());
-            insert.setInt(4, report.getId());
+            insert.setString(4, report.getCloseReason());
+            insert.setInt(5, report.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -216,7 +217,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository, I
 
         UUID playerUUID = null;
         String culpritName = null;
-        if(player_uuid != null) {
+        if (player_uuid != null) {
             playerUUID = UUID.fromString(player_uuid);
             Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUUID);
             culpritName = player.map(SppPlayer::getUsername).orElse(null);
@@ -224,13 +225,14 @@ public abstract class AbstractSqlReportRepository implements ReportRepository, I
 
         int id = rs.getInt("ID");
         return new Report(playerUUID, culpritName, id,
-                rs.getString("Reason"),
-                reporterName,
-                reporterUUID,
-                rs.getLong("timestamp"),
-                ReportStatus.valueOf(rs.getString("status")),
-                rs.getString("staff_name"),
-                staffUUID);
+            rs.getString("Reason"),
+            reporterName,
+            reporterUUID,
+            rs.getLong("timestamp"),
+            ReportStatus.valueOf(rs.getString("status")),
+            rs.getString("staff_name"),
+            staffUUID,
+            rs.getString("close_reason"));
     }
 
 }

@@ -37,10 +37,6 @@ public abstract class PagedGui extends AbstractGui {
             public boolean shouldClose() {
                 return false;
             }
-
-            @Override
-            public void execute(Player player, String input) {
-            }
         };
 
         IAction previousPageAction = new IAction() {
@@ -54,10 +50,6 @@ public abstract class PagedGui extends AbstractGui {
             @Override
             public boolean shouldClose() {
                 return false;
-            }
-
-            @Override
-            public void execute(Player player, String input) {
             }
         };
 

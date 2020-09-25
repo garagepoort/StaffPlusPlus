@@ -2,8 +2,8 @@ package net.shortninja.staffplus.server.chat;
 
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public interface ChatReceivePreventer {
+public interface ChatInterceptor {
 
-    void preventReceival(AsyncPlayerChatEvent event);
+    boolean intercept(AsyncPlayerChatEvent event);
 
 }

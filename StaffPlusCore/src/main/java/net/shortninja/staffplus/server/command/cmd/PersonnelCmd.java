@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
@@ -35,7 +35,7 @@ public class PersonnelCmd extends AbstractCmd {
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            IPlayerSession session = sessionManager.get(player.getUniqueId());
+            PlayerSession session = sessionManager.get(player.getUniqueId());
             if (hasStatus(session, status, player)) {
                 message.send(sender, messages.staffListMember.replace("%player%", player.getName()).replace("%statuscolor%", getStatusColor(session, player)), messages.prefixGeneral);
             }
@@ -68,7 +68,7 @@ public class PersonnelCmd extends AbstractCmd {
         return Optional.empty();
     }
 
-    private boolean hasStatus(IPlayerSession session, String status, Player player) {
+    private boolean hasStatus(PlayerSession session, String status, Player player) {
         VanishType vanishType = session.getVanishType();
         if (!permission.has(player, options.permissionMember)) {
             return false;
@@ -85,7 +85,7 @@ public class PersonnelCmd extends AbstractCmd {
         return true;
     }
 
-    private String getStatusColor(IPlayerSession user, Player player) {
+    private String getStatusColor(PlayerSession user, Player player) {
         String statusColor = "4";
 
         if (hasStatus(user, "online", player)) {

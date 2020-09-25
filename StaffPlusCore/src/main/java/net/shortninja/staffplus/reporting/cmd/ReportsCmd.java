@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.server.command.cmd.infraction;
+package net.shortninja.staffplus.reporting.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.SppPlayer;

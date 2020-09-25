@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.reports.ClosedReportsGui;
-import net.shortninja.staffplus.player.attribute.gui.hub.reports.MyReportsGui;
-import net.shortninja.staffplus.player.attribute.gui.hub.reports.OpenReportsGui;
+import net.shortninja.staffplus.reporting.gui.MyReportsGui;
+import net.shortninja.staffplus.reporting.gui.OpenReportsGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -31,10 +31,6 @@ public class HubGui extends AbstractGui {
                 public boolean shouldClose() {
                     return false;
                 }
-
-                @Override
-                public void execute(Player player, String input) {
-                }
             });
             setItem(2, myReportsItem(), new IAction() {
                 @Override
@@ -46,10 +42,6 @@ public class HubGui extends AbstractGui {
                 public boolean shouldClose() {
                     return false;
                 }
-
-                @Override
-                public void execute(Player player, String input) {
-                }
             });
             setItem(3, closedReportsItem(), new IAction() {
                 @Override
@@ -60,10 +52,6 @@ public class HubGui extends AbstractGui {
                 @Override
                 public boolean shouldClose() {
                     return false;
-                }
-
-                @Override
-                public void execute(Player player, String input) {
                 }
             });
         }
@@ -79,14 +67,10 @@ public class HubGui extends AbstractGui {
                 public boolean shouldClose() {
                     return false;
                 }
-
-                @Override
-                public void execute(Player player, String input) {
-                }
             });
         }
 
-        IPlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
+        PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
         setGlass(playerSession);
         player.openInventory(getInventory());
         playerSession.setCurrentGui(this);

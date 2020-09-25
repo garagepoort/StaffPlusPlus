@@ -46,10 +46,6 @@ public class CounterGui extends AbstractGui {
             public boolean shouldClose() {
                 return true;
             }
-
-            @Override
-            public void execute(Player player, String input) {
-            }
         };
 
         List<Player> players = options.modeCounterShowStaffMode ? getModePlayers() : JavaUtils.getOnlinePlayers();

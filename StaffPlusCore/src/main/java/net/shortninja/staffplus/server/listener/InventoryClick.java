@@ -2,11 +2,11 @@ package net.shortninja.staffplus.server.listener;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,7 +30,7 @@ public class InventoryClick implements Listener {
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         UUID uuid = player.getUniqueId();
-        IPlayerSession playerSession = sessionManager.get(uuid);
+        PlayerSession playerSession = sessionManager.get(uuid);
         ItemStack item = event.getCurrentItem();
         int slot = event.getSlot();
 

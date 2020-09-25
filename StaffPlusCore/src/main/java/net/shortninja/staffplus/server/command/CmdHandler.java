@@ -2,6 +2,9 @@ package net.shortninja.staffplus.server.command;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.reporting.cmd.ReportCmd;
+import net.shortninja.staffplus.reporting.cmd.ReportPlayerCmd;
+import net.shortninja.staffplus.reporting.cmd.ReportsCmd;
 import net.shortninja.staffplus.server.command.cmd.*;
 import net.shortninja.staffplus.server.command.cmd.infraction.*;
 import net.shortninja.staffplus.server.command.cmd.mode.*;
