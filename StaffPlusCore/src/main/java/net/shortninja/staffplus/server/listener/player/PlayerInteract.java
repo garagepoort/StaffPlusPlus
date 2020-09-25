@@ -2,10 +2,10 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.player.attribute.mode.handler.CpsHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.player.attribute.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
+import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.freeze.FreezeRequest;
@@ -24,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
-import static net.shortninja.staffplus.common.CommandUtil.playerAction;
+import static net.shortninja.staffplus.common.cmd.CommandUtil.playerAction;
 
 public class PlayerInteract implements Listener {
     private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;

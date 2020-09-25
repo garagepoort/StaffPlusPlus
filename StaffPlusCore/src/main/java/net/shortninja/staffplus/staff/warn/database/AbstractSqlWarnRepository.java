@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
+import net.shortninja.staffplus.staff.warn.Warning;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

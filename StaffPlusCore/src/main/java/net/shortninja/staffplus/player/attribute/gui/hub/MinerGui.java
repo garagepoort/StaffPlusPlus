@@ -38,10 +38,6 @@ public class MinerGui extends AbstractGui {
             public boolean shouldClose() {
                 return true;
             }
-
-            @Override
-            public void execute(Player player, String input) {
-            }
         };
 
         int slot = 0; // Better to use this because not every iteration is going to have a result.

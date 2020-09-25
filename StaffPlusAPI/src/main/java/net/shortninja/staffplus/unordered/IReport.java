@@ -27,5 +27,7 @@ public interface IReport {
 
     ZonedDateTime getTimestamp();
 
+    String getCloseReason();
+
     UUID getStaffUuid();
 }

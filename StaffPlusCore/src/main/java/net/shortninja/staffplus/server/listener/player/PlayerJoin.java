@@ -2,13 +2,13 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
-import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -53,7 +53,7 @@ public class PlayerJoin implements Listener {
 
     private void manageUser(Player player) {
         UUID uuid = player.getUniqueId();
-        IPlayerSession playerSession = sessionManager.get(uuid);
+        PlayerSession playerSession = sessionManager.get(uuid);
 
         if (!playerSession.getName().equals(player.getName())) {
             alertCoordinator.onNameChange(playerSession.getName(), player.getName());

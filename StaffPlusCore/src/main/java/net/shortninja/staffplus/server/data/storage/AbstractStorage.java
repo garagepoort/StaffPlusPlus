@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.server.data.storage;
 
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

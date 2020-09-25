@@ -2,13 +2,12 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.AlertCoordinator;
-import net.shortninja.staffplus.server.chat.ChatPreventer;
-import net.shortninja.staffplus.server.chat.ChatReceivePreventer;
+import net.shortninja.staffplus.server.chat.ChatInterceptor;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.tracing.TraceService;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,8 +23,7 @@ import static net.shortninja.staffplus.staff.tracing.TraceType.CHAT;
 public class AsyncPlayerChat implements Listener {
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
-    private final List<ChatPreventer> chatPreventers = IocContainer.getChatPreventers();
-    private final List<ChatReceivePreventer> chatReceivePreventers = IocContainer.getChatReceivePreventers();
+    private final List<ChatInterceptor> chatInterceptors = IocContainer.getChatInterceptors();
     private final BlacklistService blacklistService = IocContainer.getBlacklistService();
     private final TraceService traceService = IocContainer.getTraceService();
 
@@ -38,17 +36,19 @@ public class AsyncPlayerChat implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        if (shouldCancel(player, message)) {
-            event.setCancelled(true);
-            return;
+        for (ChatInterceptor chatInterceptor : chatInterceptors) {
+            boolean cancel = chatInterceptor.intercept(event);
+            if(cancel) {
+                event.setCancelled(true);
+                return;
+            }
         }
 
-        chatReceivePreventers.forEach(preventer -> preventer.preventReceival(event));
         traceService.sendTraceMessage(CHAT, player.getUniqueId(), event.getMessage());
 
-        List<IPlayerSession> mentioned = getMentioned(message);
+        List<PlayerSession> mentioned = getMentioned(message);
         if (!mentioned.isEmpty()) {
-            for (IPlayerSession user : mentioned) {
+            for (PlayerSession user : mentioned) {
                 alertCoordinator.onMention(user, player.getName());
             }
         }
@@ -56,14 +56,10 @@ public class AsyncPlayerChat implements Listener {
         blacklistService.censorMessage(player, event);
     }
 
-    private boolean shouldCancel(Player player, String message) {
-        return chatPreventers.stream().anyMatch(c -> c.shouldPrevent(player, message));
-    }
+    private List<PlayerSession> getMentioned(String message) {
+        List<PlayerSession> mentioned = new ArrayList<>();
 
-    private List<IPlayerSession> getMentioned(String message) {
-        List<IPlayerSession> mentioned = new ArrayList<>();
-
-        for (IPlayerSession user : sessionManager.getAll()) {
+        for (PlayerSession user : sessionManager.getAll()) {
             if (!user.getPlayer().isPresent()) {
                 continue; // How?
             }
