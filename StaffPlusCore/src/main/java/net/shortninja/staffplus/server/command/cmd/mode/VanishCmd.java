@@ -64,21 +64,11 @@ public class VanishCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
-
-    @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         if(sender instanceof Player) {
             return 1;
         }
         return 2;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
     }
 
     @Override
@@ -95,11 +85,6 @@ public class VanishCmd extends AbstractCmd {
             return Optional.of(sender.getName());
         }
         return Optional.empty();
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 
     private void handleVanishArgument(CommandSender sender, String argument, Player player, boolean shouldCheckPermission) {

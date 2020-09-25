@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.server.command.AbstractCmd;
@@ -23,8 +24,6 @@ import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.ON
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
 public class ReviveCmd extends AbstractCmd {
-    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(TELEPORT, STRIP, HEALTH);
-
     private final MessageCoordinator message = IocContainer.getMessage();
     private final ReviveHandler reviveHandler = StaffPlus.get().reviveHandler;
 
@@ -34,20 +33,21 @@ public class ReviveCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
-        if (reviveHandler.hasSavedInventory(player.getPlayer().getUniqueId())) {
-            reviveHandler.restoreInventory(player.getPlayer());
-            argumentProcessor.parseArguments(sender, player.getPlayer().getName(), Arrays.asList(args), VALID_ARGUMENTS);
-            message.send(sender, messages.revivedStaff.replace("%target%", player.getPlayer().getName()), messages.prefixGeneral);
-        } else {
-            message.send(sender, messages.noFound, messages.prefixGeneral);
-        }
-
+        reviveHandler.restoreInventory(player.getPlayer());
+        message.send(sender, messages.revivedStaff.replace("%target%", player.getPlayer().getName()), messages.prefixGeneral);
         return true;
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
+    protected void validateExecution(SppPlayer player) {
+        if (!reviveHandler.hasSavedInventory(player.getPlayer().getUniqueId())) {
+            throw new BusinessException(messages.noFound);
+        }
+    }
+
+    @Override
+    protected List<ArgumentType> getPostExecutionSppArguments() {
+        return Arrays.asList(TELEPORT, STRIP, HEALTH);
     }
 
     @Override
@@ -56,11 +56,6 @@ public class ReviveCmd extends AbstractCmd {
             return 0;
         }
         return 1;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
     }
 
     @Override
@@ -77,11 +72,6 @@ public class ReviveCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean isDelayable() {
-        return true;
-    }
-
-    @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
         List<String> suggestions = new ArrayList<>();
@@ -91,7 +81,6 @@ public class ReviveCmd extends AbstractCmd {
             return suggestions;
         }
 
-        suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length - 1], VALID_ARGUMENTS));
-        return suggestions;
+        return getSppArguments(sender, args);
     }
 }

@@ -12,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,18 +42,8 @@ public class WarnsCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
-
-    @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 2;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
     }
 
     @Override
@@ -65,11 +54,6 @@ public class WarnsCmd extends AbstractCmd {
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.of(args[1]);
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 
     private void listWarnings(CommandSender sender, SppPlayer player) {

@@ -47,18 +47,8 @@ public class StaffChatCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
-
-    @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 0;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
     }
 
     @Override
@@ -71,8 +61,4 @@ public class StaffChatCmd extends AbstractCmd {
         return Optional.empty();
     }
 
-    @Override
-    protected boolean isDelayable() {
-        return false;
-    }
 }

@@ -30,19 +30,10 @@ public class FollowCmd extends AbstractCmd {
         return true;
     }
 
-    @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
     }
 
     @Override
@@ -55,8 +46,4 @@ public class FollowCmd extends AbstractCmd {
         return Optional.ofNullable(args[0]);
     }
 
-    @Override
-    protected boolean isDelayable() {
-        return false;
-    }
 }
