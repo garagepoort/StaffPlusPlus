@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.server;
 
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;

@@ -2,25 +2,24 @@ package net.shortninja.staffplus.server.command;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.staff.reporting.cmd.ReportCmd;
-import net.shortninja.staffplus.staff.reporting.cmd.ReportPlayerCmd;
-import net.shortninja.staffplus.staff.reporting.cmd.ReportsCmd;
 import net.shortninja.staffplus.server.command.cmd.*;
 import net.shortninja.staffplus.server.command.cmd.mode.*;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.freeze.FreezeCmd;
+import net.shortninja.staffplus.staff.reporting.cmd.ReportCmd;
+import net.shortninja.staffplus.staff.reporting.cmd.ReportPlayerCmd;
+import net.shortninja.staffplus.staff.reporting.cmd.ReportsCmd;
+import net.shortninja.staffplus.staff.staffchat.cmd.StaffChatCmd;
 import net.shortninja.staffplus.staff.tracing.TraceCmd;
 import net.shortninja.staffplus.staff.warn.cmd.WarnCmd;
 import net.shortninja.staffplus.staff.warn.cmd.WarnsCmd;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
 
 public class CmdHandler {
-    private IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private Options options = IocContainer.getOptions();
+    private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
+    private final Options options = IocContainer.getOptions();
     /*
      * Yes this is a mess, but I need to define these things early for help commands
      * to work the way that they should.
@@ -54,20 +53,6 @@ public class CmdHandler {
 
     public CmdHandler() {
         registerCommands();
-    }
-
-    public void attemptCommand(CommandSender sender, String label, String[] args) {
-        Command command = null;
-
-        for (BaseCmd baseCmd : BASES) {
-            if (baseCmd.matches(label)) {
-                command = baseCmd.getCommand();
-            }
-        }
-
-        if (command != null) {
-            command.execute(sender, label, args);
-        }
     }
 
     private void registerCommands() {

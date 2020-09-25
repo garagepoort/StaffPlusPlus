@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.GlassData;

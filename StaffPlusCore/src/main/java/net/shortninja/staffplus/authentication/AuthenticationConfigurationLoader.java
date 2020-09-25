@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.authentication;
 
-import net.shortninja.staffplus.common.ConfigLoader;
+import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import org.bukkit.Bukkit;
 

@@ -7,7 +7,6 @@ import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
 import net.shortninja.staffplus.event.warnings.WarningsClearedEvent;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.warn.config.WarningAction;

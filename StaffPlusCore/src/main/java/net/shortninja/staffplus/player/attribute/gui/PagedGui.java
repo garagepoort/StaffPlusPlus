@@ -2,7 +2,7 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.lib.hex.Items;

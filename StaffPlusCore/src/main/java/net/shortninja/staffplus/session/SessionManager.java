@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.session;
 
-import net.shortninja.staffplus.player.PlayerSession;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;

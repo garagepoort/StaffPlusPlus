@@ -2,9 +2,8 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
-import net.shortninja.staffplus.player.attribute.gui.hub.reports.ReportItemBuilder;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.unordered.IAction;
 import org.bukkit.entity.Player;

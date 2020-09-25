@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.ChatInterceptor;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;

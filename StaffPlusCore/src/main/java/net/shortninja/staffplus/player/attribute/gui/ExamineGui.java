@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.PlayerManager;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
+import net.shortninja.staffplus.staff.warn.Warning;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.unordered.IAction;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;

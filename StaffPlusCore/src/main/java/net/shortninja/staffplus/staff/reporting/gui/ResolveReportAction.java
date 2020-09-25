@@ -3,7 +3,7 @@ package net.shortninja.staffplus.staff.reporting.gui;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.event.ReportStatus;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.staff.reporting.ReportService;

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.staff.warn.config;
 
-import net.shortninja.staffplus.common.ConfigLoader;
+import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.util.lib.Sounds;
 
 import java.util.ArrayList;

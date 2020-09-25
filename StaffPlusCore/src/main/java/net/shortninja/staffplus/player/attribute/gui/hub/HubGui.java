@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
-import net.shortninja.staffplus.player.attribute.gui.hub.reports.ClosedReportsGui;
+import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.MyReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.OpenReportsGui;
 import net.shortninja.staffplus.server.data.config.Options;

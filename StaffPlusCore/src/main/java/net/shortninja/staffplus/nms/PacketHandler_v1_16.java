@@ -6,7 +6,7 @@ import net.minecraft.server.v1_16_R2.PacketPlayOutNamedSoundEffect;
 
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.compatibility.AbstractPacketHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

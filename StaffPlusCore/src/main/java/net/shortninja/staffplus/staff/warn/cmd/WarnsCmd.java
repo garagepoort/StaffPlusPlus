@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.warn.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
+import net.shortninja.staffplus.staff.warn.Warning;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.staff.warn.WarnService;

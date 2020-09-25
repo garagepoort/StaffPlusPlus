@@ -2,9 +2,9 @@ package net.shortninja.staffplus.server.listener.entity;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;

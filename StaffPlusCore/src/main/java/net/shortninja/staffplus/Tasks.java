@@ -1,7 +1,7 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.player.PlayerSession;
-import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -48,12 +48,6 @@ public class Tasks extends BukkitRunnable {
     private void checkWarnings() {
         for (IWarning warning : IocContainer.getWarnService().getWarnings()) {
             if (warning.shouldRemove()) {
-                PlayerSession user = sessionManager.get(warning.getUuid());
-
-                if (user == null) {
-                    continue;
-                }
-
                 IocContainer.getWarnService().removeWarning(warning.getId());
             }
         }

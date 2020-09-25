@@ -12,7 +12,7 @@ import net.shortninja.staffplus.player.ext.bukkit.BukkitOfflinePlayerProvider;
 import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
 import net.shortninja.staffplus.server.chat.*;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.player.ChatActionChatPreventer;
+import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
@@ -33,13 +33,13 @@ import net.shortninja.staffplus.server.data.storage.SqliteStorage;
 import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
-import net.shortninja.staffplus.staff.freeze.FreezeChatPreventer;
+import net.shortninja.staffplus.staff.freeze.FreezeChatInterceptor;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
-import net.shortninja.staffplus.staff.tracing.TraceChatPreventer;
+import net.shortninja.staffplus.staff.tracing.TraceChatInterceptor;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
-import net.shortninja.staffplus.staff.vanish.VanishChatPreventer;
+import net.shortninja.staffplus.staff.vanish.VanishChatInterceptor;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.staff.warn.WarnService;
 import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
@@ -185,11 +185,11 @@ public class IocContainer {
 
     public static List<ChatInterceptor> getChatInterceptors() {
         return Arrays.asList(
-            new ChatActionChatPreventer(getSessionManager()),
-            new TraceChatPreventer(getTraceService(), getMessages(), getMessage(), getOptions()),
-            new FreezeChatPreventer(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
-            new VanishChatPreventer(getVanishHandler(), getOptions(), getMessage(), getMessages()),
-            new GeneralChatPreventer(getChatHandler(), getMessage(), getMessages())
+            new ChatActionChatInterceptor(getSessionManager()),
+            new TraceChatInterceptor(getTraceService(), getMessages(), getMessage(), getOptions()),
+            new FreezeChatInterceptor(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
+            new VanishChatInterceptor(getVanishHandler(), getOptions(), getMessage(), getMessages()),
+            new GeneralChatInterceptor(getChatHandler(), getMessage(), getMessages())
         );
     }
 

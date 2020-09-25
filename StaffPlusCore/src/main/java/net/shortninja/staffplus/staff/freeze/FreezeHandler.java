@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.staff.freeze;
 
 import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.common.CommandPermissionValidator;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
@@ -19,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class FreezeHandler implements CommandPermissionValidator {
+public class FreezeHandler {
     private final static Map<UUID, Location> lastFrozenLocations = new HashMap<>();
     private final PermissionHandler permission;
     private final MessageCoordinator message;
@@ -122,7 +121,6 @@ public class FreezeHandler implements CommandPermissionValidator {
         return previous.getBlockX() == current.getBlockX() && previous.getBlockY() == current.getBlockY() && previous.getBlockZ() == current.getBlockZ();
     }
 
-    @Override
     public void validatePermissions(CommandSender commandSender, Player target) {
         if (permission.has(target, options.permissionFreezeBypass)) {
             throw new BusinessException(messages.bypassed, messages.prefixGeneral);
