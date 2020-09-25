@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.12
 
+### V1.12.2
+#### Features
+- Report closing reason support
+- Authme integration for supporting staff login
+- Trace log feature added
+
 ### V1.12.1
 #### Features
 - New arguments system implemented
