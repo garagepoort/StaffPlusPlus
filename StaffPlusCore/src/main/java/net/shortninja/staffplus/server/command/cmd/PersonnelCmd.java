@@ -49,11 +49,6 @@ public class PersonnelCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
-
-    @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 0;
     }
@@ -71,11 +66,6 @@ public class PersonnelCmd extends AbstractCmd {
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.empty();
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 
     private boolean hasStatus(IPlayerSession session, String status, Player player) {

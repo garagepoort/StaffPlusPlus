@@ -49,18 +49,8 @@ public class NotesCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
-
-    @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 2;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
     }
 
     @Override
@@ -77,11 +67,6 @@ public class NotesCmd extends AbstractCmd {
             }
         }
         return Optional.of(args[0]);
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 
     private void listNotes(CommandSender sender, Player player) {

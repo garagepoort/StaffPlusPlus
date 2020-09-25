@@ -36,18 +36,8 @@ public class ChatCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
-
-    @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
     }
 
     @Override
@@ -58,11 +48,6 @@ public class ChatCmd extends AbstractCmd {
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.empty();
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 
     private void handleChatArgument(CommandSender sender, String argument, String option, boolean shouldCheckPermission) {

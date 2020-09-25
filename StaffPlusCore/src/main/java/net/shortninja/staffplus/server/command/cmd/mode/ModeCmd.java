@@ -44,11 +44,6 @@ public class ModeCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
-
-    @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         if (args.length >= 2) {
             if (args[1].equalsIgnoreCase(ENABLE) || args[1].equalsIgnoreCase(DISABLE)) {
@@ -65,11 +60,6 @@ public class ModeCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
-    }
-
-    @Override
     protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
         return PlayerRetrievalStrategy.ONLINE;
     }
@@ -80,11 +70,6 @@ public class ModeCmd extends AbstractCmd {
             return Optional.of(sender.getName());
         }
         return Optional.of(args[0]);
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 
     private void toggleMode(Player player) {
