@@ -36,6 +36,7 @@ public class ResolveReportAction implements IAction {
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
                     messageCoordinator.send(player, "You have cancelled rejecting this report", messages.prefixReports);
+                    return;
                 }
                 reportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message));
             });
