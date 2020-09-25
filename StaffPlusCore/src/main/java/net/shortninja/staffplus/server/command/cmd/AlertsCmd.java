@@ -42,21 +42,11 @@ public class AlertsCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
-
-    @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             return 1;
         }
         return 2;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
     }
 
     @Override
@@ -70,11 +60,6 @@ public class AlertsCmd extends AbstractCmd {
             return Optional.of(sender.getName());
         }
         return Optional.of(args[1]);
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 
     private void handleAlertsArgument(CommandSender sender, String alertTypeName, Player player, boolean shouldCheckPermission, String option) {
