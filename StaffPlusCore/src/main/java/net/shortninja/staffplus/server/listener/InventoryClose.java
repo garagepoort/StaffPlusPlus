@@ -2,10 +2,10 @@ package net.shortninja.staffplus.server.listener;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.freeze.FreezeGui;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +25,7 @@ public class InventoryClose implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onClose(InventoryCloseEvent event) {
         final Player player = (Player) event.getPlayer();
-        IPlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
         if (playerSession.isFrozen() && options.modeFreezePrompt) {
             new BukkitRunnable() {

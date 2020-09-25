@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.server.command.arguments;
 
+import net.shortninja.staffplus.staff.teleport.TeleportArgumentExecutor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 

@@ -13,7 +13,7 @@ public class MySQLConnection {
 
     private static MySQLConnection instance;
     private static HikariDataSource datasource;
-    private static Options options = IocContainer.getOptions();
+    private static final Options options = IocContainer.getOptions();
 
     public static MySQLConnection getInstance() {
         if(instance == null) {

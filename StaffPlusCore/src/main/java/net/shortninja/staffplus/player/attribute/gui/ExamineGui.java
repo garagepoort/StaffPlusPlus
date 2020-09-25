@@ -1,20 +1,19 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.CommandUtil;
+import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.PlayerManager;
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.player.attribute.infraction.Warning;
-import net.shortninja.staffplus.reporting.Report;
-import net.shortninja.staffplus.reporting.ReportService;
+import net.shortninja.staffplus.staff.warn.Warning;
+import net.shortninja.staffplus.staff.reporting.Report;
+import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -99,10 +98,6 @@ public class ExamineGui extends AbstractGui {
                 public boolean shouldClose() {
                     return true;
                 }
-
-                @Override
-                public void execute(Player player, String input) {
-                }
             });
         }
 
@@ -110,35 +105,19 @@ public class ExamineGui extends AbstractGui {
             setItem(options.modeExamineNotes, notesItem(sessionManager.get(targetPlayer.getUniqueId())), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    IPlayerSession playerSession = sessionManager.get(player.getUniqueId());
+                    PlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
                     message.send(player, messages.typeInput, messages.prefixGeneral);
 
-                    playerSession.setQueuedAction(new IAction() {
-                        @Override
-                        public void execute(Player player, String input) {
-                            sessionManager.get(targetPlayer.getUniqueId()).addPlayerNote("&7" + input);
-                            message.send(player, messages.inputAccepted, messages.prefixGeneral);
-                        }
-
-                        @Override
-                        public boolean shouldClose() {
-                            return true;
-                        }
-
-                        @Override
-                        public void click(Player player, ItemStack item, int slot) {
-                        }
+                    playerSession.setChatAction((player12, input) -> {
+                        sessionManager.get(targetPlayer.getUniqueId()).addPlayerNote("&7" + input);
+                        message.send(player12, messages.inputAccepted, messages.prefixGeneral);
                     });
                 }
 
                 @Override
                 public boolean shouldClose() {
                     return true;
-                }
-
-                @Override
-                public void execute(Player player, String input) {
                 }
             });
         }
@@ -158,10 +137,6 @@ public class ExamineGui extends AbstractGui {
                 public boolean shouldClose() {
                     return true;
                 }
-
-                @Override
-                public void execute(Player player, String input) {
-                }
             });
         }
 
@@ -169,29 +144,17 @@ public class ExamineGui extends AbstractGui {
             setItem(options.modeExamineWarn, warnItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    IPlayerSession playerSession = sessionManager.get(player.getUniqueId());
+                    PlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
                     message.send(player, messages.typeInput, messages.prefixGeneral);
 
-                    playerSession.setQueuedAction(new IAction() {
-                        @Override
-                        public void execute(Player player, String input) {
-                            Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getUniqueId());
-                            if (!onOrOfflinePlayer.isPresent()) {
-                                message.send(player, messages.playerOffline, messages.prefixGeneral);
-                            } else {
-                                IocContainer.getWarnService().sendWarning(player, onOrOfflinePlayer.get(), input);
-                                message.send(player, messages.inputAccepted, messages.prefixGeneral);
-                            }
-                        }
-
-                        @Override
-                        public boolean shouldClose() {
-                            return true;
-                        }
-
-                        @Override
-                        public void click(Player player, ItemStack item, int slot) {
+                    playerSession.setChatAction((player1, input) -> {
+                        Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getUniqueId());
+                        if (!onOrOfflinePlayer.isPresent()) {
+                            message.send(player1, messages.playerOffline, messages.prefixGeneral);
+                        } else {
+                            IocContainer.getWarnService().sendWarning(player1, onOrOfflinePlayer.get(), input);
+                            message.send(player1, messages.inputAccepted, messages.prefixGeneral);
                         }
                     });
                 }
@@ -199,10 +162,6 @@ public class ExamineGui extends AbstractGui {
                 @Override
                 public boolean shouldClose() {
                     return true;
-                }
-
-                @Override
-                public void execute(Player player, String input) {
                 }
             });
         }
@@ -258,7 +217,7 @@ public class ExamineGui extends AbstractGui {
         return item;
     }
 
-    private ItemStack infractionsItem(IPlayerSession playerSession) {
+    private ItemStack infractionsItem(PlayerSession playerSession) {
         List<Report> reports = reportService.getReports(playerSession.getUuid(), 0, 40);
 
         List<String> lore = new ArrayList<String>();
@@ -291,7 +250,7 @@ public class ExamineGui extends AbstractGui {
         return item;
     }
 
-    private ItemStack notesItem(IPlayerSession playerSession) {
+    private ItemStack notesItem(PlayerSession playerSession) {
         List<String> notes = playerSession.getPlayerNotes().isEmpty() ? Arrays.asList("&7No notes found") : playerSession.getPlayerNotes();
 
         ItemStack item = Items.builder()

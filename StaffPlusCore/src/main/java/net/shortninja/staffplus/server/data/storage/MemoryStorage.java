@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.server.data.storage;
 
-import net.shortninja.staffplus.player.PlayerSession;
+import net.shortninja.staffplus.session.PlayerSession;
 
 import java.util.HashMap;
 import java.util.Map;

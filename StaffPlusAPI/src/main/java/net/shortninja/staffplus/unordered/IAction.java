@@ -10,6 +10,4 @@ public interface IAction {
 
 	boolean shouldClose();
 
-	void execute(Player player, String input);
-	
 }

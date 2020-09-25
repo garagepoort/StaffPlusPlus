@@ -10,6 +10,7 @@ import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.*;
 import net.shortninja.staffplus.unordered.IReport;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,7 +28,7 @@ public class ReportListener implements Listener {
     private static final String REJECTED_COLOR = "16601379";
     private static final String RESOLVED_COLOR = "5027875";
     private final DiscordClient discordClient;
-    private FileConfiguration config;
+    private final FileConfiguration config;
 
     public ReportListener(FileConfiguration config) {
         discordClient = Feign.builder()
@@ -109,6 +110,10 @@ public class ReportListener implements Listener {
         }
         fields.add(new DiscordMessageField("Reason", "```" + report.getReason() + "```"));
         fields.add(new DiscordMessageField("Status", "**" + report.getReportStatus() + "**"));
+
+        if(!StringUtils.isEmpty(report.getCloseReason())) {
+            fields.add(new DiscordMessageField("Reason for closing", "```" + report.getCloseReason() + "```"));
+        }
 
         discordClient.sendEvent(new DiscordMessage("Report update from StaffPlusPlus", new DiscordMessageEmbed(
             title,

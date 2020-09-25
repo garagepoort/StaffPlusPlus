@@ -1,12 +1,12 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.staff.freeze.FreezeHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.IPlayerSession;
+import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -48,12 +48,6 @@ public class Tasks extends BukkitRunnable {
     private void checkWarnings() {
         for (IWarning warning : IocContainer.getWarnService().getWarnings()) {
             if (warning.shouldRemove()) {
-                IPlayerSession user = sessionManager.get(warning.getUuid());
-
-                if (user == null) {
-                    continue;
-                }
-
                 IocContainer.getWarnService().removeWarning(warning.getId());
             }
         }
@@ -80,9 +74,8 @@ public class Tasks extends BukkitRunnable {
 
         if (freezeInterval >= options.modeFreezeTimer && freezeInterval > 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                IPlayerSession user = sessionManager.get(player.getUniqueId());
-
-                if (user != null && user.isFrozen() && !permission.has(player, options.permissionMember)) {
+                PlayerSession user = sessionManager.get(player.getUniqueId());
+                if (user.isFrozen() && !permission.has(player, options.permissionMember)) {
                     options.modeFreezeSound.play(player);
 
                     if (!options.modeFreezePrompt) {
