@@ -7,12 +7,11 @@ import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
 public class CpsCmd extends AbstractCmd {
-    private GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
+    private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
 
     public CpsCmd(String name) {
         super(name, IocContainer.getOptions().permissionCps);
@@ -25,18 +24,8 @@ public class CpsCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return false;
-    }
-
-    @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected boolean isAuthenticationRequired() {
-        return true;
     }
 
     @Override
@@ -47,10 +36,5 @@ public class CpsCmd extends AbstractCmd {
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.ofNullable(args[0]);
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 }
