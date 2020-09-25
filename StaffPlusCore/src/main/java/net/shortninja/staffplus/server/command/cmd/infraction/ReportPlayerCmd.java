@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,11 +26,6 @@ public class ReportPlayerCmd extends AbstractCmd {
         String reason = JavaUtils.compileWords(args, 1);
         reportService.sendReport(sender, player, reason);
         return true;
-    }
-
-    @Override
-    protected boolean canBypass(Player player) {
-        return false;
     }
 
     @Override
@@ -52,11 +46,6 @@ public class ReportPlayerCmd extends AbstractCmd {
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.of(args[0]);
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 
     @Override
