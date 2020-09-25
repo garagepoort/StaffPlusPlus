@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.authentication;
 
-import net.shortninja.staffplus.common.BusinessException;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 
 public class AuthenticationException extends BusinessException {
 

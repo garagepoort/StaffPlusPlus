@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.listener;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.tracing.TraceService;
