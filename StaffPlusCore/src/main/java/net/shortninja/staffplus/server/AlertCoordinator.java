@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.server;
 
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -51,7 +51,7 @@ public class AlertCoordinator {
             return;
         }
 
-        for (IPlayerSession playerSession : sessionManager.getAll()) {
+        for (PlayerSession playerSession : sessionManager.getAll()) {
             if (!playerSession.getPlayer().isPresent()) { // How?
                 continue;
             }
@@ -62,7 +62,7 @@ public class AlertCoordinator {
         }
     }
 
-    public void onMention(IPlayerSession user, String mentioner) {
+    public void onMention(PlayerSession user, String mentioner) {
         if (!options.alertsMentionNotify || user == null || !user.getPlayer().isPresent()) {
             return;
         }
@@ -78,7 +78,7 @@ public class AlertCoordinator {
             return;
         }
 
-        for (IPlayerSession user : sessionManager.getAll()) {
+        for (PlayerSession user : sessionManager.getAll()) {
             if (!user.getPlayer().isPresent()) {
                 continue; // How?
             }

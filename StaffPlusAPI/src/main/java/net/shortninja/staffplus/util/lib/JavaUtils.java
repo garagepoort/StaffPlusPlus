@@ -8,9 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.BreakIterator;
+import java.util.*;
 
 /**
  * @author Shortninja, DarkSeraphim, ...
@@ -277,5 +276,39 @@ public class JavaUtils {
             velocity.setZ(velocity.getZ()+.5);
         }
         return velocity;
+    }
+
+
+    /**
+     * @param target Original long string
+     * @param maxLength Max amount of chars on line
+     * @return An arraylist containing the different lines
+     */
+    public static List<String> formatLines(String target, int maxLength) {
+        if(target.length() <= maxLength) {
+            return Collections.singletonList(target);
+        }
+
+        BreakIterator boundary = BreakIterator.getLineInstance(Locale.getDefault());
+        boundary.setText(target);
+        int start = boundary.first();
+        int end = boundary.next();
+        int lineLength = 0;
+
+        List<String> lines = new ArrayList<>();
+        StringBuilder line = new StringBuilder();
+        while (end != BreakIterator.DONE) {
+            String word = target.substring(start,end);
+            lineLength = lineLength + word.length();
+            if (lineLength >= maxLength) {
+                lines.add(line.toString());
+                line = new StringBuilder();
+                lineLength = word.length();
+            }
+            line.append(word);
+            start = end;
+            end = boundary.next();
+        }
+        return lines;
     }
 }

@@ -1,19 +1,11 @@
 package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.nms.Protocol_v1_16;
-import net.shortninja.staffplus.player.NodeUser;
-import net.shortninja.staffplus.player.attribute.mode.ModeCoordinator;
-import net.shortninja.staffplus.player.attribute.mode.handler.CpsHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.InventoryHandler;
-import net.shortninja.staffplus.player.attribute.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.server.PacketModifier;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.server.data.Save;
 import net.shortninja.staffplus.server.data.config.AutoUpdater;
 import net.shortninja.staffplus.server.data.config.IOptions;
-import net.shortninja.staffplus.server.data.file.ChangelogFile;
 import net.shortninja.staffplus.server.data.file.DataFile;
 import net.shortninja.staffplus.server.data.file.LanguageFile;
 import net.shortninja.staffplus.server.hook.HookHandler;
@@ -24,9 +16,14 @@ import net.shortninja.staffplus.server.listener.entity.EntityDamage;
 import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.Save;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
+import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.staff.mode.handler.InventoryHandler;
+import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
-import net.shortninja.staffplus.unordered.IPlayerSession;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseInitializer;
@@ -63,7 +60,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public ModeCoordinator modeCoordinator;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
-    public Map<UUID, IPlayerSession> playerSessions;
+    public Map<UUID, PlayerSession> playerSessions;
     public List<Inventory> viewedChest = new ArrayList<>();
     public InventoryHandler inventoryHandler;
     public boolean usesPlaceholderAPI;
@@ -105,19 +102,14 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     @Override
-    public SessionManager getUserManager() {
-        return IocContainer.getSessionManager();
-    }
-
-    @Override
     public void onDisable() {
         IocContainer.getMessage().sendConsoleMessage("Staff++ is now disabling!", true);
         stop();
     }
 
     public void saveUsers() {
-        for (IPlayerSession user : IocContainer.getSessionManager().getAll()) {
-            new Save(new NodeUser(user));
+        for (PlayerSession session : IocContainer.getSessionManager().getAll()) {
+            new Save(session);
         }
 
         dataFile.save();
@@ -150,7 +142,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             IocContainer.getSessionManager().initialize(player);
         }
         registerListeners();
-        new ChangelogFile();
 
         if (!IocContainer.getOptions().disablePackets || !IocContainer.getOptions().animationPackets.isEmpty() || !IocContainer.getOptions().soundNames.isEmpty()) {
             new PacketModifier();
