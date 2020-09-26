@@ -167,11 +167,12 @@ public abstract class AbstractCmd extends BukkitCommand {
 
     private SppPlayer retrievePlayer(CommandSender sender, String[] args) {
         PlayerRetrievalStrategy strategy = getPlayerRetrievalStrategy();
-        if (strategy == NONE) {
+        Optional<String> playerName = getPlayerName(sender, args);
+        if (strategy == NONE || !playerName.isPresent()) {
             return null;
         }
 
-        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(getPlayerName(sender, args).get());
+        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerName.get());
         if (!player.isPresent()) {
             throw new BusinessException(messages.playerNotRegistered);
         }
