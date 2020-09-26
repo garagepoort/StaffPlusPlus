@@ -27,10 +27,14 @@ public class WarningListener implements Listener {
     private static final String CLEAR_COLOR = "6431896";
     private static final String CREATE_COLOR = "16620323";
     private static final String THRESHOLD_COLOR = "16601379";
-    private final DiscordClient discordClient;
+    private DiscordClient discordClient;
     private FileConfiguration config;
 
     public WarningListener(FileConfiguration config) {
+        this.config = config;
+    }
+
+    public void init() {
         discordClient = Feign.builder()
             .client(new OkHttpClient())
             .encoder(new GsonEncoder())
@@ -38,7 +42,6 @@ public class WarningListener implements Listener {
             .logger(new Slf4jLogger(DiscordClient.class))
             .logLevel(Logger.Level.FULL)
             .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.warnings.webhookUrl", ""));
-        this.config = config;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

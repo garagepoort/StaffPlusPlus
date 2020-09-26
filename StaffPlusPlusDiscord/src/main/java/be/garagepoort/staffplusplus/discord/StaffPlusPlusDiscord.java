@@ -2,6 +2,7 @@ package be.garagepoort.staffplusplus.discord;
 
 import be.garagepoort.staffplusplus.discord.reports.ReportListener;
 import be.garagepoort.staffplusplus.discord.warnings.WarningListener;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,25 +17,32 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
 
         ReportListener reportListener = new ReportListener(config);
         WarningListener warningListener = new WarningListener(config);
-//        TraceListener traceListener = new TraceListener(config);
 
         if(reportListener.isEnabled() &&
                 (config.getString("StaffPlusPlusDiscord.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.webhookUrl").isEmpty())) {
-            throw new RuntimeException("Cannot enable StaffPlusPlusDiscord. No report webhookUrl provided in the configuration.");
+            showError("Cannot enable StaffPlusPlusDiscord. No report webhookUrl provided in the configuration.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
         }
 
         if(warningListener.isEnabled() &&
                 (config.getString("StaffPlusPlusDiscord.warnings.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.warnings.webhookUrl").isEmpty())) {
-            throw new RuntimeException("Cannot enable StaffPlusPlusDiscord. No warning webhookUrl provided in the configuration.");
+            showError("Cannot enable StaffPlusPlusDiscord. No warning webhookUrl provided in the configuration.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
         }
-//        if(traceListener.isEnabled() &&
-//                (config.getString("StaffPlusPlusDiscord.trace.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.trace.webhookUrl").isEmpty())) {
-//            throw new RuntimeException("Cannot enable StaffPlusPlusDiscord. No trace webhookUrl provided in the configuration.");
-//        }
+
+        reportListener.init();
+        warningListener.init();
 
         getServer().getPluginManager().registerEvents(reportListener, this);
         getServer().getPluginManager().registerEvents(warningListener, this);
-//        getServer().getPluginManager().registerEvents(traceListener, this);
+    }
+
+    private void showError(String errorMessage) {
+        getLogger().severe("=============================================================================================");
+        getLogger().severe("!!!  " + errorMessage);
+        getLogger().severe("=============================================================================================");
     }
 
     @Override
