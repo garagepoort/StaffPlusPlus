@@ -2,16 +2,19 @@ package be.garagepoort.staffplusplus.discord.trace;
 
 import be.garagepoort.staffplusplus.discord.Constants;
 import be.garagepoort.staffplusplus.discord.api.*;
+import com.google.gson.Gson;
 import feign.Feign;
 import feign.Logger;
+import feign.form.FormData;
+import feign.form.FormEncoder;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.trace.StopTraceEvent;
 import net.shortninja.staffplus.unordered.trace.ITrace;
-import net.shortninja.staffplus.unordered.trace.TraceWriter;
 import net.shortninja.staffplus.unordered.trace.TraceOutputChannel;
+import net.shortninja.staffplus.unordered.trace.TraceWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -20,6 +23,7 @@ import org.bukkit.event.Listener;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -32,21 +36,22 @@ import static be.garagepoort.staffplusplus.discord.Constants.*;
 
 public class TraceListener implements Listener {
 
-    private static final String CLEAR_COLOR = "6431896";
-    private static final String CREATE_COLOR = "16620323";
     private static final String THRESHOLD_COLOR = "16601379";
-    private final DiscordClient discordClient;
-    private final FileConfiguration config;
+    private DiscordClient discordClient;
+    private FileConfiguration config;
 
     public TraceListener(FileConfiguration config) {
+        this.config = config;
+    }
+
+    public void init() {
         discordClient = Feign.builder()
             .client(new OkHttpClient())
-            .encoder(new GsonEncoder())
+            .encoder(new FormEncoder(new GsonEncoder()))
             .decoder(new GsonDecoder())
             .logger(new Slf4jLogger(DiscordClient.class))
             .logLevel(Logger.Level.FULL)
             .target(DiscordClient.class, config.getString(TRACE_WEBHOOK_URL, ""));
-        this.config = config;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -64,7 +69,7 @@ public class TraceListener implements Listener {
                 e.printStackTrace();
             }
         } else {
-                buildTraceStoppedMessage(event.getTrace(), "Trace Stopped", THRESHOLD_COLOR, null);
+            buildTraceStoppedMessage(event.getTrace(), "Trace Stopped", THRESHOLD_COLOR, null);
         }
 
     }
@@ -96,15 +101,20 @@ public class TraceListener implements Listener {
         fields.add(new DiscordMessageField("Tracer", tracer, true));
         fields.add(new DiscordMessageField("Traced", traced, true));
 
-        if(file != null) {
+        if (file != null) {
             sendFileEvent(title, color, time, fields, file);
-        }else{
+        } else {
             sendEvent(title, color, time, fields);
         }
     }
 
     private void sendFileEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields, File file) {
-        discordClient.sendEvent(new DiscordMessage("Trace file from StaffPlusPlus", file, getEmbed(title, color, time, fields)));
+        try {
+            String discordMessage = new Gson().toJson(new DiscordMessage("Trace event from StaffPlusPlus", getEmbed(title, color, time, fields)));
+            discordClient.sendFileEvent(discordMessage, new FormData("text/plain", file.getName(), Files.readAllBytes(file.toPath())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {

@@ -56,6 +56,10 @@
             <name>Spigot-server-deps</name>
             <url>https://repo.repsy.io/mvn/garagepoort/spigot</url>
         </repository>
+        <repository>
+            <id>github-rjenkinsjr</id>
+            <url>https://raw.github.com/rjenkinsjr/maven2/repo</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -81,6 +85,32 @@
             <artifactId>authme</artifactId>
             <version>5.6.0-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+            <version>10.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-gson</artifactId>
+            <version>10.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-slf4j</artifactId>
+            <version>10.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign.form</groupId>
+            <artifactId>feign-form</artifactId>
+            <version>3.8.0</version>
         </dependency>
     </dependencies>
 
