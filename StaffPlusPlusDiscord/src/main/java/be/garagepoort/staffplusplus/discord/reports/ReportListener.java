@@ -27,10 +27,14 @@ public class ReportListener implements Listener {
     private static final String ACCEPTED_COLOR = "16620323";
     private static final String REJECTED_COLOR = "16601379";
     private static final String RESOLVED_COLOR = "5027875";
-    private final DiscordClient discordClient;
-    private final FileConfiguration config;
+    private DiscordClient discordClient;
+    private FileConfiguration config;
 
     public ReportListener(FileConfiguration config) {
+        this.config = config;
+    }
+
+    public void init() {
         discordClient = Feign.builder()
             .client(new OkHttpClient())
             .encoder(new GsonEncoder())
@@ -38,7 +42,6 @@ public class ReportListener implements Listener {
             .logger(new Slf4jLogger(DiscordClient.class))
             .logLevel(Logger.Level.FULL)
             .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.webhookUrl"));
-        this.config = config;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

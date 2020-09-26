@@ -1,21 +1,28 @@
 StaffPlusPlusDiscord:
-  # REPORTS
+    # REPORTS
 
-  # The discord webhook url. This can be found in you discord server settings
-  webhookUrl: ""
- # Trigger a discord message when some player opens a new report
-  notifyOpen: true
- # Trigger a discord message when a staff member for some reason decides to not handle a report and he unassigns himself
-  notifyReopen: true
-  # Trigger a discord message when a staff member assigns himself to an open report
-  notifyAccept: true
-  # Trigger a discord message when a staff member rejects a report
-  notifyReject: true
-  # Trigger a discord message when a staff member resolves a report
-  notifyResolve: true
-
-  warnings:
+    # The discord webhook url. This can be found in you discord server settings
     webhookUrl: ""
-    notifyCleared: true
-    notifyCreate: true
-    notifyThresholdReached: true
+    # Trigger a discord message when some player opens a new report
+    notifyOpen: true
+    # Trigger a discord message when a staff member for some reason decides to not handle a report and he unassigns himself
+    notifyReopen: true
+    # Trigger a discord message when a staff member assigns himself to an open report
+    notifyAccept: true
+    # Trigger a discord message when a staff member rejects a report
+    notifyReject: true
+    # Trigger a discord message when a staff member resolves a report
+    notifyResolve: true
+
+    warnings:
+        webhookUrl: ""
+        notifyCleared: true
+        notifyCreate: true
+        notifyThresholdReached: true
+#    trace:
+#        webhookUrl: ""
+#        notifyStartTrace: false
+#        # Notify when someone has stopped tracing a player.
+#        notifyStopTrace: false
+#        # If notifyStopTrace is enabled. This option enables sending the trace file to discord.
+#        includeTraceLogFile: false
