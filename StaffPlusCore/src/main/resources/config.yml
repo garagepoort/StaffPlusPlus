@@ -220,17 +220,19 @@ chat-module:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                         Chat                         | #
+# |                      Broadcast                       | #
 # +------------------------------------------------------+ #
 ############################################################
 
-# Requires "permissions.chat" permission.
+# Requires "permissions.broadcast" permission.
 broadcast-module:
-  # Whether or not the plugin will use "/chat" features.
+  # Whether or not the plugin will use "/broadcast" features.
   enabled: true
-  # The servers to which the broadcasting is applied "CURRENT" is the default value and broadcast only on the current server.
+  # The servers to which the broadcasting is applied "CURRENT" is the default value and broadcasts only on the current server.
+  # This also prevents staff members from broadcasting to other servers
   # "ALL" broadcasts to all known servers on the network.
-  # Alternatively you can provide a list of colon separated server names to which the broadcasting should be applied.
+  # Alternatively you can provide a list of semicolon separated server names to which the broadcasting should be applied.
+  # Example: lobby;survival;skyblock
   enabled-servers: CURRENT
 
 ############################################################
@@ -949,6 +951,9 @@ permissions:
   # Permission for managing the alerts you will get
   alerts: "staff.staffplus.alerts"
 
+  # Permission for managing the alerts you will get
+  broadcast: "staff.staffplus.broadcast"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #
@@ -1039,7 +1044,7 @@ commands:
   # The command to view a players ender chest
   echest_view: "eview"
 
-  # The command to view a players ender chest
+  # The command to broadcast a message over all servers
   broadcast: "broadcast"
 
 ############################################################

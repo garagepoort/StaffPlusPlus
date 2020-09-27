@@ -148,7 +148,7 @@ public class IocContainer {
     }
 
     public static BroadcastService getBroadcastService() {
-        return initBean(BroadcastService.class, () -> new BroadcastService(getMessage()));
+        return initBean(BroadcastService.class, () -> new BroadcastService(getMessage(), getOptions()));
     }
 
     public static TraceService getTraceService() {

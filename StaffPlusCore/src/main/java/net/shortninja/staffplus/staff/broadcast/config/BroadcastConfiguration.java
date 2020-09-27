@@ -2,6 +2,9 @@ package net.shortninja.staffplus.staff.broadcast.config;
 
 import java.util.List;
 
+import static net.shortninja.staffplus.staff.broadcast.config.BroadcastSelector.ALL;
+import static net.shortninja.staffplus.staff.broadcast.config.BroadcastSelector.CURRENT;
+
 public class BroadcastConfiguration {
     private final boolean enabled;
     private final List<String> enabledServers;
@@ -23,5 +26,17 @@ public class BroadcastConfiguration {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public boolean sendToAll() {
+        return enabledServers.size() == 1 && enabledServers.get(0).equalsIgnoreCase(ALL.name());
+    }
+
+    public boolean sendToCurrent() {
+        return enabledServers.size() == 1 && enabledServers.get(0).equalsIgnoreCase(CURRENT.name());
+    }
+
+    public boolean multipleServers() {
+        return enabledServers.size() > 1;
     }
 }
