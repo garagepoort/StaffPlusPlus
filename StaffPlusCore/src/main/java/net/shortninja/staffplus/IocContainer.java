@@ -13,6 +13,7 @@ import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
 import net.shortninja.staffplus.server.chat.*;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
+import net.shortninja.staffplus.staff.broadcast.BroadcastService;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
@@ -35,6 +36,7 @@ import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsReposito
 import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
 import net.shortninja.staffplus.staff.freeze.FreezeChatInterceptor;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.staffchat.StaffChatChatInterceptor;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
 import net.shortninja.staffplus.staff.tracing.TraceChatInterceptor;
 import net.shortninja.staffplus.staff.tracing.TraceService;
@@ -145,6 +147,10 @@ public class IocContainer {
         return initBean(FreezeHandler.class, () -> new FreezeHandler(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getSessionManager()));
     }
 
+    public static BroadcastService getBroadcastService() {
+        return initBean(BroadcastService.class, () -> new BroadcastService(getMessage()));
+    }
+
     public static TraceService getTraceService() {
         return initBean(TraceService.class, () -> new TraceService(getTraceWriterFactory(), getOptions()));
     }
@@ -186,6 +192,7 @@ public class IocContainer {
     public static List<ChatInterceptor> getChatInterceptors() {
         return Arrays.asList(
             new ChatActionChatInterceptor(getSessionManager()),
+            new StaffChatChatInterceptor(getStaffChatService(), getPermissionHandler(), getOptions(), getSessionManager()),
             new TraceChatInterceptor(getTraceService(), getMessages(), getMessage(), getOptions()),
             new FreezeChatInterceptor(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
             new VanishChatInterceptor(getVanishHandler(), getOptions(), getMessage(), getMessages()),

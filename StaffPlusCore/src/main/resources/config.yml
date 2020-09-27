@@ -220,6 +220,21 @@ chat-module:
 
 ############################################################
 # +------------------------------------------------------+ #
+# |                         Chat                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Requires "permissions.chat" permission.
+broadcast-module:
+  # Whether or not the plugin will use "/chat" features.
+  enabled: true
+  # The servers to which the broadcasting is applied "CURRENT" is the default value and broadcast only on the current server.
+  # "ALL" broadcasts to all known servers on the network.
+  # Alternatively you can provide a list of colon separated server names to which the broadcasting should be applied.
+  enabled-servers: CURRENT
+
+############################################################
+# +------------------------------------------------------+ #
 # |                       Tickets                        | #
 # +------------------------------------------------------+ #
 ############################################################
@@ -1023,6 +1038,9 @@ commands:
 
   # The command to view a players ender chest
   echest_view: "eview"
+
+  # The command to view a players ender chest
+  broadcast: "broadcast"
 
 ############################################################
 # +------------------------------------------------------+ #
