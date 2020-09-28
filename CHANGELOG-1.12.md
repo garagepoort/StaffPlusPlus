@@ -1,4 +1,9 @@
 # Changelog Staff++ | v1.12
+### V1.12.4
+#### Features
+- Broadcast messages over the bungee network
+#### Bugs
+- Older version of 1.12.x were not working
 
 ### V1.12.2
 #### Features

@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.14
 
+### V1.14.18
+#### Features
+- Broadcast messages over the bungee network
+#### Bugs
+- Older version of 1.14.x were not working
+
 ### V1.14.16
 #### Features
 - Report closing reason support
