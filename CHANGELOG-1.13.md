@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.13
 
+### V1.13.18
+#### Features
+- Broadcast messages over the bungee network
+#### Bugs
+- Older version of 1.13.x were not working
+
 ### V1.13.16
 #### Features
 - Report closing reason support
