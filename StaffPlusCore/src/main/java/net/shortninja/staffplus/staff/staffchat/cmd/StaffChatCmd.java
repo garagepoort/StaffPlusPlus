@@ -32,14 +32,14 @@ public class StaffChatCmd extends AbstractCmd {
         if (args.length > 0) {
             staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
         } else {
-            PlayerSession user = sessionManager.get(((Player) sender).getUniqueId());
+            PlayerSession session = sessionManager.get(((Player) sender).getUniqueId());
 
-            if (user.inStaffChatMode()) {
+            if (session.inStaffChatMode()) {
                 message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);
-                user.setChatting(false);
+                session.setChatting(false);
             } else {
                 message.send(sender, messages.staffChatStatus.replace("%status%", messages.enabled), messages.prefixStaffChat);
-                user.setChatting(true);
+                session.setChatting(true);
             }
         }
 

@@ -3,6 +3,8 @@ package net.shortninja.staffplus.server.data.config;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.authentication.AuthenticationConfigurationLoader;
+import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfiguration;
+import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfigurationLoader;
 import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
@@ -64,6 +66,7 @@ public class Options implements IOptions {
     public final WarningConfiguration warningConfiguration = new WarningModuleLoader().load();
     public final BlackListConfiguration blackListConfiguration = new BlackListConfigurationLoader().load();
     public final TraceConfiguration traceConfiguration = new TraceModuleLoader().load();
+    public final BroadcastConfiguration broadcastConfiguration = new BroadcastConfigurationLoader().load();
 
     /*
      * Staff Chat
@@ -209,7 +212,6 @@ public class Options implements IOptions {
     public final String permissionChatToggle = config.getString("permissions.chat-toggle");
     public final String permissionChatSlow = config.getString("permissions.chat-slow");
     public final String permissionBlacklist = config.getString("permissions.blacklist");
-    public final String permissionTickets = config.getString("permissions.tickets");
     public final String permissionMention = config.getString("permissions.mention");
     public final String permissionNameChange = config.getString("permissions.name-change");
     public final String permissionXray = config.getString("permissions.xray");
@@ -228,7 +230,7 @@ public class Options implements IOptions {
     public final String ipHidePerm = config.getString("permissions.ipPerm");
     public final String permissionClearInv = config.getString("permissions.invClear");
     public final String permissionClearInvBypass = config.getString("permissions.invClear-bypass");
-    public final String permissionResetPassword = config.getString("permissions.resetPass");
+    public final String permissionBroadcast = config.getString("permission.broadcast");
 
     /*
      * Commands
@@ -252,12 +254,13 @@ public class Options implements IOptions {
     public final String commandStaffList = config.getString("commands.staff-list");
     public final String commandClearInv = config.getString("commands.clearInv");
     public final String commandTrace = config.getString("commands.trace");
+    public final String commandBroadcast = config.getString("commands.broadcast");
+    public final String commandEChestView = configVersion >= 6203 ? config.getString("commands.echest_view") : "eview";
 
     public final Sounds alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
     public final List<Material> alertsXrayBlocks = stringToMaterialList(config.getString("alerts-module.xray-alerts.blocks"));
     public final VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
     public final boolean disablePackets = configVersion >= 3.19 && config.getBoolean("disable-packets");
-    public final String commandEChestView = configVersion >= 6203 ? config.getString("commands.echest_view") : "eview";
 
     public final boolean modeItemChange = !(configVersion >= 3.1) || config.getBoolean("staff-mode.item-change");
     public final boolean modeDamage = configVersion >= 6194 && config.getBoolean("staff-mode.damage");
