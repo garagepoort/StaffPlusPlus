@@ -31,12 +31,4 @@
         </dependency>
 
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>repsy-staffplusplus</id>
-            <name>Central Repository StaffPlusPlus</name>
-            <url>https://repo.repsy.io/mvn/garagepoort/staffplusplus/</url>
-        </repository>
-    </distributionManagement>
 </project>
