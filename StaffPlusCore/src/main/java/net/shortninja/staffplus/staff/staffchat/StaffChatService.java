@@ -4,6 +4,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.Constants;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import org.bukkit.Bukkit;
@@ -19,7 +20,6 @@ import static net.shortninja.staffplus.util.MessageCoordinator.colorize;
 
 public class StaffChatService {
 
-    private static final String BUNGEE_CORD = "BungeeCord";
     private Messages messages;
     private Options options;
 
@@ -83,7 +83,7 @@ public class StaffChatService {
                 out.writeShort(msgbytes.toByteArray().length);
                 out.write(msgbytes.toByteArray());
 
-                player.sendPluginMessage(StaffPlus.get(), BUNGEE_CORD, out.toByteArray());
+                player.sendPluginMessage(StaffPlus.get(), Constants.BUNGEE_CORD_CHANNEL, out.toByteArray());
             } catch (IOException e) {
                 e.printStackTrace();
             }
