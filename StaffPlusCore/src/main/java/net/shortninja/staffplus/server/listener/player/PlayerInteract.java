@@ -1,14 +1,14 @@
 package net.shortninja.staffplus.server.listener.player;
 
+import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
-import net.shortninja.staffplus.server.compatibility.IProtocol;
-import net.shortninja.staffplus.staff.freeze.FreezeHandler;
-import net.shortninja.staffplus.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.*;
