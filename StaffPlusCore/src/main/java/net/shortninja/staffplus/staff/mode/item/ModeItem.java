@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.mode.item;
 
+import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.compatibility.IProtocol;
 import org.bukkit.inventory.ItemStack;
 
 public class ModeItem {

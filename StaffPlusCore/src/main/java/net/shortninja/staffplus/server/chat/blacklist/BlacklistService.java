@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.server.chat.blacklist;
 
+import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
-import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.Permission;
