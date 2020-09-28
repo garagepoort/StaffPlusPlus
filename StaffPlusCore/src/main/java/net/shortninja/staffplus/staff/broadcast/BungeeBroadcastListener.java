@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.staff.staffchat;
+package net.shortninja.staffplus.staff.broadcast;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import static net.shortninja.staffplus.common.Constants.BUNGEE_CORD_CHANNEL;
 
-public class BungeeStaffChatListener implements PluginMessageListener {
+public class BungeeBroadcastListener implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
@@ -22,15 +22,14 @@ public class BungeeStaffChatListener implements PluginMessageListener {
         try {
             ByteArrayDataInput in = ByteStreams.newDataInput(message);
             String subchannel = in.readUTF();
-            if (subchannel.equals("StaffPlusPlusChat")) {
+            if (subchannel.equals("StaffPlusPlusBroadcast")) {
                 short len = in.readShort();
                 byte[] msgbytes = new byte[len];
                 in.readFully(msgbytes);
 
                 DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
-                String staffChatMessage = null;
-                staffChatMessage = msgin.readUTF();
-                IocContainer.getStaffChatService().handleBungeeMessage(staffChatMessage);
+                String broadcastMessage = msgin.readUTF();
+                IocContainer.getBroadcastService().handleBungeeBroadcast(broadcastMessage);
             }
         } catch (IOException e) {
             e.printStackTrace();
