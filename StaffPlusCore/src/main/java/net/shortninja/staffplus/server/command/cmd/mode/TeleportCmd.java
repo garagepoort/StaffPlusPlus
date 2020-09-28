@@ -12,16 +12,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
 
 public class TeleportCmd extends AbstractCmd {
-    private static final List<ArgumentType> VALID_ARGUMENTS = Arrays.asList(STRIP, HEALTH);
 
     public TeleportCmd(String name) {
         super(name, IocContainer.getOptions().permissionTeleport);
@@ -32,8 +28,12 @@ public class TeleportCmd extends AbstractCmd {
         String locationName = args[1];
 
         TeleportService.getInstance().teleportPlayer(sender, targetPlayer.getPlayer(), locationName);
-        argumentProcessor.parseArguments(sender, targetPlayer.getUsername(), getSppArguments(sender, args), VALID_ARGUMENTS);
         return true;
+    }
+
+    @Override
+    protected List<ArgumentType> getPostExecutionSppArguments() {
+        return Arrays.asList(STRIP, HEALTH);
     }
 
     @Override
@@ -71,20 +71,18 @@ public class TeleportCmd extends AbstractCmd {
             suggestions.addAll(onlinePlayers);
             suggestions.addAll(offlinePlayers);
             return suggestions.stream()
-                    .filter(s -> args[0].isEmpty() || s.contains(args[0]))
-                    .collect(Collectors.toList());
+                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .collect(Collectors.toList());
         }
         if (args.length == 2) {
             IocContainer.getOptions().locations.forEach((k, v) -> {
                 suggestions.add(k);
             });
             return suggestions.stream()
-                    .filter(s -> args[1].isEmpty() || s.contains(args[1]))
-                    .collect(Collectors.toList());
+                .filter(s -> args[1].isEmpty() || s.contains(args[1]))
+                .collect(Collectors.toList());
         }
 
-        suggestions.addAll(argumentProcessor.getArgumentsSuggestions(sender, args[args.length-1], VALID_ARGUMENTS));
-        suggestions.add(DELAY.getPrefix());
-        return suggestions;
+        return getSppArgumentsSuggestions(sender, args);
     }
 }

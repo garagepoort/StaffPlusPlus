@@ -899,6 +899,9 @@ permissions:
   # Permission for using teleport.
   teleport: "staff.teleport"
 
+  # Permission for using teleportToPlayer.
+  teleport-to-player: "staff.teleport-to-player"
+
   # Permission for bypassing teleport.
   teleport-bypass: "staff.teleport.bypass"
 
@@ -971,6 +974,9 @@ commands:
 
   # The command for teleporting a player to predefined locations
   teleport: "teleport"
+
+  # The command for teleporting yourself to another player
+  teleport-to-player: "teleportToPlayer"
 
   # The command for examining players' inventory
   examine: "examine"
