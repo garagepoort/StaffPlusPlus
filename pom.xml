@@ -121,9 +121,9 @@
 
     <distributionManagement>
         <repository>
-            <id>repsy-staffplusplus</id>
-            <name>Central Repository StaffPlusPlus</name>
-            <url>https://repo.repsy.io/mvn/garagepoort/staffplusplus/</url>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/garagepoort/StaffPlusPlus</url>
         </repository>
     </distributionManagement>
 </project>
