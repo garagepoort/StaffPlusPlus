@@ -18,6 +18,7 @@ import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.Save;
+import net.shortninja.staffplus.staff.broadcast.BungeeBroadcastListener;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
@@ -38,9 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Filter;
-import java.util.logging.LogRecord;
 
+import static net.shortninja.staffplus.common.Constants.BUNGEE_CORD_CHANNEL;
 import static org.bukkit.Bukkit.getScheduler;
 
 // TODO Add command to check e chests and offline player inventories
@@ -72,11 +72,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public void onLoad() {
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeStaffChatListener());
-
-        Bukkit.getLogger().setFilter(new PasswordFilter()); // FIXME
-
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, BUNGEE_CORD_CHANNEL);
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeStaffChatListener());
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeBroadcastListener());
 
         Plugin placeholderPlugin;
         if ((placeholderPlugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")) != null) {
@@ -219,15 +217,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     public PermissionHandler getPermissions() {
         return IocContainer.getPermissionHandler();
-    }
-
-
-    private static final class PasswordFilter implements Filter {
-
-        @Override
-        public boolean isLoggable(LogRecord record) {
-            return !record.getMessage().toLowerCase().contains("/register") && !record.getMessage().toLowerCase().contains("/login");
-        }
     }
 
 }
