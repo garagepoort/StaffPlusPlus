@@ -1,9 +1,8 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.nms.Protocol_v1_15;
-import net.shortninja.staffplus.server.PacketModifier;
+import be.garagepoort.staffplusplus.craftbukkit.api.ProtocolFactory;
+import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.server.command.CmdHandler;
-import net.shortninja.staffplus.server.compatibility.IProtocol;
 import net.shortninja.staffplus.server.data.config.AutoUpdater;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.file.DataFile;
@@ -141,10 +140,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
         registerListeners();
 
-        if (!IocContainer.getOptions().disablePackets || !IocContainer.getOptions().animationPackets.isEmpty() || !IocContainer.getOptions().soundNames.isEmpty()) {
-            new PacketModifier();
-        }
-
         IocContainer.getMessage().sendConsoleMessage("Staff++ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
         IocContainer.getMessage().sendConsoleMessage("Plugin created by Shortninja continued by Qball - Revisited by Garagepoort", false);
     }
@@ -152,7 +147,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private boolean setupVersionProtocol() {
         final String version = Bukkit.getServer().getClass().getPackage().getName();
         final String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
-        versionProtocol = new Protocol_v1_15(this);
+        versionProtocol = ProtocolFactory.getProtocol();
         IocContainer.getMessage().sendConsoleMessage("Version protocol set to '" + formattedVersion + "'.", false);
         return versionProtocol != null;
     }

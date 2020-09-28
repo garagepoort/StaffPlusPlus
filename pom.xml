@@ -57,6 +57,11 @@
             <url>https://repo.repsy.io/mvn/garagepoort/spigot</url>
         </repository>
         <repository>
+            <id>repsy-staffplusplus</id>
+            <name>staffplusplus-deps</name>
+            <url>https://repo.repsy.io/mvn/garagepoort/staffplusplus</url>
+        </repository>
+        <repository>
             <id>github-rjenkinsjr</id>
             <url>https://raw.github.com/rjenkinsjr/maven2/repo</url>
         </repository>
@@ -116,9 +121,9 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/garagepoort/StaffPlusPlus</url>
+            <id>repsy-staffplusplus</id>
+            <name>Central Repository StaffPlusPlus</name>
+            <url>https://repo.repsy.io/mvn/garagepoort/staffplusplus/</url>
         </repository>
     </distributionManagement>
 </project>
