@@ -219,4 +219,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         return IocContainer.getPermissionHandler();
     }
 
+    @Override
+    public boolean isPlayerVanished(UUID playerUuid) {
+        return IocContainer.getSessionManager().get(playerUuid).isVanished();
+    }
+
 }
