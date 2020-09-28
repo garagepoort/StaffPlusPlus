@@ -32,4 +32,10 @@ public class TeleportService {
         targetPlayer.teleport(location);
         IocContainer.getMessage().send(commandSender, targetPlayer.getName() + " teleported to " + locationId, IocContainer.getMessages().prefixGeneral);
     }
+
+    public void teleportToPlayer(Player sourcePlayer, Player targetPlayer) {
+        Location location = targetPlayer.getLocation();
+        location.setWorld(targetPlayer.getWorld());
+        sourcePlayer.teleport(location);
+    }
 }
