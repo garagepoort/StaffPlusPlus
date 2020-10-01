@@ -27,6 +27,7 @@ staff-chat-prefix: "&dChat del Staff&8»"
 # El prefijo para todos los mensajes relacionados con tickets
 tickets-prefix: "&dTickets &8»"
 trace-prefix: "&dTrace &8»"
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       General                        | #
@@ -212,4 +213,4 @@ strip: "&7%player%'s armadura ha sido removida!"
 
 
 # No cambies esto si no sabes que es!!!!!!
-lang-version: 6197
+lang-version: 6198

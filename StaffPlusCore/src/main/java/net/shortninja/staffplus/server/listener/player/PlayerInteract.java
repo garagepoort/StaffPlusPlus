@@ -28,7 +28,7 @@ import static net.shortninja.staffplus.common.cmd.CommandUtil.playerAction;
 
 public class PlayerInteract implements Listener {
     private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
     private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
@@ -60,7 +60,7 @@ public class PlayerInteract implements Listener {
         }
         if(event.getClickedBlock() != null) {
             if (event.getClickedBlock().getState() instanceof Container
-                    && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+                    && IocContainer.getModeCoordinator().isInMode(event.getPlayer().getUniqueId())
                     && !player.isSneaking()) {
                 event.setCancelled(true);
                 Container container = (Container) event.getClickedBlock().getState();

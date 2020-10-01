@@ -6,6 +6,7 @@ import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -33,10 +34,11 @@ public class BlockBreak implements Listener {
         };
     private final Options options = IocContainer.getOptions();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
     private final Set<Location> locations = new HashSet<>();
     private final TraceService traceService = IocContainer.getTraceService();
+    private final ProtectService protectService = IocContainer.getProtectService();
 
     public BlockBreak() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -46,6 +48,11 @@ public class BlockBreak implements Listener {
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
+
+        if(protectService.isLocationProtect(player, event.getBlock().getLocation())) {
+            event.setCancelled(true);
+            return;
+        }
 
         if (freezeHandler.isFrozen(uuid)) {
             event.setCancelled(true);

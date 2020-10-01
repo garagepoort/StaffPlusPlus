@@ -14,6 +14,14 @@ import net.shortninja.staffplus.server.chat.*;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.staff.broadcast.BroadcastService;
+import net.shortninja.staffplus.staff.location.LocationRepository;
+import net.shortninja.staffplus.staff.location.MysqlLocationRepository;
+import net.shortninja.staffplus.staff.location.SqliteLocationRepository;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.protect.ProtectService;
+import net.shortninja.staffplus.staff.protect.database.MysqlProtectedAreaRepository;
+import net.shortninja.staffplus.staff.protect.database.ProtectedAreaRepository;
+import net.shortninja.staffplus.staff.protect.database.SqliteProtectedAreaRepository;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
@@ -77,12 +85,24 @@ public class IocContainer {
         return initBean(WarnRepository.class, () -> RepositoryFactory.create("WARN"));
     }
 
+    public static LocationRepository getLocationsRepository() {
+        return initBean(LocationRepository.class, () -> RepositoryFactory.create("LOCATIONS"));
+    }
+
+    public static ProtectedAreaRepository getProtectedAreaRepository() {
+        return initBean(ProtectedAreaRepository.class, () -> RepositoryFactory.create("PROTECTED_AREAS"));
+    }
+
     public static DelayedActionsRepository getDelayedActionsRepository() {
         return initBean(DelayedActionsRepository.class, () -> RepositoryFactory.create("DELAYED_ACTIONS"));
     }
 
     public static ReportService getReportService() {
         return initBean(ReportService.class, () -> new ReportService(getReportRepository(), getMessages(), getPlayerManager()));
+    }
+
+    public static ProtectService getProtectService() {
+        return initBean(ProtectService.class, () -> new ProtectService(getProtectedAreaRepository(), getMessage(), getModeCoordinator(), getMessages()));
     }
 
     public static WarnService getWarnService() {
@@ -108,6 +128,10 @@ public class IocContainer {
 
     public static SessionManager getSessionManager() {
         return initBean(SessionManager.class, () -> new SessionManager(getSessionLoader()));
+    }
+
+    public static ModeCoordinator getModeCoordinator() {
+        return initBean(ModeCoordinator.class, () -> new ModeCoordinator(getMessage(), getOptions(), getMessages(), getSessionManager(), getVanishHandler()));
     }
 
     public static PlayerManager getPlayerManager() {
@@ -226,12 +250,19 @@ public class IocContainer {
         private static final Table<String, DatabaseType, Repository> MAP = HashBasedTable.create();
 
         static {
+            MysqlLocationRepository mysqlLocationRepository = new MysqlLocationRepository();
+            SqliteLocationRepository sqliteLocationRepository = new SqliteLocationRepository();
+
             MAP.put("WARN", DatabaseType.MYSQL, new MysqlWarnRepository(getPlayerManager()));
             MAP.put("WARN", DatabaseType.SQLITE, new SqliteWarnRepository(getPlayerManager()));
             MAP.put("REPORT", DatabaseType.MYSQL, new MysqlReportRepository(getPlayerManager()));
             MAP.put("REPORT", DatabaseType.SQLITE, new SqliteReportRepository(getPlayerManager()));
             MAP.put("DELAYED_ACTIONS", DatabaseType.MYSQL, new MysqlDelayedActionsRepository());
             MAP.put("DELAYED_ACTIONS", DatabaseType.SQLITE, new SqliteDelayedActionsRepository());
+            MAP.put("LOCATIONS", DatabaseType.MYSQL, mysqlLocationRepository);
+            MAP.put("LOCATIONS", DatabaseType.SQLITE, sqliteLocationRepository);
+            MAP.put("PROTECTED_AREAS", DatabaseType.MYSQL, new MysqlProtectedAreaRepository(mysqlLocationRepository));
+            MAP.put("PROTECTED_AREAS", DatabaseType.SQLITE, new SqliteProtectedAreaRepository(sqliteLocationRepository));
         }
 
         @SuppressWarnings("unchecked")

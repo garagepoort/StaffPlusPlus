@@ -26,6 +26,7 @@ staff-chat-prefix: "&dPersonalChatt &8»"
 # Prefixet för biljetter.
 tickets-prefix: "&dBiljetter &8»"
 trace-prefix: "&dTrace &8»"
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Allmän                         | #
@@ -204,4 +205,4 @@ follow: "&bDu är nu &7%status% %target%&b."
 strip: "&7%player%'s pansar har tagits bort!"
 
 # BYTA INTE, SÅVIDA INTE DU VETA VAD DU GÖR!
-lang-version: 6196
+lang-version: 6197

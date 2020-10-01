@@ -26,6 +26,7 @@ staff-chat-prefix: "&dStaffChat &8»"
 # The prefix for all ticket messages
 tickets-prefix: "&dJegyek &8»"
 trace-prefix: "&dTrace &8»"
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       General                        | #
@@ -205,4 +206,4 @@ follow: "&bMost vagy &7%status% %target%&b."
 strip: "&7%player% páncélját eltávolították!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6196
+lang-version: 6197

@@ -219,6 +219,8 @@ public class Options implements IOptions {
     public final String permissionFreeze = config.getString("permissions.freeze");
     public final String permissionFreezeBypass = config.getString("permissions.freeze-bypass");
     public final String permissionTeleport = config.getString("permissions.teleport");
+    public final String permissionProtectPlayer = config.getString("permissions.protect-player");
+    public final String permissionProtectArea = config.getString("permissions.protect-area");
     public final String permissionTeleportToPlayer = config.getString("permissions.teleport-to-player");
     public final String permissionTeleportBypass = config.getString("permissions.teleport-bypass");
     public final String permissionTrace = config.getString("permissions.trace");
@@ -257,6 +259,8 @@ public class Options implements IOptions {
     public final String commandClearInv = config.getString("commands.clearInv");
     public final String commandTrace = config.getString("commands.trace");
     public final String commandBroadcast = config.getString("commands.broadcast");
+    public final String commandProtectPlayer = config.getString("commands.protect-player");
+    public final String commandProtectArea = config.getString("commands.protect-area");
     public final String commandEChestView = configVersion >= 6203 ? config.getString("commands.echest_view") : "eview";
 
     public final Sounds alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));

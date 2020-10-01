@@ -14,7 +14,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 public class FoodLevelChange implements Listener {
     private Options options = IocContainer.getOptions();
-    private ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
 
     public FoodLevelChange() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

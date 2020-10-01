@@ -26,6 +26,7 @@ staff-chat-prefix: "&dChatStaff &8»"
 # Le préfix pour toutes les requêtes
 tickets-prefix: "&dRequêtes &8»"
 trace-prefix: "&dTrace &8»"
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Général                        | #
@@ -205,4 +206,4 @@ follow: "&bVous &7%status% maintenant %target%&b."
 strip: "&7%player%'s armure a été enlevée!"
 
 # NE PAS CHANGER A MOINS QUE VOUS SAVEZ CE QUE VOUS FAITES!
-lang-version: 6196
+lang-version: 6197

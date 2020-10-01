@@ -25,6 +25,7 @@ staff-chat-prefix: "&dStaffChat &8»"
 # Prefikset for alle billett meldinger.
 tickets-prefix: "&dbilletter &8»"
 trace-prefix: "&dTrace &8»"
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Generell                       | #
@@ -203,4 +204,4 @@ follow: "&bDu er nå &7%status% %target%&b."
 strip: "&7%player%'s rustning har blitt fjernet!"
 
 # IKKE ENDRE DENNE MINDRE DU VET HVA DU GJØR!
-lang-version: 6196
+lang-version: 6197

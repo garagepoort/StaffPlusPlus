@@ -26,6 +26,7 @@ staff-chat-prefix: "&dStaffChat &8»"
 # Il prefisso per tutti i messaggi inerenti ai tickets
 tickets-prefix: "&dTickets &8»"
 trace-prefix: "&dTrace &8»"
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Generale                        | #
@@ -204,4 +205,4 @@ follow: "&bStai ora &7%status% %target%&b."
 strip: "&7L'armatura del giocatore %player% è stata rimossa!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6196
+lang-version: 6197

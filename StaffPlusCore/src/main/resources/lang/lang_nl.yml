@@ -26,6 +26,7 @@ staff-chat-prefix: "&dPersoneelChat &8»"
 # Het voorvoegsel voor alle ticket berichten.
 tickets-prefix: "&dTickets &8»"
 trace-prefix: "&dTrace &8»"
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Algemeen                       | #
@@ -204,4 +205,4 @@ follow: "&bJe bent nu &7%status% %target%&b."
 strip: "&7%player%'s kuras is verwijderd!"
 
 # Niet dit veranderen tenzij je weet wat je doet!
-lang-version: 6196
+lang-version: 6197

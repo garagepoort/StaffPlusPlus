@@ -26,6 +26,7 @@ staff-chat-prefix: "&dStaff频道 &8»"
 # 所有标签信息的前缀
 tickets-prefix: "&d标签 &8»"
 trace-prefix: "&dTrace &8»"
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                         通用                         | #
@@ -204,4 +205,4 @@ follow: "&b你现在已设为&7%status%模式, 目标为%target%&b."
 strip: "&7%player%的盔甲已被移除!"
 
 # 请勿修改此数除非你知道你你在做什么!
-lang-version: 6196
+lang-version: 6197

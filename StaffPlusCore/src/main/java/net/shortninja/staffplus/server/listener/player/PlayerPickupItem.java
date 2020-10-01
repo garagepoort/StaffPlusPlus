@@ -16,7 +16,7 @@ import static net.shortninja.staffplus.staff.tracing.TraceType.PICKUP_ITEM;
 
 public class PlayerPickupItem implements Listener {
     private final Options options = IocContainer.getOptions();
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final TraceService traceService = IocContainer.getTraceService();
 
     public PlayerPickupItem() {

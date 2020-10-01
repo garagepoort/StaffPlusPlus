@@ -8,6 +8,8 @@ import net.shortninja.staffplus.server.command.cmd.mode.*;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.broadcast.cmd.BroadcastCmd;
 import net.shortninja.staffplus.staff.freeze.FreezeCmd;
+import net.shortninja.staffplus.staff.protect.cmd.ProtectAreaCmd;
+import net.shortninja.staffplus.staff.protect.cmd.ProtectPlayerCmd;
 import net.shortninja.staffplus.staff.reporting.cmd.ReportCmd;
 import net.shortninja.staffplus.staff.reporting.cmd.ReportPlayerCmd;
 import net.shortninja.staffplus.staff.reporting.cmd.ReportsCmd;
@@ -51,7 +53,9 @@ public class CmdHandler {
             new BaseCmd("clearInv", new ClearInvCmd(options.commandClearInv), true, "Used to clear a desired player's inventory", "[player]"),
             new BaseCmd("trace", new TraceCmd(options.commandTrace), true, "Used to start/stop tracing a player", "[start | stop] [player]"),
             new BaseCmd("echest-view", new EChestView(options.commandEChestView), options.enderChestEnabled, "Used to view a players ender chest", "[player]"),
-            new BaseCmd("broadcast", new BroadcastCmd(options.commandBroadcast), true, "Broadcast messages to all players (over all servers)", "[server] [message]")
+            new BaseCmd("broadcast", new BroadcastCmd(options.commandBroadcast), true, "Broadcast messages to all players (over all servers)", "[server] [message]"),
+            new BaseCmd("protect-player", new ProtectPlayerCmd(options.commandProtectPlayer), true, "Protect a player from all damage", "[player]"),
+            new BaseCmd("protect-area", new ProtectAreaCmd(options.commandProtectArea), true, "Protect an area around you.", "[radius] [area name]")
         };
 
     public CmdHandler() {

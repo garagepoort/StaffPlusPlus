@@ -957,6 +957,12 @@ permissions:
   # Permission for managing the alerts you will get
   broadcast: "staff.staffplus.broadcast"
 
+  # Permission to toggle protection of a player
+  protect-player: "staff.staffplus.protect-player"
+
+  # Permission to toggle protection of an area
+  protect-area: "staff.staffplus.protect-area"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #
@@ -1052,6 +1058,12 @@ commands:
 
   # The command to broadcast a message over all servers
   broadcast: "broadcast"
+
+  # The command to toggle protection of a player
+  protect-player: "protectPlayer"
+
+  # The command to enable protection over an area
+  protect-area: "protectArea"
 
 ############################################################
 # +------------------------------------------------------+ #

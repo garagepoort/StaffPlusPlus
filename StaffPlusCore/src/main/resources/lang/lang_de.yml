@@ -27,7 +27,7 @@ staff-chat-prefix: "&dTeamchat &8»"
 tickets-prefix: "&dTickets &8»"
 
 trace-prefix: "&dTrace &8»"
-
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Generell                       | #
@@ -206,4 +206,4 @@ follow: "&bDu &7%status% nun %target%&b."
 strip: "&7%player%'s Rüstung wurde entfernt!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6196
+lang-version: 6197

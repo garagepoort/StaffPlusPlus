@@ -23,7 +23,7 @@ public class PlayerQuit implements Listener {
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
     private final TraceService traceService = IocContainer.getTraceService();
 
