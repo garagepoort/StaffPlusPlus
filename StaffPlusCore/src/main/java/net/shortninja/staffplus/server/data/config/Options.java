@@ -81,6 +81,7 @@ public class Options implements IOptions {
     public final boolean vanishShowAway = config.getBoolean("vanish-module.show-away");
     public final boolean vanishSuggestionsEnabled = config.getBoolean("vanish-module.suggestions");
     public final boolean vanishChatEnabled = config.getBoolean("vanish-module.chat");
+    public final boolean vanishMessageEnabled = config.getBoolean("vanish-module.vanish-message-enabled");
     /*
      * Chat
      */

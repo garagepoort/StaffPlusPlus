@@ -130,6 +130,7 @@ blacklist-chat-format: "&7%player% &8» &7%message%"
 
 total-vanish: "&bInvisibilidade foi &7%status%&b!"
 list-vanish: "&bLista de invisibilidade foi &7%status%&b!"
+vanish-enabled: "&2Vanish enabled"
 
 ############################################################
 # +------------------------------------------------------+ #

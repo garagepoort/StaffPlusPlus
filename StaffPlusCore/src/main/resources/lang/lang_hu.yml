@@ -132,6 +132,7 @@ blacklist-chat-format: "&7%player% &8» &7%message%"
 
 total-vanish: "&bA teljes eltűnt &7%status%&b!"
 list-vanish: "&bA listája eltűnt &7%status%&b!"
+vanish-enabled: "&2Vanish enabled"
 
 ############################################################
 # +------------------------------------------------------+ #
