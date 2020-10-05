@@ -78,6 +78,7 @@ public class Messages {
      */
     public String totalVanish = config.getString("total-vanish");
     public String listVanish = config.getString("list-vanish");
+    public String vanishEnabled = config.getString("vanish-enabled");
     /*
      * Alerts
      */
