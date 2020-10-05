@@ -157,6 +157,8 @@ vanish-module:
 
   # Whether or not chat can be used when vanished.
   chat: false
+  # Whether or not to show a message on screen telling the staff member his vanish is enabled
+  vanish-message-enabled: true
 
 ############################################################
 # +------------------------------------------------------+ #
