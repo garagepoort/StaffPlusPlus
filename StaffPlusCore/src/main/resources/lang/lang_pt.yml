@@ -129,6 +129,7 @@ blacklist-chat-format: "&7%player% &8» &7%message%"
 
 total-vanish: "&bInvisibilidade foi &7%status%&b!"
 list-vanish: "&bLista de invisibilidade foi &7%status%&b!"
+vanish-enabled: "&2Vanish enabled"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -203,4 +204,4 @@ follow: "&bVocê está em &7%status% %target%&b."
 strip: "&7%player% teve sua armadura removida!"
 
 # NÃO MUDE ISSO SE VOCÊ NÃO SABE O QUE FAZ!!!
-lang-version: 6196
+lang-version: 6197

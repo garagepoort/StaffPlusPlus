@@ -1,6 +1,9 @@
 package net.shortninja.staffplus.staff.vanish;
 
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
@@ -8,6 +11,7 @@ import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplus.util.lib.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
@@ -31,6 +35,17 @@ public class VanishHandler {
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
+
+        if (options.vanishMessageEnabled) {
+            Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    PlayerSession playerSession = sessionManager.get(p.getUniqueId());
+                    if (playerSession.isVanished()) {
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Message.colorize(messages.vanishEnabled)));
+                    }
+                }
+            }, 20L, 20L);
+        }
     }
 
     public void addVanish(Player player, VanishType vanishType) {
@@ -60,7 +75,7 @@ public class VanishHandler {
     }
 
     public List<Player> getVanished() {
-       return Bukkit.getOnlinePlayers().stream().filter(this::isVanished).collect(Collectors.toList());
+        return Bukkit.getOnlinePlayers().stream().filter(this::isVanished).collect(Collectors.toList());
 
     }
 
