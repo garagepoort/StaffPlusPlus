@@ -130,6 +130,7 @@ blacklist-chat-format: "&7%player% &8» &7%message%"
 
 total-vanish: "&bDin total vanish har varit &7%status%&b!"
 list-vanish: "&bDin list vanish har varit &7%status%&b!"
+vanish-enabled: "&2Vanish enabled"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -204,4 +205,4 @@ follow: "&bDu är nu &7%status% %target%&b."
 strip: "&7%player%'s pansar har tagits bort!"
 
 # BYTA INTE, SÅVIDA INTE DU VETA VAD DU GÖR!
-lang-version: 6196
+lang-version: 6197

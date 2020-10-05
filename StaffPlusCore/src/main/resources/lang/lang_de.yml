@@ -132,6 +132,7 @@ blacklist-chat-format: "&7%player% &8» &7%message%"
 
 total-vanish: "&bTotal Vanish wurde &7%status%&b."
 list-vanish: "&bTablist Vanish wurde &7%status%&b."
+vanish-enabled: "&2Vanish enabled"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -206,4 +207,4 @@ follow: "&bDu &7%status% nun %target%&b."
 strip: "&7%player%'s Rüstung wurde entfernt!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
-lang-version: 6196
+lang-version: 6197
