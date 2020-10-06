@@ -1,14 +1,13 @@
 package net.shortninja.staffplus.staff.mode;
 
-import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
-import net.shortninja.staffplus.staff.mode.item.ModeItem;
-import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.mode.item.ModeItem;
+import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -23,10 +22,23 @@ import java.util.*;
 
 public class ModeCoordinator {
     private static final Map<UUID, InventoryVault> staffMembersSavedData = new HashMap<>();
-    private final MessageCoordinator message = IocContainer.getMessage();
-    private final Options options = IocContainer.getOptions();
-    public final ModeItem[] MODE_ITEMS =
-        {
+
+    private final MessageCoordinator message;
+    private final Options options;
+    private final Messages messages;
+    private final SessionManager sessionManager;
+    private final VanishHandler vanishHandler;
+
+    public final ModeItem[] MODE_ITEMS;
+
+    public ModeCoordinator(MessageCoordinator message, Options options, Messages messages, SessionManager sessionManager, VanishHandler vanishHandler) {
+        this.message = message;
+        this.options = options;
+        this.messages = messages;
+        this.sessionManager = sessionManager;
+        this.vanishHandler = vanishHandler;
+
+        MODE_ITEMS = new ModeItem[]{
             new ModeItem("compass", options.modeCompassItem, options.modeCompassSlot, options.modeCompassEnabled),
             new ModeItem("randomTeleport", options.modeRandomTeleportItem, options.modeRandomTeleportSlot, options.modeRandomTeleportEnabled),
             new ModeItem("vanish", options.modeVanishItem, options.modeVanishSlot, options.modeVanishEnabled),
@@ -37,10 +49,7 @@ public class ModeCoordinator {
             new ModeItem("examine", options.modeExamineItem, options.modeExamineSlot, options.modeExamineEnabled),
             new ModeItem("follow", options.modeFollowItem, options.modeFollowSlot, options.modeFollowEnabled),
         };
-
-    private final Messages messages = IocContainer.getMessages();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
+    }
 
     public Set<UUID> getModeUsers() {
         return staffMembersSavedData.keySet();

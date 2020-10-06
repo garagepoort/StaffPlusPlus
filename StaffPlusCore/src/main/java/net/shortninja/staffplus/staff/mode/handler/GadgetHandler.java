@@ -128,7 +128,7 @@ public class GadgetHandler {
     }
 
     public void onVanish(Player player, boolean shouldUpdateItem) {
-        ModeItem modeItem = StaffPlus.get().modeCoordinator.MODE_ITEMS[2];
+        ModeItem modeItem = IocContainer.getModeCoordinator().MODE_ITEMS[2];
         ItemStack item = player.getItemInHand();
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
@@ -208,7 +208,7 @@ public class GadgetHandler {
     }
 
     public void updateGadgets() {
-        Set<UUID> modeUsers = StaffPlus.get().modeCoordinator.getModeUsers();
+        Set<UUID> modeUsers = IocContainer.getModeCoordinator().getModeUsers();
 
         for (UUID uuid : modeUsers) {
             Optional<Player> player = sessionManager.get(uuid).getPlayer();

@@ -26,6 +26,7 @@ staff-chat-prefix: "&dPersonalChatt &8»"
 # Prefixet för biljetter.
 tickets-prefix: "&dBiljetter &8»"
 trace-prefix: "&dTrace &8»"
+protect-prefix: "&dProtected &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Allmän                         | #

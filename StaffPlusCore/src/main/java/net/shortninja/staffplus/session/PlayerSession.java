@@ -26,6 +26,7 @@ public class PlayerSession {
 
     private boolean isChatting = false;
     private boolean isFrozen = false;
+    private boolean isProtected = false;
 
 
     private static Class<?> craftPlayerClass;
@@ -145,6 +146,13 @@ public class PlayerSession {
         return isFrozen;
     }
 
+    public void setProtected(boolean aProtected) {
+        isProtected = aProtected;
+    }
+
+    public boolean isProtected() {
+        return isProtected;
+    }
 
     public static int getPing(Player player) {
         try {
