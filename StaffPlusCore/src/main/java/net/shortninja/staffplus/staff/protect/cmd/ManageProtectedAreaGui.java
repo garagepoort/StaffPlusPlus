@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.protect.cmd;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.common.config.GuiItemConfig;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
@@ -21,9 +22,11 @@ public class ManageProtectedAreaGui extends AbstractGui {
     private final ProtectService protectService = IocContainer.getProtectService();
     private final TeleportService teleportService = IocContainer.getTeleportService();
     private final Options options = IocContainer.getOptions();
+    private GuiItemConfig guiItemConfig;
 
     public ManageProtectedAreaGui(Player player, String title, ProtectedArea protectedArea) {
         super(SIZE, title);
+        guiItemConfig = options.protectConfiguration.getGuiItemConfig();
 
 
         IAction teleportAction = new IAction() {
@@ -44,7 +47,7 @@ public class ManageProtectedAreaGui extends AbstractGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 protectService.deleteProtectedArea(player, protectedArea.getId());
-                new ProtectedAreasGui(player, options.modeGuiProtectedAreasTitle, 0);
+                new ProtectedAreasGui(player, guiItemConfig.getTitle(), 0);
             }
 
             @Override
@@ -56,7 +59,7 @@ public class ManageProtectedAreaGui extends AbstractGui {
         IAction toOverviewAction = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                new ProtectedAreasGui(player, options.modeGuiProtectedAreasTitle, 0);
+                new ProtectedAreasGui(player, guiItemConfig.getTitle(), 0);
             }
 
             @Override

@@ -17,7 +17,7 @@ public class ProtectPlayerCmd extends AbstractCmd {
     private final MessageCoordinator message = IocContainer.getMessage();
 
     public ProtectPlayerCmd(String name) {
-        super(name, IocContainer.getOptions().permissionProtectPlayer);
+        super(name, IocContainer.getOptions().protectConfiguration.getPermissionProtectPlayer());
     }
 
     @Override

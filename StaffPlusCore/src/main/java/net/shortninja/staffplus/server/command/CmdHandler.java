@@ -54,8 +54,8 @@ public class CmdHandler {
             new BaseCmd("trace", new TraceCmd(options.commandTrace), true, "Used to start/stop tracing a player", "[start | stop] [player]"),
             new BaseCmd("echest-view", new EChestView(options.commandEChestView), options.enderChestEnabled, "Used to view a players ender chest", "[player]"),
             new BaseCmd("broadcast", new BroadcastCmd(options.commandBroadcast), true, "Broadcast messages to all players (over all servers)", "[server] [message]"),
-            new BaseCmd("protect-player", new ProtectPlayerCmd(options.commandProtectPlayer), true, "Protect a player from all damage", "[player]"),
-            new BaseCmd("protect-area", new ProtectAreaCmd(options.commandProtectArea), true, "Protect an area around you.", "[radius] [area name]")
+            new BaseCmd("protect-player", new ProtectPlayerCmd(options.protectConfiguration.getCommandProtectPlayer()), options.protectConfiguration.isPlayerProtectEnabled(), "Protect a player from all damage", "[player]"),
+            new BaseCmd("protect-area", new ProtectAreaCmd(options.protectConfiguration.getCommandProtectArea()), options.protectConfiguration.isAreaProtectEnabled(), "Protect an area around you.", "[radius] [area name]")
         };
 
     public CmdHandler() {

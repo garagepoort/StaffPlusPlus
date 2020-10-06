@@ -3,7 +3,9 @@ package net.shortninja.staffplus.staff.protect;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.staff.protect.database.ProtectedAreaRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
@@ -15,6 +17,7 @@ import java.util.Optional;
 
 public class ProtectService {
 
+    private final ProtectConfiguration protectConfiguration;
     //Cached list for optimization
     private List<ProtectedArea> protectedAreas;
 
@@ -23,12 +26,13 @@ public class ProtectService {
     private final ModeCoordinator modeCoordinator;
     private final Messages messages;
 
-    public ProtectService(ProtectedAreaRepository protectedAreaRepository, MessageCoordinator message, ModeCoordinator modeCoordinator, Messages messages) {
+    public ProtectService(ProtectedAreaRepository protectedAreaRepository, MessageCoordinator message, ModeCoordinator modeCoordinator, Messages messages, Options options) {
         this.protectedAreaRepository = protectedAreaRepository;
         this.message = message;
         this.modeCoordinator = modeCoordinator;
         this.messages = messages;
         this.protectedAreas = protectedAreaRepository.getProtectedAreas();
+        protectConfiguration = options.protectConfiguration;
     }
 
     public boolean isLocationProtect(Player player, Location location) {
@@ -38,51 +42,56 @@ public class ProtectService {
 
         boolean protectedArea = protectedAreas.stream().anyMatch(a -> a.isInArea(location));
         if (protectedArea) {
-            message.send(player, "This area has been protected by a Staff Member", messages.prefixProtect);
+            message.send(player, "&7This area has been protected by a Staff Member", messages.prefixProtect);
         }
         return protectedArea;
     }
 
-    public void createProtectedArea(int radius, String name, Player player) {
+    public void createProtectedArea(int size, String name, Player player) {
         Optional<ProtectedArea> existingArea = protectedAreaRepository.findByName(name);
         if (existingArea.isPresent()) {
-            throw new BusinessException("A protected area with this name already exists. Please delete the existing area or choose another name.", messages.prefixProtect);
+            throw new BusinessException("&bA protected area with this name already exists. Please delete the existing area or choose another name.", messages.prefixProtect);
         }
-        // TODO check max radius property
-        Location location1 = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() + radius, player.getLocation().getBlockY(), player.getLocation().getBlockZ() + radius);
-        Location location2 = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() - radius, player.getLocation().getBlockY(), player.getLocation().getBlockZ() - radius);
+        if (size > protectConfiguration.getAreaMaxSize()) {
+            throw new BusinessException("&bCannot create area, size is too big. Max size [" + protectConfiguration.getAreaMaxSize() + "]", messages.prefixProtect);
+        }
+
+        int half = size/2;
+        int correction = size%2 == 0 ? 1 : 0;
+        Location location1 = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() + half, player.getLocation().getBlockY(), player.getLocation().getBlockZ() + half);
+        Location location2 = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() - half + correction, player.getLocation().getBlockY(), player.getLocation().getBlockZ() - half + correction);
 
         ProtectedArea protectedArea = new ProtectedArea(name, location1, location2, player.getUniqueId());
         protectedAreas.add(protectedArea);
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             protectedAreaRepository.addProtectedArea(player, protectedArea);
         });
-        message.send(player, "Protected Area added", messages.prefixProtect);
+        message.send(player, "&bProtected Area added", messages.prefixProtect);
     }
 
     public void deleteProtectedArea(Player player, String name) {
         Optional<ProtectedArea> protectedArea = protectedAreaRepository.findByName(name);
         if (!protectedArea.isPresent()) {
-            throw new BusinessException("Cannot delete area. No area with name [" + name + "] found", messages.prefixProtect);
+            throw new BusinessException("&bCannot delete area. No area with name [" + name + "] found", messages.prefixProtect);
         }
         protectedAreaRepository.deleteProtectedArea(protectedArea.get().getId());
         Optional<ProtectedArea> first = protectedAreas.stream().filter(p -> p.getName().equals(name)).findFirst();
         if (first.isPresent()) {
             protectedAreas.remove(first.get());
-            message.send(player, "Protected Area deleted", messages.prefixProtect);
+            message.send(player, "&bProtected Area deleted", messages.prefixProtect);
         }
     }
 
     public void deleteProtectedArea(Player player, int id) {
         Optional<ProtectedArea> protectedArea = protectedAreaRepository.findById(id);
         if (!protectedArea.isPresent()) {
-            throw new BusinessException("Cannot delete area. No area with id [" + id + "] found", messages.prefixProtect);
+            throw new BusinessException("&bCannot delete area. No area with id [" + id + "] found", messages.prefixProtect);
         }
         protectedAreaRepository.deleteProtectedArea(id);
         Optional<ProtectedArea> first = protectedAreas.stream().filter(p -> p.getId() == id).findFirst();
         if (first.isPresent()) {
             protectedAreas.remove(first.get());
-            message.send(player, "Protected Area deleted", messages.prefixProtect);
+            message.send(player, "&bProtected Area deleted", messages.prefixProtect);
         }
     }
 

@@ -8,6 +8,8 @@ import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfigurationLoa
 import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
+import net.shortninja.staffplus.staff.protect.config.ProtectConfiguration;
+import net.shortninja.staffplus.staff.protect.config.ProtectModuleLoader;
 import net.shortninja.staffplus.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.staff.reporting.config.ReportingModuleLoader;
 import net.shortninja.staffplus.staff.teleport.config.LocationLoader;
@@ -56,7 +58,6 @@ public class Options implements IOptions {
 
     public final int autoSave = config.getInt("auto-save");
     public final long clock = config.getInt("clock") * 20;
-    public final List<String> animationPackets = JavaUtils.stringToList(config.getString("animation-packets"));
     public final List<String> soundNames = JavaUtils.stringToList(config.getString("sound-names"));
     public final boolean offlinePlayersModeEnabled = config.getBoolean("offline-players-mode");
 
@@ -67,6 +68,7 @@ public class Options implements IOptions {
     public final BlackListConfiguration blackListConfiguration = new BlackListConfigurationLoader().load();
     public final TraceConfiguration traceConfiguration = new TraceModuleLoader().load();
     public final BroadcastConfiguration broadcastConfiguration = new BroadcastConfigurationLoader().load();
+    public final ProtectConfiguration protectConfiguration = new ProtectModuleLoader().load();
 
     /*
      * Staff Chat
@@ -79,7 +81,6 @@ public class Options implements IOptions {
     public final boolean vanishEnabled = config.getBoolean("vanish-module.enabled");
     public final boolean vanishTabList = config.getBoolean("vanish-module.tab-list");
     public final boolean vanishShowAway = config.getBoolean("vanish-module.show-away");
-    public final boolean vanishSuggestionsEnabled = config.getBoolean("vanish-module.suggestions");
     public final boolean vanishChatEnabled = config.getBoolean("vanish-module.chat");
     public final boolean vanishMessageEnabled = config.getBoolean("vanish-module.vanish-message-enabled");
     /*
@@ -136,22 +137,10 @@ public class Options implements IOptions {
      */
     public final boolean modeGuiEnabled = config.getBoolean("staff-mode.gui-module.enabled");
     public final int modeGuiSlot = config.getInt("staff-mode.gui-module.slot") - 1;
-    public final boolean modeGuiReports = config.getBoolean("staff-mode.gui-module.reports-gui");
-    public final String modeGuiReportsTitle = config.getString("staff-mode.gui-module.reports-title");
-    public final String modeGuiMyReportsTitle = config.getString("staff-mode.gui-module.my-reports-title");
-    public final String modeGuiClosedReportsTitle = config.getString("staff-mode.gui-module.closed-reports-title");
-    public final String modeGuiReportsName = config.getString("staff-mode.gui-module.reports-name");
-    public final String modeGuiReportsLore = config.getString("staff-mode.gui-module.reports-lore");
-    public final String modeGuiMyReportsLore = config.getString("staff-mode.gui-module.my-reports-lore");
-    public final String modeGuiClosedReportsLore = config.getString("staff-mode.gui-module.closed-reports-lore");
     public final boolean modeGuiMiner = config.getBoolean("staff-mode.gui-module.miner-gui");
     public final String modeGuiMinerTitle = config.getString("staff-mode.gui-module.miner-title");
     public final String modeGuiMinerName = config.getString("staff-mode.gui-module.miner-name");
     public final String modeGuiMinerLore = config.getString("staff-mode.gui-module.miner-lore");
-    public final boolean modeGuiProtectedAreas = config.getBoolean("staff-mode.gui-module.protected-areas-gui");
-    public final String modeGuiProtectedAreasTitle = config.getString("staff-mode.gui-module.protected-areas-title");
-    public final String modeGuiProtectedAreasName = config.getString("staff-mode.gui-module.protected-areas-name");
-    public final String modeGuiProtectedAreasLore = config.getString("staff-mode.gui-module.protected-areas-lore");
     public final int modeGuiMinerLevel = config.getInt("staff-mode.gui-module.xray-level");
     /*
      * Counter
@@ -224,8 +213,6 @@ public class Options implements IOptions {
     public final String permissionFreeze = config.getString("permissions.freeze");
     public final String permissionFreezeBypass = config.getString("permissions.freeze-bypass");
     public final String permissionTeleport = config.getString("permissions.teleport");
-    public final String permissionProtectPlayer = config.getString("permissions.protect-player");
-    public final String permissionProtectArea = config.getString("permissions.protect-area");
     public final String permissionTeleportToPlayer = config.getString("permissions.teleport-to-player");
     public final String permissionTeleportBypass = config.getString("permissions.teleport-bypass");
     public final String permissionTrace = config.getString("permissions.trace");
@@ -264,8 +251,6 @@ public class Options implements IOptions {
     public final String commandClearInv = config.getString("commands.clearInv");
     public final String commandTrace = config.getString("commands.trace");
     public final String commandBroadcast = config.getString("commands.broadcast");
-    public final String commandProtectPlayer = config.getString("commands.protect-player");
-    public final String commandProtectArea = config.getString("commands.protect-area");
     public final String commandEChestView = configVersion >= 6203 ? config.getString("commands.echest_view") : "eview";
 
     public final Sounds alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));

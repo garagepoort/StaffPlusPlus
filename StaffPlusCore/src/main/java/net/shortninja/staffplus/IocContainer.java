@@ -103,7 +103,7 @@ public class IocContainer {
     }
 
     public static ProtectService getProtectService() {
-        return initBean(ProtectService.class, () -> new ProtectService(getProtectedAreaRepository(), getMessage(), getModeCoordinator(), getMessages()));
+        return initBean(ProtectService.class, () -> new ProtectService(getProtectedAreaRepository(), getMessage(), getModeCoordinator(), getMessages(), getOptions()));
     }
 
     public static TeleportService getTeleportService() {

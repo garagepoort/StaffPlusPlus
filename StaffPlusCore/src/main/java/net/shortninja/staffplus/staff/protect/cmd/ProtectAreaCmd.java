@@ -23,7 +23,7 @@ public class ProtectAreaCmd extends AbstractCmd {
     private final ProtectService protectService = IocContainer.getProtectService();
 
     public ProtectAreaCmd(String name) {
-        super(name, IocContainer.getOptions().permissionProtectArea);
+        super(name, IocContainer.getOptions().protectConfiguration.getPermissionProtectArea());
     }
 
     @Override

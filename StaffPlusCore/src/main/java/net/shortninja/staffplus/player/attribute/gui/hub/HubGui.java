@@ -1,9 +1,11 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.config.GuiItemConfig;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectedAreasGui;
+import net.shortninja.staffplus.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.MyReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.OpenReportsGui;
@@ -17,15 +19,19 @@ import org.bukkit.inventory.ItemStack;
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
     private final Options options = IocContainer.getOptions();
+    private final GuiItemConfig protectGuiItemConfig;
+    private final ReportConfiguration reportConfiguration;
 
     public HubGui(Player player, String title) {
         super(SIZE, title);
+        protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
+        reportConfiguration = options.reportConfiguration;
 
-        if (options.modeGuiReports) {
+        if (reportConfiguration.getOpenReportsGui().isEnabled()) {
             setItem(1, reportsItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new OpenReportsGui(player, options.modeGuiReportsTitle, 0);
+                    new OpenReportsGui(player, reportConfiguration.getOpenReportsGui().getTitle(), 0);
                 }
 
                 @Override
@@ -36,7 +42,7 @@ public class HubGui extends AbstractGui {
             setItem(2, myReportsItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new MyReportsGui(player, options.modeGuiMyReportsTitle, 0);
+                    new MyReportsGui(player, options.reportConfiguration.getMyReportsGui().getTitle(), 0);
                 }
 
                 @Override
@@ -47,7 +53,7 @@ public class HubGui extends AbstractGui {
             setItem(3, closedReportsItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new ClosedReportsGui(player, options.modeGuiClosedReportsTitle, 0);
+                    new ClosedReportsGui(player, options.reportConfiguration.getClosedReportsGui().getTitle(), 0);
                 }
 
                 @Override
@@ -71,11 +77,11 @@ public class HubGui extends AbstractGui {
             });
         }
 
-        if (options.modeGuiProtectedAreas) {
+        if (protectGuiItemConfig.isEnabled()) {
             setItem(19, shieldItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new ProtectedAreasGui(player, options.modeGuiProtectedAreasTitle, 0);
+                    new ProtectedAreasGui(player, protectGuiItemConfig.getTitle(), 0);
                 }
 
                 @Override
@@ -94,8 +100,8 @@ public class HubGui extends AbstractGui {
     private ItemStack reportsItem() {
         ItemStack item = Items.builder()
                 .setMaterial(Material.PAPER).setAmount(1)
-                .setName(options.modeGuiReportsName)
-                .addLore(options.modeGuiReportsLore)
+                .setName(reportConfiguration.getOpenReportsGui().getItemName())
+                .addLore(reportConfiguration.getOpenReportsGui().getItemLore())
                 .build();
 
         return item;
@@ -103,8 +109,8 @@ public class HubGui extends AbstractGui {
     private ItemStack myReportsItem() {
         ItemStack item = Items.builder()
                 .setMaterial(Material.PAPER).setAmount(1)
-                .setName(options.modeGuiMyReportsTitle)
-                .addLore(options.modeGuiMyReportsLore)
+                .setName(reportConfiguration.getMyReportsGui().getTitle())
+                .addLore(reportConfiguration.getMyReportsGui().getItemName())
                 .build();
 
         return item;
@@ -113,8 +119,8 @@ public class HubGui extends AbstractGui {
     private ItemStack closedReportsItem() {
         ItemStack item = Items.builder()
                 .setMaterial(Material.PAPER).setAmount(1)
-                .setName(options.modeGuiClosedReportsTitle)
-                .addLore(options.modeGuiClosedReportsLore)
+            .setName(reportConfiguration.getClosedReportsGui().getTitle())
+            .addLore(reportConfiguration.getClosedReportsGui().getItemName())
                 .build();
 
         return item;
@@ -133,8 +139,8 @@ public class HubGui extends AbstractGui {
     private ItemStack shieldItem() {
         ItemStack item = Items.builder()
                 .setMaterial(Material.SHIELD).setAmount(1)
-                .setName(options.modeGuiProtectedAreasName)
-                .addLore(options.modeGuiProtectedAreasLore)
+                .setName(protectGuiItemConfig.getItemName())
+                .addLore(protectGuiItemConfig.getItemLore())
                 .build();
 
         return item;

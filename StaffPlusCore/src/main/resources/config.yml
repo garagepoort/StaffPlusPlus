@@ -239,6 +239,21 @@ broadcast-module:
 
 ############################################################
 # +------------------------------------------------------+ #
+# |                      Broadcast                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Requires "permissions.broadcast" permission.
+protect-module:
+  # Whether or not the plugin will use "/protect-player" features.
+  player-enabled: true
+  # Whether or not the plugin will use "/protect-area" features.
+  area-enabled: true
+  # The max area size that can be protected.
+  area-max-size: 40
+
+############################################################
+# +------------------------------------------------------+ #
 # |                       Tickets                        | #
 # +------------------------------------------------------+ #
 ############################################################
@@ -1077,7 +1092,7 @@ commands:
   # The command to toggle protection of a player
   protect-player: "protectPlayer"
 
-  # The command to enable protection over an area
+  # The command to create/delete a protected area
   protect-area: "protectArea"
 
 ############################################################
