@@ -489,9 +489,22 @@ staff-mode:
 
     # The lore of the miner item
     miner-lore: "&7Shows all players under the set Y value."
-
     # The y-level at which a player will be marked as a miner.
     xray-level: 16
+
+    # ============== PROTECTED AREAS ==================
+    # Whether or not the protected areas GUI is enabled in the hub.
+    protected-areas-gui: true
+
+    # The title of the protected-areas GUI.
+    protected-areas-title: "&bOverview protected areas"
+
+    # The name of the protected-areas item
+    protected-areas-name: "&bProtected Areas GUI"
+
+    # The lore of the protected-areas item
+    protected-areas-lore: "&7Shows all currently set protected areas."
+
 
   ############################################################
   # +------------------------------------------------------+ #

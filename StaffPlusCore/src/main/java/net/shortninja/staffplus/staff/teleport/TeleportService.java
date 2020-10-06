@@ -9,16 +9,10 @@ import org.bukkit.entity.Player;
 public class TeleportService {
 
     private static TeleportService instance;
-    private final Options options = IocContainer.getOptions();
+    private final Options options;
 
-    private TeleportService() {
-    }
-
-    public static TeleportService getInstance() {
-        if (instance == null) {
-            instance = new TeleportService();
-        }
-        return instance;
+    public TeleportService(Options options) {
+        this.options = options;
     }
 
     public void teleportPlayer(CommandSender commandSender, Player targetPlayer, String locationId) {
@@ -31,6 +25,12 @@ public class TeleportService {
         location.setWorld(targetPlayer.getWorld());
         targetPlayer.teleport(location);
         IocContainer.getMessage().send(commandSender, targetPlayer.getName() + " teleported to " + locationId, IocContainer.getMessages().prefixGeneral);
+    }
+
+
+    public void teleportSelf(Player targetPlayer, Location location) {
+        targetPlayer.teleport(location);
+        IocContainer.getMessage().send(targetPlayer, "You have been teleported", IocContainer.getMessages().prefixGeneral);
     }
 
     public void teleportToPlayer(Player sourcePlayer, Player targetPlayer) {

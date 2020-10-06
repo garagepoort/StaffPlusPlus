@@ -46,6 +46,7 @@ import net.shortninja.staffplus.staff.freeze.FreezeChatInterceptor;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.staffchat.StaffChatChatInterceptor;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
+import net.shortninja.staffplus.staff.teleport.TeleportService;
 import net.shortninja.staffplus.staff.tracing.TraceChatInterceptor;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
@@ -103,6 +104,10 @@ public class IocContainer {
 
     public static ProtectService getProtectService() {
         return initBean(ProtectService.class, () -> new ProtectService(getProtectedAreaRepository(), getMessage(), getModeCoordinator(), getMessages()));
+    }
+
+    public static TeleportService getTeleportService() {
+        return initBean(TeleportService.class, () -> new TeleportService(getOptions()));
     }
 
     public static WarnService getWarnService() {

@@ -4,6 +4,7 @@ import net.shortninja.staffplus.staff.protect.ProtectedArea;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProtectedAreaRepository {
 
@@ -11,8 +12,12 @@ public interface ProtectedAreaRepository {
 
     List<ProtectedArea> getProtectedAreas();
 
-//    void removeProtectedArea(int id);
-//
-//    Optional<ProtectedArea> findProtectedArea(int id);
+    Optional<ProtectedArea> findById(int id);
+
+    Optional<ProtectedArea> findByName(String name);
+
+    void deleteProtectedArea(int id);
+
+    List<ProtectedArea> getProtectedAreasPaginated(int offset, int amount);
 
 }

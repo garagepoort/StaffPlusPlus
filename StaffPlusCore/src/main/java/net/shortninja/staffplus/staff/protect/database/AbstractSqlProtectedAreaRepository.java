@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAreaRepository, IocContainer.Repository {
@@ -58,6 +59,72 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
             throw new RuntimeException(e);
         }
         return protectedAreas;
+    }
+
+    @Override
+    public List<ProtectedArea> getProtectedAreasPaginated(int offset, int amount) {
+        List<ProtectedArea> protectedAreas = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_protected_areas pa INNER JOIN sp_locations l1 on pa.corner_location_1_id = l1.id INNER JOIN  " +
+                 " sp_locations l2 ON l2.id = pa.corner_location_2_id LIMIT ?,?")) {
+            ps.setInt(1, offset);
+            ps.setInt(2, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    protectedAreas.add(buildProtectedArea(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return protectedAreas;
+    }
+
+    @Override
+    public Optional<ProtectedArea> findById(int id) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_protected_areas pa INNER JOIN sp_locations l1 on pa.corner_location_1_id = l1.id INNER JOIN  " +
+                 " sp_locations l2 ON l2.id = pa.corner_location_2_id WHERE pa.ID = ?")) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildProtectedArea(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<ProtectedArea> findByName(String name) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_protected_areas pa INNER JOIN sp_locations l1 on pa.corner_location_1_id = l1.id INNER JOIN  " +
+                 " sp_locations l2 ON l2.id = pa.corner_location_2_id WHERE name = ?")) {
+            ps.setString(1, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildProtectedArea(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteProtectedArea(int id) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_protected_areas WHERE ID = ?");) {
+            insert.setInt(1, id);
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private ProtectedArea buildProtectedArea(ResultSet rs) throws SQLException {

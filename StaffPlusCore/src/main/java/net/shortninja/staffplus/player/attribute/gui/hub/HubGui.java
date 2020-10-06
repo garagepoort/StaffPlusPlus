@@ -3,6 +3,7 @@ package net.shortninja.staffplus.player.attribute.gui.hub;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.staff.protect.cmd.ProtectedAreasGui;
 import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.MyReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.OpenReportsGui;
@@ -70,6 +71,20 @@ public class HubGui extends AbstractGui {
             });
         }
 
+        if (options.modeGuiProtectedAreas) {
+            setItem(19, shieldItem(), new IAction() {
+                @Override
+                public void click(Player player, ItemStack item, int slot) {
+                    new ProtectedAreasGui(player, options.modeGuiProtectedAreasTitle, 0);
+                }
+
+                @Override
+                public boolean shouldClose() {
+                    return false;
+                }
+            });
+        }
+
         PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
         setGlass(playerSession);
         player.openInventory(getInventory());
@@ -110,6 +125,16 @@ public class HubGui extends AbstractGui {
                 .setMaterial(Material.STONE_PICKAXE).setAmount(1)
                 .setName(options.modeGuiMinerName)
                 .addLore(options.modeGuiMinerLore)
+                .build();
+
+        return item;
+    }
+
+    private ItemStack shieldItem() {
+        ItemStack item = Items.builder()
+                .setMaterial(Material.SHIELD).setAmount(1)
+                .setName(options.modeGuiProtectedAreasName)
+                .addLore(options.modeGuiProtectedAreasLore)
                 .build();
 
         return item;

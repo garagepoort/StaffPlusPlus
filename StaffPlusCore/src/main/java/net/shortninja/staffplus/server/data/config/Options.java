@@ -148,6 +148,10 @@ public class Options implements IOptions {
     public final String modeGuiMinerTitle = config.getString("staff-mode.gui-module.miner-title");
     public final String modeGuiMinerName = config.getString("staff-mode.gui-module.miner-name");
     public final String modeGuiMinerLore = config.getString("staff-mode.gui-module.miner-lore");
+    public final boolean modeGuiProtectedAreas = config.getBoolean("staff-mode.gui-module.protected-areas-gui");
+    public final String modeGuiProtectedAreasTitle = config.getString("staff-mode.gui-module.protected-areas-title");
+    public final String modeGuiProtectedAreasName = config.getString("staff-mode.gui-module.protected-areas-name");
+    public final String modeGuiProtectedAreasLore = config.getString("staff-mode.gui-module.protected-areas-lore");
     public final int modeGuiMinerLevel = config.getInt("staff-mode.gui-module.xray-level");
     /*
      * Counter

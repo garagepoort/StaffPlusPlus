@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.protect;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.protect.database.ProtectedAreaRepository;
@@ -10,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProtectService {
 
@@ -41,7 +43,12 @@ public class ProtectService {
         return protectedArea;
     }
 
-    public void protectArea(int radius, String name, Player player) {
+    public void createProtectedArea(int radius, String name, Player player) {
+        Optional<ProtectedArea> existingArea = protectedAreaRepository.findByName(name);
+        if (existingArea.isPresent()) {
+            throw new BusinessException("A protected area with this name already exists. Please delete the existing area or choose another name.", messages.prefixProtect);
+        }
+        // TODO check max radius property
         Location location1 = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() + radius, player.getLocation().getBlockY(), player.getLocation().getBlockZ() + radius);
         Location location2 = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() - radius, player.getLocation().getBlockY(), player.getLocation().getBlockZ() - radius);
 
@@ -51,5 +58,43 @@ public class ProtectService {
             protectedAreaRepository.addProtectedArea(player, protectedArea);
         });
         message.send(player, "Protected Area added", messages.prefixProtect);
+    }
+
+    public void deleteProtectedArea(Player player, String name) {
+        Optional<ProtectedArea> protectedArea = protectedAreaRepository.findByName(name);
+        if (!protectedArea.isPresent()) {
+            throw new BusinessException("Cannot delete area. No area with name [" + name + "] found", messages.prefixProtect);
+        }
+        protectedAreaRepository.deleteProtectedArea(protectedArea.get().getId());
+        Optional<ProtectedArea> first = protectedAreas.stream().filter(p -> p.getName().equals(name)).findFirst();
+        if (first.isPresent()) {
+            protectedAreas.remove(first.get());
+            message.send(player, "Protected Area deleted", messages.prefixProtect);
+        }
+    }
+
+    public void deleteProtectedArea(Player player, int id) {
+        Optional<ProtectedArea> protectedArea = protectedAreaRepository.findById(id);
+        if (!protectedArea.isPresent()) {
+            throw new BusinessException("Cannot delete area. No area with id [" + id + "] found", messages.prefixProtect);
+        }
+        protectedAreaRepository.deleteProtectedArea(id);
+        Optional<ProtectedArea> first = protectedAreas.stream().filter(p -> p.getId() == id).findFirst();
+        if (first.isPresent()) {
+            protectedAreas.remove(first.get());
+            message.send(player, "Protected Area deleted", messages.prefixProtect);
+        }
+    }
+
+    public List<ProtectedArea> getAllProtectedAreas() {
+        return protectedAreas;
+    }
+
+    public List<ProtectedArea> getAllProtectedAreasPaginated(int offset, int amount) {
+        return protectedAreaRepository.getProtectedAreasPaginated(offset, amount);
+    }
+
+    public ProtectedArea getById(int protectedAreaId) {
+        return protectedAreaRepository.findById(protectedAreaId).orElseThrow(() -> new BusinessException("No area with id [" + protectedAreaId + "] found", messages.prefixProtect));
     }
 }
