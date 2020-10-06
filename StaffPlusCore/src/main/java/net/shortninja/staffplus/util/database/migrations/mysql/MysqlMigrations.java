@@ -33,7 +33,9 @@ public class MysqlMigrations implements SqlMigrations {
             new V14_AlterWarningsTableAddSeverityMigration(),
             new V15_CreateDelayedActionsTableMigration(),
             new V16_AlterDelayedActionsTableAddTimestampMigration(),
-            new V17_AlterReportTableAddCloseReasonMigration());
+            new V17_AlterReportTableAddCloseReasonMigration(),
+            new V18_CreateLocationsTableMigration(),
+            new V19_CreateProtectedAreasTableMigration());
 
     private final DataSource datasource;
 

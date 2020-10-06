@@ -239,6 +239,21 @@ broadcast-module:
 
 ############################################################
 # +------------------------------------------------------+ #
+# |                      Broadcast                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Requires "permissions.broadcast" permission.
+protect-module:
+  # Whether or not the plugin will use "/protect-player" features.
+  player-enabled: true
+  # Whether or not the plugin will use "/protect-area" features.
+  area-enabled: true
+  # The max area size that can be protected.
+  area-max-size: 40
+
+############################################################
+# +------------------------------------------------------+ #
 # |                       Tickets                        | #
 # +------------------------------------------------------+ #
 ############################################################
@@ -489,9 +504,22 @@ staff-mode:
 
     # The lore of the miner item
     miner-lore: "&7Shows all players under the set Y value."
-
     # The y-level at which a player will be marked as a miner.
     xray-level: 16
+
+    # ============== PROTECTED AREAS ==================
+    # Whether or not the protected areas GUI is enabled in the hub.
+    protected-areas-gui: true
+
+    # The title of the protected-areas GUI.
+    protected-areas-title: "&bOverview protected areas"
+
+    # The name of the protected-areas item
+    protected-areas-name: "&bProtected Areas GUI"
+
+    # The lore of the protected-areas item
+    protected-areas-lore: "&7Shows all currently set protected areas."
+
 
   ############################################################
   # +------------------------------------------------------+ #
@@ -959,6 +987,12 @@ permissions:
   # Permission for managing the alerts you will get
   broadcast: "staff.staffplus.broadcast"
 
+  # Permission to toggle protection of a player
+  protect-player: "staff.staffplus.protect-player"
+
+  # Permission to toggle protection of an area
+  protect-area: "staff.staffplus.protect-area"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #
@@ -1054,6 +1088,12 @@ commands:
 
   # The command to broadcast a message over all servers
   broadcast: "broadcast"
+
+  # The command to toggle protection of a player
+  protect-player: "protectPlayer"
+
+  # The command to create/delete a protected area
+  protect-area: "protectArea"
 
 ############################################################
 # +------------------------------------------------------+ #

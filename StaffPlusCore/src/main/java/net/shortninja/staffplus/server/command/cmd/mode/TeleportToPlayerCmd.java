@@ -6,7 +6,6 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
-import net.shortninja.staffplus.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
@@ -33,7 +32,7 @@ public class TeleportToPlayerCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        TeleportService.getInstance().teleportToPlayer((Player) sender, targetPlayer.getPlayer());
+        IocContainer.getTeleportService().teleportToPlayer((Player) sender, targetPlayer.getPlayer());
         return true;
     }
 

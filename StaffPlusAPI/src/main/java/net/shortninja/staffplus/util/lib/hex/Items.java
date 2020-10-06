@@ -64,6 +64,14 @@ public final class Items {
                 .build();
     }
 
+    public static ItemStack createOrangeColoredGlass(String name, String lore) {
+        return Items.builder()
+                .setMaterial(Material.ORANGE_STAINED_GLASS_PANE)
+                .setName(name)
+                .addLore(lore)
+                .build();
+    }
+
     public static ItemStack createColoredArmor(Armor armor, Color color) {
         return createColoredArmor(armor, color,
                 "&l" + WordUtils.capitalize(armor.name().toLowerCase()));

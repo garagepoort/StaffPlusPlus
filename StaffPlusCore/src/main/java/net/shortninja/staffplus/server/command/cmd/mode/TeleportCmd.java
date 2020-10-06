@@ -5,17 +5,20 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
-import net.shortninja.staffplus.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.HEALTH;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.STRIP;
 
 public class TeleportCmd extends AbstractCmd {
 
@@ -27,7 +30,7 @@ public class TeleportCmd extends AbstractCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
         String locationName = args[1];
 
-        TeleportService.getInstance().teleportPlayer(sender, targetPlayer.getPlayer(), locationName);
+        IocContainer.getTeleportService().teleportPlayer(sender, targetPlayer.getPlayer(), locationName);
         return true;
     }
 
