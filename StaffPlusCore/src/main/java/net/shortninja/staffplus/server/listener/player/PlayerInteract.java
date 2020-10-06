@@ -13,6 +13,7 @@ import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.*;
+import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -49,6 +50,10 @@ public class PlayerInteract implements Listener {
 
         if (cpsHandler.isTesting(uuid) && (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK)) {
             cpsHandler.updateCount(uuid);
+        }
+
+        if ((event.getClickedBlock() instanceof Container || event.getClickedBlock().getBlockData() instanceof Powerable) && protectService.isLocationProtect(player, event.getClickedBlock().getLocation())) {
+            event.setCancelled(true);
             return;
         }
 
@@ -62,10 +67,6 @@ public class PlayerInteract implements Listener {
         }
 
 
-        if (event.getClickedBlock() instanceof Container && protectService.isLocationProtect(player, event.getClickedBlock().getLocation())) {
-            event.setCancelled(true);
-            return;
-        }
 
         if (event.getClickedBlock() != null) {
             if (event.getClickedBlock().getState() instanceof Container
