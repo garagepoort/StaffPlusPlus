@@ -239,11 +239,10 @@ broadcast-module:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                      Broadcast                       | #
+# |                      Protection                       | #
 # +------------------------------------------------------+ #
 ############################################################
 
-# Requires "permissions.broadcast" permission.
 protect-module:
   # Whether or not the plugin will use "/protect-player" features.
   player-enabled: true
