@@ -14,6 +14,7 @@
         <module>StaffPlusAPI</module>
         <module>StaffPlusCore</module>
         <module>StaffPlusPlusDiscord</module>
+        <module>StaffPlusPlusTrello</module>
     </modules>
 
     <build>
