@@ -30,4 +30,6 @@ public interface IReport {
     String getCloseReason();
 
     UUID getStaffUuid();
+
+    int getId();
 }
