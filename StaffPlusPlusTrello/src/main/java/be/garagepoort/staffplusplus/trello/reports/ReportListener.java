@@ -57,9 +57,16 @@ public class ReportListener implements Listener {
     public void handleCreateReport(CreateReportEvent event) {
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlusTrello.get(), () -> {
             IReport report = event.getReport();
-            TrelloCardResponse card = trelloClient.createCard(new TrelloCardRequest("Staff++ Report by " + report.getReporterName(), openList.getId(), getDescription(report, false)));
+            TrelloCardResponse card = trelloClient.createCard(new TrelloCardRequest(getTitle(report), openList.getId(), getDescription(report, false)));
             reportRepository.createReport(new Report(report.getId(), card.getId()));
         });
+    }
+
+    private String getTitle(IReport report) {
+        if (report.getReason().length() <= 30) {
+            return "Staff++ Report: " + report.getReason();
+        }
+        return "Staff++ Report: " + report.getReason().substring(0, 27) + "...";
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -68,7 +75,7 @@ public class ReportListener implements Listener {
             IReport report = event.getReport();
             Optional<Report> reportBySppUuid = reportRepository.findReportBySppId(report.getId());
             if (reportBySppUuid.isPresent()) {
-                trelloClient.updateCard(reportBySppUuid.get().getTrelloId(), new TrelloCardRequest("Staff++ Report by " + report.getReporterName(), openList.getId(), getDescription(report, false)));
+                trelloClient.updateCard(reportBySppUuid.get().getTrelloId(), new TrelloCardRequest(getTitle(report), openList.getId(), getDescription(report, false)));
             }
         });
     }
@@ -80,7 +87,7 @@ public class ReportListener implements Listener {
             IReport report = event.getReport();
             Optional<Report> reportBySppUuid = reportRepository.findReportBySppId(report.getId());
             if (reportBySppUuid.isPresent()) {
-                trelloClient.updateCard(reportBySppUuid.get().getTrelloId(), new TrelloCardRequest("Staff++ Report by " + report.getReporterName(), acceptedList.getId(), getDescription(report, true)));
+                trelloClient.updateCard(reportBySppUuid.get().getTrelloId(), new TrelloCardRequest(getTitle(report), acceptedList.getId(), getDescription(report, true)));
             }
         });
     }
@@ -92,7 +99,7 @@ public class ReportListener implements Listener {
             IReport report = event.getReport();
             Optional<Report> reportBySppUuid = reportRepository.findReportBySppId(report.getId());
             if (reportBySppUuid.isPresent()) {
-                trelloClient.updateCard(reportBySppUuid.get().getTrelloId(), new TrelloCardRequest("Staff++ Report by " + report.getReporterName(), rejectedList.getId(), getDescription(report, true)));
+                trelloClient.updateCard(reportBySppUuid.get().getTrelloId(), new TrelloCardRequest(getTitle(report), rejectedList.getId(), getDescription(report, true)));
             }
         });
     }
@@ -103,7 +110,7 @@ public class ReportListener implements Listener {
             IReport report = event.getReport();
             Optional<Report> reportBySppUuid = reportRepository.findReportBySppId(report.getId());
             if (reportBySppUuid.isPresent()) {
-                trelloClient.updateCard(reportBySppUuid.get().getTrelloId(), new TrelloCardRequest("Staff++ Report by " + report.getReporterName(), resolvedList.getId(), getDescription(report, true)));
+                trelloClient.updateCard(reportBySppUuid.get().getTrelloId(), new TrelloCardRequest(getTitle(report), resolvedList.getId(), getDescription(report, true)));
             }
         });
     }
@@ -130,7 +137,7 @@ public class ReportListener implements Listener {
         }
         stringBuilder.append("### Reason\n");
         stringBuilder.append(report.getReason() + "\n");
-        if(showStaff) {
+        if (showStaff) {
             stringBuilder.append("### Staff assigned\n");
             stringBuilder.append(String.format("%s [%s]\n", report.getStaffName(), report.getStaffUuid()));
         }
