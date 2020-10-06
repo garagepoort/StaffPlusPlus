@@ -27,22 +27,6 @@ public abstract class AbstractSqlReportRepository implements ReportRepository, I
     protected abstract Connection getConnection() throws SQLException;
 
     @Override
-    public void addReport(Report report) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID, status, timestamp) " +
-                 "VALUES(?, ?, ?, ?, ?);")) {
-            insert.setString(1, report.getReason());
-            insert.setString(2, report.getReporterUuid().toString());
-            insert.setString(3, report.getCulpritUuid() == null ? null : report.getCulpritUuid().toString());
-            insert.setString(4, report.getReportStatus().toString());
-            insert.setLong(5, report.getTimestamp().toInstant().toEpochMilli());
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public List<Report> getReports(UUID uuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();

@@ -68,7 +68,8 @@ public class ReportService {
                 ReportStatus.OPEN,
                 ZonedDateTime.now());
 
-            reportRepository.addReport(report);
+            int id = reportRepository.addReport(report);
+            report.setId(id);
 
             message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getCulpritName()).replace("%reason%", report.getReason()), messages.prefixReports);
             message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", report.getCulpritName()).replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
@@ -96,7 +97,8 @@ public class ReportService {
                 ReportStatus.OPEN,
                 ZonedDateTime.now());
 
-            reportRepository.addReport(report);
+            int id = reportRepository.addReport(report);
+            report.setId(id);
 
             message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
             message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", "unknown").replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
@@ -179,7 +181,11 @@ public class ReportService {
             Report report = getReport(closeReportRequest.getReportId());
             closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
             message.sendGroupMessage(player.getName() + " changed report status to " + closeReportRequest.getStatus() + ". Reporter: " + report.getReporterName(), options.permissionReport, messages.prefixReports);
-            sendEvent(new ResolveReportEvent(report));
+            if (closeReportRequest.getStatus() == ReportStatus.REJECTED) {
+                sendEvent(new RejectReportEvent(report));
+            } else {
+                sendEvent(new ResolveReportEvent(report));
+            }
         });
     }
 
