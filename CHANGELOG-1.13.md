@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.13
 
+### V1.13.19
+#### Features
+- Protect player added
+- Protect area added
+- "Vanish enabled" action bar displayed for staff members
+- Now able to add worlds to the location configuration
+
 ### V1.13.18
 #### Features
 - Broadcast messages over the bungee network
