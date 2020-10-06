@@ -24,11 +24,11 @@ public class ResolveReportAction implements IAction {
 
     @Override
     public void click(Player player, ItemStack item, int slot) {
-        messageCoordinator.send(player, "======================================================", messages.prefixReports);
+        messageCoordinator.send(player, "=====================================================", messages.prefixReports);
         messageCoordinator.send(player, "         You have chosen to resolve this report", messages.prefixReports);
-        messageCoordinator.send(player, " Type your closing reason in chat to resolve the report", messages.prefixReports);
+        messageCoordinator.send(player, "Type your closing reason in chat to resolve the report", messages.prefixReports);
         messageCoordinator.send(player, "        Type \"cancel\" to cancel closing the report ", messages.prefixReports);
-        messageCoordinator.send(player, "======================================================", messages.prefixReports);
+        messageCoordinator.send(player, "=====================================================", messages.prefixReports);
 
         int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
         if(options.reportConfiguration.isClosingReasonEnabled()) {

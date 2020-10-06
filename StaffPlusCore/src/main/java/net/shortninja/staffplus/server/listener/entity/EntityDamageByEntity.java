@@ -23,7 +23,7 @@ import java.util.UUID;
 public class EntityDamageByEntity implements Listener {
     private final Options options = IocContainer.getOptions();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final TraceService traceService = IocContainer.getTraceService();
 
     public EntityDamageByEntity() {

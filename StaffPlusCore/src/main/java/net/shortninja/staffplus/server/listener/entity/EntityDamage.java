@@ -19,7 +19,7 @@ import java.util.UUID;
 public class EntityDamage implements Listener {
     private final Options options = IocContainer.getOptions();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
 
     public EntityDamage() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -35,7 +35,7 @@ public class EntityDamage implements Listener {
 
         UUID uuid = entity.getUniqueId();
         PlayerSession session = sessionManager.get(uuid);
-        if ((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && session.isFrozen()))) {
+        if ((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && session.isFrozen()) || session.isProtected())) {
             event.setCancelled(true);
         }
     }

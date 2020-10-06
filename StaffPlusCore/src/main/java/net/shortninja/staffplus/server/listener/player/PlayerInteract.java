@@ -28,7 +28,7 @@ import static net.shortninja.staffplus.common.cmd.CommandUtil.playerAction;
 
 public class PlayerInteract implements Listener {
     private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
     private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
@@ -47,7 +47,6 @@ public class PlayerInteract implements Listener {
 
         if (cpsHandler.isTesting(uuid) && (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK)) {
             cpsHandler.updateCount(uuid);
-            return;
         }
 
         if (!modeCoordinator.isInMode(uuid) || item == null) {
@@ -58,10 +57,12 @@ public class PlayerInteract implements Listener {
                 event.setCancelled(true);
             }
         }
-        if(event.getClickedBlock() != null) {
+
+
+        if (event.getClickedBlock() != null) {
             if (event.getClickedBlock().getState() instanceof Container
-                    && StaffPlus.get().modeCoordinator.isInMode(event.getPlayer().getUniqueId())
-                    && !player.isSneaking()) {
+                && modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+                && !player.isSneaking()) {
                 event.setCancelled(true);
                 Container container = (Container) event.getClickedBlock().getState();
 
@@ -120,7 +121,7 @@ public class PlayerInteract implements Listener {
             case FREEZE:
                 playerAction(player, () -> {
                     Player targetPlayer = JavaUtils.getTargetPlayer(player);
-                    if(targetPlayer != null){
+                    if (targetPlayer != null) {
                         freezeHandler.execute(new FreezeRequest(player, targetPlayer, freezeHandler.isFrozen(targetPlayer.getUniqueId())));
                     }
                 });
