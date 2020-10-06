@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface ReportRepository {
 
-    void addReport(Report report);
+    int addReport(Report report);
 
     List<Report> getReports(UUID uuid, int offset, int amount);
 

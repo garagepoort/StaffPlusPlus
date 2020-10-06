@@ -47,6 +47,10 @@ public class Report implements IReport {
         this.timestamp = timestamp;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
