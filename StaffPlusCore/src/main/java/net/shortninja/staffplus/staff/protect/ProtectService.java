@@ -88,7 +88,7 @@ public class ProtectService {
             throw new BusinessException("&bCannot delete area. No area with id [" + id + "] found", messages.prefixProtect);
         }
         protectedAreaRepository.deleteProtectedArea(id);
-        Optional<ProtectedArea> first = protectedAreas.stream().filter(p -> p.getId() == id).findFirst();
+        Optional<ProtectedArea> first = protectedAreas.stream().filter(p -> p.getName().equals(protectedArea.get().getName())).findFirst();
         if (first.isPresent()) {
             protectedAreas.remove(first.get());
             message.send(player, "&bProtected Area deleted", messages.prefixProtect);

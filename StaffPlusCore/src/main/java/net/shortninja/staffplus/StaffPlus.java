@@ -22,6 +22,7 @@ import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.handler.InventoryHandler;
 import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
+import net.shortninja.staffplus.staff.protect.ProtectListener;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -116,6 +117,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+        this.databaseInitializer.initialize();
 
         getScheduler().runTaskAsynchronously(this, () -> {
             new UpdateNotifier().checkUpdate();
@@ -130,7 +132,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         cmdHandler = new CmdHandler();
         tasks = new Tasks();
         inventoryHandler = new InventoryHandler();
-        this.databaseInitializer.initialize();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             IocContainer.getSessionManager().initialize(player);
@@ -169,6 +170,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new InventoryOpen();
         new PlayerWorldChange();
         new EntityChangeBlock();
+        new ProtectListener();
     }
 
 

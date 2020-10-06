@@ -9,11 +9,9 @@ import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
-import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.*;
-import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,7 +32,6 @@ public class PlayerInteract implements Listener {
     private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
     private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
-    private final ProtectService protectService = IocContainer.getProtectService();
 
     public PlayerInteract() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -52,11 +49,6 @@ public class PlayerInteract implements Listener {
             cpsHandler.updateCount(uuid);
         }
 
-        if ((event.getClickedBlock() instanceof Container || event.getClickedBlock().getBlockData() instanceof Powerable) && protectService.isLocationProtect(player, event.getClickedBlock().getLocation())) {
-            event.setCancelled(true);
-            return;
-        }
-
         if (!modeCoordinator.isInMode(uuid) || item == null) {
             return;
         }
@@ -65,7 +57,6 @@ public class PlayerInteract implements Listener {
                 event.setCancelled(true);
             }
         }
-
 
 
         if (event.getClickedBlock() != null) {
