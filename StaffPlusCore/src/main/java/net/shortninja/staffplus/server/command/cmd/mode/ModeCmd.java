@@ -1,19 +1,20 @@
 package net.shortninja.staffplus.server.command.cmd.mode;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
 public class ModeCmd extends AbstractCmd {
-    public static final String ENABLE = "enable";
-    public static final String DISABLE = "disable";
+    private static final String ENABLE = "enable";
+    private static final String DISABLE = "disable";
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
 
     public ModeCmd(String name) {
         super(name, IocContainer.getOptions().permissionMode);
@@ -25,9 +26,9 @@ public class ModeCmd extends AbstractCmd {
             String option = args[1];
 
             if (option.equalsIgnoreCase(ENABLE)) {
-                StaffPlus.get().modeCoordinator.addMode(targetPlayer.getPlayer());
+                modeCoordinator.addMode(targetPlayer.getPlayer());
             } else if (option.equalsIgnoreCase(DISABLE)) {
-                StaffPlus.get().modeCoordinator.removeMode(targetPlayer.getPlayer());
+                modeCoordinator.removeMode(targetPlayer.getPlayer());
             } else {
                 throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
             }
@@ -73,8 +74,8 @@ public class ModeCmd extends AbstractCmd {
     }
 
     private void toggleMode(Player player) {
-        if (StaffPlus.get().modeCoordinator.isInMode(player.getUniqueId())) {
-            StaffPlus.get().modeCoordinator.removeMode(player);
-        } else StaffPlus.get().modeCoordinator.addMode(player);
+        if (modeCoordinator.isInMode(player.getUniqueId())) {
+            modeCoordinator.removeMode(player);
+        } else modeCoordinator.addMode(player);
     }
 }

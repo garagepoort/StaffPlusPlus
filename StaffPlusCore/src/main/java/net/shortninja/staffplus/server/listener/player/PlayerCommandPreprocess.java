@@ -30,7 +30,7 @@ public class PlayerCommandPreprocess implements Listener {
     private final Messages messages = IocContainer.getMessages();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final CmdHandler cmdHandler = StaffPlus.get().cmdHandler;
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final TraceService traceService = IocContainer.getTraceService();
 
     public PlayerCommandPreprocess() {
