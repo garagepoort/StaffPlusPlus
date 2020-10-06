@@ -60,7 +60,7 @@
                                         <exclude>META-INF/*.RSA</exclude>
                                     </excludes>
                                 </filter>
-                            </filters>FirstLogin
+                            </filters>
                         </configuration>
                     </execution>
                 </executions>
