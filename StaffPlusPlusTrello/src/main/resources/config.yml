@@ -1,0 +1,15 @@
+StaffPlusPlusTrello:
+
+    reports:
+        # Your api key
+        apiKey: ""
+        # Your user token
+        userToken: ""
+        # The id of your board, can be found in the url
+        boardId: ""
+
+        # The list name in which the cards should be place when moved to this status
+        openListName: "open"
+        rejectedListName: "rejected"
+        acceptedListName: "accepted"
+        resolvedListName: "resolved"
