@@ -26,7 +26,7 @@ public class PlayerJoin implements Listener {
     private final PermissionHandler permission = IocContainer.getPermissionHandler();
     private final Options options = IocContainer.getOptions();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
     private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
 

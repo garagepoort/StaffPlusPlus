@@ -13,10 +13,10 @@ public class Messages {
      * Prefixes
      */
     public String prefixGeneral = config.getString("general-prefix");
+    public String prefixProtect = config.getString("protect-prefix", "&dProtected &8»");
     public String prefixReports = config.getString("reports-prefix");
     public String prefixWarnings = config.getString("warnings-prefix");
     public String prefixStaffChat = config.getString("staff-chat-prefix");
-    public String prefixTickets = config.getString("tickets-prefix");
     public String prefixTrace = config.getString("trace-prefix", "&dTrace &8»");
     /*
      * General

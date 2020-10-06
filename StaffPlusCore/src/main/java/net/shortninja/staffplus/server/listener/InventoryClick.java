@@ -20,7 +20,7 @@ import java.util.UUID;
 public class InventoryClick implements Listener {
     private final Options options = IocContainer.getOptions();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
 
     public InventoryClick() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

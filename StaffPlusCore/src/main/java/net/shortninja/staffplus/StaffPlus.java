@@ -18,11 +18,11 @@ import net.shortninja.staffplus.server.listener.player.*;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.Save;
 import net.shortninja.staffplus.staff.broadcast.BungeeBroadcastListener;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.handler.InventoryHandler;
 import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
+import net.shortninja.staffplus.staff.protect.ProtectListener;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -56,7 +56,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public GadgetHandler gadgetHandler;
     public ReviveHandler reviveHandler;
     public CmdHandler cmdHandler;
-    public ModeCoordinator modeCoordinator;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
     public Map<UUID, PlayerSession> playerSessions;
@@ -118,6 +117,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+        this.databaseInitializer.initialize();
 
         getScheduler().runTaskAsynchronously(this, () -> {
             new UpdateNotifier().checkUpdate();
@@ -130,10 +130,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         gadgetHandler = new GadgetHandler();
         reviveHandler = new ReviveHandler();
         cmdHandler = new CmdHandler();
-        modeCoordinator = new ModeCoordinator();
         tasks = new Tasks();
         inventoryHandler = new InventoryHandler();
-        this.databaseInitializer.initialize();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             IocContainer.getSessionManager().initialize(player);
@@ -172,6 +170,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new InventoryOpen();
         new PlayerWorldChange();
         new EntityChangeBlock();
+        new ProtectListener();
     }
 
 
@@ -189,7 +188,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         tasks.cancel();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            modeCoordinator.removeMode(player);
+            IocContainer.getModeCoordinator().removeMode(player);
             IocContainer.getVanishHandler().removeVanish(player);
         }
 
@@ -199,7 +198,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         gadgetHandler = null;
         reviveHandler = null;
         cmdHandler = null;
-        modeCoordinator = null;
         tasks = null;
         plugin = null;
 

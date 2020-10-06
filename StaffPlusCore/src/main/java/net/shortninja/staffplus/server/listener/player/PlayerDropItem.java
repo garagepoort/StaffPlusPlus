@@ -19,7 +19,7 @@ import static net.shortninja.staffplus.staff.tracing.TraceType.DROP_ITEM;
 public class PlayerDropItem implements Listener {
     private final Options options = IocContainer.getOptions();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
-    private final ModeCoordinator modeCoordinator = StaffPlus.get().modeCoordinator;
+    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final TraceService traceService = IocContainer.getTraceService();
 
     public PlayerDropItem() {
