@@ -29,7 +29,7 @@ public class DelayArgumentExecutor {
         Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerName);
 
         if (!player.isPresent()) {
-            throw new BusinessException("Cannot delay the command. No user found on this server with name: [" + playerName + "]", messages.prefixGeneral);
+            throw new BusinessException("&CCannot delay the command. No user found on this server with name: [" + playerName + "]", messages.prefixGeneral);
         }
 
         IocContainer.getDelayedActionsRepository().saveDelayedAction(player.get().getId(), command);

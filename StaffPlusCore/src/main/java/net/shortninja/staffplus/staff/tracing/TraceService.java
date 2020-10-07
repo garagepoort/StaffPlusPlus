@@ -34,7 +34,7 @@ public class TraceService {
         UUID tracerUuid = tracer instanceof Player ? ((Player) tracer).getUniqueId() : StaffPlus.get().consoleUUID;
 
         if (tracedPlayers.containsKey(tracerUuid)) {
-            throw new BusinessException("Cannot start a trace. You are already tracing a player");
+            throw new BusinessException("&CCannot start a trace. You are already tracing a player");
         }
 
         List<TraceWriter> traceWriters = traceWriterFactory.buildTraceWriters(tracerUuid, traced.getId());
@@ -50,7 +50,7 @@ public class TraceService {
 
     public void stopTrace(UUID tracerUuid) {
         if (!tracedPlayers.containsKey(tracerUuid)) {
-            throw new BusinessException("You are currently not tracing anyone");
+            throw new BusinessException("&CYou are currently not tracing anyone");
         }
         Trace trace = tracedPlayers.get(tracerUuid);
         trace.stopTrace();

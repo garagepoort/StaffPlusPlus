@@ -239,6 +239,16 @@ broadcast-module:
 
 ############################################################
 # +------------------------------------------------------+ #
+# |                      BANNING                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+ban-module:
+  # Whether or not the plugin will use "/ban-player" features.
+  enabled: true
+
+############################################################
+# +------------------------------------------------------+ #
 # |                      Protection                       | #
 # +------------------------------------------------------+ #
 ############################################################
@@ -992,6 +1002,12 @@ permissions:
   # Permission to toggle protection of an area
   protect-area: "staff.staffplus.protect-area"
 
+  # Permission to ban/tempban players
+  ban: "staff.staffplus.ban"
+
+  # Permission to ban/tempban players
+  ban-bypass: "staff.staffplus.ban-bypass"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #
@@ -1093,6 +1109,15 @@ commands:
 
   # The command to create/delete a protected area
   protect-area: "protectArea"
+
+  # The command to permanently ban a player
+  ban: "spp-ban"
+
+  # The command to temporarily ban a player
+  tempban: "spp-tempban"
+
+  # The command to unban a player
+  unban: "spp-unban"
 
 ############################################################
 # +------------------------------------------------------+ #

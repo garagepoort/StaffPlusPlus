@@ -10,6 +10,7 @@ import org.bukkit.util.Vector;
 
 import java.text.BreakIterator;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Shortninja, DarkSeraphim, ...
@@ -34,6 +35,11 @@ public class JavaUtils {
         } catch (IllegalArgumentException ex) {
             return false;
         }
+    }
+
+    public static long getDuration(long timestamp) {
+        long diffInMillies = Math.abs(System.currentTimeMillis() - timestamp);
+        return TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
 
     /**
