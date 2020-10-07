@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.12
 
+### V1.12.6
+#### Features
+- Trello integration added for reports
+#### Bugs
+- Report resolved event was sent when a report was actually rejected
+
 ### V1.12.5
 #### Features
 - Protect player added
