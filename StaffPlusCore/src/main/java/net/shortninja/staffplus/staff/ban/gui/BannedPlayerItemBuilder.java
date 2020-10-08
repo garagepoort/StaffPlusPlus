@@ -18,7 +18,7 @@ public class BannedPlayerItemBuilder {
         lore.add("&bBanned player: " + ban.getPlayerName());
         lore.add("&bIssuer: " + ban.getIssuerName());
         lore.add("&bReason: " + ban.getReason());
-        if(ban.getEndDate() != null) {
+        if(ban.getEndTimestamp() != null) {
             lore.add("&bTime left: " + ban.getHumanReadableDuration());
         }else {
             lore.add("&bPermanent ban");
@@ -31,6 +31,5 @@ public class BannedPlayerItemBuilder {
 
         return StaffPlus.get().versionProtocol.addNbtString(item, String.valueOf(ban.getId()));
     }
-
 
 }
