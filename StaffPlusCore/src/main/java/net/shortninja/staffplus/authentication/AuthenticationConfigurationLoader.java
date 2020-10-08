@@ -14,7 +14,7 @@ public class AuthenticationConfigurationLoader extends ConfigLoader<Authenticati
         AuthenticationProvider authenticationProvider = AuthenticationProvider.valueOf(authenticationProviderName.toUpperCase());
         if(authenticationProvider == AUTHME) {
             if(Bukkit.getServer().getPluginManager().getPlugin("AuthMe") == null) {
-                throw new BusinessException("Incorrect authentication configuration. AuthMe configured but plugin is not loaded");
+                throw new BusinessException("&CIncorrect authentication configuration. AuthMe configured but plugin is not loaded");
             }
         }
         return new AuthenticationConfiguration(authenticationProvider);

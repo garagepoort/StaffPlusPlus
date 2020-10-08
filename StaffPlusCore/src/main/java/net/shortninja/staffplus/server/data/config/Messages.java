@@ -123,4 +123,10 @@ public class Messages {
     public String staffChatStatus = langVersion >= 3.2 ? config.getString("staff-chat-status") : "&bStaff chat &7%status%&b.";
     public String freezeLogout = langVersion >= 3.57 ? config.getString("freeze-logout") : "&7%player% &blogged out while frozen!";
     public String strip = langVersion >= 6194 ? config.getString("strip") : "&7%player%'s armor has been removed!";
+
+    public String unbanned = config.getString("ban-unbanned", "");
+    public String permanentBanned = config.getString("ban-permabanned", "");
+    public String tempBanned = config.getString("ban-tempbanned", "");
+    public String permanentBannedKick = config.getString("ban-permabanned-kick", "");
+    public String tempBannedKick = config.getString("ban-tempbanned-kick", "");
 }
