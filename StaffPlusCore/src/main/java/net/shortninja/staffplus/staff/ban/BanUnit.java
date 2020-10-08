@@ -1,31 +1,36 @@
 package net.shortninja.staffplus.staff.ban;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+
 public enum BanUnit {
-	SECOND("sec", 1/60), MINUTE("min", 1), HOUR("hour", 60), DAY("day", 60*24), WEEK("week", 60*24*7), MONTH("month", 30*60*24), YEAR("year", 30*60*24*12);
+	SECOND(ChronoUnit.SECONDS),
+    MINUTE(ChronoUnit.MINUTES),
+    HOUR(ChronoUnit.HOURS),
+    DAY(ChronoUnit.SECONDS),
+    WEEK(ChronoUnit.WEEKS),
+    MONTH(ChronoUnit.MONTHS),
+    YEAR(ChronoUnit.YEARS);
 	
-	public String name;
-	public int multi;
+	public TemporalUnit temporalUnit;
 	
-	BanUnit(String n, int mult){
-		name = n;
-		multi = mult;
+	BanUnit(TemporalUnit temporalUnit){
+		this.temporalUnit = temporalUnit;
 	}
 	
 	public static long getTicks(String un, int time){
-		long sec;
-		
-		try{
-			sec = time * 60;
-		}catch(NumberFormatException ex){
-			return 0;
-		}
-		
-		for(BanUnit unit: BanUnit.values()){
-			if(un.startsWith(unit.name)){
-				return (sec * unit.multi)*1000;
-			}
-		}
-		
-		return 0;
+	    BanUnit banUnit = BanUnit.valueOf(un.toUpperCase());
+        LocalDateTime from = LocalDateTime.now();
+        LocalDateTime to = from.plus(time, banUnit.getTemporalUnit());
+        long fromMillis = ZonedDateTime.of(from, ZoneId.systemDefault()).toInstant().toEpochMilli();
+        long toMillis = ZonedDateTime.of(to, ZoneId.systemDefault()).toInstant().toEpochMilli();
+		return toMillis - fromMillis;
 	}
+
+    private TemporalUnit getTemporalUnit() {
+        return temporalUnit;
+    }
 }

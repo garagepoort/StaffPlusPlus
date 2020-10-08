@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.staff.ban;
 
+import net.shortninja.staffplus.util.lib.JavaUtils;
+
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -97,5 +99,13 @@ public class Ban {
 
     public String getUnbanReason() {
         return unbanReason;
+    }
+
+    public String getHumanReadableDuration() {
+        if(endDate == null) {
+            return null;
+        }
+        long duration = JavaUtils.getDuration(endDate);
+        return JavaUtils.toHumanReadableDuration(duration);
     }
 }

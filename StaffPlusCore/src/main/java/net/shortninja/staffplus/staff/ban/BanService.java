@@ -36,8 +36,8 @@ public class BanService {
         ban(issuer, playerToBan, reason, null);
     }
 
-    public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long endDate, String reason) {
-        ban(issuer, playerToBan, reason, endDate);
+    public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason) {
+        ban(issuer, playerToBan, reason, durationInMillis);
     }
 
     public Optional<Ban> getBan(UUID playerUuid) {
@@ -48,7 +48,7 @@ public class BanService {
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID;
         Optional<Ban> ban = getBan(playerToUnban.getId());
-        if(!ban.isPresent()) {
+        if (!ban.isPresent()) {
             throw new BusinessException("&CCannot unban, this user is not banned");
         }
 
@@ -56,7 +56,7 @@ public class BanService {
         message.sendGlobalMessage("&6" + playerToUnban.getUsername() + " has been unbanned from the server by " + issuerName, messages.prefixGeneral);
     }
 
-    private void ban(CommandSender issuer, SppPlayer playerToBan, String reason, Long endDate) {
+    private void ban(CommandSender issuer, SppPlayer playerToBan, String reason, Long durationInMillis) {
         if (playerToBan.isOnline() && permission.has(playerToBan.getPlayer(), options.banConfiguration.getPermissionBanByPass())) {
             throw new BusinessException("&CThis player bypasses being banned");
         }
@@ -68,16 +68,43 @@ public class BanService {
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID;
-        bansRepository.addBan(new Ban(reason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId()));
-        message.sendGlobalMessage("&6" + playerToBan.getUsername() + " has been banned from the server by " + issuerName, messages.prefixGeneral);
 
+        Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
+        bansRepository.addBan(new Ban(reason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId()));
+
+        notifyPlayers(playerToBan, durationInMillis, issuerName);
+        kickPlayer(playerToBan, durationInMillis, issuerName);
+    }
+
+    private void kickPlayer(SppPlayer playerToBan, Long duration, String issuerName) {
         if (playerToBan.isOnline()) {
-            if (endDate != null) {
-                long differenceInMinutes = JavaUtils.getDuration(endDate);
-                playerToBan.getPlayer().kickPlayer("You have been temporarily banned from this server. Ban time left: " + differenceInMinutes + " minutes");
+            if (duration != null) {
+                String message = messages.tempBannedKick
+                    .replace("%target%", playerToBan.getUsername())
+                    .replace("%issuer%", issuerName)
+                    .replace("%duration%", JavaUtils.toHumanReadableDuration(duration));
+                playerToBan.getPlayer().kickPlayer(message);
             } else {
-                playerToBan.getPlayer().kickPlayer("You have been permanently banned from this server");
+                String message = messages.permanentBannedKick
+                    .replace("%target%", playerToBan.getUsername())
+                    .replace("%issuer%", issuerName);
+                playerToBan.getPlayer().kickPlayer(message);
             }
+        }
+    }
+
+    private void notifyPlayers(SppPlayer playerToBan, Long duration, String issuerName) {
+        if (duration == null) {
+            String message = messages.permanentBanned
+                .replace("%target%", playerToBan.getUsername())
+                .replace("%issuer%", issuerName);
+            this.message.sendGlobalMessage(message, messages.prefixGeneral);
+        } else {
+            String message = messages.tempBanned
+                .replace("%target%", playerToBan.getUsername())
+                .replace("%issuer%", issuerName)
+                .replace("%duration%", JavaUtils.toHumanReadableDuration(duration));
+            this.message.sendGlobalMessage(message, messages.prefixGeneral);
         }
     }
 

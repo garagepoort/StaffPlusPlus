@@ -36,8 +36,7 @@ public class TempBanCmd extends AbstractCmd {
         String timeUnit = args[2];
         String reason = JavaUtils.compileWords(args, 3);
 
-        long endTimestamp = System.currentTimeMillis() + BanUnit.getTicks(timeUnit, amount);
-        banService.tempBan(sender, player, endTimestamp, reason);
+        banService.tempBan(sender, player,  BanUnit.getTicks(timeUnit, amount), reason);
         return true;
     }
 

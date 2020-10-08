@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.ban;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.server.data.config.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +14,7 @@ import java.util.Optional;
 
 public class BanListener implements Listener {
     private final BanService banService = IocContainer.getBanService();
+    private final Messages messages = IocContainer.getMessages();
 
     public BanListener() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -26,10 +27,11 @@ public class BanListener implements Listener {
         Optional<Ban> ban = banService.getBan(player.getUniqueId());
         if (ban.isPresent()) {
             if (ban.get().getEndDate() == null) {
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "[Banned] You are permanently banned from this server");
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.permanentBannedKick);
             } else {
-                long differenceInMinutes = JavaUtils.getDuration(ban.get().getEndDate());
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "[Banned] You are temporarily banned from this server. Ban ends in " + differenceInMinutes + " minutes." );
+                String message = messages.tempBannedKick
+                    .replace("%duration%", ban.get().getHumanReadableDuration());
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
             }
         }
     }

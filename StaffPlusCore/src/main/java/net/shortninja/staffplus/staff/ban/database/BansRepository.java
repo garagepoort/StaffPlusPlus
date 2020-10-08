@@ -13,9 +13,9 @@ public interface BansRepository {
 
     List<Ban> getBans(int offset, int amount);
 
-    void unban(int id, UUID unban_uuid, String unbanReason);
+    void unban(int id, UUID unbanUuid, String unbanReason);
 
-    void unban(SppPlayer player, UUID unban_uuid, String unbanReason);
+    void unban(SppPlayer player, UUID unbanUuid, String unbanReason);
 
     Optional<Ban> findActiveBan(UUID playerUuid);
 
