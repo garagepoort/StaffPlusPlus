@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.util.lib;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,12 +11,30 @@ import org.bukkit.util.Vector;
 
 import java.text.BreakIterator;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Shortninja, DarkSeraphim, ...
  */
 
 public class JavaUtils {
+
+    private static final List<TimeUnit> timeUnits = Arrays.asList(TimeUnit.DAYS, TimeUnit.HOURS, TimeUnit.MINUTES,
+        TimeUnit.SECONDS);
+
+    public static String toHumanReadableDuration(final long millis) {
+        final StringBuilder builder = new StringBuilder();
+        long acc = millis;
+        for (final TimeUnit timeUnit : timeUnits) {
+            final long convert = timeUnit.convert(acc, TimeUnit.MILLISECONDS);
+            if (convert > 0) {
+                builder.append(convert).append(' ').append(WordUtils.capitalizeFully(timeUnit.name())).append(", ");
+                acc -= TimeUnit.MILLISECONDS.convert(convert, timeUnit);
+            }
+        }
+        return builder.substring(0, builder.length() - 2);
+    }
+
     /**
      * Uses #valueOf() to check if an enum is valid.
      *
@@ -34,6 +53,10 @@ public class JavaUtils {
         } catch (IllegalArgumentException ex) {
             return false;
         }
+    }
+
+    public static long getDuration(long timestamp) {
+        return Math.abs(System.currentTimeMillis() - timestamp);
     }
 
     /**

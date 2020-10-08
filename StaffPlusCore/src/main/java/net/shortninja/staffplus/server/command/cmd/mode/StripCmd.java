@@ -30,7 +30,7 @@ public class StripCmd extends AbstractCmd {
     @Override
     protected void validateExecution(SppPlayer player) {
         if (!JavaUtils.hasInventorySpace(player.getPlayer())) {
-            throw new BusinessException("Cannot strip this player. His inventory has no more space left");
+            throw new BusinessException("&CCannot strip this player. His inventory has no more space left");
         }
     }
 

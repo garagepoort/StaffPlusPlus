@@ -16,23 +16,24 @@ public class SqLiteMigrations implements SqlMigrations {
     private static SqLiteMigrations instance;
     // Define all migrations in this list.
     private static final List<Migration> migrations = Arrays.asList(
-            new V1_CreateReportsTableMigration(),
-            new V2_CreateWarningsTableMigration(),
-            new V3_CreateAlertOptionsTableMigration(),
-            new V4_CreatePlayerDataTableMigration(),
-            new V5_CreateTicketsTableMigration(),
-            new V6_CreateCommandsTableMigration(),
-            new V8_AlterReportTableAddStatusMigration(),
-            new V9_AlterReportTableAddTimestampMigration(),
-            new V10_AlterReportTableAddStaffNameMigration(),
-            new V11_AlterReportTableAddStaffUuidMigration(),
-            new V13_AlterWarningsTableAddScoreMigration(),
-            new V14_AlterWarningsTableAddSeverityMigration(),
-            new V15_CreateDelayedActionsTableMigration(),
-            new V16_AlterDelayedActionsTableAddTimestampMigration(),
-            new V17_AlterReportTableAddCloseReasonMigration(),
-            new V18_CreateLocationsTableMigration(),
-            new V19_CreateProtectedAreasTableMigration());
+        new V1_CreateReportsTableMigration(),
+        new V2_CreateWarningsTableMigration(),
+        new V3_CreateAlertOptionsTableMigration(),
+        new V4_CreatePlayerDataTableMigration(),
+        new V5_CreateTicketsTableMigration(),
+        new V6_CreateCommandsTableMigration(),
+        new V8_AlterReportTableAddStatusMigration(),
+        new V9_AlterReportTableAddTimestampMigration(),
+        new V10_AlterReportTableAddStaffNameMigration(),
+        new V11_AlterReportTableAddStaffUuidMigration(),
+        new V13_AlterWarningsTableAddScoreMigration(),
+        new V14_AlterWarningsTableAddSeverityMigration(),
+        new V15_CreateDelayedActionsTableMigration(),
+        new V16_AlterDelayedActionsTableAddTimestampMigration(),
+        new V17_AlterReportTableAddCloseReasonMigration(),
+        new V18_CreateLocationsTableMigration(),
+        new V19_CreateProtectedAreasTableMigration(),
+        new V20_CreateBannedPlayersTableMigration());
 
     private SqLiteMigrations() {
     }
@@ -51,9 +52,9 @@ public class SqLiteMigrations implements SqlMigrations {
             Bukkit.getLogger().info("Creating migration table");
 
             String sql = "CREATE TABLE IF NOT EXISTS migrations (\n"
-                    + "	id integer PRIMARY KEY,\n"
-                    + "	version integer NOT NULL\n"
-                    + ");";
+                + "	id integer PRIMARY KEY,\n"
+                + "	version integer NOT NULL\n"
+                + ");";
             stmt.execute(sql);
         } catch (SQLException e) {
             Bukkit.getLogger().severe("Failure creating migration table: " + e.getMessage());
@@ -69,8 +70,8 @@ public class SqLiteMigrations implements SqlMigrations {
             int maxVersion = getMaxVersion();
 
             List<Migration> validMigrations = migrations.stream().filter(m -> m.getVersion() > maxVersion)
-                    .sorted(Comparator.comparingInt(Migration::getVersion))
-                    .collect(Collectors.toList());
+                .sorted(Comparator.comparingInt(Migration::getVersion))
+                .collect(Collectors.toList());
 
             for (Migration migration : validMigrations) {
                 try (Statement stmt = connect.createStatement()) {
