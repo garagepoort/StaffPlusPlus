@@ -2,6 +2,8 @@ package net.shortninja.staffplus.staff.ban;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.event.ban.BanEvent;
+import net.shortninja.staffplus.event.ban.UnbanEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -9,15 +11,18 @@ import net.shortninja.staffplus.staff.ban.database.BansRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.JavaUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BanService {
+import static org.bukkit.Bukkit.getScheduler;
 
+public class BanService {
 
     private final Permission permission;
     private final BansRepository bansRepository;
@@ -41,32 +46,37 @@ public class BanService {
         ban(issuer, playerToBan, reason, durationInMillis);
     }
 
-    public Optional<Ban> getBan(UUID playerUuid) {
+    public Optional<Ban> getBanByBannedUuid(UUID playerUuid) {
         return bansRepository.findActiveBan(playerUuid);
     }
 
-    public void unban(CommandSender issuer, SppPlayer playerToUnban, String reason) {
-        String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
-        UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID;
-        Optional<Ban> ban = getBan(playerToUnban.getId());
-        if (!ban.isPresent()) {
-            throw new BusinessException("&CCannot unban, this user is not banned");
-        }
-
-        bansRepository.unban(playerToUnban, issuerUuid, reason);
-        String unbanMessage = messages.unbanned
-            .replace("%target%", playerToUnban.getUsername())
-            .replace("%issuer%", issuerName);
-        message.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
+    public Ban getById(int banId) {
+        return bansRepository.findActiveBan(banId).orElseThrow(() -> new BusinessException("No ban found with this id"));
     }
 
-    public void unban(Player issuer, int id, String reason) {
-        Ban ban = getById(id);
-        bansRepository.unban(id, issuer.getUniqueId(), reason);
-        String unbanMessage = messages.unbanned
-            .replace("%target%", ban.getPlayerName())
-            .replace("%issuer%", issuer.getName());
-        message.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
+    public List<Ban> getAllPaged(int offset, int amount) {
+        return bansRepository.getActiveBans(offset, amount);
+    }
+
+
+    public void unban(CommandSender issuer, SppPlayer playerToUnban, String reason) {
+        Ban ban = bansRepository.findActiveBan(playerToUnban.getId())
+            .orElseThrow(() -> new BusinessException("&CCannot unban, this user is not banned"));
+
+        ban.setUnbannedByName(issuer instanceof Player ? issuer.getName() : "Console");
+        ban.setUnbannedByUuid(issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID);
+        ban.setUnbanReason(reason);
+        unban(ban);
+    }
+
+    public void unban(Player issuer, int banId, String reason) {
+        Ban ban = bansRepository.findActiveBan(banId)
+            .orElseThrow(() -> new BusinessException("&CCannot unban, this user is not banned"));
+
+        ban.setUnbannedByName(issuer.getName());
+        ban.setUnbannedByUuid(issuer.getUniqueId());
+        ban.setUnbanReason(reason);
+        unban(ban);
     }
 
     private void ban(CommandSender issuer, SppPlayer playerToBan, String reason, Long durationInMillis) {
@@ -74,19 +84,19 @@ public class BanService {
             throw new BusinessException("&CThis player bypasses being banned");
         }
 
-        Optional<Ban> existingBan = bansRepository.findActiveBan(playerToBan.getId());
-        if (existingBan.isPresent()) {
-            throw new BusinessException("&CCannot ban this player, the player is already banned");
-        }
+        bansRepository.findActiveBan(playerToBan.getId())
+            .ifPresent((e) -> { throw new BusinessException("&CCannot ban this player, the player is already banned"); });
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID;
 
         Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
-        bansRepository.addBan(new Ban(reason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId()));
+        Ban ban = new Ban(reason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId());
+        ban.setId(bansRepository.addBan(ban));
 
         notifyPlayers(playerToBan, durationInMillis, issuerName);
         kickPlayer(playerToBan, durationInMillis, issuerName);
+        sendEvent(new BanEvent(ban));
     }
 
     private void kickPlayer(SppPlayer playerToBan, Long duration, String issuerName) {
@@ -121,11 +131,20 @@ public class BanService {
         }
     }
 
-    public Ban getById(int banId) {
-        return bansRepository.findActiveBan(banId).orElseThrow(() -> new BusinessException("No ban found with this id"));
+    private void unban(Ban ban) {
+        bansRepository.update(ban);
+
+        String unbanMessage = messages.unbanned
+            .replace("%target%", ban.getPlayerName())
+            .replace("%issuer%", ban.getIssuerName());
+        message.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
+        sendEvent(new UnbanEvent(ban));
     }
 
-    public List<Ban> getAllPaged(int offset, int amount) {
-        return bansRepository.getActiveBans(offset, amount);
+
+    private void sendEvent(Event event) {
+        getScheduler().runTask(StaffPlus.get(), () -> {
+            Bukkit.getPluginManager().callEvent(event);
+        });
     }
 }

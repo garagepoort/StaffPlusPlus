@@ -19,6 +19,10 @@ StaffPlusPlusDiscord:
         notifyCleared: true
         notifyCreate: true
         notifyThresholdReached: true
+    bans:
+        webhookUrl: ""
+        ban: true
+        unban: true
 #    trace:
 #        webhookUrl: ""
 #        notifyStartTrace: false
