@@ -6,6 +6,9 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.command.cmd.*;
 import net.shortninja.staffplus.server.command.cmd.mode.*;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.ban.cmd.BanCmd;
+import net.shortninja.staffplus.staff.ban.cmd.TempBanCmd;
+import net.shortninja.staffplus.staff.ban.cmd.UnbanCmd;
 import net.shortninja.staffplus.staff.broadcast.cmd.BroadcastCmd;
 import net.shortninja.staffplus.staff.freeze.FreezeCmd;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectAreaCmd;
@@ -55,7 +58,10 @@ public class CmdHandler {
             new BaseCmd("echest-view", new EChestView(options.commandEChestView), options.enderChestEnabled, "Used to view a players ender chest", "[player]"),
             new BaseCmd("broadcast", new BroadcastCmd(options.commandBroadcast), true, "Broadcast messages to all players (over all servers)", "[server] [message]"),
             new BaseCmd("protect-player", new ProtectPlayerCmd(options.protectConfiguration.getCommandProtectPlayer()), options.protectConfiguration.isPlayerProtectEnabled(), "Protect a player from all damage", "[player]"),
-            new BaseCmd("protect-area", new ProtectAreaCmd(options.protectConfiguration.getCommandProtectArea()), options.protectConfiguration.isAreaProtectEnabled(), "Protect an area around you.", "[radius] [area name]")
+            new BaseCmd("protect-area", new ProtectAreaCmd(options.protectConfiguration.getCommandProtectArea()), options.protectConfiguration.isAreaProtectEnabled(), "Protect an area around you.", "[radius] [area name]"),
+            new BaseCmd("tempban", new TempBanCmd(options.banConfiguration.getCommandTempBanPlayer()), options.banConfiguration.isEnabled(), "Temporary ban a player", "[player] [amount] [unit] [reason]"),
+            new BaseCmd("ban", new BanCmd(options.banConfiguration.getCommandBanPlayer()), options.banConfiguration.isEnabled(), "Permanent ban a player", "[player] [reason]"),
+            new BaseCmd("unban", new UnbanCmd(options.banConfiguration.getCommandUnbanPlayer()), options.banConfiguration.isEnabled(), "Unban a player", "[player] [reason]")
         };
 
     public CmdHandler() {

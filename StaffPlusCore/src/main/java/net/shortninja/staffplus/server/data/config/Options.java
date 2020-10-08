@@ -3,6 +3,8 @@ package net.shortninja.staffplus.server.data.config;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.authentication.AuthenticationConfigurationLoader;
+import net.shortninja.staffplus.staff.ban.config.BanConfiguration;
+import net.shortninja.staffplus.staff.ban.config.BanModuleLoader;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfigurationLoader;
 import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
@@ -69,6 +71,7 @@ public class Options implements IOptions {
     public final TraceConfiguration traceConfiguration = new TraceModuleLoader().load();
     public final BroadcastConfiguration broadcastConfiguration = new BroadcastConfigurationLoader().load();
     public final ProtectConfiguration protectConfiguration = new ProtectModuleLoader().load();
+    public final BanConfiguration banConfiguration = new BanModuleLoader().load();
 
     /*
      * Staff Chat
