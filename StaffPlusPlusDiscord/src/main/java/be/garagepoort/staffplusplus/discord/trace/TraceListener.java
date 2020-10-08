@@ -110,7 +110,7 @@ public class TraceListener implements Listener {
 
     private void sendFileEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields, File file) {
         try {
-            String discordMessage = new Gson().toJson(new DiscordMessage("Trace event from StaffPlusPlus", getEmbed(title, color, time, fields)));
+            String discordMessage = new Gson().toJson(new DiscordMessage("Trace event from Staff++", getEmbed(title, color, time, fields)));
             discordClient.sendFileEvent(discordMessage, new FormData("text/plain", file.getName(), Files.readAllBytes(file.toPath())));
         } catch (IOException e) {
             e.printStackTrace();
@@ -118,7 +118,7 @@ public class TraceListener implements Listener {
     }
 
     private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
-        discordClient.sendEvent(new DiscordMessage("Trace event from StaffPlusPlus", getEmbed(title, color, time, fields)));
+        discordClient.sendEvent(new DiscordMessage("Trace event from Staff++", getEmbed(title, color, time, fields)));
     }
 
     private DiscordMessageEmbed getEmbed(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
