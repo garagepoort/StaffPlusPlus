@@ -25,10 +25,10 @@ public class MysqlBansRepository extends AbstractSqlBansRepository {
             insert.setString(1, ban.getReason());
             insert.setString(2, ban.getPlayerUuid().toString());
             insert.setString(3, ban.getIssuerUuid().toString());
-            if (ban.getEndDate() == null) {
+            if (ban.getEndTimestamp() == null) {
                 insert.setNull(4, Types.BIGINT);
             } else {
-                insert.setLong(4, ban.getEndDate());
+                insert.setLong(4, ban.getEndTimestamp());
             }
             insert.setLong(5, ban.getCreationTimestamp());
             insert.executeUpdate();

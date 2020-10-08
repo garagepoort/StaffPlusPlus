@@ -24,9 +24,9 @@ public class BanListener implements Listener {
     public void onJoin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
 
-        Optional<Ban> ban = banService.getBan(player.getUniqueId());
+        Optional<Ban> ban = banService.getBanByBannedUuid(player.getUniqueId());
         if (ban.isPresent()) {
-            if (ban.get().getEndDate() == null) {
+            if (ban.get().getEndTimestamp() == null) {
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.permanentBannedKick);
             } else {
                 String message = messages.tempBannedKick

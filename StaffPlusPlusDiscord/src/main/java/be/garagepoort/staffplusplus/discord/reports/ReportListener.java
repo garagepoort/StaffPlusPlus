@@ -118,7 +118,7 @@ public class ReportListener implements Listener {
             fields.add(new DiscordMessageField("Reason for closing", "```" + report.getCloseReason() + "```"));
         }
 
-        discordClient.sendEvent(new DiscordMessage("Report update from StaffPlusPlus", new DiscordMessageEmbed(
+        discordClient.sendEvent(new DiscordMessage("Report update from Staff++", new DiscordMessageEmbed(
             title,
             Constants.STAFFPLUSPLUS_URL,
             color,

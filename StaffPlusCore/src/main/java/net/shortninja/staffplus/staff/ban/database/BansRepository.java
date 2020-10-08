@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.staff.ban.database;
 
-import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.staff.ban.Ban;
 
 import java.util.List;
@@ -13,9 +12,7 @@ public interface BansRepository {
 
     List<Ban> getActiveBans(int offset, int amount);
 
-    void unban(int id, UUID unbanUuid, String unbanReason);
-
-    void unban(SppPlayer player, UUID unbanUuid, String unbanReason);
+    void update(Ban ban);
 
     Optional<Ban> findActiveBan(UUID playerUuid);
 
