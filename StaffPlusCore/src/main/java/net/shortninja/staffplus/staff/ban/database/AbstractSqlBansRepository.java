@@ -81,27 +81,13 @@ public abstract class AbstractSqlBansRepository implements BansRepository, IocCo
     }
 
     @Override
-    public void unban(int id, UUID unbannedByUuid, String unbanReason) {
+    public void update(Ban ban) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_banned_players set unbanned_by_uuid=?, unban_reason=?, end_timestamp=? WHERE id=?")) {
-            insert.setString(1, unbannedByUuid.toString());
-            insert.setString(2, unbanReason);
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_banned_players set unbanned_by_uuid=?, unban_reason=?, end_timestamp=? WHERE ID=?")) {
+            insert.setString(1, ban.getUnbannedByUuid().toString());
+            insert.setString(2, ban.getUnbanReason());
             insert.setLong(3, System.currentTimeMillis());
-            insert.setInt(4, id);
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void unban(SppPlayer sppPlayer, UUID unbannedByUuid, String unbanReason) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_banned_players set unbanned_by_uuid=?, unban_reason=?, end_timestamp=? WHERE player_uuid=?")) {
-            insert.setString(1, unbannedByUuid.toString());
-            insert.setString(2, unbanReason);
-            insert.setLong(3, System.currentTimeMillis());
-            insert.setString(4, sppPlayer.getId().toString());
+            insert.setInt(4, ban.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

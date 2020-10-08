@@ -115,7 +115,7 @@ public class WarningListener implements Listener {
     }
 
     private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
-        discordClient.sendEvent(new DiscordMessage("Warning update from StaffPlusPlus", new DiscordMessageEmbed(
+        discordClient.sendEvent(new DiscordMessage("Warning update from Staff++", new DiscordMessageEmbed(
             title,
             Constants.STAFFPLUSPLUS_URL,
             color,

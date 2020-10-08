@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.staff.ban;
 
+import net.shortninja.staffplus.unordered.IBan;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 
 import java.time.Instant;
@@ -7,7 +8,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public class Ban {
+public class Ban implements IBan {
 
     private int id;
     private String reason;
@@ -53,59 +54,96 @@ public class Ban {
         this.issuerUuid = issuerUuid;
     }
 
-    public ZonedDateTime getCreationDate() {
-        return ZonedDateTime.ofInstant(Instant.ofEpochMilli(creationDate), ZoneId.systemDefault());
-    }
-
+    @Override
     public Long getCreationTimestamp() {
         return creationDate;
     }
 
+    @Override
+    public ZonedDateTime getCreationDate() {
+        return ZonedDateTime.ofInstant(Instant.ofEpochMilli(creationDate), ZoneId.systemDefault());
+    }
+
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getReason() {
         return reason;
     }
 
-    public Long getEndDate() {
-        return endDate;
-    }
-
+    @Override
     public UUID getPlayerUuid() {
         return playerUuid;
     }
 
+    @Override
     public UUID getIssuerUuid() {
         return issuerUuid;
     }
 
+    @Override
+    public Long getEndTimestamp() {
+        return endDate;
+    }
+
+    @Override
+    public ZonedDateTime getEndDate() {
+        if(endDate == null) {
+            return null;
+        }
+        return ZonedDateTime.ofInstant(Instant.ofEpochMilli(endDate), ZoneId.systemDefault());
+    }
+
+    @Override
     public UUID getUnbannedByUuid() {
         return unbannedByUuid;
     }
 
+    @Override
     public String getPlayerName() {
         return playerName;
     }
 
+    @Override
     public String getIssuerName() {
         return issuerName;
     }
 
+    @Override
     public String getUnbannedByName() {
         return unbannedByName;
     }
 
+    @Override
     public String getUnbanReason() {
         return unbanReason;
     }
 
+    @Override
     public String getHumanReadableDuration() {
         if(endDate == null) {
             return null;
         }
         long duration = JavaUtils.getDuration(endDate);
         return JavaUtils.toHumanReadableDuration(duration);
+    }
+
+    public void setUnbannedByName(String unbannedByName) {
+        this.unbannedByName = unbannedByName;
+    }
+
+    public void setUnbannedByUuid(UUID unbannedByUuid) {
+        this.unbannedByUuid = unbannedByUuid;
+    }
+
+    public void setUnbanReason(String unbanReason) {
+        this.unbanReason = unbanReason;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
