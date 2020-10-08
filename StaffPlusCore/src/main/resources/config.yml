@@ -1124,7 +1124,7 @@ commands:
   protect-area: "protectArea"
 
   # The command to permanently ban a player
-  ban: "sban"
+  ban: "ban"
 
   # The command to temporarily ban a player
   tempban: "tempban"
