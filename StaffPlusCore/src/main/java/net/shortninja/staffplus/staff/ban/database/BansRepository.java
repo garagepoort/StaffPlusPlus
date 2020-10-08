@@ -11,7 +11,7 @@ public interface BansRepository {
 
     int addBan(Ban ban);
 
-    List<Ban> getBans(int offset, int amount);
+    List<Ban> getActiveBans(int offset, int amount);
 
     void unban(int id, UUID unbanUuid, String unbanReason);
 

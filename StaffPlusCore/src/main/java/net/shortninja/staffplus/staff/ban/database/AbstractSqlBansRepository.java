@@ -26,12 +26,13 @@ public abstract class AbstractSqlBansRepository implements BansRepository, IocCo
     protected abstract Connection getConnection() throws SQLException;
 
     @Override
-    public List<Ban> getBans(int offset, int amount) {
+    public List<Ban> getActiveBans(int offset, int amount) {
         List<Ban> bans = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players ORDER BY creation_timestamp DESC LIMIT ?,?")) {
-            ps.setInt(1, offset);
-            ps.setInt(2, amount);
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE end_timestamp IS NULL OR end_timestamp > ? ORDER BY creation_timestamp DESC LIMIT ?,?")) {
+            ps.setLong(1, System.currentTimeMillis());
+            ps.setInt(2, offset);
+            ps.setInt(3, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     bans.add(buildBan(rs));

@@ -12,6 +12,7 @@ import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,7 +54,19 @@ public class BanService {
         }
 
         bansRepository.unban(playerToUnban, issuerUuid, reason);
-        message.sendGlobalMessage("&6" + playerToUnban.getUsername() + " has been unbanned from the server by " + issuerName, messages.prefixGeneral);
+        String unbanMessage = messages.unbanned
+            .replace("%target%", playerToUnban.getUsername())
+            .replace("%issuer%", issuerName);
+        message.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
+    }
+
+    public void unban(Player issuer, int id, String reason) {
+        Ban ban = getById(id);
+        bansRepository.unban(id, issuer.getUniqueId(), reason);
+        String unbanMessage = messages.unbanned
+            .replace("%target%", ban.getPlayerName())
+            .replace("%issuer%", issuer.getName());
+        message.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
     }
 
     private void ban(CommandSender issuer, SppPlayer playerToBan, String reason, Long durationInMillis) {
@@ -108,4 +121,11 @@ public class BanService {
         }
     }
 
+    public Ban getById(int banId) {
+        return bansRepository.findActiveBan(banId).orElseThrow(() -> new BusinessException("No ban found with this id"));
+    }
+
+    public List<Ban> getAllPaged(int offset, int amount) {
+        return bansRepository.getActiveBans(offset, amount);
+    }
 }
