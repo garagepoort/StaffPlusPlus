@@ -205,5 +205,17 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&b你现在已设为&7%status%模式, 目标为%target%&b."
 strip: "&7%player%的盔甲已被移除!"
 
+############################################################
+# +------------------------------------------------------+ #
+# |                     Banning                          | #
+# +------------------------------------------------------+ #
+############################################################
+ban-permabanned: "&6%target% has been permanently banned from the server by %issuer%"
+ban-tempbanned: "&6%target% has been banned from the server by %issuer% for %duration%"
+ban-unbanned: "&6%target% has been unbanned from the server by %issuer%"
+
+ban-tempbanned-kick: "[Banned] You have been temporarily banned from this server. Ban ends in: %duration%"
+ban-permabanned-kick: "[Banned] You have been permanently banned from this server"
+
 # 请勿修改此数除非你知道你你在做什么!
-lang-version: 6197
+lang-version: 6198

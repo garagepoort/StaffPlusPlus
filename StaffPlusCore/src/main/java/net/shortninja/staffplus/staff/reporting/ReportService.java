@@ -164,7 +164,7 @@ public class ReportService {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             Report report = getReport(reportId);
             if (!report.getStaffUuid().equals(player.getUniqueId())) {
-                throw new BusinessException("You cannot change the status of a report you are not assigned to", messages.prefixReports);
+                throw new BusinessException("&CYou cannot change the status of a report you are not assigned to", messages.prefixReports);
             }
 
             report.setStaffUuid(null);
@@ -191,7 +191,7 @@ public class ReportService {
 
     private void closedReport(Player player, Report report, ReportStatus rejected, String closeReason) {
         if (!report.getStaffUuid().equals(player.getUniqueId())) {
-            throw new BusinessException("You cannot change the status of a report you are not assigned to", messages.prefixReports);
+            throw new BusinessException("&CYou cannot change the status of a report you are not assigned to", messages.prefixReports);
         }
 
         report.setReportStatus(rejected);

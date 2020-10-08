@@ -38,7 +38,7 @@ public class BroadcastService {
 
     public void broadcastToCurrent(String message) {
         if (broadcastConfiguration.multipleServers()) {
-            throw new BusinessException("Not allowed to use server [current] when configuration contains a list of network servers. Please specify the server name instead of [current].");
+            throw new BusinessException("&CNot allowed to use server [current] when configuration contains a list of network servers. Please specify the server name instead of [current].");
         }
         broadcast(message);
     }
@@ -59,14 +59,14 @@ public class BroadcastService {
 
     public void broadcastToSpecific(CommandSender sender, List<String> servers, String message) {
         if(broadcastConfiguration.sendToCurrent()) {
-            throw new BusinessException("Configuration is set up to use current server. Cannot broadcast to another server");
+            throw new BusinessException("&CConfiguration is set up to use current server. Cannot broadcast to another server");
         }
         List<String> invalidServers = servers.stream()
             .filter(s -> !broadcastConfiguration.getEnabledServers().contains(s))
             .collect(Collectors.toList());
 
         if (!invalidServers.isEmpty()) {
-            throw new BusinessException("Cannot use server names: [" + String.join(" - ", invalidServers) + "]");
+            throw new BusinessException("&CCannot use server names: [" + String.join(" - ", invalidServers) + "]");
         }
 
         for (String server : servers) {

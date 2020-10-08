@@ -47,7 +47,7 @@ public class ProtectAreaCmd extends AbstractCmd {
             return true;
         }
 
-        throw new BusinessException("Please choose a correct action [create|delete]");
+        throw new BusinessException("&CPlease choose a correct action [create|delete]");
     }
 
     @Override

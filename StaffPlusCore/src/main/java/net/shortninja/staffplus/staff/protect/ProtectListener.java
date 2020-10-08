@@ -33,7 +33,7 @@ public class ProtectListener implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (event.getClickedBlock() != null) {
-            if ((event.getClickedBlock() instanceof Container || event.getClickedBlock().getBlockData() instanceof Powerable) && protectService.isLocationProtect(player, event.getClickedBlock().getLocation())) {
+            if ((event.getClickedBlock().getState() instanceof Container || event.getClickedBlock().getBlockData() instanceof Powerable) && protectService.isLocationProtect(player, event.getClickedBlock().getLocation())) {
                 event.setCancelled(true);
             }
         }
