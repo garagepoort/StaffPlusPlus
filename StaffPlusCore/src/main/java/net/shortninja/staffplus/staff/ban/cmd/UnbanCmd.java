@@ -4,9 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.BanService;
-import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -19,13 +17,9 @@ import java.util.stream.Collectors;
 public class UnbanCmd extends AbstractCmd {
 
     private final BanService banService = IocContainer.getBanService();
-    private PermissionHandler permissionHandler;
-    private Options options;
 
     public UnbanCmd(String name) {
         super(name, IocContainer.getOptions().banConfiguration.getPermissionBanPlayer());
-        options = IocContainer.getOptions();
-        permissionHandler = IocContainer.getPermissionHandler();
     }
 
     @Override
