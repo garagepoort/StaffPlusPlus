@@ -204,5 +204,17 @@ examine-notes-note: "&b%player%: &7%note%"
 follow: "&bVocê está em &7%status% %target%&b."
 strip: "&7%player% teve sua armadura removida!"
 
+############################################################
+# +------------------------------------------------------+ #
+# |                     Banning                          | #
+# +------------------------------------------------------+ #
+############################################################
+ban-permabanned: "&6%target% has been permanently banned from the server by %issuer%"
+ban-tempbanned: "&6%target% has been banned from the server by %issuer% for %duration%"
+ban-unbanned: "&6%target% has been unbanned from the server by %issuer%"
+
+ban-tempbanned-kick: "[Banned] You have been temporarily banned from this server. Ban ends in: %duration%"
+ban-permabanned-kick: "[Banned] You have been permanently banned from this server"
+
 # NÃO MUDE ISSO SE VOCÊ NÃO SABE O QUE FAZ!!!
-lang-version: 6197
+lang-version: 6198

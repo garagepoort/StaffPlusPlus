@@ -13,6 +13,10 @@ import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
 import net.shortninja.staffplus.server.chat.*;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
+import net.shortninja.staffplus.staff.ban.BanService;
+import net.shortninja.staffplus.staff.ban.database.BansRepository;
+import net.shortninja.staffplus.staff.ban.database.MysqlBansRepository;
+import net.shortninja.staffplus.staff.ban.database.SqliteBansRepository;
 import net.shortninja.staffplus.staff.broadcast.BroadcastService;
 import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.location.MysqlLocationRepository;
@@ -96,6 +100,14 @@ public class IocContainer {
 
     public static DelayedActionsRepository getDelayedActionsRepository() {
         return initBean(DelayedActionsRepository.class, () -> RepositoryFactory.create("DELAYED_ACTIONS"));
+    }
+
+    public static BanService getBanService() {
+        return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
+    }
+
+    public static BansRepository getBansRepository() {
+        return initBean(BansRepository.class, () -> RepositoryFactory.create("BANS"));
     }
 
     public static ReportService getReportService() {
@@ -268,6 +280,8 @@ public class IocContainer {
             MAP.put("LOCATIONS", DatabaseType.SQLITE, sqliteLocationRepository);
             MAP.put("PROTECTED_AREAS", DatabaseType.MYSQL, new MysqlProtectedAreaRepository(mysqlLocationRepository));
             MAP.put("PROTECTED_AREAS", DatabaseType.SQLITE, new SqliteProtectedAreaRepository(sqliteLocationRepository));
+            MAP.put("BANS", DatabaseType.MYSQL, new MysqlBansRepository(getPlayerManager()));
+            MAP.put("BANS", DatabaseType.SQLITE, new SqliteBansRepository(getPlayerManager()));
         }
 
         @SuppressWarnings("unchecked")
