@@ -1,5 +1,6 @@
 package be.garagepoort.staffplusplus.discord;
 
+import be.garagepoort.staffplusplus.discord.ban.BanListener;
 import be.garagepoort.staffplusplus.discord.reports.ReportListener;
 import be.garagepoort.staffplusplus.discord.warnings.WarningListener;
 import org.bukkit.Bukkit;
@@ -17,6 +18,7 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
 
         ReportListener reportListener = new ReportListener(config);
         WarningListener warningListener = new WarningListener(config);
+        BanListener banListener = new BanListener(config);
 
         if(reportListener.isEnabled() &&
                 (config.getString("StaffPlusPlusDiscord.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.webhookUrl").isEmpty())) {
@@ -32,11 +34,20 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
             return;
         }
 
+        if(banListener.isEnabled() &&
+                (config.getString("StaffPlusPlusDiscord.bans.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.bans.webhookUrl").isEmpty())) {
+            showError("Cannot enable StaffPlusPlusDiscord. No bans webhookUrl provided in the configuration.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
         reportListener.init();
         warningListener.init();
+        banListener.init();
 
         getServer().getPluginManager().registerEvents(reportListener, this);
         getServer().getPluginManager().registerEvents(warningListener, this);
+        getServer().getPluginManager().registerEvents(banListener, this);
     }
 
     private void showError(String errorMessage) {
