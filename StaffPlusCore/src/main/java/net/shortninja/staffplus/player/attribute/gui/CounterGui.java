@@ -61,6 +61,7 @@ public class CounterGui extends AbstractGui {
             slot++;
         }
 
+        player.closeInventory();
         player.openInventory(getInventory());
         sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
