@@ -23,6 +23,7 @@ public class FreezeGui extends AbstractGui {
         super(SIZE, title);
 
         setItem(4, freezeItem(), null);
+        player.closeInventory();
         player.openInventory(getInventory());
         sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }

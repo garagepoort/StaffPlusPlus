@@ -57,6 +57,7 @@ public class HubGui extends AbstractGui {
 
         PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
         setGlass(playerSession);
+        player.closeInventory();
         player.openInventory(getInventory());
         playerSession.setCurrentGui(this);
     }

@@ -1,15 +1,13 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -51,32 +49,19 @@ public class AbstractGui implements IGui {
     public void setGlass(PlayerSession user) {
         ItemStack item = glassItem(user.getGlassColor());
 
-        IAction action = new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot) {
-                new ColorGui(player, options.glassTitle);
-            }
-
-            @Override
-            public boolean shouldClose() {
-                return false;
-            }
-
-        };
-
         for (int i = 0; i < 3; i++) {
             int slot = 9 * i;
 
-            setItem(slot, item, action);
-            setItem(slot + 8, item, action);
+            setItem(slot, item, null);
+            setItem(slot + 8, item, null);
         }
     }
 
-    private ItemStack glassItem(short data) {
+    private ItemStack glassItem(Material data) {
         return Items.builder()
-                .setMaterial(Material.STAINED_GLASS_PANE)
+                .setMaterial(data)
                 .setName("&bColor #" + data)
-                .addLore("&7Click to change your GUI color!")
+                .addLore("&7Color changing not supported in this version!")
                 .build();
     }
 }

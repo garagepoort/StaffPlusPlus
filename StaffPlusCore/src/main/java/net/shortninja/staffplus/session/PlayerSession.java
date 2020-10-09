@@ -6,6 +6,7 @@ import net.shortninja.staffplus.server.chat.ChatAction;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.*;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
@@ -17,7 +18,7 @@ public class PlayerSession {
     private final Options options = IocContainer.getOptions();
     private final UUID uuid;
     private final String name;
-    protected short glassColor;
+    private Material glassColor;
     private VanishType vanishType = VanishType.NONE;
     private IGui currentGui = null;
     private ChatAction chatAction = null;
@@ -36,23 +37,7 @@ public class PlayerSession {
     private static Field playerConnectionField;
     private static Field pingField;
 
-    /*static { Causes issues will fix latter
-        try {
-            final String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-//            final String version = StaffPlus.get().versionProtocol.getVersion();
-
-            craftPlayerClass = Class.forName("org.bukkit.craftbukkit." + version + ".entity.CraftPlayer");
-            entityPlayerClass = Class.forName("net.minecraft.server." + version + ".EntityPlayer");
-            playerConnectionClass = Class.forName("net.minecraft.server." + version + ".PlayerConnection");
-            getHandleMethod = craftPlayerClass.getDeclaredMethod("getHandle");
-            playerConnectionField = entityPlayerClass.getDeclaredField("playerConnection");
-            pingField = playerConnectionClass.getDeclaredField("ping");
-        } catch (ReflectiveOperationException  e) {
-            //throw new RuntimeException(e);
-        }
-    }*/
-
-    public PlayerSession(UUID uuid, String name, short glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
+    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
@@ -62,7 +47,7 @@ public class PlayerSession {
 
     public PlayerSession(UUID uuid, String name) {
         this.uuid = uuid;
-        this.glassColor = options.glassColor;
+        this.glassColor = Material.STAINED_GLASS_PANE;
         this.name = name;
 
         for (AlertType alertType : AlertType.values()) {
@@ -70,7 +55,7 @@ public class PlayerSession {
         }
     }
 
-    public PlayerSession(UUID uuid, String name, short glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions, Player player) {
+    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions, Player player) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
@@ -90,12 +75,12 @@ public class PlayerSession {
         return name;
     }
 
-    public short getGlassColor() {
-        return IocContainer.getStorage().getGlassColor(this);
+    public Material getGlassColor() {
+        return glassColor;
     }
 
-    public void setGlassColor(short glassColor) {
-        IocContainer.getStorage().setGlassColor(this, glassColor);
+    public void setGlassColor(Material glassColor) {
+        this.glassColor = glassColor;
     }
 
     public List<String> getPlayerNotes() {
