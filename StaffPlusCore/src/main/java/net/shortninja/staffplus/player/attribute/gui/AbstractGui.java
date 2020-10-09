@@ -1,10 +1,9 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
@@ -72,11 +71,9 @@ public class AbstractGui implements IGui {
         }
     }
 
-    private ItemStack glassItem(short data) {
-        String[] tmp = Bukkit.getVersion().split("MC: ");
-        String version = tmp[tmp.length - 1].substring(0, 4);
+    private ItemStack glassItem(Material data) {
         return Items.builder()
-                .setMaterial(Material.valueOf(GlassData.getName(data)))
+                .setMaterial(data)
                 .setName("&bColor #" + data)
                 .addLore("&7Click to change your GUI color!")
                 .build();

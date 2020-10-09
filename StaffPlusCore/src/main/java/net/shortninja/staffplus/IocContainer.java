@@ -39,10 +39,6 @@ import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalWordsChatCe
 import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.server.data.storage.IStorage;
-import net.shortninja.staffplus.server.data.storage.MemoryStorage;
-import net.shortninja.staffplus.server.data.storage.MySQLStorage;
-import net.shortninja.staffplus.server.data.storage.SqliteStorage;
 import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
@@ -74,7 +70,6 @@ import java.util.function.Supplier;
 public class IocContainer {
 
     private static StaffPlus staffPlus;
-    private static IStorage storage;
 
     private static final Map<Class, Object> beans = new HashMap<>();
 
@@ -131,16 +126,6 @@ public class IocContainer {
             getPlayerManager(),
             getWarnRepository(),
             getDelayedActionsRepository()));
-    }
-
-    public static IStorage getStorage() {
-        if (DatabaseUtil.database().getType() == DatabaseType.MYSQL) {
-            return initBean(IStorage.class, MySQLStorage::new);
-        }
-        if (DatabaseUtil.database().getType() == DatabaseType.SQLITE) {
-            return initBean(IStorage.class, SqliteStorage::new);
-        }
-        return initBean(IStorage.class, MemoryStorage::new);
     }
 
     public static SessionManager getSessionManager() {

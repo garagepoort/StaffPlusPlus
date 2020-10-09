@@ -4,6 +4,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.unordered.AlertType;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -37,10 +38,15 @@ public class SessionLoader {
 
     private PlayerSession buildKnownSession(UUID uuid) {
         String name = dataFile.getString(uuid + ".name");
-        short glassColor = (short) dataFile.getInt(uuid + ".glass-color");
+        String glassColor = dataFile.getString(uuid + ".glass-color");
+        Material glassMaterial = Material.WHITE_STAINED_GLASS_PANE;
+        if(glassColor != null && !glassColor.equals("0")) {
+            glassMaterial = Material.valueOf(glassColor);
+        }
+
         List<String> playerNotes = loadPlayerNotes(uuid);
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
-        return new PlayerSession(uuid, name, glassColor, playerNotes, alertOptions);
+        return new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions);
     }
 
     private Map<AlertType, Boolean> loadAlertOptions(UUID uuid) {

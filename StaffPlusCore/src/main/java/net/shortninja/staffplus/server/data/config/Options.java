@@ -51,7 +51,6 @@ public class Options implements IOptions {
 
     public final List<String> blockedCommands = JavaUtils.stringToList(config.getString("blocked-commands", ""));
     public final List<String> blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands", ""));
-    public final short glassColor = (short) config.getInt("glass-color");
     public final String glassTitle = config.getString("glass-title");
     /*
      * Advanced
