@@ -5,7 +5,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
-import net.shortninja.staffplus.server.AlertCoordinator;
+import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;

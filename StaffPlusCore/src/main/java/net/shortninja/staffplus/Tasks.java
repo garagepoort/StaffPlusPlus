@@ -2,7 +2,7 @@ package net.shortninja.staffplus;
 
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.server.AlertCoordinator;
+import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
