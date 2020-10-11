@@ -5,10 +5,10 @@ import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.PlayerIp
 
 import java.util.List;
 
-public class IpCheck implements AltCheck {
+public class IpDetector implements AltDetector {
     private final PlayerIpRepository playerIpRepository;
 
-    public IpCheck(PlayerIpRepository playerIpRepository) {
+    public IpDetector(PlayerIpRepository playerIpRepository) {
         this.playerIpRepository = playerIpRepository;
     }
 

@@ -3,7 +3,7 @@ package net.shortninja.staffplus.staff.altaccountdetect.checks;
 import net.shortninja.staffplus.player.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 
-public class UsernameCheck implements AltCheck {
+public class UsernameDetector implements AltDetector {
     @Override
     public int getScore(AltDetectInfo altDetectInfo, SppPlayer sppPlayer) {
         String strippedUsernamePlayer = stripUsername(altDetectInfo.getUsername());

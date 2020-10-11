@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.altaccountdetect.database.whitelist;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.staff.altaccountdetect.AltCheckWhitelistedItem;
+import net.shortninja.staffplus.staff.altaccountdetect.AltDetectWhitelistedItem;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,16 +47,16 @@ public abstract class AbstractSqlAltDetectWhitelistRepository implements AltDete
     }
 
     @Override
-    public List<AltCheckWhitelistedItem> getWhitelistedItems(UUID playerUuid) {
-        List<AltCheckWhitelistedItem> whitelistedItems = new ArrayList<>();
+    public List<AltDetectWhitelistedItem> getWhitelistedItems(UUID playerUuid) {
+        List<AltDetectWhitelistedItem> whitelistedItems = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_alt_detect_whitelist WHERE player_uuid_1 = ? OR player_uuid_2 = ?")) {
             ps.setString(1, playerUuid.toString());
             ps.setString(2, playerUuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    AltCheckWhitelistedItem altCheckWhitelistedItem = new AltCheckWhitelistedItem(UUID.fromString(rs.getString(1)), UUID.fromString(rs.getString(2)));
-                    whitelistedItems.add(altCheckWhitelistedItem);
+                    AltDetectWhitelistedItem altDetectWhitelistedItem = new AltDetectWhitelistedItem(UUID.fromString(rs.getString(1)), UUID.fromString(rs.getString(2)));
+                    whitelistedItems.add(altDetectWhitelistedItem);
                 }
             }
         } catch (SQLException e) {

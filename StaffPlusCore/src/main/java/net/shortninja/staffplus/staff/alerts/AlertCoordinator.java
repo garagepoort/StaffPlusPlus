@@ -5,7 +5,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.altcheck.IAltDetectResult;
+import net.shortninja.staffplus.unordered.altdetect.IAltDetectResult;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -63,7 +63,7 @@ public class AlertCoordinator {
         }
     }
 
-    public void onAltDetect(IAltDetectResult altCheckResult) {
+    public void onAltDetect(IAltDetectResult altDetectResult) {
         if (!options.alertsAltDetectEnabled) {
             return;
         }
@@ -71,9 +71,9 @@ public class AlertCoordinator {
         for (PlayerSession playerSession : sessionManager.getAll()) {
             if (playerSession.shouldNotify(AlertType.ALT_CHECK) && permission.has(playerSession.getPlayer().get(), options.permissionAlertsAltDetect)) {
                 message.send(playerSession.getPlayer().get(), String.format("&CAlt account check triggered, %s and %s might be the same player. Trust [%s]",
-                    altCheckResult.getPlayerCheckedName(),
-                    altCheckResult.getPlayerMatchedName(),
-                    altCheckResult.getAltAccountTrustScore()), messages.prefixGeneral);
+                    altDetectResult.getPlayerCheckedName(),
+                    altDetectResult.getPlayerMatchedName(),
+                    altDetectResult.getAltAccountTrustScore()), messages.prefixGeneral);
             }
         }
     }

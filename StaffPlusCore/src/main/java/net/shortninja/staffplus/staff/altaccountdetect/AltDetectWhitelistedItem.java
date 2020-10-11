@@ -2,12 +2,12 @@ package net.shortninja.staffplus.staff.altaccountdetect;
 
 import java.util.UUID;
 
-public class AltCheckWhitelistedItem {
+public class AltDetectWhitelistedItem {
 
     private UUID playerUuid1;
     private UUID playerUuid2;
 
-    public AltCheckWhitelistedItem(UUID playerUuid1, UUID playerUuid2) {
+    public AltDetectWhitelistedItem(UUID playerUuid1, UUID playerUuid2) {
         this.playerUuid1 = playerUuid1;
         this.playerUuid2 = playerUuid2;
     }

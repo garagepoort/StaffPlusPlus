@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.unordered.altcheck;
+package net.shortninja.staffplus.unordered.altdetect;
 
 public enum AltAccountTrustScore {
 

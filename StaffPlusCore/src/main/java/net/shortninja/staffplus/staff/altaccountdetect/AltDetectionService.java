@@ -2,17 +2,17 @@ package net.shortninja.staffplus.staff.altaccountdetect;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.event.altcheck.AltCheckEvent;
+import net.shortninja.staffplus.event.altdetect.AltDetectEvent;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.staff.altaccountdetect.checks.AltCheck;
+import net.shortninja.staffplus.staff.altaccountdetect.checks.AltDetector;
 import net.shortninja.staffplus.staff.altaccountdetect.checks.AltDetectInfo;
-import net.shortninja.staffplus.staff.altaccountdetect.checks.IpCheck;
-import net.shortninja.staffplus.staff.altaccountdetect.checks.UsernameCheck;
+import net.shortninja.staffplus.staff.altaccountdetect.checks.IpDetector;
+import net.shortninja.staffplus.staff.altaccountdetect.checks.UsernameDetector;
 import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.PlayerIpRepository;
 import net.shortninja.staffplus.staff.altaccountdetect.database.whitelist.AltDetectWhitelistRepository;
-import net.shortninja.staffplus.unordered.altcheck.AltAccountTrustScore;
+import net.shortninja.staffplus.unordered.altdetect.AltAccountTrustScore;
 import net.shortninja.staffplus.util.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -24,7 +24,7 @@ import java.util.List;
 public class AltDetectionService {
 
     private final PlayerManager playerManager;
-    private final List<AltCheck> altChecks;
+    private final List<AltDetector> altDetectors;
     private final PlayerIpRepository playerIpRepository;
     private final AltDetectWhitelistRepository altDetectWhitelistRepository;
     private final Permission permission;
@@ -32,7 +32,7 @@ public class AltDetectionService {
 
     public AltDetectionService(PlayerManager playerManager, PlayerIpRepository playerIpRepository, AltDetectWhitelistRepository altDetectWhitelistRepository, Permission permission, Options options) {
         this.playerManager = playerManager;
-        this.altChecks = Arrays.asList(new UsernameCheck(), new IpCheck(playerIpRepository));
+        this.altDetectors = Arrays.asList(new UsernameDetector(), new IpDetector(playerIpRepository));
         this.playerIpRepository = playerIpRepository;
         this.altDetectWhitelistRepository = altDetectWhitelistRepository;
         this.permission = permission;
@@ -68,7 +68,7 @@ public class AltDetectionService {
         AltDetectInfo altDetectInfo = new AltDetectInfo(playerName, playerIp);
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             playerIpRepository.save(player.getUniqueId(), altDetectInfo.getIp());
-            List<AltCheckWhitelistedItem> whitelistedItems = altDetectWhitelistRepository.getWhitelistedItems(player.getUniqueId());
+            List<AltDetectWhitelistedItem> whitelistedItems = altDetectWhitelistRepository.getWhitelistedItems(player.getUniqueId());
 
             for (SppPlayer onAndOfflinePlayer : onAndOfflinePlayers) {
                 boolean isWhitelisted = whitelistedItems.stream().anyMatch(w -> w.isWhitelisted(player.getUniqueId(), onAndOfflinePlayer.getId()));
@@ -76,9 +76,9 @@ public class AltDetectionService {
                     continue;
                 }
 
-                int trustScore = altChecks.stream().mapToInt(a -> a.getScore(altDetectInfo, onAndOfflinePlayer)).sum();
+                int trustScore = altDetectors.stream().mapToInt(a -> a.getScore(altDetectInfo, onAndOfflinePlayer)).sum();
                 if (trustScore != 0) {
-                    Bukkit.getPluginManager().callEvent(new AltCheckEvent(new AltDetectResult(
+                    Bukkit.getPluginManager().callEvent(new AltDetectEvent(new AltDetectResult(
                         player.getUniqueId(),
                         playerName,
                         onAndOfflinePlayer.getId(),
