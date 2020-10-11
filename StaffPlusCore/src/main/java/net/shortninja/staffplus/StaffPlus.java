@@ -17,6 +17,8 @@ import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.Save;
+import net.shortninja.staffplus.staff.alerts.AlertListener;
+import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionListener;
 import net.shortninja.staffplus.staff.ban.BanListener;
 import net.shortninja.staffplus.staff.broadcast.BungeeBroadcastListener;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
@@ -173,6 +175,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new EntityChangeBlock();
         new ProtectListener();
         new BanListener();
+        new AlertListener();
+        new AltDetectionListener();
     }
 
 

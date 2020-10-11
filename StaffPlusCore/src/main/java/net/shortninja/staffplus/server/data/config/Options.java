@@ -3,6 +3,8 @@ package net.shortninja.staffplus.server.data.config;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.authentication.AuthenticationConfigurationLoader;
+import net.shortninja.staffplus.staff.altaccountdetect.config.AltDetectConfiguration;
+import net.shortninja.staffplus.staff.altaccountdetect.config.AltDetectModuleLoader;
 import net.shortninja.staffplus.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.staff.ban.config.BanModuleLoader;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfiguration;
@@ -20,6 +22,7 @@ import net.shortninja.staffplus.staff.warn.config.WarningModuleLoader;
 import net.shortninja.staffplus.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.staff.tracing.config.TraceModuleLoader;
 import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplus.unordered.altdetect.AltDetectTrustLevel;
 import net.shortninja.staffplus.util.Materials;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.Sounds;
@@ -36,6 +39,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //TODO: replace this with something that isn't horribly coupled...
 public class Options implements IOptions {
@@ -71,6 +75,7 @@ public class Options implements IOptions {
     public final BroadcastConfiguration broadcastConfiguration = new BroadcastConfigurationLoader().load();
     public final ProtectConfiguration protectConfiguration = new ProtectModuleLoader().load();
     public final BanConfiguration banConfiguration = new BanModuleLoader().load();
+    public final AltDetectConfiguration altDetectConfiguration = new AltDetectModuleLoader().load();
 
     /*
      * Staff Chat
@@ -105,6 +110,10 @@ public class Options implements IOptions {
     public final boolean alertsNameNotify = config.getBoolean("alerts-module.name-notify");
     public final boolean alertsMentionNotify = config.getBoolean("alerts-module.mention-notify");
     public final boolean alertsXrayEnabled = config.getBoolean("alerts-module.xray-alerts.enabled");
+    public final boolean alertsAltDetectEnabled = config.getBoolean("alerts-module.alt-detect-notify.enabled");
+    public final List<AltDetectTrustLevel> alertsAltDetectTrustLevels = Arrays.stream(config.getString("alerts-module.alt-detect-notify.trust-levels", "").split(";"))
+        .map(AltDetectTrustLevel::valueOf)
+        .collect(Collectors.toList());
     /*
      * Staff Mode
      */
@@ -209,6 +218,7 @@ public class Options implements IOptions {
     public final String permissionChatSlow = config.getString("permissions.chat-slow");
     public final String permissionBlacklist = config.getString("permissions.blacklist");
     public final String permissionMention = config.getString("permissions.mention");
+    public final String permissionAlertsAltDetect = config.getString("permissions.alerts-alt-detect");
     public final String permissionNameChange = config.getString("permissions.name-change");
     public final String permissionXray = config.getString("permissions.xray");
     public final String permissionMode = config.getString("permissions.mode");

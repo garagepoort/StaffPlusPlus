@@ -36,7 +36,9 @@ public class MysqlMigrations implements SqlMigrations {
         new V17_AlterReportTableAddCloseReasonMigration(),
         new V18_CreateLocationsTableMigration(),
         new V19_CreateProtectedAreasTableMigration(),
-        new V20_CreateBannedPlayersTableMigration());
+        new V20_CreateBannedPlayersTableMigration(),
+        new V21_CreatePlayerIpsTableMigration(),
+        new V22_CreateAltDetectWhitelistTableMigration());
 
     private final DataSource datasource;
 
