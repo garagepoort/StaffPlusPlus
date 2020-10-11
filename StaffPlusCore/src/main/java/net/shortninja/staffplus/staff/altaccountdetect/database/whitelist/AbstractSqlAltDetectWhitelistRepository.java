@@ -19,7 +19,7 @@ public abstract class AbstractSqlAltDetectWhitelistRepository implements AltDete
     public void addWhitelistedItem(UUID playerUuid1, UUID playerUuid2) {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_alt_detect_whitelist(player_uuid_1, player_uuid_2) " +
-                 "SELECT ?, ?  WHERE NOT EXISTS (SELECT 1 FROM sp_alt_detect_whitelist WHERE (player_uuid_1=? OR player_uuid_2=?) AND (player_uuid_1=? OR player_uuid_2=?));")) {
+                 "SELECT * FROM (SELECT ?, ?) AS tmp  WHERE NOT EXISTS (SELECT 1 FROM sp_alt_detect_whitelist WHERE (player_uuid_1=? OR player_uuid_2=?) AND (player_uuid_1=? OR player_uuid_2=?));")) {
             insert.setString(1, playerUuid1.toString());
             insert.setString(2, playerUuid2.toString());
             insert.setString(3, playerUuid1.toString());

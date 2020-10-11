@@ -18,7 +18,7 @@ public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepositor
     public void save(UUID playerUuid, String ip) {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_player_ips(player_uuid, ip) " +
-                 "SELECT ?, ?  WHERE NOT EXISTS (SELECT 1 FROM sp_player_ips WHERE player_uuid=? AND ip=?);")) {
+                 "SELECT * FROM (SELECT ?, ?) AS tmp  WHERE NOT EXISTS (SELECT 1 FROM sp_player_ips WHERE player_uuid=? AND ip=?);")) {
             insert.setString(1, playerUuid.toString());
             insert.setString(2, ip);
             insert.setString(3, playerUuid.toString());
