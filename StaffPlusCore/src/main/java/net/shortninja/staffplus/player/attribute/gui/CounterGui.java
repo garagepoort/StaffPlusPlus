@@ -34,7 +34,7 @@ public class CounterGui extends AbstractGui {
         IAction action = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                Player p = Bukkit.getPlayer(item.getItemMeta().getDisplayName().substring(2));
+                Player p = Bukkit.getPlayerExact(item.getItemMeta().getDisplayName().substring(2));
 
                 if (p != null) {
                     player.teleport(p);

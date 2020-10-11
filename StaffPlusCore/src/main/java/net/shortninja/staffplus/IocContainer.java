@@ -13,6 +13,13 @@ import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
 import net.shortninja.staffplus.server.chat.*;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
+import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionService;
+import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.MysqlPlayerIpRepository;
+import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.PlayerIpRepository;
+import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.SqlitePlayerIpRepository;
+import net.shortninja.staffplus.staff.altaccountdetect.database.whitelist.AltDetectWhitelistRepository;
+import net.shortninja.staffplus.staff.altaccountdetect.database.whitelist.MysqlAltDetectWhitelistRepository;
+import net.shortninja.staffplus.staff.altaccountdetect.database.whitelist.SqliteAltDetectWhitelistRepository;
 import net.shortninja.staffplus.staff.ban.BanService;
 import net.shortninja.staffplus.staff.ban.database.BansRepository;
 import net.shortninja.staffplus.staff.ban.database.MysqlBansRepository;
@@ -30,7 +37,7 @@ import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.SqliteReportRepository;
-import net.shortninja.staffplus.server.AlertCoordinator;
+import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
 import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.DomainChatCensor;
@@ -103,6 +110,14 @@ public class IocContainer {
 
     public static BansRepository getBansRepository() {
         return initBean(BansRepository.class, () -> RepositoryFactory.create("BANS"));
+    }
+
+    public static PlayerIpRepository getPlayerIpRepository() {
+        return initBean(PlayerIpRepository.class, () -> RepositoryFactory.create("PLAYER_IPS"));
+    }
+
+    public static AltDetectWhitelistRepository getAltDetectWhitelistRepository() {
+        return initBean(AltDetectWhitelistRepository.class, () -> RepositoryFactory.create("ALT_DETECT_WHITELIST"));
     }
 
     public static ReportService getReportService() {
@@ -244,6 +259,10 @@ public class IocContainer {
             });
     }
 
+    public static AltDetectionService getAltDetectionService() {
+        return initBean(AltDetectionService.class, () -> new AltDetectionService(getPlayerManager(), getPlayerIpRepository(), getAltDetectWhitelistRepository(), getPermissionHandler(), getOptions()));
+    }
+
     public static interface Repository {
     }
 
@@ -267,6 +286,10 @@ public class IocContainer {
             MAP.put("PROTECTED_AREAS", DatabaseType.SQLITE, new SqliteProtectedAreaRepository(sqliteLocationRepository));
             MAP.put("BANS", DatabaseType.MYSQL, new MysqlBansRepository(getPlayerManager()));
             MAP.put("BANS", DatabaseType.SQLITE, new SqliteBansRepository(getPlayerManager()));
+            MAP.put("PLAYER_IPS", DatabaseType.MYSQL, new MysqlPlayerIpRepository());
+            MAP.put("PLAYER_IPS", DatabaseType.SQLITE, new SqlitePlayerIpRepository());
+            MAP.put("ALT_DETECT_WHITELIST", DatabaseType.MYSQL, new MysqlAltDetectWhitelistRepository());
+            MAP.put("ALT_DETECT_WHITELIST", DatabaseType.SQLITE, new SqliteAltDetectWhitelistRepository());
         }
 
         @SuppressWarnings("unchecked")
