@@ -281,6 +281,15 @@ tickets-module:
 
 ############################################################
 # +------------------------------------------------------+ #
+# |                  ALT ACCOUNT DETECTION               | #
+# +------------------------------------------------------+ #
+############################################################
+
+alt-detect-module:
+  enabled: false
+
+############################################################
+# +------------------------------------------------------+ #
 # |                        Alerts                        | #
 # +------------------------------------------------------+ #
 ############################################################
@@ -303,6 +312,10 @@ alerts-module:
 
     # Block type that, when mined, will invoke an alert.
     blocks: SPAWNER, EMERALD_ORE, DIAMOND_ORE, GOLD_ORE, IRON_ORE, COAL_ORE, LAPIS_ORE, REDSTONE_ORE
+
+  alt-detect-notify:
+      enabled: true
+      minimum-trust: FAIRLY_POSITIVE
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -1021,6 +1034,15 @@ permissions:
   # Permission to ban/tempban players
   ban-bypass: "staff.staffplus.ban-bypass"
 
+  # Permission to add/remove players from the alt detection whitelist
+  alt-detect-whitelist: "staff.staffplus.alt-detect-whitelist"
+
+  # Permission to bypass the alt detection
+  alt-detect-bypass: "staff.staffplus.alt-detect-bypass"
+
+  # Permission for receiving alt detect alerts.
+  alerts-alt-detect: "staff.alerts.alt-detects"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #
@@ -1131,6 +1153,9 @@ commands:
 
   # The command to unban a player
   unban: "unban"
+
+  # The command to unban a player
+  alt-detect-whitelist: "altWhitelist"
 
 ############################################################
 # +------------------------------------------------------+ #
