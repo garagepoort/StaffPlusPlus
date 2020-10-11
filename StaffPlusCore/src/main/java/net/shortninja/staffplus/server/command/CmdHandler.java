@@ -6,6 +6,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.command.cmd.*;
 import net.shortninja.staffplus.server.command.cmd.mode.*;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.altaccountdetect.cmd.AltDetectWhitelistCmd;
 import net.shortninja.staffplus.staff.ban.cmd.BanCmd;
 import net.shortninja.staffplus.staff.ban.cmd.TempBanCmd;
 import net.shortninja.staffplus.staff.ban.cmd.UnbanCmd;
@@ -61,7 +62,8 @@ public class CmdHandler {
             new BaseCmd("protect-area", new ProtectAreaCmd(options.protectConfiguration.getCommandProtectArea()), options.protectConfiguration.isAreaProtectEnabled(), "Protect an area around you.", "[radius] [area name]"),
             new BaseCmd("tempban", new TempBanCmd(options.banConfiguration.getCommandTempBanPlayer()), options.banConfiguration.isEnabled(), "Temporary ban a player", "[player] [amount] [unit] [reason]"),
             new BaseCmd("ban", new BanCmd(options.banConfiguration.getCommandBanPlayer()), options.banConfiguration.isEnabled(), "Permanent ban a player", "[player] [reason]"),
-            new BaseCmd("unban", new UnbanCmd(options.banConfiguration.getCommandUnbanPlayer()), options.banConfiguration.isEnabled(), "Unban a player", "[player] [reason]")
+            new BaseCmd("unban", new UnbanCmd(options.banConfiguration.getCommandUnbanPlayer()), options.banConfiguration.isEnabled(), "Unban a player", "[player] [reason]"),
+            new BaseCmd("altDetectWhitelist", new AltDetectWhitelistCmd(options.altDetectConfiguration.getCommandWhitelist()), options.altDetectConfiguration.isEnabled(), "Add/Remove players from the alt account detection whitelist", "[add/remove] [player1] [player2]")
         };
 
     public CmdHandler() {

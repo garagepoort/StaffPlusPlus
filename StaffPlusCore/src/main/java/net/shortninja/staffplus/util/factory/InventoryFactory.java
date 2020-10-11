@@ -1,8 +1,6 @@
 package net.shortninja.staffplus.util.factory;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.data.file.DataFile;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -34,6 +32,7 @@ public final class InventoryFactory {
 
         return inv;
     }
+
     public static boolean isInventoryEmpty(Inventory inv){
         for(ItemStack stack : inv.getContents())
             if (stack != null)

@@ -64,7 +64,7 @@ public class PlayerSession {
     }
 
     public Optional<Player> getPlayer() {
-        return Optional.ofNullable(Bukkit.getPlayer(name));
+        return Optional.ofNullable(Bukkit.getPlayerExact(name));
     }
 
     public UUID getUuid() {

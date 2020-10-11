@@ -13,7 +13,7 @@ public class HealthArgumentExecutor implements ArgumentExecutor {
 
     @Override
     public boolean execute(CommandSender commandSender, String playerName, String value) {
-        Player player = Bukkit.getPlayer(playerName);
+        Player player = Bukkit.getPlayerExact(playerName);
         if (player == null) {
             return false;
         }
