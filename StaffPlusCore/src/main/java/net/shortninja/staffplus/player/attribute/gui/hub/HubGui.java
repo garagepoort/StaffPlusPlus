@@ -22,7 +22,7 @@ import static org.bukkit.Material.*;
 
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
-    private final Options options = IocContainer.getOptions();
+    private final Options options;
     private final GuiItemConfig protectGuiItemConfig;
     private final GuiItemConfig banGuiItemConfig;
     private final GuiItemConfig closedReportsGui;
@@ -31,6 +31,7 @@ public class HubGui extends AbstractGui {
 
     public HubGui(Player player, String title) {
         super(SIZE, title);
+        options = IocContainer.getOptions();
         protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
         banGuiItemConfig = options.banConfiguration.getGuiItemConfig();
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
