@@ -12,4 +12,6 @@ public interface AltDetectWhitelistRepository {
     void removeWhitelistedItem(UUID playerUuid1, UUID playerUuid2);
 
     List<AltDetectWhitelistedItem> getWhitelistedItems(UUID playerUuid1);
+
+    List<AltDetectWhitelistedItem> getAllPAgedWhitelistedItems(int offset, int amount);
 }

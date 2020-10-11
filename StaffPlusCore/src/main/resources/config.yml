@@ -315,7 +315,9 @@ alerts-module:
 
   alt-detect-notify:
       enabled: true
-      minimum-trust: FAIRLY_POSITIVE
+      # Trust levels for which an alert should be triggered
+      # POSITIVE;FAIRLY_POSITIVE;POSSIBLE;NOT_LIKELY
+      trust-levels: FAIRLY_POSITIVE;POSITIVE
 
 ############################################################
 # +------------------------------------------------------+ #

@@ -16,4 +16,12 @@ public class AltDetectWhitelistedItem {
         return (this.playerUuid1.equals(playerUuid1) && this.playerUuid2.equals(playerUuid2))
             || (this.playerUuid1.equals(playerUuid2) && this.playerUuid2.equals(playerUuid1));
     }
+
+    public UUID getPlayerUuid1() {
+        return playerUuid1;
+    }
+
+    public UUID getPlayerUuid2() {
+        return playerUuid2;
+    }
 }

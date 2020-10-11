@@ -64,16 +64,16 @@ public class AlertCoordinator {
     }
 
     public void onAltDetect(IAltDetectResult altDetectResult) {
-        if (!options.alertsAltDetectEnabled) {
+        if (!options.alertsAltDetectEnabled || !options.alertsAltDetectTrustLevels.contains(altDetectResult.getAltDetectTrustLevel())) {
             return;
         }
 
         for (PlayerSession playerSession : sessionManager.getAll()) {
-            if (playerSession.shouldNotify(AlertType.ALT_CHECK) && permission.has(playerSession.getPlayer().get(), options.permissionAlertsAltDetect)) {
+            if (playerSession.shouldNotify(AlertType.ALT_DETECT) && permission.has(playerSession.getPlayer().get(), options.permissionAlertsAltDetect)) {
                 message.send(playerSession.getPlayer().get(), String.format("&CAlt account check triggered, %s and %s might be the same player. Trust [%s]",
                     altDetectResult.getPlayerCheckedName(),
                     altDetectResult.getPlayerMatchedName(),
-                    altDetectResult.getAltAccountTrustScore()), messages.prefixGeneral);
+                    altDetectResult.getAltDetectTrustLevel()), messages.prefixGeneral);
             }
         }
     }

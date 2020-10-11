@@ -22,7 +22,7 @@ public class PlayerManager {
     }
 
     public Optional<SppPlayer> getOnOrOfflinePlayer(String playerName) {
-        Player player = Bukkit.getPlayer(playerName);
+        Player player = Bukkit.getPlayerExact(playerName);
         if (player == null) {
             return offlinePlayerProvider.findUser(playerName);
         }
@@ -41,14 +41,6 @@ public class PlayerManager {
         Player player = Bukkit.getPlayer(playerUuid);
         if (player == null) {
             return offlinePlayerProvider.findUser(playerUuid);
-        }
-        return Optional.of(new SppPlayer(player.getUniqueId(), player.getName(), player));
-    }
-
-    public Optional<SppPlayer> getOnlinePlayer(String tracedPlayerName) {
-        Player player = Bukkit.getPlayer(tracedPlayerName);
-        if (player == null) {
-            return Optional.empty();
         }
         return Optional.of(new SppPlayer(player.getUniqueId(), player.getName(), player));
     }

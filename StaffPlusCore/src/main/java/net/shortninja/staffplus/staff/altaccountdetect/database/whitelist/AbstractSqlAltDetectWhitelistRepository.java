@@ -65,4 +65,23 @@ public abstract class AbstractSqlAltDetectWhitelistRepository implements AltDete
         return whitelistedItems;
     }
 
+    @Override
+    public List<AltDetectWhitelistedItem> getAllPAgedWhitelistedItems(int offset, int amount) {
+        List<AltDetectWhitelistedItem> whitelistedItems = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_alt_detect_whitelist LIMIT ?,?")) {
+            ps.setInt(1, offset);
+            ps.setInt(2, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    AltDetectWhitelistedItem altDetectWhitelistedItem = new AltDetectWhitelistedItem(UUID.fromString(rs.getString(1)), UUID.fromString(rs.getString(2)));
+                    whitelistedItems.add(altDetectWhitelistedItem);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return whitelistedItems;
+    }
+
 }

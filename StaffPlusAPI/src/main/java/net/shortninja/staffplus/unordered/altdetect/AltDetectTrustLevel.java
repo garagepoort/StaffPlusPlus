@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.unordered.altdetect;
 
-public enum AltAccountTrustScore {
+public enum AltDetectTrustLevel {
 
     POSITIVE(4),
     FAIRLY_POSITIVE(3),
@@ -9,7 +9,7 @@ public enum AltAccountTrustScore {
 
     private final int score;
 
-    AltAccountTrustScore(int score) {
+    AltDetectTrustLevel(int score) {
         this.score = score;
     }
 
@@ -17,8 +17,8 @@ public enum AltAccountTrustScore {
         return score;
     }
 
-    public static AltAccountTrustScore fromScore(int score) {
-        for (AltAccountTrustScore value : AltAccountTrustScore.values()) {
+    public static AltDetectTrustLevel fromScore(int score) {
+        for (AltDetectTrustLevel value : AltDetectTrustLevel.values()) {
             if (value.score == score) {
                 return value;
             }

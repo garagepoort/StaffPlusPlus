@@ -13,5 +13,5 @@ public interface IAltDetectResult {
 
     String getPlayerMatchedName();
 
-    AltAccountTrustScore getAltAccountTrustScore();
+    AltDetectTrustLevel getAltDetectTrustLevel();
 }

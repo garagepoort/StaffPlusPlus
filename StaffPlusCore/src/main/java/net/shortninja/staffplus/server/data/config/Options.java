@@ -22,6 +22,7 @@ import net.shortninja.staffplus.staff.warn.config.WarningModuleLoader;
 import net.shortninja.staffplus.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.staff.tracing.config.TraceModuleLoader;
 import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplus.unordered.altdetect.AltDetectTrustLevel;
 import net.shortninja.staffplus.util.Materials;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.Sounds;
@@ -38,6 +39,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //TODO: replace this with something that isn't horribly coupled...
 public class Options implements IOptions {
@@ -109,6 +111,9 @@ public class Options implements IOptions {
     public final boolean alertsMentionNotify = config.getBoolean("alerts-module.mention-notify");
     public final boolean alertsXrayEnabled = config.getBoolean("alerts-module.xray-alerts.enabled");
     public final boolean alertsAltDetectEnabled = config.getBoolean("alerts-module.alt-detect-notify.enabled");
+    public final List<AltDetectTrustLevel> alertsAltDetectTrustLevels = Arrays.stream(config.getString("alerts-module.alt-detect-notify.trust-levels", "").split(";"))
+        .map(AltDetectTrustLevel::valueOf)
+        .collect(Collectors.toList());
     /*
      * Staff Mode
      */
@@ -233,8 +238,6 @@ public class Options implements IOptions {
     public final String permissionClearInv = config.getString("permissions.invClear");
     public final String permissionClearInvBypass = config.getString("permissions.invClear-bypass");
     public final String permissionBroadcast = config.getString("permission.broadcast");
-    public final String permissionAltDetectWhitelist = config.getString("permission.alt-detect-whitelist");
-    public final String permissionAltDetectBypass = config.getString("permission.alt-detect-bypass");
 
     /*
      * Commands

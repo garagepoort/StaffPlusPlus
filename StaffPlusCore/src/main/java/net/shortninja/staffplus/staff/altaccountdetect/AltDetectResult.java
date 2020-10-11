@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.staff.altaccountdetect;
 
-import net.shortninja.staffplus.unordered.altdetect.AltAccountTrustScore;
+import net.shortninja.staffplus.unordered.altdetect.AltDetectTrustLevel;
 import net.shortninja.staffplus.unordered.altdetect.IAltDetectResult;
 
 import java.util.UUID;
@@ -11,14 +11,14 @@ public class AltDetectResult implements IAltDetectResult {
     private String playerCheckedName;
     private UUID playerMatchedUuid;
     private String playerMatchedName;
-    private AltAccountTrustScore altAccountTrustScore;
+    private AltDetectTrustLevel altDetectTrustLevel;
 
-    public AltDetectResult(UUID playerCheckedUuid, String playerCheckedName, UUID playerMatchedUuid, String playerMatchedName, AltAccountTrustScore altAccountTrustScore) {
+    public AltDetectResult(UUID playerCheckedUuid, String playerCheckedName, UUID playerMatchedUuid, String playerMatchedName, AltDetectTrustLevel altDetectTrustLevel) {
         this.playerCheckedUuid = playerCheckedUuid;
         this.playerCheckedName = playerCheckedName;
         this.playerMatchedUuid = playerMatchedUuid;
         this.playerMatchedName = playerMatchedName;
-        this.altAccountTrustScore = altAccountTrustScore;
+        this.altDetectTrustLevel = altDetectTrustLevel;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class AltDetectResult implements IAltDetectResult {
     }
 
     @Override
-    public AltAccountTrustScore getAltAccountTrustScore() {
-        return altAccountTrustScore;
+    public AltDetectTrustLevel getAltDetectTrustLevel() {
+        return altDetectTrustLevel;
     }
 }

@@ -100,7 +100,7 @@ public class AlertsCmd extends AbstractCmd {
                     wasChanged = true;
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
-            case ALT_CHECK:
+            case ALT_DETECT:
                 if (permission.has(player, options.permissionAlertsAltDetect) || !shouldCheckPermission) {
                     session.setAlertOption(alertType, isEnabled);
                     wasChanged = true;
