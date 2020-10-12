@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class AbstractSqlAltDetectWhitelistRepository implements AltDetectWhitelistRepository, IocContainer.Repository {
+public abstract class AbstractSqlAltDetectWhitelistRepository implements AltDetectWhitelistRepository {
 
     protected abstract Connection getConnection() throws SQLException;
 
