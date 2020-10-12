@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class AbstractSqlDelayedActionsRepository implements DelayedActionsRepository, IocContainer.Repository {
+public abstract class AbstractSqlDelayedActionsRepository implements DelayedActionsRepository {
 
     protected abstract Connection getConnection() throws SQLException;
 

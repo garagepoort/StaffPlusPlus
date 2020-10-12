@@ -39,7 +39,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.common.Constants.BUNGEE_CORD_CHANNEL;
@@ -61,7 +60,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public CmdHandler cmdHandler;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
-    public Map<UUID, PlayerSession> playerSessions;
     public List<Inventory> viewedChest = new ArrayList<>();
     public InventoryHandler inventoryHandler;
     public boolean usesPlaceholderAPI;
@@ -122,9 +120,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
         this.databaseInitializer.initialize();
 
-        getScheduler().runTaskAsynchronously(this, () -> {
-            new UpdateNotifier().checkUpdate();
-        });
+        getScheduler().runTaskAsynchronously(this, () -> new UpdateNotifier().checkUpdate());
 
         dataFile = new DataFile("data.yml");
         languageFile = new LanguageFile();
