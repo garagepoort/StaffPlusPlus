@@ -1,5 +1,17 @@
 # Changelog Staff++ | v1.13
 
+### V1.13.21
+#### Features
+- Implement ban & tempban system
+- Implement ban discord integration
+- Implement Alt account detection system
+- Implement Alt account detection discord integration
+
+#### Bugs
+- Fix miner gui
+- Fix prevent inventory open in protected areas
+- Fix ui color choosing
+
 ### V1.13.20
 #### Features
 - Trello integration added for reports
