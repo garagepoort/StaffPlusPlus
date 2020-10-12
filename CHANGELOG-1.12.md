@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.12
 
-### V1.12.7
+### V1.12.7 [NOT RELEASED]
 #### Features
 - Implement ban & tempban system
 - Implement ban discord integration
