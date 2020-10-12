@@ -39,7 +39,7 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onJoin(PlayerJoinEvent event) {
         StaffPlus.get().versionProtocol.inject(event.getPlayer());
-        playerManager.syncPlayerName(event.getPlayer().getName());
+        playerManager.syncPlayer(event.getPlayer());
 
         Player player = event.getPlayer();
 
