@@ -1,18 +1,18 @@
 # Changelog Staff++ | v1.13
 
-### V1.13.21 [NOT RELEASED]
+### V1.13.21
 #### Features
-- Implement ban & tempban system
+- Implement ban & tempban system (https://github.com/garagepoort/StaffPlusPlus/issues/106)
 - Implement ban discord integration
 - Implement Alt account detection system
 - Implement Alt account detection discord integration
-- Add option to disable bungee network sync for staffchat
+- Add option to disable bungee network sync for staffchat (https://github.com/garagepoort/StaffPlusPlus/issues/111)
 
 #### Bugs
 - Fix miner gui
 - Fix prevent inventory open in protected areas
 - Fix ui color choosing
-- Fix performance when autocompleting offline players
+- Fix performance when autocompleting offline players (https://github.com/garagepoort/StaffPlusPlus/issues/111)
 
 ### V1.13.20
 #### Features
