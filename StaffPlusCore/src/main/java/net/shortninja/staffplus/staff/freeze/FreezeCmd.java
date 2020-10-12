@@ -1,14 +1,12 @@
 package net.shortninja.staffplus.staff.freeze;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -25,6 +23,7 @@ public class FreezeCmd extends AbstractCmd {
     private static final String DISABLED = "disabled";
 
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
+    private final PlayerManager playerManager = IocContainer.getPlayerManager();
 
     public FreezeCmd(String name) {
         super(name, IocContainer.getOptions().permissionFreeze);
@@ -51,7 +50,7 @@ public class FreezeCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        if(args.length > 0) {
+        if (args.length > 0) {
             if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
                 return 2;
             }
@@ -86,30 +85,24 @@ public class FreezeCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-        List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
-
-        List<String> suggestions = new ArrayList<>();
 
         if (args.length == 1) {
+            List<String> suggestions = new ArrayList<>();
             if (!args[0].equalsIgnoreCase(ENABLED) && !args[0].equalsIgnoreCase(DISABLED)) {
-                    suggestions.add(ENABLED);
-                    suggestions.add(DISABLED);
+                suggestions.add(ENABLED);
+                suggestions.add(DISABLED);
             }
-            suggestions.addAll(onlinePlayers);
-            suggestions.addAll(offlinePlayers);
+            suggestions.addAll(playerManager.getAllPlayerNames());
             return suggestions.stream()
-                    .filter(s -> args[0].isEmpty() || s.contains(args[0]))
-                    .collect(Collectors.toList());
+                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .collect(Collectors.toList());
         }
 
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
-                suggestions.addAll(onlinePlayers);
-                suggestions.addAll(offlinePlayers);
-                return suggestions.stream()
-                        .filter(s -> args[1].isEmpty() || s.contains(args[1]))
-                        .collect(Collectors.toList());
+                return playerManager.getAllPlayerNames().stream()
+                    .filter(s -> args[1].isEmpty() || s.contains(args[1]))
+                    .collect(Collectors.toList());
             }
         }
 

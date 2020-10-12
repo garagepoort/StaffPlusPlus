@@ -9,11 +9,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TraceCmd extends AbstractCmd {
 
@@ -29,14 +29,14 @@ public class TraceCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         String command = args[0];
-        if(command.equalsIgnoreCase(START)) {
+        if (command.equalsIgnoreCase(START)) {
             traceService.startTrace(sender, player);
             sender.sendMessage("-----------------------------------");
             sender.sendMessage("---------- Trace Started ----------");
             sender.sendMessage("-----------------------------------");
             return true;
         }
-        if(command.equalsIgnoreCase(STOP)) {
+        if (command.equalsIgnoreCase(STOP)) {
             traceService.stopTrace(sender);
             sender.sendMessage("-----------------------------------");
             sender.sendMessage("---------- Trace Stopped ----------");
@@ -48,7 +48,7 @@ public class TraceCmd extends AbstractCmd {
 
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
-        if(args.length > 1) {
+        if (args.length > 1) {
             return Optional.ofNullable(args[1]);
         }
         return Optional.empty();
@@ -56,8 +56,8 @@ public class TraceCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        if(args.length > 0) {
-            if(args[0].equalsIgnoreCase(START)) {
+        if (args.length > 0) {
+            if (args[0].equalsIgnoreCase(START)) {
                 return 2;
             }
         }
@@ -76,19 +76,15 @@ public class TraceCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        List<String> onlinePLayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-        List<String> suggestions = new ArrayList<>();
         if (args.length == 1) {
-            suggestions.add(START);
-            suggestions.add(STOP);
-            return suggestions.stream()
+            return Stream.of(START, STOP)
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());
         }
 
         if (args.length == 2) {
-            suggestions.addAll(onlinePLayers);
-            return suggestions.stream()
+            List<String> onlinePLayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+            return onlinePLayers.stream()
                 .filter(s -> args[1].isEmpty() || s.contains(args[1]))
                 .collect(Collectors.toList());
         }

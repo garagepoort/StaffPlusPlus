@@ -5,10 +5,7 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -69,11 +66,7 @@ public class TeleportCmd extends AbstractCmd {
         List<String> suggestions = new ArrayList<>();
 
         if (args.length == 1) {
-            List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-            List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
-            suggestions.addAll(onlinePlayers);
-            suggestions.addAll(offlinePlayers);
-            return suggestions.stream()
+            return playerManager.getAllPlayerNames().stream()
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());
         }
