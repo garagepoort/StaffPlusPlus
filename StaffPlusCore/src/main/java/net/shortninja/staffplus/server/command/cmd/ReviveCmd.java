@@ -52,7 +52,7 @@ public class ReviveCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             return 0;
         }
         return 1;
@@ -73,12 +73,9 @@ public class ReviveCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-        List<String> suggestions = new ArrayList<>();
-
         if (args.length == 1) {
-            suggestions.addAll(onlinePlayers);
-            return suggestions;
+            List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+            return new ArrayList<>(onlinePlayers);
         }
 
         return getSppArguments(sender, args);
