@@ -10,8 +10,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class StaffPlusPlusDiscord extends JavaPlugin {
 
+    private static StaffPlusPlusDiscord plugin;
+
+
+    public static StaffPlusPlusDiscord get() {
+        return plugin;
+    }
+
     @Override
     public void onEnable() {
+        plugin = this;
         getLogger().info("StaffPlusPlusDiscord plugin enabled");
         saveDefaultConfig();
         ConfigUpdater.updateConfig(this);
@@ -22,29 +30,29 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         BanListener banListener = new BanListener(config);
         AltDetectionListener altDetectionListener = new AltDetectionListener(config);
 
-        if(reportListener.isEnabled() &&
-                (config.getString("StaffPlusPlusDiscord.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.webhookUrl").isEmpty())) {
+        if (reportListener.isEnabled() &&
+            (config.getString("StaffPlusPlusDiscord.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.webhookUrl").isEmpty())) {
             showError("Cannot enable StaffPlusPlusDiscord. No report webhookUrl provided in the configuration.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        if(warningListener.isEnabled() &&
-                (config.getString("StaffPlusPlusDiscord.warnings.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.warnings.webhookUrl").isEmpty())) {
+        if (warningListener.isEnabled() &&
+            (config.getString("StaffPlusPlusDiscord.warnings.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.warnings.webhookUrl").isEmpty())) {
             showError("Cannot enable StaffPlusPlusDiscord. No warning webhookUrl provided in the configuration.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        if(banListener.isEnabled() &&
-                (config.getString("StaffPlusPlusDiscord.bans.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.bans.webhookUrl").isEmpty())) {
+        if (banListener.isEnabled() &&
+            (config.getString("StaffPlusPlusDiscord.bans.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.bans.webhookUrl").isEmpty())) {
             showError("Cannot enable StaffPlusPlusDiscord. No bans webhookUrl provided in the configuration.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        if(altDetectionListener.isEnabled() &&
-                (config.getString("StaffPlusPlusDiscord.altDetect.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.altDetect.webhookUrl").isEmpty())) {
+        if (altDetectionListener.isEnabled() &&
+            (config.getString("StaffPlusPlusDiscord.altDetect.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.altDetect.webhookUrl").isEmpty())) {
             showError("Cannot enable StaffPlusPlusDiscord. No altDetect webhookUrl provided in the configuration.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
