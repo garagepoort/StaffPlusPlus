@@ -14,7 +14,7 @@ public class DiscordUtil {
 
     public static void sendEvent(DiscordClient client, String content, String title, String color, String time, ArrayList<DiscordMessageField> fields) {
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlusDiscord.get(), () -> {
-            client.sendEvent(new DiscordMessage("Alt Account detection from Staff++", new DiscordMessageEmbed(
+            client.sendEvent(new DiscordMessage(content, new DiscordMessageEmbed(
                 title,
                 Constants.STAFFPLUSPLUS_URL,
                 color,
