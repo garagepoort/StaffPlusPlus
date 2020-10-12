@@ -1,6 +1,7 @@
 package be.garagepoort.staffplusplus.discord.trace;
 
 import be.garagepoort.staffplusplus.discord.Constants;
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.api.*;
 import com.google.gson.Gson;
 import feign.Feign;
@@ -118,7 +119,8 @@ public class TraceListener implements Listener {
     }
 
     private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
-        discordClient.sendEvent(new DiscordMessage("Trace event from Staff++", getEmbed(title, color, time, fields)));
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlusDiscord.get(),
+            () -> discordClient.sendEvent(new DiscordMessage("Trace event from Staff++", getEmbed(title, color, time, fields))));
     }
 
     private DiscordMessageEmbed getEmbed(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
