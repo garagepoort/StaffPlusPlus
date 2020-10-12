@@ -1,5 +1,6 @@
 package be.garagepoort.staffplusplus.discord;
 
+import be.garagepoort.staffplusplus.discord.altdetect.AltDetectionListener;
 import be.garagepoort.staffplusplus.discord.ban.BanListener;
 import be.garagepoort.staffplusplus.discord.reports.ReportListener;
 import be.garagepoort.staffplusplus.discord.warnings.WarningListener;
@@ -19,6 +20,7 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         ReportListener reportListener = new ReportListener(config);
         WarningListener warningListener = new WarningListener(config);
         BanListener banListener = new BanListener(config);
+        AltDetectionListener altDetectionListener = new AltDetectionListener(config);
 
         if(reportListener.isEnabled() &&
                 (config.getString("StaffPlusPlusDiscord.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.webhookUrl").isEmpty())) {
@@ -41,13 +43,22 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
             return;
         }
 
+        if(altDetectionListener.isEnabled() &&
+                (config.getString("StaffPlusPlusDiscord.altDetect.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.altDetect.webhookUrl").isEmpty())) {
+            showError("Cannot enable StaffPlusPlusDiscord. No altDetect webhookUrl provided in the configuration.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
         reportListener.init();
         warningListener.init();
         banListener.init();
+        altDetectionListener.init();
 
         getServer().getPluginManager().registerEvents(reportListener, this);
         getServer().getPluginManager().registerEvents(warningListener, this);
         getServer().getPluginManager().registerEvents(banListener, this);
+        getServer().getPluginManager().registerEvents(altDetectionListener, this);
     }
 
     private void showError(String errorMessage) {

@@ -23,6 +23,10 @@ StaffPlusPlusDiscord:
         webhookUrl: ""
         ban: true
         unban: true
+    altDetect:
+        webhookUrl: ""
+        #Level that should be notified to discord, leave empty to disable all notifications
+        enabledTrustLevels: POSITIVE;FAIRLY_POSITIVE
 #    trace:
 #        webhookUrl: ""
 #        notifyStartTrace: false
