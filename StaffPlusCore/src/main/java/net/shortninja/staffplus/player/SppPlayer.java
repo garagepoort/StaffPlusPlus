@@ -2,6 +2,7 @@ package net.shortninja.staffplus.player;
 
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class SppPlayer {
@@ -41,5 +42,19 @@ public class SppPlayer {
             throw new RuntimeException("Cannot retrieve bukkit player. Player is offline");
         }
         return player;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SppPlayer sppPlayer = (SppPlayer) o;
+        return id.equals(sppPlayer.id) &&
+            username.equals(sppPlayer.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username);
     }
 }
