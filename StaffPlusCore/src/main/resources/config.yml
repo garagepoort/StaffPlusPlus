@@ -128,6 +128,8 @@ warnings-module:
 staff-chat-module:
   # Whether or not the plugin will use "/sc" features.
   enabled: true
+  # Whether or not the plugin synchronises staff chat across the bungee network
+  bungee: true
 
   # The string that can be used at the beginning of a message to make it appear in staff chat.
   # If you have "@" as your string, typing "@hey guys" would send "hey guys" to staff chat.
