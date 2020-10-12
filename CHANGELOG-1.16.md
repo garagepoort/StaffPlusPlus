@@ -12,6 +12,7 @@
 - Fix miner gui
 - Fix prevent inventory open in protected areas
 - Fix ui color choosing
+- Fix performance when autocompleting offline players
 
 ### V1.16.26
 #### Features
