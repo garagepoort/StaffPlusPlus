@@ -8,7 +8,7 @@ import org.bukkit.World;
 import java.sql.*;
 import java.util.Optional;
 
-public abstract class AbstractSqlLocationRepository implements LocationRepository, IocContainer.Repository {
+public abstract class AbstractSqlLocationRepository implements LocationRepository {
 
     protected abstract Connection getConnection() throws SQLException;
 
