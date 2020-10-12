@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepository, IocContainer.Repository {
+public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepository {
 
     protected abstract Connection getConnection() throws SQLException;
 

@@ -1,18 +1,27 @@
 package net.shortninja.staffplus;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import net.shortninja.staffplus.authentication.AuthenticationProvider;
 import net.shortninja.staffplus.authentication.AuthenticationService;
 import net.shortninja.staffplus.authentication.authme.AuthMeAuthenticationService;
 import net.shortninja.staffplus.authentication.authme.NoopAuthenticationService;
+import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.ext.bukkit.BukkitOfflinePlayerProvider;
 import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
-import net.shortninja.staffplus.server.chat.*;
+import net.shortninja.staffplus.server.chat.ChatHandler;
+import net.shortninja.staffplus.server.chat.ChatInterceptor;
+import net.shortninja.staffplus.server.chat.GeneralChatInterceptor;
+import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
+import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
+import net.shortninja.staffplus.server.chat.blacklist.censors.DomainChatCensor;
+import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalCharactersChatCensor;
+import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalWordsChatCensor;
+import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.player.ChatActionChatInterceptor;
+import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionService;
 import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.MysqlPlayerIpRepository;
 import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.PlayerIpRepository;
@@ -25,6 +34,11 @@ import net.shortninja.staffplus.staff.ban.database.BansRepository;
 import net.shortninja.staffplus.staff.ban.database.MysqlBansRepository;
 import net.shortninja.staffplus.staff.ban.database.SqliteBansRepository;
 import net.shortninja.staffplus.staff.broadcast.BroadcastService;
+import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
+import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsRepository;
+import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
+import net.shortninja.staffplus.staff.freeze.FreezeChatInterceptor;
+import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.location.MysqlLocationRepository;
 import net.shortninja.staffplus.staff.location.SqliteLocationRepository;
@@ -37,20 +51,6 @@ import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.SqliteReportRepository;
-import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
-import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
-import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
-import net.shortninja.staffplus.server.chat.blacklist.censors.DomainChatCensor;
-import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalCharactersChatCensor;
-import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalWordsChatCensor;
-import net.shortninja.staffplus.session.SessionLoader;
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
-import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsRepository;
-import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
-import net.shortninja.staffplus.staff.freeze.FreezeChatInterceptor;
-import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.staffchat.StaffChatChatInterceptor;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
 import net.shortninja.staffplus.staff.teleport.TeleportService;
@@ -85,39 +85,55 @@ public class IocContainer {
     }
 
     public static ReportRepository getReportRepository() {
-        return initBean(ReportRepository.class, () -> RepositoryFactory.create("REPORT"));
+        return initRepositoryBean(ReportRepository.class,
+            () -> new MysqlReportRepository(getPlayerManager()),
+            () -> new SqliteReportRepository(getPlayerManager()));
     }
 
     public static WarnRepository getWarnRepository() {
-        return initBean(WarnRepository.class, () -> RepositoryFactory.create("WARN"));
+        return initRepositoryBean(WarnRepository.class,
+            () -> new MysqlWarnRepository(getPlayerManager()),
+            () -> new SqliteWarnRepository(getPlayerManager()));
     }
 
     public static LocationRepository getLocationsRepository() {
-        return initBean(LocationRepository.class, () -> RepositoryFactory.create("LOCATIONS"));
+        return initRepositoryBean(LocationRepository.class,
+            MysqlLocationRepository::new,
+            SqliteLocationRepository::new);
     }
 
     public static ProtectedAreaRepository getProtectedAreaRepository() {
-        return initBean(ProtectedAreaRepository.class, () -> RepositoryFactory.create("PROTECTED_AREAS"));
+        return initRepositoryBean(ProtectedAreaRepository.class,
+            () -> new MysqlProtectedAreaRepository(getLocationsRepository()),
+            () -> new SqliteProtectedAreaRepository(getLocationsRepository()));
     }
 
     public static DelayedActionsRepository getDelayedActionsRepository() {
-        return initBean(DelayedActionsRepository.class, () -> RepositoryFactory.create("DELAYED_ACTIONS"));
+        return initRepositoryBean(DelayedActionsRepository.class,
+            MysqlDelayedActionsRepository::new,
+            SqliteDelayedActionsRepository::new);
+    }
+
+    public static BansRepository getBansRepository() {
+        return initRepositoryBean(BansRepository.class,
+            () -> new MysqlBansRepository(getPlayerManager()),
+            () -> new SqliteBansRepository(getPlayerManager()));
+    }
+
+    public static PlayerIpRepository getPlayerIpRepository() {
+        return initRepositoryBean(PlayerIpRepository.class,
+            MysqlPlayerIpRepository::new,
+            SqlitePlayerIpRepository::new);
+    }
+
+    public static AltDetectWhitelistRepository getAltDetectWhitelistRepository() {
+        return initRepositoryBean(AltDetectWhitelistRepository.class,
+            MysqlAltDetectWhitelistRepository::new,
+            SqliteAltDetectWhitelistRepository::new);
     }
 
     public static BanService getBanService() {
         return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
-    }
-
-    public static BansRepository getBansRepository() {
-        return initBean(BansRepository.class, () -> RepositoryFactory.create("BANS"));
-    }
-
-    public static PlayerIpRepository getPlayerIpRepository() {
-        return initBean(PlayerIpRepository.class, () -> RepositoryFactory.create("PLAYER_IPS"));
-    }
-
-    public static AltDetectWhitelistRepository getAltDetectWhitelistRepository() {
-        return initBean(AltDetectWhitelistRepository.class, () -> RepositoryFactory.create("ALT_DETECT_WHITELIST"));
     }
 
     public static ReportService getReportService() {
@@ -248,6 +264,13 @@ public class IocContainer {
         return (T) beans.get(clazz);
     }
 
+    private static <T> T initRepositoryBean(Class<T> clazz, Supplier<T> mysqlRepoSupplier, Supplier<T> sqliteRepoSupplier) {
+        if (!beans.containsKey(clazz)) {
+            beans.put(clazz, DatabaseUtil.database().getType() == DatabaseType.MYSQL ? mysqlRepoSupplier.get() : sqliteRepoSupplier.get());
+        }
+        return (T) beans.get(clazz);
+    }
+
     public static AuthenticationService getAuthenticationService() {
         return initBean(AuthenticationService.class,
             () -> {
@@ -261,50 +284,5 @@ public class IocContainer {
 
     public static AltDetectionService getAltDetectionService() {
         return initBean(AltDetectionService.class, () -> new AltDetectionService(getPlayerManager(), getPlayerIpRepository(), getAltDetectWhitelistRepository(), getPermissionHandler(), getOptions()));
-    }
-
-    public static interface Repository {
-    }
-
-    private static final class RepositoryFactory {
-
-        private static final Table<String, DatabaseType, Repository> MAP = HashBasedTable.create();
-
-        static {
-            MysqlLocationRepository mysqlLocationRepository = new MysqlLocationRepository();
-            SqliteLocationRepository sqliteLocationRepository = new SqliteLocationRepository();
-
-            MAP.put("WARN", DatabaseType.MYSQL, new MysqlWarnRepository(getPlayerManager()));
-            MAP.put("WARN", DatabaseType.SQLITE, new SqliteWarnRepository(getPlayerManager()));
-            MAP.put("REPORT", DatabaseType.MYSQL, new MysqlReportRepository(getPlayerManager()));
-            MAP.put("REPORT", DatabaseType.SQLITE, new SqliteReportRepository(getPlayerManager()));
-            MAP.put("DELAYED_ACTIONS", DatabaseType.MYSQL, new MysqlDelayedActionsRepository());
-            MAP.put("DELAYED_ACTIONS", DatabaseType.SQLITE, new SqliteDelayedActionsRepository());
-            MAP.put("LOCATIONS", DatabaseType.MYSQL, mysqlLocationRepository);
-            MAP.put("LOCATIONS", DatabaseType.SQLITE, sqliteLocationRepository);
-            MAP.put("PROTECTED_AREAS", DatabaseType.MYSQL, new MysqlProtectedAreaRepository(mysqlLocationRepository));
-            MAP.put("PROTECTED_AREAS", DatabaseType.SQLITE, new SqliteProtectedAreaRepository(sqliteLocationRepository));
-            MAP.put("BANS", DatabaseType.MYSQL, new MysqlBansRepository(getPlayerManager()));
-            MAP.put("BANS", DatabaseType.SQLITE, new SqliteBansRepository(getPlayerManager()));
-            MAP.put("PLAYER_IPS", DatabaseType.MYSQL, new MysqlPlayerIpRepository());
-            MAP.put("PLAYER_IPS", DatabaseType.SQLITE, new SqlitePlayerIpRepository());
-            MAP.put("ALT_DETECT_WHITELIST", DatabaseType.MYSQL, new MysqlAltDetectWhitelistRepository());
-            MAP.put("ALT_DETECT_WHITELIST", DatabaseType.SQLITE, new SqliteAltDetectWhitelistRepository());
-        }
-
-        @SuppressWarnings("unchecked")
-        public static <T extends Repository> T create(String type) {
-            if (type == null) {
-                throw new IllegalArgumentException("Type may not be null.");
-            }
-
-            final DatabaseType dbType = DatabaseUtil.database().getType();
-
-            if (!MAP.contains(type, dbType)) {
-                throw new IllegalStateException("No repository registered for type.");
-            }
-
-            return (T) MAP.get(type, dbType);
-        }
     }
 }

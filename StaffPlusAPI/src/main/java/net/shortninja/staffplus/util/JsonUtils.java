@@ -12,7 +12,7 @@ public final class JsonUtils {
     public static String escape(String s){
         if(s==null) return null;
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         JsonUtils.escape(s, sb);
 
         return sb.toString();
@@ -22,7 +22,7 @@ public final class JsonUtils {
      * @param s - Must not be null.
      * @param sb
      */
-    private static void escape(String s, StringBuffer sb) {
+    private static void escape(String s, StringBuilder sb) {
         final int len = s.length();
         for(int i=0;i<len;i++){
             char ch=s.charAt(i);

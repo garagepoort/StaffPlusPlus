@@ -14,13 +14,13 @@ public enum BanUnit {
     WEEK(ChronoUnit.WEEKS),
     MONTH(ChronoUnit.MONTHS),
     YEAR(ChronoUnit.YEARS);
-	
-	public TemporalUnit temporalUnit;
-	
+
+	private final TemporalUnit temporalUnit;
+
 	BanUnit(TemporalUnit temporalUnit){
 		this.temporalUnit = temporalUnit;
 	}
-	
+
 	public static long getTicks(String un, int time){
 	    BanUnit banUnit = BanUnit.valueOf(un.toUpperCase());
         LocalDateTime from = LocalDateTime.now();
