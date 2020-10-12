@@ -6,6 +6,7 @@
 - Implement ban discord integration
 - Implement Alt account detection system
 - Implement Alt account detection discord integration
+- Add option to disable bungee network sync for staffchat
 
 #### Bugs
 - Fix miner gui

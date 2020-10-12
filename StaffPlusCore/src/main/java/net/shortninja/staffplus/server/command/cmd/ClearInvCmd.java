@@ -6,20 +6,17 @@ import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.command.arguments.ArgumentType;
 import net.shortninja.staffplus.util.lib.JavaUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.ONLINE;
-import static net.shortninja.staffplus.server.command.arguments.ArgumentType.*;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.HEALTH;
+import static net.shortninja.staffplus.server.command.arguments.ArgumentType.TELEPORT;
 
 public class ClearInvCmd extends AbstractCmd {
 
@@ -68,14 +65,8 @@ public class ClearInvCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-        List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
-        List<String> suggestions = new ArrayList<>();
-
         if (args.length == 1) {
-            suggestions.addAll(onlinePlayers);
-            suggestions.addAll(offlinePlayers);
-            return suggestions.stream()
+            return playerManager.getAllPlayerNames().stream()
                     .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                     .collect(Collectors.toList());
         }
