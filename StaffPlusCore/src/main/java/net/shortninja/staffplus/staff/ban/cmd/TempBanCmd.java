@@ -9,14 +9,12 @@ import net.shortninja.staffplus.staff.ban.BanService;
 import net.shortninja.staffplus.staff.ban.BanUnit;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TempBanCmd extends AbstractCmd {
 
@@ -36,7 +34,7 @@ public class TempBanCmd extends AbstractCmd {
         String timeUnit = args[2];
         String reason = JavaUtils.compileWords(args, 3);
 
-        banService.tempBan(sender, player,  BanUnit.getTicks(timeUnit, amount), reason);
+        banService.tempBan(sender, player, BanUnit.getTicks(timeUnit, amount), reason);
         return true;
     }
 
@@ -62,30 +60,22 @@ public class TempBanCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        List<String> onlinePLayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-        List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
-        List<String> suggestions = new ArrayList<>();
 
         if (args.length == 1) {
-            suggestions.addAll(onlinePLayers);
-            suggestions.addAll(offlinePlayers);
-            return suggestions.stream()
+            return playerManager.getAllPlayerNames().stream()
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());
         }
         if (args.length == 2) {
-            suggestions = Arrays.asList("5", "10", "15", "20");
-            return suggestions.stream()
+            return Stream.of("5", "10", "15", "20")
                 .filter(s -> args[1].isEmpty() || s.contains(args[1]))
                 .collect(Collectors.toList());
         }
         if (args.length == 3) {
-            suggestions = Arrays.asList(
+            return Stream.of(
                 BanUnit.YEAR.name(), BanUnit.MONTH.name(),
                 BanUnit.WEEK.name(), BanUnit.DAY.name(),
-                BanUnit.HOUR.name(), BanUnit.MINUTE.name());
-
-            return suggestions.stream()
+                BanUnit.HOUR.name(), BanUnit.MINUTE.name())
                 .filter(s -> args[2].isEmpty() || s.contains(args[2]))
                 .collect(Collectors.toList());
         }
