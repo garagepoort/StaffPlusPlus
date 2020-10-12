@@ -1,7 +1,8 @@
 package be.garagepoort.staffplusplus.discord.reports;
 
-import be.garagepoort.staffplusplus.discord.Constants;
-import be.garagepoort.staffplusplus.discord.api.*;
+import be.garagepoort.staffplusplus.discord.api.DiscordClient;
+import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
+import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -118,14 +119,7 @@ public class ReportListener implements Listener {
             fields.add(new DiscordMessageField("Reason for closing", "```" + report.getCloseReason() + "```"));
         }
 
-        discordClient.sendEvent(new DiscordMessage("Report update from Staff++", new DiscordMessageEmbed(
-            title,
-            Constants.STAFFPLUSPLUS_URL,
-            color,
-            time,
-            DiscordUtil.createFooter(),
-            fields
-        )));
+        DiscordUtil.sendEvent(discordClient, "Report update from Staff++", title, color, time, fields);
     }
 
     public boolean isEnabled() {
