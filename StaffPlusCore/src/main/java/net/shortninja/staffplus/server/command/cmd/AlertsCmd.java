@@ -10,10 +10,16 @@ import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.JavaUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AlertsCmd extends AbstractCmd {
     private MessageCoordinator message = IocContainer.getMessage();
@@ -60,6 +66,31 @@ public class AlertsCmd extends AbstractCmd {
             return Optional.of(sender.getName());
         }
         return Optional.of(args[1]);
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        if (args.length == 1) {
+            return Stream.of(AlertType.values())
+                .map(Enum::name)
+                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .collect(Collectors.toList());
+        }
+
+        if (args.length == 2) {
+            List<String> onlinePLayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+            return onlinePLayers.stream()
+                .filter(s -> args[1].isEmpty() || s.contains(args[1]))
+                .collect(Collectors.toList());
+        }
+
+        if (args.length == 3) {
+            return Stream.of("enabled", "disabled")
+                .filter(s -> args[2].isEmpty() || s.contains(args[2]))
+                .collect(Collectors.toList());
+        }
+
+        return Collections.emptyList();
     }
 
     private void handleAlertsArgument(CommandSender sender, String alertTypeName, Player player, boolean shouldCheckPermission, String option) {
