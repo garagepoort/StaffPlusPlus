@@ -21,12 +21,14 @@ StaffPlusPlusDiscord:
         notifyThresholdReached: true
     bans:
         webhookUrl: ""
-        ban: true
-        unban: true
+        ban: false
+        unban: false
     altDetect:
         webhookUrl: ""
-        #Level that should be notified to discord, leave empty to disable all notifications
-        enabledTrustLevels: POSITIVE;FAIRLY_POSITIVE
+        # Levels that should be notified to discord, leave empty to disable all notifications. Should be semi-colon separated
+        # possible values: POSITIVE, FAIRLY_POSITIVE, POSSIBLE, NOT_LIKELY
+        # example value: POSITIVE;FAIRLY_POSITIVE
+        enabledTrustLevels:
 #    trace:
 #        webhookUrl: ""
 #        notifyStartTrace: false
