@@ -21,7 +21,7 @@ public class StaffChatCmd extends AbstractCmd {
     private final StaffChatService staffChatService = IocContainer.getStaffChatService();
 
     public StaffChatCmd(String name) {
-        super(name, IocContainer.getOptions().permissionStaffChat);
+        super(name, IocContainer.getOptions().staffChatConfiguration.getPermissionStaffChat());
     }
 
     @Override
