@@ -2,22 +2,18 @@ package net.shortninja.staffplus.staff.warn.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.staff.warn.Warning;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.staff.warn.WarnService;
+import net.shortninja.staffplus.staff.warn.Warning;
 import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WarnsCmd extends AbstractCmd {
     private final MessageCoordinator message = IocContainer.getMessage();
@@ -88,19 +84,16 @@ public class WarnsCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        List<String> onlinePLayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-        List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
-        List<String> suggestions = new ArrayList<>();
         if (args.length == 1) {
-            suggestions.add("get");
-            suggestions.add("clear");
-            return suggestions;
+            return Stream.of("get", "clear")
+                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .collect(Collectors.toList());
         }
 
         if (args.length >= 1) {
-            suggestions.addAll(onlinePLayers);
-            suggestions.addAll(offlinePlayers);
-            return suggestions;
+            return playerManager.getAllPlayerNames().stream()
+                .filter(s -> args[1].isEmpty() || s.contains(args[1]))
+                .collect(Collectors.toList());
         }
 
         return super.tabComplete(sender, alias, args);

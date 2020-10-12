@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class TeleportToPlayerCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
 
@@ -58,12 +57,10 @@ public class TeleportToPlayerCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        List<String> suggestions = new ArrayList<>();
 
         if (args.length == 1) {
             List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-            suggestions.addAll(onlinePlayers);
-            return suggestions.stream()
+            return onlinePlayers.stream()
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());
         }

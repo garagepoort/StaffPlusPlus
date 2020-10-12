@@ -9,13 +9,11 @@ import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectWhitelistedItem;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionService;
 import net.shortninja.staffplus.util.lib.Message;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AltDetectWhitelistCmd extends AbstractCmd {
 
@@ -57,7 +55,7 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
                 message.send(sender, String.format("&B#%s: %s - %s", counter, whitelistPlayer1, whitelistPlayer2), messages.prefixGeneral);
                 counter++;
             }
-            if(whitelistedItems.isEmpty()) {
+            if (whitelistedItems.isEmpty()) {
                 message.send(sender, String.format("&6No items to display", page), messages.prefixGeneral);
             } else {
                 message.send(sender, String.format("&6Showing page #%s", page), messages.prefixGeneral);
@@ -78,7 +76,7 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        if(args[0].equalsIgnoreCase("list")) {
+        if (args[0].equalsIgnoreCase("list")) {
             return 1;
         }
         return 3;
@@ -96,22 +94,14 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        List<String> onlinePLayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-        List<String> offlinePlayers = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).collect(Collectors.toList());
-        List<String> suggestions = new ArrayList<>();
         if (args.length == 1) {
-            suggestions.add("add");
-            suggestions.add("remove");
-            suggestions.add("list");
-            return suggestions.stream()
+            return Stream.of("add", "remove", "list")
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());
         }
 
         if (args.length >= 1) {
-            suggestions.addAll(onlinePLayers);
-            suggestions.addAll(offlinePlayers);
-            return suggestions.stream()
+            return playerManager.getAllPlayerNames().stream()
                 .filter(s -> args[args.length - 1].isEmpty() || s.contains(args[args.length - 1]))
                 .collect(Collectors.toList());
         }

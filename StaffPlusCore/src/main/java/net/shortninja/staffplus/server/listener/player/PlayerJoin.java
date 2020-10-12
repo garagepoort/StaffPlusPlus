@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
@@ -29,6 +30,7 @@ public class PlayerJoin implements Listener {
     private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
     private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
+    private final PlayerManager playerManager = IocContainer.getPlayerManager();
 
     public PlayerJoin() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -37,6 +39,7 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onJoin(PlayerJoinEvent event) {
         StaffPlus.get().versionProtocol.inject(event.getPlayer());
+        playerManager.syncPlayerName(event.getPlayer().getName());
 
         Player player = event.getPlayer();
 
