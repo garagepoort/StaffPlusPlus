@@ -16,6 +16,8 @@ import net.shortninja.staffplus.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.staff.protect.config.ProtectModuleLoader;
 import net.shortninja.staffplus.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.staff.reporting.config.ReportingModuleLoader;
+import net.shortninja.staffplus.staff.staffchat.config.StaffChatConfiguration;
+import net.shortninja.staffplus.staff.staffchat.config.StaffChatModuleLoader;
 import net.shortninja.staffplus.staff.teleport.config.LocationLoader;
 import net.shortninja.staffplus.staff.warn.config.WarningConfiguration;
 import net.shortninja.staffplus.staff.warn.config.WarningModuleLoader;
@@ -76,12 +78,8 @@ public class Options implements IOptions {
     public final ProtectConfiguration protectConfiguration = new ProtectModuleLoader().load();
     public final BanConfiguration banConfiguration = new BanModuleLoader().load();
     public final AltDetectConfiguration altDetectConfiguration = new AltDetectModuleLoader().load();
+    public final StaffChatConfiguration staffChatConfiguration = new StaffChatModuleLoader().load();
 
-    /*
-     * Staff Chat
-     */
-    public final boolean staffChatEnabled = config.getBoolean("staff-chat-module.enabled");
-    public final String staffChatHandle = config.getString("staff-chat-module.handle");
     /*
      * Vanish
      */
@@ -210,7 +208,6 @@ public class Options implements IOptions {
     public final String permissionReportBypass = config.getString("permissions.report-bypass");
     public final String permissionWarn = config.getString("permissions.warn");
     public final String permissionWarnBypass = config.getString("permissions.warn-bypass");
-    public final String permissionStaffChat = config.getString("permissions.staff-chat");
     public final String permissionVanishTotal = config.getString("permissions.vanish-total");
     public final String permissionVanishList = config.getString("permissions.vanish-list");
     public final String permissionChatClear = config.getString("permissions.chat-clear");

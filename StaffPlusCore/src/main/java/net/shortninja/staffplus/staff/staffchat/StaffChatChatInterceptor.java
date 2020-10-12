@@ -29,7 +29,7 @@ public class StaffChatChatInterceptor implements ChatInterceptor {
             return true;
         }
 
-        if (staffChatService.hasHandle(event.getMessage()) && permission.has(event.getPlayer(), options.permissionStaffChat)) {
+        if (staffChatService.hasHandle(event.getMessage()) && permission.has(event.getPlayer(), options.staffChatConfiguration.getPermissionStaffChat())) {
             staffChatService.sendMessage(event.getPlayer(), event.getMessage().substring(1));
             return true;
         }
