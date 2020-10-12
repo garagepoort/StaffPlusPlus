@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.staff.protect.database;
 
-import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.protect.ProtectedArea;
 import org.bukkit.Bukkit;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAreaRepository, IocContainer.Repository {
+public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAreaRepository {
 
     private final LocationRepository locationRepository;
 
