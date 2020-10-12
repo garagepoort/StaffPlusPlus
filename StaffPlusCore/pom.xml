@@ -3,14 +3,14 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>StaffPlus</artifactId>
+        <artifactId>staffplusplus</artifactId>
         <groupId>net.shortninja.staffplus</groupId>
         <version>1.14.21</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>StaffPlus-Core</artifactId>
+    <artifactId>staffplusplus-core</artifactId>
 
 
     <build>
@@ -79,7 +79,7 @@
     <dependencies>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
-            <artifactId>StaffPlusAPI</artifactId>
+            <artifactId>staffplusplus-api</artifactId>
             <version>1.14.21</version>
         </dependency>
         <dependency>
