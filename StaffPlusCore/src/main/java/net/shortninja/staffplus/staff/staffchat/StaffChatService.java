@@ -44,7 +44,7 @@ public class StaffChatService {
     }
 
     public boolean hasHandle(String message) {
-        return message.startsWith(options.staffChatHandle) && !options.staffChatHandle.isEmpty();
+        return message.startsWith(options.staffChatConfiguration.getHandle()) && !options.staffChatConfiguration.getHandle().isEmpty();
     }
 
 
@@ -54,13 +54,18 @@ public class StaffChatService {
                 message = PlaceholderAPI.setPlaceholders(player, message);
             }
 
-            if (player.hasPermission(options.permissionStaffChat)) {
+            if (player.hasPermission(options.staffChatConfiguration.getPermissionStaffChat())) {
                 player.sendMessage(colorize(message));
             }
         }
     }
 
     private void sendBungeeMessage(CommandSender sender, String message) {
+        if(!options.staffChatConfiguration.isBungeeEnabled()) {
+            // Bungee network not enabled
+            return;
+        }
+
         Player player = null;
         if (sender instanceof Player) {
             player = (Player) sender;
