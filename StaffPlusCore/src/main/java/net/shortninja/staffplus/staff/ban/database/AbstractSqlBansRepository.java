@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class AbstractSqlBansRepository implements BansRepository, IocContainer.Repository {
+public abstract class AbstractSqlBansRepository implements BansRepository {
 
     private final PlayerManager playerManager;
 

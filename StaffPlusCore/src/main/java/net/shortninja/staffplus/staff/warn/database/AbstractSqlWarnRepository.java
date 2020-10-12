@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class AbstractSqlWarnRepository implements WarnRepository, IocContainer.Repository {
+public abstract class AbstractSqlWarnRepository implements WarnRepository {
 
     private final PlayerManager playerManager;
 
