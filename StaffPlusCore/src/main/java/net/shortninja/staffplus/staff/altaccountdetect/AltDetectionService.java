@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class AltDetectionService {
 
@@ -70,7 +71,7 @@ public class AltDetectionService {
 
         String playerIp = player.getAddress().getAddress().getHostAddress().replace("/", "");
         String playerName = player.getName();
-        List<SppPlayer> onAndOfflinePlayers = playerManager.getOnAndOfflinePlayers();
+        Set<SppPlayer> onAndOfflinePlayers = playerManager.getOnAndOfflinePlayers();
 
         AltDetectInfo altDetectInfo = new AltDetectInfo(playerName, playerIp);
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
