@@ -1,7 +1,8 @@
 package be.garagepoort.staffplusplus.discord.warnings;
 
-import be.garagepoort.staffplusplus.discord.Constants;
-import be.garagepoort.staffplusplus.discord.api.*;
+import be.garagepoort.staffplusplus.discord.api.DiscordClient;
+import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
+import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -115,14 +116,7 @@ public class WarningListener implements Listener {
     }
 
     private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
-        discordClient.sendEvent(new DiscordMessage("Warning update from Staff++", new DiscordMessageEmbed(
-            title,
-            Constants.STAFFPLUSPLUS_URL,
-            color,
-            time,
-            DiscordUtil.createFooter(),
-            fields
-        )));
+        DiscordUtil.sendEvent(discordClient, "Warning update from Staff++", title, color, time, fields);
     }
 
     public boolean isEnabled() {
