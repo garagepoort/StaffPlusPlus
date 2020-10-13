@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.13
 
+### V1.13.22
+#### Bugs
+- Wrong titles for reports ui
+- Closing reason message displayed even when closing-reason-disabled
+- Closing reason not working if other plugins intercept the event
+
 ### V1.13.21
 #### Features
 - Implement ban & tempban system (https://github.com/garagepoort/StaffPlusPlus/issues/106)
