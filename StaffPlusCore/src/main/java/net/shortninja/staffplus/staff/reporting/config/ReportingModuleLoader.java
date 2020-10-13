@@ -24,8 +24,8 @@ public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
         String modeGuiClosedReportsLore = config.getString("staff-mode.gui-module.closed-reports-lore");
 
         GuiItemConfig openReportsGui = new GuiItemConfig(modeGuiReports, modeGuiReportsTitle, modeGuiReportsName, modeGuiReportsLore);
-        GuiItemConfig myReportsGui = new GuiItemConfig(modeGuiReports, modeGuiMyReportsTitle, modeGuiReportsName, modeGuiMyReportsLore);
-        GuiItemConfig closedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiClosedReportsTitle, modeGuiReportsName, modeGuiClosedReportsLore);
+        GuiItemConfig myReportsGui = new GuiItemConfig(modeGuiReports, modeGuiMyReportsTitle, modeGuiMyReportsTitle, modeGuiMyReportsLore);
+        GuiItemConfig closedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiClosedReportsTitle, modeGuiClosedReportsTitle, modeGuiClosedReportsLore);
 
         return new ReportConfiguration(enabled, cooldown, showReporter, sound, closingReasonEnabled, openReportsGui, myReportsGui, closedReportsGui);
     }
