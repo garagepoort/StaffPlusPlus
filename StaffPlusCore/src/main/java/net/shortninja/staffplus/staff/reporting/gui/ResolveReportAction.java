@@ -24,14 +24,14 @@ public class ResolveReportAction implements IAction {
 
     @Override
     public void click(Player player, ItemStack item, int slot) {
-        messageCoordinator.send(player, "&1===================================================", messages.prefixReports);
-        messageCoordinator.send(player, "&6       You have chosen to resolve this report", messages.prefixReports);
-        messageCoordinator.send(player, "&6Type your closing reason in chat to resolve the report", messages.prefixReports);
-        messageCoordinator.send(player, "&6      Type \"cancel\" to cancel closing the report ", messages.prefixReports);
-        messageCoordinator.send(player, "&1===================================================", messages.prefixReports);
 
         int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
         if(options.reportConfiguration.isClosingReasonEnabled()) {
+            messageCoordinator.send(player, "&1===================================================", messages.prefixReports);
+            messageCoordinator.send(player, "&6       You have chosen to resolve this report", messages.prefixReports);
+            messageCoordinator.send(player, "&6Type your closing reason in chat to resolve the report", messages.prefixReports);
+            messageCoordinator.send(player, "&6      Type \"cancel\" to cancel closing the report ", messages.prefixReports);
+            messageCoordinator.send(player, "&1===================================================", messages.prefixReports);
             PlayerSession playerSession = sessionManager.get(player.getUniqueId());
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
