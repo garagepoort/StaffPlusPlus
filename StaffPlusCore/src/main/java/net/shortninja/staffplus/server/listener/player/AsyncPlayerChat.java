@@ -31,7 +31,7 @@ public class AsyncPlayerChat implements Listener {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         String message = event.getMessage();
