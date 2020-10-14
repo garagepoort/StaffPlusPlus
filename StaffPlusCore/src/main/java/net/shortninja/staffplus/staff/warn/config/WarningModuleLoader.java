@@ -14,11 +14,24 @@ public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
     @Override
     public WarningConfiguration load() {
         boolean enabled = config.getBoolean("warnings-module.enabled");
-        long clearInterval = config.getLong("warnings-module.clear");
+        // seconds to milliseconds
+        long clearInterval = config.getLong("warnings-module.clear") * 1000;
         boolean showIssuer = config.getBoolean("warnings-module.show-issuer");
+        boolean notifyUser = config.getBoolean("warnings-module.user-notifications.enabled");
+        boolean alwaysNotifyUser = config.getBoolean("warnings-module.user-notifications.always-notify");
+        String myWarningsPermission = config.getString("permissions.view-my-warnings");
+        String myWarningsCmd = config.getString("commands.my-warnings");
         Sounds sound = stringToSound(sanitize(config.getString("warnings-module.sound")));
 
-        return new WarningConfiguration(enabled, showIssuer, sound, clearInterval, getThresholds(), getSeverityLevels());
+        return new WarningConfiguration(enabled,
+            showIssuer,
+            sound,
+            clearInterval,
+            notifyUser, alwaysNotifyUser,
+            myWarningsPermission,
+            myWarningsCmd,
+            getThresholds(),
+            getSeverityLevels());
     }
 
     private List<WarningThresholdConfiguration> getThresholds() {
