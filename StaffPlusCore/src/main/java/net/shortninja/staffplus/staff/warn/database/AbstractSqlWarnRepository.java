@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.staff.warn.database;
 
-import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
@@ -60,6 +59,27 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     }
 
     @Override
+    public List<Warning> getWarnings(UUID uuid, int offset, int amount) {
+        List<Warning> warnings = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings WHERE Player_UUID = ? ORDER BY timestamp DESC LIMIT ?,?")
+        ) {
+            ps.setString(1, uuid.toString());
+            ps.setInt(2, offset);
+            ps.setInt(3, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Warning warning = buildWarning(rs);
+                    warnings.add(warning);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return warnings;
+    }
+
+    @Override
     public List<Warning> getWarnings() {
         List<Warning> warnings = new ArrayList<>();
         try (Connection sql = getConnection();
@@ -80,13 +100,14 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     @Override
     public void addWarning(Warning warning) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID, score, severity) " +
-                     "VALUES(? ,?, ?, ?, ?);")) {
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID, score, severity, timestamp) " +
+                 "VALUES(? ,?, ?, ?, ?, ?);")) {
             insert.setString(1, warning.getReason());
             insert.setString(2, warning.getIssuerUuid().toString());
             insert.setString(3, warning.getUuid().toString());
             insert.setInt(4, warning.getScore());
             insert.setString(5, warning.getSeverity());
+            insert.setLong(6, warning.getTime());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -115,6 +136,17 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         }
     }
 
+    @Override
+    public void markWarningsRead(UUID uniqueId) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_read=true WHERE Player_UUID=?;")) {
+            insert.setString(1, uniqueId.toString());
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Warning buildWarning(ResultSet rs) throws SQLException {
         UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
         UUID warnerUuid = UUID.fromString(rs.getString("Warner_UUID"));
@@ -124,10 +156,11 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         Optional<SppPlayer> warner = playerManager.getOnOrOfflinePlayer(warnerUuid);
         String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : warner.map(SppPlayer::getUsername).orElse("Unknown user");
         int id = rs.getInt("ID");
+        boolean read = rs.getBoolean("is_read");
 
         Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUUID);
         String name = player.map(SppPlayer::getUsername).orElse("Unknown user");
-        return new Warning(playerUUID, name, id, rs.getString("Reason"), warnerName, warnerUuid, System.currentTimeMillis(), score, severity);
+        return new Warning(playerUUID, name, id, rs.getString("Reason"), warnerName, warnerUuid, rs.getLong("timestamp"), score, severity, read);
     }
 
 }

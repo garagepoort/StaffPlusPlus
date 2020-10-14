@@ -21,6 +21,7 @@ public class Warning implements IWarning {
     private int id;
     private String issuerName;
     private String severity;
+    private boolean read;
 
     public Warning(UUID uuid, String name, String reason, String issuerName, UUID issuerUuid, long time, WarningSeverityConfiguration warningSeverityConfiguration) {
         this.uuid = uuid;
@@ -33,7 +34,7 @@ public class Warning implements IWarning {
         this.severity = warningSeverityConfiguration.getName();
     }
 
-    public Warning(UUID uuid, String name, int id, String reason, String issuerName, UUID issuerUuid, long time, int score, String severity) {
+    public Warning(UUID uuid, String name, int id, String reason, String issuerName, UUID issuerUuid, long time, int score, String severity, boolean read) {
         this.uuid = uuid;
         this.name = name;
         this.reason = reason;
@@ -43,6 +44,7 @@ public class Warning implements IWarning {
         this.id = id;
         this.score = score;
         this.severity = severity;
+        this.read = read;
     }
 
     public Warning(UUID uuid, String playerName, String reason, String issuerName, UUID issuerUuid, long currentTimeMillis) {
@@ -53,6 +55,10 @@ public class Warning implements IWarning {
         this.issuerUuid = issuerUuid;
         this.time = currentTimeMillis;
         this.score = 0;
+    }
+
+    public long getTime() {
+        return time;
     }
 
     public UUID getUuid() {
@@ -89,6 +95,9 @@ public class Warning implements IWarning {
 
     public boolean shouldRemove() {
         boolean shouldRemove = false;
+        if(options.warningConfiguration.getClear() == 0) {
+            return false;
+        }
 
         if ((System.currentTimeMillis() - time) >= options.warningConfiguration.getClear()) {
             shouldRemove = true;
@@ -108,5 +117,9 @@ public class Warning implements IWarning {
     @Override
     public ZonedDateTime getTimestamp() {
         return ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
+    }
+
+    public boolean isRead() {
+        return read;
     }
 }
