@@ -25,11 +25,7 @@ public class MyWarningsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-//                CommandUtil.playerAction(player, () -> {
-//                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-//                    Report report = IocContainer.getReportService().getReport(reportId);
-//                    new ManageReportGui(player, "Report by: " + report.getReporterName(), report);
-//                });
+                // Do nothing for now
             }
 
             @Override
