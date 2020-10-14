@@ -1,10 +1,7 @@
-package net.shortninja.staffplus.staff.reporting.gui;
+package net.shortninja.staffplus.staff.warn.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
-import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.unordered.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -12,15 +9,15 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyReportsGui extends PagedGui {
+public class MyWarningsGui extends PagedGui {
 
-    public MyReportsGui(Player player, String title, int page) {
+    public MyWarningsGui(Player player, String title, int page) {
         super(player, title, page);
     }
 
     @Override
     protected void getNextUi(Player player, String title, int page) {
-        new MyReportsGui(player, title, page);
+        new MyWarningsGui(player, title, page);
     }
 
     @Override
@@ -28,11 +25,11 @@ public class MyReportsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    Report report = IocContainer.getReportService().getReport(reportId);
-                    new ManageReportGui(player, "Report by: " + report.getReporterName(), report);
-                });
+//                CommandUtil.playerAction(player, () -> {
+//                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+//                    Report report = IocContainer.getReportService().getReport(reportId);
+//                    new ManageReportGui(player, "Report by: " + report.getReporterName(), report);
+//                });
             }
 
             @Override
@@ -44,10 +41,10 @@ public class MyReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, int offset, int amount) {
-        return IocContainer.getReportService()
-                .getAssignedReports(player.getUniqueId(), offset, amount)
+        return IocContainer.getWarnService()
+                .getWarnings(player.getUniqueId(), offset, amount)
                 .stream()
-                .map(ReportItemBuilder::build)
+                .map(WarningItemBuilder::build)
                 .collect(Collectors.toList());
     }
 }

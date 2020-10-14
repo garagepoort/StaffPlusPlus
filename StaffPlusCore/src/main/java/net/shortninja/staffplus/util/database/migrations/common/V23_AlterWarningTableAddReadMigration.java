@@ -2,14 +2,14 @@ package net.shortninja.staffplus.util.database.migrations.common;
 
 import net.shortninja.staffplus.util.database.migrations.Migration;
 
-public class V17_AlterReportTableAddCloseReasonMigration implements Migration {
+public class V23_AlterWarningTableAddReadMigration implements Migration {
     @Override
     public String getStatement() {
-        return "ALTER TABLE sp_reports ADD COLUMN close_reason text;";
+        return "ALTER TABLE sp_warnings ADD COLUMN is_read boolean NOT NULL DEFAULT false;";
     }
 
     @Override
     public int getVersion() {
-        return 17;
+        return 23;
     }
 }
