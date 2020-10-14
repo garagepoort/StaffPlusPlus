@@ -3,9 +3,7 @@ package net.shortninja.staffplus.staff.warn;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,8 +19,6 @@ public class WarnListener implements Listener {
 
     private final WarnService warnService = IocContainer.getWarnService();
     private final Options options = IocContainer.getOptions();
-    private final Messages messages = IocContainer.getMessages();
-    private final MessageCoordinator message = IocContainer.getMessage();
     private final Permission permission = IocContainer.getPermissionHandler();
 
     public WarnListener() {
