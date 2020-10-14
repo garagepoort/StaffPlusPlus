@@ -19,6 +19,7 @@ import net.shortninja.staffplus.staff.reporting.cmd.ReportPlayerCmd;
 import net.shortninja.staffplus.staff.reporting.cmd.ReportsCmd;
 import net.shortninja.staffplus.staff.staffchat.cmd.StaffChatCmd;
 import net.shortninja.staffplus.staff.tracing.TraceCmd;
+import net.shortninja.staffplus.staff.warn.cmd.MyWarningsCmd;
 import net.shortninja.staffplus.staff.warn.cmd.WarnCmd;
 import net.shortninja.staffplus.staff.warn.cmd.WarnsCmd;
 
@@ -46,6 +47,7 @@ public class CmdHandler {
             new BaseCmd("reportPlayer", new ReportPlayerCmd(options.commandReportPlayer), options.reportConfiguration.isEnabled(), "&7Sends a report with the given player and reason.", "[player] [reason]"),
             new BaseCmd("warn", new WarnCmd(options.commandWarn), options.warningConfiguration.isEnabled(), options.permissionWarn, "&7Issues a warning.", "[severity] [player] [reason]"),
             new BaseCmd("warns", new WarnsCmd(options.commandWarns), options.warningConfiguration.isEnabled(), options.permissionWarn, "&7Clear or list all warnings of a player.", "[get|clear] [player]"),
+            new BaseCmd("my-warnings", new MyWarningsCmd(options.warningConfiguration.getMyWarningsCmd()), options.warningConfiguration.isEnabled(), options.warningConfiguration.getMyWarningsPermission(), "&7Open my warnings gui", ""),
             new BaseCmd("vanish", new VanishCmd(options.commandVanish), options.vanishEnabled, Arrays.asList(options.permissionVanishTotal, options.permissionVanishList), "&7Enables or disables the type of vanish for the player.", "[total | list] {player} {enable | disable}"),
             new BaseCmd("chat", new ChatCmd(options.commandChat), options.chatEnabled, Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle), "&7Executes the given chat management action.", "[clear | toggle | slow] {enable | disable | time}"),
             new BaseCmd("alerts", new AlertsCmd(options.commandAlerts), true, Arrays.asList(options.permissionMention, options.permissionNameChange, options.permissionXray), "&7Enables or disables the alert type.", "[namechange | mention | xray] {player} {enable | disable}"),

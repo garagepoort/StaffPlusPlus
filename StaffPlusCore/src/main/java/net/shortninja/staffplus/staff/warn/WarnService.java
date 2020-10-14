@@ -21,10 +21,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static net.shortninja.staffplus.staff.warn.config.WarningActionRunStrategy.*;
 import static org.bukkit.Bukkit.getScheduler;
@@ -142,5 +139,13 @@ public class WarnService {
         getScheduler().runTask(StaffPlus.get(), () -> {
             Bukkit.getPluginManager().callEvent(event);
         });
+    }
+
+    public List<Warning> getWarnings(UUID uniqueId, int offset, int amount) {
+        return warnRepository.getWarnings(uniqueId, offset, amount);
+    }
+
+    public void markWarningsRead(UUID uniqueId) {
+        warnRepository.markWarningsRead(uniqueId);
     }
 }

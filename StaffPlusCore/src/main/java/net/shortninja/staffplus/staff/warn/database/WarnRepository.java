@@ -18,4 +18,8 @@ public interface WarnRepository {
     void removeWarnings(UUID uuid);
 
     void removeWarning(int id);
+
+    List<Warning> getWarnings(UUID uniqueId, int offset, int amount);
+
+    void markWarningsRead(UUID uniqueId);
 }
