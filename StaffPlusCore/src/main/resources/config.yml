@@ -104,6 +104,14 @@ warnings-module:
   # Whether or not the player issued the warning will be visible in GUIs.
   show-issuer: true
 
+  # Enables the ability to notify a user when he has warnings
+  # User will be notified the moment he comes online.
+  user-notifications:
+      enabled: false
+      # Enable this to show the message everytime he comes online.
+      # If Disabled the warnings will be marked as "read" and he will only be notified of new warnings
+      always-notify: false
+
   severity-levels:
     - name: MINOR
       score: 1
@@ -905,6 +913,9 @@ permissions:
   # Permission for bypassing reports.
   report-bypass: "staff.report.bypass"
 
+  # Permission to open to my warnings gui
+  view-my-warnings: "staff.warn.view-my-warnings"
+
   # Permission for using "/warn" and clearing/getting player warnings.
   warn: "staff.warn"
 
@@ -1094,6 +1105,9 @@ commands:
 
   # The command for warning and managing warnings.
   warns: "warns"
+
+  # The command for opening the my warnings gui
+  my-warnings: "my-warnings"
 
   # The command for toggling vanish modes.
   vanish: "vanish"
