@@ -1,17 +1,22 @@
 package net.shortninja.staffplus.staff.warn.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.staff.warn.WarnService;
 import net.shortninja.staffplus.staff.warn.gui.MyWarningsGui;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
 public class MyWarningsCmd extends AbstractCmd {
+
+    private final WarnService warnService = IocContainer.getWarnService();
 
     public MyWarningsCmd(String name) {
         super(name, IocContainer.getOptions().warningConfiguration.getMyWarningsPermission());
@@ -24,7 +29,7 @@ public class MyWarningsCmd extends AbstractCmd {
         }
 
         new MyWarningsGui((Player) sender, "My Warnings", 0);
-        IocContainer.getWarnService().markWarningsRead(((Player) sender).getUniqueId());
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), ()-> warnService.markWarningsRead(((Player) sender).getUniqueId()));
         return true;
     }
 
