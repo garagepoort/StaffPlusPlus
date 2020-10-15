@@ -55,7 +55,10 @@ public class InventorySerializer {
         if (file.exists()) {
             Player p = Bukkit.getPlayer(uuid);
             Inventory inv = Bukkit.createInventory(p, InventoryType.PLAYER);
-            inv.addItem(getContents());
+            ItemStack[] contents = getContents();
+            for (int i = 0; i < contents.length; i++) {
+                inv.setItem(i, contents[i]);
+            }
             return areInvsSame(p.getInventory(), inv);
         } else
             return false;
