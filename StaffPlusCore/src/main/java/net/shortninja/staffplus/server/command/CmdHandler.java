@@ -14,6 +14,7 @@ import net.shortninja.staffplus.staff.broadcast.cmd.BroadcastCmd;
 import net.shortninja.staffplus.staff.freeze.FreezeCmd;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectAreaCmd;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectPlayerCmd;
+import net.shortninja.staffplus.staff.reporting.cmd.MyReportsCmd;
 import net.shortninja.staffplus.staff.reporting.cmd.ReportCmd;
 import net.shortninja.staffplus.staff.reporting.cmd.ReportPlayerCmd;
 import net.shortninja.staffplus.staff.reporting.cmd.ReportsCmd;
@@ -43,6 +44,7 @@ public class CmdHandler {
             new BaseCmd("cps", new CpsCmd(options.commandCps), true, options.permissionCps, "&7Starts a CPS test on the player.", "{player}"),
             new BaseCmd("staff-chat", new StaffChatCmd(options.commandStaffChat), options.staffChatConfiguration.isEnabled(), options.staffChatConfiguration.getPermissionStaffChat(), "&7Sends a message or toggles staff chat.", "{message}"),
             new BaseCmd("reports", new ReportsCmd(options.commandReports), options.reportConfiguration.isEnabled(), "&7Manage Reports.", "[get|clear] [player]"),
+            new BaseCmd("my-reports", new MyReportsCmd(options.reportConfiguration.getMyReportsCmd()), options.warningConfiguration.isEnabled(), options.warningConfiguration.getMyWarningsPermission(), "&7Open my warnings gui", ""),
             new BaseCmd("report", new ReportCmd(options.commandReport), options.reportConfiguration.isEnabled(), "&7Sends a report without a specific player.", "[reason]"),
             new BaseCmd("reportPlayer", new ReportPlayerCmd(options.commandReportPlayer), options.reportConfiguration.isEnabled(), "&7Sends a report with the given player and reason.", "[player] [reason]"),
             new BaseCmd("warn", new WarnCmd(options.commandWarn), options.warningConfiguration.isEnabled(), options.permissionWarn, "&7Issues a warning.", "[severity] [player] [reason]"),
