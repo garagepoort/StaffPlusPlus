@@ -6,23 +6,20 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.UUID;
 
 public class InventoryVault {
     private UUID uuid;
-    private HashMap<Integer, ItemStack> items;
+    private ItemStack[] items;
     private ItemStack[] armor;
     private ItemStack[] offHand;
     private Location previousLocation;
     private boolean hasFlight;
     private GameMode gameMode;
     private VanishType vanishType;
-
-
     private float xp;
 
-    public InventoryVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
+    public InventoryVault(UUID uuid, ItemStack[] inventory, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
         this.uuid = uuid;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
@@ -30,29 +27,29 @@ public class InventoryVault {
         this.vanishType = vanishType;
         this.offHand = offHand;
         InventorySerializer save = new InventorySerializer(uuid);
-        save.save(itemHash,armor,offHand,xp);
+        save.save(inventory,armor,offHand,xp);
     }
 
 
-    public InventoryVault(UUID uuid, HashMap<Integer, ItemStack> itemHash, ItemStack[] armor, ItemStack[] offHand) {
-        this.items = itemHash;
+    public InventoryVault(UUID uuid, ItemStack[] items, ItemStack[] armor, ItemStack[] offHand) {
+        this.items = items;
         this.armor = armor;
         this.offHand = offHand;
         this.uuid = uuid;
         InventorySerializer save = new InventorySerializer(uuid);
-        save.save(itemHash,armor,xp);
+        save.save(items, armor, offHand, xp);
     }
 
     public UUID getUuid() {
         return uuid;
     }
 
-    public HashMap<String, ItemStack> getItems() {
+    public ItemStack[] getItems() {
         InventorySerializer serializer = new InventorySerializer(uuid);
         return serializer.getContents();
     }
 
-    public HashMap<Integer, ItemStack> getInventory(){
+    public ItemStack[] getInventory(){
         return items;
     }
 
