@@ -3,12 +3,12 @@ package net.shortninja.staffplus.server.listener.player;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.PlayerManager;
-import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.attribute.InventorySerializer;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
-import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -19,7 +19,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,10 +72,11 @@ public class PlayerJoin implements Listener {
 
     private void loadInv(Player p) {
         InventorySerializer serializer = new InventorySerializer(p.getUniqueId());
-        if (serializer.shouldLoad()) {HashMap<String, ItemStack> items = serializer.getContents();
-            for (String num : items.keySet())
-                p.getInventory().setItem(Integer.parseInt(num), items.get(num));
-
+        if (serializer.shouldLoad()) {
+            ItemStack[] items = serializer.getContents();
+            for (int i = 0; i < items.length; i++) {
+                p.getInventory().setItem(i, items[i]);
+            }
             serializer.deleteFile();
         }
     }
