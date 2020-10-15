@@ -151,23 +151,20 @@ public class ModeCoordinator {
         }
     }
 
-    public static HashMap<Integer, ItemStack> getContents(Player p) {
+    public static ItemStack[] getContents(Player p) {
         ArrayList<ItemStack> itemStacks = new ArrayList<>();
-        HashMap<Integer, ItemStack> itemHash = new HashMap<>();
         for (int i = 0; i <= 35; i++) {
-            if (p.getInventory().getItem(i) != null) {
-                itemStacks.add(p.getInventory().getItem(i));
-                itemHash.put(i, p.getInventory().getItem(i));
-            }
+            itemStacks.add(p.getInventory().getItem(i));
         }
-        return itemHash;
+        return itemStacks.toArray(new ItemStack[]{});
     }
 
     private void getItems(Player p, InventorySerializer saver) {
-        HashMap<String, ItemStack> items = saver.getContents();
-        for (String num : items.keySet()) {
-            p.getInventory().setItem(Integer.parseInt(num), items.get(num));
+        ItemStack[] contents = saver.getContents();
+        for (int i = 0; i < contents.length; i++) {
+            p.getInventory().setItem(i, contents[i]);
         }
+
 
     }
 
