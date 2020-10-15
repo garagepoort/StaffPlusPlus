@@ -2,7 +2,6 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.attribute.InventorySerializer;
 import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import org.bukkit.Bukkit;
@@ -22,8 +21,6 @@ public class PlayerDeath implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onDeath(PlayerDeathEvent event) {
         reviveHandler.cacheInventory(event.getEntity());
-        InventorySerializer serializer = new InventorySerializer(event.getEntity().getUniqueId());
-        serializer.deleteFile();
         traceService.sendTraceMessage(event.getEntity().getUniqueId(), String.format("Died [%s]", event.getDeathMessage()));
     }
 }

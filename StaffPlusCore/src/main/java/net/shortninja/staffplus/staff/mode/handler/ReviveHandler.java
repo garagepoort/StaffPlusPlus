@@ -26,7 +26,7 @@ public class ReviveHandler {
         UUID uuid = player.getUniqueId();
         InventoryVault inventoryVault;
 
-        inventoryVault = new InventoryVault(uuid,ModeCoordinator.getContents(player),player.getInventory().getArmorContents(),player.getInventory().getExtraContents());
+        inventoryVault = new InventoryVault(uuid, ModeCoordinator.getContents(player), player.getInventory().getArmorContents(), player.getInventory().getExtraContents());
 
         savedInventories.put(uuid, inventoryVault);
     }
@@ -45,8 +45,9 @@ public class ReviveHandler {
     }
 
     private void getItems(Player p, InventoryVault inventoryVault) {
-        HashMap<Integer, ItemStack> items = inventoryVault.getInventory();
-        for (int num : items.keySet())
-            p.getInventory().setItem(num, items.get(num));
+        ItemStack[] items = inventoryVault.getInventory();
+        for (int i = 0; i < items.length; i++) {
+            p.getInventory().setItem(i, items[i]);
+        }
     }
 }
