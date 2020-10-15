@@ -2,17 +2,31 @@ package net.shortninja.staffplus.staff.reporting.config;
 
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
+import net.shortninja.staffplus.event.ReportStatus;
 import net.shortninja.staffplus.util.lib.Sounds;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
+
 public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
+
 
     @Override
     public ReportConfiguration load() {
         boolean enabled = config.getBoolean("reports-module.enabled");
         int cooldown = config.getInt("reports-module.cooldown");
         boolean showReporter = config.getBoolean("reports-module.show-reporter");
+        boolean notifyReportOnJoin = config.getBoolean("reports-module.reporter-notifications.notify-on-join");
         boolean closingReasonEnabled = config.getBoolean("reports-module.closing-reason-enabled", true);
         Sounds sound = stringToSound(sanitize(config.getString("reports-module.sound", "NONE")));
+        String myReportsPermission = config.getString("permissions.view-my-reports");
+        String myReportsCmd = config.getString("commands.my-reports");
+        List<ReportStatus> reporterNotifyStatuses = stream(config.getString("reports-module.reporter-notifications.status-change-notifications", "").split(";"))
+            .filter(s -> !s.isEmpty())
+            .map(ReportStatus::valueOf)
+            .collect(Collectors.toList());
 
         boolean modeGuiReports = config.getBoolean("staff-mode.gui-module.reports-gui");
         String modeGuiReportsTitle = config.getString("staff-mode.gui-module.reports-title");
@@ -27,6 +41,6 @@ public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
         GuiItemConfig myReportsGui = new GuiItemConfig(modeGuiReports, modeGuiMyReportsTitle, modeGuiMyReportsTitle, modeGuiMyReportsLore);
         GuiItemConfig closedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiClosedReportsTitle, modeGuiClosedReportsTitle, modeGuiClosedReportsLore);
 
-        return new ReportConfiguration(enabled, cooldown, showReporter, sound, closingReasonEnabled, openReportsGui, myReportsGui, closedReportsGui);
+        return new ReportConfiguration(enabled, cooldown, showReporter, sound, closingReasonEnabled, openReportsGui, myReportsGui, closedReportsGui, myReportsPermission, myReportsCmd, notifyReportOnJoin, reporterNotifyStatuses);
     }
 }
