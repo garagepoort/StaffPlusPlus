@@ -135,12 +135,12 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     @Override
-    public List<Report> getUnresolvedReports(UUID playerUuid, int offset, int amount) {
+    public List<Report> getAssignedReports(UUID staffUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND status = ? ORDER BY timestamp DESC LIMIT ?,?")) {
-            ps.setString(1, playerUuid.toString());
-            ps.setString(2, ReportStatus.OPEN.toString());
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE staff_uuid = ? AND status = ? ORDER BY timestamp DESC LIMIT ?,?")) {
+            ps.setString(1, staffUuid.toString());
+            ps.setString(2, ReportStatus.IN_PROGRESS.toString());
             ps.setInt(3, offset);
             ps.setInt(4, amount);
             try (ResultSet rs = ps.executeQuery()) {
@@ -155,14 +155,30 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     @Override
-    public List<Report> getAssignedReports(UUID staffUuid, int offset, int amount) {
+    public List<Report> getMyReports(UUID reporterUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE staff_uuid = ? AND status = ? ORDER BY timestamp DESC LIMIT ?,?")) {
-            ps.setString(1, staffUuid.toString());
-            ps.setString(2, ReportStatus.IN_PROGRESS.toString());
-            ps.setInt(3, offset);
-            ps.setInt(4, amount);
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? ORDER BY timestamp DESC LIMIT ?,?")) {
+            ps.setString(1, reporterUuid.toString());
+            ps.setInt(2, offset);
+            ps.setInt(3, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    reports.add(buildReport(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reports;
+    }
+
+    @Override
+    public List<Report> getMyReports(UUID reporterUuid) {
+        List<Report> reports = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? ORDER BY timestamp")) {
+            ps.setString(1, reporterUuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));

@@ -26,6 +26,8 @@ import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.handler.InventoryHandler;
 import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.staff.protect.ProtectListener;
+import net.shortninja.staffplus.staff.reporting.ReportChangeReporterNotifier;
+import net.shortninja.staffplus.staff.reporting.ReportListener;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
 import net.shortninja.staffplus.staff.warn.WarnListener;
 import net.shortninja.staffplus.util.Metrics;
@@ -175,6 +177,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new AlertListener();
         new AltDetectionListener();
         new WarnListener();
+        new ReportListener();
+        new ReportChangeReporterNotifier();
     }
 
 

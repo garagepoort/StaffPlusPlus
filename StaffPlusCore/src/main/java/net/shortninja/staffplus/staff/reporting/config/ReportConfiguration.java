@@ -1,7 +1,10 @@
 package net.shortninja.staffplus.staff.reporting.config;
 
 import net.shortninja.staffplus.common.config.GuiItemConfig;
+import net.shortninja.staffplus.event.ReportStatus;
 import net.shortninja.staffplus.util.lib.Sounds;
+
+import java.util.List;
 
 public class ReportConfiguration {
 
@@ -13,6 +16,10 @@ public class ReportConfiguration {
     private final GuiItemConfig openReportsGui;
     private final GuiItemConfig myReportsGui;
     private final GuiItemConfig closedReportsGui;
+    private String myReportsPermission;
+    private String myReportsCmd;
+    private boolean notifyReporterOnJoin;
+    private List<ReportStatus> reporterNotifyStatuses;
 
 
     public ReportConfiguration(boolean enabled,
@@ -21,8 +28,9 @@ public class ReportConfiguration {
                                boolean closingReasonEnabled,
                                GuiItemConfig openReportsGui,
                                GuiItemConfig myReportsGui,
-                               GuiItemConfig closedReportsGui
-    ) {
+                               GuiItemConfig closedReportsGui,
+                               String myReportsPermission, String myReportsCmd, boolean notifyReporterOnJoin,
+                               List<ReportStatus> reporterNotifyStatuses) {
         this.enabled = enabled;
         this.cooldown = cooldown;
         this.showReporter = showReporter;
@@ -31,6 +39,10 @@ public class ReportConfiguration {
         this.openReportsGui = openReportsGui;
         this.myReportsGui = myReportsGui;
         this.closedReportsGui = closedReportsGui;
+        this.myReportsPermission = myReportsPermission;
+        this.myReportsCmd = myReportsCmd;
+        this.notifyReporterOnJoin = notifyReporterOnJoin;
+        this.reporterNotifyStatuses = reporterNotifyStatuses;
     }
 
     public boolean isClosingReasonEnabled() {
@@ -63,5 +75,21 @@ public class ReportConfiguration {
 
     public GuiItemConfig getClosedReportsGui() {
         return closedReportsGui;
+    }
+
+    public String getMyReportsPermission() {
+        return myReportsPermission;
+    }
+
+    public String getMyReportsCmd() {
+        return myReportsCmd;
+    }
+
+    public boolean isNotifyReporterOnJoin() {
+        return notifyReporterOnJoin;
+    }
+
+    public List<ReportStatus> getReporterNotifyStatuses() {
+        return reporterNotifyStatuses;
     }
 }
