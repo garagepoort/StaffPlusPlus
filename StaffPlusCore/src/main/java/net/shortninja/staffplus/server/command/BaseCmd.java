@@ -12,7 +12,6 @@ import java.util.List;
 public class BaseCmd {
     private MessageCoordinator message = IocContainer.getMessage();
     private Messages messages = IocContainer.getMessages();
-    private String node;
     private Command command;
     private boolean isEnabled;
     private String match;
@@ -20,11 +19,10 @@ public class BaseCmd {
     private String usage;
     private List<String> permissions = new ArrayList<String>();
 
-    public BaseCmd(String node, Command command, boolean isEnabled, String permission, String description, String usage) {
-        this.node = node;
+    public BaseCmd(Command command, boolean isEnabled, String permission, String description, String usage) {
         this.command = command;
         this.isEnabled = isEnabled;
-        this.match = command.getName();
+        this.match = StaffPlus.get().getDescription().getName();
         this.description = message.colorize(description);
         this.usage = "/" + match + " " + usage;
 
@@ -38,11 +36,10 @@ public class BaseCmd {
         }
     }
 
-    public BaseCmd(String node, Command command, boolean isEnabled, List<String> permission, String description, String usage) {
-        this.node = node;
+    public BaseCmd(Command command, boolean isEnabled, List<String> permission, String description, String usage) {
         this.command = command;
         this.isEnabled = isEnabled;
-        this.match = command.getName();
+        this.match = StaffPlus.get().getDescription().getName();
         this.description = description;
         this.usage = "/" + match + " " + usage;
 
@@ -52,12 +49,8 @@ public class BaseCmd {
         permissions.addAll(permission);
     }
 
-    public BaseCmd(String node, Command command, boolean isEnabled, String description, String usage) {
-        this(node, command, isEnabled, "", description, usage);
-    }
-
-    public String getNode() {
-        return node;
+    public BaseCmd(Command command, boolean isEnabled, String description, String usage) {
+        this(command, isEnabled, "", description, usage);
     }
 
     public boolean isEnabled() {
@@ -78,10 +71,6 @@ public class BaseCmd {
 
     public String getUsage() {
         return usage;
-    }
-
-    public boolean matches(String string) {
-        return match.equalsIgnoreCase(string);
     }
 
     public List<String> getPermissions() {
