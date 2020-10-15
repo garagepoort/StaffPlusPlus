@@ -6,9 +6,9 @@ import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.event.*;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -119,6 +119,14 @@ public class ReportService {
         return reportRepository.getAssignedReports(staffUuid, offset, amount);
     }
 
+    public Collection<Report> getMyReports(UUID reporterUuid, int offset, int amount) {
+        return reportRepository.getMyReports(reporterUuid, offset, amount);
+    }
+
+    public List<Report> getMyReports(UUID reporterUuid) {
+        return reportRepository.getMyReports(reporterUuid);
+    }
+
     public void clearReports(SppPlayer player) {
         reportRepository.removeReports(player.getId());
     }
@@ -208,4 +216,5 @@ public class ReportService {
             Bukkit.getPluginManager().callEvent(event);
         });
     }
+
 }
