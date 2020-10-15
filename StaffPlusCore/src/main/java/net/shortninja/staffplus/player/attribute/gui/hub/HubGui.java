@@ -8,7 +8,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.staff.ban.gui.BannedPlayersGui;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectedAreasGui;
 import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
-import net.shortninja.staffplus.staff.reporting.gui.MyReportsGui;
+import net.shortninja.staffplus.staff.reporting.gui.AssignedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.OpenReportsGui;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -40,7 +40,7 @@ public class HubGui extends AbstractGui {
 
         if (openReportsGui.isEnabled()) {
             setMenuItem(1, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0));
-            setMenuItem(2, buildGuiItem(PAPER, myReportsGui), (p) -> new MyReportsGui(p, myReportsGui.getTitle(), 0));
+            setMenuItem(2, buildGuiItem(PAPER, myReportsGui), (p) -> new AssignedReportsGui(p, myReportsGui.getTitle(), 0));
             setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0));
         }
 
