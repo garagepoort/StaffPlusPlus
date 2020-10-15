@@ -14,8 +14,6 @@ public interface ReportRepository {
 
     List<Report> getUnresolvedReports(int offset, int amount);
 
-    List<Report> getUnresolvedReports(UUID playerUuid, int offset, int amount);
-
     void removeReports(UUID playerUuid);
 
     Optional<Report> findOpenReport(int reportId);
@@ -25,6 +23,10 @@ public interface ReportRepository {
     void updateReport(Report report);
 
     List<Report> getAssignedReports(UUID staffUuid, int offset, int amount);
+
+    List<Report> getMyReports(UUID staffUuid, int offset, int amount);
+
+    List<Report> getMyReports(UUID reporterUuid);
 
     List<Report> getClosedReports(int offset, int amount);
 }
