@@ -31,20 +31,29 @@ public class WarnListener implements Listener {
             return;
         }
         List<Warning> warnings = warnService.getWarnings(event.getPlayer().getUniqueId());
-        List<Warning> unreadWarnings = warnings.stream().filter(w -> !w.isRead()).collect(Collectors.toList());
-
-        if (unreadWarnings.size() > 0) {
-            JSONMessage message = JSONMessage.create("You have " + unreadWarnings.size() + " new warnings")
-                .color(ChatColor.GOLD);
-
-            if (permission.has(event.getPlayer(), options.warningConfiguration.getMyWarningsPermission())) {
-                message.then(" View your warnings!")
-                    .color(ChatColor.BLUE)
-                    .tooltip("Click to view your warnings")
-                    .runCommand("/" + options.warningConfiguration.getMyWarningsCmd());
+        if(options.warningConfiguration.isAlwaysNotifyUser()) {
+            if(!warnings.isEmpty()) {
+                sendMessage(event, warnings);
             }
-
-            message.send(event.getPlayer());
+        } else{
+            List<Warning> unreadWarnings = warnings.stream().filter(w -> !w.isRead()).collect(Collectors.toList());
+            if (!unreadWarnings.isEmpty()) {
+                sendMessage(event, unreadWarnings);
+            }
         }
+    }
+
+    private void sendMessage(PlayerJoinEvent event, List<Warning> unreadWarnings) {
+        JSONMessage message = JSONMessage.create("You have " + unreadWarnings.size() + " new warnings")
+            .color(ChatColor.GOLD);
+
+        if (permission.has(event.getPlayer(), options.warningConfiguration.getMyWarningsPermission())) {
+            message.then(" View your warnings!")
+                .color(ChatColor.BLUE)
+                .tooltip("Click to view your warnings")
+                .runCommand("/" + options.warningConfiguration.getMyWarningsCmd());
+        }
+
+        message.send(event.getPlayer());
     }
 }
