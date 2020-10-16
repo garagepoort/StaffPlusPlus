@@ -29,10 +29,11 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getReports(UUID uuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND deleted=false ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND deleted=? ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, uuid.toString());
-            ps.setInt(2, offset);
-            ps.setInt(3, amount);
+            ps.setBoolean(2, false);
+            ps.setInt(3, offset);
+            ps.setInt(4, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -48,10 +49,11 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getUnresolvedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status = ? AND deleted=false  ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status = ? AND deleted=?  ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, ReportStatus.OPEN.toString());
-            ps.setInt(2, offset);
-            ps.setInt(3, amount);
+            ps.setBoolean(2, false);
+            ps.setInt(3, offset);
+            ps.setInt(4, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -67,12 +69,13 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getClosedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status IN (?,?,?) AND deleted=false  ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status IN (?,?,?) AND deleted=?  ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, ReportStatus.REJECTED.toString());
             ps.setString(2, ReportStatus.RESOLVED.toString());
             ps.setString(3, ReportStatus.EXPIRED.toString());
-            ps.setInt(4, offset);
-            ps.setInt(5, amount);
+            ps.setBoolean(4, false);
+            ps.setInt(5, offset);
+            ps.setInt(6, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -87,9 +90,10 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     @Override
     public Optional<Report> findOpenReport(int reportId) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE id = ? AND status = ? AND deleted=false")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE id = ? AND status = ? AND deleted=?")) {
             ps.setInt(1, reportId);
             ps.setString(2, ReportStatus.OPEN.toString());
+            ps.setBoolean(3, false);
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {
@@ -105,8 +109,9 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     @Override
     public Optional<Report> findReport(int reportId) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE id = ? AND deleted=false")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE id = ? AND deleted=?")) {
             ps.setInt(1, reportId);
+            ps.setBoolean(2, false);
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {
@@ -122,12 +127,13 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     @Override
     public void updateReport(Report report) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_reports set staff_name=?, staff_uuid=?, status=?, close_reason=? WHERE id=? AND deleted=false")) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_reports set staff_name=?, staff_uuid=?, status=?, close_reason=? WHERE id=? AND deleted=?")) {
             insert.setString(1, report.getStaffName());
             insert.setString(2, report.getStaffUuid() != null ? report.getStaffUuid().toString() : null);
             insert.setString(3, report.getReportStatus().toString());
             insert.setString(4, report.getCloseReason());
             insert.setInt(5, report.getId());
+            insert.setBoolean(6, false);
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -150,11 +156,12 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getAssignedReports(UUID staffUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE staff_uuid = ? AND status = ? AND deleted=false ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE staff_uuid = ? AND status = ? AND deleted=? ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, staffUuid.toString());
             ps.setString(2, ReportStatus.IN_PROGRESS.toString());
-            ps.setInt(3, offset);
-            ps.setInt(4, amount);
+            ps.setBoolean(3, false);
+            ps.setInt(4, offset);
+            ps.setInt(5, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -170,10 +177,11 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getMyReports(UUID reporterUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? AND deleted=false ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? AND deleted=? ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, reporterUuid.toString());
-            ps.setInt(2, offset);
-            ps.setInt(3, amount);
+            ps.setBoolean(2, false);
+            ps.setInt(3, offset);
+            ps.setInt(4, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -189,8 +197,9 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getMyReports(UUID reporterUuid) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? AND deleted=false ORDER BY timestamp")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? AND deleted=? ORDER BY timestamp")) {
             ps.setString(1, reporterUuid.toString());
+            ps.setBoolean(2, false);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -205,8 +214,9 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     @Override
     public void removeReports(UUID playerUuid) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE Player_UUID = ? AND deleted=false");) {
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE Player_UUID = ? AND deleted=?");) {
             insert.setString(1, playerUuid.toString());
+            insert.setBoolean(2, false);
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
