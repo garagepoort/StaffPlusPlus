@@ -1,5 +1,18 @@
 # Changelog Staff++ | v1.13
 
+### V1.13.23
+#### Features
+- Notify users when they have open reports
+- Notify users when a report of them changes status
+- User Reports overview ui
+- Deletion of reports
+- Notify users when they have warnings
+- User Warnings overview ui
+
+#### Bugs
+- Fix reset of armor when exiting Staff mode
+- Fix commands plugin prefix
+
 ### V1.13.22
 #### Bugs
 - Wrong titles for reports ui
