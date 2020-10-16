@@ -18,7 +18,13 @@ public class WarningConfiguration {
     private String myWarningsPermission;
 
 
-    public WarningConfiguration(boolean enabled, boolean showIssuer, Sounds sound, long clear, boolean notifyUser, boolean alwaysNotifyUser, String myWarningsPermission, String myWarningsCmd, List<WarningThresholdConfiguration> thresholds, List<WarningSeverityConfiguration> severityLevels) {
+    public WarningConfiguration(boolean enabled, boolean showIssuer, Sounds sound,
+                                long clear,
+                                boolean notifyUser,
+                                boolean alwaysNotifyUser,
+                                String myWarningsPermission,
+                                String myWarningsCmd,
+                                List<WarningThresholdConfiguration> thresholds, List<WarningSeverityConfiguration> severityLevels) {
         this.enabled = enabled;
         this.showIssuer = showIssuer;
         this.sound = sound;
