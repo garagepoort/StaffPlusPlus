@@ -20,6 +20,7 @@ public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
         boolean showReporter = config.getBoolean("reports-module.show-reporter");
         boolean notifyReportOnJoin = config.getBoolean("reports-module.reporter-notifications.notify-on-join");
         boolean closingReasonEnabled = config.getBoolean("reports-module.closing-reason-enabled", true);
+        String deletionPermission = config.getString("permissions.report-deletion");
         Sounds sound = stringToSound(sanitize(config.getString("reports-module.sound", "NONE")));
         String myReportsPermission = config.getString("permissions.view-my-reports");
         String myReportsCmd = config.getString("commands.my-reports");
@@ -41,6 +42,6 @@ public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
         GuiItemConfig myReportsGui = new GuiItemConfig(modeGuiReports, modeGuiMyReportsTitle, modeGuiMyReportsTitle, modeGuiMyReportsLore);
         GuiItemConfig closedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiClosedReportsTitle, modeGuiClosedReportsTitle, modeGuiClosedReportsLore);
 
-        return new ReportConfiguration(enabled, cooldown, showReporter, sound, closingReasonEnabled, openReportsGui, myReportsGui, closedReportsGui, myReportsPermission, myReportsCmd, notifyReportOnJoin, reporterNotifyStatuses);
+        return new ReportConfiguration(enabled, cooldown, showReporter, sound, closingReasonEnabled, openReportsGui, myReportsGui, closedReportsGui, myReportsPermission, myReportsCmd, notifyReportOnJoin, reporterNotifyStatuses, deletionPermission);
     }
 }
