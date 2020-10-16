@@ -40,7 +40,8 @@ public class MysqlMigrations implements SqlMigrations {
         new V21_CreatePlayerIpsTableMigration(),
         new V22_CreateAltDetectWhitelistTableMigration(),
         new V23_AlterWarningTableAddReadMigration(),
-        new V24_AlterWarningTableAddTimestampMigration());
+        new V24_AlterWarningTableAddTimestampMigration(),
+        new V25_AlterReportsTableAddDeletedMigration());
 
     private final DataSource datasource;
 
