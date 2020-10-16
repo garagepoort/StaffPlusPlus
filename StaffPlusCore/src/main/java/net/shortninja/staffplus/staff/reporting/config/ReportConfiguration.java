@@ -20,6 +20,7 @@ public class ReportConfiguration {
     private String myReportsCmd;
     private boolean notifyReporterOnJoin;
     private List<ReportStatus> reporterNotifyStatuses;
+    private String deletionPermission;
 
 
     public ReportConfiguration(boolean enabled,
@@ -30,7 +31,7 @@ public class ReportConfiguration {
                                GuiItemConfig myReportsGui,
                                GuiItemConfig closedReportsGui,
                                String myReportsPermission, String myReportsCmd, boolean notifyReporterOnJoin,
-                               List<ReportStatus> reporterNotifyStatuses) {
+                               List<ReportStatus> reporterNotifyStatuses, String deletionPermission) {
         this.enabled = enabled;
         this.cooldown = cooldown;
         this.showReporter = showReporter;
@@ -43,6 +44,7 @@ public class ReportConfiguration {
         this.myReportsCmd = myReportsCmd;
         this.notifyReporterOnJoin = notifyReporterOnJoin;
         this.reporterNotifyStatuses = reporterNotifyStatuses;
+        this.deletionPermission = deletionPermission;
     }
 
     public boolean isClosingReasonEnabled() {
@@ -91,5 +93,9 @@ public class ReportConfiguration {
 
     public List<ReportStatus> getReporterNotifyStatuses() {
         return reporterNotifyStatuses;
+    }
+
+    public String getDeletionPermission() {
+        return deletionPermission;
     }
 }

@@ -4,11 +4,14 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.hex.Items;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,6 +20,8 @@ public class ManageReportGui extends AbstractGui {
 
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final ReportService reportService = IocContainer.getReportService();
+    private final Permission permission = IocContainer.getPermissionHandler();
+    private final Options options = IocContainer.getOptions();
 
     public ManageReportGui(Player player, String title, Report report) {
         super(SIZE, title);
@@ -39,6 +44,20 @@ public class ManageReportGui extends AbstractGui {
 
         IAction resolveAction = new ResolveReportAction();
         IAction rejectAction = new RejectReportAction();
+        IAction deleteAction = new IAction() {
+            @Override
+            public void click(Player player, ItemStack item, int slot) {
+                CommandUtil.playerAction(player, () -> {
+                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+                    reportService.deleteReport(player, reportId);
+                });
+            }
+
+            @Override
+            public boolean shouldClose() {
+                return true;
+            }
+        };
 
         setItem(13, ReportItemBuilder.build(report), null);
 
@@ -59,6 +78,9 @@ public class ManageReportGui extends AbstractGui {
         addRejectItem(report, rejectAction, 40);
         addRejectItem(report, rejectAction, 41);
 
+        if(permission.has(player, options.reportConfiguration.getDeletionPermission())) {
+            addDeleteItem(report, deleteAction, 8);
+        }
 
         player.closeInventory();
         player.openInventory(getInventory());
@@ -84,6 +106,20 @@ public class ManageReportGui extends AbstractGui {
     private void addReopenItem(Report report, IAction action, int slot) {
         ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
             Items.editor(Items.createGrayColoredGlass("Unassign", "Click to unassign yourself from this report"))
+                .setAmount(1)
+                .build(), String.valueOf(report.getId()));
+        setItem(slot, item, action);
+    }
+
+    private void addDeleteItem(Report report, IAction action, int slot) {
+        ItemStack itemstack = Items.builder()
+            .setMaterial(Material.REDSTONE_BLOCK)
+            .setName("Delete")
+            .addLore("Click to delete this report")
+            .build();
+
+        ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
+            Items.editor(itemstack)
                 .setAmount(1)
                 .build(), String.valueOf(report.getId()));
         setItem(slot, item, action);
