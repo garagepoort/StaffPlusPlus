@@ -116,7 +116,7 @@ warnings-module:
   # User will be notified the moment he comes online.
   user-notifications:
       enabled: false
-      # Enable this to show the message everytime he comes online.
+      # Enable this to show the message every time the user comes online.
       # If Disabled the warnings will be marked as "read" and he will only be notified of new warnings
       always-notify: false
 
