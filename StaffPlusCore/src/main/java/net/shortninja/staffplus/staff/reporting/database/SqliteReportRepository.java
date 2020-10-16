@@ -20,14 +20,15 @@ public class SqliteReportRepository extends AbstractSqlReportRepository {
     @Override
     public int addReport(Report report) {
         try (Connection connection = getConnection();
-             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID, status, timestamp) " +
-                 "VALUES(?, ?, ?, ?, ?);")) {
+             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID, status, timestamp, deleted) " +
+                 "VALUES(?, ?, ?, ?, ?,?);")) {
             connection.setAutoCommit(false);
             insert.setString(1, report.getReason());
             insert.setString(2, report.getReporterUuid().toString());
             insert.setString(3, report.getCulpritUuid() == null ? null : report.getCulpritUuid().toString());
             insert.setString(4, report.getReportStatus().toString());
             insert.setLong(5, report.getTimestamp().toInstant().toEpochMilli());
+            insert.setBoolean(6, false);
             insert.executeUpdate();
 
             Statement statement = connection.createStatement();
