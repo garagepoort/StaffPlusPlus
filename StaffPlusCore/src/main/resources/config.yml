@@ -533,7 +533,7 @@ staff-mode:
     my-reports-lore: "&7Shows reports currently assigned to you."
 
     # The lore of the reports item
-    closed-reports-lore: "&7History off all closed reports."
+    closed-reports-lore: "&7History of all closed reports."
 
     # Whether or not the miner GUI is enabled in the hub.
     miner-gui: true
