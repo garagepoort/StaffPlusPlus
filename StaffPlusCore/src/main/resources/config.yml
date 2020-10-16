@@ -921,6 +921,9 @@ permissions:
   # Permission for bypassing reports.
   report-bypass: "staff.report.bypass"
 
+  # Permission for deleting reports.
+  report-deletion: "staff.report.deletion"
+
   # Permission to open to my reports gui
   view-my-reports: "staff.warn.view-my-reports"
 
