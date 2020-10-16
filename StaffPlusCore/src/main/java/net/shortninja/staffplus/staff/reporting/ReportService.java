@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.reporting;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.event.*;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
@@ -217,4 +218,12 @@ public class ReportService {
         });
     }
 
+    public void deleteReport(Player player, int reportId) {
+        if(!permission.has(player, options.reportConfiguration.getDeletionPermission())) {
+            throw new NoPermissionException();
+        }
+        Report report = getReport(reportId);
+        reportRepository.markReportDeleted(report);
+        message.sendGroupMessage(player.getName() + " deleted report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+    }
 }
