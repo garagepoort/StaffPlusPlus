@@ -1,5 +1,16 @@
 # Changelog Staff++ | v1.12
 
+### V1.12.10
+#### Features
+- Teleport players back to there original location
+
+#### Bugs
+- Freezing not working through the gui or staff item
+- Staff items only worked when clicking on air
+
+#### Bugs
+- Fix reset of armor when exiting Staff mode
+- Fix commands plugin prefix
 ### V1.12.9
 #### Features
 - Notify users when they have open reports

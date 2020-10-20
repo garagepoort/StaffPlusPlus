@@ -1,5 +1,14 @@
 # Changelog Staff++ | v1.14
 
+### V1.14.24
+#### Features
+- Teleport players back to there original location
+
+#### Bugs
+- Freezing not working through the gui or staff item
+- Custom items enchantments not working
+- Staff items only worked when clicking on air
+
 ### V1.14.23
 #### Features
 - Notify users when they have open reports
