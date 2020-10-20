@@ -377,7 +377,7 @@ public class Options implements IOptions {
             if (!config.getString("staff-mode.custom-modules." + identifier + ".enchantment", "").equalsIgnoreCase("")) {
                 String enchantInfo = config.getString("staff-mode.custom-modules." + identifier + ".enchantment");
                 String[] enchantInfoParts = enchantInfo.split(":");
-                Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantInfoParts[0]));
+                Enchantment enchantment = Enchantment.getByName(enchantInfoParts[0]);
                 if(enchantment == null){
                     enchantment = Enchantment.DURABILITY;
                 }
