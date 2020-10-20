@@ -22,11 +22,17 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.common.cmd.CommandUtil.playerAction;
 
 public class PlayerInteract implements Listener {
+
+    private static final int COOLDOWN = 200;
+    private static final Map<Player, Long> staffTimings = new HashMap<>();
+
     private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
     private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
@@ -52,54 +58,60 @@ public class PlayerInteract implements Listener {
         if (!modeCoordinator.isInMode(uuid) || item == null) {
             return;
         }
+
+        if (staffCheckingChest(event, player)) {
+            event.setCancelled(true);
+            Container container = (Container) event.getClickedBlock().getState();
+
+            Inventory chestView = Bukkit.createInventory(player, InventoryType.CHEST);
+            // Only have to check for similar inventory types as the items will map.
+            if (container instanceof Furnace) {
+                chestView = Bukkit.createInventory(player, InventoryType.FURNACE);
+            } else if (container instanceof BrewingStand) {
+                chestView = Bukkit.createInventory(player, InventoryType.BREWING);
+            } else if (container instanceof Dispenser || container instanceof Dropper) {
+                chestView = Bukkit.createInventory(player, InventoryType.DISPENSER);
+            } else if (container instanceof Hopper) {
+                chestView = Bukkit.createInventory(player, InventoryType.HOPPER);
+            } else {
+                // Either Chest, Chest-like or new block.
+                // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
+                int containerSize = container.getInventory().getSize();
+                if (containerSize % 9 != 0) {
+                    Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
+                    containerSize += (9 - containerSize % 9);
+                }
+                chestView = Bukkit.createInventory(player, containerSize);
+            }
+
+            chestView.setContents(container.getInventory().getContents());
+            event.getPlayer().openInventory(chestView);
+            StaffPlus.get().viewedChest.add(chestView);
+            StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
+            return;
+        }
+
         if (modeCoordinator.isInMode(uuid)) {
             if (handleInteraction(player, item, action)) {
                 event.setCancelled(true);
             }
         }
+    }
 
-
-        if (event.getClickedBlock() != null) {
-            if (event.getClickedBlock().getState() instanceof Container
-                && modeCoordinator.isInMode(event.getPlayer().getUniqueId())
-                && !player.isSneaking()) {
-                event.setCancelled(true);
-                Container container = (Container) event.getClickedBlock().getState();
-
-                Inventory chestView = Bukkit.createInventory(player, InventoryType.CHEST);
-                // Only have to check for similar inventory types as the items will map.
-                if (container instanceof Furnace) {
-                    chestView = Bukkit.createInventory(player, InventoryType.FURNACE);
-                } else if (container instanceof BrewingStand) {
-                    chestView = Bukkit.createInventory(player, InventoryType.BREWING);
-                } else if (container instanceof Dispenser || container instanceof Dropper) {
-                    chestView = Bukkit.createInventory(player, InventoryType.DISPENSER);
-                } else if (container instanceof Hopper) {
-                    chestView = Bukkit.createInventory(player, InventoryType.HOPPER);
-                } else {
-                    // Either Chest, Chest-like or new block.
-                    // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
-                    int containerSize = container.getInventory().getSize();
-                    if (containerSize % 9 != 0) {
-                        Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
-                        containerSize += (9 - containerSize % 9);
-                    }
-                    chestView = Bukkit.createInventory(player, containerSize);
-                }
-
-                chestView.setContents(container.getInventory().getContents());
-                event.getPlayer().openInventory(chestView);
-                StaffPlus.get().viewedChest.add(chestView);
-                StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
-            }
-        }
+    private boolean staffCheckingChest(PlayerInteractEvent event, Player player) {
+        return event.getClickedBlock() != null && event.getClickedBlock().getState() instanceof Container
+            && modeCoordinator.isInMode(event.getPlayer().getUniqueId())
+            && !player.isSneaking();
     }
 
     private boolean handleInteraction(Player player, ItemStack item, Action action) {
         boolean isHandled = true;
 
-        if (!action.toString().contains("CLICK_AIR")) {
-            return false;
+        if(staffTimings.containsKey(player)) {
+            if(System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
+                //Still cooling down
+                return false;
+            }
         }
 
         switch (gadgetHandler.getGadgetType(item, versionProtocol.getNbtString(item))) {
@@ -122,7 +134,7 @@ public class PlayerInteract implements Listener {
                 playerAction(player, () -> {
                     Player targetPlayer = JavaUtils.getTargetPlayer(player);
                     if (targetPlayer != null) {
-                        freezeHandler.execute(new FreezeRequest(player, targetPlayer, freezeHandler.isFrozen(targetPlayer.getUniqueId())));
+                        freezeHandler.execute(new FreezeRequest(player, targetPlayer, !freezeHandler.isFrozen(targetPlayer.getUniqueId())));
                     }
                 });
                 break;
@@ -146,6 +158,7 @@ public class PlayerInteract implements Listener {
                 break;
         }
 
+        staffTimings.put(player, System.currentTimeMillis());
         return isHandled;
     }
 }
