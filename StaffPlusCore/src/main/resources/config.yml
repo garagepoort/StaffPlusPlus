@@ -1090,6 +1090,9 @@ commands:
   # The command for teleporting a player to predefined locations
   teleport: "teleport"
 
+  # The command for teleporting a player back to a previous location
+  teleport-back: "teleportBack"
+
   # The command for teleporting yourself to another player
   teleport-to-player: "teleportToPlayer"
 
