@@ -129,7 +129,7 @@ public class ExamineGui extends AbstractGui {
                 public void click(Player player, ItemStack item, int slot) {
                     CommandUtil.playerAction(player, () -> {
                         if (targetPlayer != null) {
-                            freezeHandler.execute(new FreezeRequest(player, targetPlayer, freezeHandler.isFrozen(targetPlayer.getUniqueId())));
+                            freezeHandler.execute(new FreezeRequest(player, targetPlayer, !freezeHandler.isFrozen(targetPlayer.getUniqueId())));
                         }
                     });
                 }
