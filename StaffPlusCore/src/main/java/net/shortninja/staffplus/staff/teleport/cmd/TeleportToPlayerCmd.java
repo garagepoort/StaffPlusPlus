@@ -57,7 +57,6 @@ public class TeleportToPlayerCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-
         if (args.length == 1) {
             List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
             return onlinePlayers.stream()

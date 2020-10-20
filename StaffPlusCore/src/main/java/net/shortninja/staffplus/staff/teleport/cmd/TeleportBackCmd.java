@@ -42,7 +42,7 @@ public class TeleportBackCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        return 2;
+        return 1;
     }
 
     @Override

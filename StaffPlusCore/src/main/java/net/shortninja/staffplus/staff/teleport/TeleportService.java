@@ -21,21 +21,20 @@ public class TeleportService {
 
     public void teleportPlayer(CommandSender commandSender, Player targetPlayer, String locationId) {
         if (!options.locations.containsKey(locationId)) {
-            commandSender.sendMessage("No location found with name: " + locationId);
-            return;
+            throw new BusinessException("&CNo location found with name: " + locationId);
         }
 
         Location location = options.locations.get(locationId);
         addPreviousLocation(targetPlayer);
         targetPlayer.teleport(location);
-        IocContainer.getMessage().send(commandSender, targetPlayer.getName() + " teleported to " + locationId, IocContainer.getMessages().prefixGeneral);
+        IocContainer.getMessage().send(commandSender, "&6" + targetPlayer.getName() + " teleported to " + locationId, IocContainer.getMessages().prefixGeneral);
     }
 
 
     public void teleportSelf(Player targetPlayer, Location location) {
         addPreviousLocation(targetPlayer);
         targetPlayer.teleport(location);
-        IocContainer.getMessage().send(targetPlayer, "You have been teleported", IocContainer.getMessages().prefixGeneral);
+        IocContainer.getMessage().send(targetPlayer, "&6You have been teleported", IocContainer.getMessages().prefixGeneral);
     }
 
     public void teleportToPlayer(Player sourcePlayer, Player targetPlayer) {
@@ -47,7 +46,7 @@ public class TeleportService {
 
     public void teleportPlayerBack(Player player) {
         if(!previousLocations.containsKey(player) || previousLocations.get(player).isEmpty()) {
-            throw new BusinessException("Unable to teleport player back, no previous locations found");
+            throw new BusinessException("&CUnable to teleport player back, no previous locations found");
         }
         Location previousLocation = previousLocations.get(player).pop();
         player.teleport(previousLocation);
