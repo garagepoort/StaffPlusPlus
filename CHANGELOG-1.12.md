@@ -2,7 +2,7 @@
 
 ### V1.12.10
 #### Features
-- Teleport players back to there original location
+- Teleport players back to their original location
 
 #### Bugs
 - Freezing not working through the gui or staff item
