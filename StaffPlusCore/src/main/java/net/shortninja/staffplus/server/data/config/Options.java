@@ -222,8 +222,9 @@ public class Options implements IOptions {
     public final String permissionMode = config.getString("permissions.mode");
     public final String permissionFreeze = config.getString("permissions.freeze");
     public final String permissionFreezeBypass = config.getString("permissions.freeze-bypass");
-    public final String permissionTeleport = config.getString("permissions.teleport");
+    public final String permissionTeleportToLocation = config.getString("permissions.teleport-to-location");
     public final String permissionTeleportToPlayer = config.getString("permissions.teleport-to-player");
+    public final String permissionTeleportHere = config.getString("permissions.teleport-here");
     public final String permissionTeleportBypass = config.getString("permissions.teleport-bypass");
     public final String permissionTrace = config.getString("permissions.trace");
     public final String permissionTraceBypass = config.getString("permissions.trace-bypass");
@@ -242,9 +243,10 @@ public class Options implements IOptions {
      */
     public final String commandStaffMode = config.getString("commands.staff-mode");
     public final String commandFreeze = config.getString("commands.freeze");
-    public final String commandTeleport = config.getString("commands.teleport");
+    public final String commandTeleportToLocation = config.getString("commands.teleport-to-location");
     public final String commandTeleportBack = config.getString("commands.teleport-back");
     public final String commandTeleportToPlayer = config.getString("commands.teleport-to-player");
+    public final String commandTeleportHere = config.getString("commands.teleport-here");
     public final String commandExamine = config.getString("commands.examine");
     public final String commandCps = config.getString("commands.cps");
     public final String commandStaffChat = config.getString("commands.staff-chat");

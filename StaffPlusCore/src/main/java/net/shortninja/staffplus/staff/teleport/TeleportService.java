@@ -19,7 +19,7 @@ public class TeleportService {
         this.options = options;
     }
 
-    public void teleportPlayer(CommandSender commandSender, Player targetPlayer, String locationId) {
+    public void teleportPlayerToLocation(CommandSender commandSender, Player targetPlayer, String locationId) {
         if (!options.locations.containsKey(locationId)) {
             throw new BusinessException("&CNo location found with name: " + locationId);
         }

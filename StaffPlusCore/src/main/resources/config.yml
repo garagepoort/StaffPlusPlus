@@ -40,7 +40,7 @@ glass-title: "&bChoose GUI glass color"
 
 # Enable offline player mode
 # report-bypass & warn-bypass does not work for offline players
-offline-players-mode: false
+offline-players-mode: true
 
 
 ############################################################
@@ -991,10 +991,13 @@ permissions:
   freeze-bypass: "staff.freeze.bypass"
 
   # Permission for using teleport.
-  teleport: "staff.teleport"
+  teleport-to-location: "staff.teleport-to-location"
 
   # Permission for using teleportToPlayer.
   teleport-to-player: "staff.teleport-to-player"
+
+  # Permission for using teleportHere.
+  teleport-here: "staff.teleport-here"
 
   # Permission for bypassing teleport.
   teleport-bypass: "staff.teleport.bypass"
@@ -1088,13 +1091,16 @@ commands:
   freeze: "freeze"
 
   # The command for teleporting a player to predefined locations
-  teleport: "teleport"
+  teleport-to-location: "teleportToLocation"
 
   # The command for teleporting a player back to a previous location
   teleport-back: "teleportBack"
 
   # The command for teleporting yourself to another player
   teleport-to-player: "teleportToPlayer"
+
+  # The command for teleporting a player to your location
+  teleport-here: "teleportHere"
 
   # The command for examining players' inventory
   examine: "examine"
