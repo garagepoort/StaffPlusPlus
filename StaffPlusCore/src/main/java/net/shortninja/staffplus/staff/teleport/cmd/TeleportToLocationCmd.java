@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.STRIP;
 
-public class TeleportCmd extends AbstractCmd {
+public class TeleportToLocationCmd extends AbstractCmd {
 
-    public TeleportCmd(String name) {
-        super(name, IocContainer.getOptions().permissionTeleport);
+    public TeleportToLocationCmd(String name) {
+        super(name, IocContainer.getOptions().permissionTeleportToLocation);
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
         String locationName = args[1];
 
-        IocContainer.getTeleportService().teleportPlayer(sender, targetPlayer.getPlayer(), locationName);
+        IocContainer.getTeleportService().teleportPlayerToLocation(sender, targetPlayer.getPlayer(), locationName);
         return true;
     }
 

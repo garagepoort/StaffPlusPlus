@@ -22,7 +22,7 @@ public class TeleportArgumentExecutor implements ArgumentExecutor {
             return false;
         }
 
-        IocContainer.getTeleportService().teleportPlayer(commandSender, player, value);
+        IocContainer.getTeleportService().teleportPlayerToLocation(commandSender, player, value);
         return true;
     }
 
