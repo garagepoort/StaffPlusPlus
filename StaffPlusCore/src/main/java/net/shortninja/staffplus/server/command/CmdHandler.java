@@ -20,7 +20,8 @@ import net.shortninja.staffplus.staff.reporting.cmd.ReportPlayerCmd;
 import net.shortninja.staffplus.staff.reporting.cmd.ReportsCmd;
 import net.shortninja.staffplus.staff.staffchat.cmd.StaffChatCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportBackCmd;
-import net.shortninja.staffplus.staff.teleport.cmd.TeleportCmd;
+import net.shortninja.staffplus.staff.teleport.cmd.TeleportHereCmd;
+import net.shortninja.staffplus.staff.teleport.cmd.TeleportToLocationCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportToPlayerCmd;
 import net.shortninja.staffplus.staff.tracing.TraceCmd;
 import net.shortninja.staffplus.staff.warn.cmd.MyWarningsCmd;
@@ -40,9 +41,10 @@ public class CmdHandler {
         {
             new BaseCmd(new ModeCmd(options.commandStaffMode), true, options.permissionMode, "&7Enables or disables staff mode.", "{player} {enable | disable}"),
             new BaseCmd(new FreezeCmd(options.commandFreeze), true, options.permissionFreeze, "&7Freezes or unfreezes the player", "{player} {enable | disable}"),
-            new BaseCmd(new TeleportCmd(options.commandTeleport), true, options.permissionTeleport, "&7Teleports the player to predefined locations", "{player} {location}"),
-            new BaseCmd(new TeleportBackCmd(options.commandTeleportBack), true, options.permissionTeleport, "&7Teleports the player to his last known location before teleportation happened", "{player}"),
             new BaseCmd(new TeleportToPlayerCmd(options.commandTeleportToPlayer), true, options.permissionTeleportToPlayer, "&7Teleport yourself to a specific player", "{player}"),
+            new BaseCmd(new TeleportHereCmd(options.commandTeleportHere), true, options.permissionTeleportHere, "&7Teleport a player to your position", "{player}"),
+            new BaseCmd(new TeleportToLocationCmd(options.commandTeleportToLocation), true, options.permissionTeleportToLocation, "&7Teleports the player to predefined locations", "{player} {location}"),
+            new BaseCmd(new TeleportBackCmd(options.commandTeleportBack), true, options.permissionTeleportToLocation, "&7Teleports the player to his last known location before teleportation happened", "{player}"),
             new BaseCmd(new ExamineCmd(options.commandExamine), true, options.permissionExamine, "&7Examines the player's inventory", "{player}"),
             new BaseCmd(new NotesCmd(options.commandNotes), true, options.permissionExamine, "&7Adds or manages a player's notes", "[player] [note]"),
             new BaseCmd(new CpsCmd(options.commandCps), true, options.permissionCps, "&7Starts a CPS test on the player.", "{player}"),
