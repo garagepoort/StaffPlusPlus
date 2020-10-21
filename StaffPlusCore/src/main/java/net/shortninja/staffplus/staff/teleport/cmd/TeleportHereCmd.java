@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.teleport.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
@@ -18,15 +19,19 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.STRIP;
 
-public class TeleportBackCmd extends AbstractCmd {
+public class TeleportHereCmd extends AbstractCmd {
 
-    public TeleportBackCmd(String name) {
-        super(name, IocContainer.getOptions().permissionTeleportToLocation);
+    public TeleportHereCmd(String name) {
+        super(name, IocContainer.getOptions().permissionTeleportHere);
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
-        IocContainer.getTeleportService().teleportPlayerBack(targetPlayer.getPlayer());
+        if (!(sender instanceof Player)) {
+            throw new BusinessException(messages.onlyPlayers);
+        }
+
+        IocContainer.getTeleportService().teleportToPlayer(targetPlayer.getPlayer(), (Player) sender);
         return true;
     }
 
@@ -46,25 +51,15 @@ public class TeleportBackCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean isDelayable() {
-        return false;
-    }
-
-    @Override
     protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
         return PlayerRetrievalStrategy.ONLINE;
     }
 
     @Override
-    protected boolean canBypass(Player player) {
-        return permission.has(player, options.permissionTeleportBypass);
-    }
-
-    @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         if (args.length == 1) {
-            return Bukkit.getOnlinePlayers().stream()
-                .map(HumanEntity::getName)
+            List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+            return onlinePlayers.stream()
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());
         }
