@@ -115,7 +115,7 @@ warnings-module:
   # Enables the ability to notify a user when he has warnings
   # User will be notified the moment he comes online.
   user-notifications:
-      enabled: false
+      enabled: true
       # Enable this to show the message every time the user comes online.
       # If Disabled the warnings will be marked as "read" and he will only be notified of new warnings
       always-notify: false
@@ -132,7 +132,7 @@ warnings-module:
     - score: 6
       actions:
         - command: "ban %player% &4Met three warnings. Appeal @ &7www.shithcf.net&4."
-          run-strategy: DELAY
+          run-strategy: ALWAYS
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -925,7 +925,7 @@ permissions:
   report-deletion: "staff.report.deletion"
 
   # Permission to open to my reports gui
-  view-my-reports: "staff.warn.view-my-reports"
+  view-my-reports: "staff.report.view-my-reports"
 
   # Permission to open to my warnings gui
   view-my-warnings: "staff.warn.view-my-warnings"
