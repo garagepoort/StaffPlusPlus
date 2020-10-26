@@ -984,6 +984,9 @@ permissions:
   # Permission for the staff mode counter GUI
   counter: "staff.counter"
 
+  # Permission to show if staff members are vanished in the counter GUI
+  counter-show-vanished: "staff.counter-show-vanished"
+
   # Permission for using freeze.
   freeze: "staff.freeze"
 
