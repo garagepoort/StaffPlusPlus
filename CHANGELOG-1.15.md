@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.15
 
-### V1.15.26
+### V1.15.27
 #### Features
 - rename 'teleport' command to 'teleportToLocation'
 - Add 'teleportHere' command
@@ -8,7 +8,7 @@
 - Add ban reason placeholder to use for the kick message
 
 #### Bugs
-- StaffChat not turning of when using the handle
+- StaffChat not turning off when using the handle
 - Staff items triggered by pressure plates
 - Better error messages for tempban
 
