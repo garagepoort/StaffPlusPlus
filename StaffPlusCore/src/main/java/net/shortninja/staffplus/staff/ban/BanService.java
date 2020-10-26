@@ -95,21 +95,23 @@ public class BanService {
         ban.setId(bansRepository.addBan(ban));
 
         notifyPlayers(playerToBan, durationInMillis, issuerName);
-        kickPlayer(playerToBan, durationInMillis, issuerName);
+        kickPlayer(playerToBan, durationInMillis, issuerName, reason);
         sendEvent(new BanEvent(ban));
     }
 
-    private void kickPlayer(SppPlayer playerToBan, Long duration, String issuerName) {
+    private void kickPlayer(SppPlayer playerToBan, Long duration, String issuerName, String reason) {
         if (playerToBan.isOnline()) {
             if (duration != null) {
                 String message = messages.tempBannedKick
                     .replace("%target%", playerToBan.getUsername())
                     .replace("%issuer%", issuerName)
+                    .replace("%reason%", reason)
                     .replace("%duration%", JavaUtils.toHumanReadableDuration(duration));
                 playerToBan.getPlayer().kickPlayer(message);
             } else {
                 String message = messages.permanentBannedKick
                     .replace("%target%", playerToBan.getUsername())
+                    .replace("%reason%", reason)
                     .replace("%issuer%", issuerName);
                 playerToBan.getPlayer().kickPlayer(message);
             }
