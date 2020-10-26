@@ -27,10 +27,12 @@ public class BanListener implements Listener {
         Optional<Ban> ban = banService.getBanByBannedUuid(player.getUniqueId());
         if (ban.isPresent()) {
             if (ban.get().getEndTimestamp() == null) {
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.permanentBannedKick);
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.permanentBannedKick
+                    .replace("%reason%", ban.get().getReason()));
             } else {
                 String message = messages.tempBannedKick
-                    .replace("%duration%", ban.get().getHumanReadableDuration());
+                    .replace("%duration%", ban.get().getHumanReadableDuration())
+                        .replace("%reason%", ban.get().getReason());
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
             }
         }
