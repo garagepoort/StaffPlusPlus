@@ -236,7 +236,8 @@ public class Options implements IOptions {
     public final String ipHidePerm = config.getString("permissions.ipPerm");
     public final String permissionClearInv = config.getString("permissions.invClear");
     public final String permissionClearInvBypass = config.getString("permissions.invClear-bypass");
-    public final String permissionBroadcast = config.getString("permission.broadcast");
+    public final String permissionBroadcast = config.getString("permissions.broadcast");
+    public final String permissionCounterGuiShowVanish = config.getString("permissions.counter-show-vanished");
 
     /*
      * Commands
