@@ -2,12 +2,9 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
@@ -15,23 +12,27 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
-public class CounterGui extends AbstractGui {
-    private static final int SIZE = 54;
-    private final PermissionHandler permission = IocContainer.getPermissionHandler();
+public class CounterGui extends PagedGui {
     private final MessageCoordinator message = IocContainer.getMessage();
-    private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
 
-    public CounterGui(Player player, String title) {
-        super(SIZE, title);
 
-        IAction action = new IAction() {
+    public CounterGui(Player player, String title, int page) {
+        super(player, title, page);
+    }
+
+    @Override
+    protected void getNextUi(Player player, String title, int page) {
+        new CounterGui(player, title, page);
+    }
+
+    @Override
+    public IAction getAction() {
+        return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 Player p = Bukkit.getPlayerExact(item.getItemMeta().getDisplayName().substring(2));
@@ -46,48 +47,37 @@ public class CounterGui extends AbstractGui {
                 return true;
             }
         };
+    }
 
-        List<Player> players = options.modeCounterShowStaffMode ? getModePlayers() : JavaUtils.getOnlinePlayers();
-        int slot = 0; // Better to use this because not every iteration is going to have a result.
-
-        for (Player p : players) {
-            if (!permission.has(p, options.permissionMember)) {
-                continue;
-            } else if ((slot + 1) >= SIZE) {
-                break;
-            }
-
-            setItem(slot, modePlayerItem(p), action);
-            slot++;
-        }
-
-        player.closeInventory();
-        player.openInventory(getInventory());
-        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
+    @Override
+    public List<ItemStack> getItems(Player staffViewing, int offset, int amount) {
+        List<Player> players = IocContainer.getOptions().modeCounterShowStaffMode ? getModePlayers() : JavaUtils.getOnlinePlayers();
+        return players.stream()
+            .filter(p -> IocContainer.getPermissionHandler().has(p, IocContainer.getOptions().permissionMember))
+            .map(p -> modePlayerItem(staffViewing, p))
+            .collect(Collectors.toList());
     }
 
     private List<Player> getModePlayers() {
-        List<Player> modePlayers = new ArrayList<Player>();
-
-        for (UUID uuid : modeCoordinator.getModeUsers()) {
-            Player player = Bukkit.getPlayer(uuid);
-
-            if (player != null) {
-                modePlayers.add(player);
-            }
-        }
-
-        return modePlayers;
+        return IocContainer.getModeCoordinator().getModeUsers()
+            .stream()
+            .map(Bukkit::getPlayer)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
     }
 
-    private ItemStack modePlayerItem(Player player) {
+    private ItemStack modePlayerItem(Player staffViewing, Player player) {
         Location location = player.getLocation();
+        PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
 
-        ItemStack item = Items.editor(Items.createSkull(player.getName()))
-                .setName("&b" + player.getName())
-                .addLore("&7" + location.getWorld().getName() + " &8� &7" + JavaUtils.serializeLocation(location))
-                .build();
+        Items.ItemStackBuilder itemStackBuilder = Items.editor(Items.createSkull(player.getName()))
+            .setName("&b" + player.getName())
+            .addLore("&7" + location.getWorld().getName() + " &8� &7" + JavaUtils.serializeLocation(location));
 
-        return item;
+        if (IocContainer.getPermissionHandler().has(staffViewing, IocContainer.getOptions().permissionCounterGuiShowVanish)) {
+            itemStackBuilder.addLore("&7Vanished: " + playerSession.isVanished());
+        }
+
+        return itemStackBuilder.build();
     }
 }
