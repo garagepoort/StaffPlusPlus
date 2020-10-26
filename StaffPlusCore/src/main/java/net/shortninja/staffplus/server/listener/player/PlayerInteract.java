@@ -106,6 +106,9 @@ public class PlayerInteract implements Listener {
 
     private boolean handleInteraction(Player player, ItemStack item, Action action) {
         boolean isHandled = true;
+        if (action == Action.PHYSICAL) {
+            return false;
+        }
 
         if(staffTimings.containsKey(player)) {
             if(System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
