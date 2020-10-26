@@ -1,5 +1,17 @@
 # Changelog Staff++ | v1.12
 
+### V1.12.11
+#### Features
+- rename 'teleport' command to 'teleportToLocation'
+- Add 'teleportHere' command
+- Add vanish indicator in the staff list gui
+- Add ban reason placeholder to use for the kick message
+
+#### Bugs
+- StaffChat not turning of when using the handle
+- Staff items triggered by pressure plates
+- Better error messages for tempban
+
 ### V1.12.10
 #### Features
 - Teleport players back to their original location
