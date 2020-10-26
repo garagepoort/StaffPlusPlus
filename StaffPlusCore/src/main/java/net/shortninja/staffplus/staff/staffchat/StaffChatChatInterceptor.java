@@ -22,6 +22,10 @@ public class StaffChatChatInterceptor implements ChatInterceptor {
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
+        if(!options.staffChatConfiguration.isEnabled()) {
+            return false;
+        }
+
         PlayerSession session = sessionManager.get(event.getPlayer().getUniqueId());
 
         if (session.inStaffChatMode()) {
