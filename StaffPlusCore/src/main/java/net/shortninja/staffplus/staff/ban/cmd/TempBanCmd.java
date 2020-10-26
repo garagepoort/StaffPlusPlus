@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.ban.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
@@ -30,6 +31,10 @@ public class TempBanCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+        if (!JavaUtils.isInteger(args[1])) {
+            throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()));
+        }
+
         int amount = Integer.parseInt(args[1]);
         String timeUnit = args[2];
         String reason = JavaUtils.compileWords(args, 3);
