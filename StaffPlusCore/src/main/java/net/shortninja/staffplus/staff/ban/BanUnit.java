@@ -28,7 +28,7 @@ public enum BanUnit {
 
     public static long getTicks(String un, int time) {
         if (!JavaUtils.isValidEnum(BanUnit.class, un)) {
-            throw new BusinessException("Invalid time unit used. Valid values: ["+ Arrays.stream(BanUnit.values()).map(Enum::name).collect(Collectors.joining(" - "))+"]");
+            throw new BusinessException("&CInvalid time unit used. Valid values: ["+ Arrays.stream(BanUnit.values()).map(Enum::name).collect(Collectors.joining(", "))+"]");
         }
         BanUnit banUnit = BanUnit.valueOf(un.toUpperCase());
         LocalDateTime from = LocalDateTime.now();
