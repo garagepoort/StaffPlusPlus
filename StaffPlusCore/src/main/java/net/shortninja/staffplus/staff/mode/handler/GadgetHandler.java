@@ -154,7 +154,7 @@ public class GadgetHandler {
     }
 
     public void onCounter(Player player) {
-        new CounterGui(player, options.modeCounterTitle);
+        new CounterGui(player, options.modeCounterTitle, 0);
     }
 
     public void onCps(CommandSender sender, Player targetPlayer) {
