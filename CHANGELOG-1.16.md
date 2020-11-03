@@ -1,5 +1,9 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.33
+#### Features
+- 1.16.4 support
+
 ### V1.16.32
 #### Features
 - rename 'teleport' command to 'teleportToLocation'
