@@ -21,6 +21,7 @@ import net.shortninja.staffplus.staff.alerts.AlertListener;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionListener;
 import net.shortninja.staffplus.staff.ban.BanListener;
 import net.shortninja.staffplus.staff.broadcast.BungeeBroadcastListener;
+import net.shortninja.staffplus.staff.examine.ExamineInventoryMove;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.handler.InventoryHandler;
@@ -94,8 +95,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         start(System.currentTimeMillis());
 
-        if (getConfig().getBoolean("metrics"))
-            new Metrics(this);
+        if (getConfig().getBoolean("metrics")) {
+            new Metrics(this, 9351);
+        }
 
         hookHandler.addHook(new SuperVanishHook(this));
         hookHandler.enableAll();
@@ -179,6 +181,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new WarnListener();
         new ReportListener();
         new ReportChangeReporterNotifier();
+        new ExamineInventoryMove();
     }
 
 

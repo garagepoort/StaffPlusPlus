@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.listener;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.PassThroughClickAction;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
@@ -48,6 +49,10 @@ public class InventoryClick implements Listener {
 
         IAction action = playerSession.getCurrentGui().get().getAction(slot);
         if (action != null) {
+            if(action instanceof PassThroughClickAction) {
+                return;
+            }
+
             action.click(player, item, slot);
             if (action.shouldClose()) {
                 player.closeInventory();

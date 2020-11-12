@@ -1,21 +1,24 @@
-package net.shortninja.staffplus.player.attribute.gui;
+package net.shortninja.staffplus.staff.examine;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.PassThroughClickAction;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.PlayerManager;
-import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.staff.warn.Warning;
-import net.shortninja.staffplus.staff.reporting.Report;
-import net.shortninja.staffplus.staff.reporting.ReportService;
+import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.freeze.FreezeRequest;
+import net.shortninja.staffplus.staff.reporting.Report;
+import net.shortninja.staffplus.staff.reporting.ReportService;
+import net.shortninja.staffplus.staff.warn.Warning;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Location;
@@ -31,6 +34,11 @@ import java.util.Optional;
 public class ExamineGui extends AbstractGui {
 
     private static final int SIZE = 54;
+    public static final int INVENTORY_START = 11;
+    public static final int INVENTORY_END = INVENTORY_START + 36;
+    public static final int ARMOR_START = INVENTORY_END + 1;
+    public static final int ARMOR_END = ARMOR_START + 5;
+    private static final PassThroughClickAction PASS_THROUGH_ACTION = new PassThroughClickAction();
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
@@ -38,37 +46,49 @@ public class ExamineGui extends AbstractGui {
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final PlayerManager playerManager = IocContainer.getPlayerManager();
     private final ReportService reportService = IocContainer.getReportService();
+    private final PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
+    private final Player staff;
+    private final Player targetPlayer;
+    private String itemSelectedFrom;
+    private int itemSelectedSlot;
 
     public ExamineGui(Player player, Player targetPlayer, String title) {
         super(SIZE, title);
+        staff = player;
+        this.targetPlayer = targetPlayer;
 
-        setInventoryContents(targetPlayer);
-
-        if (options.modeExamineFood >= 0) {
-            setItem(options.modeExamineFood, foodItem(targetPlayer), null);
-        }
-
-        if (options.modeExamineIp >= 0) {
-            setItem(options.modeExamineIp, ipItem(targetPlayer), null);
-        }
-
-
-//        if (options.modeExaminePing >= 0) {
-//            setItem(options.modeExaminePing, pingItem(targetPlayer), null);
-//        }
-
-        if (options.modeExamineGamemode >= 0) {
-            setItem(options.modeExamineGamemode, gameModeItem(targetPlayer), null);
-        }
-
-        if (options.modeExamineInfractions >= 0) {
-            setItem(options.modeExamineInfractions, infractionsItem(sessionManager.get(targetPlayer.getUniqueId())), null);
-        }
-
-        setInteractiveItems(targetPlayer);
+        update();
         player.closeInventory();
         player.openInventory(getInventory());
         sessionManager.get(player.getUniqueId()).setCurrentGui(this);
+    }
+
+    public void update() {
+        if (permissionHandler.has(staff, options.permissionExamineViewInventory)) {
+            setInventoryContents(targetPlayer);
+        }
+
+        if (options.modeExamineFood >= 0) {
+            setItem(options.modeExamineFood - 1, foodItem(targetPlayer), null);
+        }
+
+        if (options.modeExamineIp >= 0) {
+            setItem(options.modeExamineIp - 1, ipItem(targetPlayer), null);
+        }
+
+        if (options.modeExamineGamemode >= 0) {
+            setItem(options.modeExamineGamemode - 1, gameModeItem(targetPlayer), null);
+        }
+
+        if (options.modeExamineInfractions >= 0) {
+            setItem(options.modeExamineInfractions - 1, infractionsItem(sessionManager.get(targetPlayer.getUniqueId())), null);
+        }
+
+        setInteractiveItems(targetPlayer);
+    }
+
+    public Player getTargetPlayer() {
+        return targetPlayer;
     }
 
     private void setInventoryContents(Player targetPlayer) {
@@ -76,20 +96,20 @@ public class ExamineGui extends AbstractGui {
         ItemStack[] armor = targetPlayer.getInventory().getArmorContents();
 
         JavaUtils.reverse(armor);
-        for (int i = 0; i < items.length; i++) {
-            setItem(i, items[i], null);
+        for (int i = 0; i < 36; i++) {
+            setItem(INVENTORY_START + i, items[i], PASS_THROUGH_ACTION);
         }
-        for (int i = 0; i <= armor.length - 1; i++) {
-            if (i == 3) {
-                setItem(39 + i, targetPlayer.getItemInHand(), null);
-            }
-            setItem(38 + i, armor[i], null);
+        for (int i = 0; i < 5; i++) {
+            setItem(ARMOR_START + i, items[i], PASS_THROUGH_ACTION);
         }
+
+        setItem(INVENTORY_START - 1, Items.createRedColoredGlass("Inventory Items", ""), null);
+        setItem(ARMOR_START - 1, Items.createRedColoredGlass("Armor items", ""), null);
     }
 
     private void setInteractiveItems(final Player targetPlayer) {
         if (options.modeExamineLocation >= 0) {
-            setItem(options.modeExamineLocation, locationItem(targetPlayer), new IAction() {
+            setItem(options.modeExamineLocation - 1, locationItem(targetPlayer), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     player.teleport(targetPlayer);
@@ -103,7 +123,7 @@ public class ExamineGui extends AbstractGui {
         }
 
         if (options.modeExamineNotes >= 0) {
-            setItem(options.modeExamineNotes, notesItem(sessionManager.get(targetPlayer.getUniqueId())), new IAction() {
+            setItem(options.modeExamineNotes - 1, notesItem(sessionManager.get(targetPlayer.getUniqueId())), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     PlayerSession playerSession = sessionManager.get(player.getUniqueId());
@@ -124,7 +144,7 @@ public class ExamineGui extends AbstractGui {
         }
 
         if (options.modeExamineFreeze >= 0) {
-            setItem(options.modeExamineFreeze, freezeItem(targetPlayer), new IAction() {
+            setItem(options.modeExamineFreeze - 1, freezeItem(targetPlayer), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     CommandUtil.playerAction(player, () -> {
@@ -142,7 +162,7 @@ public class ExamineGui extends AbstractGui {
         }
 
         if (options.modeExamineWarn >= 0) {
-            setItem(options.modeExamineWarn, warnItem(), new IAction() {
+            setItem(options.modeExamineWarn - 1, warnItem(), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     PlayerSession playerSession = sessionManager.get(player.getUniqueId());
@@ -284,4 +304,30 @@ public class ExamineGui extends AbstractGui {
 
         return item;
     }
+
+    boolean isInventorySlot(int slot) {
+        return slot >= INVENTORY_START && slot != (ARMOR_START - 1);
+    }
+
+    void setItemSelectedFrom(String itemSelectedFrom) {
+        this.itemSelectedFrom = itemSelectedFrom;
+    }
+
+    public String getItemSelectedFrom() {
+        return itemSelectedFrom;
+    }
+
+    void setItemSelectedSlot(int itemSelectedSlot) {
+        if (itemSelectedSlot < ARMOR_START) {
+            this.itemSelectedSlot = itemSelectedSlot - INVENTORY_START;
+        } else {
+            //deduct one to take into account the divider item
+            this.itemSelectedSlot = itemSelectedSlot - INVENTORY_START - 1;
+        }
+    }
+
+    int getItemSelectedSlot() {
+        return itemSelectedSlot;
+    }
+
 }
