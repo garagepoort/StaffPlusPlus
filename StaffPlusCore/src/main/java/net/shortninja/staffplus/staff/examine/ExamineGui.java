@@ -100,11 +100,12 @@ public class ExamineGui extends AbstractGui {
             setItem(INVENTORY_START + i, items[i], PASS_THROUGH_ACTION);
         }
         for (int i = 0; i < 5; i++) {
-            setItem(ARMOR_START + i, items[i], PASS_THROUGH_ACTION);
+            setItem(ARMOR_START + i, items[36 + i], PASS_THROUGH_ACTION);
         }
 
         setItem(INVENTORY_START - 1, Items.createRedColoredGlass("Inventory Items", ""), null);
         setItem(ARMOR_START - 1, Items.createRedColoredGlass("Armor items", ""), null);
+        setItem(SIZE - 1, Items.createRedColoredGlass("Inventory end", ""), null);
     }
 
     private void setInteractiveItems(final Player targetPlayer) {
@@ -213,16 +214,6 @@ public class ExamineGui extends AbstractGui {
             .setMaterial(Material.COMPASS).setAmount(1)
             .setName("&bConnection")
             .addLore(messages.examineIp.replace("%ipaddress%", ip))
-            .build();
-
-        return item;
-    }
-
-    private ItemStack pingItem(Player player) {
-        ItemStack item = Items.builder()
-            .setMaterial(Material.PAPER).setAmount(1)
-            .setName("&bPing")
-            .addLore(messages.examineIp.replace("%ping%", String.valueOf(PlayerSession.getPing(player))))
             .build();
 
         return item;

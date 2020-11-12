@@ -65,7 +65,14 @@ public class ExamineInventoryMove implements Listener {
 
         if (!isEmptyStack(event.getCursor()) && isEmptyStack(event.getCurrentItem())) {
             if ("staff".equalsIgnoreCase(examineGui.getItemSelectedFrom())) {
-                examineGui.getTargetPlayer().getInventory().setItem(event.getSlot() - ExamineGui.INVENTORY_START, event.getCursor());
+                int playerSlot;
+                if (event.getSlot() < ExamineGui.ARMOR_START) {
+                    playerSlot = event.getSlot() - ExamineGui.INVENTORY_START;
+                } else {
+                    //deduct one to take into account the divider item
+                    playerSlot = event.getSlot() - ExamineGui.INVENTORY_START - 1;
+                }
+                examineGui.getTargetPlayer().getInventory().setItem(playerSlot, event.getCursor());
             }
         }
 
