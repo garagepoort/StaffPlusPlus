@@ -1,5 +1,13 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.28 (NOT YET RELEASED)
+#### Features
+- Severity levels now working from examine mode
+- Ability to interact with the players inventory in examine mode.
+
+#### Bugs
+- Unban command logged the ban issuer instead of the unban issuer
+
 ### V1.15.27
 #### Features
 - rename 'teleport' command to 'teleportToLocation'
