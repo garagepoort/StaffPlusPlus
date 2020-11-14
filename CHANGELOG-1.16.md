@@ -1,5 +1,13 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.34
+#### Features
+- Severity levels now working from examine mode
+- Ability to interact with the players inventory in examine mode.
+
+#### Bugs
+- Unban command logged the ban issuer instead of the unban issuer
+
 ### V1.16.33
 #### Features
 - 1.16.4 support

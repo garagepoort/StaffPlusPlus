@@ -170,7 +170,18 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
         }
 
         if (options.modeExamineWarn >= 0) {
-            setItem(options.modeExamineWarn - 1, warnItem(), new IAction() {
+            IAction severityAction = new IAction() {
+                @Override
+                public void click(Player player, ItemStack item, int slot) {
+                    new SeverityLevelSelectGui(player, "Select severity level", targetPlayer);
+                }
+
+                @Override
+                public boolean shouldClose() {
+                    return false;
+                }
+            };
+            IAction warnAction = new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     PlayerSession playerSession = sessionManager.get(player.getUniqueId());
@@ -192,7 +203,9 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 public boolean shouldClose() {
                     return true;
                 }
-            });
+            };
+
+            setItem(options.modeExamineWarn - 1, warnItem(), IocContainer.getOptions().warningConfiguration.getSeverityLevels().isEmpty() ? warnAction : severityAction);
         }
     }
 
