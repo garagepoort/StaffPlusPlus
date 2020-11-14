@@ -1078,6 +1078,12 @@ permissions:
   # Permission for receiving alt detect alerts.
   alerts-alt-detect: "staff.alerts.alt-detects"
 
+  # Permission examine inventory interaction
+  examine-inventory-interaction: "staff.examine.inventory-interaction"
+
+  # Permission examine shows player's inventory
+  examine-view-inventory: "staff.examine.view-inventory"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #

@@ -4,7 +4,7 @@ import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.gui.CounterGui;
-import net.shortninja.staffplus.player.attribute.gui.ExamineGui;
+import net.shortninja.staffplus.staff.examine.ExamineGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
