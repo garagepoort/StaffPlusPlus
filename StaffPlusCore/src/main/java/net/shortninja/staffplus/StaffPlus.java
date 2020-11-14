@@ -2,6 +2,7 @@ package net.shortninja.staffplus;
 
 import be.garagepoort.staffplusplus.craftbukkit.api.ProtocolFactory;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.shortninja.staffplus.common.UpdatableGui;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.data.config.AutoUpdater;
 import net.shortninja.staffplus.server.data.config.IOptions;
@@ -21,6 +22,7 @@ import net.shortninja.staffplus.staff.alerts.AlertListener;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionListener;
 import net.shortninja.staffplus.staff.ban.BanListener;
 import net.shortninja.staffplus.staff.broadcast.BungeeBroadcastListener;
+import net.shortninja.staffplus.staff.examine.ExamineInventoryMove;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.handler.InventoryHandler;
@@ -39,6 +41,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +70,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public InventoryHandler inventoryHandler;
     public boolean usesPlaceholderAPI;
     private final DatabaseInitializer databaseInitializer = new DatabaseInitializer();
+    private BukkitTask guiUpdateTask;
 
     public static StaffPlus get() {
         return plugin;
@@ -95,7 +99,15 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         start(System.currentTimeMillis());
 
         if (getConfig().getBoolean("metrics"))
-            new Metrics(this);
+            new Metrics(this, 9351);
+
+        guiUpdateTask = getScheduler().runTaskTimer(this, () -> {
+            for (PlayerSession playerSession : IocContainer.getSessionManager().getAll()) {
+                if (playerSession.getCurrentGui().isPresent() && playerSession.getCurrentGui().get() instanceof UpdatableGui) {
+                    ((UpdatableGui) playerSession.getCurrentGui().get()).update();
+                }
+            }
+        }, 0, 10);
 
         hookHandler.addHook(new SuperVanishHook(this));
         hookHandler.enableAll();
@@ -103,6 +115,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public void onDisable() {
+        guiUpdateTask.cancel();
         IocContainer.getMessage().sendConsoleMessage("Staff++ is now disabling!", true);
         stop();
     }
@@ -179,6 +192,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new WarnListener();
         new ReportListener();
         new ReportChangeReporterNotifier();
+        new ExamineInventoryMove();
     }
 
 

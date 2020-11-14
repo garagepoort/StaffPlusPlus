@@ -230,6 +230,8 @@ public class Options implements IOptions {
     public final String permissionTraceBypass = config.getString("permissions.trace-bypass");
     public final String permissionCps = config.getString("permissions.cps");
     public final String permissionExamine = config.getString("permissions.examine");
+    public final String permissionExamineInventoryInteraction = config.getString("permissions.examine-inventory-interaction");
+    public final String permissionExamineViewInventory = config.getString("permissions.examine-view-inventory");
     public final String permissionFollow = config.getString("permissions.follow");
     public final String permissionRevive = config.getString("permissions.revive");
     public final String permissionMember = config.getString("permissions.member");
