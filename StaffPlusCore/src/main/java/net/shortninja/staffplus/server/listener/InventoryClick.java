@@ -47,7 +47,7 @@ public class InventoryClick implements Listener {
             return;
         }
 
-        if (playerSession.getCurrentGui().get().getInventory() == event.getClickedInventory()) {
+        if (event.getClickedInventory() != null && event.getClickedInventory().equals(playerSession.getCurrentGui().get().getInventory())) {
             IAction action = playerSession.getCurrentGui().get().getAction(slot);
             if (action != null) {
                 if (action instanceof PassThroughClickAction) {
