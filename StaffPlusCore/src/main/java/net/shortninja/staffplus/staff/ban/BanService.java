@@ -138,7 +138,7 @@ public class BanService {
 
         String unbanMessage = messages.unbanned
             .replace("%target%", ban.getPlayerName())
-            .replace("%issuer%", ban.getIssuerName());
+            .replace("%issuer%", ban.getUnbannedByName());
         message.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
         sendEvent(new UnbanEvent(ban));
     }

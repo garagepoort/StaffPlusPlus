@@ -64,7 +64,7 @@ public class WarnService {
         createWarning(sender, user, warning);
     }
 
-    public void sendWarning(CommandSender sender, SppPlayer user, String reason) {
+    public void  sendWarning(CommandSender sender, SppPlayer user, String reason) {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
         Warning warning = new Warning(user.getId(), user.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis());
@@ -106,7 +106,7 @@ public class WarnService {
                     || (action.getRunStrategy() == ONLINE && user.isOnline())
                     || (action.getRunStrategy() == DELAY && user.isOnline())) {
 
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getUsername()));
+                Bukkit.getScheduler().runTask(StaffPlus.get(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getUsername())));
                 validCommands.add(action.getCommand());
             } else if (action.getRunStrategy() == DELAY && !user.isOnline()) {
                 delayedActionsRepository.saveDelayedAction(user.getId(), action.getCommand());
