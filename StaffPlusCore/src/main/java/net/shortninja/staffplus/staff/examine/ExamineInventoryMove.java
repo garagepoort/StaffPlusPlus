@@ -50,11 +50,11 @@ public class ExamineInventoryMove implements Listener {
             return;
         }
 
-        if (event.getClickedInventory() == examineGui.getInventory() && examineGui.isInventorySlot(event.getSlot())) {
+        if (event.getClickedInventory() != null && event.getClickedInventory().equals(examineGui.getInventory()) && examineGui.isInventorySlot(event.getSlot())) {
             handleExamineInventoryClick(event, player, examineGui);
         }
 
-        if (event.getClickedInventory() == player.getInventory()) {
+        if (event.getClickedInventory() != null && event.getClickedInventory().equals(player.getInventory())) {
             handleStaffInventoryClick(event, player, examineGui);
         }
     }
