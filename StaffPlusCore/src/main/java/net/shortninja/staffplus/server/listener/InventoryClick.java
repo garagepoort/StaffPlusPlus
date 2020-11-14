@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.listener;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.PassThroughClickAction;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
@@ -34,8 +35,8 @@ public class InventoryClick implements Listener {
         ItemStack item = event.getCurrentItem();
         int slot = event.getSlot();
 
-        if(StaffPlus.get().inventoryHandler.isInVirtualInv(uuid)||
-            StaffPlus.get().viewedChest.contains(event.getInventory())){
+        if (StaffPlus.get().inventoryHandler.isInVirtualInv(uuid) ||
+            StaffPlus.get().viewedChest.contains(event.getInventory())) {
             event.setCancelled(true);
         }
 
@@ -46,14 +47,20 @@ public class InventoryClick implements Listener {
             return;
         }
 
-        IAction action = playerSession.getCurrentGui().get().getAction(slot);
-        if (action != null) {
-            action.click(player, item, slot);
-            if (action.shouldClose()) {
-                player.closeInventory();
+        if (playerSession.getCurrentGui().get().getInventory() == event.getClickedInventory()) {
+            IAction action = playerSession.getCurrentGui().get().getAction(slot);
+            if (action != null) {
+                if (action instanceof PassThroughClickAction) {
+                    return;
+                }
+
+                action.click(player, item, slot);
+                if (action.shouldClose()) {
+                    player.closeInventory();
+                }
             }
+            event.setCancelled(true);
         }
 
-        event.setCancelled(true);
     }
 }
