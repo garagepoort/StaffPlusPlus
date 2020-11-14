@@ -43,7 +43,6 @@ public class ReportListener implements Listener {
                     .tooltip("Click to view your reports")
                     .runCommand("/" + options.reportConfiguration.getMyReportsCmd());
             }
-
             message.send(event.getPlayer());
         }
     }
