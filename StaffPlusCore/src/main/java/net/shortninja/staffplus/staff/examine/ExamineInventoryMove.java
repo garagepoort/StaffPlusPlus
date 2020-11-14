@@ -12,8 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class ExamineInventoryMove implements Listener {
@@ -35,10 +36,11 @@ public class ExamineInventoryMove implements Listener {
 
         ExamineGui examineGui = (ExamineGui) playerSession.getCurrentGui().get();
 
-        if (!event.isLeftClick()) {
+        if (event.getClick() != ClickType.LEFT) {
             event.setCancelled(true);
             return;
         }
+
         if (!isEmptyStack(event.getCursor()) && !isEmptyStack(event.getCurrentItem())) {
             event.setCancelled(true);
             return;
@@ -55,6 +57,17 @@ public class ExamineInventoryMove implements Listener {
         if (event.getClickedInventory() == player.getInventory()) {
             handleStaffInventoryClick(event, player, examineGui);
         }
+    }
+
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void dragItem(InventoryDragEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        if (!playerSession.getCurrentGui().isPresent() || !(playerSession.getCurrentGui().get() instanceof ExamineGui)) {
+            return;
+        }
+        event.setCancelled(true);
     }
 
     private void handleExamineInventoryClick(InventoryClickEvent event, Player player, ExamineGui examineGui) {
@@ -99,25 +112,6 @@ public class ExamineInventoryMove implements Listener {
 
         if (isEmptyStack(event.getCursor()) && !isEmptyStack(event.getCurrentItem())) {
             examineGui.setItemSelectedFrom("staff");
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void dropItem(PlayerDropItemEvent event) {
-        Player player = event.getPlayer();
-        if (!permissionHandler.has(player, options.permissionExamineViewInventory) || !permissionHandler.has(player, options.permissionExamineInventoryInteraction)) {
-            return;
-        }
-
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
-        if (!playerSession.getCurrentGui().isPresent() || !(playerSession.getCurrentGui().get() instanceof ExamineGui)) {
-            return;
-        }
-        ExamineGui examineGui = (ExamineGui) playerSession.getCurrentGui().get();
-
-        if ("player".equalsIgnoreCase(examineGui.getItemSelectedFrom())) {
-            examineGui.setItemSelectedFrom(null);
-            examineGui.getTargetPlayer().getInventory().setItem(examineGui.getItemSelectedSlot(), null);
         }
     }
 

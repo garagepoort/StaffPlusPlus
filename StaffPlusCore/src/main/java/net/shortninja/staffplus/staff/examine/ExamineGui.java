@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.examine;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.PassThroughClickAction;
+import net.shortninja.staffplus.common.UpdatableGui;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
@@ -31,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class ExamineGui extends AbstractGui {
+public class ExamineGui extends AbstractGui implements UpdatableGui {
 
     private static final int SIZE = 54;
     public static final int INVENTORY_START = 11;
@@ -63,7 +64,13 @@ public class ExamineGui extends AbstractGui {
         sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
+    @Override
     public void update() {
+        if ("player".equalsIgnoreCase(getItemSelectedFrom())) {
+            //Stop updating if a staffmember picked up an item.
+            //This prevents item duplication
+            return;
+        }
         if (permissionHandler.has(staff, options.permissionExamineViewInventory)) {
             setInventoryContents(targetPlayer);
         }
