@@ -4,6 +4,7 @@ import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
 import net.shortninja.staffplus.event.ReportStatus;
 import net.shortninja.staffplus.util.lib.Sounds;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
 
 
     @Override
-    public ReportConfiguration load() {
+    protected ReportConfiguration load(FileConfiguration config) {
         boolean enabled = config.getBoolean("reports-module.enabled");
         int cooldown = config.getInt("reports-module.cooldown");
         boolean showReporter = config.getBoolean("reports-module.show-reporter");

@@ -37,8 +37,36 @@ public class CmdHandler {
      * Yes this is a mess, but I need to define these things early for help commands
      * to work the way that they should.
      */
-    public final BaseCmd[] BASES =
-        {
+    public BaseCmd[] commands;
+
+    public CmdHandler() {
+        registerCommands();
+    }
+
+    public void reload() {
+        unregisterCommands();
+        registerCommands();
+    }
+
+    private void registerCommands() {
+        commands = loadCommands();
+        for (BaseCmd baseCmd : commands) {
+            if (baseCmd.isEnabled()) {
+                versionProtocol.registerCommand(baseCmd.getMatch(), baseCmd.getCommand());
+            }
+        }
+    }
+
+    private void unregisterCommands() {
+        for (BaseCmd baseCmd : commands) {
+            if (baseCmd.isEnabled()) {
+                versionProtocol.unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand());
+            }
+        }
+    }
+
+    private BaseCmd[] loadCommands() {
+        return new BaseCmd[]{
             new BaseCmd(new ModeCmd(options.commandStaffMode), true, options.permissionMode, "&7Enables or disables staff mode.", "{player} {enable | disable}"),
             new BaseCmd(new FreezeCmd(options.commandFreeze), true, options.permissionFreeze, "&7Freezes or unfreezes the player", "{player} {enable | disable}"),
             new BaseCmd(new TeleportToPlayerCmd(options.commandTeleportToPlayer), true, options.permissionTeleportToPlayer, "&7Teleport yourself to a specific player", "{player}"),
@@ -75,16 +103,5 @@ public class CmdHandler {
             new BaseCmd(new UnbanCmd(options.banConfiguration.getCommandUnbanPlayer()), options.banConfiguration.isEnabled(), "Unban a player", "[player] [reason]"),
             new BaseCmd(new AltDetectWhitelistCmd(options.altDetectConfiguration.getCommandWhitelist()), options.altDetectConfiguration.isEnabled(), "Add/Remove players from the alt account detection whitelist", "[add/remove] [player1] [player2]")
         };
-
-    public CmdHandler() {
-        registerCommands();
-    }
-
-    private void registerCommands() {
-        for (BaseCmd baseCmd : BASES) {
-            if (baseCmd.isEnabled()) {
-                versionProtocol.registerCommand(baseCmd.getMatch(), baseCmd.getCommand());
-            }
-        }
     }
 }

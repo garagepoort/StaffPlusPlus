@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import static java.lang.Double.parseDouble;
 public class LocationLoader extends ConfigLoader<Map<String, Location>> {
 
     @Override
-    public Map<String, Location> load() {
+    protected Map<String, Location> load(FileConfiguration config) {
         ConfigurationSection locationsConfig = config.getConfigurationSection("locations");
         if (locationsConfig == null) {
             return Collections.emptyMap();

@@ -34,337 +34,580 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
 //TODO: replace this with something that isn't horribly coupled...
 public class Options implements IOptions {
-    private static final FileConfiguration config = StaffPlus.get().getConfig();
-    private final InputStream stream = StaffPlus.get().getResource("config.yml");
 
-    YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
+    public List<String> blockedCommands;
+    public List<String> blockedModeCommands;
+    public String glassTitle;
 
-    /*
-     * General
-     */
-    public final String language = config.getString("lang");
+    public int autoSave;
+    public long clock;
+    private List<String> soundNames;
+    public boolean offlinePlayersModeEnabled;
 
-    public final List<String> blockedCommands = JavaUtils.stringToList(config.getString("blocked-commands", ""));
-    public final List<String> blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands", ""));
-    public final String glassTitle = config.getString("glass-title");
-    /*
-     * Advanced
-     */
-    private final int configVersion = configuration.getInt("config-version");
-
-    public final int autoSave = config.getInt("auto-save");
-    public final long clock = config.getInt("clock") * 20;
-    public final List<String> soundNames = JavaUtils.stringToList(config.getString("sound-names"));
-    public final boolean offlinePlayersModeEnabled = config.getBoolean("offline-players-mode");
-
-    public Map<String, Location> locations = new LocationLoader().load();
-    public final AuthenticationConfiguration authenticationConfiguration = new AuthenticationConfigurationLoader().load();
-    public final ReportConfiguration reportConfiguration = new ReportingModuleLoader().load();
-    public final WarningConfiguration warningConfiguration = new WarningModuleLoader().load();
-    public final BlackListConfiguration blackListConfiguration = new BlackListConfigurationLoader().load();
-    public final TraceConfiguration traceConfiguration = new TraceModuleLoader().load();
-    public final BroadcastConfiguration broadcastConfiguration = new BroadcastConfigurationLoader().load();
-    public final ProtectConfiguration protectConfiguration = new ProtectModuleLoader().load();
-    public final BanConfiguration banConfiguration = new BanModuleLoader().load();
-    public final AltDetectConfiguration altDetectConfiguration = new AltDetectModuleLoader().load();
-    public final StaffChatConfiguration staffChatConfiguration = new StaffChatModuleLoader().load();
+    public Map<String, Location> locations;
+    public AuthenticationConfiguration authenticationConfiguration;
+    public ReportConfiguration reportConfiguration;
+    public WarningConfiguration warningConfiguration;
+    public BlackListConfiguration blackListConfiguration;
+    public TraceConfiguration traceConfiguration;
+    public BroadcastConfiguration broadcastConfiguration;
+    public ProtectConfiguration protectConfiguration;
+    public BanConfiguration banConfiguration;
+    public AltDetectConfiguration altDetectConfiguration;
+    public StaffChatConfiguration staffChatConfiguration;
 
     /*
      * Vanish
      */
-    public final boolean vanishEnabled = config.getBoolean("vanish-module.enabled");
-    public final boolean vanishTabList = config.getBoolean("vanish-module.tab-list");
-    public final boolean vanishShowAway = config.getBoolean("vanish-module.show-away");
-    public final boolean vanishChatEnabled = config.getBoolean("vanish-module.chat");
-    public final boolean vanishMessageEnabled = config.getBoolean("vanish-module.vanish-message-enabled");
+    public boolean vanishEnabled;
+    public boolean vanishTabList;
+    public boolean vanishShowAway;
+    public boolean vanishChatEnabled;
+    public boolean vanishMessageEnabled;
     /*
      * Chat
      */
-    public final boolean chatEnabled = config.getBoolean("chat-module.enabled");
-    public final int chatLines = config.getInt("chat-module.lines");
-    public final int chatSlow = config.getInt("chat-module.slow");
-    public final boolean chatBlacklistEnabled = config.getBoolean("chat-module.blacklist-module.enabled");
-    public final boolean chatBlacklistHoverable = config.getBoolean("chat-module.blacklist-module.hoverable");
-    public final String chatBlacklistCharacter = config.getString("chat-module.blacklist-module.character");
-    public final List<String> chatBlacklistWords = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.words"));
-    public final List<String> chatBlacklistCharacters = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.characters"));
-    public final List<String> chatBlacklistDomains = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.domains"));
-    public final List<String> chatBlacklistPeriods = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.periods"));
-    public final List<String> chatBlacklistAllowed = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.allowed"));
+    public boolean chatEnabled;
+    public int chatLines;
+    public int chatSlow;
+    public boolean chatBlacklistEnabled;
+    public boolean chatBlacklistHoverable;
+    public String chatBlacklistCharacter;
+    public List<String> chatBlacklistWords;
+    public List<String> chatBlacklistCharacters;
+    public List<String> chatBlacklistDomains;
+    public List<String> chatBlacklistPeriods;
+    public List<String> chatBlacklistAllowed;
     /*
      * Alerts
      */
-    public final boolean alertsNameNotify = config.getBoolean("alerts-module.name-notify");
-    public final boolean alertsMentionNotify = config.getBoolean("alerts-module.mention-notify");
-    public final boolean alertsXrayEnabled = config.getBoolean("alerts-module.xray-alerts.enabled");
-    public final boolean alertsAltDetectEnabled = config.getBoolean("alerts-module.alt-detect-notify.enabled");
-    public final List<AltDetectTrustLevel> alertsAltDetectTrustLevels = Arrays.stream(config.getString("alerts-module.alt-detect-notify.trust-levels", "").split(";"))
-        .map(AltDetectTrustLevel::valueOf)
-        .collect(Collectors.toList());
+    public boolean alertsNameNotify;
+    public boolean alertsMentionNotify;
+    public boolean alertsXrayEnabled;
+    public boolean alertsAltDetectEnabled;
+    public List<AltDetectTrustLevel> alertsAltDetectTrustLevels;
     /*
      * Staff Mode
      */
-    public final boolean modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
-    public final boolean modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
-    public final boolean modeInvincible = config.getBoolean("staff-mode.invincible");
-    public final boolean modeFlight = config.getBoolean("staff-mode.flight");
-    public final boolean modeCreative = config.getBoolean("staff-mode.creative");
-    public final boolean modeOriginalLocation = config.getBoolean("staff-mode.original-location");
-    public final boolean modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
-    public final boolean staffView = config.getBoolean("staff-mode.staff-see-staff-in-mode");
+    public boolean modeBlockManipulation;
+    public boolean modeInventoryInteraction;
+    public boolean modeInvincible;
+    public boolean modeFlight;
+    public boolean modeCreative;
+    public boolean modeOriginalLocation;
+    public boolean modeEnableOnLogin;
+    public boolean staffView;
     /*
      * Compass
      */
-    public final boolean modeCompassEnabled = config.getBoolean("staff-mode.compass-module.enabled");
-    public final int modeCompassSlot = config.getInt("staff-mode.compass-module.slot") - 1;
-    public final int modeCompassVelocity = config.getInt("staff-mode.compass-module.velocity");
+    public boolean modeCompassEnabled;
+    public int modeCompassSlot;
+    public int modeCompassVelocity;
     /*
      * Random Teleport
      */
-    public final boolean modeRandomTeleportEnabled = config.getBoolean("staff-mode.random-teleport-module.enabled");
-    public final int modeRandomTeleportSlot = config.getInt("staff-mode.random-teleport-module.slot") - 1;
-    public final boolean modeRandomTeleportRandom = config.getBoolean("staff-mode.random-teleport-module.random");
+    public boolean modeRandomTeleportEnabled;
+    public int modeRandomTeleportSlot;
+    public boolean modeRandomTeleportRandom;
     /*
      * Vanish
      */
-    public final boolean modeVanishEnabled = config.getBoolean("staff-mode.vanish-module.enabled");
-    public final int modeVanishSlot = config.getInt("staff-mode.vanish-module.slot") - 1;
+    public boolean modeVanishEnabled;
+    public int modeVanishSlot;
 
     /*
      * GUI Hub
      */
-    public final boolean modeGuiEnabled = config.getBoolean("staff-mode.gui-module.enabled");
-    public final int modeGuiSlot = config.getInt("staff-mode.gui-module.slot") - 1;
-    public final boolean modeGuiMiner = config.getBoolean("staff-mode.gui-module.miner-gui");
-    public final String modeGuiMinerTitle = config.getString("staff-mode.gui-module.miner-title");
-    public final String modeGuiMinerName = config.getString("staff-mode.gui-module.miner-name");
-    public final String modeGuiMinerLore = config.getString("staff-mode.gui-module.miner-lore");
-    public final int modeGuiMinerLevel = config.getInt("staff-mode.gui-module.xray-level");
+    public boolean modeGuiEnabled;
+    public int modeGuiSlot;
+    public boolean modeGuiMiner;
+    public String modeGuiMinerTitle;
+    public String modeGuiMinerName;
+    public String modeGuiMinerLore;
+    public int modeGuiMinerLevel;
     /*
      * Counter
      */
-    public final boolean modeCounterEnabled = config.getBoolean("staff-mode.counter-module.enabled");
-    public final int modeCounterSlot = config.getInt("staff-mode.counter-module.slot") - 1;
-    public final String modeCounterTitle = config.getString("staff-mode.counter-module.title");
-    public final boolean modeCounterShowStaffMode = config.getBoolean("staff-mode.counter-module.show-staff-mode");
+    public boolean modeCounterEnabled;
+    public int modeCounterSlot;
+    public String modeCounterTitle;
+    public boolean modeCounterShowStaffMode;
     /*
      * Freeze
      */
-    public final boolean modeFreezeEnabled = config.getBoolean("staff-mode.freeze-module.enabled");
-    public final int modeFreezeSlot = config.getInt("staff-mode.freeze-module.slot") - 1;
-    public final boolean modeFreezeChat = config.getBoolean("staff-mode.freeze-module.chat");
-    public final boolean modeFreezeDamage = config.getBoolean("staff-mode.freeze-module.damage");
+    public boolean modeFreezeEnabled;
+    public int modeFreezeSlot;
+    public boolean modeFreezeChat;
+    public boolean modeFreezeDamage;
     /*
      * CPS
      */
-    public final boolean modeCpsEnabled = config.getBoolean("staff-mode.cps-module.enabled");
-    public final int modeCpsSlot = config.getInt("staff-mode.cps-module.slot") - 1;
-    public final long modeCpsTime = config.getInt("staff-mode.cps-module.time") * 20;
-    public final int modeCpsMax = config.getInt("staff-mode.cps-module.max");
+    public boolean modeCpsEnabled;
+    public int modeCpsSlot;
+    public long modeCpsTime;
+    public int modeCpsMax;
     /*
      * Examine
      */
 
-    public final boolean enderChestEnabled = configVersion < 6204 || config.getBoolean("staff-mode.enderchest-module.enabled");
-    public final boolean enderOfflineChestEnabled = configVersion < 6204 || config.getBoolean("staff-mode.enderchest-module.offline-viewing");
-    public final boolean modeExamineEnabled = config.getBoolean("staff-mode.examine-module.enabled");
-    public final int modeExamineSlot = config.getInt("staff-mode.examine-module.slot") - 1;
-    public final String modeExamineTitle = config.getString("staff-mode.examine-module.title");
-    public final int modeExamineFood = config.getInt("staff-mode.examine-module.info-line.food") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.food");
-    public final int modeExamineIp = config.getInt("staff-mode.examine-module.info-line.ip-address") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ip-address");
-    public final int modeExamineGamemode = config.getInt("staff-mode.examine-module.info-line.gamemode") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.gamemode");
-    public final int modeExamineInfractions = config.getInt("staff-mode.examine-module.info-line.infractions") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.infractions");
-    public final int modeExamineLocation = config.getInt("staff-mode.examine-module.info-line.location") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.location");
-    public final int modeExamineNotes = config.getInt("staff-mode.examine-module.info-line.notes") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.notes");
-    public final int modeExamineFreeze = config.getInt("staff-mode.examine-module.info-line.freeze") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.freeze");
-    public final int modeExamineWarn = config.getInt("staff-mode.examine-module.info-line.warn") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.warn");
+    public boolean enderChestEnabled;
+    public boolean enderOfflineChestEnabled;
+    public boolean modeExamineEnabled;
+    public int modeExamineSlot;
+    public String modeExamineTitle;
+    public int modeExamineFood;
+    public int modeExamineIp;
+    public int modeExamineGamemode;
+    public int modeExamineInfractions;
+    public int modeExamineLocation;
+    public int modeExamineNotes;
+    public int modeExamineFreeze;
+    public int modeExamineWarn;
     /*
      * Follow
      */
-    public final boolean modeFollowEnabled = config.getBoolean("staff-mode.follow-module.enabled");
-    public final int modeFollowSlot = config.getInt("staff-mode.follow-module.slot") - 1;
+    public boolean modeFollowEnabled;
+    public int modeFollowSlot;
     /*
      * Custom
      */
-    public Map<String, ModuleConfiguration> moduleConfigurations = new HashMap<>();
+    public Map<String, ModuleConfiguration> moduleConfigurations;
     /*
      * Permissions
      */
-    public final String permissionAlerts = config.getString("permissions.alerts");;
-    public final String permissionWildcard = config.getString("permissions.wild-card");
-    public final String permissionBlock = config.getString("permissions.block");
-    public final String permissionReport = config.getString("permissions.report");
-    public final String permissionReportBypass = config.getString("permissions.report-bypass");
-    public final String permissionWarn = config.getString("permissions.warn");
-    public final String permissionWarnBypass = config.getString("permissions.warn-bypass");
-    public final String permissionVanishTotal = config.getString("permissions.vanish-total");
-    public final String permissionVanishList = config.getString("permissions.vanish-list");
-    public final String permissionChatClear = config.getString("permissions.chat-clear");
-    public final String permissionChatToggle = config.getString("permissions.chat-toggle");
-    public final String permissionChatSlow = config.getString("permissions.chat-slow");
-    public final String permissionBlacklist = config.getString("permissions.blacklist");
-    public final String permissionMention = config.getString("permissions.mention");
-    public final String permissionAlertsAltDetect = config.getString("permissions.alerts-alt-detect");
-    public final String permissionNameChange = config.getString("permissions.name-change");
-    public final String permissionXray = config.getString("permissions.xray");
-    public final String permissionMode = config.getString("permissions.mode");
-    public final String permissionFreeze = config.getString("permissions.freeze");
-    public final String permissionFreezeBypass = config.getString("permissions.freeze-bypass");
-    public final String permissionTeleportToLocation = config.getString("permissions.teleport-to-location");
-    public final String permissionTeleportToPlayer = config.getString("permissions.teleport-to-player");
-    public final String permissionTeleportHere = config.getString("permissions.teleport-here");
-    public final String permissionTeleportBypass = config.getString("permissions.teleport-bypass");
-    public final String permissionTrace = config.getString("permissions.trace");
-    public final String permissionTraceBypass = config.getString("permissions.trace-bypass");
-    public final String permissionCps = config.getString("permissions.cps");
-    public final String permissionExamine = config.getString("permissions.examine");
-    public final String permissionExamineInventoryInteraction = config.getString("permissions.examine-inventory-interaction");
-    public final String permissionExamineViewInventory = config.getString("permissions.examine-view-inventory");
-    public final String permissionFollow = config.getString("permissions.follow");
-    public final String permissionRevive = config.getString("permissions.revive");
-    public final String permissionMember = config.getString("permissions.member");
-    public final String ipHidePerm = config.getString("permissions.ipPerm");
-    public final String permissionClearInv = config.getString("permissions.invClear");
-    public final String permissionClearInvBypass = config.getString("permissions.invClear-bypass");
-    public final String permissionBroadcast = config.getString("permissions.broadcast");
-    public final String permissionCounterGuiShowVanish = config.getString("permissions.counter-show-vanished");
+    public String permissionAlerts;
+    ;
+    public String permissionWildcard;
+    public String permissionBlock;
+    public String permissionReport;
+    public String permissionReportBypass;
+    public String permissionWarn;
+    public String permissionWarnBypass;
+    public String permissionVanishTotal;
+    public String permissionVanishList;
+    public String permissionChatClear;
+    public String permissionChatToggle;
+    public String permissionChatSlow;
+    public String permissionBlacklist;
+    public String permissionMention;
+    public String permissionAlertsAltDetect;
+    public String permissionNameChange;
+    public String permissionXray;
+    public String permissionMode;
+    public String permissionFreeze;
+    public String permissionFreezeBypass;
+    public String permissionTeleportToLocation;
+    public String permissionTeleportToPlayer;
+    public String permissionTeleportHere;
+    public String permissionTeleportBypass;
+    public String permissionTrace;
+    public String permissionTraceBypass;
+    public String permissionCps;
+    public String permissionExamine;
+    public String permissionExamineInventoryInteraction;
+    public String permissionExamineViewInventory;
+    public String permissionFollow;
+    public String permissionRevive;
+    public String permissionMember;
+    public String ipHidePerm;
+    public String permissionClearInv;
+    public String permissionClearInvBypass;
+    public String permissionBroadcast;
+    public String permissionCounterGuiShowVanish;
 
     /*
      * Commands
      */
-    public final String commandStaffMode = config.getString("commands.staff-mode");
-    public final String commandFreeze = config.getString("commands.freeze");
-    public final String commandTeleportToLocation = config.getString("commands.teleport-to-location");
-    public final String commandTeleportBack = config.getString("commands.teleport-back");
-    public final String commandTeleportToPlayer = config.getString("commands.teleport-to-player");
-    public final String commandTeleportHere = config.getString("commands.teleport-here");
-    public final String commandExamine = config.getString("commands.examine");
-    public final String commandCps = config.getString("commands.cps");
-    public final String commandStaffChat = config.getString("commands.staff-chat");
-    public final String commandReport = config.getString("commands.report");
-    public final String commandReportPlayer = config.getString("commands.reportPlayer");
-    public final String commandReports = config.getString("commands.reports");
-    public final String commandWarn = config.getString("commands.warn");
-    public final String commandWarns = config.getString("commands.warns");
-    public final String commandVanish = config.getString("commands.vanish");
-    public final String commandChat = config.getString("commands.chat");
-    public final String commandAlerts = config.getString("commands.alerts");
-    public final String commandFollow = config.getString("commands.follow");
-    public final String commandRevive = config.getString("commands.revive");
-    public final String commandStaffList = config.getString("commands.staff-list");
-    public final String commandClearInv = config.getString("commands.clearInv");
-    public final String commandTrace = config.getString("commands.trace");
-    public final String commandBroadcast = config.getString("commands.broadcast");
-    public final String commandEChestView = configVersion >= 6203 ? config.getString("commands.echest_view") : "eview";
+    public String commandStaffMode;
+    public String commandFreeze;
+    public String commandTeleportToLocation;
+    public String commandTeleportBack;
+    public String commandTeleportToPlayer;
+    public String commandTeleportHere;
+    public String commandExamine;
+    public String commandCps;
+    public String commandStaffChat;
+    public String commandReport;
+    public String commandReportPlayer;
+    public String commandReports;
+    public String commandWarn;
+    public String commandWarns;
+    public String commandVanish;
+    public String commandChat;
+    public String commandAlerts;
+    public String commandFollow;
+    public String commandRevive;
+    public String commandStaffList;
+    public String commandClearInv;
+    public String commandTrace;
+    public String commandBroadcast;
+    public String commandEChestView;
 
-    public final Sounds alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
-    public final List<Material> alertsXrayBlocks = stringToMaterialList(config.getString("alerts-module.xray-alerts.blocks"));
-    public final VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
-    public final boolean disablePackets = configVersion >= 3.19 && config.getBoolean("disable-packets");
+    public Sounds alertsSound;
+    public List<Material> alertsXrayBlocks;
+    public VanishType modeVanish;
 
-    public final boolean modeItemChange = !(configVersion >= 3.1) || config.getBoolean("staff-mode.item-change");
-    public final boolean modeDamage = configVersion >= 6194 && config.getBoolean("staff-mode.damage");
-    public final boolean modeHungerLoss = !(configVersion >= 3.17) || config.getBoolean("staff-mode.hunger-loss");
-    public final List<String> modeEnableCommands = configVersion >= 3.16 ? JavaUtils.stringToList(config.getString("staff-mode.enable-commands")) : new ArrayList<String>();
-    public final List<String> modeDisableCommands = configVersion >= 3.16 ? JavaUtils.stringToList(config.getString("staff-mode.disable-commands")) : new ArrayList<String>();
-    public final boolean worldChange = configVersion >= 6199 && config.getBoolean("staff-mode.disable-on-world-change");
-    public final int modeFreezeTimer = configVersion >= 3.17 ? config.getInt("staff-mode.freeze-module.timer") : 0;
-    public final Sounds modeFreezeSound = configVersion >= 3.17 ? stringToSound(sanitize(config.getString("staff-mode.freeze-module.sound"))) : Sounds.ORB_PICKUP;
-    public final boolean modeFreezePrompt = configVersion >= 3.1 && config.getBoolean("staff-mode.freeze-module.prompt");
-    public final String modeFreezePromptTitle = configVersion >= 3.1 ? config.getString("staff-mode.freeze-module.prompt-title") : "&bFrozen";
-    public final List<String> logoutCommands = (configVersion >= 6195) ? JavaUtils.stringToList(config.getString("staff-mode.freeze-module.logout-commands")) : new ArrayList<>();
-    public final String permissionStrip = configVersion >= 6194 ? config.getString("permissions.strip") : "staff.strip";
-    public final String permissionStaff = configVersion >= 6196 ? config.getString("permissions.staffplus") : "staff.staffplus";
-    public final String commandNotes = configVersion >= 3.1 ? config.getString("commands.notes") : "notes";
-    public final String commandLogin = configVersion >= 3.2 ? config.getString("commands.login") : "login";
-    public final String commandStrip = configVersion >= 6194 ? config.getString("commands.strip") : "strip";
+    public boolean modeItemChange;
+    public boolean modeDamage;
+    public boolean modeHungerLoss;
+    public List<String> modeEnableCommands;
+    public List<String> modeDisableCommands;
+    public boolean worldChange;
+    public int modeFreezeTimer;
+    public Sounds modeFreezeSound;
+    public boolean modeFreezePrompt;
+    public String modeFreezePromptTitle;
+    public List<String> logoutCommands;
+    public String permissionStrip;
+    public String permissionStaff;
+    public String commandNotes;
+    public String commandLogin;
+    public String commandStrip;
 
-    private final Material modeCompassType = stringToMaterial(sanitize(config.getString("staff-mode.compass-module.item")));
-    private final short modeCompassData = getMaterialData(config.getString("staff-mode.compass-module.item"));
-    private final String modeCompassName = config.getString("staff-mode.compass-module.name");
-    private final List<String> modeCompassLore = JavaUtils.stringToList(config.getString("staff-mode.compass-module.lore"));
-    public ItemStack modeCompassItem = Items.builder().setMaterial(modeCompassType).setData(modeCompassData).setName(modeCompassName).setLore(modeCompassLore).build();
-
-    private final Material modeRandomTeleportType = stringToMaterial(sanitize(config.getString("staff-mode.random-teleport-module.item")));
-    private final short modeRandomTeleportData = getMaterialData(config.getString("staff-mode.random-teleport-module.item"));
-    private final String modeRandomTeleportName = config.getString("staff-mode.random-teleport-module.name");
-    private final List<String> modeRandomTeleportLore = JavaUtils.stringToList(config.getString("staff-mode.random-teleport-module.lore"));
-    public ItemStack modeRandomTeleportItem = Items.builder().setMaterial(modeRandomTeleportType).setData(modeRandomTeleportData).setName(modeRandomTeleportName).setLore(modeRandomTeleportLore).build();
-
-    private final Material modeVanishType = stringToMaterial(sanitize(config.getString("staff-mode.vanish-module.item")));
-    private final short modeVanishData = getMaterialData(config.getString("staff-mode.vanish-module.item"));
-    private final String modeVanishName = config.getString("staff-mode.vanish-module.name");
-    private final List<String> modeVanishLore = JavaUtils.stringToList(config.getString("staff-mode.vanish-module.lore"));
-    public ItemStack modeVanishItem = Items.builder().setMaterial(modeVanishType).setData(modeVanishData).setName(modeVanishName).setLore(modeVanishLore).build();
-
-    private final Material modeVanishTypeOff = stringToMaterial(sanitize(config.getString("staff-mode.vanish-module.item-off")));
-    private final short modeVanishDataOff = getMaterialData(config.getString("staff-mode.vanish-module.item-off"));
-    public ItemStack modeVanishItemOff = Items.builder().setMaterial(modeVanishTypeOff).setData(modeVanishDataOff).setName(modeVanishName).setLore(modeVanishLore).build();
-
-    private final Material modeGuiType = stringToMaterial(sanitize(config.getString("staff-mode.gui-module.item")));
-    private final short modeGuiData = getMaterialData("staff-mode.gui-module.item");
-    private final String modeGuiName = config.getString("staff-mode.gui-module.name");
-    private final List<String> modeGuiLore = JavaUtils.stringToList(config.getString("staff-mode.gui-module.lore"));
-    public ItemStack modeGuiItem = Items.builder().setMaterial(modeGuiType).setData(modeGuiData).setName(modeGuiName).setLore(modeGuiLore).build();
-
-    private final Material modeCounterType = stringToMaterial(sanitize(config.getString("staff-mode.counter-module.item")));
-    private final short modeCounterData = getMaterialData(config.getString("staff-mode.counter-module.item"));
-    private final String modeCounterName = config.getString("staff-mode.counter-module.name");
-    private final List<String> modeCounterLore = JavaUtils.stringToList(config.getString("staff-mode.counter-module.lore"));
-    public ItemStack modeCounterItem = Items.builder().setMaterial(modeCounterType).setData(modeCounterData).setName(modeCounterName).setLore(modeCounterLore).build();
-
-    private final Material modeFreezeType = stringToMaterial(sanitize(config.getString("staff-mode.freeze-module.item")));
-    private final short modeFreezeData = getMaterialData(config.getString("staff-mode.freeze-module.item"));
-    private final String modeFreezeName = config.getString("staff-mode.freeze-module.name");
-    private final List<String> modeFreezeLore = JavaUtils.stringToList(config.getString("staff-mode.freeze-module.lore"));
-    public ItemStack modeFreezeItem = Items.builder().setMaterial(modeFreezeType).setData(modeFreezeData).setName(modeFreezeName).setLore(modeFreezeLore).build();
-
-    private final Material modeCpsType = stringToMaterial(sanitize(config.getString("staff-mode.cps-module.item")));
-    private final short modeCpsData = getMaterialData(config.getString("staff-mode.cps-module.item"));
-    private final String modeCpsName = config.getString("staff-mode.cps-module.name");
-    private final List<String> modeCpsLore = JavaUtils.stringToList(config.getString("staff-mode.cps-module.lore"));
-    public ItemStack modeCpsItem = Items.builder().setMaterial(modeCpsType).setData(modeCpsData).setName(modeCpsName).setLore(modeCpsLore).build();
-
-    private final Material modeExamineType = stringToMaterial(sanitize(config.getString("staff-mode.examine-module.item")));
-    private final short modeExamineData = getMaterialData(config.getString("staff-mode.examine-module.item"));
-    private final String modeExamineName = config.getString("staff-mode.examine-module.name");
-    private final List<String> modeExamineLore = JavaUtils.stringToList(config.getString("staff-mode.examine-module.lore"));
-    public ItemStack modeExamineItem = Items.builder().setMaterial(modeExamineType).setData(modeExamineData).setName(modeExamineName).setLore(modeExamineLore).build();
-
+    public ItemStack modeCompassItem;
+    public ItemStack modeRandomTeleportItem;
+    public ItemStack modeVanishItem;
+    public ItemStack modeVanishItemOff;
+    public ItemStack modeGuiItem;
+    public ItemStack modeCounterItem;
+    public ItemStack modeFreezeItem;
+    public ItemStack modeCpsItem;
+    public ItemStack modeExamineItem;
 
     /*
      * Storage
      */
-    public final String storageType = configVersion >= 6200 ? config.getString("storage.type") : "sqlite";
-    public final String mySqlHost = configVersion >= 6200 ? config.getString("storage.mysql.host") : "localhost";
-    public final String mySqlUser = configVersion >= 6200 ? config.getString("storage.mysql.user") : "root";
-    public final String database = configVersion >= 6200 ? config.getString("storage.mysql.database") : "root";
-    public final String mySqlPassword = configVersion >= 6200 ? config.getString("storage.mysql.password") : "mypass";
-    public final int mySqlPort = configVersion >= 6200 ? config.getInt("storage.mysql.port") : 3306;
+    public String storageType;
+    public String mySqlHost;
+    public String mySqlUser;
+    public String database;
+    public String mySqlPassword;
+    public int mySqlPort;
 
-    private final Material modeFollowType = stringToMaterial(sanitize(config.getString("staff-mode.follow-module.item")));
-    private final short modeFollowData = getMaterialData(config.getString("staff-mode.follow-module.item"));
-    private final String modeFollowName = config.getString("staff-mode.follow-module.name");
-    private final List<String> modeFollowLore = JavaUtils.stringToList(config.getString("staff-mode.follow-module.lore"));
-    public final ItemStack modeFollowItem = Items.builder().setMaterial(modeFollowType).setData(modeFollowData).setName(modeFollowName).setLore(modeFollowLore).build();
+    public ItemStack modeFollowItem;
+
 
     public Options() {
-        loadCustomModules();
+        reload();
     }
 
-    private void loadCustomModules() {
+    public void reload() {
+
+        StaffPlus.get().reloadConfig();
+        FileConfiguration config = StaffPlus.get().getConfig();
+        blockedCommands = JavaUtils.stringToList(config.getString("blocked-commands", ""));
+        blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands", ""));
+        glassTitle = config.getString("glass-title");
+
+        autoSave = config.getInt("auto-save");
+        clock = config.getInt("clock") * 20;
+        soundNames = JavaUtils.stringToList(config.getString("sound-names"));
+        offlinePlayersModeEnabled = config.getBoolean("offline-players-mode");
+
+        locations = new LocationLoader().loadConfig();
+        authenticationConfiguration = new AuthenticationConfigurationLoader().loadConfig();
+        reportConfiguration = new ReportingModuleLoader().loadConfig();
+        warningConfiguration = new WarningModuleLoader().loadConfig();
+        blackListConfiguration = new BlackListConfigurationLoader().loadConfig();
+        traceConfiguration = new TraceModuleLoader().loadConfig();
+        broadcastConfiguration = new BroadcastConfigurationLoader().loadConfig();
+        protectConfiguration = new ProtectModuleLoader().loadConfig();
+        banConfiguration = new BanModuleLoader().loadConfig();
+        altDetectConfiguration = new AltDetectModuleLoader().loadConfig();
+        staffChatConfiguration = new StaffChatModuleLoader().loadConfig();
+
+        /*
+         * Vanish
+         */
+        vanishEnabled = config.getBoolean("vanish-module.enabled");
+        vanishTabList = config.getBoolean("vanish-module.tab-list");
+        vanishShowAway = config.getBoolean("vanish-module.show-away");
+        vanishChatEnabled = config.getBoolean("vanish-module.chat");
+        vanishMessageEnabled = config.getBoolean("vanish-module.vanish-message-enabled");
+        /*
+         * Chat
+         */
+        chatEnabled = config.getBoolean("chat-module.enabled");
+        chatLines = config.getInt("chat-module.lines");
+        chatSlow = config.getInt("chat-module.slow");
+        chatBlacklistEnabled = config.getBoolean("chat-module.blacklist-module.enabled");
+        chatBlacklistHoverable = config.getBoolean("chat-module.blacklist-module.hoverable");
+        chatBlacklistCharacter = config.getString("chat-module.blacklist-module.character");
+        chatBlacklistWords = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.words"));
+        chatBlacklistCharacters = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.characters"));
+        chatBlacklistDomains = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.domains"));
+        chatBlacklistPeriods = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.periods"));
+        chatBlacklistAllowed = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.allowed"));
+        /*
+         * Alerts
+         */
+        alertsNameNotify = config.getBoolean("alerts-module.name-notify");
+        alertsMentionNotify = config.getBoolean("alerts-module.mention-notify");
+        alertsXrayEnabled = config.getBoolean("alerts-module.xray-alerts.enabled");
+        alertsAltDetectEnabled = config.getBoolean("alerts-module.alt-detect-notify.enabled");
+        alertsAltDetectTrustLevels = Arrays.stream(config.getString("alerts-module.alt-detect-notify.trust-levels", "").split(";"))
+            .map(AltDetectTrustLevel::valueOf)
+            .collect(Collectors.toList());
+        /*
+         * Staff Mode
+         */
+        modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
+        modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
+        modeInvincible = config.getBoolean("staff-mode.invincible");
+        modeFlight = config.getBoolean("staff-mode.flight");
+        modeCreative = config.getBoolean("staff-mode.creative");
+        modeOriginalLocation = config.getBoolean("staff-mode.original-location");
+        modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
+        staffView = config.getBoolean("staff-mode.staff-see-staff-in-mode");
+        /*
+         * Compass
+         */
+        modeCompassEnabled = config.getBoolean("staff-mode.compass-module.enabled");
+        modeCompassSlot = config.getInt("staff-mode.compass-module.slot") - 1;
+        modeCompassVelocity = config.getInt("staff-mode.compass-module.velocity");
+        /*
+         * Random Teleport
+         */
+        modeRandomTeleportEnabled = config.getBoolean("staff-mode.random-teleport-module.enabled");
+        modeRandomTeleportSlot = config.getInt("staff-mode.random-teleport-module.slot") - 1;
+        modeRandomTeleportRandom = config.getBoolean("staff-mode.random-teleport-module.random");
+        /*
+         * Vanish
+         */
+        modeVanishEnabled = config.getBoolean("staff-mode.vanish-module.enabled");
+        modeVanishSlot = config.getInt("staff-mode.vanish-module.slot") - 1;
+
+        /*
+         * GUI Hub
+         */
+        modeGuiEnabled = config.getBoolean("staff-mode.gui-module.enabled");
+        modeGuiSlot = config.getInt("staff-mode.gui-module.slot") - 1;
+        modeGuiMiner = config.getBoolean("staff-mode.gui-module.miner-gui");
+        modeGuiMinerTitle = config.getString("staff-mode.gui-module.miner-title");
+        modeGuiMinerName = config.getString("staff-mode.gui-module.miner-name");
+        modeGuiMinerLore = config.getString("staff-mode.gui-module.miner-lore");
+        modeGuiMinerLevel = config.getInt("staff-mode.gui-module.xray-level");
+        /*
+         * Counter
+         */
+        modeCounterEnabled = config.getBoolean("staff-mode.counter-module.enabled");
+        modeCounterSlot = config.getInt("staff-mode.counter-module.slot") - 1;
+        modeCounterTitle = config.getString("staff-mode.counter-module.title");
+        modeCounterShowStaffMode = config.getBoolean("staff-mode.counter-module.show-staff-mode");
+        /*
+         * Freeze
+         */
+        modeFreezeEnabled = config.getBoolean("staff-mode.freeze-module.enabled");
+        modeFreezeSlot = config.getInt("staff-mode.freeze-module.slot") - 1;
+        modeFreezeChat = config.getBoolean("staff-mode.freeze-module.chat");
+        modeFreezeDamage = config.getBoolean("staff-mode.freeze-module.damage");
+        /*
+         * CPS
+         */
+        modeCpsEnabled = config.getBoolean("staff-mode.cps-module.enabled");
+        modeCpsSlot = config.getInt("staff-mode.cps-module.slot") - 1;
+        modeCpsTime = config.getInt("staff-mode.cps-module.time") * 20;
+        modeCpsMax = config.getInt("staff-mode.cps-module.max");
+        /*
+         * Examine
+         */
+
+        enderChestEnabled = config.getBoolean("staff-mode.enderchest-module.enabled");
+        enderOfflineChestEnabled = config.getBoolean("staff-mode.enderchest-module.offline-viewing");
+        modeExamineEnabled = config.getBoolean("staff-mode.examine-module.enabled");
+        modeExamineSlot = config.getInt("staff-mode.examine-module.slot") - 1;
+        modeExamineTitle = config.getString("staff-mode.examine-module.title");
+        modeExamineFood = config.getInt("staff-mode.examine-module.info-line.food") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.food");
+        modeExamineIp = config.getInt("staff-mode.examine-module.info-line.ip-address") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ip-address");
+        modeExamineGamemode = config.getInt("staff-mode.examine-module.info-line.gamemode") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.gamemode");
+        modeExamineInfractions = config.getInt("staff-mode.examine-module.info-line.infractions") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.infractions");
+        modeExamineLocation = config.getInt("staff-mode.examine-module.info-line.location") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.location");
+        modeExamineNotes = config.getInt("staff-mode.examine-module.info-line.notes") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.notes");
+        modeExamineFreeze = config.getInt("staff-mode.examine-module.info-line.freeze") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.freeze");
+        modeExamineWarn = config.getInt("staff-mode.examine-module.info-line.warn") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.warn");
+        /*
+         * Follow
+         */
+        modeFollowEnabled = config.getBoolean("staff-mode.follow-module.enabled");
+        modeFollowSlot = config.getInt("staff-mode.follow-module.slot") - 1;
+        /*
+         * Custom
+         */
+        moduleConfigurations = new HashMap<>();
+        /*
+         * Permissions
+         */
+        permissionAlerts = config.getString("permissions.alerts");
+        ;
+        permissionWildcard = config.getString("permissions.wild-card");
+        permissionBlock = config.getString("permissions.block");
+        permissionReport = config.getString("permissions.report");
+        permissionReportBypass = config.getString("permissions.report-bypass");
+        permissionWarn = config.getString("permissions.warn");
+        permissionWarnBypass = config.getString("permissions.warn-bypass");
+        permissionVanishTotal = config.getString("permissions.vanish-total");
+        permissionVanishList = config.getString("permissions.vanish-list");
+        permissionChatClear = config.getString("permissions.chat-clear");
+        permissionChatToggle = config.getString("permissions.chat-toggle");
+        permissionChatSlow = config.getString("permissions.chat-slow");
+        permissionBlacklist = config.getString("permissions.blacklist");
+        permissionMention = config.getString("permissions.mention");
+        permissionAlertsAltDetect = config.getString("permissions.alerts-alt-detect");
+        permissionNameChange = config.getString("permissions.name-change");
+        permissionXray = config.getString("permissions.xray");
+        permissionMode = config.getString("permissions.mode");
+        permissionFreeze = config.getString("permissions.freeze");
+        permissionFreezeBypass = config.getString("permissions.freeze-bypass");
+        permissionTeleportToLocation = config.getString("permissions.teleport-to-location");
+        permissionTeleportToPlayer = config.getString("permissions.teleport-to-player");
+        permissionTeleportHere = config.getString("permissions.teleport-here");
+        permissionTeleportBypass = config.getString("permissions.teleport-bypass");
+        permissionTrace = config.getString("permissions.trace");
+        permissionTraceBypass = config.getString("permissions.trace-bypass");
+        permissionCps = config.getString("permissions.cps");
+        permissionExamine = config.getString("permissions.examine");
+        permissionExamineInventoryInteraction = config.getString("permissions.examine-inventory-interaction");
+        permissionExamineViewInventory = config.getString("permissions.examine-view-inventory");
+        permissionFollow = config.getString("permissions.follow");
+        permissionRevive = config.getString("permissions.revive");
+        permissionMember = config.getString("permissions.member");
+        ipHidePerm = config.getString("permissions.ipPerm");
+        permissionClearInv = config.getString("permissions.invClear");
+        permissionClearInvBypass = config.getString("permissions.invClear-bypass");
+        permissionBroadcast = config.getString("permissions.broadcast");
+        permissionCounterGuiShowVanish = config.getString("permissions.counter-show-vanished");
+
+        /*
+         * Commands
+         */
+        commandStaffMode = config.getString("commands.staff-mode");
+        commandFreeze = config.getString("commands.freeze");
+        commandTeleportToLocation = config.getString("commands.teleport-to-location");
+        commandTeleportBack = config.getString("commands.teleport-back");
+        commandTeleportToPlayer = config.getString("commands.teleport-to-player");
+        commandTeleportHere = config.getString("commands.teleport-here");
+        commandExamine = config.getString("commands.examine");
+        commandCps = config.getString("commands.cps");
+        commandStaffChat = config.getString("commands.staff-chat");
+        commandReport = config.getString("commands.report");
+        commandReportPlayer = config.getString("commands.reportPlayer");
+        commandReports = config.getString("commands.reports");
+        commandWarn = config.getString("commands.warn");
+        commandWarns = config.getString("commands.warns");
+        commandVanish = config.getString("commands.vanish");
+        commandChat = config.getString("commands.chat");
+        commandAlerts = config.getString("commands.alerts");
+        commandFollow = config.getString("commands.follow");
+        commandRevive = config.getString("commands.revive");
+        commandStaffList = config.getString("commands.staff-list");
+        commandClearInv = config.getString("commands.clearInv");
+        commandTrace = config.getString("commands.trace");
+        commandBroadcast = config.getString("commands.broadcast");
+        commandEChestView = config.getString("commands.echest_view");
+
+        alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
+        alertsXrayBlocks = stringToMaterialList(config.getString("alerts-module.xray-alerts.blocks"));
+        modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
+
+        modeItemChange = config.getBoolean("staff-mode.item-change");
+        modeDamage = config.getBoolean("staff-mode.damage");
+        modeHungerLoss = config.getBoolean("staff-mode.hunger-loss");
+        modeEnableCommands = JavaUtils.stringToList(config.getString("staff-mode.enable-commands"));
+        modeDisableCommands = JavaUtils.stringToList(config.getString("staff-mode.disable-commands"));
+        worldChange = config.getBoolean("staff-mode.disable-on-world-change");
+        modeFreezeTimer = config.getInt("staff-mode.freeze-module.timer");
+        modeFreezeSound = stringToSound(sanitize(config.getString("staff-mode.freeze-module.sound")));
+        modeFreezePrompt = config.getBoolean("staff-mode.freeze-module.prompt");
+        modeFreezePromptTitle = config.getString("staff-mode.freeze-module.prompt-title");
+        logoutCommands = JavaUtils.stringToList(config.getString("staff-mode.freeze-module.logout-commands"));
+        permissionStrip = config.getString("permissions.strip");
+        permissionStaff = config.getString("permissions.staffplus");
+        commandNotes = config.getString("commands.notes");
+        commandLogin = config.getString("commands.login");
+        commandStrip = config.getString("commands.strip");
+
+        Material modeCompassType = stringToMaterial(sanitize(config.getString("staff-mode.compass-module.item")));
+        short modeCompassData = getMaterialData(config.getString("staff-mode.compass-module.item"));
+        String modeCompassName = config.getString("staff-mode.compass-module.name");
+        List<String> modeCompassLore = JavaUtils.stringToList(config.getString("staff-mode.compass-module.lore"));
+        modeCompassItem = Items.builder().setMaterial(modeCompassType).setData(modeCompassData).setName(modeCompassName).setLore(modeCompassLore).build();
+
+        Material modeRandomTeleportType = stringToMaterial(sanitize(config.getString("staff-mode.random-teleport-module.item")));
+        short modeRandomTeleportData = getMaterialData(config.getString("staff-mode.random-teleport-module.item"));
+        String modeRandomTeleportName = config.getString("staff-mode.random-teleport-module.name");
+        List<String> modeRandomTeleportLore = JavaUtils.stringToList(config.getString("staff-mode.random-teleport-module.lore"));
+        modeRandomTeleportItem = Items.builder().setMaterial(modeRandomTeleportType).setData(modeRandomTeleportData).setName(modeRandomTeleportName).setLore(modeRandomTeleportLore).build();
+
+        Material modeVanishType = stringToMaterial(sanitize(config.getString("staff-mode.vanish-module.item")));
+        short modeVanishData = getMaterialData(config.getString("staff-mode.vanish-module.item"));
+        String modeVanishName = config.getString("staff-mode.vanish-module.name");
+        List<String> modeVanishLore = JavaUtils.stringToList(config.getString("staff-mode.vanish-module.lore"));
+        modeVanishItem = Items.builder().setMaterial(modeVanishType).setData(modeVanishData).setName(modeVanishName).setLore(modeVanishLore).build();
+
+        Material modeVanishTypeOff = stringToMaterial(sanitize(config.getString("staff-mode.vanish-module.item-off")));
+        short modeVanishDataOff = getMaterialData(config.getString("staff-mode.vanish-module.item-off"));
+        modeVanishItemOff = Items.builder().setMaterial(modeVanishTypeOff).setData(modeVanishDataOff).setName(modeVanishName).setLore(modeVanishLore).build();
+
+        Material modeGuiType = stringToMaterial(sanitize(config.getString("staff-mode.gui-module.item")));
+        short modeGuiData = getMaterialData("staff-mode.gui-module.item");
+        String modeGuiName = config.getString("staff-mode.gui-module.name");
+        List<String> modeGuiLore = JavaUtils.stringToList(config.getString("staff-mode.gui-module.lore"));
+        modeGuiItem = Items.builder().setMaterial(modeGuiType).setData(modeGuiData).setName(modeGuiName).setLore(modeGuiLore).build();
+
+        Material modeCounterType = stringToMaterial(sanitize(config.getString("staff-mode.counter-module.item")));
+        short modeCounterData = getMaterialData(config.getString("staff-mode.counter-module.item"));
+        String modeCounterName = config.getString("staff-mode.counter-module.name");
+        List<String> modeCounterLore = JavaUtils.stringToList(config.getString("staff-mode.counter-module.lore"));
+        modeCounterItem = Items.builder().setMaterial(modeCounterType).setData(modeCounterData).setName(modeCounterName).setLore(modeCounterLore).build();
+
+        Material modeFreezeType = stringToMaterial(sanitize(config.getString("staff-mode.freeze-module.item")));
+        short modeFreezeData = getMaterialData(config.getString("staff-mode.freeze-module.item"));
+        String modeFreezeName = config.getString("staff-mode.freeze-module.name");
+        List<String> modeFreezeLore = JavaUtils.stringToList(config.getString("staff-mode.freeze-module.lore"));
+        modeFreezeItem = Items.builder().setMaterial(modeFreezeType).setData(modeFreezeData).setName(modeFreezeName).setLore(modeFreezeLore).build();
+
+        Material modeCpsType = stringToMaterial(sanitize(config.getString("staff-mode.cps-module.item")));
+        short modeCpsData = getMaterialData(config.getString("staff-mode.cps-module.item"));
+        String modeCpsName = config.getString("staff-mode.cps-module.name");
+        List<String> modeCpsLore = JavaUtils.stringToList(config.getString("staff-mode.cps-module.lore"));
+        modeCpsItem = Items.builder().setMaterial(modeCpsType).setData(modeCpsData).setName(modeCpsName).setLore(modeCpsLore).build();
+
+        Material modeExamineType = stringToMaterial(sanitize(config.getString("staff-mode.examine-module.item")));
+        short modeExamineData = getMaterialData(config.getString("staff-mode.examine-module.item"));
+        String modeExamineName = config.getString("staff-mode.examine-module.name");
+        List<String> modeExamineLore = JavaUtils.stringToList(config.getString("staff-mode.examine-module.lore"));
+        modeExamineItem = Items.builder().setMaterial(modeExamineType).setData(modeExamineData).setName(modeExamineName).setLore(modeExamineLore).build();
+
+
+        /*
+         * Storage
+         */
+        storageType = config.getString("storage.type");
+        mySqlHost = config.getString("storage.mysql.host");
+        mySqlUser = config.getString("storage.mysql.user");
+        database = config.getString("storage.mysql.database");
+        mySqlPassword = config.getString("storage.mysql.password");
+        mySqlPort = config.getInt("storage.mysql.port");
+
+        Material modeFollowType = stringToMaterial(sanitize(config.getString("staff-mode.follow-module.item")));
+        short modeFollowData = getMaterialData(config.getString("staff-mode.follow-module.item"));
+        String modeFollowName = config.getString("staff-mode.follow-module.name");
+        List<String> modeFollowLore = JavaUtils.stringToList(config.getString("staff-mode.follow-module.lore"));
+        modeFollowItem = Items.builder().setMaterial(modeFollowType).setData(modeFollowData).setName(modeFollowName).setLore(modeFollowLore).build();
+
+
+        loadCustomModules(config);
+    }
+
+    private void loadCustomModules(FileConfiguration config) {
         for (String identifier : config.getConfigurationSection("staff-mode.custom-modules").getKeys(false)) {
             if (!config.getBoolean("staff-mode.custom-modules." + identifier + ".enabled")) {
                 continue;
@@ -384,15 +627,14 @@ public class Options implements IOptions {
                 String enchantInfo = config.getString("staff-mode.custom-modules." + identifier + ".enchantment");
                 String[] enchantInfoParts = enchantInfo.split(":");
                 Enchantment enchantment = Enchantment.getByName(enchantInfoParts[0]);
-                if(enchantment == null){
+                if (enchantment == null) {
                     enchantment = Enchantment.DURABILITY;
                 }
                 int level = Integer.parseInt(enchantInfoParts[1]);
                 item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore)
-                        .addEnchantment(enchantment, level).build();
+                    .addEnchantment(enchantment, level).build();
             } else
                 item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
-
 
 
             if (moduleType != ModuleConfiguration.ModuleType.ITEM) {
@@ -484,7 +726,7 @@ public class Options implements IOptions {
         return sound;
     }
 
-    public ModuleConfiguration.ModuleType stringToModuleType(String string) {
+    private ModuleConfiguration.ModuleType stringToModuleType(String string) {
         ModuleConfiguration.ModuleType moduleType = ModuleConfiguration.ModuleType.ITEM;
         boolean isValid = JavaUtils.isValidEnum(ModuleConfiguration.ModuleType.class, string);
 

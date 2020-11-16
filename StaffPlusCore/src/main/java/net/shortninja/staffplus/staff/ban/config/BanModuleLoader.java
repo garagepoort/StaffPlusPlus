@@ -2,11 +2,12 @@ package net.shortninja.staffplus.staff.ban.config;
 
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class BanModuleLoader extends ConfigLoader<BanConfiguration> {
 
     @Override
-    public BanConfiguration load() {
+    protected BanConfiguration load(FileConfiguration config) {
         boolean banEnabled = config.getBoolean("ban-module.enabled");
 
         boolean modeGuiBan = config.getBoolean("staff-mode.gui-module.ban-gui");
