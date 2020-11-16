@@ -2,11 +2,12 @@ package net.shortninja.staffplus.staff.protect.config;
 
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class ProtectModuleLoader extends ConfigLoader<ProtectConfiguration> {
 
     @Override
-    public ProtectConfiguration load() {
+    protected ProtectConfiguration load(FileConfiguration config) {
         boolean playerProtectEnabled = config.getBoolean("protect-module.player-enabled");
         boolean areaProtectEnabled = config.getBoolean("protect-module.area-enabled");
         int areaMaxSize = config.getInt("protect-module.area-max-size");
