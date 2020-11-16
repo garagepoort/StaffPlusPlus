@@ -1,11 +1,12 @@
 package net.shortninja.staffplus.staff.altaccountdetect.config;
 
 import net.shortninja.staffplus.common.config.ConfigLoader;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class AltDetectModuleLoader extends ConfigLoader<AltDetectConfiguration> {
 
     @Override
-    public AltDetectConfiguration load() {
+    protected AltDetectConfiguration load(FileConfiguration config) {
         boolean banEnabled = config.getBoolean("alt-detect-module.enabled");
         String bypassPermission = config.getString("permissions.alt-detect-bypass");
         String whitelistPermission = config.getString("permissions.alt-detect-whitelist");
