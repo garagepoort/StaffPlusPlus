@@ -1,9 +1,10 @@
 # Changelog Staff++ | v1.12
 
-### V1.12.13 (NOT YET RELEASED)
+### V1.12.13
 #### Features
 - Severity levels now working for warnings issued through examine mode
 - Ability to interact with the players inventory in examine mode.
+- Add reload configuration ability (experimental, see wiki)
 
 #### Bugs
 - Unban command logged the ban issuer instead of the unban issuer
