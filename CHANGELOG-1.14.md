@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.14
 
-### V1.14.27
+### V1.14.28
 #### Features
 - Severity levels now working for warnings issued through examine mode
 - Ability to interact with the players inventory in examine mode.
@@ -10,6 +10,7 @@
 - Unban command logged the ban issuer instead of the unban issuer
 - Fix nullpointer OnInventoryOpen
 - Fix alt account detection, do not detect same player
+- Fix Inventory item duplication on rejoin
 
 ### V1.14.26
 #### Features
