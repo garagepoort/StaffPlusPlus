@@ -21,6 +21,7 @@ public class InventoryVault {
 
     public InventoryVault(UUID uuid, ItemStack[] inventory, ItemStack[] armor, ItemStack[] offHand, Location previousLocation, float xp, boolean hasFlight, GameMode gameMode, VanishType vanishType) {
         this.uuid = uuid;
+        this.items = inventory;
         this.previousLocation = previousLocation;
         this.hasFlight = hasFlight;
         this.gameMode = gameMode;
@@ -36,8 +37,6 @@ public class InventoryVault {
         this.armor = armor;
         this.offHand = offHand;
         this.uuid = uuid;
-        InventorySerializer save = new InventorySerializer(uuid);
-        save.save(items, armor, offHand, xp);
     }
 
     public UUID getUuid() {
