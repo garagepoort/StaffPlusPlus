@@ -68,7 +68,7 @@ public class PlayerCommandPreprocess implements Listener {
 
         message.send(player, "&7" + message.LONG_LINE, "");
 
-        for (BaseCmd baseCmd : cmdHandler.BASES) {
+        for (BaseCmd baseCmd : cmdHandler.commands) {
             if (baseCmd.getPermissions().isEmpty()) {
                 message.send(player, "&b/" + baseCmd.getMatch() + " &8: " + baseCmd.getDescription().toLowerCase(), "");
                 count++;

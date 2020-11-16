@@ -8,9 +8,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public abstract class ConfigLoader<T> {
 
-    protected static final FileConfiguration config = StaffPlus.get().getConfig();
+    public T loadConfig() {
+        return load(StaffPlus.get().getConfig());
+    }
 
-    public abstract T load();
+    protected abstract T load(FileConfiguration config);
 
     protected Sounds stringToSound(String string) {
         Sounds sound = Sounds.ORB_PICKUP;
