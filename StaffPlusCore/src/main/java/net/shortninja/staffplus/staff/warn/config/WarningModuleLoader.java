@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.warn.config;
 
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.util.lib.Sounds;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
 
     @Override
-    public WarningConfiguration load() {
+    protected WarningConfiguration load(FileConfiguration config) {
         boolean enabled = config.getBoolean("warnings-module.enabled");
         // seconds to milliseconds
         long clearInterval = config.getLong("warnings-module.clear") * 1000;
@@ -30,11 +31,11 @@ public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
             notifyUser, alwaysNotifyUser,
             myWarningsPermission,
             myWarningsCmd,
-            getThresholds(),
-            getSeverityLevels());
+            getThresholds(config),
+            getSeverityLevels(config));
     }
 
-    private List<WarningThresholdConfiguration> getThresholds() {
+    private List<WarningThresholdConfiguration> getThresholds(FileConfiguration config) {
         List list = config.getList("warnings-module.thresholds", new ArrayList<>());
 
         return (List<WarningThresholdConfiguration>) list.stream().map(o -> {
@@ -63,7 +64,7 @@ public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
         }).collect(Collectors.toList());
     }
 
-    private List<WarningSeverityConfiguration> getSeverityLevels() {
+    private List<WarningSeverityConfiguration> getSeverityLevels(FileConfiguration config) {
         List list = config.getList("warnings-module.severity-levels", new ArrayList<>());
 
         return (List<WarningSeverityConfiguration>) list.stream().map(o -> {

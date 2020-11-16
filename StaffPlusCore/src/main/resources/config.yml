@@ -1017,9 +1017,6 @@ permissions:
   # Permission for using examine
   examine: "staff.examine"
 
-  # Permission for editing inventories with examine.
-  examine-modify: "staff.examine.modify"
-
   # Permission for using staff mode follow
   follow: "staff.follow"
 
@@ -1078,10 +1075,10 @@ permissions:
   # Permission for receiving alt detect alerts.
   alerts-alt-detect: "staff.alerts.alt-detects"
 
-  # Permission examine inventory interaction
+  # Permission to have inventory interaction while in examine mode
   examine-inventory-interaction: "staff.examine.inventory-interaction"
 
-  # Permission examine shows player's inventory
+  # Permission to view player's inventory while in examine mode
   examine-view-inventory: "staff.examine.view-inventory"
 
 ############################################################
@@ -1243,10 +1240,6 @@ auto-save: 3602
 # The interval in seconds at which calculations, like freeze checking, will be performed.
 # The higher this is, the less lag there will be.
 clock: 2
-
-# Whether or not packet modifying will be completely disabled.
-# Enable this if you get packet errors and cannot fix them.
-disable-packets: false
 
 # The animation packets that will be listened for and cancelled for total vanished players.
 # Each packet is separated by a comma.

@@ -2,6 +2,7 @@ package net.shortninja.staffplus.server.chat.blacklist;
 
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.util.lib.JavaUtils;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import static java.util.stream.Collectors.toList;
 public class BlackListConfigurationLoader extends ConfigLoader<BlackListConfiguration> {
 
     @Override
-    public BlackListConfiguration load() {
+    protected BlackListConfiguration load(FileConfiguration config) {
         boolean enabled = config.getBoolean("chat-module.blacklist-module.enabled");
         boolean hoverable = config.getBoolean("chat-module.blacklist-module.hoverable");
         String censorCharacter = config.getString("chat-module.blacklist-module.character");
