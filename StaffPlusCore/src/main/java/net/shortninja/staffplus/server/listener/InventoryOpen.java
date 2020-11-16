@@ -18,7 +18,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class InventoryOpen implements Listener {
-    
+
     private final TraceService traceService = IocContainer.getTraceService();
 
     public InventoryOpen() {
@@ -33,15 +33,18 @@ public class InventoryOpen implements Listener {
         String holder = inventory.getHolder() != null ? inventory.getHolder().getClass().getSimpleName() : "No holder";
 
         Location location = inventory.getLocation() == null ? player.getLocation() : inventory.getLocation();
-
-        traceService.sendTraceMessage(TraceType.INVENTORY, uniqueId,
-            String.format("Opened inventory with holder [%s] at location [%s,%s,%s] with content %s",
-                holder,
-                location.getBlockX(),
-                location.getBlockY(),
-                location.getBlockZ(),
-                getInventoryContent(inventory))
-        );
+        if (location == null) {
+            traceService.sendTraceMessage(TraceType.INVENTORY, uniqueId, String.format("Opened inventory with holder [%s] no location found", holder));
+        } else {
+            traceService.sendTraceMessage(TraceType.INVENTORY, uniqueId,
+                String.format("Opened inventory with holder [%s] at location [%s,%s,%s] with content %s",
+                    holder,
+                    location.getBlockX(),
+                    location.getBlockY(),
+                    location.getBlockZ(),
+                    getInventoryContent(inventory))
+            );
+        }
     }
 
     private String getInventoryContent(Inventory inventory) {

@@ -80,7 +80,7 @@ public class AltDetectionService {
 
             for (SppPlayer onAndOfflinePlayer : onAndOfflinePlayers) {
                 boolean isWhitelisted = whitelistedItems.stream().anyMatch(w -> w.isWhitelisted(player.getUniqueId(), onAndOfflinePlayer.getId()));
-                if (onAndOfflinePlayer.getId() == player.getUniqueId() || isWhitelisted) {
+                if (onAndOfflinePlayer.getId().equals(player.getUniqueId()) || isWhitelisted) {
                     continue;
                 }
 

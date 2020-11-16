@@ -2,11 +2,13 @@
 
 ### V1.15.28 (NOT YET RELEASED)
 #### Features
-- Severity levels now working from examine mode
+- Severity levels now working for warnings issued through examine mode
 - Ability to interact with the players inventory in examine mode.
 
 #### Bugs
 - Unban command logged the ban issuer instead of the unban issuer
+- Fix nullpointer OnInventoryOpen
+- Fix alt account detection, do not detect same player
 
 ### V1.15.27
 #### Features
