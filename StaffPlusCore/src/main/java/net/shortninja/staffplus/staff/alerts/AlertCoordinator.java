@@ -69,11 +69,13 @@ public class AlertCoordinator {
         }
 
         for (PlayerSession playerSession : sessionManager.getAll()) {
-            if (playerSession.shouldNotify(AlertType.ALT_DETECT) && permission.has(playerSession.getPlayer().get(), options.permissionAlertsAltDetect)) {
-                message.send(playerSession.getPlayer().get(), String.format("&CAlt account check triggered, %s and %s might be the same player. Trust [%s]",
-                    altDetectResult.getPlayerCheckedName(),
-                    altDetectResult.getPlayerMatchedName(),
-                    altDetectResult.getAltDetectTrustLevel()), messages.prefixGeneral);
+            if(playerSession.getPlayer().isPresent()) {
+                if (playerSession.shouldNotify(AlertType.ALT_DETECT) && permission.has(playerSession.getPlayer().get(), options.permissionAlertsAltDetect)) {
+                    message.send(playerSession.getPlayer().get(), String.format("&CAlt account check triggered, %s and %s might be the same player. Trust [%s]",
+                        altDetectResult.getPlayerCheckedName(),
+                        altDetectResult.getPlayerMatchedName(),
+                        altDetectResult.getAltDetectTrustLevel()), messages.prefixGeneral);
+                }
             }
         }
     }
