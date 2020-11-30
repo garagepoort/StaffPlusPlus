@@ -921,6 +921,9 @@ permissions:
   # Permission for bypassing reports.
   report-bypass: "staff.report.bypass"
 
+  # Permission for receiving notifications when a report is accepted/deleted/closed
+  report-update-notifications: "staff.report.update.notifications"
+
   # Permission for deleting reports.
   report-deletion: "staff.report.deletion"
 
