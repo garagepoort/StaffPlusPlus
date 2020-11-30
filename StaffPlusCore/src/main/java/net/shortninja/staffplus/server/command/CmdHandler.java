@@ -78,7 +78,7 @@ public class CmdHandler {
             new BaseCmd(new CpsCmd(options.commandCps), true, options.permissionCps, "&7Starts a CPS test on the player.", "{player}"),
             new BaseCmd(new StaffChatCmd(options.commandStaffChat), options.staffChatConfiguration.isEnabled(), options.staffChatConfiguration.getPermissionStaffChat(), "&7Sends a message or toggles staff chat.", "{message}"),
             new BaseCmd(new ReportsCmd(options.commandReports), options.reportConfiguration.isEnabled(), "&7Manage Reports.", "[get|clear] [player]"),
-            new BaseCmd(new MyReportsCmd(options.reportConfiguration.getMyReportsCmd()), options.warningConfiguration.isEnabled(), options.warningConfiguration.getMyWarningsPermission(), "&7Open my warnings gui", ""),
+            new BaseCmd(new MyReportsCmd(options.reportConfiguration.getMyReportsCmd()), options.reportConfiguration.isEnabled(), options.reportConfiguration.getMyReportsPermission(), "&7Open my reports gui", ""),
             new BaseCmd(new ReportCmd(options.commandReport), options.reportConfiguration.isEnabled(), "&7Sends a report without a specific player.", "[reason]"),
             new BaseCmd(new ReportPlayerCmd(options.commandReportPlayer), options.reportConfiguration.isEnabled(), "&7Sends a report with the given player and reason.", "[player] [reason]"),
             new BaseCmd(new WarnCmd(options.commandWarn), options.warningConfiguration.isEnabled(), options.permissionWarn, "&7Issues a warning.", "[severity] [player] [reason]"),

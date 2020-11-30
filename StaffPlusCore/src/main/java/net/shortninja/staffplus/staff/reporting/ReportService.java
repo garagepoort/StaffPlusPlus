@@ -73,7 +73,7 @@ public class ReportService {
             report.setId(id);
 
             message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getCulpritName()).replace("%reason%", report.getReason()), messages.prefixReports);
-            message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", report.getCulpritName()).replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
+            message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", report.getCulpritName()).replace("%reason%", report.getReason()), options.permissionReportUpdateNotifications, messages.prefixReports);
             options.reportConfiguration.getSound().playForGroup(options.permissionReport);
 
             if (sender instanceof Player) {
@@ -102,7 +102,7 @@ public class ReportService {
             report.setId(id);
 
             message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
-            message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", "unknown").replace("%reason%", report.getReason()), options.permissionReport, messages.prefixReports);
+            message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", "unknown").replace("%reason%", report.getReason()), options.permissionReportUpdateNotifications, messages.prefixReports);
             options.reportConfiguration.getSound().playForGroup(options.permissionReport);
 
             if (sender instanceof Player) {
@@ -158,7 +158,7 @@ public class ReportService {
             report.setStaffUuid(player.getUniqueId());
             report.setStaffName(player.getName());
             reportRepository.updateReport(report);
-            message.sendGroupMessage(player.getName() + " accepted report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+            message.sendGroupMessage(player.getName() + " accepted report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
             sendEvent(new AcceptReportEvent(report));
         });
 
@@ -180,7 +180,7 @@ public class ReportService {
             report.setStaffName(null);
             report.setReportStatus(ReportStatus.OPEN);
             reportRepository.updateReport(report);
-            message.sendGroupMessage(player.getName() + " reopened report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+            message.sendGroupMessage(player.getName() + " reopened report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
             sendEvent(new ReopenReportEvent(report));
         });
     }
@@ -189,7 +189,7 @@ public class ReportService {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             Report report = getReport(closeReportRequest.getReportId());
             closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
-            message.sendGroupMessage(player.getName() + " changed report status to " + closeReportRequest.getStatus() + ". Reporter: " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+            message.sendGroupMessage(player.getName() + " changed report status to " + closeReportRequest.getStatus() + ". Reporter: " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
             if (closeReportRequest.getStatus() == ReportStatus.REJECTED) {
                 sendEvent(new RejectReportEvent(report));
             } else {
@@ -224,6 +224,6 @@ public class ReportService {
         }
         Report report = getReport(reportId);
         reportRepository.markReportDeleted(report);
-        message.sendGroupMessage(player.getName() + " deleted report from " + report.getReporterName(), options.permissionReport, messages.prefixReports);
+        message.sendGroupMessage(player.getName() + " deleted report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
     }
 }
