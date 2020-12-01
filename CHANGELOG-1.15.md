@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.30
+#### Bugs
+- Nullpointer fix on alt detection
+- Create a new permission to ensure not everyone gets report updates
+
 ### V1.15.29
 #### Features
 - Severity levels now working for warnings issued through examine mode
