@@ -34,7 +34,7 @@ public abstract class PagedGui extends AbstractGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         };
@@ -48,7 +48,7 @@ public abstract class PagedGui extends AbstractGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         };

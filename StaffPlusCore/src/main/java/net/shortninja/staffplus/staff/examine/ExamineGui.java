@@ -124,7 +124,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return true;
                 }
             });
@@ -145,7 +145,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return true;
                 }
             });
@@ -163,7 +163,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return true;
                 }
             });
@@ -177,7 +177,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return false;
                 }
             };
@@ -200,7 +200,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return true;
                 }
             };

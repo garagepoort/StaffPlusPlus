@@ -14,13 +14,12 @@ public class ReportConfiguration {
     private final Sounds sound;
     private final boolean closingReasonEnabled;
     private final GuiItemConfig openReportsGui;
-    private final GuiItemConfig myReportsGui;
+    private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig closedReportsGui;
     private String myReportsPermission;
     private String myReportsCmd;
     private boolean notifyReporterOnJoin;
     private List<ReportStatus> reporterNotifyStatuses;
-    private String deletionPermission;
 
 
     public ReportConfiguration(boolean enabled,
@@ -28,23 +27,22 @@ public class ReportConfiguration {
                                boolean showReporter, Sounds sound,
                                boolean closingReasonEnabled,
                                GuiItemConfig openReportsGui,
-                               GuiItemConfig myReportsGui,
+                               GuiItemConfig assignedReportsGui,
                                GuiItemConfig closedReportsGui,
                                String myReportsPermission, String myReportsCmd, boolean notifyReporterOnJoin,
-                               List<ReportStatus> reporterNotifyStatuses, String deletionPermission) {
+                               List<ReportStatus> reporterNotifyStatuses) {
         this.enabled = enabled;
         this.cooldown = cooldown;
         this.showReporter = showReporter;
         this.sound = sound;
         this.closingReasonEnabled = closingReasonEnabled;
         this.openReportsGui = openReportsGui;
-        this.myReportsGui = myReportsGui;
+        this.assignedReportsGui = assignedReportsGui;
         this.closedReportsGui = closedReportsGui;
         this.myReportsPermission = myReportsPermission;
         this.myReportsCmd = myReportsCmd;
         this.notifyReporterOnJoin = notifyReporterOnJoin;
         this.reporterNotifyStatuses = reporterNotifyStatuses;
-        this.deletionPermission = deletionPermission;
     }
 
     public boolean isClosingReasonEnabled() {
@@ -71,8 +69,8 @@ public class ReportConfiguration {
         return openReportsGui;
     }
 
-    public GuiItemConfig getMyReportsGui() {
-        return myReportsGui;
+    public GuiItemConfig getMyAssignedReportsGui() {
+        return assignedReportsGui;
     }
 
     public GuiItemConfig getClosedReportsGui() {
@@ -93,9 +91,5 @@ public class ReportConfiguration {
 
     public List<ReportStatus> getReporterNotifyStatuses() {
         return reporterNotifyStatuses;
-    }
-
-    public String getDeletionPermission() {
-        return deletionPermission;
     }
 }

@@ -4,7 +4,9 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,8 +15,13 @@ import java.util.stream.Collectors;
 
 public class OpenReportsGui extends PagedGui {
 
+    private final PermissionHandler permissionHandler;
+    private final Options options;
+
     public OpenReportsGui(Player player, String title, int page) {
         super(player, title, page);
+        permissionHandler = IocContainer.getPermissionHandler();
+        options = IocContainer.getOptions();
     }
 
     @Override
@@ -27,15 +34,18 @@ public class OpenReportsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
+                if(!permissionHandler.has(player, options.manageReportConfiguration.getPermissionAccept())) {
+                    return;
+                }
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    IocContainer.getReportService().acceptReport(player, reportId);
+                    IocContainer.getManageReportService().acceptReport(player, reportId);
                 });
             }
 
             @Override
-            public boolean shouldClose() {
-                return true;
+            public boolean shouldClose(Player player) {
+                return permissionHandler.has(player, options.manageReportConfiguration.getPermissionAccept());
             }
         };
     }

@@ -38,7 +38,7 @@ public class ManageProtectedAreaGui extends AbstractGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return true;
             }
         };
@@ -51,7 +51,7 @@ public class ManageProtectedAreaGui extends AbstractGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         };
@@ -63,7 +63,7 @@ public class ManageProtectedAreaGui extends AbstractGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         };

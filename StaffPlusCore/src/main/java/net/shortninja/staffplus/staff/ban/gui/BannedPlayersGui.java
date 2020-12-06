@@ -36,7 +36,7 @@ public class BannedPlayersGui extends PagedGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         };

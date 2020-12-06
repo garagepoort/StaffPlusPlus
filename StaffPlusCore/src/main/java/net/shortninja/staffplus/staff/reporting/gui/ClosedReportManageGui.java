@@ -6,8 +6,8 @@ import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.staff.reporting.Report;
-import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -19,7 +19,7 @@ public class ClosedReportManageGui extends AbstractGui {
     private static final int SIZE = 54;
 
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ReportService reportService = IocContainer.getReportService();
+    private final ManageReportService manageReportService = IocContainer.getManageReportService();
     private final Permission permission = IocContainer.getPermissionHandler();
     private final Options options = IocContainer.getOptions();
 
@@ -31,19 +31,19 @@ public class ClosedReportManageGui extends AbstractGui {
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    reportService.deleteReport(player, reportId);
+                    manageReportService.deleteReport(player, reportId);
                 });
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return true;
             }
         };
 
         setItem(13, ReportItemBuilder.build(report), null);
 
-        if(permission.has(player, options.reportConfiguration.getDeletionPermission())) {
+        if(permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
             addDeleteItem(report, deleteAction, 31);
         }
 

@@ -34,7 +34,7 @@ public class ManageBannedPlayerGui extends AbstractGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         };

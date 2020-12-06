@@ -917,15 +917,20 @@ permissions:
 
   # Permission for clearing/getting player reports.
   report: "staff.report"
+  reports:
+      # All permission for managing reports
+      manage:
+          view: "staff.reports.manage.view"
+          delete: "staff.reports.manage.delete"
+          accept: "staff.reports.manage.accept"
+          resolve: "staff.reports.manage.resolve"
+          reject: "staff.reports.manage.reject"
 
   # Permission for bypassing reports.
   report-bypass: "staff.report.bypass"
 
   # Permission for receiving notifications when a report is accepted/deleted/closed
   report-update-notifications: "staff.report.update.notifications"
-
-  # Permission for deleting reports.
-  report-deletion: "staff.report.deletion"
 
   # Permission to open to my reports gui
   view-my-reports: "staff.report.view-my-reports"
@@ -1048,6 +1053,9 @@ permissions:
   # Permission for using the clear inventory config
   invClear: "staff.staffplus.clearinv"
 
+  # Permission for bypassing the clear inventory command
+  invClear-bypass: "staff.staffplus.clearinv-bypass"
+
   # Permission for using the /resetPassword command
   resetPass: "staff.staffplus.resetpassword"
 
@@ -1134,6 +1142,9 @@ commands:
 
   # The command for reporting and managing reports specifically targeting a player.
   reportPlayer: "reportPlayer"
+
+  #Command to open the manage reports gui
+  reports.manage.gui: "manage-reports"
 
   # The command for warning players
   warn: "warn"
