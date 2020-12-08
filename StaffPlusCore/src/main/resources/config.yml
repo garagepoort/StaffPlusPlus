@@ -1048,6 +1048,9 @@ permissions:
   # Permission for using the clear inventory config
   invClear: "staff.staffplus.clearinv"
 
+  # Permission for bypassing clear inventory
+  invClear-bypass: "staff.staffplus.clearinv-bypass"
+
   # Permission for using the /resetPassword command
   resetPass: "staff.staffplus.resetpassword"
 

@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.37 (NOT YET RELEASE)
+#### Bugs
+- Added missing "clear inventory bypass" permission to the default config file.
+- Fix reports sometimes not showing last line from reason 
+
 ### V1.16.36
 #### Bugs
 - Nullpointer fix on alt detection
