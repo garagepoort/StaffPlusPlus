@@ -332,6 +332,9 @@ public class JavaUtils {
             start = end;
             end = boundary.next();
         }
+        if(!line.toString().isEmpty()) {
+            lines.add(line.toString());
+        }
         return lines;
     }
 }
