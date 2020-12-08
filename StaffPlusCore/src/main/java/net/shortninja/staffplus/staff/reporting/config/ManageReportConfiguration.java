@@ -3,16 +3,16 @@ package net.shortninja.staffplus.staff.reporting.config;
 public class ManageReportConfiguration {
 
     private String commandManageReportsGui;
-    private String permissionManageReportsView;
+    private String permissionView;
     private String permissionDelete;
     private String permissionAccept;
     private String permissionResolve;
     private String permissionReject;
 
 
-    public ManageReportConfiguration(String commandManageReportsGui, String permissionManageReportsView, String permissionDelete, String permissionAccept, String permissionResolve, String permissionReject) {
+    public ManageReportConfiguration(String commandManageReportsGui, String permissionView, String permissionDelete, String permissionAccept, String permissionResolve, String permissionReject) {
         this.commandManageReportsGui = commandManageReportsGui;
-        this.permissionManageReportsView = permissionManageReportsView;
+        this.permissionView = permissionView;
         this.permissionDelete = permissionDelete;
         this.permissionAccept = permissionAccept;
         this.permissionResolve = permissionResolve;
@@ -24,7 +24,7 @@ public class ManageReportConfiguration {
     }
 
     public String getPermissionView() {
-        return permissionManageReportsView;
+        return permissionView;
     }
 
     public String getPermissionDelete() {

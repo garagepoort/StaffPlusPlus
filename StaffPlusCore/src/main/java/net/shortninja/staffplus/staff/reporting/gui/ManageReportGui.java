@@ -61,23 +61,26 @@ public class ManageReportGui extends AbstractGui {
 
         setItem(13, ReportItemBuilder.build(report), null);
 
-        addResolveItem(report, resolveAction, 34);
-        addResolveItem(report, resolveAction, 35);
-        addResolveItem(report, resolveAction, 43);
-        addResolveItem(report, resolveAction, 44);
+        if(permission.has(player, options.manageReportConfiguration.getPermissionResolve())) {
+            addResolveItem(report, resolveAction, 34);
+            addResolveItem(report, resolveAction, 35);
+            addResolveItem(report, resolveAction, 43);
+            addResolveItem(report, resolveAction, 44);
+        }
 
         addReopenItem(report, reopenAction, 27);
         addReopenItem(report, reopenAction, 28);
         addReopenItem(report, reopenAction, 36);
         addReopenItem(report, reopenAction, 37);
 
-        addRejectItem(report, rejectAction, 30);
-        addRejectItem(report, rejectAction, 31);
-        addRejectItem(report, rejectAction, 32);
-        addRejectItem(report, rejectAction, 39);
-        addRejectItem(report, rejectAction, 40);
-        addRejectItem(report, rejectAction, 41);
-
+        if(permission.has(player, options.manageReportConfiguration.getPermissionReject())) {
+            addRejectItem(report, rejectAction, 30);
+            addRejectItem(report, rejectAction, 31);
+            addRejectItem(report, rejectAction, 32);
+            addRejectItem(report, rejectAction, 39);
+            addRejectItem(report, rejectAction, 40);
+            addRejectItem(report, rejectAction, 41);
+        }
         if(permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
             addDeleteItem(report, deleteAction, 8);
         }

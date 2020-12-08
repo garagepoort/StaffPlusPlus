@@ -11,6 +11,7 @@ import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.AssignedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.OpenReportsGui;
 import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -38,7 +39,8 @@ public class HubGui extends AbstractGui {
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
         myReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
 
-        if (openReportsGui.isEnabled()) {
+        PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
+        if (openReportsGui.isEnabled() && permissionHandler.has(player, options.manageReportConfiguration.getPermissionView())) {
             setMenuItem(1, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0));
             setMenuItem(2, buildGuiItem(PAPER, myReportsGui), (p) -> new AssignedReportsGui(p, myReportsGui.getTitle(), 0));
             setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0));

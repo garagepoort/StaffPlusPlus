@@ -31,9 +31,9 @@ public class ManageReportsGui extends AbstractGui {
         assignedReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
 
         if (openReportsGui.isEnabled()) {
-            setMenuItem(1, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0));
-            setMenuItem(2, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AssignedReportsGui(p, assignedReportsGui.getTitle(), 0));
-            setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0));
+            setMenuItem(0, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0));
+            setMenuItem(1, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AssignedReportsGui(p, assignedReportsGui.getTitle(), 0));
+            setMenuItem(2, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0));
         }
 
         PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
