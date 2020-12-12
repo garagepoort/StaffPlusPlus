@@ -47,6 +47,7 @@ import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.staff.protect.database.MysqlProtectedAreaRepository;
 import net.shortninja.staffplus.staff.protect.database.ProtectedAreaRepository;
 import net.shortninja.staffplus.staff.protect.database.SqliteProtectedAreaRepository;
+import net.shortninja.staffplus.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
@@ -138,6 +139,10 @@ public class IocContainer {
 
     public static ReportService getReportService() {
         return initBean(ReportService.class, () -> new ReportService(getReportRepository(), getMessages(), getPlayerManager()));
+    }
+
+    public static ManageReportService getManageReportService() {
+        return initBean(ManageReportService.class, () -> new ManageReportService(getReportRepository(), getMessages(), getPlayerManager(), getReportService()));
     }
 
     public static ProtectService getProtectService() {
