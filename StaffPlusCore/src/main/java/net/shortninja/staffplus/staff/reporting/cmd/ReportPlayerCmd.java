@@ -17,7 +17,7 @@ public class ReportPlayerCmd extends AbstractCmd {
     private final ReportService reportService = IocContainer.getReportService();
 
     public ReportPlayerCmd(String name) {
-        super(name);
+        super(name, IocContainer.getOptions().permissionReport);
     }
 
     @Override

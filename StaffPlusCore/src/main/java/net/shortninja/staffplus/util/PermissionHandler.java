@@ -37,11 +37,11 @@ public class PermissionHandler extends Permission implements IPermissionsHandler
     }
 
     public boolean isOp(Player player) {
-        return player.hasPermission(options.permissionWildcard);
+        return player.isOp();
     }
 
     public boolean isOp(CommandSender sender) {
-        return sender.hasPermission(options.permissionWildcard);
+        return sender.isOp();
     }
 
     public int getStaffCount() {

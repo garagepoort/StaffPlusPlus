@@ -1,13 +1,17 @@
 package net.shortninja.staffplus.staff.reporting.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.util.MessageCoordinator;
+import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -18,9 +22,12 @@ import java.util.Optional;
 public class ReportsCmd extends AbstractCmd {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final ReportService reportService = IocContainer.getReportService();
+    private final ManageReportService manageReportService = IocContainer.getManageReportService();
+    private final Options options = IocContainer.getOptions();
+    private final PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
 
     public ReportsCmd(String name) {
-        super(name, IocContainer.getOptions().permissionReport);
+        super(name);
     }
 
     @Override
@@ -28,10 +35,16 @@ public class ReportsCmd extends AbstractCmd {
         String argument = args[0];
 
         if (argument.equalsIgnoreCase("get")) {
+            if (!permissionHandler.has(player.getPlayer(), options.manageReportConfiguration.getPermissionView())) {
+                throw new NoPermissionException();
+            }
             listReports(sender, player);
             return true;
         }
         if (argument.equalsIgnoreCase("clear")) {
+            if (!permissionHandler.has(player.getPlayer(), options.manageReportConfiguration.getPermissionDelete())) {
+                throw new NoPermissionException();
+            }
             clearReports(sender, player);
             return true;
         }
@@ -75,7 +88,7 @@ public class ReportsCmd extends AbstractCmd {
     }
 
     private void clearReports(CommandSender sender, SppPlayer player) {
-        reportService.clearReports(player);
+        manageReportService.clearReports(player);
         message.send(sender, messages.reportsCleared.replace("%target%", player.getUsername()), messages.prefixReports);
     }
 

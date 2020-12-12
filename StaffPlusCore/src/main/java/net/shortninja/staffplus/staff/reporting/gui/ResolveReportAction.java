@@ -3,12 +3,12 @@ package net.shortninja.staffplus.staff.reporting.gui;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.event.ReportStatus;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.staff.reporting.CloseReportRequest;
-import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.server.data.config.Messages;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.reporting.CloseReportRequest;
+import net.shortninja.staffplus.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ public class ResolveReportAction implements IAction {
     private final Messages messages = IocContainer.getMessages();
     private final MessageCoordinator messageCoordinator = IocContainer.getMessage();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ReportService reportService = IocContainer.getReportService();
+    private final ManageReportService manageReportService = IocContainer.getManageReportService();
     private final Options options = IocContainer.getOptions();
 
     @Override
@@ -38,15 +38,15 @@ public class ResolveReportAction implements IAction {
                     messageCoordinator.send(player, "&CYou have cancelled rejecting this report", messages.prefixReports);
                     return;
                 }
-                reportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message));
+                manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message));
             });
         } else {
-            reportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
+            manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
         }
     }
 
     @Override
-    public boolean shouldClose() {
+    public boolean shouldClose(Player player) {
         return true;
     }
 }

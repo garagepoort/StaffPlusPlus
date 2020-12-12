@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.protect.cmd;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.staff.protect.ProtectedArea;
 import net.shortninja.staffplus.unordered.IAction;
@@ -10,17 +11,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ProtectedAreasGui extends PagedGui {
 
-    public ProtectedAreasGui(Player player, String title, int page) {
-        super(player, title, page);
+    public ProtectedAreasGui(Player player, String title, int page, Supplier<AbstractGui> previousGuiSupplier) {
+        super(player, title, page, previousGuiSupplier);
     }
 
     @Override
     protected void getNextUi(Player player, String title, int page) {
-        new ProtectedAreasGui(player, title, page);
+        new ProtectedAreasGui(player, title, page, previousGuiSupplier);
     }
 
     @Override
@@ -31,12 +33,12 @@ public class ProtectedAreasGui extends PagedGui {
                 CommandUtil.playerAction(player, () -> {
                     int protectedAreaId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     ProtectedArea protectedArea = IocContainer.getProtectService().getById(protectedAreaId);
-                    new ManageProtectedAreaGui(player, "Protected area: " + protectedArea.getName(), protectedArea);
+                    new ManageProtectedAreaGui(player, "Protected area: " + protectedArea.getName(), protectedArea, () -> new ProtectedAreasGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()));
                 });
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         };
