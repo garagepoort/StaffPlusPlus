@@ -1131,9 +1131,6 @@ commands:
   # The command for toggling and using staff chat.
   staff-chat: "sc"
 
-  # The command for reporting and managing reports specifically targeting a player.
-  reports: "reports"
-
   # The command for opening the my reports gui
   my-reports: "my-reports"
 
@@ -1143,8 +1140,11 @@ commands:
   # The command for reporting and managing reports specifically targeting a player.
   reportPlayer: "reportPlayer"
 
-  #Command to open the manage reports gui
-  reports.manage.gui: "manage-reports"
+  reports.manage:
+        #Command to open the manage reports gui
+        gui: "manage-reports"
+        # The command for managing reports specifically targeting a player.
+        cli: "reports"
 
   # The command for warning players
   warn: "warn"
