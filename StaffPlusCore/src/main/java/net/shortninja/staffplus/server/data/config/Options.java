@@ -505,7 +505,7 @@ public class Options implements IOptions {
         commandStaffChat = config.getString("commands.staff-chat");
         commandReport = config.getString("commands.report");
         commandReportPlayer = config.getString("commands.reportPlayer");
-        commandReports = config.getString("commands.reports");
+        commandReports = config.getString("commands.reports.manage.cli");
         commandWarn = config.getString("commands.warn");
         commandWarns = config.getString("commands.warns");
         commandVanish = config.getString("commands.vanish");
