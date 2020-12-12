@@ -14,10 +14,7 @@ import net.shortninja.staffplus.staff.broadcast.cmd.BroadcastCmd;
 import net.shortninja.staffplus.staff.freeze.FreezeCmd;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectAreaCmd;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectPlayerCmd;
-import net.shortninja.staffplus.staff.reporting.cmd.MyReportsCmd;
-import net.shortninja.staffplus.staff.reporting.cmd.ReportCmd;
-import net.shortninja.staffplus.staff.reporting.cmd.ReportPlayerCmd;
-import net.shortninja.staffplus.staff.reporting.cmd.ReportsCmd;
+import net.shortninja.staffplus.staff.reporting.cmd.*;
 import net.shortninja.staffplus.staff.staffchat.cmd.StaffChatCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportBackCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportHereCmd;
@@ -77,6 +74,7 @@ public class CmdHandler {
             new BaseCmd(new NotesCmd(options.commandNotes), true, options.permissionExamine, "&7Adds or manages a player's notes", "[player] [note]"),
             new BaseCmd(new CpsCmd(options.commandCps), true, options.permissionCps, "&7Starts a CPS test on the player.", "{player}"),
             new BaseCmd(new StaffChatCmd(options.commandStaffChat), options.staffChatConfiguration.isEnabled(), options.staffChatConfiguration.getPermissionStaffChat(), "&7Sends a message or toggles staff chat.", "{message}"),
+            new BaseCmd(new ManageReportsGuiCmd(options.manageReportConfiguration.getCommandManageReportsGui()), options.reportConfiguration.isEnabled(), options.manageReportConfiguration.getPermissionView(), "&7Open the manage Reports GUI.", ""),
             new BaseCmd(new ReportsCmd(options.commandReports), options.reportConfiguration.isEnabled(), "&7Manage Reports.", "[get|clear] [player]"),
             new BaseCmd(new MyReportsCmd(options.reportConfiguration.getMyReportsCmd()), options.reportConfiguration.isEnabled(), options.reportConfiguration.getMyReportsPermission(), "&7Open my reports gui", ""),
             new BaseCmd(new ReportCmd(options.commandReport), options.reportConfiguration.isEnabled(), "&7Sends a report without a specific player.", "[reason]"),

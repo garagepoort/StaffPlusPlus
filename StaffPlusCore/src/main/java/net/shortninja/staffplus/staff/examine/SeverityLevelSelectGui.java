@@ -8,14 +8,16 @@ import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.unordered.IAction;
 import org.bukkit.entity.Player;
 
+import java.util.function.Supplier;
+
 public class SeverityLevelSelectGui extends AbstractGui {
     private static final int SIZE = 54;
 
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final Options options = IocContainer.getOptions();
 
-    public SeverityLevelSelectGui(Player player, String title, Player targetPlayer) {
-        super(SIZE, title);
+    public SeverityLevelSelectGui(Player player, String title, Player targetPlayer, Supplier<AbstractGui> previousGuiSupplier) {
+        super(SIZE, title, previousGuiSupplier);
 
         IAction selectAction = new WarnPlayerAction(targetPlayer);
         int count = 0;

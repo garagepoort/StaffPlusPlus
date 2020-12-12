@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.reporting.Report;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ClosedReportsGui extends PagedGui {
@@ -18,13 +20,13 @@ public class ClosedReportsGui extends PagedGui {
     private Permission permission = IocContainer.getPermissionHandler();
     private Options options = IocContainer.getOptions();
 
-    public ClosedReportsGui(Player player, String title, int page) {
-        super(player, title, page);
+    public ClosedReportsGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
+        super(player, title, page, backGuiSupplier);
     }
 
     @Override
     protected void getNextUi(Player player, String title, int page) {
-        new ClosedReportsGui(player, title, page);
+        new ClosedReportsGui(player, title, page, this.previousGuiSupplier);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class ClosedReportsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                if(permission.has(player, options.reportConfiguration.getDeletionPermission())) {
+                if (permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     Report report = IocContainer.getReportService().getReport(reportId);
                     new ClosedReportManageGui(player, "Manage closed report", report);
@@ -40,7 +42,7 @@ public class ClosedReportsGui extends PagedGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         };
@@ -48,9 +50,9 @@ public class ClosedReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, int offset, int amount) {
-        return IocContainer.getReportService().getClosedReports(offset, amount)
-                .stream()
-                .map(ReportItemBuilder::build)
-                .collect(Collectors.toList());
+        return IocContainer.getManageReportService().getClosedReports(offset, amount)
+            .stream()
+            .map(ReportItemBuilder::build)
+            .collect(Collectors.toList());
     }
 }
