@@ -11,6 +11,7 @@ import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.AssignedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.OpenReportsGui;
 import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,7 +27,7 @@ public class HubGui extends AbstractGui {
     private final GuiItemConfig protectGuiItemConfig;
     private final GuiItemConfig banGuiItemConfig;
     private final GuiItemConfig closedReportsGui;
-    private final GuiItemConfig myReportsGui;
+    private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig openReportsGui;
 
     public HubGui(Player player, String title) {
@@ -36,12 +37,13 @@ public class HubGui extends AbstractGui {
         banGuiItemConfig = options.banConfiguration.getGuiItemConfig();
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
-        myReportsGui = options.reportConfiguration.getMyReportsGui();
+        assignedReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
 
-        if (openReportsGui.isEnabled()) {
-            setMenuItem(1, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0));
-            setMenuItem(2, buildGuiItem(PAPER, myReportsGui), (p) -> new AssignedReportsGui(p, myReportsGui.getTitle(), 0));
-            setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0));
+        PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
+        if (openReportsGui.isEnabled() && permissionHandler.has(player, options.manageReportConfiguration.getPermissionView())) {
+            setMenuItem(1, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0, () -> new HubGui(player, title)));
+            setMenuItem(2, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AssignedReportsGui(p, assignedReportsGui.getTitle(), 0, () -> new HubGui(player, title)));
+            setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new HubGui(player, title)));
         }
 
         if (options.modeGuiMiner) {
@@ -49,11 +51,11 @@ public class HubGui extends AbstractGui {
         }
 
         if (protectGuiItemConfig.isEnabled()) {
-            setMenuItem(19, buildGuiItem(SHIELD, protectGuiItemConfig), (p) -> new ProtectedAreasGui(player, protectGuiItemConfig.getTitle(), 0));
+            setMenuItem(19, buildGuiItem(SHIELD, protectGuiItemConfig), (p) -> new ProtectedAreasGui(player, protectGuiItemConfig.getTitle(), 0, () -> new HubGui(player, title)));
         }
 
         if (banGuiItemConfig.isEnabled()) {
-            setMenuItem(7, buildGuiItem(PLAYER_HEAD, banGuiItemConfig), (p) -> new BannedPlayersGui(player, banGuiItemConfig.getTitle(), 0));
+            setMenuItem(7, buildGuiItem(PLAYER_HEAD, banGuiItemConfig), (p) -> new BannedPlayersGui(player, banGuiItemConfig.getTitle(), 0, () -> new HubGui(player, title)));
         }
 
         PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
@@ -71,7 +73,7 @@ public class HubGui extends AbstractGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         });
