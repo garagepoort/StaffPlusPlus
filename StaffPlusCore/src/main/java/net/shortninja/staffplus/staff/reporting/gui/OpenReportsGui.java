@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.reporting.gui;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
@@ -11,22 +12,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class OpenReportsGui extends PagedGui {
 
     private final PermissionHandler permissionHandler;
     private final Options options;
+    private final Supplier<AbstractGui> backGuiSupplier;
 
-    public OpenReportsGui(Player player, String title, int page) {
-        super(player, title, page);
+    public OpenReportsGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
+        super(player, title, page, backGuiSupplier);
+        this.backGuiSupplier = backGuiSupplier;
         permissionHandler = IocContainer.getPermissionHandler();
         options = IocContainer.getOptions();
     }
 
     @Override
     protected void getNextUi(Player player, String title, int page) {
-        new OpenReportsGui(player, title, page);
+        new OpenReportsGui(player, title, page, backGuiSupplier);
     }
 
     @Override

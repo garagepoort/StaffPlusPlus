@@ -15,6 +15,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.function.Supplier;
+
 public class ManageReportGui extends AbstractGui {
     private static final int SIZE = 54;
 
@@ -23,8 +25,8 @@ public class ManageReportGui extends AbstractGui {
     private final Permission permission = IocContainer.getPermissionHandler();
     private final Options options = IocContainer.getOptions();
 
-    public ManageReportGui(Player player, String title, Report report) {
-        super(SIZE, title);
+    public ManageReportGui(Player player, String title, Report report, Supplier<AbstractGui> previousGuiSupplier) {
+        super(SIZE, title, previousGuiSupplier);
 
 
         IAction reopenAction = new IAction() {

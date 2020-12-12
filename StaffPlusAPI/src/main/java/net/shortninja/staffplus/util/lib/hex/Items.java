@@ -72,6 +72,14 @@ public final class Items {
                 .build();
     }
 
+    public static ItemStack createDoor(String name, String lore) {
+        return Items.builder()
+                .setMaterial(Material.SPRUCE_DOOR)
+                .setName(name)
+                .addLore(lore)
+                .build();
+    }
+
     public static ItemStack createColoredArmor(Armor armor, Color color) {
         return createColoredArmor(armor, color,
                 "&l" + WordUtils.capitalize(armor.name().toLowerCase()));

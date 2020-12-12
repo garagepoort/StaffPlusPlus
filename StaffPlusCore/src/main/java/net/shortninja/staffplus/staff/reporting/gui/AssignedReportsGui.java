@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.reporting.gui;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.unordered.IAction;
@@ -10,17 +11,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class AssignedReportsGui extends PagedGui {
 
-    public AssignedReportsGui(Player player, String title, int page) {
-        super(player, title, page);
+    public AssignedReportsGui(Player player, String title, int page, Supplier<AbstractGui> previousGuiSupplier) {
+        super(player, title, page, previousGuiSupplier);
     }
 
     @Override
     protected void getNextUi(Player player, String title, int page) {
-        new AssignedReportsGui(player, title, page);
+        new AssignedReportsGui(player, title, page, previousGuiSupplier);
     }
 
     @Override
@@ -31,7 +33,7 @@ public class AssignedReportsGui extends PagedGui {
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     Report report = IocContainer.getReportService().getReport(reportId);
-                    new ManageReportGui(player, "Report by: " + report.getReporterName(), report);
+                    new ManageReportGui(player, "Report by: " + report.getReporterName(), report, () -> new AssignedReportsGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()));
                 });
             }
 

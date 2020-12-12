@@ -10,14 +10,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public abstract class PagedGui extends AbstractGui {
     private static final int SIZE = 54;
+    private final int currentPage;
     private SessionManager sessionManager = IocContainer.getSessionManager();
 
     public PagedGui(Player player, String title, int currentPage) {
         super(SIZE, title);
+        this.currentPage = currentPage;
+        buildUi(player, title, currentPage);
+    }
 
+    public PagedGui(Player player, String title, int currentPage, Supplier<AbstractGui> backGuiSupplier) {
+        super(SIZE, title, backGuiSupplier);
+        this.currentPage = currentPage;
+        buildUi(player, title, currentPage);
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    private void buildUi(Player player, String title, int currentPage) {
         int offset = currentPage * 45;
         int count = 0;
         for (ItemStack report : getItems(player, offset, 45)) {
@@ -29,7 +45,7 @@ public abstract class PagedGui extends AbstractGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
-                    getNextUi(player, title, currentPage+1);
+                    getNextUi(player, title, currentPage + 1);
                 });
             }
 
@@ -43,7 +59,7 @@ public abstract class PagedGui extends AbstractGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
-                    getNextUi(player, title, currentPage-1);
+                    getNextUi(player, title, currentPage - 1);
                 });
             }
 
@@ -57,7 +73,7 @@ public abstract class PagedGui extends AbstractGui {
         addNextPageItem(nextPageAction, 52);
         addNextPageItem(nextPageAction, 51);
 
-        if(currentPage != 0) {
+        if (currentPage != 0) {
             addPreviousPageItem(previousPageAction, 45);
             addPreviousPageItem(previousPageAction, 46);
             addPreviousPageItem(previousPageAction, 47);
@@ -77,15 +93,15 @@ public abstract class PagedGui extends AbstractGui {
 
     private void addNextPageItem(IAction action, int slot) {
         ItemStack item = Items.editor(Items.createGreenColoredGlass("Next Page", ""))
-                        .setAmount(1)
-                        .build();
+            .setAmount(1)
+            .build();
         setItem(slot, item, action);
     }
 
     private void addPreviousPageItem(IAction action, int slot) {
         ItemStack item = Items.editor(Items.createRedColoredGlass("Previous Page", ""))
-                        .setAmount(1)
-                        .build();
+            .setAmount(1)
+            .build();
         setItem(slot, item, action);
     }
 }
