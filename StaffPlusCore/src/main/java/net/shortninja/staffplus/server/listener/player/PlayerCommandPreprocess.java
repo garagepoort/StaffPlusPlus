@@ -2,12 +2,12 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.command.BaseCmd;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -18,7 +18,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.staff.tracing.TraceType.COMMANDS;
 
@@ -68,14 +72,18 @@ public class PlayerCommandPreprocess implements Listener {
 
         message.send(player, "&7" + message.LONG_LINE, "");
 
-        for (BaseCmd baseCmd : cmdHandler.commands) {
+        List<BaseCmd> sortedCommands = Arrays.stream(cmdHandler.commands)
+            .sorted(Comparator.comparing(o -> o.getCommand().getName()))
+            .collect(Collectors.toList());
+
+        for (BaseCmd baseCmd : sortedCommands) {
             if (baseCmd.getPermissions().isEmpty()) {
-                message.send(player, "&b/" + baseCmd.getMatch() + " &8: " + baseCmd.getDescription().toLowerCase(), "");
+                message.send(player, "&b/" + baseCmd.getCommand().getName() + " &7: " + baseCmd.getDescription().toLowerCase(), "");
                 count++;
             } else {
                 for (String permission : baseCmd.getPermissions()) {
                     if (this.permission.has(player, permission)) {
-                        message.send(player, "&b/" + baseCmd.getMatch() + " &8: " + baseCmd.getDescription().toLowerCase(), "");
+                        message.send(player, "&b/" + baseCmd.getCommand().getName() + " &7: " + baseCmd.getDescription().toLowerCase(), "");
                         count++;
                         break;
                     }
