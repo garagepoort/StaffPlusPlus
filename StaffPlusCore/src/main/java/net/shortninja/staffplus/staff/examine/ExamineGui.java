@@ -124,7 +124,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return true;
                 }
             });
@@ -145,7 +145,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return true;
                 }
             });
@@ -163,7 +163,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return true;
                 }
             });
@@ -173,11 +173,11 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
             IAction severityAction = new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    new SeverityLevelSelectGui(player, "Select severity level", targetPlayer);
+                    new SeverityLevelSelectGui(player, "Select severity level", targetPlayer, () -> new ExamineGui(player, targetPlayer, getTitle()));
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return false;
                 }
             };
@@ -200,7 +200,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
 
                 @Override
-                public boolean shouldClose() {
+                public boolean shouldClose(Player player) {
                     return true;
                 }
             };

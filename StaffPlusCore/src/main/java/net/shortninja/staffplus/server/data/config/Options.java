@@ -14,6 +14,8 @@ import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfigurationLoa
 import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.staff.protect.config.ProtectModuleLoader;
+import net.shortninja.staffplus.staff.reporting.config.ManageReportConfiguration;
+import net.shortninja.staffplus.staff.reporting.config.ManageReportingModuleLoader;
 import net.shortninja.staffplus.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.staff.reporting.config.ReportingModuleLoader;
 import net.shortninja.staffplus.staff.staffchat.config.StaffChatConfiguration;
@@ -55,6 +57,7 @@ public class Options implements IOptions {
     public Map<String, Location> locations;
     public AuthenticationConfiguration authenticationConfiguration;
     public ReportConfiguration reportConfiguration;
+    public ManageReportConfiguration manageReportConfiguration;
     public WarningConfiguration warningConfiguration;
     public BlackListConfiguration blackListConfiguration;
     public TraceConfiguration traceConfiguration;
@@ -316,6 +319,7 @@ public class Options implements IOptions {
         locations = new LocationLoader().loadConfig();
         authenticationConfiguration = new AuthenticationConfigurationLoader().loadConfig();
         reportConfiguration = new ReportingModuleLoader().loadConfig();
+        manageReportConfiguration = new ManageReportingModuleLoader().loadConfig();
         warningConfiguration = new WarningModuleLoader().loadConfig();
         blackListConfiguration = new BlackListConfigurationLoader().loadConfig();
         traceConfiguration = new TraceModuleLoader().loadConfig();

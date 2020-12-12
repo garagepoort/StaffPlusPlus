@@ -3,27 +3,58 @@ package net.shortninja.staffplus.player.attribute.gui;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class AbstractGui implements IGui {
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
+    protected final MessageCoordinator message = IocContainer.getMessage();
+    protected final SessionManager sessionManager = IocContainer.getSessionManager();
+    protected final Options options = IocContainer.getOptions();
+
     private String title;
+    protected Supplier<AbstractGui> previousGuiSupplier;
     private Inventory inventory;
     private Map<Integer, IAction> actions = new HashMap<>();
 
     public AbstractGui(int size, String title) {
         this.title = title;
         inventory = Bukkit.createInventory(null, size, message.colorize(title));
+    }
+
+    public AbstractGui(int size, String title, Supplier<AbstractGui> previousGuiSupplier) {
+        this.title = title;
+        this.previousGuiSupplier = previousGuiSupplier;
+        inventory = Bukkit.createInventory(null, size, message.colorize(title));
+
+        ItemStack item = Items.editor(Items.createDoor("Back", "Go back"))
+            .setAmount(1)
+            .build();
+        setItem(getBackButtonSlot(), item, new IAction() {
+            @Override
+            public void click(Player player, ItemStack item, int slot) {
+                previousGuiSupplier.get();
+            }
+
+            @Override
+            public boolean shouldClose(Player player) {
+                return false;
+            }
+        });
+    }
+
+    public Supplier<AbstractGui> getPreviousGuiSupplier() {
+        return previousGuiSupplier;
     }
 
     public String getTitle() {
@@ -46,6 +77,10 @@ public class AbstractGui implements IGui {
         }
     }
 
+    protected int getBackButtonSlot() {
+        return 49;
+    }
+
     public void setGlass(PlayerSession user) {
         ItemStack item = glassItem(user.getGlassColor());
 
@@ -59,9 +94,9 @@ public class AbstractGui implements IGui {
 
     private ItemStack glassItem(Material data) {
         return Items.builder()
-                .setMaterial(data)
-                .setName("&bColor #" + data)
-                .addLore("&7Color changing not supported in this version!")
-                .build();
+            .setMaterial(data)
+            .setName("&bColor #" + data)
+            .addLore("&7Color changing not supported in this version!")
+            .build();
     }
 }
