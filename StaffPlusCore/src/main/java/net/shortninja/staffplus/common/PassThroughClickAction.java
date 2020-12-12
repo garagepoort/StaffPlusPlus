@@ -11,7 +11,7 @@ public class PassThroughClickAction implements IAction {
     }
 
     @Override
-    public boolean shouldClose() {
+    public boolean shouldClose(Player player) {
         return false;
     }
 }

@@ -55,7 +55,7 @@ public class InventoryClick implements Listener {
                 }
 
                 action.click(player, item, slot);
-                if (action.shouldClose()) {
+                if (action.shouldClose(player)) {
                     player.closeInventory();
                 }
             }

@@ -8,6 +8,6 @@ public interface IAction {
 
 	void click(Player player, ItemStack item, int slot);
 
-	boolean shouldClose();
+	boolean shouldClose(Player player);
 
 }

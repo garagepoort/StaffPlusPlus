@@ -25,7 +25,7 @@ public class ColorGui extends AbstractGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return true;
             }
         };

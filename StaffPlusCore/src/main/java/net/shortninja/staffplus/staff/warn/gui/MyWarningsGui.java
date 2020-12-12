@@ -29,7 +29,7 @@ public class MyWarningsGui extends PagedGui {
             }
 
             @Override
-            public boolean shouldClose() {
+            public boolean shouldClose(Player player) {
                 return false;
             }
         };
