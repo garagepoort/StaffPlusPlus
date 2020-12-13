@@ -5,6 +5,7 @@ import net.shortninja.staffplus.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.authentication.AuthenticationConfigurationLoader;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
+import net.shortninja.staffplus.staff.alerts.xray.XrayBlockConfig;
 import net.shortninja.staffplus.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.staff.altaccountdetect.config.AltDetectModuleLoader;
 import net.shortninja.staffplus.staff.ban.config.BanConfiguration;
@@ -256,7 +257,7 @@ public class Options implements IOptions {
     public String commandEChestView;
 
     public Sounds alertsSound;
-    public List<Material> alertsXrayBlocks;
+    public List<XrayBlockConfig> alertsXrayBlocks;
     public VanishType modeVanish;
 
     public boolean modeItemChange;
@@ -520,7 +521,10 @@ public class Options implements IOptions {
         commandEChestView = config.getString("commands.echest_view");
 
         alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
-        alertsXrayBlocks = stringToMaterialList(config.getString("alerts-module.xray-alerts.blocks"));
+        alertsXrayBlocks = Arrays.stream(config.getString("alerts-module.xray-alerts.blocks").split("\\s*,\\s*"))
+            .map(XrayBlockConfig::new)
+            .collect(Collectors.toList());
+
         modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
 
         modeItemChange = config.getBoolean("staff-mode.item-change");
@@ -651,7 +655,7 @@ public class Options implements IOptions {
         }
     }
 
-    private String getMaterial(String current) {
+    public static String getMaterial(String current) {
         switch (current) {
             case "HEAD":
                 return Materials.valueOf("HEAD").getName();
@@ -673,7 +677,7 @@ public class Options implements IOptions {
     }
 
     private List<Material> stringToMaterialList(String commas) {
-        List<Material> list = new ArrayList<Material>();
+        List<Material> list = new ArrayList<>();
 
         for (String s : commas.split("\\s*,\\s*")) {
             list.add(stringToMaterial(sanitize(s)));
@@ -720,7 +724,7 @@ public class Options implements IOptions {
         return vanishType;
     }
 
-    private Material stringToMaterial(String string) {
+    public static Material stringToMaterial(String string) {
         Material sound = Material.STONE;
 
         boolean isValid = JavaUtils.isValidEnum(Material.class, getMaterial(string));
