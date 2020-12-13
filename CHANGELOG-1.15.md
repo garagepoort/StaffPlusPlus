@@ -1,5 +1,18 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.31
+#### Breaking
+- Implemented fine-grained permissions for reports. Permissions have changed, check [reports wiki](https://github.com/garagepoort/StaffPlusPlus/wiki/Reporting#report-permission)! 
+
+#### Features
+- Added manage-reports command to open the GUI without being in staff mode
+- Add Xray configuration to allow amount/time based notifications. Check [wiki](https://github.com/garagepoort/StaffPlusPlus/wiki/Alerting-System#x-ray) 
+
+#### Bugs
+- Added missing "clear inventory bypass" permission to the default config file.
+- Fix reports sometimes not showing last line from reason
+- Fix `/help staffplus` command
+
 ### V1.15.30
 #### Bugs
 - Nullpointer fix on alt detection

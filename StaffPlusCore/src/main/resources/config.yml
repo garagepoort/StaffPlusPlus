@@ -915,7 +915,7 @@ permissions:
   # Permission for blocking listed commands at "blocked-commands" and "blocked-mode-commands".
   block: "staff.block"
 
-  # Permission for clearing/getting player reports.
+  # Permission for reporting players.
   report: "staff.report"
   reports:
       # All permission for managing reports
