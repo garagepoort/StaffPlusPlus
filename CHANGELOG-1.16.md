@@ -1,9 +1,14 @@
 # Changelog Staff++ | v1.16
 
 ### V1.16.37 (NOT YET RELEASE)
+#### Features
+- Added manage-reports command to open the GUI without being in staff mode
+- Implemented fine-grained permissions for reports. Permissions have changed, check reports wiki before upgrading! 
+
 #### Bugs
 - Added missing "clear inventory bypass" permission to the default config file.
-- Fix reports sometimes not showing last line from reason 
+- Fix reports sometimes not showing last line from reason
+- Fix `/help staffplus` command
 
 ### V1.16.36
 #### Bugs

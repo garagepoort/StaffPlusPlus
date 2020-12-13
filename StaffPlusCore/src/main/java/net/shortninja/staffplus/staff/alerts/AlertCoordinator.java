@@ -9,14 +9,9 @@ import net.shortninja.staffplus.unordered.altdetect.IAltDetectResult;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
-import org.bukkit.Location;
 import org.bukkit.Material;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class AlertCoordinator {
-    private final static Set<Location> notifiedLocations = new HashSet<>();
     private final PermissionHandler permission;
     private final MessageCoordinator message;
     private final Options options;
@@ -29,22 +24,6 @@ public class AlertCoordinator {
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
-    }
-
-    public boolean hasNotified(Location location) {
-        return notifiedLocations.contains(location);
-    }
-
-    public int getNotifiedAmount() {
-        return notifiedLocations.size();
-    }
-
-    public void addNotified(Location location) {
-        notifiedLocations.add(location);
-    }
-
-    public void clearNotified() {
-        notifiedLocations.clear();
     }
 
     public void onNameChange(String originalName, String newName) {
@@ -69,7 +48,7 @@ public class AlertCoordinator {
         }
 
         for (PlayerSession playerSession : sessionManager.getAll()) {
-            if(playerSession.getPlayer().isPresent()) {
+            if (playerSession.getPlayer().isPresent()) {
                 if (playerSession.shouldNotify(AlertType.ALT_DETECT) && permission.has(playerSession.getPlayer().get(), options.permissionAlertsAltDetect)) {
                     message.send(playerSession.getPlayer().get(), String.format("&CAlt account check triggered, %s and %s might be the same player. Trust [%s]",
                         altDetectResult.getPlayerCheckedName(),
@@ -91,7 +70,7 @@ public class AlertCoordinator {
         }
     }
 
-    public void onXray(String miner, int amount, Material type, int lightLevel) {
+    public void onXray(String miner, int amount, Long duration, Material type, int lightLevel) {
         if (!options.alertsXrayEnabled) {
             return;
         }
@@ -102,7 +81,11 @@ public class AlertCoordinator {
             }
 
             if (user.shouldNotify(AlertType.XRAY) && permission.has(user.getPlayer().get(), options.permissionXray)) {
-                message.send(user.getPlayer().get(), messages.alertsXray.replace("%target%", miner).replace("%count%", Integer.toString(amount)).replace("%itemtype%", JavaUtils.formatTypeName(type)).replace("%lightlevel%", Integer.toString(lightLevel)), messages.prefixGeneral, options.permissionXray);
+                String xrayMessage = messages.alertsXray.replace("%target%", miner).replace("%count%", Integer.toString(amount)).replace("%itemtype%", JavaUtils.formatTypeName(type)).replace("%lightlevel%", Integer.toString(lightLevel));
+                if (duration != null) {
+                    xrayMessage = xrayMessage + String.format(" in %s seconds", duration/1000);
+                }
+                message.send(user.getPlayer().get(), xrayMessage, messages.prefixGeneral, options.permissionXray);
             }
         }
     }
