@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.staff.ban;
+package net.shortninja.staffplus.common.time;
 
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -11,7 +11,7 @@ import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public enum BanUnit {
+public enum TimeUnit {
     SECOND(ChronoUnit.SECONDS),
     MINUTE(ChronoUnit.MINUTES),
     HOUR(ChronoUnit.HOURS),
@@ -22,17 +22,17 @@ public enum BanUnit {
 
     private final TemporalUnit temporalUnit;
 
-    BanUnit(TemporalUnit temporalUnit) {
+    TimeUnit(TemporalUnit temporalUnit) {
         this.temporalUnit = temporalUnit;
     }
 
-    public static long getTicks(String un, int time) {
-        if (!JavaUtils.isValidEnum(BanUnit.class, un)) {
-            throw new BusinessException("&CInvalid time unit used. Valid values: ["+ Arrays.stream(BanUnit.values()).map(Enum::name).collect(Collectors.joining(", "))+"]");
+    public static long getDuration(String un, int time) {
+        if (!JavaUtils.isValidEnum(TimeUnit.class, un)) {
+            throw new BusinessException("&CInvalid time unit used. Valid values: ["+ Arrays.stream(TimeUnit.values()).map(Enum::name).collect(Collectors.joining(", "))+"]");
         }
-        BanUnit banUnit = BanUnit.valueOf(un.toUpperCase());
+        TimeUnit timeUnit = TimeUnit.valueOf(un.toUpperCase());
         LocalDateTime from = LocalDateTime.now();
-        LocalDateTime to = from.plus(time, banUnit.getTemporalUnit());
+        LocalDateTime to = from.plus(time, timeUnit.getTemporalUnit());
         long fromMillis = ZonedDateTime.of(from, ZoneId.systemDefault()).toInstant().toEpochMilli();
         long toMillis = ZonedDateTime.of(to, ZoneId.systemDefault()).toInstant().toEpochMilli();
         return toMillis - fromMillis;

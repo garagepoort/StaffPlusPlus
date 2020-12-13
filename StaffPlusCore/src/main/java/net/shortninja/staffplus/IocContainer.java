@@ -22,6 +22,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
+import net.shortninja.staffplus.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionService;
 import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.MysqlPlayerIpRepository;
 import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.PlayerIpRepository;
@@ -147,6 +148,10 @@ public class IocContainer {
 
     public static ProtectService getProtectService() {
         return initBean(ProtectService.class, () -> new ProtectService(getProtectedAreaRepository(), getMessage(), getModeCoordinator(), getMessages(), getOptions()));
+    }
+
+    public static XrayService getXrayService() {
+        return initBean(XrayService.class, () -> new XrayService(getOptions(), getAlertCoordinator()));
     }
 
     public static TeleportService getTeleportService() {
