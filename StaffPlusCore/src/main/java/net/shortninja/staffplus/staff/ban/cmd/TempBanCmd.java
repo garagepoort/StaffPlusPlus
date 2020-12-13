@@ -7,7 +7,7 @@ import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.BanService;
-import net.shortninja.staffplus.staff.ban.BanUnit;
+import net.shortninja.staffplus.common.time.TimeUnit;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
@@ -39,7 +39,7 @@ public class TempBanCmd extends AbstractCmd {
         String timeUnit = args[2];
         String reason = JavaUtils.compileWords(args, 3);
 
-        banService.tempBan(sender, player, BanUnit.getTicks(timeUnit, amount), reason);
+        banService.tempBan(sender, player, TimeUnit.getDuration(timeUnit, amount), reason);
         return true;
     }
 
@@ -78,9 +78,9 @@ public class TempBanCmd extends AbstractCmd {
         }
         if (args.length == 3) {
             return Stream.of(
-                BanUnit.YEAR.name(), BanUnit.MONTH.name(),
-                BanUnit.WEEK.name(), BanUnit.DAY.name(),
-                BanUnit.HOUR.name(), BanUnit.MINUTE.name())
+                TimeUnit.YEAR.name(), TimeUnit.MONTH.name(),
+                TimeUnit.WEEK.name(), TimeUnit.DAY.name(),
+                TimeUnit.HOUR.name(), TimeUnit.MINUTE.name())
                 .filter(s -> args[2].isEmpty() || s.contains(args[2]))
                 .collect(Collectors.toList());
         }
