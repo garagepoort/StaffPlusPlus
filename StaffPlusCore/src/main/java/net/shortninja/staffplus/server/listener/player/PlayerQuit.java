@@ -3,6 +3,7 @@ package net.shortninja.staffplus.server.listener.player;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -26,6 +27,7 @@ public class PlayerQuit implements Listener {
     private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
     private final TraceService traceService = IocContainer.getTraceService();
+    private final XrayService xrayService = IocContainer.getXrayService();
 
     public PlayerQuit() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -51,6 +53,7 @@ public class PlayerQuit implements Listener {
 
         traceService.sendTraceMessage(player.getUniqueId(), "Left the game");
         traceService.stopAllTracesForPlayer(player.getUniqueId());
+        xrayService.clearTrace(player);
     }
 
     private void manageUser(Player player) {
