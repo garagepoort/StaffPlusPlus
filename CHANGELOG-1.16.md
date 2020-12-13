@@ -4,6 +4,7 @@
 #### Features
 - Added manage-reports command to open the GUI without being in staff mode
 - Implemented fine-grained permissions for reports. Permissions have changed, check reports wiki before upgrading! 
+- Add Xray configuration to allow amount/time based notifications. See wiki for the new configuration options.
 
 #### Bugs
 - Added missing "clear inventory bypass" permission to the default config file.
