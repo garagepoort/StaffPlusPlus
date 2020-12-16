@@ -15,7 +15,7 @@ public enum TimeUnit {
     SECOND(ChronoUnit.SECONDS),
     MINUTE(ChronoUnit.MINUTES),
     HOUR(ChronoUnit.HOURS),
-    DAY(ChronoUnit.SECONDS),
+    DAY(ChronoUnit.DAYS),
     WEEK(ChronoUnit.WEEKS),
     MONTH(ChronoUnit.MONTHS),
     YEAR(ChronoUnit.YEARS);
