@@ -15,7 +15,7 @@ public enum TimeUnitShort {
     s(ChronoUnit.SECONDS),
     m(ChronoUnit.MINUTES),
     h(ChronoUnit.HOURS),
-    d(ChronoUnit.SECONDS),
+    d(ChronoUnit.DAYS),
     w(ChronoUnit.WEEKS),
     M(ChronoUnit.MONTHS),
     y(ChronoUnit.YEARS);
