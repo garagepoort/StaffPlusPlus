@@ -1,5 +1,9 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.38 (NOT YET RELEASED)
+#### Bugs
+- Time unit four HOUR/h was not working
+
 ### V1.16.37
 #### Breaking
 - Implemented fine-grained permissions for reports. Permissions have changed, check [reports wiki](https://github.com/garagepoort/StaffPlusPlus/wiki/Reporting#report-permission)! 
