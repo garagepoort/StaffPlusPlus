@@ -593,7 +593,7 @@ staff-mode:
     mute-title: "&bOverview muted players"
 
     # The name of the protected-areas item
-    mute-name: "&Muted players GUI"
+    mute-name: "&bMuted players GUI"
 
     # The lore of the protected-areas item
     mute-lore: "&7Shows all currently muted players."
