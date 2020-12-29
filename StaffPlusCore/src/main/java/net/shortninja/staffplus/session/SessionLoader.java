@@ -3,6 +3,7 @@ package net.shortninja.staffplus.session;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.unordered.AlertType;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,9 +16,11 @@ import static org.bukkit.Bukkit.getScheduler;
 public class SessionLoader {
     private final FileConfiguration dataFile = StaffPlus.get().dataFile.getConfiguration();
     private final PlayerManager playerManager;
+    private final MuteService muteService;
 
-    public SessionLoader(PlayerManager playerManager) {
+    public SessionLoader(PlayerManager playerManager, MuteService muteService) {
         this.playerManager = playerManager;
+        this.muteService = muteService;
     }
 
     PlayerSession loadSession(Player player) {
@@ -33,7 +36,7 @@ public class SessionLoader {
         if(!providedPlayer.isPresent()) {
             throw new RuntimeException("Trying to instantiate session for offline user");
         }
-        return new PlayerSession(uuid, providedPlayer.get().getUsername());
+        return new PlayerSession(uuid, providedPlayer.get().getUsername(), isMuted(uuid));
     }
 
     private PlayerSession buildKnownSession(UUID uuid) {
@@ -46,7 +49,11 @@ public class SessionLoader {
 
         List<String> playerNotes = loadPlayerNotes(uuid);
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
-        return new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions);
+        return new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions, isMuted(uuid));
+    }
+
+    private boolean isMuted(UUID uuid) {
+        return muteService.getMuteByMutedUuid(uuid).isPresent();
     }
 
     private Map<AlertType, Boolean> loadAlertOptions(UUID uuid) {

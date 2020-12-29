@@ -5,6 +5,7 @@ import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.common.UpdatableGui;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.data.config.AutoUpdater;
+import net.shortninja.staffplus.server.data.config.AutoUpdaterLanguageFiles;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.file.DataFile;
 import net.shortninja.staffplus.server.data.file.LanguageFile;
@@ -27,6 +28,7 @@ import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.handler.InventoryHandler;
 import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
+import net.shortninja.staffplus.staff.mute.MuteSessionTask;
 import net.shortninja.staffplus.staff.protect.ProtectListener;
 import net.shortninja.staffplus.staff.reporting.ReportChangeReporterNotifier;
 import net.shortninja.staffplus.staff.reporting.ReportListener;
@@ -66,6 +68,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public CmdHandler cmdHandler;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
+    public MuteSessionTask muteSessionTask;
     public List<Inventory> viewedChest = new ArrayList<>();
     public InventoryHandler inventoryHandler;
     public boolean usesPlaceholderAPI;
@@ -97,6 +100,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         AutoUpdater.updateConfig(this);
 
         start(System.currentTimeMillis());
+        AutoUpdaterLanguageFiles.updateConfig(this);
 
         if (getConfig().getBoolean("metrics"))
             new Metrics(this, 9351);
@@ -146,6 +150,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         reviveHandler = new ReviveHandler();
         cmdHandler = new CmdHandler();
         tasks = new Tasks();
+        muteSessionTask = new MuteSessionTask();
         inventoryHandler = new InventoryHandler();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -208,6 +213,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         saveUsers();
         tasks.cancel();
+        muteSessionTask.cancel();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             IocContainer.getModeCoordinator().removeMode(player);

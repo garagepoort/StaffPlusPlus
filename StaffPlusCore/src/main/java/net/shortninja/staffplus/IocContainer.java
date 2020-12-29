@@ -44,6 +44,11 @@ import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.location.MysqlLocationRepository;
 import net.shortninja.staffplus.staff.location.SqliteLocationRepository;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mute.MuteChatInterceptor;
+import net.shortninja.staffplus.staff.mute.MuteService;
+import net.shortninja.staffplus.staff.mute.database.MuteRepository;
+import net.shortninja.staffplus.staff.mute.database.MysqlMuteRepository;
+import net.shortninja.staffplus.staff.mute.database.SqliteMuteRepository;
 import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.staff.protect.database.MysqlProtectedAreaRepository;
 import net.shortninja.staffplus.staff.protect.database.ProtectedAreaRepository;
@@ -122,6 +127,13 @@ public class IocContainer {
             () -> new SqliteBansRepository(getPlayerManager()));
     }
 
+
+    public static MuteRepository getMuteRepository() {
+        return initRepositoryBean(MuteRepository.class,
+            () -> new MysqlMuteRepository(getPlayerManager()),
+            () -> new SqliteMuteRepository(getPlayerManager()));
+    }
+
     public static PlayerIpRepository getPlayerIpRepository() {
         return initRepositoryBean(PlayerIpRepository.class,
             MysqlPlayerIpRepository::new,
@@ -136,6 +148,9 @@ public class IocContainer {
 
     public static BanService getBanService() {
         return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
+    }
+    public static MuteService getMuteService() {
+        return initBean(MuteService.class, () -> new MuteService(getPermissionHandler(), getMuteRepository(), getOptions(), getMessage(), getMessages()));
     }
 
     public static ReportService getReportService() {
@@ -227,7 +242,7 @@ public class IocContainer {
     }
 
     public static SessionLoader getSessionLoader() {
-        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager()));
+        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService()));
     }
 
     public static AlertCoordinator getAlertCoordinator() {
@@ -263,6 +278,7 @@ public class IocContainer {
             new TraceChatInterceptor(getTraceService(), getMessages(), getMessage(), getOptions()),
             new FreezeChatInterceptor(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
             new VanishChatInterceptor(getVanishHandler(), getOptions(), getMessage(), getMessages()),
+            new MuteChatInterceptor(getSessionManager(), getMessage(), getMessages()),
             new GeneralChatInterceptor(getChatHandler(), getMessage(), getMessages())
         );
     }
