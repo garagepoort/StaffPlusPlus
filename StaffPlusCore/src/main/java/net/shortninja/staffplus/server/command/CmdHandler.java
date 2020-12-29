@@ -12,6 +12,9 @@ import net.shortninja.staffplus.staff.ban.cmd.TempBanCmd;
 import net.shortninja.staffplus.staff.ban.cmd.UnbanCmd;
 import net.shortninja.staffplus.staff.broadcast.cmd.BroadcastCmd;
 import net.shortninja.staffplus.staff.freeze.FreezeCmd;
+import net.shortninja.staffplus.staff.mute.cmd.MuteCmd;
+import net.shortninja.staffplus.staff.mute.cmd.TempMuteCmd;
+import net.shortninja.staffplus.staff.mute.cmd.UnmuteCmd;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectAreaCmd;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectPlayerCmd;
 import net.shortninja.staffplus.staff.reporting.cmd.*;
@@ -99,6 +102,9 @@ public class CmdHandler {
             new BaseCmd(new TempBanCmd(options.banConfiguration.getCommandTempBanPlayer()), options.banConfiguration.isEnabled(), "Temporary ban a player", "[player] [amount] [unit] [reason]"),
             new BaseCmd(new BanCmd(options.banConfiguration.getCommandBanPlayer()), options.banConfiguration.isEnabled(), "Permanent ban a player", "[player] [reason]"),
             new BaseCmd(new UnbanCmd(options.banConfiguration.getCommandUnbanPlayer()), options.banConfiguration.isEnabled(), "Unban a player", "[player] [reason]"),
+            new BaseCmd(new TempMuteCmd(options.muteConfiguration.getCommandTempMutePlayer()), options.muteConfiguration.isEnabled(), "Temporary mute a player", "[player] [amount] [unit] [reason]"),
+            new BaseCmd(new MuteCmd(options.muteConfiguration.getCommandMutePlayer()), options.muteConfiguration.isEnabled(), "Permanent mute a player", "[player] [reason]"),
+            new BaseCmd(new UnmuteCmd(options.muteConfiguration.getCommandUnmutePlayer()), options.muteConfiguration.isEnabled(), "Unmute a player", "[player] [reason]"),
             new BaseCmd(new AltDetectWhitelistCmd(options.altDetectConfiguration.getCommandWhitelist()), options.altDetectConfiguration.isEnabled(), "Add/Remove players from the alt account detection whitelist", "[add/remove] [player1] [player2]")
         };
     }
