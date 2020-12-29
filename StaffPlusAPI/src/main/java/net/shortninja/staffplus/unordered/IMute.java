@@ -3,7 +3,7 @@ package net.shortninja.staffplus.unordered;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public interface IBan {
+public interface IMute {
 
     int getId();
 
@@ -21,15 +21,15 @@ public interface IBan {
 
     UUID getIssuerUuid();
 
-    String getUnbannedByName();
+    String getUnmutedByName();
 
-    UUID getUnbannedByUuid();
+    UUID getUnmutedByUuid();
 
     Long getEndTimestamp();
 
     ZonedDateTime getEndDate();
 
-    String getUnbanReason();
+    String getUnmuteReason();
 
     String getHumanReadableDuration();
 }

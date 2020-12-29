@@ -216,5 +216,16 @@ ban-unbanned: "&6%target% has been unbanned from the server by %issuer%"
 ban-tempbanned-kick: "[Banned] You have been temporarily banned from this server. Ban ends in: %duration%"
 ban-permabanned-kick: "[Banned] You have been permanently banned from this server"
 
+############################################################
+# +------------------------------------------------------+ #
+# |                     Muting                          | #
+# +------------------------------------------------------+ #
+############################################################
+mute-expired: "&6Your mute has expired. You can now chat again."
+mute-permamuted: "&6%target% has been muted by %issuer%"
+mute-unmuted: "&6%target% has been unmuted by %issuer%"
+mute-tempmuted: "&6%target% has been muted by %issuer% for %duration%"
+mute-muted: "&6You are currently muted. You are not allowed to chat."
+
 # NÃO MUDE ISSO SE VOCÊ NÃO SABE O QUE FAZ!!!
 lang-version: 6198

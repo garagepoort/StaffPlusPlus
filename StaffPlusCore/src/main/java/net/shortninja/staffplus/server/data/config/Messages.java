@@ -129,4 +129,10 @@ public class Messages {
     public String tempBanned = config.getString("ban-tempbanned", "");
     public String permanentBannedKick = config.getString("ban-permabanned-kick", "");
     public String tempBannedKick = config.getString("ban-tempbanned-kick", "");
+
+    public String muteExpired = config.getString("mute-expired", "");
+    public String unmuted = config.getString("mute-unmuted", "");
+    public String permanentMuted = config.getString("mute-permamuted", "");
+    public String tempMuted = config.getString("mute-tempmuted", "");
+    public String muted = config.getString("mute-muted", "");
 }

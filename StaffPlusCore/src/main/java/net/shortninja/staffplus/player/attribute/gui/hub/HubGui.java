@@ -6,6 +6,7 @@ import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.staff.ban.gui.BannedPlayersGui;
+import net.shortninja.staffplus.staff.mute.gui.MutedPlayersGui;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectedAreasGui;
 import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.AssignedReportsGui;
@@ -26,6 +27,7 @@ public class HubGui extends AbstractGui {
     private final Options options;
     private final GuiItemConfig protectGuiItemConfig;
     private final GuiItemConfig banGuiItemConfig;
+    private final GuiItemConfig muteGuiItemConfig;
     private final GuiItemConfig closedReportsGui;
     private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig openReportsGui;
@@ -35,6 +37,7 @@ public class HubGui extends AbstractGui {
         options = IocContainer.getOptions();
         protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
         banGuiItemConfig = options.banConfiguration.getGuiItemConfig();
+        muteGuiItemConfig = options.muteConfiguration.getGuiItemConfig();
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
         assignedReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
@@ -56,6 +59,10 @@ public class HubGui extends AbstractGui {
 
         if (banGuiItemConfig.isEnabled()) {
             setMenuItem(7, buildGuiItem(PLAYER_HEAD, banGuiItemConfig), (p) -> new BannedPlayersGui(player, banGuiItemConfig.getTitle(), 0, () -> new HubGui(player, title)));
+        }
+
+        if (muteGuiItemConfig.isEnabled()) {
+            setMenuItem(16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig), (p) -> new MutedPlayersGui(player, muteGuiItemConfig.getTitle(), 0, () -> new HubGui(player, title)));
         }
 
         PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
