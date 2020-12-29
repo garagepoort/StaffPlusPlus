@@ -267,6 +267,16 @@ ban-module:
 
 ############################################################
 # +------------------------------------------------------+ #
+# |                      MUTING                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+mute-module:
+  # Whether or not the plugin will use "/mute player" features.
+  enabled: true
+
+############################################################
+# +------------------------------------------------------+ #
 # |                      Protection                       | #
 # +------------------------------------------------------+ #
 ############################################################
@@ -574,6 +584,19 @@ staff-mode:
 
     # The lore of the protected-areas item
     ban-lore: "&7Shows all currently banned players."
+
+    # ============== MUTING ==================
+    # Whether or not the protected areas GUI is enabled in the hub.
+    mute-gui: true
+
+    # The title of the protected-areas GUI.
+    mute-title: "&bOverview muted players"
+
+    # The name of the protected-areas item
+    mute-name: "&Muted players GUI"
+
+    # The lore of the protected-areas item
+    mute-lore: "&7Shows all currently muted players."
 
 
   ############################################################
@@ -1077,6 +1100,12 @@ permissions:
   # Permission to ban/tempban players
   ban-bypass: "staff.staffplus.ban-bypass"
 
+  # Permission to mute/tempmute players
+  mute: "staff.staffplus.mute"
+
+  # Permission to ban/tempban players
+  mute-bypass: "staff.staffplus.mute-bypass"
+
   # Permission to add/remove players from the alt detection whitelist
   alt-detect-whitelist: "staff.staffplus.alt-detect-whitelist"
 
@@ -1217,6 +1246,15 @@ commands:
 
   # The command to unban a player
   unban: "unban"
+
+  # The command to permanently mute a player
+  mute: "mute"
+
+  # The command to temporarily mute a player
+  tempmute: "tempmute"
+
+  # The command to unmute a player
+  unmute: "unmute"
 
   # The command to unban a player
   alt-detect-whitelist: "altWhitelist"

@@ -4,13 +4,12 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.attribute.gui.IGui;
 import net.shortninja.staffplus.server.chat.ChatAction;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.unordered.*;
+import net.shortninja.staffplus.unordered.AlertType;
+import net.shortninja.staffplus.unordered.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.*;
 
 public class PlayerSession {
@@ -28,25 +27,11 @@ public class PlayerSession {
     private boolean isChatting = false;
     private boolean isFrozen = false;
     private boolean isProtected = false;
+    private boolean muted = false;
 
-
-    private static Class<?> craftPlayerClass;
-    private static Class<?> entityPlayerClass;
-    private static Class<?> playerConnectionClass;
-    private static Method getHandleMethod;
-    private static Field playerConnectionField;
-    private static Field pingField;
-
-    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions) {
+    public PlayerSession(UUID uuid, String name, boolean muted) {
         this.uuid = uuid;
-        this.name = name;
-        this.glassColor = glassColor;
-        this.playerNotes = playerNotes;
-        this.alertOptions = alertOptions;
-    }
-
-    public PlayerSession(UUID uuid, String name) {
-        this.uuid = uuid;
+        this.muted = muted;
         this.glassColor = Material.STAINED_GLASS_PANE;
         this.name = name;
 
@@ -55,12 +40,13 @@ public class PlayerSession {
         }
     }
 
-    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions, Player player) {
+    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions, boolean muted) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
         this.playerNotes = playerNotes;
         this.alertOptions = alertOptions;
+        this.muted = muted;
     }
 
     public Optional<Player> getPlayer() {
@@ -139,18 +125,6 @@ public class PlayerSession {
         return isProtected;
     }
 
-    public static int getPing(Player player) {
-        try {
-            Object entityPlayer = getHandleMethod.invoke(player);
-            Object playerConnection = playerConnectionField.get(entityPlayer);
-
-            return (int) pingField.get(playerConnection);
-        } catch (ReflectiveOperationException e) {
-            Bukkit.getLogger().warning(e.getMessage());
-            return -1;
-        }
-    }
-
     public void setFrozen(boolean isFrozen) {
         this.isFrozen = isFrozen;
     }
@@ -169,5 +143,13 @@ public class PlayerSession {
 
     public boolean isVanished() {
         return this.getVanishType() == VanishType.TOTAL;
+    }
+
+    public boolean isMuted() {
+        return muted;
+    }
+
+    public void setMuted(boolean muted) {
+        this.muted = muted;
     }
 }

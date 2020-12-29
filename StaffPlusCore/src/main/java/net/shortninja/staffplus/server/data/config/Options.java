@@ -13,6 +13,8 @@ import net.shortninja.staffplus.staff.ban.config.BanModuleLoader;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfigurationLoader;
 import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.staff.mute.config.MuteConfiguration;
+import net.shortninja.staffplus.staff.mute.config.MuteModuleLoader;
 import net.shortninja.staffplus.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.staff.protect.config.ProtectModuleLoader;
 import net.shortninja.staffplus.staff.reporting.config.ManageReportConfiguration;
@@ -65,6 +67,7 @@ public class Options implements IOptions {
     public BroadcastConfiguration broadcastConfiguration;
     public ProtectConfiguration protectConfiguration;
     public BanConfiguration banConfiguration;
+    public MuteConfiguration muteConfiguration;
     public AltDetectConfiguration altDetectConfiguration;
     public StaffChatConfiguration staffChatConfiguration;
 
@@ -327,6 +330,7 @@ public class Options implements IOptions {
         broadcastConfiguration = new BroadcastConfigurationLoader().loadConfig();
         protectConfiguration = new ProtectModuleLoader().loadConfig();
         banConfiguration = new BanModuleLoader().loadConfig();
+        muteConfiguration = new MuteModuleLoader().loadConfig();
         altDetectConfiguration = new AltDetectModuleLoader().loadConfig();
         staffChatConfiguration = new StaffChatModuleLoader().loadConfig();
 
