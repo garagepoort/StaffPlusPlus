@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.staff.mute;
 
+import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.unordered.IMute;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 
@@ -8,7 +9,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public class Mute implements IMute {
+public class Mute implements IMute, Infraction {
 
     private int id;
     private String reason;
@@ -145,5 +146,10 @@ public class Mute implements IMute {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String getInfractionType() {
+        return "MUTE";
     }
 }

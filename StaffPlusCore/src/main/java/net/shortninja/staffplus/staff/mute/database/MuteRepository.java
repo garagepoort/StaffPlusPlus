@@ -12,6 +12,8 @@ public interface MuteRepository {
 
     List<Mute> getActiveMutes(int offset, int amount);
 
+    List<Mute> getMutesForPlayer(UUID playerUuid);
+
     void update(Mute mute);
 
     Optional<Mute> findActiveMute(UUID playerUuid);

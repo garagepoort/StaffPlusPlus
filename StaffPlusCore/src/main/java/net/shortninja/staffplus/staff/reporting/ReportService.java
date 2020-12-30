@@ -9,6 +9,8 @@ import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -22,7 +24,7 @@ import java.util.*;
 
 import static org.bukkit.Bukkit.getScheduler;
 
-public class ReportService {
+public class ReportService implements InfractionProvider {
 
     private static final Map<UUID, Long> lastUse = new HashMap<UUID, Long>();
 
@@ -154,5 +156,13 @@ public class ReportService {
         getScheduler().runTask(StaffPlus.get(), () -> {
             Bukkit.getPluginManager().callEvent(event);
         });
+    }
+
+    @Override
+    public List<? extends Infraction> getInfractions(UUID playerUUID) {
+        if(!options.infractionsConfiguration.isShowReported()) {
+            return Collections.emptyList();
+        }
+        return reportRepository.getReportsByOffender(playerUUID);
     }
 }

@@ -34,12 +34,16 @@ import net.shortninja.staffplus.staff.ban.BanService;
 import net.shortninja.staffplus.staff.ban.database.BansRepository;
 import net.shortninja.staffplus.staff.ban.database.MysqlBansRepository;
 import net.shortninja.staffplus.staff.ban.database.SqliteBansRepository;
+import net.shortninja.staffplus.staff.ban.gui.BannedPlayerItemBuilder;
 import net.shortninja.staffplus.staff.broadcast.BroadcastService;
 import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
 import net.shortninja.staffplus.staff.freeze.FreezeChatInterceptor;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.infractions.InfractionProvider;
+import net.shortninja.staffplus.staff.infractions.InfractionsService;
+import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.location.MysqlLocationRepository;
 import net.shortninja.staffplus.staff.location.SqliteLocationRepository;
@@ -49,6 +53,7 @@ import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.staff.mute.database.MuteRepository;
 import net.shortninja.staffplus.staff.mute.database.MysqlMuteRepository;
 import net.shortninja.staffplus.staff.mute.database.SqliteMuteRepository;
+import net.shortninja.staffplus.staff.mute.gui.MutedPlayerItemBuilder;
 import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.staff.protect.database.MysqlProtectedAreaRepository;
 import net.shortninja.staffplus.staff.protect.database.ProtectedAreaRepository;
@@ -58,6 +63,7 @@ import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.SqliteReportRepository;
+import net.shortninja.staffplus.staff.reporting.gui.ReportItemBuilder;
 import net.shortninja.staffplus.staff.staffchat.StaffChatChatInterceptor;
 import net.shortninja.staffplus.staff.staffchat.StaffChatService;
 import net.shortninja.staffplus.staff.teleport.TeleportService;
@@ -70,6 +76,7 @@ import net.shortninja.staffplus.staff.warn.WarnService;
 import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
 import net.shortninja.staffplus.staff.warn.database.SqliteWarnRepository;
 import net.shortninja.staffplus.staff.warn.database.WarnRepository;
+import net.shortninja.staffplus.staff.warn.gui.WarningItemBuilder;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseType;
@@ -155,6 +162,9 @@ public class IocContainer {
 
     public static ReportService getReportService() {
         return initBean(ReportService.class, () -> new ReportService(getReportRepository(), getMessages(), getPlayerManager()));
+    }
+    public static InfractionsService getInfractionsService() {
+        return initBean(InfractionsService.class, () -> new InfractionsService(getInfractionProviders()));
     }
 
     public static ManageReportService getManageReportService() {
@@ -281,6 +291,15 @@ public class IocContainer {
             new MuteChatInterceptor(getSessionManager(), getMessage(), getMessages()),
             new GeneralChatInterceptor(getChatHandler(), getMessage(), getMessages())
         );
+    }
+
+    public static List<InfractionProvider> getInfractionProviders() {
+        return Arrays.asList(getBanService(), getMuteService(), getWarnService(), getReportService());
+    }
+
+
+    public static List<InfractionGuiProvider> getInfractionGuiProviders() {
+        return Arrays.asList(new BannedPlayerItemBuilder(), new MutedPlayerItemBuilder(), new WarningItemBuilder(), new ReportItemBuilder());
     }
 
     private static <T> T initBean(Class<T> clazz, Supplier<T> consumer) {

@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.warn;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.unordered.IWarning;
 
@@ -10,7 +11,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public class Warning implements IWarning {
+public class Warning implements IWarning, Infraction {
     private final Options options = IocContainer.getOptions();
     private final UUID uuid;
     private final String name;
@@ -121,5 +122,15 @@ public class Warning implements IWarning {
 
     public boolean isRead() {
         return read;
+    }
+
+    @Override
+    public String getInfractionType() {
+        return "WARNING";
+    }
+
+    @Override
+    public Long getCreationTimestamp() {
+        return time;
     }
 }
