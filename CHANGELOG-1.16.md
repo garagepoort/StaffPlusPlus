@@ -1,8 +1,13 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.38 (NOT YET RELEASED)
+### V1.16.38
+### Features
+- Added mute/temp mute functionality
+- Added infractions gui menu.
+
 #### Bugs
 - Time unit four HOUR/h was not working
+- Fix duration if expired
 
 ### V1.16.37
 #### Breaking
