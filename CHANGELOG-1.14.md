@@ -1,6 +1,15 @@
 # Changelog Staff++ | v1.14
 
 ### V1.14.30
+### Features
+- Added mute/temp mute functionality
+- Added infractions gui menu.
+
+#### Bugs
+- Time unit four HOUR/h was not working
+- Fix duration if expired
+
+### V1.14.30
 #### Breaking
 - Implemented fine-grained permissions for reports. Permissions have changed, check [reports wiki](https://github.com/garagepoort/StaffPlusPlus/wiki/Reporting#report-permission)! 
 
