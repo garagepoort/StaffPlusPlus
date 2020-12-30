@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.unordered.IAction;
@@ -26,7 +27,7 @@ public class CounterGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, String title, int page) {
+    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
         new CounterGui(player, title, page);
     }
 
@@ -50,7 +51,7 @@ public class CounterGui extends PagedGui {
     }
 
     @Override
-    public List<ItemStack> getItems(Player staffViewing, int offset, int amount) {
+    public List<ItemStack> getItems(Player staffViewing, SppPlayer target, int offset, int amount) {
         List<Player> players = IocContainer.getOptions().modeCounterShowStaffMode ? getModePlayers() : JavaUtils.getOnlinePlayers();
         return players.stream()
             .filter(p -> IocContainer.getPermissionHandler().has(p, IocContainer.getOptions().permissionMember))

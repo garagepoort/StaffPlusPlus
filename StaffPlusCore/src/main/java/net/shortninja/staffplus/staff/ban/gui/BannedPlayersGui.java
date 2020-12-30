@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.ban.gui;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.staff.ban.Ban;
@@ -21,7 +22,7 @@ public class BannedPlayersGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, String title, int page) {
+    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
         new BannedPlayersGui(player, title, page, this.previousGuiSupplier);
     }
 
@@ -45,7 +46,7 @@ public class BannedPlayersGui extends PagedGui {
     }
 
     @Override
-    public List<ItemStack> getItems(Player player, int offset, int amount) {
+    public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
         return IocContainer.getBanService().getAllPaged(offset, amount).stream()
             .map(BannedPlayerItemBuilder::build)
             .collect(Collectors.toList());
