@@ -60,6 +60,9 @@ public class MuteService {
     }
 
     public List<Mute> getAllActiveMutes(List<Player> players) {
+        if(players.isEmpty()) {
+            return Collections.emptyList();
+        }
         return muteRepository.getAllActiveMutes(players.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));
     }
 
