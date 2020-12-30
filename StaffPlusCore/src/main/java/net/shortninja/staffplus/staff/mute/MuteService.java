@@ -140,7 +140,7 @@ public class MuteService implements InfractionProvider {
     }
 
     @Override
-    public List<? extends Infraction> getInfractions(UUID playerUUID) {
+    public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
         if(!options.infractionsConfiguration.isShowMutes()) {
             return Collections.emptyList();
         }
