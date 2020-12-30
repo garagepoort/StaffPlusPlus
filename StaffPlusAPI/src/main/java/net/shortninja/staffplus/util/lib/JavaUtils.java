@@ -23,6 +23,9 @@ public class JavaUtils {
         TimeUnit.SECONDS);
 
     public static String toHumanReadableDuration(final long millis) {
+        if(millis == 0) {
+            return "None";
+        }
         final StringBuilder builder = new StringBuilder();
         long acc = millis;
         for (final TimeUnit timeUnit : timeUnits) {
@@ -56,6 +59,9 @@ public class JavaUtils {
     }
 
     public static long getDuration(long timestamp) {
+        if(timestamp <= System.currentTimeMillis()) {
+            return 0;
+        }
         return Math.abs(System.currentTimeMillis() - timestamp);
     }
 
