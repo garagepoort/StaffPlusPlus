@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import static net.shortninja.staffplus.util.lib.JavaUtils.formatLines;
 
-public class ReportItemBuilder {
+public class ReportItemBuilder implements InfractionGuiProvider<Report> {
 
     public static ItemStack build(Report report) {
         List<String> lore = new ArrayList<String>();
@@ -46,4 +47,13 @@ public class ReportItemBuilder {
     }
 
 
+    @Override
+    public String getType() {
+        return "REPORT";
+    }
+
+    @Override
+    public ItemStack getMenuItem(Report i) {
+        return build(i);
+    }
 }

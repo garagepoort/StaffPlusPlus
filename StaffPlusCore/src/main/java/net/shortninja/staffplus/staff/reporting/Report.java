@@ -1,12 +1,14 @@
 package net.shortninja.staffplus.staff.reporting;
 
 import net.shortninja.staffplus.event.ReportStatus;
+import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.unordered.IReport;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.util.UUID;
 
-public class Report implements IReport {
+public class Report implements IReport, Infraction {
     private final UUID culpritUuid;
     private final String culpritName;
     private final String reason;
@@ -124,5 +126,15 @@ public class Report implements IReport {
 
     public void setCloseReason(String closeReason) {
         this.closeReason = closeReason;
+    }
+
+    @Override
+    public String getInfractionType() {
+        return "REPORT";
+    }
+
+    @Override
+    public Long getCreationTimestamp() {
+        return Timestamp.valueOf(timestamp.toLocalDateTime()).getTime();
     }
 }

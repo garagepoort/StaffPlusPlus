@@ -46,6 +46,24 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     @Override
+    public List<Report> getReportsByOffender(UUID uuid) {
+        List<Report> reports = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND deleted=? ORDER BY timestamp DESC")) {
+            ps.setString(1, uuid.toString());
+            ps.setBoolean(2, false);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    reports.add(buildReport(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reports;
+    }
+
+    @Override
     public List<Report> getUnresolvedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
