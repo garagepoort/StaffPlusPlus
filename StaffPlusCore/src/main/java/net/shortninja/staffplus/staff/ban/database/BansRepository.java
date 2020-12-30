@@ -17,4 +17,6 @@ public interface BansRepository {
     Optional<Ban> findActiveBan(UUID playerUuid);
 
     Optional<Ban> findActiveBan(int id);
+
+    List<Ban> getBansForPlayer(UUID playerUUID);
 }

@@ -80,6 +80,23 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     }
 
     @Override
+    public List<Ban> getBansForPlayer(UUID playerUuid) {
+        List<Ban> bans = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE player_uuid = ? ORDER BY creation_timestamp DESC")) {
+            ps.setString(1, playerUuid.toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    bans.add(buildBan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return bans;
+    }
+
+    @Override
     public void update(Ban ban) {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("UPDATE sp_banned_players set unbanned_by_uuid=?, unban_reason=?, end_timestamp=? WHERE ID=?")) {

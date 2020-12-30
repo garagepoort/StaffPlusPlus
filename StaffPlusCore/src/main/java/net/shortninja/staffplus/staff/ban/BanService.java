@@ -8,6 +8,8 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.database.BansRepository;
+import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -16,13 +18,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.bukkit.Bukkit.getScheduler;
 
-public class BanService {
+public class BanService implements InfractionProvider {
 
     private final Permission permission;
     private final BansRepository bansRepository;
@@ -148,5 +151,13 @@ public class BanService {
         getScheduler().runTask(StaffPlus.get(), () -> {
             Bukkit.getPluginManager().callEvent(event);
         });
+    }
+
+    @Override
+    public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
+        if(!options.infractionsConfiguration.isShowBans()) {
+            return Collections.emptyList();
+        }
+        return bansRepository.getBansForPlayer(playerUUID);
     }
 }

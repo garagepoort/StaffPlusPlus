@@ -7,6 +7,8 @@ import net.shortninja.staffplus.event.mute.UnmuteEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.mute.database.MuteRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
@@ -16,6 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,7 +26,7 @@ import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.getScheduler;
 
-public class MuteService {
+public class MuteService implements InfractionProvider {
 
     private final Permission permission;
     private final MuteRepository muteRepository;
@@ -134,5 +137,13 @@ public class MuteService {
         getScheduler().runTask(StaffPlus.get(), () -> {
             Bukkit.getPluginManager().callEvent(event);
         });
+    }
+
+    @Override
+    public List<? extends Infraction> getInfractions(UUID playerUUID) {
+        if(!options.infractionsConfiguration.isShowMutes()) {
+            return Collections.emptyList();
+        }
+        return muteRepository.getMutesForPlayer(playerUUID);
     }
 }

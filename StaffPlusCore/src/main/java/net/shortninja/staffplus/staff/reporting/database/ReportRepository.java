@@ -32,4 +32,5 @@ public interface ReportRepository {
 
     List<Report> getClosedReports(int offset, int amount);
 
+    List<Report> getReportsByOffender(UUID playerUUID);
 }

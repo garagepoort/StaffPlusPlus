@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.warn.gui;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.unordered.IAction;
 import org.bukkit.entity.Player;
@@ -16,7 +17,7 @@ public class MyWarningsGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, String title, int page) {
+    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
         new MyWarningsGui(player, title, page);
     }
 
@@ -36,7 +37,7 @@ public class MyWarningsGui extends PagedGui {
     }
 
     @Override
-    public List<ItemStack> getItems(Player player, int offset, int amount) {
+    public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
         return IocContainer.getWarnService()
                 .getWarnings(player.getUniqueId(), offset, amount)
                 .stream()
