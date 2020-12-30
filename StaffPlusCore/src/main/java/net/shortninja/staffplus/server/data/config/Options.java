@@ -12,6 +12,8 @@ import net.shortninja.staffplus.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.staff.ban.config.BanModuleLoader;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfigurationLoader;
+import net.shortninja.staffplus.staff.infractions.config.InfractionsConfiguration;
+import net.shortninja.staffplus.staff.infractions.config.InfractionsModuleLoader;
 import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.staff.mute.config.MuteModuleLoader;
@@ -59,6 +61,7 @@ public class Options implements IOptions {
 
     public Map<String, Location> locations;
     public AuthenticationConfiguration authenticationConfiguration;
+    public InfractionsConfiguration infractionsConfiguration;
     public ReportConfiguration reportConfiguration;
     public ManageReportConfiguration manageReportConfiguration;
     public WarningConfiguration warningConfiguration;
@@ -322,6 +325,7 @@ public class Options implements IOptions {
 
         locations = new LocationLoader().loadConfig();
         authenticationConfiguration = new AuthenticationConfigurationLoader().loadConfig();
+        infractionsConfiguration = new InfractionsModuleLoader().loadConfig();
         reportConfiguration = new ReportingModuleLoader().loadConfig();
         manageReportConfiguration = new ManageReportingModuleLoader().loadConfig();
         warningConfiguration = new WarningModuleLoader().loadConfig();

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.staff.ban;
 
+import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.unordered.IBan;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 
@@ -8,7 +9,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public class Ban implements IBan {
+public class Ban implements IBan, Infraction {
 
     private int id;
     private String reason;
@@ -145,5 +146,10 @@ public class Ban implements IBan {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String getInfractionType() {
+        return "BAN";
     }
 }
