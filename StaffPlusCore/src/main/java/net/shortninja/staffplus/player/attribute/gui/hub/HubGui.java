@@ -62,7 +62,7 @@ public class HubGui extends AbstractGui {
         }
 
         if (muteGuiItemConfig.isEnabled()) {
-            setMenuItem(16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig), (p) -> new MutedPlayersGui(player, muteGuiItemConfig.getTitle(), 0, () -> new HubGui(player, title)));
+            setMenuItem(16, buildGuiItem(SIGN, muteGuiItemConfig), (p) -> new MutedPlayersGui(player, muteGuiItemConfig.getTitle(), 0, () -> new HubGui(player, title)));
         }
 
         PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
