@@ -261,6 +261,20 @@ broadcast-module:
 # +------------------------------------------------------+ #
 ############################################################
 
+infractions-module:
+  # Whether or not the plugin will enable the infractions gui.
+  enabled: true
+  show-bans: true
+  show-mutes: true
+  show-warnings: true
+  show-reported: true
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      BANNING                       | #
+# +------------------------------------------------------+ #
+############################################################
+
 ban-module:
   # Whether or not the plugin will use "/ban-player" features.
   enabled: true
@@ -1121,6 +1135,10 @@ permissions:
   # Permission to view player's inventory while in examine mode
   examine-view-inventory: "staff.examine.view-inventory"
 
+  # Permission to open the infractions gui
+  infractions:
+        view: "staff.infractions.view"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Commands                        | #
@@ -1258,6 +1276,9 @@ commands:
 
   # The command to unban a player
   alt-detect-whitelist: "altWhitelist"
+
+  # The command to view the infractions of a player
+  infractions-view: "infractions"
 
 ############################################################
 # +------------------------------------------------------+ #

@@ -9,6 +9,8 @@ import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.warn.config.WarningAction;
 import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.staff.warn.config.WarningThresholdConfiguration;
@@ -26,7 +28,7 @@ import java.util.*;
 import static net.shortninja.staffplus.staff.warn.config.WarningActionRunStrategy.*;
 import static org.bukkit.Bukkit.getScheduler;
 
-public class WarnService {
+public class WarnService implements InfractionProvider {
 
     private final PermissionHandler permission;
     private final MessageCoordinator message;
@@ -147,5 +149,13 @@ public class WarnService {
 
     public void markWarningsRead(UUID uniqueId) {
         warnRepository.markWarningsRead(uniqueId);
+    }
+
+    @Override
+    public List<? extends Infraction> getInfractions(UUID playerUUID) {
+        if(!options.infractionsConfiguration.isShowWarnings()) {
+            return Collections.emptyList();
+        }
+        return warnRepository.getWarnings(playerUUID);
     }
 }
