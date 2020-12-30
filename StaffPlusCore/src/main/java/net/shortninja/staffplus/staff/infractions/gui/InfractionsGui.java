@@ -40,7 +40,7 @@ public class InfractionsGui extends PagedGui {
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
         return IocContainer.getInfractionsService()
-            .getAllInfractions(getTarget().getId(), getCurrentPage(), amount)
+            .getAllInfractions(player, getTarget().getId(), getCurrentPage(), amount)
             .stream()
             .map(i -> {
                 InfractionGuiProvider infractionGuiProvider = getInfractionGuiProvider(i);

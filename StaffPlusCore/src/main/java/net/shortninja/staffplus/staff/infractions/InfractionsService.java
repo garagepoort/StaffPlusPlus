@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.infractions;
 
 import net.shortninja.staffplus.util.lib.JavaUtils;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,10 +16,10 @@ public class InfractionsService {
         this.infractionProviders = infractionProviders;
     }
 
-    public List<Infraction> getAllInfractions(UUID playerUuid, int page, int pageSize) {
+    public List<Infraction> getAllInfractions(Player executor, UUID playerUuid, int page, int pageSize) {
         List<Infraction> infractions = new ArrayList<>();
         for (InfractionProvider infractionProvider : infractionProviders) {
-            infractions.addAll(infractionProvider.getInfractions(playerUuid));
+            infractions.addAll(infractionProvider.getInfractions(executor, playerUuid));
         }
         infractions.sort(Comparator.comparingLong(Infraction::getCreationTimestamp).reversed());
         return JavaUtils.getPageOfList(infractions, page, pageSize);
