@@ -2,6 +2,7 @@ package be.garagepoort.staffplusplus.discord;
 
 import be.garagepoort.staffplusplus.discord.altdetect.AltDetectionListener;
 import be.garagepoort.staffplusplus.discord.ban.BanListener;
+import be.garagepoort.staffplusplus.discord.mute.MuteListener;
 import be.garagepoort.staffplusplus.discord.reports.ReportListener;
 import be.garagepoort.staffplusplus.discord.warnings.WarningListener;
 import org.bukkit.Bukkit;
@@ -28,6 +29,7 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         ReportListener reportListener = new ReportListener(config);
         WarningListener warningListener = new WarningListener(config);
         BanListener banListener = new BanListener(config);
+        MuteListener muteListener = new MuteListener(config);
         AltDetectionListener altDetectionListener = new AltDetectionListener(config);
 
         if (reportListener.isEnabled()) {
@@ -58,6 +60,16 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
             }
             banListener.init();
             getServer().getPluginManager().registerEvents(banListener, this);
+        }
+
+        if (muteListener.isEnabled()) {
+            if (config.getString("StaffPlusPlusDiscord.mutes.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.mutes.webhookUrl").isEmpty()) {
+                showError("Cannot enable StaffPlusPlusDiscord. No mutes webhookUrl provided in the configuration.");
+                Bukkit.getPluginManager().disablePlugin(this);
+                return;
+            }
+            muteListener.init();
+            getServer().getPluginManager().registerEvents(muteListener, this);
         }
 
         if (altDetectionListener.isEnabled()) {
