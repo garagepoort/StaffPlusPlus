@@ -23,6 +23,10 @@ StaffPlusPlusDiscord:
         webhookUrl: ""
         ban: false
         unban: false
+    mutes:
+        webhookUrl: ""
+        mute: false
+        unmute: false
     altDetect:
         webhookUrl: ""
         # Levels that should be notified to discord, leave empty to disable all notifications. Should be semi-colon separated
