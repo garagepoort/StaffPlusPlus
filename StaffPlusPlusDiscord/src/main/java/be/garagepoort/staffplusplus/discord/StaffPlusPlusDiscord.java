@@ -2,6 +2,7 @@ package be.garagepoort.staffplusplus.discord;
 
 import be.garagepoort.staffplusplus.discord.altdetect.AltDetectionListener;
 import be.garagepoort.staffplusplus.discord.ban.BanListener;
+import be.garagepoort.staffplusplus.discord.kick.KickListener;
 import be.garagepoort.staffplusplus.discord.mute.MuteListener;
 import be.garagepoort.staffplusplus.discord.reports.ReportListener;
 import be.garagepoort.staffplusplus.discord.warnings.WarningListener;
@@ -29,6 +30,7 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         ReportListener reportListener = new ReportListener(config);
         WarningListener warningListener = new WarningListener(config);
         BanListener banListener = new BanListener(config);
+        KickListener kickListener = new KickListener(config);
         MuteListener muteListener = new MuteListener(config);
         AltDetectionListener altDetectionListener = new AltDetectionListener(config);
 
@@ -60,6 +62,16 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
             }
             banListener.init();
             getServer().getPluginManager().registerEvents(banListener, this);
+        }
+
+        if (kickListener.isEnabled()) {
+            if (config.getString("StaffPlusPlusDiscord.kicks.webhookUrl") == null || config.getString("StaffPlusPlusDiscord.kicks.webhookUrl").isEmpty()) {
+                showError("Cannot enable StaffPlusPlusDiscord. No kicks webhookUrl provided in the configuration.");
+                Bukkit.getPluginManager().disablePlugin(this);
+                return;
+            }
+            kickListener.init();
+            getServer().getPluginManager().registerEvents(kickListener, this);
         }
 
         if (muteListener.isEnabled()) {

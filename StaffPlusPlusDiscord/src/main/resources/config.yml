@@ -23,6 +23,9 @@ StaffPlusPlusDiscord:
         webhookUrl: ""
         ban: false
         unban: false
+    kicks:
+        webhookUrl: ""
+        kick: false
     mutes:
         webhookUrl: ""
         mute: false
