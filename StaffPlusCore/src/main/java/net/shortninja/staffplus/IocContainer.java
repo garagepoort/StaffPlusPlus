@@ -44,6 +44,11 @@ import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.infractions.InfractionsService;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
+import net.shortninja.staffplus.staff.kick.KickService;
+import net.shortninja.staffplus.staff.kick.database.KicksRepository;
+import net.shortninja.staffplus.staff.kick.database.MysqlKicksRepository;
+import net.shortninja.staffplus.staff.kick.database.SqliteKicksRepository;
+import net.shortninja.staffplus.staff.kick.gui.KickedPlayerItemBuilder;
 import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.location.MysqlLocationRepository;
 import net.shortninja.staffplus.staff.location.SqliteLocationRepository;
@@ -134,6 +139,12 @@ public class IocContainer {
             () -> new SqliteBansRepository(getPlayerManager()));
     }
 
+    public static KicksRepository getKicksRepository() {
+        return initRepositoryBean(KicksRepository.class,
+            () -> new MysqlKicksRepository(getPlayerManager()),
+            () -> new SqliteKicksRepository(getPlayerManager()));
+    }
+
 
     public static MuteRepository getMuteRepository() {
         return initRepositoryBean(MuteRepository.class,
@@ -156,6 +167,11 @@ public class IocContainer {
     public static BanService getBanService() {
         return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
     }
+
+    public static KickService getKickService() {
+        return initBean(KickService.class, () -> new KickService(getPermissionHandler(), getKicksRepository(), getOptions(), getMessage(), getMessages()));
+    }
+
     public static MuteService getMuteService() {
         return initBean(MuteService.class, () -> new MuteService(getPermissionHandler(), getMuteRepository(), getOptions(), getMessage(), getMessages()));
     }
@@ -163,6 +179,7 @@ public class IocContainer {
     public static ReportService getReportService() {
         return initBean(ReportService.class, () -> new ReportService(getReportRepository(), getMessages(), getPlayerManager()));
     }
+
     public static InfractionsService getInfractionsService() {
         return initBean(InfractionsService.class, () -> new InfractionsService(getInfractionProviders()));
     }
@@ -294,12 +311,12 @@ public class IocContainer {
     }
 
     public static List<InfractionProvider> getInfractionProviders() {
-        return Arrays.asList(getBanService(), getMuteService(), getWarnService(), getReportService());
+        return Arrays.asList(getBanService(), getMuteService(), getWarnService(), getReportService(), getKickService());
     }
 
 
     public static List<InfractionGuiProvider> getInfractionGuiProviders() {
-        return Arrays.asList(new BannedPlayerItemBuilder(), new MutedPlayerItemBuilder(), new WarningItemBuilder(), new ReportItemBuilder());
+        return Arrays.asList(new BannedPlayerItemBuilder(), new MutedPlayerItemBuilder(), new WarningItemBuilder(), new ReportItemBuilder(), new KickedPlayerItemBuilder());
     }
 
     private static <T> T initBean(Class<T> clazz, Supplier<T> consumer) {
