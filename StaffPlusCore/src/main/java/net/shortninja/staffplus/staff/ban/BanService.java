@@ -13,6 +13,7 @@ import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.util.lib.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -97,7 +98,7 @@ public class BanService implements InfractionProvider {
         Ban ban = new Ban(reason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId());
         ban.setId(bansRepository.addBan(ban));
 
-        notifyPlayers(playerToBan, durationInMillis, issuerName);
+        notifyPlayers(playerToBan, durationInMillis, issuerName, reason);
         kickPlayer(playerToBan, durationInMillis, issuerName, reason);
         sendEvent(new BanEvent(ban));
     }
@@ -110,27 +111,29 @@ public class BanService implements InfractionProvider {
                     .replace("%issuer%", issuerName)
                     .replace("%reason%", reason)
                     .replace("%duration%", JavaUtils.toHumanReadableDuration(duration));
-                playerToBan.getPlayer().kickPlayer(message);
+                playerToBan.getPlayer().kickPlayer(Message.colorize(message));
             } else {
                 String message = messages.permanentBannedKick
                     .replace("%target%", playerToBan.getUsername())
                     .replace("%reason%", reason)
                     .replace("%issuer%", issuerName);
-                playerToBan.getPlayer().kickPlayer(message);
+                playerToBan.getPlayer().kickPlayer(Message.colorize(message));
             }
         }
     }
 
-    private void notifyPlayers(SppPlayer playerToBan, Long duration, String issuerName) {
+    private void notifyPlayers(SppPlayer playerToBan, Long duration, String issuerName, String reason) {
         if (duration == null) {
             String message = messages.permanentBanned
                 .replace("%target%", playerToBan.getUsername())
-                .replace("%issuer%", issuerName);
+                .replace("%issuer%", issuerName)
+                    .replace("%reason%", reason);
             this.message.sendGlobalMessage(message, messages.prefixGeneral);
         } else {
             String message = messages.tempBanned
                 .replace("%target%", playerToBan.getUsername())
                 .replace("%issuer%", issuerName)
+                .replace("%reason%", reason)
                 .replace("%duration%", JavaUtils.toHumanReadableDuration(duration));
             this.message.sendGlobalMessage(message, messages.prefixGeneral);
         }

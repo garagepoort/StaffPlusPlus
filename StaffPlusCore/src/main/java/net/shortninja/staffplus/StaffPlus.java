@@ -98,9 +98,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         IocContainer.init(this);
         saveDefaultConfig();
         AutoUpdater.updateConfig(this);
-
-        start(System.currentTimeMillis());
         AutoUpdaterLanguageFiles.updateConfig(this);
+        
+        start(System.currentTimeMillis());
 
         if (getConfig().getBoolean("metrics"))
             new Metrics(this, 9351);

@@ -26,6 +26,9 @@ public class MuteSessionTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        if(!IocContainer.getOptions().muteConfiguration.isEnabled()) {
+            return;
+        }
         List<Player> players = sessionManager.getAll().stream()
             .filter(p -> p.getPlayer().isPresent())
             .map(p -> p.getPlayer().get())
