@@ -103,20 +103,22 @@ public class MuteService implements InfractionProvider {
         Mute mute = new Mute(reason, endDate, issuerName, issuerUuid, playerToMute.getUsername(), playerToMute.getId());
         mute.setId(muteRepository.addMute(mute));
 
-        notifyPlayers(playerToMute, durationInMillis, issuerName);
+        notifyPlayers(playerToMute, durationInMillis, issuerName, reason);
         sendEvent(new MuteEvent(mute));
     }
 
-    private void notifyPlayers(SppPlayer playerToMute, Long duration, String issuerName) {
+    private void notifyPlayers(SppPlayer playerToMute, Long duration, String issuerName, String reason) {
         if (duration == null) {
             String message = messages.permanentMuted
                 .replace("%target%", playerToMute.getUsername())
+                .replace("%reason%", reason)
                 .replace("%issuer%", issuerName);
             this.message.sendGlobalMessage(message, messages.prefixGeneral);
         } else {
             String message = messages.tempMuted
                 .replace("%target%", playerToMute.getUsername())
                 .replace("%issuer%", issuerName)
+                .replace("%reason%", reason)
                 .replace("%duration%", JavaUtils.toHumanReadableDuration(duration));
             this.message.sendGlobalMessage(message, messages.prefixGeneral);
         }

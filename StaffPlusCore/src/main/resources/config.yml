@@ -268,6 +268,7 @@ infractions-module:
   show-mutes: true
   show-warnings: true
   show-reported: true
+  show-kicks: true
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -278,6 +279,16 @@ infractions-module:
 ban-module:
   # Whether or not the plugin will use "/ban-player" features.
   enabled: true
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      KICKING                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+kick-module:
+  # Whether or not the plugin will use "/kick" features.
+  enabled: false
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -1111,13 +1122,19 @@ permissions:
   # Permission to ban/tempban players
   ban: "staff.staffplus.ban"
 
-  # Permission to ban/tempban players
+  # Permission to bypass being banned
   ban-bypass: "staff.staffplus.ban-bypass"
+
+    # Permission to kick players
+  kick: "staff.staffplus.kick"
+
+    # Permission to bypass being kicked
+  kick-bypass: "staff.staffplus.kick-bypass"
 
   # Permission to mute/tempmute players
   mute: "staff.staffplus.mute"
 
-  # Permission to ban/tempban players
+  # Permission to bypass being muted
   mute-bypass: "staff.staffplus.mute-bypass"
 
   # Permission to add/remove players from the alt detection whitelist
@@ -1264,6 +1281,9 @@ commands:
 
   # The command to unban a player
   unban: "unban"
+
+  # The command to kick a player
+  kick: "kick"
 
   # The command to permanently mute a player
   mute: "mute"
