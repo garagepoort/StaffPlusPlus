@@ -75,7 +75,7 @@ public class MessageCoordinator extends Message {
     }
 
     public void sendConsoleMessage(String message, boolean isError) {
-        String prefix = isError ? "&4[Staff+] &c" : "&2[Staff+] &a";
+        String prefix = isError ? "&4[Staff++] &c" : "&2[Staff++] &a";
 
         Bukkit.getServer().getConsoleSender().sendMessage(colorize(prefix + message));
     }
