@@ -10,8 +10,9 @@ public class InfractionsConfiguration {
     private final boolean showMutes;
     private final boolean showWarnings;
     private final boolean showReported;
+    private final boolean showKicks;
 
-    public InfractionsConfiguration(boolean infractionsEnabled, String commandOpenGui, String permissionViewInfractions, boolean showBans, boolean showMutes, boolean showWarnings, boolean showReported) {
+    public InfractionsConfiguration(boolean infractionsEnabled, String commandOpenGui, String permissionViewInfractions, boolean showBans, boolean showMutes, boolean showWarnings, boolean showReported, boolean showKicks) {
         this.infractionsEnabled = infractionsEnabled;
         this.commandOpenGui = commandOpenGui;
         this.permissionViewInfractions = permissionViewInfractions;
@@ -19,6 +20,7 @@ public class InfractionsConfiguration {
         this.showMutes = showMutes;
         this.showWarnings = showWarnings;
         this.showReported = showReported;
+        this.showKicks = showKicks;
     }
 
     public boolean isEnabled() {
@@ -47,5 +49,9 @@ public class InfractionsConfiguration {
 
     public String getPermissionViewInfractions() {
         return permissionViewInfractions;
+    }
+
+    public boolean isShowKicks() {
+        return showKicks;
     }
 }

@@ -34,7 +34,7 @@
 - Add reload configuration ability (experimental, see wiki)
 
 #### Bugs
-- Unban command logged the ban issuer instead of the unban issuer
+- Unban command logged the kick issuer instead of the unban issuer
 - Fix nullpointer OnInventoryOpen
 - Fix alt account detection, do not detect same player
 - Fix Inventory item duplication on rejoin
@@ -44,7 +44,7 @@
 - rename 'teleport' command to 'teleportToLocation'
 - Add 'teleportHere' command
 - Add vanish indicator in the staff list gui
-- Add ban reason placeholder to use for the kick message
+- Add kick reason placeholder to use for the kick message
 
 #### Bugs
 - StaffChat not turning off when using the handle
@@ -81,8 +81,8 @@
 
 ### V1.13.21
 #### Features
-- Implement ban & tempban system (https://github.com/garagepoort/StaffPlusPlus/issues/106)
-- Implement ban discord integration
+- Implement kick & tempban system (https://github.com/garagepoort/StaffPlusPlus/issues/106)
+- Implement kick discord integration
 - Implement Alt account detection system
 - Implement Alt account detection discord integration
 - Add option to disable bungee network sync for staffchat (https://github.com/garagepoort/StaffPlusPlus/issues/111)
