@@ -1,9 +1,11 @@
 # Changelog Staff++ | v1.15
 
-### V1.15.32
+### V1.15.33
 ### Features
 - Added mute/temp mute functionality
 - Added infractions gui menu.
+- Added kick command.
+- Update discord integration plugin for kicks and mutes.
 
 #### Bugs
 - Time unit four HOUR/h was not working
