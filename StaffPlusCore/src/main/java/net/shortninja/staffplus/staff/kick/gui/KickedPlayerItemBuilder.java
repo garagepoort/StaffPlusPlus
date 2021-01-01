@@ -34,7 +34,7 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
         }
 
         ItemStack item = Items.builder()
-            .setMaterial(Material.PLAYER_HEAD)
+            .setMaterial(Material.BANNER)
             .setName(kick.getPlayerName())
             .addLore(lore)
             .build();
