@@ -216,6 +216,13 @@ ban-unbanned: "&6%target% has been unbanned from the server by %issuer%"
 ban-tempbanned-kick: "[Banned] You have been temporarily banned from this server. Ban ends in: %duration%"
 ban-permabanned-kick: "[Banned] You have been permanently banned from this server"
 
+############################################################
+# +------------------------------------------------------+ #
+# |                     KICKING                          | #
+# +------------------------------------------------------+ #
+############################################################
+kick-notifyplayers: "&6%target% has been kicked from the server by %issuer%"
+kick-kickmessage: "&6You have been kicked from the server by %issuer%. Reason: %reason%"
 
 ############################################################
 # +------------------------------------------------------+ #

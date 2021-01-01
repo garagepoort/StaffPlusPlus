@@ -12,11 +12,12 @@ public class InfractionsModuleLoader extends ConfigLoader<InfractionsConfigurati
         boolean showMutes = config.getBoolean("infractions-module.show-mutes");
         boolean showWarnings = config.getBoolean("infractions-module.show-warnings");
         boolean showReported = config.getBoolean("infractions-module.show-reported");
+        boolean showKicks = config.getBoolean("infractions-module.show-kicks");
 
 
         String commandViewInfraction = config.getString("commands.infractions-view");
         String permissionViewInfractions = config.getString("permissions.infractions.view");
 
-        return new InfractionsConfiguration(infractionsEnabled, commandViewInfraction, permissionViewInfractions, showBans, showMutes, showWarnings, showReported);
+        return new InfractionsConfiguration(infractionsEnabled, commandViewInfraction, permissionViewInfractions, showBans, showMutes, showWarnings, showReported, showKicks);
     }
 }
