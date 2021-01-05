@@ -56,6 +56,7 @@ public class Options implements IOptions {
     public List<String> blockedModeCommands;
     public String glassTitle;
 
+    public String mainWorld;
     public int autoSave;
     public long clock;
     private List<String> soundNames;
@@ -112,6 +113,7 @@ public class Options implements IOptions {
      */
     public boolean modeBlockManipulation;
     public boolean modeInventoryInteraction;
+    public boolean modeChestInteraction;
     public boolean modeInvincible;
     public boolean modeFlight;
     public boolean modeCreative;
@@ -216,6 +218,7 @@ public class Options implements IOptions {
     public String permissionNameChange;
     public String permissionXray;
     public String permissionMode;
+    public String permissionModeChestInteraction;
     public String permissionFreeze;
     public String permissionFreezeBypass;
     public String permissionTeleportToLocation;
@@ -321,6 +324,7 @@ public class Options implements IOptions {
         blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands", ""));
         glassTitle = config.getString("glass-title");
 
+        mainWorld = config.getString("main-world");
         autoSave = config.getInt("auto-save");
         clock = config.getInt("clock") * 20;
         soundNames = JavaUtils.stringToList(config.getString("sound-names"));
@@ -379,6 +383,7 @@ public class Options implements IOptions {
          */
         modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
         modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
+        modeChestInteraction = config.getBoolean("staff-mode.chest-interaction");
         modeInvincible = config.getBoolean("staff-mode.invincible");
         modeFlight = config.getBoolean("staff-mode.flight");
         modeCreative = config.getBoolean("staff-mode.creative");
@@ -483,6 +488,7 @@ public class Options implements IOptions {
         permissionNameChange = config.getString("permissions.name-change");
         permissionXray = config.getString("permissions.xray");
         permissionMode = config.getString("permissions.mode");
+        permissionModeChestInteraction = config.getString("permissions.mode.chest-interaction");
         permissionFreeze = config.getString("permissions.freeze");
         permissionFreezeBypass = config.getString("permissions.freeze-bypass");
         permissionTeleportToLocation = config.getString("permissions.teleport-to-location");

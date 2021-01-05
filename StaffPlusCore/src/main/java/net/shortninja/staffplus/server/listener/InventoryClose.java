@@ -40,9 +40,5 @@ public class InventoryClose implements Listener {
         if (playerSession.getCurrentGui().isPresent()) {
             playerSession.setCurrentGui(null);
         }
-
-        if (StaffPlus.get().inventoryHandler.isInVirtualInv(event.getPlayer().getUniqueId())) {
-            StaffPlus.get().inventoryHandler.removeVirtualUser(event.getPlayer().getUniqueId());
-        }
     }
 }

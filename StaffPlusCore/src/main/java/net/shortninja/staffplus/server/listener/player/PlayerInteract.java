@@ -3,6 +3,7 @@ package net.shortninja.staffplus.server.listener.player;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.staff.chests.ChestGUI;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
@@ -19,7 +20,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -63,16 +63,14 @@ public class PlayerInteract implements Listener {
             event.setCancelled(true);
             Container container = (Container) event.getClickedBlock().getState();
 
-            Inventory chestView = Bukkit.createInventory(player, InventoryType.CHEST);
-            // Only have to check for similar inventory types as the items will map.
             if (container instanceof Furnace) {
-                chestView = Bukkit.createInventory(player, InventoryType.FURNACE);
+                new ChestGUI(player, container, InventoryType.FURNACE);
             } else if (container instanceof BrewingStand) {
-                chestView = Bukkit.createInventory(player, InventoryType.BREWING);
+                new ChestGUI(player, container, InventoryType.BREWING);
             } else if (container instanceof Dispenser || container instanceof Dropper) {
-                chestView = Bukkit.createInventory(player, InventoryType.DISPENSER);
+                new ChestGUI(player, container, InventoryType.DISPENSER);
             } else if (container instanceof Hopper) {
-                chestView = Bukkit.createInventory(player, InventoryType.HOPPER);
+                new ChestGUI(player, container, InventoryType.HOPPER);
             } else {
                 // Either Chest, Chest-like or new block.
                 // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
@@ -81,13 +79,8 @@ public class PlayerInteract implements Listener {
                     Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
                     containerSize += (9 - containerSize % 9);
                 }
-                chestView = Bukkit.createInventory(player, containerSize);
+                new ChestGUI(player, container, containerSize);
             }
-
-            chestView.setContents(container.getInventory().getContents());
-            event.getPlayer().openInventory(chestView);
-            StaffPlus.get().viewedChest.add(chestView);
-            StaffPlus.get().inventoryHandler.addVirtualUser(player.getUniqueId());
             return;
         }
 

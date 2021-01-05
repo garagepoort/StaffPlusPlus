@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
@@ -25,7 +24,6 @@ public class EChestView extends AbstractCmd {
         }
         Player p = (Player) sender;
         p.openInventory(InventoryFactory.createEnderchestInventory(player.getPlayer()));
-        StaffPlus.get().inventoryHandler.addVirtualUser(p.getUniqueId());
         return true;
     }
 

@@ -9,6 +9,9 @@
 # +------------------------------------------------------+ #
 ############################################################
 
+# The name of the main world. Meaning the world folder name which contains the player data files.
+main-world: "world"
+
 # The language file that will be referred to for messages.
 # Current available languages are: lang_en, lang_sv, lang_de, lang_nl, lang_es, lang_hr, lang_no, and lang_fr.
 # If you would like to translate Staff++, please message me on Spigot!
@@ -397,6 +400,9 @@ staff-mode:
 
   # Whether or not a player is allowed to interact with their inventory while in staff mode.
   inventory-interaction: true
+
+  # Whether or not a player is allowed to interact with chest/hoppers/dispensers,... while in staff mode.
+  chest-interaction: false
 
   # Whether or not a player is allowed to drop/pickup items while in staff mode.
   item-change: false
@@ -1027,6 +1033,9 @@ permissions:
 
   # Permission for toggling staff mode.
   mode: "staff.mode"
+
+  # permission to interact with chests/hoppers/dispensers.
+  mode.chest-interaction: "staff.mode.chest-interaction"
 
   # Permission for using the staff mode compass
   compass: "staff.compass"
