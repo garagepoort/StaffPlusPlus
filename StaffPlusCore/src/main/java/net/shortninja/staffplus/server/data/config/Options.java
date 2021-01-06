@@ -12,6 +12,8 @@ import net.shortninja.staffplus.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.staff.ban.config.BanModuleLoader;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfigurationLoader;
+import net.shortninja.staffplus.staff.examine.config.ExamineConfiguration;
+import net.shortninja.staffplus.staff.examine.config.ExamineModuleLoader;
 import net.shortninja.staffplus.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.staff.infractions.config.InfractionsModuleLoader;
 import net.shortninja.staffplus.staff.kick.config.KickConfiguration;
@@ -77,6 +79,7 @@ public class Options implements IOptions {
     public MuteConfiguration muteConfiguration;
     public AltDetectConfiguration altDetectConfiguration;
     public StaffChatConfiguration staffChatConfiguration;
+    public ExamineConfiguration examineConfiguration;
 
     /*
      * Vanish
@@ -113,7 +116,7 @@ public class Options implements IOptions {
      */
     public boolean modeBlockManipulation;
     public boolean modeInventoryInteraction;
-    public boolean modeChestInteraction;
+    public boolean modeSilentChestInteraction;
     public boolean modeInvincible;
     public boolean modeFlight;
     public boolean modeCreative;
@@ -218,7 +221,7 @@ public class Options implements IOptions {
     public String permissionNameChange;
     public String permissionXray;
     public String permissionMode;
-    public String permissionModeChestInteraction;
+    public String permissionModeSilentChestInteraction;
     public String permissionFreeze;
     public String permissionFreezeBypass;
     public String permissionTeleportToLocation;
@@ -228,9 +231,6 @@ public class Options implements IOptions {
     public String permissionTrace;
     public String permissionTraceBypass;
     public String permissionCps;
-    public String permissionExamine;
-    public String permissionExamineInventoryInteraction;
-    public String permissionExamineViewInventory;
     public String permissionFollow;
     public String permissionRevive;
     public String permissionMember;
@@ -249,7 +249,6 @@ public class Options implements IOptions {
     public String commandTeleportBack;
     public String commandTeleportToPlayer;
     public String commandTeleportHere;
-    public String commandExamine;
     public String commandCps;
     public String commandStaffChat;
     public String commandReport;
@@ -345,6 +344,7 @@ public class Options implements IOptions {
         muteConfiguration = new MuteModuleLoader().loadConfig();
         altDetectConfiguration = new AltDetectModuleLoader().loadConfig();
         staffChatConfiguration = new StaffChatModuleLoader().loadConfig();
+        examineConfiguration = new ExamineModuleLoader().loadConfig();
 
         /*
          * Vanish
@@ -383,7 +383,7 @@ public class Options implements IOptions {
          */
         modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
         modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
-        modeChestInteraction = config.getBoolean("staff-mode.chest-interaction");
+        modeSilentChestInteraction = config.getBoolean("staff-mode.silent-chest-interaction");
         modeInvincible = config.getBoolean("staff-mode.invincible");
         modeFlight = config.getBoolean("staff-mode.flight");
         modeCreative = config.getBoolean("staff-mode.creative");
@@ -488,7 +488,7 @@ public class Options implements IOptions {
         permissionNameChange = config.getString("permissions.name-change");
         permissionXray = config.getString("permissions.xray");
         permissionMode = config.getString("permissions.mode");
-        permissionModeChestInteraction = config.getString("permissions.mode.chest-interaction");
+        permissionModeSilentChestInteraction = config.getString("permissions.mode.silent-chest-interaction");
         permissionFreeze = config.getString("permissions.freeze");
         permissionFreezeBypass = config.getString("permissions.freeze-bypass");
         permissionTeleportToLocation = config.getString("permissions.teleport-to-location");
@@ -498,9 +498,6 @@ public class Options implements IOptions {
         permissionTrace = config.getString("permissions.trace");
         permissionTraceBypass = config.getString("permissions.trace-bypass");
         permissionCps = config.getString("permissions.cps");
-        permissionExamine = config.getString("permissions.examine");
-        permissionExamineInventoryInteraction = config.getString("permissions.examine-inventory-interaction");
-        permissionExamineViewInventory = config.getString("permissions.examine-view-inventory");
         permissionFollow = config.getString("permissions.follow");
         permissionRevive = config.getString("permissions.revive");
         permissionMember = config.getString("permissions.member");
@@ -519,7 +516,6 @@ public class Options implements IOptions {
         commandTeleportBack = config.getString("commands.teleport-back");
         commandTeleportToPlayer = config.getString("commands.teleport-to-player");
         commandTeleportHere = config.getString("commands.teleport-here");
-        commandExamine = config.getString("commands.examine");
         commandCps = config.getString("commands.cps");
         commandStaffChat = config.getString("commands.staff-chat");
         commandReport = config.getString("commands.report");

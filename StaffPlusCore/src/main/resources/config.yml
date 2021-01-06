@@ -402,7 +402,7 @@ staff-mode:
   inventory-interaction: true
 
   # Whether or not a player is allowed to interact with chest/hoppers/dispensers,... while in staff mode.
-  chest-interaction: false
+  silent-chest-interaction: false
 
   # Whether or not a player is allowed to drop/pickup items while in staff mode.
   item-change: false
@@ -822,9 +822,6 @@ staff-mode:
     # Lines are separated by commas.
     lore: "&7Mounts the player that was clicked."
 
-    # Whether or not following will literally mount a player.
-    use-mount: true
-
   ############################################################
   # +------------------------------------------------------+ #
   # |                       Custom                         | #
@@ -1035,7 +1032,7 @@ permissions:
   mode: "staff.mode"
 
   # permission to interact with chests/hoppers/dispensers.
-  mode.chest-interaction: "staff.mode.chest-interaction"
+  mode.silent-chest-interaction: "staff.mode.silent-chest-interaction"
 
   # Permission for using the staff mode compass
   compass: "staff.compass"

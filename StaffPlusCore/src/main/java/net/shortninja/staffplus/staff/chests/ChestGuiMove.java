@@ -35,7 +35,7 @@ public class ChestGuiMove implements Listener {
         }
 
         ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
-        if(!options.modeChestInteraction) {
+        if(!options.modeSilentChestInteraction) {
             event.setCancelled(true);
             return;
         }
@@ -71,7 +71,7 @@ public class ChestGuiMove implements Listener {
     }
 
     private void handleChestInventoryClick(InventoryClickEvent event, Player player, ChestGUI chestGUI) {
-        if (!permissionHandler.has(player, options.permissionModeChestInteraction)) {
+        if (!permissionHandler.has(player, options.permissionModeSilentChestInteraction)) {
             event.setCancelled(true);
             return;
         }
@@ -91,7 +91,7 @@ public class ChestGuiMove implements Listener {
     }
 
     private void handleStaffInventoryClick(InventoryClickEvent event, Player player, ChestGUI chestGUI) {
-        if (!permissionHandler.has(player, options.permissionModeChestInteraction)) {
+        if (!permissionHandler.has(player, options.permissionModeSilentChestInteraction)) {
             return;
         }
 
