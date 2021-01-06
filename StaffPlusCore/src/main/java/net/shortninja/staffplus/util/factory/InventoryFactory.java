@@ -1,8 +1,11 @@
 package net.shortninja.staffplus.util.factory;
 
+import de.tr7zw.nbtapi.*;
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.SppPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -26,26 +29,42 @@ public final class InventoryFactory {
         return playerInv;
     }
 
-//    public static Inventory loadEnderchestOffline(Player player) {
-//        try {
-//            String filename = Bukkit.getWorldContainer() + File.separator + IocContainer.getOptions().mainWorld + File.separator + "playerdata" + File.separator + player.getUniqueId();
-//            NBTFile file = new NBTFile(new File(filename));
-//            NBTCompoundList enderItems = file.getCompoundList("EnderItems");
-//            for (NBTListCompound enderItem : enderItems) {
-//            }
-//            return null;
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException("Player data file could not be loaded", e);
-//        }
-//    }
+    public static Inventory loadEnderchestOffline(Player player, SppPlayer target) {
+        try {
+            String filename = Bukkit.getWorldContainer() + File.separator + IocContainer.getOptions().mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            Inventory inventory = Bukkit.createInventory(player, InventoryType.ENDER_CHEST);
+            NBTFile file = new NBTFile(new File(filename));
+            NBTCompoundList enderItems = file.getCompoundList("EnderItems");
+            for (NBTListCompound enderItem : enderItems) {
+                ItemStack itemStack = NBTItem.convertNBTtoItem(enderItem);
+                inventory.setItem(Byte.toUnsignedInt(enderItem.getByte("Slot")), itemStack);
+            }
+            return inventory;
 
-    public static Inventory createEnderchestInventory(Player player) {
-        Inventory ecInv = player.getEnderChest();
-        Inventory inv = Bukkit.createInventory(player, InventoryType.ENDER_CHEST);
-        inv.setContents(ecInv.getContents());
+        } catch (IOException e) {
+            throw new RuntimeException("Player data file could not be loaded", e);
+        }
+    }
 
-        return inv;
+    public static void saveEnderchestOffline(Player player, SppPlayer target, Inventory inventory) {
+        try {
+            String filename = Bukkit.getWorldContainer() + File.separator + IocContainer.getOptions().mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            NBTFile file = new NBTFile(new File(filename));
+            NBTCompoundList enderItems = file.getCompoundList("EnderItems");
+            enderItems.clear();
+
+            for (int i = 0; i < inventory.getContents().length; i++) {
+                ItemStack item = inventory.getContents()[i];
+                if(item == null || item.getType() == Material.AIR) continue;
+
+                NBTContainer nbtContainer = NBTItem.convertItemtoNBT(item);
+                nbtContainer.setByte("Slot", new Integer(i).byteValue());
+                enderItems.addCompound(nbtContainer);
+            }
+            file.save();
+        } catch (IOException e) {
+            throw new RuntimeException("Player data file could not be loaded", e);
+        }
     }
 
     public static boolean isInventoryEmpty(Inventory inv) {
@@ -74,22 +93,5 @@ public final class InventoryFactory {
                 e.printStackTrace();
             }
         });
-    }
-
-    public static Inventory createVirtualEnderChest(OfflinePlayer p) {
-        File file = new File(StaffPlus.get().getDataFolder(), "EnderChests.yml");
-        Inventory eChest = Bukkit.createInventory(null, InventoryType.ENDER_CHEST);
-        try {
-            if (!file.exists())
-                file.createNewFile();
-            YamlConfiguration enderChests = YamlConfiguration.loadConfiguration(file);
-            for (String key : enderChests.getConfigurationSection(p.getUniqueId().toString()).getKeys(false)) {
-                ItemStack stack = enderChests.getItemStack(p.getUniqueId().toString() + "." + key);
-                eChest.addItem(stack);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return eChest;
     }
 }

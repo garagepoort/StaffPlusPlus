@@ -78,7 +78,7 @@ public class ChestGuiMove implements Listener {
 
         if (!isEmptyStack(event.getCursor()) && isEmptyStack(event.getCurrentItem())) {
             if ("staff".equalsIgnoreCase(chestGUI.getItemSelectedFrom())) {
-                chestGUI.getContainer().getInventory().setItem(event.getSlot(), event.getCursor());
+                chestGUI.getTargetInventory().setItem(event.getSlot(), event.getCursor());
             }
         }
 
@@ -97,7 +97,7 @@ public class ChestGuiMove implements Listener {
 
         if (!isEmptyStack(event.getCursor()) && isEmptyStack(event.getCurrentItem())) {
             if ("player".equalsIgnoreCase(chestGUI.getItemSelectedFrom())) {
-                chestGUI.getContainer().getInventory().setItem(chestGUI.getItemSelectedSlot(), null);
+                chestGUI.getTargetInventory().setItem(chestGUI.getItemSelectedSlot(), null);
             }
         }
 

@@ -5,13 +5,16 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.chests.ChestGUI;
 import net.shortninja.staffplus.staff.freeze.FreezeGui;
+import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryClose implements Listener {
@@ -35,6 +38,13 @@ public class InventoryClose implements Listener {
                 }
             }.runTaskLater(StaffPlus.get(), 1L);
             return;
+        }
+
+        if (playerSession.getCurrentGui().isPresent() && (playerSession.getCurrentGui().get() instanceof ChestGUI)) {
+            ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
+            if (chestGUI.getTargetInventory().getType() == InventoryType.ENDER_CHEST && chestGUI.getTargetPlayer() != null && !chestGUI.getTargetPlayer().isOnline()) {
+                InventoryFactory.saveEnderchestOffline(player, chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
+            }
         }
 
         if (playerSession.getCurrentGui().isPresent()) {

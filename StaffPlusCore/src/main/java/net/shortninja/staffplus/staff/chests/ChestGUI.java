@@ -2,28 +2,37 @@ package net.shortninja.staffplus.staff.chests;
 
 import net.shortninja.staffplus.common.PassThroughClickAction;
 import net.shortninja.staffplus.common.UpdatableGui;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
-import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 
 public class ChestGUI extends AbstractGui implements UpdatableGui {
 
     private static final PassThroughClickAction PASS_THROUGH_ACTION = new PassThroughClickAction();
-    private final Container container;
+    private final Inventory targetInventory;
+    private SppPlayer targetPlayer;
 
     private String itemSelectedFrom;
     private int itemSelectedSlot;
 
-    public ChestGUI(Player player, Container container, InventoryType inventoryType) {
+    public ChestGUI(Player player, SppPlayer targetPlayer, Inventory container, InventoryType inventoryType) {
         super("Staff view", inventoryType);
-        this.container = container;
+        this.targetInventory = container;
+        this.targetPlayer = targetPlayer;
         initiate(player);
     }
 
-    public ChestGUI(Player player, Container container, int containerSize) {
+    public ChestGUI(Player player, Inventory inventory, InventoryType inventoryType) {
+        super("Staff view", inventoryType);
+        this.targetInventory = inventory;
+        initiate(player);
+    }
+
+    public ChestGUI(Player player, Inventory container, int containerSize) {
         super(containerSize, "Staff view");
-        this.container = container;
+        this.targetInventory = container;
         initiate(player);
     }
 
@@ -42,8 +51,8 @@ public class ChestGUI extends AbstractGui implements UpdatableGui {
             return;
         }
 
-        for (int i = 0; i < container.getInventory().getContents().length; i++) {
-            setItem(i, container.getInventory().getItem(i), PASS_THROUGH_ACTION);
+        for (int i = 0; i < targetInventory.getContents().length; i++) {
+            setItem(i, targetInventory.getItem(i), PASS_THROUGH_ACTION);
         }
     }
 
@@ -63,7 +72,11 @@ public class ChestGUI extends AbstractGui implements UpdatableGui {
         return itemSelectedSlot;
     }
 
-    public Container getContainer() {
-        return container;
+    public Inventory getTargetInventory() {
+        return targetInventory;
+    }
+
+    public SppPlayer getTargetPlayer() {
+        return targetPlayer;
     }
 }

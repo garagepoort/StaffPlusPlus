@@ -4,9 +4,12 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.staff.chests.ChestGUI;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 
 import java.util.Optional;
 
@@ -17,13 +20,18 @@ public class EChestView extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer target) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("Command can only be used by players");
             return true;
         }
         Player p = (Player) sender;
-        p.openInventory(InventoryFactory.createEnderchestInventory(player.getPlayer()));
+        if(target.isOnline()) {
+            new ChestGUI(p, target, target.getPlayer().getEnderChest(), InventoryType.ENDER_CHEST);
+        } else {
+            Inventory offlineEnderchest = InventoryFactory.loadEnderchestOffline(p, target);
+            new ChestGUI(p, target, offlineEnderchest, InventoryType.ENDER_CHEST);
+        }
         return true;
     }
 
@@ -34,7 +42,7 @@ public class EChestView extends AbstractCmd {
 
     @Override
     protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
+        return PlayerRetrievalStrategy.BOTH;
     }
 
     @Override
