@@ -12,6 +12,8 @@ import net.shortninja.staffplus.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.staff.ban.config.BanModuleLoader;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfigurationLoader;
+import net.shortninja.staffplus.staff.chests.config.EnderchestsConfiguration;
+import net.shortninja.staffplus.staff.chests.config.EnderchestsModuleLoader;
 import net.shortninja.staffplus.staff.examine.config.ExamineConfiguration;
 import net.shortninja.staffplus.staff.examine.config.ExamineModuleLoader;
 import net.shortninja.staffplus.staff.infractions.config.InfractionsConfiguration;
@@ -80,6 +82,7 @@ public class Options implements IOptions {
     public AltDetectConfiguration altDetectConfiguration;
     public StaffChatConfiguration staffChatConfiguration;
     public ExamineConfiguration examineConfiguration;
+    public EnderchestsConfiguration enderchestsConfiguration;
 
     /*
      * Vanish
@@ -176,8 +179,6 @@ public class Options implements IOptions {
      * Examine
      */
 
-    public boolean enderChestEnabled;
-    public boolean enderOfflineChestEnabled;
     public boolean modeExamineEnabled;
     public int modeExamineSlot;
     public String modeExamineTitle;
@@ -265,7 +266,6 @@ public class Options implements IOptions {
     public String commandClearInv;
     public String commandTrace;
     public String commandBroadcast;
-    public String commandEChestView;
 
     public Sounds alertsSound;
     public List<XrayBlockConfig> alertsXrayBlocks;
@@ -345,6 +345,7 @@ public class Options implements IOptions {
         altDetectConfiguration = new AltDetectModuleLoader().loadConfig();
         staffChatConfiguration = new StaffChatModuleLoader().loadConfig();
         examineConfiguration = new ExamineModuleLoader().loadConfig();
+        enderchestsConfiguration = new EnderchestsModuleLoader().loadConfig();
 
         /*
          * Vanish
@@ -439,12 +440,10 @@ public class Options implements IOptions {
         modeCpsSlot = config.getInt("staff-mode.cps-module.slot") - 1;
         modeCpsTime = config.getInt("staff-mode.cps-module.time") * 20;
         modeCpsMax = config.getInt("staff-mode.cps-module.max");
+
         /*
          * Examine
          */
-
-        enderChestEnabled = config.getBoolean("staff-mode.enderchest-module.enabled");
-        enderOfflineChestEnabled = config.getBoolean("staff-mode.enderchest-module.offline-viewing");
         modeExamineEnabled = config.getBoolean("staff-mode.examine-module.enabled");
         modeExamineSlot = config.getInt("staff-mode.examine-module.slot") - 1;
         modeExamineTitle = config.getString("staff-mode.examine-module.title");
@@ -532,7 +531,6 @@ public class Options implements IOptions {
         commandClearInv = config.getString("commands.clearInv");
         commandTrace = config.getString("commands.trace");
         commandBroadcast = config.getString("commands.broadcast");
-        commandEChestView = config.getString("commands.echest_view");
 
         alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
         alertsXrayBlocks = Arrays.stream(config.getString("alerts-module.xray-alerts.blocks").split("\\s*,\\s*"))

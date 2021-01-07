@@ -97,7 +97,7 @@ public class CmdHandler {
             new BaseCmd(new StaffPlusCmd("staffplus"), true, "Used for reloading config and lang file in use", "[reload]"),
             new BaseCmd(new ClearInvCmd(options.commandClearInv), true, "Used to clear a desired player's inventory", "[player]"),
             new BaseCmd(new TraceCmd(options.commandTrace), true, "Used to start/stop tracing a player", "[start | stop] [player]"),
-            new BaseCmd(new EChestView(options.commandEChestView), options.enderChestEnabled, "Used to view a players ender chest", "[player]"),
+            new BaseCmd(new EChestView(options.enderchestsConfiguration.getCommandOpenEnderChests()), options.enderchestsConfiguration.isEnabled(), "Used to view a players ender chest", "[player]"),
             new BaseCmd(new BroadcastCmd(options.commandBroadcast), true, "Broadcast messages to all players (over all servers)", "[server] [message]"),
             new BaseCmd(new ProtectPlayerCmd(options.protectConfiguration.getCommandProtectPlayer()), options.protectConfiguration.isPlayerProtectEnabled(), "Protect a player from all damage", "[player]"),
             new BaseCmd(new ProtectAreaCmd(options.protectConfiguration.getCommandProtectArea()), options.protectConfiguration.isAreaProtectEnabled(), "Protect an area around you.", "[radius] [area name]"),

@@ -2,16 +2,13 @@ package net.shortninja.staffplus.util.factory;
 
 import de.tr7zw.nbtapi.*;
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,14 +16,6 @@ import java.io.IOException;
 public final class InventoryFactory {
 
     private InventoryFactory() {
-    }
-
-    public static Inventory createInventory(Player player) {
-        PlayerInventory playerInv = player.getInventory();
-        Inventory inv = Bukkit.createInventory(player, InventoryType.CHEST);
-        inv.setContents(playerInv.getContents());
-
-        return playerInv;
     }
 
     public static Inventory loadEnderchestOffline(Player player, SppPlayer target) {
@@ -74,24 +63,4 @@ public final class InventoryFactory {
         return true;
     }
 
-    public static void saveEnderChest(Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            File file = new File(StaffPlus.get().getDataFolder(), "EnderChests.yml");
-            try {
-                if (!file.exists())
-                    file.createNewFile();
-                YamlConfiguration enderChests = YamlConfiguration.loadConfiguration(file);
-                int i = 0;
-                for (ItemStack stack : player.getEnderChest().getContents()) {
-                    if (stack != null) {
-                        enderChests.set(player.getUniqueId().toString() + "." + i, stack);
-                        i++;
-                    }
-                    enderChests.save(file);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
 }

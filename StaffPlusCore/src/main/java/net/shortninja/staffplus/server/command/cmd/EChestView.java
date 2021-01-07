@@ -1,11 +1,12 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.exceptions.PlayerOfflineException;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.staff.chests.ChestGUI;
+import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,8 +20,11 @@ import java.util.stream.Collectors;
 
 public class EChestView extends AbstractCmd {
 
+    private PermissionHandler permissionHandler;
+
     public EChestView(String name) {
-        super(name, IocContainer.getOptions().examineConfiguration.getPermissionExamine());
+        super(name);
+        permissionHandler = IocContainer.getPermissionHandler();
     }
 
     @Override
@@ -31,10 +35,13 @@ public class EChestView extends AbstractCmd {
         }
         Player p = (Player) sender;
         if(target.isOnline()) {
+            if(!permissionHandler.has(sender, options.enderchestsConfiguration.getPermissionViewOnline())) {
+                throw new BusinessException("You are not allowed to view the enderchest of an online player");
+            }
             new ChestGUI(p, target, target.getPlayer().getEnderChest(), InventoryType.ENDER_CHEST);
         } else {
-            if(!options.enderOfflineChestEnabled) {
-                throw new PlayerOfflineException();
+            if(!permissionHandler.has(sender, options.enderchestsConfiguration.getPermissionViewOffline())) {
+                throw new BusinessException("You are not allowed to view the enderchest of an offline player");
             }
 
             Inventory offlineEnderchest = InventoryFactory.loadEnderchestOffline(p, target);

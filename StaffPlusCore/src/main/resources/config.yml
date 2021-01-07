@@ -393,6 +393,16 @@ trace-module:
     # Possible values: CHAT|FILE
     output-channels: CHAT;FILE
 
+############################################################
+# +------------------------------------------------------+ #
+# |                      ENDERCHESTS                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Interaction with enderchests
+enderchest-module:
+    enabled: true
+
 # Requires "permissions.mode" permission.
 staff-mode:
   # Whether or not a player is allowed to break/place blocks while in staff mode.
@@ -794,10 +804,6 @@ staff-mode:
       # Warn button.
       warn: 9
 
-  enderchest-module:
-    enabled: true
-    offline-viewing: true
-
   ############################################################
   # +------------------------------------------------------+ #
   # |                       Follow                         | #
@@ -1161,6 +1167,13 @@ permissions:
   # Permission to open the infractions gui
   infractions:
         view: "staff.infractions.view"
+
+  # Permissions to view/interact with players enderchests
+  enderchests:
+        view:
+            online: "staff.enderchests.view.online"
+            offline: "staff.enderchests.view.offline"
+        interact: "staff.enderchests.interact"
 
 ############################################################
 # +------------------------------------------------------+ #
