@@ -23,10 +23,10 @@ import net.shortninja.staffplus.staff.alerts.AlertListener;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionListener;
 import net.shortninja.staffplus.staff.ban.BanListener;
 import net.shortninja.staffplus.staff.broadcast.BungeeBroadcastListener;
+import net.shortninja.staffplus.staff.chests.ChestGuiMove;
 import net.shortninja.staffplus.staff.examine.ExamineInventoryMove;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.staff.mode.handler.InventoryHandler;
 import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
 import net.shortninja.staffplus.staff.mute.MuteSessionTask;
 import net.shortninja.staffplus.staff.protect.ProtectListener;
@@ -40,13 +40,10 @@ import net.shortninja.staffplus.util.database.DatabaseInitializer;
 import net.shortninja.staffplus.util.updates.UpdateNotifier;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.common.Constants.BUNGEE_CORD_CHANNEL;
@@ -69,8 +66,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
     public MuteSessionTask muteSessionTask;
-    public List<Inventory> viewedChest = new ArrayList<>();
-    public InventoryHandler inventoryHandler;
     public boolean usesPlaceholderAPI;
     private final DatabaseInitializer databaseInitializer = new DatabaseInitializer();
     private BukkitTask guiUpdateTask;
@@ -151,7 +146,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         cmdHandler = new CmdHandler();
         tasks = new Tasks();
         muteSessionTask = new MuteSessionTask();
-        inventoryHandler = new InventoryHandler();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             IocContainer.getSessionManager().initialize(player);
@@ -198,6 +192,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new ReportListener();
         new ReportChangeReporterNotifier();
         new ExamineInventoryMove();
+        new ChestGuiMove();
     }
 
 
