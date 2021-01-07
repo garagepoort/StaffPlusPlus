@@ -16,7 +16,7 @@ public class ExamineCmd extends AbstractCmd {
     private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
 
     public ExamineCmd(String name) {
-        super(name, IocContainer.getOptions().permissionExamine);
+        super(name, IocContainer.getOptions().examineConfiguration.getPermissionExamine());
     }
 
     @Override
