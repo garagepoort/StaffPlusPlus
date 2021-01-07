@@ -2,16 +2,15 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.staff.alerts.xray.XrayService;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.alerts.xray.XrayService;
+import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,9 +45,6 @@ public class PlayerQuit implements Listener {
                 command = command.replace("%player%", player.getName());
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
             }
-        }
-        if (options.enderOfflineChestEnabled && !InventoryFactory.isInventoryEmpty(event.getPlayer().getEnderChest())) {
-            InventoryFactory.saveEnderChest(event.getPlayer());
         }
 
         traceService.sendTraceMessage(player.getUniqueId(), "Left the game");

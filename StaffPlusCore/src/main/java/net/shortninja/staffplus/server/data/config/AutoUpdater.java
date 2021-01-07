@@ -11,25 +11,33 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AutoUpdater {
 
     private static final String CONFIG_FILE = "config.yml";
+    private static final List<String> IGNORED_CONFIG_KEYS = Arrays.asList("custom-modules", "locations");
 
     public static void updateConfig(StaffPlus staffPlus) {
         staffPlus.getLogger().info("Attempting to fix configuration file...");
         FileConfiguration config = staffPlus.getConfig();
         AtomicInteger counter = new AtomicInteger();
-        loadConfig().forEach((k, v) -> {
+        Map<String, Object> defaultConfigMap = loadConfig();
+
+        defaultConfigMap.forEach((k, v) -> {
             if (!config.contains(k, true) && !(v instanceof ConfigurationSection)) {
                 config.set(k, v);
                 counter.getAndIncrement();
             }
         });
+
+        config.getKeys(true).forEach((k) -> {
+            if (!IGNORED_CONFIG_KEYS.contains(k) && !defaultConfigMap.containsKey(k)) {
+                config.set(k, null);
+            }
+        });
+
         staffPlus.saveConfig();
         if (counter.get() > 0) {
             staffPlus.getLogger().info("Configuration file Fixed. [" + counter.get() + "] properties were added. Should StaffPlusPlus still have problems starting up, please compare your config with the default configuration: https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
