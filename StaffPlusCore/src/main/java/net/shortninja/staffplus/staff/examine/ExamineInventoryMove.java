@@ -2,9 +2,9 @@ package net.shortninja.staffplus.staff.examine;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.examine.config.ExamineConfiguration;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,9 +18,9 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class ExamineInventoryMove implements Listener {
-    private final Options options = IocContainer.getOptions();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
+    private final PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
+    private final ExamineConfiguration examineConfiguration = IocContainer.getOptions().examineConfiguration;
 
     public ExamineInventoryMove() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -46,7 +46,7 @@ public class ExamineInventoryMove implements Listener {
             return;
         }
 
-        if (!permissionHandler.has(player, options.permissionExamineViewInventory)) {
+        if (!permissionHandler.has(player, examineConfiguration.getPermissionExamineViewInventory())) {
             return;
         }
 
@@ -71,7 +71,7 @@ public class ExamineInventoryMove implements Listener {
     }
 
     private void handleExamineInventoryClick(InventoryClickEvent event, Player player, ExamineGui examineGui) {
-        if (!permissionHandler.has(player, options.permissionExamineInventoryInteraction)) {
+        if (!permissionHandler.has(player, examineConfiguration.getPermissionExamineInventoryInteraction())) {
             event.setCancelled(true);
             return;
         }
@@ -98,7 +98,7 @@ public class ExamineInventoryMove implements Listener {
     }
 
     private void handleStaffInventoryClick(InventoryClickEvent event, Player player, ExamineGui examineGui) {
-        if (!permissionHandler.has(player, options.permissionExamineInventoryInteraction)) {
+        if (!permissionHandler.has(player, examineConfiguration.getPermissionExamineInventoryInteraction())) {
             return;
         }
 

@@ -1,31 +1,52 @@
 package net.shortninja.staffplus.server.command.cmd;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.staff.chests.ChestGUI;
+import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class EChestView extends AbstractCmd {
 
+    private PermissionHandler permissionHandler;
+
     public EChestView(String name) {
-        super(name, IocContainer.getOptions().permissionExamine);
+        super(name);
+        permissionHandler = IocContainer.getPermissionHandler();
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer target) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("Command can only be used by players");
             return true;
         }
         Player p = (Player) sender;
-        p.openInventory(InventoryFactory.createEnderchestInventory(player.getPlayer()));
-        StaffPlus.get().inventoryHandler.addVirtualUser(p.getUniqueId());
+        if(target.isOnline()) {
+            if(!permissionHandler.has(sender, options.enderchestsConfiguration.getPermissionViewOnline())) {
+                throw new BusinessException("You are not allowed to view the enderchest of an online player");
+            }
+            new ChestGUI(p, target, target.getPlayer().getEnderChest(), InventoryType.ENDER_CHEST);
+        } else {
+            if(!permissionHandler.has(sender, options.enderchestsConfiguration.getPermissionViewOffline())) {
+                throw new BusinessException("You are not allowed to view the enderchest of an offline player");
+            }
+
+            Inventory offlineEnderchest = InventoryFactory.loadEnderchestOffline(p, target);
+            new ChestGUI(p, target, offlineEnderchest, InventoryType.ENDER_CHEST);
+        }
         return true;
     }
 
@@ -36,12 +57,23 @@ public class EChestView extends AbstractCmd {
 
     @Override
     protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
+        return PlayerRetrievalStrategy.BOTH;
     }
 
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.of(args[0]);
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        if (args.length == 1) {
+            return playerManager.getAllPlayerNames().stream()
+                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .collect(Collectors.toList());
+        }
+
+        return Collections.emptyList();
     }
 
 }

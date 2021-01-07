@@ -12,6 +12,10 @@ import net.shortninja.staffplus.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.staff.ban.config.BanModuleLoader;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfigurationLoader;
+import net.shortninja.staffplus.staff.chests.config.EnderchestsConfiguration;
+import net.shortninja.staffplus.staff.chests.config.EnderchestsModuleLoader;
+import net.shortninja.staffplus.staff.examine.config.ExamineConfiguration;
+import net.shortninja.staffplus.staff.examine.config.ExamineModuleLoader;
 import net.shortninja.staffplus.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.staff.infractions.config.InfractionsModuleLoader;
 import net.shortninja.staffplus.staff.kick.config.KickConfiguration;
@@ -56,6 +60,7 @@ public class Options implements IOptions {
     public List<String> blockedModeCommands;
     public String glassTitle;
 
+    public String mainWorld;
     public int autoSave;
     public long clock;
     private List<String> soundNames;
@@ -76,6 +81,8 @@ public class Options implements IOptions {
     public MuteConfiguration muteConfiguration;
     public AltDetectConfiguration altDetectConfiguration;
     public StaffChatConfiguration staffChatConfiguration;
+    public ExamineConfiguration examineConfiguration;
+    public EnderchestsConfiguration enderchestsConfiguration;
 
     /*
      * Vanish
@@ -112,6 +119,7 @@ public class Options implements IOptions {
      */
     public boolean modeBlockManipulation;
     public boolean modeInventoryInteraction;
+    public boolean modeSilentChestInteraction;
     public boolean modeInvincible;
     public boolean modeFlight;
     public boolean modeCreative;
@@ -171,8 +179,6 @@ public class Options implements IOptions {
      * Examine
      */
 
-    public boolean enderChestEnabled;
-    public boolean enderOfflineChestEnabled;
     public boolean modeExamineEnabled;
     public int modeExamineSlot;
     public String modeExamineTitle;
@@ -216,6 +222,7 @@ public class Options implements IOptions {
     public String permissionNameChange;
     public String permissionXray;
     public String permissionMode;
+    public String permissionModeSilentChestInteraction;
     public String permissionFreeze;
     public String permissionFreezeBypass;
     public String permissionTeleportToLocation;
@@ -225,9 +232,6 @@ public class Options implements IOptions {
     public String permissionTrace;
     public String permissionTraceBypass;
     public String permissionCps;
-    public String permissionExamine;
-    public String permissionExamineInventoryInteraction;
-    public String permissionExamineViewInventory;
     public String permissionFollow;
     public String permissionRevive;
     public String permissionMember;
@@ -246,7 +250,6 @@ public class Options implements IOptions {
     public String commandTeleportBack;
     public String commandTeleportToPlayer;
     public String commandTeleportHere;
-    public String commandExamine;
     public String commandCps;
     public String commandStaffChat;
     public String commandReport;
@@ -263,7 +266,6 @@ public class Options implements IOptions {
     public String commandClearInv;
     public String commandTrace;
     public String commandBroadcast;
-    public String commandEChestView;
 
     public Sounds alertsSound;
     public List<XrayBlockConfig> alertsXrayBlocks;
@@ -321,6 +323,7 @@ public class Options implements IOptions {
         blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands", ""));
         glassTitle = config.getString("glass-title");
 
+        mainWorld = config.getString("main-world");
         autoSave = config.getInt("auto-save");
         clock = config.getInt("clock") * 20;
         soundNames = JavaUtils.stringToList(config.getString("sound-names"));
@@ -341,6 +344,8 @@ public class Options implements IOptions {
         muteConfiguration = new MuteModuleLoader().loadConfig();
         altDetectConfiguration = new AltDetectModuleLoader().loadConfig();
         staffChatConfiguration = new StaffChatModuleLoader().loadConfig();
+        examineConfiguration = new ExamineModuleLoader().loadConfig();
+        enderchestsConfiguration = new EnderchestsModuleLoader().loadConfig();
 
         /*
          * Vanish
@@ -379,6 +384,7 @@ public class Options implements IOptions {
          */
         modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
         modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
+        modeSilentChestInteraction = config.getBoolean("staff-mode.silent-chest-interaction");
         modeInvincible = config.getBoolean("staff-mode.invincible");
         modeFlight = config.getBoolean("staff-mode.flight");
         modeCreative = config.getBoolean("staff-mode.creative");
@@ -434,12 +440,10 @@ public class Options implements IOptions {
         modeCpsSlot = config.getInt("staff-mode.cps-module.slot") - 1;
         modeCpsTime = config.getInt("staff-mode.cps-module.time") * 20;
         modeCpsMax = config.getInt("staff-mode.cps-module.max");
+
         /*
          * Examine
          */
-
-        enderChestEnabled = config.getBoolean("staff-mode.enderchest-module.enabled");
-        enderOfflineChestEnabled = config.getBoolean("staff-mode.enderchest-module.offline-viewing");
         modeExamineEnabled = config.getBoolean("staff-mode.examine-module.enabled");
         modeExamineSlot = config.getInt("staff-mode.examine-module.slot") - 1;
         modeExamineTitle = config.getString("staff-mode.examine-module.title");
@@ -483,6 +487,7 @@ public class Options implements IOptions {
         permissionNameChange = config.getString("permissions.name-change");
         permissionXray = config.getString("permissions.xray");
         permissionMode = config.getString("permissions.mode");
+        permissionModeSilentChestInteraction = config.getString("permissions.mode.silent-chest-interaction");
         permissionFreeze = config.getString("permissions.freeze");
         permissionFreezeBypass = config.getString("permissions.freeze-bypass");
         permissionTeleportToLocation = config.getString("permissions.teleport-to-location");
@@ -492,9 +497,6 @@ public class Options implements IOptions {
         permissionTrace = config.getString("permissions.trace");
         permissionTraceBypass = config.getString("permissions.trace-bypass");
         permissionCps = config.getString("permissions.cps");
-        permissionExamine = config.getString("permissions.examine");
-        permissionExamineInventoryInteraction = config.getString("permissions.examine-inventory-interaction");
-        permissionExamineViewInventory = config.getString("permissions.examine-view-inventory");
         permissionFollow = config.getString("permissions.follow");
         permissionRevive = config.getString("permissions.revive");
         permissionMember = config.getString("permissions.member");
@@ -513,7 +515,6 @@ public class Options implements IOptions {
         commandTeleportBack = config.getString("commands.teleport-back");
         commandTeleportToPlayer = config.getString("commands.teleport-to-player");
         commandTeleportHere = config.getString("commands.teleport-here");
-        commandExamine = config.getString("commands.examine");
         commandCps = config.getString("commands.cps");
         commandStaffChat = config.getString("commands.staff-chat");
         commandReport = config.getString("commands.report");
@@ -530,7 +531,6 @@ public class Options implements IOptions {
         commandClearInv = config.getString("commands.clearInv");
         commandTrace = config.getString("commands.trace");
         commandBroadcast = config.getString("commands.broadcast");
-        commandEChestView = config.getString("commands.echest_view");
 
         alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
         alertsXrayBlocks = Arrays.stream(config.getString("alerts-module.xray-alerts.blocks").split("\\s*,\\s*"))

@@ -10,6 +10,7 @@ import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,6 +27,11 @@ public class AbstractGui implements IGui {
     protected Supplier<AbstractGui> previousGuiSupplier;
     private Inventory inventory;
     private Map<Integer, IAction> actions = new HashMap<>();
+
+    public AbstractGui(String title, InventoryType inventoryType) {
+        this.title = title;
+        inventory = Bukkit.createInventory(null, inventoryType);
+    }
 
     public AbstractGui(int size, String title) {
         this.title = title;
