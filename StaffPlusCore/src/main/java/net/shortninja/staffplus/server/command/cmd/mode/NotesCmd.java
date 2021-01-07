@@ -23,14 +23,14 @@ public class NotesCmd extends AbstractCmd {
     private final SessionManager sessionManager = IocContainer.getSessionManager();
 
     public NotesCmd(String name) {
-        super(name, IocContainer.getOptions().permissionExamine);
+        super(name, IocContainer.getOptions().examineConfiguration.getPermissionExamine());
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
         if (args.length == 2) {
             String argument = args[0];
-            boolean hasPermission = permission.has(sender, options.permissionExamine);
+            boolean hasPermission = permission.has(sender, options.examineConfiguration.getPermissionExamine());
 
             if (argument.equalsIgnoreCase(GET) && hasPermission) {
                 listNotes(sender, targetPlayer.getPlayer());
@@ -61,7 +61,7 @@ public class NotesCmd extends AbstractCmd {
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         if (args.length == 2) {
-            boolean hasPermission = permission.has(sender, options.permissionExamine);
+            boolean hasPermission = permission.has(sender, options.examineConfiguration.getPermissionExamine());
             if ((args[0].equalsIgnoreCase(GET) || args[0].equalsIgnoreCase(CLEAR)) && hasPermission) {
                 return Optional.of(args[1]);
             }

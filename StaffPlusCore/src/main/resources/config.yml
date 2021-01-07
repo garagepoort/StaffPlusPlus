@@ -9,6 +9,9 @@
 # +------------------------------------------------------+ #
 ############################################################
 
+# The name of the main world. Meaning the world folder name which contains the player data files.
+main-world: "world"
+
 # The language file that will be referred to for messages.
 # Current available languages are: lang_en, lang_sv, lang_de, lang_nl, lang_es, lang_hr, lang_no, and lang_fr.
 # If you would like to translate Staff++, please message me on Spigot!
@@ -390,6 +393,16 @@ trace-module:
     # Possible values: CHAT|FILE
     output-channels: CHAT;FILE
 
+############################################################
+# +------------------------------------------------------+ #
+# |                      ENDERCHESTS                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Interaction with enderchests
+enderchest-module:
+    enabled: true
+
 # Requires "permissions.mode" permission.
 staff-mode:
   # Whether or not a player is allowed to break/place blocks while in staff mode.
@@ -397,6 +410,9 @@ staff-mode:
 
   # Whether or not a player is allowed to interact with their inventory while in staff mode.
   inventory-interaction: true
+
+  # Whether or not a player is allowed to interact with chest/hoppers/dispensers,... while in staff mode.
+  silent-chest-interaction: false
 
   # Whether or not a player is allowed to drop/pickup items while in staff mode.
   item-change: false
@@ -788,10 +804,6 @@ staff-mode:
       # Warn button.
       warn: 9
 
-  enderchest-module:
-    enabled: true
-    offline-viewing: true
-
   ############################################################
   # +------------------------------------------------------+ #
   # |                       Follow                         | #
@@ -815,9 +827,6 @@ staff-mode:
     # The lore of the compass item.
     # Lines are separated by commas.
     lore: "&7Mounts the player that was clicked."
-
-    # Whether or not following will literally mount a player.
-    use-mount: true
 
   ############################################################
   # +------------------------------------------------------+ #
@@ -1028,6 +1037,9 @@ permissions:
   # Permission for toggling staff mode.
   mode: "staff.mode"
 
+  # permission to interact with chests/hoppers/dispensers.
+  mode.silent-chest-interaction: "staff.mode.silent-chest-interaction"
+
   # Permission for using the staff mode compass
   compass: "staff.compass"
 
@@ -1155,6 +1167,13 @@ permissions:
   # Permission to open the infractions gui
   infractions:
         view: "staff.infractions.view"
+
+  # Permissions to view/interact with players enderchests
+  enderchests:
+        view:
+            online: "staff.enderchests.view.online"
+            offline: "staff.enderchests.view.offline"
+        interact: "staff.enderchests.interact"
 
 ############################################################
 # +------------------------------------------------------+ #

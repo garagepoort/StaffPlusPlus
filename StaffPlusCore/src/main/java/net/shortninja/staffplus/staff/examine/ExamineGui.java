@@ -71,7 +71,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
             //This prevents item duplication
             return;
         }
-        if (permissionHandler.has(staff, options.permissionExamineViewInventory)) {
+        if (permissionHandler.has(staff, options.examineConfiguration.getPermissionExamineViewInventory())) {
             setInventoryContents(targetPlayer);
         }
 
