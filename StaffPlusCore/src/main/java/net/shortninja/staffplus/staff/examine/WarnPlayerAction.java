@@ -23,9 +23,9 @@ public class WarnPlayerAction implements IAction {
     private final WarnService warnService = IocContainer.getWarnService();
     private final PlayerManager playerManager = IocContainer.getPlayerManager();
 
-    private final Player targetPlayer;
+    private final SppPlayer targetPlayer;
 
-    public WarnPlayerAction(Player targetPlayer) {
+    public WarnPlayerAction(SppPlayer targetPlayer) {
         this.targetPlayer = targetPlayer;
     }
 
@@ -47,7 +47,7 @@ public class WarnPlayerAction implements IAction {
                 return;
             }
 
-            Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getUniqueId());
+            Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getId());
             if (!onOrOfflinePlayer.isPresent()) {
                 messageCoordinator.send(player1, messages.playerOffline, messages.prefixGeneral);
             } else {

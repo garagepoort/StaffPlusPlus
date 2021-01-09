@@ -35,14 +35,14 @@ public class ReportsCmd extends AbstractCmd {
         String argument = args[0];
 
         if (argument.equalsIgnoreCase("get")) {
-            if (!permissionHandler.has(player.getPlayer(), options.manageReportConfiguration.getPermissionView())) {
+            if (!permissionHandler.has(sender, options.manageReportConfiguration.getPermissionView())) {
                 throw new NoPermissionException();
             }
             listReports(sender, player);
             return true;
         }
         if (argument.equalsIgnoreCase("clear")) {
-            if (!permissionHandler.has(player.getPlayer(), options.manageReportConfiguration.getPermissionDelete())) {
+            if (!permissionHandler.has(sender, options.manageReportConfiguration.getPermissionDelete())) {
                 throw new NoPermissionException();
             }
             clearReports(sender, player);
