@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.examine;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
@@ -16,7 +17,7 @@ public class SeverityLevelSelectGui extends AbstractGui {
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final Options options = IocContainer.getOptions();
 
-    public SeverityLevelSelectGui(Player player, String title, Player targetPlayer, Supplier<AbstractGui> previousGuiSupplier) {
+    public SeverityLevelSelectGui(Player player, String title, SppPlayer targetPlayer, Supplier<AbstractGui> previousGuiSupplier) {
         super(SIZE, title, previousGuiSupplier);
 
         IAction selectAction = new WarnPlayerAction(targetPlayer);
