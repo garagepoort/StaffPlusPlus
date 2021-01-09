@@ -2,15 +2,21 @@ package net.shortninja.staffplus.staff.examine.config;
 
 public class ExamineConfiguration {
 
-    public String permissionExamine;
-    public String permissionExamineInventoryInteraction;
-    public String permissionExamineViewInventory;
-    public String commandExamine;
+    private String permissionExamine;
+    private String permissionExamineInventoryInteraction;
+    private final String permissionExamineInventoryInteractionOffline;
+    private String permissionExamineViewInventory;
+    private final String permissionExamineViewInventoryOffline;
+    private String commandExamine;
 
-    public ExamineConfiguration(String permissionExamine, String permissionExamineInventoryInteraction, String permissionExamineViewInventory, String commandExamine) {
+    public ExamineConfiguration(String permissionExamine, String permissionExamineInventoryInteraction,
+                                String permissionExamineInventoryInteractionOffline,
+                                String permissionExamineViewInventory, String permissionExamineViewInventoryOffline, String commandExamine) {
         this.permissionExamine = permissionExamine;
         this.permissionExamineInventoryInteraction = permissionExamineInventoryInteraction;
+        this.permissionExamineInventoryInteractionOffline = permissionExamineInventoryInteractionOffline;
         this.permissionExamineViewInventory = permissionExamineViewInventory;
+        this.permissionExamineViewInventoryOffline = permissionExamineViewInventoryOffline;
         this.commandExamine = commandExamine;
     }
 
@@ -24,6 +30,14 @@ public class ExamineConfiguration {
 
     public String getPermissionExamineViewInventory() {
         return permissionExamineViewInventory;
+    }
+
+    public String getPermissionExamineInventoryInteractionOffline() {
+        return permissionExamineInventoryInteractionOffline;
+    }
+
+    public String getPermissionExamineViewInventoryOffline() {
+        return permissionExamineViewInventoryOffline;
     }
 
     public String getCommandExamine() {
