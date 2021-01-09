@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.examine;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.examine.config.ExamineConfiguration;
@@ -71,7 +72,14 @@ public class ExamineInventoryMove implements Listener {
     }
 
     private void handleExamineInventoryClick(InventoryClickEvent event, Player player, ExamineGui examineGui) {
-        if (!permissionHandler.has(player, examineConfiguration.getPermissionExamineInventoryInteraction())) {
+        SppPlayer targetPlayer = examineGui.getTargetPlayer();
+
+        if (!permissionHandler.has(player, examineConfiguration.getPermissionExamineInventoryInteraction()) && targetPlayer.isOnline()) {
+            event.setCancelled(true);
+            return;
+        }
+
+        if (!permissionHandler.has(player, examineConfiguration.getPermissionExamineInventoryInteractionOffline()) && !targetPlayer.isOnline()) {
             event.setCancelled(true);
             return;
         }
@@ -98,7 +106,12 @@ public class ExamineInventoryMove implements Listener {
     }
 
     private void handleStaffInventoryClick(InventoryClickEvent event, Player player, ExamineGui examineGui) {
-        if (!permissionHandler.has(player, examineConfiguration.getPermissionExamineInventoryInteraction())) {
+        SppPlayer targetPlayer = examineGui.getTargetPlayer();
+        if (!permissionHandler.has(player, examineConfiguration.getPermissionExamineInventoryInteraction()) && targetPlayer.isOnline()) {
+            return;
+        }
+
+        if (!permissionHandler.has(player, examineConfiguration.getPermissionExamineInventoryInteractionOffline()) && !targetPlayer.isOnline()) {
             return;
         }
 

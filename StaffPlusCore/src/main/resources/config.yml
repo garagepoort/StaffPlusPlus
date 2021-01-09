@@ -1160,9 +1160,13 @@ permissions:
 
   # Permission to have inventory interaction while in examine mode
   examine-inventory-interaction: "staff.examine.inventory-interaction"
+  # Permission to have inventory interaction while in examine mode for offline players
+  examine-inventory-interaction.offline: "staff.examine.inventory-interaction-offline"
 
   # Permission to view player's inventory while in examine mode
   examine-view-inventory: "staff.examine.view-inventory"
+  # Permission to view player's inventory while in examine mode for offline player
+  examine-view-inventory.offline: "staff.examine.view-inventory-offline"
 
   # Permission to open the infractions gui
   infractions:
