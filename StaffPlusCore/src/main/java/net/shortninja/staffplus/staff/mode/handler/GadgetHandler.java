@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.mode.handler;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.CounterGui;
 import net.shortninja.staffplus.staff.examine.ExamineGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
@@ -165,7 +166,7 @@ public class GadgetHandler {
         cpsHandler.startTest(sender, targetPlayer);
     }
 
-    public void onExamine(Player player, Player targetPlayer) {
+    public void onExamine(Player player, SppPlayer targetPlayer) {
         if (targetPlayer == null) {
             return;
         }
