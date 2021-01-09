@@ -20,11 +20,13 @@ import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplus.util.factory.InventoryFactory;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -49,14 +51,16 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
     private final ReportService reportService = IocContainer.getReportService();
     private final PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
     private final Player staff;
-    private final Player targetPlayer;
+    private final SppPlayer targetPlayer;
+    private final Inventory targetInventory;
     private String itemSelectedFrom;
     private int itemSelectedSlot;
 
-    public ExamineGui(Player player, Player targetPlayer, String title) {
+    public ExamineGui(Player player, SppPlayer targetPlayer, String title) {
         super(SIZE, title);
         staff = player;
         this.targetPlayer = targetPlayer;
+        targetInventory = targetPlayer.isOnline() ? targetPlayer.getPlayer().getInventory() : InventoryFactory.loadInventoryOffline(player, targetPlayer);
 
         update();
         player.closeInventory();
@@ -72,37 +76,40 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
             return;
         }
         if (permissionHandler.has(staff, options.examineConfiguration.getPermissionExamineViewInventory())) {
-            setInventoryContents(targetPlayer);
+            setInventoryContents();
         }
 
-        if (options.modeExamineFood >= 0) {
-            setItem(options.modeExamineFood - 1, foodItem(targetPlayer), null);
+        if (options.modeExamineFood >= 0 && targetPlayer.isOnline()) {
+            setItem(options.modeExamineFood - 1, foodItem(targetPlayer.getPlayer()), null);
         }
 
-        if (options.modeExamineIp >= 0) {
-            setItem(options.modeExamineIp - 1, ipItem(targetPlayer), null);
+        if (options.modeExamineIp >= 0 && targetPlayer.isOnline()) {
+            setItem(options.modeExamineIp - 1, ipItem(targetPlayer.getPlayer()), null);
         }
 
-        if (options.modeExamineGamemode >= 0) {
-            setItem(options.modeExamineGamemode - 1, gameModeItem(targetPlayer), null);
+        if (options.modeExamineGamemode >= 0 && targetPlayer.isOnline()) {
+            setItem(options.modeExamineGamemode - 1, gameModeItem(targetPlayer.getPlayer()), null);
         }
 
         if (options.modeExamineInfractions >= 0) {
-            setItem(options.modeExamineInfractions - 1, infractionsItem(sessionManager.get(targetPlayer.getUniqueId())), null);
+            setItem(options.modeExamineInfractions - 1, infractionsItem(targetPlayer), null);
         }
 
         setInteractiveItems(targetPlayer);
     }
 
-    public Player getTargetPlayer() {
+
+    public SppPlayer getTargetPlayer() {
         return targetPlayer;
     }
 
-    private void setInventoryContents(Player targetPlayer) {
-        ItemStack[] items = targetPlayer.getInventory().getContents();
-        ItemStack[] armor = targetPlayer.getInventory().getArmorContents();
+    public Inventory getTargetInventory() {
+        return targetInventory;
+    }
 
-        JavaUtils.reverse(armor);
+    private void setInventoryContents() {
+        ItemStack[] items = targetInventory.getContents();
+
         for (int i = 0; i < 36; i++) {
             setItem(INVENTORY_START + i, items[i], PASS_THROUGH_ACTION);
         }
@@ -115,12 +122,12 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
         setItem(SIZE - 1, Items.createRedColoredGlass("Inventory end", ""), null);
     }
 
-    private void setInteractiveItems(final Player targetPlayer) {
-        if (options.modeExamineLocation >= 0) {
-            setItem(options.modeExamineLocation - 1, locationItem(targetPlayer), new IAction() {
+    private void setInteractiveItems(final SppPlayer targetPlayer) {
+        if (options.modeExamineLocation >= 0 && targetPlayer.isOnline()) {
+            setItem(options.modeExamineLocation - 1, locationItem(targetPlayer.getPlayer()), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    player.teleport(targetPlayer);
+                    player.teleport(targetPlayer.getPlayer());
                 }
 
                 @Override
@@ -130,8 +137,8 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
             });
         }
 
-        if (options.modeExamineNotes >= 0) {
-            setItem(options.modeExamineNotes - 1, notesItem(sessionManager.get(targetPlayer.getUniqueId())), new IAction() {
+        if (options.modeExamineNotes >= 0 && targetPlayer.isOnline()) {
+            setItem(options.modeExamineNotes - 1, notesItem(sessionManager.get(targetPlayer.getId())), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     PlayerSession playerSession = sessionManager.get(player.getUniqueId());
@@ -139,7 +146,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                     message.send(player, messages.typeInput, messages.prefixGeneral);
 
                     playerSession.setChatAction((player12, input) -> {
-                        sessionManager.get(targetPlayer.getUniqueId()).addPlayerNote("&7" + input);
+                        sessionManager.get(targetPlayer.getId()).addPlayerNote("&7" + input);
                         message.send(player12, messages.inputAccepted, messages.prefixGeneral);
                     });
                 }
@@ -151,13 +158,13 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
             });
         }
 
-        if (options.modeExamineFreeze >= 0) {
-            setItem(options.modeExamineFreeze - 1, freezeItem(targetPlayer), new IAction() {
+        if (options.modeExamineFreeze >= 0 && targetPlayer.isOnline()) {
+            setItem(options.modeExamineFreeze - 1, freezeItem(targetPlayer.getPlayer()), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     CommandUtil.playerAction(player, () -> {
-                        if (targetPlayer != null) {
-                            freezeHandler.execute(new FreezeRequest(player, targetPlayer, !freezeHandler.isFrozen(targetPlayer.getUniqueId())));
+                        if (targetPlayer.getPlayer() != null) {
+                            freezeHandler.execute(new FreezeRequest(player, targetPlayer.getPlayer(), !freezeHandler.isFrozen(targetPlayer.getId())));
                         }
                     });
                 }
@@ -189,7 +196,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                     message.send(player, messages.typeInput, messages.prefixGeneral);
 
                     playerSession.setChatAction((player1, input) -> {
-                        Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getUniqueId());
+                        Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getId());
                         if (!onOrOfflinePlayer.isPresent()) {
                             message.send(player1, messages.playerOffline, messages.prefixGeneral);
                         } else {
@@ -249,15 +256,15 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
         return item;
     }
 
-    private ItemStack infractionsItem(PlayerSession playerSession) {
-        List<Report> reports = reportService.getReports(playerSession.getUuid(), 0, 40);
+    private ItemStack infractionsItem(SppPlayer player) {
+        List<Report> reports = reportService.getReports(player.getId(), 0, 40);
 
         List<String> lore = new ArrayList<String>();
         IReport latestReport = reports.size() >= 1 ? reports.get(reports.size() - 1) : null;
         String latestReason = latestReport == null ? "null" : latestReport.getReason();
 
         for (String string : messages.infractionItem) {
-            List<Warning> warnings = IocContainer.getWarnService().getWarnings(playerSession.getUuid());
+            List<Warning> warnings = IocContainer.getWarnService().getWarnings(player.getId());
             lore.add(string.replace("%warnings%", Integer.toString(warnings.size())).replace("%reports%", Integer.toString(reports.size())).replace("%reason%", latestReason));
         }
 

@@ -6,6 +6,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.chests.ChestGUI;
+import net.shortninja.staffplus.staff.examine.ExamineGui;
 import net.shortninja.staffplus.staff.freeze.FreezeGui;
 import net.shortninja.staffplus.util.factory.InventoryFactory;
 import org.bukkit.Bukkit;
@@ -44,6 +45,12 @@ public class InventoryClose implements Listener {
             ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
             if (chestGUI.getTargetInventory().getType() == InventoryType.ENDER_CHEST && chestGUI.getTargetPlayer() != null && !chestGUI.getTargetPlayer().isOnline()) {
                 InventoryFactory.saveEnderchestOffline(player, chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
+            }
+        }
+        if (playerSession.getCurrentGui().isPresent() && (playerSession.getCurrentGui().get() instanceof ExamineGui)) {
+            ExamineGui examineGui = (ExamineGui) playerSession.getCurrentGui().get();
+            if (examineGui.getTargetPlayer() != null && !examineGui.getTargetPlayer().isOnline()) {
+                InventoryFactory.saveInventoryOffline(player, examineGui.getTargetPlayer(), examineGui.getTargetInventory());
             }
         }
 
