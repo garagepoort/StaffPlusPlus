@@ -22,12 +22,14 @@ public abstract class ModeItemLoader<T extends ModeItemConfiguration> extends Co
         Material type = stringToMaterial(sanitize(config.getString(prefix + "item")));
         short durability = getMaterialData(config.getString(prefix + "item"));
         String name = config.getString(prefix + "name");
+        String permission = config.getString(prefix + "name");
         List<String> lore = JavaUtils.stringToList(config.getString(prefix + "lore"));
         ItemStack item = Items.builder().setMaterial(type).setData(durability).setName(name).setLore(lore).build();
 
         modeItemConfiguration.setEnabled(enabled);
         modeItemConfiguration.setSlot(slot);
         modeItemConfiguration.setItem(item);
+        modeItemConfiguration.setPermission(permission);
 
         return modeItemConfiguration;
     }

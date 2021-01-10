@@ -465,7 +465,6 @@ staff-mode:
   # When clicked, this launches the staff towards the direction they are facing.
   compass-module:
     enabled: true
-    permission: 'staff.mode.items.compass'
     slot: 1
 
     # The velocity at which a player will be launched.
@@ -488,7 +487,6 @@ staff-mode:
   # When clicked, this teleports the staff to a random player.
   random-teleport-module:
     enabled: true
-    permission: 'staff.mode.items.randomteleport'
     slot: 2
     item: ENDEREYE
 
@@ -512,7 +510,6 @@ staff-mode:
   # When clicked, this will toggle the staff"s invisibility.
   vanish-module:
     enabled: true
-    permission: 'staff.mode.items.vanish'
     slot: 3
     item: INK:10
 
@@ -535,7 +532,6 @@ staff-mode:
   # When clicked, this will open unresolved reports in a GUI.
   gui-module:
     enabled: true
-    permission: 'staff.mode.items.gui'
     slot: 4
     item: PAPER
 
@@ -588,7 +584,6 @@ staff-mode:
   # Simply shows all staff online and in staff mode.
   counter-module:
     enabled: true
-    permission: 'staff.mode.items.counter'
     slot: 5
     item: HEAD
 
@@ -614,7 +609,6 @@ staff-mode:
   # When clicked, this will freeze the player that the staff is looking at.
   freeze-module:
     enabled: true
-    permission: 'staff.mode.items.freeze'
     slot: 6
     item: BLAZE_ROD
 
@@ -656,7 +650,6 @@ staff-mode:
   # When clicked, this will test the CPS of the player and send it to the staff.
   cps-module:
     enabled: true
-    permission: 'staff.mode.items.cps'
     slot: 7
     item: CLOCK
 
@@ -682,7 +675,6 @@ staff-mode:
   # When clicked, this will open the inventory of the player that the staff is looking at.
   examine-module:
     enabled: true
-    permission: 'staff.mode.items.examine'
     slot: 8
     item: CHEST
 
@@ -736,7 +728,6 @@ staff-mode:
   # When clicked, this will mount the player that the staff is looking at.
   follow-module:
     enabled: true
-    permission: 'staff.mode.items.follow'
     slot: 9
     item: LEAD
 
@@ -935,6 +926,9 @@ permissions:
   # Permission to ban/tempban players
   ban: "staff.staffplus.ban"
 
+  # Permission to unban players
+  unban: "staff.staffplus.unban"
+
   # Permission to bypass being banned
   ban-bypass: "staff.staffplus.ban-bypass"
 
@@ -946,6 +940,9 @@ permissions:
 
   # Permission to mute/tempmute players
   mute: "staff.staffplus.mute"
+
+  # Permission to unmute players
+  unmute: "staff.staffplus.unmute"
 
   # Permission to bypass being muted
   mute-bypass: "staff.staffplus.mute-bypass"
