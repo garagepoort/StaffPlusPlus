@@ -464,16 +464,12 @@ staff-mode:
 
   # When clicked, this launches the staff towards the direction they are facing.
   compass-module:
-    # Whether or not this feature is enabled.
     enabled: true
-
-    # The slot that this module's item is at by default.
+    permission: 'staff.mode.items.compass'
     slot: 1
 
     # The velocity at which a player will be launched.
     velocity: 5
-
-    # The type of item for this module.
     item: COMPASS
 
     # The name of the compass item.
@@ -491,13 +487,9 @@ staff-mode:
 
   # When clicked, this teleports the staff to a random player.
   random-teleport-module:
-    # Whether or not this feature is enabled.
     enabled: true
-
-    # The slot that this module's item is at by default.
+    permission: 'staff.mode.items.randomteleport'
     slot: 2
-
-    # The type of item for this module.
     item: ENDEREYE
 
     # The name of the compass item.
@@ -519,13 +511,9 @@ staff-mode:
 
   # When clicked, this will toggle the staff"s invisibility.
   vanish-module:
-    # Whether or not this feature is enabled.
     enabled: true
-
-    # The slot that this module's item is at by default.
+    permission: 'staff.mode.items.vanish'
     slot: 3
-
-    # The type of item for this module.
     item: INK:10
 
     # The name of the compass item.
@@ -546,97 +534,48 @@ staff-mode:
 
   # When clicked, this will open unresolved reports in a GUI.
   gui-module:
-    # Whether or not this feature is enabled.
     enabled: true
-
-    # The slot that this module's item is at by default.
+    permission: 'staff.mode.items.gui'
     slot: 4
-
-    # The type of item for this module.
     item: PAPER
 
-    # The name of the compass item.
     name: "&eGUI Hub"
-
-    # The lore of the compass item.
-    # Lines are separated by commas.
     lore: "&7Opens the GUI hub."
 
-    # Whether or not the unresolved reports GUI is enabled in the hub.
     reports-gui: true
-
-    # The title of the unresolved reports GUI.
-    reports-title: "&bUnresolved reports"
-
-    # The title of the my reports GUI.
-    my-reports-title: "&bReports assigned to you"
-
-    # The title of the my reports GUI.
-    closed-reports-title: "&bClosed reports"
-
-    # The name of the reports item
     reports-name: "&bUnresolved reports GUI"
-
-    # The lore of the reports item
+    reports-title: "&bUnresolved reports"
     reports-lore: "&7Shows all open reports."
-
-    # The lore of the assigned reports item
+    my-reports-title: "&bReports assigned to you"
     my-reports-lore: "&7Shows reports currently assigned to you."
-
-    # The lore of the reports item
+    closed-reports-title: "&bClosed reports"
     closed-reports-lore: "&7History of all closed reports."
 
-    # Whether or not the miner GUI is enabled in the hub.
     miner-gui: true
-
-    # The title of the miner GUI.
     miner-title: "&bUnderground users"
-
-    # The name of the miner item
     miner-name: "&bMiner GUI"
-
-    # The lore of the miner item
     miner-lore: "&7Shows all players under the set Y value."
-    # The y-level at which a player will be marked as a miner.
     xray-level: 16
 
     # ============== PROTECTED AREAS ==================
     # Whether or not the protected areas GUI is enabled in the hub.
     protected-areas-gui: true
-
-    # The title of the protected-areas GUI.
     protected-areas-title: "&bOverview protected areas"
-
-    # The name of the protected-areas item
     protected-areas-name: "&bProtected Areas GUI"
-
-    # The lore of the protected-areas item
     protected-areas-lore: "&7Shows all currently set protected areas."
 
     # ============== BANNING ==================
     # Whether or not the protected areas GUI is enabled in the hub.
     ban-gui: true
-
-    # The title of the protected-areas GUI.
     ban-title: "&bOverview banned players"
-
-    # The name of the protected-areas item
     ban-name: "&bBanned players GUI"
-
-    # The lore of the protected-areas item
     ban-lore: "&7Shows all currently banned players."
 
     # ============== MUTING ==================
     # Whether or not the protected areas GUI is enabled in the hub.
     mute-gui: true
-
-    # The title of the protected-areas GUI.
     mute-title: "&bOverview muted players"
-
-    # The name of the protected-areas item
     mute-name: "&bMuted players GUI"
-
-    # The lore of the protected-areas item
     mute-lore: "&7Shows all currently muted players."
 
 
@@ -648,13 +587,9 @@ staff-mode:
 
   # Simply shows all staff online and in staff mode.
   counter-module:
-    # Whether or not this feature is enabled.
     enabled: true
-
-    # The slot that this module's item is at by default.
+    permission: 'staff.mode.items.counter'
     slot: 5
-
-    # The type of item for this module.
     item: HEAD
 
     # The name of the compass item.
@@ -678,13 +613,9 @@ staff-mode:
 
   # When clicked, this will freeze the player that the staff is looking at.
   freeze-module:
-    # Whether or not this feature is enabled.
     enabled: true
-
-    # The slot that this module's item is at by default.
+    permission: 'staff.mode.items.freeze'
     slot: 6
-
-    # The type of item for this module.
     item: BLAZE_ROD
 
     # The name of the compass item.
@@ -724,13 +655,9 @@ staff-mode:
 
   # When clicked, this will test the CPS of the player and send it to the staff.
   cps-module:
-    # Whether or not this feature is enabled.
     enabled: true
-
-    # The slot that this module's item is at by default.
+    permission: 'staff.mode.items.cps'
     slot: 7
-
-    # The type of item for this module.
     item: CLOCK
 
     # The name of the compass item.
@@ -754,13 +681,9 @@ staff-mode:
 
   # When clicked, this will open the inventory of the player that the staff is looking at.
   examine-module:
-    # Whether or not this feature is enabled.
     enabled: true
-
-    # The slot that this module's item is at by default.
+    permission: 'staff.mode.items.examine'
     slot: 8
-
-    # The type of item for this module.
     item: CHEST
 
     # The name of the compass item.
@@ -812,13 +735,9 @@ staff-mode:
 
   # When clicked, this will mount the player that the staff is looking at.
   follow-module:
-    # Whether or not this feature is enabled.
     enabled: true
-
-    # The slot that this module's item is at by default.
+    permission: 'staff.mode.items.follow'
     slot: 9
-
-    # The type of item for this module.
     item: LEAD
 
     # The name of the compass item.
@@ -833,128 +752,10 @@ staff-mode:
   # |                       Custom                         | #
   # +------------------------------------------------------+ #
   ############################################################
-
+  # Add custom actions to your staff mode items
   # When clicked, this will execute the custom action.
-  # You can copy and paste one of the modules to create a new one (there are no limits on the amount of modules!).
-  # All examples of available module types are shown below.
+  # For more information: https://staffplusplus-minecraft.gitbook.io/staffplusplus/features/staff-mode/custom-staff-modules
   custom-modules:
-    # The name of the module (just a reference point; can be anything really).
-    StaticCommand:
-      # Whether or not this module is enabled.
-      enabled: false
-
-      # The type of module this is.
-      # A static command is a command that is executed by the player and the same way every single time.
-      type: COMMAND_STATIC
-
-      # The slot that this module's item is at by default.
-      slot: 30
-
-      # The type of item for this module.
-      item: DIAMOND
-
-      # The real name of the item.
-      name: "&4Ban all god kids"
-
-      # The lore of the item.
-      lore: "&4line1, &6line2, &3line3"
-
-      # The command that this item will execute.
-      command: "ban Shortninja &4For coding 2hard!!11!1!one!"
-
-    # The name of the module (just a reference point; can be anything really).
-    DynamicCommand:
-      # Whether or not this module is enabled.
-      enabled: false
-
-      # The type of module this is.
-      # A dynamic command will be executed by the player.
-      # The two placeholders are "%clicker%" and "%clicked%"; both optional.
-      type: COMMAND_DYNAMIC
-
-      # The slot that this module's item is at by default.
-      slot: 31
-
-      # The type of item for this module.
-      item: QUARTZ
-
-      # The real name of the item.
-      name: "&4Ban this kid"
-
-      # The lore of the item.
-      lore: "&cyou damn lazy staff"
-
-      # The command that this item will execute.
-      command: "ban %clicked% &6for shitposting too much with %clicker%"
-
-    # The name of the module (just a reference point; can be anything really).
-    ConsoleCommand:
-      # Whether or not this module is enabled.
-      enabled: false
-
-      # The type of module this is.
-      # A console command will be executed by console with the player clicked as an argument.
-      # The two placeholders are "%clicker%" and "%clicked%"; both optional.
-      type: COMMAND_CONSOLE
-
-      # The slot that this module's item is at by default.
-      slot: 33
-
-      # The type of item for this module.
-      item: OBSIDIAN
-
-      # The real name of the item.
-      name: "&bDisable staff mode"
-
-      # The lore of the item.
-      lore: "&7you're so lazy"
-
-      # The command that this item will execute.
-      command: "staff %clicker% disable"
-
-    # The name of the module (just a reference point; can be anything really).
-    Item:
-      # Whether or not this module is enabled.
-      enabled: false
-
-      # The type of module this is.
-      # An item is just an item; it does nothing but sit there.
-      type: ITEM
-
-      # The slot that this module's item is at by default.
-      slot: 34
-
-      # The type of item for this module.
-      item: WOOD_AXE
-
-      # The real name of the item.
-      name: "&7WorldEdit Wand"
-
-      # The lore of the item.
-      lore: "&8don't grief shitlord!!"
-
-    Whip:
-      # Whether or not this module is enabled.
-      enabled: true
-
-      # The type of module this is.
-      # An item is just an item; it does nothing but sit there.
-      type: ITEM
-
-      # The slot that this module's item is at by default.
-      slot: 34
-
-      # The type of item for this module.
-      item: STICK
-
-      # The real name of the item.
-      name: "&7Knock out stick"
-
-      # The lore of the item.
-      lore: "&8Knock em out!!"
-
-      # The enchantment for the item format is name:level for names of enchantments reference https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html
-      enchantment: "knockback:2"
 
 ############################################################
 # +------------------------------------------------------+ #

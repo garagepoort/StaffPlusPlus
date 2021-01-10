@@ -31,11 +31,11 @@ public class InventoryClose implements Listener {
         final Player player = (Player) event.getPlayer();
         PlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
-        if (playerSession.isFrozen() && options.modeFreezePrompt) {
+        if (playerSession.isFrozen() && options.modeConfiguration.getFreezeModeConfiguration().isModeFreezePrompt()) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    new FreezeGui(player, options.modeFreezePromptTitle);
+                    new FreezeGui(player, options.modeConfiguration.getFreezeModeConfiguration().getModeFreezePromptTitle());
                 }
             }.runTaskLater(StaffPlus.get(), 1L);
             return;

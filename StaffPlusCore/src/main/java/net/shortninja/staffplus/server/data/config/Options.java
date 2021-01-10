@@ -20,6 +20,8 @@ import net.shortninja.staffplus.staff.infractions.config.InfractionsConfiguratio
 import net.shortninja.staffplus.staff.infractions.config.InfractionsModuleLoader;
 import net.shortninja.staffplus.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.staff.kick.config.KickModuleLoader;
+import net.shortninja.staffplus.staff.mode.config.GeneralModeConfiguration;
+import net.shortninja.staffplus.staff.mode.config.StaffModeModuleLoader;
 import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
 import net.shortninja.staffplus.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.staff.mute.config.MuteModuleLoader;
@@ -36,7 +38,6 @@ import net.shortninja.staffplus.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.staff.tracing.config.TraceModuleLoader;
 import net.shortninja.staffplus.staff.warn.config.WarningConfiguration;
 import net.shortninja.staffplus.staff.warn.config.WarningModuleLoader;
-import net.shortninja.staffplus.unordered.VanishType;
 import net.shortninja.staffplus.unordered.altdetect.AltDetectTrustLevel;
 import net.shortninja.staffplus.util.Materials;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -83,6 +84,7 @@ public class Options implements IOptions {
     public StaffChatConfiguration staffChatConfiguration;
     public ExamineConfiguration examineConfiguration;
     public EnderchestsConfiguration enderchestsConfiguration;
+    public GeneralModeConfiguration modeConfiguration;
 
     /*
      * Vanish
@@ -117,84 +119,8 @@ public class Options implements IOptions {
     /*
      * Staff Mode
      */
-    public boolean modeBlockManipulation;
-    public boolean modeInventoryInteraction;
-    public boolean modeSilentChestInteraction;
-    public boolean modeInvincible;
-    public boolean modeFlight;
-    public boolean modeCreative;
-    public boolean modeOriginalLocation;
-    public boolean modeEnableOnLogin;
     public boolean staffView;
-    /*
-     * Compass
-     */
-    public boolean modeCompassEnabled;
-    public int modeCompassSlot;
-    public int modeCompassVelocity;
-    /*
-     * Random Teleport
-     */
-    public boolean modeRandomTeleportEnabled;
-    public int modeRandomTeleportSlot;
-    public boolean modeRandomTeleportRandom;
-    /*
-     * Vanish
-     */
-    public boolean modeVanishEnabled;
-    public int modeVanishSlot;
 
-    /*
-     * GUI Hub
-     */
-    public boolean modeGuiEnabled;
-    public int modeGuiSlot;
-    public boolean modeGuiMiner;
-    public String modeGuiMinerTitle;
-    public String modeGuiMinerName;
-    public String modeGuiMinerLore;
-    public int modeGuiMinerLevel;
-    /*
-     * Counter
-     */
-    public boolean modeCounterEnabled;
-    public int modeCounterSlot;
-    public String modeCounterTitle;
-    public boolean modeCounterShowStaffMode;
-    /*
-     * Freeze
-     */
-    public boolean modeFreezeEnabled;
-    public int modeFreezeSlot;
-    public boolean modeFreezeChat;
-    public boolean modeFreezeDamage;
-    /*
-     * CPS
-     */
-    public boolean modeCpsEnabled;
-    public int modeCpsSlot;
-    public long modeCpsTime;
-    public int modeCpsMax;
-    /*
-     * Examine
-     */
-
-    public boolean modeExamineEnabled;
-    public int modeExamineSlot;
-    public String modeExamineTitle;
-    public int modeExamineFood;
-    public int modeExamineIp;
-    public int modeExamineGamemode;
-    public int modeExamineInfractions;
-    public int modeExamineLocation;
-    public int modeExamineNotes;
-    public int modeExamineFreeze;
-    public int modeExamineWarn;
-    /*
-     * Follow
-     */
-    public boolean modeFollowEnabled;
-    public int modeFollowSlot;
     /*
      * Custom
      */
@@ -269,34 +195,12 @@ public class Options implements IOptions {
 
     public Sounds alertsSound;
     public List<XrayBlockConfig> alertsXrayBlocks;
-    public VanishType modeVanish;
 
-    public boolean modeItemChange;
-    public boolean modeDamage;
-    public boolean modeHungerLoss;
-    public List<String> modeEnableCommands;
-    public List<String> modeDisableCommands;
-    public boolean worldChange;
-    public int modeFreezeTimer;
-    public Sounds modeFreezeSound;
-    public boolean modeFreezePrompt;
-    public String modeFreezePromptTitle;
-    public List<String> logoutCommands;
     public String permissionStrip;
     public String permissionStaff;
     public String commandNotes;
     public String commandLogin;
     public String commandStrip;
-
-    public ItemStack modeCompassItem;
-    public ItemStack modeRandomTeleportItem;
-    public ItemStack modeVanishItem;
-    public ItemStack modeVanishItemOff;
-    public ItemStack modeGuiItem;
-    public ItemStack modeCounterItem;
-    public ItemStack modeFreezeItem;
-    public ItemStack modeCpsItem;
-    public ItemStack modeExamineItem;
 
     /*
      * Storage
@@ -307,9 +211,6 @@ public class Options implements IOptions {
     public String database;
     public String mySqlPassword;
     public int mySqlPort;
-
-    public ItemStack modeFollowItem;
-
 
     public Options() {
         reload();
@@ -346,6 +247,7 @@ public class Options implements IOptions {
         staffChatConfiguration = new StaffChatModuleLoader().loadConfig();
         examineConfiguration = new ExamineModuleLoader().loadConfig();
         enderchestsConfiguration = new EnderchestsModuleLoader().loadConfig();
+        modeConfiguration = new StaffModeModuleLoader().loadConfig();
 
         /*
          * Vanish
@@ -382,84 +284,8 @@ public class Options implements IOptions {
         /*
          * Staff Mode
          */
-        modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
-        modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
-        modeSilentChestInteraction = config.getBoolean("staff-mode.silent-chest-interaction");
-        modeInvincible = config.getBoolean("staff-mode.invincible");
-        modeFlight = config.getBoolean("staff-mode.flight");
-        modeCreative = config.getBoolean("staff-mode.creative");
-        modeOriginalLocation = config.getBoolean("staff-mode.original-location");
-        modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
         staffView = config.getBoolean("staff-mode.staff-see-staff-in-mode");
-        /*
-         * Compass
-         */
-        modeCompassEnabled = config.getBoolean("staff-mode.compass-module.enabled");
-        modeCompassSlot = config.getInt("staff-mode.compass-module.slot") - 1;
-        modeCompassVelocity = config.getInt("staff-mode.compass-module.velocity");
-        /*
-         * Random Teleport
-         */
-        modeRandomTeleportEnabled = config.getBoolean("staff-mode.random-teleport-module.enabled");
-        modeRandomTeleportSlot = config.getInt("staff-mode.random-teleport-module.slot") - 1;
-        modeRandomTeleportRandom = config.getBoolean("staff-mode.random-teleport-module.random");
-        /*
-         * Vanish
-         */
-        modeVanishEnabled = config.getBoolean("staff-mode.vanish-module.enabled");
-        modeVanishSlot = config.getInt("staff-mode.vanish-module.slot") - 1;
 
-        /*
-         * GUI Hub
-         */
-        modeGuiEnabled = config.getBoolean("staff-mode.gui-module.enabled");
-        modeGuiSlot = config.getInt("staff-mode.gui-module.slot") - 1;
-        modeGuiMiner = config.getBoolean("staff-mode.gui-module.miner-gui");
-        modeGuiMinerTitle = config.getString("staff-mode.gui-module.miner-title");
-        modeGuiMinerName = config.getString("staff-mode.gui-module.miner-name");
-        modeGuiMinerLore = config.getString("staff-mode.gui-module.miner-lore");
-        modeGuiMinerLevel = config.getInt("staff-mode.gui-module.xray-level");
-        /*
-         * Counter
-         */
-        modeCounterEnabled = config.getBoolean("staff-mode.counter-module.enabled");
-        modeCounterSlot = config.getInt("staff-mode.counter-module.slot") - 1;
-        modeCounterTitle = config.getString("staff-mode.counter-module.title");
-        modeCounterShowStaffMode = config.getBoolean("staff-mode.counter-module.show-staff-mode");
-        /*
-         * Freeze
-         */
-        modeFreezeEnabled = config.getBoolean("staff-mode.freeze-module.enabled");
-        modeFreezeSlot = config.getInt("staff-mode.freeze-module.slot") - 1;
-        modeFreezeChat = config.getBoolean("staff-mode.freeze-module.chat");
-        modeFreezeDamage = config.getBoolean("staff-mode.freeze-module.damage");
-        /*
-         * CPS
-         */
-        modeCpsEnabled = config.getBoolean("staff-mode.cps-module.enabled");
-        modeCpsSlot = config.getInt("staff-mode.cps-module.slot") - 1;
-        modeCpsTime = config.getInt("staff-mode.cps-module.time") * 20;
-        modeCpsMax = config.getInt("staff-mode.cps-module.max");
-
-        /*
-         * Examine
-         */
-        modeExamineEnabled = config.getBoolean("staff-mode.examine-module.enabled");
-        modeExamineSlot = config.getInt("staff-mode.examine-module.slot") - 1;
-        modeExamineTitle = config.getString("staff-mode.examine-module.title");
-        modeExamineFood = config.getInt("staff-mode.examine-module.info-line.food") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.food");
-        modeExamineIp = config.getInt("staff-mode.examine-module.info-line.ip-address") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ip-address");
-        modeExamineGamemode = config.getInt("staff-mode.examine-module.info-line.gamemode") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.gamemode");
-        modeExamineInfractions = config.getInt("staff-mode.examine-module.info-line.infractions") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.infractions");
-        modeExamineLocation = config.getInt("staff-mode.examine-module.info-line.location") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.location");
-        modeExamineNotes = config.getInt("staff-mode.examine-module.info-line.notes") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.notes");
-        modeExamineFreeze = config.getInt("staff-mode.examine-module.info-line.freeze") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.freeze");
-        modeExamineWarn = config.getInt("staff-mode.examine-module.info-line.warn") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.warn");
-        /*
-         * Follow
-         */
-        modeFollowEnabled = config.getBoolean("staff-mode.follow-module.enabled");
-        modeFollowSlot = config.getInt("staff-mode.follow-module.slot") - 1;
         /*
          * Custom
          */
@@ -467,8 +293,9 @@ public class Options implements IOptions {
         /*
          * Permissions
          */
+        permissionStaff = config.getString("permissions.staffplus");
         permissionAlerts = config.getString("permissions.alerts");
-        ;
+        permissionStrip = config.getString("permissions.strip");
         permissionWildcard = config.getString("permissions.wild-card");
         permissionBlock = config.getString("permissions.block");
         permissionReport = config.getString("permissions.report");
@@ -531,83 +358,14 @@ public class Options implements IOptions {
         commandClearInv = config.getString("commands.clearInv");
         commandTrace = config.getString("commands.trace");
         commandBroadcast = config.getString("commands.broadcast");
+        commandNotes = config.getString("commands.notes");
+        commandLogin = config.getString("commands.login");
+        commandStrip = config.getString("commands.strip");
 
         alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
         alertsXrayBlocks = Arrays.stream(config.getString("alerts-module.xray-alerts.blocks").split("\\s*,\\s*"))
             .map(XrayBlockConfig::new)
             .collect(Collectors.toList());
-
-        modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
-
-        modeItemChange = config.getBoolean("staff-mode.item-change");
-        modeDamage = config.getBoolean("staff-mode.damage");
-        modeHungerLoss = config.getBoolean("staff-mode.hunger-loss");
-        modeEnableCommands = JavaUtils.stringToList(config.getString("staff-mode.enable-commands"));
-        modeDisableCommands = JavaUtils.stringToList(config.getString("staff-mode.disable-commands"));
-        worldChange = config.getBoolean("staff-mode.disable-on-world-change");
-        modeFreezeTimer = config.getInt("staff-mode.freeze-module.timer");
-        modeFreezeSound = stringToSound(sanitize(config.getString("staff-mode.freeze-module.sound")));
-        modeFreezePrompt = config.getBoolean("staff-mode.freeze-module.prompt");
-        modeFreezePromptTitle = config.getString("staff-mode.freeze-module.prompt-title");
-        logoutCommands = JavaUtils.stringToList(config.getString("staff-mode.freeze-module.logout-commands"));
-        permissionStrip = config.getString("permissions.strip");
-        permissionStaff = config.getString("permissions.staffplus");
-        commandNotes = config.getString("commands.notes");
-        commandLogin = config.getString("commands.login");
-        commandStrip = config.getString("commands.strip");
-
-        Material modeCompassType = stringToMaterial(sanitize(config.getString("staff-mode.compass-module.item")));
-        short modeCompassData = getMaterialData(config.getString("staff-mode.compass-module.item"));
-        String modeCompassName = config.getString("staff-mode.compass-module.name");
-        List<String> modeCompassLore = JavaUtils.stringToList(config.getString("staff-mode.compass-module.lore"));
-        modeCompassItem = Items.builder().setMaterial(modeCompassType).setData(modeCompassData).setName(modeCompassName).setLore(modeCompassLore).build();
-
-        Material modeRandomTeleportType = stringToMaterial(sanitize(config.getString("staff-mode.random-teleport-module.item")));
-        short modeRandomTeleportData = getMaterialData(config.getString("staff-mode.random-teleport-module.item"));
-        String modeRandomTeleportName = config.getString("staff-mode.random-teleport-module.name");
-        List<String> modeRandomTeleportLore = JavaUtils.stringToList(config.getString("staff-mode.random-teleport-module.lore"));
-        modeRandomTeleportItem = Items.builder().setMaterial(modeRandomTeleportType).setData(modeRandomTeleportData).setName(modeRandomTeleportName).setLore(modeRandomTeleportLore).build();
-
-        Material modeVanishType = stringToMaterial(sanitize(config.getString("staff-mode.vanish-module.item")));
-        short modeVanishData = getMaterialData(config.getString("staff-mode.vanish-module.item"));
-        String modeVanishName = config.getString("staff-mode.vanish-module.name");
-        List<String> modeVanishLore = JavaUtils.stringToList(config.getString("staff-mode.vanish-module.lore"));
-        modeVanishItem = Items.builder().setMaterial(modeVanishType).setData(modeVanishData).setName(modeVanishName).setLore(modeVanishLore).build();
-
-        Material modeVanishTypeOff = stringToMaterial(sanitize(config.getString("staff-mode.vanish-module.item-off")));
-        short modeVanishDataOff = getMaterialData(config.getString("staff-mode.vanish-module.item-off"));
-        modeVanishItemOff = Items.builder().setMaterial(modeVanishTypeOff).setData(modeVanishDataOff).setName(modeVanishName).setLore(modeVanishLore).build();
-
-        Material modeGuiType = stringToMaterial(sanitize(config.getString("staff-mode.gui-module.item")));
-        short modeGuiData = getMaterialData("staff-mode.gui-module.item");
-        String modeGuiName = config.getString("staff-mode.gui-module.name");
-        List<String> modeGuiLore = JavaUtils.stringToList(config.getString("staff-mode.gui-module.lore"));
-        modeGuiItem = Items.builder().setMaterial(modeGuiType).setData(modeGuiData).setName(modeGuiName).setLore(modeGuiLore).build();
-
-        Material modeCounterType = stringToMaterial(sanitize(config.getString("staff-mode.counter-module.item")));
-        short modeCounterData = getMaterialData(config.getString("staff-mode.counter-module.item"));
-        String modeCounterName = config.getString("staff-mode.counter-module.name");
-        List<String> modeCounterLore = JavaUtils.stringToList(config.getString("staff-mode.counter-module.lore"));
-        modeCounterItem = Items.builder().setMaterial(modeCounterType).setData(modeCounterData).setName(modeCounterName).setLore(modeCounterLore).build();
-
-        Material modeFreezeType = stringToMaterial(sanitize(config.getString("staff-mode.freeze-module.item")));
-        short modeFreezeData = getMaterialData(config.getString("staff-mode.freeze-module.item"));
-        String modeFreezeName = config.getString("staff-mode.freeze-module.name");
-        List<String> modeFreezeLore = JavaUtils.stringToList(config.getString("staff-mode.freeze-module.lore"));
-        modeFreezeItem = Items.builder().setMaterial(modeFreezeType).setData(modeFreezeData).setName(modeFreezeName).setLore(modeFreezeLore).build();
-
-        Material modeCpsType = stringToMaterial(sanitize(config.getString("staff-mode.cps-module.item")));
-        short modeCpsData = getMaterialData(config.getString("staff-mode.cps-module.item"));
-        String modeCpsName = config.getString("staff-mode.cps-module.name");
-        List<String> modeCpsLore = JavaUtils.stringToList(config.getString("staff-mode.cps-module.lore"));
-        modeCpsItem = Items.builder().setMaterial(modeCpsType).setData(modeCpsData).setName(modeCpsName).setLore(modeCpsLore).build();
-
-        Material modeExamineType = stringToMaterial(sanitize(config.getString("staff-mode.examine-module.item")));
-        short modeExamineData = getMaterialData(config.getString("staff-mode.examine-module.item"));
-        String modeExamineName = config.getString("staff-mode.examine-module.name");
-        List<String> modeExamineLore = JavaUtils.stringToList(config.getString("staff-mode.examine-module.lore"));
-        modeExamineItem = Items.builder().setMaterial(modeExamineType).setData(modeExamineData).setName(modeExamineName).setLore(modeExamineLore).build();
-
 
         /*
          * Storage
@@ -619,17 +377,15 @@ public class Options implements IOptions {
         mySqlPassword = config.getString("storage.mysql.password");
         mySqlPort = config.getInt("storage.mysql.port");
 
-        Material modeFollowType = stringToMaterial(sanitize(config.getString("staff-mode.follow-module.item")));
-        short modeFollowData = getMaterialData(config.getString("staff-mode.follow-module.item"));
-        String modeFollowName = config.getString("staff-mode.follow-module.name");
-        List<String> modeFollowLore = JavaUtils.stringToList(config.getString("staff-mode.follow-module.lore"));
-        modeFollowItem = Items.builder().setMaterial(modeFollowType).setData(modeFollowData).setName(modeFollowName).setLore(modeFollowLore).build();
-
-
         loadCustomModules(config);
     }
 
     private void loadCustomModules(FileConfiguration config) {
+        if(config.getConfigurationSection("staff-mode.custom-modules") == null) {
+            StaffPlus.get().getLogger().info("No custom staff mode modules to load");
+            return;
+        }
+
         for (String identifier : config.getConfigurationSection("staff-mode.custom-modules").getKeys(false)) {
             if (!config.getBoolean("staff-mode.custom-modules." + identifier + ".enabled")) {
                 continue;
@@ -688,16 +444,6 @@ public class Options implements IOptions {
 
     }
 
-    private List<Material> stringToMaterialList(String commas) {
-        List<Material> list = new ArrayList<>();
-
-        for (String s : commas.split("\\s*,\\s*")) {
-            list.add(stringToMaterial(sanitize(s)));
-        }
-
-        return list;
-    }
-
     private short getMaterialData(String string) {
         short data = 0;
 
@@ -723,17 +469,6 @@ public class Options implements IOptions {
         } else sound = Sounds.valueOf(string);
 
         return sound;
-    }
-
-    private VanishType stringToVanishType(String string) {
-        VanishType vanishType = VanishType.NONE;
-        boolean isValid = JavaUtils.isValidEnum(VanishType.class, string);
-
-        if (!isValid) {
-            Bukkit.getLogger().severe("Invalid vanish type '" + string + "'!");
-        } else vanishType = VanishType.valueOf(string);
-
-        return vanishType;
     }
 
     public static Material stringToMaterial(String string) {

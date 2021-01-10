@@ -45,7 +45,7 @@ public class PlayerJoin implements Listener {
         manageUser(player);
         vanishHandler.updateVanish();
 
-        if (permission.has(player, options.permissionMode) && options.modeEnableOnLogin) {
+        if (permission.has(player, options.permissionMode) && options.modeConfiguration.isModeEnableOnLogin()) {
             modeCoordinator.addMode(player);
         }
 

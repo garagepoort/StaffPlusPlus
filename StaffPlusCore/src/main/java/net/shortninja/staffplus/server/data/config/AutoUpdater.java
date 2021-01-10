@@ -33,7 +33,7 @@ public class AutoUpdater {
         });
 
         config.getKeys(true).forEach((k) -> {
-            if (!IGNORED_CONFIG_KEYS.contains(k) && !defaultConfigMap.containsKey(k)) {
+            if (IGNORED_CONFIG_KEYS.stream().noneMatch(k::contains) && !defaultConfigMap.containsKey(k)) {
                 config.set(k, null);
             }
         });

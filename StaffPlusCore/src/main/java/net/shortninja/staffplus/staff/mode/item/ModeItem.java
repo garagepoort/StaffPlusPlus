@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.mode.item;
 
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.staff.mode.config.ModeItemConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 public class ModeItem {
@@ -11,11 +12,11 @@ public class ModeItem {
     private int slot;
     private boolean isEnabled;
 
-    public ModeItem(String identifier, ItemStack item, int slot, boolean isEnabled) {
+    public ModeItem(String identifier, ModeItemConfiguration modeItemConfiguration) {
         this.identifier = identifier;
-        this.item = versionProtocol.addNbtString(item, identifier); // Make this item uniquely identifiable by adding an NBT tag.
-        this.slot = slot;
-        this.isEnabled = isEnabled;
+        this.item = versionProtocol.addNbtString(modeItemConfiguration.getItem(), identifier); // Make this item uniquely identifiable by adding an NBT tag.
+        this.slot = modeItemConfiguration.getSlot();
+        this.isEnabled = modeItemConfiguration.isEnabled();
     }
 
     public String getIdentifier() {

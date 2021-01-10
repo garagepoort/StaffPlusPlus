@@ -39,15 +39,15 @@ public class ModeCoordinator {
         this.vanishHandler = vanishHandler;
 
         MODE_ITEMS = new ModeItem[]{
-            new ModeItem("compass", options.modeCompassItem, options.modeCompassSlot, options.modeCompassEnabled),
-            new ModeItem("randomTeleport", options.modeRandomTeleportItem, options.modeRandomTeleportSlot, options.modeRandomTeleportEnabled),
-            new ModeItem("vanish", options.modeVanishItem, options.modeVanishSlot, options.modeVanishEnabled),
-            new ModeItem("guiHub", options.modeGuiItem, options.modeGuiSlot, options.modeGuiEnabled),
-            new ModeItem("counter", options.modeCounterItem, options.modeCounterSlot, options.modeCounterEnabled),
-            new ModeItem("freeze", options.modeFreezeItem, options.modeFreezeSlot, options.modeFreezeEnabled),
-            new ModeItem("cps", options.modeCpsItem, options.modeCpsSlot, options.modeCpsEnabled),
-            new ModeItem("examine", options.modeExamineItem, options.modeExamineSlot, options.modeExamineEnabled),
-            new ModeItem("follow", options.modeFollowItem, options.modeFollowSlot, options.modeFollowEnabled),
+            new ModeItem("compass", options.modeConfiguration.getCompassModeConfiguration()),
+            new ModeItem("randomTeleport", options.modeConfiguration.getRandomTeleportModeConfiguration()),
+            new ModeItem("vanish", options.modeConfiguration.getVanishModeConfiguration()),
+            new ModeItem("guiHub", options.modeConfiguration.getGuiModeConfiguration()),
+            new ModeItem("counter", options.modeConfiguration.getCounterModeConfiguration()),
+            new ModeItem("freeze", options.modeConfiguration.getFreezeModeConfiguration()),
+            new ModeItem("cps", options.modeConfiguration.getCpsModeConfiguration()),
+            new ModeItem("examine", options.modeConfiguration.getExamineModeConfiguration()),
+            new ModeItem("follow", options.modeConfiguration.getFollowModeConfiguration()),
         };
     }
 
@@ -86,14 +86,14 @@ public class ModeCoordinator {
     }
 
     private void setPassive(Player player, PlayerSession session) {
-        if (options.modeFlight && !options.modeCreative) {
+        if (options.modeConfiguration.isModeFlight() && !options.modeConfiguration.isModeCreative()) {
             player.setAllowFlight(true);
-        } else if (options.modeCreative) {
+        } else if (options.modeConfiguration.isModeCreative()) {
             player.setGameMode(GameMode.CREATIVE);
         }
 
         runModeCommands(player, true);
-        vanishHandler.addVanish(player, options.modeVanish);
+        vanishHandler.addVanish(player, options.modeConfiguration.getModeVanish());
 
         for (ModeItem modeItem : MODE_ITEMS) {
             if (!modeItem.isEnabled()) {
@@ -101,7 +101,9 @@ public class ModeCoordinator {
             }
 
             if (modeItem.getIdentifier().equals("vanish")) {
-                modeItem.setItem(session.getVanishType() == options.modeVanish ? options.modeVanishItem : options.modeVanishItemOff);
+                modeItem.setItem(session.getVanishType() == options.modeConfiguration.getModeVanish() ?
+                    options.modeConfiguration.getVanishModeConfiguration().getItem() :
+                    options.modeConfiguration.getVanishModeConfiguration().getModeVanishItemOff());
             }
 
             player.getInventory().setItem(modeItem.getSlot(), StaffPlus.get().versionProtocol.addNbtString(modeItem.getItem(), modeItem.getIdentifier()));
@@ -117,7 +119,7 @@ public class ModeCoordinator {
         InventoryVault modeData = staffMembersSavedData.get(uuid);
         InventorySerializer saver = new InventorySerializer(player.getUniqueId());
 
-        if (options.modeOriginalLocation) {
+        if (options.modeConfiguration.isModeOriginalLocation()) {
             player.teleport(modeData.getPreviousLocation().setDirection(player.getLocation().getDirection()));
             message.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
         }
@@ -140,7 +142,7 @@ public class ModeCoordinator {
     }
 
     private void runModeCommands(Player player, boolean isEnabled) {
-        for (String command : isEnabled ? options.modeEnableCommands : options.modeDisableCommands) {
+        for (String command : isEnabled ? options.modeConfiguration.getModeEnableCommands() : options.modeConfiguration.getModeDisableCommands()) {
             if (command.isEmpty()) {
                 continue;
             }

@@ -41,7 +41,7 @@ public class ChestGuiMove implements Listener {
             // Enderchest interaction disabled
             event.setCancelled(true);
             return;
-        } else if(!options.modeSilentChestInteraction) {
+        } else if(!options.modeConfiguration.isModeSilentChestInteraction()) {
             // Other chests interaction disabled
             event.setCancelled(true);
             return;

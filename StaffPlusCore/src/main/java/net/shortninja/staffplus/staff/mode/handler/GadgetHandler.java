@@ -83,7 +83,7 @@ public class GadgetHandler {
         Vector vector = player.getLocation().getDirection();
 
 
-        player.setVelocity(JavaUtils.makeVelocitySafe(vector.multiply(options.modeCompassVelocity)));
+        player.setVelocity(JavaUtils.makeVelocitySafe(vector.multiply(options.modeConfiguration.getCompassModeConfiguration().getVelocity())));
     }
 
     public void onRandomTeleport(Player player, int count) {
@@ -95,7 +95,7 @@ public class GadgetHandler {
             return;
         }
 
-        if (options.modeRandomTeleportRandom) {
+        if (options.modeConfiguration.getRandomTeleportModeConfiguration().isRandom()) {
             Random random = new Random();
 
             do {
@@ -133,29 +133,29 @@ public class GadgetHandler {
         ItemStack item = player.getItemInHand();
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
-        if (sessionManager.get(player.getUniqueId()).getVanishType() == options.modeVanish) {
+        if (sessionManager.get(player.getUniqueId()).getVanishType() == options.modeConfiguration.getModeVanish()) {
             vanishHandler.removeVanish(player);
 
             if (shouldUpdateItem && item != null) {
                 player.getInventory().remove(item);
-                player.getInventory().setItem(slot, versionProtocol.addNbtString(options.modeVanishItemOff, modeItem.getIdentifier()));
+                player.getInventory().setItem(slot, versionProtocol.addNbtString(options.modeConfiguration.getVanishModeConfiguration().getModeVanishItemOff(), modeItem.getIdentifier()));
             }
         } else {
-            vanishHandler.addVanish(player, options.modeVanish);
+            vanishHandler.addVanish(player, options.modeConfiguration.getModeVanish());
 
             if (shouldUpdateItem && item != null) {
                 player.getInventory().remove(item);
-                player.getInventory().setItem(slot, versionProtocol.addNbtString(options.modeVanishItem, modeItem.getIdentifier()));
+                player.getInventory().setItem(slot, versionProtocol.addNbtString(options.modeConfiguration.getVanishModeConfiguration().getItem(), modeItem.getIdentifier()));
             }
         }
     }
 
     public void onGuiHub(Player player) {
-        new HubGui(player, options.modeGuiItem.getItemMeta().getDisplayName());
+        new HubGui(player, options.modeConfiguration.getGuiModeConfiguration().getItem().getItemMeta().getDisplayName());
     }
 
     public void onCounter(Player player) {
-        new CounterGui(player, options.modeCounterTitle, 0);
+        new CounterGui(player, options.modeConfiguration.getCounterModeConfiguration().getTitle(), 0);
     }
 
     public void onCps(CommandSender sender, Player targetPlayer) {
@@ -171,7 +171,7 @@ public class GadgetHandler {
             return;
         }
 
-        new ExamineGui(player, targetPlayer, options.modeExamineTitle);
+        new ExamineGui(player, targetPlayer, options.modeConfiguration.getExamineModeConfiguration().getModeExamineTitle());
     }
 
     public void onFollow(Player player, Player targetPlayer) {
@@ -224,7 +224,7 @@ public class GadgetHandler {
                 }
 
                 if (getGadgetType(item, versionProtocol.getNbtString(item)) == GadgetType.COUNTER) {
-                    item.setAmount(options.modeCounterShowStaffMode ? modeUsers.size() : permission.getStaffCount());
+                    item.setAmount(options.modeConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? modeUsers.size() : permission.getStaffCount());
                     break;
                 }
             }

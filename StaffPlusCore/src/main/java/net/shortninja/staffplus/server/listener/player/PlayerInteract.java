@@ -143,6 +143,10 @@ public class PlayerInteract implements Listener {
                 break;
             case EXAMINE:
                 Player targetPlayer = JavaUtils.getTargetPlayer(player);
+                if(targetPlayer == null) {
+                    break;
+                }
+
                 Optional<SppPlayer> onlinePlayer = playerManager.getOnlinePlayer(targetPlayer.getUniqueId());
                 gadgetHandler.onExamine(player, onlinePlayer.get());
                 break;
