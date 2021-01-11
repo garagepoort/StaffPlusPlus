@@ -22,7 +22,7 @@ import net.shortninja.staffplus.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.staff.kick.config.KickModuleLoader;
 import net.shortninja.staffplus.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.staff.mode.config.StaffModeModuleLoader;
-import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.staff.mute.config.MuteModuleLoader;
 import net.shortninja.staffplus.staff.protect.config.ProtectConfiguration;
@@ -124,7 +124,7 @@ public class Options implements IOptions {
     /*
      * Custom
      */
-    public Map<String, ModuleConfiguration> moduleConfigurations;
+    public List<CustomModuleConfiguration> customModuleConfigurations;
     /*
      * Permissions
      */
@@ -289,7 +289,7 @@ public class Options implements IOptions {
         /*
          * Custom
          */
-        moduleConfigurations = new HashMap<>();
+        customModuleConfigurations = new ArrayList<>();
         /*
          * Permissions
          */
@@ -314,7 +314,7 @@ public class Options implements IOptions {
         permissionNameChange = config.getString("permissions.name-change");
         permissionXray = config.getString("permissions.xray");
         permissionMode = config.getString("permissions.mode");
-        permissionModeSilentChestInteraction = config.getString("permissions.mode.silent-chest-interaction");
+        permissionModeSilentChestInteraction = config.getString("permissions.mode-silent-chest-interaction");
         permissionFreeze = config.getString("permissions.freeze");
         permissionFreezeBypass = config.getString("permissions.freeze-bypass");
         permissionTeleportToLocation = config.getString("permissions.teleport-to-location");
@@ -387,15 +387,17 @@ public class Options implements IOptions {
         }
 
         for (String identifier : config.getConfigurationSection("staff-mode.custom-modules").getKeys(false)) {
-            if (!config.getBoolean("staff-mode.custom-modules." + identifier + ".enabled")) {
+            boolean enabled = config.getBoolean("staff-mode.custom-modules." + identifier + ".enabled");
+            if (!enabled) {
                 continue;
             }
 
-            ModuleConfiguration.ModuleType moduleType = stringToModuleType(sanitize(config.getString("staff-mode.custom-modules." + identifier + ".type")));
+            CustomModuleConfiguration.ModuleType moduleType = stringToModuleType(sanitize(config.getString("staff-mode.custom-modules." + identifier + ".type")));
             int slot = config.getInt("staff-mode.custom-modules." + identifier + ".slot") - 1;
             Material type = stringToMaterial(sanitize(config.getString("staff-mode.custom-modules." + identifier + ".item")));
             short data = getMaterialData(config.getString("staff-mode.custom-modules." + identifier + ".item"));
             String name = config.getString("staff-mode.custom-modules." + identifier + ".name");
+
             List<String> lore = JavaUtils.stringToList(config.getString("staff-mode.custom-modules." + identifier + ".lore"));
             ItemStack item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
             String action = "";
@@ -415,11 +417,11 @@ public class Options implements IOptions {
                 item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
 
 
-            if (moduleType != ModuleConfiguration.ModuleType.ITEM) {
+            if (moduleType != CustomModuleConfiguration.ModuleType.ITEM) {
                 action = config.getString("staff-mode.custom-modules." + identifier + ".command");
             }
 
-            moduleConfigurations.put(identifier, new ModuleConfiguration(identifier, moduleType, slot, item, action));
+            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, slot, item, action));
         }
     }
 
@@ -483,13 +485,13 @@ public class Options implements IOptions {
         return sound;
     }
 
-    private ModuleConfiguration.ModuleType stringToModuleType(String string) {
-        ModuleConfiguration.ModuleType moduleType = ModuleConfiguration.ModuleType.ITEM;
-        boolean isValid = JavaUtils.isValidEnum(ModuleConfiguration.ModuleType.class, string);
+    private CustomModuleConfiguration.ModuleType stringToModuleType(String string) {
+        CustomModuleConfiguration.ModuleType moduleType = CustomModuleConfiguration.ModuleType.ITEM;
+        boolean isValid = JavaUtils.isValidEnum(CustomModuleConfiguration.ModuleType.class, string);
 
         if (!isValid) {
             Bukkit.getLogger().severe("Invalid module type '" + string + "'!");
-        } else moduleType = ModuleConfiguration.ModuleType.valueOf(string);
+        } else moduleType = CustomModuleConfiguration.ModuleType.valueOf(string);
 
         return moduleType;
     }

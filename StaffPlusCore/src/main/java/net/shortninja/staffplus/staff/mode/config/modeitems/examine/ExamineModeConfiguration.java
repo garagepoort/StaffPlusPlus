@@ -14,7 +14,8 @@ public class ExamineModeConfiguration extends ModeItemConfiguration {
     private int modeExamineFreeze;
     private int modeExamineWarn;
 
-    public ExamineModeConfiguration(String modeExamineTitle, int modeExamineFood, int modeExamineIp, int modeExamineGamemode, int modeExamineInfractions, int modeExamineLocation, int modeExamineNotes, int modeExamineFreeze, int modeExamineWarn) {
+    public ExamineModeConfiguration(String identifier, String modeExamineTitle, int modeExamineFood, int modeExamineIp, int modeExamineGamemode, int modeExamineInfractions, int modeExamineLocation, int modeExamineNotes, int modeExamineFreeze, int modeExamineWarn) {
+        super(identifier);
         this.modeExamineTitle = modeExamineTitle;
         this.modeExamineFood = modeExamineFood;
         this.modeExamineIp = modeExamineIp;

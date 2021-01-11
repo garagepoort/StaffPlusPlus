@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.staff.mode.config;
 
+import net.shortninja.staffplus.staff.mode.config.gui.GuiConfiguration;
+import net.shortninja.staffplus.staff.mode.config.gui.StaffModeGuiConfigurationLoader;
 import net.shortninja.staffplus.staff.mode.config.modeitems.compass.CompassModeConfiguration;
 import net.shortninja.staffplus.staff.mode.config.modeitems.compass.CompassModeItemLoader;
 import net.shortninja.staffplus.staff.mode.config.modeitems.counter.CounterModeConfiguration;
@@ -20,6 +22,7 @@ import net.shortninja.staffplus.staff.mode.config.modeitems.vanish.VanishModeCon
 import net.shortninja.staffplus.staff.mode.config.modeitems.vanish.VanishModeItemLoader;
 import net.shortninja.staffplus.unordered.VanishType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GeneralModeConfiguration {
@@ -39,6 +42,9 @@ public class GeneralModeConfiguration {
     private boolean modeCreative;
     private boolean modeOriginalLocation;
     private boolean modeEnableOnLogin;
+
+
+    private List<GuiConfiguration> guiConfigurations = new ArrayList<>();
 
     private final CompassModeConfiguration compassModeConfiguration;
     private final CounterModeConfiguration counterModeConfiguration;
@@ -81,6 +87,8 @@ public class GeneralModeConfiguration {
         this.modeOriginalLocation = modeOriginalLocation;
         this.modeEnableOnLogin = modeEnableOnLogin;
 
+        this.guiConfigurations = new StaffModeGuiConfigurationLoader().loadConfig();
+
         this.compassModeConfiguration = new CompassModeItemLoader().loadConfig();
         this.counterModeConfiguration = new CounterModeItemLoader().loadConfig();
         this.vanishModeConfiguration = new VanishModeItemLoader().loadConfig();
@@ -90,6 +98,10 @@ public class GeneralModeConfiguration {
         this.followModeConfiguration = new FollowModeItemLoader().loadConfig();
         this.freezeModeConfiguration = new FreezeModeItemLoader().loadConfig();
         this.guiModeConfiguration = new GuiModeItemLoader().loadConfig();
+    }
+
+    public List<GuiConfiguration> getStaffGuiConfigurations() {
+        return guiConfigurations;
     }
 
     public CompassModeConfiguration getCompassModeConfiguration() {

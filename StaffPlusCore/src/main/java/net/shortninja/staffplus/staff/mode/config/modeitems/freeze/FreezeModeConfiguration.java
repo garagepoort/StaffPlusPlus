@@ -15,7 +15,8 @@ public class FreezeModeConfiguration extends ModeItemConfiguration {
     private boolean modeFreezeDamage;
     private final List<String> logoutCommands;
 
-    public FreezeModeConfiguration(int modeFreezeTimer, Sounds modeFreezeSound, boolean modeFreezePrompt, String modeFreezePromptTitle, boolean modeFreezeChat, boolean modeFreezeDamage, List<String> logoutCommands) {
+    public FreezeModeConfiguration(String identifier, int modeFreezeTimer, Sounds modeFreezeSound, boolean modeFreezePrompt, String modeFreezePromptTitle, boolean modeFreezeChat, boolean modeFreezeDamage, List<String> logoutCommands) {
+        super(identifier);
         this.modeFreezeTimer = modeFreezeTimer;
         this.modeFreezeSound = modeFreezeSound;
         this.modeFreezePrompt = modeFreezePrompt;

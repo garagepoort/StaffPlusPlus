@@ -13,7 +13,7 @@ public class CompassModeItemLoader extends ModeItemLoader<CompassModeConfigurati
     protected CompassModeConfiguration load(FileConfiguration config) {
         int velocity = config.getInt("staff-mode.compass-module.velocity");
 
-        CompassModeConfiguration modeItemConfiguration = new CompassModeConfiguration(velocity);
+        CompassModeConfiguration modeItemConfiguration = new CompassModeConfiguration(getModuleName(), velocity);
         return super.loadGeneralConfig(config, modeItemConfiguration);
     }
 }

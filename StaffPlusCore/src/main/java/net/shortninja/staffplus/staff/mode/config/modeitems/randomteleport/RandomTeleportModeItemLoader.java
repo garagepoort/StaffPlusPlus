@@ -11,7 +11,7 @@ public class RandomTeleportModeItemLoader extends ModeItemLoader<RandomTeleportM
 
     @Override
     protected RandomTeleportModeConfiguration load(FileConfiguration config) {
-        RandomTeleportModeConfiguration modeItemConfiguration = new RandomTeleportModeConfiguration(config.getBoolean("staff-mode.random-teleport-module.random"));
+        RandomTeleportModeConfiguration modeItemConfiguration = new RandomTeleportModeConfiguration(getModuleName(), config.getBoolean("staff-mode.random-teleport-module.random"));
         return super.loadGeneralConfig(config, modeItemConfiguration);
     }
 }

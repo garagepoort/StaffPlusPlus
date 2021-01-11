@@ -3,15 +3,16 @@ package net.shortninja.staffplus.staff.mode.handler;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.CounterGui;
-import net.shortninja.staffplus.staff.examine.ExamineGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.staff.mode.item.ModeItem;
-import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.staff.examine.ExamineGui;
+import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.staff.vanish.VanishHandler;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -36,47 +37,44 @@ public class GadgetHandler {
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
     public GadgetType getGadgetType(ItemStack item, String value) {
-        GadgetType gadgetType = GadgetType.CUSTOM;
-
-        if (value == null) {
-            return gadgetType;
+        if (options.modeConfiguration.getCompassModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.COMPASS;
+        }
+        if (options.modeConfiguration.getRandomTeleportModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.RANDOM_TELEPORT;
+        }
+        if (options.modeConfiguration.getVanishModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.VANISH;
+        }
+        if (options.modeConfiguration.getGuiModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.GUI_HUB;
+        }
+        if (options.modeConfiguration.getCounterModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.COUNTER;
+        }
+        if (options.modeConfiguration.getFreezeModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.FREEZE;
+        }
+        if (options.modeConfiguration.getCpsModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.CPS;
+        }
+        if (options.modeConfiguration.getExamineModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.EXAMINE;
+        }
+        if (options.modeConfiguration.getFollowModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.FOLLOW;
         }
 
-        switch (value) {
-            case "compass":
-                gadgetType = GadgetType.COMPASS;
-                break;
-            case "randomTeleport":
-                gadgetType = GadgetType.RANDOM_TELEPORT;
-                break;
-            case "vanish":
-                gadgetType = GadgetType.VANISH;
-                break;
-            case "guiHub":
-                gadgetType = GadgetType.GUI_HUB;
-                break;
-            case "counter":
-                gadgetType = GadgetType.COUNTER;
-                break;
-            case "freeze":
-                gadgetType = GadgetType.FREEZE;
-                break;
-            case "cps":
-                gadgetType = GadgetType.CPS;
-                break;
-            case "examine":
-                gadgetType = GadgetType.EXAMINE;
-                break;
-            case "follow":
-                gadgetType = GadgetType.FOLLOW;
-                break;
-        }
-
-        return gadgetType;
+        return GadgetType.CUSTOM;
     }
 
-    public ModuleConfiguration getModule(ItemStack item) {
-        return options.moduleConfigurations.get(versionProtocol.getNbtString(item));
+    public CustomModuleConfiguration getModule(ItemStack item) {
+        String identifier = versionProtocol.getNbtString(item);
+        return options.customModuleConfigurations
+            .stream()
+            .filter(m -> m.getIdentifier().equals(identifier))
+            .findFirst()
+            .orElseThrow(() -> new BusinessException("No module found for identifier [" + identifier + "]"));
     }
 
     public void onCompass(Player player) {
@@ -129,24 +127,19 @@ public class GadgetHandler {
     }
 
     public void onVanish(Player player, boolean shouldUpdateItem) {
-        ModeItem modeItem = IocContainer.getModeCoordinator().MODE_ITEMS[2];
         ItemStack item = player.getItemInHand();
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
-        if (sessionManager.get(player.getUniqueId()).getVanishType() == options.modeConfiguration.getModeVanish()) {
+        PlayerSession session = sessionManager.get(player.getUniqueId());
+        if (session.getVanishType() == options.modeConfiguration.getModeVanish()) {
             vanishHandler.removeVanish(player);
-
-            if (shouldUpdateItem && item != null) {
-                player.getInventory().remove(item);
-                player.getInventory().setItem(slot, versionProtocol.addNbtString(options.modeConfiguration.getVanishModeConfiguration().getModeVanishItemOff(), modeItem.getIdentifier()));
-            }
         } else {
             vanishHandler.addVanish(player, options.modeConfiguration.getModeVanish());
+        }
 
-            if (shouldUpdateItem && item != null) {
-                player.getInventory().remove(item);
-                player.getInventory().setItem(slot, versionProtocol.addNbtString(options.modeConfiguration.getVanishModeConfiguration().getItem(), modeItem.getIdentifier()));
-            }
+        if (shouldUpdateItem && item != null) {
+            player.getInventory().remove(item);
+            player.getInventory().setItem(slot, options.modeConfiguration.getVanishModeConfiguration().getModeVanishItem(session, options.modeConfiguration.getModeVanish()));
         }
     }
 
@@ -187,21 +180,21 @@ public class GadgetHandler {
         targetPlayer.setPassenger(player);
     }
 
-    public void onCustom(Player player, Player targetPlayer, ModuleConfiguration moduleConfiguration) {
-        switch (moduleConfiguration.getType()) {
+    public void onCustom(Player player, Player targetPlayer, CustomModuleConfiguration customModuleConfiguration) {
+        switch (customModuleConfiguration.getType()) {
             case COMMAND_STATIC:
-                Bukkit.dispatchCommand(player, moduleConfiguration.getAction());
+                Bukkit.dispatchCommand(player, customModuleConfiguration.getAction());
                 break;
             case COMMAND_DYNAMIC:
                 if (targetPlayer != null) {
-                    Bukkit.dispatchCommand(player, moduleConfiguration.getAction().replace("%clicker%", player.getName()).replace("%clicked%", targetPlayer.getName()));
+                    Bukkit.dispatchCommand(player, customModuleConfiguration.getAction().replace("%clicker%", player.getName()).replace("%clicked%", targetPlayer.getName()));
                 }
                 break;
             case COMMAND_CONSOLE:
                 if (targetPlayer != null) {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), moduleConfiguration.getAction().replace("%clicker%", player.getName()).replace("%clicked%", targetPlayer.getName()));
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), customModuleConfiguration.getAction().replace("%clicker%", player.getName()).replace("%clicked%", targetPlayer.getName()));
                 } else
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), moduleConfiguration.getAction().replace("%clicker%", player.getName()));
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), customModuleConfiguration.getAction().replace("%clicker%", player.getName()));
                 break;
             default:
                 break;

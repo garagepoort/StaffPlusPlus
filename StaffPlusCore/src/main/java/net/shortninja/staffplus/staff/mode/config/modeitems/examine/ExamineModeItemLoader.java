@@ -11,7 +11,7 @@ public class ExamineModeItemLoader extends ModeItemLoader<ExamineModeConfigurati
 
     @Override
     protected ExamineModeConfiguration load(FileConfiguration config) {
-        ExamineModeConfiguration modeItemConfiguration = new ExamineModeConfiguration(
+        ExamineModeConfiguration modeItemConfiguration = new ExamineModeConfiguration(getModuleName(),
             config.getString("staff-mode.examine-module.title"),
             config.getInt("staff-mode.examine-module.info-line.food") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.food"),
             config.getInt("staff-mode.examine-module.info-line.ip-address") <= 0 ? -1 : config.getInt("staff-mode.examine-module.info-line.ip-address"),

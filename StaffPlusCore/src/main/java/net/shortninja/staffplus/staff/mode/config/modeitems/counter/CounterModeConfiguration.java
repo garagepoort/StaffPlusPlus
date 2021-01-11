@@ -7,7 +7,8 @@ public class CounterModeConfiguration extends ModeItemConfiguration {
     private boolean modeCounterShowStaffMode;
     private String title;
 
-    public CounterModeConfiguration(boolean modeCounterShowStaffMode, String title) {
+    public CounterModeConfiguration(String identifier, boolean modeCounterShowStaffMode, String title) {
+        super(identifier);
         this.modeCounterShowStaffMode = modeCounterShowStaffMode;
         this.title = title;
     }

@@ -11,7 +11,7 @@ import net.shortninja.staffplus.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.staff.mode.item.ModuleConfiguration;
+import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.*;
@@ -154,10 +154,10 @@ public class PlayerInteract implements Listener {
                 gadgetHandler.onFollow(player, JavaUtils.getTargetPlayer(player));
                 break;
             case CUSTOM:
-                ModuleConfiguration moduleConfiguration = gadgetHandler.getModule(item);
+                CustomModuleConfiguration customModuleConfiguration = gadgetHandler.getModule(item);
 
-                if (moduleConfiguration != null) {
-                    gadgetHandler.onCustom(player, JavaUtils.getTargetPlayer(player), moduleConfiguration);
+                if (customModuleConfiguration != null) {
+                    gadgetHandler.onCustom(player, JavaUtils.getTargetPlayer(player), customModuleConfiguration);
                 } else {
                     isHandled = false;
                 }

@@ -456,6 +456,35 @@ staff-mode:
   # Should other staff be able to see staff that are in mode while they are not in mode.
   staff-see-staff-in-mode: false
 
+  custom-gui:
+      Helper:
+          permission: 'rank.helper'
+          gui:
+              - 'compass-module:1'
+              - 'vanish-module:2'
+              - 'counter-module:3'
+              - 'follow-module:4'
+      Mod:
+          permission: 'rank.moderator'
+          gui:
+              - 'compass-module:1'
+              - 'random-teleport-module:2'
+              - 'vanish-module:3'
+              - 'counter-module:4'
+              - 'freeze-module:5'
+              - 'follow-module:6'
+      Admin:
+          permission: 'rank.admin'
+          gui:
+              - 'compass-module:1'
+              - 'random-teleport-module:2'
+              - 'vanish-module:3'
+              - 'gui-module:4'
+              - 'counter-module:5'
+              - 'freeze-module:6'
+              - 'cps-module:7'
+              - 'examine-module:8'
+              - 'follow-module:9'
   ############################################################
   # +------------------------------------------------------+ #
   # |                       Compass                        | #
@@ -573,7 +602,6 @@ staff-mode:
     mute-title: "&bOverview muted players"
     mute-name: "&bMuted players GUI"
     mute-lore: "&7Shows all currently muted players."
-
 
   ############################################################
   # +------------------------------------------------------+ #
@@ -830,7 +858,7 @@ permissions:
   mode: "staff.mode"
 
   # permission to interact with chests/hoppers/dispensers.
-  mode.silent-chest-interaction: "staff.mode.silent-chest-interaction"
+  mode-silent-chest-interaction: "staff.mode.silent-chest-interaction"
 
   # Permission for using the staff mode compass
   compass: "staff.compass"

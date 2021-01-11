@@ -11,7 +11,7 @@ public class CounterModeItemLoader extends ModeItemLoader<CounterModeConfigurati
 
     @Override
     protected CounterModeConfiguration load(FileConfiguration config) {
-        CounterModeConfiguration modeItemConfiguration = new CounterModeConfiguration(
+        CounterModeConfiguration modeItemConfiguration = new CounterModeConfiguration(getModuleName(),
             config.getBoolean("staff-mode.counter-module.show-staff-mode"),
             config.getString("staff-mode.counter-module.title"));
         return super.loadGeneralConfig(config, modeItemConfiguration);

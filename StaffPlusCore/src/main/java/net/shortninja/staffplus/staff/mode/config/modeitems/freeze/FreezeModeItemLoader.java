@@ -12,7 +12,7 @@ public class FreezeModeItemLoader extends ModeItemLoader<FreezeModeConfiguration
 
     @Override
     protected FreezeModeConfiguration load(FileConfiguration config) {
-        FreezeModeConfiguration modeItemConfiguration = new FreezeModeConfiguration(
+        FreezeModeConfiguration modeItemConfiguration = new FreezeModeConfiguration(getModuleName(),
             config.getInt("staff-mode.freeze-module.timer"),
             stringToSound(sanitize(config.getString("staff-mode.freeze-module.sound"))),
             config.getBoolean("staff-mode.freeze-module.prompt"),

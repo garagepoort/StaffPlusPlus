@@ -6,7 +6,8 @@ public class CompassModeConfiguration extends ModeItemConfiguration {
 
     private int velocity;
 
-    public CompassModeConfiguration(int velocity) {
+    public CompassModeConfiguration(String identifier, int velocity) {
+        super(identifier);
         this.velocity = velocity;
     }
 

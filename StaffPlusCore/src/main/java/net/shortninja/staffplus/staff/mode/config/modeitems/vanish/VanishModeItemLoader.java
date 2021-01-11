@@ -25,7 +25,7 @@ public class VanishModeItemLoader extends ModeItemLoader<VanishModeConfiguration
         List<String> modeVanishLore = JavaUtils.stringToList(config.getString("staff-mode.vanish-module.lore"));
         ItemStack modeVanishItemOff = Items.builder().setMaterial(modeVanishTypeOff).setData(modeVanishDataOff).setName(modeVanishName).setLore(modeVanishLore).build();
 
-        VanishModeConfiguration modeItemConfiguration = new VanishModeConfiguration(modeVanishItemOff);
+        VanishModeConfiguration modeItemConfiguration = new VanishModeConfiguration(getModuleName(), modeVanishItemOff);
         return super.loadGeneralConfig(config, modeItemConfiguration);
     }
 }

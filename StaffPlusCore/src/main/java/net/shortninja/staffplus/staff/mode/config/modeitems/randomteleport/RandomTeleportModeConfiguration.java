@@ -6,7 +6,8 @@ public class RandomTeleportModeConfiguration extends ModeItemConfiguration {
 
     private boolean random;
 
-    public RandomTeleportModeConfiguration(boolean random) {
+    public RandomTeleportModeConfiguration(String identifier, boolean random) {
+        super(identifier);
         this.random = random;
     }
 

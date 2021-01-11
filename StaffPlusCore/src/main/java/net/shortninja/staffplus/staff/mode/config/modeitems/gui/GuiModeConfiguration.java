@@ -9,7 +9,8 @@ public class GuiModeConfiguration extends ModeItemConfiguration {
     public String modeGuiMinerLore;
     public int modeGuiMinerLevel;
 
-    public GuiModeConfiguration(boolean modeGuiMiner, String modeGuiMinerTitle, String modeGuiMinerName, String modeGuiMinerLore, int modeGuiMinerLevel) {
+    public GuiModeConfiguration(String identifier, boolean modeGuiMiner, String modeGuiMinerTitle, String modeGuiMinerName, String modeGuiMinerLore, int modeGuiMinerLevel) {
+        super(identifier);
         this.modeGuiMiner = modeGuiMiner;
         this.modeGuiMinerTitle = modeGuiMinerTitle;
         this.modeGuiMinerName = modeGuiMinerName;

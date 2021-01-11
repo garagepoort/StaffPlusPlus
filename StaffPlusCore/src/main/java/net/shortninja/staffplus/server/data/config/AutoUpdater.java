@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AutoUpdater {
 
     private static final String CONFIG_FILE = "config.yml";
-    private static final List<String> IGNORED_CONFIG_KEYS = Arrays.asList("custom-modules", "locations");
+    private static final List<String> IGNORED_CONFIG_KEYS = Arrays.asList("custom-modules", "locations", "custom-gui");
 
     public static void updateConfig(StaffPlus staffPlus) {
         staffPlus.getLogger().info("Attempting to fix configuration file...");

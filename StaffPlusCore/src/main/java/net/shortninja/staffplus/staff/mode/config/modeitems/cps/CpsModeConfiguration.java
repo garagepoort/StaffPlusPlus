@@ -6,7 +6,8 @@ public class CpsModeConfiguration extends ModeItemConfiguration {
     private long modeCpsTime;
     private int modeCpsMax;
 
-    public CpsModeConfiguration(long modeCpsTime, int modeCpsMax) {
+    public CpsModeConfiguration(String identifier, long modeCpsTime, int modeCpsMax) {
+        super(identifier);
         this.modeCpsTime = modeCpsTime;
         this.modeCpsMax = modeCpsMax;
     }

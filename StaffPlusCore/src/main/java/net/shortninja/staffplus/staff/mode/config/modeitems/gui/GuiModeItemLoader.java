@@ -11,7 +11,7 @@ public class GuiModeItemLoader extends ModeItemLoader<GuiModeConfiguration> {
 
     @Override
     protected GuiModeConfiguration load(FileConfiguration config) {
-        GuiModeConfiguration modeItemConfiguration = new GuiModeConfiguration(
+        GuiModeConfiguration modeItemConfiguration = new GuiModeConfiguration(getModuleName(),
             config.getBoolean("staff-mode.gui-module.miner-gui"),
             config.getString("staff-mode.gui-module.miner-title"),
             config.getString("staff-mode.gui-module.miner-name"),

@@ -11,7 +11,7 @@ public class CpsModeItemLoader extends ModeItemLoader<CpsModeConfiguration> {
 
     @Override
     protected CpsModeConfiguration load(FileConfiguration config) {
-        CpsModeConfiguration modeItemConfiguration = new CpsModeConfiguration(
+        CpsModeConfiguration modeItemConfiguration = new CpsModeConfiguration(getModuleName(),
             config.getInt("staff-mode.cps-module.time") * 20,
             config.getInt("staff-mode.cps-module.max")
         );

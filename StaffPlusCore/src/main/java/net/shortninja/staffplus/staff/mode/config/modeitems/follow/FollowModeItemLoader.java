@@ -11,7 +11,7 @@ public class FollowModeItemLoader extends ModeItemLoader<FollowModeConfiguration
 
     @Override
     protected FollowModeConfiguration load(FileConfiguration config) {
-        FollowModeConfiguration modeItemConfiguration = new FollowModeConfiguration();
+        FollowModeConfiguration modeItemConfiguration = new FollowModeConfiguration(getModuleName());
         return super.loadGeneralConfig(config, modeItemConfiguration);
     }
 }
