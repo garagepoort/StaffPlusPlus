@@ -1,11 +1,12 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.40 (NOT YET RELEASED)
+### V1.16.40
 ### Features
 - mute/unmute permission split up into 2 different permissions
 - ban/unban permission split up into 2 different permissions
 - Examine mode now available for offline players
 - Implemented enderchest interaction online and offline
+- Added custom GUI for Staff Mode. https://staffplusplus-minecraft.gitbook.io/staffplusplus/features/staff-mode/custom-gui
 
 #### Bugs
 - Permission for the /reports command was not working properly
