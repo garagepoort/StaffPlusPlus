@@ -1,12 +1,12 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
+import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -24,13 +24,14 @@ public class Tasks extends BukkitRunnable {
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
-    private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
+    private final FreezeModeConfiguration freezeModeConfiguration;
     private int saveInterval;
     private int freezeInterval;
     private long now;
     private long later;
 
     public Tasks() {
+        freezeModeConfiguration = options.modeConfiguration.getFreezeModeConfiguration();
         saveInterval = 0;
         freezeInterval = 0;
         now = System.currentTimeMillis();
@@ -69,13 +70,13 @@ public class Tasks extends BukkitRunnable {
             saveInterval = 0;
         }
 
-        if (freezeInterval >= options.modeFreezeTimer && freezeInterval > 0) {
+        if (freezeInterval >= freezeModeConfiguration.getModeFreezeTimer() && freezeInterval > 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 PlayerSession user = sessionManager.get(player.getUniqueId());
                 if (user.isFrozen() && !permission.has(player, options.permissionMember)) {
-                    options.modeFreezeSound.play(player);
+                    freezeModeConfiguration.getModeFreezeSound().play(player);
 
-                    if (!options.modeFreezePrompt) {
+                    if (!freezeModeConfiguration.isModeFreezePrompt()) {
                         message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
                     }
                 }

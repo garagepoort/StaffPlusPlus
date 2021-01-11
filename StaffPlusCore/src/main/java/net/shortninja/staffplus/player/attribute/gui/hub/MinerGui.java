@@ -43,7 +43,7 @@ public class MinerGui extends AbstractGui {
         int slot = 0; // Better to use this because not every iteration is going to have a result.
 
         for (Player p : JavaUtils.getOnlinePlayers()) {
-            if (p.getLocation().getBlockY() > options.modeGuiMinerLevel) {
+            if (p.getLocation().getBlockY() > options.modeConfiguration.getGuiModeConfiguration().modeGuiMinerLevel) {
                 continue;
             } else if ((slot + 1) >= SIZE) {
                 break;

@@ -13,6 +13,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.freeze.FreezeRequest;
+import net.shortninja.staffplus.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.warn.Warning;
@@ -55,9 +56,12 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
     private final Inventory targetInventory;
     private String itemSelectedFrom;
     private int itemSelectedSlot;
+    private ExamineModeConfiguration examineModeConfiguration;
 
     public ExamineGui(Player player, SppPlayer targetPlayer, String title) {
         super(SIZE, title);
+        examineModeConfiguration = options.modeConfiguration.getExamineModeConfiguration();
+
         staff = player;
         this.targetPlayer = targetPlayer;
         targetInventory = targetPlayer.isOnline() ? targetPlayer.getPlayer().getInventory() : InventoryFactory.loadInventoryOffline(player, targetPlayer);
@@ -82,20 +86,20 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
             setInventoryContents();
         }
 
-        if (options.modeExamineFood >= 0 && targetPlayer.isOnline()) {
-            setItem(options.modeExamineFood - 1, foodItem(targetPlayer.getPlayer()), null);
+        if (examineModeConfiguration.getModeExamineFood() >= 0 && targetPlayer.isOnline()) {
+            setItem(examineModeConfiguration.getModeExamineFood() - 1, foodItem(targetPlayer.getPlayer()), null);
         }
 
-        if (options.modeExamineIp >= 0 && targetPlayer.isOnline()) {
-            setItem(options.modeExamineIp - 1, ipItem(targetPlayer.getPlayer()), null);
+        if (examineModeConfiguration.getModeExamineIp() >= 0 && targetPlayer.isOnline()) {
+            setItem(examineModeConfiguration.getModeExamineIp() - 1, ipItem(targetPlayer.getPlayer()), null);
         }
 
-        if (options.modeExamineGamemode >= 0 && targetPlayer.isOnline()) {
-            setItem(options.modeExamineGamemode - 1, gameModeItem(targetPlayer.getPlayer()), null);
+        if (examineModeConfiguration.getModeExamineGamemode() >= 0 && targetPlayer.isOnline()) {
+            setItem(examineModeConfiguration.getModeExamineGamemode() - 1, gameModeItem(targetPlayer.getPlayer()), null);
         }
 
-        if (options.modeExamineInfractions >= 0) {
-            setItem(options.modeExamineInfractions - 1, infractionsItem(targetPlayer), null);
+        if (examineModeConfiguration.getModeExamineInfractions() >= 0) {
+            setItem(examineModeConfiguration.getModeExamineInfractions() - 1, infractionsItem(targetPlayer), null);
         }
 
         setInteractiveItems(targetPlayer);
@@ -126,8 +130,8 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
     }
 
     private void setInteractiveItems(final SppPlayer targetPlayer) {
-        if (options.modeExamineLocation >= 0 && targetPlayer.isOnline()) {
-            setItem(options.modeExamineLocation - 1, locationItem(targetPlayer.getPlayer()), new IAction() {
+        if (examineModeConfiguration.getModeExamineLocation() >= 0 && targetPlayer.isOnline()) {
+            setItem(examineModeConfiguration.getModeExamineLocation() - 1, locationItem(targetPlayer.getPlayer()), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     player.teleport(targetPlayer.getPlayer());
@@ -140,8 +144,8 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
             });
         }
 
-        if (options.modeExamineNotes >= 0 && targetPlayer.isOnline()) {
-            setItem(options.modeExamineNotes - 1, notesItem(sessionManager.get(targetPlayer.getId())), new IAction() {
+        if (examineModeConfiguration.getModeExamineNotes() >= 0 && targetPlayer.isOnline()) {
+            setItem(examineModeConfiguration.getModeExamineNotes() - 1, notesItem(sessionManager.get(targetPlayer.getId())), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     PlayerSession playerSession = sessionManager.get(player.getUniqueId());
@@ -161,8 +165,8 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
             });
         }
 
-        if (options.modeExamineFreeze >= 0 && targetPlayer.isOnline()) {
-            setItem(options.modeExamineFreeze - 1, freezeItem(targetPlayer.getPlayer()), new IAction() {
+        if (examineModeConfiguration.getModeExamineFreeze() >= 0 && targetPlayer.isOnline()) {
+            setItem(examineModeConfiguration.getModeExamineFreeze() - 1, freezeItem(targetPlayer.getPlayer()), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
                     CommandUtil.playerAction(player, () -> {
@@ -179,7 +183,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
             });
         }
 
-        if (options.modeExamineWarn >= 0) {
+        if (examineModeConfiguration.getModeExamineWarn() >= 0) {
             IAction severityAction = new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
@@ -215,7 +219,7 @@ public class ExamineGui extends AbstractGui implements UpdatableGui {
                 }
             };
 
-            setItem(options.modeExamineWarn - 1, warnItem(), IocContainer.getOptions().warningConfiguration.getSeverityLevels().isEmpty() ? warnAction : severityAction);
+            setItem(examineModeConfiguration.getModeExamineWarn() - 1, warnItem(), IocContainer.getOptions().warningConfiguration.getSeverityLevels().isEmpty() ? warnAction : severityAction);
         }
     }
 
