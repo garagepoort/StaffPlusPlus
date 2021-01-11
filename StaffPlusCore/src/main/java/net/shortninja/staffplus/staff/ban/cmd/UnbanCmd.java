@@ -20,7 +20,7 @@ public class UnbanCmd extends AbstractCmd {
     private final PlayerManager playerManager = IocContainer.getPlayerManager();
 
     public UnbanCmd(String name) {
-        super(name, IocContainer.getOptions().banConfiguration.getPermissionBanPlayer());
+        super(name, IocContainer.getOptions().banConfiguration.getPermissionUnbanPlayer());
     }
 
     @Override

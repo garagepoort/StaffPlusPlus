@@ -5,6 +5,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -25,6 +26,7 @@ public class FreezeHandler {
     private final Options options;
     private final Messages messages;
     private final SessionManager sessionManager;
+    private final FreezeModeConfiguration freezeModeConfiguration;
 
     public FreezeHandler(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManager sessionManager) {
         this.permission = permission;
@@ -32,6 +34,7 @@ public class FreezeHandler {
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
+        freezeModeConfiguration = options.modeConfiguration.getFreezeModeConfiguration();
     }
 
     public void execute(FreezeRequest freezeRequest) {
@@ -52,8 +55,8 @@ public class FreezeHandler {
 
     private void addFreeze(CommandSender sender, Player player) {
         UUID uuid = player.getUniqueId();
-        if (options.modeFreezePrompt) {
-            new FreezeGui(player, options.modeFreezePromptTitle);
+        if (freezeModeConfiguration.isModeFreezePrompt()) {
+            new FreezeGui(player, freezeModeConfiguration.getModeFreezePromptTitle());
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
         } else {
             message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
@@ -65,7 +68,7 @@ public class FreezeHandler {
         lastFrozenLocations.put(uuid, player.getLocation());
         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
-        options.modeFreezeSound.play(player);
+        freezeModeConfiguration.getModeFreezeSound().play(player);
 
     }
 
@@ -78,7 +81,7 @@ public class FreezeHandler {
             return;
         }
 
-        if (options.modeFreezePrompt && session.getCurrentGui().isPresent()) {
+        if (freezeModeConfiguration.isModeFreezePrompt() && session.getCurrentGui().isPresent()) {
             if (session.getCurrentGui().get() instanceof FreezeGui) {
                 player.closeInventory();
             }

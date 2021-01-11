@@ -29,7 +29,7 @@ public class BlockPlace implements Listener {
     public void onPlace(BlockPlaceEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
 
-        if ((options.modeBlockManipulation || !modeCoordinator.isInMode(uuid)) && !freezeHandler.isFrozen(uuid)) {
+        if ((options.modeConfiguration.isModeBlockManipulation() || !modeCoordinator.isInMode(uuid)) && !freezeHandler.isFrozen(uuid)) {
             traceService.sendTraceMessage(TraceType.BLOCK_PLACE, uuid, "Blocked [" + event.getBlock().getType() + "] placed");
             return;
         }

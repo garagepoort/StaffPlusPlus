@@ -38,7 +38,7 @@ public class EntityDamageByEntity implements Listener {
 
         if (damager.isPresent()) {
             UUID playerUuid = damager.get().getUniqueId();
-            if (sessionManager.get(playerUuid).isFrozen() || (!options.modeDamage && modeCoordinator.isInMode(playerUuid))) {
+            if (sessionManager.get(playerUuid).isFrozen() || (!options.modeConfiguration.isModeDamage() && modeCoordinator.isInMode(playerUuid))) {
                 event.setCancelled(true);
                 return;
             }

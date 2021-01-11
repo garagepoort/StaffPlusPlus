@@ -216,7 +216,7 @@ public class IocContainer {
     }
 
     public static ModeCoordinator getModeCoordinator() {
-        return initBean(ModeCoordinator.class, () -> new ModeCoordinator(getMessage(), getOptions(), getMessages(), getSessionManager(), getVanishHandler()));
+        return initBean(ModeCoordinator.class, () -> new ModeCoordinator(getMessage(), getOptions(), getMessages(), getSessionManager(), getVanishHandler(), getPermissionHandler()));
     }
 
     public static PlayerManager getPlayerManager() {

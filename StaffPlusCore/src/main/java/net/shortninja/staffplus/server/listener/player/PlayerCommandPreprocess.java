@@ -60,7 +60,7 @@ public class PlayerCommandPreprocess implements Listener {
         } else if (modeCoordinator.isInMode(uuid) && options.blockedModeCommands.contains(command)) {
             message.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
-        } else if (freezeHandler.isFrozen(uuid) && (!options.modeFreezeChat && !command.startsWith("/" + options.commandLogin))) {
+        } else if (freezeHandler.isFrozen(uuid) && (!options.modeConfiguration.getFreezeModeConfiguration().isModeFreezeChat() && !command.startsWith("/" + options.commandLogin))) {
             message.send(player, messages.chatPrevented, messages.prefixGeneral);
             event.setCancelled(true);
         }
