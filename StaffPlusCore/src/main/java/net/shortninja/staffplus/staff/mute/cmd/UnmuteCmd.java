@@ -22,7 +22,7 @@ public class UnmuteCmd extends AbstractCmd {
     private final SessionManager sessionManager = IocContainer.getSessionManager();
 
     public UnmuteCmd(String name) {
-        super(name, IocContainer.getOptions().muteConfiguration.getPermissionMutePlayer());
+        super(name, IocContainer.getOptions().muteConfiguration.getPermissionUnmutePlayer());
     }
 
     @Override

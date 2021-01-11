@@ -1,5 +1,17 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.40 (NOT YET RELEASED)
+### Features
+- mute/unmute permission split up into 2 different permissions
+- ban/unban permission split up into 2 different permissions
+- Examine mode now available for offline players
+- Implemented enderchest interaction online and offline
+
+#### Bugs
+- Permission for the /reports command was not working properly
+
+# Changelog Staff++ | v1.16
+
 ### V1.16.39
 ### Features
 - Added mute/temp mute functionality

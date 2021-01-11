@@ -4,6 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.staff.mode.config.modeitems.cps.CpsModeConfiguration;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,6 +19,11 @@ public class CpsHandler {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
+    private final CpsModeConfiguration cpsModeConfiguration;
+
+    public CpsHandler() {
+        cpsModeConfiguration = options.modeConfiguration.getCpsModeConfiguration();
+    }
 
     public boolean isTesting(UUID uuid) {
         return currentTests.containsKey(uuid);
@@ -33,22 +39,22 @@ public class CpsHandler {
         if(currentTests.containsKey(targetPlayer.getUniqueId()))
             return;
         currentTests.put(targetPlayer.getUniqueId(), 0);
-        message.send(sender, messages.cpsStart.replace("%target%", targetPlayer.getName()).replace("%seconds%", Integer.toString((int) options.modeCpsTime / 20)), messages.prefixGeneral);
+        message.send(sender, messages.cpsStart.replace("%target%", targetPlayer.getName()).replace("%seconds%", Integer.toString((int) cpsModeConfiguration.getModeCpsTime() / 20)), messages.prefixGeneral);
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 stopTest(sender, targetPlayer);
             }
-        }.runTaskLater(StaffPlus.get(), options.modeCpsTime);
+        }.runTaskLater(StaffPlus.get(), cpsModeConfiguration.getModeCpsTime());
     }
 
     public void stopTest(CommandSender sender, Player targetPlayer) {
         UUID uuid = targetPlayer.getUniqueId();
         if (uuid == null)
             return;
-        int cps = (int) (currentTests.get(uuid) / (options.modeCpsTime / 20));
-        String message = cps > options.modeCpsMax ? messages.cpsFinishMax : messages.cpsFinishNormal;
+        int cps = (int) (currentTests.get(uuid) / (cpsModeConfiguration.getModeCpsTime() / 20));
+        String message = cps > cpsModeConfiguration.getModeCpsMax() ? messages.cpsFinishMax : messages.cpsFinishNormal;
 
         this.message.send(sender, message.replace("%player%", targetPlayer.getName()).replace("%cps%", Integer.toString(cps)), messages.prefixGeneral);
         currentTests.remove(uuid);

@@ -35,7 +35,7 @@ public class EntityDamage implements Listener {
 
         UUID uuid = entity.getUniqueId();
         PlayerSession session = sessionManager.get(uuid);
-        if ((options.modeInvincible && modeCoordinator.isInMode(uuid) || (!options.modeFreezeDamage && session.isFrozen()) || session.isProtected())) {
+        if ((options.modeConfiguration.isModeInvincible() && modeCoordinator.isInMode(uuid) || (!options.modeConfiguration.getFreezeModeConfiguration().isModeFreezeDamage() && session.isFrozen()) || session.isProtected())) {
             event.setCancelled(true);
         }
     }

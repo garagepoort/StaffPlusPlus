@@ -6,6 +6,7 @@ import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.staff.ban.gui.BannedPlayersGui;
+import net.shortninja.staffplus.staff.mode.config.modeitems.gui.GuiModeConfiguration;
 import net.shortninja.staffplus.staff.mute.gui.MutedPlayersGui;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectedAreasGui;
 import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
@@ -31,6 +32,7 @@ public class HubGui extends AbstractGui {
     private final GuiItemConfig closedReportsGui;
     private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig openReportsGui;
+    private final GuiModeConfiguration guiModeConfiguration;
 
     public HubGui(Player player, String title) {
         super(SIZE, title);
@@ -41,6 +43,7 @@ public class HubGui extends AbstractGui {
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
         assignedReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
+        guiModeConfiguration = options.modeConfiguration.getGuiModeConfiguration();
 
         PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
         if (openReportsGui.isEnabled() && permissionHandler.has(player, options.manageReportConfiguration.getPermissionView())) {
@@ -49,8 +52,8 @@ public class HubGui extends AbstractGui {
             setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new HubGui(player, title)));
         }
 
-        if (options.modeGuiMiner) {
-            setMenuItem(10, minerItem(), (p) -> new MinerGui(player, options.modeGuiMinerTitle));
+        if (guiModeConfiguration.modeGuiMiner) {
+            setMenuItem(10, minerItem(), (p) -> new MinerGui(player, guiModeConfiguration.modeGuiMinerTitle));
         }
 
         if (protectGuiItemConfig.isEnabled()) {
@@ -89,8 +92,8 @@ public class HubGui extends AbstractGui {
     private ItemStack minerItem() {
         return Items.builder()
             .setMaterial(Material.STONE_PICKAXE).setAmount(1)
-            .setName(options.modeGuiMinerName)
-            .addLore(options.modeGuiMinerLore)
+            .setName(guiModeConfiguration.modeGuiMinerName)
+            .addLore(guiModeConfiguration.modeGuiMinerLore)
             .build();
     }
 
