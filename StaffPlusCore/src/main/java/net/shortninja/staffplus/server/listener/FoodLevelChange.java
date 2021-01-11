@@ -28,7 +28,7 @@ public class FoodLevelChange implements Listener {
             return;
         }
 
-        if (options.modeHungerLoss || !modeCoordinator.isInMode(((Player) entity).getUniqueId())) {
+        if (options.modeConfiguration.isModeHungerLoss() || !modeCoordinator.isInMode(((Player) entity).getUniqueId())) {
             return;
         }
 

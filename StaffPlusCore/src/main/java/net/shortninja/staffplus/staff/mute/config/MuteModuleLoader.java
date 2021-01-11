@@ -21,8 +21,9 @@ public class MuteModuleLoader extends ConfigLoader<MuteConfiguration> {
         String commandTempMutePlayer = config.getString("commands.tempmute");
 
         String permissionMutePlayer = config.getString("permissions.mute");
+        String permissionUnmutePlayer = config.getString("permissions.unmute");
         String permissionMuteByPass = config.getString("permissions.mute-bypass");
 
-        return new MuteConfiguration(muteEnabled, commandMutePlayer, commandTempMutePlayer, commandUnmutePlayer, permissionMutePlayer, permissionMuteByPass, guiItemConfig);
+        return new MuteConfiguration(muteEnabled, commandMutePlayer, commandTempMutePlayer, commandUnmutePlayer, permissionMutePlayer, permissionUnmutePlayer, permissionMuteByPass, guiItemConfig);
     }
 }

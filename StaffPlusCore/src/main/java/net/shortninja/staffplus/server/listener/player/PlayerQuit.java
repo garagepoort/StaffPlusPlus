@@ -41,7 +41,7 @@ public class PlayerQuit implements Listener {
         modeCoordinator.removeMode(player);
         vanishHandler.removeVanish(player);
         if (sessionManager.get(player.getUniqueId()).isFrozen()) {
-            for (String command : options.logoutCommands) {
+            for (String command : options.modeConfiguration.getFreezeModeConfiguration().getLogoutCommands()) {
                 command = command.replace("%player%", player.getName());
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
             }

@@ -21,8 +21,9 @@ public class BanModuleLoader extends ConfigLoader<BanConfiguration> {
         String commandTempBanPlayer = config.getString("commands.tempban");
 
         String permissionBanPlayer = config.getString("permissions.ban");
+        String permissionUnbanPlayer = config.getString("permissions.unban");
         String permissionBanByPass = config.getString("permissions.ban-bypass");
 
-        return new BanConfiguration(banEnabled, commandBanPlayer, commandTempBanPlayer, commandUnbanPlayer, permissionBanPlayer, permissionBanByPass, guiItemConfig);
+        return new BanConfiguration(banEnabled, commandBanPlayer, commandTempBanPlayer, commandUnbanPlayer, permissionBanPlayer, permissionUnbanPlayer, permissionBanByPass, guiItemConfig);
     }
 }

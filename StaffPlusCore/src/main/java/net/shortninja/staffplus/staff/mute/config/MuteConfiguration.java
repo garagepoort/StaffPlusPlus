@@ -10,13 +10,16 @@ public class MuteConfiguration {
     private final String commandTempMutePlayer;
     private final String commandUnmutePlayer;
     private final String permissionMutePlayer;
+    private final String permissionUnmutePlayer;
     private final String permissionMuteByPass;
     private final GuiItemConfig guiItemConfig;
 
     public MuteConfiguration(boolean muteEnabled,
                              String commandMutePlayer,
                              String commandTempMutePlayer,
-                             String commandUnmutePlayer, String permissionMutePlayer,
+                             String commandUnmutePlayer,
+                             String permissionMutePlayer,
+                             String permissionUnmutePlayer,
                              String permissionMuteByPass,
                              GuiItemConfig guiItemConfig) {
         this.muteEnabled = muteEnabled;
@@ -24,6 +27,7 @@ public class MuteConfiguration {
         this.commandTempMutePlayer = commandTempMutePlayer;
         this.commandUnmutePlayer = commandUnmutePlayer;
         this.permissionMutePlayer = permissionMutePlayer;
+        this.permissionUnmutePlayer = permissionUnmutePlayer;
         this.permissionMuteByPass = permissionMuteByPass;
         this.guiItemConfig = guiItemConfig;
     }
@@ -54,5 +58,9 @@ public class MuteConfiguration {
 
     public String getPermissionMuteByPass() {
         return permissionMuteByPass;
+    }
+
+    public String getPermissionUnmutePlayer() {
+        return permissionUnmutePlayer;
     }
 }
