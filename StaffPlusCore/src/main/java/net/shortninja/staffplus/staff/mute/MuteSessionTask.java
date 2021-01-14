@@ -21,7 +21,7 @@ public class MuteSessionTask extends BukkitRunnable {
     private final MuteService muteService = IocContainer.getMuteService();
 
     public MuteSessionTask() {
-        runTaskTimer(StaffPlus.get(), DELAY, DELAY);
+        runTaskTimerAsynchronously(StaffPlus.get(), DELAY, DELAY);
     }
 
     @Override
