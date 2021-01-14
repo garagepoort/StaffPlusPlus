@@ -7,7 +7,6 @@ import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.unordered.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -40,18 +39,9 @@ public class Tasks extends BukkitRunnable {
 
     @Override
     public void run() {
-        checkWarnings();
         decideAutosave();
         freezeHandler.checkLocations();
         gadgetHandler.updateGadgets();
-    }
-
-    private void checkWarnings() {
-        for (IWarning warning : IocContainer.getWarnService().getWarnings()) {
-            if (warning.shouldRemove()) {
-                IocContainer.getWarnService().removeWarning(warning.getId());
-            }
-        }
     }
 
     private void decideAutosave() {
