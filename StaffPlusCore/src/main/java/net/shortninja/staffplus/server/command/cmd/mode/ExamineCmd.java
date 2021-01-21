@@ -27,6 +27,10 @@ public class ExamineCmd extends AbstractCmd {
         if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
+        if(((Player) sender).getUniqueId() == targetPlayer.getId()) {
+            throw new BusinessException("Cannot examine yourself");
+        }
+
         gadgetHandler.onExamine((Player) sender, targetPlayer);
         return true;
     }
