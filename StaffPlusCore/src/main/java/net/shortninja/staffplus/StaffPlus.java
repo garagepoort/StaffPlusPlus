@@ -24,7 +24,6 @@ import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionListener;
 import net.shortninja.staffplus.staff.ban.BanListener;
 import net.shortninja.staffplus.staff.broadcast.BungeeBroadcastListener;
 import net.shortninja.staffplus.staff.chests.ChestGuiMove;
-import net.shortninja.staffplus.staff.examine.ExamineInventoryMove;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
@@ -194,7 +193,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new WarnListener();
         new ReportListener();
         new ReportChangeReporterNotifier();
-        new ExamineInventoryMove();
         new ChestGuiMove();
     }
 

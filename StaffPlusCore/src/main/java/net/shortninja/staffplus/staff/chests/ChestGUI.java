@@ -16,23 +16,40 @@ public class ChestGUI extends AbstractGui implements UpdatableGui {
 
     private String itemSelectedFrom;
     private int itemSelectedSlot;
+    private ChestGuiType chestGuiType;
+    private boolean interactionEnabled;
 
-    public ChestGUI(Player player, SppPlayer targetPlayer, Inventory container, InventoryType inventoryType) {
+    public ChestGUI(Player player, SppPlayer targetPlayer, Inventory container, InventoryType inventoryType, ChestGuiType chestGuiType, boolean interactionEnabled) {
         super("Staff view", inventoryType);
         this.targetInventory = container;
         this.targetPlayer = targetPlayer;
+        this.chestGuiType = chestGuiType;
+        this.interactionEnabled = interactionEnabled;
         initiate(player);
     }
 
-    public ChestGUI(Player player, Inventory inventory, InventoryType inventoryType) {
-        super("Staff view", inventoryType);
-        this.targetInventory = inventory;
-        initiate(player);
-    }
-
-    public ChestGUI(Player player, Inventory container, int containerSize) {
+    public ChestGUI(Player player, SppPlayer targetPlayer, Inventory container, int containerSize, ChestGuiType chestGuiType, boolean interactionEnabled) {
         super(containerSize, "Staff view");
         this.targetInventory = container;
+        this.targetPlayer = targetPlayer;
+        this.chestGuiType = chestGuiType;
+        this.interactionEnabled = interactionEnabled;
+        initiate(player);
+    }
+
+    public ChestGUI(Player player, Inventory inventory, InventoryType inventoryType, ChestGuiType chestGuiType, boolean interactionEnabled) {
+        super("Staff view", inventoryType);
+        this.targetInventory = inventory;
+        this.chestGuiType = chestGuiType;
+        this.interactionEnabled = interactionEnabled;
+        initiate(player);
+    }
+
+    public ChestGUI(Player player, Inventory container, int containerSize, ChestGuiType chestGuiType, boolean interactionEnabled) {
+        super(containerSize, "Staff view");
+        this.targetInventory = container;
+        this.chestGuiType = chestGuiType;
+        this.interactionEnabled = interactionEnabled;
         initiate(player);
     }
 
@@ -54,6 +71,10 @@ public class ChestGUI extends AbstractGui implements UpdatableGui {
         for (int i = 0; i < targetInventory.getContents().length; i++) {
             setItem(i, targetInventory.getItem(i), PASS_THROUGH_ACTION);
         }
+    }
+
+    public ChestGuiType getChestGuiType() {
+        return chestGuiType;
     }
 
     void setItemSelectedFrom(String itemSelectedFrom) {
@@ -78,5 +99,9 @@ public class ChestGUI extends AbstractGui implements UpdatableGui {
 
     public SppPlayer getTargetPlayer() {
         return targetPlayer;
+    }
+
+    public boolean isInteractionEnabled() {
+        return interactionEnabled;
     }
 }
