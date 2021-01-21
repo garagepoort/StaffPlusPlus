@@ -15,7 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 public class ChestGuiMove implements Listener {
@@ -27,7 +26,7 @@ public class ChestGuiMove implements Listener {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         PlayerSession playerSession = sessionManager.get(player.getUniqueId());
@@ -36,13 +35,7 @@ public class ChestGuiMove implements Listener {
         }
 
         ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
-
-        if (chestGUI.getTargetInventory().getType() == InventoryType.ENDER_CHEST && !permissionHandler.has(player, options.enderchestsConfiguration.getPermissionInteract())) {
-            // Enderchest interaction disabled
-            event.setCancelled(true);
-            return;
-        } else if(!options.modeConfiguration.isModeSilentChestInteraction()) {
-            // Other chests interaction disabled
+        if(!chestGUI.isInteractionEnabled()) {
             event.setCancelled(true);
             return;
         }
