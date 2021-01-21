@@ -73,7 +73,7 @@ public class CounterGui extends PagedGui {
 
         Items.ItemStackBuilder itemStackBuilder = Items.editor(Items.createSkull(player.getName()))
             .setName("&b" + player.getName())
-            .addLore("&7" + location.getWorld().getName() + " &8� &7" + JavaUtils.serializeLocation(location));
+            .addLore("&7" + location.getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(location));
 
         if (IocContainer.getPermissionHandler().has(staffViewing, IocContainer.getOptions().permissionCounterGuiShowVanish)) {
             itemStackBuilder.addLore("&7Vanished: " + playerSession.isVanished());
