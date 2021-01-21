@@ -137,6 +137,7 @@ public class Options implements IOptions {
     public String permissionReportUpdateNotifications;
     public String permissionWarn;
     public String permissionWarnBypass;
+    public String permissionVanishCommand;
     public String permissionVanishTotal;
     public String permissionVanishList;
     public String permissionChatClear;
@@ -303,6 +304,7 @@ public class Options implements IOptions {
         permissionReportUpdateNotifications = config.getString("permissions.report-update-notifications");
         permissionWarn = config.getString("permissions.warn");
         permissionWarnBypass = config.getString("permissions.warn-bypass");
+        permissionVanishCommand = config.getString("permissions.vanish");
         permissionVanishTotal = config.getString("permissions.vanish-total");
         permissionVanishList = config.getString("permissions.vanish-list");
         permissionChatClear = config.getString("permissions.chat-clear");
