@@ -78,7 +78,7 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
 
     private ItemStack locationItem() {
         ItemStack item = Items.builder()
-            .setMaterial(Material.SHULKER_BOX).setAmount(1)
+            .setMaterial(Material.CHEST).setAmount(1)
             .setName("&bPlayer's inventory")
             .addLore("View player's inventory")
             .build();
