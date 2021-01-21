@@ -71,11 +71,6 @@ public class ChestGuiMove implements Listener {
     }
 
     private void handleChestInventoryClick(InventoryClickEvent event, Player player, ChestGUI chestGUI) {
-        if (!permissionHandler.has(player, options.permissionModeSilentChestInteraction)) {
-            event.setCancelled(true);
-            return;
-        }
-
         if (!isEmptyStack(event.getCursor()) && isEmptyStack(event.getCurrentItem())) {
             if ("staff".equalsIgnoreCase(chestGUI.getItemSelectedFrom())) {
                 chestGUI.getTargetInventory().setItem(event.getSlot(), event.getCursor());
@@ -91,10 +86,6 @@ public class ChestGuiMove implements Listener {
     }
 
     private void handleStaffInventoryClick(InventoryClickEvent event, Player player, ChestGUI chestGUI) {
-        if (!permissionHandler.has(player, options.permissionModeSilentChestInteraction)) {
-            return;
-        }
-
         if (!isEmptyStack(event.getCursor()) && isEmptyStack(event.getCurrentItem())) {
             if ("player".equalsIgnoreCase(chestGUI.getItemSelectedFrom())) {
                 chestGUI.getTargetInventory().setItem(chestGUI.getItemSelectedSlot(), null);
