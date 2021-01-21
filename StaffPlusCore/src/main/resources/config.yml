@@ -794,6 +794,9 @@ permissions:
   # Permission for using staff chat.
   staff-chat: "staff.staffchat"
 
+  # Permission for using the vanish command
+  vanish: "staff.vanish"
+
   # Permission for using "/v total".
   vanish-total: "staff.vanish.total"
 
