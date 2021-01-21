@@ -63,7 +63,7 @@ public class MinerGui extends AbstractGui {
 
         ItemStack item = Items.editor(Items.createSkull(player.getName())).setAmount(1)
                 .setName("&b" + player.getName())
-                .addLore("&7" + location.getWorld().getName() + " &8� &7" + JavaUtils.serializeLocation(location))
+                .addLore("&7" + location.getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(location))
                 .build();
 
         return item;

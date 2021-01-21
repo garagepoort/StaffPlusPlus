@@ -1,5 +1,14 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.41
+### Features
+- Reworked chest interaction
+- Added inventory & enderchest interaction to examine GUI
+
+### Bugs
+- inventory interaction was not working even when correct permission were given
+- Location inside the gui was showing a question mark character.
+
 ### V1.16.40
 ### Features
 - mute/unmute permission split up into 2 different permissions
