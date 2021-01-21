@@ -36,9 +36,12 @@ import net.shortninja.staffplus.staff.ban.database.MysqlBansRepository;
 import net.shortninja.staffplus.staff.ban.database.SqliteBansRepository;
 import net.shortninja.staffplus.staff.ban.gui.BannedPlayerItemBuilder;
 import net.shortninja.staffplus.staff.broadcast.BroadcastService;
+import net.shortninja.staffplus.staff.chests.EnderChestService;
 import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.MysqlDelayedActionsRepository;
 import net.shortninja.staffplus.staff.delayedactions.SqliteDelayedActionsRepository;
+import net.shortninja.staffplus.staff.examine.ExamineGuiItemProvider;
+import net.shortninja.staffplus.staff.examine.items.*;
 import net.shortninja.staffplus.staff.freeze.FreezeChatInterceptor;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
@@ -290,6 +293,11 @@ public class IocContainer {
             () -> new BlacklistService(getOptions(), getPermissionHandler(), getMessages(), getChatCensors()));
     }
 
+    public static EnderChestService getEnderchestService() {
+        return initBean(EnderChestService.class,
+            () -> new EnderChestService(getPermissionHandler(), getOptions()));
+    }
+
     public static List<ChatCensor> getChatCensors() {
         return Arrays.asList(
             new IllegalWordsChatCensor(getOptions()),
@@ -346,5 +354,19 @@ public class IocContainer {
 
     public static AltDetectionService getAltDetectionService() {
         return initBean(AltDetectionService.class, () -> new AltDetectionService(getPlayerManager(), getPlayerIpRepository(), getAltDetectWhitelistRepository(), getPermissionHandler(), getOptions()));
+    }
+
+    public static List<ExamineGuiItemProvider> getExamineGuiItemProviders() {
+        return Arrays.asList(
+            new LocationExamineGuiProvider(getMessages(), getOptions()),
+            new NotesExamineGuiProvider(getMessages(), getMessage(), getOptions(), getSessionManager()),
+            new FreezeExamineGuiProvider(getMessages(), getOptions(), getFreezeHandler()),
+            new WarnExamineGuiProvider(getMessages(), getMessage(), getOptions(), getSessionManager(), getPlayerManager()),
+            new FoodExamineGuiProvider(getMessages(), getOptions()),
+            new GamemodeExamineGuiProvider(getMessages(), getOptions()),
+            new IpExamineGuiProvider(getMessages(), getOptions()),
+            new InventoryExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler()),
+            new EnderchestExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler())
+        );
     }
 }

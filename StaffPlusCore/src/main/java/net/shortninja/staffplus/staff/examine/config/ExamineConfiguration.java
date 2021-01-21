@@ -11,7 +11,8 @@ public class ExamineConfiguration {
 
     public ExamineConfiguration(String permissionExamine, String permissionExamineInventoryInteraction,
                                 String permissionExamineInventoryInteractionOffline,
-                                String permissionExamineViewInventory, String permissionExamineViewInventoryOffline, String commandExamine) {
+                                String permissionExamineViewInventory,
+                                String permissionExamineViewInventoryOffline, String commandExamine) {
         this.permissionExamine = permissionExamine;
         this.permissionExamineInventoryInteraction = permissionExamineInventoryInteraction;
         this.permissionExamineInventoryInteractionOffline = permissionExamineInventoryInteractionOffline;
