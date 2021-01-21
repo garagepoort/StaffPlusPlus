@@ -30,7 +30,7 @@ public class VanishCmd extends AbstractCmd {
     private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
 
     public VanishCmd(String name) {
-        super(name);
+        super(name, IocContainer.getOptions().permissionVanishCommand);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class VanishCmd extends AbstractCmd {
             return true;
         }
 
-        if (args.length == 1 && permission.isOp(sender)) {
+        if (args.length == 1) {
             if (!(sender instanceof Player)) {
                 throw new BusinessException(messages.onlyPlayers);
             }

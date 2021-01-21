@@ -4,6 +4,7 @@
 ### Features
 - Reworked chest interaction
 - Added inventory & enderchest interaction to examine GUI
+- Added permission for using the vanish command
 
 ### Bugs
 - inventory interaction was not working even when correct permission were given
