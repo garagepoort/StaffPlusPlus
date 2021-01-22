@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.41
+### V1.16.42
 ### Features
 - Reworked chest interaction
 - Added inventory & enderchest interaction to examine GUI
