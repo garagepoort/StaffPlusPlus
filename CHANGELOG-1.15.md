@@ -1,5 +1,15 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.36
+### Features
+- Reworked chest interaction
+- Added inventory & enderchest interaction to examine GUI
+- Added permission for using the vanish command
+
+### Bugs
+- inventory interaction was not working even when correct permission were given
+- Location inside the gui was showing a question mark character.
+
 ### V1.15.34
 ### Features
 - mute/unmute permission split up into 2 different permissions
