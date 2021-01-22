@@ -2,7 +2,7 @@
 
 ### V1.16.42
 ### Features
-- Reworked chest interaction
+- Reworked chest interaction https://staffplusplus-minecraft.gitbook.io/staffplusplus/features/chest-inventory-interaction
 - Added inventory & enderchest interaction to examine GUI
 - Added permission for using the vanish command
 
