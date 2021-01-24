@@ -2,6 +2,9 @@ package net.shortninja.staffplus;
 
 import be.garagepoort.staffplusplus.craftbukkit.api.ProtocolFactory;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.context.ContextCalculator;
+import net.luckperms.api.context.ContextManager;
 import net.shortninja.staffplus.common.UpdatableGui;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.data.config.AutoUpdater;
@@ -24,6 +27,7 @@ import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionListener;
 import net.shortninja.staffplus.staff.ban.BanListener;
 import net.shortninja.staffplus.staff.broadcast.BungeeBroadcastListener;
 import net.shortninja.staffplus.staff.chests.ChestGuiMove;
+import net.shortninja.staffplus.staff.mode.StaffModeLuckPermsContextCalculator;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
@@ -44,7 +48,10 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import static net.shortninja.staffplus.common.Constants.BUNGEE_CORD_CHANNEL;
 import static org.bukkit.Bukkit.getScheduler;
@@ -71,6 +78,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private final DatabaseInitializer databaseInitializer = new DatabaseInitializer();
     private BukkitTask guiUpdateTask;
 
+    private ContextManager contextManager;
+    private final List<ContextCalculator<Player>> registeredCalculators = new ArrayList<>();
+    private boolean luckPermsEnabled;
+
     public static StaffPlus get() {
         return plugin;
     }
@@ -86,6 +97,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             usesPlaceholderAPI = true;
             Bukkit.getLogger().info("Hooked into PlaceholderAPI " + placeholderPlugin.getDescription().getVersion());
         }
+
     }
 
     @Override
@@ -95,7 +107,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         saveDefaultConfig();
         AutoUpdater.updateConfig(this);
         AutoUpdaterLanguageFiles.updateConfig(this);
-        
+
         start(System.currentTimeMillis());
 
         if (getConfig().getBoolean("metrics"))
@@ -111,12 +123,14 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         hookHandler.addHook(new SuperVanishHook(this));
         hookHandler.enableAll();
+        enableLuckPermHooks();
     }
 
     @Override
     public void onDisable() {
         guiUpdateTask.cancel();
         IocContainer.getMessage().sendConsoleMessage("Staff++ is now disabling!", true);
+        this.disableLuckPermHooks();
         stop();
     }
 
@@ -241,5 +255,33 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public boolean isPlayerVanished(UUID playerUuid) {
         return IocContainer.getSessionManager().get(playerUuid).isVanished();
     }
+
+    private void enableLuckPermHooks() {
+        luckPermsEnabled = Bukkit.getPluginManager().getPlugin("LuckPerms") != null;
+        if (luckPermsEnabled) {
+            getLogger().info("Luckperms enabled");
+            LuckPerms luckPerms = getServer().getServicesManager().load(LuckPerms.class);
+            if (luckPerms == null) {
+                throw new IllegalStateException("LuckPerms API not loaded.");
+            }
+            this.contextManager = luckPerms.getContextManager();
+            this.register("StaffMode", StaffModeLuckPermsContextCalculator::new);
+        }
+    }
+
+    private void disableLuckPermHooks() {
+        if (luckPermsEnabled) {
+            this.registeredCalculators.forEach(c -> this.contextManager.unregisterCalculator(c));
+            this.registeredCalculators.clear();
+        }
+    }
+
+    private void register(String option, Supplier<ContextCalculator<Player>> calculatorSupplier) {
+        getLogger().info("Registering '" + option + "' calculator.");
+        ContextCalculator<Player> calculator = calculatorSupplier.get();
+        this.contextManager.registerCalculator(calculator);
+        this.registeredCalculators.add(calculator);
+    }
+
 
 }
