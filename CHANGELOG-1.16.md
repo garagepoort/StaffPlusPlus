@@ -3,6 +3,7 @@
 ### V1.16.43 (NOT YET RELEASED)
 ### Features
 - Added LuckPerms integration for staffmode context
+- Reload command now also reloads lang files
 
 ### Bugs
 - Using a non staff item while in staff mode was throwing an exception.

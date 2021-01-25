@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.server.data.config;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.server.data.file.LanguageFile;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -8,134 +8,270 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Messages {
-    private final FileConfiguration config = StaffPlus.get().languageFile.get();
     /*
      * Prefixes
      */
-    public String prefixGeneral = config.getString("general-prefix");
-    public String prefixProtect = config.getString("protect-prefix", "&dProtected &8»");
-    public String prefixReports = config.getString("reports-prefix");
-    public String prefixWarnings = config.getString("warnings-prefix");
-    public String prefixStaffChat = config.getString("staff-chat-prefix");
-    public String prefixTrace = config.getString("trace-prefix", "&dTrace &8»");
+    public String prefixGeneral;
+    public String prefixProtect;
+    public String prefixReports;
+    public String prefixWarnings;
+    public String prefixStaffChat;
+    public String prefixTrace;
     /*
      * General
      */
-    public String separatorColor = config.getString("separator-color");
-    public List<String> staffListStart = JavaUtils.stringToList(config.getString("staff-list-start"));
-    public String staffListMember = config.getString("staff-list-member");
-    public List<String> staffListEnd = JavaUtils.stringToList(config.getString("staff-list-end"));
-    public String lockdown = config.getString("lockdown");
-    public String revivedStaff = config.getString("revived-staff");
-    public String revivedUser = config.getString("revived-user");
-    public String commandBlocked = config.getString("command-blocked");
-    public String modeCommandBlocked = config.getString("mode-command-blocked");
-    public String commandOnCooldown = config.getString("on-cooldown");
-    public String noPermission = config.getString("no-permission");
-    public String playerOffline = config.getString("player-offline");
-    public String playerNotRegistered = config.getString("player-not-registered", "This player does not exist");
-    public String unknownCommand = config.getString("unknown-command");
-    public String invalidArguments = config.getString("invalid-arguments");
-    public String onlyPlayers = config.getString("only-players");
-    public String noFound = config.getString("no-found");
-    public String typeInput = config.getString("type-input");
-    public String inputAccepted = config.getString("input-accepted");
+    public String separatorColor;
+    public List<String> staffListStart;
+    public String staffListMember;
+    public List<String> staffListEnd;
+    public String lockdown;
+    public String revivedStaff;
+    public String revivedUser;
+    public String commandBlocked;
+    public String modeCommandBlocked;
+    public String commandOnCooldown;
+    public String noPermission;
+    public String playerOffline;
+    public String playerNotRegistered;
+    public String unknownCommand;
+    public String invalidArguments;
+    public String onlyPlayers;
+    public String noFound;
+    public String typeInput;
+    public String inputAccepted;
 
-    public String enabled = config.getString("enabled", "enabled");
-    public String disabled = config.getString("disabled", "disabled");
+    public String enabled;
+    public String disabled;
 
     /*
      * Infractions
      */
-    public String reported = config.getString("reported");
-    public String reportedStaff = config.getString("reported-staff");
-    public String reportsCleared = config.getString("reports-cleared");
-    public List<String> reportsListStart = JavaUtils.stringToList(config.getString("reports-list-start"));
-    public String reportsListEntry = config.getString("reports-list-entry");
-    public List<String> reportsListEnd = JavaUtils.stringToList(config.getString("reports-list-end"));
-    public String warned = config.getString("warned");
-    public String warn = config.getString("warn");
-    public String warningsCleared = config.getString("warnings-cleared");
-    public List<String> warningsListStart = JavaUtils.stringToList(config.getString("warnings-list-start"));
-    public String warningsListEntry = config.getString("warnings-list-entry");
-    public List<String> warningsListEnd = JavaUtils.stringToList(config.getString("warnings-list-end"));
-    public List<String> infractionItem = JavaUtils.stringToList(config.getString("infraction-item"));
+    public String reported;
+    public String reportedStaff;
+    public String reportsCleared;
+    public List<String> reportsListStart;
+    public String reportsListEntry;
+    public List<String> reportsListEnd;
+    public String warned;
+    public String warn;
+    public String warningsCleared;
+    public List<String> warningsListStart;
+    public String warningsListEntry;
+    public List<String> warningsListEnd;
+    public List<String> infractionItem;
     /*
      * Chat
      */
-    public String staffChat = config.getString("staff-chat");
-    public String chatClearLine = config.getString("chat-clear-line");
-    public String chatCleared = config.getString("chat-cleared");
-    public String chatToggled = config.getString("chat-toggled");
-    public String chatPrevented = config.getString("chat-prevented");
-    public String chatSlowed = config.getString("chat-slowed");
-    public String chattingFast = config.getString("chatting-fast");
-    public String blacklistHover = config.getString("blacklist-hover");
-    public String blacklistCensorColor = config.getString("blacklist-censor-color");
-    public String blacklistChatFormat = config.getString("blacklist-chat-format");
+    public String staffChat;
+    public String chatClearLine;
+    public String chatCleared;
+    public String chatToggled;
+    public String chatPrevented;
+    public String chatSlowed;
+    public String chattingFast;
+    public String blacklistHover;
+    public String blacklistCensorColor;
+    public String blacklistChatFormat;
     /*
      * Vanish
      */
-    public String totalVanish = config.getString("total-vanish");
-    public String listVanish = config.getString("list-vanish");
-    public String vanishEnabled = config.getString("vanish-enabled");
+    public String totalVanish;
+    public String listVanish;
+    public String vanishEnabled;
     /*
      * Alerts
      */
-    public String alertChanged = config.getString("alert-changed");
-    public String alertsName = config.getString("alerts-name");
-    public String alertsMention = config.getString("alerts-mention");
-    public String alertsXray = config.getString("alerts-xray");
+    public String alertChanged;
+    public String alertsName;
+    public String alertsMention;
+    public String alertsXray;
     /*
      * Staff Mode
      */
-    public String modeStatus = config.getString("mode-status");
-    public String modeOriginalLocation = config.getString("mode-original-location");
-    public String modeRandomTeleport = config.getString("mode-random-teleport");
-    public String modeNotEnoughPlayers = config.getString("mode-not-enough-players");
-    public String guiReports = config.getString("gui-reports");
-    public String guiMine = config.getString("gui-mine");
-    public String guiMiner = config.getString("gui-miner");
-    public String guiCounted = config.getString("gui-Counted");
-    public List<String> freeze = JavaUtils.stringToList(config.getString("freeze"));
-    public List<String> unfrozen = JavaUtils.stringToList(config.getString("unfrozen"));
-    public String staffFroze = config.getString("staff-froze");
-    public String staffUnfroze = config.getString("staff-unfroze");
-    public String cpsStart = config.getString("cps-start");
-    public String cpsFinishNormal = config.getString("cps-finish-normal");
-    public String cpsFinishMax = config.getString("cps-finish-max");
-    public List<String> examineFood = JavaUtils.stringToList(config.getString("examine-food"));
-    public String examineIp = config.getString("examine-ip");
-    public String examineGamemode = config.getString("examine-gamemode");
-    public String examineLocation = config.getString("examine-location");
-    public String examineWarn = config.getString("examine-warn");
-    public String examineFreeze = config.getString("examine-freeze");
-    public String examineNotes = config.getString("examine-notes");
-    public String examineNotesNote = config.getString("examine-notes-note");
-    public String follow = config.getString("follow");
-    private int langVersion = config.contains("lang-version") ? config.getInt("lang-version") : 3;
-    public String noteAdded = langVersion >= 3.2 ? config.getString("note-added") : "&bNote added for &7%target%&b.";
-    public String noteCleared = langVersion >= 3.2 ? config.getString("note-cleared") : "&bNotes cleared for &7%target%&b.";
-    public List<String> noteListStart = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-start")) : Arrays.asList("&7%longline%");
-    public String noteListEntry = langVersion >= 3.2 ? config.getString("note-list-entry") : "&b%count% &7%note%";
-    public List<String> noteListEnd = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-end")) : Arrays.asList("&7%longline%");
-    public String bypassed = langVersion >= 3.5 ? config.getString("bypassed") : "&cThat player bypassed that command!";
-    public String staffChatStatus = langVersion >= 3.2 ? config.getString("staff-chat-status") : "&bStaff chat &7%status%&b.";
-    public String freezeLogout = langVersion >= 3.57 ? config.getString("freeze-logout") : "&7%player% &blogged out while frozen!";
-    public String strip = langVersion >= 6194 ? config.getString("strip") : "&7%player%'s armor has been removed!";
+    public String modeStatus;
+    public String modeOriginalLocation;
+    public String modeRandomTeleport;
+    public String modeNotEnoughPlayers;
+    public String guiReports;
+    public String guiMine;
+    public String guiMiner;
+    public String guiCounted;
+    public List<String> freeze;
+    public List<String> unfrozen;
+    public String staffFroze;
+    public String staffUnfroze;
+    public String cpsStart;
+    public String cpsFinishNormal;
+    public String cpsFinishMax;
+    public List<String> examineFood;
+    public String examineIp;
+    public String examineGamemode;
+    public String examineLocation;
+    public String examineWarn;
+    public String examineFreeze;
+    public String examineNotes;
+    public String examineNotesNote;
+    public String follow;
+    private int langVersion;
+    public String noteAdded;
+    public String noteCleared;
+    public List<String> noteListStart;
+    public String noteListEntry;
+    public List<String> noteListEnd;
+    public String bypassed;
+    public String staffChatStatus;
+    public String freezeLogout;
+    public String strip;
 
-    public String kickedNotify = config.getString("kick-notifyplayers", "");
-    public String kickMessage = config.getString("kick-kickmessage", "");
+    public String kickedNotify;
+    public String kickMessage;
 
-    public String unbanned = config.getString("ban-unbanned", "");
-    public String permanentBanned = config.getString("ban-permabanned", "");
-    public String tempBanned = config.getString("ban-tempbanned", "");
-    public String permanentBannedKick = config.getString("ban-permabanned-kick", "");
-    public String tempBannedKick = config.getString("ban-tempbanned-kick", "");
+    public String unbanned;
+    public String permanentBanned;
+    public String tempBanned;
+    public String permanentBannedKick;
+    public String tempBannedKick;
 
-    public String muteExpired = config.getString("mute-expired", "");
-    public String unmuted = config.getString("mute-unmuted", "");
-    public String permanentMuted = config.getString("mute-permamuted", "");
-    public String tempMuted = config.getString("mute-tempmuted", "");
-    public String muted = config.getString("mute-muted", "");
+    public String muteExpired;
+    public String unmuted;
+    public String permanentMuted;
+    public String tempMuted;
+    public String muted;
+
+    public Messages() {
+        reload();
+    }
+
+    public void reload() {
+        FileConfiguration config = new LanguageFile().get();
+        /*
+         * Prefixes
+         */
+        prefixGeneral = config.getString("general-prefix");
+        prefixProtect = config.getString("protect-prefix", "&dProtected &8»");
+        prefixReports = config.getString("reports-prefix");
+        prefixWarnings = config.getString("warnings-prefix");
+        prefixStaffChat = config.getString("staff-chat-prefix");
+        prefixTrace = config.getString("trace-prefix", "&dTrace &8»");
+        /*
+         * General
+         */
+        separatorColor = config.getString("separator-color");
+        staffListStart = JavaUtils.stringToList(config.getString("staff-list-start"));
+        staffListMember = config.getString("staff-list-member");
+        staffListEnd = JavaUtils.stringToList(config.getString("staff-list-end"));
+        lockdown = config.getString("lockdown");
+        revivedStaff = config.getString("revived-staff");
+        revivedUser = config.getString("revived-user");
+        commandBlocked = config.getString("command-blocked");
+        modeCommandBlocked = config.getString("mode-command-blocked");
+        commandOnCooldown = config.getString("on-cooldown");
+        noPermission = config.getString("no-permission");
+        playerOffline = config.getString("player-offline");
+        playerNotRegistered = config.getString("player-not-registered", "This player does not exist");
+        unknownCommand = config.getString("unknown-command");
+        invalidArguments = config.getString("invalid-arguments");
+        onlyPlayers = config.getString("only-players");
+        noFound = config.getString("no-found");
+        typeInput = config.getString("type-input");
+        inputAccepted = config.getString("input-accepted");
+
+        enabled = config.getString("enabled", "enabled");
+        disabled = config.getString("disabled", "disabled");
+
+        /*
+         * Infractions
+         */
+        reported = config.getString("reported");
+        reportedStaff = config.getString("reported-staff");
+        reportsCleared = config.getString("reports-cleared");
+        reportsListStart = JavaUtils.stringToList(config.getString("reports-list-start"));
+        reportsListEntry = config.getString("reports-list-entry");
+        reportsListEnd = JavaUtils.stringToList(config.getString("reports-list-end"));
+        warned = config.getString("warned");
+        warn = config.getString("warn");
+        warningsCleared = config.getString("warnings-cleared");
+        warningsListStart = JavaUtils.stringToList(config.getString("warnings-list-start"));
+        warningsListEntry = config.getString("warnings-list-entry");
+        warningsListEnd = JavaUtils.stringToList(config.getString("warnings-list-end"));
+        infractionItem = JavaUtils.stringToList(config.getString("infraction-item"));
+        /*
+         * Chat
+         */
+        staffChat = config.getString("staff-chat");
+        chatClearLine = config.getString("chat-clear-line");
+        chatCleared = config.getString("chat-cleared");
+        chatToggled = config.getString("chat-toggled");
+        chatPrevented = config.getString("chat-prevented");
+        chatSlowed = config.getString("chat-slowed");
+        chattingFast = config.getString("chatting-fast");
+        blacklistHover = config.getString("blacklist-hover");
+        blacklistCensorColor = config.getString("blacklist-censor-color");
+        blacklistChatFormat = config.getString("blacklist-chat-format");
+        /*
+         * Vanish
+         */
+        totalVanish = config.getString("total-vanish");
+        listVanish = config.getString("list-vanish");
+        vanishEnabled = config.getString("vanish-enabled");
+        /*
+         * Alerts
+         */
+        alertChanged = config.getString("alert-changed");
+        alertsName = config.getString("alerts-name");
+        alertsMention = config.getString("alerts-mention");
+        alertsXray = config.getString("alerts-xray");
+        /*
+         * Staff Mode
+         */
+        modeStatus = config.getString("mode-status");
+        modeOriginalLocation = config.getString("mode-original-location");
+        modeRandomTeleport = config.getString("mode-random-teleport");
+        modeNotEnoughPlayers = config.getString("mode-not-enough-players");
+        guiReports = config.getString("gui-reports");
+        guiMine = config.getString("gui-mine");
+        guiMiner = config.getString("gui-miner");
+        guiCounted = config.getString("gui-Counted");
+        freeze = JavaUtils.stringToList(config.getString("freeze"));
+        unfrozen = JavaUtils.stringToList(config.getString("unfrozen"));
+        staffFroze = config.getString("staff-froze");
+        staffUnfroze = config.getString("staff-unfroze");
+        cpsStart = config.getString("cps-start");
+        cpsFinishNormal = config.getString("cps-finish-normal");
+        cpsFinishMax = config.getString("cps-finish-max");
+        examineFood = JavaUtils.stringToList(config.getString("examine-food"));
+        examineIp = config.getString("examine-ip");
+        examineGamemode = config.getString("examine-gamemode");
+        examineLocation = config.getString("examine-location");
+        examineWarn = config.getString("examine-warn");
+        examineFreeze = config.getString("examine-freeze");
+        examineNotes = config.getString("examine-notes");
+        examineNotesNote = config.getString("examine-notes-note");
+        follow = config.getString("follow");
+        langVersion = config.contains("lang-version") ? config.getInt("lang-version") : 3;
+        noteAdded = langVersion >= 3.2 ? config.getString("note-added") : "&bNote added for &7%target%&b.";
+        noteCleared = langVersion >= 3.2 ? config.getString("note-cleared") : "&bNotes cleared for &7%target%&b.";
+        noteListStart = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-start")) : Arrays.asList("&7%longline%");
+        noteListEntry = langVersion >= 3.2 ? config.getString("note-list-entry") : "&b%count% &7%note%";
+        noteListEnd = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-end")) : Arrays.asList("&7%longline%");
+        bypassed = langVersion >= 3.5 ? config.getString("bypassed") : "&cThat player bypassed that command!";
+        staffChatStatus = langVersion >= 3.2 ? config.getString("staff-chat-status") : "&bStaff chat &7%status%&b.";
+        freezeLogout = langVersion >= 3.57 ? config.getString("freeze-logout") : "&7%player% &blogged out while frozen!";
+        strip = langVersion >= 6194 ? config.getString("strip") : "&7%player%'s armor has been removed!";
+
+        kickedNotify = config.getString("kick-notifyplayers", "");
+        kickMessage = config.getString("kick-kickmessage", "");
+
+        unbanned = config.getString("ban-unbanned", "");
+        permanentBanned = config.getString("ban-permabanned", "");
+        tempBanned = config.getString("ban-tempbanned", "");
+        permanentBannedKick = config.getString("ban-permabanned-kick", "");
+        tempBannedKick = config.getString("ban-tempbanned-kick", "");
+
+        muteExpired = config.getString("mute-expired", "");
+        unmuted = config.getString("mute-unmuted", "");
+        permanentMuted = config.getString("mute-permamuted", "");
+        tempMuted = config.getString("mute-tempmuted", "");
+        muted = config.getString("mute-muted", "");
+    }
 }

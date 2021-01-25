@@ -11,7 +11,6 @@ import net.shortninja.staffplus.server.data.config.AutoUpdater;
 import net.shortninja.staffplus.server.data.config.AutoUpdaterLanguageFiles;
 import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.file.DataFile;
-import net.shortninja.staffplus.server.data.file.LanguageFile;
 import net.shortninja.staffplus.server.hook.HookHandler;
 import net.shortninja.staffplus.server.hook.SuperVanishHook;
 import net.shortninja.staffplus.server.listener.*;
@@ -63,7 +62,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     public IProtocol versionProtocol;
     public DataFile dataFile;
-    public LanguageFile languageFile;
 
     public HookHandler hookHandler;
     public CpsHandler cpsHandler;
@@ -153,7 +151,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         getScheduler().runTaskAsynchronously(this, () -> new UpdateNotifier().checkUpdate());
 
         dataFile = new DataFile("data.yml");
-        languageFile = new LanguageFile();
         hookHandler = new HookHandler();
         cpsHandler = new CpsHandler();
         gadgetHandler = new GadgetHandler();
@@ -232,7 +229,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
 
         versionProtocol = null;
-        languageFile = null;
         cpsHandler = null;
         gadgetHandler = null;
         reviveHandler = null;
