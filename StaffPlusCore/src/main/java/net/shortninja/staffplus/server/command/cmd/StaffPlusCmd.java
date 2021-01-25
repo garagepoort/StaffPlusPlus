@@ -24,6 +24,7 @@ public class StaffPlusCmd extends AbstractCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         if (args[0].equalsIgnoreCase("reload")) {
             IocContainer.getOptions().reload();
+            IocContainer.getMessages().reload();
             StaffPlus.get().cmdHandler.reload();
             sender.sendMessage("");
             message.send(sender, "Configuration has been reloaded", messages.prefixGeneral);
