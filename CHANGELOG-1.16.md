@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.43 (NOT YET RELEASED)
+### Features
+- Added LuckPerms integration for staffmode context
+
+### Bugs
+- Using a non staff item while in staff mode was throwing an exception.
+
 ### V1.16.42
 ### Features
 - Reworked chest interaction https://staffplusplus-minecraft.gitbook.io/staffplusplus/features/chest-inventory-interaction
