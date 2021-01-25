@@ -65,7 +65,7 @@ public class GadgetHandler {
             return GadgetType.FOLLOW;
         }
 
-        return GadgetType.CUSTOM;
+        return GadgetType.NO_GADGET;
     }
 
     public CustomModuleConfiguration getModule(ItemStack item) {
@@ -226,6 +226,6 @@ public class GadgetHandler {
 
     public enum GadgetType {
         COMPASS, RANDOM_TELEPORT, VANISH, GUI_HUB, COUNTER, FREEZE, CPS, EXAMINE,
-        FOLLOW, CUSTOM;
+        FOLLOW, CUSTOM, NO_GADGET;
     }
 }
