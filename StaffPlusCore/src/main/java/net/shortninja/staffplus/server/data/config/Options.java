@@ -93,6 +93,7 @@ public class Options implements IOptions {
     public boolean vanishTabList;
     public boolean vanishShowAway;
     public boolean vanishChatEnabled;
+    public boolean vanishSyncEnabled;
     public boolean vanishMessageEnabled;
     /*
      * Chat
@@ -257,6 +258,7 @@ public class Options implements IOptions {
         vanishTabList = config.getBoolean("vanish-module.tab-list");
         vanishShowAway = config.getBoolean("vanish-module.show-away");
         vanishChatEnabled = config.getBoolean("vanish-module.chat");
+        vanishSyncEnabled = config.getBoolean("vanish-module.bungee-sync");
         vanishMessageEnabled = config.getBoolean("vanish-module.vanish-message-enabled");
         /*
          * Chat

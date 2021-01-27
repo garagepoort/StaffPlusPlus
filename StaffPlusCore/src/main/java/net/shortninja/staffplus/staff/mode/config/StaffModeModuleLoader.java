@@ -19,6 +19,7 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
         List<String> modeEnableCommands = JavaUtils.stringToList(config.getString("staff-mode.enable-commands"));
         List<String> modeDisableCommands = JavaUtils.stringToList(config.getString("staff-mode.disable-commands"));
         boolean worldChange = config.getBoolean("staff-mode.disable-on-world-change");
+        boolean bungeeSyncEnabled = config.getBoolean("staff-mode.bungee-sync");
         boolean modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
         boolean modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
         boolean modeSilentChestInteraction = config.getBoolean("staff-mode.silent-chest-interaction");
@@ -27,6 +28,7 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
         boolean modeCreative = config.getBoolean("staff-mode.creative");
         boolean modeOriginalLocation = config.getBoolean("staff-mode.original-location");
         boolean modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
+        boolean modeDisableOnLogout = config.getBoolean("staff-mode.disable-on-logout");
 
         return new GeneralModeConfiguration(modeVanish,
             modeItemChange,
@@ -35,6 +37,7 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
             modeEnableCommands,
             modeDisableCommands,
             worldChange,
+            bungeeSyncEnabled,
             modeBlockManipulation,
             modeInventoryInteraction,
             modeSilentChestInteraction,
@@ -42,7 +45,8 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
             modeFlight,
             modeCreative,
             modeOriginalLocation,
-            modeEnableOnLogin);
+            modeEnableOnLogin,
+            modeDisableOnLogout);
     }
 
     private VanishType stringToVanishType(String string) {

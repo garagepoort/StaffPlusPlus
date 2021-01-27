@@ -5,6 +5,7 @@ import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.unordered.AlertType;
+import net.shortninja.staffplus.unordered.VanishType;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -42,6 +43,8 @@ public class SessionLoader {
     private PlayerSession buildKnownSession(UUID uuid) {
         String name = dataFile.getString(uuid + ".name");
         String glassColor = dataFile.getString(uuid + ".glass-color");
+        VanishType vanishType = VanishType.valueOf(dataFile.getString(uuid + ".vanish-type", "NONE"));
+        boolean staffMode = dataFile.getBoolean(uuid + ".staff-mode", false);
         Material glassMaterial = Material.WHITE_STAINED_GLASS_PANE;
         if(glassColor != null && !glassColor.equals("0")) {
             glassMaterial = Material.valueOf(glassColor);
@@ -49,7 +52,7 @@ public class SessionLoader {
 
         List<String> playerNotes = loadPlayerNotes(uuid);
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
-        return new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions, isMuted(uuid));
+        return new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions, isMuted(uuid), vanishType, staffMode);
     }
 
     private boolean isMuted(UUID uuid) {

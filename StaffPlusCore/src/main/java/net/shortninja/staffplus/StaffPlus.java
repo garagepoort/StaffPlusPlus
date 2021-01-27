@@ -21,6 +21,7 @@ import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.Save;
+import net.shortninja.staffplus.session.bungee.BungeeSessionListener;
 import net.shortninja.staffplus.staff.alerts.AlertListener;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionListener;
 import net.shortninja.staffplus.staff.ban.BanListener;
@@ -29,7 +30,7 @@ import net.shortninja.staffplus.staff.chests.ChestGuiMove;
 import net.shortninja.staffplus.staff.mode.StaffModeLuckPermsContextCalculator;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
+import net.shortninja.staffplus.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.staff.mute.MuteSessionTask;
 import net.shortninja.staffplus.staff.protect.ProtectListener;
 import net.shortninja.staffplus.staff.reporting.ReportChangeReporterNotifier;
@@ -89,6 +90,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, BUNGEE_CORD_CHANNEL);
         this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeStaffChatListener());
         this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeBroadcastListener());
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeSessionListener());
 
         Plugin placeholderPlugin;
         if ((placeholderPlugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")) != null) {
@@ -223,9 +225,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         muteSessionTask.cancel();
         warningClearTask.cancel();
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            IocContainer.getModeCoordinator().removeMode(player);
-            IocContainer.getVanishHandler().removeVanish(player);
+        if (IocContainer.getOptions().modeConfiguration.isModeDisableOnLogout()) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                IocContainer.getModeCoordinator().removeMode(player);
+            }
         }
 
         versionProtocol = null;
@@ -235,7 +238,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         cmdHandler = null;
         tasks = null;
         plugin = null;
-
     }
 
     @Override

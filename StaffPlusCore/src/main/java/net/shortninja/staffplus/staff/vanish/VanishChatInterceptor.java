@@ -8,13 +8,13 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class VanishChatInterceptor implements ChatInterceptor {
 
-    private final VanishHandler vanishHandler;
+    private final VanishService vanishService;
     private final Options options;
     private final MessageCoordinator message;
     private final Messages messages;
 
-    public VanishChatInterceptor(VanishHandler vanishHandler, Options options, MessageCoordinator message, Messages messages) {
-        this.vanishHandler = vanishHandler;
+    public VanishChatInterceptor(VanishService vanishService, Options options, MessageCoordinator message, Messages messages) {
+        this.vanishService = vanishService;
         this.options = options;
         this.message = message;
         this.messages = messages;
@@ -22,7 +22,7 @@ public class VanishChatInterceptor implements ChatInterceptor {
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
-        if (options.vanishEnabled && !options.vanishChatEnabled && vanishHandler.isVanished(event.getPlayer())) {
+        if (options.vanishEnabled && !options.vanishChatEnabled && vanishService.isVanished(event.getPlayer())) {
             this.message.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }

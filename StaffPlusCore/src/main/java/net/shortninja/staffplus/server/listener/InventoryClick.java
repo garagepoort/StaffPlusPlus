@@ -3,10 +3,9 @@ package net.shortninja.staffplus.server.listener;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.PassThroughClickAction;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
-import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,7 +20,6 @@ import java.util.UUID;
 public class InventoryClick implements Listener {
     private final Options options = IocContainer.getOptions();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
 
     public InventoryClick() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -36,7 +34,7 @@ public class InventoryClick implements Listener {
         int slot = event.getSlot();
 
         if (!playerSession.getCurrentGui().isPresent() || item == null) {
-            if (modeCoordinator.isInMode(uuid) && !options.modeConfiguration.isModeInventoryInteraction()) {
+            if (playerSession.isInStaffMode() && !options.modeConfiguration.isModeInventoryInteraction()) {
                 event.setCancelled(true);
             }
             return;

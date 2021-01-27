@@ -4,6 +4,7 @@ import net.shortninja.staffplus.authentication.AuthenticationProvider;
 import net.shortninja.staffplus.authentication.AuthenticationService;
 import net.shortninja.staffplus.authentication.authme.AuthMeAuthenticationService;
 import net.shortninja.staffplus.authentication.authme.NoopAuthenticationService;
+import net.shortninja.staffplus.common.bungee.BungeeClient;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.PlayerManager;
@@ -21,6 +22,7 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.bungee.SessionBungeeDtoMapper;
 import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionService;
@@ -55,7 +57,9 @@ import net.shortninja.staffplus.staff.kick.gui.KickedPlayerItemBuilder;
 import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.location.MysqlLocationRepository;
 import net.shortninja.staffplus.staff.location.SqliteLocationRepository;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mode.ModeDataRepository;
+import net.shortninja.staffplus.staff.mode.StaffModeService;
+import net.shortninja.staffplus.staff.mode.StaffModeItemsService;
 import net.shortninja.staffplus.staff.mute.MuteChatInterceptor;
 import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.staff.mute.database.MuteRepository;
@@ -79,7 +83,7 @@ import net.shortninja.staffplus.staff.tracing.TraceChatInterceptor;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
 import net.shortninja.staffplus.staff.vanish.VanishChatInterceptor;
-import net.shortninja.staffplus.staff.vanish.VanishHandler;
+import net.shortninja.staffplus.staff.vanish.VanishService;
 import net.shortninja.staffplus.staff.warn.WarnService;
 import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
 import net.shortninja.staffplus.staff.warn.database.SqliteWarnRepository;
@@ -170,6 +174,9 @@ public class IocContainer {
     public static BanService getBanService() {
         return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
     }
+    public static BungeeClient getBungeeClient() {
+        return initBean(BungeeClient.class, BungeeClient::new);
+    }
 
     public static KickService getKickService() {
         return initBean(KickService.class, () -> new KickService(getPermissionHandler(), getKicksRepository(), getOptions(), getMessage(), getMessages()));
@@ -191,8 +198,12 @@ public class IocContainer {
         return initBean(ManageReportService.class, () -> new ManageReportService(getReportRepository(), getMessages(), getPlayerManager(), getReportService()));
     }
 
+    public static SessionBungeeDtoMapper getSessionBungeeDtoMapper() {
+        return initBean(SessionBungeeDtoMapper.class, () -> new SessionBungeeDtoMapper(getOptions()));
+    }
+
     public static ProtectService getProtectService() {
-        return initBean(ProtectService.class, () -> new ProtectService(getProtectedAreaRepository(), getMessage(), getModeCoordinator(), getMessages(), getOptions()));
+        return initBean(ProtectService.class, () -> new ProtectService(getProtectedAreaRepository(), getMessage(), getMessages(), getOptions(), getSessionManager()));
     }
 
     public static XrayService getXrayService() {
@@ -201,6 +212,10 @@ public class IocContainer {
 
     public static TeleportService getTeleportService() {
         return initBean(TeleportService.class, () -> new TeleportService(getOptions()));
+    }
+
+    public static StaffModeItemsService getStaffModeItemsService() {
+        return initBean(StaffModeItemsService.class, () -> new StaffModeItemsService(getPermissionHandler(), getOptions(), getSessionManager()));
     }
 
     public static WarnService getWarnService() {
@@ -215,11 +230,22 @@ public class IocContainer {
     }
 
     public static SessionManager getSessionManager() {
-        return initBean(SessionManager.class, () -> new SessionManager(getSessionLoader()));
+        return initBean(SessionManager.class, () -> new SessionManager(getSessionLoader(), getOptions(), getBungeeClient(), getSessionBungeeDtoMapper()));
     }
 
-    public static ModeCoordinator getModeCoordinator() {
-        return initBean(ModeCoordinator.class, () -> new ModeCoordinator(getMessage(), getOptions(), getMessages(), getSessionManager(), getVanishHandler(), getPermissionHandler()));
+    public static ModeDataRepository getModeDataRepository() {
+        return initBean(ModeDataRepository.class, ModeDataRepository::new);
+    }
+
+    public static StaffModeService getModeCoordinator() {
+        return initBean(StaffModeService.class, () -> new StaffModeService(
+            getMessage(),
+            getOptions(),
+            getMessages(),
+            getSessionManager(),
+            getVanishHandler(),
+            getStaffModeItemsService(),
+            getModeDataRepository()));
     }
 
     public static PlayerManager getPlayerManager() {
@@ -246,8 +272,8 @@ public class IocContainer {
         return initBean(StaffChatService.class, () -> new StaffChatService(getMessages(), getOptions()));
     }
 
-    public static VanishHandler getVanishHandler() {
-        return initBean(VanishHandler.class, () -> new VanishHandler(StaffPlus.get().versionProtocol, getPermissionHandler(),
+    public static VanishService getVanishHandler() {
+        return initBean(VanishService.class, () -> new VanishService(StaffPlus.get().versionProtocol, getPermissionHandler(),
             getMessage(), getOptions(), getMessages(), getSessionManager()));
     }
 
@@ -260,7 +286,7 @@ public class IocContainer {
     }
 
     public static BroadcastService getBroadcastService() {
-        return initBean(BroadcastService.class, () -> new BroadcastService(getMessage(), getOptions()));
+        return initBean(BroadcastService.class, () -> new BroadcastService(getMessage(), getOptions(), getBungeeClient()));
     }
 
     public static TraceService getTraceService() {
