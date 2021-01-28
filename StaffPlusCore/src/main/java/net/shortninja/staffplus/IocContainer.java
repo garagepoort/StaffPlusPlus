@@ -4,6 +4,7 @@ import net.shortninja.staffplus.authentication.AuthenticationProvider;
 import net.shortninja.staffplus.authentication.AuthenticationService;
 import net.shortninja.staffplus.authentication.authme.AuthMeAuthenticationService;
 import net.shortninja.staffplus.authentication.authme.NoopAuthenticationService;
+import net.shortninja.staffplus.common.bungee.BungeeClient;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.PlayerManager;
@@ -21,6 +22,9 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.database.MysqlSessionsRepository;
+import net.shortninja.staffplus.session.database.SessionsRepository;
+import net.shortninja.staffplus.session.database.SqliteSessionsRepository;
 import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionService;
@@ -55,7 +59,9 @@ import net.shortninja.staffplus.staff.kick.gui.KickedPlayerItemBuilder;
 import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.location.MysqlLocationRepository;
 import net.shortninja.staffplus.staff.location.SqliteLocationRepository;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mode.ModeDataRepository;
+import net.shortninja.staffplus.staff.mode.StaffModeItemsService;
+import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.staff.mute.MuteChatInterceptor;
 import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.staff.mute.database.MuteRepository;
@@ -79,7 +85,7 @@ import net.shortninja.staffplus.staff.tracing.TraceChatInterceptor;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
 import net.shortninja.staffplus.staff.vanish.VanishChatInterceptor;
-import net.shortninja.staffplus.staff.vanish.VanishHandler;
+import net.shortninja.staffplus.staff.vanish.VanishService;
 import net.shortninja.staffplus.staff.warn.WarnService;
 import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
 import net.shortninja.staffplus.staff.warn.database.SqliteWarnRepository;
@@ -108,51 +114,51 @@ public class IocContainer {
 
     public static ReportRepository getReportRepository() {
         return initRepositoryBean(ReportRepository.class,
-            () -> new MysqlReportRepository(getPlayerManager()),
-            () -> new SqliteReportRepository(getPlayerManager()));
+            () -> new MysqlReportRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteReportRepository(getPlayerManager(), getOptions()));
     }
 
     public static WarnRepository getWarnRepository() {
         return initRepositoryBean(WarnRepository.class,
-            () -> new MysqlWarnRepository(getPlayerManager()),
-            () -> new SqliteWarnRepository(getPlayerManager()));
+            () -> new MysqlWarnRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteWarnRepository(getPlayerManager(), getOptions()));
     }
 
     public static LocationRepository getLocationsRepository() {
         return initRepositoryBean(LocationRepository.class,
-            MysqlLocationRepository::new,
-            SqliteLocationRepository::new);
+            () -> new MysqlLocationRepository(getOptions()),
+            () -> new SqliteLocationRepository(getOptions()));
     }
 
     public static ProtectedAreaRepository getProtectedAreaRepository() {
         return initRepositoryBean(ProtectedAreaRepository.class,
-            () -> new MysqlProtectedAreaRepository(getLocationsRepository()),
-            () -> new SqliteProtectedAreaRepository(getLocationsRepository()));
+            () -> new MysqlProtectedAreaRepository(getLocationsRepository(), getOptions()),
+            () -> new SqliteProtectedAreaRepository(getLocationsRepository(), getOptions()));
     }
 
     public static DelayedActionsRepository getDelayedActionsRepository() {
         return initRepositoryBean(DelayedActionsRepository.class,
-            MysqlDelayedActionsRepository::new,
-            SqliteDelayedActionsRepository::new);
+            () -> new MysqlDelayedActionsRepository(getOptions()),
+            () -> new SqliteDelayedActionsRepository(getOptions()));
     }
 
     public static BansRepository getBansRepository() {
         return initRepositoryBean(BansRepository.class,
-            () -> new MysqlBansRepository(getPlayerManager()),
-            () -> new SqliteBansRepository(getPlayerManager()));
+            () -> new MysqlBansRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteBansRepository(getPlayerManager(), getOptions()));
     }
 
     public static KicksRepository getKicksRepository() {
         return initRepositoryBean(KicksRepository.class,
-            () -> new MysqlKicksRepository(getPlayerManager()),
-            () -> new SqliteKicksRepository(getPlayerManager()));
+            () -> new MysqlKicksRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteKicksRepository(getPlayerManager(), getOptions()));
     }
 
 
     public static MuteRepository getMuteRepository() {
         return initRepositoryBean(MuteRepository.class,
-            () -> new MysqlMuteRepository(getPlayerManager()),
-            () -> new SqliteMuteRepository(getPlayerManager()));
+            () -> new MysqlMuteRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteMuteRepository(getPlayerManager(), getOptions()));
     }
 
     public static PlayerIpRepository getPlayerIpRepository() {
@@ -167,8 +173,17 @@ public class IocContainer {
             SqliteAltDetectWhitelistRepository::new);
     }
 
+    public static SessionsRepository getSessionsRepository() {
+        return initRepositoryBean(SessionsRepository.class,
+            MysqlSessionsRepository::new,
+            SqliteSessionsRepository::new);
+    }
+
     public static BanService getBanService() {
         return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
+    }
+    public static BungeeClient getBungeeClient() {
+        return initBean(BungeeClient.class, BungeeClient::new);
     }
 
     public static KickService getKickService() {
@@ -192,7 +207,7 @@ public class IocContainer {
     }
 
     public static ProtectService getProtectService() {
-        return initBean(ProtectService.class, () -> new ProtectService(getProtectedAreaRepository(), getMessage(), getModeCoordinator(), getMessages(), getOptions()));
+        return initBean(ProtectService.class, () -> new ProtectService(getProtectedAreaRepository(), getMessage(), getMessages(), getOptions(), getSessionManager()));
     }
 
     public static XrayService getXrayService() {
@@ -201,6 +216,10 @@ public class IocContainer {
 
     public static TeleportService getTeleportService() {
         return initBean(TeleportService.class, () -> new TeleportService(getOptions()));
+    }
+
+    public static StaffModeItemsService getStaffModeItemsService() {
+        return initBean(StaffModeItemsService.class, () -> new StaffModeItemsService(getPermissionHandler(), getOptions(), getSessionManager()));
     }
 
     public static WarnService getWarnService() {
@@ -218,8 +237,19 @@ public class IocContainer {
         return initBean(SessionManager.class, () -> new SessionManager(getSessionLoader()));
     }
 
-    public static ModeCoordinator getModeCoordinator() {
-        return initBean(ModeCoordinator.class, () -> new ModeCoordinator(getMessage(), getOptions(), getMessages(), getSessionManager(), getVanishHandler(), getPermissionHandler()));
+    public static ModeDataRepository getModeDataRepository() {
+        return initBean(ModeDataRepository.class, ModeDataRepository::new);
+    }
+
+    public static StaffModeService getModeCoordinator() {
+        return initBean(StaffModeService.class, () -> new StaffModeService(
+            getMessage(),
+            getOptions(),
+            getMessages(),
+            getSessionManager(),
+            getVanishHandler(),
+            getStaffModeItemsService(),
+            getModeDataRepository()));
     }
 
     public static PlayerManager getPlayerManager() {
@@ -246,8 +276,8 @@ public class IocContainer {
         return initBean(StaffChatService.class, () -> new StaffChatService(getMessages(), getOptions()));
     }
 
-    public static VanishHandler getVanishHandler() {
-        return initBean(VanishHandler.class, () -> new VanishHandler(StaffPlus.get().versionProtocol, getPermissionHandler(),
+    public static VanishService getVanishHandler() {
+        return initBean(VanishService.class, () -> new VanishService(StaffPlus.get().versionProtocol, getPermissionHandler(),
             getMessage(), getOptions(), getMessages(), getSessionManager()));
     }
 
@@ -260,7 +290,7 @@ public class IocContainer {
     }
 
     public static BroadcastService getBroadcastService() {
-        return initBean(BroadcastService.class, () -> new BroadcastService(getMessage(), getOptions()));
+        return initBean(BroadcastService.class, () -> new BroadcastService(getMessage(), getOptions(), getBungeeClient()));
     }
 
     public static TraceService getTraceService() {
@@ -272,7 +302,7 @@ public class IocContainer {
     }
 
     public static SessionLoader getSessionLoader() {
-        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService()));
+        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService(),getOptions(), getSessionsRepository()));
     }
 
     public static AlertCoordinator getAlertCoordinator() {

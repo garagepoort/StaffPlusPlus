@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.kick.database;
 
 import net.shortninja.staffplus.player.PlayerManager;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.kick.Kick;
 import net.shortninja.staffplus.util.database.migrations.sqlite.SqlLiteConnection;
 
@@ -8,8 +9,8 @@ import java.sql.*;
 
 public class SqliteKicksRepository extends AbstractSqlKicksRepository {
 
-    public SqliteKicksRepository(PlayerManager playerManager) {
-        super(playerManager);
+    public SqliteKicksRepository(PlayerManager playerManager, Options options) {
+        super(playerManager, options);
     }
 
     @Override
@@ -20,13 +21,14 @@ public class SqliteKicksRepository extends AbstractSqlKicksRepository {
     @Override
     public int addKick(Kick kick) {
         try (Connection connection = getConnection();
-             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_kicked_players(reason, player_uuid, issuer_uuid, creation_timestamp) " +
-                 "VALUES(?, ?, ?, ?);")) {
+             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_kicked_players(reason, player_uuid, issuer_uuid, creation_timestamp, server_name) " +
+                 "VALUES(?, ?, ?, ?, ?);")) {
             connection.setAutoCommit(false);
             insert.setString(1, kick.getReason());
             insert.setString(2, kick.getPlayerUuid().toString());
             insert.setString(3, kick.getIssuerUuid().toString());
             insert.setLong(4, kick.getCreationTimestamp());
+            insert.setString(5, options.serverName);
             insert.executeUpdate();
 
             Statement statement = connection.createStatement();

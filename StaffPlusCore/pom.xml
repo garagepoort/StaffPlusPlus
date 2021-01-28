@@ -133,6 +133,7 @@
             <version>5.2</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
     <properties>

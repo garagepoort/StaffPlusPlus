@@ -5,7 +5,10 @@ import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionLoader;
+import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.mode.StaffModeService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -14,7 +17,9 @@ import java.util.Optional;
 public class ModeCmd extends AbstractCmd {
     private static final String ENABLE = "enable";
     private static final String DISABLE = "disable";
-    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
+    private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionLoader sessionLoader = IocContainer.getSessionLoader();
 
     public ModeCmd(String name) {
         super(name, IocContainer.getOptions().permissionMode);
@@ -22,25 +27,30 @@ public class ModeCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+        if (!(sender instanceof Player)) {
+            throw new BusinessException(messages.onlyPlayers);
+        }
+
         if (args.length >= 2 && permission.isOp(sender)) {
             String option = args[1];
 
             if (option.equalsIgnoreCase(ENABLE)) {
-                modeCoordinator.addMode(targetPlayer.getPlayer());
+                staffModeService.addMode(targetPlayer.getPlayer());
+                sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
             } else if (option.equalsIgnoreCase(DISABLE)) {
-                modeCoordinator.removeMode(targetPlayer.getPlayer());
+                staffModeService.removeMode(targetPlayer.getPlayer());
+                sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
             } else {
                 throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
             }
 
         } else if (args.length == 1 && permission.isOp(sender)) {
             toggleMode(targetPlayer.getPlayer());
-        } else if (sender instanceof Player) {
-            toggleMode((Player) sender);
+            sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
         } else {
-            throw new BusinessException(messages.onlyPlayers);
+            toggleMode((Player) sender);
+            sessionLoader.saveSession(sessionManager.get(((Player) sender).getUniqueId()));
         }
-
         return true;
     }
 
@@ -74,8 +84,11 @@ public class ModeCmd extends AbstractCmd {
     }
 
     private void toggleMode(Player player) {
-        if (modeCoordinator.isInMode(player.getUniqueId())) {
-            modeCoordinator.removeMode(player);
-        } else modeCoordinator.addMode(player);
+        PlayerSession session = sessionManager.get(player.getUniqueId());
+        if (session.isInStaffMode()) {
+            staffModeService.removeMode(player);
+        } else {
+            staffModeService.addMode(player);
+        }
     }
 }

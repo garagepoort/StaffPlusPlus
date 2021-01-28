@@ -7,9 +7,9 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.alerts.xray.XrayService;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.staff.tracing.TraceService;
-import net.shortninja.staffplus.staff.vanish.VanishHandler;
+import net.shortninja.staffplus.staff.vanish.VanishService;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -23,8 +23,8 @@ public class PlayerQuit implements Listener {
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
-    private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
+    private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
+    private final VanishService vanishService = IocContainer.getVanishHandler();
     private final TraceService traceService = IocContainer.getTraceService();
     private final XrayService xrayService = IocContainer.getXrayService();
 
@@ -37,10 +37,14 @@ public class PlayerQuit implements Listener {
         StaffPlus.get().versionProtocol.uninject(event.getPlayer());
 
         Player player = event.getPlayer();
+        PlayerSession session = sessionManager.get(player.getUniqueId());
         manageUser(player);
-        modeCoordinator.removeMode(player);
-        vanishHandler.removeVanish(player);
-        if (sessionManager.get(player.getUniqueId()).isFrozen()) {
+
+        if(options.modeConfiguration.isModeDisableOnLogout() && session.isInStaffMode()) {
+            staffModeService.removeMode(player);
+        }
+
+        if (session.isFrozen()) {
             for (String command : options.modeConfiguration.getFreezeModeConfiguration().getLogoutCommands()) {
                 command = command.replace("%player%", player.getName());
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);

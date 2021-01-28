@@ -4,6 +4,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.event.ReportStatus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.reporting.Report;
 
 import java.sql.Connection;
@@ -18,9 +19,13 @@ import java.util.UUID;
 public abstract class AbstractSqlReportRepository implements ReportRepository {
 
     private final PlayerManager playerManager;
+    protected final Options options;
+    private final String serverNameFilter;
 
-    protected AbstractSqlReportRepository(PlayerManager playerManager) {
+    protected AbstractSqlReportRepository(PlayerManager playerManager, Options options) {
         this.playerManager = playerManager;
+        this.options = options;
+        serverNameFilter = !options.serverSyncConfiguration.isReportSyncEnabled() ? "AND (server_name is null OR server_name='" + options.serverName + "')" : "";
     }
 
     protected abstract Connection getConnection() throws SQLException;
@@ -29,7 +34,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getReports(UUID uuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND deleted=? ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, uuid.toString());
             ps.setBoolean(2, false);
             ps.setInt(3, offset);
@@ -49,7 +54,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getReportsByOffender(UUID uuid) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND deleted=? ORDER BY timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Player_UUID = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC")) {
             ps.setString(1, uuid.toString());
             ps.setBoolean(2, false);
             try (ResultSet rs = ps.executeQuery()) {
@@ -67,7 +72,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getUnresolvedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status = ? AND deleted=?  ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, ReportStatus.OPEN.toString());
             ps.setBoolean(2, false);
             ps.setInt(3, offset);
@@ -87,7 +92,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getClosedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status IN (?,?,?) AND deleted=?  ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE status IN (?,?,?) AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, ReportStatus.REJECTED.toString());
             ps.setString(2, ReportStatus.RESOLVED.toString());
             ps.setString(3, ReportStatus.EXPIRED.toString());
@@ -174,7 +179,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getAssignedReports(UUID staffUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE staff_uuid = ? AND status = ? AND deleted=? ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE staff_uuid = ? AND status = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, staffUuid.toString());
             ps.setString(2, ReportStatus.IN_PROGRESS.toString());
             ps.setBoolean(3, false);
@@ -195,7 +200,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getMyReports(UUID reporterUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? AND deleted=? ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, reporterUuid.toString());
             ps.setBoolean(2, false);
             ps.setInt(3, offset);
@@ -215,7 +220,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getMyReports(UUID reporterUuid) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? AND deleted=? ORDER BY timestamp")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports WHERE Reporter_UUID = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp")) {
             ps.setString(1, reporterUuid.toString());
             ps.setBoolean(2, false);
             try (ResultSet rs = ps.executeQuery()) {
@@ -232,7 +237,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     @Override
     public void removeReports(UUID playerUuid) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE Player_UUID = ? AND deleted=?");) {
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE Player_UUID = ? AND deleted=? " + serverNameFilter);) {
             insert.setString(1, playerUuid.toString());
             insert.setBoolean(2, false);
             insert.executeUpdate();
