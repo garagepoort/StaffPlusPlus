@@ -40,6 +40,10 @@ public class PlayerQuit implements Listener {
         PlayerSession session = sessionManager.get(player.getUniqueId());
         manageUser(player);
 
+        if(session.isVanished()) {
+            event.setQuitMessage("");
+        }
+
         if(options.modeConfiguration.isModeDisableOnLogout() && session.isInStaffMode()) {
             staffModeService.removeMode(player);
         }
