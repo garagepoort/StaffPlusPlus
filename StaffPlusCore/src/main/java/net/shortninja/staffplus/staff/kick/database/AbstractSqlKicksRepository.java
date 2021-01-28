@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.kick.database;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.kick.Kick;
 
 import java.sql.Connection;
@@ -17,9 +18,13 @@ import java.util.UUID;
 public abstract class AbstractSqlKicksRepository implements KicksRepository {
 
     private final PlayerManager playerManager;
+    protected final Options options;
+    private final String serverNameFilter;
 
-    protected AbstractSqlKicksRepository(PlayerManager playerManager) {
+    protected AbstractSqlKicksRepository(PlayerManager playerManager, Options options) {
         this.playerManager = playerManager;
+        this.options = options;
+        serverNameFilter = !options.serverSyncConfiguration.isKickSyncEnabled() ? "AND (server_name is null OR server_name='" + options.serverName + "')" : "";
     }
 
     protected abstract Connection getConnection() throws SQLException;
@@ -28,7 +33,7 @@ public abstract class AbstractSqlKicksRepository implements KicksRepository {
     public List<Kick> getKicksForPlayer(UUID playerUuid) {
         List<Kick> kicks = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_kicked_players WHERE player_uuid = ? ORDER BY creation_timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_kicked_players WHERE player_uuid = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
             ps.setString(1, playerUuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

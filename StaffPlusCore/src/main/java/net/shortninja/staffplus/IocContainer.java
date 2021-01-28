@@ -114,51 +114,51 @@ public class IocContainer {
 
     public static ReportRepository getReportRepository() {
         return initRepositoryBean(ReportRepository.class,
-            () -> new MysqlReportRepository(getPlayerManager()),
-            () -> new SqliteReportRepository(getPlayerManager()));
+            () -> new MysqlReportRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteReportRepository(getPlayerManager(), getOptions()));
     }
 
     public static WarnRepository getWarnRepository() {
         return initRepositoryBean(WarnRepository.class,
-            () -> new MysqlWarnRepository(getPlayerManager()),
-            () -> new SqliteWarnRepository(getPlayerManager()));
+            () -> new MysqlWarnRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteWarnRepository(getPlayerManager(), getOptions()));
     }
 
     public static LocationRepository getLocationsRepository() {
         return initRepositoryBean(LocationRepository.class,
-            MysqlLocationRepository::new,
-            SqliteLocationRepository::new);
+            () -> new MysqlLocationRepository(getOptions()),
+            () -> new SqliteLocationRepository(getOptions()));
     }
 
     public static ProtectedAreaRepository getProtectedAreaRepository() {
         return initRepositoryBean(ProtectedAreaRepository.class,
-            () -> new MysqlProtectedAreaRepository(getLocationsRepository()),
-            () -> new SqliteProtectedAreaRepository(getLocationsRepository()));
+            () -> new MysqlProtectedAreaRepository(getLocationsRepository(), getOptions()),
+            () -> new SqliteProtectedAreaRepository(getLocationsRepository(), getOptions()));
     }
 
     public static DelayedActionsRepository getDelayedActionsRepository() {
         return initRepositoryBean(DelayedActionsRepository.class,
-            MysqlDelayedActionsRepository::new,
-            SqliteDelayedActionsRepository::new);
+            () -> new MysqlDelayedActionsRepository(getOptions()),
+            () -> new SqliteDelayedActionsRepository(getOptions()));
     }
 
     public static BansRepository getBansRepository() {
         return initRepositoryBean(BansRepository.class,
-            () -> new MysqlBansRepository(getPlayerManager()),
-            () -> new SqliteBansRepository(getPlayerManager()));
+            () -> new MysqlBansRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteBansRepository(getPlayerManager(), getOptions()));
     }
 
     public static KicksRepository getKicksRepository() {
         return initRepositoryBean(KicksRepository.class,
-            () -> new MysqlKicksRepository(getPlayerManager()),
-            () -> new SqliteKicksRepository(getPlayerManager()));
+            () -> new MysqlKicksRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteKicksRepository(getPlayerManager(), getOptions()));
     }
 
 
     public static MuteRepository getMuteRepository() {
         return initRepositoryBean(MuteRepository.class,
-            () -> new MysqlMuteRepository(getPlayerManager()),
-            () -> new SqliteMuteRepository(getPlayerManager()));
+            () -> new MysqlMuteRepository(getPlayerManager(), getOptions()),
+            () -> new SqliteMuteRepository(getPlayerManager(), getOptions()));
     }
 
     public static PlayerIpRepository getPlayerIpRepository() {

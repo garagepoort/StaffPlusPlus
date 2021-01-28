@@ -19,7 +19,6 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
         List<String> modeEnableCommands = JavaUtils.stringToList(config.getString("staff-mode.enable-commands"));
         List<String> modeDisableCommands = JavaUtils.stringToList(config.getString("staff-mode.disable-commands"));
         boolean worldChange = config.getBoolean("staff-mode.disable-on-world-change");
-        boolean bungeeSyncEnabled = config.getBoolean("staff-mode.server-sync");
         boolean modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
         boolean modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");
         boolean modeSilentChestInteraction = config.getBoolean("staff-mode.silent-chest-interaction");
@@ -37,7 +36,6 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
             modeEnableCommands,
             modeDisableCommands,
             worldChange,
-            bungeeSyncEnabled,
             modeBlockManipulation,
             modeInventoryInteraction,
             modeSilentChestInteraction,

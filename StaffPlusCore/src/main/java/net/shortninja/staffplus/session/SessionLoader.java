@@ -70,7 +70,7 @@ public class SessionLoader {
         if (options.modeConfiguration.isServerSyncEnabled()) {
             playerSession.setInStaffMode(session.map(SessionEntity::getStaffMode).orElse(staffMode));
         }
-        if (options.vanishSyncEnabled) {
+        if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
             playerSession.setVanishType(session.map(SessionEntity::getVanishType).orElse(vanishType));
         }
     }

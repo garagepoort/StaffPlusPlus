@@ -34,7 +34,6 @@ public class GeneralModeConfiguration {
     private List<String> modeEnableCommands;
     private List<String> modeDisableCommands;
     private boolean worldChange;
-    private final boolean bungeeSyncEnabled;
     private boolean modeBlockManipulation;
     private boolean modeInventoryInteraction;
     private boolean modeSilentChestInteraction;
@@ -65,7 +64,6 @@ public class GeneralModeConfiguration {
                                     List<String> modeEnableCommands,
                                     List<String> modeDisableCommands,
                                     boolean worldChange,
-                                    boolean bungeeSyncEnabled,
                                     boolean modeBlockManipulation,
                                     boolean modeInventoryInteraction,
                                     boolean modeSilentChestInteraction,
@@ -82,7 +80,6 @@ public class GeneralModeConfiguration {
         this.modeEnableCommands = modeEnableCommands;
         this.modeDisableCommands = modeDisableCommands;
         this.worldChange = worldChange;
-        this.bungeeSyncEnabled = bungeeSyncEnabled;
         this.modeBlockManipulation = modeBlockManipulation;
         this.modeInventoryInteraction = modeInventoryInteraction;
         this.modeSilentChestInteraction = modeSilentChestInteraction;
@@ -209,7 +206,4 @@ public class GeneralModeConfiguration {
         return modeDisableOnLogout;
     }
 
-    public boolean isServerSyncEnabled() {
-        return bungeeSyncEnabled;
-    }
 }

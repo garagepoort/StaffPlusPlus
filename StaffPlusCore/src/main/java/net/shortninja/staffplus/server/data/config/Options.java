@@ -5,6 +5,8 @@ import net.shortninja.staffplus.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.authentication.AuthenticationConfigurationLoader;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
+import net.shortninja.staffplus.server.synchronization.ServerSyncConfiguration;
+import net.shortninja.staffplus.server.synchronization.ServerSyncModuleLoader;
 import net.shortninja.staffplus.staff.alerts.xray.XrayBlockConfig;
 import net.shortninja.staffplus.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.staff.altaccountdetect.config.AltDetectModuleLoader;
@@ -61,6 +63,7 @@ public class Options implements IOptions {
     public List<String> blockedModeCommands;
     public String glassTitle;
 
+    public String serverName;
     public String mainWorld;
     public int autoSave;
     public long clock;
@@ -85,6 +88,7 @@ public class Options implements IOptions {
     public ExamineConfiguration examineConfiguration;
     public EnderchestsConfiguration enderchestsConfiguration;
     public GeneralModeConfiguration modeConfiguration;
+    public ServerSyncConfiguration serverSyncConfiguration;
 
     /*
      * Vanish
@@ -93,7 +97,6 @@ public class Options implements IOptions {
     public boolean vanishTabList;
     public boolean vanishShowAway;
     public boolean vanishChatEnabled;
-    public boolean vanishSyncEnabled;
     public boolean vanishMessageEnabled;
     /*
      * Chat
@@ -226,6 +229,7 @@ public class Options implements IOptions {
         blockedModeCommands = JavaUtils.stringToList(config.getString("blocked-mode-commands", ""));
         glassTitle = config.getString("glass-title");
 
+        serverName = config.getString("server-name");
         mainWorld = config.getString("main-world");
         autoSave = config.getInt("auto-save");
         clock = config.getInt("clock") * 20;
@@ -250,6 +254,7 @@ public class Options implements IOptions {
         examineConfiguration = new ExamineModuleLoader().loadConfig();
         enderchestsConfiguration = new EnderchestsModuleLoader().loadConfig();
         modeConfiguration = new StaffModeModuleLoader().loadConfig();
+        serverSyncConfiguration = new ServerSyncModuleLoader().loadConfig();
 
         /*
          * Vanish
@@ -258,7 +263,6 @@ public class Options implements IOptions {
         vanishTabList = config.getBoolean("vanish-module.tab-list");
         vanishShowAway = config.getBoolean("vanish-module.show-away");
         vanishChatEnabled = config.getBoolean("vanish-module.chat");
-        vanishSyncEnabled = config.getBoolean("vanish-module.server-sync");
         vanishMessageEnabled = config.getBoolean("vanish-module.vanish-message-enabled");
         /*
          * Chat
