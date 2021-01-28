@@ -180,7 +180,7 @@ vanish-module:
   chat: false
 
   # Wether or not to synchronize vanish status across bungee connected servers
-  bungee-sync: false
+  server-sync: false
 
   # Whether or not to show a message on screen telling the staff member his vanish is enabled
   vanish-message-enabled: true
@@ -410,7 +410,7 @@ enderchest-module:
 # Requires "permissions.mode" permission.
 staff-mode:
   # Whether or entering/leaving staff mode should be synced across servers.
-  bungee-sync: false
+  server-sync: false
 
   # Whether or not a player is allowed to break/place blocks while in staff mode.
   block-manipulation: false

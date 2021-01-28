@@ -22,7 +22,9 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.session.bungee.SessionBungeeDtoMapper;
+import net.shortninja.staffplus.session.database.MysqlSessionsRepository;
+import net.shortninja.staffplus.session.database.SessionsRepository;
+import net.shortninja.staffplus.session.database.SqliteSessionsRepository;
 import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionService;
@@ -58,8 +60,8 @@ import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.location.MysqlLocationRepository;
 import net.shortninja.staffplus.staff.location.SqliteLocationRepository;
 import net.shortninja.staffplus.staff.mode.ModeDataRepository;
-import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.staff.mode.StaffModeItemsService;
+import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.staff.mute.MuteChatInterceptor;
 import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.staff.mute.database.MuteRepository;
@@ -171,6 +173,12 @@ public class IocContainer {
             SqliteAltDetectWhitelistRepository::new);
     }
 
+    public static SessionsRepository getSessionsRepository() {
+        return initRepositoryBean(SessionsRepository.class,
+            MysqlSessionsRepository::new,
+            SqliteSessionsRepository::new);
+    }
+
     public static BanService getBanService() {
         return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
     }
@@ -196,10 +204,6 @@ public class IocContainer {
 
     public static ManageReportService getManageReportService() {
         return initBean(ManageReportService.class, () -> new ManageReportService(getReportRepository(), getMessages(), getPlayerManager(), getReportService()));
-    }
-
-    public static SessionBungeeDtoMapper getSessionBungeeDtoMapper() {
-        return initBean(SessionBungeeDtoMapper.class, () -> new SessionBungeeDtoMapper(getOptions()));
     }
 
     public static ProtectService getProtectService() {
@@ -230,7 +234,7 @@ public class IocContainer {
     }
 
     public static SessionManager getSessionManager() {
-        return initBean(SessionManager.class, () -> new SessionManager(getSessionLoader(), getOptions(), getBungeeClient(), getSessionBungeeDtoMapper()));
+        return initBean(SessionManager.class, () -> new SessionManager(getSessionLoader()));
     }
 
     public static ModeDataRepository getModeDataRepository() {
@@ -298,7 +302,7 @@ public class IocContainer {
     }
 
     public static SessionLoader getSessionLoader() {
-        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService()));
+        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService(),getOptions(), getSessionsRepository()));
     }
 
     public static AlertCoordinator getAlertCoordinator() {

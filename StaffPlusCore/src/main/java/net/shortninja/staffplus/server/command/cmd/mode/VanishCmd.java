@@ -8,6 +8,7 @@ import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.vanish.VanishService;
 import net.shortninja.staffplus.unordered.VanishType;
@@ -28,6 +29,7 @@ public class VanishCmd extends AbstractCmd {
     private final Messages messages = IocContainer.getMessages();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final VanishService vanishService = IocContainer.getVanishHandler();
+    private SessionLoader sessionLoader = IocContainer.getSessionLoader();
 
     public VanishCmd(String name) {
         super(name, IocContainer.getOptions().permissionVanishCommand);
@@ -48,19 +50,19 @@ public class VanishCmd extends AbstractCmd {
                 vanishService.removeVanish(targetPlayer.getPlayer());
             }
 
-            sessionManager.triggerSessionSync((Player) sender);
+            sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
             return true;
         }
 
         if (args.length == 2 && permission.isOp(sender)) {
             handleVanishArgument(sender, args[0], targetPlayer.getPlayer(), false);
-            sessionManager.triggerSessionSync((Player) sender);
+            sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
             return true;
         }
 
         if (args.length == 1) {
             handleVanishArgument(sender, args[0], (Player) sender, true);
-            sessionManager.triggerSessionSync((Player) sender);
+            sessionLoader.saveSession(sessionManager.get(((Player) sender).getUniqueId()));
             return true;
         }
 

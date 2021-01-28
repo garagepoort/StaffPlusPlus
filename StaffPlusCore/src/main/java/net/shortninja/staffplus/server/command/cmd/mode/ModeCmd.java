@@ -6,6 +6,7 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
 import org.bukkit.command.CommandSender;
@@ -18,6 +19,7 @@ public class ModeCmd extends AbstractCmd {
     private static final String DISABLE = "disable";
     private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionLoader sessionLoader = IocContainer.getSessionLoader();
 
     public ModeCmd(String name) {
         super(name, IocContainer.getOptions().permissionMode);
@@ -25,7 +27,7 @@ public class ModeCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
 
@@ -34,19 +36,21 @@ public class ModeCmd extends AbstractCmd {
 
             if (option.equalsIgnoreCase(ENABLE)) {
                 staffModeService.addMode(targetPlayer.getPlayer());
+                sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
             } else if (option.equalsIgnoreCase(DISABLE)) {
                 staffModeService.removeMode(targetPlayer.getPlayer());
+                sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
             } else {
                 throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
             }
 
         } else if (args.length == 1 && permission.isOp(sender)) {
             toggleMode(targetPlayer.getPlayer());
+            sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
         } else {
             toggleMode((Player) sender);
+            sessionLoader.saveSession(sessionManager.get(((Player) sender).getUniqueId()));
         }
-
-        sessionManager.triggerSessionSync((Player) sender);
         return true;
     }
 

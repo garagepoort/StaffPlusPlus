@@ -209,7 +209,7 @@ public class GeneralModeConfiguration {
         return modeDisableOnLogout;
     }
 
-    public boolean isBungeeSyncEnabled() {
+    public boolean isServerSyncEnabled() {
         return bungeeSyncEnabled;
     }
 }

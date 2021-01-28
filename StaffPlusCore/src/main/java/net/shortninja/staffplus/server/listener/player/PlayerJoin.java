@@ -5,6 +5,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
@@ -24,6 +25,7 @@ public class PlayerJoin implements Listener {
     private final PermissionHandler permission = IocContainer.getPermissionHandler();
     private final Options options = IocContainer.getOptions();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionLoader sessionLoader = IocContainer.getSessionLoader();
     private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
     private final VanishService vanishService = IocContainer.getVanishHandler();
     private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
@@ -51,7 +53,7 @@ public class PlayerJoin implements Listener {
             staffModeService.removeMode(player);
         }
 
-        sessionManager.triggerSessionSync(player);
+        sessionLoader.saveSession(session);
         delayedActions(player);
     }
 

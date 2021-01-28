@@ -20,8 +20,6 @@ import net.shortninja.staffplus.server.listener.entity.EntityDamageByEntity;
 import net.shortninja.staffplus.server.listener.entity.EntityTarget;
 import net.shortninja.staffplus.server.listener.player.*;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.Save;
-import net.shortninja.staffplus.session.bungee.BungeeSessionListener;
 import net.shortninja.staffplus.staff.alerts.AlertListener;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionListener;
 import net.shortninja.staffplus.staff.ban.BanListener;
@@ -30,11 +28,11 @@ import net.shortninja.staffplus.staff.chests.ChestGuiMove;
 import net.shortninja.staffplus.staff.mode.StaffModeLuckPermsContextCalculator;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.staff.mute.MuteSessionTask;
 import net.shortninja.staffplus.staff.protect.ProtectListener;
 import net.shortninja.staffplus.staff.reporting.ReportChangeReporterNotifier;
 import net.shortninja.staffplus.staff.reporting.ReportListener;
+import net.shortninja.staffplus.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
 import net.shortninja.staffplus.staff.warn.WarnListener;
 import net.shortninja.staffplus.staff.warn.WarningClearTask;
@@ -90,7 +88,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, BUNGEE_CORD_CHANNEL);
         this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeStaffChatListener());
         this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeBroadcastListener());
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeSessionListener());
 
         Plugin placeholderPlugin;
         if ((placeholderPlugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")) != null) {
@@ -136,7 +133,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     public void saveUsers() {
         for (PlayerSession session : IocContainer.getSessionManager().getAll()) {
-            new Save(session);
+            IocContainer.getSessionLoader().saveSessionSynchronous(session);
         }
 
         dataFile.save();

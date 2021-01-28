@@ -3,6 +3,9 @@ package net.shortninja.staffplus.session;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.database.SessionEntity;
+import net.shortninja.staffplus.session.database.SessionsRepository;
 import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.unordered.VanishType;
@@ -18,10 +21,14 @@ public class SessionLoader {
     private final FileConfiguration dataFile = StaffPlus.get().dataFile.getConfiguration();
     private final PlayerManager playerManager;
     private final MuteService muteService;
+    private final Options options;
+    private final SessionsRepository sessionsRepository;
 
-    public SessionLoader(PlayerManager playerManager, MuteService muteService) {
+    public SessionLoader(PlayerManager playerManager, MuteService muteService, Options options, SessionsRepository sessionsRepository) {
         this.playerManager = playerManager;
         this.muteService = muteService;
+        this.options = options;
+        this.sessionsRepository = sessionsRepository;
     }
 
     PlayerSession loadSession(Player player) {
@@ -34,7 +41,7 @@ public class SessionLoader {
 
     private PlayerSession buildNewSession(UUID uuid) {
         Optional<SppPlayer> providedPlayer = playerManager.getOnlinePlayer(uuid);
-        if(!providedPlayer.isPresent()) {
+        if (!providedPlayer.isPresent()) {
             throw new RuntimeException("Trying to instantiate session for offline user");
         }
         return new PlayerSession(uuid, providedPlayer.get().getUsername(), isMuted(uuid));
@@ -46,13 +53,26 @@ public class SessionLoader {
         VanishType vanishType = VanishType.valueOf(dataFile.getString(uuid + ".vanish-type", "NONE"));
         boolean staffMode = dataFile.getBoolean(uuid + ".staff-mode", false);
         Material glassMaterial = Material.WHITE_STAINED_GLASS_PANE;
-        if(glassColor != null && !glassColor.equals("0")) {
+        if (glassColor != null && !glassColor.equals("0")) {
             glassMaterial = Material.valueOf(glassColor);
         }
 
         List<String> playerNotes = loadPlayerNotes(uuid);
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
-        return new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions, isMuted(uuid), vanishType, staffMode);
+
+        PlayerSession playerSession = new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions, isMuted(uuid), vanishType, staffMode);
+        enhanceWithSyncedData(uuid, vanishType, staffMode, playerSession);
+        return playerSession;
+    }
+
+    private void enhanceWithSyncedData(UUID uuid, VanishType vanishType, boolean staffMode, PlayerSession playerSession) {
+        Optional<SessionEntity> session = sessionsRepository.findSession(uuid);
+        if (options.modeConfiguration.isServerSyncEnabled()) {
+            playerSession.setInStaffMode(session.map(SessionEntity::getStaffMode).orElse(staffMode));
+        }
+        if (options.vanishSyncEnabled) {
+            playerSession.setVanishType(session.map(SessionEntity::getVanishType).orElse(vanishType));
+        }
     }
 
     private boolean isMuted(UUID uuid) {
@@ -87,8 +107,25 @@ public class SessionLoader {
 
     public void saveSession(PlayerSession playerSession) {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            new Save(playerSession);
-            StaffPlus.get().dataFile.save();
+            save(playerSession);
         });
+    }
+
+    public void saveSessionSynchronous(PlayerSession playerSession) {
+        save(playerSession);
+    }
+
+    private void save(PlayerSession playerSession) {
+        new Save(playerSession);
+        StaffPlus.get().dataFile.save();
+
+        Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
+        if (session.isPresent()) {
+            session.get().setStaffMode(playerSession.isInStaffMode());
+            session.get().setVanishType(playerSession.getVanishType());
+            sessionsRepository.update(session.get());
+        } else {
+            sessionsRepository.addSession(new SessionEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode()));
+        }
     }
 }

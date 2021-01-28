@@ -1,13 +1,5 @@
 package net.shortninja.staffplus.session;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import net.shortninja.staffplus.common.bungee.BungeeAction;
-import net.shortninja.staffplus.common.bungee.BungeeClient;
-import net.shortninja.staffplus.common.bungee.BungeeContext;
-import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.session.bungee.SessionBungeeDto;
-import net.shortninja.staffplus.session.bungee.SessionBungeeDtoMapper;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -18,15 +10,9 @@ import java.util.UUID;
 public class SessionManager {
     private static Map<UUID, PlayerSession> playerSessions;
     private final SessionLoader sessionLoader;
-    private final Options options;
-    private final BungeeClient bungeeClient;
-    private final SessionBungeeDtoMapper sessionBungeeDtoMapper;
 
-    public SessionManager(SessionLoader sessionLoader, Options options, BungeeClient bungeeClient, SessionBungeeDtoMapper sessionBungeeDtoMapper) {
+    public SessionManager(SessionLoader sessionLoader) {
         this.sessionLoader = sessionLoader;
-        this.options = options;
-        this.bungeeClient = bungeeClient;
-        this.sessionBungeeDtoMapper = sessionBungeeDtoMapper;
         playerSessions = new HashMap<>();
     }
 
@@ -58,28 +44,5 @@ public class SessionManager {
         }
         sessionLoader.saveSession(playerSessions.get(uniqueId));
         playerSessions.remove(uniqueId);
-    }
-
-    public void triggerSessionSync(Player player) {
-        try {
-            if (sessionBungeeDtoMapper.shouldSync()) {
-                PlayerSession playerSession = get(player.getUniqueId());
-                SessionBungeeDto sessionBungeeDto = sessionBungeeDtoMapper.map(playerSession);
-                bungeeClient.sendAll(playerSession.getPlayer().get(), BungeeAction.FORWARD, BungeeContext.SESSION, new ObjectMapper().writeValueAsString(sessionBungeeDto));
-            }
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Could not synchronize Vanish across bungee servers.");
-        }
-    }
-
-    public void handleSessionSync(SessionBungeeDto sessionBungeeDto) {
-        PlayerSession playerSession = get(sessionBungeeDto.getPlayerUuid());
-        if(sessionBungeeDto.getVanishType() != null) {
-            playerSession.setVanishType(sessionBungeeDto.getVanishType());
-        }
-        if(sessionBungeeDto.getStaffMode() != null) {
-            playerSession.setInStaffMode(sessionBungeeDto.getStaffMode());
-        }
-        sessionLoader.saveSession(playerSession);
     }
 }

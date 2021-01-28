@@ -1,9 +1,7 @@
 package net.shortninja.staffplus.session;
 
-import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.attribute.gui.IGui;
 import net.shortninja.staffplus.server.chat.ChatAction;
-import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.unordered.VanishType;
 import org.bukkit.Bukkit;
@@ -14,7 +12,6 @@ import java.util.*;
 
 public class PlayerSession {
 
-    private final Options options = IocContainer.getOptions();
     private final UUID uuid;
     private final String name;
     private Material glassColor;
