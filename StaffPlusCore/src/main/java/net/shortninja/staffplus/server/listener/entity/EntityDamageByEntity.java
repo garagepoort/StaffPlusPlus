@@ -2,9 +2,9 @@ package net.shortninja.staffplus.server.listener.entity;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
 import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceType;
 import org.bukkit.Bukkit;
@@ -23,7 +23,6 @@ import java.util.UUID;
 public class EntityDamageByEntity implements Listener {
     private final Options options = IocContainer.getOptions();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
     private final TraceService traceService = IocContainer.getTraceService();
 
     public EntityDamageByEntity() {
@@ -38,7 +37,8 @@ public class EntityDamageByEntity implements Listener {
 
         if (damager.isPresent()) {
             UUID playerUuid = damager.get().getUniqueId();
-            if (sessionManager.get(playerUuid).isFrozen() || (!options.modeConfiguration.isModeDamage() && modeCoordinator.isInMode(playerUuid))) {
+            PlayerSession session = sessionManager.get(playerUuid);
+            if (session.isFrozen() || (!options.modeConfiguration.isModeDamage() && session.isInStaffMode())) {
                 event.setCancelled(true);
                 return;
             }

@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.server.data.config.Options;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -19,7 +19,7 @@ import java.util.UUID;
 public class EntityDamage implements Listener {
     private final Options options = IocContainer.getOptions();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
+    private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
 
     public EntityDamage() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -35,7 +35,7 @@ public class EntityDamage implements Listener {
 
         UUID uuid = entity.getUniqueId();
         PlayerSession session = sessionManager.get(uuid);
-        if ((options.modeConfiguration.isModeInvincible() && modeCoordinator.isInMode(uuid) || (!options.modeConfiguration.getFreezeModeConfiguration().isModeFreezeDamage() && session.isFrozen()) || session.isProtected())) {
+        if ((options.modeConfiguration.isModeInvincible() && session.isInStaffMode() || (!options.modeConfiguration.getFreezeModeConfiguration().isModeFreezeDamage() && session.isFrozen()) || session.isProtected())) {
             event.setCancelled(true);
         }
     }

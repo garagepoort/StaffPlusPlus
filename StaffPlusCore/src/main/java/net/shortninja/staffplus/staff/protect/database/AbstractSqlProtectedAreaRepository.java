@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.staff.protect.database;
 
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.location.LocationRepository;
 import net.shortninja.staffplus.staff.protect.ProtectedArea;
 import org.bukkit.Bukkit;
@@ -19,9 +20,11 @@ import java.util.UUID;
 public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAreaRepository {
 
     private final LocationRepository locationRepository;
+    private final String serverNameFilter;
 
-    protected AbstractSqlProtectedAreaRepository(LocationRepository locationRepository) {
+    protected AbstractSqlProtectedAreaRepository(LocationRepository locationRepository, Options options) {
         this.locationRepository = locationRepository;
+        serverNameFilter = "(l1.server_name is null OR l1.server_name='" + options.serverName + "')";
     }
 
     protected abstract Connection getConnection() throws SQLException;
@@ -48,7 +51,7 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
         List<ProtectedArea> protectedAreas = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_protected_areas pa INNER JOIN sp_locations l1 on pa.corner_location_1_id = l1.id INNER JOIN  " +
-                 " sp_locations l2 ON l2.id = pa.corner_location_2_id")) {
+                 " sp_locations l2 ON l2.id = pa.corner_location_2_id WHERE " + serverNameFilter)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     protectedAreas.add(buildProtectedArea(rs));
@@ -65,7 +68,7 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
         List<ProtectedArea> protectedAreas = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_protected_areas pa INNER JOIN sp_locations l1 on pa.corner_location_1_id = l1.id INNER JOIN  " +
-                 " sp_locations l2 ON l2.id = pa.corner_location_2_id LIMIT ?,?")) {
+                 " sp_locations l2 ON l2.id = pa.corner_location_2_id WHERE " + serverNameFilter + " LIMIT ?,?")) {
             ps.setInt(1, offset);
             ps.setInt(2, amount);
             try (ResultSet rs = ps.executeQuery()) {
@@ -101,7 +104,7 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
     public Optional<ProtectedArea> findByName(String name) {
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_protected_areas pa INNER JOIN sp_locations l1 on pa.corner_location_1_id = l1.id INNER JOIN  " +
-                 " sp_locations l2 ON l2.id = pa.corner_location_2_id WHERE name = ?")) {
+                 " sp_locations l2 ON l2.id = pa.corner_location_2_id WHERE name = ? AND " + serverNameFilter)) {
             ps.setString(1, name);
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
