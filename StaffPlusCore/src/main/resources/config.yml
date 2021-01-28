@@ -9,6 +9,8 @@
 # +------------------------------------------------------+ #
 ############################################################
 
+# The name of the server. This can be anything you want but it must be unique and once chosen it shouldn't change anymore.
+server-name: "MyUniqueServerName"
 # The name of the main world. Meaning the world folder name which contains the player data files.
 main-world: "world"
 
@@ -45,6 +47,20 @@ glass-title: "&bChoose GUI glass color"
 # report-bypass & warn-bypass does not work for offline players
 offline-players-mode: true
 
+############################################################
+# +------------------------------------------------------+ #
+# |                  SESSION synchronization             | #
+# +------------------------------------------------------+ #
+############################################################
+# Module to enable synchronizing specific staff session features.
+server-sync-module:
+    vanish-sync: false
+    staffmode-sync: false
+    ban-sync: false
+    report-sync: false
+    warning-sync: false
+    mute-sync: false
+    kick-sync: false
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -178,6 +194,7 @@ vanish-module:
 
   # Whether or not chat can be used when vanished.
   chat: false
+
   # Whether or not to show a message on screen telling the staff member his vanish is enabled
   vanish-message-enabled: true
 
@@ -405,6 +422,7 @@ enderchest-module:
 
 # Requires "permissions.mode" permission.
 staff-mode:
+
   # Whether or not a player is allowed to break/place blocks while in staff mode.
   block-manipulation: false
 
@@ -441,6 +459,9 @@ staff-mode:
 
   # Whether or not staff mode will be enabled for staff when they login.
   enable-on-login: false
+
+  # Whether or not staff mode will be disabled for staff when they logout. If false the staff mode will be reenabled on login.
+  disable-on-logout: false
 
   # Commands to execute when staff mode is enabled. Leave blank to disable.
   # Each command is separated with a comma.

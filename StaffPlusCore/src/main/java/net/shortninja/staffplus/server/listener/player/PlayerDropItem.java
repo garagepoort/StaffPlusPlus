@@ -2,7 +2,8 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.staff.mode.ModeCoordinator;
+import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.tracing.TraceService;
@@ -19,8 +20,9 @@ import static net.shortninja.staffplus.staff.tracing.TraceType.DROP_ITEM;
 public class PlayerDropItem implements Listener {
     private final Options options = IocContainer.getOptions();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
-    private final ModeCoordinator modeCoordinator = IocContainer.getModeCoordinator();
+    private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
     private final TraceService traceService = IocContainer.getTraceService();
+    private final SessionManager sessionManager = IocContainer.getSessionManager();
 
     public PlayerDropItem() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -30,7 +32,7 @@ public class PlayerDropItem implements Listener {
     public void onDrop(PlayerDropItemEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
 
-        if ((options.modeConfiguration.isModeItemChange() || !modeCoordinator.isInMode(uuid)) && !freezeHandler.isFrozen(uuid)) {
+        if ((options.modeConfiguration.isModeItemChange() || !sessionManager.get(uuid).isInStaffMode()) && !freezeHandler.isFrozen(uuid)) {
             traceService.sendTraceMessage(DROP_ITEM, event.getPlayer().getUniqueId(), String.format("Dropped item [%s]", event.getItemDrop().getType()));
             return;
         }
