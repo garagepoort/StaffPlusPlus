@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.staff.mode.handler.ReviveHandler;
+import net.shortninja.staffplus.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

@@ -17,7 +17,7 @@ public class SessionManager {
     }
 
     public void initialize(Player player) {
-        if(!has(player.getUniqueId())) {
+        if (!has(player.getUniqueId())) {
             playerSessions.put(player.getUniqueId(), sessionLoader.loadSession(player));
         }
     }
@@ -27,7 +27,7 @@ public class SessionManager {
     }
 
     public PlayerSession get(UUID uuid) {
-        if(!has(uuid)) {
+        if (!has(uuid)) {
             PlayerSession playerSession = sessionLoader.loadSession(uuid);
             playerSessions.put(uuid, playerSession);
         }
@@ -39,7 +39,7 @@ public class SessionManager {
     }
 
     public void unload(UUID uniqueId) {
-        if(!has(uniqueId)) {
+        if (!has(uniqueId)) {
             return;
         }
         sessionLoader.saveSession(playerSessions.get(uniqueId));

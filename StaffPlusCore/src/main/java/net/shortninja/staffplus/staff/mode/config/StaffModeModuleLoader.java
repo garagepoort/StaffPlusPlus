@@ -27,6 +27,7 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
         boolean modeCreative = config.getBoolean("staff-mode.creative");
         boolean modeOriginalLocation = config.getBoolean("staff-mode.original-location");
         boolean modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
+        boolean modeDisableOnLogout = config.getBoolean("staff-mode.disable-on-logout");
 
         return new GeneralModeConfiguration(modeVanish,
             modeItemChange,
@@ -42,7 +43,8 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
             modeFlight,
             modeCreative,
             modeOriginalLocation,
-            modeEnableOnLogin);
+            modeEnableOnLogin,
+            modeDisableOnLogout);
     }
 
     private VanishType stringToVanishType(String string) {
