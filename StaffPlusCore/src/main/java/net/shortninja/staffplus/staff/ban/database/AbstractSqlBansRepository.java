@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.ban.database;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.Ban;
 
 import java.sql.Connection;
@@ -17,9 +18,13 @@ import java.util.UUID;
 public abstract class AbstractSqlBansRepository implements BansRepository {
 
     private final PlayerManager playerManager;
+    protected final Options options;
+    private final String serverNameFilter;
 
-    protected AbstractSqlBansRepository(PlayerManager playerManager) {
+    protected AbstractSqlBansRepository(PlayerManager playerManager, Options options) {
         this.playerManager = playerManager;
+        this.options = options;
+        serverNameFilter = !options.serverSyncConfiguration.isBanSyncEnabled() ? "AND (server_name is null OR server_name='" + options.serverName + "')" : "";
     }
 
     protected abstract Connection getConnection() throws SQLException;
@@ -28,7 +33,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     public List<Ban> getActiveBans(int offset, int amount) {
         List<Ban> bans = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE end_timestamp IS NULL OR end_timestamp > ? ORDER BY creation_timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + serverNameFilter + " ORDER BY creation_timestamp DESC LIMIT ?,?")) {
             ps.setLong(1, System.currentTimeMillis());
             ps.setInt(2, offset);
             ps.setInt(3, amount);
@@ -46,7 +51,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     @Override
     public Optional<Ban> findActiveBan(int banId) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE id = ? AND (end_timestamp IS NULL OR end_timestamp > ?)")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE id = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + serverNameFilter)) {
             ps.setInt(1, banId);
             ps.setLong(2, System.currentTimeMillis());
             try (ResultSet rs = ps.executeQuery()) {
@@ -64,7 +69,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     @Override
     public Optional<Ban> findActiveBan(UUID playerUuid) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE player_uuid = ? AND (end_timestamp IS NULL OR end_timestamp > ?)")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE player_uuid = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + serverNameFilter)) {
             ps.setString(1, playerUuid.toString());
             ps.setLong(2, System.currentTimeMillis());
             try (ResultSet rs = ps.executeQuery()) {
@@ -83,7 +88,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     public List<Ban> getBansForPlayer(UUID playerUuid) {
         List<Ban> bans = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE player_uuid = ? ORDER BY creation_timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE player_uuid = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
             ps.setString(1, playerUuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -119,7 +124,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
         String issuerName = getPlayerName(issuerUuid);
 
         String unbannedByName = null;
-        if(unbannedByUUID != null) {
+        if (unbannedByUUID != null) {
             unbannedByName = getPlayerName(unbannedByUUID);
         }
 

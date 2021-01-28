@@ -13,7 +13,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.examine.ExamineGui;
 import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
-import net.shortninja.staffplus.staff.vanish.VanishHandler;
+import net.shortninja.staffplus.staff.vanish.VanishService;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -34,7 +34,7 @@ public class GadgetHandler {
     private final Messages messages = IocContainer.getMessages();
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
-    private final VanishHandler vanishHandler = IocContainer.getVanishHandler();
+    private final VanishService vanishService = IocContainer.getVanishHandler();
 
     public GadgetType getGadgetType(ItemStack item, String value) {
         if (options.modeConfiguration.getCompassModeConfiguration().getIdentifier().equals(value)) {
@@ -132,9 +132,9 @@ public class GadgetHandler {
 
         PlayerSession session = sessionManager.get(player.getUniqueId());
         if (session.getVanishType() == options.modeConfiguration.getModeVanish()) {
-            vanishHandler.removeVanish(player);
+            vanishService.removeVanish(player);
         } else {
-            vanishHandler.addVanish(player, options.modeConfiguration.getModeVanish());
+            vanishService.addVanish(player, options.modeConfiguration.getModeVanish());
         }
 
         if (shouldUpdateItem && item != null) {

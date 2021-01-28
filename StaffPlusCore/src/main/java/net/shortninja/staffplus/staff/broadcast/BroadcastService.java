@@ -1,35 +1,29 @@
 package net.shortninja.staffplus.staff.broadcast;
 
-import com.google.common.io.ByteArrayDataOutput;
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.bungee.BungeeAction;
+import net.shortninja.staffplus.common.bungee.BungeeClient;
+import net.shortninja.staffplus.common.bungee.BungeeContext;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static com.google.common.io.ByteStreams.newDataOutput;
-import static net.shortninja.staffplus.common.Constants.BUNGEE_CORD_CHANNEL;
 
 public class BroadcastService {
 
     private final MessageCoordinator message;
     private final BroadcastConfiguration broadcastConfiguration;
+    private final BungeeClient bungeeClient;
 
-    public BroadcastService(MessageCoordinator message, Options options) {
+    public BroadcastService(MessageCoordinator message, Options options, BungeeClient bungeeClient) {
         this.message = message;
         this.broadcastConfiguration = options.broadcastConfiguration;
+        this.bungeeClient = bungeeClient;
     }
 
     void handleBungeeBroadcast(String message) {
@@ -49,10 +43,10 @@ public class BroadcastService {
             broadcast(message);
         } else if (broadcastConfiguration.sendToAll()) {
             broadcast(message);
-            sendBungeeMessage(sender, "ALL", message);
+            bungeeClient.sendAll(sender, BungeeAction.FORWARD, BungeeContext.BROADCAST, message);
         } else {
             for (String networkServer : networkServers) {
-                sendBungeeMessage(sender, networkServer, message);
+                bungeeClient.send(sender, BungeeAction.FORWARD, networkServer, BungeeContext.BROADCAST, message);
             }
         }
     }
@@ -70,7 +64,7 @@ public class BroadcastService {
         }
 
         for (String server : servers) {
-            sendBungeeMessage(sender, server, message);
+            bungeeClient.send(sender, BungeeAction.FORWARD, server, BungeeContext.BROADCAST, message);
         }
     }
 
@@ -78,36 +72,6 @@ public class BroadcastService {
         String[] lines = message.split(Pattern.quote("\\n"));
         for (String line : lines) {
             this.message.sendGlobalMessage(line, IocContainer.getOptions().broadcastConfiguration.getPrefix());
-        }
-    }
-
-    private void sendBungeeMessage(CommandSender sender, String server, String message) {
-        Player player = null;
-        if (sender instanceof Player) {
-            player = (Player) sender;
-        } else {
-            Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
-            if (onlinePlayers.iterator().hasNext()) {
-                player = onlinePlayers.iterator().next();
-            }
-        }
-        if (player != null) {
-            try {
-                ByteArrayDataOutput out = newDataOutput();
-                out.writeUTF("Forward");
-                out.writeUTF(server);
-                out.writeUTF("StaffPlusPlusBroadcast");
-                ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
-                DataOutputStream msgout = new DataOutputStream(msgbytes);
-                msgout.writeUTF(message);
-
-                out.writeShort(msgbytes.toByteArray().length);
-                out.write(msgbytes.toByteArray());
-
-                player.sendPluginMessage(StaffPlus.get(), BUNGEE_CORD_CHANNEL, out.toByteArray());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

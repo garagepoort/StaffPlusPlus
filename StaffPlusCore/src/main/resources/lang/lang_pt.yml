@@ -37,7 +37,7 @@ protect-prefix: "&dProtected &8»"
 separator-color: "&b"
 
 # As linhas são separadas por vírgulas
-staff-list-start: "%&7longline%"
+staff-list-start: "&7%longline%"
 staff-list-member: "&b%player% &%statuscolor%•"
 # As linhas são separadas por vírgulas
 staff-list-end: "&7%longline%"
