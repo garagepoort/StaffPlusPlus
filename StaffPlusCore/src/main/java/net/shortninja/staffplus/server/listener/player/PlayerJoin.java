@@ -52,6 +52,9 @@ public class PlayerJoin implements Listener {
         if (!session.isInStaffMode()) {
             staffModeService.removeMode(player);
         }
+        if(session.isVanished()) {
+            event.setJoinMessage("");
+        }
 
         sessionLoader.saveSession(session);
         delayedActions(player);
