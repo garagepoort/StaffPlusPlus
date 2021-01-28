@@ -47,4 +47,8 @@ public class ServerSyncConfiguration {
     public boolean isKickSyncEnabled() {
         return kickSyncEnabled;
     }
+
+    public boolean sessionSyncEnabled() {
+        return vanishSyncEnabled || staffModeSyncEnabled;
+    }
 }

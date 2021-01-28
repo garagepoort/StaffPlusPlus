@@ -67,7 +67,7 @@ public class SessionLoader {
 
     private void enhanceWithSyncedData(UUID uuid, VanishType vanishType, boolean staffMode, PlayerSession playerSession) {
         Optional<SessionEntity> session = sessionsRepository.findSession(uuid);
-        if (options.modeConfiguration.isServerSyncEnabled()) {
+        if (options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
             playerSession.setInStaffMode(session.map(SessionEntity::getStaffMode).orElse(staffMode));
         }
         if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
@@ -119,13 +119,19 @@ public class SessionLoader {
         new Save(playerSession);
         StaffPlus.get().dataFile.save();
 
-        Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
-        if (session.isPresent()) {
-            session.get().setStaffMode(playerSession.isInStaffMode());
-            session.get().setVanishType(playerSession.getVanishType());
-            sessionsRepository.update(session.get());
-        } else {
-            sessionsRepository.addSession(new SessionEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode()));
+        if(options.serverSyncConfiguration.sessionSyncEnabled()) {
+            Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
+            if (session.isPresent()) {
+                if(options.serverSyncConfiguration.isVanishSyncEnabled()) {
+                    session.get().setVanishType(playerSession.getVanishType());
+                }
+                if(options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
+                    session.get().setStaffMode(playerSession.isInStaffMode());
+                }
+                sessionsRepository.update(session.get());
+            } else {
+                sessionsRepository.addSession(new SessionEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode()));
+            }
         }
     }
 }
