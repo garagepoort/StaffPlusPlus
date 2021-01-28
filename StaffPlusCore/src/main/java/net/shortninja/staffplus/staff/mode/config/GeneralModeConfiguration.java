@@ -42,6 +42,7 @@ public class GeneralModeConfiguration {
     private boolean modeCreative;
     private boolean modeOriginalLocation;
     private boolean modeEnableOnLogin;
+    private boolean modeDisableOnLogout;
 
 
     private List<GuiConfiguration> guiConfigurations = new ArrayList<>();
@@ -70,7 +71,8 @@ public class GeneralModeConfiguration {
                                     boolean modeFlight,
                                     boolean modeCreative,
                                     boolean modeOriginalLocation,
-                                    boolean modeEnableOnLogin) {
+                                    boolean modeEnableOnLogin,
+                                    boolean modeDisableOnLogout) {
         this.modeVanish = modeVanish;
         this.modeItemChange = modeItemChange;
         this.modeDamage = modeDamage;
@@ -86,6 +88,7 @@ public class GeneralModeConfiguration {
         this.modeCreative = modeCreative;
         this.modeOriginalLocation = modeOriginalLocation;
         this.modeEnableOnLogin = modeEnableOnLogin;
+        this.modeDisableOnLogout = modeDisableOnLogout;
 
         this.guiConfigurations = new StaffModeGuiConfigurationLoader().loadConfig();
 
@@ -199,4 +202,8 @@ public class GeneralModeConfiguration {
     public boolean isModeEnableOnLogin() {
         return modeEnableOnLogin;
     }
+    public boolean isModeDisableOnLogout() {
+        return modeDisableOnLogout;
+    }
+
 }

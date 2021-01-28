@@ -1,16 +1,25 @@
 package net.shortninja.staffplus.staff.location;
 
-import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.server.data.config.Options;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public abstract class AbstractSqlLocationRepository implements LocationRepository {
 
+    protected AbstractSqlLocationRepository(Options options) {
+        this.options = options;
+    }
+
     protected abstract Connection getConnection() throws SQLException;
+
+    protected final Options options;
 
     @Override
     public void removeLocation(int id) {

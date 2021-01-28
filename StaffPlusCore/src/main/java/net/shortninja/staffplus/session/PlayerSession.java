@@ -1,9 +1,7 @@
 package net.shortninja.staffplus.session;
 
-import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.attribute.gui.IGui;
 import net.shortninja.staffplus.server.chat.ChatAction;
-import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.AlertType;
 import net.shortninja.staffplus.unordered.VanishType;
 import org.bukkit.Bukkit;
@@ -14,7 +12,6 @@ import java.util.*;
 
 public class PlayerSession {
 
-    private final Options options = IocContainer.getOptions();
     private final UUID uuid;
     private final String name;
     private Material glassColor;
@@ -28,6 +25,7 @@ public class PlayerSession {
     private boolean isFrozen = false;
     private boolean isProtected = false;
     private boolean muted = false;
+    private boolean inStaffMode = false;
 
     public PlayerSession(UUID uuid, String name, boolean muted) {
         this.uuid = uuid;
@@ -40,13 +38,15 @@ public class PlayerSession {
         }
     }
 
-    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions, boolean muted) {
+    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions, boolean muted, VanishType vanishType, boolean inStaffMode) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
         this.playerNotes = playerNotes;
         this.alertOptions = alertOptions;
         this.muted = muted;
+        this.vanishType = vanishType;
+        this.inStaffMode = inStaffMode;
     }
 
     public Optional<Player> getPlayer() {
@@ -83,6 +83,14 @@ public class PlayerSession {
      */
     public void setVanishType(VanishType vanishType) {
         this.vanishType = vanishType;
+    }
+
+    public void setInStaffMode(boolean inStaffMode) {
+        this.inStaffMode = inStaffMode;
+    }
+
+    public boolean isInStaffMode() {
+        return inStaffMode;
     }
 
     public Optional<IGui> getCurrentGui() {
