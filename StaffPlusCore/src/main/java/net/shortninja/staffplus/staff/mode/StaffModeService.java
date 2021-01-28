@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.staff.mode;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
@@ -83,9 +82,13 @@ public class StaffModeService {
     public void removeMode(Player player) {
         PlayerSession session = sessionManager.get(player.getUniqueId());
 
-        ModeData modeData = modeDataRepository.retrieveModeData(player.getUniqueId())
-            .orElseThrow(() -> new BusinessException("Player is has no modedata stored. Cannot remove mode."));
+        Optional<ModeData> existingModeData = modeDataRepository.retrieveModeData(player.getUniqueId());
+        if (!existingModeData.isPresent()) {
+            logger.warning("Player is has no modedata stored. Cannot remove mode.");
+            return;
+        }
 
+        ModeData modeData = existingModeData.get();
         if (modeConfiguration.isModeOriginalLocation()) {
             player.teleport(modeData.getPreviousLocation().setDirection(player.getLocation().getDirection()));
             message.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
