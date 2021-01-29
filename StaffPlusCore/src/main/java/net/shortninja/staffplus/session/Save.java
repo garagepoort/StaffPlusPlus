@@ -22,7 +22,7 @@ public class Save {
 
     private void saveSession() {
         dataFile.set(session.getUuid() + ".name", session.getName());
-        dataFile.set(session.getUuid() + ".glass-color", session.getGlassColor() != null ? session.getGlassColor().name() : Material.WHITE_STAINED_GLASS_PANE);
+        dataFile.set(session.getUuid() + ".glass-color", session.getGlassColor() != null ? session.getGlassColor().name() : Material.STAINED_GLASS_PANE);
         dataFile.set(session.getUuid() + ".notes", new ArrayList<>(session.getPlayerNotes()));
         dataFile.set(session.getUuid() + ".alert-options", alertOptions());
         dataFile.set(session.getUuid() + ".vanish-type", session.getVanishType() != null ? session.getVanishType().name() : VanishType.NONE.name());
