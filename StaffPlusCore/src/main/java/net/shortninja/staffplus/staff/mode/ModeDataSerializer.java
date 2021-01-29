@@ -4,6 +4,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BukkitInventorySerialization;
 import net.shortninja.staffplus.unordered.VanishType;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
@@ -58,7 +59,7 @@ public class ModeDataSerializer {
             return Optional.of(new ModeData(
                 UUID.fromString(dataFile.getString(UUID_SELECTOR)),
                 BukkitInventorySerialization.itemStackArrayFromBase64(dataFile.getString(INVENTORY)),
-                dataFile.getLocation(PREVIOUS_LOCATION),
+                dataFile.getSerializable(PREVIOUS_LOCATION, Location.class),
                 dataFile.getBoolean(FLIGHT, false),
                 GameMode.valueOf(dataFile.getString(GAME_MODE, "SURVIVAL")),
                 VanishType.valueOf(dataFile.getString(VANISH_TYPE, "NONE")),
