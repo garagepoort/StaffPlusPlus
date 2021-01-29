@@ -1,5 +1,21 @@
 # Changelog Staff++ | v1.12
 
+### V1.12.23
+Migration guide:
+https://app.gitbook.com/@staffplusplus-minecraft/s/staffplusplus/migration-guides/migrating-to-greater-than-v1.16.43
+### Features
+- Added LuckPerms integration for staffmode context
+- Reload command now also reloads lang files
+- Multi server support 
+  - Keep staff mode enabled when switching servers
+  - Keep vanish enabled when switching servers
+  - ban/mute/warn players across the network
+- No join/leave message is displayed when a player is in vanish mode
+
+### Bugs
+- Using a non staff item while in staff mode was throwing an exception.
+- One of the lang files had a formatting error.
+
 ### V1.12.22
 ### Features
 - Reworked chest interaction
