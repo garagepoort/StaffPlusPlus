@@ -1,9 +1,10 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.44 (NOT YET RELEASED)
+### V1.16.44
 ### Features
 - Rework miner GUI to be more consistent with the other GUIs, pagination + back button
 - Add notify warnings message to the lang files
+- Add infractions-top command to list players with most infractions.
 
 ### Bugs
 - Adding notes through the examine gui was broken.
