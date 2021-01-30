@@ -53,7 +53,7 @@ public class HubGui extends AbstractGui {
         }
 
         if (guiModeConfiguration.modeGuiMiner) {
-            setMenuItem(10, minerItem(), (p) -> new MinerGui(player, guiModeConfiguration.modeGuiMinerTitle));
+            setMenuItem(10, minerItem(), (p) -> new MinerGui(player, guiModeConfiguration.modeGuiMinerTitle, 0, () -> new HubGui(player, title)));
         }
 
         if (protectGuiItemConfig.isEnabled()) {

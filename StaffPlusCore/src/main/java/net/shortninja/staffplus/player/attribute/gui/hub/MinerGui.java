@@ -1,8 +1,9 @@
 package net.shortninja.staffplus.player.attribute.gui.hub;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.unordered.IAction;
@@ -14,17 +15,27 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class MinerGui extends AbstractGui {
-    private static final int SIZE = 54;
-    private MessageCoordinator message = IocContainer.getMessage();
-    private Options options = IocContainer.getOptions();
-    private Messages messages = IocContainer.getMessages();
-    private SessionManager sessionManager = IocContainer.getSessionManager();
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
-    public MinerGui(Player player, String title) {
-        super(SIZE, title);
+public class MinerGui extends PagedGui {
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Options options = IocContainer.getOptions();
+    private final Messages messages = IocContainer.getMessages();
 
-        IAction action = new IAction() {
+    public MinerGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
+        super(player, title, page, backGuiSupplier);
+    }
+
+    @Override
+    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
+        new MinerGui(player, title, page, previousGuiSupplier);
+    }
+
+    @Override
+    public IAction getAction() {
+        return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 Player p = Bukkit.getPlayerExact(item.getItemMeta().getDisplayName().substring(2));
@@ -39,23 +50,14 @@ public class MinerGui extends AbstractGui {
                 return true;
             }
         };
+    }
 
-        int slot = 0; // Better to use this because not every iteration is going to have a result.
-
-        for (Player p : JavaUtils.getOnlinePlayers()) {
-            if (p.getLocation().getBlockY() > options.modeConfiguration.getGuiModeConfiguration().modeGuiMinerLevel) {
-                continue;
-            } else if ((slot + 1) >= SIZE) {
-                break;
-            }
-
-            setItem(slot, minerItem(p), action);
-            slot++;
-        }
-
-        player.closeInventory();
-        player.openInventory(getInventory());
-        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
+    @Override
+    public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
+        return IocContainer.getPlayerManager().getOnlinePlayers().stream()
+            .filter(p -> p.getLocation().getBlockY() < IocContainer.getOptions().modeConfiguration.getGuiModeConfiguration().modeGuiMinerLevel)
+            .map(this::minerItem)
+            .collect(Collectors.toList());
     }
 
     private ItemStack minerItem(Player player) {
