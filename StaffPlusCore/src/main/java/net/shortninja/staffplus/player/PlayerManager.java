@@ -66,4 +66,8 @@ public class PlayerManager {
         cachedPlayerNames.add(player.getName());
         cachedSppPlayers.add(new SppPlayer(player.getUniqueId(), player.getName()));
     }
+
+    public Collection<? extends Player> getOnlinePlayers() {
+        return Bukkit.getOnlinePlayers();
+    }
 }
