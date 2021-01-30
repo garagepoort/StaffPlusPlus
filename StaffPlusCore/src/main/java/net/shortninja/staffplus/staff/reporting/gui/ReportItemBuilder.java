@@ -19,6 +19,8 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
     public static ItemStack build(Report report) {
         List<String> lore = new ArrayList<String>();
 
+        String culprit = report.getCulpritName() == null ? "Unknown" : report.getCulpritName();
+        lore.add("&bCulprit: " + culprit);
         lore.add("&bStatus: " + report.getReportStatus());
         lore.add("&bTimeStamp: " + report.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm")));
         if (IocContainer.getOptions().reportConfiguration.isShowReporter()) {
@@ -37,9 +39,9 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
             }
         }
 
-        String culprit = report.getCulpritName() == null ? "Unknown" : report.getCulpritName();
         ItemStack item = Items.editor(Items.createSkull(report.getCulpritName())).setAmount(1)
             .setName("&bCulprit: " + culprit)
+            .setName("&5Report")
             .setLore(lore)
             .build();
 

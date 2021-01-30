@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.mute.database;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.Constants;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -10,10 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class AbstractSqlMuteRepository implements MuteRepository {
@@ -125,6 +123,22 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
             throw new RuntimeException(e);
         }
         return mutes;
+    }
+
+    @Override
+    public Map<UUID, Integer> getCountByPlayer() {
+        Map<UUID, Integer> count = new HashMap<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_muted_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isMuteSyncEnabled()) + " GROUP BY player_uuid ORDER BY count DESC")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    count.put(UUID.fromString(rs.getString("player_uuid")), rs.getInt("count"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
     }
 
     @Override
