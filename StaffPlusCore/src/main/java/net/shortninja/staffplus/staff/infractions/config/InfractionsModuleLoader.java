@@ -15,9 +15,10 @@ public class InfractionsModuleLoader extends ConfigLoader<InfractionsConfigurati
         boolean showKicks = config.getBoolean("infractions-module.show-kicks");
 
 
+        String commandViewTopInfraction = config.getString("commands.infractions-top-view");
         String commandViewInfraction = config.getString("commands.infractions-view");
         String permissionViewInfractions = config.getString("permissions.infractions.view");
 
-        return new InfractionsConfiguration(infractionsEnabled, commandViewInfraction, permissionViewInfractions, showBans, showMutes, showWarnings, showReported, showKicks);
+        return new InfractionsConfiguration(infractionsEnabled, commandViewInfraction, commandViewTopInfraction, permissionViewInfractions, showBans, showMutes, showWarnings, showReported, showKicks);
     }
 }
