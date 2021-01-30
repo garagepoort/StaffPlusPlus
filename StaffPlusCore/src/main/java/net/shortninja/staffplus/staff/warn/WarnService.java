@@ -10,6 +10,7 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionCount;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.warn.config.WarningAction;
 import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
@@ -56,9 +57,9 @@ public class WarnService implements InfractionProvider {
 
     public void sendWarning(CommandSender sender, SppPlayer user, String reason, String severityLevel) {
         WarningSeverityConfiguration severity = options.warningConfiguration.getSeverityLevels().stream()
-                .filter(s -> s.getName().equalsIgnoreCase(severityLevel))
-                .findFirst()
-                .orElseThrow(() -> new BusinessException("Cannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
+            .filter(s -> s.getName().equalsIgnoreCase(severityLevel))
+            .findFirst()
+            .orElseThrow(() -> new BusinessException("Cannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
 
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
@@ -66,7 +67,7 @@ public class WarnService implements InfractionProvider {
         createWarning(sender, user, warning);
     }
 
-    public void  sendWarning(CommandSender sender, SppPlayer user, String reason) {
+    public void sendWarning(CommandSender sender, SppPlayer user, String reason) {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
         Warning warning = new Warning(user.getId(), user.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis());
@@ -96,17 +97,17 @@ public class WarnService implements InfractionProvider {
         int totalScore = warnRepository.getTotalScore(user.getId());
         List<WarningThresholdConfiguration> thresholds = options.warningConfiguration.getThresholds();
         Optional<WarningThresholdConfiguration> threshold = thresholds.stream()
-                .sorted((o1, o2) -> o2.getScore() - o1.getScore())
-                .filter(w -> w.getScore() <= totalScore)
-                .findFirst();
+            .sorted((o1, o2) -> o2.getScore() - o1.getScore())
+            .filter(w -> w.getScore() <= totalScore)
+            .findFirst();
         if (!threshold.isPresent()) {
             return;
         }
         List<String> validCommands = new ArrayList<>();
         for (WarningAction action : threshold.get().getActions()) {
             if (action.getRunStrategy() == ALWAYS
-                    || (action.getRunStrategy() == ONLINE && user.isOnline())
-                    || (action.getRunStrategy() == DELAY && user.isOnline())) {
+                || (action.getRunStrategy() == ONLINE && user.isOnline())
+                || (action.getRunStrategy() == DELAY && user.isOnline())) {
 
                 Bukkit.getScheduler().runTask(StaffPlus.get(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getUsername())));
                 validCommands.add(action.getCommand());
@@ -153,9 +154,17 @@ public class WarnService implements InfractionProvider {
 
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
-        if(!options.infractionsConfiguration.isShowWarnings()) {
+        if (!options.infractionsConfiguration.isShowWarnings()) {
             return Collections.emptyList();
         }
         return warnRepository.getWarnings(playerUUID);
+    }
+
+    @Override
+    public Optional<InfractionCount> getInfractionsCount() {
+        if (!options.infractionsConfiguration.isShowWarnings()) {
+            return Optional.empty();
+        }
+        return Optional.of(new InfractionCount("Warnings", warnRepository.getCountByPlayer()));
     }
 }

@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.warn.database;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.Constants;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -10,10 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class AbstractSqlWarnRepository implements WarnRepository {
 
@@ -152,6 +150,22 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Map<UUID, Integer> getCountByPlayer() {
+        Map<UUID, Integer> count = new HashMap<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_warnings " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isKickSyncEnabled()) + " GROUP BY Player_UUID ORDER BY count DESC")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    count.put(UUID.fromString(rs.getString("Player_UUID")), rs.getInt("count"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
     }
 
     private Warning buildWarning(ResultSet rs) throws SQLException {

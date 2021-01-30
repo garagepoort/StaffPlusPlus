@@ -35,7 +35,7 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
 
         ItemStack item = Items.builder()
             .setMaterial(Material.PLAYER_HEAD)
-            .setName(kick.getPlayerName())
+            .setName("&6Kick")
             .addLore(lore)
             .build();
 

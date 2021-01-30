@@ -41,7 +41,7 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
         }
         ItemStack item = Items.builder()
             .setMaterial(Material.PLAYER_HEAD)
-            .setName(ban.getPlayerName())
+            .setName("&cBan")
             .addLore(lore)
             .build();
 
