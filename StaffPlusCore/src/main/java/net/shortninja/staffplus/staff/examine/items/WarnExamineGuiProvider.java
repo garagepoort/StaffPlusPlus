@@ -60,9 +60,9 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
         IAction warnAction = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                PlayerSession playerSession = sessionManager.get(targetPlayer.getPlayer().getUniqueId());
+                PlayerSession playerSession = sessionManager.get(staff.getUniqueId());
 
-                message.send(targetPlayer.getPlayer(), messages.typeInput, messages.prefixGeneral);
+                message.send(staff, messages.typeInput, messages.prefixGeneral);
 
                 playerSession.setChatAction((player1, input) -> {
                     Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getId());
