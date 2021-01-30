@@ -100,6 +100,7 @@ warnings-list-start: "&7%longline%, &7%target% &bhas &7%warnings% &bwarnings."
 warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
 # Lignes séparées par des virgules
 warnings-list-end: "&7%longline%"
+warnings-notify: "You have %warningsCount% new warnings!"
 
 # Lignes séparées par des virgules
 infraction-item: "&bAvertissements: &7%warnings%, &bReports: &7%reports%, &bReport reason: &7%reason%"
