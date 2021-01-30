@@ -99,6 +99,7 @@ warnings-list-start: "&7%longline%, &7%target% &bheeft &7%warnings% &bwaarschuwi
 warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
 # Lijnen zijn gescheiden door kommas.
 warnings-list-end: "&7%longline%"
+warnings-notify: "You have %warningsCount% new warnings!"
 
 # Lijnen zijn gescheiden door kommas.
 infraction-item: "&bWaarschuwingen: &7%warnings%, &bAangiftes: &7%reports%, &bReden: &7%reason%"

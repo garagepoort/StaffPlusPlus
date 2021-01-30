@@ -55,6 +55,7 @@ public class Messages {
     public String warned;
     public String warn;
     public String warningsCleared;
+    public String warningsNotify;
     public List<String> warningsListStart;
     public String warningsListEntry;
     public List<String> warningsListEnd;
@@ -191,6 +192,7 @@ public class Messages {
         warned = config.getString("warned");
         warn = config.getString("warn");
         warningsCleared = config.getString("warnings-cleared");
+        warningsNotify = config.getString("warnings-notify");
         warningsListStart = JavaUtils.stringToList(config.getString("warnings-list-start"));
         warningsListEntry = config.getString("warnings-list-entry");
         warningsListEnd = JavaUtils.stringToList(config.getString("warnings-list-end"));
