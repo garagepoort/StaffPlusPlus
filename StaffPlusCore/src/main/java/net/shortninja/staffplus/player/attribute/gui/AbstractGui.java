@@ -40,23 +40,25 @@ public class AbstractGui implements IGui {
 
     public AbstractGui(int size, String title, Supplier<AbstractGui> previousGuiSupplier) {
         this.title = title;
-        this.previousGuiSupplier = previousGuiSupplier;
         inventory = Bukkit.createInventory(null, size, message.colorize(title));
 
-        ItemStack item = Items.editor(Items.createDoor("Back", "Go back"))
-            .setAmount(1)
-            .build();
-        setItem(getBackButtonSlot(), item, new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot) {
-                previousGuiSupplier.get();
-            }
+        this.previousGuiSupplier = previousGuiSupplier;
+        if (previousGuiSupplier != null) {
+            ItemStack item = Items.editor(Items.createDoor("Back", "Go back"))
+                .setAmount(1)
+                .build();
+            setItem(getBackButtonSlot(), item, new IAction() {
+                @Override
+                public void click(Player player, ItemStack item, int slot) {
+                    previousGuiSupplier.get();
+                }
 
-            @Override
-            public boolean shouldClose(Player player) {
-                return false;
-            }
-        });
+                @Override
+                public boolean shouldClose(Player player) {
+                    return false;
+                }
+            });
+        }
     }
 
     public Supplier<AbstractGui> getPreviousGuiSupplier() {

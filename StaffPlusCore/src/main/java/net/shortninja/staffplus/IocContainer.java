@@ -199,7 +199,7 @@ public class IocContainer {
     }
 
     public static InfractionsService getInfractionsService() {
-        return initBean(InfractionsService.class, () -> new InfractionsService(getInfractionProviders()));
+        return initBean(InfractionsService.class, () -> new InfractionsService(getInfractionProviders(), getPlayerManager()));
     }
 
     public static ManageReportService getManageReportService() {

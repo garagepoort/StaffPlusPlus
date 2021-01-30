@@ -41,7 +41,7 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
         }
         ItemStack item = Items.builder()
             .setMaterial(Material.BANNER)
-            .setName(mute.getPlayerName())
+            .setName("&3Mute")
             .addLore(lore)
             .build();
 
