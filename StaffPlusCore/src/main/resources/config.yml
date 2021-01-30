@@ -1143,6 +1143,9 @@ commands:
   # The command to view the infractions of a player
   infractions-view: "infractions"
 
+  # The command to view the players with the most infractions
+  infractions-top-view: "infractions-top"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Storage                         | #
