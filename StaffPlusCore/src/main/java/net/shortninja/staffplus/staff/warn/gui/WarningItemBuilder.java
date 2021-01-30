@@ -31,7 +31,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
 
         String reason = warning.getReason().length() > 12 ? warning.getReason().substring(0, 9) + "..." : warning.getReason();
         ItemStack item = Items.editor(Items.createSkull(warning.getName())).setAmount(1)
-            .setName("&cWarning")
+            .setName("&6Warning")
             .setLore(lore)
             .build();
 
