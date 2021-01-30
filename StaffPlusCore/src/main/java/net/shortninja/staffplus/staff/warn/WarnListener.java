@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.warn;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.Permission;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ public class WarnListener implements Listener {
     private final WarnService warnService = IocContainer.getWarnService();
     private final Options options = IocContainer.getOptions();
     private final Permission permission = IocContainer.getPermissionHandler();
+    private final Messages messages = IocContainer.getMessages();
 
     public WarnListener() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -44,7 +46,8 @@ public class WarnListener implements Listener {
     }
 
     private void sendMessage(PlayerJoinEvent event, List<Warning> unreadWarnings) {
-        JSONMessage message = JSONMessage.create("You have " + unreadWarnings.size() + " new warnings")
+        String notifyMessage = messages.warningsNotify.replace("%warningsCount%", String.valueOf(unreadWarnings.size()));
+        JSONMessage message = JSONMessage.create(notifyMessage)
             .color(ChatColor.GOLD);
 
         if (permission.has(event.getPlayer(), options.warningConfiguration.getMyWarningsPermission())) {
