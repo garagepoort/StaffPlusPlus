@@ -1,8 +1,15 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.44 (NOT YET RELEASED)
+### Features
+
+### Bugs
+- Adding notes through the examine gui was broken.
+
 ### V1.16.43
 Migration guide:
 https://app.gitbook.com/@staffplusplus-minecraft/s/staffplusplus/migration-guides/migrating-to-greater-than-v1.16.43
+
 ### Features
 - Added LuckPerms integration for staffmode context
 - Reload command now also reloads lang files
