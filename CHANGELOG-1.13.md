@@ -1,5 +1,17 @@
 # Changelog Staff++ | v1.13
 
+### V1.13.39
+### Features
+- Rework miner GUI to be more consistent with the other GUIs, pagination + back button
+- Add notify warnings message to the lang files
+- Add infractions-top command to list players with most infractions.
+
+### Bugs
+- Adding notes through the examine gui was broken.
+- Adding warnings through the examine gui was broken.
+- Custom-modules got broken in the previous release.
+
+
 ### V1.13.38
 Migration guide:
 https://app.gitbook.com/@staffplusplus-minecraft/s/staffplusplus/migration-guides/migrating-to-greater-than-v1.16.43
