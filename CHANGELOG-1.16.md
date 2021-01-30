@@ -7,6 +7,7 @@
 ### Bugs
 - Adding notes through the examine gui was broken.
 - Adding warnings through the examine gui was broken.
+- Custom-modules got broken in the previous release.
 
 ### V1.16.43
 Migration guide:
