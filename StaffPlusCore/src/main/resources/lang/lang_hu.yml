@@ -100,6 +100,7 @@ warnings-list-start: "&7%longline%, &7%target% &bvan &7%warnings% &bfigyelmeztet
 warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
 # Lines are separated by commas.
 warnings-list-end: "&7%longline%"
+warnings-notify: "You have %warningsCount% new warnings!"
 
 # Lines are separated by commas.
 infraction-item: "&bFigyelmeztetések: &7%warnings%, &bJelentések: &7%reports%, &bJelentés oka: &7%reason%"

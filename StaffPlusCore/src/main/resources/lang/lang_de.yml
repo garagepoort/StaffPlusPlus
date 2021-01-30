@@ -100,6 +100,7 @@ warnings-list-start: "&7%longline%, &7%target% &bhas &7%warnings% &bwarnings."
 warnings-list-entry: "&b%count%: &7%reason%"
 # Linien werden durch Kommas getrennt
 warnings-list-end: "&7%longline%"
+warnings-notify: "You have %warningsCount% new warnings!"
 
 # Linien werden durch Kommas getrennt
 infraction-item: "&bVerwarnungen: &7%warnings%, &bReports: &7%reports%, &bReport Grund: &7%reason%"
