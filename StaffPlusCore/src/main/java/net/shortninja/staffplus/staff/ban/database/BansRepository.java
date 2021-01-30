@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.ban.database;
 import net.shortninja.staffplus.staff.ban.Ban;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,4 +20,6 @@ public interface BansRepository {
     Optional<Ban> findActiveBan(int id);
 
     List<Ban> getBansForPlayer(UUID playerUUID);
+
+    Map<UUID, Integer> getCountByPlayer();
 }

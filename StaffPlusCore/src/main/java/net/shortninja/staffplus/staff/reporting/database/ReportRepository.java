@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.reporting.database;
 import net.shortninja.staffplus.staff.reporting.Report;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,4 +34,6 @@ public interface ReportRepository {
     List<Report> getClosedReports(int offset, int amount);
 
     List<Report> getReportsByOffender(UUID playerUUID);
+
+    Map<UUID, Integer> getReportedCount();
 }

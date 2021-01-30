@@ -9,6 +9,7 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.database.BansRepository;
 import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionCount;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
@@ -19,10 +20,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.bukkit.Bukkit.getScheduler;
 
@@ -162,5 +160,13 @@ public class BanService implements InfractionProvider {
             return Collections.emptyList();
         }
         return bansRepository.getBansForPlayer(playerUUID);
+    }
+
+    @Override
+    public Optional<InfractionCount> getInfractionsCount() {
+        if(!options.infractionsConfiguration.isShowBans()) {
+            return Optional.empty();
+        }
+        return Optional.of(new InfractionCount("Bans", bansRepository.getCountByPlayer()));
     }
 }
