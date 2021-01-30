@@ -2,6 +2,7 @@
 
 ### V1.16.44 (NOT YET RELEASED)
 ### Features
+- Rework miner GUI to be more consistent with the other GUIs, pagination + back button
 
 ### Bugs
 - Adding notes through the examine gui was broken.
