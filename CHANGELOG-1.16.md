@@ -5,6 +5,7 @@
 
 ### Bugs
 - Adding notes through the examine gui was broken.
+- Adding warnings through the examine gui was broken.
 
 ### V1.16.43
 Migration guide:
