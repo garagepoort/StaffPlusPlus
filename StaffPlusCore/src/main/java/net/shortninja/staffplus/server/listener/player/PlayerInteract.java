@@ -161,10 +161,10 @@ public class PlayerInteract implements Listener {
                 gadgetHandler.onFollow(player, JavaUtils.getTargetPlayer(player));
                 break;
             case CUSTOM:
-                CustomModuleConfiguration customModuleConfiguration = gadgetHandler.getModule(item);
+                Optional<CustomModuleConfiguration> customModuleConfiguration = gadgetHandler.getModule(item);
 
-                if (customModuleConfiguration != null) {
-                    gadgetHandler.onCustom(player, JavaUtils.getTargetPlayer(player), customModuleConfiguration);
+                if (customModuleConfiguration.isPresent()) {
+                    gadgetHandler.onCustom(player, JavaUtils.getTargetPlayer(player), customModuleConfiguration.get());
                 } else {
                     isHandled = false;
                 }

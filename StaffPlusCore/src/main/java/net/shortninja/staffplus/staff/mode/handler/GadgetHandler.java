@@ -3,7 +3,6 @@ package net.shortninja.staffplus.staff.mode.handler;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.CounterGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
@@ -65,16 +64,15 @@ public class GadgetHandler {
             return GadgetType.FOLLOW;
         }
 
-        return GadgetType.NO_GADGET;
+        return GadgetType.CUSTOM;
     }
 
-    public CustomModuleConfiguration getModule(ItemStack item) {
+    public Optional<CustomModuleConfiguration> getModule(ItemStack item) {
         String identifier = versionProtocol.getNbtString(item);
         return options.customModuleConfigurations
             .stream()
             .filter(m -> m.getIdentifier().equals(identifier))
-            .findFirst()
-            .orElseThrow(() -> new BusinessException("No module found for identifier [" + identifier + "]"));
+            .findFirst();
     }
 
     public void onCompass(Player player) {
