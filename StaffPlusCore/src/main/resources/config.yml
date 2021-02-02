@@ -19,9 +19,6 @@ main-world: "world"
 # If you would like to translate Staff++, please message me on Spigot!
 lang: "lang_en"
 
-# Whether the plugin uses BungeeCord. By default disabled.
-bungee: false
-
 # Chooses the authentication provider. Default "noop", no authentication will be done.
 # AuthMe is supported. When the provider is authMe, Staff++ will enforce that the user is authenticated through AuthMe before being able to execute the commands.
 authentication:
@@ -333,24 +330,6 @@ protect-module:
   area-enabled: true
   # The max area size that can be protected.
   area-max-size: 40
-
-############################################################
-# +------------------------------------------------------+ #
-# |                       Tickets                        | #
-# +------------------------------------------------------+ #
-############################################################
-
-# Requires no permission for opening tickets and requires "permissions.ticket" permission for managing.
-tickets-module:
-  # Whether or not the plugin will use ticket features.
-  enabled: true
-
-  # Whether or not additional responses to tickets will be sent to all staff members.
-  # The initial ticket will be sent to all staff members no matter what.
-  global: false
-
-  # Whether or not multiple staff members will be able to respond to a single ticket.
-  keep-open: false
 
 ############################################################
 # +------------------------------------------------------+ #
