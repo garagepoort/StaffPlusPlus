@@ -166,7 +166,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
             issuerName = "Console";
         } else {
             Optional<SppPlayer> issuer = playerManager.getOnOrOfflinePlayer(uuid);
-            issuerName = issuer.map(SppPlayer::getUsername).orElse(null);
+            issuerName = issuer.map(SppPlayer::getUsername).orElse("[Unknown player]");
         }
         return issuerName;
     }
