@@ -4,6 +4,7 @@
 
 ### Bugs
 - Fix luckperms context error when new players join
+- Fix luckperms context not being set correctly
 
 ### V1.16.44
 ### Features
