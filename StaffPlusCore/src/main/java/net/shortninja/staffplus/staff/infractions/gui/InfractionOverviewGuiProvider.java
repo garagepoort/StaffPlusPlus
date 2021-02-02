@@ -3,7 +3,6 @@ package net.shortninja.staffplus.staff.infractions.gui;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.staff.infractions.InfractionOverview;
 import net.shortninja.staffplus.util.lib.hex.Items;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -17,8 +16,8 @@ public class InfractionOverviewGuiProvider {
             lore.add("&b" + type + ": &6" + count);
 
         });
-        ItemStack item = Items.builder()
-            .setMaterial(Material.SKULL)
+
+        ItemStack item = Items.editor(Items.createSkull(infractionOverview.getSppPlayer().getUsername())).setAmount(1)
             .setName(infractionOverview.getSppPlayer().getUsername())
             .addLore(lore)
             .build();

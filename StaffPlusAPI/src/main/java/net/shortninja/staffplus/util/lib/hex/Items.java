@@ -128,11 +128,6 @@ public final class Items {
             this.itemStack = itemStack;
         }
 
-        public ItemStackBuilder setItemMeta(ItemMeta meta) {
-            this.itemStack.setItemMeta(meta);
-            return this;
-        }
-
         public ItemStackBuilder setMaterial(Material material) {
             itemStack.setType(material);
             return this;

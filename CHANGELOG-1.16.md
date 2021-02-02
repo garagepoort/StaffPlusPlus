@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.45 (NOT YET RELEASE)
+
+### Bugs
+- Fix luckperms context error when new players join
+
 ### V1.16.44
 ### Features
 - Rework miner GUI to be more consistent with the other GUIs, pagination + back button
