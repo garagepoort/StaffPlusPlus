@@ -270,7 +270,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             reporterName = "Console";
         } else {
             Optional<SppPlayer> reporter = playerManager.getOnOrOfflinePlayer(reporterUUID);
-            reporterName = reporter.map(SppPlayer::getUsername).orElse(null);
+            reporterName = reporter.map(SppPlayer::getUsername).orElse("[Unknown player]");
         }
 
         UUID playerUUID = null;
@@ -278,7 +278,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         if (player_uuid != null) {
             playerUUID = UUID.fromString(player_uuid);
             Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUUID);
-            culpritName = player.map(SppPlayer::getUsername).orElse(null);
+            culpritName = player.map(SppPlayer::getUsername).orElse("[Unknown player]");
         }
 
         int id = rs.getInt("ID");
