@@ -13,6 +13,8 @@
 server-name: "MyUniqueServerName"
 # The name of the main world. Meaning the world folder name which contains the player data files.
 main-world: "world"
+# The format in which all dates will be displayed inside the GUIs.
+timestamp-format: 'dd/MM/yyyy-HH:mm:ss'
 
 # The language file that will be referred to for messages.
 # Current available languages are: lang_en, lang_sv, lang_de, lang_nl, lang_es, lang_hr, lang_no, and lang_fr.

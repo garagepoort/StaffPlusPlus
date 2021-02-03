@@ -22,7 +22,7 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
         String culprit = report.getCulpritName() == null ? "Unknown" : report.getCulpritName();
         lore.add("&bCulprit: " + culprit);
         lore.add("&bStatus: " + report.getReportStatus());
-        lore.add("&bTimeStamp: " + report.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm")));
+        lore.add("&bTimeStamp: " + report.getTimestamp().format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat)));
         if (IocContainer.getOptions().reportConfiguration.isShowReporter()) {
             lore.add("&bReporter: " + report.getReporterName());
         }

@@ -65,6 +65,7 @@ public class Options implements IOptions {
 
     public String serverName;
     public String mainWorld;
+    public String timestampFormat;
     public int autoSave;
     public long clock;
     private List<String> soundNames;
@@ -231,6 +232,7 @@ public class Options implements IOptions {
 
         serverName = config.getString("server-name");
         mainWorld = config.getString("main-world");
+        timestampFormat = config.getString("timestamp-format");
         autoSave = config.getInt("auto-save");
         clock = config.getInt("clock") * 20;
         soundNames = JavaUtils.stringToList(config.getString("sound-names"));
