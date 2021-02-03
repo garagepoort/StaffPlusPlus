@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.staff.kick.gui;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.kick.Kick;
@@ -20,7 +21,7 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
 
     public static ItemStack build(Kick kick) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(kick.getCreationDate().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat));
 
         List<String> lore = new ArrayList<String>();
 
