@@ -2,6 +2,9 @@
 
 ### V1.16.45 (NOT YET RELEASE)
 
+### Features
+- Add ability to configure timestamp format.
+
 ### Bugs
 - Fix luckperms context error when new players join
 - Fix luckperms context not being set correctly

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.staff.ban.gui;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.staff.ban.Ban;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
@@ -20,7 +21,7 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
 
     public static ItemStack build(Ban ban) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(ban.getCreationDate().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat));
 
         List<String> lore = new ArrayList<String>();
 

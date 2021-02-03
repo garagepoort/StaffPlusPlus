@@ -19,7 +19,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
         List<String> lore = new ArrayList<String>();
 
         lore.add("&bSeverity: " + warning.getSeverity());
-        lore.add("&bTimeStamp: " + warning.getTimestamp().format(DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm")));
+        lore.add("&bTimeStamp: " + warning.getTimestamp().format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat)));
         if (IocContainer.getOptions().warningConfiguration.isShowIssuer()) {
             lore.add("&bIssuer: " + warning.getIssuerName());
         }
