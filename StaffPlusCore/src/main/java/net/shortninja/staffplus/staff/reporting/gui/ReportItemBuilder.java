@@ -55,7 +55,9 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
     }
 
     @Override
-    public ItemStack getMenuItem(Report i) {
-        return build(i);
+    public ItemStack getMenuItem(Report report) {
+        ItemStack itemStack = build(report);
+        itemStack.setType(IocContainer.getOptions().infractionsConfiguration.getReportedGuiItem());
+        return itemStack;
     }
 }

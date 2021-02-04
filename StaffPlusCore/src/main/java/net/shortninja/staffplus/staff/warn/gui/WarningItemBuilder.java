@@ -46,6 +46,8 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
 
     @Override
     public ItemStack getMenuItem(Warning warning) {
-        return build(warning);
+        ItemStack itemStack = build(warning);
+        itemStack.setType(IocContainer.getOptions().infractionsConfiguration.getWarningsGuiItem());
+        return itemStack;
     }
 }
