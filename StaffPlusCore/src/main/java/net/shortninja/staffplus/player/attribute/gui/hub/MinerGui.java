@@ -29,8 +29,8 @@ public class MinerGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new MinerGui(player, title, page, previousGuiSupplier);
+    protected MinerGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new MinerGui(player, title, page, previousGuiSupplier);
     }
 
     @Override

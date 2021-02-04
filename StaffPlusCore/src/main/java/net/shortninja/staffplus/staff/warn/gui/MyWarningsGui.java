@@ -17,8 +17,8 @@ public class MyWarningsGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new MyWarningsGui(player, title, page);
+    protected MyWarningsGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new MyWarningsGui(player, title, page);
     }
 
     @Override

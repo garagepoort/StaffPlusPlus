@@ -24,8 +24,8 @@ public class InfractionsGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new InfractionsGui(player, getTarget(), title, page, getPreviousGuiSupplier());
+    protected InfractionsGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new InfractionsGui(player, getTarget(), title, page, getPreviousGuiSupplier());
     }
 
     @Override

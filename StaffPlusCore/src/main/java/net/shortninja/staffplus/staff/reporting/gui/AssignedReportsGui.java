@@ -22,8 +22,8 @@ public class AssignedReportsGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new AssignedReportsGui(player, title, page, previousGuiSupplier);
+    protected AssignedReportsGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new AssignedReportsGui(player, title, page, previousGuiSupplier);
     }
 
     @Override
@@ -34,7 +34,8 @@ public class AssignedReportsGui extends PagedGui {
                 CommandUtil.playerAction(player, () -> {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     Report report = IocContainer.getReportService().getReport(reportId);
-                    new ManageReportGui(player, "Report by: " + report.getReporterName(), report, () -> new AssignedReportsGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()));
+                    new ManageReportGui(player, "Report by: " + report.getReporterName(), report, () -> new AssignedReportsGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()))
+                        .show(player);
                 });
             }
 

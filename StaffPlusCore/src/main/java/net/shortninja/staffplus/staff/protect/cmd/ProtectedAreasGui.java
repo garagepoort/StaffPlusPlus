@@ -22,8 +22,8 @@ public class ProtectedAreasGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new ProtectedAreasGui(player, title, page, previousGuiSupplier);
+    protected ProtectedAreasGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new ProtectedAreasGui(player, title, page, previousGuiSupplier);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ProtectedAreasGui extends PagedGui {
                 CommandUtil.playerAction(player, () -> {
                     int protectedAreaId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     ProtectedArea protectedArea = IocContainer.getProtectService().getById(protectedAreaId);
-                    new ManageProtectedAreaGui(player, "Protected area: " + protectedArea.getName(), protectedArea, () -> new ProtectedAreasGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()));
+                    new ManageProtectedAreaGui( "Protected area: " + protectedArea.getName(), protectedArea, () -> new ProtectedAreasGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
                 });
             }
 

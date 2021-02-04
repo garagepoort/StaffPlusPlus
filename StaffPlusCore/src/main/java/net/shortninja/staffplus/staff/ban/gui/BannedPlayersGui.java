@@ -22,8 +22,8 @@ public class BannedPlayersGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new BannedPlayersGui(player, title, page, this.previousGuiSupplier);
+    protected BannedPlayersGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new BannedPlayersGui(player, title, page, this.previousGuiSupplier);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class BannedPlayersGui extends PagedGui {
                 CommandUtil.playerAction(player, () -> {
                     int banId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     Ban ban = IocContainer.getBanService().getById(banId);
-                    new ManageBannedPlayerGui(player, "Player: " + ban.getPlayerName(), ban, () -> new BannedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()));
+                    new ManageBannedPlayerGui("Player: " + ban.getPlayerName(), ban, () -> new BannedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
                 });
             }
 

@@ -23,7 +23,7 @@ public class MyReportsCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        new MyReportsGui((Player) sender, "My Reports", 0);
+        new MyReportsGui((Player) sender, "My Reports", 0).show((Player) sender);
         return true;
     }
 
