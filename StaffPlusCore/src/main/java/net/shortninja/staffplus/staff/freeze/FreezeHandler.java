@@ -56,7 +56,7 @@ public class FreezeHandler {
     private void addFreeze(CommandSender sender, Player player) {
         UUID uuid = player.getUniqueId();
         if (freezeModeConfiguration.isModeFreezePrompt()) {
-            new FreezeGui(player, freezeModeConfiguration.getModeFreezePromptTitle());
+            new FreezeGui(freezeModeConfiguration.getModeFreezePromptTitle()).show(player);
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
         } else {
             message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);

@@ -48,7 +48,7 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
         IAction severityAction = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                new SeverityLevelSelectGui(player, "Select severity level", targetPlayer, () -> new ExamineGui(player, targetPlayer, examineGui.getTitle()));
+                new SeverityLevelSelectGui("Select severity level", targetPlayer, () -> new ExamineGui(player, targetPlayer, examineGui.getTitle())).show(player);
             }
 
             @Override

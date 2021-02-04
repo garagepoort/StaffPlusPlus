@@ -34,7 +34,7 @@ public class InventoryClose implements Listener {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    new FreezeGui(player, options.modeConfiguration.getFreezeModeConfiguration().getModeFreezePromptTitle());
+                    new FreezeGui(options.modeConfiguration.getFreezeModeConfiguration().getModeFreezePromptTitle()).show(player);
                 }
             }.runTaskLater(StaffPlus.get(), 1L);
             return;

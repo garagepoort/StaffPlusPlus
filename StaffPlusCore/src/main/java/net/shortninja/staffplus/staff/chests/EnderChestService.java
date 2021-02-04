@@ -24,14 +24,19 @@ public class EnderChestService {
             if (!permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionViewOnline())) {
                 throw new BusinessException("You are not allowed to view the enderchest of an online player");
             }
-            new ChestGUI(staff, target, target.getPlayer().getEnderChest(), InventoryType.ENDER_CHEST, ChestGuiType.ENDER_CHEST_EXAMINE, permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionInteract()));
+            new ChestGUI(target,
+                target.getPlayer().getEnderChest(),
+                InventoryType.ENDER_CHEST,
+                ChestGuiType.ENDER_CHEST_EXAMINE,
+                permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionInteract())).show(staff);
         } else {
             if (!permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionViewOffline())) {
                 throw new BusinessException("You are not allowed to view the enderchest of an offline player");
             }
 
             Inventory offlineEnderchest = InventoryFactory.loadEnderchestOffline(staff, target);
-            new ChestGUI(staff, target, offlineEnderchest, InventoryType.ENDER_CHEST, ChestGuiType.ENDER_CHEST_EXAMINE, permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionInteract()));
+            new ChestGUI(target, offlineEnderchest, InventoryType.ENDER_CHEST, ChestGuiType.ENDER_CHEST_EXAMINE, permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionInteract()))
+                .show(staff);
         }
     }
 }

@@ -4,7 +4,6 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
-import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.staff.protect.ProtectedArea;
 import net.shortninja.staffplus.staff.teleport.TeleportService;
@@ -18,12 +17,17 @@ import java.util.function.Supplier;
 public class ManageProtectedAreaGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final ProtectService protectService = IocContainer.getProtectService();
     private final TeleportService teleportService = IocContainer.getTeleportService();
+    private final ProtectedArea protectedArea;
 
-    public ManageProtectedAreaGui(Player player, String title, ProtectedArea protectedArea, Supplier<AbstractGui> previousGuiSupplier) {
+    public ManageProtectedAreaGui(String title, ProtectedArea protectedArea, Supplier<AbstractGui> previousGuiSupplier) {
         super(SIZE, title, previousGuiSupplier);
+        this.protectedArea = protectedArea;
+    }
+
+    @Override
+    public void buildGui() {
 
         IAction teleportAction = new IAction() {
             @Override
@@ -65,11 +69,6 @@ public class ManageProtectedAreaGui extends AbstractGui {
         addDeleteItem(protectedArea, deleteAction, 39);
         addDeleteItem(protectedArea, deleteAction, 40);
         addDeleteItem(protectedArea, deleteAction, 41);
-
-
-        player.closeInventory();
-        player.openInventory(getInventory());
-        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     private void addDeleteItem(ProtectedArea protectedArea, IAction action, int slot) {
