@@ -32,4 +32,6 @@ public interface IBan {
     String getUnbanReason();
 
     String getHumanReadableDuration();
+
+    String getServerName();
 }

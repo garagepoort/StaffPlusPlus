@@ -32,4 +32,6 @@ public interface IMute {
     String getUnmuteReason();
 
     String getHumanReadableDuration();
+
+    String getServerName();
 }

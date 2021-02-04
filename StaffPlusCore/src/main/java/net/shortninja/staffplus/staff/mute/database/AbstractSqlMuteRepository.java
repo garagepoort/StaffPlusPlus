@@ -171,6 +171,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
         int id = rs.getInt("ID");
         Long endTimestamp = rs.getLong("end_timestamp");
         endTimestamp = rs.wasNull() ? null : endTimestamp;
+        String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
 
         return new Mute(
             id,
@@ -183,7 +184,8 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
             issuerUuid,
             unmutedByName,
             unmutedByUUID,
-            rs.getString("unmute_reason"));
+            rs.getString("unmute_reason"),
+            serverName);
     }
 
     private String getPlayerName(UUID uuid) {

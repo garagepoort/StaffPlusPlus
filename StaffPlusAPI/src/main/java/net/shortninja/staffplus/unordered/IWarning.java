@@ -26,4 +26,6 @@ public interface IWarning {
     String getSeverity();
 
     ZonedDateTime getTimestamp();
+
+    String getServerName();
 }
