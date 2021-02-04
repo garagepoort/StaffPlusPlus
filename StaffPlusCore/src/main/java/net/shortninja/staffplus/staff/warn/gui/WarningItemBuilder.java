@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.warn.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.warn.Warning;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -43,8 +44,8 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
 
 
     @Override
-    public String getType() {
-        return "WARNING";
+    public InfractionType getType() {
+    return InfractionType.WARNING;
     }
 
     @Override
