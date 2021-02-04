@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.ban.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.Ban;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -18,6 +19,8 @@ import java.util.List;
 import static net.shortninja.staffplus.util.lib.JavaUtils.formatLines;
 
 public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
+
+    private Options options = IocContainer.getOptions();
 
     public static ItemStack build(Ban ban) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(ban.getCreationDate().toInstant(), ZoneOffset.UTC);
@@ -56,6 +59,8 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
 
     @Override
     public ItemStack getMenuItem(Ban ban) {
-        return build(ban);
+        ItemStack itemStack = build(ban);
+        itemStack.setType(options.infractionsConfiguration.getBansGuiItem());
+        return itemStack;
     }
 }

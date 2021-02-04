@@ -50,6 +50,8 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
 
     @Override
     public ItemStack getMenuItem(Kick kick) {
-        return build(kick);
+        ItemStack itemStack = build(kick);
+        itemStack.setType(IocContainer.getOptions().infractionsConfiguration.getKicksGuiItem());
+        return itemStack;
     }
 }

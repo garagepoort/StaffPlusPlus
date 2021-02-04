@@ -56,6 +56,8 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
 
     @Override
     public ItemStack getMenuItem(Mute mute) {
-        return build(mute);
+        ItemStack itemStack = build(mute);
+        itemStack.setType(IocContainer.getOptions().infractionsConfiguration.getMutesGuiItem());
+        return itemStack;
     }
 }
