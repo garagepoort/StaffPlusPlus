@@ -145,6 +145,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
         int id = rs.getInt("ID");
         Long endTimestamp = rs.getLong("end_timestamp");
         endTimestamp = rs.wasNull() ? null : endTimestamp;
+        String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
 
         return new Ban(
             id,
@@ -157,7 +158,8 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
             issuerUuid,
             unbannedByName,
             unbannedByUUID,
-            rs.getString("unban_reason"));
+            rs.getString("unban_reason"),
+            serverName);
     }
 
     private String getPlayerName(UUID uuid) {

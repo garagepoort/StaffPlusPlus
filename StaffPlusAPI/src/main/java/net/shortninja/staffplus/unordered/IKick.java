@@ -21,4 +21,5 @@ public interface IKick {
 
     UUID getIssuerUuid();
 
+    String getServerName();
 }

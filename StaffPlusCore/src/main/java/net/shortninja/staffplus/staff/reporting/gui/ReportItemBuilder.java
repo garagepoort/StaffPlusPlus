@@ -19,6 +19,10 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
     public static ItemStack build(Report report) {
         List<String> lore = new ArrayList<String>();
 
+        lore.add("&bId: " + report.getId());
+        if(IocContainer.getOptions().serverSyncConfiguration.isReportSyncEnabled()) {
+            lore.add("&bServer: " + report.getServerName());
+        }
         String culprit = report.getCulpritName() == null ? "Unknown" : report.getCulpritName();
         lore.add("&bCulprit: " + culprit);
         lore.add("&bStatus: " + report.getReportStatus());
