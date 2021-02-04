@@ -17,8 +17,9 @@ public class Kick implements IKick, Infraction {
     private UUID playerUuid;
     private String issuerName;
     private UUID issuerUuid;
+    private String serverName;
 
-    public Kick(int id, String reason, Long creationDate, String playerName, UUID playerUuid, String issuerName, UUID issuerUuid) {
+    public Kick(int id, String reason, Long creationDate, String playerName, UUID playerUuid, String issuerName, UUID issuerUuid, String serverName) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
@@ -26,6 +27,7 @@ public class Kick implements IKick, Infraction {
         this.playerUuid = playerUuid;
         this.issuerName = issuerName;
         this.issuerUuid = issuerUuid;
+        this.serverName = serverName;
     }
 
     public Kick(String reason, String issuerName, UUID issuerUuid, String playerName, UUID playerUuid) {
@@ -84,5 +86,10 @@ public class Kick implements IKick, Infraction {
     @Override
     public String getInfractionType() {
         return "KICK";
+    }
+
+    @Override
+    public String getServerName() {
+        return serverName;
     }
 }

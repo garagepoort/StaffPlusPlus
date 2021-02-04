@@ -32,4 +32,6 @@ public interface IReport {
     UUID getStaffUuid();
 
     int getId();
+
+    String getServerName();
 }

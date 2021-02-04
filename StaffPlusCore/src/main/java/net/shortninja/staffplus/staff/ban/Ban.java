@@ -22,8 +22,9 @@ public class Ban implements IBan, Infraction {
     private String unbannedByName;
     private UUID unbannedByUuid;
     private String unbanReason;
+    private String serverName;
 
-    public Ban(int id, String reason, Long creationDate, Long endDate, String playerName, UUID playerUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason) {
+    public Ban(int id, String reason, Long creationDate, Long endDate, String playerName, UUID playerUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
@@ -35,6 +36,7 @@ public class Ban implements IBan, Infraction {
         this.unbannedByName = unbannedByName;
         this.unbannedByUuid = unbannedByUuid;
         this.unbanReason = unbanReason;
+        this.serverName = serverName;
     }
 
     public Ban(String reason, Long endDate, String issuerName, UUID issuerUuid, String playerName, UUID playerUuid) {
@@ -151,5 +153,10 @@ public class Ban implements IBan, Infraction {
     @Override
     public String getInfractionType() {
         return "BAN";
+    }
+
+    @Override
+    public String getServerName() {
+        return serverName;
     }
 }
