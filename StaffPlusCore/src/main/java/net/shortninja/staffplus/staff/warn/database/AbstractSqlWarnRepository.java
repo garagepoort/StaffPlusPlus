@@ -181,7 +181,19 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
 
         Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUUID);
         String name = player.map(SppPlayer::getUsername).orElse("Unknown user");
-        return new Warning(playerUUID, name, id, rs.getString("Reason"), warnerName, warnerUuid, rs.getLong("timestamp"), score, severity, read);
+        String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
+
+        return new Warning(playerUUID,
+            name,
+            id,
+            rs.getString("Reason"),
+            warnerName,
+            warnerUuid,
+            rs.getLong("timestamp"),
+            score,
+            severity,
+            read,
+            serverName);
     }
 
 }

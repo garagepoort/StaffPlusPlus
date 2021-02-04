@@ -22,8 +22,9 @@ public class Mute implements IMute, Infraction {
     private String unmutedByName;
     private UUID unmutedByUuid;
     private String unmuteReason;
+    private String serverName;
 
-    public Mute(int id, String reason, Long creationDate, Long endDate, String playerName, UUID playerUuid, String issuerName, UUID issuerUuid, String unmutedByName, UUID unmutedByUuid, String unmuteReason) {
+    public Mute(int id, String reason, Long creationDate, Long endDate, String playerName, UUID playerUuid, String issuerName, UUID issuerUuid, String unmutedByName, UUID unmutedByUuid, String unmuteReason, String serverName) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
@@ -35,6 +36,7 @@ public class Mute implements IMute, Infraction {
         this.unmutedByName = unmutedByName;
         this.unmutedByUuid = unmutedByUuid;
         this.unmuteReason = unmuteReason;
+        this.serverName = serverName;
     }
 
     public Mute(String reason, Long endDate, String issuerName, UUID issuerUuid, String playerName, UUID playerUuid) {
@@ -151,5 +153,10 @@ public class Mute implements IMute, Infraction {
     @Override
     public String getInfractionType() {
         return "MUTE";
+    }
+
+    @Override
+    public String getServerName() {
+        return serverName;
     }
 }
