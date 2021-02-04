@@ -84,7 +84,6 @@ public class StaffModeService {
 
         Optional<ModeData> existingModeData = modeDataRepository.retrieveModeData(player.getUniqueId());
         if (!existingModeData.isPresent()) {
-            logger.warning("Player is has no modedata stored. Cannot remove mode.");
             return;
         }
 
