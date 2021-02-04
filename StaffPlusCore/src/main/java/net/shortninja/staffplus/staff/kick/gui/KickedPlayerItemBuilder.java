@@ -26,6 +26,9 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
         List<String> lore = new ArrayList<String>();
 
         lore.add("&bId: " + kick.getId());
+        if(IocContainer.getOptions().serverSyncConfiguration.isKickSyncEnabled()) {
+            lore.add("&bServer: " + kick.getServerName());
+        }
         lore.add("&bKicked player: " + kick.getPlayerName());
         lore.add("&bIssuer: " + kick.getIssuerName());
         lore.add("&bIssued on: " + time);

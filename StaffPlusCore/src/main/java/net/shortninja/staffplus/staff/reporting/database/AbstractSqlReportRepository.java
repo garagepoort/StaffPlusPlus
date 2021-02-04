@@ -282,6 +282,8 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         }
 
         int id = rs.getInt("ID");
+        String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
+
         return new Report(playerUUID, culpritName, id,
             rs.getString("Reason"),
             reporterName,
@@ -290,7 +292,8 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             ReportStatus.valueOf(rs.getString("status")),
             rs.getString("staff_name"),
             staffUUID,
-            rs.getString("close_reason"));
+            rs.getString("close_reason"),
+            serverName);
     }
 
 }

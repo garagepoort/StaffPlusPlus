@@ -26,6 +26,9 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
         List<String> lore = new ArrayList<String>();
 
         lore.add("&bId: " + mute.getId());
+        if(IocContainer.getOptions().serverSyncConfiguration.isMuteSyncEnabled()) {
+            lore.add("&bServer: " + mute.getServerName());
+        }
         lore.add("&bMuted player: " + mute.getPlayerName());
         lore.add("&bIssuer: " + mute.getIssuerName());
         lore.add("&bIssued on: " + time);
