@@ -12,6 +12,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionCount;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.warn.config.WarningAction;
 import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.staff.warn.config.WarningThresholdConfiguration;
@@ -165,6 +166,6 @@ public class WarnService implements InfractionProvider {
         if (!options.infractionsConfiguration.isShowWarnings()) {
             return Optional.empty();
         }
-        return Optional.of(new InfractionCount("Warnings", warnRepository.getCountByPlayer()));
+        return Optional.of(new InfractionCount(InfractionType.WARNING, warnRepository.getCountByPlayer()));
     }
 }

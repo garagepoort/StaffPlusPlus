@@ -4,6 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.Ban;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
@@ -56,8 +57,8 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
     }
 
     @Override
-    public String getType() {
-        return "BAN";
+    public InfractionType getType() {
+        return InfractionType.BAN;
     }
 
     @Override

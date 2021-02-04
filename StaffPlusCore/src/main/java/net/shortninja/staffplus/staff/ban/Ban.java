@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.ban;
 
 import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.unordered.IBan;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 
@@ -151,8 +152,8 @@ public class Ban implements IBan, Infraction {
     }
 
     @Override
-    public String getInfractionType() {
-        return "BAN";
+    public InfractionType getInfractionType() {
+        return InfractionType.BAN;
     }
 
     @Override

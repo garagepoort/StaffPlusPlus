@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.kick.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.kick.Kick;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -47,8 +48,8 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
     }
 
     @Override
-    public String getType() {
-        return "KICK";
+    public InfractionType getType() {
+        return InfractionType.KICK;
     }
 
     @Override
