@@ -9,8 +9,8 @@ import net.shortninja.staffplus.staff.ban.gui.BannedPlayersGui;
 import net.shortninja.staffplus.staff.mode.config.modeitems.gui.GuiModeConfiguration;
 import net.shortninja.staffplus.staff.mute.gui.MutedPlayersGui;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectedAreasGui;
-import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.AssignedReportsGui;
+import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.OpenReportsGui;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.function.Consumer;
 
 import static org.bukkit.Material.*;
+import static org.bukkit.Material.SPRUCE_SIGN;
 
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
@@ -33,9 +34,11 @@ public class HubGui extends AbstractGui {
     private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig openReportsGui;
     private final GuiModeConfiguration guiModeConfiguration;
+    private final Player player;
 
     public HubGui(Player player, String title) {
         super(SIZE, title);
+        this.player = player;
         options = IocContainer.getOptions();
         protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
         banGuiItemConfig = options.banConfiguration.getGuiItemConfig();
@@ -44,35 +47,35 @@ public class HubGui extends AbstractGui {
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
         assignedReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
         guiModeConfiguration = options.modeConfiguration.getGuiModeConfiguration();
+    }
 
+    @Override
+    public void buildGui() {
         PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
         if (openReportsGui.isEnabled() && permissionHandler.has(player, options.manageReportConfiguration.getPermissionView())) {
-            setMenuItem(1, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0, () -> new HubGui(player, title)));
-            setMenuItem(2, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AssignedReportsGui(p, assignedReportsGui.getTitle(), 0, () -> new HubGui(player, title)));
-            setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new HubGui(player, title)));
+            setMenuItem(1, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
+            setMenuItem(2, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AssignedReportsGui(p, assignedReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
+            setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
         }
 
         if (guiModeConfiguration.modeGuiMiner) {
-            setMenuItem(10, minerItem(), (p) -> new MinerGui(player, guiModeConfiguration.modeGuiMinerTitle, 0, () -> new HubGui(player, title)));
+            setMenuItem(10, minerItem(), (p) -> new MinerGui(player, guiModeConfiguration.modeGuiMinerTitle, 0, () -> new HubGui(player, getTitle())).show(p));
         }
 
         if (protectGuiItemConfig.isEnabled()) {
-            setMenuItem(19, buildGuiItem(SHIELD, protectGuiItemConfig), (p) -> new ProtectedAreasGui(player, protectGuiItemConfig.getTitle(), 0, () -> new HubGui(player, title)));
+            setMenuItem(19, buildGuiItem(SHIELD, protectGuiItemConfig), (p) -> new ProtectedAreasGui(player, protectGuiItemConfig.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
         }
 
         if (banGuiItemConfig.isEnabled()) {
-            setMenuItem(7, buildGuiItem(PLAYER_HEAD, banGuiItemConfig), (p) -> new BannedPlayersGui(player, banGuiItemConfig.getTitle(), 0, () -> new HubGui(player, title)));
+            setMenuItem(7, buildGuiItem(PLAYER_HEAD, banGuiItemConfig), (p) -> new BannedPlayersGui(player, banGuiItemConfig.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
         }
 
         if (muteGuiItemConfig.isEnabled()) {
-            setMenuItem(16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig), (p) -> new MutedPlayersGui(player, muteGuiItemConfig.getTitle(), 0, () -> new HubGui(player, title)));
+            setMenuItem(16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig), (p) -> new MutedPlayersGui(player, muteGuiItemConfig.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
         }
 
         PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
         setGlass(playerSession);
-        player.closeInventory();
-        player.openInventory(getInventory());
-        playerSession.setCurrentGui(this);
     }
 
     private void setMenuItem(int menuSlot, ItemStack menuItem, Consumer<Player> guiFunction) {
@@ -104,4 +107,5 @@ public class HubGui extends AbstractGui {
             .addLore(config.getItemLore())
             .build();
     }
+
 }

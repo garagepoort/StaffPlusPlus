@@ -99,4 +99,9 @@ public class KickService implements InfractionProvider {
         }
         return Optional.of(new InfractionCount(InfractionType.KICK, kicksRepository.getCountByPlayer()));
     }
+
+    @Override
+    public InfractionType getType() {
+        return InfractionType.KICK;
+    }
 }

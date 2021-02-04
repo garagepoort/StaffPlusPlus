@@ -30,8 +30,8 @@ public class OpenReportsGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new OpenReportsGui(player, title, page, backGuiSupplier);
+    protected OpenReportsGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new OpenReportsGui(player, title, page, backGuiSupplier);
     }
 
     @Override
