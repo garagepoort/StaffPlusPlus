@@ -28,7 +28,7 @@ public class MyWarningsCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        new MyWarningsGui((Player) sender, "My Warnings", 0);
+        new MyWarningsGui((Player) sender, "My Warnings", 0).show((Player) sender);
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), ()-> warnService.markWarningsRead(((Player) sender).getUniqueId()));
         return true;
     }

@@ -5,7 +5,6 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.unordered.IAction;
@@ -18,14 +17,20 @@ import org.bukkit.inventory.ItemStack;
 public class ClosedReportManageGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final ManageReportService manageReportService = IocContainer.getManageReportService();
     private final Permission permission = IocContainer.getPermissionHandler();
     private final Options options = IocContainer.getOptions();
+    private final Player player;
+    private final Report report;
 
     public ClosedReportManageGui(Player player, String title, Report report) {
         super(SIZE, title);
+        this.player = player;
+        this.report = report;
+    }
 
+    @Override
+    public void buildGui() {
         IAction deleteAction = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
@@ -46,10 +51,6 @@ public class ClosedReportManageGui extends AbstractGui {
         if(permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
             addDeleteItem(report, deleteAction, 31);
         }
-
-        player.closeInventory();
-        player.openInventory(getInventory());
-        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     private void addDeleteItem(Report report, IAction action, int slot) {
@@ -65,4 +66,5 @@ public class ClosedReportManageGui extends AbstractGui {
                 .build(), String.valueOf(report.getId()));
         setItem(slot, item, action);
     }
+
 }

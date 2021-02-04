@@ -175,4 +175,9 @@ public class ReportService implements InfractionProvider {
         }
         return Optional.of(new InfractionCount(InfractionType.REPORTED, reportRepository.getReportedCount()));
     }
+
+    @Override
+    public InfractionType getType() {
+        return InfractionType.REPORTED;
+    }
 }

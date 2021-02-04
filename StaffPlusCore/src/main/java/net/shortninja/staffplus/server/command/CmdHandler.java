@@ -111,7 +111,7 @@ public class CmdHandler {
             new BaseCmd(new UnmuteCmd(options.muteConfiguration.getCommandUnmutePlayer()), options.muteConfiguration.isEnabled(), "Unmute a player", "[player] [reason]"),
             new BaseCmd(new AltDetectWhitelistCmd(options.altDetectConfiguration.getCommandWhitelist()), options.altDetectConfiguration.isEnabled(), "Add/Remove players from the alt account detection whitelist", "[add/remove] [player1] [player2]"),
             new BaseCmd(new InfractionsCmd(options.infractionsConfiguration.getCommandOpenGui()), options.infractionsConfiguration.isEnabled(), "View all player's infractions", "[player]"),
-            new BaseCmd(new InfractionsTopCmd(options.infractionsConfiguration.getCommandOpenTopGui()), options.infractionsConfiguration.isEnabled(), "View the top list of players with the most infractions", "")
+            new BaseCmd(new InfractionsTopCmd(options.infractionsConfiguration.getCommandOpenTopGui()), options.infractionsConfiguration.isEnabled(), "View the top list of players with the most infractions", "[infractionType?]")
         };
     }
 }
