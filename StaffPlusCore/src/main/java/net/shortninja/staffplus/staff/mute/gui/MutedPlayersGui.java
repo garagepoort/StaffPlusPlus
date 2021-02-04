@@ -22,8 +22,8 @@ public class MutedPlayersGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new MutedPlayersGui(player, title, page, this.previousGuiSupplier);
+    protected MutedPlayersGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new MutedPlayersGui(player, title, page, this.previousGuiSupplier);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class MutedPlayersGui extends PagedGui {
                 CommandUtil.playerAction(player, () -> {
                     int muteId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     Mute mute = IocContainer.getMuteService().getById(muteId);
-                    new ManageMutedPlayerGui(player, "Player: " + mute.getPlayerName(), mute, () -> new MutedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()));
+                    new ManageMutedPlayerGui( "Player: " + mute.getPlayerName(), mute, () -> new MutedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
                 });
             }
 

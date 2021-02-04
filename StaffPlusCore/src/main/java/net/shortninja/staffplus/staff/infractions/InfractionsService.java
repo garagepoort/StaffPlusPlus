@@ -6,6 +6,7 @@ import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class InfractionsService {
 
@@ -26,13 +27,16 @@ public class InfractionsService {
         return JavaUtils.getPageOfList(infractions, page, pageSize);
     }
 
-    public List<InfractionOverview> getTopInfractions(int page, int pageSize) {
+    public List<InfractionOverview> getTopInfractions(int page, int pageSize, List<InfractionType> infractionFilters) {
         List<InfractionOverview> infractions = new ArrayList<>();
 
-        for (InfractionProvider infractionProvider : infractionProviders) {
-            infractionProvider.getInfractionsCount()
-                .ifPresent(infractionCount -> infractionCount.getCounts().forEach((uuid, count) -> addInfractionOverview(infractions, infractionCount, uuid)));
-        }
+        infractionProviders.stream()
+            .filter(infractionProvider -> infractionFilters.isEmpty() || infractionFilters.contains(infractionProvider.getType()))
+            .map(InfractionProvider::getInfractionsCount)
+            .flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
+            .forEach(infractionCount -> {
+                infractionCount.getCounts().forEach((uuid, count) -> addInfractionOverview(infractions, infractionCount, uuid));
+            });
 
         infractions.sort(Comparator.comparingInt(InfractionOverview::getTotal).reversed());
         return JavaUtils.getPageOfList(infractions, page, pageSize);

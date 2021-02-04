@@ -17,8 +17,8 @@ public class MyReportsGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new MyReportsGui(player, title, page);
+    protected MyReportsGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new MyReportsGui(player, title, page);
     }
 
     @Override

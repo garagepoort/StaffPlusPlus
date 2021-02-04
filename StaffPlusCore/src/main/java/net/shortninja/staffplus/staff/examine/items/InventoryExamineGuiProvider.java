@@ -40,13 +40,14 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                if(target.isOnline()) {
-                    ChestGUI chestGUI = new ChestGUI(staff, target, target.getPlayer().getPlayer().getInventory(), 54, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(player, options.examineConfiguration.getPermissionExamineInventoryInteraction()));
-                    fillEmptyPlaces(chestGUI);
+                ChestGUI chestGUI;
+                if (target.isOnline()) {
+                    chestGUI = new ChestGUI(target, target.getPlayer().getPlayer().getInventory(), 54, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(player, options.examineConfiguration.getPermissionExamineInventoryInteraction()));
                 } else {
-                    ChestGUI chestGUI = new ChestGUI(staff, target, InventoryFactory.loadInventoryOffline(staff, target), 54, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(player, options.examineConfiguration.getPermissionExamineInventoryInteractionOffline()));
-                    fillEmptyPlaces(chestGUI);
+                    chestGUI = new ChestGUI(target, InventoryFactory.loadInventoryOffline(staff, target), 54, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(player, options.examineConfiguration.getPermissionExamineInventoryInteractionOffline()));
                 }
+                fillEmptyPlaces(chestGUI);
+                chestGUI.show(staff);
             }
 
             @Override
@@ -58,7 +59,7 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
 
     private void fillEmptyPlaces(ChestGUI chestGUI) {
         for (int i = 41; i <= 53; i++) {
-               chestGUI.setItem(i, Items.createRedColoredGlass("Not a player slot", ""), null);
+            chestGUI.setItem(i, Items.createRedColoredGlass("Not a player slot", ""), null);
         }
     }
 

@@ -25,7 +25,8 @@ public class InfractionsCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        new InfractionsGui((Player) sender, player, "Infractions " + player.getUsername(), 0);
+        Player p = (Player) sender;
+        new InfractionsGui(p, player, "Infractions " + player.getUsername(), 0).show(p);
         return true;
     }
 

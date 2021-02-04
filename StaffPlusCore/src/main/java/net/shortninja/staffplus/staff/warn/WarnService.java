@@ -168,4 +168,9 @@ public class WarnService implements InfractionProvider {
         }
         return Optional.of(new InfractionCount(InfractionType.WARNING, warnRepository.getCountByPlayer()));
     }
+
+    @Override
+    public InfractionType getType() {
+        return InfractionType.WARNING;
+    }
 }

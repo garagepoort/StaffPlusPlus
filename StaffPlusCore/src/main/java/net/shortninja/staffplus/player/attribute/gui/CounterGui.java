@@ -27,8 +27,8 @@ public class CounterGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new CounterGui(player, title, page);
+    protected CounterGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new CounterGui(player, title, page);
     }
 
     @Override

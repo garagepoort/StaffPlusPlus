@@ -162,4 +162,9 @@ public class MuteService implements InfractionProvider {
         }
         return Optional.of(new InfractionCount(InfractionType.MUTE, muteRepository.getCountByPlayer()));
     }
+
+    @Override
+    public InfractionType getType() {
+        return InfractionType.MUTE;
+    }
 }

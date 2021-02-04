@@ -5,11 +5,16 @@ import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionsTopGui;
+import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class InfractionsTopCmd extends AbstractCmd {
     public InfractionsTopCmd(String name) {
@@ -22,7 +27,17 @@ public class InfractionsTopCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        new InfractionsTopGui((Player) sender,"Top infractions", 0);
+        Player p = (Player) sender;
+        if (args.length == 1) {
+            if(!JavaUtils.isValidEnum(InfractionType.class, args[0])) {
+                throw new BusinessException("Invalid infraction type provided");
+            }
+            InfractionType infractionType = InfractionType.valueOf(args[0]);
+            new InfractionsTopGui(p,"Top infractions", 0, Arrays.asList(infractionType)).show(p);
+        }else {
+            new InfractionsTopGui(p,"Top infractions", 0).show(p);
+        }
+
         return true;
     }
 
@@ -39,5 +54,10 @@ public class InfractionsTopCmd extends AbstractCmd {
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        return Arrays.stream(InfractionType.values()).map(Enum::name).collect(Collectors.toList());
     }
 }

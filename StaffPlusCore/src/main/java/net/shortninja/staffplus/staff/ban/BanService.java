@@ -170,4 +170,9 @@ public class BanService implements InfractionProvider {
         }
         return Optional.of(new InfractionCount(InfractionType.BAN, bansRepository.getCountByPlayer()));
     }
+
+    @Override
+    public InfractionType getType() {
+        return InfractionType.BAN;
+    }
 }

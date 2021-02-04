@@ -1,12 +1,10 @@
 package net.shortninja.staffplus.staff.freeze;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -16,16 +14,15 @@ import java.util.List;
 public class FreezeGui extends AbstractGui {
     private static final int SIZE = 9;
     private Messages messages = IocContainer.getMessages();
-    private SessionManager sessionManager = IocContainer.getSessionManager();
 
 
-    public FreezeGui(Player player, String title) {
+    public FreezeGui(String title) {
         super(SIZE, title);
+    }
 
+    @Override
+    public void buildGui() {
         setItem(4, freezeItem(), null);
-        player.closeInventory();
-        player.openInventory(getInventory());
-        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     private ItemStack freezeItem() {
@@ -47,4 +44,5 @@ public class FreezeGui extends AbstractGui {
 
         return item;
     }
+
 }
