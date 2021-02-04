@@ -3,9 +3,11 @@
 ### V1.16.45 (NOT YET RELEASE)
 
 ### Features
-- Add ability to configure timestamp format.
+- Timestamp format can now be configured
 - Add ID to the guis more consistently
 - Add serverName to the guis (only if server sync enabled)
+- infractions-top command can be passed an optional type parameter.
+- GUI item materials for the infractions GUI can now be configured
 
 ### Bugs
 - Fix luckperms context error when new players join
