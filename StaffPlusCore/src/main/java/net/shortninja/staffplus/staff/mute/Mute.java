@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.mute;
 
 import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.unordered.IMute;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 
@@ -151,8 +152,8 @@ public class Mute implements IMute, Infraction {
     }
 
     @Override
-    public String getInfractionType() {
-        return "MUTE";
+    public InfractionType getInfractionType() {
+        return InfractionType.MUTE;
     }
 
     @Override
