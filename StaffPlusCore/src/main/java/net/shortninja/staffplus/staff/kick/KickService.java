@@ -9,6 +9,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionCount;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.kick.database.KicksRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
@@ -96,6 +97,6 @@ public class KickService implements InfractionProvider {
         if (!options.infractionsConfiguration.isShowKicks()) {
             return Optional.empty();
         }
-        return Optional.of(new InfractionCount("Kicks", kicksRepository.getCountByPlayer()));
+        return Optional.of(new InfractionCount(InfractionType.KICK, kicksRepository.getCountByPlayer()));
     }
 }

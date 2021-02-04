@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -54,8 +55,8 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
 
 
     @Override
-    public String getType() {
-        return "REPORT";
+    public InfractionType getType() {
+        return InfractionType.REPORTED;
     }
 
     @Override

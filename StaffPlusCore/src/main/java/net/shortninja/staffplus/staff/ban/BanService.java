@@ -11,6 +11,7 @@ import net.shortninja.staffplus.staff.ban.database.BansRepository;
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionCount;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.JavaUtils;
@@ -167,6 +168,6 @@ public class BanService implements InfractionProvider {
         if(!options.infractionsConfiguration.isShowBans()) {
             return Optional.empty();
         }
-        return Optional.of(new InfractionCount("Bans", bansRepository.getCountByPlayer()));
+        return Optional.of(new InfractionCount(InfractionType.BAN, bansRepository.getCountByPlayer()));
     }
 }

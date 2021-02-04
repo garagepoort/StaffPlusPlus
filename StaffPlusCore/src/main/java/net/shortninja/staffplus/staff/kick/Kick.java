@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.kick;
 
 import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.unordered.IKick;
 
 import java.time.Instant;
@@ -84,8 +85,8 @@ public class Kick implements IKick, Infraction {
     }
 
     @Override
-    public String getInfractionType() {
-        return "KICK";
+    public InfractionType getInfractionType() {
+        return InfractionType.KICK;
     }
 
     @Override

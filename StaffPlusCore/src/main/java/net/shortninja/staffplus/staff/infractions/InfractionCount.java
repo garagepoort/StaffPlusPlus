@@ -5,17 +5,17 @@ import java.util.UUID;
 
 public class InfractionCount {
 
-    private String infractionType;
+    private InfractionType infractionType;
 
     private Map<UUID, Integer> counts;
 
 
-    public InfractionCount(String infractionType, Map<UUID, Integer> counts) {
+    public InfractionCount(InfractionType infractionType, Map<UUID, Integer> counts) {
         this.infractionType = infractionType;
         this.counts = counts;
     }
 
-    public String getInfractionType() {
+    public InfractionType getInfractionType() {
         return infractionType;
     }
 

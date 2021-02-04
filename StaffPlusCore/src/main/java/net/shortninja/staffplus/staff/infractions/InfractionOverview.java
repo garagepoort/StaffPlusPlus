@@ -7,21 +7,21 @@ import java.util.Map;
 
 public class InfractionOverview {
     private SppPlayer sppPlayer;
-    private Map<String, Integer> infractions = new HashMap<>();
+    private Map<InfractionType, Integer> infractions = new HashMap<>();
 
 
     public SppPlayer getSppPlayer() {
         return sppPlayer;
     }
 
-    public Map<String, Integer> getInfractions() {
+    public Map<InfractionType, Integer> getInfractions() {
         return infractions;
     }
     public void setSppPlayer(SppPlayer sppPlayer) {
         this.sppPlayer = sppPlayer;
     }
 
-    public void setInfractions(Map<String, Integer> infractions) {
+    public void setInfractions(Map<InfractionType, Integer> infractions) {
         this.infractions = infractions;
     }
 

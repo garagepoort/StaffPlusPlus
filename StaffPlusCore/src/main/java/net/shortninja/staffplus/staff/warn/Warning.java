@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.warn;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.unordered.IWarning;
 
@@ -127,8 +128,8 @@ public class Warning implements IWarning, Infraction {
     }
 
     @Override
-    public String getInfractionType() {
-        return "WARNING";
+    public InfractionType getInfractionType() {
+        return InfractionType.WARNING;
     }
 
     @Override
