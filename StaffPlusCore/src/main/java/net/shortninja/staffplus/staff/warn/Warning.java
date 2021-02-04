@@ -23,6 +23,7 @@ public class Warning implements IWarning, Infraction {
     private String issuerName;
     private String severity;
     private boolean read;
+    private String serverName;
 
     public Warning(UUID uuid, String name, String reason, String issuerName, UUID issuerUuid, long time, WarningSeverityConfiguration warningSeverityConfiguration) {
         this.uuid = uuid;
@@ -35,7 +36,7 @@ public class Warning implements IWarning, Infraction {
         this.severity = warningSeverityConfiguration.getName();
     }
 
-    public Warning(UUID uuid, String name, int id, String reason, String issuerName, UUID issuerUuid, long time, int score, String severity, boolean read) {
+    public Warning(UUID uuid, String name, int id, String reason, String issuerName, UUID issuerUuid, long time, int score, String severity, boolean read, String serverName) {
         this.uuid = uuid;
         this.name = name;
         this.reason = reason;
@@ -46,6 +47,7 @@ public class Warning implements IWarning, Infraction {
         this.score = score;
         this.severity = severity;
         this.read = read;
+        this.serverName = serverName;
     }
 
     public Warning(UUID uuid, String playerName, String reason, String issuerName, UUID issuerUuid, long currentTimeMillis) {
@@ -132,5 +134,11 @@ public class Warning implements IWarning, Infraction {
     @Override
     public Long getCreationTimestamp() {
         return time;
+    }
+
+
+    @Override
+    public String getServerName() {
+        return serverName;
     }
 }

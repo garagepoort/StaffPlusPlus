@@ -18,6 +18,10 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
     public static ItemStack build(Warning warning) {
         List<String> lore = new ArrayList<String>();
 
+        lore.add("&bId: " + warning.getId());
+        if(IocContainer.getOptions().serverSyncConfiguration.isWarningSyncEnabled()) {
+            lore.add("&bServer: " + warning.getServerName());
+        }
         lore.add("&bSeverity: " + warning.getSeverity());
         lore.add("&bTimeStamp: " + warning.getTimestamp().format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat)));
         if (IocContainer.getOptions().warningConfiguration.isShowIssuer()) {
@@ -29,7 +33,6 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
             lore.add("  &b" + line);
         }
 
-        String reason = warning.getReason().length() > 12 ? warning.getReason().substring(0, 9) + "..." : warning.getReason();
         ItemStack item = Items.editor(Items.createSkull(warning.getName())).setAmount(1)
             .setName("&6Warning")
             .setLore(lore)

@@ -20,12 +20,14 @@ public class Report implements IReport, Infraction {
     private ReportStatus reportStatus;
     private int id;
     private String closeReason;
+    private String serverName;
 
     public Report(UUID culpritUuid, String culpritName, int id, String reason, String reporterName, UUID reporterUuid, long time,
                   ReportStatus reportStatus,
                   String staffName,
                   UUID staffUuid,
-                  String closeReason) {
+                  String closeReason,
+                  String serverName) {
         this.culpritUuid = culpritUuid;
         this.culpritName = culpritName;
         this.reason = reason;
@@ -37,6 +39,7 @@ public class Report implements IReport, Infraction {
         this.staffName = staffName;
         this.staffUuid = staffUuid;
         this.closeReason = closeReason;
+        this.serverName = serverName;
     }
 
     public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus, ZonedDateTime timestamp) {
@@ -136,5 +139,10 @@ public class Report implements IReport, Infraction {
     @Override
     public Long getCreationTimestamp() {
         return Timestamp.valueOf(timestamp.toLocalDateTime()).getTime();
+    }
+
+    @Override
+    public String getServerName() {
+        return serverName;
     }
 }
