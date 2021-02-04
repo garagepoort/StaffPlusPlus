@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.mute.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.mute.Mute;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -53,8 +54,8 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
     }
 
     @Override
-    public String getType() {
-        return "MUTE";
+    public InfractionType getType() {
+        return InfractionType.MUTE;
     }
 
     @Override

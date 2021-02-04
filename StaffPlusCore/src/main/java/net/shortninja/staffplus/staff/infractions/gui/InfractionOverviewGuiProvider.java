@@ -13,7 +13,7 @@ public class InfractionOverviewGuiProvider {
         List<String> lore = new ArrayList<String>();
         lore.add("&bTotal: &6" + infractionOverview.getTotal());
         infractionOverview.getInfractions().forEach((type, count) -> {
-            lore.add("&b" + type + ": &6" + count);
+            lore.add("&b" + type.getGuiTitle() + ": &6" + count);
 
         });
 

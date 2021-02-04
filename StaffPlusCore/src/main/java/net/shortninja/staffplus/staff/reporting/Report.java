@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.reporting;
 
 import net.shortninja.staffplus.event.ReportStatus;
 import net.shortninja.staffplus.staff.infractions.Infraction;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.unordered.IReport;
 
 import java.sql.Timestamp;
@@ -132,8 +133,8 @@ public class Report implements IReport, Infraction {
     }
 
     @Override
-    public String getInfractionType() {
-        return "REPORT";
+    public InfractionType getInfractionType() {
+        return InfractionType.REPORTED;
     }
 
     @Override
