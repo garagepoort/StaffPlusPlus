@@ -4,7 +4,6 @@ import net.shortninja.staffplus.common.PassThroughClickAction;
 import net.shortninja.staffplus.common.UpdatableGui;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
@@ -19,45 +18,39 @@ public class ChestGUI extends AbstractGui implements UpdatableGui {
     private ChestGuiType chestGuiType;
     private boolean interactionEnabled;
 
-    public ChestGUI(Player player, SppPlayer targetPlayer, Inventory container, InventoryType inventoryType, ChestGuiType chestGuiType, boolean interactionEnabled) {
+    public ChestGUI(SppPlayer targetPlayer, Inventory container, InventoryType inventoryType, ChestGuiType chestGuiType, boolean interactionEnabled) {
         super("Staff view", inventoryType);
         this.targetInventory = container;
         this.targetPlayer = targetPlayer;
         this.chestGuiType = chestGuiType;
         this.interactionEnabled = interactionEnabled;
-        initiate(player);
     }
 
-    public ChestGUI(Player player, SppPlayer targetPlayer, Inventory container, int containerSize, ChestGuiType chestGuiType, boolean interactionEnabled) {
+    public ChestGUI(SppPlayer targetPlayer, Inventory container, int containerSize, ChestGuiType chestGuiType, boolean interactionEnabled) {
         super(containerSize, "Staff view");
         this.targetInventory = container;
         this.targetPlayer = targetPlayer;
         this.chestGuiType = chestGuiType;
         this.interactionEnabled = interactionEnabled;
-        initiate(player);
     }
 
-    public ChestGUI(Player player, Inventory inventory, InventoryType inventoryType, ChestGuiType chestGuiType, boolean interactionEnabled) {
+    public ChestGUI(Inventory inventory, InventoryType inventoryType, ChestGuiType chestGuiType, boolean interactionEnabled) {
         super("Staff view", inventoryType);
         this.targetInventory = inventory;
         this.chestGuiType = chestGuiType;
         this.interactionEnabled = interactionEnabled;
-        initiate(player);
     }
 
-    public ChestGUI(Player player, Inventory container, int containerSize, ChestGuiType chestGuiType, boolean interactionEnabled) {
+    public ChestGUI(Inventory container, int containerSize, ChestGuiType chestGuiType, boolean interactionEnabled) {
         super(containerSize, "Staff view");
         this.targetInventory = container;
         this.chestGuiType = chestGuiType;
         this.interactionEnabled = interactionEnabled;
-        initiate(player);
     }
 
-    private void initiate(Player player) {
+    @Override
+    public void buildGui() {
         update();
-        player.closeInventory();
-        player.openInventory(getInventory());
-        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     @Override
@@ -104,4 +97,5 @@ public class ChestGUI extends AbstractGui implements UpdatableGui {
     public boolean isInteractionEnabled() {
         return interactionEnabled;
     }
+
 }

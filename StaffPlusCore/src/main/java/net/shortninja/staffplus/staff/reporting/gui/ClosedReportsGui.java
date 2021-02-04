@@ -26,8 +26,8 @@ public class ClosedReportsGui extends PagedGui {
     }
 
     @Override
-    protected void getNextUi(Player player, SppPlayer target, String title, int page) {
-        new ClosedReportsGui(player, title, page, this.previousGuiSupplier);
+    protected ClosedReportsGui getNextUi(Player player, SppPlayer target, String title, int page) {
+        return new ClosedReportsGui(player, title, page, this.previousGuiSupplier);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ClosedReportsGui extends PagedGui {
                 if (permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     Report report = IocContainer.getReportService().getReport(reportId);
-                    new ClosedReportManageGui(player, "Manage closed report", report);
+                    new ClosedReportManageGui(player, "Manage closed report", report).show(player);
                 }
             }
 

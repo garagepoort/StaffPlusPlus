@@ -1,10 +1,8 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 
-import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.entity.Player;
@@ -16,39 +14,40 @@ import java.util.function.Supplier;
 public abstract class PagedGui extends AbstractGui {
     private static final int SIZE = 54;
     private SppPlayer target;
+    private final Player player;
     private final int currentPage;
-    private SessionManager sessionManager = IocContainer.getSessionManager();
 
     public PagedGui(Player player, String title, int currentPage) {
         super(SIZE, title);
+        this.player = player;
         this.currentPage = currentPage;
-        buildUi(player, title, currentPage);
     }
 
     public PagedGui(Player player, String title, int currentPage, Supplier<AbstractGui> backGuiSupplier) {
         super(SIZE, title, backGuiSupplier);
+        this.player = player;
         this.currentPage = currentPage;
-        buildUi(player, title, currentPage);
     }
     public PagedGui(Player player, SppPlayer target, String title, int currentPage) {
         super(SIZE, title);
+        this.player = player;
         this.target = target;
         this.currentPage = currentPage;
-        buildUi(player, title, currentPage);
     }
 
     public PagedGui(Player player, SppPlayer target,  String title, int currentPage, Supplier<AbstractGui> backGuiSupplier) {
         super(SIZE, title, backGuiSupplier);
+        this.player = player;
         this.target = target;
         this.currentPage = currentPage;
-        buildUi(player, title, currentPage);
     }
 
     public int getCurrentPage() {
         return currentPage;
     }
 
-    private void buildUi(Player player, String title, int currentPage) {
+    @Override
+    public void buildGui() {
         int offset = currentPage * 45;
         int count = 0;
         for (ItemStack report : getItems(player, target, offset, 45)) {
@@ -60,7 +59,7 @@ public abstract class PagedGui extends AbstractGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
-                    getNextUi(player, target, title, currentPage + 1);
+                    getNextUi(player, target, getTitle(), currentPage + 1).show(player);
                 });
             }
 
@@ -74,7 +73,7 @@ public abstract class PagedGui extends AbstractGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
-                    getNextUi(player, target, title, currentPage - 1);
+                    getNextUi(player, target, getTitle(), currentPage - 1).show(player);
                 });
             }
 
@@ -93,14 +92,10 @@ public abstract class PagedGui extends AbstractGui {
             addPreviousPageItem(previousPageAction, 46);
             addPreviousPageItem(previousPageAction, 47);
         }
-
-
-        player.closeInventory();
-        player.openInventory(getInventory());
-        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
-    protected abstract void getNextUi(Player player, SppPlayer target, String title, int page);
+
+    protected abstract AbstractGui getNextUi(Player player, SppPlayer target, String title, int page);
 
     public abstract IAction getAction();
 

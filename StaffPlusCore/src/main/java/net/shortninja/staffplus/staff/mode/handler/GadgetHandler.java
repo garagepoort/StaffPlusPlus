@@ -142,11 +142,11 @@ public class GadgetHandler {
     }
 
     public void onGuiHub(Player player) {
-        new HubGui(player, options.modeConfiguration.getGuiModeConfiguration().getItem().getItemMeta().getDisplayName());
+        new HubGui(player, options.modeConfiguration.getGuiModeConfiguration().getItem().getItemMeta().getDisplayName()).show(player);
     }
 
     public void onCounter(Player player) {
-        new CounterGui(player, options.modeConfiguration.getCounterModeConfiguration().getTitle(), 0);
+        new CounterGui(player, options.modeConfiguration.getCounterModeConfiguration().getTitle(), 0).show(player);
     }
 
     public void onCps(CommandSender sender, Player targetPlayer) {
@@ -162,7 +162,7 @@ public class GadgetHandler {
             return;
         }
 
-        new ExamineGui(player, targetPlayer, options.modeConfiguration.getExamineModeConfiguration().getModeExamineTitle());
+        new ExamineGui(player, targetPlayer, options.modeConfiguration.getExamineModeConfiguration().getModeExamineTitle()).show(player);
     }
 
     public void onFollow(Player player, Player targetPlayer) {

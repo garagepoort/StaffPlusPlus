@@ -75,13 +75,13 @@ public class PlayerInteract implements Listener {
             Container container = (Container) event.getClickedBlock().getState();
 
             if (container instanceof Furnace) {
-                new ChestGUI(player, container.getInventory(), InventoryType.FURNACE, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction());
+                new ChestGUI(container.getInventory(), InventoryType.FURNACE, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
             } else if (container instanceof BrewingStand) {
-                new ChestGUI(player, container.getInventory(), InventoryType.BREWING, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction());
+                new ChestGUI(container.getInventory(), InventoryType.BREWING, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
             } else if (container instanceof Dispenser || container instanceof Dropper) {
-                new ChestGUI(player, container.getInventory(), InventoryType.DISPENSER, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction());
+                new ChestGUI(container.getInventory(), InventoryType.DISPENSER, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
             } else if (container instanceof Hopper) {
-                new ChestGUI(player, container.getInventory(), InventoryType.HOPPER, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction());
+                new ChestGUI(container.getInventory(), InventoryType.HOPPER, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
             } else {
                 // Either Chest, Chest-like or new block.
                 // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
@@ -90,7 +90,7 @@ public class PlayerInteract implements Listener {
                     Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
                     containerSize += (9 - containerSize % 9);
                 }
-                new ChestGUI(player, container.getInventory(), containerSize, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction());
+                new ChestGUI(container.getInventory(), containerSize, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
             }
             return;
         }

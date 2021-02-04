@@ -4,7 +4,6 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
@@ -22,24 +21,27 @@ public class ManageReportsGui extends AbstractGui {
     private final GuiItemConfig closedReportsGui;
     private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig openReportsGui;
+    private final Player player;
 
     public ManageReportsGui(Player player, String title) {
         super(9, title);
-
+        this.player = player;
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
         assignedReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
+    }
 
+    @Override
+    public void buildGui() {
         if (openReportsGui.isEnabled()) {
-            setMenuItem(0, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, title)));
-            setMenuItem(1, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AssignedReportsGui(p, assignedReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, title)));
-            setMenuItem(2, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, title)));
+            setMenuItem(0, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, getTitle())).show(p));
         }
-
-        PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
-        player.closeInventory();
-        player.openInventory(getInventory());
-        playerSession.setCurrentGui(this);
+        if(assignedReportsGui.isEnabled()) {
+            setMenuItem(1, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AssignedReportsGui(p, assignedReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, getTitle())).show(p));
+        }
+        if(closedReportsGui.isEnabled()) {
+            setMenuItem(2, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, getTitle())).show(p));
+        }
     }
 
     private void setMenuItem(int menuSlot, ItemStack menuItem, Consumer<Player> guiFunction) {

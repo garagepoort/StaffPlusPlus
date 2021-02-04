@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class AbstractGui implements IGui {
+public abstract class AbstractGui implements IGui {
     protected final MessageCoordinator message = IocContainer.getMessage();
     protected final SessionManager sessionManager = IocContainer.getSessionManager();
     protected final Options options = IocContainer.getOptions();
@@ -41,8 +41,13 @@ public class AbstractGui implements IGui {
     public AbstractGui(int size, String title, Supplier<AbstractGui> previousGuiSupplier) {
         this.title = title;
         inventory = Bukkit.createInventory(null, size, message.colorize(title));
-
         this.previousGuiSupplier = previousGuiSupplier;
+    }
+
+    public abstract void buildGui();
+
+    public void show(Player player) {
+        buildGui();
         if (previousGuiSupplier != null) {
             ItemStack item = Items.editor(Items.createDoor("Back", "Go back"))
                 .setAmount(1)
@@ -50,7 +55,7 @@ public class AbstractGui implements IGui {
             setItem(getBackButtonSlot(), item, new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot) {
-                    previousGuiSupplier.get();
+                    previousGuiSupplier.get().show(player);
                 }
 
                 @Override
@@ -59,6 +64,9 @@ public class AbstractGui implements IGui {
                 }
             });
         }
+        player.closeInventory();
+        player.openInventory(getInventory());
+        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
     public Supplier<AbstractGui> getPreviousGuiSupplier() {
