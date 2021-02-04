@@ -4,6 +4,8 @@
 
 ### Features
 - Add ability to configure timestamp format.
+- Add ID to the guis more consistently
+- Add serverName to the guis (only if server sync enabled)
 
 ### Bugs
 - Fix luckperms context error when new players join

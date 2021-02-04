@@ -12,6 +12,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionCount;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
+import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -172,6 +173,6 @@ public class ReportService implements InfractionProvider {
         if (!options.infractionsConfiguration.isShowReported()) {
             return Optional.empty();
         }
-        return Optional.of(new InfractionCount("Reported", reportRepository.getReportedCount()));
+        return Optional.of(new InfractionCount(InfractionType.REPORTED, reportRepository.getReportedCount()));
     }
 }
