@@ -62,8 +62,6 @@ https://app.gitbook.com/@staffplusplus-minecraft/s/staffplusplus/migration-guide
 #### Bugs
 - Permission for the /reports command was not working properly
 
-# Changelog Staff++ | v1.16
-
 ### V1.16.39
 ### Features
 - Added mute/temp mute functionality
