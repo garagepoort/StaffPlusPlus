@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.45 (NOT YET RELEASE)
+### V1.16.45
 
 ### Features
 - Timestamp format can now be configured

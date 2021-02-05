@@ -1,5 +1,18 @@
 # Changelog Staff++ | v1.12
 
+### V1.12.25
+
+### Features
+- Timestamp format can now be configured
+- Add ID to the guis more consistently
+- Add serverName to the guis (only if server sync enabled)
+- infractions-top command can be passed an optional type parameter.
+- GUI item materials for the infractions GUI can now be configured
+
+### Bugs
+- Fix luckperms context error when new players join
+- Fix luckperms context not being set correctly
+
 ### V1.12.24
 ### Features
 - Rework miner GUI to be more consistent with the other GUIs, pagination + back button
