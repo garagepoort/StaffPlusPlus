@@ -4,6 +4,7 @@ import net.shortninja.staffplus.staff.warn.Warning;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface WarnRepository {
@@ -25,4 +26,6 @@ public interface WarnRepository {
     void markWarningsRead(UUID uniqueId);
 
     Map<UUID, Integer> getCountByPlayer();
+
+    Optional<Warning> findWarning(int warningId);
 }

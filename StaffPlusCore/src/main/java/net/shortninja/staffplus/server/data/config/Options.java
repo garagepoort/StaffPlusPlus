@@ -38,6 +38,8 @@ import net.shortninja.staffplus.staff.staffchat.config.StaffChatModuleLoader;
 import net.shortninja.staffplus.staff.teleport.config.LocationLoader;
 import net.shortninja.staffplus.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.staff.tracing.config.TraceModuleLoader;
+import net.shortninja.staffplus.staff.warn.config.ManageWarningsConfiguration;
+import net.shortninja.staffplus.staff.warn.config.ManageWarningsModuleLoader;
 import net.shortninja.staffplus.staff.warn.config.WarningConfiguration;
 import net.shortninja.staffplus.staff.warn.config.WarningModuleLoader;
 import net.shortninja.staffplus.unordered.altdetect.AltDetectTrustLevel;
@@ -76,6 +78,7 @@ public class Options implements IOptions {
     public InfractionsConfiguration infractionsConfiguration;
     public ReportConfiguration reportConfiguration;
     public ManageReportConfiguration manageReportConfiguration;
+    public ManageWarningsConfiguration manageWarningsConfiguration;
     public WarningConfiguration warningConfiguration;
     public BlackListConfiguration blackListConfiguration;
     public TraceConfiguration traceConfiguration;
@@ -140,6 +143,7 @@ public class Options implements IOptions {
     public String permissionReport;
     public String permissionReportBypass;
     public String permissionReportUpdateNotifications;
+    public String permissionWarningUpdateNotifications;
     public String permissionWarn;
     public String permissionWarnBypass;
     public String permissionVanishCommand;
@@ -244,6 +248,7 @@ public class Options implements IOptions {
         reportConfiguration = new ReportingModuleLoader().loadConfig();
         manageReportConfiguration = new ManageReportingModuleLoader().loadConfig();
         warningConfiguration = new WarningModuleLoader().loadConfig();
+        manageWarningsConfiguration = new ManageWarningsModuleLoader().loadConfig();
         blackListConfiguration = new BlackListConfigurationLoader().loadConfig();
         traceConfiguration = new TraceModuleLoader().loadConfig();
         broadcastConfiguration = new BroadcastConfigurationLoader().loadConfig();
@@ -391,7 +396,7 @@ public class Options implements IOptions {
     }
 
     private void loadCustomModules(FileConfiguration config) {
-        if(config.getConfigurationSection("staff-mode.custom-modules") == null) {
+        if (config.getConfigurationSection("staff-mode.custom-modules") == null) {
             StaffPlus.get().getLogger().info("No custom staff mode modules to load");
             return;
         }

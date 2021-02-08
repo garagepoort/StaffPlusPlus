@@ -1,11 +1,10 @@
 package net.shortninja.staffplus.staff.warn;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.actions.ActionService;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
-import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
 import net.shortninja.staffplus.event.warnings.WarningsClearedEvent;
-import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -13,10 +12,7 @@ import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionCount;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
-import net.shortninja.staffplus.staff.warn.config.WarningAction;
 import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
-import net.shortninja.staffplus.staff.warn.config.WarningThresholdConfiguration;
-import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.staff.warn.database.WarnRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -25,9 +21,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import static net.shortninja.staffplus.staff.warn.config.WarningActionRunStrategy.*;
 import static org.bukkit.Bukkit.getScheduler;
 
 public class WarnService implements InfractionProvider {
@@ -36,27 +34,26 @@ public class WarnService implements InfractionProvider {
     private final MessageCoordinator message;
     private final Options options;
     private final Messages messages;
-    private final PlayerManager playerManager;
     private final WarnRepository warnRepository;
-    private final DelayedActionsRepository delayedActionsRepository;
+    private final ActionService actionService;
+    private final ThresholdService thresholdService;
 
     public WarnService(PermissionHandler permission,
                        MessageCoordinator message,
                        Options options,
                        Messages messages,
-                       PlayerManager playerManager,
                        WarnRepository warnRepository,
-                       DelayedActionsRepository delayedActionsRepository) {
+                       ActionService actionService, ThresholdService thresholdService) {
         this.permission = permission;
         this.message = message;
         this.options = options;
         this.messages = messages;
-        this.playerManager = playerManager;
         this.warnRepository = warnRepository;
-        this.delayedActionsRepository = delayedActionsRepository;
+        this.actionService = actionService;
+        this.thresholdService = thresholdService;
     }
 
-    public void sendWarning(CommandSender sender, SppPlayer user, String reason, String severityLevel) {
+    public void sendWarning(CommandSender sender, SppPlayer culprit, String reason, String severityLevel) {
         WarningSeverityConfiguration severity = options.warningConfiguration.getSeverityLevels().stream()
             .filter(s -> s.getName().equalsIgnoreCase(severityLevel))
             .findFirst()
@@ -64,8 +61,8 @@ public class WarnService implements InfractionProvider {
 
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
-        Warning warning = new Warning(user.getId(), user.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis(), severity);
-        createWarning(sender, user, warning);
+        Warning warning = new Warning(culprit.getId(), culprit.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis(), severity);
+        createWarning(sender, culprit, warning);
     }
 
     public void sendWarning(CommandSender sender, SppPlayer user, String reason) {
@@ -86,7 +83,9 @@ public class WarnService implements InfractionProvider {
         message.send(sender, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
 
         sendEvent(new WarningCreatedEvent(warning));
-        handleThresholds(user);
+        actionService.executeActions(sender, user, options.warningConfiguration.getActions(), new WarningActionFilter(warning));
+        thresholdService.handleThresholds(sender, user);
+
         if (user.isOnline()) {
             Player p = user.getPlayer();
             message.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
@@ -94,30 +93,10 @@ public class WarnService implements InfractionProvider {
         }
     }
 
-    private void handleThresholds(SppPlayer user) {
-        int totalScore = warnRepository.getTotalScore(user.getId());
-        List<WarningThresholdConfiguration> thresholds = options.warningConfiguration.getThresholds();
-        Optional<WarningThresholdConfiguration> threshold = thresholds.stream()
-            .sorted((o1, o2) -> o2.getScore() - o1.getScore())
-            .filter(w -> w.getScore() <= totalScore)
-            .findFirst();
-        if (!threshold.isPresent()) {
-            return;
-        }
-        List<String> validCommands = new ArrayList<>();
-        for (WarningAction action : threshold.get().getActions()) {
-            if (action.getRunStrategy() == ALWAYS
-                || (action.getRunStrategy() == ONLINE && user.isOnline())
-                || (action.getRunStrategy() == DELAY && user.isOnline())) {
 
-                Bukkit.getScheduler().runTask(StaffPlus.get(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", user.getUsername())));
-                validCommands.add(action.getCommand());
-            } else if (action.getRunStrategy() == DELAY && !user.isOnline()) {
-                delayedActionsRepository.saveDelayedAction(user.getId(), action.getCommand());
-                validCommands.add(action.getCommand());
-            }
-        }
-        sendEvent(new WarningThresholdReachedEvent(user.getUsername(), user.getId(), threshold.get().getScore(), validCommands));
+    public Warning getWarning(int warningId) {
+        return warnRepository.findWarning(warningId)
+            .orElseThrow(() -> new BusinessException("Warning with id [" + warningId + "] not found", messages.prefixWarnings));
     }
 
     public void clearWarnings(CommandSender sender, SppPlayer player) {
@@ -137,12 +116,6 @@ public class WarnService implements InfractionProvider {
 
     public void removeWarning(int id) {
         warnRepository.removeWarning(id);
-    }
-
-    private void sendEvent(Event event) {
-        getScheduler().runTask(StaffPlus.get(), () -> {
-            Bukkit.getPluginManager().callEvent(event);
-        });
     }
 
     public List<Warning> getWarnings(UUID uniqueId, int offset, int amount) {
@@ -172,5 +145,11 @@ public class WarnService implements InfractionProvider {
     @Override
     public InfractionType getType() {
         return InfractionType.WARNING;
+    }
+
+    private void sendEvent(Event event) {
+        getScheduler().runTask(StaffPlus.get(), () -> {
+            Bukkit.getPluginManager().callEvent(event);
+        });
     }
 }

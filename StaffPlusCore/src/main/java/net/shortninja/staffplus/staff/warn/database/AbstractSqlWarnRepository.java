@@ -168,6 +168,24 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         return count;
     }
 
+    @Override
+    public Optional<Warning> findWarning(int warningId) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings WHERE id = ?")) {
+            ps.setInt(1, warningId);
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildWarning(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.empty();
+    }
+
+
     private Warning buildWarning(ResultSet rs) throws SQLException {
         UUID playerUUID = UUID.fromString(rs.getString("Player_UUID"));
         UUID warnerUuid = UUID.fromString(rs.getString("Warner_UUID"));

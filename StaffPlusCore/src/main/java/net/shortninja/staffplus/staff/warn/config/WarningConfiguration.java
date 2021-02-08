@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.staff.warn.config;
 
+import net.shortninja.staffplus.common.actions.ExecutableAction;
 import net.shortninja.staffplus.util.lib.Sounds;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public class WarningConfiguration {
     private final String myWarningsCmd;
     private List<WarningThresholdConfiguration> thresholds;
     private List<WarningSeverityConfiguration> severityLevels;
+    private final List<ExecutableAction> actions;
+    private final List<ExecutableAction> rollbackActions;
     private String myWarningsPermission;
 
 
@@ -24,7 +27,7 @@ public class WarningConfiguration {
                                 boolean alwaysNotifyUser,
                                 String myWarningsPermission,
                                 String myWarningsCmd,
-                                List<WarningThresholdConfiguration> thresholds, List<WarningSeverityConfiguration> severityLevels) {
+                                List<WarningThresholdConfiguration> thresholds, List<WarningSeverityConfiguration> severityLevels, List<ExecutableAction> actions, List<ExecutableAction> rollbackActions) {
         this.enabled = enabled;
         this.showIssuer = showIssuer;
         this.sound = sound;
@@ -35,6 +38,8 @@ public class WarningConfiguration {
         this.myWarningsCmd = myWarningsCmd;
         this.thresholds = thresholds;
         this.severityLevels = severityLevels;
+        this.actions = actions;
+        this.rollbackActions = rollbackActions;
     }
 
     public boolean isEnabled() {
@@ -75,5 +80,13 @@ public class WarningConfiguration {
 
     public String getMyWarningsCmd() {
         return myWarningsCmd;
+    }
+
+    public List<ExecutableAction> getActions() {
+        return actions;
+    }
+
+    public List<ExecutableAction> getRollbackActions() {
+        return rollbackActions;
     }
 }

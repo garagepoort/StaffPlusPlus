@@ -1,13 +1,15 @@
 package net.shortninja.staffplus.staff.warn.config;
 
+import net.shortninja.staffplus.common.actions.ExecutableAction;
+
 import java.util.List;
 
 public class WarningThresholdConfiguration {
 
     private final int score;
-    private final List<WarningAction> actions;
+    private final List<ExecutableAction> actions;
 
-    public WarningThresholdConfiguration(int score, List<WarningAction> actions) {
+    public WarningThresholdConfiguration(int score, List<ExecutableAction> actions) {
         this.score = score;
         this.actions = actions;
     }
@@ -16,7 +18,7 @@ public class WarningThresholdConfiguration {
         return score;
     }
 
-    public List<WarningAction> getActions() {
+    public List<ExecutableAction> getActions() {
         return actions;
     }
 }

@@ -118,15 +118,12 @@ reports-module:
 warnings-module:
   # Whether or not the plugin will use "/warn" features.
   enabled: true
-
   # The sound that is played to the player when warned.
   # Set to "NONE" to disable.
   sound: ORB_PICKUP
-
   # The amount of time, in seconds, that it will take for a warning to be removed.
   # Set to zero to disable.
   clear: 604800
-
   # Whether or not the player issued the warning will be visible in GUIs.
   show-issuer: true
 
@@ -138,6 +135,8 @@ warnings-module:
       # If Disabled the warnings will be marked as "read" and he will only be notified of new warnings
       always-notify: false
 
+  actions: []
+  rollback-actions: []
   severity-levels:
     - name: MINOR
       score: 1
@@ -567,14 +566,14 @@ staff-mode:
     protected-areas-lore: "&7Shows all currently set protected areas."
 
     # ============== BANNING ==================
-    # Whether or not the protected areas GUI is enabled in the hub.
+    # Whether or not the banning GUI is enabled in the hub.
     ban-gui: true
     ban-title: "&bOverview banned players"
     ban-name: "&bBanned players GUI"
     ban-lore: "&7Shows all currently banned players."
 
     # ============== MUTING ==================
-    # Whether or not the protected areas GUI is enabled in the hub.
+    # Whether or not the mute GUI is enabled in the hub.
     mute-gui: true
     mute-title: "&bOverview muted players"
     mute-name: "&bMuted players GUI"
@@ -797,6 +796,11 @@ permissions:
 
   # Permission for bypassing warnings.
   warn-bypass: "staff.warn.bypass"
+  warnings:
+      # All permission for managing warnings
+      manage:
+          view: "staff.warnings.manage.view"
+          delete: "staff.warnings.manage.delete"
 
   # Permission for using staff chat.
   staff-chat: "staff.staffchat"
@@ -1044,6 +1048,10 @@ commands:
 
   # The command for warning and managing warnings.
   warns: "warns"
+
+  warnings.manage:
+      #Command to open the manage warnings gui
+      gui: "manage-warnings"
 
   # The command for opening the my warnings gui
   my-warnings: "my-warnings"

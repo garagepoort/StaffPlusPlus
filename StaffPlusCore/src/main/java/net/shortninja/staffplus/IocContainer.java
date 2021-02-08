@@ -4,6 +4,7 @@ import net.shortninja.staffplus.authentication.AuthenticationProvider;
 import net.shortninja.staffplus.authentication.AuthenticationService;
 import net.shortninja.staffplus.authentication.authme.AuthMeAuthenticationService;
 import net.shortninja.staffplus.authentication.authme.NoopAuthenticationService;
+import net.shortninja.staffplus.common.actions.ActionService;
 import net.shortninja.staffplus.common.bungee.BungeeClient;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
@@ -86,6 +87,7 @@ import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
 import net.shortninja.staffplus.staff.vanish.VanishChatInterceptor;
 import net.shortninja.staffplus.staff.vanish.VanishService;
+import net.shortninja.staffplus.staff.warn.ThresholdService;
 import net.shortninja.staffplus.staff.warn.WarnService;
 import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
 import net.shortninja.staffplus.staff.warn.database.SqliteWarnRepository;
@@ -182,6 +184,7 @@ public class IocContainer {
     public static BanService getBanService() {
         return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
     }
+
     public static BungeeClient getBungeeClient() {
         return initBean(BungeeClient.class, BungeeClient::new);
     }
@@ -222,15 +225,19 @@ public class IocContainer {
         return initBean(StaffModeItemsService.class, () -> new StaffModeItemsService(getPermissionHandler(), getOptions(), getSessionManager()));
     }
 
+
+    public static ThresholdService getThresholdService() {
+        return initBean(ThresholdService.class, () -> new ThresholdService(getWarnRepository(), getOptions(), getActionService()));
+    }
+
     public static WarnService getWarnService() {
         return initBean(WarnService.class, () -> new WarnService(
             getPermissionHandler(),
             getMessage(),
             getOptions(),
             getMessages(),
-            getPlayerManager(),
             getWarnRepository(),
-            getDelayedActionsRepository()));
+            getActionService(), getThresholdService()));
     }
 
     public static SessionManager getSessionManager() {
@@ -239,6 +246,10 @@ public class IocContainer {
 
     public static ModeDataRepository getModeDataRepository() {
         return initBean(ModeDataRepository.class, ModeDataRepository::new);
+    }
+
+    public static ActionService getActionService() {
+        return initBean(ActionService.class, () -> new ActionService(getDelayedActionsRepository()));
     }
 
     public static StaffModeService getModeCoordinator() {
@@ -302,7 +313,7 @@ public class IocContainer {
     }
 
     public static SessionLoader getSessionLoader() {
-        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService(),getOptions(), getSessionsRepository()));
+        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService(), getOptions(), getSessionsRepository()));
     }
 
     public static AlertCoordinator getAlertCoordinator() {
