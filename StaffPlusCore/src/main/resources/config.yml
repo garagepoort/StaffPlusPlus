@@ -150,6 +150,12 @@ warnings-module:
       actions:
         - command: "ban %player% &4Warning threshold has been met"
           run-strategy: ALWAYS
+  appeals:
+      enabled: true
+      resolve-reason-enabled: false
+      fixed-reason: true
+      reasons:
+          - ''
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -801,6 +807,10 @@ permissions:
       manage:
           view: "staff.warnings.manage.view"
           delete: "staff.warnings.manage.delete"
+      appeals:
+          create: "staff.warnings.appeals.create"
+          approve: "staff.warnings.appeals.approve"
+          reject: "staff.warnings.appeals.reject"
 
   # Permission for using staff chat.
   staff-chat: "staff.staffchat"

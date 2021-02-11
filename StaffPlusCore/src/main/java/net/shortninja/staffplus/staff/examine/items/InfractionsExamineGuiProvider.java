@@ -9,7 +9,7 @@ import net.shortninja.staffplus.staff.examine.ExamineGuiItemProvider;
 import net.shortninja.staffplus.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.staff.reporting.ReportService;
-import net.shortninja.staffplus.staff.warn.Warning;
+import net.shortninja.staffplus.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.util.lib.hex.Items;
@@ -62,7 +62,7 @@ public class InfractionsExamineGuiProvider implements ExamineGuiItemProvider {
         String latestReason = latestReport == null ? "null" : latestReport.getReason();
 
         for (String string : messages.infractionItem) {
-            List<Warning> warnings = IocContainer.getWarnService().getWarnings(player.getId());
+            List<Warning> warnings = IocContainer.getWarnService().getWarnings(player.getId(), false);
             lore.add(string.replace("%warnings%", Integer.toString(warnings.size())).replace("%reports%", Integer.toString(reports.size())).replace("%reason%", latestReason));
         }
 

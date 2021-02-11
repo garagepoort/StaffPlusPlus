@@ -51,7 +51,8 @@ public class MysqlMigrations implements SqlMigrations {
         new V32_AlterLocationsTableAddServerColumnMigration(),
         new V33_AlterMutedPlayersTableAddServerColumnMigration(),
         new V34_AlterReportsTableAddServerColumnMigration(),
-        new V35_AlterWarningsTableAddServerColumnMigration());
+        new V35_AlterWarningsTableAddServerColumnMigration(),
+        new V36_CreateWarningAppealsTableMigration());
 
     private final DataSource datasource;
 

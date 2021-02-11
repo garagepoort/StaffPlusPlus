@@ -139,6 +139,12 @@ public class Messages {
     public String tempMuted;
     public String muted;
 
+    public String appealCreated;
+    public String appealApproved;
+    public String appealApprove;
+    public String appealRejected;
+    public String appealReject;
+
     public Messages() {
         reload();
     }
@@ -275,5 +281,11 @@ public class Messages {
         permanentMuted = config.getString("mute-permamuted", "");
         tempMuted = config.getString("mute-tempmuted", "");
         muted = config.getString("mute-muted", "");
+
+        appealCreated = config.getString("appeal-created", "");
+        appealApproved = config.getString("appeal-approved", "");
+        appealRejected = config.getString("appeal-rejected", "");
+        appealApprove = config.getString("appeal-approve", "");
+        appealReject = config.getString("appeal-reject", "");
     }
 }

@@ -87,12 +87,16 @@ import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
 import net.shortninja.staffplus.staff.vanish.VanishChatInterceptor;
 import net.shortninja.staffplus.staff.vanish.VanishService;
-import net.shortninja.staffplus.staff.warn.ThresholdService;
-import net.shortninja.staffplus.staff.warn.WarnService;
-import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
-import net.shortninja.staffplus.staff.warn.database.SqliteWarnRepository;
-import net.shortninja.staffplus.staff.warn.database.WarnRepository;
-import net.shortninja.staffplus.staff.warn.gui.WarningItemBuilder;
+import net.shortninja.staffplus.staff.warn.appeals.AppealService;
+import net.shortninja.staffplus.staff.warn.appeals.database.AppealRepository;
+import net.shortninja.staffplus.staff.warn.appeals.database.MysqlAppealRepository;
+import net.shortninja.staffplus.staff.warn.appeals.database.SqliteAppealRepository;
+import net.shortninja.staffplus.staff.warn.warnings.ThresholdService;
+import net.shortninja.staffplus.staff.warn.warnings.WarnService;
+import net.shortninja.staffplus.staff.warn.warnings.database.MysqlWarnRepository;
+import net.shortninja.staffplus.staff.warn.warnings.database.SqliteWarnRepository;
+import net.shortninja.staffplus.staff.warn.warnings.database.WarnRepository;
+import net.shortninja.staffplus.staff.warn.warnings.gui.WarningItemBuilder;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseType;
@@ -122,8 +126,8 @@ public class IocContainer {
 
     public static WarnRepository getWarnRepository() {
         return initRepositoryBean(WarnRepository.class,
-            () -> new MysqlWarnRepository(getPlayerManager(), getOptions()),
-            () -> new SqliteWarnRepository(getPlayerManager(), getOptions()));
+            () -> new MysqlWarnRepository(getPlayerManager(), getAppealRepository(), getOptions()),
+            () -> new SqliteWarnRepository(getPlayerManager(), getAppealRepository(), getOptions()));
     }
 
     public static LocationRepository getLocationsRepository() {
@@ -179,6 +183,22 @@ public class IocContainer {
         return initRepositoryBean(SessionsRepository.class,
             MysqlSessionsRepository::new,
             SqliteSessionsRepository::new);
+    }
+
+    public static AppealRepository getAppealRepository() {
+        return initRepositoryBean(AppealRepository.class,
+            () -> new MysqlAppealRepository(getPlayerManager()),
+            () -> new SqliteAppealRepository(getPlayerManager()));
+    }
+
+    public static AppealService getAppealService() {
+        return initBean(AppealService.class, () -> new AppealService(
+            getPlayerManager(),
+            getAppealRepository(),
+            getWarnRepository(), getMessage(),
+            getMessages(),
+            getPermissionHandler(),
+            getOptions(), getActionService()));
     }
 
     public static BanService getBanService() {
@@ -407,7 +427,8 @@ public class IocContainer {
             new GamemodeExamineGuiProvider(getMessages(), getOptions()),
             new IpExamineGuiProvider(getMessages(), getOptions()),
             new InventoryExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler()),
-            new EnderchestExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler())
+            new EnderchestExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler()),
+            new InfractionsExamineGuiProvider(getMessages(), getOptions(), getReportService())
         );
     }
 }

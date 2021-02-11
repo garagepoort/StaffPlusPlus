@@ -236,5 +236,17 @@ mute-unmuted: "&6%target% has been unmuted by %issuer%"
 mute-tempmuted: "&6%target% has been muted by %issuer% for %duration%"
 mute-muted: "&6You are currently muted. You are not allowed to chat."
 
+############################################################
+# +------------------------------------------------------+ #
+# |                     APPEALS                          | #
+# +------------------------------------------------------+ #
+############################################################
+appeal-created: "&6Appeal has been submitted."
+appeal-approved: "&6Your appeal has been &2approved&6."
+appeal-rejected: "&6Your appeal has been &4rejected&6."
+appeal-approve: "&6Appeal approved"
+appeal-reject: "&6Appeal rejected"
+
+
 # IKKE ENDRE DENNE MINDRE DU VET HVA DU GJØR!
 lang-version: 6198

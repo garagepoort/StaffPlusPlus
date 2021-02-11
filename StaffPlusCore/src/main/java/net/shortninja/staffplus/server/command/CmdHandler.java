@@ -27,10 +27,10 @@ import net.shortninja.staffplus.staff.teleport.cmd.TeleportHereCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportToLocationCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportToPlayerCmd;
 import net.shortninja.staffplus.staff.tracing.TraceCmd;
-import net.shortninja.staffplus.staff.warn.cmd.ManageWarningsGuiCmd;
-import net.shortninja.staffplus.staff.warn.cmd.MyWarningsCmd;
-import net.shortninja.staffplus.staff.warn.cmd.WarnCmd;
-import net.shortninja.staffplus.staff.warn.cmd.WarnsCmd;
+import net.shortninja.staffplus.staff.warn.warnings.cmd.ManageWarningsGuiCmd;
+import net.shortninja.staffplus.staff.warn.warnings.cmd.MyWarningsCmd;
+import net.shortninja.staffplus.staff.warn.warnings.cmd.WarnCmd;
+import net.shortninja.staffplus.staff.warn.warnings.cmd.WarnsCmd;
 
 import java.util.Arrays;
 
