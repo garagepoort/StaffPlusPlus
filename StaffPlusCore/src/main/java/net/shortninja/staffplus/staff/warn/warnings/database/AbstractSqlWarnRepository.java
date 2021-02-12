@@ -87,6 +87,28 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     }
 
     @Override
+    public List<Warning> getAppealedWarnings(int offset, int amount) {
+        List<Warning> warnings = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT sp_warnings.* FROM sp_warnings INNER JOIN sp_warning_appeals appeals on sp_warnings.id = appeals.warning_id "
+                 + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isWarningSyncEnabled()) +
+                 " ORDER BY sp_warnings.timestamp DESC LIMIT ?,?")
+        ) {
+            ps.setInt(1, offset);
+            ps.setInt(2, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Warning warning = buildWarning(rs);
+                    warnings.add(warning);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return warnings;
+    }
+
+    @Override
     public List<Warning> getWarnings() {
         String sqlStatement = options.serverSyncConfiguration.isWarningSyncEnabled() ? "SELECT * FROM sp_warnings WHERE (server_name is null OR server_name='" + options.serverName + "')" : "SELECT * FROM sp_warnings";
         List<Warning> warnings = new ArrayList<>();
@@ -103,24 +125,6 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
             throw new RuntimeException(e);
         }
         return warnings;
-    }
-
-    @Override
-    public void addWarning(Warning warning) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warnings(Reason, Warner_UUID, Player_UUID, score, severity, timestamp, server_name) " +
-                 "VALUES(? ,?, ?, ?, ?, ?, ?);")) {
-            insert.setString(1, warning.getReason());
-            insert.setString(2, warning.getIssuerUuid().toString());
-            insert.setString(3, warning.getUuid().toString());
-            insert.setInt(4, warning.getScore());
-            insert.setString(5, warning.getSeverity());
-            insert.setLong(6, warning.getTime());
-            insert.setString(7, options.serverName);
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

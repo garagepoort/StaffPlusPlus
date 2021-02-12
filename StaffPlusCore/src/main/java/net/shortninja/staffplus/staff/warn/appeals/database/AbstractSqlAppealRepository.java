@@ -136,6 +136,17 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
         return count;
     }
 
+    @Override
+    public void deleteAppealsForWarning(int warningId) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_warning_appeals WHERE warning_id = ? ");) {
+            insert.setInt(1, warningId);
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Appeal buildAppeal(ResultSet rs) throws SQLException {
         UUID appealerUuid = UUID.fromString(rs.getString("appealer_uuid"));
         Optional<SppPlayer> appealer = playerManager.getOnOrOfflinePlayer(appealerUuid);

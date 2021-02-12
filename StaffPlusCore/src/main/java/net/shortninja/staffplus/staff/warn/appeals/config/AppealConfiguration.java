@@ -11,8 +11,12 @@ public class AppealConfiguration {
     private final String createAppealPermission;
     private final boolean fixedAppealReason;
     private final List<String> appealReasons;
+    private final String permissionNotifications;
 
-    public AppealConfiguration(boolean enabled, boolean resolveReasonEnable, String approveAppealPermission,String rejectAppealPermission, String createAppealPermission, boolean fixedAppealReason, List<String> appealReasons) {
+    public AppealConfiguration(boolean enabled, boolean resolveReasonEnable, String approveAppealPermission,
+                               String rejectAppealPermission,
+                               String createAppealPermission, boolean fixedAppealReason, List<String> appealReasons,
+                               String permissionNotifications) {
         this.enabled = enabled;
         this.resolveReasonEnable = resolveReasonEnable;
         this.approveAppealPermission = approveAppealPermission;
@@ -20,6 +24,7 @@ public class AppealConfiguration {
         this.createAppealPermission = createAppealPermission;
         this.fixedAppealReason = fixedAppealReason;
         this.appealReasons = appealReasons;
+        this.permissionNotifications = permissionNotifications;
     }
 
     public boolean isEnabled() {
@@ -48,5 +53,9 @@ public class AppealConfiguration {
 
     public List<String> getAppealReasons() {
         return appealReasons;
+    }
+
+    public String getPermissionNotifications() {
+        return permissionNotifications;
     }
 }

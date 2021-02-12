@@ -123,7 +123,7 @@ warnings-module:
   sound: ORB_PICKUP
   # The amount of time, in seconds, that it will take for a warning to be removed.
   # Set to zero to disable.
-  clear: 604800
+  clear: 0
   # Whether or not the player issued the warning will be visible in GUIs.
   show-issuer: true
 
@@ -136,7 +136,6 @@ warnings-module:
       always-notify: false
 
   actions: []
-  rollback-actions: []
   severity-levels:
     - name: MINOR
       score: 1
@@ -811,6 +810,7 @@ permissions:
           create: "staff.warnings.appeals.create"
           approve: "staff.warnings.appeals.approve"
           reject: "staff.warnings.appeals.reject"
+          notifications: "staff.warnings.appeals.notifications"
 
   # Permission for using staff chat.
   staff-chat: "staff.staffchat"
@@ -1062,6 +1062,8 @@ commands:
   warnings.manage:
       #Command to open the manage warnings gui
       gui: "manage-warnings"
+      #Command to open the manage warnings gui
+      appealed-gui: "manage-appealed-warnings"
 
   # The command for opening the my warnings gui
   my-warnings: "my-warnings"

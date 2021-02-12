@@ -16,14 +16,14 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WarnListener implements Listener {
+public class WarningNotifierListener implements Listener {
 
     private final WarnService warnService = IocContainer.getWarnService();
     private final Options options = IocContainer.getOptions();
     private final Permission permission = IocContainer.getPermissionHandler();
     private final Messages messages = IocContainer.getMessages();
 
-    public WarnListener() {
+    public WarningNotifierListener() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

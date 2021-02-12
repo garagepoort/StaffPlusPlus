@@ -4,7 +4,11 @@ import net.shortninja.staffplus.authentication.AuthenticationProvider;
 import net.shortninja.staffplus.authentication.AuthenticationService;
 import net.shortninja.staffplus.authentication.authme.AuthMeAuthenticationService;
 import net.shortninja.staffplus.authentication.authme.NoopAuthenticationService;
+import net.shortninja.staffplus.common.actions.ActionExecutioner;
 import net.shortninja.staffplus.common.actions.ActionService;
+import net.shortninja.staffplus.common.actions.database.ActionableRepository;
+import net.shortninja.staffplus.common.actions.database.MysqlActionableRepository;
+import net.shortninja.staffplus.common.actions.database.SqliteActionableRepository;
 import net.shortninja.staffplus.common.bungee.BungeeClient;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
@@ -91,7 +95,7 @@ import net.shortninja.staffplus.staff.warn.appeals.AppealService;
 import net.shortninja.staffplus.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.staff.warn.appeals.database.MysqlAppealRepository;
 import net.shortninja.staffplus.staff.warn.appeals.database.SqliteAppealRepository;
-import net.shortninja.staffplus.staff.warn.warnings.ThresholdService;
+import net.shortninja.staffplus.staff.warn.threshold.ThresholdService;
 import net.shortninja.staffplus.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.staff.warn.warnings.database.MysqlWarnRepository;
 import net.shortninja.staffplus.staff.warn.warnings.database.SqliteWarnRepository;
@@ -191,6 +195,13 @@ public class IocContainer {
             () -> new SqliteAppealRepository(getPlayerManager()));
     }
 
+
+    public static ActionableRepository getActionableRepository() {
+        return initRepositoryBean(ActionableRepository.class,
+            MysqlActionableRepository::new,
+            SqliteActionableRepository::new);
+    }
+
     public static AppealService getAppealService() {
         return initBean(AppealService.class, () -> new AppealService(
             getPlayerManager(),
@@ -198,7 +209,7 @@ public class IocContainer {
             getWarnRepository(), getMessage(),
             getMessages(),
             getPermissionHandler(),
-            getOptions(), getActionService()));
+            getOptions()));
     }
 
     public static BanService getBanService() {
@@ -257,7 +268,7 @@ public class IocContainer {
             getOptions(),
             getMessages(),
             getWarnRepository(),
-            getActionService(), getThresholdService()));
+            getAppealRepository()));
     }
 
     public static SessionManager getSessionManager() {
@@ -269,7 +280,11 @@ public class IocContainer {
     }
 
     public static ActionService getActionService() {
-        return initBean(ActionService.class, () -> new ActionService(getDelayedActionsRepository()));
+        return initBean(ActionService.class, () -> new ActionService(getDelayedActionsRepository(), getActionableRepository(), getPlayerManager(), getActionExecutioner()));
+    }
+
+    public static ActionExecutioner getActionExecutioner() {
+        return initBean(ActionExecutioner.class, () -> new ActionExecutioner(getActionableRepository(), getDelayedActionsRepository()));
     }
 
     public static StaffModeService getModeCoordinator() {

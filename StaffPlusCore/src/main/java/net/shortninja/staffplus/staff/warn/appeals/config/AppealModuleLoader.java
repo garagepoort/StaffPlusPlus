@@ -17,9 +17,10 @@ public class AppealModuleLoader extends ConfigLoader<AppealConfiguration> {
         String permissionCreateAppeal = config.getString("permissions.warnings.appeals.create");
         String permissionApproveAppeal = config.getString("permissions.warnings.appeals.approve");
         String permissionRejectAppeal = config.getString("permissions.warnings.appeals.reject");
+        String permissionNotifications = config.getString("permissions.warnings.appeals.notifications");
 
 
-        return new AppealConfiguration(enabled, resolveReasonEnable, permissionApproveAppeal, permissionRejectAppeal, permissionCreateAppeal, fixedReason, reasons);
+        return new AppealConfiguration(enabled, resolveReasonEnable, permissionApproveAppeal, permissionRejectAppeal, permissionCreateAppeal, fixedReason, reasons, permissionNotifications);
     }
 
 }

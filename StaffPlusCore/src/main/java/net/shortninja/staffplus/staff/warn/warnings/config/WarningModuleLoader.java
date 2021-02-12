@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.warn.warnings.config;
 
 import net.shortninja.staffplus.common.actions.ActionConfigLoader;
-import net.shortninja.staffplus.common.actions.ExecutableAction;
+import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.util.lib.Sounds;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,8 +22,7 @@ public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
         boolean showIssuer = config.getBoolean("warnings-module.show-issuer");
         boolean notifyUser = config.getBoolean("warnings-module.user-notifications.enabled");
         boolean alwaysNotifyUser = config.getBoolean("warnings-module.user-notifications.always-notify");
-        List<ExecutableAction> actions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("warnings-module.actions", new ArrayList<>()));
-        List<ExecutableAction> rollbackActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("warnings-module.rollback-actions", new ArrayList<>()));
+        List<ConfiguredAction> actions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("warnings-module.actions", new ArrayList<>()));
         String myWarningsPermission = config.getString("permissions.view-my-warnings");
         String myWarningsCmd = config.getString("commands.my-warnings");
         Sounds sound = stringToSound(sanitize(config.getString("warnings-module.sound")));
@@ -37,8 +36,7 @@ public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
             myWarningsCmd,
             getThresholds(config),
             getSeverityLevels(config),
-            actions,
-            rollbackActions);
+            actions);
     }
 
     private List<WarningThresholdConfiguration> getThresholds(FileConfiguration config) {
@@ -50,13 +48,14 @@ public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
                 throw new RuntimeException("Invalid warnings configuration. Threshold should define a score and actions");
             }
             int score = (Integer) map.get("score");
-            List<ExecutableAction> actions = map.containsKey("actions") ? loadActions((List<LinkedHashMap<String, Object>>) map.get("actions")) : Collections.emptyList();
+            List<ConfiguredAction> actions = map.containsKey("actions") ? loadActions((List<LinkedHashMap<String, Object>>) map.get("actions")) : Collections.emptyList();
+            List<ConfiguredAction> rollbackActions = map.containsKey("rollback-actions") ? loadActions((List<LinkedHashMap<String, Object>>) map.get("rollback-actions")) : Collections.emptyList();
 
-            return new WarningThresholdConfiguration(score, actions);
+            return new WarningThresholdConfiguration(score, actions, rollbackActions);
         }).collect(Collectors.toList());
     }
 
-    private List<ExecutableAction> loadActions(List<LinkedHashMap<String, Object>> list) {
+    private List<ConfiguredAction> loadActions(List<LinkedHashMap<String, Object>> list) {
         return ActionConfigLoader.loadActions(list);
     }
 

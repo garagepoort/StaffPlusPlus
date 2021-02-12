@@ -20,4 +20,6 @@ public interface AppealRepository {
     List<Appeal> getAppeals(int warningId);
 
     int getCountOpenAppeals();
+
+    void deleteAppealsForWarning(int id);
 }

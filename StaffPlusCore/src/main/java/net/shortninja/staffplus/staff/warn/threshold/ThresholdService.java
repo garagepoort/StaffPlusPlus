@@ -1,15 +1,15 @@
-package net.shortninja.staffplus.staff.warn.warnings;
+package net.shortninja.staffplus.staff.warn.threshold;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.actions.ActionService;
-import net.shortninja.staffplus.common.actions.ExecutableAction;
+import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningThresholdConfiguration;
 import net.shortninja.staffplus.staff.warn.warnings.database.WarnRepository;
+import net.shortninja.staffplus.unordered.IWarning;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class ThresholdService {
         this.actionService = actionService;
     }
 
-    public void handleThresholds(CommandSender sender, SppPlayer user) {
+    public void handleThresholds(IWarning warning, SppPlayer user) {
         int totalScore = warnRepository.getTotalScore(user.getId());
         List<WarningThresholdConfiguration> thresholds = options.warningConfiguration.getThresholds();
 
@@ -43,13 +43,12 @@ public class ThresholdService {
             return;
         }
 
-        List<String> executedCommands = actionService.executeActions(sender, user, threshold.get().getActions()).stream()
-            .map(ExecutableAction::getCommand)
+        List<String> executedCommands = actionService.executeActions(warning, user, threshold.get().getActions()).stream()
+            .map(ConfiguredAction::getCommand)
             .collect(Collectors.toList());
 
         sendEvent(new WarningThresholdReachedEvent(user.getUsername(), user.getId(), threshold.get().getScore(), executedCommands));
     }
-
 
     private void sendEvent(Event event) {
         getScheduler().runTask(StaffPlus.get(), () -> {

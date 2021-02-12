@@ -1,24 +1,34 @@
 package net.shortninja.staffplus.staff.warn.warnings;
 
 import net.shortninja.staffplus.common.actions.ActionFilter;
-import net.shortninja.staffplus.common.actions.ExecutableAction;
+import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.player.SppPlayer;
-import org.bukkit.command.CommandSender;
+import net.shortninja.staffplus.unordered.IWarning;
 
 import java.util.Arrays;
 
 public class WarningActionFilter implements ActionFilter {
 
     private static final String SEVERITY = "severity";
-    private Warning warning;
+    private static final String CONTEXT = "context";
+    private final String context;
+    private IWarning warning;
 
-    WarningActionFilter(Warning warning) {
+    public WarningActionFilter(IWarning warning, String context) {
         this.warning = warning;
+        this.context = context;
     }
 
     @Override
-    public boolean isValidAction(CommandSender sender, SppPlayer target, ExecutableAction executableAction) {
-
-        return !executableAction.getFilters().containsKey(SEVERITY) || Arrays.asList(executableAction.getFilters().get(SEVERITY).split(",")).contains(warning.getSeverity());
+    public boolean isValidAction(SppPlayer target, ConfiguredAction configuredAction) {
+        return checkFilter(configuredAction, SEVERITY, warning.getSeverity()) && checkFilter(configuredAction, CONTEXT, context);
     }
+
+    private boolean checkFilter(ConfiguredAction configuredAction, String filter, String value) {
+        if (configuredAction.getFilters().containsKey(filter)) {
+            return Arrays.asList(configuredAction.getFilters().get(filter).split(",")).contains(value.toLowerCase());
+        }
+        return true;
+    }
+
 }

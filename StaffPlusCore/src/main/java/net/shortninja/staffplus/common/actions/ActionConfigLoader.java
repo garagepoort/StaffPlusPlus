@@ -8,17 +8,20 @@ import java.util.stream.Collectors;
 
 public class ActionConfigLoader {
 
-    public static List<ExecutableAction> loadActions(List<LinkedHashMap<String, Object>> list) {
+    public static List<ConfiguredAction> loadActions(List<LinkedHashMap<String, Object>> list) {
         return list.stream().map(o -> {
             LinkedHashMap map = o;
             if (!map.containsKey("command")) {
                 throw new RuntimeException("Invalid actions configuration. Actions should define a command");
             }
             String command = (String) map.get("command");
+            String rollbackCommand = (String) map.get("rollback-command");
             ActionRunStrategy runStrategy = map.containsKey("run-strategy") ? ActionRunStrategy.valueOf((String) map.get("run-strategy")) : ActionRunStrategy.DELAY;
+            ActionRunStrategy rollbackRunStrategy = map.containsKey("rollback-run-strategy") ? ActionRunStrategy.valueOf((String) map.get("rollback-run-strategy")) : runStrategy;
+            
             Map<String, String> filterMap = loadFilters(map);
 
-            return new ExecutableAction(command, runStrategy, filterMap);
+            return new ConfiguredAction(command, rollbackCommand, runStrategy, rollbackRunStrategy, filterMap);
         }).collect(Collectors.toList());
     }
 

@@ -29,8 +29,6 @@ public class WarnsCmd extends AbstractCmd {
             String argument = args[0];
             if (argument.equalsIgnoreCase("get")) {
                 listWarnings(sender, player);
-            } else if (argument.equalsIgnoreCase("clear")) {
-                clearWarnings(sender, player);
             } else sendHelp(sender);
         } else sendHelp(sender);
 
@@ -68,11 +66,6 @@ public class WarnsCmd extends AbstractCmd {
         for (String message : messages.warningsListEnd) {
             this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getUsername()).replace("%warnings%", Integer.toString(warnings.size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
         }
-    }
-
-    private void clearWarnings(CommandSender sender, SppPlayer player) {
-        warnService.clearWarnings(sender, player);
-        message.send(sender, messages.warningsCleared.replace("%target%", player.getUsername()), messages.prefixWarnings);
     }
 
     private void sendHelp(CommandSender sender) {

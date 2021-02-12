@@ -27,10 +27,7 @@ import net.shortninja.staffplus.staff.teleport.cmd.TeleportHereCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportToLocationCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportToPlayerCmd;
 import net.shortninja.staffplus.staff.tracing.TraceCmd;
-import net.shortninja.staffplus.staff.warn.warnings.cmd.ManageWarningsGuiCmd;
-import net.shortninja.staffplus.staff.warn.warnings.cmd.MyWarningsCmd;
-import net.shortninja.staffplus.staff.warn.warnings.cmd.WarnCmd;
-import net.shortninja.staffplus.staff.warn.warnings.cmd.WarnsCmd;
+import net.shortninja.staffplus.staff.warn.warnings.cmd.*;
 
 import java.util.Arrays;
 
@@ -89,9 +86,10 @@ public class CmdHandler {
             new BaseCmd(new ReportPlayerCmd(options.commandReportPlayer), options.reportConfiguration.isEnabled(), "Sends a report with the given player and reason.", "[player] [reason]"),
 
             new BaseCmd(new WarnCmd(options.commandWarn), options.warningConfiguration.isEnabled(), options.permissionWarn, "Issues a warning.", "[severity] [player] [reason]"),
-            new BaseCmd(new WarnsCmd(options.commandWarns), options.warningConfiguration.isEnabled(), options.permissionWarn, "Clear or list all warnings of a player.", "[get|clear] [player]"),
+            new BaseCmd(new WarnsCmd(options.commandWarns), options.warningConfiguration.isEnabled(), options.permissionWarn, "List all warnings of a player.", "[get] [player]"),
             new BaseCmd(new MyWarningsCmd(options.warningConfiguration.getMyWarningsCmd()), options.warningConfiguration.isEnabled(), options.warningConfiguration.getMyWarningsPermission(), "Open my warnings gui", ""),
             new BaseCmd(new ManageWarningsGuiCmd(options.manageWarningsConfiguration.getCommandManageWarningsGui()), options.warningConfiguration.isEnabled(), options.manageWarningsConfiguration.getPermissionView(), "Open the manage Warnings GUI.", "[playername]"),
+            new BaseCmd(new ManageAppealedWarningsGuiCmd(options.manageWarningsConfiguration.getCommandManageAppealedWarningsGui()), options.appealConfiguration.isEnabled(), options.manageWarningsConfiguration.getPermissionView(), "Open the manage Appealed Warnings GUI.", ""),
 
             new BaseCmd(new VanishCmd(options.commandVanish), options.vanishEnabled, options.permissionVanishCommand, "Enables or disables the type of vanish for the player.", "[total | list] {player} {enable | disable}"),
             new BaseCmd(new ChatCmd(options.commandChat), options.chatEnabled, Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle), "Executes the given chat management action.", "[clear | toggle | slow] {enable | disable | time}"),

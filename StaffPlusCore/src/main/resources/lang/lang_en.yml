@@ -246,6 +246,7 @@ appeal-approved: "&6Your appeal has been &2approved&6."
 appeal-rejected: "&6Your appeal has been &4rejected&6."
 appeal-approve: "&6Appeal approved"
 appeal-reject: "&6Appeal rejected"
+appeal-open-notify: "There are %appealsCount% unresolved appealed warnings!"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
 lang-version: 6198

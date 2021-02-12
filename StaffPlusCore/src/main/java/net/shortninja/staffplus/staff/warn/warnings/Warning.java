@@ -101,9 +101,10 @@ public class Warning implements IWarning, Infraction {
         return id;
     }
 
+
     public boolean shouldRemove() {
         boolean shouldRemove = false;
-        if(options.warningConfiguration.getClear() == 0) {
+        if (options.warningConfiguration.getClear() == 0) {
             return false;
         }
 
@@ -132,6 +133,16 @@ public class Warning implements IWarning, Infraction {
     }
 
     @Override
+    public String getActionableType() {
+        return "WARNING";
+    }
+
+    @Override
+    public UUID getTargetUuid() {
+        return uuid;
+    }
+
+    @Override
     public InfractionType getInfractionType() {
         return InfractionType.WARNING;
     }
@@ -149,5 +160,9 @@ public class Warning implements IWarning, Infraction {
 
     public Optional<Appeal> getAppeal() {
         return Optional.ofNullable(appeal);
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

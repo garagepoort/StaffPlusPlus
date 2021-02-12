@@ -15,7 +15,7 @@ public interface WarnRepository {
 
     int getTotalScore(UUID uuid);
 
-    void addWarning(Warning warning);
+    int addWarning(Warning warning);
 
     void removeWarnings(UUID uuid);
 
@@ -28,4 +28,6 @@ public interface WarnRepository {
     Map<UUID, Integer> getCountByPlayer();
 
     Optional<Warning> findWarning(int warningId);
+
+    List<Warning> getAppealedWarnings(int offset, int amount);
 }

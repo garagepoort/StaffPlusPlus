@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.unordered;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface IWarningAppeal {
@@ -14,6 +15,8 @@ public interface IWarningAppeal {
     String getResolverName();
 
     UUID getResolverUuid();
+
+    Optional<String> getResolveReason();
 
     AppealStatus getStatus();
 

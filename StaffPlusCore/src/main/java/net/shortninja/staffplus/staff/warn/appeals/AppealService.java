@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.staff.warn.appeals;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.actions.ActionService;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.event.warnings.appeals.ApproveAppealEvent;
@@ -35,9 +34,8 @@ public class AppealService {
     private final Messages messages;
     private final Permission permission;
     private final Options options;
-    private final ActionService actionService;
 
-    public AppealService(PlayerManager playerManager, AppealRepository appealRepository, WarnRepository warnRepository, MessageCoordinator message, Messages messages, Permission permission, Options options, ActionService actionService) {
+    public AppealService(PlayerManager playerManager, AppealRepository appealRepository, WarnRepository warnRepository, MessageCoordinator message, Messages messages, Permission permission, Options options) {
         this.playerManager = playerManager;
         this.appealRepository = appealRepository;
         this.warnRepository = warnRepository;
@@ -45,7 +43,6 @@ public class AppealService {
         this.messages = messages;
         this.permission = permission;
         this.options = options;
-        this.actionService = actionService;
     }
 
 
@@ -78,13 +75,10 @@ public class AppealService {
         Warning warning = warnRepository.findWarning(appeal.getWarningId())
             .orElseThrow(() -> new BusinessException("No warning found. Cannot apply appeal"));
 
-        playerManager.getOnOrOfflinePlayer(appeal.getAppealerUuid()).ifPresent(appealer -> {
-            actionService.executeActions(resolver.getPlayer(), appealer, options.warningConfiguration.getRollbackActions());
-        });
-
         resolveAppeal(resolver, appealId, AppealStatus.APPROVED, appealReason);
         sendAppealMessage(appeal, messages.appealApproved);
         this.message.send(resolver, messages.appealApprove, messages.prefixWarnings);
+
         sendEvent(new ApproveAppealEvent(warning, appeal));
     }
 
@@ -107,10 +101,8 @@ public class AppealService {
 
     private void sendAppealMessage(Appeal appeal, String message) {
         Optional<SppPlayer> appealer = playerManager.getOnOrOfflinePlayer(appeal.getAppealerUuid());
-        if (appealer.isPresent()) {
-            if (appealer.get().isOnline()) {
-                this.message.send(appealer.get().getPlayer(), message, messages.prefixWarnings);
-            }
+        if (appealer.isPresent() && appealer.get().isOnline()) {
+            this.message.send(appealer.get().getPlayer(), message, messages.prefixWarnings);
         }
     }
 

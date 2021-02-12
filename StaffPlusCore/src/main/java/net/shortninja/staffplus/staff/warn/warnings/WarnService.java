@@ -1,10 +1,9 @@
 package net.shortninja.staffplus.staff.warn.warnings;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.actions.ActionService;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
-import net.shortninja.staffplus.event.warnings.WarningsClearedEvent;
+import net.shortninja.staffplus.event.warnings.WarningRemovedEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -12,6 +11,7 @@ import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionCount;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
+import net.shortninja.staffplus.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplus.unordered.AppealStatus;
@@ -31,28 +31,25 @@ import java.util.stream.Collectors;
 import static org.bukkit.Bukkit.getScheduler;
 
 public class WarnService implements InfractionProvider {
-
     private final PermissionHandler permission;
     private final MessageCoordinator message;
     private final Options options;
     private final Messages messages;
     private final WarnRepository warnRepository;
-    private final ActionService actionService;
-    private final ThresholdService thresholdService;
+    private final AppealRepository appealRepository;
 
     public WarnService(PermissionHandler permission,
                        MessageCoordinator message,
                        Options options,
                        Messages messages,
                        WarnRepository warnRepository,
-                       ActionService actionService, ThresholdService thresholdService) {
+                       AppealRepository appealRepository) {
         this.permission = permission;
         this.message = message;
         this.options = options;
         this.messages = messages;
         this.warnRepository = warnRepository;
-        this.actionService = actionService;
-        this.thresholdService = thresholdService;
+        this.appealRepository = appealRepository;
     }
 
     public void sendWarning(CommandSender sender, SppPlayer culprit, String reason, String severityLevel) {
@@ -81,12 +78,11 @@ public class WarnService implements InfractionProvider {
             return;
         }
 
-        warnRepository.addWarning(warning);
+        int warningId = warnRepository.addWarning(warning);
+        warning.setId(warningId);
         message.send(sender, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
 
         sendEvent(new WarningCreatedEvent(warning));
-        actionService.executeActions(sender, user, options.warningConfiguration.getActions(), new WarningActionFilter(warning));
-        thresholdService.handleThresholds(sender, user);
 
         if (user.isOnline()) {
             Player p = user.getPlayer();
@@ -100,13 +96,6 @@ public class WarnService implements InfractionProvider {
             .orElseThrow(() -> new BusinessException("Warning with id [" + warningId + "] not found", messages.prefixWarnings));
     }
 
-    public void clearWarnings(CommandSender sender, SppPlayer player) {
-        String issuerName = sender instanceof Player ? sender.getName() : "Console";
-        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
-        warnRepository.removeWarnings(player.getId());
-        sendEvent(new WarningsClearedEvent(issuerName, issuerUuid, player.getUsername(), player.getId()));
-    }
-
     public List<Warning> getWarnings(UUID uuid, boolean includeAppealed) {
         return warnRepository.getWarnings(uuid).stream()
             .filter(w -> includeAppealed || (w.getAppeal().isPresent() && w.getAppeal().get().getStatus() == AppealStatus.APPROVED))
@@ -118,11 +107,19 @@ public class WarnService implements InfractionProvider {
     }
 
     public void removeWarning(int id) {
+        Warning warning = getWarning(id);
+        appealRepository.deleteAppealsForWarning(id);
         warnRepository.removeWarning(id);
+
+        sendEvent(new WarningRemovedEvent(warning));
     }
 
     public List<Warning> getWarnings(UUID uniqueId, int offset, int amount) {
         return warnRepository.getWarnings(uniqueId, offset, amount);
+    }
+
+    public List<Warning> getAppealedWarnings(int offset, int amount) {
+        return warnRepository.getAppealedWarnings(offset, amount);
     }
 
     public void markWarningsRead(UUID uniqueId) {
