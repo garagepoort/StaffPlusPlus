@@ -114,14 +114,15 @@ public class PlayerInteract implements Listener {
             return false;
         }
 
-        if(staffTimings.containsKey(player)) {
-            if(System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
-                //Still cooling down
-                return false;
+        GadgetHandler.GadgetType gadgetType = gadgetHandler.getGadgetType(item, versionProtocol.getNbtString(item));
+        if (staffTimings.containsKey(player)) {
+            if (System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
+                //Still cooling down but cancel the event if it is a staff item
+                return gadgetType != GadgetHandler.GadgetType.CUSTOM;
             }
         }
 
-        switch (gadgetHandler.getGadgetType(item, versionProtocol.getNbtString(item))) {
+        switch (gadgetType) {
             case COMPASS:
                 gadgetHandler.onCompass(player);
                 break;
@@ -150,7 +151,7 @@ public class PlayerInteract implements Listener {
                 break;
             case EXAMINE:
                 Player targetPlayer = JavaUtils.getTargetPlayer(player);
-                if(targetPlayer == null) {
+                if (targetPlayer == null) {
                     break;
                 }
 
