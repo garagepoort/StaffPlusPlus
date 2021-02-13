@@ -51,7 +51,7 @@ public class AppealService {
 
     public void addAppeal(Player appealer, Warning warning, String reason) {
         validator(appealer)
-            .validatePermission(appealConfiguration.getCreateAppealPermission())
+            .validateAnyPermission(appealConfiguration.getCreateAppealPermissions())
             .validateNotEmpty(reason, "Reason for appeal can not be empty");
 
         Appeal appeal = new Appeal(warning.getId(), appealer.getUniqueId(), appealer.getName(), reason);
@@ -60,7 +60,7 @@ public class AppealService {
         String message = messages.appealCreated.replace("%reason%", reason);
         this.message.send(appealer, message, messages.prefixWarnings);
 
-        sendAppealedMessageToStaff(appealer);
+        sendAppealedMessageToStaff(warning, appealer);
     }
 
     public void approveAppeal(Player resolver, int appealId) {
@@ -97,9 +97,9 @@ public class AppealService {
         sendEvent(new WarningAppealRejectedEvent(warning));
     }
 
-    private void sendAppealedMessageToStaff(Player appealer) {
-        String manageWarningsCommand = options.manageWarningsConfiguration.getCommandManageWarningsGui() + " " + appealer.getName();
-        JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed his warning",
+    private void sendAppealedMessageToStaff(Warning warning, Player appealer) {
+        String manageWarningsCommand = options.manageWarningsConfiguration.getCommandManageWarningsGui() + " " + warning.getName();
+        JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed a warning",
             "View warnings!",
             "Click to open the warnings view",
             manageWarningsCommand);

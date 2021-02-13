@@ -53,15 +53,22 @@ public class ManageWarningGui extends AbstractGui {
             addDeleteItem(warning, deleteAction, 8);
         }
 
-        if (options.appealConfiguration.isEnabled() && permission.has(player, options.appealConfiguration.getCreateAppealPermission())) {
+        if (options.appealConfiguration.isEnabled()) {
             if (!warning.getAppeal().isPresent()) {
-                if (warning.getUuid().equals(player.getUniqueId())) {
+                if (canAddAppeal(player, warning)) {
                     addAppealItem(31);
                 }
             } else {
                 addAppealInfoItem(31);
             }
         }
+    }
+
+    private boolean canAddAppeal(Player player, Warning warning) {
+        if (permission.has(player, options.appealConfiguration.getCreateOthersAppealPermission())) {
+            return true;
+        }
+        return permission.has(player, options.appealConfiguration.getCreateAppealPermission()) && warning.getUuid().equals(player.getUniqueId());
     }
 
     private void addDeleteItem(Warning warning, IAction action, int slot) {

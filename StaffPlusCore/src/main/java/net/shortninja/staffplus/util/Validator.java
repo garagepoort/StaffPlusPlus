@@ -2,6 +2,7 @@ package net.shortninja.staffplus.util;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.common.exceptions.NoPermissionException;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
@@ -21,6 +22,13 @@ public class Validator {
 
     public Validator validatePermission(String permission) {
         this.permissionHandler.validate(player, permission);
+        return this;
+    }
+
+    public Validator validateAnyPermission(String... permissions) {
+        if (!this.permissionHandler.hasAny(player, permissions)) {
+            throw new NoPermissionException();
+        }
         return this;
     }
 
