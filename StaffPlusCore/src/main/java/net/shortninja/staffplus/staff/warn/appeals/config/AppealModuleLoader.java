@@ -15,12 +15,13 @@ public class AppealModuleLoader extends ConfigLoader<AppealConfiguration> {
         boolean resolveReasonEnable = config.getBoolean("warnings-module.appeals.resolve-reason-enabled");
         List<String> reasons = (List<String>) config.getList("warnings-module.appeals.reasons", new ArrayList<>());
         String permissionCreateAppeal = config.getString("permissions.warnings.appeals.create");
+        String permissionCreateOthersAppeal = config.getString("permissions.warnings.appeals.create-others");
         String permissionApproveAppeal = config.getString("permissions.warnings.appeals.approve");
         String permissionRejectAppeal = config.getString("permissions.warnings.appeals.reject");
         String permissionNotifications = config.getString("permissions.warnings.appeals.notifications");
 
 
-        return new AppealConfiguration(enabled, resolveReasonEnable, permissionApproveAppeal, permissionRejectAppeal, permissionCreateAppeal, fixedReason, reasons, permissionNotifications);
+        return new AppealConfiguration(enabled, resolveReasonEnable, permissionApproveAppeal, permissionRejectAppeal, permissionCreateAppeal, permissionCreateOthersAppeal, fixedReason, reasons, permissionNotifications);
     }
 
 }
