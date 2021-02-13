@@ -3,7 +3,6 @@ package net.shortninja.staffplus.util.database.migrations.mysql;
 import net.shortninja.staffplus.util.database.migrations.Migration;
 import net.shortninja.staffplus.util.database.migrations.SqlMigrations;
 import net.shortninja.staffplus.util.database.migrations.common.*;
-import net.shortninja.staffplus.util.database.migrations.sqlite.V39_CreateActionableActionsTableMigration;
 import org.bukkit.Bukkit;
 
 import javax.sql.DataSource;
