@@ -2,6 +2,8 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.actions.ActionService;
+import net.shortninja.staffplus.staff.delayedactions.DelayedAction;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
@@ -30,6 +32,7 @@ public class PlayerJoin implements Listener {
     private final VanishService vanishService = IocContainer.getVanishHandler();
     private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
     private final PlayerManager playerManager = IocContainer.getPlayerManager();
+    private final ActionService actionService = IocContainer.getActionService();
 
     public PlayerJoin() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -52,7 +55,7 @@ public class PlayerJoin implements Listener {
         if (!session.isInStaffMode()) {
             staffModeService.removeMode(player);
         }
-        if(session.isVanished()) {
+        if (session.isVanished()) {
             event.setJoinMessage("");
         }
 
@@ -70,10 +73,21 @@ public class PlayerJoin implements Listener {
     }
 
     private void delayedActions(Player player) {
-        List<String> delayedActions = IocContainer.getDelayedActionsRepository().getDelayedActions(player.getUniqueId());
+        List<DelayedAction> delayedActions = IocContainer.getDelayedActionsRepository().getDelayedActions(player.getUniqueId());
         delayedActions.forEach(delayedAction -> {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), delayedAction.replace("%player%", player.getName()));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), delayedAction.getCommand().replace("%player%", player.getName()));
+            updateActionable(delayedAction);
         });
         IocContainer.getDelayedActionsRepository().clearDelayedActions(player.getUniqueId());
+    }
+
+    private void updateActionable(DelayedAction delayedAction) {
+        if (delayedAction.getExecutableActionId().isPresent()) {
+            if (delayedAction.isRollback()) {
+                actionService.markRollbacked(delayedAction.getExecutableActionId().get());
+            } else {
+                actionService.markExecuted(delayedAction.getExecutableActionId().get());
+            }
+        }
     }
 }

@@ -7,7 +7,9 @@ public interface DelayedActionsRepository {
 
     void saveDelayedAction(UUID uuid, String command);
 
-    List<String> getDelayedActions(UUID uuid);
+    void saveDelayedAction(UUID uuid, String command, int executableActionId, boolean rollback);
+
+    List<DelayedAction> getDelayedActions(UUID uuid);
 
     void clearDelayedActions(UUID uuid);
 }

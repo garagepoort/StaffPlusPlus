@@ -27,9 +27,7 @@ import net.shortninja.staffplus.staff.teleport.cmd.TeleportHereCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportToLocationCmd;
 import net.shortninja.staffplus.staff.teleport.cmd.TeleportToPlayerCmd;
 import net.shortninja.staffplus.staff.tracing.TraceCmd;
-import net.shortninja.staffplus.staff.warn.cmd.MyWarningsCmd;
-import net.shortninja.staffplus.staff.warn.cmd.WarnCmd;
-import net.shortninja.staffplus.staff.warn.cmd.WarnsCmd;
+import net.shortninja.staffplus.staff.warn.warnings.cmd.*;
 
 import java.util.Arrays;
 
@@ -80,14 +78,19 @@ public class CmdHandler {
             new BaseCmd(new NotesCmd(options.commandNotes), true, options.examineConfiguration.getPermissionExamine(), "Adds or manages a player's notes", "[player] [note]"),
             new BaseCmd(new CpsCmd(options.commandCps), true, options.permissionCps, "Starts a CPS test on the player.", "{player}"),
             new BaseCmd(new StaffChatCmd(options.commandStaffChat), options.staffChatConfiguration.isEnabled(), options.staffChatConfiguration.getPermissionStaffChat(), "Sends a message or toggles staff chat.", "{message}"),
+
             new BaseCmd(new ManageReportsGuiCmd(options.manageReportConfiguration.getCommandManageReportsGui()), options.reportConfiguration.isEnabled(), options.manageReportConfiguration.getPermissionView(), "Open the manage Reports GUI.", ""),
             new BaseCmd(new ReportsCmd(options.commandReports), options.reportConfiguration.isEnabled(), "Manage Reports.", "[get|clear] [player]"),
             new BaseCmd(new MyReportsCmd(options.reportConfiguration.getMyReportsCmd()), options.reportConfiguration.isEnabled(), options.reportConfiguration.getMyReportsPermission(), "Open my reports gui", ""),
             new BaseCmd(new ReportCmd(options.commandReport), options.reportConfiguration.isEnabled(), "Sends a report without a specific player.", "[reason]"),
             new BaseCmd(new ReportPlayerCmd(options.commandReportPlayer), options.reportConfiguration.isEnabled(), "Sends a report with the given player and reason.", "[player] [reason]"),
+
             new BaseCmd(new WarnCmd(options.commandWarn), options.warningConfiguration.isEnabled(), options.permissionWarn, "Issues a warning.", "[severity] [player] [reason]"),
-            new BaseCmd(new WarnsCmd(options.commandWarns), options.warningConfiguration.isEnabled(), options.permissionWarn, "Clear or list all warnings of a player.", "[get|clear] [player]"),
+            new BaseCmd(new WarnsCmd(options.commandWarns), options.warningConfiguration.isEnabled(), options.permissionWarn, "List all warnings of a player.", "[get] [player]"),
             new BaseCmd(new MyWarningsCmd(options.warningConfiguration.getMyWarningsCmd()), options.warningConfiguration.isEnabled(), options.warningConfiguration.getMyWarningsPermission(), "Open my warnings gui", ""),
+            new BaseCmd(new ManageWarningsGuiCmd(options.manageWarningsConfiguration.getCommandManageWarningsGui()), options.warningConfiguration.isEnabled(), options.manageWarningsConfiguration.getPermissionView(), "Open the manage Warnings GUI.", "[playername]"),
+            new BaseCmd(new ManageAppealedWarningsGuiCmd(options.manageWarningsConfiguration.getCommandManageAppealedWarningsGui()), options.appealConfiguration.isEnabled(), options.manageWarningsConfiguration.getPermissionView(), "Open the manage Appealed Warnings GUI.", ""),
+
             new BaseCmd(new VanishCmd(options.commandVanish), options.vanishEnabled, options.permissionVanishCommand, "Enables or disables the type of vanish for the player.", "[total | list] {player} {enable | disable}"),
             new BaseCmd(new ChatCmd(options.commandChat), options.chatEnabled, Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle), "Executes the given chat management action.", "[clear | toggle | slow] {enable | disable | time}"),
             new BaseCmd(new AlertsCmd(options.commandAlerts), true, Arrays.asList(options.permissionMention, options.permissionNameChange, options.permissionXray), "Enables or disables the alert type.", "[namechange | mention | xray] {player} {enable | disable}"),
@@ -100,16 +103,21 @@ public class CmdHandler {
             new BaseCmd(new TraceCmd(options.commandTrace), true, "Used to start/stop tracing a player", "[start | stop] [player]"),
             new BaseCmd(new EChestView(options.enderchestsConfiguration.getCommandOpenEnderChests()), options.enderchestsConfiguration.isEnabled(), "Used to view a players ender chest", "[player]"),
             new BaseCmd(new BroadcastCmd(options.commandBroadcast), true, "Broadcast messages to all players (over all servers)", "[server] [message]"),
+            new BaseCmd(new AltDetectWhitelistCmd(options.altDetectConfiguration.getCommandWhitelist()), options.altDetectConfiguration.isEnabled(), "Add/Remove players from the alt account detection whitelist", "[add/remove] [player1] [player2]"),
+
             new BaseCmd(new ProtectPlayerCmd(options.protectConfiguration.getCommandProtectPlayer()), options.protectConfiguration.isPlayerProtectEnabled(), "Protect a player from all damage", "[player]"),
             new BaseCmd(new ProtectAreaCmd(options.protectConfiguration.getCommandProtectArea()), options.protectConfiguration.isAreaProtectEnabled(), "Protect an area around you.", "[radius] [area name]"),
+
             new BaseCmd(new TempBanCmd(options.banConfiguration.getCommandTempBanPlayer()), options.banConfiguration.isEnabled(), "Temporary ban a player", "[player] [amount] [unit] [reason]"),
             new BaseCmd(new BanCmd(options.banConfiguration.getCommandBanPlayer()), options.banConfiguration.isEnabled(), "Permanent ban a player", "[player] [reason]"),
             new BaseCmd(new UnbanCmd(options.banConfiguration.getCommandUnbanPlayer()), options.banConfiguration.isEnabled(), "Unban a player", "[player] [reason]"),
+
             new BaseCmd(new KickCmd(options.kickConfiguration.getCommandKickPlayer()), options.kickConfiguration.isEnabled(), "Kick a player", "[player] [reason]"),
             new BaseCmd(new TempMuteCmd(options.muteConfiguration.getCommandTempMutePlayer()), options.muteConfiguration.isEnabled(), "Temporary mute a player", "[player] [amount] [unit] [reason]"),
+
             new BaseCmd(new MuteCmd(options.muteConfiguration.getCommandMutePlayer()), options.muteConfiguration.isEnabled(), "Permanent mute a player", "[player] [reason]"),
             new BaseCmd(new UnmuteCmd(options.muteConfiguration.getCommandUnmutePlayer()), options.muteConfiguration.isEnabled(), "Unmute a player", "[player] [reason]"),
-            new BaseCmd(new AltDetectWhitelistCmd(options.altDetectConfiguration.getCommandWhitelist()), options.altDetectConfiguration.isEnabled(), "Add/Remove players from the alt account detection whitelist", "[add/remove] [player1] [player2]"),
+
             new BaseCmd(new InfractionsCmd(options.infractionsConfiguration.getCommandOpenGui()), options.infractionsConfiguration.isEnabled(), "View all player's infractions", "[player]"),
             new BaseCmd(new InfractionsTopCmd(options.infractionsConfiguration.getCommandOpenTopGui()), options.infractionsConfiguration.isEnabled(), "View the top list of players with the most infractions", "[infractionType?]")
         };
