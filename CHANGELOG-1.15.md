@@ -1,5 +1,15 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.40
+
+### Features
+- Add warning appeal system
+- Add warning actions + rollback system
+- Staffmode item-change property is now split up into item-drop & item-pickup
+
+### Bugs
+- Staff item Endereye no longer gets dropped when spammed
+
 ### V1.15.39
 
 ### Features
