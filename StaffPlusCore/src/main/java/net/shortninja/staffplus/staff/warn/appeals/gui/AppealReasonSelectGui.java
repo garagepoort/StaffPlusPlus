@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.warn.appeals.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.warn.appeals.AppealService;
@@ -30,9 +31,11 @@ public class AppealReasonSelectGui extends AbstractGui {
         IAction selectAction = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                String reason = StaffPlus.get().versionProtocol.getNbtString(item);
-                appealService.addAppeal(player, warning, reason);
-                previousGuiSupplier.get().show(player);
+                CommandUtil.playerAction(player, () -> {
+                    String reason = StaffPlus.get().versionProtocol.getNbtString(item);
+                    appealService.addAppeal(player, warning, reason);
+                    previousGuiSupplier.get().show(player);
+                });
             }
 
             @Override
