@@ -43,7 +43,7 @@ public class AppealItemBuilder {
             }
         }
         ItemStack itemStack = Items.builder()
-            .setMaterial(Material.WRITABLE_BOOK)
+            .setMaterial(Material.BOOK_AND_QUILL)
             .build();
 
         ItemStack item = Items.editor(itemStack).setAmount(1)
