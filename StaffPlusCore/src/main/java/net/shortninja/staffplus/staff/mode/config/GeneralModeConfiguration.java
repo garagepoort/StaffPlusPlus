@@ -28,7 +28,8 @@ import java.util.List;
 public class GeneralModeConfiguration {
 
     private VanishType modeVanish;
-    private boolean modeItemChange;
+    private boolean modeItemPickup;
+    private boolean modeItemDrop;
     private boolean modeDamage;
     private boolean modeHungerLoss;
     private List<String> modeEnableCommands;
@@ -58,8 +59,8 @@ public class GeneralModeConfiguration {
     private final VanishModeConfiguration vanishModeConfiguration;
 
     public GeneralModeConfiguration(VanishType modeVanish,
-                                    boolean modeItemChange,
-                                    boolean modeDamage,
+                                    boolean modeItemPickup,
+                                    boolean modeItemDrop, boolean modeDamage,
                                     boolean modeHungerLoss,
                                     List<String> modeEnableCommands,
                                     List<String> modeDisableCommands,
@@ -74,7 +75,8 @@ public class GeneralModeConfiguration {
                                     boolean modeEnableOnLogin,
                                     boolean modeDisableOnLogout) {
         this.modeVanish = modeVanish;
-        this.modeItemChange = modeItemChange;
+        this.modeItemPickup = modeItemPickup;
+        this.modeItemDrop = modeItemDrop;
         this.modeDamage = modeDamage;
         this.modeHungerLoss = modeHungerLoss;
         this.modeEnableCommands = modeEnableCommands;
@@ -101,6 +103,14 @@ public class GeneralModeConfiguration {
         this.followModeConfiguration = new FollowModeItemLoader().loadConfig();
         this.freezeModeConfiguration = new FreezeModeItemLoader().loadConfig();
         this.guiModeConfiguration = new GuiModeItemLoader().loadConfig();
+    }
+
+    public boolean isModeItemPickup() {
+        return modeItemPickup;
+    }
+
+    public boolean isModeItemDrop() {
+        return modeItemDrop;
     }
 
     public List<GuiConfiguration> getStaffGuiConfigurations() {
@@ -145,10 +155,6 @@ public class GeneralModeConfiguration {
 
     public VanishType getModeVanish() {
         return modeVanish;
-    }
-
-    public boolean isModeItemChange() {
-        return modeItemChange;
     }
 
     public boolean isModeDamage() {

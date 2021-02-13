@@ -32,7 +32,7 @@ public class PlayerDropItem implements Listener {
     public void onDrop(PlayerDropItemEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
 
-        if ((options.modeConfiguration.isModeItemChange() || !sessionManager.get(uuid).isInStaffMode()) && !freezeHandler.isFrozen(uuid)) {
+        if ((options.modeConfiguration.isModeItemDrop() || !sessionManager.get(uuid).isInStaffMode()) && !freezeHandler.isFrozen(uuid)) {
             traceService.sendTraceMessage(DROP_ITEM, event.getPlayer().getUniqueId(), String.format("Dropped item [%s]", event.getItemDrop().getType()));
             return;
         }
