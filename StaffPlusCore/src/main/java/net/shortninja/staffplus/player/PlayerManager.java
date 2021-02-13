@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.player;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -18,8 +19,10 @@ public class PlayerManager {
         Set<SppPlayer> sppPlayers = new HashSet<>();
         for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
             String name = offlinePlayer.getName();
-            playerNames.add(name);
-            sppPlayers.add(new SppPlayer(offlinePlayer.getUniqueId(), offlinePlayer.getName()));
+            if (StringUtils.isNotEmpty(name)) {
+                playerNames.add(name);
+                sppPlayers.add(new SppPlayer(offlinePlayer.getUniqueId(), offlinePlayer.getName()));
+            }
         }
         cachedPlayerNames = playerNames;
         cachedSppPlayers = sppPlayers;
