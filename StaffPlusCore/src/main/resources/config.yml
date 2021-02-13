@@ -423,7 +423,8 @@ staff-mode:
   silent-chest-interaction: false
 
   # Whether or not a player is allowed to drop/pickup items while in staff mode.
-  item-change: false
+  item-drop: false
+  item-pickup: false
 
   # The type of vanish that will be applied when a player goes into staff mode.
   # Valid vanish types are: TOTAL, LIST, and NONE.
