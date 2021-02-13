@@ -808,6 +808,7 @@ permissions:
           delete: "staff.warnings.manage.delete"
       appeals:
           create: "staff.warnings.appeals.create"
+          create-others: "staff.warnings.appeals.create.others"
           approve: "staff.warnings.appeals.approve"
           reject: "staff.warnings.appeals.reject"
           notifications: "staff.warnings.appeals.notifications"

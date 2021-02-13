@@ -5,23 +5,26 @@ import java.util.List;
 public class AppealConfiguration {
 
     private final boolean enabled;
-    private final boolean resolveReasonEnable;
+    private final boolean resolveReasonEnabled;
     private final String approveAppealPermission;
     private final String rejectAppealPermission;
     private final String createAppealPermission;
+    private final String permissionCreateOthersAppeal;
     private final boolean fixedAppealReason;
     private final List<String> appealReasons;
     private final String permissionNotifications;
 
-    public AppealConfiguration(boolean enabled, boolean resolveReasonEnable, String approveAppealPermission,
+    public AppealConfiguration(boolean enabled, boolean resolveReasonEnabled, String approveAppealPermission,
                                String rejectAppealPermission,
-                               String createAppealPermission, boolean fixedAppealReason, List<String> appealReasons,
+                               String createAppealPermission, String permissionCreateOthersAppeal,
+                               boolean fixedAppealReason, List<String> appealReasons,
                                String permissionNotifications) {
         this.enabled = enabled;
-        this.resolveReasonEnable = resolveReasonEnable;
+        this.resolveReasonEnabled = resolveReasonEnabled;
         this.approveAppealPermission = approveAppealPermission;
         this.rejectAppealPermission = rejectAppealPermission;
         this.createAppealPermission = createAppealPermission;
+        this.permissionCreateOthersAppeal = permissionCreateOthersAppeal;
         this.fixedAppealReason = fixedAppealReason;
         this.appealReasons = appealReasons;
         this.permissionNotifications = permissionNotifications;
@@ -32,7 +35,7 @@ public class AppealConfiguration {
     }
 
     public boolean isResolveReasonEnabled() {
-        return resolveReasonEnable;
+        return resolveReasonEnabled;
     }
 
     public String getApproveAppealPermission() {
@@ -43,8 +46,8 @@ public class AppealConfiguration {
         return rejectAppealPermission;
     }
 
-    public String getCreateAppealPermission() {
-        return createAppealPermission;
+    public String[] getCreateAppealPermissions() {
+        return new String[]{createAppealPermission, permissionCreateOthersAppeal};
     }
 
     public boolean isFixedAppealReason() {
@@ -57,5 +60,13 @@ public class AppealConfiguration {
 
     public String getPermissionNotifications() {
         return permissionNotifications;
+    }
+
+    public String getCreateAppealPermission() {
+        return createAppealPermission;
+    }
+
+    public String getCreateOthersAppealPermission() {
+        return permissionCreateOthersAppeal;
     }
 }
