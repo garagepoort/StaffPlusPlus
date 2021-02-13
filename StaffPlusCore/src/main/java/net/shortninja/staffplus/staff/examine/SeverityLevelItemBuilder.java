@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.examine;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.staff.warn.config.WarningSeverityConfiguration;
+import net.shortninja.staffplus.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.util;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.exceptions.NoPermissionException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,6 +15,12 @@ public class Permission {
         }
 
         return hasPermission;
+    }
+
+    public void check(Player player, String permission) {
+        if(!has(player, permission)) {
+            throw new NoPermissionException();
+        }
     }
 
     public boolean hasOnly(Player player, String permission) {

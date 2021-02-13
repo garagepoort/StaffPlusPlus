@@ -34,8 +34,10 @@ import net.shortninja.staffplus.staff.reporting.ReportChangeReporterNotifier;
 import net.shortninja.staffplus.staff.reporting.ReportListener;
 import net.shortninja.staffplus.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
-import net.shortninja.staffplus.staff.warn.WarnListener;
-import net.shortninja.staffplus.staff.warn.WarningClearTask;
+import net.shortninja.staffplus.staff.warn.appeals.AppealNotifierListener;
+import net.shortninja.staffplus.staff.warn.warnings.WarningNotifierListener;
+import net.shortninja.staffplus.staff.warn.warnings.WarningListener;
+import net.shortninja.staffplus.staff.warn.warnings.WarningClearTask;
 import net.shortninja.staffplus.util.Metrics;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseInitializer;
@@ -200,10 +202,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new BanListener();
         new AlertListener();
         new AltDetectionListener();
-        new WarnListener();
+        new WarningNotifierListener();
         new ReportListener();
         new ReportChangeReporterNotifier();
         new ChestGuiMove();
+        new AppealNotifierListener();
+        new WarningListener();
     }
 
 
