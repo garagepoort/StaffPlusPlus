@@ -17,7 +17,7 @@ public class Permission {
         return hasPermission;
     }
 
-    public void check(Player player, String permission) {
+    public void validate(Player player, String permission) {
         if(!has(player, permission)) {
             throw new NoPermissionException();
         }
