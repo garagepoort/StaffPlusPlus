@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.util.lib.Message;
@@ -98,6 +99,12 @@ public class MessageCoordinator extends Message {
 
             send(player, message, prefix, permission);
         }
+    }
+
+    public void sendGroupMessage(JSONMessage jsonMessage, String permission) {
+        Bukkit.getOnlinePlayers().stream()
+            .filter(p -> this.permission.has(p, permission))
+            .forEach(jsonMessage::send);
     }
 
     public void sendCollectedMessage(Player player, Collection<String> messages, String prefix) {

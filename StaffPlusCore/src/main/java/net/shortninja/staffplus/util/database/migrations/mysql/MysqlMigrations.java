@@ -3,6 +3,7 @@ package net.shortninja.staffplus.util.database.migrations.mysql;
 import net.shortninja.staffplus.util.database.migrations.Migration;
 import net.shortninja.staffplus.util.database.migrations.SqlMigrations;
 import net.shortninja.staffplus.util.database.migrations.common.*;
+import net.shortninja.staffplus.util.database.migrations.sqlite.V39_CreateActionableActionsTableMigration;
 import org.bukkit.Bukkit;
 
 import javax.sql.DataSource;
@@ -51,7 +52,11 @@ public class MysqlMigrations implements SqlMigrations {
         new V32_AlterLocationsTableAddServerColumnMigration(),
         new V33_AlterMutedPlayersTableAddServerColumnMigration(),
         new V34_AlterReportsTableAddServerColumnMigration(),
-        new V35_AlterWarningsTableAddServerColumnMigration());
+        new V35_AlterWarningsTableAddServerColumnMigration(),
+        new V36_CreateWarningAppealsTableMigration(),
+        new V37_AlterDelayedActionsTableAddExecutableActionIdMigration(),
+        new V38_AlterDelayedActionsTableAddRollbackMigration(),
+        new V39_CreateActionableActionsTableMigration());
 
     private final DataSource datasource;
 

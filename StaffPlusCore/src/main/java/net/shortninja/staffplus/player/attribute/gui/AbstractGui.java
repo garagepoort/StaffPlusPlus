@@ -64,6 +64,11 @@ public abstract class AbstractGui implements IGui {
                 }
             });
         }
+        for (int i = 0; i < getInventory().getSize(); i++) {
+            if (getInventory().getItem(i) == null) {
+                setItem(i, Items.createGrayColoredGlass("No action", ""), null);
+            }
+        }
         player.closeInventory();
         player.openInventory(getInventory());
         sessionManager.get(player.getUniqueId()).setCurrentGui(this);
