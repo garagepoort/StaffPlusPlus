@@ -76,8 +76,8 @@ public class ManageWarningGui extends AbstractGui {
         IAction appealAction = null;
         if (!warning.getAppeal().isPresent()) {
             appealAction = options.appealConfiguration.isFixedAppealReason() ?
-                new AppealReasonChatAction(warning) :
-                new AppealReasonSelectAction(warning, goBack);
+                new AppealReasonSelectAction(warning, goBack) :
+                new AppealReasonChatAction(warning);
         }
 
         ItemStack item = Items.builder()

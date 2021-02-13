@@ -1,7 +1,9 @@
 package net.shortninja.staffplus.util.lib;
 
+import me.rayzr522.jsonmessage.JSONMessage;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -356,5 +358,17 @@ public class JavaUtils {
 
         // toIndex exclusive
         return sourceList.subList(fromIndex, Math.min(fromIndex + pageSize, sourceList.size()));
+    }
+
+    public static JSONMessage buildClickableMessage(String message, String clickMessage, String tooltip, String command) {
+        JSONMessage jsonMessage = JSONMessage.create(message)
+            .color(ChatColor.GOLD);
+
+        jsonMessage.then(" " + clickMessage)
+            .color(ChatColor.BLUE)
+            .tooltip(tooltip)
+            .runCommand("/" + command);
+
+        return jsonMessage;
     }
 }

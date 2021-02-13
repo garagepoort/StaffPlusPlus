@@ -56,6 +56,17 @@ public abstract class AbstractSqlActionableRepository implements ActionableRepos
         }
     }
 
+    @Override
+    public void delete(Actionable actionable) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_actionable_actions WHERE actionable_id = ? AND actionable_type=?");) {
+            insert.setInt(1, actionable.getId());
+            insert.setString(2, actionable.getActionableType());
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private ExecutableActionEntity buildAction(ResultSet rs) throws SQLException {
         int id = rs.getInt("ID");

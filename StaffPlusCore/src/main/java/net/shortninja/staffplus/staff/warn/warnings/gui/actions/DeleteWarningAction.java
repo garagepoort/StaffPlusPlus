@@ -16,7 +16,7 @@ public class DeleteWarningAction implements IAction {
     public void click(Player player, ItemStack item, int slot) {
         CommandUtil.playerAction(player, () -> {
             int warningId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-            warnService.removeWarning(warningId);
+            warnService.removeWarning(player, warningId);
         });
     }
 

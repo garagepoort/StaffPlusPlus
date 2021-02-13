@@ -73,4 +73,8 @@ public class ActionService {
         }
         return executedCommands;
     }
+
+    public void deleteActions(Actionable actionable) {
+        actionableRepository.delete(actionable);
+    }
 }

@@ -22,7 +22,7 @@ public class WarningClearTask extends BukkitRunnable {
     private void checkWarnings() {
         for (IWarning warning : IocContainer.getWarnService().getWarnings()) {
             if (warning.shouldRemove()) {
-                IocContainer.getWarnService().removeWarning(warning.getId());
+                IocContainer.getWarnService().removeWarning(Bukkit.getConsoleSender(), warning.getId());
             }
         }
     }

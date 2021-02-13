@@ -287,6 +287,7 @@ public class Messages {
         appealApproved = config.getString("appeal-approved", "");
         appealRejected = config.getString("appeal-rejected", "");
         appealApprove = config.getString("appeal-approve", "");
+        appealReject = config.getString("appeal-reject", "");
         openAppealsNotify = config.getString("appeal-open-notify", "");
     }
 }

@@ -106,11 +106,15 @@ public class WarnService implements InfractionProvider {
         return warnRepository.getWarnings();
     }
 
-    public void removeWarning(int id) {
+    public void removeWarning(CommandSender sender, int id) {
         Warning warning = getWarning(id);
+        if (warning.getServerName() != null && !warning.getServerName().equals(options.serverName)) {
+            throw new BusinessException("For consistency reasons a warning must be removed on the same server it was created. Please try removing the warning while connected to server " + warning.getServerName());
+        }
+
         appealRepository.deleteAppealsForWarning(id);
         warnRepository.removeWarning(id);
-
+        message.send(sender, "&2Warning has been removed", messages.prefixWarnings);
         sendEvent(new WarningRemovedEvent(warning));
     }
 

@@ -50,6 +50,7 @@ public class WarningListener implements Listener {
         if (target.isPresent()) {
             actionService.rollbackActionable(warningRemovedEvent.getWarning());
         }
+        actionService.deleteActions(warningRemovedEvent.getWarning());
     }
 
     @EventHandler

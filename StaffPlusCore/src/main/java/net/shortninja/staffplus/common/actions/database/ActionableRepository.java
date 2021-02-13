@@ -14,4 +14,6 @@ public interface ActionableRepository {
     void markExecuted(int executableActionId);
 
     void markRollbacked(int executableActionId);
+
+    void delete(Actionable actionable);
 }

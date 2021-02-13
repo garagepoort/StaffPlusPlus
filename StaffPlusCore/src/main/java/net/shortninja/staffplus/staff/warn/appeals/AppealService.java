@@ -1,10 +1,11 @@
 package net.shortninja.staffplus.staff.warn.appeals;
 
+import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.event.warnings.appeals.ApproveAppealEvent;
-import net.shortninja.staffplus.event.warnings.appeals.RejectAppealEvent;
+import net.shortninja.staffplus.event.warnings.WarningAppealApprovedEvent;
+import net.shortninja.staffplus.event.warnings.WarningAppealRejectedEvent;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -15,6 +16,7 @@ import net.shortninja.staffplus.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplus.unordered.AppealStatus;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
+import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -62,6 +64,17 @@ public class AppealService {
 
         String message = messages.appealCreated.replace("%reason%", reason);
         this.message.send(appealer, message, messages.prefixWarnings);
+
+        sendAppealedMessageToStaff(appealer);
+    }
+
+    private void sendAppealedMessageToStaff(Player appealer) {
+        String manageWarningsCommand = options.manageWarningsConfiguration.getCommandManageWarningsGui() + " " + appealer.getName();
+        JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed his warning",
+            "View warnings!",
+            "Click to open the warnings view",
+            manageWarningsCommand);
+        this.message.sendGroupMessage(jsonMessage, options.appealConfiguration.getPermissionNotifications());
     }
 
     public void approveAppeal(Player resolver, int appealId) {
@@ -79,7 +92,7 @@ public class AppealService {
         sendAppealMessage(appeal, messages.appealApproved);
         this.message.send(resolver, messages.appealApprove, messages.prefixWarnings);
 
-        sendEvent(new ApproveAppealEvent(warning, appeal));
+        sendEvent(new WarningAppealApprovedEvent(warning));
     }
 
     public void rejectAppeal(Player resolver, int appealId) {
@@ -96,7 +109,7 @@ public class AppealService {
         resolveAppeal(resolver, appealId, AppealStatus.REJECTED, appealReason);
         sendAppealMessage(appeal, messages.appealRejected);
         this.message.send(resolver, messages.appealReject, messages.prefixWarnings);
-        sendEvent(new RejectAppealEvent(warning, appeal));
+        sendEvent(new WarningAppealRejectedEvent(warning));
     }
 
     private void sendAppealMessage(Appeal appeal, String message) {
