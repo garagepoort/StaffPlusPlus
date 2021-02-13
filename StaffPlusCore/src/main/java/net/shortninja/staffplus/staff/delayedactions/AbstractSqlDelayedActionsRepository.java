@@ -58,7 +58,7 @@ public abstract class AbstractSqlDelayedActionsRepository implements DelayedActi
     public List<DelayedAction> getDelayedActions(UUID uuid) {
         List<DelayedAction> actions = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT command, executable_action_id FROM sp_delayed_actions WHERE Player_UUID = ? " + serverNameFilter + " ORDER BY timestamp ASC")
+             PreparedStatement ps = sql.prepareStatement("SELECT command, executable_action_id, rollback FROM sp_delayed_actions WHERE Player_UUID = ? " + serverNameFilter + " ORDER BY timestamp ASC")
         ) {
             ps.setString(1, uuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
