@@ -4,6 +4,11 @@ import net.shortninja.staffplus.authentication.AuthenticationProvider;
 import net.shortninja.staffplus.authentication.AuthenticationService;
 import net.shortninja.staffplus.authentication.authme.AuthMeAuthenticationService;
 import net.shortninja.staffplus.authentication.authme.NoopAuthenticationService;
+import net.shortninja.staffplus.common.actions.ActionExecutioner;
+import net.shortninja.staffplus.common.actions.ActionService;
+import net.shortninja.staffplus.common.actions.database.ActionableRepository;
+import net.shortninja.staffplus.common.actions.database.MysqlActionableRepository;
+import net.shortninja.staffplus.common.actions.database.SqliteActionableRepository;
 import net.shortninja.staffplus.common.bungee.BungeeClient;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
@@ -86,11 +91,16 @@ import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
 import net.shortninja.staffplus.staff.vanish.VanishChatInterceptor;
 import net.shortninja.staffplus.staff.vanish.VanishService;
-import net.shortninja.staffplus.staff.warn.WarnService;
-import net.shortninja.staffplus.staff.warn.database.MysqlWarnRepository;
-import net.shortninja.staffplus.staff.warn.database.SqliteWarnRepository;
-import net.shortninja.staffplus.staff.warn.database.WarnRepository;
-import net.shortninja.staffplus.staff.warn.gui.WarningItemBuilder;
+import net.shortninja.staffplus.staff.warn.appeals.AppealService;
+import net.shortninja.staffplus.staff.warn.appeals.database.AppealRepository;
+import net.shortninja.staffplus.staff.warn.appeals.database.MysqlAppealRepository;
+import net.shortninja.staffplus.staff.warn.appeals.database.SqliteAppealRepository;
+import net.shortninja.staffplus.staff.warn.threshold.ThresholdService;
+import net.shortninja.staffplus.staff.warn.warnings.WarnService;
+import net.shortninja.staffplus.staff.warn.warnings.database.MysqlWarnRepository;
+import net.shortninja.staffplus.staff.warn.warnings.database.SqliteWarnRepository;
+import net.shortninja.staffplus.staff.warn.warnings.database.WarnRepository;
+import net.shortninja.staffplus.staff.warn.warnings.gui.WarningItemBuilder;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseType;
@@ -120,8 +130,8 @@ public class IocContainer {
 
     public static WarnRepository getWarnRepository() {
         return initRepositoryBean(WarnRepository.class,
-            () -> new MysqlWarnRepository(getPlayerManager(), getOptions()),
-            () -> new SqliteWarnRepository(getPlayerManager(), getOptions()));
+            () -> new MysqlWarnRepository(getPlayerManager(), getAppealRepository(), getOptions()),
+            () -> new SqliteWarnRepository(getPlayerManager(), getAppealRepository(), getOptions()));
     }
 
     public static LocationRepository getLocationsRepository() {
@@ -179,9 +189,33 @@ public class IocContainer {
             SqliteSessionsRepository::new);
     }
 
+    public static AppealRepository getAppealRepository() {
+        return initRepositoryBean(AppealRepository.class,
+            () -> new MysqlAppealRepository(getPlayerManager()),
+            () -> new SqliteAppealRepository(getPlayerManager()));
+    }
+
+
+    public static ActionableRepository getActionableRepository() {
+        return initRepositoryBean(ActionableRepository.class,
+            MysqlActionableRepository::new,
+            SqliteActionableRepository::new);
+    }
+
+    public static AppealService getAppealService() {
+        return initBean(AppealService.class, () -> new AppealService(
+            getPlayerManager(),
+            getAppealRepository(),
+            getWarnRepository(), getMessage(),
+            getMessages(),
+            getPermissionHandler(),
+            getOptions()));
+    }
+
     public static BanService getBanService() {
         return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
     }
+
     public static BungeeClient getBungeeClient() {
         return initBean(BungeeClient.class, BungeeClient::new);
     }
@@ -222,15 +256,19 @@ public class IocContainer {
         return initBean(StaffModeItemsService.class, () -> new StaffModeItemsService(getPermissionHandler(), getOptions(), getSessionManager()));
     }
 
+
+    public static ThresholdService getThresholdService() {
+        return initBean(ThresholdService.class, () -> new ThresholdService(getWarnRepository(), getOptions(), getActionService()));
+    }
+
     public static WarnService getWarnService() {
         return initBean(WarnService.class, () -> new WarnService(
             getPermissionHandler(),
             getMessage(),
             getOptions(),
             getMessages(),
-            getPlayerManager(),
             getWarnRepository(),
-            getDelayedActionsRepository()));
+            getAppealRepository()));
     }
 
     public static SessionManager getSessionManager() {
@@ -239,6 +277,14 @@ public class IocContainer {
 
     public static ModeDataRepository getModeDataRepository() {
         return initBean(ModeDataRepository.class, ModeDataRepository::new);
+    }
+
+    public static ActionService getActionService() {
+        return initBean(ActionService.class, () -> new ActionService(getDelayedActionsRepository(), getActionableRepository(), getPlayerManager(), getActionExecutioner()));
+    }
+
+    public static ActionExecutioner getActionExecutioner() {
+        return initBean(ActionExecutioner.class, () -> new ActionExecutioner(getActionableRepository(), getDelayedActionsRepository()));
     }
 
     public static StaffModeService getModeCoordinator() {
@@ -302,7 +348,7 @@ public class IocContainer {
     }
 
     public static SessionLoader getSessionLoader() {
-        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService(),getOptions(), getSessionsRepository()));
+        return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService(), getOptions(), getSessionsRepository()));
     }
 
     public static AlertCoordinator getAlertCoordinator() {
@@ -396,7 +442,8 @@ public class IocContainer {
             new GamemodeExamineGuiProvider(getMessages(), getOptions()),
             new IpExamineGuiProvider(getMessages(), getOptions()),
             new InventoryExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler()),
-            new EnderchestExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler())
+            new EnderchestExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler()),
+            new InfractionsExamineGuiProvider(getMessages(), getOptions(), getReportService())
         );
     }
 }

@@ -1,9 +1,10 @@
 package net.shortninja.staffplus.unordered;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
-public interface IWarning {
+public interface IWarning extends Actionable {
 
     String getReason();
 
@@ -28,4 +29,6 @@ public interface IWarning {
     ZonedDateTime getTimestamp();
 
     String getServerName();
+
+    Optional<? extends IWarningAppeal> getAppeal();
 }
