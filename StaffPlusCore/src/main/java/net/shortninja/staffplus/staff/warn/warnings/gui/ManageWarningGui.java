@@ -2,6 +2,8 @@ package net.shortninja.staffplus.staff.warn.warnings.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.actions.ActionService;
+import net.shortninja.staffplus.common.actions.ExecutableActionEntity;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.warn.appeals.gui.AppealItemBuilder;
@@ -19,14 +21,18 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ManageWarningGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final WarnService warnService = IocContainer.getWarnService();
+    private final ActionService actionService = IocContainer.getActionService();
     private final Permission permission = IocContainer.getPermissionHandler();
     private final Options options = IocContainer.getOptions();
+    private final WarnService warnService = IocContainer.getWarnService();
+
     private final Player player;
     private final Warning warning;
     private final Supplier<AbstractGui> goBack;
@@ -35,7 +41,7 @@ public class ManageWarningGui extends AbstractGui {
         super(SIZE, title, previousGuiSupplier);
         this.player = player;
         this.warning = warning;
-        goBack = () -> new ManageWarningGui(player, title, warning, previousGuiSupplier);
+        goBack = () -> new ManageWarningGui(player, title, warnService.getWarning(warning.getId()), previousGuiSupplier);
     }
 
     @Override
@@ -59,14 +65,25 @@ public class ManageWarningGui extends AbstractGui {
     }
 
     private void addDeleteItem(Warning warning, IAction action, int slot) {
-        ItemStack itemstack = Items.builder()
+        List<String> rollbackCommands = actionService.getRollbackActions(warning).stream()
+            .map(ExecutableActionEntity::getRollbackCommand)
+            .collect(Collectors.toList());
+
+        Items.ItemStackBuilder itemStackBuilder = Items.builder()
             .setMaterial(Material.REDSTONE_BLOCK)
             .setName("Delete")
-            .addLore("Click to delete this warning")
-            .build();
+            .addLore("Click to delete this warning");
+
+        if (!rollbackCommands.isEmpty()) {
+            itemStackBuilder.addLineLore();
+            itemStackBuilder.addLore("&6Rollback actions:");
+            for (String command : rollbackCommands) {
+                itemStackBuilder.addLore("  - " + command);
+            }
+        }
 
         ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
-            Items.editor(itemstack)
+            Items.editor(itemStackBuilder.build())
                 .setAmount(1)
                 .build(), String.valueOf(warning.getId()));
         setItem(slot, item, action);
@@ -93,7 +110,7 @@ public class ManageWarningGui extends AbstractGui {
 
         IAction action = null;
         if (canManageAppeals() && warning.getAppeal().get().getStatus() == AppealStatus.OPEN) {
-            action = new GoToManageAppealGuiAction(warning.getAppeal().get(), goBack);
+            action = new GoToManageAppealGuiAction(warning, warning.getAppeal().get(), goBack);
         }
 
         setItem(slot, item, action);

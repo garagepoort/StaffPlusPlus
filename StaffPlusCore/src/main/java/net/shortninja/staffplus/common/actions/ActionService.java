@@ -46,10 +46,14 @@ public class ActionService {
             return null;
         }
 
-        List<ExecutableActionEntity> actions = actionableRepository.getActions(actionable)
-            .stream().filter(a -> a.isExecuted() && !a.isRollbacked() && StringUtils.isNotEmpty(a.getRollbackCommand()))
-            .collect(Collectors.toList());
+        List<ExecutableActionEntity> actions = getRollbackActions(actionable);
         return this.rollbackActions(actions, target.get());
+    }
+
+    public List<ExecutableActionEntity> getRollbackActions(Actionable actionable) {
+        return actionableRepository.getActions(actionable)
+                .stream().filter(a -> a.isExecuted() && !a.isRollbacked() && StringUtils.isNotEmpty(a.getRollbackCommand()))
+                .collect(Collectors.toList());
     }
 
     public List<ExecutableActionEntity> getActions(Actionable actionable) {
