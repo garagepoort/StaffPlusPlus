@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class Permission {
     public boolean has(Player player, String permission) {
         boolean hasPermission = false;
@@ -15,6 +17,10 @@ public class Permission {
         }
 
         return hasPermission;
+    }
+
+    public boolean hasAny(Player player, String... permissions) {
+        return Arrays.stream(permissions).anyMatch(permission -> this.has(player, permission));
     }
 
     public void validate(Player player, String permission) {
