@@ -30,7 +30,7 @@ public class PlayerPickupItem implements Listener {
         if (event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
 
-            if (options.modeConfiguration.isModeItemChange() || !sessionManager.get(player.getUniqueId()).isInStaffMode()) {
+            if (options.modeConfiguration.isModeItemPickup() || !sessionManager.get(player.getUniqueId()).isInStaffMode()) {
                 traceService.sendTraceMessage(PICKUP_ITEM, player.getUniqueId(), String.format("Picked up item [%s]", event.getItem().getItemStack().getType()));
                 return;
             }

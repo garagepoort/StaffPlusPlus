@@ -13,7 +13,8 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
     @Override
     protected GeneralModeConfiguration load(FileConfiguration config) {
         VanishType modeVanish = stringToVanishType(config.getString("staff-mode.vanish-type"));
-        boolean modeItemChange = config.getBoolean("staff-mode.item-change");
+        boolean modeItemDrop = config.getBoolean("staff-mode.item-drop");
+        boolean modeItemPickup = config.getBoolean("staff-mode.item-pickup");
         boolean modeDamage = config.getBoolean("staff-mode.damage");
         boolean modeHungerLoss = config.getBoolean("staff-mode.hunger-loss");
         List<String> modeEnableCommands = JavaUtils.stringToList(config.getString("staff-mode.enable-commands"));
@@ -30,8 +31,7 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
         boolean modeDisableOnLogout = config.getBoolean("staff-mode.disable-on-logout");
 
         return new GeneralModeConfiguration(modeVanish,
-            modeItemChange,
-            modeDamage,
+            modeItemPickup, modeItemDrop, modeDamage,
             modeHungerLoss,
             modeEnableCommands,
             modeDisableCommands,
