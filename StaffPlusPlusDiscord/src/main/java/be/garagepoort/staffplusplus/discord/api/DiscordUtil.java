@@ -1,6 +1,6 @@
 package be.garagepoort.staffplusplus.discord.api;
 
-import be.garagepoort.staffplusplus.discord.Constants;
+import be.garagepoort.staffplusplus.discord.common.Constants;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import org.bukkit.Bukkit;
 
@@ -22,6 +22,12 @@ public class DiscordUtil {
                 DiscordUtil.createFooter(),
                 fields
             )));
+        });
+    }
+
+    public static void sendEvent(DiscordClient client, String template) {
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlusDiscord.get(), () -> {
+            client.sendTemplate(template);
         });
     }
 }

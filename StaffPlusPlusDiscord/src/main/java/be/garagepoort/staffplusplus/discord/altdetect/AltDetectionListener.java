@@ -1,5 +1,6 @@
 package be.garagepoort.staffplusplus.discord.altdetect;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
@@ -12,10 +13,10 @@ import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.altdetect.AltDetectEvent;
 import net.shortninja.staffplus.unordered.altdetect.AltDetectTrustLevel;
 import net.shortninja.staffplus.unordered.altdetect.IAltDetectResult;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AltDetectionListener implements Listener {
+public class AltDetectionListener implements StaffPlusPlusListener {
 
     private static final String BAN_COLOR = "16601379";
     private DiscordClient discordClient;
@@ -79,5 +80,10 @@ public class AltDetectionListener implements Listener {
     public boolean isEnabled() {
         String trustLevels = config.getString("StaffPlusPlusDiscord.altDetect.enabledTrustLevels");
         return trustLevels != null && !trustLevels.isEmpty();
+    }
+
+    @Override
+    public boolean isValid() {
+        return StringUtils.isNotBlank(config.getString("StaffPlusPlusDiscord.altDetect.webhookUrl"));
     }
 }

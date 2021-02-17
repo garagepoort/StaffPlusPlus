@@ -1,5 +1,6 @@
 package be.garagepoort.staffplusplus.discord.warnings;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
@@ -13,17 +14,19 @@ import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
 import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
 import net.shortninja.staffplus.event.warnings.WarningsClearedEvent;
 import net.shortninja.staffplus.unordered.IWarning;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class WarningListener implements Listener {
+public class WarningListener implements StaffPlusPlusListener {
+
+    private static final String WARNINGS_PREFIX = "StaffPlusPlusDiscord.warnings.";
 
     private static final String CLEAR_COLOR = "6431896";
     private static final String CREATE_COLOR = "16620323";
@@ -42,12 +45,12 @@ public class WarningListener implements Listener {
             .decoder(new GsonDecoder())
             .logger(new Slf4jLogger(DiscordClient.class))
             .logLevel(Logger.Level.FULL)
-            .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.warnings.webhookUrl", ""));
+            .target(DiscordClient.class, config.getString(WARNINGS_PREFIX + "webhookUrl", ""));
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleCreateWarning(WarningCreatedEvent event) {
-        if (!config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCreate")) {
+        if (!config.getBoolean(WARNINGS_PREFIX + "notifyCreate")) {
             return;
         }
 
@@ -57,7 +60,7 @@ public class WarningListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleClearedWarning(WarningsClearedEvent event) {
-        if (!config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCleared")) {
+        if (!config.getBoolean(WARNINGS_PREFIX + "notifyCleared")) {
             return;
         }
 
@@ -67,7 +70,7 @@ public class WarningListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleThresholdReachedWarning(WarningThresholdReachedEvent event) {
-        if (!config.getBoolean("StaffPlusPlusDiscord.warnings.notifyThresholdReached")) {
+        if (!config.getBoolean(WARNINGS_PREFIX + "notifyThresholdReached")) {
             return;
         }
 
@@ -120,8 +123,13 @@ public class WarningListener implements Listener {
     }
 
     public boolean isEnabled() {
-        return config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCreate") ||
-            config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCleared") ||
-            config.getBoolean("StaffPlusPlusDiscord.warnings.notifyThresholdReached");
+        return config.getBoolean(WARNINGS_PREFIX + "notifyCreate") ||
+            config.getBoolean(WARNINGS_PREFIX + "notifyCleared") ||
+            config.getBoolean(WARNINGS_PREFIX + "notifyThresholdReached");
+    }
+
+    @Override
+    public boolean isValid() {
+        return StringUtils.isNotBlank(config.getString(WARNINGS_PREFIX + "webhookUrl"));
     }
 }

@@ -1,6 +1,6 @@
 package be.garagepoort.staffplusplus.discord.trace;
 
-import be.garagepoort.staffplusplus.discord.Constants;
+import be.garagepoort.staffplusplus.discord.common.Constants;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.api.*;
 import com.google.gson.Gson;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static be.garagepoort.staffplusplus.discord.Constants.*;
+import static be.garagepoort.staffplusplus.discord.common.Constants.*;
 
 public class TraceListener implements Listener {
 

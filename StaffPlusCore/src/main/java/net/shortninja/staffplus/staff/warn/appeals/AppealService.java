@@ -5,6 +5,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.event.warnings.WarningAppealApprovedEvent;
 import net.shortninja.staffplus.event.warnings.WarningAppealRejectedEvent;
+import net.shortninja.staffplus.event.warnings.WarningAppealedEvent;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -60,7 +61,9 @@ public class AppealService {
         String message = messages.appealCreated.replace("%reason%", reason);
         this.message.send(appealer, message, messages.prefixWarnings);
 
+        warning.setAppeal(appeal);
         sendAppealedMessageToStaff(warning, appealer);
+        sendEvent(new WarningAppealedEvent(warning));
     }
 
     public void approveAppeal(Player resolver, int appealId) {

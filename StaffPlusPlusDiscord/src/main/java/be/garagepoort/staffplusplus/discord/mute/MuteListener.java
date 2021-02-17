@@ -1,5 +1,6 @@
 package be.garagepoort.staffplusplus.discord.mute;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
@@ -12,17 +13,17 @@ import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.mute.MuteEvent;
 import net.shortninja.staffplus.event.mute.UnmuteEvent;
 import net.shortninja.staffplus.unordered.IMute;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class MuteListener implements Listener {
+public class MuteListener implements StaffPlusPlusListener {
 
     private static final String UNMUTE_COLOR = "16620323";
     private static final String MUTE_COLOR = "16601379";
@@ -100,5 +101,10 @@ public class MuteListener implements Listener {
     public boolean isEnabled() {
         return config.getBoolean("StaffPlusPlusDiscord.mutes.mute") ||
             config.getBoolean("StaffPlusPlusDiscord.mutes.unmute");
+    }
+
+    @Override
+    public boolean isValid() {
+        return StringUtils.isNotBlank(config.getString("StaffPlusPlusDiscord.mutes.webhookUrl"));
     }
 }

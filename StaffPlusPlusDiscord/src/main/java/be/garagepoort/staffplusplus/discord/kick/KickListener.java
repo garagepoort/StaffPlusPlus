@@ -1,5 +1,6 @@
 package be.garagepoort.staffplusplus.discord.kick;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
@@ -11,17 +12,17 @@ import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.kick.KickEvent;
 import net.shortninja.staffplus.unordered.IKick;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class KickListener implements Listener {
+public class KickListener implements StaffPlusPlusListener {
 
     private static final String KICK_COLOR = "16601379";
     private DiscordClient discordClient;
@@ -71,5 +72,10 @@ public class KickListener implements Listener {
 
     public boolean isEnabled() {
         return config.getBoolean("StaffPlusPlusDiscord.kicks.kick");
+    }
+
+    @Override
+    public boolean isValid() {
+        return StringUtils.isNotBlank(config.getString("StaffPlusPlusDiscord.kicks.webhookUrl"));
     }
 }

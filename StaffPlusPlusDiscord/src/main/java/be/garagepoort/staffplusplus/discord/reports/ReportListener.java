@@ -1,5 +1,9 @@
 package be.garagepoort.staffplusplus.discord.reports;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
+import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
+import be.garagepoort.staffplusplus.discord.common.Utils;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
@@ -11,23 +15,26 @@ import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.*;
 import net.shortninja.staffplus.unordered.IReport;
+import org.apache.commons.jexl3.*;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class ReportListener implements Listener {
+import static java.io.File.separator;
+
+public class ReportListener implements StaffPlusPlusListener {
 
     private static final String OPEN_COLOR = "6431896";
     private static final String ACCEPTED_COLOR = "16620323";
     private static final String REJECTED_COLOR = "16601379";
     private static final String RESOLVED_COLOR = "5027875";
+    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "reports" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
 
@@ -52,7 +59,7 @@ public class ReportListener implements Listener {
         }
 
         IReport report = event.getReport();
-        buildReportMessage(report, "Report created by: " + report.getReporterName(), OPEN_COLOR, false);
+        buildReport(report);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -98,6 +105,23 @@ public class ReportListener implements Listener {
         buildReportMessage(report, "Report resolved by: " + report.getStaffName(), RESOLVED_COLOR, true);
     }
 
+    public void buildReport(IReport report) {
+//        String path = report.getCulpritUuid() != null ? TEMPLATE_PATH + "report-created.json" : TEMPLATE_PATH + "report-created.json";
+        String path = TEMPLATE_PATH + "report-created.json";
+        String createReportTemplate = replaceReportCreatedTemplate(report, Utils.readTemplate(path));
+        DiscordUtil.sendEvent(discordClient, createReportTemplate);
+    }
+
+    private String replaceReportCreatedTemplate(IReport report, String createReportTemplate) {
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(report.getTimestamp().toInstant(), ZoneOffset.UTC);
+
+        JexlContext jc = new MapContext();
+        jc.set("report", report);
+        jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
+        return JexlTemplateParser.parse(createReportTemplate, jc);
+    }
+
     private void buildReportMessage(IReport report, String title, String color, boolean showStaff) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(report.getTimestamp().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
@@ -115,7 +139,7 @@ public class ReportListener implements Listener {
         fields.add(new DiscordMessageField("Reason", "```" + report.getReason() + "```"));
         fields.add(new DiscordMessageField("Status", "**" + report.getReportStatus() + "**"));
 
-        if(!StringUtils.isEmpty(report.getCloseReason())) {
+        if (!StringUtils.isEmpty(report.getCloseReason())) {
             fields.add(new DiscordMessageField("Reason for closing", "```" + report.getCloseReason() + "```"));
         }
 
@@ -128,5 +152,10 @@ public class ReportListener implements Listener {
             config.getBoolean("StaffPlusPlusDiscord.notifyAccept") ||
             config.getBoolean("StaffPlusPlusDiscord.notifyReject") ||
             config.getBoolean("StaffPlusPlusDiscord.notifyResolve");
+    }
+
+    @Override
+    public boolean isValid() {
+        return StringUtils.isNotBlank(config.getString("StaffPlusPlusDiscord.webhookUrl"));
     }
 }
