@@ -1,8 +1,10 @@
 package be.garagepoort.staffplusplus.discord.reports;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
-import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
+import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -11,28 +13,26 @@ import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.*;
 import net.shortninja.staffplus.unordered.IReport;
+import org.apache.commons.jexl3.JexlContext;
+import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
-public class ReportListener implements Listener {
+public class ReportListener implements StaffPlusPlusListener {
 
-    private static final String OPEN_COLOR = "6431896";
-    private static final String ACCEPTED_COLOR = "16620323";
-    private static final String REJECTED_COLOR = "16601379";
-    private static final String RESOLVED_COLOR = "5027875";
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public ReportListener(FileConfiguration config) {
+    public ReportListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -51,8 +51,7 @@ public class ReportListener implements Listener {
             return;
         }
 
-        IReport report = event.getReport();
-        buildReportMessage(report, "Report created by: " + report.getReporterName(), OPEN_COLOR, false);
+        buildReport(event.getReport(), "reports/report-created");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -61,8 +60,7 @@ public class ReportListener implements Listener {
             return;
         }
 
-        IReport report = event.getReport();
-        buildReportMessage(report, "Report reopened", OPEN_COLOR, false);
+        buildReport(event.getReport(), "reports/report-reopened");
     }
 
 
@@ -72,8 +70,7 @@ public class ReportListener implements Listener {
             return;
         }
 
-        IReport report = event.getReport();
-        buildReportMessage(report, "Report accepted by: " + report.getStaffName(), ACCEPTED_COLOR, true);
+        buildReport(event.getReport(), "reports/report-accepted");
     }
 
 
@@ -83,8 +80,7 @@ public class ReportListener implements Listener {
             return;
         }
 
-        IReport report = event.getReport();
-        buildReportMessage(report, "Report rejected by: " + report.getStaffName(), REJECTED_COLOR, true);
+        buildReport(event.getReport(), "reports/report-rejected");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -93,33 +89,22 @@ public class ReportListener implements Listener {
             return;
         }
 
-        IReport report = event.getReport();
-
-        buildReportMessage(report, "Report resolved by: " + report.getStaffName(), RESOLVED_COLOR, true);
+        buildReport(event.getReport(), "reports/report-resolved");
     }
 
-    private void buildReportMessage(IReport report, String title, String color, boolean showStaff) {
+    public void buildReport(IReport report, String key) {
+        String createReportTemplate = replaceReportCreatedTemplate(report, templateRepository.getTemplate(key));
+        DiscordUtil.sendEvent(discordClient, createReportTemplate);
+    }
+
+    private String replaceReportCreatedTemplate(IReport report, String createReportTemplate) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(report.getTimestamp().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
-        String reporter = report.getReporterName() + "\n[" + report.getReporterUuid() + "]";
-        String culprit = report.getCulpritUuid() != null ? report.getCulpritName() + "\n[" + report.getCulpritUuid() + "]" : "Unknown";
+        JexlContext jc = new MapContext();
+        jc.set("report", report);
+        jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 
-        ArrayList<DiscordMessageField> fields = new ArrayList<>();
-        fields.add(new DiscordMessageField("Reporter", reporter, true));
-        fields.add(new DiscordMessageField("Culprit", culprit, true));
-        if (showStaff) {
-            String staff = report.getStaffName() + "\n[" + report.getStaffUuid() + "]";
-            fields.add(new DiscordMessageField("Staff", staff));
-        }
-        fields.add(new DiscordMessageField("Reason", "```" + report.getReason() + "```"));
-        fields.add(new DiscordMessageField("Status", "**" + report.getReportStatus() + "**"));
-
-        if(!StringUtils.isEmpty(report.getCloseReason())) {
-            fields.add(new DiscordMessageField("Reason for closing", "```" + report.getCloseReason() + "```"));
-        }
-
-        DiscordUtil.sendEvent(discordClient, "Report update from Staff++", title, color, time, fields);
+        return JexlTemplateParser.parse(createReportTemplate, jc);
     }
 
     public boolean isEnabled() {
@@ -128,5 +113,10 @@ public class ReportListener implements Listener {
             config.getBoolean("StaffPlusPlusDiscord.notifyAccept") ||
             config.getBoolean("StaffPlusPlusDiscord.notifyReject") ||
             config.getBoolean("StaffPlusPlusDiscord.notifyResolve");
+    }
+
+    @Override
+    public boolean isValid() {
+        return StringUtils.isNotBlank(config.getString("StaffPlusPlusDiscord.webhookUrl"));
     }
 }
