@@ -1,11 +1,10 @@
 package be.garagepoort.staffplusplus.discord.kick;
 
-import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
-import be.garagepoort.staffplusplus.discord.common.Utils;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -25,16 +24,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static java.io.File.separator;
-
 public class KickListener implements StaffPlusPlusListener {
 
-    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "kicks" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public KickListener(FileConfiguration config) {
+    public KickListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -53,17 +51,17 @@ public class KickListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildKick(event.getKick(), "kicked.json");
+        buildKick(event.getKick(), "kicks/kicked");
     }
 
     private void buildKick(IKick kick, String templateFile) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(kick.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        String path = TEMPLATE_PATH + templateFile;
+
         JexlContext jc = new MapContext();
         jc.set("kick", kick);
         jc.set("timestamp", time);
-        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
         DiscordUtil.sendEvent(discordClient, template);
     }
 

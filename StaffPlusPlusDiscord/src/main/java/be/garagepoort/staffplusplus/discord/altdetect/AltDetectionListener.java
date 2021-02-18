@@ -5,7 +5,7 @@ import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
-import be.garagepoort.staffplusplus.discord.common.Utils;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -35,10 +35,12 @@ public class AltDetectionListener implements StaffPlusPlusListener {
     private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "altdetects" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
     private List<AltDetectTrustLevel> enabledTrustLevels;
 
-    public AltDetectionListener(FileConfiguration config) {
+    public AltDetectionListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -59,17 +61,17 @@ public class AltDetectionListener implements StaffPlusPlusListener {
     public void handleAltDetectionEvent(AltDetectEvent event) {
         IAltDetectResult altDetectResult = event.getAltDetectResult();
         if(enabledTrustLevels.contains(altDetectResult.getAltDetectTrustLevel())) {
-            buildDetectionResult(event.getAltDetectResult(), "detected.json");
+            buildDetectionResult(event.getAltDetectResult(), "altdetects/detected");
         }
     }
 
     private void buildDetectionResult(IAltDetectResult detectionResult, String templateFile) {
-        String path = TEMPLATE_PATH + templateFile;
+
         String time = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         JexlContext jc = new MapContext();
         jc.set("detectionResult", detectionResult);
         jc.set("timestamp", time);
-        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
         DiscordUtil.sendEvent(discordClient, template);
     }
 

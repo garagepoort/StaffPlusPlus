@@ -1,11 +1,10 @@
 package be.garagepoort.staffplusplus.discord.mute;
 
-import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
-import be.garagepoort.staffplusplus.discord.common.Utils;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -26,16 +25,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static java.io.File.separator;
-
 public class MuteListener implements StaffPlusPlusListener {
 
-    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "mutes" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public MuteListener(FileConfiguration config) {
+    public MuteListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -55,7 +53,7 @@ public class MuteListener implements StaffPlusPlusListener {
         }
 
         IMute mute = event.getMute();
-        buildMute(mute, "muted.json");
+        buildMute(mute, "mutes/muted");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -64,16 +62,16 @@ public class MuteListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildMute(event.getMute(), "unmuted.json");
+        buildMute(event.getMute(), "mutes/unmuted");
     }
 
     private void buildMute(IMute mute, String templateFile) {
-        String path = TEMPLATE_PATH + templateFile;
+
         LocalDateTime localDateTime = LocalDateTime.ofInstant(mute.getCreationDate().toInstant(), ZoneOffset.UTC);
         JexlContext jc = new MapContext();
         jc.set("mute", mute);
         jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
         DiscordUtil.sendEvent(discordClient, template);
     }
 

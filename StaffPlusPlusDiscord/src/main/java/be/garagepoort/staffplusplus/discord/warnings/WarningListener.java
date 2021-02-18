@@ -1,11 +1,10 @@
 package be.garagepoort.staffplusplus.discord.warnings;
 
-import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
-import be.garagepoort.staffplusplus.discord.common.Utils;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -26,17 +25,16 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static java.io.File.separator;
-
 public class WarningListener implements StaffPlusPlusListener {
 
     private static final String WARNINGS_PREFIX = "StaffPlusPlusDiscord.warnings.";
-    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "warnings" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public WarningListener(FileConfiguration config) {
+    public WarningListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -55,7 +53,7 @@ public class WarningListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildWarning(event.getWarning(), "warning-created.json");
+        buildWarning(event.getWarning(), "warnings/warning-created");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -64,21 +62,19 @@ public class WarningListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildThreshold(event, "threshold-reached.json");
+        buildThreshold(event, "warnings/threshold-reached");
     }
 
     private void buildWarning(IWarning warning, String templateFile) {
-        String path = TEMPLATE_PATH + templateFile;
         LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getTimestamp().toInstant(), ZoneOffset.UTC);
         JexlContext jc = new MapContext();
         jc.set("warning", warning);
         jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
         DiscordUtil.sendEvent(discordClient, template);
     }
 
     private void buildThreshold(WarningThresholdReachedEvent warning, String templateFile) {
-        String path = TEMPLATE_PATH + templateFile;
         String time = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
         JexlContext jc = new MapContext();
@@ -86,7 +82,7 @@ public class WarningListener implements StaffPlusPlusListener {
         jc.set("commandsTriggered", String.join("\n", warning.getCommandsTriggered()));
         jc.set("timestamp", time);
 
-        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
         DiscordUtil.sendEvent(discordClient, template);
     }
 

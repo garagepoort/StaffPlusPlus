@@ -1,11 +1,10 @@
 package be.garagepoort.staffplusplus.discord.ban;
 
-import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
-import be.garagepoort.staffplusplus.discord.common.Utils;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -26,16 +25,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static java.io.File.separator;
-
 public class BanListener implements StaffPlusPlusListener {
 
-    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "bans" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public BanListener(FileConfiguration config) {
+    public BanListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -54,7 +52,7 @@ public class BanListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildBan(event.getBan(), "banned.json");
+        buildBan(event.getBan(), "bans/banned");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -63,16 +61,15 @@ public class BanListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildBan(event.getBan(), "unbanned.json");
+        buildBan(event.getBan(), "bans/unbanned");
     }
 
     private void buildBan(IBan ban, String templateFile) {
-        String path = TEMPLATE_PATH + templateFile;
         LocalDateTime localDateTime = LocalDateTime.ofInstant(ban.getCreationDate().toInstant(), ZoneOffset.UTC);
         JexlContext jc = new MapContext();
         jc.set("ban", ban);
         jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
         DiscordUtil.sendEvent(discordClient, template);
     }
 

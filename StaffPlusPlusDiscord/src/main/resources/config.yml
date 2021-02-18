@@ -1,4 +1,5 @@
 StaffPlusPlusDiscord:
+    updateTemplates: true
     # REPORTS
 
     # The discord webhook url. This can be found in you discord server settings

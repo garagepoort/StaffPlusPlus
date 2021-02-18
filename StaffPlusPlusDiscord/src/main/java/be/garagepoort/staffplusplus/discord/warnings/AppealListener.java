@@ -1,11 +1,10 @@
 package be.garagepoort.staffplusplus.discord.warnings;
 
-import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
-import be.garagepoort.staffplusplus.discord.common.Utils;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -27,17 +26,16 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static java.io.File.separator;
-
 public class AppealListener implements StaffPlusPlusListener {
 
     private static final String APPEALS_PREFIX = "StaffPlusPlusDiscord.warnings.appeals";
-    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "warnings" + separator + "appeals" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public AppealListener(FileConfiguration config) {
+    public AppealListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -56,7 +54,7 @@ public class AppealListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildAppeal(event.getWarning(), "appeal-created.json");
+        buildAppeal(event.getWarning(), "warnings/appeals/appeal-created");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -65,7 +63,7 @@ public class AppealListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildAppeal(event.getWarning(), "appeal-approved.json");
+        buildAppeal(event.getWarning(), "warnings/appeals/appeal-approved");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -74,17 +72,16 @@ public class AppealListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildAppeal(event.getWarning(), "appeal-rejected.json");
+        buildAppeal(event.getWarning(), "warnings/appeals/appeal-rejected");
     }
 
     private void buildAppeal(IWarning warning, String templateFile) {
-        String path = TEMPLATE_PATH + templateFile;
         LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getTimestamp().toInstant(), ZoneOffset.UTC);
         JexlContext jc = new MapContext();
         jc.set("warning", warning);
         jc.set("appeal", warning.getAppeal().get());
         jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
         DiscordUtil.sendEvent(discordClient, template);
     }
 

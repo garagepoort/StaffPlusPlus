@@ -1,11 +1,10 @@
 package be.garagepoort.staffplusplus.discord.reports;
 
-import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
-import be.garagepoort.staffplusplus.discord.common.Utils;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -25,20 +24,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static java.io.File.separator;
-
 public class ReportListener implements StaffPlusPlusListener {
 
-    private static final String OPEN_COLOR = "6431896";
-    private static final String ACCEPTED_COLOR = "16620323";
-    private static final String REJECTED_COLOR = "16601379";
-    private static final String RESOLVED_COLOR = "5027875";
-    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "reports" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public ReportListener(FileConfiguration config) {
+    public ReportListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -57,7 +51,7 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildReport(event.getReport(), "report-created.json");
+        buildReport(event.getReport(), "reports/report-created");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -66,7 +60,7 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildReport(event.getReport(), "report-reopened.json");
+        buildReport(event.getReport(), "reports/report-reopened");
     }
 
 
@@ -76,7 +70,7 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildReport(event.getReport(), "report-accepted.json");
+        buildReport(event.getReport(), "reports/report-accepted");
     }
 
 
@@ -86,7 +80,7 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildReport(event.getReport(), "report-rejected.json");
+        buildReport(event.getReport(), "reports/report-rejected");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -95,12 +89,11 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildReport(event.getReport(), "report-resolved.json");
+        buildReport(event.getReport(), "reports/report-resolved");
     }
 
-    public void buildReport(IReport report, String templateFile) {
-        String path = TEMPLATE_PATH + templateFile;
-        String createReportTemplate = replaceReportCreatedTemplate(report, Utils.readTemplate(path));
+    public void buildReport(IReport report, String key) {
+        String createReportTemplate = replaceReportCreatedTemplate(report, templateRepository.getTemplate(key));
         DiscordUtil.sendEvent(discordClient, createReportTemplate);
     }
 
