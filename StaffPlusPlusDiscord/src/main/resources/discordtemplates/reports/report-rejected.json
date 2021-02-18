@@ -36,10 +36,10 @@
                     "value": "**${report.reportStatus}**",
                     "inline": false
                 }
-                # report.reason != null
+                # report.closeReason != null
                 ,{
                     "name": "Reason for closing",
-                    "value": "```${report.reason}```",
+                    "value": "```${report.closeReason}```",
                     "inline": false
                 }
                 ##
