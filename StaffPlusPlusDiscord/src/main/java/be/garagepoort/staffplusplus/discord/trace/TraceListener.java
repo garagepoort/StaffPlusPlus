@@ -1,8 +1,9 @@
 package be.garagepoort.staffplusplus.discord.trace;
 
-import be.garagepoort.staffplusplus.discord.Constants;
+import be.garagepoort.staffplusplus.discord.common.Constants;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.api.*;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import com.google.gson.Gson;
 import feign.Feign;
 import feign.Logger;
@@ -33,16 +34,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static be.garagepoort.staffplusplus.discord.Constants.*;
+import static be.garagepoort.staffplusplus.discord.common.Constants.*;
 
 public class TraceListener implements Listener {
 
     private static final String THRESHOLD_COLOR = "16601379";
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public TraceListener(FileConfiguration config) {
+    public TraceListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {

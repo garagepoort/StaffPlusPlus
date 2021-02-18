@@ -53,8 +53,8 @@ public class ReportService implements InfractionProvider {
     }
 
     public void sendReport(CommandSender sender, SppPlayer user, String reason) {
+        validateCoolDown(sender);
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            validateCoolDown(sender);
 
             // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
             if (user.isOnline() && permission.has(user.getPlayer(), options.permissionReportBypass)) {
@@ -88,8 +88,8 @@ public class ReportService implements InfractionProvider {
     }
 
     public void sendReport(CommandSender sender, String reason) {
+        validateCoolDown(sender);
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            validateCoolDown(sender);
 
             String reporterName = sender instanceof Player ? sender.getName() : "Console";
             UUID reporterUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;

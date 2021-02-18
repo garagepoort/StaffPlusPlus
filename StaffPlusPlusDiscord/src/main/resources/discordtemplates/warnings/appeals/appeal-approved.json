@@ -1,0 +1,64 @@
+{
+    "content": "Warning Appeal update from Staff++",
+    "embeds": [
+        {
+            "title": "Appeal approved by: ${appeal.resolverName}",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "5027875",
+            "timestamp": "${timestamp}",
+            "footer": {
+                "text": "Provided by Staff++",
+                "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+            },
+            "fields": [
+                {
+                    "name": "Appealer",
+                    "value": "${appeal.appealerName + '\\\\n[' + appeal.appealerUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Resolver",
+                    "value": "${appeal.resolverName + '\\\\n[' + appeal.resolverUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Appeal Reason",
+                    "value": "```${appeal.reason}```",
+                    "inline": false
+                },
+                # appeal.resolveReason.isPresent()
+                {
+                    "name": "Resolve Reason",
+                    "value": "```${appeal.resolveReason.get()}```",
+                    "inline": false
+                },
+                ##
+                {
+                    "name": "Warning Info",
+                    "value": "----------------------------------------------",
+                    "inline": false
+                },
+                {
+                    "name": "Severity",
+                    "value": "**${warning.severity + '(' + warning.score + ')'}**",
+                    "inline": false
+                },
+                {
+                    "name": "Issuer",
+                    "value": "${warning.issuerName + '\\\\n[' + warning.issuerUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Culprit",
+                    "value": "${warning.name + '\\\\n[' + warning.uuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Reason",
+                    "value": "```${warning.reason}```",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}

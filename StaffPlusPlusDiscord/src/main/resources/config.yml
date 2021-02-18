@@ -1,4 +1,5 @@
 StaffPlusPlusDiscord:
+    updateTemplates: true
     # REPORTS
 
     # The discord webhook url. This can be found in you discord server settings
@@ -19,6 +20,11 @@ StaffPlusPlusDiscord:
         notifyCleared: true
         notifyCreate: true
         notifyThresholdReached: true
+        appeals:
+            webhookUrl: ""
+            notifyCreate: false
+            notifyApproved: false
+            notifyRejected: false
     bans:
         webhookUrl: ""
         ban: false
