@@ -1,0 +1,52 @@
+{
+    "content": "Warning Appeal update from Staff++",
+    "embeds": [
+        {
+            "title": "Warning appealed by: ${appeal.appealerName}",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16620323",
+            "timestamp": "${timestamp}",
+            "footer": {
+                "text": "Provided by Staff++",
+                "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+            },
+            "fields": [
+                {
+                    "name": "Appealer",
+                    "value": "${appeal.appealerName + '\\\\n[' + appeal.appealerUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Appeal Reason",
+                    "value": "```${appeal.reason}```",
+                    "inline": false
+                },
+                {
+                    "name": "Warning Info",
+                    "value": "----------------------------------------------",
+                    "inline": false
+                },
+                {
+                    "name": "Severity",
+                    "value": "**${warning.severity + '(' + warning.score + ')'}**",
+                    "inline": false
+                },
+                {
+                    "name": "Issuer",
+                    "value": "${warning.issuerName + '\\\\n[' + warning.issuerUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Culprit",
+                    "value": "${warning.name + '\\\\n[' + warning.uuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Reason",
+                    "value": "```${warning.reason}```",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}

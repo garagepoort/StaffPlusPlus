@@ -1,0 +1,32 @@
+{
+    "content": "Alt Account detection from Staff++",
+    "embeds": [
+        {
+            "title": "Alt Account detected: ${detectionResult.playerCheckedName}",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16601379",
+            "timestamp": "${timestamp}",
+            "footer": {
+                "text": "Provided by Staff++",
+                "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+            },
+            "fields": [
+                {
+                    "name": "Player checked",
+                    "value": "${detectionResult.playerCheckedName + '\\\\n[' + detectionResult.playerCheckedUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Player matched:",
+                    "value": "${detectionResult.playerMatchedName + '\\\\n[' + detectionResult.playerMatchedUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Trust Score",
+                    "value": "${detectionResult.altDetectTrustLevel}",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}

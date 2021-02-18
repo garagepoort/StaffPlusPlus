@@ -1,0 +1,32 @@
+{
+    "content": "Kick update from Staff++",
+    "embeds": [
+        {
+            "title": "User kicked: ${kick.playerName}",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16601379",
+            "timestamp": "${timestamp}",
+            "footer": {
+                "text": "Provided by Staff++",
+                "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+            },
+            "fields": [
+                {
+                    "name": "Issuer",
+                    "value": "${kick.issuerName + '\\\\n[' + kick.issuerUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Kicked:",
+                    "value": "${kick.playerName + '\\\\n[' + kick.playerUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Kick Reason",
+                    "value": "```${kick.reason}```",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}

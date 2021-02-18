@@ -1,4 +1,4 @@
-package be.garagepoort.staffplusplus.discord.ban;
+package be.garagepoort.staffplusplus.discord.warnings;
 
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
@@ -11,9 +11,10 @@ import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
-import net.shortninja.staffplus.event.ban.BanEvent;
-import net.shortninja.staffplus.event.ban.UnbanEvent;
-import net.shortninja.staffplus.unordered.IBan;
+import net.shortninja.staffplus.event.warnings.WarningAppealApprovedEvent;
+import net.shortninja.staffplus.event.warnings.WarningAppealRejectedEvent;
+import net.shortninja.staffplus.event.warnings.WarningAppealedEvent;
+import net.shortninja.staffplus.unordered.IWarning;
 import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang.StringUtils;
@@ -25,13 +26,14 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-public class BanListener implements StaffPlusPlusListener {
+public class AppealListener implements StaffPlusPlusListener {
 
+    private static final String APPEALS_PREFIX = "StaffPlusPlusDiscord.warnings.appeals";
     private DiscordClient discordClient;
     private FileConfiguration config;
     private final TemplateRepository templateRepository;
 
-    public BanListener(FileConfiguration config, TemplateRepository templateRepository)  {
+    public AppealListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
         this.templateRepository = templateRepository;
     }
@@ -43,43 +45,52 @@ public class BanListener implements StaffPlusPlusListener {
             .decoder(new GsonDecoder())
             .logger(new Slf4jLogger(DiscordClient.class))
             .logLevel(Logger.Level.FULL)
-            .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.bans.webhookUrl", ""));
+            .target(DiscordClient.class, config.getString(APPEALS_PREFIX + ".webhookUrl", ""));
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void handleBanEvent(BanEvent event) {
-        if (!config.getBoolean("StaffPlusPlusDiscord.bans.ban")) {
+    public void handleCreateAppeal(WarningAppealedEvent event) {
+        if (!config.getBoolean(APPEALS_PREFIX + ".notifyCreate")) {
             return;
         }
 
-        buildBan(event.getBan(), "bans/banned");
+        buildAppeal(event.getWarning(), "warnings/appeals/appeal-created");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void handleUnbanEvent(UnbanEvent event) {
-        if (!config.getBoolean("StaffPlusPlusDiscord.bans.unban")) {
+    public void handleAppealApproved(WarningAppealApprovedEvent event) {
+        if (!config.getBoolean(APPEALS_PREFIX + ".notifyApproved")) {
             return;
         }
 
-        buildBan(event.getBan(), "bans/unbanned");
+        buildAppeal(event.getWarning(), "warnings/appeals/appeal-approved");
     }
 
-    private void buildBan(IBan ban, String templateFile) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(ban.getCreationDate().toInstant(), ZoneOffset.UTC);
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void handleAppealRejected(WarningAppealRejectedEvent event) {
+        if (!config.getBoolean(APPEALS_PREFIX + ".notifyRejected")) {
+            return;
+        }
+
+        buildAppeal(event.getWarning(), "warnings/appeals/appeal-rejected");
+    }
+
+    private void buildAppeal(IWarning warning, String templateFile) {
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getTimestamp().toInstant(), ZoneOffset.UTC);
         JexlContext jc = new MapContext();
-        jc.set("ban", ban);
+        jc.set("warning", warning);
+        jc.set("appeal", warning.getAppeal().get());
         jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
         DiscordUtil.sendEvent(discordClient, template);
     }
 
     public boolean isEnabled() {
-        return config.getBoolean("StaffPlusPlusDiscord.bans.ban") ||
-            config.getBoolean("StaffPlusPlusDiscord.bans.unban");
+        return config.getBoolean(APPEALS_PREFIX + ".notifyCreate");
     }
 
     @Override
     public boolean isValid() {
-        return StringUtils.isNotBlank(config.getString("StaffPlusPlusDiscord.bans.webhookUrl"));
+        return StringUtils.isNotBlank(config.getString(APPEALS_PREFIX + ".webhookUrl"));
     }
 }
