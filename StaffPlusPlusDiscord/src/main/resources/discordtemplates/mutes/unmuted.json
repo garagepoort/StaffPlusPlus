@@ -1,0 +1,61 @@
+{
+    "content": "Mute update from Staff++",
+    "embeds": [
+        {
+            "title": "User unmuted: ${mute.playerName}",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16620323",
+            "timestamp": "${timestamp}",
+            "footer": {
+                "text": "Provided by Staff++",
+                "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+            },
+            "fields": [
+                {
+                    "name": "Issuer",
+                    "value": "${mute.issuerName + '\\\\n[' + mute.issuerUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Muted:",
+                    "value": "${mute.playerName + '\\\\n[' + mute.playerUuid + ']'}",
+                    "inline": true
+                },
+                # mute.endDate != null
+                {
+                    "name": "Type",
+                    "value": "TEMPORARY",
+                    "inline": false
+                },
+                {
+                    "name": "Ends at: ",
+                    "value": "${utils:parseTime(mute.endDate)}",
+                    "inline": true
+                },
+                ##
+                # mute.endDate == null
+                {
+                    "name": "Type",
+                    "value": "PERMANENT",
+                    "inline": false
+                },
+                ##
+                {
+                    "name": "Mute Reason",
+                    "value": "```${mute.reason}```",
+                    "inline": false
+                },
+                {
+                    "name": "Unmuted by",
+                    "value": "${mute.unmutedByName + '\\\\n[' + mute.unmutedByUuid + ']'}",
+                    "inline": false
+                },
+                {
+                    "name": "Unmute Reason",
+                    "value": "```${mute.unmuteReason}```",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}
