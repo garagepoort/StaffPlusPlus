@@ -2,11 +2,10 @@ package be.garagepoort.staffplusplus.discord.reports;
 
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
+import be.garagepoort.staffplusplus.discord.api.DiscordClient;
+import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
 import be.garagepoort.staffplusplus.discord.common.Utils;
-import be.garagepoort.staffplusplus.discord.api.DiscordClient;
-import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
-import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -15,7 +14,8 @@ import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.*;
 import net.shortninja.staffplus.unordered.IReport;
-import org.apache.commons.jexl3.*;
+import org.apache.commons.jexl3.JexlContext;
+import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -24,7 +24,6 @@ import org.bukkit.event.EventPriority;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 import static java.io.File.separator;
 
@@ -58,8 +57,7 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        IReport report = event.getReport();
-        buildReport(report);
+        buildReport(event.getReport(), "report-created.json");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -68,8 +66,7 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        IReport report = event.getReport();
-        buildReportMessage(report, "Report reopened", OPEN_COLOR, false);
+        buildReport(event.getReport(), "report-reopened.json");
     }
 
 
@@ -79,8 +76,7 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        IReport report = event.getReport();
-        buildReportMessage(report, "Report accepted by: " + report.getStaffName(), ACCEPTED_COLOR, true);
+        buildReport(event.getReport(), "report-accepted.json");
     }
 
 
@@ -90,8 +86,7 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        IReport report = event.getReport();
-        buildReportMessage(report, "Report rejected by: " + report.getStaffName(), REJECTED_COLOR, true);
+        buildReport(event.getReport(), "report-rejected.json");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -100,14 +95,11 @@ public class ReportListener implements StaffPlusPlusListener {
             return;
         }
 
-        IReport report = event.getReport();
-
-        buildReportMessage(report, "Report resolved by: " + report.getStaffName(), RESOLVED_COLOR, true);
+        buildReport(event.getReport(), "report-resolved.json");
     }
 
-    public void buildReport(IReport report) {
-//        String path = report.getCulpritUuid() != null ? TEMPLATE_PATH + "report-created.json" : TEMPLATE_PATH + "report-created.json";
-        String path = TEMPLATE_PATH + "report-created.json";
+    public void buildReport(IReport report, String templateFile) {
+        String path = TEMPLATE_PATH + templateFile;
         String createReportTemplate = replaceReportCreatedTemplate(report, Utils.readTemplate(path));
         DiscordUtil.sendEvent(discordClient, createReportTemplate);
     }
@@ -120,30 +112,6 @@ public class ReportListener implements StaffPlusPlusListener {
         jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 
         return JexlTemplateParser.parse(createReportTemplate, jc);
-    }
-
-    private void buildReportMessage(IReport report, String title, String color, boolean showStaff) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(report.getTimestamp().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-        String reporter = report.getReporterName() + "\n[" + report.getReporterUuid() + "]";
-        String culprit = report.getCulpritUuid() != null ? report.getCulpritName() + "\n[" + report.getCulpritUuid() + "]" : "Unknown";
-
-        ArrayList<DiscordMessageField> fields = new ArrayList<>();
-        fields.add(new DiscordMessageField("Reporter", reporter, true));
-        fields.add(new DiscordMessageField("Culprit", culprit, true));
-        if (showStaff) {
-            String staff = report.getStaffName() + "\n[" + report.getStaffUuid() + "]";
-            fields.add(new DiscordMessageField("Staff", staff));
-        }
-        fields.add(new DiscordMessageField("Reason", "```" + report.getReason() + "```"));
-        fields.add(new DiscordMessageField("Status", "**" + report.getReportStatus() + "**"));
-
-        if (!StringUtils.isEmpty(report.getCloseReason())) {
-            fields.add(new DiscordMessageField("Reason for closing", "```" + report.getCloseReason() + "```"));
-        }
-
-        DiscordUtil.sendEvent(discordClient, "Report update from Staff++", title, color, time, fields);
     }
 
     public boolean isEnabled() {

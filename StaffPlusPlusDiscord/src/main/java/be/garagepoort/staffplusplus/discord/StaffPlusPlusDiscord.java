@@ -25,7 +25,27 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         plugin = this;
         getLogger().info("StaffPlusPlusDiscord plugin enabled");
         saveDefaultConfig();
+
         saveResource("discordtemplates/reports/report-created.json", false);
+        saveResource("discordtemplates/reports/report-accepted.json", false);
+        saveResource("discordtemplates/reports/report-resolved.json", false);
+        saveResource("discordtemplates/reports/report-rejected.json", false);
+        saveResource("discordtemplates/reports/report-reopened.json", false);
+
+        saveResource("discordtemplates/warnings/warning-created.json", false);
+        saveResource("discordtemplates/warnings/threshold-reached.json", false);
+        saveResource("discordtemplates/warnings/appeals/appeal-created.json", false);
+        saveResource("discordtemplates/warnings/appeals/appeal-approved.json", false);
+        saveResource("discordtemplates/warnings/appeals/appeal-rejected.json", false);
+
+        saveResource("discordtemplates/bans/banned.json", false);
+        saveResource("discordtemplates/bans/unbanned.json", false);
+
+        saveResource("discordtemplates/mutes/muted.json", false);
+        saveResource("discordtemplates/mutes/unmuted.json", false);
+
+        saveResource("discordtemplates/kicks/kicked.json", false);
+        saveResource("discordtemplates/altdetects/detected.json", false);
 
         ConfigUpdater.updateConfig(this);
         FileConfiguration config = getConfig();

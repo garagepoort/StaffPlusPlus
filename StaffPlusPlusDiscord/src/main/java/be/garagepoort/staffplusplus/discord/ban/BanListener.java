@@ -1,9 +1,11 @@
 package be.garagepoort.staffplusplus.discord.ban;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
-import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
+import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
+import be.garagepoort.staffplusplus.discord.common.Utils;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -13,6 +15,8 @@ import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.ban.BanEvent;
 import net.shortninja.staffplus.event.ban.UnbanEvent;
 import net.shortninja.staffplus.unordered.IBan;
+import org.apache.commons.jexl3.JexlContext;
+import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -21,12 +25,12 @@ import org.bukkit.event.EventPriority;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+
+import static java.io.File.separator;
 
 public class BanListener implements StaffPlusPlusListener {
 
-    private static final String UNBAN_COLOR = "16620323";
-    private static final String BAN_COLOR = "16601379";
+    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "bans" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
 
@@ -50,8 +54,7 @@ public class BanListener implements StaffPlusPlusListener {
             return;
         }
 
-        IBan ban = event.getBan();
-        buildMessage(ban, "User banned: " + ban.getPlayerName(), BAN_COLOR);
+        buildBan(event.getBan(), "banned.json");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -60,42 +63,17 @@ public class BanListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildMessage(event.getBan(), "User unbanned: " + event.getBan().getPlayerName(), UNBAN_COLOR);
+        buildBan(event.getBan(), "unbanned.json");
     }
 
-    private void buildMessage(IBan ban, String title, String color) {
+    private void buildBan(IBan ban, String templateFile) {
+        String path = TEMPLATE_PATH + templateFile;
         LocalDateTime localDateTime = LocalDateTime.ofInstant(ban.getCreationDate().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-        String issuer = ban.getIssuerName() + "\n[" + ban.getIssuerUuid() + "]";
-        String banned = ban.getPlayerName() + "\n[" + ban.getPlayerUuid() + "]";
-
-        ArrayList<DiscordMessageField> fields = new ArrayList<>();
-        fields.add(new DiscordMessageField("Issuer", issuer, true));
-        fields.add(new DiscordMessageField("Banned:", banned, true));
-        
-        if (ban.getEndDate() != null) {
-            LocalDateTime endDateTime = LocalDateTime.ofInstant(ban.getEndDate().toInstant(), ZoneOffset.UTC);
-            String endTime = endDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            fields.add(new DiscordMessageField("Type", "TEMPORARY"));
-            fields.add(new DiscordMessageField("Ends at: ", endTime, true));
-        } else {
-            fields.add(new DiscordMessageField("Type", "PERMANENT"));
-        }
-
-        fields.add(new DiscordMessageField("Ban Reason", "```" + ban.getReason() + "```"));
-
-        if (ban.getUnbannedByUuid() != null) {
-            String unbanner = ban.getUnbannedByName() + "\n[" + ban.getUnbannedByUuid() + "]";
-            fields.add(new DiscordMessageField("Unbanned by", unbanner));
-            fields.add(new DiscordMessageField("Unban Reason", "```" + ban.getUnbanReason() + "```"));
-        }
-
-        sendEvent(title, color, time, fields);
-    }
-
-    private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
-        DiscordUtil.sendEvent(discordClient, "Ban update from Staff++", title, color, time, fields);
+        JexlContext jc = new MapContext();
+        jc.set("ban", ban);
+        jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        DiscordUtil.sendEvent(discordClient, template);
     }
 
     public boolean isEnabled() {

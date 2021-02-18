@@ -1,18 +1,23 @@
 package be.garagepoort.staffplusplus.discord.warnings;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
-import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
+import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
+import be.garagepoort.staffplusplus.discord.common.Utils;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
+import net.shortninja.staffplus.event.warnings.WarningAppealApprovedEvent;
+import net.shortninja.staffplus.event.warnings.WarningAppealRejectedEvent;
 import net.shortninja.staffplus.event.warnings.WarningAppealedEvent;
 import net.shortninja.staffplus.unordered.IWarning;
-import net.shortninja.staffplus.unordered.IWarningAppeal;
+import org.apache.commons.jexl3.JexlContext;
+import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -21,16 +26,13 @@ import org.bukkit.event.EventPriority;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Optional;
+
+import static java.io.File.separator;
 
 public class AppealListener implements StaffPlusPlusListener {
 
     private static final String APPEALS_PREFIX = "StaffPlusPlusDiscord.warnings.appeals";
-
-    private static final String CLEAR_COLOR = "6431896";
-    private static final String CREATE_COLOR = "16620323";
-    private static final String THRESHOLD_COLOR = "16601379";
+    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "warnings" + separator + "appeals" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
 
@@ -49,39 +51,41 @@ public class AppealListener implements StaffPlusPlusListener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void handleCreateWAppeal(WarningAppealedEvent event) {
+    public void handleCreateAppeal(WarningAppealedEvent event) {
         if (!config.getBoolean(APPEALS_PREFIX + ".notifyCreate")) {
             return;
         }
 
-        IWarning warning = event.getWarning();
-        Optional<? extends IWarningAppeal> appeal = warning.getAppeal();
-        appeal.ifPresent(iWarningAppeal -> buildWarningMessage(warning, "Warning appealed by: " + iWarningAppeal.getAppealerName(), CREATE_COLOR));
+        buildAppeal(event.getWarning(), "appeal-created.json");
     }
 
-    private void buildWarningMessage(IWarning warning, String title, String color) {
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void handleAppealApproved(WarningAppealApprovedEvent event) {
+        if (!config.getBoolean(APPEALS_PREFIX + ".notifyApproved")) {
+            return;
+        }
+
+        buildAppeal(event.getWarning(), "appeal-approved.json");
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void handleAppealRejected(WarningAppealRejectedEvent event) {
+        if (!config.getBoolean(APPEALS_PREFIX + ".notifyRejected")) {
+            return;
+        }
+
+        buildAppeal(event.getWarning(), "appeal-rejected.json");
+    }
+
+    private void buildAppeal(IWarning warning, String templateFile) {
+        String path = TEMPLATE_PATH + templateFile;
         LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getTimestamp().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-        String appealer = warning.getAppeal().get().getAppealerName() + "\n[" + warning.getAppeal().get().getAppealerUuid() + "]";
-        String issuer = warning.getIssuerName() + "\n[" + warning.getIssuerUuid() + "]";
-        String culprit = warning.getName() + "\n[" + warning.getUuid() + "]";
-
-        ArrayList<DiscordMessageField> fields = new ArrayList<>();
-        fields.add(new DiscordMessageField("Appealer", appealer, true));
-        fields.add(new DiscordMessageField("Appeal Reason", "```" + warning.getAppeal().get().getReason() + "```"));
-
-        fields.add(new DiscordMessageField("Warning Info", "----------------------------------------------"));
-        fields.add(new DiscordMessageField("Severity", "**" + warning.getSeverity() + "(" + warning.getScore() + ")**"));
-        fields.add(new DiscordMessageField("Issuer", issuer, true));
-        fields.add(new DiscordMessageField("Culprit", culprit, true));
-        fields.add(new DiscordMessageField("Reason", "```" + warning.getReason() + "```"));
-
-        sendEvent(title, color, time, fields);
-    }
-
-    private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
-        DiscordUtil.sendEvent(discordClient, "Warning Appeal update from Staff++", title, color, time, fields);
+        JexlContext jc = new MapContext();
+        jc.set("warning", warning);
+        jc.set("appeal", warning.getAppeal().get());
+        jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        DiscordUtil.sendEvent(discordClient, template);
     }
 
     public boolean isEnabled() {

@@ -1,9 +1,11 @@
 package be.garagepoort.staffplusplus.discord.mute;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
-import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
+import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
+import be.garagepoort.staffplusplus.discord.common.Utils;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -13,6 +15,8 @@ import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.mute.MuteEvent;
 import net.shortninja.staffplus.event.mute.UnmuteEvent;
 import net.shortninja.staffplus.unordered.IMute;
+import org.apache.commons.jexl3.JexlContext;
+import org.apache.commons.jexl3.MapContext;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -21,12 +25,12 @@ import org.bukkit.event.EventPriority;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+
+import static java.io.File.separator;
 
 public class MuteListener implements StaffPlusPlusListener {
 
-    private static final String UNMUTE_COLOR = "16620323";
-    private static final String MUTE_COLOR = "16601379";
+    private static final String TEMPLATE_PATH = StaffPlusPlusDiscord.get().getDataFolder() + separator + "discordtemplates" + separator + "mutes" + separator;
     private DiscordClient discordClient;
     private FileConfiguration config;
 
@@ -51,7 +55,7 @@ public class MuteListener implements StaffPlusPlusListener {
         }
 
         IMute mute = event.getMute();
-        buildMessage(mute, "User muted: " + mute.getPlayerName(), MUTE_COLOR);
+        buildMute(mute, "muted.json");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -60,42 +64,17 @@ public class MuteListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildMessage(event.getMute(), "User unmuted: " + event.getMute().getPlayerName(), UNMUTE_COLOR);
+        buildMute(event.getMute(), "unmuted.json");
     }
 
-    private void buildMessage(IMute mute, String title, String color) {
+    private void buildMute(IMute mute, String templateFile) {
+        String path = TEMPLATE_PATH + templateFile;
         LocalDateTime localDateTime = LocalDateTime.ofInstant(mute.getCreationDate().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-        String issuer = mute.getIssuerName() + "\n[" + mute.getIssuerUuid() + "]";
-        String muted = mute.getPlayerName() + "\n[" + mute.getPlayerUuid() + "]";
-
-        ArrayList<DiscordMessageField> fields = new ArrayList<>();
-        fields.add(new DiscordMessageField("Issuer", issuer, true));
-        fields.add(new DiscordMessageField("Muted:", muted, true));
-        
-        if (mute.getEndDate() != null) {
-            LocalDateTime endDateTime = LocalDateTime.ofInstant(mute.getEndDate().toInstant(), ZoneOffset.UTC);
-            String endTime = endDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-            fields.add(new DiscordMessageField("Type", "TEMPORARY"));
-            fields.add(new DiscordMessageField("Ends at: ", endTime, true));
-        } else {
-            fields.add(new DiscordMessageField("Type", "PERMANENT"));
-        }
-
-        fields.add(new DiscordMessageField("Mute Reason", "```" + mute.getReason() + "```"));
-
-        if (mute.getUnmutedByUuid() != null) {
-            String unmuter = mute.getUnmutedByName() + "\n[" + mute.getUnmutedByUuid() + "]";
-            fields.add(new DiscordMessageField("Unmuted by", unmuter));
-            fields.add(new DiscordMessageField("Unmute Reason", "```" + mute.getUnmuteReason() + "```"));
-        }
-
-        sendEvent(title, color, time, fields);
-    }
-
-    private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
-        DiscordUtil.sendEvent(discordClient, "Mute update from Staff++", title, color, time, fields);
+        JexlContext jc = new MapContext();
+        jc.set("mute", mute);
+        jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        String template = JexlTemplateParser.parse(Utils.readTemplate(path), jc);
+        DiscordUtil.sendEvent(discordClient, template);
     }
 
     public boolean isEnabled() {

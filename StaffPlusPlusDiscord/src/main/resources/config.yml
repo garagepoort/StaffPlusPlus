@@ -22,6 +22,8 @@ StaffPlusPlusDiscord:
         appeals:
             webhookUrl: ""
             notifyCreate: false
+            notifyApproved: false
+            notifyRejected: false
     bans:
         webhookUrl: ""
         ban: false

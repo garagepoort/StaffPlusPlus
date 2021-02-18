@@ -5,13 +5,19 @@ import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.jexl3.JexlEngine;
 import org.apache.commons.jexl3.JexlExpression;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class JexlTemplateParser {
 
     public static String parse(String template, JexlContext jexlContext) {
-        JexlEngine jexl = new JexlBuilder().create();
+        HashMap<String, Object> ns = new HashMap<>();
+        ns.put("utils", new JexlUtilities());
+
+        JexlEngine jexl = new JexlBuilder()
+            .namespaces(ns)
+            .create();
 
         StringBuilder stringBuilder = new StringBuilder();
         boolean keepLine = true;
