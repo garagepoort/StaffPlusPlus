@@ -3,3 +3,8 @@ main: be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord
 version: 1.15.7
 api-version: 1.13
 depend: [StaffPlus]
+commands:
+    staffplusplusdiscord:
+        description: reload the plugin
+        usage: /<command> [reload]
+        aliases: [staffplusplusdiscord]

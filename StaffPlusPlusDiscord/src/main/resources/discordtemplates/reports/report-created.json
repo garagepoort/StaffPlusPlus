@@ -1,0 +1,37 @@
+{
+    "content": "Report update from Staff++",
+    "embeds": [
+        {
+            "title": "Player reported by: ${report.reporterName}",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "6431896",
+            "timestamp": "${timestamp}",
+            "footer": {
+                "text": "Provided by Staff++",
+                "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+            },
+            "fields": [
+                {
+                    "name": "Reporter",
+                    "value": "${report.reporterName + '\\\\n[' + report.reporterUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Culprit",
+                    "value": "${report.culpritUuid != null ? report.culpritName + '\\\\n[' + report.culpritUuid + ']' : '[Unknown]'}",
+                    "inline": true
+                },
+                {
+                    "name": "Reason",
+                    "value": "```${report.reason}```",
+                    "inline": false
+                },
+                {
+                    "name": "Status",
+                    "value": "**${report.reportStatus}**",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}
