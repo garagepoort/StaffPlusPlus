@@ -1,8 +1,10 @@
 package be.garagepoort.staffplusplus.discord.kick;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
-import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
+import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -11,24 +13,26 @@ import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.kick.KickEvent;
 import net.shortninja.staffplus.unordered.IKick;
+import org.apache.commons.jexl3.JexlContext;
+import org.apache.commons.jexl3.MapContext;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
-public class KickListener implements Listener {
+public class KickListener implements StaffPlusPlusListener {
 
-    private static final String KICK_COLOR = "16601379";
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public KickListener(FileConfiguration config) {
+    public KickListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -47,29 +51,26 @@ public class KickListener implements Listener {
             return;
         }
 
-        IKick kick = event.getKick();
-        buildMessage(kick, "User kicked: " + kick.getPlayerName(), KICK_COLOR);
+        buildKick(event.getKick(), "kicks/kicked");
     }
 
-    private void buildMessage(IKick kick, String title, String color) {
+    private void buildKick(IKick kick, String templateFile) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(kick.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
-        String issuer = kick.getIssuerName() + "\n[" + kick.getIssuerUuid() + "]";
-        String kicked = kick.getPlayerName() + "\n[" + kick.getPlayerUuid() + "]";
-
-        ArrayList<DiscordMessageField> fields = new ArrayList<>();
-        fields.add(new DiscordMessageField("Issuer", issuer, true));
-        fields.add(new DiscordMessageField("Kicked:", kicked, true));
-        fields.add(new DiscordMessageField("Kick Reason", "```" + kick.getReason() + "```"));
-        sendEvent(title, color, time, fields);
-    }
-
-    private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
-        DiscordUtil.sendEvent(discordClient, "Kick update from Staff++", title, color, time, fields);
+        JexlContext jc = new MapContext();
+        jc.set("kick", kick);
+        jc.set("timestamp", time);
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
+        DiscordUtil.sendEvent(discordClient, template);
     }
 
     public boolean isEnabled() {
         return config.getBoolean("StaffPlusPlusDiscord.kicks.kick");
+    }
+
+    @Override
+    public boolean isValid() {
+        return StringUtils.isNotBlank(config.getString("StaffPlusPlusDiscord.kicks.webhookUrl"));
     }
 }

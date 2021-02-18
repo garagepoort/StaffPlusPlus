@@ -165,4 +165,8 @@ public class Warning implements IWarning, Infraction {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setAppeal(Appeal appeal) {
+        this.appeal = appeal;
+    }
 }

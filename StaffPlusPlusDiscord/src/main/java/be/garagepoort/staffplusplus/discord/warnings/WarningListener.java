@@ -1,8 +1,10 @@
 package be.garagepoort.staffplusplus.discord.warnings;
 
+import be.garagepoort.staffplusplus.discord.StaffPlusPlusListener;
 import be.garagepoort.staffplusplus.discord.api.DiscordClient;
-import be.garagepoort.staffplusplus.discord.api.DiscordMessageField;
 import be.garagepoort.staffplusplus.discord.api.DiscordUtil;
+import be.garagepoort.staffplusplus.discord.common.JexlTemplateParser;
+import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -11,28 +13,28 @@ import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
 import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
-import net.shortninja.staffplus.event.warnings.WarningsClearedEvent;
 import net.shortninja.staffplus.unordered.IWarning;
+import org.apache.commons.jexl3.JexlContext;
+import org.apache.commons.jexl3.MapContext;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
-public class WarningListener implements Listener {
+public class WarningListener implements StaffPlusPlusListener {
 
-    private static final String CLEAR_COLOR = "6431896";
-    private static final String CREATE_COLOR = "16620323";
-    private static final String THRESHOLD_COLOR = "16601379";
+    private static final String WARNINGS_PREFIX = "StaffPlusPlusDiscord.warnings.";
     private DiscordClient discordClient;
     private FileConfiguration config;
+    private final TemplateRepository templateRepository;
 
-    public WarningListener(FileConfiguration config) {
+    public WarningListener(FileConfiguration config, TemplateRepository templateRepository)  {
         this.config = config;
+        this.templateRepository = templateRepository;
     }
 
     public void init() {
@@ -42,86 +44,56 @@ public class WarningListener implements Listener {
             .decoder(new GsonDecoder())
             .logger(new Slf4jLogger(DiscordClient.class))
             .logLevel(Logger.Level.FULL)
-            .target(DiscordClient.class, config.getString("StaffPlusPlusDiscord.warnings.webhookUrl", ""));
+            .target(DiscordClient.class, config.getString(WARNINGS_PREFIX + "webhookUrl", ""));
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleCreateWarning(WarningCreatedEvent event) {
-        if (!config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCreate")) {
+        if (!config.getBoolean(WARNINGS_PREFIX + "notifyCreate")) {
             return;
         }
 
-        IWarning warning = event.getWarning();
-        buildWarningMessage(warning, "Warning issued by: " + warning.getIssuerName(), CREATE_COLOR);
+        buildWarning(event.getWarning(), "warnings/warning-created");
     }
-
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void handleClearedWarning(WarningsClearedEvent event) {
-        if (!config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCleared")) {
-            return;
-        }
-
-        buildClearedMessage(event, "Warnings cleared by: " + event.getIssuerName(), CLEAR_COLOR);
-    }
-
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleThresholdReachedWarning(WarningThresholdReachedEvent event) {
-        if (!config.getBoolean("StaffPlusPlusDiscord.warnings.notifyThresholdReached")) {
+        if (!config.getBoolean(WARNINGS_PREFIX + "notifyThresholdReached")) {
             return;
         }
 
-        buildThresholdReachedMessage(event, "Threshold reached by: " + event.getPlayerName(), THRESHOLD_COLOR);
+        buildThreshold(event, "warnings/threshold-reached");
     }
 
-    private void buildWarningMessage(IWarning warning, String title, String color) {
+    private void buildWarning(IWarning warning, String templateFile) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getTimestamp().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-        String issuer = warning.getIssuerName() + "\n[" + warning.getIssuerUuid() + "]";
-        String culprit = warning.getName() + "\n[" + warning.getUuid() + "]";
-
-        ArrayList<DiscordMessageField> fields = new ArrayList<>();
-        fields.add(new DiscordMessageField("Severity", "**" + warning.getSeverity() + "(" + warning.getScore() + ")**"));
-        fields.add(new DiscordMessageField("Issuer", issuer, true));
-        fields.add(new DiscordMessageField("Culprit", culprit, true));
-        fields.add(new DiscordMessageField("Reason", "```" + warning.getReason() + "```"));
-
-        sendEvent(title, color, time, fields);
+        JexlContext jc = new MapContext();
+        jc.set("warning", warning);
+        jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
+        DiscordUtil.sendEvent(discordClient, template);
     }
 
-    private void buildClearedMessage(WarningsClearedEvent event, String title, String color) {
+    private void buildThreshold(WarningThresholdReachedEvent warning, String templateFile) {
         String time = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
-        String issuer = event.getIssuerName() + "\n[" + event.getIssuerUuid() + "]";
-        String culprit = event.getPlayerName() + "\n[" + event.getPlayerUuid() + "]";
+        JexlContext jc = new MapContext();
+        jc.set("threshold", warning);
+        jc.set("commandsTriggered", String.join("\n", warning.getCommandsTriggered()));
+        jc.set("timestamp", time);
 
-        ArrayList<DiscordMessageField> fields = new ArrayList<>();
-        fields.add(new DiscordMessageField("Issuer", issuer, true));
-        fields.add(new DiscordMessageField("Culprit", culprit, true));
-        fields.add(new DiscordMessageField("Message", "All warnings removed for player: " + culprit));
-        sendEvent(title, color, time, fields);
-    }
-
-    private void buildThresholdReachedMessage(WarningThresholdReachedEvent event, String title, String color) {
-        String time = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-        String culprit = event.getPlayerName() + "\n[" + event.getPlayerUuid() + "]";
-
-        ArrayList<DiscordMessageField> fields = new ArrayList<>();
-        fields.add(new DiscordMessageField("Culprit", culprit, true));
-        fields.add(new DiscordMessageField("Message", culprit + " has reached threshold of score: [" + event.getThresholdScore() + "]"));
-        fields.add(new DiscordMessageField("Commands triggered", "```" + String.join("\n", event.getCommandsTriggered()) + "```"));
-        sendEvent(title, color, time, fields);
-    }
-
-    private void sendEvent(String title, String color, String time, ArrayList<DiscordMessageField> fields) {
-        DiscordUtil.sendEvent(discordClient, "Warning update from Staff++", title, color, time, fields);
+        String template = JexlTemplateParser.parse(templateRepository.getTemplate(templateFile), jc);
+        DiscordUtil.sendEvent(discordClient, template);
     }
 
     public boolean isEnabled() {
-        return config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCreate") ||
-            config.getBoolean("StaffPlusPlusDiscord.warnings.notifyCleared") ||
-            config.getBoolean("StaffPlusPlusDiscord.warnings.notifyThresholdReached");
+        return config.getBoolean(WARNINGS_PREFIX + "notifyCreate") ||
+            config.getBoolean(WARNINGS_PREFIX + "notifyCleared") ||
+            config.getBoolean(WARNINGS_PREFIX + "notifyThresholdReached");
+    }
+
+    @Override
+    public boolean isValid() {
+        return StringUtils.isNotBlank(config.getString(WARNINGS_PREFIX + "webhookUrl"));
     }
 }

@@ -1,0 +1,37 @@
+{
+    "content": "Warning update from Staff++",
+    "embeds": [
+        {
+            "title": "Warning issued by: ${warning.issuerName}",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16620323",
+            "timestamp": "${timestamp}",
+            "footer": {
+                "text": "Provided by Staff++",
+                "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+            },
+            "fields": [
+                {
+                    "name": "Severity",
+                    "value": "**${warning.severity + '(' + warning.score + ')'}**",
+                    "inline": false
+                },
+                {
+                    "name": "Issuer",
+                    "value": "${warning.issuerName + '\\\\n[' + warning.issuerUuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Culprit",
+                    "value": "${warning.name + '\\\\n[' + warning.uuid + ']'}",
+                    "inline": true
+                },
+                {
+                    "name": "Reason",
+                    "value": "```${warning.reason}```",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}
