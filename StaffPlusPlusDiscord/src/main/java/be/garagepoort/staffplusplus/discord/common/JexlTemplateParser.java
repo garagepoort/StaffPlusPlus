@@ -48,12 +48,13 @@ public class JexlTemplateParser {
     }
 
     private static String replaceInlineExpressions(JexlContext jexlContext, JexlEngine jexl, String line) {
-        Pattern p = Pattern.compile("\\$\\{(.*?)\\}");
+        String regex = Pattern.quote("${") + "(.*?)" + Pattern.quote("}");
+        Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(line);
         while (m.find()) {
             JexlExpression expression = jexl.createExpression(m.group(1));
             String evaluate = expression.evaluate(jexlContext).toString();
-            line = line.replaceAll("(\\$\\{)[^&]*(\\})", evaluate);
+            line = line.replaceFirst(regex, evaluate);
         }
         return line;
     }
