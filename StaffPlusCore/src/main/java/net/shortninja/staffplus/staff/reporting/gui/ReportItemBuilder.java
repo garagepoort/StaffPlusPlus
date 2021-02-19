@@ -5,6 +5,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.reporting.Report;
+import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.hex.Items;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.inventory.ItemStack;
@@ -42,6 +43,11 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
             for (String line : formatLines(report.getCloseReason(), 30)) {
                 lore.add("  &b" + line);
             }
+        }
+        if(report.getLocation().isPresent()) {
+            lore.add("&bLocation: " + report.getLocation().get().getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(report.getLocation().get()));
+        }else {
+            lore.add("&bLocation: Unknown");
         }
 
         ItemStack item = Items.editor(Items.createSkull(report.getCulpritName())).setAmount(1)

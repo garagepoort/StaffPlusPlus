@@ -124,8 +124,8 @@ public class IocContainer {
 
     public static ReportRepository getReportRepository() {
         return initRepositoryBean(ReportRepository.class,
-            () -> new MysqlReportRepository(getPlayerManager(), getOptions()),
-            () -> new SqliteReportRepository(getPlayerManager(), getOptions()));
+            () -> new MysqlReportRepository(getPlayerManager(), getOptions(), getLocationsRepository()),
+            () -> new SqliteReportRepository(getPlayerManager(), getOptions(), getLocationsRepository()));
     }
 
     public static WarnRepository getWarnRepository() {

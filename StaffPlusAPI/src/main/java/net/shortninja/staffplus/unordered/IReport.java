@@ -1,8 +1,10 @@
 package net.shortninja.staffplus.unordered;
 
 import net.shortninja.staffplus.event.ReportStatus;
+import org.bukkit.Location;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface IReport {
@@ -34,4 +36,6 @@ public interface IReport {
     int getId();
 
     String getServerName();
+
+    Optional<Location> getLocation();
 }
