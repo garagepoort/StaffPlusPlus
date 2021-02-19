@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
@@ -20,6 +21,7 @@ import java.util.function.Supplier;
 
 public abstract class AbstractGui implements IGui {
     protected final MessageCoordinator message = IocContainer.getMessage();
+    protected final Messages messages = IocContainer.getMessages();
     protected final SessionManager sessionManager = IocContainer.getSessionManager();
     protected final Options options = IocContainer.getOptions();
 

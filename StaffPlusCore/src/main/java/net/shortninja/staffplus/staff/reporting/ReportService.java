@@ -52,66 +52,59 @@ public class ReportService implements InfractionProvider {
         return reportRepository.getReports(user.getId(), offset, amount);
     }
 
-    public void sendReport(CommandSender sender, SppPlayer user, String reason) {
-        validateCoolDown(sender);
+    public void sendReport(Player player, SppPlayer user, String reason) {
+        validateCoolDown(player);
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
 
             // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
             if (user.isOnline() && permission.has(user.getPlayer(), options.permissionReportBypass)) {
-                message.send(sender, messages.bypassed, messages.prefixGeneral);
+                message.send(player, messages.bypassed, messages.prefixGeneral);
                 return;
             }
 
-            String reporterName = sender instanceof Player ? sender.getName() : "Console";
-            UUID reporterUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
             Report report = new Report(
                 user.getId(),
                 user.getUsername(),
                 reason,
-                reporterName,
-                reporterUuid,
+                player.getName(),
+                player.getUniqueId(),
                 ReportStatus.OPEN,
-                ZonedDateTime.now());
+                ZonedDateTime.now(),
+                player.getLocation());
 
             int id = reportRepository.addReport(report);
             report.setId(id);
 
-            message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getCulpritName()).replace("%reason%", report.getReason()), messages.prefixReports);
+            message.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getCulpritName()).replace("%reason%", report.getReason()), messages.prefixReports);
             message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", report.getCulpritName()).replace("%reason%", report.getReason()), options.permissionReportUpdateNotifications, messages.prefixReports);
             options.reportConfiguration.getSound().playForGroup(options.permissionReportUpdateNotifications);
 
-            if (sender instanceof Player) {
-                lastUse.put(reporterUuid, System.currentTimeMillis());
-            }
+            lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
         });
     }
 
-    public void sendReport(CommandSender sender, String reason) {
-        validateCoolDown(sender);
+    public void sendReport(Player player, String reason) {
+        validateCoolDown(player);
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-
-            String reporterName = sender instanceof Player ? sender.getName() : "Console";
-            UUID reporterUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
             Report report = new Report(
                 null,
                 null,
                 reason,
-                reporterName,
-                reporterUuid,
+                player.getName(),
+                player.getUniqueId(),
                 ReportStatus.OPEN,
-                ZonedDateTime.now());
+                ZonedDateTime.now(),
+                player.getLocation());
 
             int id = reportRepository.addReport(report);
             report.setId(id);
 
-            message.send(sender, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
+            message.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
             message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", "unknown").replace("%reason%", report.getReason()), options.permissionReportUpdateNotifications, messages.prefixReports);
             options.reportConfiguration.getSound().playForGroup(options.permissionReportUpdateNotifications);
 
-            if (sender instanceof Player) {
-                lastUse.put(reporterUuid, System.currentTimeMillis());
-            }
+            lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
         });
     }
@@ -162,7 +155,7 @@ public class ReportService implements InfractionProvider {
 
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
-        if(!options.infractionsConfiguration.isShowReported()) {
+        if (!options.infractionsConfiguration.isShowReported()) {
             return Collections.emptyList();
         }
         return reportRepository.getReportsByOffender(playerUUID);

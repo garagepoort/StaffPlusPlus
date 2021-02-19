@@ -10,6 +10,7 @@ import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.hex.Items;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -66,6 +67,25 @@ public class ManageReportGui extends AbstractGui {
                 return true;
             }
         };
+        IAction teleportAction = new IAction() {
+            @Override
+            public void click(Player player, ItemStack item, int slot) {
+                CommandUtil.playerAction(player, () -> {
+                    if(report.getLocation().isPresent()) {
+                        Location location = report.getLocation().get();
+                        player.teleport(location);
+                        message.send(player, "You have been teleported to the location where this report was created", messages.prefixReports);
+                    }else {
+                        message.send(player, "&cLocation not known for this report.", messages.prefixReports);
+                    }
+                });
+            }
+
+            @Override
+            public boolean shouldClose(Player player) {
+                return true;
+            }
+        };
 
         setItem(13, ReportItemBuilder.build(report), null);
 
@@ -92,6 +112,9 @@ public class ManageReportGui extends AbstractGui {
         if(permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
             addDeleteItem(report, deleteAction, 8);
         }
+        if(permission.has(player, options.manageReportConfiguration.getPermissionTeleport())) {
+            addTeleportItem(teleportAction, 0);
+        }
     }
 
     private void addResolveItem(Report report, IAction action, int slot) {
@@ -112,7 +135,7 @@ public class ManageReportGui extends AbstractGui {
 
     private void addReopenItem(Report report, IAction action, int slot) {
         ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
-            Items.editor(Items.createGrayColoredGlass("Unassign", "Click to unassign yourself from this report"))
+            Items.editor(Items.createWhiteColoredGlass("Unassign", "Click to unassign yourself from this report"))
                 .setAmount(1)
                 .build(), String.valueOf(report.getId()));
         setItem(slot, item, action);
@@ -129,6 +152,11 @@ public class ManageReportGui extends AbstractGui {
             Items.editor(itemstack)
                 .setAmount(1)
                 .build(), String.valueOf(report.getId()));
+        setItem(slot, item, action);
+    }
+
+    private void addTeleportItem(IAction action, int slot) {
+        ItemStack item = Items.createOrangeColoredGlass("Teleport", "Click to teleport to where this report was created");
         setItem(slot, item, action);
     }
 }
