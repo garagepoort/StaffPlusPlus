@@ -1,3 +1,6 @@
+// Context:
+// report: IReport => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IReport.java
+// timestamp: String
 {
     "content": "Report update from Staff++",
     "embeds": [

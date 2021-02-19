@@ -1,3 +1,7 @@
+// Context:
+// warning: IWarning => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IWarning.java
+// appeal: IWarningAppeal => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IWarningAppeal.java
+// timestamp: String
 {
     "content": "Warning Appeal update from Staff++",
     "embeds": [

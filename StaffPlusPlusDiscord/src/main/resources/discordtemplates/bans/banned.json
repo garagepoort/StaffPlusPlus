@@ -1,3 +1,6 @@
+// Context:
+// ban: IBan => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IBan.java
+// timestamp: String
 {
     "content": "Ban update from Staff++",
     "embeds": [
