@@ -13,12 +13,12 @@
             "fields": [
                 {
                     "name": "Issuer",
-                    "value": "${kick.issuerName + '\\\\n[' + kick.issuerUuid + ']'}",
+                    "value": "${kick.issuerName}\n[${kick.issuerUuid}]",
                     "inline": true
                 },
                 {
                     "name": "Kicked:",
-                    "value": "${kick.playerName + '\\\\n[' + kick.playerUuid + ']'}",
+                    "value": "${kick.playerName}\n[${kick.playerUuid}]",
                     "inline": true
                 },
                 {

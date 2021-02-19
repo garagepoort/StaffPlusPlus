@@ -13,12 +13,12 @@
             "fields": [
                 {
                     "name": "Issuer",
-                    "value": "${mute.issuerName + '\\\\n[' + mute.issuerUuid + ']'}",
+                    "value": "${mute.issuerName}\n[${mute.issuerUuid}]",
                     "inline": true
                 },
                 {
                     "name": "Muted:",
-                    "value": "${mute.playerName + '\\\\n[' + mute.playerUuid + ']'}",
+                    "value": "${mute.playerName}\n[${mute.playerUuid}]",
                     "inline": true
                 },
                 #IF mute.endDate != null
@@ -47,7 +47,7 @@
                 },
                 {
                     "name": "Unmuted by",
-                    "value": "${mute.unmutedByName + '\\\\n[' + mute.unmutedByUuid + ']'}",
+                    "value": "${mute.unmutedByName}\n[${mute.unmutedByUuid}]",
                     "inline": false
                 },
                 {
