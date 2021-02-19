@@ -1,5 +1,14 @@
 # Changelog Staff++ | v1.13
 
+### V1.13.42
+
+### Features
+- Added appeals to discord integration
+- Added discord plugin reload command
+- Added the ability to customize discord templates
+- Reports now save the location where they were created.
+- Report GUI has teleport to button
+
 ### V1.13.41
 
 ### Features
