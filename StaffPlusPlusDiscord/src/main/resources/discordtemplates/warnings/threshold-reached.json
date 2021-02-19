@@ -13,12 +13,12 @@
             "fields": [
                 {
                     "name": "Culprit",
-                    "value": "${threshold.playerName + '\\\\n[' + threshold.playerUuid + ']'}",
+                    "value": "${threshold.playerName}\n[${threshold.playerUuid}]",
                     "inline": true
                 },
                 {
                     "name": "Message",
-                    "value": "${threshold.playerName + '\\\\n[' + threshold.playerUuid + '] has reached threshold of score: [' + threshold.thresholdScore + ']'}",
+                    "value": "${threshold.playerName} has reached threshold of score: [${threshold.thresholdScore}]",
                     "inline": false
                 },
                 {

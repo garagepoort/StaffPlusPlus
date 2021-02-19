@@ -13,12 +13,12 @@
             "fields": [
                 {
                     "name": "Player checked",
-                    "value": "${detectionResult.playerCheckedName + '\\\\n[' + detectionResult.playerCheckedUuid + ']'}",
+                    "value": "${detectionResult.playerCheckedName}\n[${detectionResult.playerCheckedUuid}]",
                     "inline": true
                 },
                 {
                     "name": "Player matched:",
-                    "value": "${detectionResult.playerMatchedName + '\\\\n[' + detectionResult.playerMatchedUuid + ']'}",
+                    "value": "${detectionResult.playerMatchedName}\n[${detectionResult.playerMatchedUuid}]",
                     "inline": true
                 },
                 {
