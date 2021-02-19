@@ -58,7 +58,7 @@ public final class Items {
 
     public static ItemStack createGrayColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.GRAY_GLAZED_TERRACOTTA)
+                .setMaterial(Material.STAINED_GLASS_PANE)
                 .setName(name)
                 .addLore(lore)
                 .build();
@@ -66,7 +66,7 @@ public final class Items {
 
     public static ItemStack createWhiteColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.WHITE_STAINED_GLASS_PANE)
+                .setMaterial(Material.THIN_GLASS)
                 .setName(name)
                 .addLore(lore)
                 .build();
@@ -82,7 +82,7 @@ public final class Items {
 
     public static ItemStack createDoor(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.SPRUCE_DOOR)
+                .setMaterial(Material.IRON_DOOR)
                 .setName(name)
                 .addLore(lore)
                 .build();
