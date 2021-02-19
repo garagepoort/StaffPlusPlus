@@ -31,18 +31,23 @@
                     "value": "```${report.reason}```",
                     "inline": false
                 },
+                #IF report.closeReason != null
                 {
-                    "name": "Status",
-                    "value": "**${report.reportStatus}**",
-                    "inline": false
-                }
-                # report.closeReason != null
-                ,{
                     "name": "Reason for closing",
                     "value": "```${report.closeReason}```",
                     "inline": false
+                },
+                #ENDIF
+                {
+                    "name": "Status",
+                    "value": "**${report.reportStatus}**",
+                    "inline": true
+                },
+                {
+                    "name": "Location",
+                    "value": "${report.location.isPresent() ? utils:parseLocation(report.serverName, report.location.get()) : 'Unknown'}",
+                    "inline": true
                 }
-                ##
             ]
         }
     ]
