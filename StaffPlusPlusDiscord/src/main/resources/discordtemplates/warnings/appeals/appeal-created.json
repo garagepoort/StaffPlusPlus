@@ -13,7 +13,7 @@
             "fields": [
                 {
                     "name": "Appealer",
-                    "value": "${appeal.appealerName + '\\\\n[' + appeal.appealerUuid + ']'}",
+                    "value": "${appeal.appealerName}\n[${appeal.appealerUuid}]",
                     "inline": true
                 },
                 {
@@ -28,17 +28,17 @@
                 },
                 {
                     "name": "Severity",
-                    "value": "**${warning.severity + '(' + warning.score + ')'}**",
+                    "value": "**${warning.severity}(${warning.score})**",
                     "inline": false
                 },
                 {
                     "name": "Issuer",
-                    "value": "${warning.issuerName + '\\\\n[' + warning.issuerUuid + ']'}",
+                    "value": "${warning.issuerName}\n[${warning.issuerUuid}]",
                     "inline": true
                 },
                 {
                     "name": "Culprit",
-                    "value": "${warning.name + '\\\\n[' + warning.uuid + ']'}",
+                    "value": "${warning.name}\n[${warning.uuid}]",
                     "inline": true
                 },
                 {

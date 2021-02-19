@@ -13,7 +13,7 @@
             "fields": [
                 {
                     "name": "Reporter",
-                    "value": "${report.reporterName + '\\\\n[' + report.reporterUuid + ']'}",
+                    "value": "${report.reporterName}\n[${report.reporterUuid}]",
                     "inline": true
                 },
                 {
@@ -23,7 +23,7 @@
                 },
                 {
                     "name": "Staff",
-                    "value": "${report.staffName + '\\\\n[' + report.staffUuid + ']'}",
+                    "value": "${report.staffName}\n[${report.staffUuid}]",
                     "inline": false
                 },
                 {
