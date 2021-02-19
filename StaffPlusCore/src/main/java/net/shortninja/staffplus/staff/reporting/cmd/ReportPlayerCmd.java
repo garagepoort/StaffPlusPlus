@@ -1,12 +1,14 @@
 package net.shortninja.staffplus.staff.reporting.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,8 +24,11 @@ public class ReportPlayerCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+        if (!(sender instanceof Player)) {
+            throw new BusinessException(messages.onlyPlayers);
+        }
         String reason = JavaUtils.compileWords(args, 1);
-        reportService.sendReport(sender, player, reason);
+        reportService.sendReport((Player) sender, player, reason);
         return true;
     }
 
