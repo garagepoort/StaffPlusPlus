@@ -21,7 +21,7 @@
                     "value": "${mute.playerName + '\\\\n[' + mute.playerUuid + ']'}",
                     "inline": true
                 },
-                # mute.endDate != null
+                #IF mute.endDate != null
                 {
                     "name": "Type",
                     "value": "TEMPORARY",
@@ -32,14 +32,14 @@
                     "value": "${utils:parseTime(mute.endDate)}",
                     "inline": true
                 },
-                ##
-                # mute.endDate == null
+                #ENDIF
+                #IF mute.endDate == null
                 {
                     "name": "Type",
                     "value": "PERMANENT",
                     "inline": false
                 },
-                ##
+                #ENDIF
                 {
                     "name": "Mute Reason",
                     "value": "```${mute.reason}```",

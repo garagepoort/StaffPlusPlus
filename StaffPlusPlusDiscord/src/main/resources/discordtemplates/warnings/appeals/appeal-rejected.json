@@ -26,13 +26,13 @@
                     "value": "```${appeal.reason}```",
                     "inline": false
                 },
-                # appeal.resolveReason.isPresent()
+                #IF appeal.resolveReason.isPresent()
                 {
                     "name": "Resolve Reason",
                     "value": "```${appeal.resolveReason.get()}```",
                     "inline": false
                 },
-                ##
+                #ENDIF
                 {
                     "name": "Warning Info",
                     "value": "----------------------------------------------",
