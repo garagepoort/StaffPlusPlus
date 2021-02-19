@@ -26,6 +26,9 @@ public class JexlTemplateParser {
         boolean keepLine = true;
         for (String line : template.split("\n")) {
             line = line.trim();
+            if(line.startsWith("//")) {
+                continue;
+            }
             if (!line.startsWith(ENDIF) && !keepLine) {
                 continue;
             }
