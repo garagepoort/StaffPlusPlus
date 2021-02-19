@@ -1,5 +1,18 @@
 # Changelog Staff++ | v1.12
 
+### V1.12.27
+
+### Features
+- Added appeals to discord integration
+- Added discord plugin reload command
+- Added the ability to customize discord templates
+- Reports now save the location where they were created.
+- Report GUI has teleport to button
+
+### Bugs
+- Fixed exception when players broke wheat in staff mode
+- Fix back button in GUI's
+
 ### V1.12.26
 
 ### Features
