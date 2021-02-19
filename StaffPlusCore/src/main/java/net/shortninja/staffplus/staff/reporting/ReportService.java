@@ -70,7 +70,8 @@ public class ReportService implements InfractionProvider {
                 player.getUniqueId(),
                 ReportStatus.OPEN,
                 ZonedDateTime.now(),
-                player.getLocation());
+                player.getLocation(),
+                options.serverName);
 
             int id = reportRepository.addReport(report);
             report.setId(id);
@@ -95,7 +96,8 @@ public class ReportService implements InfractionProvider {
                 player.getUniqueId(),
                 ReportStatus.OPEN,
                 ZonedDateTime.now(),
-                player.getLocation());
+                player.getLocation(),
+                options.serverName);
 
             int id = reportRepository.addReport(report);
             report.setId(id);

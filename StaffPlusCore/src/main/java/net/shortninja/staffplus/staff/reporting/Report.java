@@ -47,7 +47,7 @@ public class Report implements IReport, Infraction {
         this.location = location;
     }
 
-    public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus, ZonedDateTime timestamp, Location location) {
+    public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus, ZonedDateTime timestamp, Location location, String serverName) {
         this.culpritUuid = culpritUuid;
         this.culpritName = culpritName;
         this.reason = reason;
@@ -56,6 +56,7 @@ public class Report implements IReport, Infraction {
         this.reportStatus = reportStatus;
         this.timestamp = timestamp;
         this.location = location;
+        this.serverName = serverName;
     }
 
     public void setId(int id) {

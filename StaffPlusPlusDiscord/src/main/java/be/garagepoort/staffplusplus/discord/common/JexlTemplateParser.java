@@ -11,6 +11,9 @@ import java.util.regex.Pattern;
 
 public class JexlTemplateParser {
 
+    private static final String IF = "#IF";
+    private static final String ENDIF = "#ENDIF";
+
     public static String parse(String template, JexlContext jexlContext) {
         HashMap<String, Object> ns = new HashMap<>();
         ns.put("utils", new JexlUtilities());
@@ -23,15 +26,15 @@ public class JexlTemplateParser {
         boolean keepLine = true;
         for (String line : template.split("\n")) {
             line = line.trim();
-            if (!line.startsWith("##") && !keepLine) {
+            if (!line.startsWith(ENDIF) && !keepLine) {
                 continue;
             }
-            if (line.startsWith("##")) {
+            if (line.startsWith(ENDIF)) {
                 keepLine = true;
                 continue;
             }
-            if (line.startsWith("#")) {
-                JexlExpression expression = jexl.createExpression(line.replace("#", "").trim());
+            if (line.startsWith(IF)) {
+                JexlExpression expression = jexl.createExpression(line.replace(IF, "").trim());
                 boolean evaluate = (boolean) expression.evaluate(jexlContext);
                 if (!evaluate) {
                     keepLine = false;

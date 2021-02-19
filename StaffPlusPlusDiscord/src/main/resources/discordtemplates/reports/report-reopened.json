@@ -29,7 +29,12 @@
                 {
                     "name": "Status",
                     "value": "**${report.reportStatus}**",
-                    "inline": false
+                    "inline": true
+                },
+                {
+                    "name": "Location",
+                    "value": "${report.location.isPresent() ? utils:parseLocation(report.serverName, report.location.get()) : 'Unknown'}",
+                    "inline": true
                 }
             ]
         }

@@ -21,7 +21,7 @@
                     "value": "${ban.playerName + '\\\\n[' + ban.playerUuid + ']'}",
                     "inline": true
                 },
-                # ban.endDate != null
+                #IF ban.endDate != null
                 {
                     "name": "Type",
                     "value": "TEMPORARY",
@@ -32,14 +32,14 @@
                     "value": "${utils:parseTime(ban.endDate)}",
                     "inline": true
                 },
-                ##
-                # ban.endDate == null
+                #ENDIF
+                #IF ban.endDate == null
                 {
                     "name": "Type",
                     "value": "PERMANENT",
                     "inline": false
                 },
-                ##
+                #ENDIF
                 {
                     "name": "Ban Reason",
                     "value": "```${ban.reason}```",
