@@ -4,9 +4,11 @@ import net.shortninja.staffplus.event.ReportStatus;
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.unordered.IReport;
+import org.bukkit.Location;
 
 import java.sql.Timestamp;
 import java.time.*;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Report implements IReport, Infraction {
@@ -22,13 +24,14 @@ public class Report implements IReport, Infraction {
     private int id;
     private String closeReason;
     private String serverName;
+    private Location location;
 
     public Report(UUID culpritUuid, String culpritName, int id, String reason, String reporterName, UUID reporterUuid, long time,
                   ReportStatus reportStatus,
                   String staffName,
                   UUID staffUuid,
                   String closeReason,
-                  String serverName) {
+                  String serverName, Location location) {
         this.culpritUuid = culpritUuid;
         this.culpritName = culpritName;
         this.reason = reason;
@@ -41,9 +44,10 @@ public class Report implements IReport, Infraction {
         this.staffUuid = staffUuid;
         this.closeReason = closeReason;
         this.serverName = serverName;
+        this.location = location;
     }
 
-    public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus, ZonedDateTime timestamp) {
+    public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus, ZonedDateTime timestamp, Location location) {
         this.culpritUuid = culpritUuid;
         this.culpritName = culpritName;
         this.reason = reason;
@@ -51,6 +55,7 @@ public class Report implements IReport, Infraction {
         this.reporterUuid = reporterUuid;
         this.reportStatus = reportStatus;
         this.timestamp = timestamp;
+        this.location = location;
     }
 
     public void setId(int id) {
@@ -145,5 +150,10 @@ public class Report implements IReport, Infraction {
     @Override
     public String getServerName() {
         return serverName;
+    }
+
+    @Override
+    public Optional<Location> getLocation() {
+        return Optional.ofNullable(location);
     }
 }

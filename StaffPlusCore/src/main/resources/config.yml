@@ -784,6 +784,7 @@ permissions:
           accept: "staff.reports.manage.accept"
           resolve: "staff.reports.manage.resolve"
           reject: "staff.reports.manage.reject"
+          teleport: "staff.reports.manage.teleport"
 
   # Permission for bypassing reports.
   report-bypass: "staff.report.bypass"

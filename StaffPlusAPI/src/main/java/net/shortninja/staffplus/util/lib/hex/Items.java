@@ -64,6 +64,14 @@ public final class Items {
                 .build();
     }
 
+    public static ItemStack createWhiteColoredGlass(String name, String lore) {
+        return Items.builder()
+                .setMaterial(Material.WHITE_STAINED_GLASS_PANE)
+                .setName(name)
+                .addLore(lore)
+                .build();
+    }
+
     public static ItemStack createOrangeColoredGlass(String name, String lore) {
         return Items.builder()
                 .setMaterial(Material.ORANGE_GLAZED_TERRACOTTA)
