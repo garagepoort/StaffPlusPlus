@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.mode;
 
-import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.event.staffmode.EnterStaffModeEvent;
+import net.shortninja.staffplus.event.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
@@ -20,8 +21,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 
 public class StaffModeService {
 
@@ -33,7 +35,7 @@ public class StaffModeService {
 
     private final GeneralModeConfiguration modeConfiguration;
     private final ModeDataRepository modeDataRepository;
-    private final Logger logger = StaffPlus.get().getLogger();
+    private final Options options;
 
     public StaffModeService(MessageCoordinator message,
                             Options options,
@@ -47,7 +49,8 @@ public class StaffModeService {
         this.sessionManager = sessionManager;
         this.vanishService = vanishService;
 
-        modeConfiguration = options.modeConfiguration;
+        this.options = options;
+        modeConfiguration = this.options.modeConfiguration;
         this.staffModeItemsService = staffModeItemsService;
         this.modeDataRepository = modeDataRepository;
     }
@@ -76,6 +79,7 @@ public class StaffModeService {
         runModeCommands(player, true);
         vanishService.addVanish(player, modeConfiguration.getModeVanish());
         session.setInStaffMode(true);
+        sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
         message.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
 
@@ -109,6 +113,7 @@ public class StaffModeService {
         modeDataRepository.deleteModeData(player);
 
         session.setInStaffMode(false);
+        sendEvent(new ExitStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
         message.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
