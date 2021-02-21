@@ -16,14 +16,15 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.JavaUtils;
 import net.shortninja.staffplus.util.lib.Message;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import static org.bukkit.Bukkit.getScheduler;
+import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 
 public class BanService implements InfractionProvider {
 
@@ -146,13 +147,6 @@ public class BanService implements InfractionProvider {
             .replace("%issuer%", ban.getUnbannedByName());
         message.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
         sendEvent(new UnbanEvent(ban));
-    }
-
-
-    private void sendEvent(Event event) {
-        getScheduler().runTask(StaffPlus.get(), () -> {
-            Bukkit.getPluginManager().callEvent(event);
-        });
     }
 
     @Override

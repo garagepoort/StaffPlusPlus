@@ -14,17 +14,15 @@ import net.shortninja.staffplus.staff.kick.database.KicksRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.Message;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.bukkit.Bukkit.getScheduler;
+import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 
 public class KickService implements InfractionProvider {
 
@@ -75,13 +73,6 @@ public class KickService implements InfractionProvider {
             .replace("%issuer%", issuerName)
             .replace("%reason%", reason);
         this.message.sendGlobalMessage(message, messages.prefixGeneral);
-    }
-
-
-    private void sendEvent(Event event) {
-        getScheduler().runTask(StaffPlus.get(), () -> {
-            Bukkit.getPluginManager().callEvent(event);
-        });
     }
 
     @Override
