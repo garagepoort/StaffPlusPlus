@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.staff.warn.appeals;
 
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.event.warnings.WarningAppealApprovedEvent;
 import net.shortninja.staffplus.event.warnings.WarningAppealRejectedEvent;
@@ -18,14 +17,12 @@ import net.shortninja.staffplus.unordered.AppealStatus;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplus.util.lib.JavaUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
 import java.util.Optional;
 
+import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 import static net.shortninja.staffplus.util.Validator.validator;
-import static org.bukkit.Bukkit.getScheduler;
 
 public class AppealService {
 
@@ -119,9 +116,4 @@ public class AppealService {
         }
     }
 
-    private void sendEvent(Event event) {
-        getScheduler().runTask(StaffPlus.get(), () -> {
-            Bukkit.getPluginManager().callEvent(event);
-        });
-    }
 }

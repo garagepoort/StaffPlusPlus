@@ -31,6 +31,8 @@ public class TemplateRepository {
         plugin.saveResource("discordtemplates/mutes/unmuted.json", replaceTemplates);
         plugin.saveResource("discordtemplates/kicks/kicked.json", replaceTemplates);
         plugin.saveResource("discordtemplates/altdetects/detected.json", replaceTemplates);
+        plugin.saveResource("discordtemplates/staffmode/enter-staffmode.json", replaceTemplates);
+        plugin.saveResource("discordtemplates/staffmode/exit-staffmode.json", replaceTemplates);
 
         templates.put("reports/report-created", Utils.readTemplate(PATH_PREFIX + "reports" + separator + "report-created.json"));
         templates.put("reports/report-accepted", Utils.readTemplate(PATH_PREFIX + "reports" + separator + "report-accepted.json"));
@@ -48,6 +50,8 @@ public class TemplateRepository {
         templates.put("mutes/unmuted", Utils.readTemplate(PATH_PREFIX + "mutes" + separator + "unmuted.json"));
         templates.put("kicks/kicked", Utils.readTemplate(PATH_PREFIX + "kicks" + separator + "kicked.json"));
         templates.put("altdetects/detected", Utils.readTemplate(PATH_PREFIX + "altdetects" + separator + "detected.json"));
+        templates.put("staffmode/enter-staffmode", Utils.readTemplate(PATH_PREFIX + "staffmode" + separator + "enter-staffmode.json"));
+        templates.put("staffmode/exit-staffmode", Utils.readTemplate(PATH_PREFIX + "staffmode" + separator + "exit-staffmode.json"));
     }
 
     public String getTemplate(String key) {
