@@ -134,11 +134,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     public void saveUsers() {
-        for (PlayerSession session : IocContainer.getSessionManager().getAll()) {
-            IocContainer.getSessionLoader().saveSessionSynchronous(session);
-        }
-
-        dataFile.save();
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            for (PlayerSession session : IocContainer.getSessionManager().getAll()) {
+                IocContainer.getSessionLoader().saveSessionSynchronous(session);
+            }
+        });
     }
 
     protected void start(long start) {

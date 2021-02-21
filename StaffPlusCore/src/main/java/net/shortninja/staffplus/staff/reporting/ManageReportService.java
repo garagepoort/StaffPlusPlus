@@ -12,12 +12,11 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
 import java.util.*;
 
+import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 import static org.bukkit.Bukkit.getScheduler;
 
 public class ManageReportService {
@@ -125,12 +124,6 @@ public class ManageReportService {
 
     public List<Report> getClosedReports(int offset, int amount) {
         return reportRepository.getClosedReports(offset, amount);
-    }
-
-    private void sendEvent(Event event) {
-        getScheduler().runTask(StaffPlus.get(), () -> {
-            Bukkit.getPluginManager().callEvent(event);
-        });
     }
 
     public void deleteReport(Player player, int reportId) {

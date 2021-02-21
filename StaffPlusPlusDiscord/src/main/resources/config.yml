@@ -42,6 +42,12 @@ StaffPlusPlusDiscord:
         # possible values: POSITIVE, FAIRLY_POSITIVE, POSSIBLE, NOT_LIKELY
         # example value: POSITIVE;FAIRLY_POSITIVE
         enabledTrustLevels: ""
+    staffmode:
+        webhookUrl: ""
+        # Trigger a discord message whenever a staffmember enters staffmode
+        notify-enter: false
+        # Trigger a discord message whenever a staffmember enters staffmode
+        notify-exit: false
 #    trace:
 #        webhookUrl: ""
 #        notifyStartTrace: false
