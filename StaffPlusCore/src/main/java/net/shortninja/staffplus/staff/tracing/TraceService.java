@@ -11,12 +11,11 @@ import net.shortninja.staffplus.unordered.trace.TraceWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.bukkit.Bukkit.getScheduler;
+import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 
 public class TraceService {
 
@@ -106,9 +105,4 @@ public class TraceService {
             .collect(Collectors.toList());
     }
 
-    private void sendEvent(Event event) {
-        getScheduler().runTask(StaffPlus.get(), () -> {
-            Bukkit.getPluginManager().callEvent(event);
-        });
-    }
 }

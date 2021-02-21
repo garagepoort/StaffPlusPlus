@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.staff.warn.threshold;
 
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.actions.ActionService;
 import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
@@ -9,14 +8,12 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningThresholdConfiguration;
 import net.shortninja.staffplus.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplus.unordered.IWarning;
-import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.bukkit.Bukkit.getScheduler;
+import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 
 public class ThresholdService {
 
@@ -48,11 +45,5 @@ public class ThresholdService {
             .collect(Collectors.toList());
 
         sendEvent(new WarningThresholdReachedEvent(user.getUsername(), user.getId(), threshold.get().getScore(), executedCommands));
-    }
-
-    private void sendEvent(Event event) {
-        getScheduler().runTask(StaffPlus.get(), () -> {
-            Bukkit.getPluginManager().callEvent(event);
-        });
     }
 }
