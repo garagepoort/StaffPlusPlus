@@ -35,12 +35,12 @@ import net.shortninja.staffplus.staff.reporting.ReportListener;
 import net.shortninja.staffplus.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
 import net.shortninja.staffplus.staff.warn.appeals.AppealNotifierListener;
-import net.shortninja.staffplus.staff.warn.warnings.WarningNotifierListener;
-import net.shortninja.staffplus.staff.warn.warnings.WarningListener;
 import net.shortninja.staffplus.staff.warn.warnings.WarningClearTask;
-import net.shortninja.staffplus.util.Metrics;
+import net.shortninja.staffplus.staff.warn.warnings.WarningListener;
+import net.shortninja.staffplus.staff.warn.warnings.WarningNotifierListener;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseInitializer;
+import net.shortninja.staffplus.util.metrics.MetricsService;
 import net.shortninja.staffplus.util.updates.UpdateNotifier;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -109,8 +109,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         start(System.currentTimeMillis());
 
-        if (getConfig().getBoolean("metrics"))
-            new Metrics(this, 9351);
+        if (getConfig().getBoolean("metrics")) {
+            new MetricsService(this, IocContainer.getOptions())
+                .initializeMetrics();
+        }
 
         guiUpdateTask = getScheduler().runTaskTimer(this, () -> {
             for (PlayerSession playerSession : IocContainer.getSessionManager().getAll()) {

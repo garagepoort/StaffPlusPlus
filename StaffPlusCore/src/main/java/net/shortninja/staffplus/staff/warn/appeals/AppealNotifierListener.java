@@ -14,6 +14,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import static org.bukkit.Bukkit.getScheduler;
+
 public class AppealNotifierListener implements Listener {
 
     private final AppealRepository appealRepository = IocContainer.getAppealRepository();
@@ -22,7 +24,7 @@ public class AppealNotifierListener implements Listener {
     private final Messages messages = IocContainer.getMessages();
 
     public AppealNotifierListener() {
-        if(options.appealConfiguration.isEnabled()) {
+        if (options.appealConfiguration.isEnabled()) {
             Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
         }
     }
@@ -33,10 +35,13 @@ public class AppealNotifierListener implements Listener {
             return;
         }
 
-        int openAppeals = appealRepository.getCountOpenAppeals();
-        if(openAppeals > 0) {
-            sendMessage(event, openAppeals);
-        }
+
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            int openAppeals = appealRepository.getCountOpenAppeals();
+            if (openAppeals > 0) {
+                sendMessage(event, openAppeals);
+            }
+        });
     }
 
     private void sendMessage(PlayerJoinEvent event, int appealsCount) {
