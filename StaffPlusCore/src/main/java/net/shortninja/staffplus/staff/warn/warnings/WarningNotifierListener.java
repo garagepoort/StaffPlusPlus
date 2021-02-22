@@ -16,6 +16,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.bukkit.Bukkit.getScheduler;
+
 public class WarningNotifierListener implements Listener {
 
     private final WarnService warnService = IocContainer.getWarnService();
@@ -32,17 +34,20 @@ public class WarningNotifierListener implements Listener {
         if (!options.warningConfiguration.isNotifyUser()) {
             return;
         }
-        List<Warning> warnings = warnService.getWarnings(event.getPlayer().getUniqueId(), false);
-        if(options.warningConfiguration.isAlwaysNotifyUser()) {
-            if(!warnings.isEmpty()) {
-                sendMessage(event, warnings);
+
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            List<Warning> warnings = warnService.getWarnings(event.getPlayer().getUniqueId(), false);
+            if (options.warningConfiguration.isAlwaysNotifyUser()) {
+                if (!warnings.isEmpty()) {
+                    sendMessage(event, warnings);
+                }
+            } else {
+                List<Warning> unreadWarnings = warnings.stream().filter(w -> !w.isRead()).collect(Collectors.toList());
+                if (!unreadWarnings.isEmpty()) {
+                    sendMessage(event, unreadWarnings);
+                }
             }
-        } else{
-            List<Warning> unreadWarnings = warnings.stream().filter(w -> !w.isRead()).collect(Collectors.toList());
-            if (!unreadWarnings.isEmpty()) {
-                sendMessage(event, unreadWarnings);
-            }
-        }
+        });
     }
 
     private void sendMessage(PlayerJoinEvent event, List<Warning> unreadWarnings) {
