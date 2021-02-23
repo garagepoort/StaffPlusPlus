@@ -25,7 +25,7 @@ public class JavaUtils {
         TimeUnit.SECONDS);
 
     public static String toHumanReadableDuration(final long millis) {
-        if(millis == 0) {
+        if(millis <= 0) {
             return "None";
         }
         final StringBuilder builder = new StringBuilder();
@@ -36,6 +36,9 @@ public class JavaUtils {
                 builder.append(convert).append(' ').append(WordUtils.capitalizeFully(timeUnit.name())).append(", ");
                 acc -= TimeUnit.MILLISECONDS.convert(convert, timeUnit);
             }
+        }
+        if(builder.length() == 0) {
+            return "None";
         }
         return builder.substring(0, builder.length() - 2);
     }

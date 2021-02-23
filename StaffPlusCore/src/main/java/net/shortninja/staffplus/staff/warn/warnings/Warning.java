@@ -1,7 +1,5 @@
 package net.shortninja.staffplus.staff.warn.warnings;
 
-import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.warn.appeals.Appeal;
@@ -15,7 +13,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class Warning implements IWarning, Infraction {
-    private final Options options = IocContainer.getOptions();
     private final UUID uuid;
     private final String name;
     private final String reason;
@@ -28,6 +25,7 @@ public class Warning implements IWarning, Infraction {
     private boolean read;
     private String serverName;
     private Appeal appeal;
+    private boolean expired;
 
     public Warning(UUID uuid, String name, String reason, String issuerName, UUID issuerUuid, long time, WarningSeverityConfiguration warningSeverityConfiguration) {
         this.uuid = uuid;
@@ -40,7 +38,7 @@ public class Warning implements IWarning, Infraction {
         this.severity = warningSeverityConfiguration.getName();
     }
 
-    public Warning(UUID uuid, String name, int id, String reason, String issuerName, UUID issuerUuid, long time, int score, String severity, boolean read, String serverName, Appeal appeal) {
+    public Warning(UUID uuid, String name, int id, String reason, String issuerName, UUID issuerUuid, long time, int score, String severity, boolean read, String serverName, Appeal appeal, boolean expired) {
         this.uuid = uuid;
         this.name = name;
         this.reason = reason;
@@ -53,6 +51,7 @@ public class Warning implements IWarning, Infraction {
         this.read = read;
         this.serverName = serverName;
         this.appeal = appeal;
+        this.expired = expired;
     }
 
     public Warning(UUID uuid, String playerName, String reason, String issuerName, UUID issuerUuid, long currentTimeMillis) {
@@ -99,20 +98,6 @@ public class Warning implements IWarning, Infraction {
 
     public int getId() {
         return id;
-    }
-
-
-    public boolean shouldRemove() {
-        boolean shouldRemove = false;
-        if (options.warningConfiguration.getClear() == 0) {
-            return false;
-        }
-
-        if ((System.currentTimeMillis() - time) >= options.warningConfiguration.getClear()) {
-            shouldRemove = true;
-        }
-
-        return shouldRemove;
     }
 
     public int getScore() {
@@ -168,5 +153,9 @@ public class Warning implements IWarning, Infraction {
 
     public void setAppeal(Appeal appeal) {
         this.appeal = appeal;
+    }
+
+    public boolean isExpired() {
+        return expired;
     }
 }

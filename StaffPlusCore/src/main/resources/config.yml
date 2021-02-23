@@ -139,8 +139,10 @@ warnings-module:
   severity-levels:
     - name: MINOR
       score: 1
+      expiresAfter: 1 WEEK
     - name: MAJOR
       score: 3
+      expiresAfter: 1 MONTH
     - name: CRITICAL
       score: 5
   # Define thresholds for the warning system. Whenever the player reaches a threshold the actions are triggered
@@ -808,6 +810,7 @@ permissions:
       manage:
           view: "staff.warnings.manage.view"
           delete: "staff.warnings.manage.delete"
+          expire: "staff.warnings.manage.expire"
       appeals:
           create: "staff.warnings.appeals.create"
           create-others: "staff.warnings.appeals.create.others"

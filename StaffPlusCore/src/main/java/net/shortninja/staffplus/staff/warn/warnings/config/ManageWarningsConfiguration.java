@@ -6,13 +6,15 @@ public class ManageWarningsConfiguration {
     private String commandManageAppealedWarningsGui;
     private String permissionView;
     private String permissionDelete;
+    private String permissionExpire;
 
 
-    public ManageWarningsConfiguration(String commandManageWarningsGui, String commandManageAppealedWarningsGui, String permissionView, String permissionDelete) {
+    public ManageWarningsConfiguration(String commandManageWarningsGui, String commandManageAppealedWarningsGui, String permissionView, String permissionDelete, String permissionExpire) {
         this.commandManageWarningsGui = commandManageWarningsGui;
         this.commandManageAppealedWarningsGui = commandManageAppealedWarningsGui;
         this.permissionView = permissionView;
         this.permissionDelete = permissionDelete;
+        this.permissionExpire = permissionExpire;
     }
 
     public String getCommandManageWarningsGui() {
@@ -29,5 +31,9 @@ public class ManageWarningsConfiguration {
 
     public String getPermissionDelete() {
         return permissionDelete;
+    }
+
+    public String getPermissionExpire() {
+        return permissionExpire;
     }
 }
