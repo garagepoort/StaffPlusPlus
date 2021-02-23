@@ -121,9 +121,6 @@ warnings-module:
   # The sound that is played to the player when warned.
   # Set to "NONE" to disable.
   sound: ORB_PICKUP
-  # The amount of time, in seconds, that it will take for a warning to be removed.
-  # Set to zero to disable.
-  clear: 0
   # Whether or not the player issued the warning will be visible in GUIs.
   show-issuer: true
 
