@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.warn.warnings;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.event.warnings.WarningCreatedEvent;
+import net.shortninja.staffplus.event.warnings.WarningExpiredEvent;
 import net.shortninja.staffplus.event.warnings.WarningRemovedEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -116,6 +117,13 @@ public class WarnService implements InfractionProvider {
         sendEvent(new WarningRemovedEvent(warning));
     }
 
+    public void expireWarning(CommandSender sender, int id) {
+        Warning warning = getWarning(id);
+        warnRepository.expireWarning(id);
+        message.send(sender, "&2Warning has been expired", messages.prefixWarnings);
+        sendEvent(new WarningExpiredEvent(warning));
+    }
+
     public List<Warning> getWarnings(UUID uniqueId, int offset, int amount) {
         return warnRepository.getWarnings(uniqueId, offset, amount);
     }
@@ -126,6 +134,13 @@ public class WarnService implements InfractionProvider {
 
     public void markWarningsRead(UUID uniqueId) {
         warnRepository.markWarningsRead(uniqueId);
+    }
+
+    public void expireWarnings() {
+        long now = System.currentTimeMillis();
+        options.warningConfiguration.getSeverityLevels().stream()
+            .filter(s -> s.getExpirationDuration() > 0)
+            .forEach(s -> warnRepository.expireWarnings(s.getName(), now - s.getExpirationDuration()));
     }
 
     @Override

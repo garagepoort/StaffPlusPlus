@@ -8,20 +8,19 @@ import net.shortninja.staffplus.unordered.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class DeleteWarningAction implements IAction {
+public class ExpireWarningAction implements IAction {
 
     private final WarnService warnService = IocContainer.getWarnService();
+private final Warning warning;
 
-    private final Warning warning;
-
-    public DeleteWarningAction(Warning warning) {
+    public ExpireWarningAction(Warning warning) {
         this.warning = warning;
     }
 
     @Override
     public void click(Player player, ItemStack item, int slot) {
         CommandUtil.playerAction(player, () -> {
-            warnService.removeWarning(player, warning.getId());
+            warnService.expireWarning(player, warning.getId());
         });
     }
 

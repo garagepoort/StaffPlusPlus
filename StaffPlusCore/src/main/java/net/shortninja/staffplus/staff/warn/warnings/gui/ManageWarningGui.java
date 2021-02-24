@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.staff.warn.warnings.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.actions.ActionService;
 import net.shortninja.staffplus.common.actions.ExecutableActionEntity;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
@@ -13,6 +12,7 @@ import net.shortninja.staffplus.staff.warn.appeals.gui.actions.GoToManageAppealG
 import net.shortninja.staffplus.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.staff.warn.warnings.gui.actions.DeleteWarningAction;
+import net.shortninja.staffplus.staff.warn.warnings.gui.actions.ExpireWarningAction;
 import net.shortninja.staffplus.unordered.AppealStatus;
 import net.shortninja.staffplus.unordered.IAction;
 import net.shortninja.staffplus.util.Permission;
@@ -46,11 +46,15 @@ public class ManageWarningGui extends AbstractGui {
 
     @Override
     public void buildGui() {
-        IAction deleteAction = new DeleteWarningAction();
+        IAction deleteAction = new DeleteWarningAction(warning);
         setItem(13, WarningItemBuilder.build(warning), null);
 
         if (permission.has(player, options.manageWarningsConfiguration.getPermissionDelete())) {
             addDeleteItem(warning, deleteAction, 8);
+        }
+
+        if (permission.has(player, options.manageWarningsConfiguration.getPermissionExpire()) && !warning.isExpired() && !warning.hasApprovedAppeal()) {
+            addExpireItem(warning, 26);
         }
 
         if (options.appealConfiguration.isEnabled()) {
@@ -78,6 +82,7 @@ public class ManageWarningGui extends AbstractGui {
 
         Items.ItemStackBuilder itemStackBuilder = Items.builder()
             .setMaterial(Material.REDSTONE_BLOCK)
+            .setAmount(1)
             .setName("Delete")
             .addLore("Click to delete this warning");
 
@@ -89,11 +94,12 @@ public class ManageWarningGui extends AbstractGui {
             }
         }
 
-        ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
-            Items.editor(itemStackBuilder.build())
-                .setAmount(1)
-                .build(), String.valueOf(warning.getId()));
-        setItem(slot, item, action);
+        setItem(slot, itemStackBuilder.build(), action);
+    }
+
+    private void addExpireItem(Warning warning, int slot) {
+        ItemStack item = Items.createOrangeColoredGlass("Expire","Click to expire this warning");
+        setItem(slot, item, new ExpireWarningAction(warning));
     }
 
     private void addAppealItem(int slot) {
