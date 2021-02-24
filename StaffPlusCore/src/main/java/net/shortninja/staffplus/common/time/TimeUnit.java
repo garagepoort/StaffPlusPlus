@@ -28,7 +28,7 @@ public enum TimeUnit {
 
     public static long getDuration(String un, int time) {
         if (!JavaUtils.isValidEnum(TimeUnit.class, un)) {
-            throw new BusinessException("&CInvalid time unit used. Valid values: ["+ Arrays.stream(TimeUnit.values()).map(Enum::name).collect(Collectors.joining(", "))+"]");
+            throw new BusinessException("&CInvalid time unit used. Valid values: [" + Arrays.stream(TimeUnit.values()).map(Enum::name).collect(Collectors.joining(", ")) + "]");
         }
         TimeUnit timeUnit = TimeUnit.valueOf(un.toUpperCase());
         LocalDateTime from = LocalDateTime.now();
@@ -36,6 +36,14 @@ public enum TimeUnit {
         long fromMillis = ZonedDateTime.of(from, ZoneId.systemDefault()).toInstant().toEpochMilli();
         long toMillis = ZonedDateTime.of(to, ZoneId.systemDefault()).toInstant().toEpochMilli();
         return toMillis - fromMillis;
+    }
+
+    public static long getDuration(String duration) {
+        String[] split = duration.split(" ");
+        if (split.length != 2) {
+            throw new RuntimeException("Invalid duration string");
+        }
+        return getDuration(split[1], Integer.parseInt(split[0]));
     }
 
     private TemporalUnit getTemporalUnit() {

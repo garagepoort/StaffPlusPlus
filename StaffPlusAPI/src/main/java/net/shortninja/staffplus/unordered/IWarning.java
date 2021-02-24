@@ -18,8 +18,6 @@ public interface IWarning extends Actionable {
 
     int getId();
 
-    boolean shouldRemove();
-
     String getName();
 
     int getScore();

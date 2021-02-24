@@ -280,7 +280,7 @@ public class IocContainer {
     }
 
     public static ActionService getActionService() {
-        return initBean(ActionService.class, () -> new ActionService(getDelayedActionsRepository(), getActionableRepository(), getPlayerManager(), getActionExecutioner()));
+        return initBean(ActionService.class, () -> new ActionService(getActionableRepository(), getPlayerManager(), getActionExecutioner()));
     }
 
     public static ActionExecutioner getActionExecutioner() {
