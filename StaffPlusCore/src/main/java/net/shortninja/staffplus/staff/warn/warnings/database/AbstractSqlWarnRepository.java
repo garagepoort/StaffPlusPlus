@@ -34,7 +34,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     @Override
     public int getTotalScore(UUID uuid) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE Player_UUID = ? AND id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + serverNameFilter)
+             PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE Player_UUID = ? AND is_expired=false AND id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + serverNameFilter)
         ) {
             ps.setString(1, uuid.toString());
             try (ResultSet rs = ps.executeQuery()) {
@@ -150,6 +150,29 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     }
 
     @Override
+    public void expireWarnings(String severityLevel, long timestamp) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_expired=true WHERE is_expired=false AND severity=? AND timestamp < ? " + serverNameFilter)) {
+            insert.setString(1, severityLevel);
+            insert.setLong(2, timestamp);
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void expireWarning(int id) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_expired=true WHERE ID=? " + serverNameFilter + ";")) {
+            insert.setInt(1, id);
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void markWarningsRead(UUID uniqueId) {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_read=true WHERE Player_UUID=? " + serverNameFilter + ";")) {
@@ -204,6 +227,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : warner.map(SppPlayer::getUsername).orElse("Unknown user");
         int id = rs.getInt("ID");
         boolean read = rs.getBoolean("is_read");
+        boolean expired = rs.getBoolean("is_expired");
 
         Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUUID);
         String name = player.map(SppPlayer::getUsername).orElse("Unknown user");
@@ -221,7 +245,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
             score,
             severity,
             read,
-            serverName, appeals.size() > 0 ? appeals.get(0) : null);
+            serverName, appeals.size() > 0 ? appeals.get(0) : null, expired);
     }
 
 }

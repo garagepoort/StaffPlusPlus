@@ -21,6 +21,10 @@ public interface WarnRepository {
 
     void removeWarning(int id);
 
+    void expireWarnings(String name, long timestamp);
+
+    void expireWarning(int id);
+
     List<Warning> getWarnings(UUID uniqueId, int offset, int amount);
 
     void markWarningsRead(UUID uniqueId);

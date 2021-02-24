@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.warn.warnings.config;
 import net.shortninja.staffplus.common.actions.ActionConfigLoader;
 import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.common.config.ConfigLoader;
+import net.shortninja.staffplus.common.time.TimeUnit;
 import net.shortninja.staffplus.util.lib.Sounds;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -30,7 +31,6 @@ public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
         return new WarningConfiguration(enabled,
             showIssuer,
             sound,
-            clearInterval,
             notifyUser, alwaysNotifyUser,
             myWarningsPermission,
             myWarningsCmd,
@@ -66,7 +66,8 @@ public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
             LinkedHashMap map = (LinkedHashMap) o;
             String name = (String) map.get("name");
             int score = (Integer) map.get("score");
-            return new WarningSeverityConfiguration(name, score);
+            long expirationDuration = map.containsKey("expiresAfter") ? TimeUnit.getDuration((String) map.get("expiresAfter")) : -1;
+            return new WarningSeverityConfiguration(name, score, expirationDuration);
         }).collect(Collectors.toList());
     }
 
