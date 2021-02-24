@@ -53,7 +53,8 @@ public class SqLiteMigrations implements SqlMigrations {
         new V37_AlterDelayedActionsTableAddExecutableActionIdMigration(),
         new V38_AlterDelayedActionsTableAddRollbackMigration(),
         new V39_CreateActionableActionsTableMigration(),
-        new V40_AlterReportsTableAddLocationColumnMigration());
+        new V40_AlterReportsTableAddLocationColumnMigration(),
+        new V41_AlterWarningTableAddExpiredMigration());
 
     private SqLiteMigrations() {
     }

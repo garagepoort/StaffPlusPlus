@@ -35,7 +35,7 @@ import net.shortninja.staffplus.staff.reporting.ReportListener;
 import net.shortninja.staffplus.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
 import net.shortninja.staffplus.staff.warn.appeals.AppealNotifierListener;
-import net.shortninja.staffplus.staff.warn.warnings.WarningClearTask;
+import net.shortninja.staffplus.staff.warn.warnings.WarningExpireTask;
 import net.shortninja.staffplus.staff.warn.warnings.WarningListener;
 import net.shortninja.staffplus.staff.warn.warnings.WarningNotifierListener;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -72,7 +72,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public Tasks tasks;
     public MuteSessionTask muteSessionTask;
-    public WarningClearTask warningClearTask;
+    public WarningExpireTask warningExpireTask;
     public boolean usesPlaceholderAPI;
     private final DatabaseInitializer databaseInitializer = new DatabaseInitializer();
     private BukkitTask guiUpdateTask;
@@ -161,7 +161,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         cmdHandler = new CmdHandler();
         tasks = new Tasks();
         muteSessionTask = new MuteSessionTask();
-        warningClearTask = new WarningClearTask();
+        warningExpireTask = new WarningExpireTask();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             IocContainer.getSessionManager().initialize(player);
@@ -226,7 +226,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         saveUsers();
         tasks.cancel();
         muteSessionTask.cancel();
-        warningClearTask.cancel();
+        warningExpireTask.cancel();
 
         if (IocContainer.getOptions().modeConfiguration.isModeDisableOnLogout()) {
             for (Player player : Bukkit.getOnlinePlayers()) {

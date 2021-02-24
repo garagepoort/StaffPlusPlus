@@ -4,10 +4,12 @@ public class WarningSeverityConfiguration {
 
     private String name;
     private int score;
+    private long expirationDuration;
 
-    public WarningSeverityConfiguration(String name, int score) {
+    public WarningSeverityConfiguration(String name, int score, long expirationDuration) {
         this.name = name;
         this.score = score;
+        this.expirationDuration = expirationDuration;
     }
 
     public String getName() {
@@ -18,4 +20,11 @@ public class WarningSeverityConfiguration {
         return score;
     }
 
+    public long getExpirationDuration() {
+        return expirationDuration;
+    }
+
+    public boolean isExpirationEnabled() {
+        return expirationDuration > -1;
+    }
 }
