@@ -3,7 +3,6 @@ package net.shortninja.staffplus.common.actions;
 import net.shortninja.staffplus.common.actions.database.ActionableRepository;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplus.unordered.Actionable;
 import org.apache.commons.lang.StringUtils;
 
@@ -14,13 +13,11 @@ import java.util.stream.Collectors;
 
 public class ActionService {
 
-    private final DelayedActionsRepository delayedActionsRepository;
     private final ActionableRepository actionableRepository;
     private final PlayerManager playerManager;
     private final ActionExecutioner actionExecutioner;
 
-    public ActionService(DelayedActionsRepository delayedActionsRepository, ActionableRepository actionableRepository, PlayerManager playerManager, ActionExecutioner actionExecutioner) {
-        this.delayedActionsRepository = delayedActionsRepository;
+    public ActionService(ActionableRepository actionableRepository, PlayerManager playerManager, ActionExecutioner actionExecutioner) {
         this.actionableRepository = actionableRepository;
         this.playerManager = playerManager;
         this.actionExecutioner = actionExecutioner;

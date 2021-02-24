@@ -4,13 +4,13 @@ import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.util.lib.Sounds;
 
 import java.util.List;
+import java.util.Optional;
 
 public class WarningConfiguration {
 
     private boolean enabled;
     private boolean showIssuer;
     private Sounds sound;
-    private long clear;
     private boolean notifyUser;
     private boolean alwaysNotifyUser;
     private final String myWarningsCmd;
@@ -21,7 +21,6 @@ public class WarningConfiguration {
 
 
     public WarningConfiguration(boolean enabled, boolean showIssuer, Sounds sound,
-                                long clear,
                                 boolean notifyUser,
                                 boolean alwaysNotifyUser,
                                 String myWarningsPermission,
@@ -30,7 +29,6 @@ public class WarningConfiguration {
         this.enabled = enabled;
         this.showIssuer = showIssuer;
         this.sound = sound;
-        this.clear = clear;
         this.notifyUser = notifyUser;
         this.alwaysNotifyUser = alwaysNotifyUser;
         this.myWarningsPermission = myWarningsPermission;
@@ -50,10 +48,6 @@ public class WarningConfiguration {
 
     public Sounds getSound() {
         return sound;
-    }
-
-    public long getClear() {
-        return clear;
     }
 
     public boolean isAlwaysNotifyUser() {
@@ -82,5 +76,9 @@ public class WarningConfiguration {
 
     public List<ConfiguredAction> getActions() {
         return actions;
+    }
+
+    public Optional<WarningSeverityConfiguration> getSeverityConfiguration(String severityLevel) {
+        return severityLevels.stream().filter(config -> config.getName().equalsIgnoreCase(severityLevel)).findFirst();
     }
 }
