@@ -53,7 +53,7 @@ public class ManageWarningGui extends AbstractGui {
             addDeleteItem(warning, deleteAction, 8);
         }
 
-        if (permission.has(player, options.manageWarningsConfiguration.getPermissionExpire()) && !warning.isExpired()) {
+        if (permission.has(player, options.manageWarningsConfiguration.getPermissionExpire()) && !warning.isExpired() && !warning.hasApprovedAppeal()) {
             addExpireItem(warning, 26);
         }
 

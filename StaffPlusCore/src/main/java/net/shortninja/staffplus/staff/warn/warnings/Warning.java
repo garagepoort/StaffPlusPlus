@@ -12,6 +12,8 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import static net.shortninja.staffplus.unordered.AppealStatus.APPROVED;
+
 public class Warning implements IWarning, Infraction {
     private final UUID uuid;
     private final String name;
@@ -157,5 +159,9 @@ public class Warning implements IWarning, Infraction {
 
     public boolean isExpired() {
         return expired;
+    }
+
+    public boolean hasApprovedAppeal() {
+        return getAppeal().map(a -> a.getStatus() == APPROVED).orElse(false);
     }
 }
