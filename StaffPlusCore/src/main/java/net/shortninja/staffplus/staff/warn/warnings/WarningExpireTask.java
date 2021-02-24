@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class WarningExpireTask extends BukkitRunnable {
 
-    private static final int DELAY = 20 * 60;
+    private static final int DELAY = 20 * 30;
 
     public WarningExpireTask() {
         Options options = IocContainer.getOptions();
