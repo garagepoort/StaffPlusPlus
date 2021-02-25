@@ -148,7 +148,9 @@ public class WarnService implements InfractionProvider {
         if (!options.infractionsConfiguration.isShowWarnings()) {
             return Collections.emptyList();
         }
-        return getWarnings(playerUUID, false);
+        return getWarnings(playerUUID, false).stream()
+            .filter(w -> !w.isExpired())
+            .collect(Collectors.toList());
     }
 
     @Override
