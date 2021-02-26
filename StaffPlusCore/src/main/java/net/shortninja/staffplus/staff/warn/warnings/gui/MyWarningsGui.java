@@ -50,7 +50,7 @@ public class MyWarningsGui extends PagedGui {
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
         return IocContainer.getWarnService()
-            .getWarnings(player.getUniqueId(), offset, amount)
+            .getWarnings(player.getUniqueId(), offset, amount, false)
             .stream()
             .map(WarningItemBuilder::build)
             .collect(Collectors.toList());

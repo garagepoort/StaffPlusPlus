@@ -97,7 +97,7 @@ public class WarnService implements InfractionProvider {
 
     public List<Warning> getWarnings(UUID uuid, boolean includeAppealed) {
         return warnRepository.getWarnings(uuid).stream()
-            .filter(w -> includeAppealed || (w.getAppeal().isPresent() && w.getAppeal().get().getStatus() == AppealStatus.APPROVED))
+            .filter(w -> includeAppealed || (w.getAppeal().map(a -> a.getStatus() != AppealStatus.APPROVED).orElse(true)))
             .collect(Collectors.toList());
     }
 
@@ -124,8 +124,10 @@ public class WarnService implements InfractionProvider {
         sendEvent(new WarningExpiredEvent(warning));
     }
 
-    public List<Warning> getWarnings(UUID uniqueId, int offset, int amount) {
-        return warnRepository.getWarnings(uniqueId, offset, amount);
+    public List<Warning> getWarnings(UUID uniqueId, int offset, int amount, boolean includeExpired) {
+        return warnRepository.getWarnings(uniqueId, offset, amount)
+            .stream().filter(w -> includeExpired || !w.isExpired())
+            .collect(Collectors.toList());
     }
 
     public List<Warning> getAppealedWarnings(int offset, int amount) {
