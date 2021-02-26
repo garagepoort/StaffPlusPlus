@@ -49,7 +49,7 @@ public class ManageWarningsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return warnService.getWarnings(target.getId(), offset, amount)
+        return warnService.getWarnings(target.getId(), offset, amount, true)
             .stream().map(WarningItemBuilder::build)
             .collect(Collectors.toList());
     }
