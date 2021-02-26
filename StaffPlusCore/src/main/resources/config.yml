@@ -287,14 +287,14 @@ infractions-module:
   # Whether or not the plugin will enable the infractions gui.
   enabled: true
   show-bans: true
-  bans-gui-item: PAPER
   show-mutes: true
-  mutes-gui-item: PAPER
   show-warnings: true
-  warnings-gui-item: PAPER
   show-reported: true
-  reported-gui-item: PAPER
   show-kicks: true
+  bans-gui-item: PAPER
+  mutes-gui-item: PAPER
+  warnings-gui-item: PAPER
+  reported-gui-item: PAPER
   kicks-gui-item: PAPER
 
 ############################################################
