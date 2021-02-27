@@ -34,9 +34,10 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     @Override
     public int getTotalScore(UUID uuid) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE Player_UUID = ? AND is_expired=false AND id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + serverNameFilter)
+             PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE Player_UUID = ? AND is_expired=? AND id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + serverNameFilter)
         ) {
             ps.setString(1, uuid.toString());
+            ps.setBoolean(2, false);
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
                 return rs.getInt("sum");
@@ -152,9 +153,10 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     @Override
     public void expireWarnings(String severityLevel, long timestamp) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_expired=true WHERE is_expired=false AND severity=? AND timestamp < ? " + serverNameFilter)) {
-            insert.setString(1, severityLevel);
-            insert.setLong(2, timestamp);
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_expired=? WHERE is_expired=? AND severity=? AND timestamp < ? " + serverNameFilter)) {
+            insert.setBoolean(2, false);
+            insert.setString(3, severityLevel);
+            insert.setLong(4, timestamp);
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -164,8 +166,9 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     @Override
     public void expireWarning(int id) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_expired=true WHERE ID=? " + serverNameFilter + ";")) {
-            insert.setInt(1, id);
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_expired=? WHERE ID=? " + serverNameFilter + ";")) {
+            insert.setBoolean(1, true);
+            insert.setInt(2, id);
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
