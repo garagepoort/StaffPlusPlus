@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.12
 
+### V1.12.28
+
+### Features
+- Added warning expiration
+- Some small performance improvements
+- Add staff mode discord notifications.
+
 ### V1.12.27
 
 ### Features
