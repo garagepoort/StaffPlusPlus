@@ -154,6 +154,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     public void expireWarnings(String severityLevel, long timestamp) {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_expired=? WHERE is_expired=? AND severity=? AND timestamp < ? " + serverNameFilter)) {
+            insert.setBoolean(1, true);
             insert.setBoolean(2, false);
             insert.setString(3, severityLevel);
             insert.setLong(4, timestamp);
