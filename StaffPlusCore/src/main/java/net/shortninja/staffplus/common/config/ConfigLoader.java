@@ -2,8 +2,8 @@ package net.shortninja.staffplus.common.config;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.util.lib.JavaUtils;
-import net.shortninja.staffplus.util.lib.Sounds;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.Sounds;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public abstract class ConfigLoader<T> {

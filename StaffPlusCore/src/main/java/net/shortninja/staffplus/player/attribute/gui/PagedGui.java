@@ -3,8 +3,8 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.Items;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

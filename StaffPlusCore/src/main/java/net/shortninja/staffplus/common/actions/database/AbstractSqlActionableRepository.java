@@ -2,7 +2,7 @@ package net.shortninja.staffplus.common.actions.database;
 
 import net.shortninja.staffplus.common.actions.ActionRunStrategy;
 import net.shortninja.staffplus.common.actions.ExecutableActionEntity;
-import net.shortninja.staffplus.unordered.Actionable;
+import net.shortninja.staffplusplus.Actionable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

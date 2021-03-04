@@ -5,7 +5,7 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.staff.infractions.Infraction;
-import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.common.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

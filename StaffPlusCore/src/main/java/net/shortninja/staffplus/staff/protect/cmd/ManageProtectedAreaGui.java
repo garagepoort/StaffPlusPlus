@@ -7,8 +7,8 @@ import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.staff.protect.ProtectedArea;
 import net.shortninja.staffplus.staff.teleport.TeleportService;
-import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.Items;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

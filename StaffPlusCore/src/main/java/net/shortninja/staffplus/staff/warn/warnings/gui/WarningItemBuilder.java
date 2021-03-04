@@ -2,6 +2,8 @@ package net.shortninja.staffplus.staff.warn.warnings.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.warn.appeals.Appeal;
@@ -9,9 +11,7 @@ import net.shortninja.staffplus.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningSeverityConfiguration;
-import net.shortninja.staffplus.unordered.AppealStatus;
-import net.shortninja.staffplus.util.lib.JavaUtils;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplusplus.warnings.AppealStatus;
 import org.bukkit.inventory.ItemStack;
 
 import java.time.format.DateTimeFormatter;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static net.shortninja.staffplus.util.lib.JavaUtils.formatLines;
+import static net.shortninja.staffplus.common.JavaUtils.formatLines;
 
 public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
 

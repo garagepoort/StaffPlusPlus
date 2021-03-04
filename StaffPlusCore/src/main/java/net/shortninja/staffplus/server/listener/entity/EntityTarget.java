@@ -3,7 +3,7 @@ package net.shortninja.staffplus.server.listener.entity;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

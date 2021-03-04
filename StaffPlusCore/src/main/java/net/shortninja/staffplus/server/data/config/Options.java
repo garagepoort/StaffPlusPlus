@@ -44,11 +44,11 @@ import net.shortninja.staffplus.staff.warn.warnings.config.ManageWarningsConfigu
 import net.shortninja.staffplus.staff.warn.warnings.config.ManageWarningsModuleLoader;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningModuleLoader;
-import net.shortninja.staffplus.unordered.altdetect.AltDetectTrustLevel;
 import net.shortninja.staffplus.util.Materials;
-import net.shortninja.staffplus.util.lib.JavaUtils;
-import net.shortninja.staffplus.util.lib.Sounds;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.Sounds;
+import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -61,7 +61,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 //TODO: replace this with something that isn't horribly coupled...
-public class Options implements IOptions {
+public class Options {
 
     public List<String> blockedCommands;
     public List<String> blockedModeCommands;
@@ -521,11 +521,5 @@ public class Options implements IOptions {
         }
 
         return string.toUpperCase();
-    }
-
-    // TODO: Remove these when replaced with better solution.....
-    @Override
-    public List<String> getSoundNames() {
-        return soundNames;
     }
 }

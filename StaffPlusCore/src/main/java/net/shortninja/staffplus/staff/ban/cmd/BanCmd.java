@@ -7,7 +7,7 @@ import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.BanService;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

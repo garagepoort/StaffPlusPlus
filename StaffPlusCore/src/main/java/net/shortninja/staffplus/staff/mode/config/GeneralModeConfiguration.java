@@ -20,7 +20,7 @@ import net.shortninja.staffplus.staff.mode.config.modeitems.randomteleport.Rando
 import net.shortninja.staffplus.staff.mode.config.modeitems.randomteleport.RandomTeleportModeItemLoader;
 import net.shortninja.staffplus.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
 import net.shortninja.staffplus.staff.mode.config.modeitems.vanish.VanishModeItemLoader;
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplusplus.vanish.VanishType;
 
 import java.util.ArrayList;
 import java.util.List;

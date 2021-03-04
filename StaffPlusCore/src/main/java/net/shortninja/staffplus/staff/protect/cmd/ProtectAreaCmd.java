@@ -7,7 +7,7 @@ import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.staff.protect.ProtectedArea;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
