@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.server.data.config;
 
 import net.shortninja.staffplus.server.data.file.LanguageFile;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;

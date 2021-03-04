@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.reporting.database;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
-import net.shortninja.staffplus.event.ReportStatus;
+import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Options;

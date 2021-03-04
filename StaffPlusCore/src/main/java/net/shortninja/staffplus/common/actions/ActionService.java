@@ -3,7 +3,7 @@ package net.shortninja.staffplus.common.actions;
 import net.shortninja.staffplus.common.actions.database.ActionableRepository;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.unordered.Actionable;
+import net.shortninja.staffplusplus.Actionable;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;

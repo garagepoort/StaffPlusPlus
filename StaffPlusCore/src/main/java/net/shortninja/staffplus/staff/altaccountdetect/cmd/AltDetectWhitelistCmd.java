@@ -8,7 +8,7 @@ import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectWhitelistedItem;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionService;
-import net.shortninja.staffplus.util.lib.Message;
+import net.shortninja.staffplus.util.Message;
 import org.bukkit.command.CommandSender;
 
 import java.util.*;

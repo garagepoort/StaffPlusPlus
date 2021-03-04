@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.common.actions;
 
-import net.shortninja.staffplus.unordered.Actionable;
+import net.shortninja.staffplusplus.Actionable;
 
 public class ExecutableActionEntity {
 

@@ -2,8 +2,8 @@ package net.shortninja.staffplus.staff.reporting.config;
 
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
-import net.shortninja.staffplus.event.ReportStatus;
-import net.shortninja.staffplus.util.lib.Sounds;
+import net.shortninja.staffplusplus.reports.ReportStatus;
+import net.shortninja.staffplus.common.Sounds;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;

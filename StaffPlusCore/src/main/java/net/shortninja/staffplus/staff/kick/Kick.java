@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.kick;
 
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
-import net.shortninja.staffplus.unordered.IKick;
+import net.shortninja.staffplusplus.kick.IKick;
 
 import java.time.Instant;
 import java.time.ZoneId;

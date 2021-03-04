@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.alerts;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.event.altdetect.AltDetectEvent;
+import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

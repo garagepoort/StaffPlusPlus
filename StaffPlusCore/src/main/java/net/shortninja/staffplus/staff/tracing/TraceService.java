@@ -2,12 +2,12 @@ package net.shortninja.staffplus.staff.tracing;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.event.trace.StartTraceEvent;
-import net.shortninja.staffplus.event.trace.StopTraceEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.tracing.config.TraceConfiguration;
-import net.shortninja.staffplus.unordered.trace.TraceWriter;
+import net.shortninja.staffplusplus.trace.StartTraceEvent;
+import net.shortninja.staffplusplus.trace.StopTraceEvent;
+import net.shortninja.staffplusplus.trace.TraceWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

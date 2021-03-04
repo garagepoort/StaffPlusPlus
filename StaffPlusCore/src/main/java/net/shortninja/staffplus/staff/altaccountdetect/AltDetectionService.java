@@ -2,7 +2,6 @@ package net.shortninja.staffplus.staff.altaccountdetect;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.event.altdetect.AltDetectEvent;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -12,8 +11,9 @@ import net.shortninja.staffplus.staff.altaccountdetect.checks.IpDetector;
 import net.shortninja.staffplus.staff.altaccountdetect.checks.UsernameDetector;
 import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.PlayerIpRepository;
 import net.shortninja.staffplus.staff.altaccountdetect.database.whitelist.AltDetectWhitelistRepository;
-import net.shortninja.staffplus.unordered.altdetect.AltDetectTrustLevel;
 import net.shortninja.staffplus.util.Permission;
+import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
+import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

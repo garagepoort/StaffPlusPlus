@@ -5,8 +5,8 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.reporting.Report;
-import net.shortninja.staffplus.util.lib.JavaUtils;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.Items;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.shortninja.staffplus.util.lib.JavaUtils.formatLines;
+import static net.shortninja.staffplus.common.JavaUtils.formatLines;
 
 public class ReportItemBuilder implements InfractionGuiProvider<Report> {
 
