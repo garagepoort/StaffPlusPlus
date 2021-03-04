@@ -8,10 +8,10 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.util.lib.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -91,12 +91,10 @@ public class VanishService {
 
         switch (vanishType) {
             case TOTAL:
-                if (permission.has(player, options.permissionVanishTotal)) {
-                    Bukkit.getOnlinePlayers().stream()
-                        .filter(p -> !options.staffView || !permission.has(p, options.permissionMode))
-                        .forEach(p -> p.hidePlayer(player));
-                    message = messages.totalVanish.replace("%status%", messages.enabled);
-                }
+                Bukkit.getOnlinePlayers().stream()
+                    .filter(p -> !options.staffView || !permission.has(p, options.permissionMode))
+                    .forEach(p -> p.hidePlayer(player));
+                message = messages.totalVanish.replace("%status%", messages.enabled);
                 break;
             case LIST:
                 if (options.vanishTabList) {

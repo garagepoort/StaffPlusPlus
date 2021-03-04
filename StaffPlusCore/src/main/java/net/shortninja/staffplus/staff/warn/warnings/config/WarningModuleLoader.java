@@ -4,7 +4,7 @@ import net.shortninja.staffplus.common.actions.ActionConfigLoader;
 import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.time.TimeUnit;
-import net.shortninja.staffplus.util.lib.Sounds;
+import net.shortninja.staffplus.common.Sounds;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;

@@ -1,16 +1,16 @@
 package net.shortninja.staffplus.staff.mode;
 
-import net.shortninja.staffplus.event.staffmode.EnterStaffModeEvent;
-import net.shortninja.staffplus.event.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.staff.vanish.VanishService;
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
+import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;

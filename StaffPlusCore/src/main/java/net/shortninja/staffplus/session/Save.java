@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.session;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplusplus.alerts.AlertType;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 

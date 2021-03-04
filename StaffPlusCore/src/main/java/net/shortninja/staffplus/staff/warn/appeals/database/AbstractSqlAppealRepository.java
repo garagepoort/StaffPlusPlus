@@ -5,7 +5,7 @@ import net.shortninja.staffplus.common.Constants;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.staff.warn.appeals.Appeal;
-import net.shortninja.staffplus.unordered.AppealStatus;
+import net.shortninja.staffplusplus.warnings.AppealStatus;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.*;

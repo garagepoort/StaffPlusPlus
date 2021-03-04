@@ -3,7 +3,7 @@ package net.shortninja.staffplus.staff.mode.config.modeitems.vanish;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.staff.mode.config.ModeItemConfiguration;
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.inventory.ItemStack;
 
 public class VanishModeConfiguration extends ModeItemConfiguration {

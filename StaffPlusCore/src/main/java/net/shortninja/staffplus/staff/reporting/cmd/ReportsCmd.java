@@ -9,9 +9,9 @@ import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.unordered.IReport;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplusplus.reports.IReport;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

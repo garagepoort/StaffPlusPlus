@@ -1,5 +1,6 @@
-package net.shortninja.staffplus.util.lib.hex;
+package net.shortninja.staffplus.common;
 
+import net.shortninja.staffplus.util.Strings;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;

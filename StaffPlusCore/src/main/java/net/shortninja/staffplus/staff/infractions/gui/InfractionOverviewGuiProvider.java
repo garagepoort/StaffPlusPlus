@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.infractions.gui;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.staff.infractions.InfractionOverview;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.Items;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

@@ -10,9 +10,9 @@ import net.shortninja.staffplus.staff.mode.config.modeitems.examine.ExamineModeC
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.warn.warnings.Warning;
-import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.unordered.IReport;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplusplus.reports.IReport;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

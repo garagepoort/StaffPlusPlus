@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.util;
 
 
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.Bukkit;
 
 public enum Materials {

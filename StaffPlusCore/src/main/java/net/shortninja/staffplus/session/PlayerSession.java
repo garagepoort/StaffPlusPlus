@@ -2,8 +2,8 @@ package net.shortninja.staffplus.session;
 
 import net.shortninja.staffplus.player.attribute.gui.IGui;
 import net.shortninja.staffplus.server.chat.ChatAction;
-import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplusplus.alerts.AlertType;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

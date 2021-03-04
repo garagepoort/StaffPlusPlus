@@ -2,9 +2,6 @@ package net.shortninja.staffplus.staff.warn.appeals;
 
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.event.warnings.WarningAppealApprovedEvent;
-import net.shortninja.staffplus.event.warnings.WarningAppealRejectedEvent;
-import net.shortninja.staffplus.event.warnings.WarningAppealedEvent;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -13,10 +10,13 @@ import net.shortninja.staffplus.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.staff.warn.warnings.database.WarnRepository;
-import net.shortninja.staffplus.unordered.AppealStatus;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.warnings.WarningAppealApprovedEvent;
+import net.shortninja.staffplusplus.warnings.WarningAppealRejectedEvent;
+import net.shortninja.staffplusplus.warnings.WarningAppealedEvent;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;

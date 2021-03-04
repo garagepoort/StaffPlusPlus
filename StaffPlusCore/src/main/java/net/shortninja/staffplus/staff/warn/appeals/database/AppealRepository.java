@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.warn.appeals.database;
 
 import net.shortninja.staffplus.staff.warn.appeals.Appeal;
-import net.shortninja.staffplus.unordered.AppealStatus;
+import net.shortninja.staffplusplus.warnings.AppealStatus;
 
 import java.util.List;
 import java.util.Optional;

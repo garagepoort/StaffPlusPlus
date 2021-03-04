@@ -1,6 +1,5 @@
 package be.garagepoort.staffplusplus.discord.common;
 
-import net.shortninja.staffplus.util.lib.JavaUtils;
 import org.bukkit.Location;
 
 import java.time.LocalDateTime;

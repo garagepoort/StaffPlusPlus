@@ -311,7 +311,7 @@ public class IocContainer {
     }
 
     public static MessageCoordinator getMessage() {
-        return initBean(MessageCoordinator.class, () -> new MessageCoordinator(staffPlus, getPermissionHandler()));
+        return initBean(MessageCoordinator.class, () -> new MessageCoordinator(getPermissionHandler()));
     }
 
     public static Options getOptions() {

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.tracing.config;
 
 import net.shortninja.staffplus.staff.tracing.TraceType;
-import net.shortninja.staffplus.unordered.trace.TraceOutputChannel;
+import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 
 import java.util.List;
 

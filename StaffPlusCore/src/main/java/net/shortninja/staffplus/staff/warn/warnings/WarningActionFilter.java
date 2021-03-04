@@ -3,7 +3,7 @@ package net.shortninja.staffplus.staff.warn.warnings;
 import net.shortninja.staffplus.common.actions.ActionFilter;
 import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.unordered.IWarning;
+import net.shortninja.staffplusplus.warnings.IWarning;
 
 import java.util.Arrays;
 

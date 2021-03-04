@@ -1,8 +1,8 @@
 package be.garagepoort.staffplusplus.discord.trace;
 
-import be.garagepoort.staffplusplus.discord.common.Constants;
 import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import be.garagepoort.staffplusplus.discord.api.*;
+import be.garagepoort.staffplusplus.discord.common.Constants;
 import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import com.google.gson.Gson;
 import feign.Feign;
@@ -13,10 +13,10 @@ import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
-import net.shortninja.staffplus.event.trace.StopTraceEvent;
-import net.shortninja.staffplus.unordered.trace.ITrace;
-import net.shortninja.staffplus.unordered.trace.TraceOutputChannel;
-import net.shortninja.staffplus.unordered.trace.TraceWriter;
+import net.shortninja.staffplusplus.trace.ITrace;
+import net.shortninja.staffplusplus.trace.StopTraceEvent;
+import net.shortninja.staffplusplus.trace.TraceOutputChannel;
+import net.shortninja.staffplusplus.trace.TraceWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
