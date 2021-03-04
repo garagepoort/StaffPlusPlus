@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.tracing.config;
 
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.staff.tracing.TraceType;
-import net.shortninja.staffplus.unordered.trace.TraceOutputChannel;
+import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;

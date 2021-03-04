@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.infractions;
 
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.entity.Player;
 
 import java.util.*;

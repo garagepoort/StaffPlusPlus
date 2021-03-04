@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.mode.config.modeitems.freeze;
 
 import net.shortninja.staffplus.staff.mode.config.ModeItemLoader;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class FreezeModeItemLoader extends ModeItemLoader<FreezeModeConfiguration> {

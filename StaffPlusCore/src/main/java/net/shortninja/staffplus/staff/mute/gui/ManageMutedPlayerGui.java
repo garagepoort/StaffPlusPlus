@@ -3,8 +3,8 @@ package net.shortninja.staffplus.staff.mute.gui;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.staff.mute.Mute;
-import net.shortninja.staffplus.unordered.IAction;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.Items;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Supplier;

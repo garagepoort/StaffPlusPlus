@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.staff.reporting;
 
-import net.shortninja.staffplus.event.ReportStatus;
+import net.shortninja.staffplusplus.reports.ReportStatus;
 
 public class CloseReportRequest {
 

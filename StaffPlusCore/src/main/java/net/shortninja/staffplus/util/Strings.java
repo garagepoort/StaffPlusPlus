@@ -1,6 +1,5 @@
-package net.shortninja.staffplus.util.lib.hex;
+package net.shortninja.staffplus.util;
 
-import net.shortninja.staffplus.util.lib.Message;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;

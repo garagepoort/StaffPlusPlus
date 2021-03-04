@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.tracing;
 
-import net.shortninja.staffplus.unordered.trace.ITrace;
-import net.shortninja.staffplus.unordered.trace.TraceWriter;
+import net.shortninja.staffplusplus.trace.ITrace;
+import net.shortninja.staffplusplus.trace.TraceWriter;
 import org.bukkit.entity.Player;
 
 import java.util.List;

@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.protect.cmd;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.staff.protect.ProtectedArea;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

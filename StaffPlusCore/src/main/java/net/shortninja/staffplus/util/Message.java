@@ -1,7 +1,5 @@
-package net.shortninja.staffplus.util.lib;
+package net.shortninja.staffplus.util;
 
-import net.shortninja.staffplus.IStaffPlus;
-import net.shortninja.staffplus.util.lib.hex.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,16 +10,14 @@ import java.util.Collection;
 public class Message {
 
     public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
-    //private IPermissionsHandler permission;
-    private IStaffPlus staffPlus;
-
-    public Message(IStaffPlus staffPlus) {
-        this.staffPlus = staffPlus;
-        //permission = staffPlus.getPermissions();
-    }
+    protected final PermissionHandler permission;
 
     public static String colorize(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    public Message(PermissionHandler permission) {
+        this.permission = permission;
     }
 
     public void send(Player player, String message, String prefix) {
@@ -33,7 +29,7 @@ public class Message {
     }
 
     public void send(Player player, String message, String prefix, String permission) {
-        if (player == null || message == null || message.isEmpty() || !staffPlus.getPermissions().has(player, permission)) {
+        if (player == null || message == null || message.isEmpty() || !this.permission.has(player, permission)) {
             return;
         }
 

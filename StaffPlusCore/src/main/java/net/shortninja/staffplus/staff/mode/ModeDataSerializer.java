@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.mode;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.BukkitInventorySerialization;
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
