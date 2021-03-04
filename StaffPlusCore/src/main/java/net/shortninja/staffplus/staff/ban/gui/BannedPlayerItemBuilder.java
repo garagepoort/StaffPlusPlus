@@ -6,7 +6,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.Ban;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.shortninja.staffplus.util.lib.JavaUtils.formatLines;
+import static net.shortninja.staffplus.common.JavaUtils.formatLines;
 
 public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
 

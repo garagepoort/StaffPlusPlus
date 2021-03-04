@@ -2,8 +2,6 @@ package net.shortninja.staffplus.staff.ban;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.event.ban.BanEvent;
-import net.shortninja.staffplus.event.ban.UnbanEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -14,8 +12,10 @@ import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
-import net.shortninja.staffplus.util.lib.JavaUtils;
-import net.shortninja.staffplus.util.lib.Message;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplusplus.ban.BanEvent;
+import net.shortninja.staffplusplus.ban.UnbanEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.staff.mode;
 
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public class ModeData {
     private VanishType vanishType;
     private float xp;
 
-    public ModeData(Player player, VanishType vanishType) {
+    public ModeData(Player player, net.shortninja.staffplusplus.vanish.VanishType vanishType) {
         this.uuid = player.getUniqueId();
         this.playerInventory = player.getInventory().getContents();
 

@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.util.lib;
+package net.shortninja.staffplus.common;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;

@@ -2,12 +2,12 @@ package net.shortninja.staffplus.staff.warn.threshold;
 
 import net.shortninja.staffplus.common.actions.ActionService;
 import net.shortninja.staffplus.common.actions.ConfiguredAction;
-import net.shortninja.staffplus.event.warnings.WarningThresholdReachedEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningThresholdConfiguration;
 import net.shortninja.staffplus.staff.warn.warnings.database.WarnRepository;
-import net.shortninja.staffplus.unordered.IWarning;
+import net.shortninja.staffplusplus.warnings.IWarning;
+import net.shortninja.staffplusplus.warnings.WarningThresholdReachedEvent;
 
 import java.util.List;
 import java.util.Optional;

@@ -6,7 +6,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.warn.appeals.AppealService;
-import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

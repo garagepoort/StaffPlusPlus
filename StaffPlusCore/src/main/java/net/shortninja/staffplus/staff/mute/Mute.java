@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.staff.mute;
 
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
-import net.shortninja.staffplus.unordered.IMute;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplusplus.mute.IMute;
 
 import java.time.Instant;
 import java.time.ZoneId;

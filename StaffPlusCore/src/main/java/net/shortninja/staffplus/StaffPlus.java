@@ -9,10 +9,7 @@ import net.shortninja.staffplus.common.UpdatableGui;
 import net.shortninja.staffplus.server.command.CmdHandler;
 import net.shortninja.staffplus.server.data.config.AutoUpdater;
 import net.shortninja.staffplus.server.data.config.AutoUpdaterLanguageFiles;
-import net.shortninja.staffplus.server.data.config.IOptions;
 import net.shortninja.staffplus.server.data.file.DataFile;
-import net.shortninja.staffplus.server.hook.HookHandler;
-import net.shortninja.staffplus.server.hook.SuperVanishHook;
 import net.shortninja.staffplus.server.listener.*;
 import net.shortninja.staffplus.server.listener.entity.EntityChangeBlock;
 import net.shortninja.staffplus.server.listener.entity.EntityDamage;
@@ -42,6 +39,7 @@ import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseInitializer;
 import net.shortninja.staffplus.util.metrics.MetricsService;
 import net.shortninja.staffplus.util.updates.UpdateNotifier;
+import net.shortninja.staffplusplus.IStaffPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -64,7 +62,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public IProtocol versionProtocol;
     public DataFile dataFile;
 
-    public HookHandler hookHandler;
     public CpsHandler cpsHandler;
     public GadgetHandler gadgetHandler;
     public ReviveHandler reviveHandler;
@@ -122,8 +119,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             }
         }, 0, 10);
 
-        hookHandler.addHook(new SuperVanishHook(this));
-        hookHandler.enableAll();
         enableLuckPermHooks();
     }
 
@@ -154,7 +149,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         getScheduler().runTaskAsynchronously(this, () -> new UpdateNotifier().checkUpdate());
 
         dataFile = new DataFile("data.yml");
-        hookHandler = new HookHandler();
         cpsHandler = new CpsHandler();
         gadgetHandler = new GadgetHandler();
         reviveHandler = new ReviveHandler();
@@ -221,8 +215,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
 
     private void stop() {
-        hookHandler.disableAll();
-
         saveUsers();
         tasks.cancel();
         muteSessionTask.cancel();
@@ -241,11 +233,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         cmdHandler = null;
         tasks = null;
         plugin = null;
-    }
-
-    @Override
-    public IOptions getOptions() {
-        return IocContainer.getOptions();
     }
 
     public PermissionHandler getPermissions() {

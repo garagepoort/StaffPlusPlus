@@ -4,15 +4,14 @@ import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningSeverityConfiguration;
-import net.shortninja.staffplus.unordered.IWarning;
+import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.warnings.IWarning;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
-
-import static net.shortninja.staffplus.unordered.AppealStatus.APPROVED;
 
 public class Warning implements IWarning, Infraction {
     private final UUID uuid;
@@ -162,6 +161,6 @@ public class Warning implements IWarning, Infraction {
     }
 
     public boolean hasApprovedAppeal() {
-        return getAppeal().map(a -> a.getStatus() == APPROVED).orElse(false);
+        return getAppeal().map(a -> a.getStatus() == AppealStatus.APPROVED).orElse(false);
     }
 }

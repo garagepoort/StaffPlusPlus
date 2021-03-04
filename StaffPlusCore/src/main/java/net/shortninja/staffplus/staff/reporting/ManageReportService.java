@@ -4,7 +4,6 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.event.*;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -12,6 +11,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplusplus.reports.*;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -67,7 +67,7 @@ public class ManageReportService {
             Report report = reportRepository.findOpenReport(reportId)
                 .orElseThrow(() -> new BusinessException("Report with id [" + reportId + "] not found", messages.prefixReports));
 
-            report.setReportStatus(ReportStatus.IN_PROGRESS);
+            report.setReportStatus(net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS);
             report.setStaffUuid(player.getUniqueId());
             report.setStaffName(player.getName());
             reportRepository.updateReport(report);

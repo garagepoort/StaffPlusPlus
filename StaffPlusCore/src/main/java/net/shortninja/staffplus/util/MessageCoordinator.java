@@ -2,10 +2,7 @@ package net.shortninja.staffplus.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.IStaffPlus;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.util.lib.Message;
-import net.shortninja.staffplus.util.lib.hex.Strings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -15,11 +12,9 @@ import java.util.Collection;
 
 public class MessageCoordinator extends Message {
     public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
-    private PermissionHandler permission;
 
-    public MessageCoordinator(IStaffPlus staffPlus, PermissionHandler permission) {
-        super(staffPlus);
-        this.permission = permission;
+    public MessageCoordinator(PermissionHandler permission) {
+        super(permission);
     }
 
     public static String colorize(String message) {

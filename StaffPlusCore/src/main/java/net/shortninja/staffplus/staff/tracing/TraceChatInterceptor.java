@@ -9,7 +9,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.List;
 
-import static net.shortninja.staffplus.unordered.trace.TraceOutputChannel.CHAT;
+import static net.shortninja.staffplusplus.trace.TraceOutputChannel.CHAT;
 
 public class TraceChatInterceptor implements ChatInterceptor {
 

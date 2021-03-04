@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.altaccountdetect;
 
-import net.shortninja.staffplus.unordered.altdetect.AltDetectTrustLevel;
-import net.shortninja.staffplus.unordered.altdetect.IAltDetectResult;
+import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
+import net.shortninja.staffplusplus.altdetect.IAltDetectResult;
 
 import java.util.UUID;
 

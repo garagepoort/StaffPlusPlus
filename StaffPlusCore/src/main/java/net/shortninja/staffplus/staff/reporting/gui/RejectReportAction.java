@@ -2,14 +2,14 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.event.ReportStatus;
+import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.staff.reporting.ManageReportService;
-import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

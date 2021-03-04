@@ -2,9 +2,9 @@ package net.shortninja.staffplus.staff.warn.appeals.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.unordered.AppealStatus;
-import net.shortninja.staffplus.unordered.IWarningAppeal;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.warnings.IWarningAppeal;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.shortninja.staffplus.util.lib.JavaUtils.formatLines;
+import static net.shortninja.staffplus.common.JavaUtils.formatLines;
 
 public class AppealItemBuilder {
 

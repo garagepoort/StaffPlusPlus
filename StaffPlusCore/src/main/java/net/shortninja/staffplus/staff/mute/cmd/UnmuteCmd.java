@@ -7,7 +7,7 @@ import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.mute.MuteService;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
