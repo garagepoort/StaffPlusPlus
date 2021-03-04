@@ -4,11 +4,11 @@ import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.unordered.AlertType;
-import net.shortninja.staffplus.unordered.altdetect.IAltDetectResult;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplusplus.alerts.AlertType;
+import net.shortninja.staffplusplus.altdetect.IAltDetectResult;
 import org.bukkit.Material;
 
 public class AlertCoordinator {

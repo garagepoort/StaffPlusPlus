@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.staff.tracing;
 
 import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.unordered.trace.TraceWriter;
-import net.shortninja.staffplus.unordered.trace.TraceOutputChannel;
+import net.shortninja.staffplusplus.trace.TraceWriter;
+import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

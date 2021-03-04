@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.staff.reporting;
 
-import net.shortninja.staffplus.event.ReportStatus;
+import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
-import net.shortninja.staffplus.unordered.IReport;
+import net.shortninja.staffplusplus.reports.IReport;
 import org.bukkit.Location;
 
 import java.sql.Timestamp;

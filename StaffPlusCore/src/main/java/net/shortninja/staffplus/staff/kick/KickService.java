@@ -2,7 +2,6 @@ package net.shortninja.staffplus.staff.kick;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.event.kick.KickEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -13,7 +12,8 @@ import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.kick.database.KicksRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
-import net.shortninja.staffplus.util.lib.Message;
+import net.shortninja.staffplus.util.Message;
+import net.shortninja.staffplusplus.kick.KickEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

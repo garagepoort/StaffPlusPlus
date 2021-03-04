@@ -8,7 +8,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

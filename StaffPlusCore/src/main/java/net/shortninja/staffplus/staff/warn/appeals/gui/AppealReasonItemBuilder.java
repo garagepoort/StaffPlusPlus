@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.warn.appeals.gui;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

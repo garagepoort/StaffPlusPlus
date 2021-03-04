@@ -2,10 +2,10 @@ package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.unordered.IAction;
+import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.util.GlassData;
-import net.shortninja.staffplus.util.lib.JavaUtils;
-import net.shortninja.staffplus.util.lib.hex.Items;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

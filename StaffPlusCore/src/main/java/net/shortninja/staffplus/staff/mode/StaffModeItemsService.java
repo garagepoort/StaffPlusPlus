@@ -9,7 +9,7 @@ import net.shortninja.staffplus.staff.mode.config.ModeItemConfiguration;
 import net.shortninja.staffplus.staff.mode.config.gui.GuiConfiguration;
 import net.shortninja.staffplus.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
 import net.shortninja.staffplus.util.Permission;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.server.chat.blacklist;
 
 import net.shortninja.staffplus.common.config.ConfigLoader;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;

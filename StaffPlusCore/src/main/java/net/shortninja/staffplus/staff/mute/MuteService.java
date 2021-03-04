@@ -2,8 +2,6 @@ package net.shortninja.staffplus.staff.mute;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.event.mute.MuteEvent;
-import net.shortninja.staffplus.event.mute.UnmuteEvent;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -14,7 +12,9 @@ import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.mute.database.MuteRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
-import net.shortninja.staffplus.util.lib.JavaUtils;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplusplus.mute.MuteEvent;
+import net.shortninja.staffplusplus.mute.UnmuteEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

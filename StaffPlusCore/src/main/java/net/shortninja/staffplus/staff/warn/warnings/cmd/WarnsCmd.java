@@ -6,7 +6,7 @@ import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.staff.warn.warnings.Warning;
-import net.shortninja.staffplus.unordered.IWarning;
+import net.shortninja.staffplusplus.warnings.IWarning;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.command.CommandSender;
 

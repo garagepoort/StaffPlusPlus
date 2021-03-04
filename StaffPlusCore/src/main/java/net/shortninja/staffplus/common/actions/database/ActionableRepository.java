@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.common.actions.database;
 
-import net.shortninja.staffplus.unordered.Actionable;
 import net.shortninja.staffplus.common.actions.ExecutableActionEntity;
+import net.shortninja.staffplusplus.Actionable;
 
 import java.util.List;
 

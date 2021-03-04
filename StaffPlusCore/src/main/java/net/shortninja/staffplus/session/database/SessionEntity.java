@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.session.database;
 
-import net.shortninja.staffplus.unordered.VanishType;
+import net.shortninja.staffplusplus.vanish.VanishType;
 
 import java.util.UUID;
 
