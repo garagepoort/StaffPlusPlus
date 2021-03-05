@@ -40,9 +40,11 @@ import net.shortninja.staffplus.util.database.DatabaseInitializer;
 import net.shortninja.staffplus.util.metrics.MetricsService;
 import net.shortninja.staffplus.util.updates.UpdateNotifier;
 import net.shortninja.staffplusplus.IStaffPlus;
+import net.shortninja.staffplusplus.staffmode.chat.StaffChatService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -120,6 +122,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }, 0, 10);
 
         enableLuckPermHooks();
+        Bukkit.getServicesManager().register(IStaffPlus.class, this, this, ServicePriority.Normal);
     }
 
     @Override
@@ -242,6 +245,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     @Override
     public boolean isPlayerVanished(UUID playerUuid) {
         return IocContainer.getSessionManager().get(playerUuid).isVanished();
+    }
+
+    @Override
+    public StaffChatService getStaffChatService() {
+        return IocContainer.getStaffChatService();
     }
 
     private void enableLuckPermHooks() {

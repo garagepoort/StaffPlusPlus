@@ -28,6 +28,12 @@
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>staffplusplus-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.discordsrv</groupId>
+            <artifactId>discordsrv</artifactId>
+            <version>1.21.2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
