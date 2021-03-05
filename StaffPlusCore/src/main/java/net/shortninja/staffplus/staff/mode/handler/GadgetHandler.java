@@ -3,6 +3,7 @@ package net.shortninja.staffplus.staff.mode.handler;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.CounterGui;
 import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GadgetHandler {
     private final static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
@@ -34,6 +36,7 @@ public class GadgetHandler {
     private final SessionManager sessionManager = IocContainer.getSessionManager();
     private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
     private final VanishService vanishService = IocContainer.getVanishHandler();
+    private final PlayerManager playerManager = IocContainer.getPlayerManager();
 
     public GadgetType getGadgetType(ItemStack item, String value) {
         if (options.modeConfiguration.getCompassModeConfiguration().getIdentifier().equals(value)) {
@@ -82,41 +85,27 @@ public class GadgetHandler {
         player.setVelocity(JavaUtils.makeVelocitySafe(vector.multiply(options.modeConfiguration.getCompassModeConfiguration().getVelocity())));
     }
 
-    public void onRandomTeleport(Player player, int count) {
-        List<Player> onlinePlayers = JavaUtils.getOnlinePlayers();
-        Player currentPlayer = null;
+    public void onRandomTeleport(Player player) {
+        List<Player> onlinePlayers = playerManager.getOnlinePlayers()
+            .stream()
+            .filter(p -> !p.getUniqueId().equals(player.getUniqueId()) && !permission.has(p, options.permissionMember))
+            .collect(Collectors.toList());
 
-        if (onlinePlayers.size() == 1) {
+
+        if (onlinePlayers.isEmpty()) {
             message.send(player, messages.modeNotEnoughPlayers, messages.prefixGeneral);
             return;
         }
 
+        Player currentPlayer = null;
         if (options.modeConfiguration.getRandomTeleportModeConfiguration().isRandom()) {
             Random random = new Random();
-
-            do {
-                currentPlayer = onlinePlayers.get(random.nextInt(onlinePlayers.size()));
-            }
-            while (player.getName().equals(currentPlayer.getName()) || permission.has(currentPlayer, options.permissionMember));
+            currentPlayer = onlinePlayers.get(random.nextInt(onlinePlayers.size()));
         } else {
             UUID uuid = player.getUniqueId();
             int lastIndex = lastRandomTeleport.get(uuid) == null ? 0 : lastRandomTeleport.get(uuid);
-
-            if ((lastIndex + 1) < onlinePlayers.size()) {
-                lastIndex++;
-            } else lastIndex = 0;
-
+            lastIndex = lastIndex + 1 < onlinePlayers.size() ? lastIndex + 1 : 0;
             currentPlayer = onlinePlayers.get(lastIndex);
-
-            if (count >= onlinePlayers.size()) {
-                message.send(player, messages.modeNotEnoughPlayers, messages.prefixGeneral);
-                return;
-            } else if (player.getName().equals(currentPlayer.getName()) || permission.has(currentPlayer, options.permissionMember)) {
-                lastRandomTeleport.put(uuid, lastIndex);
-                onRandomTeleport(player, count + 1);
-                return;
-            }
-
             lastRandomTeleport.put(uuid, lastIndex);
         }
 
