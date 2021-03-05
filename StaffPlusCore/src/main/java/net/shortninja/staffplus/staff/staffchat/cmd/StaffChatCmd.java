@@ -30,7 +30,7 @@ public class StaffChatCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
         if (args.length > 0) {
-            staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
+            staffChatService.sendMessage((Player) sender, JavaUtils.compileWords(args, 0));
         } else {
             PlayerSession session = sessionManager.get(((Player) sender).getUniqueId());
 
