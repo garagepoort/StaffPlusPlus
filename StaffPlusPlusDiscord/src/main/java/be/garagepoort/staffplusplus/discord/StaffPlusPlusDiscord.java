@@ -6,6 +6,7 @@ import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import be.garagepoort.staffplusplus.discord.kick.KickListener;
 import be.garagepoort.staffplusplus.discord.mute.MuteListener;
 import be.garagepoort.staffplusplus.discord.reports.ReportListener;
+import be.garagepoort.staffplusplus.discord.staffchat.StaffChatListener;
 import be.garagepoort.staffplusplus.discord.staffmode.StaffModeListener;
 import be.garagepoort.staffplusplus.discord.warnings.AppealListener;
 import be.garagepoort.staffplusplus.discord.warnings.WarningListener;
@@ -52,6 +53,7 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         initListener(new AppealListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No warning appeals webhookUrl provided in the configuration.");
         initListener(new AltDetectionListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No altDetect webhookUrl provided in the configuration.");
         initListener(new StaffModeListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No staffmode webhookUrl provided in the configuration.");
+        initListener(new StaffChatListener(config, plugin), "Cannot enable StaffPlusPlusDiscord. Staffchat sync not configured correctly");
     }
 
     private void initListener(StaffPlusPlusListener listener, String errorMessage) {

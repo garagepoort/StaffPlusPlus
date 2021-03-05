@@ -90,6 +90,10 @@
             <id>luck-repo</id>
             <url>https://repo.lucko.me/</url>
         </repository>
+        <repository>
+            <id>scarsz-nexus</id>
+            <url>https://nexus.scarsz.me/content/repositories/public/</url>
+        </repository>
     </repositories>
 
     <dependencyManagement>
@@ -97,7 +101,7 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
