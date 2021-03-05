@@ -7,6 +7,7 @@ import net.shortninja.staffplus.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.inventory.ItemStack;
 
@@ -25,6 +26,10 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
         if(IocContainer.getOptions().serverSyncConfiguration.isReportSyncEnabled()) {
             lore.add("&bServer: " + report.getServerName());
         }
+        if(report.getReportStatus() != ReportStatus.OPEN) {
+            lore.add("&bAssignee: " + report.getStaffName());
+        }
+
         String culprit = report.getCulpritName() == null ? "Unknown" : report.getCulpritName();
         lore.add("&bCulprit: " + culprit);
         lore.add("&bStatus: " + report.getReportStatus());
