@@ -9,7 +9,8 @@ import net.shortninja.staffplus.staff.ban.gui.BannedPlayersGui;
 import net.shortninja.staffplus.staff.mode.config.modeitems.gui.GuiModeConfiguration;
 import net.shortninja.staffplus.staff.mute.gui.MutedPlayersGui;
 import net.shortninja.staffplus.staff.protect.cmd.ProtectedAreasGui;
-import net.shortninja.staffplus.staff.reporting.gui.AssignedReportsGui;
+import net.shortninja.staffplus.staff.reporting.gui.AllAssignedReportsGui;
+import net.shortninja.staffplus.staff.reporting.gui.MyAssignedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.staff.reporting.gui.OpenReportsGui;
 import net.shortninja.staffplus.common.IAction;
@@ -30,6 +31,7 @@ public class HubGui extends AbstractGui {
     private final GuiItemConfig banGuiItemConfig;
     private final GuiItemConfig muteGuiItemConfig;
     private final GuiItemConfig closedReportsGui;
+    private final GuiItemConfig myAssignedReportsGui;
     private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig openReportsGui;
     private final GuiModeConfiguration guiModeConfiguration;
@@ -44,7 +46,8 @@ public class HubGui extends AbstractGui {
         muteGuiItemConfig = options.muteConfiguration.getGuiItemConfig();
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
-        assignedReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
+        myAssignedReportsGui = options.reportConfiguration.getMyReportsGui();
+        assignedReportsGui = options.reportConfiguration.getAssignedReportsGui();
         guiModeConfiguration = options.modeConfiguration.getGuiModeConfiguration();
     }
 
@@ -53,8 +56,9 @@ public class HubGui extends AbstractGui {
         PermissionHandler permissionHandler = IocContainer.getPermissionHandler();
         if (openReportsGui.isEnabled() && permissionHandler.has(player, options.manageReportConfiguration.getPermissionView())) {
             setMenuItem(1, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
-            setMenuItem(2, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AssignedReportsGui(p, assignedReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
-            setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
+            setMenuItem(2, buildGuiItem(PAPER, myAssignedReportsGui), (p) -> new MyAssignedReportsGui(p, myAssignedReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
+            setMenuItem(3, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AllAssignedReportsGui(p, assignedReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
+            setMenuItem(4, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
         }
 
         if (guiModeConfiguration.modeGuiMiner) {
