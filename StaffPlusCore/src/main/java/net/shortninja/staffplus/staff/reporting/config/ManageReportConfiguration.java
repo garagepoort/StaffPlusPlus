@@ -9,9 +9,10 @@ public class ManageReportConfiguration {
     private String permissionResolve;
     private String permissionReject;
     private String permissionTeleport;
+    private String permissionReopenOther;
 
 
-    public ManageReportConfiguration(String commandManageReportsGui, String permissionView, String permissionDelete, String permissionAccept, String permissionResolve, String permissionReject, String permissionTeleport) {
+    public ManageReportConfiguration(String commandManageReportsGui, String permissionView, String permissionDelete, String permissionAccept, String permissionResolve, String permissionReject, String permissionTeleport, String permissionReopenOther) {
         this.commandManageReportsGui = commandManageReportsGui;
         this.permissionView = permissionView;
         this.permissionDelete = permissionDelete;
@@ -19,6 +20,7 @@ public class ManageReportConfiguration {
         this.permissionResolve = permissionResolve;
         this.permissionReject = permissionReject;
         this.permissionTeleport = permissionTeleport;
+        this.permissionReopenOther = permissionReopenOther;
     }
 
     public String getCommandManageReportsGui() {
@@ -47,5 +49,9 @@ public class ManageReportConfiguration {
 
     public String getPermissionTeleport() {
         return permissionTeleport;
+    }
+
+    public String getPermissionReopenOther() {
+        return permissionReopenOther;
     }
 }

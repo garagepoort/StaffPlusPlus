@@ -2,15 +2,14 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.staff.reporting.Report;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.staff.reporting.gui.actions.*;
 import net.shortninja.staffplus.util.Permission;
-import net.shortninja.staffplus.common.Items;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,73 +34,28 @@ public class ManageReportGui extends AbstractGui {
     @Override
     public void buildGui() {
 
-
-        IAction reopenAction = new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    manageReportService.reopenReport(player, reportId);
-                });
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return true;
-            }
-        };
-
+        IAction reopenAction = new ReopenReportAction();
         IAction resolveAction = new ResolveReportAction();
         IAction rejectAction = new RejectReportAction();
-        IAction deleteAction = new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    manageReportService.deleteReport(player, reportId);
-                });
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return true;
-            }
-        };
-        IAction teleportAction = new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    if(report.getLocation().isPresent()) {
-                        Location location = report.getLocation().get();
-                        player.teleport(location);
-                        message.send(player, "You have been teleported to the location where this report was created", messages.prefixReports);
-                    }else {
-                        message.send(player, "&cLocation not known for this report.", messages.prefixReports);
-                    }
-                });
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return true;
-            }
-        };
+        IAction deleteAction = new DeleteReportAction();
+        IAction teleportAction = new TeleportToReportLocationAction(report);
 
         setItem(13, ReportItemBuilder.build(report), null);
 
-        if(permission.has(player, options.manageReportConfiguration.getPermissionResolve())) {
+        if(isAssignee() && permission.has(player, options.manageReportConfiguration.getPermissionResolve())) {
             addResolveItem(report, resolveAction, 34);
             addResolveItem(report, resolveAction, 35);
             addResolveItem(report, resolveAction, 43);
             addResolveItem(report, resolveAction, 44);
         }
 
-        addReopenItem(report, reopenAction, 27);
-        addReopenItem(report, reopenAction, 28);
-        addReopenItem(report, reopenAction, 36);
-        addReopenItem(report, reopenAction, 37);
-
-        if(permission.has(player, options.manageReportConfiguration.getPermissionReject())) {
+        if(isAssignee() || permission.has(player, options.manageReportConfiguration.getPermissionReopenOther())) {
+            addReopenItem(report, reopenAction, 27);
+            addReopenItem(report, reopenAction, 28);
+            addReopenItem(report, reopenAction, 36);
+            addReopenItem(report, reopenAction, 37);
+        }
+        if(isAssignee() && permission.has(player, options.manageReportConfiguration.getPermissionReject())) {
             addRejectItem(report, rejectAction, 30);
             addRejectItem(report, rejectAction, 31);
             addRejectItem(report, rejectAction, 32);
@@ -109,12 +63,17 @@ public class ManageReportGui extends AbstractGui {
             addRejectItem(report, rejectAction, 40);
             addRejectItem(report, rejectAction, 41);
         }
-        if(permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
+        if(isAssignee() && permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
             addDeleteItem(report, deleteAction, 8);
         }
+
         if(permission.has(player, options.manageReportConfiguration.getPermissionTeleport())) {
             addTeleportItem(teleportAction, 0);
         }
+    }
+
+    private boolean isAssignee() {
+        return player.getUniqueId().equals(report.getStaffUuid());
     }
 
     private void addResolveItem(Report report, IAction action, int slot) {

@@ -114,6 +114,10 @@ public class ReportService implements InfractionProvider {
         return reportRepository.getUnresolvedReports(offset, amount);
     }
 
+    public Collection<Report> getAllAssignedReports(int offset, int amount) {
+        return reportRepository.getAssignedReports(offset, amount);
+    }
+
     public Collection<Report> getAssignedReports(UUID staffUuid, int offset, int amount) {
         return reportRepository.getAssignedReports(staffUuid, offset, amount);
     }
