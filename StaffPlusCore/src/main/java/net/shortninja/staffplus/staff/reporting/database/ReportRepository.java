@@ -27,6 +27,8 @@ public interface ReportRepository {
 
     List<Report> getAssignedReports(UUID staffUuid, int offset, int amount);
 
+    List<Report> getAssignedReports(int offset, int amount);
+
     List<Report> getMyReports(UUID staffUuid, int offset, int amount);
 
     List<Report> getMyReports(UUID reporterUuid);

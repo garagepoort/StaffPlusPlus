@@ -196,6 +196,25 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         }
         return reports;
     }
+    @Override
+    public List<Report> getAssignedReports(int offset, int amount) {
+        List<Report> reports = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE status = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
+            ps.setString(1, ReportStatus.IN_PROGRESS.toString());
+            ps.setBoolean(2, false);
+            ps.setInt(3, offset);
+            ps.setInt(4, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    reports.add(buildReport(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reports;
+    }
 
     @Override
     public List<Report> getMyReports(UUID reporterUuid, int offset, int amount) {

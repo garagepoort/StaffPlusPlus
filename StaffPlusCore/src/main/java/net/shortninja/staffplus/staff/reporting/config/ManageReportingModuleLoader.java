@@ -14,6 +14,7 @@ public class ManageReportingModuleLoader extends ConfigLoader<ManageReportConfig
         String permissionManageReportsResolve = config.getString("permissions.reports.manage.resolve");
         String permissionManageReportsReject = config.getString("permissions.reports.manage.reject");
         String permissionManageReportsTeleport = config.getString("permissions.reports.manage.teleport");
+        String permissionManageReportsReopenOther = config.getString("permissions.reports.manage.reopen-other");
 
         return new ManageReportConfiguration(
             commandManageReportsGui,
@@ -22,6 +23,7 @@ public class ManageReportingModuleLoader extends ConfigLoader<ManageReportConfig
             permissionManageReportsAccept,
             permissionManageReportsResolve,
             permissionManageReportsReject,
-            permissionManageReportsTeleport);
+            permissionManageReportsTeleport,
+            permissionManageReportsReopenOther);
     }
 }

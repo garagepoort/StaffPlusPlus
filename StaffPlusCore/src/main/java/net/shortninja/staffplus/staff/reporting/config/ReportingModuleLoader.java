@@ -34,11 +34,14 @@ public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
         String modeGuiReportsLore = config.getString("staff-mode.gui-module.reports-lore");
         String modeGuiMyReportsTitle = config.getString("staff-mode.gui-module.my-reports-title");
         String modeGuiMyReportsLore = config.getString("staff-mode.gui-module.my-reports-lore");
+        String modeGuiAssignedReportsTitle = config.getString("staff-mode.gui-module.assigned-reports-title");
+        String modeGuiAssignedReportsLore = config.getString("staff-mode.gui-module.assigned-reports-lore");
         String modeGuiClosedReportsTitle = config.getString("staff-mode.gui-module.closed-reports-title");
         String modeGuiClosedReportsLore = config.getString("staff-mode.gui-module.closed-reports-lore");
 
         GuiItemConfig openReportsGui = new GuiItemConfig(modeGuiReports, modeGuiReportsTitle, modeGuiReportsName, modeGuiReportsLore);
         GuiItemConfig myReportsGui = new GuiItemConfig(modeGuiReports, modeGuiMyReportsTitle, modeGuiMyReportsTitle, modeGuiMyReportsLore);
+        GuiItemConfig assignedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiAssignedReportsTitle, modeGuiAssignedReportsTitle, modeGuiAssignedReportsLore);
         GuiItemConfig closedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiClosedReportsTitle, modeGuiClosedReportsTitle, modeGuiClosedReportsLore);
 
         return new ReportConfiguration(enabled,
@@ -48,6 +51,7 @@ public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
             closingReasonEnabled,
             openReportsGui,
             myReportsGui,
+            assignedReportsGui,
             closedReportsGui,
             myReportsPermission,
             myReportsCmd,

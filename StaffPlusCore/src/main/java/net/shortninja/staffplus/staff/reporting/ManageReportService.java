@@ -38,25 +38,10 @@ public class ManageReportService {
         this.reportService = reportService;
     }
 
-    public Collection<Report> getUnresolvedReports(int offset, int amount) {
-        return reportRepository.getUnresolvedReports(offset, amount);
-    }
-
-    public Collection<Report> getAssignedReports(UUID staffUuid, int offset, int amount) {
-        return reportRepository.getAssignedReports(staffUuid, offset, amount);
-    }
-
     public void clearReports(SppPlayer player) {
         reportRepository.removeReports(player.getId());
     }
 
-    private SppPlayer getUser(UUID playerUuid) {
-        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUuid);
-        if (!player.isPresent()) {
-            throw new BusinessException(messages.playerNotRegistered, messages.prefixGeneral);
-        }
-        return player.get();
-    }
 
     public void acceptReport(Player player, int reportId) {
         if(!permission.has(player, options.manageReportConfiguration.getPermissionReject())) {
@@ -78,11 +63,11 @@ public class ManageReportService {
     }
 
     public void reopenReport(Player player, int reportId) {
+        Report report = reportService.getReport(reportId);
+        if (!report.getStaffUuid().equals(player.getUniqueId()) && !permission.has(player, options.manageReportConfiguration.getPermissionReopenOther())) {
+            throw new BusinessException("&CYou cannot change the status of a report you are not assigned to", messages.prefixReports);
+        }
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            Report report = reportService.getReport(reportId);
-            if (!report.getStaffUuid().equals(player.getUniqueId())) {
-                throw new BusinessException("&CYou cannot change the status of a report you are not assigned to", messages.prefixReports);
-            }
 
             report.setStaffUuid(null);
             report.setStaffName(null);
