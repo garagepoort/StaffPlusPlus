@@ -53,7 +53,7 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         initListener(new AppealListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No warning appeals webhookUrl provided in the configuration.");
         initListener(new AltDetectionListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No altDetect webhookUrl provided in the configuration.");
         initListener(new StaffModeListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No staffmode webhookUrl provided in the configuration.");
-        initListener(new StaffChatListener(config, plugin), "Cannot enable StaffPlusPlusDiscord. Staffchat sync not configured correctly");
+        initListener(new StaffChatListener(config, plugin), "Cannot enable StaffPlusPlusDiscord. DiscordSRV plugin not enabled! Disable Staffchat sync or enable the DiscordSRV plugin.");
     }
 
     private void initListener(StaffPlusPlusListener listener, String errorMessage) {
