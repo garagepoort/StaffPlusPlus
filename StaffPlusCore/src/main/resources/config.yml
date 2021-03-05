@@ -554,6 +554,8 @@ staff-mode:
     reports-lore: "&7Shows all open reports."
     my-reports-title: "&bReports assigned to you"
     my-reports-lore: "&7Shows reports currently assigned to you."
+    assigned-reports-title: "&bReports In Progress"
+    assigned-reports-lore: "&7Shows reports that are currently being worked on."
     closed-reports-title: "&bClosed reports"
     closed-reports-lore: "&7History of all closed reports."
 
@@ -784,6 +786,7 @@ permissions:
           resolve: "staff.reports.manage.resolve"
           reject: "staff.reports.manage.reject"
           teleport: "staff.reports.manage.teleport"
+          reopen-other: "staff.reports.manage.reopen-other"
 
   # Permission for bypassing reports.
   report-bypass: "staff.report.bypass"
