@@ -14,6 +14,7 @@ public class ReportConfiguration {
     private final Sounds sound;
     private final boolean closingReasonEnabled;
     private final GuiItemConfig openReportsGui;
+    private final GuiItemConfig myReportsGui;
     private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig closedReportsGui;
     private String myReportsPermission;
@@ -27,6 +28,7 @@ public class ReportConfiguration {
                                boolean showReporter, Sounds sound,
                                boolean closingReasonEnabled,
                                GuiItemConfig openReportsGui,
+                               GuiItemConfig myReportsGui,
                                GuiItemConfig assignedReportsGui,
                                GuiItemConfig closedReportsGui,
                                String myReportsPermission, String myReportsCmd, boolean notifyReporterOnJoin,
@@ -37,6 +39,7 @@ public class ReportConfiguration {
         this.sound = sound;
         this.closingReasonEnabled = closingReasonEnabled;
         this.openReportsGui = openReportsGui;
+        this.myReportsGui = myReportsGui;
         this.assignedReportsGui = assignedReportsGui;
         this.closedReportsGui = closedReportsGui;
         this.myReportsPermission = myReportsPermission;
@@ -69,8 +72,8 @@ public class ReportConfiguration {
         return openReportsGui;
     }
 
-    public GuiItemConfig getMyAssignedReportsGui() {
-        return assignedReportsGui;
+    public GuiItemConfig getMyReportsGui() {
+        return myReportsGui;
     }
 
     public GuiItemConfig getClosedReportsGui() {
@@ -91,5 +94,9 @@ public class ReportConfiguration {
 
     public List<ReportStatus> getReporterNotifyStatuses() {
         return reporterNotifyStatuses;
+    }
+
+    public GuiItemConfig getAssignedReportsGui() {
+        return assignedReportsGui;
     }
 }

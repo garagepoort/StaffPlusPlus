@@ -19,6 +19,7 @@ public class ManageReportsGui extends AbstractGui {
     private final Options options = IocContainer.getOptions();
 
     private final GuiItemConfig closedReportsGui;
+    private final GuiItemConfig myReportsGui;
     private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig openReportsGui;
     private final Player player;
@@ -28,7 +29,8 @@ public class ManageReportsGui extends AbstractGui {
         this.player = player;
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
-        assignedReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
+        myReportsGui = options.reportConfiguration.getMyReportsGui();
+        assignedReportsGui = options.reportConfiguration.getAssignedReportsGui();
     }
 
     @Override
@@ -36,11 +38,14 @@ public class ManageReportsGui extends AbstractGui {
         if (openReportsGui.isEnabled()) {
             setMenuItem(0, buildGuiItem(PAPER, openReportsGui), (p) -> new OpenReportsGui(p, openReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, getTitle())).show(p));
         }
+        if(myReportsGui.isEnabled()) {
+            setMenuItem(1, buildGuiItem(PAPER, myReportsGui), (p) -> new MyAssignedReportsGui(p, myReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, getTitle())).show(p));
+        }
         if(assignedReportsGui.isEnabled()) {
-            setMenuItem(1, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AssignedReportsGui(p, assignedReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, getTitle())).show(p));
+            setMenuItem(2, buildGuiItem(PAPER, assignedReportsGui), (p) -> new AllAssignedReportsGui(p, assignedReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, getTitle())).show(p));
         }
         if(closedReportsGui.isEnabled()) {
-            setMenuItem(2, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, getTitle())).show(p));
+            setMenuItem(3, buildGuiItem(PAPER, closedReportsGui), (p) -> new ClosedReportsGui(p, closedReportsGui.getTitle(), 0, () -> new ManageReportsGui(player, getTitle())).show(p));
         }
     }
 
