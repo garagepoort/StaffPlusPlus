@@ -1,0 +1,58 @@
+// Context:
+// ban: IBan => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IBan.java
+// timestamp: String
+{
+    "content": "",
+    "embeds": [
+        {
+            "title": "Unbanned a user",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16620323",
+            "timestamp": "${timestamp}",
+            "author": {
+                "name": "${ban.issuerName}",
+                "icon_url": "https://crafatar.com/avatars/${ban.issuerUuid}.png"
+            },
+            "footer": {
+                "text": "Use /warns ${ban.playerName} to see all warnings",
+                "icon_url": "https://cdn.discordapp.com/avatars/815454491260092427/c85296bc7ec1ef962717713ac578345a.png"
+            },
+            "fields": [
+                {
+                    "name": "Banned:",
+                    "value": "${ban.playerName}\n||${ban.playerUuid}||",
+                    "inline": false
+                },
+                #IF ban.endDate != null
+                {
+                    "name": "Type",
+                    "value": "TEMPORARY",
+                    "inline": true
+                },
+                {
+                    "name": "Ends at: ",
+                    "value": "${utils:parseTime(ban.endDate)}",
+                    "inline": true
+                },
+                #ENDIF
+                #IF ban.endDate == null
+                {
+                    "name": "Type",
+                    "value": "PERMANENT",
+                    "inline": true
+                },
+                #ENDIF
+                {
+                    "name": "Ban Reason",
+                    "value": "```${ban.reason}```",
+                    "inline": false
+                },
+                {
+                    "name": "Unban Reason",
+                    "value": "```${ban.unbanReason}```",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}
