@@ -16,8 +16,8 @@ public class TemplateRepository {
     public TemplateRepository(StaffPlusPlusDiscord plugin, FileConfiguration config) {
         boolean replaceTemplates = config.getBoolean("StaffPlusPlusDiscord.updateTemplates", true);
         plugin.saveResource("discordtemplates/reports/report-created.json", replaceTemplates);
-        plugin.saveResource("discordtemplates/reports/report-accepted.json", replaceTemplates);
-        plugin.saveResource("discordtemplates/reports/report-resolved.json", replaceTemplates);
+        boolean testFile = plugin.getDataFolder().exists("discordtemplates" + separator + "template_version.yml")
+        if (replaceTemplates || !testFile) {
         plugin.saveResource("discordtemplates/reports/report-rejected.json", replaceTemplates);
         plugin.saveResource("discordtemplates/reports/report-reopened.json", replaceTemplates);
         plugin.saveResource("discordtemplates/warnings/warning-created.json", replaceTemplates);
@@ -33,6 +33,8 @@ public class TemplateRepository {
         plugin.saveResource("discordtemplates/altdetects/detected.json", replaceTemplates);
         plugin.saveResource("discordtemplates/staffmode/enter-staffmode.json", replaceTemplates);
         plugin.saveResource("discordtemplates/staffmode/exit-staffmode.json", replaceTemplates);
+            plugin.saveResource("discordtemplates" + separator + "template_version.yml", replaceTemplates);
+        }
 
         templates.put("reports/report-created", Utils.readTemplate(PATH_PREFIX + "reports" + separator + "report-created.json"));
         templates.put("reports/report-accepted", Utils.readTemplate(PATH_PREFIX + "reports" + separator + "report-accepted.json"));
