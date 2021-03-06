@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.staff.freeze;
 
+import io.netty.handler.codec.sctp.SctpInboundByteStreamHandler;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -53,6 +54,7 @@ public class FreezeHandler {
         return lastFrozenLocations.containsKey(uuid) || user.isFrozen();
     }
 
+
     private void addFreeze(CommandSender sender, Player player) {
         UUID uuid = player.getUniqueId();
         if (freezeModeConfiguration.isModeFreezePrompt()) {
@@ -86,7 +88,7 @@ public class FreezeHandler {
                 player.closeInventory();
             }
 
-            player.removePotionEffect(PotionEffectType.BLINDNESS);
+
         }
 
         message.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
@@ -96,6 +98,7 @@ public class FreezeHandler {
         lastFrozenLocations.remove(uuid);
         player.removePotionEffect(PotionEffectType.JUMP);
         player.removePotionEffect(PotionEffectType.SLOW);
+        player.removePotionEffect(PotionEffectType.BLINDNESS);
 
     }
 
