@@ -194,6 +194,7 @@ public class Options {
     public String commandReport;
     public String commandReportPlayer;
     public String commandReports;
+    public String commandFindReports;
     public String commandWarn;
     public String commandWarns;
     public String commandVanish;
@@ -366,6 +367,7 @@ public class Options {
         commandReport = config.getString("commands.report");
         commandReportPlayer = config.getString("commands.reportPlayer");
         commandReports = config.getString("commands.reports.manage.cli");
+        commandFindReports = config.getString("commands.reports.manage.gui-find-reports");
         commandWarn = config.getString("commands.warn");
         commandWarns = config.getString("commands.warns");
         commandVanish = config.getString("commands.vanish");
