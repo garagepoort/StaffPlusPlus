@@ -7,6 +7,8 @@ import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
 import net.shortninja.staffplusplus.Actionable;
 import org.bukkit.Bukkit;
 
+import java.util.List;
+
 import static net.shortninja.staffplus.common.actions.ActionRunStrategy.*;
 
 public class ActionExecutioner {
@@ -20,8 +22,8 @@ public class ActionExecutioner {
         this.delayedActionsRepository = delayedActionsRepository;
     }
 
-    public boolean executeAction(Actionable actionable, SppPlayer target, ConfiguredAction action, ActionFilter actionFilter) {
-        if (actionFilter != null && !actionFilter.isValidAction(target, action)) {
+    boolean executeAction(Actionable actionable, SppPlayer target, ConfiguredAction action, List<ActionFilter> actionFilters) {
+        if (actionFilters != null && actionFilters.stream().anyMatch(a -> !a.isValidAction(target, action))) {
             return false;
         }
         if (runActionNow(target, action.getRunStrategy())) {
@@ -38,7 +40,21 @@ public class ActionExecutioner {
         return false;
     }
 
-    public boolean rollbackAction(ExecutableActionEntity action, SppPlayer target) {
+    boolean executeAction(SppPlayer target, ConfiguredAction action, List<ActionFilter> actionFilters) {
+        if (actionFilters != null && actionFilters.stream().anyMatch(a -> !a.isValidAction(target, action))) {
+            return false;
+        }
+        if (runActionNow(target, action.getRunStrategy())) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", target.getUsername()));
+            return true;
+        } else if (action.getRunStrategy() == DELAY && !target.isOnline()) {
+            delayedActionsRepository.saveDelayedAction(target.getId(), action.getCommand());
+            return true;
+        }
+        return false;
+    }
+
+    boolean rollbackAction(ExecutableActionEntity action, SppPlayer target) {
         if (runActionNow(target, action.getRollbackRunStrategy())) {
             Bukkit.getScheduler().runTask(StaffPlus.get(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getRollbackCommand().replace("%player%", target.getUsername())));
             actionableRepository.markRollbacked(action.getId());

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.staff.mode.config;
 
+import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.staff.mode.config.gui.GuiConfiguration;
 import net.shortninja.staffplus.staff.mode.config.gui.StaffModeGuiConfigurationLoader;
 import net.shortninja.staffplus.staff.mode.config.modeitems.compass.CompassModeConfiguration;
@@ -32,8 +33,8 @@ public class GeneralModeConfiguration {
     private boolean modeItemDrop;
     private boolean modeDamage;
     private boolean modeHungerLoss;
-    private List<String> modeEnableCommands;
-    private List<String> modeDisableCommands;
+    private final List<ConfiguredAction> modeEnableCommands;
+    private final List<ConfiguredAction> modeDisableCommands;
     private boolean worldChange;
     private boolean modeBlockManipulation;
     private boolean modeInventoryInteraction;
@@ -62,8 +63,8 @@ public class GeneralModeConfiguration {
                                     boolean modeItemPickup,
                                     boolean modeItemDrop, boolean modeDamage,
                                     boolean modeHungerLoss,
-                                    List<String> modeEnableCommands,
-                                    List<String> modeDisableCommands,
+                                    List<ConfiguredAction> modeEnableCommands,
+                                    List<ConfiguredAction> modeDisableCommands,
                                     boolean worldChange,
                                     boolean modeBlockManipulation,
                                     boolean modeInventoryInteraction,
@@ -165,11 +166,11 @@ public class GeneralModeConfiguration {
         return modeHungerLoss;
     }
 
-    public List<String> getModeEnableCommands() {
+    public List<ConfiguredAction> getModeEnableCommands() {
         return modeEnableCommands;
     }
 
-    public List<String> getModeDisableCommands() {
+    public List<ConfiguredAction> getModeDisableCommands() {
         return modeDisableCommands;
     }
 

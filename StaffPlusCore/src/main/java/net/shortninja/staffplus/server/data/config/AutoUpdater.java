@@ -19,6 +19,8 @@ public class AutoUpdater {
     private static final String CONFIG_FILE = "config.yml";
     private static final List<String> IGNORED_CONFIG_KEYS = Arrays.asList("custom-modules", "locations", "custom-gui");
 
+    private static final List<ConfigMigrator> MIGRATORS = Collections.singletonList(new StaffModeCommandMigrator());
+
     public static void updateConfig(StaffPlus staffPlus) {
         staffPlus.getLogger().info("Attempting to fix configuration file...");
         FileConfiguration config = staffPlus.getConfig();
@@ -37,6 +39,7 @@ public class AutoUpdater {
                 config.set(k, null);
             }
         });
+        MIGRATORS.forEach(m -> m.migrate(config));
 
         staffPlus.saveConfig();
         if (counter.get() > 0) {
