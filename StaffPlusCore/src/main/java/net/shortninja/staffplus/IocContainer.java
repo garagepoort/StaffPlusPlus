@@ -79,6 +79,7 @@ import net.shortninja.staffplus.staff.protect.database.ProtectedAreaRepository;
 import net.shortninja.staffplus.staff.protect.database.SqliteProtectedAreaRepository;
 import net.shortninja.staffplus.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.staff.reporting.ReportService;
+import net.shortninja.staffplus.staff.reporting.cmd.ReportFiltersMapper;
 import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.staff.reporting.database.SqliteReportRepository;
@@ -226,6 +227,11 @@ public class IocContainer {
 
     public static MuteService getMuteService() {
         return initBean(MuteService.class, () -> new MuteService(getPermissionHandler(), getMuteRepository(), getOptions(), getMessage(), getMessages()));
+    }
+
+
+    public static ReportFiltersMapper getReportFiltersMapper() {
+        return initBean(ReportFiltersMapper.class, () -> new ReportFiltersMapper(getPlayerManager()));
     }
 
     public static ReportService getReportService() {
