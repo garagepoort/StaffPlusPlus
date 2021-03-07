@@ -1,26 +1,27 @@
 package net.shortninja.staffplus.staff.mode;
 
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.actions.ActionFilter;
+import net.shortninja.staffplus.common.actions.ActionService;
+import net.shortninja.staffplus.common.actions.ConfiguredAction;
+import net.shortninja.staffplus.common.actions.PermissionActionFilter;
+import net.shortninja.staffplus.player.PlayerManager;
+import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.staff.vanish.VanishService;
-import net.shortninja.staffplusplus.vanish.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
-import org.bukkit.Bukkit;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.GameMode;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
@@ -32,10 +33,12 @@ public class StaffModeService {
     private final SessionManager sessionManager;
     private final VanishService vanishService;
     private final StaffModeItemsService staffModeItemsService;
+    private final ActionService actionService;
 
     private final GeneralModeConfiguration modeConfiguration;
     private final ModeDataRepository modeDataRepository;
     private final Options options;
+    private final PlayerManager playerManager;
 
     public StaffModeService(MessageCoordinator message,
                             Options options,
@@ -43,13 +46,15 @@ public class StaffModeService {
                             SessionManager sessionManager,
                             VanishService vanishService,
                             StaffModeItemsService staffModeItemsService,
-                            ModeDataRepository modeDataRepository) {
+                            ActionService actionService, ModeDataRepository modeDataRepository, PlayerManager playerManager) {
         this.message = message;
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.vanishService = vanishService;
 
         this.options = options;
+        this.actionService = actionService;
+        this.playerManager = playerManager;
         modeConfiguration = this.options.modeConfiguration;
         this.staffModeItemsService = staffModeItemsService;
         this.modeDataRepository = modeDataRepository;
@@ -118,14 +123,11 @@ public class StaffModeService {
     }
 
     private void runModeCommands(Player player, boolean isEnabled) {
-        for (String command : isEnabled ? modeConfiguration.getModeEnableCommands() : modeConfiguration.getModeDisableCommands()) {
-            if (command.isEmpty()) {
-                continue;
-            }
-
-            CommandSender target = (command.trim().startsWith("%player%")) ? player : Bukkit.getConsoleSender();
-            command = (command.trim().startsWith("%player%)")) ? command.replaceFirst("%player%", "").trim() : command;
-            Bukkit.dispatchCommand(target, command.replace("%player%", player.getName()));
+        Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(player.getUniqueId());
+        if (target.isPresent()) {
+            List<ActionFilter> actionFilters = Collections.singletonList(new PermissionActionFilter());
+            List<ConfiguredAction> actions = isEnabled ? options.modeConfiguration.getModeEnableCommands() : options.modeConfiguration.getModeDisableCommands();
+            actionService.executeActions(target.get(), actions, actionFilters);
         }
     }
 

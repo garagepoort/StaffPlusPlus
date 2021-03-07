@@ -1,11 +1,15 @@
 package net.shortninja.staffplus.staff.mode.config;
 
+import net.shortninja.staffplus.common.actions.ActionConfigLoader;
+import net.shortninja.staffplus.common.actions.ConfiguredAction;
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration> {
@@ -17,8 +21,8 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
         boolean modeItemPickup = config.getBoolean("staff-mode.item-pickup");
         boolean modeDamage = config.getBoolean("staff-mode.damage");
         boolean modeHungerLoss = config.getBoolean("staff-mode.hunger-loss");
-        List<String> modeEnableCommands = JavaUtils.stringToList(config.getString("staff-mode.enable-commands"));
-        List<String> modeDisableCommands = JavaUtils.stringToList(config.getString("staff-mode.disable-commands"));
+        List<ConfiguredAction> modeEnableCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("staff-mode.enable-commands", new ArrayList<>()));
+        List<ConfiguredAction> modeDisableCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("staff-mode.disable-commands", new ArrayList<>()));
         boolean worldChange = config.getBoolean("staff-mode.disable-on-world-change");
         boolean modeBlockManipulation = config.getBoolean("staff-mode.block-manipulation");
         boolean modeInventoryInteraction = config.getBoolean("staff-mode.inventory-interaction");

@@ -17,9 +17,7 @@ public class ConfiguredAction {
         this.runStrategy = runStrategy;
         this.rollbackRunStrategy = rollbackRunStrategy;
         this.filters = new HashMap<>();
-        filters.forEach((k, v) ->{
-            this.filters.put(k.toLowerCase(), v.toLowerCase());
-        });
+        filters.forEach((k, v) -> this.filters.put(k.toLowerCase(), v.toLowerCase()));
     }
 
     public String getCommand() {

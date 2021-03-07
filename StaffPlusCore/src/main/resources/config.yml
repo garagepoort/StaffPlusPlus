@@ -454,12 +454,14 @@ staff-mode:
   disable-on-logout: false
 
   # Commands to execute when staff mode is enabled. Leave blank to disable.
-  # Each command is separated with a comma.
-  enable-commands: "example1 %player%, example2 %player%"
+  enable-commands:
+      - command: 'example1 %player%'
+      - command: 'example2 %player%'
 
   # Commands to execute when staff mode is disable. Leave blank to disable.
-  # Each command is separated with a comma.
-  disable-commands: "example1 %player%, example2 %player%"
+  disable-commands:
+      - command: 'example1 %player%'
+      - command: 'example2 %player%'
 
   # Should Staff mode disable on world change
   disable-on-world-change: false
