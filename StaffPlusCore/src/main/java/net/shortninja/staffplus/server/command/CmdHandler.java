@@ -84,6 +84,7 @@ public class CmdHandler {
             new BaseCmd(new MyReportsCmd(options.reportConfiguration.getMyReportsCmd()), options.reportConfiguration.isEnabled(), options.reportConfiguration.getMyReportsPermission(), "Open my reports gui", ""),
             new BaseCmd(new ReportCmd(options.commandReport), options.reportConfiguration.isEnabled(), "Sends a report without a specific player.", "[reason]"),
             new BaseCmd(new ReportPlayerCmd(options.commandReportPlayer), options.reportConfiguration.isEnabled(), "Sends a report with the given player and reason.", "[player] [reason]"),
+            new BaseCmd(new FindReportsCmd(options.commandFindReports), options.reportConfiguration.isEnabled(), "Find reports.", "[filters...]"),
 
             new BaseCmd(new WarnCmd(options.commandWarn), options.warningConfiguration.isEnabled(), options.permissionWarn, "Issues a warning.", "[severity] [player] [reason]"),
             new BaseCmd(new WarnsCmd(options.commandWarns), options.warningConfiguration.isEnabled(), options.permissionWarn, "List all warnings of a player.", "[get] [player]"),
