@@ -179,8 +179,9 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     @Override
     public void markWarningsRead(UUID uniqueId) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_read=true WHERE Player_UUID=? " + serverNameFilter + ";")) {
-            insert.setString(1, uniqueId.toString());
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warnings set is_read=? WHERE Player_UUID=? " + serverNameFilter + ";")) {
+            insert.setBoolean(1, true);
+            insert.setString(2, uniqueId.toString());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
