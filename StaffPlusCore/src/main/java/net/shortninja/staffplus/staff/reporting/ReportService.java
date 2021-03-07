@@ -46,6 +46,10 @@ public class ReportService implements InfractionProvider {
         return reportRepository.getReports(player.getId(), offset, amount);
     }
 
+    public List<Report> findReports(ReportFilters reportFilters, int offset, int amount) {
+        return reportRepository.findReports(reportFilters, offset, amount);
+    }
+
     public List<Report> getReports(UUID playerUuid, int offset, int amount) {
         SppPlayer user = getUser(playerUuid);
         return reportRepository.getReports(user.getId(), offset, amount);

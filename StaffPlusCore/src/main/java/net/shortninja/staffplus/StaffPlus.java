@@ -56,8 +56,6 @@ import java.util.function.Supplier;
 import static net.shortninja.staffplus.common.Constants.BUNGEE_CORD_CHANNEL;
 import static org.bukkit.Bukkit.getScheduler;
 
-// TODO Add command to check e chests and offline player inventories
-
 public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private static StaffPlus plugin;
 
@@ -219,10 +217,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     private void stop() {
         saveUsers();
-        tasks.cancel();
-        muteSessionTask.cancel();
-        warningExpireTask.cancel();
-
         if (IocContainer.getOptions().modeConfiguration.isModeDisableOnLogout()) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 IocContainer.getModeCoordinator().removeMode(player);

@@ -71,14 +71,13 @@ public class WarnsCmd extends AbstractCmd {
     private void sendHelp(CommandSender sender) {
         message.send(sender, "&7" + message.LONG_LINE, "");
         message.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixReports);
-        message.send(sender, "&b/" + getName() + " clear &7[player]", messages.prefixReports);
         message.send(sender, "&7" + message.LONG_LINE, "");
     }
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         if (args.length == 1) {
-            return Stream.of("get", "clear")
+            return Stream.of("get")
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());
         }

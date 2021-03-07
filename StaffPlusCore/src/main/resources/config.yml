@@ -1056,6 +1056,7 @@ commands:
   reports.manage:
         #Command to open the manage reports gui
         gui: "manage-reports"
+        gui-find-reports: "find-reports"
         # The command for managing reports specifically targeting a player.
         cli: "reports"
 
