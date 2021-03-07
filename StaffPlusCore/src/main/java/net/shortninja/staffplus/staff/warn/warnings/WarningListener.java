@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class WarningListener implements Listener {
         UUID targetUuid = warningCreatedEvent.getWarning().getUuid();
         Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
         if (target.isPresent()) {
-            actionService.executeActions(warningCreatedEvent.getWarning(), target.get(), options.warningConfiguration.getActions(), new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT));
+            actionService.executeActions(warningCreatedEvent.getWarning(), target.get(), options.warningConfiguration.getActions(), Arrays.asList(new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT)));
             thresholdService.handleThresholds(warningCreatedEvent.getWarning(), target.get());
         }
     }
