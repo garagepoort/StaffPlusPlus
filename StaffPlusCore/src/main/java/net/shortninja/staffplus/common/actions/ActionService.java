@@ -6,9 +6,7 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplusplus.Actionable;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ActionService {
@@ -23,14 +21,16 @@ public class ActionService {
         this.actionExecutioner = actionExecutioner;
     }
 
-    public List<ConfiguredAction> executeActions(Actionable actionable, SppPlayer target, List<ConfiguredAction> actions, ActionFilter actionFilter) {
-        List<ConfiguredAction> executedCommands = new ArrayList<>();
-        for (ConfiguredAction action : actions) {
-            if (actionExecutioner.executeAction(actionable, target, action, actionFilter)) {
-                executedCommands.add(action);
-            }
-        }
-        return executedCommands;
+    public List<ConfiguredAction> executeActions(Actionable actionable, SppPlayer target, List<ConfiguredAction> actions, List<ActionFilter> actionFilters) {
+        return actions.stream()
+            .filter(action -> actionExecutioner.executeAction(actionable, target, action, actionFilters))
+            .collect(Collectors.toList());
+    }
+
+    public List<ConfiguredAction> executeActions(SppPlayer target, List<ConfiguredAction> actions, List<ActionFilter> actionFilters) {
+        return actions.stream()
+            .filter(action -> actionExecutioner.executeAction(target, action, actionFilters))
+            .collect(Collectors.toList());
     }
 
     public List<ConfiguredAction> executeActions(Actionable actionable, SppPlayer target, List<ConfiguredAction> actions) {
@@ -40,7 +40,7 @@ public class ActionService {
     public List<ExecutableActionEntity> rollbackActionable(Actionable actionable) {
         Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(actionable.getTargetUuid());
         if (!target.isPresent()) {
-            return null;
+            return Collections.emptyList();
         }
 
         List<ExecutableActionEntity> actions = getRollbackActions(actionable);
