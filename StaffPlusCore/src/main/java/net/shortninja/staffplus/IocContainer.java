@@ -301,7 +301,9 @@ public class IocContainer {
             getSessionManager(),
             getVanishHandler(),
             getStaffModeItemsService(),
-            getModeDataRepository()));
+            getActionService(),
+            getModeDataRepository(),
+            getPlayerManager()));
     }
 
     public static PlayerManager getPlayerManager() {
@@ -447,7 +449,7 @@ public class IocContainer {
             new FoodExamineGuiProvider(getMessages(), getOptions()),
             new GamemodeExamineGuiProvider(getMessages(), getOptions()),
             new IpExamineGuiProvider(getMessages(), getOptions()),
-            new InventoryExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler()),
+            new InventoryExamineGuiProvider(getOptions(), getPermissionHandler()),
             new EnderchestExamineGuiProvider(getMessages(), getOptions(), getPermissionHandler()),
             new InfractionsExamineGuiProvider(getMessages(), getOptions(), getReportService())
         );

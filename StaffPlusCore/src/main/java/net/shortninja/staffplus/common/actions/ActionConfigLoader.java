@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.common.actions;
 
+import net.shortninja.staffplus.common.exceptions.ConfigurationException;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,24 +10,26 @@ import java.util.stream.Collectors;
 
 public class ActionConfigLoader {
 
+    private ActionConfigLoader() {
+    }
+
     public static List<ConfiguredAction> loadActions(List<LinkedHashMap<String, Object>> list) {
-        return list.stream().map(o -> {
-            LinkedHashMap map = o;
+        return list.stream().map(map -> {
             if (!map.containsKey("command")) {
-                throw new RuntimeException("Invalid actions configuration. Actions should define a command");
+                throw new ConfigurationException("Invalid actions configuration. Actions should define a command");
             }
             String command = (String) map.get("command");
             String rollbackCommand = (String) map.get("rollback-command");
-            ActionRunStrategy runStrategy = map.containsKey("run-strategy") ? ActionRunStrategy.valueOf((String) map.get("run-strategy")) : ActionRunStrategy.DELAY;
+            ActionRunStrategy runStrategy = map.containsKey("run-strategy") ? ActionRunStrategy.valueOf((String) map.get("run-strategy")) : ActionRunStrategy.ALWAYS;
             ActionRunStrategy rollbackRunStrategy = map.containsKey("rollback-run-strategy") ? ActionRunStrategy.valueOf((String) map.get("rollback-run-strategy")) : runStrategy;
-            
+
             Map<String, String> filterMap = loadFilters(map);
 
             return new ConfiguredAction(command, rollbackCommand, runStrategy, rollbackRunStrategy, filterMap);
         }).collect(Collectors.toList());
     }
 
-    private static Map<String, String> loadFilters(LinkedHashMap map) {
+    private static Map<String, String> loadFilters(LinkedHashMap<String, Object> map) {
         String filtersString = map.containsKey("filters") ? (String) map.get("filters") : null;
         Map<String, String> filterMap = new HashMap<>();
         if (filtersString != null) {
