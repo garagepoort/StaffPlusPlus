@@ -2,6 +2,8 @@ package net.shortninja.staffplus.staff.reporting.database;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
+import net.shortninja.staffplus.staff.reporting.ReportFilter;
+import net.shortninja.staffplus.staff.reporting.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
@@ -16,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class AbstractSqlReportRepository implements ReportRepository {
 
@@ -40,6 +43,35 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             ps.setBoolean(2, false);
             ps.setInt(3, offset);
             ps.setInt(4, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    reports.add(buildReport(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reports;
+    }
+
+    @Override
+    public List<Report> findReports(ReportFilters reportFilters, int offset, int amount) {
+        List<Report> reports = new ArrayList<>();
+        String filterQuery = reportFilters.getReportFilters().stream()
+            .map(r -> " AND " + r.getSqlColumn() + "=? ")
+            .collect(Collectors.joining());
+
+        String query = "SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE deleted=? " + filterQuery + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?";
+        try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
+            ps.setBoolean(1, false);
+            int index = 2;
+            for (ReportFilter reportFilter : reportFilters.getReportFilters()) {
+                ps.setObject(index, reportFilter.getValue(), reportFilter.getSqlType());
+                index++;
+            }
+            ps.setInt(index, offset);
+            ps.setInt(index + 1, amount);
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     reports.add(buildReport(rs));
@@ -196,6 +228,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         }
         return reports;
     }
+
     @Override
     public List<Report> getAssignedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
@@ -308,7 +341,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
 
         Location location = null;
         rs.getInt(13);
-        if(!rs.wasNull()) {
+        if (!rs.wasNull()) {
             double locationX = rs.getDouble(14);
             double locationY = rs.getDouble(15);
             double locationZ = rs.getDouble(16);
