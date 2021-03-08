@@ -12,4 +12,14 @@ public class BukkitUtils {
             Bukkit.getPluginManager().callEvent(event);
         });
     }
+
+    public static int getInventorySize(int amountOfItems) {
+        int division = amountOfItems / 9;
+        int rest = amountOfItems % 9;
+        if (rest != 0) {
+            division++;
+            return division * 9;
+        }
+        return amountOfItems;
+    }
 }

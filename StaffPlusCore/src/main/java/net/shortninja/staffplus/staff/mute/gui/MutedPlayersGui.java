@@ -2,12 +2,11 @@ package net.shortninja.staffplus.staff.mute.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.staff.mute.Mute;
-import net.shortninja.staffplus.common.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,11 +30,9 @@ public class MutedPlayersGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    int muteId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    Mute mute = IocContainer.getMuteService().getById(muteId);
-                    new ManageMutedPlayerGui( "Player: " + mute.getTargetName(), mute, () -> new MutedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
-                });
+                int muteId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+                Mute mute = IocContainer.getMuteService().getById(muteId);
+                new ManageMutedPlayerGui("Player: " + mute.getTargetName(), mute, () -> new MutedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
             }
 
             @Override

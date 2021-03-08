@@ -25,13 +25,16 @@ public class Report implements IReport, Infraction {
     private String closeReason;
     private String serverName;
     private Location location;
+    private String type;
 
     public Report(UUID culpritUuid, String culpritName, int id, String reason, String reporterName, UUID reporterUuid, long time,
                   ReportStatus reportStatus,
                   String staffName,
                   UUID staffUuid,
                   String closeReason,
-                  String serverName, Location location) {
+                  String serverName,
+                  Location location,
+                  String type) {
         this.culpritUuid = culpritUuid;
         this.culpritName = culpritName;
         this.reason = reason;
@@ -45,9 +48,10 @@ public class Report implements IReport, Infraction {
         this.closeReason = closeReason;
         this.serverName = serverName;
         this.location = location;
+        this.type = type;
     }
 
-    public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus, ZonedDateTime timestamp, Location location, String serverName) {
+    public Report(UUID culpritUuid, String culpritName, String reason, String reporterName, UUID reporterUuid, ReportStatus reportStatus, ZonedDateTime timestamp, Location location, String type, String serverName) {
         this.culpritUuid = culpritUuid;
         this.culpritName = culpritName;
         this.reason = reason;
@@ -56,6 +60,7 @@ public class Report implements IReport, Infraction {
         this.reportStatus = reportStatus;
         this.timestamp = timestamp;
         this.location = location;
+        this.type = type;
         this.serverName = serverName;
     }
 
@@ -156,5 +161,10 @@ public class Report implements IReport, Infraction {
     @Override
     public Optional<Location> getLocation() {
         return Optional.ofNullable(location);
+    }
+
+    @Override
+    public Optional<String> getReportType() {
+        return Optional.ofNullable(type);
     }
 }
