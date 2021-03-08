@@ -27,10 +27,10 @@ public class SqliteWarnRepository extends AbstractSqlWarnRepository {
             sql.setAutoCommit(false);
             insert.setString(1, warning.getReason());
             insert.setString(2, warning.getIssuerUuid().toString());
-            insert.setString(3, warning.getUuid().toString());
+            insert.setString(3, warning.getTargetUuid().toString());
             insert.setInt(4, warning.getScore());
             insert.setString(5, warning.getSeverity());
-            insert.setLong(6, warning.getTime());
+            insert.setLong(6, warning.getCreationTimestamp());
             insert.setString(7, options.serverName);
             insert.executeUpdate();
             

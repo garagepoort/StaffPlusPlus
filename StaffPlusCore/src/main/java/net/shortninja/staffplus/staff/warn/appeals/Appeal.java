@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.warn.appeals;
 
+import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.warnings.AppealStatus;
-import net.shortninja.staffplusplus.warnings.IWarningAppeal;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -9,10 +9,10 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Appeal implements IWarningAppeal {
+public class Appeal implements IAppeal {
 
     private int id;
-    private int warningId;
+    private int appealableId;
     private UUID appealerUuid;
     private String appealerName;
     private UUID resolverUuid;
@@ -22,9 +22,9 @@ public class Appeal implements IWarningAppeal {
     private AppealStatus status;
     private Long timestamp;
 
-    public Appeal(int id, int warningId, UUID appealerUuid, String appealerName, UUID resolverUuid, String resolverName, String reason, String resolveReason, AppealStatus status, Long timestamp) {
+    public Appeal(int id, int appealableId, UUID appealerUuid, String appealerName, UUID resolverUuid, String resolverName, String reason, String resolveReason, AppealStatus status, Long timestamp) {
         this.id = id;
-        this.warningId = warningId;
+        this.appealableId = appealableId;
         this.appealerUuid = appealerUuid;
         this.appealerName = appealerName;
         this.resolverUuid = resolverUuid;
@@ -35,8 +35,8 @@ public class Appeal implements IWarningAppeal {
         this.timestamp = timestamp;
     }
 
-    public Appeal(int warningId, UUID appealerUuid, String appealerName, String reason) {
-        this.warningId = warningId;
+    public Appeal(int appealableId, UUID appealerUuid, String appealerName, String reason) {
+        this.appealableId = appealableId;
         this.appealerUuid = appealerUuid;
         this.appealerName = appealerName;
         this.reason = reason;
@@ -48,8 +48,8 @@ public class Appeal implements IWarningAppeal {
         return id;
     }
 
-    public int getWarningId() {
-        return warningId;
+    public int getAppealableId() {
+        return appealableId;
     }
 
     public UUID getAppealerUuid() {

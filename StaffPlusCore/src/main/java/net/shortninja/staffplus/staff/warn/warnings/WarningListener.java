@@ -20,9 +20,7 @@ import java.util.UUID;
 
 public class WarningListener implements Listener {
 
-    private static final String REMOVAL_CONTEXT = "removal";
     private static final String CREATION_CONTEXT = "creation";
-    private static final String APPEAL_APPROVED = "appeal_approved";
 
     private final ActionService actionService = IocContainer.getActionService();
     private final PlayerManager playerManager = IocContainer.getPlayerManager();
@@ -36,7 +34,7 @@ public class WarningListener implements Listener {
 
     @EventHandler
     public void executeCreateActions(WarningCreatedEvent warningCreatedEvent) {
-        UUID targetUuid = warningCreatedEvent.getWarning().getUuid();
+        UUID targetUuid = warningCreatedEvent.getWarning().getTargetUuid();
         Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
         if (target.isPresent()) {
             actionService.executeActions(warningCreatedEvent.getWarning(), target.get(), options.warningConfiguration.getActions(), Arrays.asList(new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT)));
@@ -46,7 +44,7 @@ public class WarningListener implements Listener {
 
     @EventHandler
     public void executeRemovalActions(WarningRemovedEvent warningRemovedEvent) {
-        UUID targetUuid = warningRemovedEvent.getWarning().getUuid();
+        UUID targetUuid = warningRemovedEvent.getWarning().getTargetUuid();
         Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
         if (target.isPresent()) {
             actionService.rollbackActionable(warningRemovedEvent.getWarning());
@@ -56,7 +54,7 @@ public class WarningListener implements Listener {
 
     @EventHandler
     public void executeAppealedActions(WarningAppealApprovedEvent warningAppealApprovedEvent) {
-        UUID targetUuid = warningAppealApprovedEvent.getWarning().getUuid();
+        UUID targetUuid = warningAppealApprovedEvent.getWarning().getTargetUuid();
         Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
         if (target.isPresent()) {
             actionService.rollbackActionable(warningAppealApprovedEvent.getWarning());

@@ -39,7 +39,7 @@ public class MuteSessionTask extends BukkitRunnable {
         for (PlayerSession playerSession : sessionManager.getAll()) {
             Optional<Player> player = playerSession.getPlayer();
             if (playerSession.isMuted() && player.isPresent()) {
-                boolean playerIsMuted = activeMutes.stream().anyMatch(mute -> mute.getPlayerUuid().equals(player.get().getUniqueId()));
+                boolean playerIsMuted = activeMutes.stream().anyMatch(mute -> mute.getTargetUuid().equals(player.get().getUniqueId()));
                 playerSession.setMuted(playerIsMuted);
                 if (!playerIsMuted) {
                     message.send(player.get(), messages.muteExpired, messages.prefixGeneral);
