@@ -1,0 +1,34 @@
+// Context:
+// staffmodeEvent: EnterStaffModeEvent => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/event/staffmode/EnterStaffModeEvent.java
+// timestamp: String
+{
+    "content": "",
+    "embeds": [
+        {
+            "title": "Available for staff duties. Use /support or /report to request help.",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16620323",
+            "timestamp": "${timestamp}",
+            "author": {
+                "name": "${staffmodeEvent.playerName}",
+                "icon_url": "https://crafatar.com/avatars/${staffmodeEvent.playerUuid}.png"
+            },
+            "footer": {
+                "text": "Use /report ingame to get support",
+                "icon_url": "https://cdn.discordapp.com/avatars/815454491260092427/c85296bc7ec1ef962717713ac578345a.png"
+            },
+            "fields": [
+                {
+                    "name": "Staff member",
+                    "value": "${staffmodeEvent.playerName}",
+                    "inline": true
+                },
+                {
+                    "name": "Location",
+                    "value": "${staffmodeEvent.serverName} | ${staffmodeEvent.location.getBlockX()}, ${staffmodeEvent.location.getBlockY()}, ${staffmodeEvent.location.getBlockZ()}",
+                    "inline": true
+                }
+            ]
+        }
+    ]
+}
