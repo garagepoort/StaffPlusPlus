@@ -66,7 +66,7 @@ public class WarningListener implements StaffPlusPlusListener {
     }
 
     private void buildWarning(IWarning warning, String templateFile) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getTimestamp().toInstant(), ZoneOffset.UTC);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getCreationDate().toInstant(), ZoneOffset.UTC);
         JexlContext jc = new MapContext();
         jc.set("warning", warning);
         jc.set("timestamp", localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
