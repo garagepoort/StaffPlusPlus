@@ -2,14 +2,13 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.staff.reporting.Report;
-import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.util.Permission;
-import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,10 +33,8 @@ public class ClosedReportManageGui extends AbstractGui {
         IAction deleteAction = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    manageReportService.deleteReport(player, reportId);
-                });
+                int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+                manageReportService.deleteReport(player, reportId);
             }
 
             @Override
@@ -48,7 +45,7 @@ public class ClosedReportManageGui extends AbstractGui {
 
         setItem(13, ReportItemBuilder.build(report), null);
 
-        if(permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
+        if (permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
             addDeleteItem(report, deleteAction, 31);
         }
     }

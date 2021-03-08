@@ -21,6 +21,7 @@ public class ReportConfiguration {
     private String myReportsCmd;
     private boolean notifyReporterOnJoin;
     private List<ReportStatus> reporterNotifyStatuses;
+    private List<ReportTypeConfiguration> reportTypeConfigurations;
 
 
     public ReportConfiguration(boolean enabled,
@@ -32,7 +33,7 @@ public class ReportConfiguration {
                                GuiItemConfig assignedReportsGui,
                                GuiItemConfig closedReportsGui,
                                String myReportsPermission, String myReportsCmd, boolean notifyReporterOnJoin,
-                               List<ReportStatus> reporterNotifyStatuses) {
+                               List<ReportStatus> reporterNotifyStatuses, List<ReportTypeConfiguration> reportTypeConfigurations) {
         this.enabled = enabled;
         this.cooldown = cooldown;
         this.showReporter = showReporter;
@@ -46,6 +47,7 @@ public class ReportConfiguration {
         this.myReportsCmd = myReportsCmd;
         this.notifyReporterOnJoin = notifyReporterOnJoin;
         this.reporterNotifyStatuses = reporterNotifyStatuses;
+        this.reportTypeConfigurations = reportTypeConfigurations;
     }
 
     public boolean isClosingReasonEnabled() {
@@ -98,5 +100,9 @@ public class ReportConfiguration {
 
     public GuiItemConfig getAssignedReportsGui() {
         return assignedReportsGui;
+    }
+
+    public List<ReportTypeConfiguration> getReportTypeConfigurations() {
+        return reportTypeConfigurations;
     }
 }

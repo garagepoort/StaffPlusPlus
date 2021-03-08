@@ -2,12 +2,11 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.staff.reporting.Report;
-import net.shortninja.staffplus.common.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,12 +30,10 @@ public class MyAssignedReportsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    Report report = IocContainer.getReportService().getReport(reportId);
-                    new ManageReportGui(player, "Report by: " + report.getReporterName(), report, () -> new MyAssignedReportsGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()))
-                        .show(player);
-                });
+                int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+                Report report = IocContainer.getReportService().getReport(reportId);
+                new ManageReportGui(player, "Report by: " + report.getReporterName(), report, () -> new MyAssignedReportsGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()))
+                    .show(player);
             }
 
             @Override
@@ -49,9 +46,9 @@ public class MyAssignedReportsGui extends PagedGui {
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
         return IocContainer.getReportService()
-                .getAssignedReports(player.getUniqueId(), offset, amount)
-                .stream()
-                .map(ReportItemBuilder::build)
-                .collect(Collectors.toList());
+            .getAssignedReports(player.getUniqueId(), offset, amount)
+            .stream()
+            .map(ReportItemBuilder::build)
+            .collect(Collectors.toList());
     }
 }

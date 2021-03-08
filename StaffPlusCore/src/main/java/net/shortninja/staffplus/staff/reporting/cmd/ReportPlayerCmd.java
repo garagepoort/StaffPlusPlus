@@ -7,6 +7,7 @@ import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.staff.reporting.gui.ReportTypeSelectGui;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -28,7 +29,12 @@ public class ReportPlayerCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
         String reason = JavaUtils.compileWords(args, 1);
-        reportService.sendReport((Player) sender, player, reason);
+
+        if(options.reportConfiguration.getReportTypeConfigurations().isEmpty()) {
+            reportService.sendReport((Player) sender, player, reason);
+        } else {
+            new ReportTypeSelectGui((Player) sender, reason, player).show((Player) sender);
+        }
         return true;
     }
 
