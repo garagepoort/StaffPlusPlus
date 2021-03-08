@@ -64,6 +64,10 @@ public class ReportService implements InfractionProvider {
     }
 
     public void sendReport(Player player, SppPlayer user, String reason) {
+        sendReport(player, user, reason, null);
+    }
+
+    public void sendReport(Player player, SppPlayer user, String reason, String type) {
         validateCoolDown(player);
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
 
@@ -82,6 +86,7 @@ public class ReportService implements InfractionProvider {
                 ReportStatus.OPEN,
                 ZonedDateTime.now(),
                 player.getLocation(),
+                type,
                 options.serverName);
 
             int id = reportRepository.addReport(report);
@@ -97,6 +102,10 @@ public class ReportService implements InfractionProvider {
     }
 
     public void sendReport(Player player, String reason) {
+        sendReport(player, reason, null);
+    }
+
+    public void sendReport(Player player, String reason, String type) {
         validateCoolDown(player);
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             Report report = new Report(
@@ -108,6 +117,7 @@ public class ReportService implements InfractionProvider {
                 ReportStatus.OPEN,
                 ZonedDateTime.now(),
                 player.getLocation(),
+                type,
                 options.serverName);
 
             int id = reportRepository.addReport(report);

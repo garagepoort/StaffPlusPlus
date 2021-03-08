@@ -3,6 +3,7 @@ package net.shortninja.staffplus.server.listener;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.PassThroughClickAction;
+import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManager;
@@ -47,7 +48,10 @@ public class InventoryClick implements Listener {
                     return;
                 }
 
-                action.click(player, item, slot);
+                CommandUtil.playerAction(player, () -> {
+                    action.click(player, item, slot);
+                });
+
                 if (action.shouldClose(player)) {
                     player.closeInventory();
                 }

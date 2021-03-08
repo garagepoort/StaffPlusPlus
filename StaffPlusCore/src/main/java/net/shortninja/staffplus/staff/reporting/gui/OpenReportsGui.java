@@ -2,12 +2,11 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -39,13 +38,11 @@ public class OpenReportsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                if(!permissionHandler.has(player, options.manageReportConfiguration.getPermissionAccept())) {
+                if (!permissionHandler.has(player, options.manageReportConfiguration.getPermissionAccept())) {
                     return;
                 }
-                CommandUtil.playerAction(player, () -> {
-                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    IocContainer.getManageReportService().acceptReport(player, reportId);
-                });
+                int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+                IocContainer.getManageReportService().acceptReport(player, reportId);
             }
 
             @Override
@@ -58,7 +55,7 @@ public class OpenReportsGui extends PagedGui {
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
         return IocContainer.getReportService().getUnresolvedReports(offset, amount).stream()
-                .map(ReportItemBuilder::build)
-                .collect(Collectors.toList());
+            .map(ReportItemBuilder::build)
+            .collect(Collectors.toList());
     }
 }

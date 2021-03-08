@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.examine.items;
 
-import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -9,8 +10,6 @@ import net.shortninja.staffplus.staff.examine.ExamineGuiItemProvider;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
-import net.shortninja.staffplus.common.IAction;
-import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -41,11 +40,9 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    if (targetPlayer.getPlayer() != null) {
-                        freezeHandler.execute(new FreezeRequest(staff, targetPlayer.getPlayer(), !freezeHandler.isFrozen(targetPlayer.getId())));
-                    }
-                });
+                if (targetPlayer.getPlayer() != null) {
+                    freezeHandler.execute(new FreezeRequest(staff, targetPlayer.getPlayer(), !freezeHandler.isFrozen(targetPlayer.getId())));
+                }
             }
 
             @Override
