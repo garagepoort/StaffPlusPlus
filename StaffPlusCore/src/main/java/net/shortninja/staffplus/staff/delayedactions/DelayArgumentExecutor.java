@@ -32,7 +32,7 @@ public class DelayArgumentExecutor {
             throw new BusinessException("&CCannot delay the command. No user found on this server with name: [" + playerName + "]", messages.prefixGeneral);
         }
 
-        IocContainer.getDelayedActionsRepository().saveDelayedAction(player.get().getId(), command);
+        IocContainer.getDelayedActionsRepository().saveDelayedAction(player.get().getId(), command, Executor.CONSOLE);
         message.send(commandSender, "Your command has been delayed and will be executed next time [" + playerName + "] joins the server", messages.prefixGeneral);
         return true;
     }
