@@ -24,7 +24,7 @@ public class MysqlBansRepository extends AbstractSqlBansRepository {
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_banned_players(reason, player_uuid, issuer_uuid, end_timestamp, creation_timestamp, server_name) " +
                  "VALUES(?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             insert.setString(1, ban.getReason());
-            insert.setString(2, ban.getPlayerUuid().toString());
+            insert.setString(2, ban.getTargetUuid().toString());
             insert.setString(3, ban.getIssuerUuid().toString());
             if (ban.getEndTimestamp() == null) {
                 insert.setNull(4, Types.BIGINT);

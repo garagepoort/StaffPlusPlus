@@ -25,7 +25,7 @@ public class SqliteBansRepository extends AbstractSqlBansRepository {
                  "VALUES(?, ?, ?, ?, ?, ?);")) {
             connection.setAutoCommit(false);
             insert.setString(1, ban.getReason());
-            insert.setString(2, ban.getPlayerUuid().toString());
+            insert.setString(2, ban.getTargetUuid().toString());
             insert.setString(3, ban.getIssuerUuid().toString());
             if (ban.getEndTimestamp() == null) {
                 insert.setNull(4, Types.BIGINT);

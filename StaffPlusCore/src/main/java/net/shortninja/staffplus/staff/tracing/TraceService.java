@@ -59,18 +59,18 @@ public class TraceService {
 
     public void stopAllTracesForPlayer(UUID tracedUuid) {
         tracedPlayers.values().stream()
-            .filter(t -> t.getTracedUuid() == tracedUuid)
+            .filter(t -> t.getTargetUuid() == tracedUuid)
             .forEach(t -> {
                 t.stopTrace();
                 sendEvent(new StopTraceEvent(t));
             });
 
-        tracedPlayers.values().removeIf(t -> t.getTracedUuid() == tracedUuid);
+        tracedPlayers.values().removeIf(t -> t.getTargetUuid() == tracedUuid);
     }
 
     public void sendTraceMessage(UUID tracedUuid, String message) {
         List<UUID> tracers = tracedPlayers.entrySet().stream()
-            .filter(e -> e.getValue().getTracedUuid() == tracedUuid)
+            .filter(e -> e.getValue().getTargetUuid() == tracedUuid)
             .map(Map.Entry::getKey)
             .collect(Collectors.toList());
 

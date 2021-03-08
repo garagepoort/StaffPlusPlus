@@ -32,7 +32,7 @@ public class MysqlReportRepository extends AbstractSqlReportRepository {
             insert.setString(2, report.getReporterUuid().toString());
             insert.setString(3, report.getCulpritUuid() == null ? null : report.getCulpritUuid().toString());
             insert.setString(4, report.getReportStatus().toString());
-            insert.setLong(5, report.getTimestamp().toInstant().toEpochMilli());
+            insert.setLong(5, report.getCreationDate().toInstant().toEpochMilli());
             insert.setString(6, options.serverName);
             insert.setInt(7, locationId);
             insert.executeUpdate();

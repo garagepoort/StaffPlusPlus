@@ -11,10 +11,10 @@
             "timestamp": "${timestamp}",
             "author": {
                 "name": "${warning.issuerName}",
-                "icon_url": "https://crafatar.com/avatars/${warning.uuid}.png"
+                "icon_url": "https://crafatar.com/avatars/${warning.targetUuid}.png"
             },
             "footer": {
-                "text": "Use /warns ${warning.name} to see all warnings",
+                "text": "Use /warns ${warning.targetName} to see all warnings",
                 "icon_url": "https://cdn.discordapp.com/avatars/815454491260092427/c85296bc7ec1ef962717713ac578345a.png"
             },
             "fields": [
@@ -25,7 +25,7 @@
                 },
                 {
                     "name": "Issued to",
-                    "value": "${warning.name}\n[${warning.uuid}]",
+                    "value": "${warning.targetName}\n[${warning.targetUuid}]",
                     "inline": true
                 },
                 {
