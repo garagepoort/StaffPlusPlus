@@ -14,13 +14,13 @@
                 "icon_url": "https://crafatar.com/avatars/${ban.issuerUuid}.png"
             },
             "footer": {
-                "text": "Use /warns ${ban.playerName} to see all warnings",
+                "text": "Use /warns ${ban.targetName} to see all warnings",
                 "icon_url": "https://cdn.discordapp.com/avatars/815454491260092427/c85296bc7ec1ef962717713ac578345a.png"
             },
             "fields": [
                 {
                     "name": "Banned:",
-                    "value": "${ban.playerName}\n||${ban.playerUuid}||",
+                    "value": "${ban.targetName}\n||${ban.targetUuid}||",
                     "inline": false
                 },
                 #IF ban.endDate != null

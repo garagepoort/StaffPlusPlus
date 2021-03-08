@@ -97,7 +97,7 @@ public class ReportListener implements StaffPlusPlusListener {
     }
 
     private String replaceReportCreatedTemplate(IReport report, String createReportTemplate) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(report.getTimestamp().toInstant(), ZoneOffset.UTC);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(report.getCreationDate().toInstant(), ZoneOffset.UTC);
 
         JexlContext jc = new MapContext();
         jc.set("report", report);

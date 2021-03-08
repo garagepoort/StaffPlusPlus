@@ -14,8 +14,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class Warning implements IWarning, Infraction {
-    private final UUID uuid;
-    private final String name;
+    private final UUID targetUuid;
+    private final String targetName;
     private final String reason;
     private final int score;
     private final UUID issuerUuid;
@@ -28,9 +28,9 @@ public class Warning implements IWarning, Infraction {
     private Appeal appeal;
     private boolean expired;
 
-    public Warning(UUID uuid, String name, String reason, String issuerName, UUID issuerUuid, long time, WarningSeverityConfiguration warningSeverityConfiguration) {
-        this.uuid = uuid;
-        this.name = name;
+    public Warning(UUID targetUuid, String targetName, String reason, String issuerName, UUID issuerUuid, long time, WarningSeverityConfiguration warningSeverityConfiguration) {
+        this.targetUuid = targetUuid;
+        this.targetName = targetName;
         this.reason = reason;
         this.issuerName = issuerName;
         this.issuerUuid = issuerUuid;
@@ -39,9 +39,9 @@ public class Warning implements IWarning, Infraction {
         this.severity = warningSeverityConfiguration.getName();
     }
 
-    public Warning(UUID uuid, String name, int id, String reason, String issuerName, UUID issuerUuid, long time, int score, String severity, boolean read, String serverName, Appeal appeal, boolean expired) {
-        this.uuid = uuid;
-        this.name = name;
+    public Warning(UUID targetUuid, String targetName, int id, String reason, String issuerName, UUID issuerUuid, long time, int score, String severity, boolean read, String serverName, Appeal appeal, boolean expired) {
+        this.targetUuid = targetUuid;
+        this.targetName = targetName;
         this.reason = reason;
         this.issuerName = issuerName;
         this.issuerUuid = issuerUuid;
@@ -55,9 +55,9 @@ public class Warning implements IWarning, Infraction {
         this.expired = expired;
     }
 
-    public Warning(UUID uuid, String playerName, String reason, String issuerName, UUID issuerUuid, long currentTimeMillis) {
-        this.uuid = uuid;
-        this.name = playerName;
+    public Warning(UUID targetUuid, String playerName, String reason, String issuerName, UUID issuerUuid, long currentTimeMillis) {
+        this.targetUuid = targetUuid;
+        this.targetName = playerName;
         this.reason = reason;
         this.issuerName = issuerName;
         this.issuerUuid = issuerUuid;
@@ -65,16 +65,12 @@ public class Warning implements IWarning, Infraction {
         this.score = 0;
     }
 
-    public long getTime() {
-        return time;
+    public UUID getTargetUuid() {
+        return targetUuid;
     }
 
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public String getName() {
-        return name;
+    public String getTargetName() {
+        return targetName;
     }
 
     public String getReason() {
@@ -110,7 +106,7 @@ public class Warning implements IWarning, Infraction {
     }
 
     @Override
-    public ZonedDateTime getTimestamp() {
+    public ZonedDateTime getCreationDate() {
         return ZonedDateTime.ofInstant(Instant.ofEpochMilli(time), ZoneId.systemDefault());
     }
 
@@ -121,11 +117,6 @@ public class Warning implements IWarning, Infraction {
     @Override
     public String getActionableType() {
         return "WARNING";
-    }
-
-    @Override
-    public UUID getTargetUuid() {
-        return uuid;
     }
 
     @Override

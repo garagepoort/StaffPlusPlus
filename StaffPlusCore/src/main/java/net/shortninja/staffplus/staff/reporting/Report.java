@@ -125,7 +125,7 @@ public class Report implements IReport, Infraction {
     }
 
     @Override
-    public ZonedDateTime getTimestamp() {
+    public ZonedDateTime getCreationDate() {
         return timestamp;
     }
 

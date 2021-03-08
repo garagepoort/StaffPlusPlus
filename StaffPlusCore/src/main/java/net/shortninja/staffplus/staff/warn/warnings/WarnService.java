@@ -79,7 +79,7 @@ public class WarnService implements InfractionProvider {
 
         int warningId = warnRepository.addWarning(warning);
         warning.setId(warningId);
-        message.send(sender, messages.warned.replace("%target%", warning.getName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
+        message.send(sender, messages.warned.replace("%target%", warning.getTargetName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
 
         sendEvent(new WarningCreatedEvent(warning));
 

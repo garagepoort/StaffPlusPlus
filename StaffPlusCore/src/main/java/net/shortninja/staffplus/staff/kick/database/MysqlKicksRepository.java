@@ -24,7 +24,7 @@ public class MysqlKicksRepository extends AbstractSqlKicksRepository {
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_kicked_players(reason, player_uuid, issuer_uuid, creation_timestamp, server_name) " +
                  "VALUES(?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             insert.setString(1, kick.getReason());
-            insert.setString(2, kick.getPlayerUuid().toString());
+            insert.setString(2, kick.getTargetUuid().toString());
             insert.setString(3, kick.getIssuerUuid().toString());
             insert.setLong(4, kick.getCreationTimestamp());
             insert.setString(5, options.serverName);
