@@ -1,0 +1,39 @@
+// Context:
+// threshold: WarningThresholdReachedEvent => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/event/warnings/WarningThresholdReachedEvent.java
+// commandsTriggered: String (concatenated values of the commands that were triggered)
+// timestamp: String
+{
+    "content": "",
+    "embeds": [
+        {
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16601379",
+            "timestamp": "${timestamp}",
+            "author": {
+                "name": "Threshold reached by: ${threshold.playerName}",
+                "icon_url": "https://crafatar.com/avatars/${threshold.playerUuid}.png"
+            },
+            "footer": {
+                "text": "Use /warns ${threshold.playerName} to see all warnings",
+                "icon_url": "https://cdn.discordapp.com/avatars/815454491260092427/c85296bc7ec1ef962717713ac578345a.png"
+            },
+            "fields": [
+                {
+                    "name": "Culprit",
+                    "value": "${threshold.playerName}\n[${threshold.playerUuid}]",
+                    "inline": true
+                },
+                {
+                    "name": "Message",
+                    "value": "${threshold.playerName} has reached threshold of score: [${threshold.thresholdScore}]",
+                    "inline": false
+                },
+                {
+                    "name": "Commands triggered",
+                    "value": "```${commandsTriggered}```",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}

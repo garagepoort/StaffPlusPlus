@@ -54,7 +54,7 @@ public class AppealListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildAppeal(event.getWarning(), "warnings/appeals/appeal-created");
+        buildAppeal(event.getWarning(), "appeals/appeal-created");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -63,7 +63,7 @@ public class AppealListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildAppeal(event.getWarning(), "warnings/appeals/appeal-approved");
+        buildAppeal(event.getWarning(), "appeals/appeal-approved");
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -72,7 +72,7 @@ public class AppealListener implements StaffPlusPlusListener {
             return;
         }
 
-        buildAppeal(event.getWarning(), "warnings/appeals/appeal-rejected");
+        buildAppeal(event.getWarning(), "appeals/appeal-rejected");
     }
 
     private void buildAppeal(IWarning warning, String templateFile) {
