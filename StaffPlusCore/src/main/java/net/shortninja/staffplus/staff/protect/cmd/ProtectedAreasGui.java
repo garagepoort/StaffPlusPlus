@@ -2,12 +2,11 @@ package net.shortninja.staffplus.staff.protect.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.staff.protect.ProtectedArea;
-import net.shortninja.staffplus.common.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,11 +30,9 @@ public class ProtectedAreasGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    int protectedAreaId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    ProtectedArea protectedArea = IocContainer.getProtectService().getById(protectedAreaId);
-                    new ManageProtectedAreaGui( "Protected area: " + protectedArea.getName(), protectedArea, () -> new ProtectedAreasGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
-                });
+                int protectedAreaId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+                ProtectedArea protectedArea = IocContainer.getProtectService().getById(protectedAreaId);
+                new ManageProtectedAreaGui("Protected area: " + protectedArea.getName(), protectedArea, () -> new ProtectedAreasGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
             }
 
             @Override

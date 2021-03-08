@@ -19,49 +19,58 @@ import static net.shortninja.staffplus.common.JavaUtils.formatLines;
 
 public class ReportItemBuilder implements InfractionGuiProvider<Report> {
 
+    private static final String TAG_COLOR = "&b";
+    private static final String VALUE_COLOR = "&7";
+    private static final String UNKNOWN = "Unknown";
+
     public static ItemStack build(Report report) {
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
 
-        lore.add("&bId: " + report.getId());
+        addLoreLine(lore, "Id", String.valueOf(report.getId()));
         if(IocContainer.getOptions().serverSyncConfiguration.isReportSyncEnabled()) {
-            lore.add("&bServer: " + report.getServerName());
+            addLoreLine(lore,"Server", report.getServerName());
         }
+        report.getReportType().ifPresent(type -> addLoreLine(lore,"Type", type));
         if(report.getReportStatus() != ReportStatus.OPEN) {
-            lore.add("&bAssignee: " + report.getStaffName());
+            addLoreLine(lore,"Assignee", report.getStaffName());
         }
 
-        String culprit = report.getCulpritName() == null ? "Unknown" : report.getCulpritName();
-        lore.add("&bCulprit: " + culprit);
-        lore.add("&bStatus: " + report.getReportStatus());
-        lore.add("&bTimeStamp: " + report.getCreationDate().format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat)));
+        addLoreLine(lore,"Culprit", report.getCulpritName() == null ? UNKNOWN : report.getCulpritName());
+        addLoreLine(lore,"Status", report.getReportStatus().name());
+        addLoreLine(lore,"TimeStamp: ", report.getCreationDate().format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat)));
         if (IocContainer.getOptions().reportConfiguration.isShowReporter()) {
-            lore.add("&bReporter: " + report.getReporterName());
+            addLoreLine(lore,"Reporter", report.getReporterName());
         }
 
-        lore.add("&bReason:");
+        lore.add(TAG_COLOR + "Reason:");
         for (String line : formatLines(report.getReason(), 30)) {
-            lore.add("  &b" + line);
+            lore.add("  " + VALUE_COLOR + line);
         }
 
         if (StringUtils.isNotEmpty(report.getCloseReason())) {
-            lore.add("&bClose reason:");
+            lore.add(TAG_COLOR + "Close reason:");
             for (String line : formatLines(report.getCloseReason(), 30)) {
-                lore.add("  &b" + line);
+                lore.add("  " + VALUE_COLOR + line);
             }
         }
+
         if(report.getLocation().isPresent()) {
-            lore.add("&bLocation: " + report.getLocation().get().getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(report.getLocation().get()));
+            addLoreLine(lore,"Location", report.getLocation().get().getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(report.getLocation().get()));
         }else {
-            lore.add("&bLocation: Unknown");
+            addLoreLine(lore,"Location", UNKNOWN);
         }
 
         ItemStack item = Items.editor(Items.createSkull(report.getCulpritName())).setAmount(1)
-            .setName("&bCulprit: " + culprit)
+            .setName(TAG_COLOR + "Culprit: " + (report.getCulpritName() == null ? UNKNOWN : report.getCulpritName()))
             .setName("&5Report")
             .setLore(lore)
             .build();
 
         return StaffPlus.get().versionProtocol.addNbtString(item, String.valueOf(report.getId()));
+    }
+
+    private static void addLoreLine(List<String> lore, String tag, String value) {
+        lore.add(TAG_COLOR + tag + ": " + VALUE_COLOR + value);
     }
 
 

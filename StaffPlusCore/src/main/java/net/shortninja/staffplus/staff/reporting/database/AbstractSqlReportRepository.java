@@ -338,14 +338,15 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
 
         int id = rs.getInt("ID");
         String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
-
+        String type = rs.getString("type");
         Location location = null;
-        rs.getInt(13);
+        rs.getInt(14);
+
         if (!rs.wasNull()) {
-            double locationX = rs.getDouble(14);
-            double locationY = rs.getDouble(15);
-            double locationZ = rs.getDouble(16);
-            World locationWorld = Bukkit.getServer().getWorld(rs.getString(17));
+            double locationX = rs.getDouble(15);
+            double locationY = rs.getDouble(16);
+            double locationZ = rs.getDouble(17);
+            World locationWorld = Bukkit.getServer().getWorld(rs.getString(18));
             location = new Location(locationWorld, locationX, locationY, locationZ);
         }
 
@@ -358,7 +359,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             rs.getString("staff_name"),
             staffUUID,
             rs.getString("close_reason"),
-            serverName, location);
+            serverName, location, type);
     }
 
 }

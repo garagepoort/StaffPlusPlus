@@ -1,12 +1,16 @@
 package net.shortninja.staffplus.staff.reporting.config;
 
+import net.shortninja.staffplus.common.Sounds;
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
 import net.shortninja.staffplusplus.reports.ReportStatus;
-import net.shortninja.staffplus.common.Sounds;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
@@ -56,6 +60,18 @@ public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
             myReportsPermission,
             myReportsCmd,
             notifyReportOnJoin,
-            reporterNotifyStatuses);
+            reporterNotifyStatuses,
+            getReportTypes(config));
+    }
+
+    private List<ReportTypeConfiguration> getReportTypes(FileConfiguration config) {
+        List<LinkedHashMap<String, String>> list = (List<LinkedHashMap<String, String>>) config.getList("reports-module.report-types", new ArrayList<>());
+
+        return Objects.requireNonNull(list).stream().map(map -> {
+            String name = map.get("name");
+            String lore = map.get("info");
+            Material material = map.containsKey("material") ? Material.valueOf(map.get("material")) : Material.PAPER;
+            return new ReportTypeConfiguration(name, material, lore);
+        }).collect(Collectors.toList());
     }
 }
