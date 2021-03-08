@@ -11,7 +11,7 @@
             "timestamp": "${timestamp}",
             "author": {
                 "name": "${warning.issuerName}",
-                "icon_url": "https://crafatar.com/avatars/${warning.playerUuid}.png"
+                "icon_url": "https://crafatar.com/avatars/${warning.uuid}.png"
             },
             "footer": {
                 "text": "Use /warns ${warning.name} to see all warnings",
