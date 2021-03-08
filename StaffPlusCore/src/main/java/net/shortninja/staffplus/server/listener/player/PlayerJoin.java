@@ -10,10 +10,12 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManager;
 import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
+import net.shortninja.staffplus.staff.delayedactions.Executor;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.staff.vanish.VanishService;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -75,7 +77,8 @@ public class PlayerJoin implements Listener {
     private void delayedActions(Player player) {
         List<DelayedAction> delayedActions = IocContainer.getDelayedActionsRepository().getDelayedActions(player.getUniqueId());
         delayedActions.forEach(delayedAction -> {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), delayedAction.getCommand().replace("%player%", player.getName()));
+            CommandSender sender = delayedAction.getExecutor() == Executor.CONSOLE ? Bukkit.getConsoleSender() : player;
+            Bukkit.dispatchCommand(sender, delayedAction.getCommand().replace("%player%", player.getName()));
             updateActionable(delayedAction);
         });
         IocContainer.getDelayedActionsRepository().clearDelayedActions(player.getUniqueId());
