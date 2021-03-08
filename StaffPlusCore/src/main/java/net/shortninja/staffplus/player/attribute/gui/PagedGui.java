@@ -1,10 +1,9 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 
-import net.shortninja.staffplus.common.cmd.CommandUtil;
-import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.player.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,6 +27,7 @@ public abstract class PagedGui extends AbstractGui {
         this.player = player;
         this.currentPage = currentPage;
     }
+
     public PagedGui(Player player, SppPlayer target, String title, int currentPage) {
         super(SIZE, title);
         this.player = player;
@@ -35,7 +35,7 @@ public abstract class PagedGui extends AbstractGui {
         this.currentPage = currentPage;
     }
 
-    public PagedGui(Player player, SppPlayer target,  String title, int currentPage, Supplier<AbstractGui> backGuiSupplier) {
+    public PagedGui(Player player, SppPlayer target, String title, int currentPage, Supplier<AbstractGui> backGuiSupplier) {
         super(SIZE, title, backGuiSupplier);
         this.player = player;
         this.target = target;
@@ -58,9 +58,7 @@ public abstract class PagedGui extends AbstractGui {
         IAction nextPageAction = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    getNextUi(player, target, getTitle(), currentPage + 1).show(player);
-                });
+                getNextUi(player, target, getTitle(), currentPage + 1).show(player);
             }
 
             @Override
@@ -72,9 +70,7 @@ public abstract class PagedGui extends AbstractGui {
         IAction previousPageAction = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    getNextUi(player, target, getTitle(), currentPage - 1).show(player);
-                });
+                getNextUi(player, target, getTitle(), currentPage - 1).show(player);
             }
 
             @Override

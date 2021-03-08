@@ -2,7 +2,6 @@ package net.shortninja.staffplus.staff.reporting.gui.actions;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.IAction;
-import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.util.Message;
@@ -20,13 +19,11 @@ public class TeleportToReportLocationAction implements IAction {
 
     @Override
     public void click(Player player, ItemStack item, int slot) {
-        CommandUtil.playerAction(player, () -> {
-            if (report.getLocation().isPresent()) {
-                IocContainer.getReportService().goToReportLocation(player, report.getId());
-            } else {
-                message.send(player, "&cLocation not known for this report.", messages.prefixReports);
-            }
-        });
+        if (report.getLocation().isPresent()) {
+            IocContainer.getReportService().goToReportLocation(player, report.getId());
+        } else {
+            message.send(player, "&cLocation not known for this report.", messages.prefixReports);
+        }
     }
 
     @Override
