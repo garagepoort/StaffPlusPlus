@@ -3,10 +3,12 @@ package net.shortninja.staffplus.staff.reporting.cmd;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.staff.reporting.gui.ReportTypeSelectGui;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -15,10 +17,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class ReportCmd extends AbstractCmd {
+    private static final Options options = IocContainer.getOptions();
     private final ReportService reportService = IocContainer.getReportService();
 
     public ReportCmd(String name) {
-        super(name, IocContainer.getOptions().permissionReport);
+        super(name, options.permissionReport);
     }
 
     @Override
@@ -27,7 +30,12 @@ public class ReportCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
         String reason = JavaUtils.compileWords(args, 0);
-        reportService.sendReport((Player) sender, reason);
+
+        if(options.reportConfiguration.getReportTypeConfigurations().isEmpty()) {
+            reportService.sendReport((Player) sender, reason);
+        } else {
+            new ReportTypeSelectGui((Player) sender, reason).show((Player) sender);
+        }
         return true;
     }
 

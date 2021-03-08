@@ -2,13 +2,12 @@ package net.shortninja.staffplus.staff.protect.cmd;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.cmd.CommandUtil;
+import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
 import net.shortninja.staffplus.staff.protect.ProtectService;
 import net.shortninja.staffplus.staff.protect.ProtectedArea;
 import net.shortninja.staffplus.staff.teleport.TeleportService;
-import net.shortninja.staffplus.common.IAction;
-import net.shortninja.staffplus.common.Items;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -32,9 +31,7 @@ public class ManageProtectedAreaGui extends AbstractGui {
         IAction teleportAction = new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                CommandUtil.playerAction(player, () -> {
-                    teleportService.teleportSelf(player, protectedArea.getCornerPoint1());
-                });
+                teleportService.teleportSelf(player, protectedArea.getCornerPoint1());
             }
 
             @Override
