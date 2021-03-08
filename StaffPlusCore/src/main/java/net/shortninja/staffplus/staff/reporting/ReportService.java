@@ -2,7 +2,10 @@ package net.shortninja.staffplus.staff.reporting;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.bungee.ServerSwitcher;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.staff.delayedactions.DelayedActionsRepository;
+import net.shortninja.staffplus.staff.delayedactions.Executor;
 import net.shortninja.staffplusplus.reports.CreateReportEvent;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplus.player.PlayerManager;
@@ -16,6 +19,7 @@ import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -27,19 +31,23 @@ import static org.bukkit.Bukkit.getScheduler;
 
 public class ReportService implements InfractionProvider {
 
-    private static final Map<UUID, Long> lastUse = new HashMap<UUID, Long>();
+    private static final Map<UUID, Long> lastUse = new HashMap<>();
 
-    private final PermissionHandler permission = IocContainer.getPermissionHandler();
-    private final MessageCoordinator message = IocContainer.getMessage();
+    private final PermissionHandler permission;
+    private final MessageCoordinator message;
     private final Options options = IocContainer.getOptions();
     private final Messages messages;
     private final PlayerManager playerManager;
     private final ReportRepository reportRepository;
+    private final DelayedActionsRepository delayedActionsRepository;
 
-    public ReportService(ReportRepository reportRepository, Messages messages, PlayerManager playerManager) {
+    public ReportService(PermissionHandler permission, MessageCoordinator message, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository) {
+        this.permission = permission;
+        this.message = message;
         this.reportRepository = reportRepository;
         this.messages = messages;
         this.playerManager = playerManager;
+        this.delayedActionsRepository = delayedActionsRepository;
     }
 
     public List<Report> getReports(SppPlayer player, int offset, int amount) {
@@ -152,8 +160,20 @@ public class ReportService implements InfractionProvider {
     }
 
     public Report getReport(int reportId) {
-        return reportRepository.findReport(reportId)
-            .orElseThrow(() -> new BusinessException("Report with id [" + reportId + "] not found", messages.prefixReports));
+        return reportRepository.findReport(reportId).orElseThrow(() -> new BusinessException("Report with id [" + reportId + "] not found", messages.prefixReports));
+    }
+
+    public void goToReportLocation(Player player, int reportId) {
+        Report report = getReport(reportId);
+        Location location = report.getLocation().orElseThrow(() -> new BusinessException("Cannot teleport to report, report has no known location"));
+        if (report.getServerName().equalsIgnoreCase(options.serverName)) {
+            player.teleport(location);
+            message.send(player, "You have been teleported to the location where this report was created", messages.prefixReports);
+        } else {
+            String command = "staffplus:teleport-to-report " + reportId + " " + report.getServerName();
+            delayedActionsRepository.saveDelayedAction(player.getUniqueId(), command, Executor.PLAYER, report.getServerName());
+            ServerSwitcher.switchServer(player, report.getServerName());
+        }
     }
 
     @Override
