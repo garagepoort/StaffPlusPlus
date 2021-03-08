@@ -16,8 +16,8 @@ public class Ban implements IBan, Infraction {
     private String reason;
     private Long endDate;
     private Long creationDate;
-    private String playerName;
-    private UUID playerUuid;
+    private String targetName;
+    private UUID targetUuid;
     private String issuerName;
     private UUID issuerUuid;
     private String unbannedByName;
@@ -25,13 +25,13 @@ public class Ban implements IBan, Infraction {
     private String unbanReason;
     private String serverName;
 
-    public Ban(int id, String reason, Long creationDate, Long endDate, String playerName, UUID playerUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName) {
+    public Ban(int id, String reason, Long creationDate, Long endDate, String targetName, UUID targetUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
         this.endDate = endDate;
-        this.playerName = playerName;
-        this.playerUuid = playerUuid;
+        this.targetName = targetName;
+        this.targetUuid = targetUuid;
         this.issuerName = issuerName;
         this.issuerUuid = issuerUuid;
         this.unbannedByName = unbannedByName;
@@ -40,21 +40,21 @@ public class Ban implements IBan, Infraction {
         this.serverName = serverName;
     }
 
-    public Ban(String reason, Long endDate, String issuerName, UUID issuerUuid, String playerName, UUID playerUuid) {
+    public Ban(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid) {
         this.reason = reason;
-        this.playerName = playerName;
+        this.targetName = targetName;
         this.issuerName = issuerName;
         this.creationDate = System.currentTimeMillis();
         this.endDate = endDate;
-        this.playerUuid = playerUuid;
+        this.targetUuid = targetUuid;
         this.issuerUuid = issuerUuid;
     }
-    public Ban(String reason, String issuerName, UUID issuerUuid, String playerName, UUID playerUuid) {
+    public Ban(String reason, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid) {
         this.reason = reason;
-        this.playerName = playerName;
+        this.targetName = targetName;
         this.issuerName = issuerName;
         this.creationDate = System.currentTimeMillis();
-        this.playerUuid = playerUuid;
+        this.targetUuid = targetUuid;
         this.issuerUuid = issuerUuid;
     }
 
@@ -79,8 +79,8 @@ public class Ban implements IBan, Infraction {
     }
 
     @Override
-    public UUID getPlayerUuid() {
-        return playerUuid;
+    public UUID getTargetUuid() {
+        return targetUuid;
     }
 
     @Override
@@ -107,8 +107,8 @@ public class Ban implements IBan, Infraction {
     }
 
     @Override
-    public String getPlayerName() {
-        return playerName;
+    public String getTargetName() {
+        return targetName;
     }
 
     @Override

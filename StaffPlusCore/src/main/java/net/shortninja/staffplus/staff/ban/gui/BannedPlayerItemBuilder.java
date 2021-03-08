@@ -33,7 +33,7 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
         if(IocContainer.getOptions().serverSyncConfiguration.isBanSyncEnabled()) {
             lore.add("&bServer: " + ban.getServerName());
         }
-        lore.add("&bBanned player: " + ban.getPlayerName());
+        lore.add("&bBanned player: " + ban.getTargetName());
         lore.add("&bIssuer: " + ban.getIssuerName());
         lore.add("&bIssued on: " + time);
         lore.add("&bReason:");

@@ -52,10 +52,3 @@ StaffPlusPlusDiscord:
     staffchat:
         sync: false
         message-format: "&9&l(discord) &7%text%"
-#    trace:
-#        webhookUrl: ""
-#        notifyStartTrace: false
-#        # Notify when someone has stopped tracing a player.
-#        notifyStopTrace: false
-#        # If notifyStopTrace is enabled. This option enables sending the trace file to discord.
-#        includeTraceLogFile: false

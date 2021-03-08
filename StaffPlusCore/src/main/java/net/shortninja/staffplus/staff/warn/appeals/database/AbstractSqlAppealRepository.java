@@ -70,7 +70,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warning_appeals(warning_id, reason, status, appealer_uuid, timestamp) " +
                  "VALUES(? ,?, ?, ?, ?);")) {
-            insert.setInt(1, appeal.getWarningId());
+            insert.setInt(1, appeal.getAppealableId());
             insert.setString(2, appeal.getReason());
             insert.setString(3, appeal.getStatus().name());
             insert.setString(4, appeal.getAppealerUuid().toString());

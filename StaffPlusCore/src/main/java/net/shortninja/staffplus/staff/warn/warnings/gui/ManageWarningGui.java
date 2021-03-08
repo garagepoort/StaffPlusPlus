@@ -46,7 +46,7 @@ public class ManageWarningGui extends AbstractGui {
 
     @Override
     public void buildGui() {
-        IAction deleteAction = new DeleteWarningAction(warning);
+        IAction deleteAction = new DeleteWarningAction(warning, previousGuiSupplier);
         setItem(13, WarningItemBuilder.build(warning), null);
 
         if (permission.has(player, options.manageWarningsConfiguration.getPermissionDelete())) {
@@ -72,7 +72,7 @@ public class ManageWarningGui extends AbstractGui {
         if (permission.has(player, options.appealConfiguration.getCreateOthersAppealPermission())) {
             return true;
         }
-        return permission.has(player, options.appealConfiguration.getCreateAppealPermission()) && warning.getUuid().equals(player.getUniqueId());
+        return permission.has(player, options.appealConfiguration.getCreateAppealPermission()) && warning.getTargetUuid().equals(player.getUniqueId());
     }
 
     private void addDeleteItem(Warning warning, IAction action, int slot) {

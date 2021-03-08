@@ -34,7 +34,7 @@ public class BannedPlayersGui extends PagedGui {
                 CommandUtil.playerAction(player, () -> {
                     int banId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     Ban ban = IocContainer.getBanService().getById(banId);
-                    new ManageBannedPlayerGui("Player: " + ban.getPlayerName(), ban, () -> new BannedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
+                    new ManageBannedPlayerGui("Player: " + ban.getTargetName(), ban, () -> new BannedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
                 });
             }
 

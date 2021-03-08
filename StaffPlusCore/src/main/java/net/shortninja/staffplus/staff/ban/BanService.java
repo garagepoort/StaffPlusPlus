@@ -143,7 +143,7 @@ public class BanService implements InfractionProvider {
         bansRepository.update(ban);
 
         String unbanMessage = messages.unbanned
-            .replace("%target%", ban.getPlayerName())
+            .replace("%target%", ban.getTargetName())
             .replace("%issuer%", ban.getUnbannedByName());
         message.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
         sendEvent(new UnbanEvent(ban));
