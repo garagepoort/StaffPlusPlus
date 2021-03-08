@@ -54,7 +54,7 @@
                 },
                 {
                     "name": "Culprit",
-                    "value": "${warning.name}\n[${warning.uuid}]",
+                    "value": "${warning.targetName}\n[${warning.targetUuid}]",
                     "inline": true
                 },
                 {

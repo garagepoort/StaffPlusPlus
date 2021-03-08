@@ -9,16 +9,16 @@ import java.util.UUID;
 
 public class Trace implements ITrace {
 
-    private final String tracedName;
+    private final String targetName;
+    private final UUID targetUuid;
     private final UUID tracerUuid;
-    private final UUID tracedUuid;
     private final List<TraceWriter> writers;
 
     public Trace(Player traced, UUID tracerUuid, List<TraceWriter> writers) {
         this.writers = writers;
-        this.tracedName = traced.getName();
+        this.targetName = traced.getName();
         this.tracerUuid = tracerUuid;
-        this.tracedUuid = traced.getUniqueId();
+        this.targetUuid = traced.getUniqueId();
     }
 
     @Override
@@ -32,13 +32,13 @@ public class Trace implements ITrace {
     }
 
     @Override
-    public String getTracedName() {
-        return tracedName;
+    public String getTargetName() {
+        return targetName;
     }
 
     @Override
-    public UUID getTracedUuid() {
-        return tracedUuid;
+    public UUID getTargetUuid() {
+        return targetUuid;
     }
 
     public void writeToTrace(String message) {

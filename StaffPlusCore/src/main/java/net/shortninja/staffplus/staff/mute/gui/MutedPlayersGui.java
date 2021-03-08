@@ -34,7 +34,7 @@ public class MutedPlayersGui extends PagedGui {
                 CommandUtil.playerAction(player, () -> {
                     int muteId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
                     Mute mute = IocContainer.getMuteService().getById(muteId);
-                    new ManageMutedPlayerGui( "Player: " + mute.getPlayerName(), mute, () -> new MutedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
+                    new ManageMutedPlayerGui( "Player: " + mute.getTargetName(), mute, () -> new MutedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
                 });
             }
 

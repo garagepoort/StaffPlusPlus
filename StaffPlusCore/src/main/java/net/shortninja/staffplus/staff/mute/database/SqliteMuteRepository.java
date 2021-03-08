@@ -25,7 +25,7 @@ public class SqliteMuteRepository extends AbstractSqlMuteRepository {
                  "VALUES(?, ?, ?, ?, ?, ?);")) {
             connection.setAutoCommit(false);
             insert.setString(1, mute.getReason());
-            insert.setString(2, mute.getPlayerUuid().toString());
+            insert.setString(2, mute.getTargetUuid().toString());
             insert.setString(3, mute.getIssuerUuid().toString());
             if (mute.getEndTimestamp() == null) {
                 insert.setNull(4, Types.BIGINT);

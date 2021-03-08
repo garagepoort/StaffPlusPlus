@@ -131,7 +131,7 @@ public class MuteService implements InfractionProvider {
         muteRepository.update(mute);
 
         String unmuteMessage = messages.unmuted
-            .replace("%target%", mute.getPlayerName())
+            .replace("%target%", mute.getTargetName())
             .replace("%issuer%", mute.getUnmutedByName());
         message.sendGlobalMessage(unmuteMessage, messages.prefixGeneral);
         sendEvent(new UnmuteEvent(mute));

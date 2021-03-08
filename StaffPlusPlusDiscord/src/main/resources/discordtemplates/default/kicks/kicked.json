@@ -1,11 +1,11 @@
 // Context:
-// kick: IMute => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IKick.java
+// kick: IKick => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/kick/IKick.java
 // timestamp: String
 {
     "content": "Kick update from Staff++",
     "embeds": [
         {
-            "title": "User kicked: ${kick.playerName}",
+            "title": "User kicked: ${kick.targetName}",
             "url": "https://www.spigotmc.org/resources/staff.83562/",
             "color": "16601379",
             "timestamp": "${timestamp}",
@@ -21,7 +21,7 @@
                 },
                 {
                     "name": "Kicked:",
-                    "value": "${kick.playerName}\n[${kick.playerUuid}]",
+                    "value": "${kick.targetName}\n[${kick.targetUuid}]",
                     "inline": true
                 },
                 {

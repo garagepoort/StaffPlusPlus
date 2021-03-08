@@ -16,8 +16,8 @@ public class Mute implements IMute, Infraction {
     private String reason;
     private Long endDate;
     private Long creationDate;
-    private String playerName;
-    private UUID playerUuid;
+    private String targetName;
+    private UUID targetUuid;
     private String issuerName;
     private UUID issuerUuid;
     private String unmutedByName;
@@ -25,13 +25,13 @@ public class Mute implements IMute, Infraction {
     private String unmuteReason;
     private String serverName;
 
-    public Mute(int id, String reason, Long creationDate, Long endDate, String playerName, UUID playerUuid, String issuerName, UUID issuerUuid, String unmutedByName, UUID unmutedByUuid, String unmuteReason, String serverName) {
+    public Mute(int id, String reason, Long creationDate, Long endDate, String targetName, UUID playerUuid, String issuerName, UUID issuerUuid, String unmutedByName, UUID unmutedByUuid, String unmuteReason, String serverName) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
         this.endDate = endDate;
-        this.playerName = playerName;
-        this.playerUuid = playerUuid;
+        this.targetName = targetName;
+        this.targetUuid = playerUuid;
         this.issuerName = issuerName;
         this.issuerUuid = issuerUuid;
         this.unmutedByName = unmutedByName;
@@ -40,21 +40,21 @@ public class Mute implements IMute, Infraction {
         this.serverName = serverName;
     }
 
-    public Mute(String reason, Long endDate, String issuerName, UUID issuerUuid, String playerName, UUID playerUuid) {
+    public Mute(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID playerUuid) {
         this.reason = reason;
-        this.playerName = playerName;
+        this.targetName = targetName;
         this.issuerName = issuerName;
         this.creationDate = System.currentTimeMillis();
         this.endDate = endDate;
-        this.playerUuid = playerUuid;
+        this.targetUuid = playerUuid;
         this.issuerUuid = issuerUuid;
     }
-    public Mute(String reason, String issuerName, UUID issuerUuid, String playerName, UUID playerUuid) {
+    public Mute(String reason, String issuerName, UUID issuerUuid, String targetName, UUID playerUuid) {
         this.reason = reason;
-        this.playerName = playerName;
+        this.targetName = targetName;
         this.issuerName = issuerName;
         this.creationDate = System.currentTimeMillis();
-        this.playerUuid = playerUuid;
+        this.targetUuid = playerUuid;
         this.issuerUuid = issuerUuid;
     }
 
@@ -79,8 +79,8 @@ public class Mute implements IMute, Infraction {
     }
 
     @Override
-    public UUID getPlayerUuid() {
-        return playerUuid;
+    public UUID getTargetUuid() {
+        return targetUuid;
     }
 
     @Override
@@ -107,8 +107,8 @@ public class Mute implements IMute, Infraction {
     }
 
     @Override
-    public String getPlayerName() {
-        return playerName;
+    public String getTargetName() {
+        return targetName;
     }
 
     @Override

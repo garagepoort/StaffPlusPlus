@@ -1,11 +1,11 @@
 // Context:
-// mute: IMute => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IMute.java
+// mute: IMute => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/mute/IMute.java
 // timestamp: String
 {
     "content": "Mute update from Staff++",
     "embeds": [
         {
-            "title": "User unmuted: ${mute.playerName}",
+            "title": "User unmuted: ${mute.targetName}",
             "url": "https://www.spigotmc.org/resources/staff.83562/",
             "color": "16620323",
             "timestamp": "${timestamp}",
@@ -21,7 +21,7 @@
                 },
                 {
                     "name": "Muted:",
-                    "value": "${mute.playerName}\n[${mute.playerUuid}]",
+                    "value": "${mute.targetName}\n[${mute.targetUuid}]",
                     "inline": true
                 },
                 #IF mute.endDate != null
