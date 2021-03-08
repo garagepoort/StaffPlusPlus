@@ -1,0 +1,34 @@
+// Context:
+// kick: IMute => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IKick.java
+// timestamp: String
+{
+    "content": "",
+    "embeds": [
+        {
+            "title": "Kicked a user",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16601379",
+            "timestamp": "${timestamp}",
+            "author": {
+                "name": "${kick.issuerName}",
+                "icon_url": "https://crafatar.com/avatars/${kick.issuerUuid}.png"
+            },
+            "footer": {
+                "text": "Use /warns ${kick.playerName} to see all warnings",
+                "icon_url": "https://cdn.discordapp.com/avatars/815454491260092427/c85296bc7ec1ef962717713ac578345a.png"
+            },
+            "fields": [
+                {
+                    "name": "Kicked:",
+                    "value": "${kick.playerName}\n||${kick.playerUuid}||",
+                    "inline": false
+                },
+                {
+                    "name": "Kick Reason",
+                    "value": "```${kick.reason}```",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}

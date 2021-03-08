@@ -1,0 +1,62 @@
+// Context:
+// warning: IWarning => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IWarning.java
+// appeal: IWarningAppeal => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IWarningAppeal.java
+// timestamp: String
+{
+    "content": "",
+    "embeds": [
+        {
+            "title": "Appeal approved",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "5027875",
+            "timestamp": "${timestamp}",
+            "author": {
+                "name": "${appeal.resolverName}",
+                "icon_url": "https://crafatar.com/avatars/${appeal.resolverUuid}.png"
+            },
+            "footer": {
+                "text": "Use /warns ${appeal.appealerName} to see all warnings",
+                "icon_url": "https://cdn.discordapp.com/avatars/815454491260092427/c85296bc7ec1ef962717713ac578345a.png"
+            },
+            "fields": [
+                {
+                    "name": "Appealer",
+                    "value": "${appeal.appealerName}",
+                    "inline": true
+                },
+                {
+                    "name": "Appeal Reason",
+                    "value": "```${appeal.reason}```",
+                    "inline": false
+                },
+                #IF appeal.resolveReason.isPresent()
+                {
+                    "name": "Resolve Reason",
+                    "value": "```${appeal.resolveReason.get()}```",
+                    "inline": false
+                },
+                #ENDIF
+                {
+                    "name": "Warning Info",
+                    "value": "----------------------------------------------",
+                    "inline": false
+                },
+                {
+                    "name": "Severity",
+                    "value": "**${warning.severity}** (${warning.score})",
+                    "inline": true
+                },
+                {
+                    "name": "Issuer",
+                    "value": "${warning.issuerName}",
+                    "inline": true
+                },
+                {
+                    "name": "Reason",
+                    "value": "```${warning.reason}```",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}
