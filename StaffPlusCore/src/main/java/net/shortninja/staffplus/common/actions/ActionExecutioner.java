@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import java.util.List;
 
 import static net.shortninja.staffplus.common.actions.ActionRunStrategy.*;
+import static net.shortninja.staffplus.staff.delayedactions.Executor.CONSOLE;
 
 public class ActionExecutioner {
 
@@ -34,7 +35,7 @@ public class ActionExecutioner {
         } else if (action.getRunStrategy() == DELAY && !target.isOnline()) {
             ExecutableActionEntity executableActionEntity = new ExecutableActionEntity(action, actionable, false);
             int executableActionId = actionableRepository.saveActionable(executableActionEntity);
-            delayedActionsRepository.saveDelayedAction(target.getId(), action.getCommand(), executableActionId, false);
+            delayedActionsRepository.saveDelayedAction(target.getId(), action.getCommand(), CONSOLE, executableActionId, false);
             return true;
         }
         return false;
@@ -48,7 +49,7 @@ public class ActionExecutioner {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", target.getUsername()));
             return true;
         } else if (action.getRunStrategy() == DELAY && !target.isOnline()) {
-            delayedActionsRepository.saveDelayedAction(target.getId(), action.getCommand());
+            delayedActionsRepository.saveDelayedAction(target.getId(), action.getCommand(), CONSOLE);
             return true;
         }
         return false;
@@ -60,7 +61,7 @@ public class ActionExecutioner {
             actionableRepository.markRollbacked(action.getId());
             return true;
         } else if (action.getRollbackRunStrategy() == DELAY && !target.isOnline()) {
-            delayedActionsRepository.saveDelayedAction(target.getId(), action.getRollbackCommand(), action.getId(), true);
+            delayedActionsRepository.saveDelayedAction(target.getId(), action.getRollbackCommand(), CONSOLE, action.getId(), true);
             return true;
         }
         return false;

@@ -235,7 +235,7 @@ public class IocContainer {
     }
 
     public static ReportService getReportService() {
-        return initBean(ReportService.class, () -> new ReportService(getReportRepository(), getMessages(), getPlayerManager()));
+        return initBean(ReportService.class, () -> new ReportService(getPermissionHandler(), getMessage(), getReportRepository(), getMessages(), getPlayerManager(), getDelayedActionsRepository()));
     }
 
     public static InfractionsService getInfractionsService() {
