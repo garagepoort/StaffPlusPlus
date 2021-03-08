@@ -25,7 +25,7 @@ public class SqliteKicksRepository extends AbstractSqlKicksRepository {
                  "VALUES(?, ?, ?, ?, ?);")) {
             connection.setAutoCommit(false);
             insert.setString(1, kick.getReason());
-            insert.setString(2, kick.getPlayerUuid().toString());
+            insert.setString(2, kick.getTargetUuid().toString());
             insert.setString(3, kick.getIssuerUuid().toString());
             insert.setLong(4, kick.getCreationTimestamp());
             insert.setString(5, options.serverName);

@@ -3,8 +3,8 @@ package net.shortninja.staffplus.staff.warn.appeals.gui;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.warnings.AppealStatus;
-import net.shortninja.staffplusplus.warnings.IWarningAppeal;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,7 +19,7 @@ import static net.shortninja.staffplus.common.JavaUtils.formatLines;
 
 public class AppealItemBuilder {
 
-    public static ItemStack build(IWarningAppeal appeal) {
+    public static ItemStack build(IAppeal appeal) {
         List<String> lore = new ArrayList<String>();
 
         LocalDateTime localDateTime = LocalDateTime.ofInstant(appeal.getCreationDate().toInstant(), ZoneOffset.UTC);

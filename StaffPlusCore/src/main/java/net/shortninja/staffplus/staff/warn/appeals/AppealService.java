@@ -70,7 +70,7 @@ public class AppealService {
     public void approveAppeal(Player resolver, int appealId, String appealReason) {
         permission.validate(resolver, appealConfiguration.getApproveAppealPermission());
         Appeal appeal = appealRepository.findAppeal(appealId).orElseThrow(() -> new BusinessException("No appeal found with id: [" + appealId + "]"));
-        Warning warning = warnRepository.findWarning(appeal.getWarningId()).orElseThrow(() -> new BusinessException("No warning found."));
+        Warning warning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found."));
 
         if (warning.getServerName() != null && !warning.getServerName().equals(options.serverName)) {
             throw new BusinessException("For consistency reasons an appeal must accepted on the same server the warning was created. Please try accepting the appeal while connected to server " + warning.getServerName());
@@ -80,7 +80,7 @@ public class AppealService {
         sendMessageToPlayer(appeal, messages.appealApproved);
         this.message.send(resolver, messages.appealApprove, messages.prefixWarnings);
 
-        Warning updatedWarning = warnRepository.findWarning(appeal.getWarningId()).orElseThrow(() -> new BusinessException("No warning found."));
+        Warning updatedWarning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found."));
         sendEvent(new WarningAppealApprovedEvent(updatedWarning));
     }
 
@@ -96,12 +96,12 @@ public class AppealService {
         sendMessageToPlayer(appeal, messages.appealRejected);
         this.message.send(resolver, messages.appealReject, messages.prefixWarnings);
 
-        Warning updatedWarning = warnRepository.findWarning(appeal.getWarningId()).orElseThrow(() -> new BusinessException("No warning found"));
+        Warning updatedWarning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found"));
         sendEvent(new WarningAppealRejectedEvent(updatedWarning));
     }
 
     private void sendAppealedMessageToStaff(Warning warning, Player appealer) {
-        String manageWarningsCommand = options.manageWarningsConfiguration.getCommandManageWarningsGui() + " " + warning.getName();
+        String manageWarningsCommand = options.manageWarningsConfiguration.getCommandManageWarningsGui() + " " + warning.getTargetName();
         JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed a warning",
             "View warnings!",
             "Click to open the warnings view",

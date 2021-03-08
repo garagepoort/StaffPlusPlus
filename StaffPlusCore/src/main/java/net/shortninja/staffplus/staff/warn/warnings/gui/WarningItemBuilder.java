@@ -34,7 +34,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
             lore.add("&bServer: " + warning.getServerName());
         }
         lore.add("&bSeverity: " + warning.getSeverity());
-        lore.add("&bTimeStamp: " + warning.getTimestamp().format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat)));
+        lore.add("&bTimeStamp: " + warning.getCreationDate().format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat)));
         if (IocContainer.getOptions().warningConfiguration.isShowIssuer()) {
             lore.add("&bIssuer: " + warning.getIssuerName());
         }
@@ -53,7 +53,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
             addExpiresAt(warning, lore);
         }
 
-        ItemStack item = Items.editor(Items.createSkull(warning.getName())).setAmount(1)
+        ItemStack item = Items.editor(Items.createSkull(warning.getTargetName())).setAmount(1)
             .setName("&6Warning")
             .setLore(lore)
             .build();

@@ -5,7 +5,7 @@
     "content": "Ban update from Staff++",
     "embeds": [
         {
-            "title": "User unbanned: ${ban.playerName}",
+            "title": "User unbanned: ${ban.targetName}",
             "url": "https://www.spigotmc.org/resources/staff.83562/",
             "color": "16620323",
             "timestamp": "${timestamp}",
@@ -21,7 +21,7 @@
                 },
                 {
                     "name": "Banned:",
-                    "value": "${ban.playerName}\n[${ban.playerUuid}]",
+                    "value": "${ban.targetName}\n[${ban.targetUuid}]",
                     "inline": true
                 },
                 #IF ban.endDate != null

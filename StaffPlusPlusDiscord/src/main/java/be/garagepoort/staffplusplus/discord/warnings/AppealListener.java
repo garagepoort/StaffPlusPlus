@@ -76,7 +76,7 @@ public class AppealListener implements StaffPlusPlusListener {
     }
 
     private void buildAppeal(IWarning warning, String templateFile) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getTimestamp().toInstant(), ZoneOffset.UTC);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getCreationDate().toInstant(), ZoneOffset.UTC);
         JexlContext jc = new MapContext();
         jc.set("warning", warning);
         jc.set("appeal", warning.getAppeal().get());
