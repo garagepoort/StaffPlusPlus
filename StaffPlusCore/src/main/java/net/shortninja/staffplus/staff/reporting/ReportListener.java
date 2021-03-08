@@ -36,7 +36,7 @@ public class ReportListener implements Listener {
             List<Report> reports = reportService.getMyReports(event.getPlayer().getUniqueId());
             List<Report> openReports = reports.stream().filter(r -> !r.getReportStatus().isClosed()).collect(Collectors.toList());
 
-            if (openReports.size() > 0) {
+            if (!openReports.isEmpty()) {
                 JSONMessage message = JSONMessage.create("You have " + openReports.size() + " open reports")
                     .color(ChatColor.GOLD);
 
