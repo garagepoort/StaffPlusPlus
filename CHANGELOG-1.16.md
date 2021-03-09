@@ -14,7 +14,6 @@
 
 ### Bugs
 - Blindness was not removed after unfreeze with freeze prompt enabled
--  
 
 ### Extras
 - Extracted S++ API to https://github.com/garagepoort/staffplusplus-api
