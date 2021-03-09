@@ -3,9 +3,10 @@
 ### V1.16.50 (NOT YET RELEASED)
 
 ### Features
-- Added report types
+- Added ability to configure custom report types
 - Teleport to report location now works across bungee network
 - Reports can now be unassigned by other staff members, not only the assignee.
+- Added find-reports command to search reports by specified criteria
 - Staff mode enable/disable commands can now be permission based.
 - No actions glass panes removed
 - Added support for discord integration template packs
