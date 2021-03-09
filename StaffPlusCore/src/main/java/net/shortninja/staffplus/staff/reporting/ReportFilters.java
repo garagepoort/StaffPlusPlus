@@ -48,6 +48,11 @@ public class ReportFilters {
             return this;
         }
 
+        public ReportFiltersBuilder type(String type) {
+            this.reportFilters.add(new ReportFilter<>(type, Types.VARCHAR, "type"));
+            return this;
+        }
+
         public ReportFilters build() {
             return new ReportFilters(reportFilters);
         }

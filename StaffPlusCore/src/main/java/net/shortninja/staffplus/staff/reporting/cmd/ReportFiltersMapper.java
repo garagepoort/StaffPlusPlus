@@ -18,6 +18,7 @@ public class ReportFiltersMapper {
     private static final String ASSIGNEE = "assignee";
     private static final String STATUS = "status";
     private static final String CULPRIT = "culprit";
+    private static final String TYPE = "type";
 
     private final PlayerManager playerManager;
 
@@ -27,7 +28,7 @@ public class ReportFiltersMapper {
 
 
     public List<String> getFilterKeys() {
-        return Arrays.asList(ID, REPORTER, ASSIGNEE, CULPRIT, STATUS);
+        return Arrays.asList(ID, REPORTER, ASSIGNEE, CULPRIT, STATUS, TYPE);
     }
 
     public void map(String key, String value, ReportFiltersBuilder reportFiltersBuilder) {
@@ -51,6 +52,9 @@ public class ReportFiltersMapper {
         if (key.equalsIgnoreCase(CULPRIT)) {
             SppPlayer culprit = playerManager.getOnOrOfflinePlayer(value).orElseThrow(() -> new PlayerNotFoundException(value));
             reportFiltersBuilder.culprit(culprit);
+        }
+        if (key.equalsIgnoreCase(TYPE)) {
+            reportFiltersBuilder.type(value);
         }
     }
 }
