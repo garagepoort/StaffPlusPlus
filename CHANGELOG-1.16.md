@@ -1,5 +1,24 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.50 (NOT YET RELEASED)
+
+### Features
+- Added report types
+- Teleport to report location now works across bungee network
+- Reports can now be unassigned by other staff members, not only the assignee.
+- Staff mode enable/disable commands can now be permission based.
+- No actions glass panes removed
+- Added support for discord integration template packs
+- New discord template pack added by Videndum
+- Staff chat Discord integration added. (DiscordSRV required)
+
+### Bugs
+- Blindness was not removed after unfreeze with freeze prompt enabled
+-  
+
+### Extras
+- Extracted S++ API to https://github.com/garagepoort/staffplusplus-api
+
 ### V1.16.49
 
 ### Features
