@@ -10,6 +10,7 @@ import net.shortninja.staffplus.common.actions.database.ActionableRepository;
 import net.shortninja.staffplus.common.actions.database.MysqlActionableRepository;
 import net.shortninja.staffplus.common.actions.database.SqliteActionableRepository;
 import net.shortninja.staffplus.common.bungee.BungeeClient;
+import net.shortninja.staffplus.common.placeholder.PlaceholderDataProviderImpl;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.PlayerManager;
@@ -106,6 +107,7 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseType;
 import net.shortninja.staffplus.util.database.DatabaseUtil;
+import net.shortninja.staffplusplus.placeholders.PlaceholderDataProvider;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -328,6 +330,10 @@ public class IocContainer {
 
     public static StaffChatService getStaffChatService() {
         return initBean(StaffChatService.class, () -> new StaffChatService(getMessages(), getOptions()));
+    }
+
+    public static PlaceholderDataProvider getPlaceholderDataProvider() {
+        return initBean(PlaceholderDataProvider.class, PlaceholderDataProviderImpl::new);
     }
 
     public static VanishService getVanishHandler() {
