@@ -1,5 +1,5 @@
 // Context:
-// threshold: WarningThresholdReachedEvent => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/event/warnings/WarningThresholdReachedEvent.java
+// threshold: WarningThresholdReachedEvent => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/warnings/WarningThresholdReachedEvent.java
 // commandsTriggered: String (concatenated values of the commands that were triggered)
 // timestamp: String
 {

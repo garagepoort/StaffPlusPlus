@@ -1,6 +1,6 @@
 // Context:
-// warning: IWarning => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IWarning.java
-// appeal: IWarningAppeal => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IWarningAppeal.java
+// warning: IWarning => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/warnings/IWarning.java
+// appeal: IWarningAppeal => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/appeals/IAppeal.java
 // timestamp: String
 {
     "content": "Warning Appeal update from Staff++",
