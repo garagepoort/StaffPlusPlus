@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.ban.BanService;
 import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -15,7 +15,7 @@ public class UnbanPlayerAction implements IAction {
     private static final String CANCEL = "cancel";
     private final Messages messages = IocContainer.getMessages();
     private final MessageCoordinator messageCoordinator = IocContainer.getMessage();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final BanService banService = IocContainer.getBanService();
 
     @Override

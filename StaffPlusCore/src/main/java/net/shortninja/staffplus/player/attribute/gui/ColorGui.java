@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.common.JavaUtils;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ColorGui extends AbstractGui {
     private static final int SIZE = 27;
-    private SessionManager sessionManager = IocContainer.getSessionManager();
+    private SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public ColorGui(String title) {
         super(SIZE, IocContainer.getMessage().colorize(title));

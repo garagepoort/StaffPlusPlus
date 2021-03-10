@@ -3,7 +3,7 @@ package net.shortninja.staffplus.staff.mode;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.staff.mode.config.ModeItemConfiguration;
 import net.shortninja.staffplus.staff.mode.config.gui.GuiConfiguration;
@@ -25,10 +25,10 @@ public class StaffModeItemsService {
 
     private final Permission permissionHandler;
     private final Options options;
-    private final SessionManager sessionManager;
+    private final SessionManagerImpl sessionManager;
     private final GeneralModeConfiguration modeConfiguration;
 
-    public StaffModeItemsService(Permission permissionHandler, Options options, SessionManager sessionManager) {
+    public StaffModeItemsService(Permission permissionHandler, Options options, SessionManagerImpl sessionManager) {
         this.permissionHandler = permissionHandler;
         this.options = options;
         modeConfiguration = options.modeConfiguration;

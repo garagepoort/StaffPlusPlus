@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.listener.entity;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
 public class EntityTarget implements Listener {
-    private SessionManager sessionManager = IocContainer.getSessionManager();
+    private SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public EntityTarget() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

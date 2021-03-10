@@ -3,7 +3,7 @@ package net.shortninja.staffplus.staff.alerts;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.common.JavaUtils;
@@ -16,9 +16,9 @@ public class AlertCoordinator {
     private final MessageCoordinator message;
     private final Options options;
     private final Messages messages;
-    private final SessionManager sessionManager;
+    private final SessionManagerImpl sessionManager;
 
-    public AlertCoordinator(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManager sessionManager) {
+    public AlertCoordinator(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager) {
         this.permission = permission;
         this.message = message;
         this.options = options;

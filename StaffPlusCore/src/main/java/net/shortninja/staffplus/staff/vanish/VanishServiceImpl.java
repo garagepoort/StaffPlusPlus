@@ -7,25 +7,25 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.util.Message;
-import net.shortninja.staffplusplus.vanish.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
-public class VanishService {
+public class VanishServiceImpl {
     private final IProtocol versionProtocol;
     private final PermissionHandler permission;
     private final MessageCoordinator message;
     private final Options options;
     private final Messages messages;
-    private final SessionManager sessionManager;
+    private final SessionManagerImpl sessionManager;
 
-    public VanishService(IProtocol versionProtocol, PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManager sessionManager) {
+    public VanishServiceImpl(IProtocol versionProtocol, PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager) {
         this.versionProtocol = versionProtocol;
         this.permission = permission;
         this.message = message;
