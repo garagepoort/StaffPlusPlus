@@ -3,7 +3,7 @@ package net.shortninja.staffplus.staff.staffchat;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.chat.ChatInterceptor;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -11,9 +11,9 @@ public class StaffChatChatInterceptor implements ChatInterceptor {
     private final StaffChatService staffChatService;
     private final PermissionHandler permission;
     private final Options options;
-    private final SessionManager sessionManager;
+    private final SessionManagerImpl sessionManager;
 
-    public StaffChatChatInterceptor(StaffChatService staffChatService, PermissionHandler permission, Options options, SessionManager sessionManager) {
+    public StaffChatChatInterceptor(StaffChatService staffChatService, PermissionHandler permission, Options options, SessionManagerImpl sessionManager) {
         this.staffChatService = staffChatService;
         this.permission = permission;
         this.options = options;

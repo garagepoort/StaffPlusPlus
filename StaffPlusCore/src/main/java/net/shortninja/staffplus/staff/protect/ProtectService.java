@@ -4,7 +4,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.staff.protect.database.ProtectedAreaRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -24,9 +24,9 @@ public class ProtectService {
     private final ProtectedAreaRepository protectedAreaRepository;
     private final MessageCoordinator message;
     private final Messages messages;
-    private final SessionManager sessionManager;
+    private final SessionManagerImpl sessionManager;
 
-    public ProtectService(ProtectedAreaRepository protectedAreaRepository, MessageCoordinator message, Messages messages, Options options, SessionManager sessionManager) {
+    public ProtectService(ProtectedAreaRepository protectedAreaRepository, MessageCoordinator message, Messages messages, Options options, SessionManagerImpl sessionManager) {
         this.protectedAreaRepository = protectedAreaRepository;
         this.message = message;
         this.messages = messages;

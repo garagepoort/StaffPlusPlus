@@ -3,6 +3,7 @@ package net.shortninja.staffplus.session;
 import net.shortninja.staffplus.player.attribute.gui.IGui;
 import net.shortninja.staffplus.server.chat.ChatAction;
 import net.shortninja.staffplusplus.alerts.AlertType;
+import net.shortninja.staffplusplus.session.IPlayerSession;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-public class PlayerSession {
+public class PlayerSession implements IPlayerSession {
 
     private final UUID uuid;
     private final String name;
@@ -53,10 +54,12 @@ public class PlayerSession {
         return Optional.ofNullable(Bukkit.getPlayerExact(name));
     }
 
+    @Override
     public UUID getUuid() {
         return uuid;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -89,6 +92,7 @@ public class PlayerSession {
         this.inStaffMode = inStaffMode;
     }
 
+    @Override
     public boolean isInStaffMode() {
         return inStaffMode;
     }
@@ -113,6 +117,7 @@ public class PlayerSession {
         return alertOptions.get(alertType) != null && alertOptions.get(alertType);
     }
 
+    @Override
     public boolean inStaffChatMode() {
         return isChatting;
     }
@@ -121,6 +126,7 @@ public class PlayerSession {
         this.isChatting = isChatting;
     }
 
+    @Override
     public boolean isFrozen() {
         return isFrozen;
     }
@@ -149,10 +155,12 @@ public class PlayerSession {
         playerNotes.add(note);
     }
 
+    @Override
     public boolean isVanished() {
         return this.getVanishType() == VanishType.TOTAL;
     }
 
+    @Override
     public boolean isMuted() {
         return muted;
     }

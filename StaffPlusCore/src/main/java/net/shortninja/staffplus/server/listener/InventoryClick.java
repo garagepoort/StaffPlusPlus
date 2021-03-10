@@ -6,7 +6,7 @@ import net.shortninja.staffplus.common.PassThroughClickAction;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.common.IAction;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 public class InventoryClick implements Listener {
     private final Options options = IocContainer.getOptions();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public InventoryClick() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
