@@ -1,5 +1,5 @@
 // Context:
-// staffmodeEvent: EnterStaffModeEvent => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/event/staffmode/EnterStaffModeEvent.java
+// staffmodeEvent: EnterStaffModeEvent => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/staffmode/EnterStaffModeEvent.java
 // timestamp: String
 {
     "content": "Staff mode update from Staff++",
