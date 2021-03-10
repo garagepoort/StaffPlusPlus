@@ -1,5 +1,5 @@
 // Context:
-// kick: IMute => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IKick.java
+// kick: IMute => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/kick/IKick.java
 // timestamp: String
 {
     "content": "",
