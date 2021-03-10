@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceType;
 import org.bukkit.Bukkit;
@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class EntityDamageByEntity implements Listener {
     private final Options options = IocContainer.getOptions();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final TraceService traceService = IocContainer.getTraceService();
 
     public EntityDamageByEntity() {

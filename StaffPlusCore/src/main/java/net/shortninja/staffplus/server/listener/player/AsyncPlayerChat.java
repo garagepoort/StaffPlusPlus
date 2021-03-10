@@ -6,7 +6,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.server.chat.ChatInterceptor;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,7 +21,7 @@ import java.util.List;
 import static net.shortninja.staffplus.staff.tracing.TraceType.CHAT;
 
 public class AsyncPlayerChat implements Listener {
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
     private final List<ChatInterceptor> chatInterceptors = IocContainer.getChatInterceptors();
     private final BlacklistService blacklistService = IocContainer.getBlacklistService();

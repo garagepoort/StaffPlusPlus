@@ -3,7 +3,7 @@ package net.shortninja.staffplus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
@@ -20,7 +20,7 @@ public class Tasks extends BukkitRunnable {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private final FreezeModeConfiguration freezeModeConfiguration;
