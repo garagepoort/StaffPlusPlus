@@ -7,7 +7,7 @@ import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionLoader;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ public class ModeCmd extends AbstractCmd {
     private static final String ENABLE = "enable";
     private static final String DISABLE = "disable";
     private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final SessionLoader sessionLoader = IocContainer.getSessionLoader();
 
     public ModeCmd(String name) {
