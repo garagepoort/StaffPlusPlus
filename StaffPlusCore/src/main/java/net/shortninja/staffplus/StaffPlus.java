@@ -40,6 +40,7 @@ import net.shortninja.staffplus.util.database.DatabaseInitializer;
 import net.shortninja.staffplus.util.metrics.MetricsService;
 import net.shortninja.staffplus.util.updates.UpdateNotifier;
 import net.shortninja.staffplusplus.IStaffPlus;
+import net.shortninja.staffplusplus.placeholders.PlaceholderDataProvider;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -244,6 +245,11 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     @Override
     public StaffChatService getStaffChatService() {
         return IocContainer.getStaffChatService();
+    }
+
+    @Override
+    public PlaceholderDataProvider getPlaceholderDataProvider() {
+        return IocContainer.getPlaceholderDataProvider();
     }
 
     private void enableLuckPermHooks() {
