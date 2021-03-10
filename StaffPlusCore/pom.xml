@@ -114,12 +114,12 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitAPI</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.6</version>
         </dependency>
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitCommon</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.6</version>
         </dependency>
         <dependency>
             <groupId>net.luckperms</groupId>
