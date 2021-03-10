@@ -14,7 +14,7 @@
                 "icon_url": "https://crafatar.com/avatars/${report.staffUuid}.png"
             },
             "footer": {
-                "text": "Use /warns ${report.culpritUuid != null ? report.culpritName : '{player}'} to see all reports",
+                "text": "Use /warns ${report.culpritUuid != null ? report.culpritName : '[player]'} to see all reports",
                 "icon_url": "https://cdn.discordapp.com/avatars/815454491260092427/c85296bc7ec1ef962717713ac578345a.png"
             },
             "fields": [
