@@ -1,5 +1,22 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.54
+
+### Features
+- Added ability to configure custom report types
+- Teleport to report location now works across bungee network
+- Reports can now be unassigned by other staff members, not only the assignee.
+- Added find-reports command to search reports by specified criteria
+- Staff mode enable/disable commands can now be permission based.
+- No actions glass panes removed
+- Added support for discord integration template packs
+- New discord template pack added by Videndum
+- Staff chat Discord integration added. (DiscordSRV required)
+
+### Bugs
+- Blindness was not removed after unfreeze with freeze prompt enabled
+- Fixed Task Terminated exception on disabling S++
+
 ### V1.15.52
 
 ### Features
