@@ -1,5 +1,5 @@
 // Context:
-// warning: IWarning => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IWarning.java
+// warning: IWarning => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/warnings/IWarning.java
 // timestamp: String
 {
     "content": "Warning update from Staff++",
