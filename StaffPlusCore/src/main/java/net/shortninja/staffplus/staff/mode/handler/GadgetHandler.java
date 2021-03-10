@@ -10,10 +10,10 @@ import net.shortninja.staffplus.player.attribute.gui.hub.HubGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.examine.ExamineGui;
 import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
-import net.shortninja.staffplus.staff.vanish.VanishService;
+import net.shortninja.staffplus.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.common.JavaUtils;
@@ -33,9 +33,9 @@ public class GadgetHandler {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
-    private final VanishService vanishService = IocContainer.getVanishHandler();
+    private final VanishServiceImpl vanishServiceImpl = IocContainer.getVanishService();
     private final PlayerManager playerManager = IocContainer.getPlayerManager();
 
     public GadgetType getGadgetType(ItemStack item, String value) {
@@ -119,9 +119,9 @@ public class GadgetHandler {
 
         PlayerSession session = sessionManager.get(player.getUniqueId());
         if (session.getVanishType() == options.modeConfiguration.getModeVanish()) {
-            vanishService.removeVanish(player);
+            vanishServiceImpl.removeVanish(player);
         } else {
-            vanishService.addVanish(player, options.modeConfiguration.getModeVanish());
+            vanishServiceImpl.addVanish(player, options.modeConfiguration.getModeVanish());
         }
 
         if (shouldUpdateItem && item != null) {

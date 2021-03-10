@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.chests.ChestGUI;
 import net.shortninja.staffplus.staff.chests.ChestGuiType;
 import net.shortninja.staffplus.staff.freeze.FreezeGui;
@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryClose implements Listener {
     private final Options options = IocContainer.getOptions();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public InventoryClose() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

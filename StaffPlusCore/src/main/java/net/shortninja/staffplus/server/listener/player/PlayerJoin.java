@@ -8,11 +8,11 @@ import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionLoader;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.staff.delayedactions.Executor;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
-import net.shortninja.staffplus.staff.vanish.VanishService;
+import net.shortninja.staffplus.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -28,10 +28,10 @@ import java.util.UUID;
 public class PlayerJoin implements Listener {
     private final PermissionHandler permission = IocContainer.getPermissionHandler();
     private final Options options = IocContainer.getOptions();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final SessionLoader sessionLoader = IocContainer.getSessionLoader();
     private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
-    private final VanishService vanishService = IocContainer.getVanishHandler();
+    private final VanishServiceImpl vanishServiceImpl = IocContainer.getVanishService();
     private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
     private final PlayerManager playerManager = IocContainer.getPlayerManager();
     private final ActionService actionService = IocContainer.getActionService();
@@ -48,7 +48,7 @@ public class PlayerJoin implements Listener {
         Player player = event.getPlayer();
 
         manageUser(player);
-        vanishService.updateVanish();
+        vanishServiceImpl.updateVanish();
 
         PlayerSession session = sessionManager.get(player.getUniqueId());
         if (permission.has(player, options.permissionMode) && (options.modeConfiguration.isModeEnableOnLogin() || session.isInStaffMode())) {
