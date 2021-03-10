@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
@@ -27,7 +27,7 @@ public class BlockBreak implements Listener {
     private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
     private final XrayService xrayService = IocContainer.getXrayService();
     private final TraceService traceService = IocContainer.getTraceService();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public BlockBreak() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());

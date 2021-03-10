@@ -10,9 +10,9 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.mode.config.GeneralModeConfiguration;
-import net.shortninja.staffplus.staff.vanish.VanishService;
+import net.shortninja.staffplus.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
@@ -30,8 +30,8 @@ public class StaffModeService {
 
     private final MessageCoordinator message;
     private final Messages messages;
-    private final SessionManager sessionManager;
-    private final VanishService vanishService;
+    private final SessionManagerImpl sessionManager;
+    private final VanishServiceImpl vanishServiceImpl;
     private final StaffModeItemsService staffModeItemsService;
     private final ActionService actionService;
 
@@ -43,14 +43,14 @@ public class StaffModeService {
     public StaffModeService(MessageCoordinator message,
                             Options options,
                             Messages messages,
-                            SessionManager sessionManager,
-                            VanishService vanishService,
+                            SessionManagerImpl sessionManager,
+                            VanishServiceImpl vanishServiceImpl,
                             StaffModeItemsService staffModeItemsService,
                             ActionService actionService, ModeDataRepository modeDataRepository, PlayerManager playerManager) {
         this.message = message;
         this.messages = messages;
         this.sessionManager = sessionManager;
-        this.vanishService = vanishService;
+        this.vanishServiceImpl = vanishServiceImpl;
 
         this.options = options;
         this.actionService = actionService;
@@ -82,7 +82,7 @@ public class StaffModeService {
         if (modeConfiguration.isModeCreative()) player.setGameMode(GameMode.CREATIVE);
 
         runModeCommands(player, true);
-        vanishService.addVanish(player, modeConfiguration.getModeVanish());
+        vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
         session.setInStaffMode(true);
         sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
         message.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
@@ -111,9 +111,9 @@ public class StaffModeService {
         player.setGameMode(modeData.getGameMode());
 
         if (modeData.getVanishType() == VanishType.NONE) {
-            vanishService.removeVanish(player);
+            vanishServiceImpl.removeVanish(player);
         } else {
-            vanishService.addVanish(player, modeData.getVanishType());
+            vanishServiceImpl.addVanish(player, modeData.getVanishType());
         }
         modeDataRepository.deleteModeData(player);
 

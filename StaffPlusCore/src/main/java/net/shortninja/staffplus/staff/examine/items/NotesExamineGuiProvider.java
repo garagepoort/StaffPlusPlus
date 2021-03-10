@@ -4,7 +4,7 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.examine.ExamineGui;
 import net.shortninja.staffplus.staff.examine.ExamineGuiItemProvider;
 import net.shortninja.staffplus.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
@@ -24,9 +24,9 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
     private final MessageCoordinator message;
     private final ExamineModeConfiguration examineModeConfiguration;
     private final Options options;
-    private final SessionManager sessionManager;
+    private final SessionManagerImpl sessionManager;
 
-    public NotesExamineGuiProvider(Messages messages, MessageCoordinator message, Options options, SessionManager sessionManager) {
+    public NotesExamineGuiProvider(Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager) {
         this.messages = messages;
         this.message = message;
         this.options = options;

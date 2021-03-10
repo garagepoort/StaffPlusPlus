@@ -1,11 +1,10 @@
 package net.shortninja.staffplus.staff.freeze;
 
-import io.netty.handler.codec.sctp.SctpInboundByteStreamHandler;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -26,10 +25,10 @@ public class FreezeHandler {
     private final MessageCoordinator message;
     private final Options options;
     private final Messages messages;
-    private final SessionManager sessionManager;
+    private final SessionManagerImpl sessionManager;
     private final FreezeModeConfiguration freezeModeConfiguration;
 
-    public FreezeHandler(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManager sessionManager) {
+    public FreezeHandler(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager) {
         this.permission = permission;
         this.message = message;
         this.options = options;

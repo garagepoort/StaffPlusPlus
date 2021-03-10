@@ -9,8 +9,8 @@ import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionLoader;
-import net.shortninja.staffplus.session.SessionManager;
-import net.shortninja.staffplus.staff.vanish.VanishService;
+import net.shortninja.staffplus.session.SessionManagerImpl;
+import net.shortninja.staffplus.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
@@ -27,8 +27,8 @@ public class VanishCmd extends AbstractCmd {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
-    private final VanishService vanishService = IocContainer.getVanishHandler();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
+    private final VanishServiceImpl vanishServiceImpl = IocContainer.getVanishService();
     private SessionLoader sessionLoader = IocContainer.getSessionLoader();
 
     public VanishCmd(String name) {
@@ -47,7 +47,7 @@ public class VanishCmd extends AbstractCmd {
             if (option.equalsIgnoreCase("enable")) {
                 handleVanishArgument(sender, args[0], targetPlayer.getPlayer(), false);
             } else {
-                vanishService.removeVanish(targetPlayer.getPlayer());
+                vanishServiceImpl.removeVanish(targetPlayer.getPlayer());
             }
 
             sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
@@ -108,20 +108,20 @@ public class VanishCmd extends AbstractCmd {
             case TOTAL:
                 if (permission.has(player, options.permissionVanishTotal) || !shouldCheckPermission) {
                     if (user.getVanishType() != VanishType.TOTAL) {
-                        vanishService.addVanish(player, vanishType);
-                    } else vanishService.removeVanish(player);
+                        vanishServiceImpl.addVanish(player, vanishType);
+                    } else vanishServiceImpl.removeVanish(player);
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
             case LIST:
                 if (permission.has(player, options.permissionVanishList) || !shouldCheckPermission) {
                     if (user.getVanishType() != VanishType.LIST) {
-                        vanishService.addVanish(player, vanishType);
-                    } else vanishService.removeVanish(player);
+                        vanishServiceImpl.addVanish(player, vanishType);
+                    } else vanishServiceImpl.removeVanish(player);
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
             case NONE:
                 if (permission.has(player, options.permissionVanishList) || permission.has(player, options.permissionVanishTotal) || !shouldCheckPermission) {
-                    vanishService.removeVanish(player);
+                    vanishServiceImpl.removeVanish(player);
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
         }

@@ -2,7 +2,7 @@ package net.shortninja.staffplus.server.listener.player;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
@@ -22,7 +22,7 @@ public class PlayerDropItem implements Listener {
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
     private final TraceService traceService = IocContainer.getTraceService();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public PlayerDropItem() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
