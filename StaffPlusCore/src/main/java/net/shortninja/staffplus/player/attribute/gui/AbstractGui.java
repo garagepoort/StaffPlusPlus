@@ -4,7 +4,7 @@ import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.common.Items;
@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 public abstract class AbstractGui implements IGui {
     protected final MessageCoordinator message = IocContainer.getMessage();
     protected final Messages messages = IocContainer.getMessages();
-    protected final SessionManager sessionManager = IocContainer.getSessionManager();
+    protected final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     protected final Options options = IocContainer.getOptions();
 
     private String title;

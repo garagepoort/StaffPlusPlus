@@ -10,7 +10,6 @@ import net.shortninja.staffplus.common.actions.database.ActionableRepository;
 import net.shortninja.staffplus.common.actions.database.MysqlActionableRepository;
 import net.shortninja.staffplus.common.actions.database.SqliteActionableRepository;
 import net.shortninja.staffplus.common.bungee.BungeeClient;
-import net.shortninja.staffplus.common.placeholder.PlaceholderDataProviderImpl;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.PlayerManager;
@@ -27,7 +26,7 @@ import net.shortninja.staffplus.server.chat.blacklist.censors.IllegalWordsChatCe
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionLoader;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.session.database.MysqlSessionsRepository;
 import net.shortninja.staffplus.session.database.SessionsRepository;
 import net.shortninja.staffplus.session.database.SqliteSessionsRepository;
@@ -92,7 +91,7 @@ import net.shortninja.staffplus.staff.tracing.TraceChatInterceptor;
 import net.shortninja.staffplus.staff.tracing.TraceService;
 import net.shortninja.staffplus.staff.tracing.TraceWriterFactory;
 import net.shortninja.staffplus.staff.vanish.VanishChatInterceptor;
-import net.shortninja.staffplus.staff.vanish.VanishService;
+import net.shortninja.staffplus.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.staff.warn.appeals.AppealService;
 import net.shortninja.staffplus.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.staff.warn.appeals.database.MysqlAppealRepository;
@@ -107,7 +106,6 @@ import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.util.database.DatabaseType;
 import net.shortninja.staffplus.util.database.DatabaseUtil;
-import net.shortninja.staffplusplus.placeholders.PlaceholderDataProvider;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -279,8 +277,8 @@ public class IocContainer {
             getAppealRepository()));
     }
 
-    public static SessionManager getSessionManager() {
-        return initBean(SessionManager.class, () -> new SessionManager(getSessionLoader()));
+    public static SessionManagerImpl getSessionManager() {
+        return initBean(SessionManagerImpl.class, () -> new SessionManagerImpl(getSessionLoader()));
     }
 
     public static ModeDataRepository getModeDataRepository() {
@@ -301,7 +299,7 @@ public class IocContainer {
             getOptions(),
             getMessages(),
             getSessionManager(),
-            getVanishHandler(),
+            getVanishService(),
             getStaffModeItemsService(),
             getActionService(),
             getModeDataRepository(),
@@ -332,12 +330,8 @@ public class IocContainer {
         return initBean(StaffChatService.class, () -> new StaffChatService(getMessages(), getOptions()));
     }
 
-    public static PlaceholderDataProvider getPlaceholderDataProvider() {
-        return initBean(PlaceholderDataProvider.class, PlaceholderDataProviderImpl::new);
-    }
-
-    public static VanishService getVanishHandler() {
-        return initBean(VanishService.class, () -> new VanishService(StaffPlus.get().versionProtocol, getPermissionHandler(),
+    public static VanishServiceImpl getVanishService() {
+        return initBean(VanishServiceImpl.class, () -> new VanishServiceImpl(StaffPlus.get().versionProtocol, getPermissionHandler(),
             getMessage(), getOptions(), getMessages(), getSessionManager()));
     }
 
@@ -402,7 +396,7 @@ public class IocContainer {
             new StaffChatChatInterceptor(getStaffChatService(), getPermissionHandler(), getOptions(), getSessionManager()),
             new TraceChatInterceptor(getTraceService(), getMessages(), getMessage(), getOptions()),
             new FreezeChatInterceptor(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
-            new VanishChatInterceptor(getVanishHandler(), getOptions(), getMessage(), getMessages()),
+            new VanishChatInterceptor(getVanishService(), getOptions(), getMessage(), getMessages()),
             new MuteChatInterceptor(getSessionManager(), getMessage(), getMessages()),
             new GeneralChatInterceptor(getChatHandler(), getMessage(), getMessages())
         );

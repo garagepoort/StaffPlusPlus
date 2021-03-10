@@ -5,7 +5,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.command.CommandSender;
@@ -20,7 +20,7 @@ public class NotesCmd extends AbstractCmd {
     public static final String GET = "get";
     public static final String CLEAR = "clear";
     private final MessageCoordinator message = IocContainer.getMessage();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public NotesCmd(String name) {
         super(name, IocContainer.getOptions().examineConfiguration.getPermissionExamine());
