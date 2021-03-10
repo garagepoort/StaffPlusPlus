@@ -6,7 +6,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplusplus.alerts.AlertType;
@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 public class AlertsCmd extends AbstractCmd {
     private MessageCoordinator message = IocContainer.getMessage();
-    private SessionManager sessionManager = IocContainer.getSessionManager();
+    private SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public AlertsCmd(String name) {
         super(name, IocContainer.getOptions().permissionAlerts);

@@ -5,11 +5,11 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.staff.tracing.TraceService;
-import net.shortninja.staffplus.staff.vanish.VanishService;
+import net.shortninja.staffplus.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -22,9 +22,9 @@ public class PlayerQuit implements Listener {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final Options options = IocContainer.getOptions();
     private final Messages messages = IocContainer.getMessages();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
-    private final VanishService vanishService = IocContainer.getVanishHandler();
+    private final VanishServiceImpl vanishServiceImpl = IocContainer.getVanishService();
     private final TraceService traceService = IocContainer.getTraceService();
     private final XrayService xrayService = IocContainer.getXrayService();
 

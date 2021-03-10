@@ -5,7 +5,7 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.command.CommandSender;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class ProtectPlayerCmd extends AbstractCmd {
 
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final MessageCoordinator message = IocContainer.getMessage();
 
     public ProtectPlayerCmd(String name) {

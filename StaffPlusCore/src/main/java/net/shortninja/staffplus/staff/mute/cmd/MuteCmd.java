@@ -5,7 +5,7 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.util.PermissionHandler;
 import net.shortninja.staffplus.common.JavaUtils;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class MuteCmd extends AbstractCmd {
 
     private final MuteService muteService = IocContainer.getMuteService();
-    private SessionManager sessionManager = IocContainer.getSessionManager();
+    private SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private PermissionHandler permissionHandler;
     private Options options;
 

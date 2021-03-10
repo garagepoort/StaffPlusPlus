@@ -5,7 +5,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.session.SessionManager;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class PersonnelCmd extends AbstractCmd {
     private final MessageCoordinator message = IocContainer.getMessage();
-    private final SessionManager sessionManager = IocContainer.getSessionManager();
+    private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public PersonnelCmd(String name) {
         super(name);
