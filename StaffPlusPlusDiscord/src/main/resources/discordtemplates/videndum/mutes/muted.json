@@ -1,5 +1,5 @@
 // Context:
-// mute: IMute => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/mutes/IMute.java
+// mute: IMute => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IMute.java
 // timestamp: String
 {
     "content": "",

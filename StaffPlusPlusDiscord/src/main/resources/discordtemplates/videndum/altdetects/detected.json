@@ -1,5 +1,5 @@
 // Context:
-// detectionResult: IAltDetectResult => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/altdetect/IAltDetectResult.java
+// detectionResult: IAltDetectResult => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/altdetect/IAltDetectResult.java
 // timestamp: String
 {
     "content": "",
