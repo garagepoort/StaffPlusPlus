@@ -1,5 +1,5 @@
 // Context:
-// ban: IBan => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/bans/IBan.java
+// ban: IBan => https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusAPI/src/main/java/net/shortninja/staffplus/unordered/IBan.java
 // timestamp: String
 {
     "content": "",
