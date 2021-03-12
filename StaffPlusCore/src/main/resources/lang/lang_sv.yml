@@ -187,6 +187,8 @@ unfrozen: "&bDu har varit ofrysta."
 staff-froze: "&bDu frös &7%target%&b."
 staff-unfroze: "&bDu ofrös &7%target%&b."
 freeze-logout: "&7%player% &butloggad medan frysta!"
+freeze-title: "&6You have been frozen."
+freeze-subtitle: "Do not log out!"
 
 cps-start: "&bKör ett CPS test på &7%target% &bför &7%seconds%&b..."
 cps-finish-normal: "&7%player% &bhar ungefär &7%cps% &bCPS. &7(antagligen inte farlig)"

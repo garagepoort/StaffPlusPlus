@@ -6,6 +6,7 @@ import net.shortninja.staffplus.server.data.file.LanguageFile;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,11 +33,15 @@ public class AutoUpdaterLanguageFiles extends AbstractConfigUpdater {
     private static boolean updateConfig(StaffPlus staffPlus, String languageFile) throws IOException {
         try {
             staffPlus.getLogger().info("Attempting to fix language file [" + languageFile + "]");
-            FileConfiguration lang = getConfigFile(languageFile);
-            AtomicInteger counter = new AtomicInteger();
-            File langFile = new File(StaffPlus.get().getDataFolder() + "/lang/", languageFile);
+            File langDirectory = new File(StaffPlus.get().getDataFolder() + "/lang/");
+            validateConfigFile(langDirectory, languageFile);
 
-            loadConfig(languageFile).forEach((k, v) -> {
+            File langFile = new File(langDirectory, languageFile);
+            FileConfiguration lang = YamlConfiguration.loadConfiguration(langFile);
+
+            AtomicInteger counter = new AtomicInteger();
+
+            loadConfig("lang/" + languageFile).forEach((k, v) -> {
                 if (!lang.contains(k, true) && !(v instanceof ConfigurationSection)) {
                     lang.set(k, v);
                     counter.getAndIncrement();

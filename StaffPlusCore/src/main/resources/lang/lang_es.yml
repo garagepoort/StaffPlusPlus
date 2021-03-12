@@ -193,6 +193,8 @@ unfrozen: "&bTu has sido descongelado."
 staff-froze: "&bHas congelado a &7%target%&b."
 staff-unfroze: "&bHas descongelado a &7%target%&b."
 freeze-logout: "&7%player% &bdesconectado mientras congelado!"
+freeze-title: "&6You have been frozen."
+freeze-subtitle: "Do not log out!"
 
 cps-start: "&bEjecutando un test de CPS en &7%target% &bdurante &7%seconds% &bsegundos..."
 cps-finish-normal: "&7%player% &btiene acerca &7%cps% &bCPS. &7(probablemente no peligroso)"
