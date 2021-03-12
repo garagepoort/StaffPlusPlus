@@ -13,9 +13,10 @@ public class FreezeModeConfiguration extends ModeItemConfiguration {
     private String modeFreezePromptTitle;
     private boolean modeFreezeChat;
     private boolean modeFreezeDamage;
+    private boolean titleMessageEnabled;
     private final List<String> logoutCommands;
 
-    public FreezeModeConfiguration(String identifier, int modeFreezeTimer, Sounds modeFreezeSound, boolean modeFreezePrompt, String modeFreezePromptTitle, boolean modeFreezeChat, boolean modeFreezeDamage, List<String> logoutCommands) {
+    public FreezeModeConfiguration(String identifier, int modeFreezeTimer, Sounds modeFreezeSound, boolean modeFreezePrompt, String modeFreezePromptTitle, boolean modeFreezeChat, boolean modeFreezeDamage, boolean titleMessageEnabled, List<String> logoutCommands) {
         super(identifier);
         this.modeFreezeTimer = modeFreezeTimer;
         this.modeFreezeSound = modeFreezeSound;
@@ -23,6 +24,7 @@ public class FreezeModeConfiguration extends ModeItemConfiguration {
         this.modeFreezePromptTitle = modeFreezePromptTitle;
         this.modeFreezeChat = modeFreezeChat;
         this.modeFreezeDamage = modeFreezeDamage;
+        this.titleMessageEnabled = titleMessageEnabled;
         this.logoutCommands = logoutCommands;
     }
 
@@ -52,5 +54,9 @@ public class FreezeModeConfiguration extends ModeItemConfiguration {
 
     public List<String> getLogoutCommands() {
         return logoutCommands;
+    }
+
+    public boolean isTitleMessageEnabled() {
+        return titleMessageEnabled;
     }
 }

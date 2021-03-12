@@ -1,8 +1,9 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.52
+### V1.16.52 (NOT YET RELEASED)
 
 ### Features
+-freeze module now allows for a title & subtitle message to be displayed when a player is frozen.
 
 ### Bugs
 - Fix bugs when creating reports in a multi server setup having different servers using different world names.

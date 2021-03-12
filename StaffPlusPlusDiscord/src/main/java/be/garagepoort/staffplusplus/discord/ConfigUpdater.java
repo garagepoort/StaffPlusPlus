@@ -25,7 +25,9 @@ public class ConfigUpdater {
     public static boolean updateConfig(StaffPlusPlusDiscord staffPlus) {
         try {
             staffPlus.getLogger().info("Attempting to fix configuration file...");
-            FileConfiguration config = getConfigFile(CONFIG_FILE);
+            validateConfig(CONFIG_FILE);
+
+            FileConfiguration config = staffPlus.getConfig();
             AtomicInteger counter = new AtomicInteger();
             loadConfig().forEach((k, v) -> {
                 if (!config.contains(k, true) && !(v instanceof ConfigurationSection)) {
@@ -47,14 +49,13 @@ public class ConfigUpdater {
         }
     }
 
-    private static YamlConfiguration getConfigFile(String filename) throws IOException, InvalidConfigurationException, ConfigurationException {
+    private static void validateConfig(String filename) throws IOException, InvalidConfigurationException, ConfigurationException {
         File file = new File(StaffPlusPlusDiscord.get().getDataFolder(), filename);
         if (!file.exists()) {
             throw new ConfigurationException("No configuration file found");
         }
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         yamlConfiguration.load(file);
-        return yamlConfiguration;
     }
 
 
@@ -64,9 +65,7 @@ public class ConfigUpdater {
         if (defConfigStream != null) {
             YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8));
             Set<String> keys = yamlConfiguration.getKeys(true);
-            keys.forEach((k) -> {
-                configurations.put(k, yamlConfiguration.get(k));
-            });
+            keys.forEach(k -> configurations.put(k, yamlConfiguration.get(k)));
         }
         return configurations;
     }
