@@ -188,6 +188,8 @@ unfrozen: "&bFagyott voltál."
 staff-froze: "&7%target%&b megfagyasztva."
 staff-unfroze: "&7%target%&b visszafagyasztva."
 freeze-logout: "&7%player% &bnaplózott, fagyasztva!"
+freeze-title: "&6You have been frozen."
+freeze-subtitle: "Do not log out!"
 
 cps-start: "&bA CPS teszt futása &7%target% &7%seconds% &bmásodperc múlva..."
 cps-finish-normal: "&7%player% &bvan körülbelül &7%cps% &bCPS. &7(valószínűleg nem veszélyes)"

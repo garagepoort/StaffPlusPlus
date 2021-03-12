@@ -19,6 +19,7 @@ public class FreezeModeItemLoader extends ModeItemLoader<FreezeModeConfiguration
             config.getString("staff-mode.freeze-module.prompt-title"),
             config.getBoolean("staff-mode.freeze-module.chat"),
             config.getBoolean("staff-mode.freeze-module.damage"),
+            config.getBoolean("staff-mode.freeze-module.title-message-enabled"),
             JavaUtils.stringToList(config.getString("staff-mode.freeze-module.logout-commands")));
         return super.loadGeneralConfig(config, modeItemConfiguration);
     }
