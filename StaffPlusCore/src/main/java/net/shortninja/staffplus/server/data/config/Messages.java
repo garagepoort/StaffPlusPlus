@@ -1,10 +1,9 @@
 package net.shortninja.staffplus.server.data.config;
 
-import net.shortninja.staffplus.server.data.file.LanguageFile;
 import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.server.data.file.LanguageFile;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Messages {
@@ -113,7 +112,6 @@ public class Messages {
     public String examineNotes;
     public String examineNotesNote;
     public String follow;
-    private int langVersion;
     public String noteAdded;
     public String noteCleared;
     public List<String> noteListStart;
@@ -122,6 +120,8 @@ public class Messages {
     public String bypassed;
     public String staffChatStatus;
     public String freezeLogout;
+    public String freezeTitle;
+    public String freezeSubtitle;
     public String strip;
 
     public String kickedNotify;
@@ -241,10 +241,7 @@ public class Messages {
         guiMine = config.getString("gui-mine");
         guiMiner = config.getString("gui-miner");
         guiCounted = config.getString("gui-Counted");
-        freeze = JavaUtils.stringToList(config.getString("freeze"));
-        unfrozen = JavaUtils.stringToList(config.getString("unfrozen"));
-        staffFroze = config.getString("staff-froze");
-        staffUnfroze = config.getString("staff-unfroze");
+
         cpsStart = config.getString("cps-start");
         cpsFinishNormal = config.getString("cps-finish-normal");
         cpsFinishMax = config.getString("cps-finish-max");
@@ -257,16 +254,23 @@ public class Messages {
         examineNotes = config.getString("examine-notes");
         examineNotesNote = config.getString("examine-notes-note");
         follow = config.getString("follow");
-        langVersion = config.contains("lang-version") ? config.getInt("lang-version") : 3;
-        noteAdded = langVersion >= 3.2 ? config.getString("note-added") : "&bNote added for &7%target%&b.";
-        noteCleared = langVersion >= 3.2 ? config.getString("note-cleared") : "&bNotes cleared for &7%target%&b.";
-        noteListStart = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-start")) : Arrays.asList("&7%longline%");
-        noteListEntry = langVersion >= 3.2 ? config.getString("note-list-entry") : "&b%count% &7%note%";
-        noteListEnd = langVersion >= 3.2 ? JavaUtils.stringToList(config.getString("note-list-end")) : Arrays.asList("&7%longline%");
-        bypassed = langVersion >= 3.5 ? config.getString("bypassed") : "&cThat player bypassed that command!";
-        staffChatStatus = langVersion >= 3.2 ? config.getString("staff-chat-status") : "&bStaff chat &7%status%&b.";
-        freezeLogout = langVersion >= 3.57 ? config.getString("freeze-logout") : "&7%player% &blogged out while frozen!";
-        strip = langVersion >= 6194 ? config.getString("strip") : "&7%player%'s armor has been removed!";
+        noteAdded = config.getString("note-added");
+        noteCleared = config.getString("note-cleared");
+        noteListStart = JavaUtils.stringToList(config.getString("note-list-start"));
+        noteListEntry = config.getString("note-list-entry");
+        noteListEnd = JavaUtils.stringToList(config.getString("note-list-end"));
+        bypassed = config.getString("bypassed");
+        staffChatStatus = config.getString("staff-chat-status");
+        strip = config.getString("strip");
+
+        freeze = JavaUtils.stringToList(config.getString("freeze"));
+        freezeLogout = config.getString("freeze-logout");
+        freezeTitle = config.getString("freeze-title");
+        freezeSubtitle = config.getString("freeze-subtitle");
+        unfrozen = JavaUtils.stringToList(config.getString("unfrozen"));
+        staffFroze = config.getString("staff-froze");
+        staffUnfroze = config.getString("staff-unfroze");
+
 
         kickedNotify = config.getString("kick-notifyplayers", "");
         kickMessage = config.getString("kick-kickmessage", "");

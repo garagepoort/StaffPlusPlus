@@ -187,6 +187,8 @@ unfrozen: "&bSei stato scongelato."
 staff-froze: "&bHai congelato &7%target%&b."
 staff-unfroze: "&bHai scongelato &7%target%&b."
 freeze-logout: "&7%player% &bè uscito dal server mentra era congelato!"
+freeze-title: "&6You have been frozen."
+freeze-subtitle: "Do not log out!"
 
 cps-start: "&bCPS test in corso su &7%target% &bper &7%seconds% &bsecondi..."
 cps-finish-normal: "&7%player% &bha circa &7%cps% &bCPS. &7(probabilmente non pericoloso)"
