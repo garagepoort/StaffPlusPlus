@@ -1,79 +1,58 @@
 package net.shortninja.staffplus.server.data.config;
 
-import com.google.common.base.Charsets;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.exceptions.ConfigurationException;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AutoUpdater {
+public class AutoUpdater extends AbstractConfigUpdater{
 
     private static final String CONFIG_FILE = "config.yml";
     private static final List<String> IGNORED_CONFIG_KEYS = Arrays.asList("custom-modules", "locations", "custom-gui");
 
     private static final List<ConfigMigrator> MIGRATORS = Collections.singletonList(new StaffModeCommandMigrator());
 
-    public static void updateConfig(StaffPlus staffPlus) {
-        staffPlus.getLogger().info("Attempting to fix configuration file...");
-        FileConfiguration config = staffPlus.getConfig();
-        AtomicInteger counter = new AtomicInteger();
-        Map<String, Object> defaultConfigMap = loadConfig();
-
-        defaultConfigMap.forEach((k, v) -> {
-            if (!config.contains(k, true) && !(v instanceof ConfigurationSection)) {
-                config.set(k, v);
-                counter.getAndIncrement();
-            }
-        });
-
-        config.getKeys(true).forEach((k) -> {
-            if (IGNORED_CONFIG_KEYS.stream().noneMatch(k::contains) && !defaultConfigMap.containsKey(k)) {
-                config.set(k, null);
-            }
-        });
-        MIGRATORS.forEach(m -> m.migrate(config));
-
-        staffPlus.saveConfig();
-        if (counter.get() > 0) {
-            staffPlus.getLogger().info("Configuration file Fixed. [" + counter.get() + "] properties were added. Should StaffPlusPlus still have problems starting up, please compare your config with the default configuration: https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
-        } else {
-            staffPlus.getLogger().info("Configuration file is up to date. No fix needed");
-        }
-    }
-
-    private static Map<String, Object> loadConfig() {
-        Map<String, Object> configurations = new HashMap<>();
-        InputStream defConfigStream = getResource(CONFIG_FILE);
-        if (defConfigStream != null) {
-            YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8));
-            Set<String> keys = yamlConfiguration.getKeys(true);
-            keys.forEach((k) -> {
-                configurations.put(k, yamlConfiguration.get(k));
-            });
-        }
-        return configurations;
-    }
-
-    private static InputStream getResource(String filename) {
+    public static boolean updateConfig(StaffPlus staffPlus) {
         try {
-            URL url = AutoUpdater.class.getClassLoader().getResource(filename);
-            if (url == null) {
-                return null;
+            staffPlus.getLogger().info("Attempting to fix configuration file...");
+            FileConfiguration config = getConfigFile(CONFIG_FILE);
+            AtomicInteger counter = new AtomicInteger();
+            Map<String, Object> defaultConfigMap = loadConfig(CONFIG_FILE);
+
+            defaultConfigMap.forEach((k, v) -> {
+                if (!config.contains(k, true) && !(v instanceof ConfigurationSection)) {
+                    config.set(k, v);
+                    counter.getAndIncrement();
+                }
+            });
+
+            config.getKeys(true).forEach(key -> {
+                if (IGNORED_CONFIG_KEYS.stream().noneMatch(key::contains) && !defaultConfigMap.containsKey(key)) {
+                    config.set(key, null);
+                }
+            });
+            MIGRATORS.forEach(m -> m.migrate(config));
+
+            staffPlus.saveConfig();
+            if (counter.get() > 0) {
+                staffPlus.getLogger().info("Configuration file Fixed. [" + counter.get() + "] properties were added. Should StaffPlusPlus still have problems starting up, please compare your config with the default configuration: https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
             } else {
-                URLConnection connection = url.openConnection();
-                connection.setUseCaches(false);
-                return connection.getInputStream();
+                staffPlus.getLogger().info("Configuration file is up to date. No fix needed");
             }
-        } catch (IOException var4) {
-            return null;
+            return true;
+        } catch (InvalidConfigurationException | IOException | ConfigurationException e) {
+            staffPlus.getLogger().severe("Configuration file is INVALID!!! Disabling StaffPlusPlus!");
+            staffPlus.getLogger().severe("Full error [" + e.getMessage() + "]");
+            return false;
         }
     }
+
 }

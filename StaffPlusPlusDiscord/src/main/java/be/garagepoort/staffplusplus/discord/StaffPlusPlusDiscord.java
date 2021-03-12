@@ -31,6 +31,10 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         saveDefaultConfig();
         FileConfiguration config = getConfig();
         ConfigUpdater.updateConfig(this);
+        if(!ConfigUpdater.updateConfig(this)) {
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
         TemplateRepository templateRepository = new TemplateRepository(this, config);
         initializeListeners(templateRepository, config);
