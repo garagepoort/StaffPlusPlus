@@ -2,6 +2,7 @@ package net.shortninja.staffplus.staff.reporting.database;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
+import net.shortninja.staffplus.common.SppLocation;
 import net.shortninja.staffplus.staff.reporting.ReportFilter;
 import net.shortninja.staffplus.staff.reporting.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
@@ -316,7 +317,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     }
 
     private Report buildReport(ResultSet rs) throws SQLException {
-        String player_uuid = rs.getString("Player_UUID");
+        String playerUuid = rs.getString("Player_UUID");
         UUID reporterUUID = UUID.fromString(rs.getString("Reporter_UUID"));
         UUID staffUUID = rs.getString("staff_uuid") != null ? UUID.fromString(rs.getString("staff_uuid")) : null;
 
@@ -330,8 +331,8 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
 
         UUID playerUUID = null;
         String culpritName = null;
-        if (player_uuid != null) {
-            playerUUID = UUID.fromString(player_uuid);
+        if (playerUuid != null) {
+            playerUUID = UUID.fromString(playerUuid);
             Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUUID);
             culpritName = player.map(SppPlayer::getUsername).orElse("[Unknown player]");
         }
@@ -340,14 +341,17 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
         String type = rs.getString("type");
         Location location = null;
+        SppLocation sppLocation = null;
         rs.getInt(14);
 
         if (!rs.wasNull()) {
             double locationX = rs.getDouble(15);
             double locationY = rs.getDouble(16);
             double locationZ = rs.getDouble(17);
-            World locationWorld = Bukkit.getServer().getWorld(rs.getString(18));
+            String worldName = rs.getString(18);
+            World locationWorld = Bukkit.getServer().getWorld(worldName);
             location = new Location(locationWorld, locationX, locationY, locationZ);
+            sppLocation = new SppLocation(worldName, locationX, locationY, locationZ, serverName);
         }
 
         return new Report(playerUUID, culpritName, id,
@@ -359,7 +363,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             rs.getString("staff_name"),
             staffUUID,
             rs.getString("close_reason"),
-            serverName, location, type);
+            serverName, location, sppLocation, type);
     }
 
 }

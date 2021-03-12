@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.staff.reporting;
 
+import net.shortninja.staffplus.common.SppLocation;
+import net.shortninja.staffplusplus.ILocation;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplus.staff.infractions.Infraction;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
@@ -25,6 +27,7 @@ public class Report implements IReport, Infraction {
     private String closeReason;
     private String serverName;
     private Location location;
+    private SppLocation sppLocation;
     private String type;
 
     public Report(UUID culpritUuid, String culpritName, int id, String reason, String reporterName, UUID reporterUuid, long time,
@@ -34,6 +37,7 @@ public class Report implements IReport, Infraction {
                   String closeReason,
                   String serverName,
                   Location location,
+                  SppLocation sppLocation,
                   String type) {
         this.culpritUuid = culpritUuid;
         this.culpritName = culpritName;
@@ -48,6 +52,7 @@ public class Report implements IReport, Infraction {
         this.closeReason = closeReason;
         this.serverName = serverName;
         this.location = location;
+        this.sppLocation = sppLocation;
         this.type = type;
     }
 
@@ -62,6 +67,7 @@ public class Report implements IReport, Infraction {
         this.location = location;
         this.type = type;
         this.serverName = serverName;
+        this.sppLocation = new SppLocation(location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), serverName);
     }
 
     public void setId(int id) {
@@ -161,6 +167,11 @@ public class Report implements IReport, Infraction {
     @Override
     public Optional<Location> getLocation() {
         return Optional.ofNullable(location);
+    }
+
+    @Override
+    public Optional<ILocation> getSppLocation() {
+        return Optional.ofNullable(sppLocation);
     }
 
     @Override
