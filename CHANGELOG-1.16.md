@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.52
+
+### Features
+
+### Bugs
+- Fix bugs when creating reports in a multi server setup having different servers using different world names.
+
 ### V1.16.51
 
 ### Features
