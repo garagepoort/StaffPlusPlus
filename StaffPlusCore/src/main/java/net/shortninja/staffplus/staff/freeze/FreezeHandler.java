@@ -1,11 +1,15 @@
 package net.shortninja.staffplus.staff.freeze;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
+import net.shortninja.staffplus.util.Message;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.PermissionHandler;
 import org.bukkit.Bukkit;
@@ -35,6 +39,18 @@ public class FreezeHandler {
         this.messages = messages;
         this.sessionManager = sessionManager;
         freezeModeConfiguration = options.modeConfiguration.getFreezeModeConfiguration();
+
+        if (freezeModeConfiguration.isTitleMessageEnabled()) {
+            Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    PlayerSession playerSession = sessionManager.get(p.getUniqueId());
+                    if (playerSession.isFrozen()) {
+                        p.sendTitle(Message.colorize(messages.freezeTitle), Message.colorize(messages.freezeSubtitle), 1, 25, 1);
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Message.colorize(messages.vanishEnabled)));
+                    }
+                }
+            }, 20L, 20L);
+        }
     }
 
     public void execute(FreezeRequest freezeRequest) {

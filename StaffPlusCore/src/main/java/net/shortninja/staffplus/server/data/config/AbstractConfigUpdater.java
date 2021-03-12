@@ -29,14 +29,17 @@ public class AbstractConfigUpdater {
         return configurations;
     }
 
-    protected static YamlConfiguration getConfigFile(String filename) throws IOException, InvalidConfigurationException {
-        File file = new File(StaffPlus.get().getDataFolder(), filename);
+    protected static void validateConfigFile(File folder, String filename) throws IOException, InvalidConfigurationException {
+        File file = new File(folder, filename);
         if (!file.exists()) {
             throw new ConfigurationException("No configuration file found");
         }
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         yamlConfiguration.load(file);
-        return yamlConfiguration;
+    }
+
+    protected static void validateConfigFile(String filename) throws IOException, InvalidConfigurationException {
+        validateConfigFile(StaffPlus.get().getDataFolder(), filename);
     }
 
     protected static InputStream getResource(String filename) {
