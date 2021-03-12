@@ -34,7 +34,7 @@ public class StaffChatService implements net.shortninja.staffplusplus.staffmode.
         sendMessageToStaff(message);
     }
 
-    public void sendMessage(Player sender, String message) {
+    public void sendMessage(CommandSender sender, String message) {
         String formattedMessage = messages.staffChat.replace("%player%", sender.getName()).replace("%message%", message);
         if (!messages.prefixStaffChat.isEmpty()) {
             formattedMessage = messages.prefixStaffChat + " " + formattedMessage;
@@ -42,7 +42,10 @@ public class StaffChatService implements net.shortninja.staffplusplus.staffmode.
 
         sendBungeeMessage(sender, formattedMessage);
         sendMessageToStaff(formattedMessage);
-        sendEvent(new StaffChatEvent(sender, options.serverName, message));
+
+        if (sender instanceof Player) {
+            sendEvent(new StaffChatEvent((Player) sender, options.serverName, message));
+        }
     }
 
     public boolean hasHandle(String message) {
