@@ -188,6 +188,8 @@ unfrozen: "&bVous avez été unfreeze"
 staff-froze: "&bVous avez freeze &7%target%&b."
 staff-unfroze: "&bVous avez unfreeze &7%target%&b."
 freeze-logout: "&7%player% &bdéconnecté tandis que freeze!"
+freeze-title: "&6You have been frozen."
+freeze-subtitle: "Do not log out!"
 
 cps-start: "&bExecution de test CPS sur &7%target% &bpour &7%seconds% &bsecondes..."
 cps-finish-normal: "&7%player% &bfait environ &7%cps% &bCPS. &7(probablement inoffensif)"

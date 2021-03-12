@@ -23,7 +23,9 @@ public class AutoUpdater extends AbstractConfigUpdater{
     public static boolean updateConfig(StaffPlus staffPlus) {
         try {
             staffPlus.getLogger().info("Attempting to fix configuration file...");
-            FileConfiguration config = getConfigFile(CONFIG_FILE);
+            validateConfigFile(CONFIG_FILE);
+
+            FileConfiguration config = staffPlus.getConfig();
             AtomicInteger counter = new AtomicInteger();
             Map<String, Object> defaultConfigMap = loadConfig(CONFIG_FILE);
 

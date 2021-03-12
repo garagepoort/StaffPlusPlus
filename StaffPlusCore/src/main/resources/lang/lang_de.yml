@@ -188,6 +188,8 @@ unfrozen: "&bDu bist nun nicht mehr eingefroren."
 staff-froze: "&bDu fror &7%target%&b."
 staff-unfroze: "&bDu aufgetaut &7%target%&b."
 freeze-logout: "&7%player% &babgemeldet und war eingefroren!"
+freeze-title: "&6You have been frozen."
+freeze-subtitle: "Do not log out!"
 
 cps-start: "&bStarte CPS-Check für &7%target% &bfür &7%seconds%&b..."
 cps-finish-normal: "&7%player% &bhat ungefähr &7%cps% &bCPS. &7(Wahrscheinlich benutzt er kein Autoclicker!)"

@@ -186,6 +186,8 @@ unfrozen: "&bVocê foi congelado."
 staff-froze: "&bVocê congelou &7%target%&b."
 staff-unfroze: "&bVocê descongelou &7%target%&b."
 freeze-logout: "&7%player% &bsaiu enquanto estava congelado!"
+freeze-title: "&6You have been frozen."
+freeze-subtitle: "Do not log out!"
 
 cps-start: "&bTestando CPS de &7%target% &bpor &7%seconds% &bsegundos..."
 cps-finish-normal: "&7%player% &bfez &7%cps% &bCPS. &7(provavelmente normal)"

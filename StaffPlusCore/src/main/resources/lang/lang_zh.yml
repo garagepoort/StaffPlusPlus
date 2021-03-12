@@ -187,6 +187,8 @@ unfrozen: "&b你被解冻了."
 staff-froze: "&b你冻结了&7%target%&b."
 staff-unfroze: "&b你解冻了&7%target%&b."
 freeze-logout: "&7%player% &b在被冻结时等出了!"
+freeze-title: "&6You have been frozen."
+freeze-subtitle: "Do not log out!"
 
 cps-start: "&b对&7%target%&b开启CPS测试&7%seconds%&b秒..."
 cps-finish-normal: "&7%player%&b测试结果为&7%cps%&bCPS. &7(正常)"

@@ -187,6 +187,8 @@ unfrozen: "&bOdmrzneu se."
 staff-froze: "&bZamrznuo si &7%target%&b."
 staff-unfroze: "&bOdmrznuo si &7%target%&b."
 freeze-logout: "&7%player% &bodjavljen dok zamrznut!"
+freeze-title: "&6You have been frozen."
+freeze-subtitle: "Do not log out!"
 
 cps-start: "&bIde CPS test na &7%target% &bza &7%seconds% &bsekundi..."
 cps-finish-normal: "&7%player% &bima oko &7%cps% &bCPS. &7(nije opasan)"
