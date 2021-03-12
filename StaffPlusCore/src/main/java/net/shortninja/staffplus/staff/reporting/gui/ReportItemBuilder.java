@@ -54,8 +54,8 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
             }
         }
 
-        if(report.getLocation().isPresent()) {
-            addLoreLine(lore,"Location", report.getLocation().get().getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(report.getLocation().get()));
+        if(report.getSppLocation().isPresent()) {
+            addLoreLine(lore,"Location", report.getSppLocation().get().getWorldName() + " &8 | &7" + JavaUtils.serializeLocation(report.getSppLocation().get()));
         }else {
             addLoreLine(lore,"Location", UNKNOWN);
         }
