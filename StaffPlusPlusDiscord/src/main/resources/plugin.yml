@@ -1,6 +1,6 @@
 name: StaffPlusPlusDiscord
 main: be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord
-version: 1.15.7
+version: ${project.version}
 api-version: 1.13
 depend: [StaffPlus]
 softdepend: [DiscordSRV, PlaceholderAPI]

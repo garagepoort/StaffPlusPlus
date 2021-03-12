@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.common;
 
 import me.rayzr522.jsonmessage.JSONMessage;
+import net.shortninja.staffplusplus.ILocation;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -210,6 +211,16 @@ public class JavaUtils {
      */
     public static String serializeLocation(Location location) {
         return location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
+    }
+
+    /**
+     * "Serializes" the Location with simple string concatenation.
+     *
+     * @param location The Location to serialize.
+     * @return String in the format of "x, y, z".
+     */
+    public static String serializeLocation(ILocation location) {
+        return location.getX() + ", " + location.getY() + ", " + location.getZ();
     }
 
     /**
