@@ -102,8 +102,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         plugin = this;
         IocContainer.init(this);
         saveDefaultConfig();
-        AutoUpdater.updateConfig(this);
-        AutoUpdaterLanguageFiles.updateConfig(this);
+        if(!AutoUpdater.updateConfig(this) || !AutoUpdaterLanguageFiles.updateConfig(this)) {
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
         start(System.currentTimeMillis());
 
