@@ -990,6 +990,8 @@ permissions:
 
   # Permission for receiving alt detect alerts.
   alerts-alt-detect: "staff.alerts.alt-detects"
+  # Permission for receiving chat word mentions alerts.
+  alerts-word-mention: "staff.alerts.word-mention"
 
   # Permission to have inventory interaction while in examine mode
   examine-inventory-interaction.online: "staff.examine.inventory-interaction"

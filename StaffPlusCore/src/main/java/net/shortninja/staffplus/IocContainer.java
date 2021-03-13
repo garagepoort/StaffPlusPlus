@@ -30,7 +30,6 @@ import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.session.database.MysqlSessionsRepository;
 import net.shortninja.staffplus.session.database.SessionsRepository;
 import net.shortninja.staffplus.session.database.SqliteSessionsRepository;
-import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
 import net.shortninja.staffplus.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.staff.altaccountdetect.AltDetectionService;
 import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.MysqlPlayerIpRepository;
@@ -251,7 +250,7 @@ public class IocContainer {
     }
 
     public static XrayService getXrayService() {
-        return initBean(XrayService.class, () -> new XrayService(getOptions(), getAlertCoordinator()));
+        return initBean(XrayService.class, () -> new XrayService(getOptions()));
     }
 
     public static TeleportService getTeleportService() {
@@ -357,10 +356,6 @@ public class IocContainer {
 
     public static SessionLoader getSessionLoader() {
         return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService(), getOptions(), getSessionsRepository()));
-    }
-
-    public static AlertCoordinator getAlertCoordinator() {
-        return initBean(AlertCoordinator.class, () -> new AlertCoordinator(getPermissionHandler(), getMessage(), getOptions(), getMessages(), getSessionManager()));
     }
 
     public static OfflinePlayerProvider getOfflinePlayerProvider() {
