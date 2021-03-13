@@ -26,7 +26,7 @@ public class AlertsCmd extends AbstractCmd {
     private SessionManagerImpl sessionManager = IocContainer.getSessionManager();
 
     public AlertsCmd(String name) {
-        super(name, IocContainer.getOptions().permissionAlerts);
+        super(name, IocContainer.getOptions().alertsConfiguration.getPermissionAlerts());
     }
 
     @Override
@@ -114,25 +114,25 @@ public class AlertsCmd extends AbstractCmd {
 
         switch (alertType) {
             case NAME_CHANGE:
-                if (permission.has(player, options.permissionNameChange) || !shouldCheckPermission) {
+                if (permission.has(player, options.alertsConfiguration.getPermissionNameChange()) || !shouldCheckPermission) {
                     session.setAlertOption(alertType, isEnabled);
                     wasChanged = true;
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
             case MENTION:
-                if (permission.has(player, options.permissionMention) || !shouldCheckPermission) {
+                if (permission.has(player, options.alertsConfiguration.getPermissionMention()) || !shouldCheckPermission) {
                     session.setAlertOption(alertType, isEnabled);
                     wasChanged = true;
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
             case XRAY:
-                if (permission.has(player, options.permissionXray) || !shouldCheckPermission) {
+                if (permission.has(player, options.alertsConfiguration.getXrayConfiguration().getPermissionXray()) || !shouldCheckPermission) {
                     session.setAlertOption(alertType, isEnabled);
                     wasChanged = true;
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
             case ALT_DETECT:
-                if (permission.has(player, options.permissionAlertsAltDetect) || !shouldCheckPermission) {
+                if (permission.has(player, options.alertsConfiguration.getPermissionAltDetect()) || !shouldCheckPermission) {
                     session.setAlertOption(alertType, isEnabled);
                     wasChanged = true;
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);

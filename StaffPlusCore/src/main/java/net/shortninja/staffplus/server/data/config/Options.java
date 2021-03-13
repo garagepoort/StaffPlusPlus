@@ -3,11 +3,15 @@ package net.shortninja.staffplus.server.data.config;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.authentication.AuthenticationConfigurationLoader;
+import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.Sounds;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
 import net.shortninja.staffplus.server.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplus.server.synchronization.ServerSyncModuleLoader;
-import net.shortninja.staffplus.staff.alerts.xray.XrayBlockConfig;
+import net.shortninja.staffplus.staff.alerts.config.AlertsConfiguration;
+import net.shortninja.staffplus.staff.alerts.config.AlertsModuleLoader;
 import net.shortninja.staffplus.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.staff.altaccountdetect.config.AltDetectModuleLoader;
 import net.shortninja.staffplus.staff.ban.config.BanConfiguration;
@@ -45,10 +49,6 @@ import net.shortninja.staffplus.staff.warn.warnings.config.ManageWarningsModuleL
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningModuleLoader;
 import net.shortninja.staffplus.util.Materials;
-import net.shortninja.staffplus.common.JavaUtils;
-import net.shortninja.staffplus.common.Sounds;
-import net.shortninja.staffplus.common.Items;
-import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -57,8 +57,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 //TODO: replace this with something that isn't horribly coupled...
 public class Options {
@@ -96,6 +97,7 @@ public class Options {
     public EnderchestsConfiguration enderchestsConfiguration;
     public GeneralModeConfiguration modeConfiguration;
     public ServerSyncConfiguration serverSyncConfiguration;
+    public AlertsConfiguration alertsConfiguration;
 
     /*
      * Vanish
@@ -120,14 +122,6 @@ public class Options {
     public List<String> chatBlacklistPeriods;
     public List<String> chatBlacklistAllowed;
     /*
-     * Alerts
-     */
-    public boolean alertsNameNotify;
-    public boolean alertsMentionNotify;
-    public boolean alertsXrayEnabled;
-    public boolean alertsAltDetectEnabled;
-    public List<AltDetectTrustLevel> alertsAltDetectTrustLevels;
-    /*
      * Staff Mode
      */
     public boolean staffView;
@@ -139,14 +133,11 @@ public class Options {
     /*
      * Permissions
      */
-    public String permissionAlerts;
-    ;
     public String permissionWildcard;
     public String permissionBlock;
     public String permissionReport;
     public String permissionReportBypass;
     public String permissionReportUpdateNotifications;
-    public String permissionWarningUpdateNotifications;
     public String permissionWarn;
     public String permissionWarnBypass;
     public String permissionVanishCommand;
@@ -156,10 +147,6 @@ public class Options {
     public String permissionChatToggle;
     public String permissionChatSlow;
     public String permissionBlacklist;
-    public String permissionMention;
-    public String permissionAlertsAltDetect;
-    public String permissionNameChange;
-    public String permissionXray;
     public String permissionMode;
     public String permissionModeSilentChestInteraction;
     public String permissionFreeze;
@@ -199,16 +186,12 @@ public class Options {
     public String commandWarns;
     public String commandVanish;
     public String commandChat;
-    public String commandAlerts;
     public String commandFollow;
     public String commandRevive;
     public String commandStaffList;
     public String commandClearInv;
     public String commandTrace;
     public String commandBroadcast;
-
-    public Sounds alertsSound;
-    public List<XrayBlockConfig> alertsXrayBlocks;
 
     public String permissionStrip;
     public String permissionStaff;
@@ -267,6 +250,7 @@ public class Options {
         enderchestsConfiguration = new EnderchestsModuleLoader().loadConfig();
         modeConfiguration = new StaffModeModuleLoader().loadConfig();
         serverSyncConfiguration = new ServerSyncModuleLoader().loadConfig();
+        alertsConfiguration = new AlertsModuleLoader().loadConfig();
 
         /*
          * Vanish
@@ -291,16 +275,6 @@ public class Options {
         chatBlacklistPeriods = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.periods"));
         chatBlacklistAllowed = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.allowed"));
         /*
-         * Alerts
-         */
-        alertsNameNotify = config.getBoolean("alerts-module.name-notify");
-        alertsMentionNotify = config.getBoolean("alerts-module.mention-notify");
-        alertsXrayEnabled = config.getBoolean("alerts-module.xray-alerts.enabled");
-        alertsAltDetectEnabled = config.getBoolean("alerts-module.alt-detect-notify.enabled");
-        alertsAltDetectTrustLevels = Arrays.stream(config.getString("alerts-module.alt-detect-notify.trust-levels", "").split(";"))
-            .map(AltDetectTrustLevel::valueOf)
-            .collect(Collectors.toList());
-        /*
          * Staff Mode
          */
         staffView = config.getBoolean("staff-mode.staff-see-staff-in-mode");
@@ -313,7 +287,6 @@ public class Options {
          * Permissions
          */
         permissionStaff = config.getString("permissions.staffplus");
-        permissionAlerts = config.getString("permissions.alerts");
         permissionStrip = config.getString("permissions.strip");
         permissionWildcard = config.getString("permissions.wild-card");
         permissionBlock = config.getString("permissions.block");
@@ -329,10 +302,6 @@ public class Options {
         permissionChatToggle = config.getString("permissions.chat-toggle");
         permissionChatSlow = config.getString("permissions.chat-slow");
         permissionBlacklist = config.getString("permissions.blacklist");
-        permissionMention = config.getString("permissions.mention");
-        permissionAlertsAltDetect = config.getString("permissions.alerts-alt-detect");
-        permissionNameChange = config.getString("permissions.name-change");
-        permissionXray = config.getString("permissions.xray");
         permissionMode = config.getString("permissions.mode");
         permissionModeSilentChestInteraction = config.getString("permissions.mode-silent-chest-interaction");
         permissionFreeze = config.getString("permissions.freeze");
@@ -372,7 +341,6 @@ public class Options {
         commandWarns = config.getString("commands.warns");
         commandVanish = config.getString("commands.vanish");
         commandChat = config.getString("commands.chat");
-        commandAlerts = config.getString("commands.alerts");
         commandFollow = config.getString("commands.follow");
         commandRevive = config.getString("commands.revive");
         commandStaffList = config.getString("commands.staff-list");
@@ -382,11 +350,6 @@ public class Options {
         commandNotes = config.getString("commands.notes");
         commandLogin = config.getString("commands.login");
         commandStrip = config.getString("commands.strip");
-
-        alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
-        alertsXrayBlocks = Arrays.stream(config.getString("alerts-module.xray-alerts.blocks").split("\\s*,\\s*"))
-            .map(XrayBlockConfig::new)
-            .collect(Collectors.toList());
 
         /*
          * Storage
