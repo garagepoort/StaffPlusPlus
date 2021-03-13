@@ -1,26 +1,29 @@
 package net.shortninja.staffplus.staff.alerts.xray;
 
 import net.shortninja.staffplus.server.data.config.Options;
-import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
+import net.shortninja.staffplus.util.BukkitUtils;
+import net.shortninja.staffplusplus.xray.XrayEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class XrayService {
 
     private final Options options;
 
     private static final Map<Player, Map<Material, XrayTrace>> playerTraces = new HashMap<>();
-    private final AlertCoordinator alertCoordinator;
 
-    public XrayService(Options options, AlertCoordinator alertCoordinator) {
+    public XrayService(Options options) {
         this.options = options;
-        this.alertCoordinator = alertCoordinator;
     }
 
     public void handleBlockBreak(Material blocktype, Player player) {
-        Optional<XrayBlockConfig> xrayBlockConfigOptional = options.alertsXrayBlocks.stream()
+        List<XrayBlockConfig> alertsXrayBlocks = options.alertsConfiguration.getXrayConfiguration().getAlertsXrayBlocks();
+        Optional<XrayBlockConfig> xrayBlockConfigOptional = alertsXrayBlocks.stream()
             .filter(b -> b.getMaterial() == blocktype)
             .findFirst();
 
@@ -36,11 +39,11 @@ public class XrayService {
         XrayTrace blockTrace = playerTraces.get(player).get(blocktype);
 
         if (xrayBlockConfig.getAmountOfBlocks() == null) {
-            alertCoordinator.onXray(player.getName(), blockTrace.getAmount(), null, blocktype, lightLevel);
+            BukkitUtils.sendEvent(new XrayEvent(player, blockTrace.getAmount(), null, blocktype, lightLevel));
             playerTraces.get(player).remove(blocktype);
         } else if (xrayBlockConfig.getAmountOfBlocks() != null && xrayBlockConfig.getDuration() == null) {
             if (blockTrace.getAmount() >= xrayBlockConfig.getAmountOfBlocks()) {
-                alertCoordinator.onXray(player.getName(), blockTrace.getAmount(), null, blocktype, lightLevel);
+                BukkitUtils.sendEvent(new XrayEvent(player, blockTrace.getAmount(), null, blocktype, lightLevel));
                 playerTraces.get(player).remove(blocktype);
             }
         } else {
@@ -48,7 +51,7 @@ public class XrayService {
             blockTrace.removeInvalidTimestamps(minimumValidTimestamp);
             long duration = blockTrace.getDuration();
             if (blockTrace.getAmount() >= xrayBlockConfig.getAmountOfBlocks()) {
-                alertCoordinator.onXray(player.getName(), blockTrace.getAmount(), duration, blocktype, lightLevel);
+                BukkitUtils.sendEvent(new XrayEvent(player, blockTrace.getAmount(), duration, blocktype, lightLevel));
                 playerTraces.get(player).remove(blocktype);
             }
         }
