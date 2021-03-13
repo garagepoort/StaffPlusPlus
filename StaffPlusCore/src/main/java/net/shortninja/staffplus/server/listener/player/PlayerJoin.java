@@ -3,17 +3,18 @@ package net.shortninja.staffplus.server.listener.player;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.actions.ActionService;
-import net.shortninja.staffplus.staff.delayedactions.DelayedAction;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.staff.alerts.AlertCoordinator;
+import net.shortninja.staffplus.staff.delayedactions.DelayedAction;
 import net.shortninja.staffplus.staff.delayedactions.Executor;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.staff.vanish.VanishServiceImpl;
+import net.shortninja.staffplus.util.BukkitUtils;
 import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplusplus.chat.NameChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +33,6 @@ public class PlayerJoin implements Listener {
     private final SessionLoader sessionLoader = IocContainer.getSessionLoader();
     private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
     private final VanishServiceImpl vanishServiceImpl = IocContainer.getVanishService();
-    private final AlertCoordinator alertCoordinator = IocContainer.getAlertCoordinator();
     private final PlayerManager playerManager = IocContainer.getPlayerManager();
     private final ActionService actionService = IocContainer.getActionService();
 
@@ -70,7 +70,7 @@ public class PlayerJoin implements Listener {
         PlayerSession playerSession = sessionManager.get(uuid);
 
         if (!playerSession.getName().equals(player.getName())) {
-            alertCoordinator.onNameChange(playerSession.getName(), player.getName());
+            BukkitUtils.sendEvent(new NameChangeEvent(options.serverName, player, playerSession.getName(), player.getName()));
         }
     }
 
