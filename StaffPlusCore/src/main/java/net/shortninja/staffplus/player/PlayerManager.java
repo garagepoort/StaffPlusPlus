@@ -73,4 +73,8 @@ public class PlayerManager {
     public Collection<? extends Player> getOnlinePlayers() {
         return Bukkit.getOnlinePlayers();
     }
+
+    public Collection<OfflinePlayer> getAllPLayers() {
+        return Arrays.asList(Bukkit.getOfflinePlayers());
+    }
 }

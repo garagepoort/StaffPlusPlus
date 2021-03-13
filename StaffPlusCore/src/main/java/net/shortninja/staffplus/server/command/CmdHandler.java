@@ -95,7 +95,7 @@ public class CmdHandler {
 
             new BaseCmd(new VanishCmd(options.commandVanish), options.vanishEnabled, options.permissionVanishCommand, "Enables or disables the type of vanish for the player.", "[total | list] {player} {enable | disable}"),
             new BaseCmd(new ChatCmd(options.commandChat), options.chatEnabled, Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle), "Executes the given chat management action.", "[clear | toggle | slow] {enable | disable | time}"),
-            new BaseCmd(new AlertsCmd(options.commandAlerts), true, Arrays.asList(options.permissionMention, options.permissionNameChange, options.permissionXray), "Enables or disables the alert type.", "[namechange | mention | xray] {player} {enable | disable}"),
+            new BaseCmd(new AlertsCmd(options.alertsConfiguration.getCommandAlerts()), true, options.alertsConfiguration.getAllAlertsPermissions(), "Enables or disables the alert type.", "[namechange | mention | xray] {player} {enable | disable}"),
             new BaseCmd(new FollowCmd(options.commandFollow), true, options.permissionFollow, "Follows or unfollows the player.", "{player}"),
             new BaseCmd(new ReviveCmd(options.commandRevive), true, options.permissionRevive, "Gives the player's previous inventory back.", "[player]"),
             new BaseCmd(new PersonnelCmd(options.commandStaffList), true, "Lists all registered staff members.", "{all | online | away | offline}"),
