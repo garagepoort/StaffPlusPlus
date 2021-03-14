@@ -1,7 +1,9 @@
 package net.shortninja.staffplus.util;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 
 import static org.bukkit.Bukkit.getScheduler;
@@ -21,5 +23,15 @@ public class BukkitUtils {
             return division * 9;
         }
         return amountOfItems;
+    }
+
+    public static void runTaskAsync(CommandSender sender, Runnable runnable) {
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            try {
+                runnable.run();
+            } catch (BusinessException e) {
+                sender.sendMessage(e.getMessage());
+            }
+        });
     }
 }

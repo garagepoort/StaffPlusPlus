@@ -64,6 +64,15 @@ public class StaffChatService implements net.shortninja.staffplusplus.staffmode.
         sendMessageToStaff(message);
     }
 
+    @Override
+    public void sendMessage(String message) {
+        if (!messages.prefixStaffChat.isEmpty()) {
+            message = messages.prefixStaffChat + " " + message;
+        }
+
+        sendMessageToStaff(message);
+    }
+
     private void sendMessageToStaff(String message) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (StaffPlus.get().usesPlaceholderAPI) {
