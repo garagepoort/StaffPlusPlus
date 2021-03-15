@@ -15,9 +15,14 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
 
     private ConfirmationConfig confirmationConfig;
 
-    public CustomModuleConfiguration(boolean enabled, String identifier, ModuleType moduleType, int slot, ItemStack item, String action, ConfirmationConfig confirmationConfig) {
+    private boolean requireInput;
+    private String inputPrompt;
+
+    public CustomModuleConfiguration(boolean enabled, String identifier, ModuleType moduleType, int slot, ItemStack item, String action, ConfirmationConfig confirmationConfig, boolean requireInput, String inputPrompt) {
         super(identifier);
         this.confirmationConfig = confirmationConfig;
+        this.requireInput = requireInput;
+        this.inputPrompt = inputPrompt;
         setEnabled(enabled);
         setSlot(slot);
         setItem(item);
@@ -49,5 +54,13 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
 
     public Optional<ConfirmationConfig> getConfirmationConfig() {
         return Optional.ofNullable(confirmationConfig);
+    }
+
+    public boolean isRequireInput() {
+        return requireInput;
+    }
+
+    public String getInputPrompt() {
+        return inputPrompt;
     }
 }
