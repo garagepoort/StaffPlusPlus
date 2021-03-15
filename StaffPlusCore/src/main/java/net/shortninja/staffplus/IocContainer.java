@@ -68,6 +68,9 @@ import net.shortninja.staffplus.staff.location.SqliteLocationRepository;
 import net.shortninja.staffplus.staff.mode.ModeDataRepository;
 import net.shortninja.staffplus.staff.mode.StaffModeItemsService;
 import net.shortninja.staffplus.staff.mode.StaffModeService;
+import net.shortninja.staffplus.staff.mode.handler.ConfirmationCustomModulePreprocessor;
+import net.shortninja.staffplus.staff.mode.handler.CustomModulePreProcessor;
+import net.shortninja.staffplus.staff.mode.handler.InputCustomModulePreprocessor;
 import net.shortninja.staffplus.staff.mute.MuteChatInterceptor;
 import net.shortninja.staffplus.staff.mute.MuteService;
 import net.shortninja.staffplus.staff.mute.database.MuteRepository;
@@ -403,6 +406,15 @@ public class IocContainer {
             new VanishChatInterceptor(getVanishService(), getOptions(), getMessage(), getMessages()),
             new MuteChatInterceptor(getSessionManager(), getMessage(), getMessages()),
             new GeneralChatInterceptor(getChatHandler(), getMessage(), getMessages())
+        );
+    }
+
+    public static List<CustomModulePreProcessor> getCustomModulePreProcessors() {
+        // The order of execution is important in this case.
+        // The last executor in the list will be executed first.
+        return Arrays.asList(
+            new ConfirmationCustomModulePreprocessor(getMessages(), getConfirmationService(), getMessage()),
+            new InputCustomModulePreprocessor(getMessage(), getMessages())
         );
     }
 
