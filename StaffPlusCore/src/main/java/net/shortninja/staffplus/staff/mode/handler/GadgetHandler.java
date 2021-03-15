@@ -167,7 +167,7 @@ public class GadgetHandler {
         targetPlayer.setPassenger(player);
     }
 
-    public void onCustom(Player player, Player targetPlayer, CustomModuleConfiguration customModuleConfiguration) {
+    public void executeModule(Player player, Player targetPlayer, CustomModuleConfiguration customModuleConfiguration) {
         switch (customModuleConfiguration.getType()) {
             case COMMAND_STATIC:
                 Bukkit.dispatchCommand(player, customModuleConfiguration.getAction());

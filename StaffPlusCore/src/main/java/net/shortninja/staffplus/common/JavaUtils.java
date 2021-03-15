@@ -385,4 +385,18 @@ public class JavaUtils {
 
         return jsonMessage;
     }
+
+    public static JSONMessage buildConfirmationMessage(String message, String confirmCommand, String cancelCommand) {
+        JSONMessage jsonMessage = JSONMessage.create(message)
+            .color(ChatColor.GOLD);
+
+        jsonMessage.then(" Confirm | ")
+            .color(ChatColor.GREEN)
+            .runCommand("/" + confirmCommand)
+            .then("Cancel")
+            .color(ChatColor.RED)
+            .runCommand("/" + cancelCommand);
+
+        return jsonMessage;
+    }
 }

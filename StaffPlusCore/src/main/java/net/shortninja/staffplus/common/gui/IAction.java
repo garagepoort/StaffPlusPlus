@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.common;
+package net.shortninja.staffplus.common.gui;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
