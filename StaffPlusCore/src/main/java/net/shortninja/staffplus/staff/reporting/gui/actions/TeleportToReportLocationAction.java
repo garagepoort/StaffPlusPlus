@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.reporting.gui.actions;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.util.Message;

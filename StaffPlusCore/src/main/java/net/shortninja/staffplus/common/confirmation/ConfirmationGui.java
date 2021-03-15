@@ -1,14 +1,14 @@
-package net.shortninja.staffplus.common.gui;
+package net.shortninja.staffplus.common.confirmation;
 
 import net.shortninja.staffplus.common.Items;
-import net.shortninja.staffplus.common.confirmation.CancelAction;
-import net.shortninja.staffplus.common.confirmation.ConfirmationAction;
+import net.shortninja.staffplus.common.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class ConfirmationGui extends AbstractGui {
-    private final Runnable onConfirm;
-    private final Runnable onCancel;
+    private final ConfirmationAction onConfirm;
+    private final CancelAction onCancel;
     private final String confirmationMessage;
 
     public ConfirmationGui(String title, String confirmationMessage, ConfirmationAction onConfirm, CancelAction onCancel) {
@@ -38,12 +38,12 @@ public class ConfirmationGui extends AbstractGui {
         setItem(slot, itemStack, null);
     }
 
-    private void addConfirmItem(Runnable onConfirm, int slot) {
+    private void addConfirmItem(ConfirmationAction onConfirm, int slot) {
         ItemStack itemStack = Items.createGreenColoredGlass("Confirm","");
         setItem(slot, itemStack, new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                onConfirm.run();
+                onConfirm.execute(player);
             }
 
             @Override
@@ -53,12 +53,12 @@ public class ConfirmationGui extends AbstractGui {
         });
     }
 
-    private void addCancelItem(Runnable onCancel, int slot) {
+    private void addCancelItem(CancelAction onCancel, int slot) {
         ItemStack itemStack = Items.createRedColoredGlass("Cancel", "");
         setItem(slot, itemStack, new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                onCancel.run();
+                    onCancel.execute(player);
             }
 
             @Override

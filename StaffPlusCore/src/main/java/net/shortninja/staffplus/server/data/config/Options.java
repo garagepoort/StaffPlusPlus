@@ -5,7 +5,7 @@ import net.shortninja.staffplus.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.authentication.AuthenticationConfigurationLoader;
 import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.common.JavaUtils;
-import net.shortninja.staffplus.common.Sounds;
+import net.shortninja.staffplus.common.confirmation.ConfirmationConfig;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
 import net.shortninja.staffplus.server.synchronization.ServerSyncConfiguration;
@@ -28,6 +28,7 @@ import net.shortninja.staffplus.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.staff.kick.config.KickModuleLoader;
 import net.shortninja.staffplus.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.staff.mode.config.StaffModeModuleLoader;
+import net.shortninja.staffplus.staff.mode.item.ConfirmationType;
 import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.staff.mute.config.MuteModuleLoader;
@@ -382,6 +383,8 @@ public class Options {
             short data = getMaterialData(config.getString("staff-mode.custom-modules." + identifier + ".item"));
             String name = config.getString("staff-mode.custom-modules." + identifier + ".name");
 
+            ConfirmationConfig confirmationConfig = getConfirmationConfig(config, identifier);
+
             List<String> lore = JavaUtils.stringToList(config.getString("staff-mode.custom-modules." + identifier + ".lore"));
             ItemStack item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
             String action = "";
@@ -405,8 +408,18 @@ public class Options {
                 action = config.getString("staff-mode.custom-modules." + identifier + ".command");
             }
 
-            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, slot, item, action));
+            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, slot, item, action, confirmationConfig));
         }
+    }
+
+    private ConfirmationConfig getConfirmationConfig(FileConfiguration config, String identifier) {
+        ConfirmationConfig confirmationConfig = null;
+        ConfirmationType confirmationType = config.getString("staff-mode.custom-modules." + identifier + ".confirmation", null) == null ? null : ConfirmationType.valueOf(config.getString("staff-mode.custom-modules." + identifier + ".confirmation"));
+        if (confirmationType != null) {
+            String confirmationMessage = config.getString("staff-mode.custom-modules." + identifier + ".confirmation-message", null);
+            confirmationConfig = new ConfirmationConfig(confirmationType, confirmationMessage);
+        }
+        return confirmationConfig;
     }
 
     public static String getMaterial(String current) {
@@ -443,18 +456,6 @@ public class Options {
         }
 
         return data;
-    }
-
-    private Sounds stringToSound(String string) {
-        Sounds sound = Sounds.ORB_PICKUP;
-        boolean isValid = JavaUtils.isValidEnum(Sounds.class, string);
-
-        if (!isValid) {
-
-            Bukkit.getLogger().severe("Invalid sound name '" + string + "'!");
-        } else sound = Sounds.valueOf(string);
-
-        return sound;
     }
 
     public static Material stringToMaterial(String string) {

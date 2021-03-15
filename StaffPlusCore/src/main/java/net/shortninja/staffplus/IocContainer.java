@@ -10,6 +10,8 @@ import net.shortninja.staffplus.common.actions.database.ActionableRepository;
 import net.shortninja.staffplus.common.actions.database.MysqlActionableRepository;
 import net.shortninja.staffplus.common.actions.database.SqliteActionableRepository;
 import net.shortninja.staffplus.common.bungee.BungeeClient;
+import net.shortninja.staffplus.common.confirmation.ConfirmationChatService;
+import net.shortninja.staffplus.common.confirmation.ConfirmationService;
 import net.shortninja.staffplus.player.ChatActionChatInterceptor;
 import net.shortninja.staffplus.player.OfflinePlayerProvider;
 import net.shortninja.staffplus.player.PlayerManager;
@@ -228,6 +230,13 @@ public class IocContainer {
         return initBean(MuteService.class, () -> new MuteService(getPermissionHandler(), getMuteRepository(), getOptions(), getMessage(), getMessages()));
     }
 
+    public static ConfirmationService getConfirmationService() {
+        return initBean(ConfirmationService.class, () -> new ConfirmationService(getConfirmationChatService()));
+    }
+
+    public static ConfirmationChatService getConfirmationChatService() {
+        return initBean(ConfirmationChatService.class, ConfirmationChatService::new);
+    }
 
     public static ReportFiltersMapper getReportFiltersMapper() {
         return initBean(ReportFiltersMapper.class, () -> new ReportFiltersMapper(getPlayerManager()));

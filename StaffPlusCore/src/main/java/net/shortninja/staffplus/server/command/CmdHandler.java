@@ -3,6 +3,7 @@ package net.shortninja.staffplus.server.command;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.confirmation.ConfirmActionCmd;
 import net.shortninja.staffplus.server.command.cmd.*;
 import net.shortninja.staffplus.server.command.cmd.mode.*;
 import net.shortninja.staffplus.server.data.config.Options;
@@ -121,7 +122,9 @@ public class CmdHandler {
             new BaseCmd(new UnmuteCmd(options.muteConfiguration.getCommandUnmutePlayer()), options.muteConfiguration.isEnabled(), "Unmute a player", "[player] [reason]"),
 
             new BaseCmd(new InfractionsCmd(options.infractionsConfiguration.getCommandOpenGui()), options.infractionsConfiguration.isEnabled(), "View all player's infractions", "[player]"),
-            new BaseCmd(new InfractionsTopCmd(options.infractionsConfiguration.getCommandOpenTopGui()), options.infractionsConfiguration.isEnabled(), "View the top list of players with the most infractions", "[infractionType?]")
+            new BaseCmd(new InfractionsTopCmd(options.infractionsConfiguration.getCommandOpenTopGui()), options.infractionsConfiguration.isEnabled(), "View the top list of players with the most infractions", "[infractionType?]"),
+
+            new BaseCmd(new ConfirmActionCmd("confirm-action"), true, "Confirms or cancels an action.", "[confirm|cancel] [actionUuid]")
         };
     }
 }

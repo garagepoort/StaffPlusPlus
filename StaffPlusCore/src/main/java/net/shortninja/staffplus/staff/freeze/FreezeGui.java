@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.freeze;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
