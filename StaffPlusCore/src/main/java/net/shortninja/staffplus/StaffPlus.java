@@ -30,8 +30,8 @@ import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mute.MuteSessionTask;
 import net.shortninja.staffplus.staff.protect.ProtectListener;
-import net.shortninja.staffplus.staff.reporting.ReportChangeReporterNotifier;
 import net.shortninja.staffplus.staff.reporting.ReportListener;
+import net.shortninja.staffplus.staff.reporting.bungee.*;
 import net.shortninja.staffplus.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.staff.staffchat.BungeeStaffChatListener;
 import net.shortninja.staffplus.staff.warn.appeals.AppealNotifierListener;
@@ -71,12 +71,13 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public ReviveHandler reviveHandler;
     public CmdHandler cmdHandler;
     public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
-    public Tasks tasks;
-    public MuteSessionTask muteSessionTask;
-    public WarningExpireTask warningExpireTask;
     public boolean usesPlaceholderAPI;
     private final DatabaseInitializer databaseInitializer = new DatabaseInitializer();
     private BukkitTask guiUpdateTask;
+
+    private Tasks tasks;
+    private MuteSessionTask muteSessionTask;
+    private WarningExpireTask warningExpireTask;
 
     private ContextManager contextManager;
     private final List<ContextCalculator<Player>> registeredCalculators = new ArrayList<>();
@@ -88,10 +89,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     @Override
     public void onLoad() {
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, BUNGEE_CORD_CHANNEL);
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeStaffChatListener());
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeBroadcastListener());
-
         Plugin placeholderPlugin;
         if ((placeholderPlugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")) != null) {
             usesPlaceholderAPI = true;
@@ -105,12 +102,22 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         plugin = this;
         IocContainer.init(this);
         saveDefaultConfig();
+
         if(!AutoUpdater.updateConfig(this) || !AutoUpdaterLanguageFiles.updateConfig(this)) {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
         start(System.currentTimeMillis());
+
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, BUNGEE_CORD_CHANNEL);
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeStaffChatListener());
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeBroadcastListener());
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportCreatedBungeeListener());
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportAcceptedBungeeListener());
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportClosedBungeeListener());
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportReopenBungeeListener());
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportDeletedBungeeListener());
 
         if (getConfig().getBoolean("metrics")) {
             new MetricsService(this, IocContainer.getOptions())
@@ -210,7 +217,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         new AltDetectionListener();
         new WarningNotifierListener();
         new ReportListener();
-        new ReportChangeReporterNotifier();
         new ChestGuiMove();
         new AppealNotifierListener();
         new WarningListener();
