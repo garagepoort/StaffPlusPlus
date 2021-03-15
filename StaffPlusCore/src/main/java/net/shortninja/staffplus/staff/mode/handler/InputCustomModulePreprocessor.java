@@ -1,10 +1,14 @@
 package net.shortninja.staffplus.staff.mode.handler;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.util.Message;
+import org.bukkit.Bukkit;
+
+import java.util.Map;
 
 public class InputCustomModulePreprocessor implements CustomModulePreProcessor {
 
@@ -18,21 +22,27 @@ public class InputCustomModulePreprocessor implements CustomModulePreProcessor {
     }
 
     @Override
-    public CustomModuleExecutor process(CustomModuleExecutor action, CustomModuleConfiguration customModuleConfiguration) {
+    public CustomModuleExecutor process(CustomModuleExecutor action, CustomModuleConfiguration customModuleConfiguration, Map<String, String> placeholders) {
         if (!customModuleConfiguration.isRequireInput()) {
             return action;
         }
-        return player -> {
+        return (player, pl) -> {
+            String inputPrompt = customModuleConfiguration.getInputPrompt();
+            for (Map.Entry<String, String> entry : pl.entrySet()) {
+                inputPrompt = inputPrompt.replace(entry.getKey(), entry.getValue());
+            }
+
             PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
             messageCoordinator.send(player, "&7------", messages.prefixGeneral);
-            messageCoordinator.send(player, "&6" + customModuleConfiguration.getInputPrompt(), messages.prefixGeneral);
+            messageCoordinator.send(player, "&6" + inputPrompt, messages.prefixGeneral);
             messageCoordinator.send(player, "&7------", messages.prefixGeneral);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
                     messageCoordinator.send(player, "&CYou have cancelled this action", messages.prefixGeneral);
                     return;
                 }
-                action.execute(player);
+                pl.put("%input%", message);
+                Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> action.execute(player, pl), 1);
             });
         };
     }
