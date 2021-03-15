@@ -8,6 +8,8 @@ import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.util.Message;
 import org.bukkit.Bukkit;
 
+import java.util.Map;
+
 public class ConfirmationCustomModulePreprocessor implements CustomModulePreProcessor {
 
     private final Messages messages;
@@ -21,15 +23,16 @@ public class ConfirmationCustomModulePreprocessor implements CustomModulePreProc
     }
 
     @Override
-    public CustomModuleExecutor process(CustomModuleExecutor action, CustomModuleConfiguration customModuleConfiguration) {
+    public CustomModuleExecutor process(CustomModuleExecutor action, CustomModuleConfiguration customModuleConfiguration, Map<String, String> placeholders) {
         if (!customModuleConfiguration.getConfirmationConfig().isPresent()) {
             return action;
         }
 
-        return player -> Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> {
+        return (player, pl) -> Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> {
             ConfirmationConfig confirmationConfig = customModuleConfiguration.getConfirmationConfig().get();
+            confirmationConfig.setPlaceholders(pl);
             confirmationService.showConfirmation(player, confirmationConfig,
-                action::execute,
+                player1 -> action.execute(player1, pl),
                 p -> message.send(p, "You have cancelled the action", messages.prefixGeneral));
         }, 1);
     }

@@ -174,11 +174,18 @@ public class PlayerInteract implements Listener {
             return false;
         }
 
-        CustomModuleExecutor moduleExecution = p -> gadgetHandler.executeModule(p, JavaUtils.getTargetPlayer(p), customModuleConfiguration.get());
-        for (CustomModulePreProcessor customModulePreProcessor : customModulePreProcessors) {
-            moduleExecution = customModulePreProcessor.process(moduleExecution, customModuleConfiguration.get());
+        HashMap<String, String> placeholders = new HashMap<>();
+        placeholders.put("%clicker%", player.getName());
+        Player targetPlayer = JavaUtils.getTargetPlayer(player);
+        if (targetPlayer != null) {
+            placeholders.put("%clicked%", player.getName());
         }
-        moduleExecution.execute(player);
+
+        CustomModuleExecutor moduleExecution = (p, pl) -> gadgetHandler.executeModule(p, targetPlayer, customModuleConfiguration.get(), pl);
+        for (CustomModulePreProcessor customModulePreProcessor : customModulePreProcessors) {
+            moduleExecution = customModulePreProcessor.process(moduleExecution, customModuleConfiguration.get(), placeholders);
+        }
+        moduleExecution.execute(player, placeholders);
         return true;
     }
 }
