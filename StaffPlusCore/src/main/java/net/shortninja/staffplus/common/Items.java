@@ -15,6 +15,8 @@ import org.bukkit.material.MaterialData;
 
 import java.util.*;
 
+import static net.shortninja.staffplus.common.JavaUtils.formatLines;
+
 /**
  * @author TigerHix, Shortninja
  */
@@ -43,55 +45,55 @@ public final class Items {
 
     public static ItemStack createGreenColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.GREEN_STAINED_GLASS_PANE)
-                .setName(name)
-                .addLore(lore)
-                .build();
+            .setMaterial(Material.GREEN_STAINED_GLASS_PANE)
+            .setName(name)
+            .addLore(lore)
+            .build();
     }
 
     public static ItemStack createRedColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.RED_STAINED_GLASS_PANE)
-                .setName(name)
-                .addLore(lore)
-                .build();
+            .setMaterial(Material.RED_STAINED_GLASS_PANE)
+            .setName(name)
+            .addLore(lore)
+            .build();
     }
 
     public static ItemStack createGrayColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.GRAY_STAINED_GLASS_PANE)
-                .setName(name)
-                .addLore(lore)
-                .build();
+            .setMaterial(Material.GRAY_STAINED_GLASS_PANE)
+            .setName(name)
+            .addLore(lore)
+            .build();
     }
 
     public static ItemStack createWhiteColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.WHITE_STAINED_GLASS_PANE)
-                .setName(name)
-                .addLore(lore)
-                .build();
+            .setMaterial(Material.WHITE_STAINED_GLASS_PANE)
+            .setName(name)
+            .addLore(lore)
+            .build();
     }
 
     public static ItemStack createOrangeColoredGlass(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.ORANGE_STAINED_GLASS_PANE)
-                .setName(name)
-                .addLore(lore)
-                .build();
+            .setMaterial(Material.ORANGE_STAINED_GLASS_PANE)
+            .setName(name)
+            .addLore(lore)
+            .build();
     }
 
     public static ItemStack createDoor(String name, String lore) {
         return Items.builder()
-                .setMaterial(Material.SPRUCE_DOOR)
-                .setName(name)
-                .addLore(lore)
-                .build();
+            .setMaterial(Material.SPRUCE_DOOR)
+            .setName(name)
+            .addLore(lore)
+            .build();
     }
 
     public static ItemStack createColoredArmor(Armor armor, Color color) {
         return createColoredArmor(armor, color,
-                "&l" + WordUtils.capitalize(armor.name().toLowerCase()));
+            "&l" + WordUtils.capitalize(armor.name().toLowerCase()));
     }
 
     public static ItemStack createSkull(String name) {
@@ -106,10 +108,19 @@ public final class Items {
         return new ItemStackBuilder(itemStack);
     }
 
+    public static ItemStack createBook(String name, String lore) {
+        List<String> loreList = new ArrayList<>(formatLines(lore, 30));
+        return Items.builder()
+            .setName(name)
+            .setLore(loreList)
+            .setMaterial(Material.BOOK)
+            .build();
+    }
+
     public enum Armor {
 
         HELMET(Material.LEATHER_HELMET), CHESTPLATE(Material.LEATHER_CHESTPLATE), LEGGINGS(
-                Material.LEATHER_LEGGINGS), BOOTS(Material.LEATHER_BOOTS);
+            Material.LEATHER_LEGGINGS), BOOTS(Material.LEATHER_BOOTS);
 
         private Material material;
 
@@ -163,7 +174,7 @@ public final class Items {
         }
 
         public ItemStackBuilder setEnchantments(
-                HashMap<Enchantment, Integer> enchantments) {
+            HashMap<Enchantment, Integer> enchantments) {
             for (Enchantment enchantment : itemStack.getEnchantments().keySet()) {
                 itemStack.removeEnchantment(enchantment);
             }
@@ -270,8 +281,8 @@ public final class Items {
             StringBuilder builder = new StringBuilder();
             for (String line : lines) {
                 builder.append(
-                        Strings.format(((line == null || line.isEmpty()) ? " "
-                                : line))).append("\n");
+                    Strings.format(((line == null || line.isEmpty()) ? " "
+                        : line))).append("\n");
             }
             meta.addPage(builder.toString());
             return this;

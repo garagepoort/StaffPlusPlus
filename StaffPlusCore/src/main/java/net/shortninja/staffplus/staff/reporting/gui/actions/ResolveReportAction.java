@@ -9,7 +9,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.staff.reporting.ManageReportService;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

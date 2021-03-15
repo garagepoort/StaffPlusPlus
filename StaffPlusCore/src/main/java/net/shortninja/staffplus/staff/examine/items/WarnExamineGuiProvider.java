@@ -11,7 +11,7 @@ import net.shortninja.staffplus.staff.examine.ExamineGui;
 import net.shortninja.staffplus.staff.examine.ExamineGuiItemProvider;
 import net.shortninja.staffplus.staff.examine.SeverityLevelSelectGui;
 import net.shortninja.staffplus.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;

@@ -7,7 +7,7 @@ import net.shortninja.staffplus.common.cmd.CommandUtil;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

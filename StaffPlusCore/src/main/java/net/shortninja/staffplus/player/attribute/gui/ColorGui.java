@@ -1,8 +1,9 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.util.GlassData;
 import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.Items;
