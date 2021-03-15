@@ -408,7 +408,9 @@ public class Options {
                 action = config.getString("staff-mode.custom-modules." + identifier + ".command");
             }
 
-            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, slot, item, action, confirmationConfig));
+            boolean requireInput = config.getBoolean("staff-mode.custom-modules." + identifier + ".require-input", false);
+            String inputPrompt = config.getString("staff-mode.custom-modules." + identifier + ".input-prompt", null);
+            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, slot, item, action, confirmationConfig, requireInput, inputPrompt));
         }
     }
 
