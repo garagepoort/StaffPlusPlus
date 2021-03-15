@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.examine;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import org.bukkit.entity.Player;
 
 import java.util.List;

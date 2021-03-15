@@ -3,19 +3,23 @@ package net.shortninja.staffplus.server.listener.player;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.confirmation.ConfirmationChatService;
+import net.shortninja.staffplus.common.confirmation.ConfirmationConfig;
+import net.shortninja.staffplus.common.confirmation.ConfirmationService;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.chests.ChestGUI;
 import net.shortninja.staffplus.staff.chests.ChestGuiType;
 import net.shortninja.staffplus.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.staff.freeze.FreezeRequest;
-import net.shortninja.staffplus.staff.mode.StaffModeService;
 import net.shortninja.staffplus.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
-import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.block.*;
 import org.bukkit.entity.Player;
@@ -40,13 +44,16 @@ public class PlayerInteract implements Listener {
     private static final Map<Player, Long> staffTimings = new HashMap<>();
 
     private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private final StaffModeService staffModeService = IocContainer.getModeCoordinator();
     private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
     private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
     private final FreezeHandler freezeHandler = IocContainer.getFreezeHandler();
     private final PlayerManager playerManager = IocContainer.getPlayerManager();
     private final Options options = IocContainer.getOptions();
     private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
+    private final ConfirmationChatService confirmationChatService = IocContainer.getConfirmationChatService();
+    private final MessageCoordinator message = IocContainer.getMessage();
+    private final Messages messages = IocContainer.getMessages();
+    private final ConfirmationService confirmationService = IocContainer.getConfirmationService();
 
     public PlayerInteract() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -162,17 +169,30 @@ public class PlayerInteract implements Listener {
                 gadgetHandler.onFollow(player, JavaUtils.getTargetPlayer(player));
                 break;
             case CUSTOM:
-                Optional<CustomModuleConfiguration> customModuleConfiguration = gadgetHandler.getModule(item);
-
-                if (customModuleConfiguration.isPresent()) {
-                    gadgetHandler.onCustom(player, JavaUtils.getTargetPlayer(player), customModuleConfiguration.get());
-                } else {
-                    isHandled = false;
-                }
+                isHandled = handleCustomModule(player, item);
                 break;
         }
 
         staffTimings.put(player, System.currentTimeMillis());
         return isHandled;
+    }
+
+    private boolean handleCustomModule(Player player, ItemStack item) {
+        Optional<CustomModuleConfiguration> customModuleConfiguration = gadgetHandler.getModule(item);
+        if (!customModuleConfiguration.isPresent()) {
+            return false;
+        }
+
+        Optional<ConfirmationConfig> confirmationConfig = customModuleConfiguration.get().getConfirmationConfig();
+
+        if (!confirmationConfig.isPresent()) {
+            gadgetHandler.executeModule(player, JavaUtils.getTargetPlayer(player), customModuleConfiguration.get());
+            return true;
+        } else {
+            confirmationService.showConfirmation(player, confirmationConfig.get(),
+                p -> gadgetHandler.executeModule(p, JavaUtils.getTargetPlayer(p), customModuleConfiguration.get()),
+                p -> message.send(p, "You have cancelled the action", messages.prefixGeneral));
+        }
+        return true;
     }
 }

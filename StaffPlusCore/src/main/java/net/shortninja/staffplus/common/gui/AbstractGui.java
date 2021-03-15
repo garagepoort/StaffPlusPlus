@@ -1,11 +1,11 @@
-package net.shortninja.staffplus.player.attribute.gui;
+package net.shortninja.staffplus.common.gui;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.player.attribute.gui.ColorGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.common.IAction;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.common.Items;
 import org.bukkit.Bukkit;

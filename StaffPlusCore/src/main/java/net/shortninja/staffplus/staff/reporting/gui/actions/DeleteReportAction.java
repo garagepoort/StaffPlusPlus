@@ -2,7 +2,7 @@ package net.shortninja.staffplus.staff.reporting.gui.actions;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.staff.reporting.ManageReportService;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
