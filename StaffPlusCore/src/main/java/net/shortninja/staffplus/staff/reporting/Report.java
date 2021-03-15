@@ -26,7 +26,7 @@ public class Report implements IReport, Infraction {
     private int id;
     private String closeReason;
     private String serverName;
-    private Location location;
+    private transient Location location;
     private SppLocation sppLocation;
     private String type;
 

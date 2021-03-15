@@ -1,15 +1,17 @@
 package net.shortninja.staffplus.common.bungee;
 
+import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import com.google.gson.Gson;
 import net.shortninja.staffplus.StaffPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Collection;
+import java.util.Optional;
 
 import static com.google.common.io.ByteStreams.newDataOutput;
 import static net.shortninja.staffplus.common.Constants.BUNGEE_CORD_CHANNEL;
@@ -53,4 +55,48 @@ public class BungeeClient {
         }
     }
 
+    public void sendMessage(Player player, String channel, Object event) {
+        if(player == null) {
+            return;
+        }
+        try {
+            ByteArrayDataOutput out = ByteStreams.newDataOutput();
+            out.writeUTF("Forward");
+            out.writeUTF("ALL");
+            out.writeUTF(channel);
+            ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
+            DataOutputStream msgout = new DataOutputStream(msgbytes);
+            msgout.writeUTF(new Gson().toJson(event));
+
+            out.writeShort(msgbytes.toByteArray().length);
+            out.write(msgbytes.toByteArray());
+
+            player.sendPluginMessage(StaffPlus.get(), BUNGEE_CORD_CHANNEL, out.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public <T> Optional<T> handleReceived(String channel, String subChannel, byte[] message, Class<T> classOf) {
+        if (!channel.equals(BUNGEE_CORD_CHANNEL)) {
+            return Optional.empty();
+        }
+        try {
+            ByteArrayDataInput in = ByteStreams.newDataInput(message);
+            String subchannel = in.readUTF();
+            if (subchannel.equals(subChannel)) {
+                short len = in.readShort();
+                byte[] msgbytes = new byte[len];
+                in.readFully(msgbytes);
+
+                DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
+                String data = msgin.readUTF();
+                return Optional.of(new Gson().fromJson(data, classOf));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
 }
