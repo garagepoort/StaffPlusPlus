@@ -82,6 +82,7 @@ import net.shortninja.staffplus.staff.protect.database.MysqlProtectedAreaReposit
 import net.shortninja.staffplus.staff.protect.database.ProtectedAreaRepository;
 import net.shortninja.staffplus.staff.protect.database.SqliteProtectedAreaRepository;
 import net.shortninja.staffplus.staff.reporting.ManageReportService;
+import net.shortninja.staffplus.staff.reporting.ReportNotifier;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.reporting.cmd.ReportFiltersMapper;
 import net.shortninja.staffplus.staff.reporting.database.MysqlReportRepository;
@@ -246,7 +247,7 @@ public class IocContainer {
     }
 
     public static ReportService getReportService() {
-        return initBean(ReportService.class, () -> new ReportService(getPermissionHandler(), getMessage(), getReportRepository(), getMessages(), getPlayerManager(), getDelayedActionsRepository()));
+        return initBean(ReportService.class, () -> new ReportService(getPermissionHandler(), getMessage(), getReportRepository(), getMessages(), getPlayerManager(), getDelayedActionsRepository(), getReportNotifier()));
     }
 
     public static InfractionsService getInfractionsService() {
@@ -254,7 +255,7 @@ public class IocContainer {
     }
 
     public static ManageReportService getManageReportService() {
-        return initBean(ManageReportService.class, () -> new ManageReportService(getReportRepository(), getMessages(), getPlayerManager(), getReportService()));
+        return initBean(ManageReportService.class, () -> new ManageReportService(getReportRepository(), getMessages(), getReportService(), getReportNotifier()));
     }
 
     public static ProtectService getProtectService() {
@@ -368,6 +369,10 @@ public class IocContainer {
 
     public static SessionLoader getSessionLoader() {
         return initBean(SessionLoader.class, () -> new SessionLoader(getPlayerManager(), getMuteService(), getOptions(), getSessionsRepository()));
+    }
+
+    public static ReportNotifier getReportNotifier() {
+        return initBean(ReportNotifier.class, () -> new ReportNotifier(getPermissionHandler(), getBungeeClient(), getOptions(), getMessages(), getMessage(), getPlayerManager()));
     }
 
     public static OfflinePlayerProvider getOfflinePlayerProvider() {
