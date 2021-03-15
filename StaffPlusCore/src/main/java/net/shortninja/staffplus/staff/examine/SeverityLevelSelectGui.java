@@ -2,10 +2,10 @@ package net.shortninja.staffplus.staff.examine;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.warn.warnings.config.WarningSeverityConfiguration;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 
 import java.util.function.Supplier;
 

@@ -2,9 +2,9 @@ package net.shortninja.staffplus.staff.reporting.gui;
 
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.player.attribute.gui.PagedGui;
 import net.shortninja.staffplus.staff.reporting.Report;
 import org.bukkit.entity.Player;

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.staff.warn.warnings.gui.actions;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.staff.warn.warnings.Warning;
 import org.bukkit.entity.Player;

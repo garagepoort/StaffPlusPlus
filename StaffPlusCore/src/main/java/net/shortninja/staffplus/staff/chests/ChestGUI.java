@@ -3,7 +3,7 @@ package net.shortninja.staffplus.staff.chests;
 import net.shortninja.staffplus.common.PassThroughClickAction;
 import net.shortninja.staffplus.common.UpdatableGui;
 import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 

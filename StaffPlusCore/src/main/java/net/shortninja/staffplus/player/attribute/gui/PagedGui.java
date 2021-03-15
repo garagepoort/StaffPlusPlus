@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.player.attribute.gui;
 
 
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.player.SppPlayer;
 import org.bukkit.entity.Player;

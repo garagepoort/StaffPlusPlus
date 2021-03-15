@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.staff.warn.appeals.gui.actions;
 
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.staff.warn.appeals.gui.ManageAppealGui;
 import net.shortninja.staffplus.staff.warn.warnings.Warning;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.session;
 
-import net.shortninja.staffplus.player.attribute.gui.IGui;
+import net.shortninja.staffplus.common.gui.IGui;
 import net.shortninja.staffplus.server.chat.ChatAction;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.session.IPlayerSession;

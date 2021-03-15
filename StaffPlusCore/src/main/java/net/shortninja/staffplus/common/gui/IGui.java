@@ -1,13 +1,11 @@
-package net.shortninja.staffplus.player.attribute.gui;
+package net.shortninja.staffplus.common.gui;
 
 import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.common.IAction;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public interface IGui {
-
-
+    
     String getTitle();
 
     Inventory getInventory();
