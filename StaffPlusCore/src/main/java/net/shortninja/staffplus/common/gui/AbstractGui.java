@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.common.gui;
 
 import net.shortninja.staffplus.IocContainer;
-import net.shortninja.staffplus.player.attribute.gui.ColorGui;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
