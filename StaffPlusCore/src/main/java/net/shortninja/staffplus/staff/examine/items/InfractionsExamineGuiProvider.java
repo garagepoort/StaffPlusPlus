@@ -10,7 +10,7 @@ import net.shortninja.staffplus.staff.mode.config.modeitems.examine.ExamineModeC
 import net.shortninja.staffplus.staff.reporting.Report;
 import net.shortninja.staffplus.staff.reporting.ReportService;
 import net.shortninja.staffplus.staff.warn.warnings.Warning;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplusplus.reports.IReport;
 import org.bukkit.Material;

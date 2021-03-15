@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.staff.ban.gui;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.attribute.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.staff.ban.Ban;
-import net.shortninja.staffplus.common.IAction;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.common.Items;
 import org.bukkit.inventory.ItemStack;
 
