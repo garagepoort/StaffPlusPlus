@@ -40,14 +40,16 @@ public class ReportService implements InfractionProvider {
     private final PlayerManager playerManager;
     private final ReportRepository reportRepository;
     private final DelayedActionsRepository delayedActionsRepository;
+    private final ReportNotifier reportNotifier;
 
-    public ReportService(PermissionHandler permission, MessageCoordinator message, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository) {
+    public ReportService(PermissionHandler permission, MessageCoordinator message, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository, ReportNotifier reportNotifier) {
         this.permission = permission;
         this.message = message;
         this.reportRepository = reportRepository;
         this.messages = messages;
         this.playerManager = playerManager;
         this.delayedActionsRepository = delayedActionsRepository;
+        this.reportNotifier = reportNotifier;
     }
 
     public List<Report> getReports(SppPlayer player, int offset, int amount) {
@@ -93,8 +95,7 @@ public class ReportService implements InfractionProvider {
             report.setId(id);
 
             message.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getCulpritName()).replace("%reason%", report.getReason()), messages.prefixReports);
-            message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", report.getCulpritName()).replace("%reason%", report.getReason()), options.permissionReportUpdateNotifications, messages.prefixReports);
-            options.reportConfiguration.getSound().playForGroup(options.permissionReportUpdateNotifications);
+            reportNotifier.notifyStaffReportCreated(report, options.serverSyncConfiguration.isReportSyncEnabled());
 
             lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
@@ -124,8 +125,7 @@ public class ReportService implements InfractionProvider {
             report.setId(id);
 
             message.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
-            message.sendGroupMessage(messages.reportedStaff.replace("%target%", report.getReporterName()).replace("%player%", "unknown").replace("%reason%", report.getReason()), options.permissionReportUpdateNotifications, messages.prefixReports);
-            options.reportConfiguration.getSound().playForGroup(options.permissionReportUpdateNotifications);
+            reportNotifier.notifyStaffReportCreated(report, options.serverSyncConfiguration.isReportSyncEnabled());
 
             lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
