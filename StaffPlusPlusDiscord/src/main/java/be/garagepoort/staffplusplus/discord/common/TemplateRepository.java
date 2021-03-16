@@ -1,18 +1,15 @@
 package be.garagepoort.staffplusplus.discord.common;
 
-import be.garagepoort.staffplusplus.discord.StaffPlusPlusDiscord;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.io.File.separator;
+import static be.garagepoort.staffplusplus.discord.common.TemplateResourceUtil.getFullTemplatePath;
 import static java.util.Arrays.stream;
 
 public class TemplateRepository {
 
-    private static final String PATH_PREFIX = StaffPlusPlusDiscord.get().getDataFolder() + separator;
     private final Map<String, String> templates = new HashMap<>();
 
     private static final TemplateFile[] templateFiles = {
@@ -33,19 +30,19 @@ public class TemplateRepository {
         new TemplateFile("kicks", "kicked"),
         new TemplateFile("altdetects", "detected"),
         new TemplateFile("staffmode", "enter-staffmode"),
-        new TemplateFile("staffmode", "exit-staffmode")
+        new TemplateFile("staffmode", "exit-staffmode"),
+        new TemplateFile("chat", "chat-phrase-detected")
     };
 
-    public TemplateRepository(StaffPlusPlusDiscord plugin, FileConfiguration config) {
+    public TemplateRepository(FileConfiguration config) {
         boolean replaceTemplates = config.getBoolean("StaffPlusPlusDiscord.updateTemplates", true);
         String templatePack = config.getString("StaffPlusPlusDiscord.templatePack", "default");
 
         stream(templateFiles)
-            .filter(templateFile -> replaceTemplates || !new File(plugin.getDataFolder(), templateFile.getResourcePath(templatePack)).exists())
-            .forEach(templateFile -> plugin.saveResource(templateFile.getResourcePath(templatePack), replaceTemplates));
+            .forEach(templateFile -> TemplateResourceUtil.saveTemplate(templatePack, templateFile.getFilePath(), replaceTemplates));
 
         for (TemplateFile templateFile : templateFiles) {
-            templates.put(templateFile.getId(), Utils.readTemplate(PATH_PREFIX + templateFile.getResourcePath(templatePack)));
+            templates.put(templateFile.getId(), Utils.readTemplate(getFullTemplatePath(templatePack, templateFile)));
         }
     }
 
