@@ -1,0 +1,36 @@
+// Context:
+// detectedEvent: IAltDetectResult => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/chat/PhrasesDetectedEvent.java
+// timestamp: String
+// detectedPhrases: String => A string containing the concatenated values of all detected prhases
+{
+    "content": "Chat phrase detection from Staff++",
+    "embeds": [
+        {
+            "title": "Chat message detection from ${detectedEvent.player.name}",
+            "url": "https://www.spigotmc.org/resources/staff.83562/",
+            "color": "16601379",
+            "timestamp": "${timestamp}",
+            "footer": {
+                "text": "Provided by Staff++",
+                "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png"
+            },
+            "fields": [
+                {
+                    "name": "Player",
+                    "value": "${detectedEvent.player.name}\n[${detectedEvent.player.uniqueId}]",
+                    "inline": false
+                },
+                {
+                    "name": "Detected:",
+                    "value": "```${detectedPhrases}```",
+                    "inline": false
+                },
+                {
+                    "name": "Full chat message",
+                    "value": "${detectedEvent.originalMessage}",
+                    "inline": false
+                }
+            ]
+        }
+    ]
+}
