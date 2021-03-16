@@ -18,6 +18,7 @@ import net.shortninja.staffplusplus.warnings.AppealStatus;
 import net.shortninja.staffplusplus.warnings.WarningCreatedEvent;
 import net.shortninja.staffplusplus.warnings.WarningExpiredEvent;
 import net.shortninja.staffplusplus.warnings.WarningRemovedEvent;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -51,18 +52,22 @@ public class WarnService implements InfractionProvider {
         this.appealRepository = appealRepository;
     }
 
-    public void sendWarning(CommandSender sender, SppPlayer culprit, String reason, String severityLevel) {
-        WarningSeverityConfiguration severity = options.warningConfiguration.getSeverityLevels().stream()
-            .filter(s -> s.getName().equalsIgnoreCase(severityLevel))
-            .findFirst()
-            .orElseThrow(() -> new BusinessException("Cannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
+    public void sendWarning(CommandSender sender, SppPlayer culprit, String reason, WarningSeverityConfiguration severityConfig) {
+        if (StringUtils.isEmpty(reason) && !severityConfig.hasDefaultReason()) {
+            throw new BusinessException("&CReason must provided");
+        }
+        if(severityConfig.hasDefaultReason() && (!severityConfig.isReasonSettable() || StringUtils.isEmpty(reason))) {
+            reason = severityConfig.getReason().get();
+        }
 
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
-        Warning warning = new Warning(culprit.getId(), culprit.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis(), severity);
+        Warning warning = new Warning(culprit.getId(), culprit.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis(), severityConfig);
         createWarning(sender, culprit, warning);
     }
 
+    @Deprecated
+    // This is only used when severity levels are empty, it the new system this is not recommended and it will be removed.
     public void sendWarning(CommandSender sender, SppPlayer user, String reason) {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
