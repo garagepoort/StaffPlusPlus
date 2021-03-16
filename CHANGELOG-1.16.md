@@ -8,6 +8,7 @@
 - Custom staff modules can now have an input prompt
 - Report changes are notified across the bungee network to staff members and players.
 - New chat detection option to notify staff members when players type certain things in chat. Through the alerts system or discord notifications.
+- Xray alert notifications are now supported by the discord integration plugin
 
 ### Bugs
 - Fix bugs when creating reports in a multi server setup having different servers using different world names.

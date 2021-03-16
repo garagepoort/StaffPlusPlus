@@ -41,20 +41,25 @@ public class XrayService {
         if (xrayBlockConfig.getAmountOfBlocks() == null) {
             BukkitUtils.sendEvent(new XrayEvent(player, blockTrace.getAmount(), null, blocktype, lightLevel));
             playerTraces.get(player).remove(blocktype);
-        } else if (xrayBlockConfig.getAmountOfBlocks() != null && xrayBlockConfig.getDuration() == null) {
+            return;
+        }
+
+        if (xrayBlockConfig.getAmountOfBlocks() != null && xrayBlockConfig.getDuration() == null) {
             if (blockTrace.getAmount() >= xrayBlockConfig.getAmountOfBlocks()) {
                 BukkitUtils.sendEvent(new XrayEvent(player, blockTrace.getAmount(), null, blocktype, lightLevel));
                 playerTraces.get(player).remove(blocktype);
             }
-        } else {
-            long minimumValidTimestamp = now - xrayBlockConfig.getDuration();
-            blockTrace.removeInvalidTimestamps(minimumValidTimestamp);
-            long duration = blockTrace.getDuration();
-            if (blockTrace.getAmount() >= xrayBlockConfig.getAmountOfBlocks()) {
-                BukkitUtils.sendEvent(new XrayEvent(player, blockTrace.getAmount(), duration, blocktype, lightLevel));
-                playerTraces.get(player).remove(blocktype);
-            }
+            return;
         }
+
+        long minimumValidTimestamp = now - xrayBlockConfig.getDuration();
+        blockTrace.removeInvalidTimestamps(minimumValidTimestamp);
+        long duration = blockTrace.getDuration();
+        if (blockTrace.getAmount() >= xrayBlockConfig.getAmountOfBlocks()) {
+            BukkitUtils.sendEvent(new XrayEvent(player, blockTrace.getAmount(), duration, blocktype, lightLevel));
+            playerTraces.get(player).remove(blocktype);
+        }
+
     }
 
     private void addTrace(Material blocktype, Player player, long now) {
