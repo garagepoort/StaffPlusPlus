@@ -49,6 +49,10 @@ StaffPlusPlusDiscord:
         notify-enter: false
         # Trigger a discord message whenever a staffmember enters staffmode
         notify-exit: false
+    chat:
+        webhookUrl: ""
+        # Trigger a discord message whenever a a player sends a chat message containing predefined words/phrases
+        phrase-detection: false
     staffchat:
         sync: false
         message-format: "&9&l(discord) &7%text%"
