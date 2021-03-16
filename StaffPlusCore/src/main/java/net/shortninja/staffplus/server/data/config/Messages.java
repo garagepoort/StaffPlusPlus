@@ -83,6 +83,7 @@ public class Messages {
      */
     public String alertChanged;
     public String alertsName;
+    public String alertsChatPhraseDetected;
     public String alertsMention;
     public String alertsXray;
     /*
@@ -228,6 +229,7 @@ public class Messages {
          */
         alertChanged = config.getString("alert-changed");
         alertsName = config.getString("alerts-name");
+        alertsChatPhraseDetected = config.getString("alerts-chat-phrase-detected");
         alertsMention = config.getString("alerts-mention");
         alertsXray = config.getString("alerts-xray");
         /*
