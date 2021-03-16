@@ -162,6 +162,7 @@ ticket-list-end: "&7%longline%"
 
 alert-changed: "&7%alerttype% &bBenachrichtigungen &7%status%&b."
 alerts-name: "&7%old% &bhat seinen Namen in &7%new%&b geändert."
+alerts-chat-phrase-detected: "&7%target% &bhas placed a message in chat containing the words (&7%detectedPhrases%&b)"
 alerts-mention: "&7%target% &bhat deinen Namen im Chat erwähnt."
 alerts-xray: "&7%target% &bhat &7%count% %itemtype% &babgebaut! &7(%lightlevel%&7)"
 

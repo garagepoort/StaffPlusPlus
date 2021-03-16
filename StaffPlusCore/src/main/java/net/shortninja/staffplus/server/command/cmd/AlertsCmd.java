@@ -6,6 +6,7 @@ import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.common.JavaUtils;
@@ -24,6 +25,7 @@ import java.util.stream.Stream;
 public class AlertsCmd extends AbstractCmd {
     private MessageCoordinator message = IocContainer.getMessage();
     private SessionManagerImpl sessionManager = IocContainer.getSessionManager();
+    private SessionLoader sessionLoader = IocContainer.getSessionLoader();
 
     public AlertsCmd(String name) {
         super(name, IocContainer.getOptions().alertsConfiguration.getPermissionAlerts());
@@ -100,7 +102,6 @@ public class AlertsCmd extends AbstractCmd {
 
         alertTypeName = alertTypeName.substring(0, 1).toUpperCase() + alertTypeName.substring(1);
 
-        boolean wasChanged = false;
         boolean isValid = JavaUtils.isValidEnum(AlertType.class, alertTypeName.toUpperCase());
         PlayerSession session = sessionManager.get(player.getUniqueId());
 
@@ -111,37 +112,22 @@ public class AlertsCmd extends AbstractCmd {
 
         AlertType alertType = AlertType.valueOf(alertTypeName.toUpperCase());
         boolean isEnabled = option.isEmpty() ? !session.shouldNotify(alertType) : option.equalsIgnoreCase("enable");
-
-        switch (alertType) {
-            case NAME_CHANGE:
-                if (permission.has(player, options.alertsConfiguration.getPermissionNameChange()) || !shouldCheckPermission) {
-                    session.setAlertOption(alertType, isEnabled);
-                    wasChanged = true;
-                } else message.send(player, messages.noPermission, messages.prefixGeneral);
-                break;
-            case MENTION:
-                if (permission.has(player, options.alertsConfiguration.getPermissionMention()) || !shouldCheckPermission) {
-                    session.setAlertOption(alertType, isEnabled);
-                    wasChanged = true;
-                } else message.send(player, messages.noPermission, messages.prefixGeneral);
-                break;
-            case XRAY:
-                if (permission.has(player, options.alertsConfiguration.getXrayConfiguration().getPermissionXray()) || !shouldCheckPermission) {
-                    session.setAlertOption(alertType, isEnabled);
-                    wasChanged = true;
-                } else message.send(player, messages.noPermission, messages.prefixGeneral);
-                break;
-            case ALT_DETECT:
-                if (permission.has(player, options.alertsConfiguration.getPermissionAltDetect()) || !shouldCheckPermission) {
-                    session.setAlertOption(alertType, isEnabled);
-                    wasChanged = true;
-                } else message.send(player, messages.noPermission, messages.prefixGeneral);
-                break;
-        }
-
+        boolean wasChanged = setAlertType(player, alertType, isEnabled, shouldCheckPermission);
         if (wasChanged && shouldCheckPermission) {
             message.send(player, messages.alertChanged.replace("%alerttype%", alertTypeName.replace("_", " ")).replace("%status%", isEnabled ? "enabled" : "disabled"), messages.prefixGeneral);
         }
+    }
+
+    private boolean setAlertType(Player player, AlertType alertType, boolean isEnabled, boolean shouldCheckPermission) {
+        PlayerSession session = sessionManager.get(player.getUniqueId());
+        if (this.permission.has(player, options.alertsConfiguration.getPermissionForType(alertType)) || !shouldCheckPermission) {
+            session.setAlertOption(alertType, isEnabled);
+            sessionLoader.saveSession(session);
+            return true;
+        } else {
+            message.send(player, messages.noPermission, messages.prefixGeneral);
+        }
+        return false;
     }
 
     private void sendHelp(CommandSender sender) {
