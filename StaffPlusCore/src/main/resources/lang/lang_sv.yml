@@ -161,6 +161,7 @@ ticket-list-end: "&7%longline%"
 
 alert-changed: "&7%alerttype% &bunderrättelser &7%status%&b."
 alerts-name: "&7%old% &bhar förändrat deras namn till &7%new%&b!"
+alerts-chat-phrase-detected: "&7%target% &bhas placed a message in chat containing the words (&7%detectedPhrases%&b)"
 alerts-mention: "&7%target% &bhar nämnt dig i chatt!"
 alerts-xray: "&7%target% &bminerade &7%count% %itemtype%&b! &7(%lightlevel%&7)"
 

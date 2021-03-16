@@ -165,6 +165,7 @@ ticket-list-end: "&7%longline%"
 
 
 alerts-name: "&b&7%old% &bha cambiado su nombre a &7%new%&b!"
+alerts-chat-phrase-detected: "&7%target% &bhas placed a message in chat containing the words (&7%detectedPhrases%&b)"
 alerts-mention: "&7%target% &bha mencionado tu nombre en el chat!"
 alerts-xray: "&b&7%target% &bha minado &7%count% %itemtype%&b! &7(%lightlevel%&7)"
 

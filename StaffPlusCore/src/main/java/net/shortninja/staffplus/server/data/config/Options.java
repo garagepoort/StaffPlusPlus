@@ -8,6 +8,8 @@ import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.confirmation.ConfirmationConfig;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.server.chat.blacklist.BlackListConfigurationLoader;
+import net.shortninja.staffplus.server.chat.configuration.ChatConfiguration;
+import net.shortninja.staffplus.server.chat.configuration.ChatModuleLoader;
 import net.shortninja.staffplus.server.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplus.server.synchronization.ServerSyncModuleLoader;
 import net.shortninja.staffplus.staff.alerts.config.AlertsConfiguration;
@@ -99,6 +101,7 @@ public class Options {
     public GeneralModeConfiguration modeConfiguration;
     public ServerSyncConfiguration serverSyncConfiguration;
     public AlertsConfiguration alertsConfiguration;
+    public ChatConfiguration chatConfiguration;
 
     /*
      * Vanish
@@ -108,20 +111,7 @@ public class Options {
     public boolean vanishShowAway;
     public boolean vanishChatEnabled;
     public boolean vanishMessageEnabled;
-    /*
-     * Chat
-     */
-    public boolean chatEnabled;
-    public int chatLines;
-    public int chatSlow;
-    public boolean chatBlacklistEnabled;
-    public boolean chatBlacklistHoverable;
-    public String chatBlacklistCharacter;
-    public List<String> chatBlacklistWords;
-    public List<String> chatBlacklistCharacters;
-    public List<String> chatBlacklistDomains;
-    public List<String> chatBlacklistPeriods;
-    public List<String> chatBlacklistAllowed;
+
     /*
      * Staff Mode
      */
@@ -252,6 +242,7 @@ public class Options {
         modeConfiguration = new StaffModeModuleLoader().loadConfig();
         serverSyncConfiguration = new ServerSyncModuleLoader().loadConfig();
         alertsConfiguration = new AlertsModuleLoader().loadConfig();
+        chatConfiguration = new ChatModuleLoader().loadConfig();
 
         /*
          * Vanish
@@ -261,20 +252,7 @@ public class Options {
         vanishShowAway = config.getBoolean("vanish-module.show-away");
         vanishChatEnabled = config.getBoolean("vanish-module.chat");
         vanishMessageEnabled = config.getBoolean("vanish-module.vanish-message-enabled");
-        /*
-         * Chat
-         */
-        chatEnabled = config.getBoolean("chat-module.enabled");
-        chatLines = config.getInt("chat-module.lines");
-        chatSlow = config.getInt("chat-module.slow");
-        chatBlacklistEnabled = config.getBoolean("chat-module.blacklist-module.enabled");
-        chatBlacklistHoverable = config.getBoolean("chat-module.blacklist-module.hoverable");
-        chatBlacklistCharacter = config.getString("chat-module.blacklist-module.character");
-        chatBlacklistWords = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.words"));
-        chatBlacklistCharacters = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.characters"));
-        chatBlacklistDomains = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.domains"));
-        chatBlacklistPeriods = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.periods"));
-        chatBlacklistAllowed = JavaUtils.stringToList(config.getString("chat-module.blacklist-module.allowed"));
+
         /*
          * Staff Mode
          */

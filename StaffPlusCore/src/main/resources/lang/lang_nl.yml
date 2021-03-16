@@ -161,6 +161,7 @@ ticket-list-end: "&7%longline%"
 
 alert-changed: "&7%alerttype% &bAlarmen &7%status%&b."
 alerts-name: "&7%old% &bheeft zijn naam veranderd naar &7%new%&b!"
+alerts-chat-phrase-detected: "&7%target% &bhas placed a message in chat containing the words (&7%detectedPhrases%&b)"
 alerts-mention: "&7%target% &bheeft je naam genoemd in chat!"
 alerts-xray: "&7%target% &bheeft &7%count% %itemtype% &bgehakt! &7(%lightlevel%&7)"
 
