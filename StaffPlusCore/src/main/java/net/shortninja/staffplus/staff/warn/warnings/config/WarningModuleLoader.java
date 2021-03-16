@@ -61,7 +61,9 @@ public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
             String name = (String) map.get("name");
             int score = (Integer) map.get(SCORE);
             long expirationDuration = map.containsKey("expiresAfter") ? TimeUnit.getDuration((String) map.get("expiresAfter")) : -1;
-            return new WarningSeverityConfiguration(name, score, expirationDuration);
+            String reason = (String) map.get("reason");
+            boolean reasonOverwriteEnabled = map.containsKey("reasonOverwriteEnabled") ? (boolean) map.get("reasonOverwriteEnabled") : false;
+            return new WarningSeverityConfiguration(name, score, expirationDuration, reason, reasonOverwriteEnabled);
         }).collect(Collectors.toList());
     }
 
