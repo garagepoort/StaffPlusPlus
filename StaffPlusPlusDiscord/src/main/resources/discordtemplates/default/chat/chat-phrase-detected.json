@@ -1,5 +1,5 @@
 // Context:
-// detectedEvent: IAltDetectResult => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/chat/PhrasesDetectedEvent.java
+// detectedEvent: PhrasesDetectedEvent => https://github.com/garagepoort/staffplusplus-api/blob/master/src/main/java/net/shortninja/staffplusplus/chat/PhrasesDetectedEvent.java
 // timestamp: String
 // detectedPhrases: String => A string containing the concatenated values of all detected prhases
 {

@@ -11,6 +11,7 @@ import be.garagepoort.staffplusplus.discord.staffchat.StaffChatListener;
 import be.garagepoort.staffplusplus.discord.staffmode.StaffModeListener;
 import be.garagepoort.staffplusplus.discord.warnings.AppealListener;
 import be.garagepoort.staffplusplus.discord.warnings.WarningListener;
+import be.garagepoort.staffplusplus.discord.xray.XrayListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
@@ -61,6 +62,7 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         initListener(new AltDetectionListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No altDetect webhookUrl provided in the configuration.");
         initListener(new StaffModeListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No staffmode webhookUrl provided in the configuration.");
         initListener(new ChatListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No chat webhookUrl provided in the configuration.");
+        initListener(new XrayListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No xray webhookUrl provided in the configuration.");
         initListener(new StaffChatListener(config, plugin), "Cannot enable StaffPlusPlusDiscord. DiscordSRV plugin not enabled! Disable Staffchat sync or enable the DiscordSRV plugin.");
     }
 
