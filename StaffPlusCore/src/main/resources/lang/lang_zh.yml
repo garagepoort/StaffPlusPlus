@@ -161,6 +161,7 @@ ticket-list-end: "&7%longline%"
 
 alert-changed: "&7%alerttype%&b警报已设为&7%status%&b."
 alerts-name: "&7%old%&b名称已改为&7%new%&b!"
+alerts-chat-phrase-detected: "&7%target% &bhas placed a message in chat containing the words (&7%detectedPhrases%&b)"
 alerts-mention: "&7%target%&b在聊天中提到了你!"
 alerts-xray: "&7%target%&b挖到了&7%count%个%itemtype%&b! (&b光照等级&7%lightlevel%&7)"
 

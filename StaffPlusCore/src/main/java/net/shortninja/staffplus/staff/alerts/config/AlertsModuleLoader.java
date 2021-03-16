@@ -17,6 +17,7 @@ public class AlertsModuleLoader extends ConfigLoader<AlertsConfiguration> {
         boolean alertsMentionNotify = config.getBoolean("alerts-module.mention-notify");
         boolean alertsXrayEnabled = config.getBoolean("alerts-module.xray-alerts.enabled");
         boolean alertsAltDetectEnabled = config.getBoolean("alerts-module.alt-detect-notify.enabled");
+        boolean alertsChatPhraseDetectionEnabled = config.getBoolean("alerts-module.chat-phrase-detection");
         List<AltDetectTrustLevel> alertsAltDetectTrustLevels = Arrays.stream(config.getString("alerts-module.alt-detect-notify.trust-levels", "").split(";"))
             .map(AltDetectTrustLevel::valueOf)
             .collect(Collectors.toList());
@@ -25,7 +26,7 @@ public class AlertsModuleLoader extends ConfigLoader<AlertsConfiguration> {
         String permissionAlertsAltDetect = config.getString("permissions.alerts-alt-detect");
         String permissionMention = config.getString("permissions.mention");
         String permissionNameChange = config.getString("permissions.name-change");
-        String permissionWordMention = config.getString("permissions.alerts-word-mention");
+        String permissionChatPhraseDetection = config.getString("permissions.alerts-chat-phrase-detection");
         Sounds alertsSound = stringToSound(sanitize(config.getString("alerts-module.sound")));
         String commandAlerts = config.getString("commands.alerts");
 
@@ -39,12 +40,13 @@ public class AlertsModuleLoader extends ConfigLoader<AlertsConfiguration> {
             alertsMentionNotify,
             alertsXrayEnabled,
             alertsAltDetectEnabled,
+            alertsChatPhraseDetectionEnabled,
             alertsAltDetectTrustLevels,
             permissionAlerts,
             permissionAlertsAltDetect,
             permissionMention,
             permissionNameChange,
-            permissionWordMention, commandAlerts,
+            permissionChatPhraseDetection, commandAlerts,
             alertsSound,
             new XrayConfiguration(alertsXrayBlocks, permissionXray));
     }

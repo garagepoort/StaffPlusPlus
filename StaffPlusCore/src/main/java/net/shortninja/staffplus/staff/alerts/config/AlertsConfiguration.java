@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.staff.alerts.config;
 
 import net.shortninja.staffplus.common.Sounds;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 
 import java.util.Arrays;
@@ -11,12 +13,13 @@ public class AlertsConfiguration {
     private final boolean alertsMentionNotify;
     private final boolean alertsXrayEnabled;
     private final boolean alertsAltDetectEnabled;
+    private final boolean alertsChatPhraseDetectionEnabled;
     private final List<AltDetectTrustLevel> alertsAltDetectTrustLevels;
     private final String permissionAlerts;
     private final String permissionAlertsAltDetect;
     private final String permissionMention;
     private final String permissionNameChange;
-    private final String permissionWordMention;
+    private final String permissionChatPhraseDetection;
     private final String commandAlerts;
     private final Sounds alertsSound;
     private final XrayConfiguration xrayConfiguration;
@@ -25,23 +28,25 @@ public class AlertsConfiguration {
                                boolean alertsMentionNotify,
                                boolean alertsXrayEnabled,
                                boolean alertsAltDetectEnabled,
+                               boolean alertsChatPhraseDetectionEnabled,
                                List<AltDetectTrustLevel> alertsAltDetectTrustLevels,
                                String permissionAlerts,
                                String permissionAlertsAltDetect,
                                String permissionMention,
                                String permissionNameChange,
-                               String permissionWordMention, String commandAlerts, Sounds alertsSound, XrayConfiguration xrayConfiguration) {
+                               String permissionChatPhraseDetection, String commandAlerts, Sounds alertsSound, XrayConfiguration xrayConfiguration) {
 
         this.alertsNameNotify = alertsNameNotify;
         this.alertsMentionNotify = alertsMentionNotify;
         this.alertsXrayEnabled = alertsXrayEnabled;
         this.alertsAltDetectEnabled = alertsAltDetectEnabled;
+        this.alertsChatPhraseDetectionEnabled = alertsChatPhraseDetectionEnabled;
         this.alertsAltDetectTrustLevels = alertsAltDetectTrustLevels;
         this.permissionAlerts = permissionAlerts;
         this.permissionAlertsAltDetect = permissionAlertsAltDetect;
         this.permissionMention = permissionMention;
         this.permissionNameChange = permissionNameChange;
-        this.permissionWordMention = permissionWordMention;
+        this.permissionChatPhraseDetection = permissionChatPhraseDetection;
         this.commandAlerts = commandAlerts;
         this.alertsSound = alertsSound;
         this.xrayConfiguration = xrayConfiguration;
@@ -65,6 +70,10 @@ public class AlertsConfiguration {
 
     public boolean isNameNotifyEnabled() {
         return alertsNameNotify;
+    }
+
+    public boolean isAlertsChatPhraseDetectionEnabled() {
+        return alertsChatPhraseDetectionEnabled;
     }
 
     public boolean isMentionNotifyEnabled() {
@@ -95,11 +104,28 @@ public class AlertsConfiguration {
         return permissionNameChange;
     }
 
-    public String getPermissionWordMention() {
-        return permissionWordMention;
+    public String getPermissionChatPhraseDetection() {
+        return permissionChatPhraseDetection;
     }
 
     public List<String> getAllAlertsPermissions() {
         return Arrays.asList(getPermissionMention(), getPermissionNameChange(), getXrayConfiguration().getPermissionXray());
+    }
+
+    public String getPermissionForType(AlertType alertType) {
+        switch (alertType) {
+            case XRAY:
+                return getXrayConfiguration().getPermissionXray();
+            case MENTION:
+                return getPermissionMention();
+            case ALT_DETECT:
+                return getPermissionAltDetect();
+            case NAME_CHANGE:
+                return getPermissionNameChange();
+            case CHAT_PHRASE_DETECTION:
+                return getPermissionChatPhraseDetection();
+            default:
+                throw new BusinessException("Unsupported alertType [" + alertType + "]");
+        }
     }
 }
