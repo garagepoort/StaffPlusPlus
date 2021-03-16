@@ -43,6 +43,12 @@ StaffPlusPlusDiscord:
         # possible values: POSITIVE, FAIRLY_POSITIVE, POSSIBLE, NOT_LIKELY
         # example value: POSITIVE;FAIRLY_POSITIVE
         enabledTrustLevels: ""
+    xray:
+        webhookUrl: ""
+        # Ores that should be notified to discord, leave empty to disable all notifications. Should be semi-colon separated
+        # possible values: any bukkit material
+        # example value: DIAMOND;REDSTON
+        enabledOres: ""
     staffmode:
         webhookUrl: ""
         # Trigger a discord message whenever a staffmember enters staffmode
