@@ -18,8 +18,8 @@ public class TemplateFile {
         return id;
     }
 
-    public String getResourcePath(String templatePack) {
-        return "discordtemplates" + separator + templatePack + separator + directory + separator + file + ".json";
+    public String getFilePath() {
+        return directory + separator + file + ".json";
     }
 
 }
