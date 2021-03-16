@@ -2,6 +2,7 @@ package be.garagepoort.staffplusplus.discord;
 
 import be.garagepoort.staffplusplus.discord.altdetect.AltDetectionListener;
 import be.garagepoort.staffplusplus.discord.ban.BanListener;
+import be.garagepoort.staffplusplus.discord.chat.ChatListener;
 import be.garagepoort.staffplusplus.discord.common.TemplateRepository;
 import be.garagepoort.staffplusplus.discord.kick.KickListener;
 import be.garagepoort.staffplusplus.discord.mute.MuteListener;
@@ -14,6 +15,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public class StaffPlusPlusDiscord extends JavaPlugin {
 
@@ -31,19 +34,19 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         saveDefaultConfig();
         FileConfiguration config = getConfig();
         ConfigUpdater.updateConfig(this);
-        if(!ConfigUpdater.updateConfig(this)) {
+        if (!ConfigUpdater.updateConfig(this)) {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        TemplateRepository templateRepository = new TemplateRepository(this, config);
+        TemplateRepository templateRepository = new TemplateRepository(config);
         initializeListeners(templateRepository, config);
-        this.getCommand("staffplusplusdiscord").setExecutor(new StaffPlusPlusDiscordCmd());
+        Objects.requireNonNull(this.getCommand("staffplusplusdiscord")).setExecutor(new StaffPlusPlusDiscordCmd());
     }
 
     public void reload() {
         reloadConfig();
-        TemplateRepository templateRepository = new TemplateRepository(this, getConfig());
+        TemplateRepository templateRepository = new TemplateRepository(getConfig());
         HandlerList.unregisterAll(this);
         initializeListeners(templateRepository, getConfig());
     }
@@ -57,6 +60,7 @@ public class StaffPlusPlusDiscord extends JavaPlugin {
         initListener(new AppealListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No warning appeals webhookUrl provided in the configuration.");
         initListener(new AltDetectionListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No altDetect webhookUrl provided in the configuration.");
         initListener(new StaffModeListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No staffmode webhookUrl provided in the configuration.");
+        initListener(new ChatListener(config, templateRepository), "Cannot enable StaffPlusPlusDiscord. No chat webhookUrl provided in the configuration.");
         initListener(new StaffChatListener(config, plugin), "Cannot enable StaffPlusPlusDiscord. DiscordSRV plugin not enabled! Disable Staffchat sync or enable the DiscordSRV plugin.");
     }
 
