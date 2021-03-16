@@ -44,9 +44,9 @@ public class BlacklistFactory {
     private String checkIllegalCharacters() {
         String newMessage = originalMessage;
 
-        for (String string : options.chatBlacklistCharacters) {
+        for (String string : options.blackListConfiguration.getCensoredCharacters()) {
             if (newMessage.contains(string)) {
-                newMessage = newMessage.replace(string, options.chatBlacklistCharacter);
+                newMessage = newMessage.replace(string, options.blackListConfiguration.getCensorCharacter());
                 hasChanged = true;
             }
         }
@@ -111,7 +111,7 @@ public class BlacklistFactory {
         StringBuilder builder = new StringBuilder();
 
         for (int k = 0; k < word.length(); k++) {
-            builder.append(options.chatBlacklistCharacter);
+            builder.append(options.blackListConfiguration.getCensorCharacter());
         }
 
         censored = censored.replace(word, builder.toString());
@@ -126,7 +126,7 @@ public class BlacklistFactory {
     private boolean isBypassable(String word) {
         boolean isBypassable = false;
 
-        for (String string : options.chatBlacklistAllowed) {
+        for (String string : options.blackListConfiguration.getAllowedWords()) {
             if (word.contains(string.toLowerCase())) {
                 isBypassable = true;
                 break;
@@ -172,9 +172,9 @@ public class BlacklistFactory {
         //Collections.sort(options.chatBlacklistWords);
         //Collections.sort(options.chatBlacklistDomains);
         //Collections.sort(options.chatBlacklistPeriods);
-        words = options.chatBlacklistWords.toArray(new String[options.chatBlacklistWords.size()]);
-        domains = options.chatBlacklistDomains.toArray(new String[options.chatBlacklistDomains.size()]);
-        periods = options.chatBlacklistPeriods.toArray(new String[options.chatBlacklistPeriods.size()]);
+        words = options.blackListConfiguration.getCensoredWords().toArray(new String[options.blackListConfiguration.getCensoredWords().size()]);
+        domains = options.blackListConfiguration.getCensoredDomains().toArray(new String[options.blackListConfiguration.getCensoredDomains().size()]);
+        periods = options.blackListConfiguration.getPeriods().toArray(new String[options.blackListConfiguration.getPeriods().size()]);
         Arrays.sort(words);
         sanitize(words);
         sanitize(domains);

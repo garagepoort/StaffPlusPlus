@@ -3,7 +3,11 @@
 ### V1.16.52 (NOT YET RELEASED)
 
 ### Features
--freeze module now allows for a title & subtitle message to be displayed when a player is frozen.
+- freeze module now allows for a title & subtitle message to be displayed when a player is frozen.
+- Custom staff modules can now have a confirmation dialog (chat or gui)
+- Custom staff modules can now have an input prompt
+- Report changes are notified across the bungee network to staff members and players.
+- New chat detection option to notify staff members when players type certain things in chat. Through the alerts system or discord notifications.
 
 ### Bugs
 - Fix bugs when creating reports in a multi server setup having different servers using different world names.
