@@ -221,6 +221,13 @@ chat-module:
   # Bypass permission is "chat-slow".
   slow: 5
 
+  # Whenever one of these words/phrases is detected in a chat message, an alert will be triggered
+  # These can either notify the staff members through the alerts-system of discord.
+  detection:
+    phrases:
+      - admin
+      - mod
+
   # All word blacklist options.
   # Leave any of the lists below blank to disable them!
   blacklist-module:
@@ -366,6 +373,9 @@ alerts-module:
 
   # Whether or not staff will be notified when they are mentioned.
   mention-notify: true
+
+  # Whether or not staff will be notified when the chat module detect phrases.
+  chat-phrase-detection: true
 
   # The sound that is played to staff when notified.
   sound: ORB_PICKUP
@@ -991,7 +1001,7 @@ permissions:
   # Permission for receiving alt detect alerts.
   alerts-alt-detect: "staff.alerts.alt-detects"
   # Permission for receiving chat word mentions alerts.
-  alerts-word-mention: "staff.alerts.word-mention"
+  alerts-chat-phrase-detection: "staff.alerts.chat-phrase-detection"
 
   # Permission to have inventory interaction while in examine mode
   examine-inventory-interaction.online: "staff.examine.inventory-interaction"

@@ -20,6 +20,7 @@ import net.shortninja.staffplus.player.ext.bukkit.NoopOfflinePlayerProvider;
 import net.shortninja.staffplus.server.chat.ChatHandler;
 import net.shortninja.staffplus.server.chat.ChatInterceptor;
 import net.shortninja.staffplus.server.chat.GeneralChatInterceptor;
+import net.shortninja.staffplus.server.chat.PhraseDetectionChatInterceptor;
 import net.shortninja.staffplus.server.chat.blacklist.BlacklistService;
 import net.shortninja.staffplus.server.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.server.chat.blacklist.censors.DomainChatCensor;
@@ -344,7 +345,7 @@ public class IocContainer {
 
     public static VanishServiceImpl getVanishService() {
         return initBean(VanishServiceImpl.class, () -> new VanishServiceImpl(StaffPlus.get().versionProtocol, getPermissionHandler(),
-            getMessage(), getOptions(), getMessages(), getSessionManager()));
+            getMessage(), getOptions(), getMessages(), getSessionManager(), getSessionLoader()));
     }
 
     public static ChatHandler getChatHandler() {
@@ -406,6 +407,7 @@ public class IocContainer {
         return Arrays.asList(
             new ChatActionChatInterceptor(getSessionManager()),
             new StaffChatChatInterceptor(getStaffChatService(), getPermissionHandler(), getOptions(), getSessionManager()),
+            new PhraseDetectionChatInterceptor(getOptions()),
             new TraceChatInterceptor(getTraceService(), getMessages(), getMessage(), getOptions()),
             new FreezeChatInterceptor(getFreezeHandler(), getOptions(), getMessages(), getMessage()),
             new VanishChatInterceptor(getVanishService(), getOptions(), getMessage(), getMessages()),

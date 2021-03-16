@@ -7,6 +7,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.util.Message;
 import net.shortninja.staffplus.util.MessageCoordinator;
@@ -24,14 +25,16 @@ public class VanishServiceImpl {
     private final Options options;
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
+    private final SessionLoader sessionLoader;
 
-    public VanishServiceImpl(IProtocol versionProtocol, PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager) {
+    public VanishServiceImpl(IProtocol versionProtocol, PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
         this.versionProtocol = versionProtocol;
         this.permission = permission;
         this.message = message;
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
+        this.sessionLoader = sessionLoader;
 
         if (options.vanishMessageEnabled) {
             Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
@@ -57,6 +60,7 @@ public class VanishServiceImpl {
 
         applyVanish(player, vanishType, true);
         session.setVanishType(vanishType);
+        sessionLoader.saveSession(session);
     }
 
     public void removeVanish(Player player) {
@@ -69,6 +73,7 @@ public class VanishServiceImpl {
 
         unapplyVanish(player, vanishType, true);
         session.setVanishType(VanishType.NONE);
+        sessionLoader.saveSession(session);
     }
 
     public boolean isVanished(Player player) {

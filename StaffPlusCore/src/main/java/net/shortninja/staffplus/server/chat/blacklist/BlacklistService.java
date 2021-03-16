@@ -36,7 +36,7 @@ public class BlacklistService {
             return;
         }
 
-        if (options.chatBlacklistEnabled && options.chatEnabled) {
+        if (options.blackListConfiguration.isEnabled() && options.chatConfiguration.isChatEnabled()) {
             String originalMessage = event.getMessage();
             String censoredMessage = originalMessage;
             for (ChatCensor chatCensor : chatCensors) {
@@ -48,7 +48,7 @@ public class BlacklistService {
     }
 
     private void setHoverableMessage(Player player, AsyncPlayerChatEvent event, String originalMessage, String censoredMessage) {
-        if (options.chatBlacklistHoverable) {
+        if (options.blackListConfiguration.isHoverable()) {
             List<? extends Player> validPlayers = Bukkit.getOnlinePlayers().stream()
                 .filter(p -> permission.has(p, options.permissionBlacklist))
                 .collect(Collectors.toList());
