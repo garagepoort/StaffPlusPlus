@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.warn.warnings.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
@@ -39,7 +40,11 @@ public class WarnCmd extends AbstractCmd {
         //Handle warning with severity
         String severityLevel = args[0];
         String reason = JavaUtils.compileWords(args, 2);
-        warnService.sendWarning(sender, player, reason, severityLevel);
+
+        WarningSeverityConfiguration severity = options.warningConfiguration.getSeverityConfiguration(severityLevel)
+            .orElseThrow(() -> new BusinessException("&CCannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
+
+        warnService.sendWarning(sender, player, reason, severity);
         return true;
     }
 
@@ -52,6 +57,14 @@ public class WarnCmd extends AbstractCmd {
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         List<WarningSeverityConfiguration> severityLevels = options.warningConfiguration.getSeverityLevels();
         if (severityLevels.isEmpty()) {
+            return 2;
+        }
+
+        String severityLevel = args[0];
+        WarningSeverityConfiguration severityConfiguration = options.warningConfiguration.getSeverityConfiguration(severityLevel)
+            .orElseThrow(() -> new BusinessException("&CCannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
+
+        if (severityConfiguration.hasDefaultReason()) {
             return 2;
         }
         return 3;
