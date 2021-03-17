@@ -35,6 +35,7 @@ public class InputCustomModulePreprocessor implements CustomModulePreProcessor {
             PlayerSession playerSession = IocContainer.getSessionManager().get(player.getUniqueId());
             messageCoordinator.send(player, "&7------", messages.prefixGeneral);
             messageCoordinator.send(player, "&6" + inputPrompt, messages.prefixGeneral);
+            messageCoordinator.send(player, "&6 or \"cancel\" to cancel the action", messages.prefixGeneral);
             messageCoordinator.send(player, "&7------", messages.prefixGeneral);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
