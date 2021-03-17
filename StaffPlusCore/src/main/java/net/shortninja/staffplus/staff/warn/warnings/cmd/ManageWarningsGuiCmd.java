@@ -32,16 +32,19 @@ public class ManageWarningsGuiCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        return 1;
+        return 0;
     }
 
     @Override
     protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
+        return PlayerRetrievalStrategy.OPTIONAL;
     }
 
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        if(args.length == 0) {
+            return Optional.empty();
+        }
         return Optional.ofNullable(args[0]);
     }
 
