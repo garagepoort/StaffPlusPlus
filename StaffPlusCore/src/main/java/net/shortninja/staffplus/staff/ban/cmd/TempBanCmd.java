@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 
 public class TempBanCmd extends AbstractCmd {
 
+    private static final String TEMPLATE_FILE = "-template=";
     private final BanService banService = IocContainer.getBanService();
     private PermissionHandler permissionHandler;
     private Options options;
@@ -37,14 +38,33 @@ public class TempBanCmd extends AbstractCmd {
 
         int amount = Integer.parseInt(args[1]);
         String timeUnit = args[2];
-        String reason = JavaUtils.compileWords(args, 3);
 
+        if (args[3].toLowerCase().startsWith(TEMPLATE_FILE.toLowerCase())) {
+            String template = getTemplateName(args[3]);
+            String reason = JavaUtils.compileWords(args, 4);
+            banService.tempBan(sender, player, TimeUnit.getDuration(timeUnit, amount), reason, template);
+            return true;
+        }
+
+
+        String reason = JavaUtils.compileWords(args, 3);
         banService.tempBan(sender, player, TimeUnit.getDuration(timeUnit, amount), reason);
         return true;
     }
 
+    private String getTemplateName(String arg) {
+        String[] templateParams = arg.split("=");
+        if (templateParams.length != 2) {
+            throw new BusinessException("&CInvalid template provided");
+        }
+        return templateParams[1];
+    }
+
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
+        if (args.length >= 4 && args[3].toLowerCase().contains(TEMPLATE_FILE.toLowerCase())) {
+            return 5;
+        }
         return 4;
     }
 
@@ -82,6 +102,11 @@ public class TempBanCmd extends AbstractCmd {
                 TimeUnit.WEEK.name(), TimeUnit.DAY.name(),
                 TimeUnit.HOUR.name(), TimeUnit.MINUTE.name())
                 .filter(s -> args[2].isEmpty() || s.contains(args[2]))
+                .collect(Collectors.toList());
+        }
+        if (args.length == 4 && args[3].startsWith("-")) {
+            return options.banConfiguration.getTemplates().keySet().stream()
+                .map(k -> TEMPLATE_FILE + k)
                 .collect(Collectors.toList());
         }
 
