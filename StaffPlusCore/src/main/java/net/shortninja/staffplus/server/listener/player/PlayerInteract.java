@@ -6,6 +6,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
+import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.staff.chests.ChestGUI;
@@ -17,6 +18,7 @@ import net.shortninja.staffplus.staff.mode.handler.CustomModuleExecutor;
 import net.shortninja.staffplus.staff.mode.handler.CustomModulePreProcessor;
 import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration;
+import net.shortninja.staffplus.util.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.block.*;
 import org.bukkit.entity.Player;
@@ -31,6 +33,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 import static net.shortninja.staffplus.common.cmd.CommandUtil.playerAction;
+import static net.shortninja.staffplus.staff.mode.item.CustomModuleConfiguration.ModuleType.COMMAND_DYNAMIC;
 
 public class PlayerInteract implements Listener {
 
@@ -45,6 +48,8 @@ public class PlayerInteract implements Listener {
     private final Options options = IocContainer.getOptions();
     private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
     private final List<CustomModulePreProcessor> customModulePreProcessors = IocContainer.getCustomModulePreProcessors();
+    private final Messages messages = IocContainer.getMessages();
+    private final MessageCoordinator message = IocContainer.getMessage();
 
     public PlayerInteract() {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -178,7 +183,12 @@ public class PlayerInteract implements Listener {
         placeholders.put("%clicker%", player.getName());
         Player targetPlayer = JavaUtils.getTargetPlayer(player);
         if (targetPlayer != null) {
-            placeholders.put("%clicked%", player.getName());
+            placeholders.put("%clicked%", targetPlayer.getName());
+        }
+
+        if(customModuleConfiguration.get().getType() == COMMAND_DYNAMIC && targetPlayer == null) {
+            message.send(player, "No target in range", messages.prefixGeneral);
+            return true;
         }
 
         CustomModuleExecutor moduleExecution = (p, pl) -> gadgetHandler.executeModule(p, targetPlayer, customModuleConfiguration.get(), pl);
