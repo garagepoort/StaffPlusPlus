@@ -135,6 +135,12 @@ public class WarnService implements InfractionProvider {
             .collect(Collectors.toList());
     }
 
+    public List<Warning> getAllWarnings(int offset, int amount, boolean includeExpired) {
+        return warnRepository.getAllWarnings(offset, amount)
+            .stream().filter(w -> includeExpired || !w.isExpired())
+            .collect(Collectors.toList());
+    }
+
     public List<Warning> getAppealedWarnings(int offset, int amount) {
         return warnRepository.getAppealedWarnings(offset, amount);
     }
