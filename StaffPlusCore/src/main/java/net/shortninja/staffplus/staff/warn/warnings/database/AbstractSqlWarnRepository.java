@@ -87,6 +87,27 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         return warnings;
     }
 
+
+    @Override
+    public List<Warning> getAllWarnings(int offset, int amount) {
+        List<Warning> warnings = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isWarningSyncEnabled()) + " ORDER BY timestamp DESC LIMIT ?,?")
+        ) {
+            ps.setInt(1, offset);
+            ps.setInt(2, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Warning warning = buildWarning(rs);
+                    warnings.add(warning);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return warnings;
+    }
+
     @Override
     public List<Warning> getAppealedWarnings(int offset, int amount) {
         List<Warning> warnings = new ArrayList<>();
