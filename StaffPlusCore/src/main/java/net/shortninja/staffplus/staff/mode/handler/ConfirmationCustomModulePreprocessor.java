@@ -30,8 +30,7 @@ public class ConfirmationCustomModulePreprocessor implements CustomModulePreProc
 
         return (player, pl) -> Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> {
             ConfirmationConfig confirmationConfig = customModuleConfiguration.getConfirmationConfig().get();
-            confirmationConfig.setPlaceholders(pl);
-            confirmationService.showConfirmation(player, confirmationConfig,
+            confirmationService.showConfirmation(player, confirmationConfig, pl,
                 player1 -> action.execute(player1, pl),
                 p -> message.send(p, "You have cancelled the action", messages.prefixGeneral));
         }, 1);
