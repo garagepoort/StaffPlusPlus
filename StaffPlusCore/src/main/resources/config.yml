@@ -316,6 +316,8 @@ infractions-module:
 ban-module:
   # Whether or not the plugin will use "/ban-player" features.
   enabled: true
+  permban-template: ''
+  tempban-template: ''
 
 ############################################################
 # +------------------------------------------------------+ #

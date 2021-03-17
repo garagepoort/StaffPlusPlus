@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.ban.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 public class BanCmd extends AbstractCmd {
 
+    private static final String TEMPLATE_FILE = "-template=";
     private final BanService banService = IocContainer.getBanService();
     private PermissionHandler permissionHandler;
     private Options options;
@@ -30,14 +32,32 @@ public class BanCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
-        String reason = JavaUtils.compileWords(args, 1);
 
+        if (args[1].toLowerCase().startsWith(TEMPLATE_FILE.toLowerCase())) {
+            String template = getTemplateName(args[1]);
+            String reason = JavaUtils.compileWords(args, 2);
+            banService.permBan(sender, player, reason, template);
+            return true;
+        }
+
+        String reason = JavaUtils.compileWords(args, 1);
         banService.permBan(sender, player, reason);
         return true;
     }
 
+    private String getTemplateName(String arg) {
+        String[] templateParams = arg.split("=");
+        if (templateParams.length != 2) {
+            throw new BusinessException("&CInvalid template provided");
+        }
+        return templateParams[1];
+    }
+
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
+        if (args[1].toLowerCase().contains(TEMPLATE_FILE.toLowerCase())) {
+            return 3;
+        }
         return 2;
     }
 
@@ -61,6 +81,12 @@ public class BanCmd extends AbstractCmd {
         if (args.length == 1) {
             return playerManager.getAllPlayerNames().stream()
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .collect(Collectors.toList());
+        }
+
+        if (args.length == 2 && args[1].startsWith("-")) {
+            return options.banConfiguration.getTemplates().keySet().stream()
+                .map(k -> TEMPLATE_FILE + k)
                 .collect(Collectors.toList());
         }
 
