@@ -2,12 +2,10 @@ package net.shortninja.staffplus.common.confirmation;
 
 import net.shortninja.staffplus.staff.mode.item.ConfirmationType;
 
-import java.util.Map;
-
 public class ConfirmationConfig {
 
-    private ConfirmationType confirmationType;
-    private String confirmationMessage;
+    private final ConfirmationType confirmationType;
+    private final String confirmationMessage;
 
     public ConfirmationConfig(ConfirmationType confirmationType, String confirmationMessage) {
         this.confirmationType = confirmationType;
@@ -22,9 +20,4 @@ public class ConfirmationConfig {
         return confirmationMessage;
     }
 
-    public void setPlaceholders(Map<String, String> placeholders) {
-        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-            confirmationMessage = confirmationMessage.replace(entry.getKey(), entry.getValue());
-        }
-    }
 }
