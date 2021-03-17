@@ -112,7 +112,7 @@ public class CmdHandler {
             new BaseCmd(new ProtectAreaCmd(options.protectConfiguration.getCommandProtectArea()), options.protectConfiguration.isAreaProtectEnabled(), "Protect an area around you.", "[radius] [area name]"),
 
             new BaseCmd(new TempBanCmd(options.banConfiguration.getCommandTempBanPlayer()), options.banConfiguration.isEnabled(), "Temporary ban a player", "[player] [amount] [unit] [reason]"),
-            new BaseCmd(new BanCmd(options.banConfiguration.getCommandBanPlayer()), options.banConfiguration.isEnabled(), "Permanent ban a player", "[player] [reason]"),
+            new BaseCmd(new BanCmd(options.banConfiguration.getCommandBanPlayer()), options.banConfiguration.isEnabled(), "Permanent ban a player", "[player] [-template=?] [reason]"),
             new BaseCmd(new UnbanCmd(options.banConfiguration.getCommandUnbanPlayer()), options.banConfiguration.isEnabled(), "Unban a player", "[player] [reason]"),
 
             new BaseCmd(new KickCmd(options.kickConfiguration.getCommandKickPlayer()), options.kickConfiguration.isEnabled(), "Kick a player", "[player] [reason]"),

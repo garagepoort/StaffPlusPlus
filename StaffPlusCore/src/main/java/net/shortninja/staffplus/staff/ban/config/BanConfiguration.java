@@ -1,6 +1,10 @@
 package net.shortninja.staffplus.staff.ban.config;
 
+import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
+
+import java.util.Map;
 
 public class BanConfiguration {
 
@@ -13,6 +17,9 @@ public class BanConfiguration {
     private final String permissionUnbanPlayer;
     private final String permissionBanByPass;
     private final GuiItemConfig guiItemConfig;
+    private final String permBanTemplate;
+    private final String tempBanTemplate;
+    private final Map<String, String> templates;
 
     public BanConfiguration(boolean banEnabled,
                             String commandBanPlayer,
@@ -21,7 +28,9 @@ public class BanConfiguration {
                             String permissionBanPlayer,
                             String permissionUnbanPlayer,
                             String permissionBanByPass,
-                            GuiItemConfig guiItemConfig) {
+                            GuiItemConfig guiItemConfig, String permBanTemplate,
+                            String tempBanTemplate,
+                            Map<String, String> templates) {
         this.banEnabled = banEnabled;
         this.commandBanPlayer = commandBanPlayer;
         this.commandTempBanPlayer = commandTempBanPlayer;
@@ -30,6 +39,9 @@ public class BanConfiguration {
         this.permissionUnbanPlayer = permissionUnbanPlayer;
         this.permissionBanByPass = permissionBanByPass;
         this.guiItemConfig = guiItemConfig;
+        this.permBanTemplate = permBanTemplate;
+        this.tempBanTemplate = tempBanTemplate;
+        this.templates = templates;
     }
 
     public boolean isEnabled() {
@@ -62,5 +74,40 @@ public class BanConfiguration {
 
     public String getPermissionUnbanPlayer() {
         return permissionUnbanPlayer;
+    }
+
+    public String getPermBanTemplate(String template) {
+        if (template != null) {
+            return getTemplate(template);
+        }
+
+        if (permBanTemplate != null) {
+            return getTemplate(permBanTemplate);
+        }
+
+        return IocContainer.getMessages().permanentBannedKick;
+    }
+
+    public String getTempBanTemplate(String template) {
+        if (template != null) {
+            return getTemplate(template);
+        }
+
+        if (tempBanTemplate != null) {
+            return getTemplate(tempBanTemplate);
+        }
+
+        return IocContainer.getMessages().tempBannedKick;
+    }
+
+    private String getTemplate(String template) {
+        if (!templates.containsKey(template)) {
+            throw new BusinessException("&CCannot find ban template with name [" + template + "]");
+        }
+        return templates.get(template);
+    }
+
+    public Map<String, String> getTemplates() {
+        return templates;
     }
 }
