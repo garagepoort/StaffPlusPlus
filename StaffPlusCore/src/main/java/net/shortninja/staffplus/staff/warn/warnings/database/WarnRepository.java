@@ -27,6 +27,8 @@ public interface WarnRepository {
 
     List<Warning> getWarnings(UUID uniqueId, int offset, int amount);
 
+    List<Warning> getAllWarnings(int offset, int amount);
+
     void markWarningsRead(UUID uniqueId);
 
     Map<UUID, Integer> getCountByPlayer();

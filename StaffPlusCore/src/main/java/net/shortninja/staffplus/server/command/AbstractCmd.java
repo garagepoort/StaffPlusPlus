@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.NONE;
+import static net.shortninja.staffplus.server.command.PlayerRetrievalStrategy.OPTIONAL;
 import static net.shortninja.staffplus.server.command.arguments.ArgumentType.DELAY;
 
 public abstract class AbstractCmd extends BukkitCommand {
@@ -168,7 +169,11 @@ public abstract class AbstractCmd extends BukkitCommand {
     private SppPlayer retrievePlayer(CommandSender sender, String[] args) {
         PlayerRetrievalStrategy strategy = getPlayerRetrievalStrategy();
         Optional<String> playerName = getPlayerName(sender, args);
-        if (strategy == NONE || !playerName.isPresent()) {
+        if (strategy == NONE) {
+            return null;
+        }
+
+        if(strategy == OPTIONAL && !playerName.isPresent()) {
             return null;
         }
 
