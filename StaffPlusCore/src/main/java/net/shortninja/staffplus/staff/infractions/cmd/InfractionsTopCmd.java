@@ -30,7 +30,7 @@ public class InfractionsTopCmd extends AbstractCmd {
         Player p = (Player) sender;
         if (args.length == 1) {
             if(!JavaUtils.isValidEnum(InfractionType.class, args[0])) {
-                throw new BusinessException("Invalid infraction type provided");
+                throw new BusinessException("&CInvalid infraction type provided");
             }
             InfractionType infractionType = InfractionType.valueOf(args[0]);
             new InfractionsTopGui(p,"Top infractions", 0, Arrays.asList(infractionType)).show(p);

@@ -1,14 +1,15 @@
 package net.shortninja.staffplus.staff.ban.cmd;
 
 import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.command.AbstractCmd;
 import net.shortninja.staffplus.server.command.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.BanService;
+import net.shortninja.staffplus.staff.ban.config.BanReasonConfiguration;
 import net.shortninja.staffplus.util.PermissionHandler;
-import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -16,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static net.shortninja.staffplus.staff.ban.BanType.PERM_BAN;
 
 public class BanCmd extends AbstractCmd {
 
@@ -78,18 +81,39 @@ public class BanCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        String currentArg = args.length > 0 ? args[args.length - 1] : "";
+
         if (args.length == 1) {
             return playerManager.getAllPlayerNames().stream()
-                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
                 .collect(Collectors.toList());
         }
 
-        if (args.length == 2 && args[1].startsWith("-")) {
-            return options.banConfiguration.getTemplates().keySet().stream()
-                .map(k -> TEMPLATE_FILE + k)
-                .collect(Collectors.toList());
+        if (args.length == 2) {
+            if (currentArg.startsWith("-")) {
+                return getTemplateCompletion();
+            } else if (!options.banConfiguration.getBanReasons(PERM_BAN).isEmpty()) {
+                return getBanReasonCompletion(currentArg);
+            }
+        }
+
+        if (args.length == 3 && !options.banConfiguration.getBanReasons(PERM_BAN).isEmpty()) {
+            return getBanReasonCompletion(currentArg);
         }
 
         return Collections.emptyList();
+    }
+
+    private List<String> getTemplateCompletion() {
+        return options.banConfiguration.getTemplates().keySet().stream()
+            .map(k -> TEMPLATE_FILE + k)
+            .collect(Collectors.toList());
+    }
+
+    private List<String> getBanReasonCompletion(String currentArg) {
+        return options.banConfiguration.getBanReasons(PERM_BAN).stream()
+            .map(BanReasonConfiguration::getName)
+            .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
+            .collect(Collectors.toList());
     }
 }

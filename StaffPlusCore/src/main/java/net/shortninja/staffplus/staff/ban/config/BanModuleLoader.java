@@ -3,16 +3,15 @@ package net.shortninja.staffplus.staff.ban.config;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
+import net.shortninja.staffplus.staff.ban.BanType;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class BanModuleLoader extends ConfigLoader<BanConfiguration> {
@@ -36,12 +35,21 @@ public class BanModuleLoader extends ConfigLoader<BanConfiguration> {
         String permissionBanPlayer = config.getString("permissions.ban");
         String permissionUnbanPlayer = config.getString("permissions.unban");
         String permissionBanByPass = config.getString("permissions.ban-bypass");
+        String permissionBanTemplateOverwrite = config.getString("permissions.ban-template-overwrite");
 
-        return new BanConfiguration(banEnabled, commandBanPlayer, commandTempBanPlayer, commandUnbanPlayer, permissionBanPlayer,
-            permissionUnbanPlayer, permissionBanByPass, guiItemConfig,
+        return new BanConfiguration(banEnabled,
+            commandBanPlayer,
+            commandTempBanPlayer,
+            commandUnbanPlayer,
+            permissionBanPlayer,
+            permissionUnbanPlayer,
+            permissionBanByPass,
+            permissionBanTemplateOverwrite,
+            guiItemConfig,
             permBanTemplate,
             tempBanTemplate,
-            getTemplates());
+            getTemplates(),
+            getBanReasons(config));
     }
 
     private Map<String, String> getTemplates() {
@@ -69,5 +77,17 @@ public class BanModuleLoader extends ConfigLoader<BanConfiguration> {
             throw new RuntimeException(e);
         }
         return contentBuilder.toString();
+    }
+
+    private List<BanReasonConfiguration> getBanReasons(FileConfiguration config) {
+        List<LinkedHashMap<String, Object>> list = (List<LinkedHashMap<String, Object>>) config.getList("ban-module.reasons", new ArrayList<>());
+
+        return Objects.requireNonNull(list).stream().map(map -> {
+            String name = (String) map.get("name");
+            String reason = (String) map.get("reason");
+            String template = (String) map.get("template");
+            BanType banType = map.containsKey("ban-type") ? BanType.valueOf((String) map.get("ban-type")) : null;
+            return new BanReasonConfiguration(name, reason, template, banType);
+        }).collect(Collectors.toList());
     }
 }

@@ -41,7 +41,9 @@ import net.shortninja.staffplus.staff.altaccountdetect.database.ipcheck.SqlitePl
 import net.shortninja.staffplus.staff.altaccountdetect.database.whitelist.AltDetectWhitelistRepository;
 import net.shortninja.staffplus.staff.altaccountdetect.database.whitelist.MysqlAltDetectWhitelistRepository;
 import net.shortninja.staffplus.staff.altaccountdetect.database.whitelist.SqliteAltDetectWhitelistRepository;
+import net.shortninja.staffplus.staff.ban.BanReasonResolver;
 import net.shortninja.staffplus.staff.ban.BanService;
+import net.shortninja.staffplus.staff.ban.BanTemplateResolver;
 import net.shortninja.staffplus.staff.ban.database.BansRepository;
 import net.shortninja.staffplus.staff.ban.database.MysqlBansRepository;
 import net.shortninja.staffplus.staff.ban.database.SqliteBansRepository;
@@ -220,7 +222,15 @@ public class IocContainer {
     }
 
     public static BanService getBanService() {
-        return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages()));
+        return initBean(BanService.class, () -> new BanService(getPermissionHandler(), getBansRepository(), getOptions(), getMessage(), getMessages(), getBanReasonResolver(), getBanTemplateResolver()));
+    }
+
+    public static BanReasonResolver getBanReasonResolver() {
+        return initBean(BanReasonResolver.class, () -> new BanReasonResolver(getOptions()));
+    }
+
+    public static BanTemplateResolver getBanTemplateResolver() {
+        return initBean(BanTemplateResolver.class, () -> new BanTemplateResolver(getOptions(), getPermissionHandler(), getMessages()));
     }
 
     public static BungeeClient getBungeeClient() {

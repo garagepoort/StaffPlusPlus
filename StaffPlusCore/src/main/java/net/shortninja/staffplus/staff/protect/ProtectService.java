@@ -104,6 +104,6 @@ public class ProtectService {
     }
 
     public ProtectedArea getById(int protectedAreaId) {
-        return protectedAreaRepository.findById(protectedAreaId).orElseThrow(() -> new BusinessException("No area with id [" + protectedAreaId + "] found", messages.prefixProtect));
+        return protectedAreaRepository.findById(protectedAreaId).orElseThrow(() -> new BusinessException("&CNo area with id [" + protectedAreaId + "] found", messages.prefixProtect));
     }
 }
