@@ -17,6 +17,7 @@
 
 ### Bugs
 - Fix bugs when creating reports in a multi server setup having different servers using different world names.
+- Fireticks are now stored and restored when exiting/entering staff mode
 
 ### V1.16.51
 
