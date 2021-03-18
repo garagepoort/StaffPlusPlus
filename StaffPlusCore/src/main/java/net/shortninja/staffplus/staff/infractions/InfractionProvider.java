@@ -10,7 +10,7 @@ public interface InfractionProvider {
 
     List<? extends Infraction> getInfractions(Player executor, UUID playerUUID);
 
-    Optional<InfractionCount> getInfractionsCount();
+    Optional<InfractionInfo> getInfractionsInfo();
 
     InfractionType getType();
 }

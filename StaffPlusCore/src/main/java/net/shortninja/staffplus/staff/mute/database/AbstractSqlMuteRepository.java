@@ -125,6 +125,23 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
         return mutes;
     }
 
+
+    @Override
+    public List<UUID> getAllPermanentMutedPlayers() {
+        List<UUID> result = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid FROM sp_muted_players WHERE end_timestamp IS NULL " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isMuteSyncEnabled()) + " GROUP BY player_uuid")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result.add(UUID.fromString(rs.getString("player_uuid")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
     @Override
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
@@ -133,6 +150,22 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("player_uuid")), rs.getInt("count"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
+    @Override
+    public Map<UUID, Long> getMuteDurationByPlayer() {
+        Map<UUID, Long> count = new HashMap<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_muted_players WHERE end_timestamp is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isMuteSyncEnabled()) + " GROUP BY player_uuid ORDER BY count DESC")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    count.put(UUID.fromString(rs.getString("player_uuid")), rs.getLong("count"));
                 }
             }
         } catch (SQLException e) {
