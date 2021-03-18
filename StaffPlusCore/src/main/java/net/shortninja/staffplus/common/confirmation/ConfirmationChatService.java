@@ -28,7 +28,7 @@ public class ConfirmationChatService {
 
     public void confirmAction(UUID uuid, Player player) {
         if(!confirmationActions.containsKey(uuid)) {
-            throw new BusinessException("No confirmation action found");
+            throw new BusinessException("&CNo confirmation action found");
         }
         ConfirmationAction confirmationAction = this.confirmationActions.get(uuid);
         this.confirmationActions.remove(uuid);
@@ -39,7 +39,7 @@ public class ConfirmationChatService {
 
     public void cancelAction(UUID uuid, Player player) {
         if(!cancelActions.containsKey(uuid)) {
-            throw new BusinessException("No cancel action found");
+            throw new BusinessException("&CNo cancel action found");
         }
         CancelAction cancelAction = this.cancelActions.get(uuid);
         this.confirmationActions.remove(uuid);

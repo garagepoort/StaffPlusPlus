@@ -34,7 +34,7 @@ public class FindReportsCmd extends AbstractCmd {
         Arrays.stream(args).forEach(a -> {
             String[] split = a.split("=");
             if (split.length != 2) {
-                throw new BusinessException("Invalid report filter [" + a + "]");
+                throw new BusinessException("&CInvalid report filter [" + a + "]");
             }
             reportFiltersMapper.map(split[0], split[1], reportFiltersBuilder);
         });
