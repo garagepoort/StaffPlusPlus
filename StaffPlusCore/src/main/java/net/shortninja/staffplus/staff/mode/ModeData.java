@@ -16,6 +16,7 @@ public class ModeData {
     private GameMode gameMode;
     private VanishType vanishType;
     private float xp;
+    private int fireTicks;
 
     public ModeData(Player player, net.shortninja.staffplusplus.vanish.VanishType vanishType) {
         this.uuid = player.getUniqueId();
@@ -26,9 +27,10 @@ public class ModeData {
         this.gameMode = player.getGameMode();
         this.xp = player.getExp();
         this.vanishType = vanishType;
+        this.fireTicks = player.getFireTicks();
     }
 
-    public ModeData(UUID uuid, ItemStack[] playerInventory, Location previousLocation, boolean hasFlight, GameMode gameMode, VanishType vanishType, float xp) {
+    public ModeData(UUID uuid, ItemStack[] playerInventory, Location previousLocation, boolean hasFlight, GameMode gameMode, VanishType vanishType, float xp, int fireTicks) {
         this.uuid = uuid;
         this.playerInventory = playerInventory;
         this.previousLocation = previousLocation;
@@ -36,6 +38,7 @@ public class ModeData {
         this.gameMode = gameMode;
         this.vanishType = vanishType;
         this.xp = xp;
+        this.fireTicks = fireTicks;
     }
 
     public UUID getUuid() {
@@ -66,4 +69,7 @@ public class ModeData {
         return xp;
     }
 
+    public int getFireTicks() {
+        return fireTicks;
+    }
 }
