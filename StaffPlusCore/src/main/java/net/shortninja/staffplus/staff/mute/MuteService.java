@@ -1,29 +1,27 @@
 package net.shortninja.staffplus.staff.mute;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.infractions.Infraction;
-import net.shortninja.staffplus.staff.infractions.InfractionCount;
+import net.shortninja.staffplus.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.mute.database.MuteRepository;
 import net.shortninja.staffplus.util.MessageCoordinator;
 import net.shortninja.staffplus.util.Permission;
-import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplusplus.mute.MuteEvent;
 import net.shortninja.staffplusplus.mute.UnmuteEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toMap;
 import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 
 public class MuteService implements InfractionProvider {
@@ -63,7 +61,7 @@ public class MuteService implements InfractionProvider {
     }
 
     public List<Mute> getAllActiveMutes(List<Player> players) {
-        if(players.isEmpty()) {
+        if (players.isEmpty()) {
             return Collections.emptyList();
         }
         return muteRepository.getAllActiveMutes(players.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));
@@ -139,7 +137,7 @@ public class MuteService implements InfractionProvider {
 
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
-        if(!options.infractionsConfiguration.isShowMutes()) {
+        if (!options.infractionsConfiguration.isShowMutes()) {
             return Collections.emptyList();
         }
         return muteRepository.getMutesForPlayer(playerUUID);
@@ -147,11 +145,19 @@ public class MuteService implements InfractionProvider {
 
 
     @Override
-    public Optional<InfractionCount> getInfractionsCount() {
+    public Optional<InfractionInfo> getInfractionsInfo() {
         if (!options.infractionsConfiguration.isShowMutes()) {
             return Optional.empty();
         }
-        return Optional.of(new InfractionCount(InfractionType.MUTE, muteRepository.getCountByPlayer()));
+        Map<UUID, List<String>> muteDurationByPlayer = muteRepository.getMuteDurationByPlayer().entrySet().stream()
+            .collect(toMap(Map.Entry::getKey, e -> Arrays.asList("&bTotal time muted: ", "&6" + JavaUtils.toHumanReadableDuration(e.getValue()))));
+
+
+        for (UUID permMutedPlayer : muteRepository.getAllPermanentMutedPlayers()) {
+            muteDurationByPlayer.put(permMutedPlayer, Collections.singletonList("&CPermanently muted"));
+        }
+
+        return Optional.of(new InfractionInfo(InfractionType.MUTE, muteRepository.getCountByPlayer(), muteDurationByPlayer));
     }
 
     @Override
