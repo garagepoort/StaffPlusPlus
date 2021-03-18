@@ -109,6 +109,7 @@ public class StaffModeService {
         player.setExp(modeData.getXp());
         player.setAllowFlight(modeData.hasFlight());
         player.setGameMode(modeData.getGameMode());
+        player.setFireTicks(modeData.getFireTicks());
 
         if (modeData.getVanishType() == VanishType.NONE) {
             vanishServiceImpl.removeVanish(player);
