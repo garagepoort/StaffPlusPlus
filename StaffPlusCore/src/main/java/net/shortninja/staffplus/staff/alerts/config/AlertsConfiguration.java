@@ -125,7 +125,7 @@ public class AlertsConfiguration {
             case CHAT_PHRASE_DETECTION:
                 return getPermissionChatPhraseDetection();
             default:
-                throw new BusinessException("Unsupported alertType [" + alertType + "]");
+                throw new BusinessException("&CUnsupported alertType [" + alertType + "]");
         }
     }
 }

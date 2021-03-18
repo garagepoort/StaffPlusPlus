@@ -39,7 +39,7 @@ public class WarnPlayerAction implements IAction {
         PlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
         WarningSeverityConfiguration severityConfiguration = options.warningConfiguration.getSeverityConfiguration(severityLevel)
-            .orElseThrow(() -> new BusinessException("No severity configuration found for level [" + severityLevel + "]"));
+            .orElseThrow(() -> new BusinessException("&CNo severity configuration found for level [" + severityLevel + "]"));
 
         SppPlayer onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getId()).orElseThrow(PlayerOfflineException::new);
 

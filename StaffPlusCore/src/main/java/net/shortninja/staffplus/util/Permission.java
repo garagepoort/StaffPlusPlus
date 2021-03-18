@@ -23,7 +23,7 @@ public class Permission {
         return Arrays.stream(permissions).anyMatch(permission -> this.has(player, permission));
     }
 
-    public void validate(Player player, String permission) {
+    public void validate(CommandSender player, String permission) {
         if(!has(player, permission)) {
             throw new NoPermissionException();
         }
