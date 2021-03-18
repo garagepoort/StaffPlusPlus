@@ -32,29 +32,35 @@ public class InfractionsService {
 
         infractionProviders.stream()
             .filter(infractionProvider -> infractionFilters.isEmpty() || infractionFilters.contains(infractionProvider.getType()))
-            .map(InfractionProvider::getInfractionsCount)
+            .map(InfractionProvider::getInfractionsInfo)
             .flatMap(o -> o.map(Stream::of).orElseGet(Stream::empty))
-            .forEach(infractionCount -> {
-                infractionCount.getCounts().forEach((uuid, count) -> addInfractionOverview(infractions, infractionCount, uuid));
-            });
+            .forEach(infractionInfo -> addInfractionOverview(infractions, infractionInfo));
 
         infractions.sort(Comparator.comparingInt(InfractionOverview::getTotal).reversed());
         return JavaUtils.getPageOfList(infractions, page, pageSize);
     }
 
-    private void addInfractionOverview(List<InfractionOverview> infractions, InfractionCount infractionsCount, UUID uuid) {
-        Optional<InfractionOverview> infractionOverview = infractions.stream()
-            .filter(overview -> overview.getSppPlayer().getId().equals(uuid)).findFirst();
-        if (!infractionOverview.isPresent()) {
-            infractionOverview = Optional.of(new InfractionOverview());
+    private void addInfractionOverview(List<InfractionOverview> infractions, InfractionInfo infractionInfo) {
+        infractionInfo.getCounts().keySet().forEach(uuid -> addInfractionOverview(infractions, infractionInfo, uuid));
+    }
+
+    private void addInfractionOverview(List<InfractionOverview> infractions, InfractionInfo infractionsCount, UUID uuid) {
+        Optional<InfractionOverview> existingOverviewItem = infractions.stream().filter(overview -> overview.getSppPlayer().getId().equals(uuid)).findFirst();
+
+        if (!existingOverviewItem.isPresent()) {
             Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(uuid);
             if (!onOrOfflinePlayer.isPresent()) {
                 return;
             }
-            infractionOverview.get().setSppPlayer(onOrOfflinePlayer.get());
-            infractions.add(infractionOverview.get());
+            existingOverviewItem = Optional.of(new InfractionOverview());
+            existingOverviewItem.get().setSppPlayer(onOrOfflinePlayer.get());
+            infractions.add(existingOverviewItem.get());
         }
-        infractionOverview.get().getInfractions().put(infractionsCount.getInfractionType(), infractionsCount.getCounts().get(uuid));
+
+        existingOverviewItem.get().getInfractions().put(infractionsCount.getInfractionType(), infractionsCount.getCounts().get(uuid));
+        if (infractionsCount.getAdditionalInfo().containsKey(uuid)) {
+            existingOverviewItem.get().getAdditionalInfo().addAll(infractionsCount.getAdditionalInfo().get(uuid));
+        }
 
     }
 

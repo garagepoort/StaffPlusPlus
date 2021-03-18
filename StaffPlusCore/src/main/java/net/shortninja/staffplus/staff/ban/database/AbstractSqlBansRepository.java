@@ -115,6 +115,39 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
         return count;
     }
 
+
+    @Override
+    public Map<UUID, Long> getBanDurationByPlayer() {
+        Map<UUID, Long> count = new HashMap<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_banned_players WHERE end_timestamp is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isWarningSyncEnabled()) + " GROUP BY player_uuid ORDER BY count DESC")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    count.put(UUID.fromString(rs.getString("player_uuid")), rs.getLong("count"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
+
+    @Override
+    public List<UUID> getAllPermanentBannedPlayers() {
+        List<UUID> result = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid FROM sp_banned_players WHERE end_timestamp IS NULL " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isWarningSyncEnabled()) + " GROUP BY player_uuid")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result.add(UUID.fromString(rs.getString("player_uuid")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
     @Override
     public void update(Ban ban) {
         try (Connection sql = getConnection();

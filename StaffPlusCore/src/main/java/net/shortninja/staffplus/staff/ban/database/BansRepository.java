@@ -22,4 +22,8 @@ public interface BansRepository {
     List<Ban> getBansForPlayer(UUID playerUUID);
 
     Map<UUID, Integer> getCountByPlayer();
+
+    List<UUID> getAllPermanentBannedPlayers();
+
+    Map<UUID, Long> getBanDurationByPlayer();
 }
