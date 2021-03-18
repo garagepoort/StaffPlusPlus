@@ -24,6 +24,8 @@ import java.util.*;
 
 import static java.util.stream.Collectors.toMap;
 import static net.shortninja.staffplus.staff.ban.BanMessageStringUtil.replaceBanPlaceholders;
+import static net.shortninja.staffplus.staff.ban.BanType.PERM_BAN;
+import static net.shortninja.staffplus.staff.ban.BanType.TEMP_BAN;
 import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 
 public class BanService implements InfractionProvider {
@@ -32,34 +34,36 @@ public class BanService implements InfractionProvider {
     private final BansRepository bansRepository;
     private final Options options;
     private final BanConfiguration banConfiguration;
-    private MessageCoordinator message;
-    private Messages messages;
+    private final BanReasonResolver banReasonResolver;
+    private final BanTemplateResolver banTemplateResolver;
+    private final MessageCoordinator message;
+    private final Messages messages;
 
-    public BanService(Permission permission, BansRepository bansRepository, Options options, MessageCoordinator message, Messages messages) {
+    public BanService(Permission permission, BansRepository bansRepository, Options options, MessageCoordinator message, Messages messages, BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver) {
         this.message = message;
         this.permission = permission;
         this.bansRepository = bansRepository;
         this.options = options;
         this.messages = messages;
         banConfiguration = options.banConfiguration;
+        this.banReasonResolver = banReasonResolver;
+        this.banTemplateResolver = banTemplateResolver;
     }
 
     public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason, String template) {
-        String templateMessage = banConfiguration.getPermBanTemplate(template);
-        ban(issuer, playerToBan, reason, null, templateMessage);
+        ban(issuer, playerToBan, reason, template, null, PERM_BAN);
     }
 
     public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason) {
-        ban(issuer, playerToBan, reason, null, null);
+        ban(issuer, playerToBan, reason, null, null, PERM_BAN);
     }
 
     public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason, String template) {
-        String templateMessage = banConfiguration.getTempBanTemplate(template);
-        ban(issuer, playerToBan, reason, durationInMillis, templateMessage);
+        ban(issuer, playerToBan, reason, template, durationInMillis, TEMP_BAN);
     }
 
     public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason) {
-        ban(issuer, playerToBan, reason, durationInMillis, null);
+        ban(issuer, playerToBan, reason, null, durationInMillis, TEMP_BAN);
     }
 
     public Optional<Ban> getBanByBannedUuid(UUID playerUuid) {
@@ -67,7 +71,7 @@ public class BanService implements InfractionProvider {
     }
 
     public Ban getById(int banId) {
-        return bansRepository.findActiveBan(banId).orElseThrow(() -> new BusinessException("No ban found with this id"));
+        return bansRepository.findActiveBan(banId).orElseThrow(() -> new BusinessException("&CNo ban found with this id"));
     }
 
     public List<Ban> getAllPaged(int offset, int amount) {
@@ -95,7 +99,11 @@ public class BanService implements InfractionProvider {
         unban(ban);
     }
 
-    private void ban(CommandSender issuer, SppPlayer playerToBan, String reason, Long durationInMillis, String templateMessage) {
+    private void ban(CommandSender issuer, SppPlayer playerToBan, final String reason, final String providedTemplateName, Long durationInMillis, BanType banType) {
+        String fullReason = banReasonResolver.resolveBanReason(reason, banType);
+        String templateMessage = banTemplateResolver.resolveTemplate(issuer, reason, providedTemplateName, banType);
+
+
         if (playerToBan.isOnline() && permission.has(playerToBan.getPlayer(), banConfiguration.getPermissionBanByPass())) {
             throw new BusinessException("&CThis player bypasses being banned");
         }
@@ -109,11 +117,11 @@ public class BanService implements InfractionProvider {
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID;
 
         Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
-        Ban ban = new Ban(reason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId());
+        Ban ban = new Ban(fullReason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId());
         ban.setId(bansRepository.addBan(ban));
 
-        notifyPlayers(playerToBan, durationInMillis, issuerName, reason);
-        kickPlayer(playerToBan, durationInMillis, issuerName, reason, templateMessage);
+        notifyPlayers(playerToBan, durationInMillis, issuerName, fullReason);
+        kickPlayer(playerToBan, durationInMillis, issuerName, fullReason, templateMessage);
         sendEvent(new BanEvent(ban));
     }
 

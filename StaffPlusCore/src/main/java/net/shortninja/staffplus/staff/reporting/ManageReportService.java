@@ -45,7 +45,7 @@ public class ManageReportService {
 
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             Report report = reportRepository.findOpenReport(reportId)
-                .orElseThrow(() -> new BusinessException("Report with id [" + reportId + "] not found", messages.prefixReports));
+                .orElseThrow(() -> new BusinessException("&CReport with id [" + reportId + "] not found", messages.prefixReports));
 
             report.setReportStatus(net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS);
             report.setStaffUuid(player.getUniqueId());

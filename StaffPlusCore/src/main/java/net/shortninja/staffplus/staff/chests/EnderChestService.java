@@ -22,7 +22,7 @@ public class EnderChestService {
     public void openEnderChest(Player staff, SppPlayer target) {
         if (target.isOnline()) {
             if (!permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionViewOnline())) {
-                throw new BusinessException("You are not allowed to view the enderchest of an online player");
+                throw new BusinessException("&CYou are not allowed to view the enderchest of an online player");
             }
             new ChestGUI(target,
                 target.getPlayer().getEnderChest(),
@@ -31,7 +31,7 @@ public class EnderChestService {
                 permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionInteract())).show(staff);
         } else {
             if (!permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionViewOffline())) {
-                throw new BusinessException("You are not allowed to view the enderchest of an offline player");
+                throw new BusinessException("&CYou are not allowed to view the enderchest of an offline player");
             }
 
             Inventory offlineEnderchest = InventoryFactory.loadEnderchestOffline(staff, target);
