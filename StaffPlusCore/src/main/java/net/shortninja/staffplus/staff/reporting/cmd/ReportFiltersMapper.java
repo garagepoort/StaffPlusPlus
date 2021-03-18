@@ -45,7 +45,7 @@ public class ReportFiltersMapper {
         }
         if (key.equalsIgnoreCase(STATUS)) {
             if (!JavaUtils.isValidEnum(ReportStatus.class, value.toUpperCase())) {
-                throw new BusinessException("Invalid report status: [" + value + "]");
+                throw new BusinessException("&CInvalid report status: [" + value + "]");
             }
             reportFiltersBuilder.reportStatus(ReportStatus.valueOf(value.toUpperCase()));
         }

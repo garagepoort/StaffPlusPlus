@@ -7,7 +7,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AutoUpdater extends AbstractConfigUpdater{
 
     private static final String CONFIG_FILE = "config.yml";
-    private static final List<String> IGNORED_CONFIG_KEYS = Arrays.asList("custom-modules", "locations", "custom-gui");
 
     private static final List<ConfigMigrator> MIGRATORS = Collections.singletonList(new StaffModeCommandMigrator());
 
@@ -33,12 +31,6 @@ public class AutoUpdater extends AbstractConfigUpdater{
                 if (!config.contains(k, true) && !(v instanceof ConfigurationSection)) {
                     config.set(k, v);
                     counter.getAndIncrement();
-                }
-            });
-
-            config.getKeys(true).forEach(key -> {
-                if (IGNORED_CONFIG_KEYS.stream().noneMatch(key::contains) && !defaultConfigMap.containsKey(key)) {
-                    config.set(key, null);
                 }
             });
             MIGRATORS.forEach(m -> m.migrate(config));

@@ -318,7 +318,6 @@ ban-module:
   enabled: true
   permban-template: ''
   tempban-template: ''
-
 ############################################################
 # +------------------------------------------------------+ #
 # |                      KICKING                       | #
@@ -972,6 +971,9 @@ permissions:
 
   # Permission to ban/tempban players
   ban: "staff.staffplus.ban"
+
+  # Permission to use the -template= parameter when banning
+  ban-template-overwrite: "staff.staffplus.ban-template-overwrite"
 
   # Permission to unban players
   unban: "staff.staffplus.unban"

@@ -1,10 +1,13 @@
 package net.shortninja.staffplus.staff.ban.config;
 
-import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.common.config.GuiItemConfig;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.staff.ban.BanType;
+import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BanConfiguration {
 
@@ -16,10 +19,12 @@ public class BanConfiguration {
     private final String permissionBanPlayer;
     private final String permissionUnbanPlayer;
     private final String permissionBanByPass;
+    private final String permissionBanTemplateOverwrite;
     private final GuiItemConfig guiItemConfig;
     private final String permBanTemplate;
     private final String tempBanTemplate;
     private final Map<String, String> templates;
+    private final List<BanReasonConfiguration> banReasons;
 
     public BanConfiguration(boolean banEnabled,
                             String commandBanPlayer,
@@ -28,9 +33,9 @@ public class BanConfiguration {
                             String permissionBanPlayer,
                             String permissionUnbanPlayer,
                             String permissionBanByPass,
-                            GuiItemConfig guiItemConfig, String permBanTemplate,
+                            String permissionBanTemplateOverwrite, GuiItemConfig guiItemConfig, String permBanTemplate,
                             String tempBanTemplate,
-                            Map<String, String> templates) {
+                            Map<String, String> templates, List<BanReasonConfiguration> banReasons) {
         this.banEnabled = banEnabled;
         this.commandBanPlayer = commandBanPlayer;
         this.commandTempBanPlayer = commandTempBanPlayer;
@@ -38,10 +43,12 @@ public class BanConfiguration {
         this.permissionBanPlayer = permissionBanPlayer;
         this.permissionUnbanPlayer = permissionUnbanPlayer;
         this.permissionBanByPass = permissionBanByPass;
+        this.permissionBanTemplateOverwrite = permissionBanTemplateOverwrite;
         this.guiItemConfig = guiItemConfig;
         this.permBanTemplate = permBanTemplate;
         this.tempBanTemplate = tempBanTemplate;
         this.templates = templates;
+        this.banReasons = banReasons;
     }
 
     public boolean isEnabled() {
@@ -76,38 +83,33 @@ public class BanConfiguration {
         return permissionUnbanPlayer;
     }
 
-    public String getPermBanTemplate(String template) {
-        if (template != null) {
-            return getTemplate(template);
-        }
-
-        if (permBanTemplate != null) {
-            return getTemplate(permBanTemplate);
-        }
-
-        return IocContainer.getMessages().permanentBannedKick;
+    public String getPermissionBanTemplateOverwrite() {
+        return permissionBanTemplateOverwrite;
     }
 
-    public String getTempBanTemplate(String template) {
-        if (template != null) {
-            return getTemplate(template);
+    public Optional<String> getDefaultBanTemplate(BanType banType) {
+        if (banType == BanType.PERM_BAN) {
+            return StringUtils.isEmpty(permBanTemplate) ? Optional.empty() : Optional.ofNullable(permBanTemplate);
         }
-
-        if (tempBanTemplate != null) {
-            return getTemplate(tempBanTemplate);
-        }
-
-        return IocContainer.getMessages().tempBannedKick;
+        return StringUtils.isEmpty(tempBanTemplate) ? Optional.empty() : Optional.ofNullable(tempBanTemplate);
     }
 
-    private String getTemplate(String template) {
-        if (!templates.containsKey(template)) {
-            throw new BusinessException("&CCannot find ban template with name [" + template + "]");
-        }
-        return templates.get(template);
+    public Optional<String> getTemplate(String template) {
+        return Optional.ofNullable(templates.get(template));
     }
 
     public Map<String, String> getTemplates() {
         return templates;
     }
+
+    public Optional<BanReasonConfiguration> getBanReason(String reason, BanType banType) {
+        return getBanReasons(banType).stream().filter(b -> b.getName().equalsIgnoreCase(reason)).findFirst();
+    }
+
+    public List<BanReasonConfiguration> getBanReasons(BanType banType) {
+        return banReasons.stream()
+            .filter(b -> !b.getBanType().isPresent() || b.getBanType().get() == banType)
+            .collect(Collectors.toList());
+    }
+
 }
