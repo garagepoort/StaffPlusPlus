@@ -15,6 +15,8 @@ public interface MuteRepository {
 
     List<Mute> getMutesForPlayer(UUID playerUuid);
 
+    Map<UUID, Long> getMuteDurationByPlayer();
+
     void update(Mute mute);
 
     Optional<Mute> findActiveMute(UUID playerUuid);
@@ -24,4 +26,6 @@ public interface MuteRepository {
     Optional<Mute> findActiveMute(int id);
 
     Map<UUID, Integer> getCountByPlayer();
+
+    List<UUID> getAllPermanentMutedPlayers();
 }

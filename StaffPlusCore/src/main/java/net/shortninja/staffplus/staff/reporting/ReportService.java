@@ -13,7 +13,7 @@ import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.infractions.Infraction;
-import net.shortninja.staffplus.staff.infractions.InfractionCount;
+import net.shortninja.staffplus.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.staff.reporting.database.ReportRepository;
@@ -195,11 +195,11 @@ public class ReportService implements InfractionProvider {
     }
 
     @Override
-    public Optional<InfractionCount> getInfractionsCount() {
+    public Optional<InfractionInfo> getInfractionsInfo() {
         if (!options.infractionsConfiguration.isShowReported()) {
             return Optional.empty();
         }
-        return Optional.of(new InfractionCount(InfractionType.REPORTED, reportRepository.getReportedCount()));
+        return Optional.of(new InfractionInfo(InfractionType.REPORTED, reportRepository.getReportedCount()));
     }
 
     @Override
