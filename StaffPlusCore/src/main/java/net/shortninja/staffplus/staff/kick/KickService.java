@@ -45,7 +45,7 @@ public class KickService implements InfractionProvider {
             throw new BusinessException("&CThis player bypasses being kicked");
         }
         if (!playerToKick.isOnline()) {
-            throw new BusinessException("Cannot kick offline player");
+            throw new BusinessException("&CCannot kick offline player");
         }
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
