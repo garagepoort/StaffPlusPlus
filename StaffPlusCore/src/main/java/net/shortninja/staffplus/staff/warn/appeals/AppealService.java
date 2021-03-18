@@ -105,7 +105,7 @@ public class AppealService {
         JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed a warning",
             "View warnings!",
             "Click to open the warnings view",
-            manageWarningsCommand);
+            manageWarningsCommand, true);
         this.message.sendGroupMessage(jsonMessage, appealConfiguration.getPermissionNotifications());
     }
 

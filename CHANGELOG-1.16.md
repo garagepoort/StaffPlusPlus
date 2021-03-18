@@ -13,6 +13,7 @@
 - the manage-warnings command can now be used without the playername parameter. This will give you an overview of all warnings
 - Added the ability to use text files as ban templates for an easier way of changing the layout of the ban message.
 - Add ban/mute duration to infractions gui.
+- Clickable messages now support bukkit color codes (&6, &9, ...)
 
 ### Bugs
 - Fix bugs when creating reports in a multi server setup having different servers using different world names.
