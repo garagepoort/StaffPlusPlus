@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.ban;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.player.SppPlayer;
 import net.shortninja.staffplus.server.data.config.Messages;
@@ -8,7 +9,7 @@ import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.staff.ban.database.BansRepository;
 import net.shortninja.staffplus.staff.infractions.Infraction;
-import net.shortninja.staffplus.staff.infractions.InfractionCount;
+import net.shortninja.staffplus.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.staff.infractions.InfractionType;
 import net.shortninja.staffplus.util.Message;
@@ -19,11 +20,9 @@ import net.shortninja.staffplusplus.ban.UnbanEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
+import static java.util.stream.Collectors.toMap;
 import static net.shortninja.staffplus.staff.ban.BanMessageStringUtil.replaceBanPlaceholders;
 import static net.shortninja.staffplus.util.BukkitUtils.sendEvent;
 
@@ -149,11 +148,19 @@ public class BanService implements InfractionProvider {
     }
 
     @Override
-    public Optional<InfractionCount> getInfractionsCount() {
+    public Optional<InfractionInfo> getInfractionsInfo() {
         if (!options.infractionsConfiguration.isShowBans()) {
             return Optional.empty();
         }
-        return Optional.of(new InfractionCount(InfractionType.BAN, bansRepository.getCountByPlayer()));
+        Map<UUID, List<String>> banDurationByPlayer = bansRepository.getBanDurationByPlayer().entrySet().stream()
+            .collect(toMap(Map.Entry::getKey, e -> Arrays.asList("&bTotal time banned: ", "&6" + JavaUtils.toHumanReadableDuration(e.getValue()))));
+
+
+        for (UUID permBannedPlayer : bansRepository.getAllPermanentBannedPlayers()) {
+            banDurationByPlayer.put(permBannedPlayer, Collections.singletonList("&CPermanently banned"));
+        }
+
+        return Optional.of(new InfractionInfo(InfractionType.BAN, bansRepository.getCountByPlayer(), banDurationByPlayer));
     }
 
     @Override
