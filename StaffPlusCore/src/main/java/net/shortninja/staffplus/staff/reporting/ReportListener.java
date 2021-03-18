@@ -3,10 +3,10 @@ package net.shortninja.staffplus.staff.reporting;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.Permission;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -37,15 +37,12 @@ public class ReportListener implements Listener {
             List<Report> openReports = reports.stream().filter(r -> !r.getReportStatus().isClosed()).collect(Collectors.toList());
 
             if (!openReports.isEmpty()) {
-                JSONMessage message = JSONMessage.create("You have " + openReports.size() + " open reports")
-                    .color(ChatColor.GOLD);
-
-                if (permission.has(event.getPlayer(), options.reportConfiguration.getMyReportsPermission())) {
-                    message.then(" View your reports!")
-                        .color(ChatColor.BLUE)
-                        .tooltip("Click to view your reports")
-                        .runCommand("/" + options.reportConfiguration.getMyReportsCmd());
-                }
+                JSONMessage message = JavaUtils.buildClickableMessage(
+                    "You have " + openReports.size() + " open reports",
+                    "View your reports!",
+                    "Click to view your reports",
+                    options.reportConfiguration.getMyReportsCmd(),
+                    permission.has(event.getPlayer(), options.reportConfiguration.getMyReportsPermission()));
                 message.send(event.getPlayer());
             }
         });

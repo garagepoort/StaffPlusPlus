@@ -3,10 +3,7 @@ package net.shortninja.staffplus.common;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplusplus.ILocation;
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -24,9 +21,11 @@ public class JavaUtils {
 
     private static final List<TimeUnit> timeUnits = Arrays.asList(TimeUnit.DAYS, TimeUnit.HOURS, TimeUnit.MINUTES,
         TimeUnit.SECONDS);
+    private static final String DEFAULT_MESSAGE_COLOR = "&6";
+    private static final String DEFAULT_CLICK_MESSAGE_COLOR = "&9";
 
     public static String toHumanReadableDuration(final long millis) {
-        if(millis <= 0) {
+        if (millis <= 0) {
             return "None";
         }
         final StringBuilder builder = new StringBuilder();
@@ -38,7 +37,7 @@ public class JavaUtils {
                 acc -= TimeUnit.MILLISECONDS.convert(convert, timeUnit);
             }
         }
-        if(builder.length() == 0) {
+        if (builder.length() == 0) {
             return "None";
         }
         return builder.substring(0, builder.length() - 2);
@@ -65,7 +64,7 @@ public class JavaUtils {
     }
 
     public static long getDuration(long timestamp) {
-        if(timestamp <= System.currentTimeMillis()) {
+        if (timestamp <= System.currentTimeMillis()) {
             return 0;
         }
         return Math.abs(System.currentTimeMillis() - timestamp);
@@ -104,30 +103,6 @@ public class JavaUtils {
     }
 
     /**
-     * Inserts a commas between each word in the given string with StringBuilder.
-     *
-     * @param string The string to insert commas in.
-     * @return New string with commas.
-     */
-    public static String insertCommas(String string) {
-        StringBuilder builder = new StringBuilder();
-        String[] words = string.split(" ");
-
-        for (int i = 0; i < words.length; i++) {
-            String word = words[i];
-            String suffix = ",";
-
-            if ((i + 1) == words.length) {
-                suffix = "";
-            }
-
-            builder.append(word).append(suffix);
-        }
-
-        return builder.toString();
-    }
-
-    /**
      * Uses StringBuilder to compile a string from an array and a start index.
      *
      * @param args  The array of strings.
@@ -142,25 +117,6 @@ public class JavaUtils {
         }
 
         return builder.toString().trim();
-    }
-
-    /**
-     * Directly reverses the order of an array. Copied from the
-     * org.apache.commons.ArrayUtils class.
-     *
-     * @param array The array to reverse.
-     */
-    public static void reverse(Object[] array) {
-        if (array != null) {
-            int i = 0;
-
-            for (int j = array.length-1; j > i; i++) {
-                Object tmp = array[j];
-                array[j] = array[i];
-                array[i] = tmp;
-                j--;
-            }
-        }
     }
 
     /**
@@ -254,7 +210,6 @@ public class JavaUtils {
     public static Player getTargetPlayer(Player player) {
         Location location = player.getLocation();
         Player targetPlayer = null;
-        List<Player> nearbyPlayers = new ArrayList<Player>();
 
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (player.getWorld() != p.getWorld()) {
@@ -293,44 +248,45 @@ public class JavaUtils {
      * @return Second number of the version i.e 13.
      */
     public static int parseMcVer(String ver) {
-        return Integer.parseInt(ver.split("\\.")[1].replaceAll("[^0-9]",""));
+        return Integer.parseInt(ver.split("\\.")[1].replaceAll("[^0-9]", ""));
     }
 
     /**
      * Makes a velocity safe ie greater than -4 and less than 4
+     *
      * @param velocity velocity to make safe
      * @return A safe velocity
      */
-    public static Vector makeVelocitySafe(Vector velocity){
-        while(velocity.getX() > 4){
-            velocity.setX(velocity.getX()-.5);
+    public static Vector makeVelocitySafe(Vector velocity) {
+        while (velocity.getX() > 4) {
+            velocity.setX(velocity.getX() - .5);
         }
-        while(velocity.getY() > 4){
-            velocity.setY(velocity.getY()-.5);
+        while (velocity.getY() > 4) {
+            velocity.setY(velocity.getY() - .5);
         }
-        while(velocity.getZ() > 4){
-            velocity.setZ(velocity.getZ()-.5);
+        while (velocity.getZ() > 4) {
+            velocity.setZ(velocity.getZ() - .5);
         }
-        while(velocity.getX() < -4){
-            velocity.setX(velocity.getX()+.5);
+        while (velocity.getX() < -4) {
+            velocity.setX(velocity.getX() + .5);
         }
-        while(velocity.getY() < -4){
-            velocity.setY(velocity.getY()+.5);
+        while (velocity.getY() < -4) {
+            velocity.setY(velocity.getY() + .5);
         }
-        while(velocity.getZ() < -4){
-            velocity.setZ(velocity.getZ()+.5);
+        while (velocity.getZ() < -4) {
+            velocity.setZ(velocity.getZ() + .5);
         }
         return velocity;
     }
 
 
     /**
-     * @param target Original long string
+     * @param target    Original long string
      * @param maxLength Max amount of chars on line
      * @return An arraylist containing the different lines
      */
     public static List<String> formatLines(String target, int maxLength) {
-        if(target.length() <= maxLength) {
+        if (target.length() <= maxLength) {
             return Collections.singletonList(target);
         }
 
@@ -343,7 +299,7 @@ public class JavaUtils {
         List<String> lines = new ArrayList<>();
         StringBuilder line = new StringBuilder();
         while (end != BreakIterator.DONE) {
-            String word = target.substring(start,end);
+            String word = target.substring(start, end);
             lineLength = lineLength + word.length();
             if (lineLength >= maxLength) {
                 lines.add(line.toString());
@@ -354,19 +310,19 @@ public class JavaUtils {
             start = end;
             end = boundary.next();
         }
-        if(!line.toString().isEmpty()) {
+        if (!line.toString().isEmpty()) {
             lines.add(line.toString());
         }
         return lines;
     }
 
     public static <T> List<T> getPageOfList(List<T> sourceList, int page, int pageSize) {
-        if(pageSize < 0 || page < 0) {
+        if (pageSize < 0 || page < 0) {
             throw new IllegalArgumentException("invalid page size: " + pageSize);
         }
 
         int fromIndex = (page) * pageSize;
-        if(sourceList == null || sourceList.size() <= fromIndex){
+        if (sourceList == null || sourceList.size() <= fromIndex) {
             return Collections.emptyList();
         }
 
@@ -374,21 +330,29 @@ public class JavaUtils {
         return sourceList.subList(fromIndex, Math.min(fromIndex + pageSize, sourceList.size()));
     }
 
-    public static JSONMessage buildClickableMessage(String message, String clickMessage, String tooltip, String command) {
-        JSONMessage jsonMessage = JSONMessage.create(message)
-            .color(ChatColor.GOLD);
+    public static JSONMessage buildClickableMessage(String message, String clickMessage, String tooltip, String command, boolean showButton) {
+        if(!message.startsWith(DEFAULT_MESSAGE_COLOR)) {
+            message = DEFAULT_MESSAGE_COLOR + message;
+        }
+        if(!clickMessage.startsWith(DEFAULT_CLICK_MESSAGE_COLOR)) {
+            clickMessage = DEFAULT_CLICK_MESSAGE_COLOR + clickMessage;
+        }
 
-        jsonMessage.then(" " + clickMessage)
-            .color(ChatColor.BLUE)
-            .tooltip(tooltip)
-            .runCommand("/" + command);
+        JSONMessage jsonMessage = JSONMessage.create();
+        addColorizedMessage(message, jsonMessage);
+        if (showButton) {
+            jsonMessage.then(" ");
+            addColorizedMessage(clickMessage, jsonMessage);
+            jsonMessage.tooltip(tooltip)
+                .runCommand("/" + command);
+        }
 
         return jsonMessage;
     }
 
     public static JSONMessage buildConfirmationMessage(String message, String confirmCommand, String cancelCommand) {
-        JSONMessage jsonMessage = JSONMessage.create(message)
-            .color(ChatColor.GOLD);
+        JSONMessage jsonMessage = JSONMessage.create();
+        addColorizedMessage(message, jsonMessage);
 
         jsonMessage.then(" Confirm | ")
             .color(ChatColor.GREEN)
@@ -399,4 +363,22 @@ public class JavaUtils {
 
         return jsonMessage;
     }
+
+    private static void addColorizedMessage(String message, JSONMessage jsonMessage) {
+        String[] coloredString = message.split("(?=&1|&2|&3|&4|&5|&6|&7|&8)");
+        for (String messagePart : coloredString) {
+            if (messagePart.length() < 2) {
+                jsonMessage.then(messagePart).color(ChatColor.GOLD);
+            } else {
+                boolean containsColor = Arrays.stream(ChatColor.values()).anyMatch(chatColor -> messagePart.startsWith("&" + chatColor.getChar()));
+                if (containsColor) {
+                    ChatColor color = ChatColor.getByChar(messagePart.substring(1, 2));
+                    jsonMessage.then(messagePart.substring(2)).color(color);
+                } else {
+                    jsonMessage.then(messagePart).color(ChatColor.GOLD);
+                }
+            }
+        }
+    }
+
 }
