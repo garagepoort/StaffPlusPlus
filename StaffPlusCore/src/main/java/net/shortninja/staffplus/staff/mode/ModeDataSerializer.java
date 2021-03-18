@@ -21,6 +21,7 @@ public class ModeDataSerializer {
     private static final String FLIGHT = "Flight";
     private static final String VANISH_TYPE = "VanishType";
     private static final String GAME_MODE = "GameMode";
+    private static final String FIRE_TICKS = "FIRE_TICKS";
     private StaffPlus staff = StaffPlus.get();
 
     private File createFile(String uuid) {
@@ -63,7 +64,8 @@ public class ModeDataSerializer {
                 dataFile.getBoolean(FLIGHT, false),
                 GameMode.valueOf(dataFile.getString(GAME_MODE, "SURVIVAL")),
                 VanishType.valueOf(dataFile.getString(VANISH_TYPE, "NONE")),
-                (float) dataFile.getDouble(XP, 0)));
+                (float) dataFile.getDouble(XP, 0),
+                dataFile.getInt(FIRE_TICKS, 0)));
         } catch (IOException e) {
             throw new RuntimeException("Unable to retrieve mode data for player [" + uuid + "]");
         }
@@ -81,6 +83,7 @@ public class ModeDataSerializer {
         data.set(FLIGHT, modeData.hasFlight());
         data.set(VANISH_TYPE, modeData.getVanishType().toString());
         data.set(GAME_MODE, modeData.getGameMode().toString());
+        data.set(FIRE_TICKS, modeData.getFireTicks());
         try {
             data.save(dataFile);
         } catch (IOException e) {
