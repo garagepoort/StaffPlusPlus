@@ -3,12 +3,12 @@ package net.shortninja.staffplus.staff.warn.appeals;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.util.Permission;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -45,17 +45,12 @@ public class AppealNotifierListener implements Listener {
     }
 
     private void sendMessage(PlayerJoinEvent event, int appealsCount) {
-        String notifyMessage = messages.openAppealsNotify.replace("%appealsCount%", String.valueOf(appealsCount));
-        JSONMessage message = JSONMessage.create(notifyMessage)
-            .color(ChatColor.GOLD);
-
-        if (canManageAppeal(event)) {
-            message.then(" View unresolved appeals!")
-                .color(ChatColor.BLUE)
-                .tooltip("Click to view unresolved appeals")
-                .runCommand("/" + options.manageWarningsConfiguration.getCommandManageAppealedWarningsGui());
-        }
-
+        JSONMessage message = JavaUtils.buildClickableMessage(
+            messages.openAppealsNotify.replace("%appealsCount%", String.valueOf(appealsCount)),
+            "View unresolved appeals!",
+            "Click to view unresolved appeals",
+            options.manageWarningsConfiguration.getCommandManageAppealedWarningsGui(),
+            canManageAppeal(event));
         message.send(event.getPlayer());
     }
 

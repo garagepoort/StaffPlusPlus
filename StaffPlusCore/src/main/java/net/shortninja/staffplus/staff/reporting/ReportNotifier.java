@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.staff.reporting;
 
 import me.rayzr522.jsonmessage.JSONMessage;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.bungee.BungeeClient;
 import net.shortninja.staffplus.player.PlayerManager;
 import net.shortninja.staffplus.player.SppPlayer;
@@ -13,7 +14,6 @@ import net.shortninja.staffplus.util.Message;
 import net.shortninja.staffplus.util.Permission;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -135,16 +135,12 @@ public class ReportNotifier {
     }
 
     private void buildMessage(Player player, String title) {
-        JSONMessage message = JSONMessage.create(title)
-            .color(ChatColor.GOLD);
-
-        if (permission.has(player, options.reportConfiguration.getMyReportsPermission())) {
-            message.then(" View your reports!")
-                .color(ChatColor.BLUE)
-                .tooltip("Click to view your reports")
-                .runCommand("/" + options.reportConfiguration.getMyReportsCmd());
-        }
-
+        JSONMessage message = JavaUtils.buildClickableMessage(
+            title,
+            "View your reports!",
+            "Click to view your reports",
+            options.reportConfiguration.getMyReportsCmd(),
+            permission.has(player, options.reportConfiguration.getMyReportsPermission()));
         message.send(player);
     }
 }

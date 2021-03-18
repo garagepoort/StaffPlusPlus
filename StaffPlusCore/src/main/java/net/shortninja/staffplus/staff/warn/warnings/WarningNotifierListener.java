@@ -3,11 +3,11 @@ package net.shortninja.staffplus.staff.warn.warnings;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.server.data.config.Messages;
 import net.shortninja.staffplus.server.data.config.Options;
 import net.shortninja.staffplus.util.Permission;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -52,16 +52,12 @@ public class WarningNotifierListener implements Listener {
 
     private void sendMessage(PlayerJoinEvent event, List<Warning> unreadWarnings) {
         String notifyMessage = messages.warningsNotify.replace("%warningsCount%", String.valueOf(unreadWarnings.size()));
-        JSONMessage message = JSONMessage.create(notifyMessage)
-            .color(ChatColor.GOLD);
-
-        if (permission.has(event.getPlayer(), options.warningConfiguration.getMyWarningsPermission())) {
-            message.then(" View your warnings!")
-                .color(ChatColor.BLUE)
-                .tooltip("Click to view your warnings")
-                .runCommand("/" + options.warningConfiguration.getMyWarningsCmd());
-        }
-
+        JSONMessage message = JavaUtils.buildClickableMessage(
+            notifyMessage,
+            "View your warnings!",
+            "Click to view your warnings",
+            options.warningConfiguration.getMyWarningsCmd(),
+            permission.has(event.getPlayer(), options.warningConfiguration.getMyWarningsPermission()));
         message.send(event.getPlayer());
     }
 }
