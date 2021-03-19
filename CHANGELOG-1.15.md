@@ -1,5 +1,25 @@
 # Changelog Staff++ | v1.15
 
+### V1.15.55
+
+### Features
+- freeze module now allows for a title & subtitle message to be displayed when a player is frozen.
+- Custom staff modules can now have a confirmation dialog (chat or gui)
+- Custom staff modules can now have an input prompt
+- Report changes are notified across the bungee network to staff members and players.
+- New chat detection option to notify staff members when players type certain things in chat. Through the alerts system or discord notifications.
+- Xray alert notifications are now supported by the discord integration plugin
+- Warning Severity levels can now set a default reason, which takes away the need for staff to provide a reason.
+- the manage-warnings command can now be used without the playername parameter. This will give you an overview of all warnings
+- Added the ability to use text files as ban templates for an easier way of changing the layout of the ban message.
+- Bans can now be configured to have configured prefefined reasons.
+- Add ban/mute duration to infractions gui.
+- Clickable messages now support bukkit color codes (&6, &9, ...)
+
+### Bugs
+- Fix bugs when creating reports in a multi server setup having different servers using different world names.
+- Fireticks are now stored and restored when exiting/entering staff mode
+
 ### V1.15.54
 
 ### Features
