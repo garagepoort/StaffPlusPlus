@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.52 (NOT YET RELEASED)
+### V1.16.52
 
 ### Features
 - freeze module now allows for a title & subtitle message to be displayed when a player is frozen.
@@ -12,6 +12,7 @@
 - Warning Severity levels can now set a default reason, which takes away the need for staff to provide a reason.
 - the manage-warnings command can now be used without the playername parameter. This will give you an overview of all warnings
 - Added the ability to use text files as ban templates for an easier way of changing the layout of the ban message.
+- Bans can now be configured to have configured prefefined reasons.
 - Add ban/mute duration to infractions gui.
 - Clickable messages now support bukkit color codes (&6, &9, ...)
 
