@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.domain.staff.location;
+package net.shortninja.staffplus.domain.location;
 
 import net.shortninja.staffplus.common.config.Options;
 import org.bukkit.Bukkit;

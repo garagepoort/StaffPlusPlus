@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.staff.protect.database;
 
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.location.LocationRepository;
+import net.shortninja.staffplus.domain.location.LocationRepository;
 import net.shortninja.staffplus.domain.staff.protect.ProtectedArea;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

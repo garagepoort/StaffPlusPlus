@@ -2,7 +2,7 @@ package net.shortninja.staffplus.domain.staff.reporting.database;
 
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.location.LocationRepository;
+import net.shortninja.staffplus.domain.location.LocationRepository;
 import net.shortninja.staffplus.domain.staff.reporting.Report;
 import net.shortninja.staffplus.application.database.migrations.mysql.MySQLConnection;
 

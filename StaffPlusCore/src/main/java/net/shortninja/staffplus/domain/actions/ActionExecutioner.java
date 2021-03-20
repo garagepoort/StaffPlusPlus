@@ -3,14 +3,14 @@ package net.shortninja.staffplus.domain.actions;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.domain.actions.database.ActionableRepository;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.domain.staff.delayedactions.database.DelayedActionsRepository;
+import net.shortninja.staffplus.domain.delayedactions.database.DelayedActionsRepository;
 import net.shortninja.staffplusplus.Actionable;
 import org.bukkit.Bukkit;
 
 import java.util.List;
 
 import static net.shortninja.staffplus.domain.actions.ActionRunStrategy.*;
-import static net.shortninja.staffplus.domain.staff.delayedactions.Executor.CONSOLE;
+import static net.shortninja.staffplus.domain.delayedactions.Executor.CONSOLE;
 
 public class ActionExecutioner {
 
