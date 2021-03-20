@@ -4,6 +4,7 @@ import net.shortninja.staffplus.domain.staff.mode.config.ModeItemConfiguration;
 import net.shortninja.staffplus.common.Sounds;
 
 import java.util.List;
+import java.util.Optional;
 
 public class FreezeModeConfiguration extends ModeItemConfiguration {
 
@@ -32,8 +33,8 @@ public class FreezeModeConfiguration extends ModeItemConfiguration {
         return modeFreezeTimer;
     }
 
-    public Sounds getModeFreezeSound() {
-        return modeFreezeSound;
+    public Optional<Sounds> getModeFreezeSound() {
+        return Optional.ofNullable(modeFreezeSound);
     }
 
     public boolean isModeFreezePrompt() {
