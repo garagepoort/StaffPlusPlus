@@ -20,7 +20,7 @@
     <repositories>
         <repository>
             <id>Maven repository</id>
-            <url>http://central.maven.org/maven2/</url>
+            <url>https://repo.maven.apache.org/maven2/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
