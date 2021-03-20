@@ -8,12 +8,12 @@ import net.shortninja.staffplus.common.utils.PermissionHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class StaffChatChatInterceptor implements ChatInterceptor {
-    private final StaffChatService staffChatService;
+    private final StaffChatServiceImpl staffChatService;
     private final PermissionHandler permission;
     private final Options options;
     private final SessionManagerImpl sessionManager;
 
-    public StaffChatChatInterceptor(StaffChatService staffChatService, PermissionHandler permission, Options options, SessionManagerImpl sessionManager) {
+    public StaffChatChatInterceptor(StaffChatServiceImpl staffChatService, PermissionHandler permission, Options options, SessionManagerImpl sessionManager) {
         this.staffChatService = staffChatService;
         this.permission = permission;
         this.options = options;
