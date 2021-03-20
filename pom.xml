@@ -8,7 +8,7 @@
     <description>The ultimate moderation plugin.</description>
     <artifactId>staffplusplus</artifactId>
     <packaging>pom</packaging>
-    <version>1.14.45</version>
+    <version>1.14.46</version>
 
     <modules>
         <module>StaffPlusCore</module>
