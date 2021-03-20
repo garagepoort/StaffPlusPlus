@@ -84,7 +84,7 @@ public class FreezeHandler {
         lastFrozenLocations.put(uuid, player.getLocation());
         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
-        freezeModeConfiguration.getModeFreezeSound().play(player);
+        freezeModeConfiguration.getModeFreezeSound().ifPresent(s -> s.play(player));
 
     }
 

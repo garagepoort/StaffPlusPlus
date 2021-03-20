@@ -7,6 +7,7 @@ import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class AlertsConfiguration {
     private final boolean alertsNameNotify;
@@ -64,8 +65,8 @@ public class AlertsConfiguration {
         return commandAlerts;
     }
 
-    public Sounds getAlertsSound() {
-        return alertsSound;
+    public Optional<Sounds> getAlertsSound() {
+        return Optional.ofNullable(alertsSound);
     }
 
     public boolean isNameNotifyEnabled() {
