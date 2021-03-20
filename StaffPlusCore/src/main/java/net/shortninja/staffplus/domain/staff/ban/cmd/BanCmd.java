@@ -58,7 +58,7 @@ public class BanCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        if (args[1].toLowerCase().contains(TEMPLATE_FILE.toLowerCase())) {
+        if (args.length >= 2 && args[1].toLowerCase().contains(TEMPLATE_FILE.toLowerCase())) {
             return 3;
         }
         return 2;
