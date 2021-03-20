@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.session;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.data.DataFile;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.config.Options;
@@ -18,11 +19,11 @@ import java.util.*;
 import static org.bukkit.Bukkit.getScheduler;
 
 public class SessionLoader {
-    private final FileConfiguration dataFile = StaffPlus.get().dataFile.getConfiguration();
     private final PlayerManager playerManager;
     private final MuteService muteService;
     private final Options options;
     private final SessionsRepository sessionsRepository;
+    private FileConfiguration dataFile = DataFile.getConfiguration();
 
     public SessionLoader(PlayerManager playerManager, MuteService muteService, Options options, SessionsRepository sessionsRepository) {
         this.playerManager = playerManager;
@@ -106,9 +107,7 @@ public class SessionLoader {
     }
 
     public void saveSession(PlayerSession playerSession) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            save(playerSession);
-        });
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> save(playerSession));
     }
 
     public void saveSessionSynchronous(PlayerSession playerSession) {
@@ -116,8 +115,7 @@ public class SessionLoader {
     }
 
     private void save(PlayerSession playerSession) {
-        new Save(playerSession);
-        StaffPlus.get().dataFile.save();
+        DataFile.save(playerSession);
 
         if(options.serverSyncConfiguration.sessionSyncEnabled()) {
             Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
