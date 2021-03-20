@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.common.exceptions;
 
-import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.application.IocContainer;
 
 public class BusinessException extends RuntimeException {
     private final String prefix;

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.common.config;
 
-import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.Sounds;

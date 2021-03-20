@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.session;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.player.PlayerManager;
-import net.shortninja.staffplus.player.SppPlayer;
-import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.domain.player.PlayerManager;
+import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.session.database.SessionEntity;
 import net.shortninja.staffplus.session.database.SessionsRepository;
-import net.shortninja.staffplus.staff.mute.MuteService;
+import net.shortninja.staffplus.domain.staff.mute.MuteService;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Material;
