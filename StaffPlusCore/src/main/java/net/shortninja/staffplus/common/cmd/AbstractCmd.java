@@ -8,7 +8,7 @@ import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.common.cmd.arguments.ArgumentType;
-import net.shortninja.staffplus.domain.staff.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.common.utils.PermissionHandler;

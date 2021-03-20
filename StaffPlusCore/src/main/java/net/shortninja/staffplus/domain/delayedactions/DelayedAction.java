@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.domain.staff.delayedactions;
+package net.shortninja.staffplus.domain.delayedactions;
 
 import java.util.Optional;
 

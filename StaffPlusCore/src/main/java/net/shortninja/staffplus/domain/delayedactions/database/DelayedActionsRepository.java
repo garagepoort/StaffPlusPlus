@@ -1,7 +1,7 @@
-package net.shortninja.staffplus.domain.staff.delayedactions.database;
+package net.shortninja.staffplus.domain.delayedactions.database;
 
-import net.shortninja.staffplus.domain.staff.delayedactions.DelayedAction;
-import net.shortninja.staffplus.domain.staff.delayedactions.Executor;
+import net.shortninja.staffplus.domain.delayedactions.DelayedAction;
+import net.shortninja.staffplus.domain.delayedactions.Executor;
 
 import java.util.List;
 import java.util.UUID;
