@@ -29,6 +29,7 @@ import net.shortninja.staffplus.domain.chat.blacklist.censors.IllegalCharactersC
 import net.shortninja.staffplus.domain.chat.blacklist.censors.IllegalWordsChatCensor;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.domain.staff.staffchat.StaffChatMessageFormatter;
 import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.session.database.MysqlSessionsRepository;
@@ -94,7 +95,7 @@ import net.shortninja.staffplus.domain.staff.reporting.database.ReportRepository
 import net.shortninja.staffplus.domain.staff.reporting.database.SqliteReportRepository;
 import net.shortninja.staffplus.domain.staff.reporting.gui.ReportItemBuilder;
 import net.shortninja.staffplus.domain.staff.staffchat.StaffChatChatInterceptor;
-import net.shortninja.staffplus.domain.staff.staffchat.StaffChatService;
+import net.shortninja.staffplus.domain.staff.staffchat.StaffChatServiceImpl;
 import net.shortninja.staffplus.domain.staff.teleport.TeleportService;
 import net.shortninja.staffplus.domain.staff.tracing.TraceChatInterceptor;
 import net.shortninja.staffplus.domain.staff.tracing.TraceService;
@@ -350,8 +351,12 @@ public class IocContainer {
         return initBean(Options.class, Options::new);
     }
 
-    public static StaffChatService getStaffChatService() {
-        return initBean(StaffChatService.class, () -> new StaffChatService(getMessages(), getOptions()));
+    public static StaffChatServiceImpl getStaffChatService() {
+        return initBean(StaffChatServiceImpl.class, () -> new StaffChatServiceImpl(getMessages(), getOptions(), getStaffChatMessageFormatter()));
+    }
+
+    public static StaffChatMessageFormatter getStaffChatMessageFormatter() {
+        return initBean(StaffChatMessageFormatter.class, () -> new StaffChatMessageFormatter(getMessages()));
     }
 
     public static VanishServiceImpl getVanishService() {
