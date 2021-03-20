@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.domain.staff.delayedactions;
+package net.shortninja.staffplus.domain.delayedactions;
 
 import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
