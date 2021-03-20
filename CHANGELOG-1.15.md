@@ -1,6 +1,12 @@
 # Changelog Staff++ | v1.15
 
-### V1.15.55
+### V1.15.46
+
+# Bugs
+- lang files were not copied when clean installing the plugin
+- The data.yml file writing was not thread safe
+
+### V1.15.45
 
 ### Features
 - freeze module now allows for a title & subtitle message to be displayed when a player is frozen.
@@ -20,7 +26,7 @@
 - Fix bugs when creating reports in a multi server setup having different servers using different world names.
 - Fireticks are now stored and restored when exiting/entering staff mode
 
-### V1.15.54
+### V1.15.44
 
 ### Features
 - Added ability to configure custom report types
@@ -37,7 +43,7 @@
 - Blindness was not removed after unfreeze with freeze prompt enabled
 - Fixed Task Terminated exception on disabling S++
 
-### V1.15.52
+### V1.15.42
 
 ### Features
 - Added warning expiration
