@@ -131,7 +131,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         // TODO need to refactor the creation of lang files
         IocContainer.getMessages();
 
-        if(!AutoUpdater.updateConfig(this) || !AutoUpdaterLanguageFiles.updateConfig(this)) {
+        if (!AutoUpdater.updateConfig(this) || !AutoUpdaterLanguageFiles.updateConfig(this)) {
             Bukkit.getPluginManager().disablePlugin(this);
             return false;
         }
@@ -147,11 +147,9 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     public void saveUsers() {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            for (PlayerSession session : IocContainer.getSessionManager().getAll()) {
-                IocContainer.getSessionLoader().saveSessionSynchronous(session);
-            }
-        });
+        for (PlayerSession session : IocContainer.getSessionManager().getAll()) {
+            IocContainer.getSessionLoader().saveSessionSynchronous(session);
+        }
     }
 
     private boolean setupVersionProtocol() {
