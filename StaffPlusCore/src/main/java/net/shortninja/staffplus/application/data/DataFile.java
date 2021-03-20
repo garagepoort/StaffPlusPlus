@@ -1,78 +1,60 @@
 package net.shortninja.staffplus.application.data;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplusplus.alerts.AlertType;
+import net.shortninja.staffplusplus.vanish.VanishType;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataFile {
-    private MessageCoordinator message;
-    private File file;
-    private YamlConfiguration configuration;
+    private static final String DATA_YML = "data.yml";
+    private static YamlConfiguration configuration;
 
-    public DataFile(String name) {
-        message = IocContainer.getMessage();
-        file = new File(StaffPlus.get().getDataFolder(), name);
+    private DataFile(){}
 
-        if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdir();
-        }
-
+    public static void init() {
+        File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
         if (!file.exists()) {
-            StaffPlus.get().saveResource(name, false);
+            StaffPlus.get().saveResource(DATA_YML, false);
         }
-
-        this.load();
+        configuration = YamlConfiguration.loadConfiguration(file);
     }
 
-    public FileConfiguration getConfiguration() {
-        return configuration;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void save() {
+    public static synchronized void save(PlayerSession session) {
         try {
+            File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
+            YamlConfiguration configuration = new YamlConfiguration();
+            configuration.set(session.getUuid() + ".name", session.getName());
+            configuration.set(session.getUuid() + ".glass-color", session.getGlassColor() != null ? session.getGlassColor().name() : Material.WHITE_STAINED_GLASS_PANE);
+            configuration.set(session.getUuid() + ".notes", new ArrayList<>(session.getPlayerNotes()));
+            configuration.set(session.getUuid() + ".alert-options", alertOptions(session));
+            configuration.set(session.getUuid() + ".vanish-type", session.getVanishType() != null ? session.getVanishType().name() : VanishType.NONE.name());
+            configuration.set(session.getUuid() + ".staff-mode", session.isInStaffMode());
             configuration.save(file);
+
+            DataFile.configuration = YamlConfiguration.loadConfiguration(file);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
-    public void load() {
-        configuration = YamlConfiguration.loadConfiguration(file);
+    private static List<String> alertOptions(PlayerSession session) {
+        return Arrays.stream(AlertType.values())
+            .map(alertType -> alertType.name() + ";" + session.shouldNotify(alertType))
+            .collect(Collectors.toList());
     }
 
-    public int getInt(String path) {
-        if (configuration.contains(path)) {
-            return configuration.getInt(path);
-        }
 
-        return 0;
+    public static FileConfiguration getConfiguration() {
+        return configuration;
     }
-
-    public boolean getBoolean(String path, boolean isStatus) {
-        boolean value = false;
-
-        if (configuration.contains(path)) {
-            value = configuration.getBoolean(path);
-        }
-
-        return value;
-    }
-
-    public String getString(String path) {
-        if (configuration.contains(path)) {
-            return message.colorize(configuration.getString(path));
-        }
-
-        return "null";
-    }
-
 }
