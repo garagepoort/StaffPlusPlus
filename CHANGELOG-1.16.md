@@ -1,5 +1,16 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.54 (NOT YET RELEASED)
+
+# bugs
+- Luckperms prefix placeholder in staffchat was not using correct player.
+
+### V1.16.53
+
+# Bugs
+- lang files were not copied when clean installing the plugin
+- The data.yml file writing was not thread safe
+
 ### V1.16.52
 
 ### Features
