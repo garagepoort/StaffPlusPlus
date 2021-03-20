@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.session.database;
 
-import net.shortninja.staffplus.util.database.migrations.sqlite.SqlLiteConnection;
+import net.shortninja.staffplus.application.database.migrations.sqlite.SqlLiteConnection;
 
 import java.sql.*;
 
