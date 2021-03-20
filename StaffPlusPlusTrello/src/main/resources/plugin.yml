@@ -1,5 +1,0 @@
-name: StaffPlusPlusTrello
-main: be.garagepoort.staffplusplus.trello.StaffPlusPlusTrello
-version: 1.17.0
-api-version: 1.13
-depend: [StaffPlus]
