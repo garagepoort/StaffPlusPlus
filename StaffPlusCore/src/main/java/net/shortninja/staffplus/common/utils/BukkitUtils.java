@@ -1,9 +1,18 @@
 package net.shortninja.staffplus.common.utils;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.application.PlayerCommandPreprocess;
+import net.shortninja.staffplus.domain.player.listeners.*;
+import net.shortninja.staffplus.domain.staff.alerts.handlers.*;
+import net.shortninja.staffplus.domain.staff.altaccountdetect.AltDetectionListener;
+import net.shortninja.staffplus.domain.staff.ban.BanListener;
+import net.shortninja.staffplus.domain.staff.chests.ChestGuiMove;
+import net.shortninja.staffplus.domain.staff.protect.ProtectListener;
+import net.shortninja.staffplus.domain.staff.reporting.ReportListener;
+import net.shortninja.staffplus.domain.staff.warn.appeals.AppealNotifierListener;
+import net.shortninja.staffplus.domain.staff.warn.warnings.WarningListener;
+import net.shortninja.staffplus.domain.staff.warn.warnings.WarningNotifierListener;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 
 import static org.bukkit.Bukkit.getScheduler;
@@ -25,13 +34,38 @@ public class BukkitUtils {
         return amountOfItems;
     }
 
-    public static void runTaskAsync(CommandSender sender, Runnable runnable) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            try {
-                runnable.run();
-            } catch (BusinessException e) {
-                sender.sendMessage(e.getMessage());
-            }
-        });
+    public static void initListeners() {
+        new EntityDamage();
+        new EntityDamageByEntity();
+        new EntityTarget();
+        new AsyncPlayerChat();
+        new PlayerCommandPreprocess();
+        new PlayerDeath();
+        new PlayerDropItem();
+        new PlayerInteract();
+        new PlayerJoin();
+        new PlayerPickupItem();
+        new PlayerQuit();
+        new BlockBreak();
+        new BlockPlace();
+        new FoodLevelChange();
+        new InventoryClick();
+        new InventoryClose();
+        new InventoryOpen();
+        new PlayerWorldChange();
+        new EntityChangeBlock();
+        new ProtectListener();
+        new BanListener();
+        new AltDetectAlertHandler();
+        new NameChangeAlertHandler();
+        new ChatPhraseDetectedAlertHandler();
+        new PlayerMentionAlertHandler();
+        new XrayAlertHandler();
+        new AltDetectionListener();
+        new WarningNotifierListener();
+        new ReportListener();
+        new ChestGuiMove();
+        new AppealNotifierListener();
+        new WarningListener();
     }
 }
