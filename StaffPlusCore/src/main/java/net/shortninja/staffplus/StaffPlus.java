@@ -6,36 +6,24 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextManager;
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.application.PlayerCommandPreprocess;
+import net.shortninja.staffplus.application.data.DataFile;
+import net.shortninja.staffplus.application.database.DatabaseInitializer;
+import net.shortninja.staffplus.application.metrics.MetricsUtil;
+import net.shortninja.staffplus.application.updates.UpdateNotifier;
 import net.shortninja.staffplus.common.UpdatableGui;
+import net.shortninja.staffplus.common.bungee.BungeeUtil;
 import net.shortninja.staffplus.common.cmd.CmdHandler;
 import net.shortninja.staffplus.common.config.AutoUpdater;
 import net.shortninja.staffplus.common.config.AutoUpdaterLanguageFiles;
-import net.shortninja.staffplus.application.data.DataFile;
-import net.shortninja.staffplus.domain.player.listeners.*;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.domain.staff.alerts.handlers.*;
-import net.shortninja.staffplus.domain.staff.altaccountdetect.AltDetectionListener;
-import net.shortninja.staffplus.domain.staff.ban.BanListener;
-import net.shortninja.staffplus.domain.staff.broadcast.BungeeBroadcastListener;
-import net.shortninja.staffplus.domain.staff.chests.ChestGuiMove;
+import net.shortninja.staffplus.common.utils.BukkitUtils;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplus.domain.staff.mode.StaffModeLuckPermsContextCalculator;
 import net.shortninja.staffplus.domain.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.domain.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.domain.staff.mute.MuteSessionTask;
-import net.shortninja.staffplus.domain.staff.protect.ProtectListener;
-import net.shortninja.staffplus.domain.staff.reporting.ReportListener;
-import net.shortninja.staffplus.domain.staff.reporting.bungee.*;
 import net.shortninja.staffplus.domain.staff.revive.ReviveHandler;
-import net.shortninja.staffplus.domain.staff.staffchat.BungeeStaffChatListener;
-import net.shortninja.staffplus.domain.staff.warn.appeals.AppealNotifierListener;
 import net.shortninja.staffplus.domain.staff.warn.warnings.WarningExpireTask;
-import net.shortninja.staffplus.domain.staff.warn.warnings.WarningListener;
-import net.shortninja.staffplus.domain.staff.warn.warnings.WarningNotifierListener;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
-import net.shortninja.staffplus.application.database.DatabaseInitializer;
-import net.shortninja.staffplus.application.metrics.MetricsService;
-import net.shortninja.staffplus.application.updates.UpdateNotifier;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplusplus.IStaffPlus;
 import net.shortninja.staffplusplus.session.SessionManager;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatService;
@@ -51,14 +39,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import static net.shortninja.staffplus.common.Constants.BUNGEE_CORD_CHANNEL;
 import static org.bukkit.Bukkit.getScheduler;
 
 public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private static StaffPlus plugin;
 
     public IProtocol versionProtocol;
-    public DataFile dataFile;
 
     public CpsHandler cpsHandler;
     public GadgetHandler gadgetHandler;
@@ -100,31 +86,29 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             return;
         }
 
-        IocContainer.init(this);
-        saveDefaultConfig();
-        // TODO need to refactor the creation of lang files
-        IocContainer.getMessages();
-
-        if(!AutoUpdater.updateConfig(this) || !AutoUpdaterLanguageFiles.updateConfig(this)) {
+        if (!loadConfig()) {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        start(System.currentTimeMillis());
+        this.databaseInitializer.initialize();
+        DataFile.init();
 
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, BUNGEE_CORD_CHANNEL);
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeStaffChatListener());
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new BungeeBroadcastListener());
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportCreatedBungeeListener());
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportAcceptedBungeeListener());
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportClosedBungeeListener());
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportReopenBungeeListener());
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, BUNGEE_CORD_CHANNEL, new ReportDeletedBungeeListener());
+        cpsHandler = new CpsHandler();
+        gadgetHandler = new GadgetHandler();
+        reviveHandler = new ReviveHandler();
+        cmdHandler = new CmdHandler();
+        tasks = new Tasks();
+        muteSessionTask = new MuteSessionTask();
+        warningExpireTask = new WarningExpireTask();
 
-        if (getConfig().getBoolean("metrics")) {
-            new MetricsService(this, IocContainer.getOptions())
-                .initializeMetrics();
-        }
+        getScheduler().runTaskAsynchronously(this, () -> new UpdateNotifier().checkUpdate());
+
+
+        Bukkit.getOnlinePlayers().forEach(player -> IocContainer.getSessionManager().initialize(player));
+        BukkitUtils.initListeners();
+        BungeeUtil.initListeners(this);
+        MetricsUtil.initializeMetrics(this, IocContainer.getOptions());
 
         guiUpdateTask = getScheduler().runTaskTimer(this, () -> {
             for (PlayerSession playerSession : IocContainer.getSessionManager().getAll()) {
@@ -136,6 +120,22 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         enableLuckPermHooks();
         Bukkit.getServicesManager().register(IStaffPlus.class, this, this, ServicePriority.Normal);
+
+        IocContainer.getMessage().sendConsoleMessage("Staff++ has been enabled! Initialization took " + (System.currentTimeMillis() - System.currentTimeMillis()) + "ms.", false);
+        IocContainer.getMessage().sendConsoleMessage("Plugin created by Shortninja continued by Qball - Revisited by Garagepoort", false);
+    }
+
+    private boolean loadConfig() {
+        IocContainer.init(this);
+        saveDefaultConfig();
+        // TODO need to refactor the creation of lang files
+        IocContainer.getMessages();
+
+        if(!AutoUpdater.updateConfig(this) || !AutoUpdaterLanguageFiles.updateConfig(this)) {
+            Bukkit.getPluginManager().disablePlugin(this);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -154,70 +154,12 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         });
     }
 
-    protected void start(long start) {
-        this.databaseInitializer.initialize();
-
-        getScheduler().runTaskAsynchronously(this, () -> new UpdateNotifier().checkUpdate());
-
-        dataFile = new DataFile("data.yml");
-        cpsHandler = new CpsHandler();
-        gadgetHandler = new GadgetHandler();
-        reviveHandler = new ReviveHandler();
-        cmdHandler = new CmdHandler();
-        tasks = new Tasks();
-        muteSessionTask = new MuteSessionTask();
-        warningExpireTask = new WarningExpireTask();
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            IocContainer.getSessionManager().initialize(player);
-        }
-        registerListeners();
-
-        IocContainer.getMessage().sendConsoleMessage("Staff++ has been enabled! Initialization took " + (System.currentTimeMillis() - start) + "ms.", false);
-        IocContainer.getMessage().sendConsoleMessage("Plugin created by Shortninja continued by Qball - Revisited by Garagepoort", false);
-    }
-
     private boolean setupVersionProtocol() {
         final String version = Bukkit.getServer().getClass().getPackage().getName();
         final String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
         versionProtocol = ProtocolFactory.getProtocol();
         IocContainer.getMessage().sendConsoleMessage("Version protocol set to '" + formattedVersion + "'.", false);
         return versionProtocol != null;
-    }
-
-    private void registerListeners() {
-        new EntityDamage();
-        new EntityDamageByEntity();
-        new EntityTarget();
-        new AsyncPlayerChat();
-        new PlayerCommandPreprocess();
-        new PlayerDeath();
-        new PlayerDropItem();
-        new PlayerInteract();
-        new PlayerJoin();
-        new PlayerPickupItem();
-        new PlayerQuit();
-        new BlockBreak();
-        new BlockPlace();
-        new FoodLevelChange();
-        new InventoryClick();
-        new InventoryClose();
-        new InventoryOpen();
-        new PlayerWorldChange();
-        new EntityChangeBlock();
-        new ProtectListener();
-        new BanListener();
-        new AltDetectAlertHandler();
-        new NameChangeAlertHandler();
-        new ChatPhraseDetectedAlertHandler();
-        new PlayerMentionAlertHandler();
-        new XrayAlertHandler();
-        new AltDetectionListener();
-        new WarningNotifierListener();
-        new ReportListener();
-        new ChestGuiMove();
-        new AppealNotifierListener();
-        new WarningListener();
     }
 
 
