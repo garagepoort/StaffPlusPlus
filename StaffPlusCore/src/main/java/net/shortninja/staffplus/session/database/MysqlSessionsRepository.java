@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.session.database;
 
-import net.shortninja.staffplus.util.database.migrations.mysql.MySQLConnection;
+import net.shortninja.staffplus.application.database.migrations.mysql.MySQLConnection;
 
 import java.sql.*;
 
