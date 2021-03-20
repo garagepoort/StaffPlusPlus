@@ -65,7 +65,7 @@ public class Tasks extends BukkitRunnable {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 PlayerSession user = sessionManager.get(player.getUniqueId());
                 if (user.isFrozen() && !permission.has(player, options.permissionMember)) {
-                    freezeModeConfiguration.getModeFreezeSound().play(player);
+                    freezeModeConfiguration.getModeFreezeSound().ifPresent(s->s.play(player));
 
                     if (!freezeModeConfiguration.isModeFreezePrompt()) {
                         message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);

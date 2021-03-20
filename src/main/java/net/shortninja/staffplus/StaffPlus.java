@@ -81,7 +81,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     public void onEnable() {
         plugin = this;
         if (!setupVersionProtocol()) {
-            IocContainer.getMessage().sendConsoleMessage("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.", true);
+            getLogger().severe("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
@@ -90,6 +90,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+
 
         this.databaseInitializer.initialize();
         DataFile.init();
@@ -153,10 +154,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     private boolean setupVersionProtocol() {
-        final String version = Bukkit.getServer().getClass().getPackage().getName();
-        final String formattedVersion = version.substring(version.lastIndexOf('.') + 1);
         versionProtocol = ProtocolFactory.getProtocol();
-        IocContainer.getMessage().sendConsoleMessage("Version protocol set to '" + formattedVersion + "'.", false);
         return versionProtocol != null;
     }
 
