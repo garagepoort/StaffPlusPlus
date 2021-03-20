@@ -1,10 +1,11 @@
 package net.shortninja.staffplus.domain.staff.reporting.config;
 
+import net.shortninja.staffplus.common.Sounds;
 import net.shortninja.staffplus.common.gui.GuiItemConfig;
 import net.shortninja.staffplusplus.reports.ReportStatus;
-import net.shortninja.staffplus.common.Sounds;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ReportConfiguration {
 
@@ -66,8 +67,8 @@ public class ReportConfiguration {
         return showReporter;
     }
 
-    public Sounds getSound() {
-        return sound;
+    public Optional<Sounds> getSound() {
+        return Optional.ofNullable(sound);
     }
 
     public GuiItemConfig getOpenReportsGui() {
