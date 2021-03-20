@@ -7,7 +7,7 @@ import net.shortninja.staffplus.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.domain.staff.staffchat.StaffChatService;
+import net.shortninja.staffplus.domain.staff.staffchat.StaffChatServiceImpl;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class StaffChatCmd extends AbstractCmd {
     private final MessageCoordinator message = IocContainer.getMessage();
     private final SessionManagerImpl sessionManager = IocContainer.getSessionManager();
-    private final StaffChatService staffChatService = IocContainer.getStaffChatService();
+    private final StaffChatServiceImpl staffChatService = IocContainer.getStaffChatService();
 
     public StaffChatCmd(String name) {
         super(name, IocContainer.getOptions().staffChatConfiguration.getPermissionStaffChat());

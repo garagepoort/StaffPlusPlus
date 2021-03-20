@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.14
 
+### V1.14.45
+
+# Bugs
+- lang files were not copied when clean installing the plugin
+- The data.yml file writing was not thread safe
+
 ### V1.14.44
 
 ### Features

@@ -2,7 +2,6 @@ package net.shortninja.staffplus.domain.staff.staffchat;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
 import net.shortninja.staffplus.common.config.Messages;
@@ -20,14 +19,16 @@ import java.util.Collection;
 import static net.shortninja.staffplus.common.utils.BukkitUtils.sendEvent;
 import static net.shortninja.staffplus.common.utils.MessageCoordinator.colorize;
 
-public class StaffChatService implements net.shortninja.staffplusplus.staffmode.chat.StaffChatService {
+public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffmode.chat.StaffChatService {
 
     private Messages messages;
     private Options options;
+    private final StaffChatMessageFormatter staffChatMessageFormatter;
 
-    public StaffChatService(Messages messages, Options options) {
+    public StaffChatServiceImpl(Messages messages, Options options, StaffChatMessageFormatter staffChatMessageFormatter) {
         this.messages = messages;
         this.options = options;
+        this.staffChatMessageFormatter = staffChatMessageFormatter;
     }
 
     void handleBungeeMessage(String message) {
@@ -35,10 +36,7 @@ public class StaffChatService implements net.shortninja.staffplusplus.staffmode.
     }
 
     public void sendMessage(CommandSender sender, String message) {
-        String formattedMessage = messages.staffChat.replace("%player%", sender.getName()).replace("%message%", message);
-        if (!messages.prefixStaffChat.isEmpty()) {
-            formattedMessage = messages.prefixStaffChat + " " + formattedMessage;
-        }
+        String formattedMessage = staffChatMessageFormatter.formatMessage(sender, message);
 
         sendBungeeMessage(sender, formattedMessage);
         sendMessageToStaff(formattedMessage);
@@ -54,14 +52,8 @@ public class StaffChatService implements net.shortninja.staffplusplus.staffmode.
 
     @Override
     public void sendMessage(String senderName, String message) {
-        message = messages.staffChat
-            .replace("%player%", senderName)
-            .replace("%message%", message);
-        if (!messages.prefixStaffChat.isEmpty()) {
-            message = messages.prefixStaffChat + " " + message;
-        }
-
-        sendMessageToStaff(message);
+        String formattedMessage = staffChatMessageFormatter.formatMessage(senderName, message);
+        sendMessageToStaff(formattedMessage);
     }
 
     @Override
@@ -73,16 +65,10 @@ public class StaffChatService implements net.shortninja.staffplusplus.staffmode.
         sendMessageToStaff(message);
     }
 
-    private void sendMessageToStaff(String message) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (StaffPlus.get().usesPlaceholderAPI) {
-                message = PlaceholderAPI.setPlaceholders(player, message);
-            }
-
-            if (player.hasPermission(options.staffChatConfiguration.getPermissionStaffChat())) {
-                player.sendMessage(colorize(message));
-            }
-        }
+    private void sendMessageToStaff(String formattedMessage) {
+        Bukkit.getOnlinePlayers().stream()
+            .filter(player -> player.hasPermission(options.staffChatConfiguration.getPermissionStaffChat()))
+            .forEach(player -> player.sendMessage(colorize(formattedMessage)));
     }
 
     private void sendBungeeMessage(CommandSender sender, String message) {
