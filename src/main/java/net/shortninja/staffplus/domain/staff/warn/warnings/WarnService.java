@@ -56,7 +56,7 @@ public class WarnService implements InfractionProvider {
         if (StringUtils.isEmpty(reason) && !severityConfig.hasDefaultReason()) {
             throw new BusinessException("&CReason must provided");
         }
-        if(severityConfig.hasDefaultReason() && (!severityConfig.isReasonSettable() || StringUtils.isEmpty(reason))) {
+        if (severityConfig.hasDefaultReason() && (!severityConfig.isReasonSettable() || StringUtils.isEmpty(reason))) {
             reason = severityConfig.getReason().get();
         }
 
@@ -91,7 +91,7 @@ public class WarnService implements InfractionProvider {
         if (user.isOnline()) {
             Player p = user.getPlayer();
             message.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
-            options.warningConfiguration.getSound().play(p);
+            options.warningConfiguration.getSound().ifPresent(s -> s.play(p));
         }
     }
 

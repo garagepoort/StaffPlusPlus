@@ -46,8 +46,8 @@ public class WarningConfiguration {
         return showIssuer;
     }
 
-    public Sounds getSound() {
-        return sound;
+    public Optional<Sounds> getSound() {
+        return Optional.ofNullable(sound);
     }
 
     public boolean isAlwaysNotifyUser() {

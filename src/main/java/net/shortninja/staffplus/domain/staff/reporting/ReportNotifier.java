@@ -81,7 +81,7 @@ public class ReportNotifier {
             .replace("%target%", reporterName)
             .replace("%player%", culpritName == null ? "Unknown" : culpritName)
             .replace("%reason%", reason), options.permissionReportUpdateNotifications, messages.prefixReports);
-        options.reportConfiguration.getSound().playForGroup(options.permissionReportUpdateNotifications);
+        options.reportConfiguration.getSound().ifPresent(s -> s.playForGroup(options.permissionReportUpdateNotifications));
     }
 
     private void sendAcceptedMessages(String staffName, String reporterName, UUID reporterUuid) {
