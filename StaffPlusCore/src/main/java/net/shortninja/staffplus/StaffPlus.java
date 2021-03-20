@@ -94,8 +94,16 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     @Override
     public void onEnable() {
         plugin = this;
+        if (!setupVersionProtocol()) {
+            IocContainer.getMessage().sendConsoleMessage("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.", true);
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
         IocContainer.init(this);
         saveDefaultConfig();
+        // TODO need to refactor the creation of lang files
+        IocContainer.getMessages();
 
         if(!AutoUpdater.updateConfig(this) || !AutoUpdaterLanguageFiles.updateConfig(this)) {
             Bukkit.getPluginManager().disablePlugin(this);
@@ -147,11 +155,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     protected void start(long start) {
-        if (!setupVersionProtocol()) {
-            IocContainer.getMessage().sendConsoleMessage("This version of Minecraft is not supported! If you have just updated to a brand new server version, check the Spigot plugin page.", true);
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
         this.databaseInitializer.initialize();
 
         getScheduler().runTaskAsynchronously(this, () -> new UpdateNotifier().checkUpdate());
