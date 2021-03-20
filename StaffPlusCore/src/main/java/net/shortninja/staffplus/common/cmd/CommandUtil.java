@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.common.cmd;
 
-import net.shortninja.staffplus.IocContainer;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import org.bukkit.entity.Player;
 

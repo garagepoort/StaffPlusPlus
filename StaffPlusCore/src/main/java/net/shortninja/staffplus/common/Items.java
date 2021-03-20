@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.common;
 
-import net.shortninja.staffplus.util.Strings;
+import net.shortninja.staffplus.common.utils.Strings;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -23,10 +23,6 @@ import static net.shortninja.staffplus.common.JavaUtils.formatLines;
 
 public final class Items {
     private Items() {
-    }
-
-    public static BookBuilder bookBuilder() {
-        return new BookBuilder();
     }
 
     public static ItemStackBuilder builder() {
@@ -54,14 +50,6 @@ public final class Items {
     public static ItemStack createRedColoredGlass(String name, String lore) {
         return Items.builder()
             .setMaterial(Material.RED_STAINED_GLASS_PANE)
-            .setName(name)
-            .addLore(lore)
-            .build();
-    }
-
-    public static ItemStack createGrayColoredGlass(String name, String lore) {
-        return Items.builder()
-            .setMaterial(Material.GRAY_STAINED_GLASS_PANE)
             .setName(name)
             .addLore(lore)
             .build();

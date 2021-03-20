@@ -1,14 +1,15 @@
 package net.shortninja.staffplus;
 
-import net.shortninja.staffplus.server.data.config.Messages;
-import net.shortninja.staffplus.server.data.config.Options;
+import net.shortninja.staffplus.application.IocContainer;
+import net.shortninja.staffplus.common.config.Messages;
+import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.staff.freeze.FreezeHandler;
-import net.shortninja.staffplus.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
-import net.shortninja.staffplus.staff.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.util.MessageCoordinator;
-import net.shortninja.staffplus.util.PermissionHandler;
+import net.shortninja.staffplus.domain.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
+import net.shortninja.staffplus.domain.staff.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
