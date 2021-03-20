@@ -19,6 +19,16 @@
 
     <repositories>
         <repository>
+            <id>Maven repository</id>
+            <url>https://repo.maven.apache.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
