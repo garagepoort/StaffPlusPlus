@@ -122,8 +122,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         enableLuckPermHooks();
         Bukkit.getServicesManager().register(IStaffPlus.class, this, this, ServicePriority.Normal);
 
-        IocContainer.getMessage().sendConsoleMessage("Staff++ has been enabled! Initialization took " + (System.currentTimeMillis() - System.currentTimeMillis()) + "ms.", false);
-        IocContainer.getMessage().sendConsoleMessage("Plugin created by Shortninja continued by Qball - Revisited by Garagepoort", false);
+        getLogger().info("Staff++ has been enabled! Initialization took " + (System.currentTimeMillis() - System.currentTimeMillis()) + "ms.");
+        getLogger().info("Plugin created by Shortninja continued by Qball - Revisited by Garagepoort");
     }
 
     private boolean loadConfig() {
@@ -142,7 +142,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     @Override
     public void onDisable() {
         guiUpdateTask.cancel();
-        IocContainer.getMessage().sendConsoleMessage("Staff++ is now disabling!", true);
+        getLogger().info("Staff++ is now disabling!");
         this.disableLuckPermHooks();
         stop();
     }
