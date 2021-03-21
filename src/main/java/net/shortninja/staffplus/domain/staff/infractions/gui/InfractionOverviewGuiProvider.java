@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.domain.staff.infractions.gui;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.domain.staff.infractions.InfractionOverview;
 import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.domain.staff.infractions.InfractionOverview;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

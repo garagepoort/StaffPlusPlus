@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.domain.staff.reporting.gui;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.gui.PagedGui;
 import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.common.gui.PagedGui;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

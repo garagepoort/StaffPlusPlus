@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.staff.warn.warnings;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.config.Options;
 import org.bukkit.scheduler.BukkitRunnable;
 

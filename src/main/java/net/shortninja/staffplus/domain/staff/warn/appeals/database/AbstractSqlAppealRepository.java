@@ -2,6 +2,7 @@ package net.shortninja.staffplus.domain.staff.warn.appeals.database;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.warn.appeals.Appeal;
@@ -39,7 +40,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return appeals;
     }
@@ -60,7 +61,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return appeals;
     }
@@ -77,7 +78,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
             insert.setLong(5, appeal.getCreationTimestamp());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -96,7 +97,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
             insert.setInt(4, appealId);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -112,7 +113,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }
@@ -131,7 +132,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return count;
     }
@@ -143,7 +144,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
             insert.setInt(1, warningId);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 

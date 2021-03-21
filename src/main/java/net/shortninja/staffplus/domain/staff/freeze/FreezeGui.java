@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.domain.staff.freeze;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.common.gui.AbstractGui;
-import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.common.config.Messages;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,7 +26,7 @@ public class FreezeGui extends AbstractGui {
     }
 
     private ItemStack freezeItem() {
-        List<String> freezeMessage = new ArrayList<String>(messages.freeze);
+        List<String> freezeMessage = new ArrayList<>(messages.freeze);
         String name = getTitle();
         List<String> lore = Arrays.asList("&7You are currently frozen!");
 

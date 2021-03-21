@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.staff.mode.config.modeitems.freeze;
 
-import net.shortninja.staffplus.domain.staff.mode.config.ModeItemConfiguration;
 import net.shortninja.staffplus.common.Sounds;
+import net.shortninja.staffplus.domain.staff.mode.config.ModeItemConfiguration;
 
 import java.util.List;
 import java.util.Optional;

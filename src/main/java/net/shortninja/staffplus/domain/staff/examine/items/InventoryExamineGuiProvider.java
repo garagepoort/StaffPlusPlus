@@ -1,15 +1,15 @@
 package net.shortninja.staffplus.domain.staff.examine.items;
 
-import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.common.Items;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.common.utils.InventoryFactory;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.chests.ChestGUI;
 import net.shortninja.staffplus.domain.staff.chests.ChestGuiType;
 import net.shortninja.staffplus.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.domain.staff.examine.gui.ExamineGuiItemProvider;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
-import net.shortninja.staffplus.common.utils.InventoryFactory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

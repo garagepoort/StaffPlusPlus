@@ -129,7 +129,7 @@ public final class Items {
         ItemStackBuilder() {
             itemStack = new ItemStack(Material.QUARTZ);
             setName("");
-            setLore(new ArrayList<String>());
+            setLore(new ArrayList<>());
         }
 
         public ItemStackBuilder(ItemStack itemStack) {
@@ -198,7 +198,7 @@ public final class Items {
         }
 
         public ItemStackBuilder addLore(String... lore) {
-            List<String> coloredLore = new ArrayList<String>();
+            List<String> coloredLore = new ArrayList<>();
             String[] newLore = new String[lore.length];
 
             for (String string : lore) {
@@ -209,7 +209,7 @@ public final class Items {
 
             ItemMeta itemMeta = itemStack.getItemMeta();
             List<String> original = itemMeta.getLore();
-            if (original == null) original = new ArrayList<String>();
+            if (original == null) original = new ArrayList<>();
             Collections.addAll(original, Strings.format(lore));
             itemMeta.setLore(original);
             itemStack.setItemMeta(itemMeta);
@@ -219,7 +219,7 @@ public final class Items {
         public ItemStackBuilder addLore(List<String> lore) {
             ItemMeta itemMeta = itemStack.getItemMeta();
             List<String> original = itemMeta.getLore();
-            if (original == null) original = new ArrayList<String>();
+            if (original == null) original = new ArrayList<>();
             original.addAll(Strings.format(lore));
             itemMeta.setLore(original);
             itemStack.setItemMeta(itemMeta);

@@ -2,9 +2,10 @@ package net.shortninja.staffplus.domain.staff.ban.database;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.domain.staff.ban.Ban;
 
 import java.sql.Connection;
@@ -41,7 +42,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return bans;
     }
@@ -59,7 +60,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }
@@ -77,7 +78,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }
@@ -94,7 +95,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return bans;
     }
@@ -110,7 +111,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return count;
     }
@@ -127,7 +128,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return count;
     }
@@ -143,7 +144,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return result;
     }
@@ -158,7 +159,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
             insert.setInt(4, ban.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 

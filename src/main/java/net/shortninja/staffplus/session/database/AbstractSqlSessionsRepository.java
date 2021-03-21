@@ -1,8 +1,12 @@
 package net.shortninja.staffplus.session.database;
 
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplusplus.vanish.VanishType;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,7 +25,7 @@ public abstract class AbstractSqlSessionsRepository implements SessionsRepositor
             insert.setInt(3, sessionEntity.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -37,7 +41,7 @@ public abstract class AbstractSqlSessionsRepository implements SessionsRepositor
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }

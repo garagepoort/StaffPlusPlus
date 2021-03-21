@@ -1,19 +1,19 @@
 package net.shortninja.staffplus.domain.staff.mode;
 
 import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.config.Messages;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.domain.actions.ActionFilter;
 import net.shortninja.staffplus.domain.actions.ActionService;
 import net.shortninja.staffplus.domain.actions.ConfiguredAction;
 import net.shortninja.staffplus.domain.actions.PermissionActionFilter;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Messages;
-import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.domain.staff.vanish.VanishServiceImpl;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplusplus.vanish.VanishType;

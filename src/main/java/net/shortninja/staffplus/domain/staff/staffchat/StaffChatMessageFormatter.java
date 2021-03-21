@@ -3,35 +3,30 @@ package net.shortninja.staffplus.domain.staff.staffchat;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.config.Messages;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import static net.shortninja.staffplus.common.utils.MessageCoordinator.colorize;
 
 public class StaffChatMessageFormatter {
 
     private final Messages messages;
+    private final MessageCoordinator message;
 
-    public StaffChatMessageFormatter(Messages messages) {
+    public StaffChatMessageFormatter(Messages messages, MessageCoordinator message) {
         this.messages = messages;
+        this.message = message;
     }
 
     String formatMessage(CommandSender sender, String chatMessage) {
         String formattedMessage = messages.staffChat.replace("%player%", sender.getName()).replace("%message%", chatMessage);
-        if (!messages.prefixStaffChat.isEmpty()) {
-            formattedMessage = messages.prefixStaffChat + " " + formattedMessage;
-        }
         if (StaffPlus.get().usesPlaceholderAPI && sender instanceof Player) {
             formattedMessage = PlaceholderAPI.setPlaceholders((Player) sender, formattedMessage);
         }
-        return colorize(formattedMessage);
+        return message.colorize(formattedMessage);
     }
 
     String formatMessage(String senderName, String chatMessage) {
         String formattedMessage = messages.staffChat.replace("%player%", senderName).replace("%message%", chatMessage);
-        if (!messages.prefixStaffChat.isEmpty()) {
-            formattedMessage = messages.prefixStaffChat + " " + formattedMessage;
-        }
-        return colorize(formattedMessage);
+        return message.colorize(formattedMessage);
     }
 }

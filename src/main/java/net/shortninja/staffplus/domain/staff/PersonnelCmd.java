@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.domain.staff;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.vanish.VanishType;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

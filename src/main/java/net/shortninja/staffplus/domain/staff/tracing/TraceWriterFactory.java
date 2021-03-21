@@ -2,9 +2,9 @@ package net.shortninja.staffplus.domain.staff.tracing;
 
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import net.shortninja.staffplusplus.trace.TraceWriter;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,10 +2,10 @@ package net.shortninja.staffplus.domain.staff.alerts.handlers;
 
 import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.config.Messages;
-import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.staff.alerts.config.AlertsConfiguration;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import org.bukkit.entity.Player;
 

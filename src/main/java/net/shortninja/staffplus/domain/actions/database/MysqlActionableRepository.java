@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.domain.actions.database;
 
-import net.shortninja.staffplus.domain.actions.ExecutableActionEntity;
 import net.shortninja.staffplus.application.database.migrations.mysql.MySQLConnection;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
+import net.shortninja.staffplus.domain.actions.ExecutableActionEntity;
 
 import java.sql.*;
 
@@ -38,7 +39,7 @@ public class MysqlActionableRepository extends AbstractSqlActionableRepository {
 
             return generatedKey;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 }
