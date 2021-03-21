@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.staff.examine.gui;
 
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

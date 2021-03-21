@@ -6,6 +6,7 @@ import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -17,18 +18,19 @@ import java.io.IOException;
 import java.util.Collection;
 
 import static net.shortninja.staffplus.common.utils.BukkitUtils.sendEvent;
-import static net.shortninja.staffplus.common.utils.MessageCoordinator.colorize;
 
 public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffmode.chat.StaffChatService {
 
     private Messages messages;
     private Options options;
     private final StaffChatMessageFormatter staffChatMessageFormatter;
+    private final MessageCoordinator message;
 
-    public StaffChatServiceImpl(Messages messages, Options options, StaffChatMessageFormatter staffChatMessageFormatter) {
+    public StaffChatServiceImpl(Messages messages, Options options, StaffChatMessageFormatter staffChatMessageFormatter, MessageCoordinator message) {
         this.messages = messages;
         this.options = options;
         this.staffChatMessageFormatter = staffChatMessageFormatter;
+        this.message = message;
     }
 
     void handleBungeeMessage(String message) {
@@ -68,7 +70,7 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     private void sendMessageToStaff(String formattedMessage) {
         Bukkit.getOnlinePlayers().stream()
             .filter(player -> player.hasPermission(options.staffChatConfiguration.getPermissionStaffChat()))
-            .forEach(player -> player.sendMessage(colorize(formattedMessage)));
+            .forEach(player -> message.send(player, formattedMessage, messages.prefixStaffChat));
     }
 
     private void sendBungeeMessage(CommandSender sender, String message) {

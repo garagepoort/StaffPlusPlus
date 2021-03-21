@@ -2,9 +2,10 @@ package net.shortninja.staffplus.domain.staff.warn.warnings.database;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.domain.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.domain.staff.warn.warnings.Warning;
@@ -43,7 +44,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
                 return rs.getInt("sum");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -61,7 +62,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return warnings;
     }
@@ -82,7 +83,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return warnings;
     }
@@ -103,7 +104,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return warnings;
     }
@@ -125,7 +126,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return warnings;
     }
@@ -144,7 +145,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return warnings;
     }
@@ -156,7 +157,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
             insert.setString(1, playerUuid.toString());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -167,7 +168,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
             insert.setInt(1, id);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -181,7 +182,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
             insert.setLong(4, timestamp);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -193,7 +194,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
             insert.setInt(2, id);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -205,7 +206,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
             insert.setString(2, uniqueId.toString());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -220,7 +221,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return count;
     }
@@ -237,7 +238,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }

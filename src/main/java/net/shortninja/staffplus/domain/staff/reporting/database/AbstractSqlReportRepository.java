@@ -3,13 +3,14 @@ package net.shortninja.staffplus.domain.staff.reporting.database;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
 import net.shortninja.staffplus.common.SppLocation;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
+import net.shortninja.staffplus.domain.player.PlayerManager;
+import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.domain.staff.reporting.Report;
 import net.shortninja.staffplus.domain.staff.reporting.ReportFilter;
 import net.shortninja.staffplus.domain.staff.reporting.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
-import net.shortninja.staffplus.domain.player.PlayerManager;
-import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.reporting.Report;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -50,7 +51,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return reports;
     }
@@ -79,7 +80,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return reports;
     }
@@ -97,7 +98,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return reports;
     }
@@ -117,7 +118,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return reports;
     }
@@ -139,7 +140,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return reports;
     }
@@ -158,7 +159,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }
@@ -176,7 +177,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }
@@ -193,7 +194,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             insert.setBoolean(6, false);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -205,7 +206,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             insert.setInt(2, report.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -225,7 +226,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return reports;
     }
@@ -245,7 +246,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return reports;
     }
@@ -265,7 +266,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return reports;
     }
@@ -283,7 +284,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return reports;
     }
@@ -296,7 +297,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             insert.setBoolean(2, false);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -311,7 +312,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return count;
     }

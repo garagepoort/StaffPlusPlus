@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.domain.staff.reporting.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
+import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.domain.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.domain.staff.reporting.Report;
-import net.shortninja.staffplus.common.JavaUtils;
-import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.inventory.ItemStack;

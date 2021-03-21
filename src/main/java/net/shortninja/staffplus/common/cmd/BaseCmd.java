@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.common.cmd;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import org.bukkit.command.Command;
@@ -17,7 +17,7 @@ public class BaseCmd {
     private String match;
     private String description;
     private String usage;
-    private List<String> permissions = new ArrayList<String>();
+    private List<String> permissions = new ArrayList<>();
 
     public BaseCmd(Command command, boolean isEnabled, String permission, String description, String usage) {
         this.command = command;

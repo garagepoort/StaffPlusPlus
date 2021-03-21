@@ -1,21 +1,21 @@
 package net.shortninja.staffplus.domain.player.gui.hub;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.common.gui.GuiItemConfig;
-import net.shortninja.staffplus.common.gui.AbstractGui;
+import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.common.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.GuiItemConfig;
+import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplus.domain.staff.ban.gui.BannedPlayersGui;
 import net.shortninja.staffplus.domain.staff.mode.config.modeitems.gui.GuiModeConfiguration;
 import net.shortninja.staffplus.domain.staff.mute.gui.MutedPlayersGui;
 import net.shortninja.staffplus.domain.staff.protect.cmd.ProtectedAreasGui;
 import net.shortninja.staffplus.domain.staff.reporting.gui.AllAssignedReportsGui;
-import net.shortninja.staffplus.domain.staff.reporting.gui.MyAssignedReportsGui;
 import net.shortninja.staffplus.domain.staff.reporting.gui.ClosedReportsGui;
+import net.shortninja.staffplus.domain.staff.reporting.gui.MyAssignedReportsGui;
 import net.shortninja.staffplus.domain.staff.reporting.gui.OpenReportsGui;
-import net.shortninja.staffplus.common.gui.IAction;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
-import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.session.PlayerSession;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +23,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.function.Consumer;
 
 import static org.bukkit.Material.*;
-import static org.bukkit.Material.SPRUCE_SIGN;
 
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;

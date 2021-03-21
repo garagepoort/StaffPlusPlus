@@ -1,17 +1,19 @@
 package net.shortninja.staffplus.domain.staff.altaccountdetect.cmd;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.domain.player.PlayerManager;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.player.PlayerManager;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.AltDetectWhitelistedItem;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.AltDetectionService;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import org.bukkit.command.CommandSender;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

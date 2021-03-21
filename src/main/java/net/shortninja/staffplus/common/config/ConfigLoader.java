@@ -3,8 +3,6 @@ package net.shortninja.staffplus.common.config;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.Sounds;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public abstract class ConfigLoader<T> {
@@ -18,12 +16,11 @@ public abstract class ConfigLoader<T> {
     protected Sounds stringToSound(String string) {
         Sounds sound = Sounds.ORB_PICKUP;
         boolean isValid = JavaUtils.isValidEnum(Sounds.class, string);
-        if(string.equalsIgnoreCase("NONE")) {
+        if (string.equalsIgnoreCase("NONE")) {
             return null;
         }
         if (!isValid) {
-            String prefix = "&4[Staff++] &c";
-            Bukkit.getServer().getConsoleSender().sendMessage(MessageCoordinator.colorize(prefix + "Invalid sound name '" + string + "'!"));
+            StaffPlus.get().getLogger().warning("Invalid sound name '" + string + "'!");
             return null;
         } else sound = Sounds.valueOf(string);
 
