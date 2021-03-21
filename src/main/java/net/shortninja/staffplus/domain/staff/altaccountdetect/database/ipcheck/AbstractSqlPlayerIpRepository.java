@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.domain.staff.altaccountdetect.database.ipcheck;
 
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +25,7 @@ public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepositor
             insert.setString(4, ip);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -39,7 +41,7 @@ public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepositor
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return ips;
     }

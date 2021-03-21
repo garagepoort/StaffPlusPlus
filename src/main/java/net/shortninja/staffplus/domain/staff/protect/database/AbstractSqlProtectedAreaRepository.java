@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.domain.staff.protect.database;
 
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.domain.location.LocationRepository;
 import net.shortninja.staffplus.domain.staff.protect.ProtectedArea;
 import org.bukkit.Bukkit;
@@ -42,7 +43,7 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
             insert.setString(4, protector.getUniqueId().toString());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -58,7 +59,7 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return protectedAreas;
     }
@@ -77,7 +78,7 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return protectedAreas;
     }
@@ -95,7 +96,7 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }
@@ -113,7 +114,7 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }
@@ -125,7 +126,7 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
             insert.setInt(1, id);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 

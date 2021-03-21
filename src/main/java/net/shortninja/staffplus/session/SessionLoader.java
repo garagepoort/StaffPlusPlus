@@ -2,12 +2,12 @@ package net.shortninja.staffplus.session;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.application.data.DataFile;
+import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.session.database.SessionEntity;
 import net.shortninja.staffplus.session.database.SessionsRepository;
-import net.shortninja.staffplus.domain.staff.mute.MuteService;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Material;
@@ -93,7 +93,7 @@ public class SessionLoader {
     }
 
     private List<String> loadPlayerNotes(UUID uuid) {
-        List<String> playerNotes = new ArrayList<String>();
+        List<String> playerNotes = new ArrayList<>();
 
         for (String string : dataFile.getStringList(uuid + ".notes")) {
             if (string.contains("&7")) {

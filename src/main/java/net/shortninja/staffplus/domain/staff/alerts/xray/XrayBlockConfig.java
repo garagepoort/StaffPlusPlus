@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.domain.staff.alerts.xray;
 
+import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.time.TimeUnitShort;
-import net.shortninja.staffplus.common.config.Options;
 import org.bukkit.Material;
 
 public class XrayBlockConfig {

@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.domain.player;
 
 import net.shortninja.staffplus.application.IocContainer;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

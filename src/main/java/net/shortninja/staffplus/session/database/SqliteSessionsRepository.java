@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.session.database;
 
 import net.shortninja.staffplus.application.database.migrations.sqlite.SqlLiteConnection;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 
 import java.sql.*;
 
@@ -30,7 +31,7 @@ public class SqliteSessionsRepository extends AbstractSqlSessionsRepository {
             sql.commit(); // Commits transaction.
             return generatedKey;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 

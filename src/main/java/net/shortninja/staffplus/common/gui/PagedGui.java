@@ -15,26 +15,26 @@ public abstract class PagedGui extends AbstractGui {
     private final Player player;
     private final int currentPage;
 
-    public PagedGui(Player player, String title, int currentPage) {
+    protected PagedGui(Player player, String title, int currentPage) {
         super(SIZE, title);
         this.player = player;
         this.currentPage = currentPage;
     }
 
-    public PagedGui(Player player, String title, int currentPage, Supplier<AbstractGui> backGuiSupplier) {
+    protected PagedGui(Player player, String title, int currentPage, Supplier<AbstractGui> backGuiSupplier) {
         super(SIZE, title, backGuiSupplier);
         this.player = player;
         this.currentPage = currentPage;
     }
 
-    public PagedGui(Player player, SppPlayer target, String title, int currentPage) {
+    protected PagedGui(Player player, SppPlayer target, String title, int currentPage) {
         super(SIZE, title);
         this.player = player;
         this.target = target;
         this.currentPage = currentPage;
     }
 
-    public PagedGui(Player player, SppPlayer target, String title, int currentPage, Supplier<AbstractGui> backGuiSupplier) {
+    protected PagedGui(Player player, SppPlayer target, String title, int currentPage, Supplier<AbstractGui> backGuiSupplier) {
         super(SIZE, title, backGuiSupplier);
         this.player = player;
         this.target = target;

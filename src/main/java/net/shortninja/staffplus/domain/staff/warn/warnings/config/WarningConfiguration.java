@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.staff.warn.warnings.config;
 
-import net.shortninja.staffplus.domain.actions.ConfiguredAction;
 import net.shortninja.staffplus.common.Sounds;
+import net.shortninja.staffplus.domain.actions.ConfiguredAction;
 
 import java.util.List;
 import java.util.Optional;

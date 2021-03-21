@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.domain.staff.examine.gui;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
+import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 
 import java.util.function.Supplier;
 

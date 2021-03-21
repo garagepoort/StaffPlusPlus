@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.common.utils;
 
-import net.shortninja.staffplus.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.NoPermissionException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

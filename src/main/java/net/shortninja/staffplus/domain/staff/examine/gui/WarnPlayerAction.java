@@ -1,19 +1,19 @@
 package net.shortninja.staffplus.domain.staff.examine.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
+import net.shortninja.staffplus.common.config.Messages;
+import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.exceptions.PlayerOfflineException;
 import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Messages;
-import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplus.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

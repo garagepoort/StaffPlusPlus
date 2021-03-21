@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.domain.staff.warn.appeals.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.cmd.CommandUtil;
-import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.domain.staff.warn.appeals.AppealService;
 import net.shortninja.staffplus.domain.staff.warn.warnings.Warning;
-import net.shortninja.staffplus.common.gui.IAction;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

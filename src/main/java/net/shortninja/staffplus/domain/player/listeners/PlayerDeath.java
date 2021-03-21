@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.player.listeners;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.domain.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.domain.staff.tracing.TraceService;
 import org.bukkit.Bukkit;

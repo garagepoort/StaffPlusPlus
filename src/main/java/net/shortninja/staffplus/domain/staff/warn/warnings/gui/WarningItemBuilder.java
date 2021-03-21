@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.staff.warn.warnings.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionType;
@@ -27,7 +27,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
     private static WarningConfiguration warningConfiguration = IocContainer.getOptions().warningConfiguration;
 
     public static ItemStack build(Warning warning) {
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
 
         lore.add("&bId: " + warning.getId());
         if (IocContainer.getOptions().serverSyncConfiguration.isWarningSyncEnabled()) {

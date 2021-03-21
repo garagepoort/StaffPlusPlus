@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.common.config;
 
-import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.application.data.LanguageFile;
+import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;

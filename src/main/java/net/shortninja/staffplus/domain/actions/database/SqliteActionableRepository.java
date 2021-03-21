@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.domain.actions.database;
 
-import net.shortninja.staffplus.domain.actions.ExecutableActionEntity;
 import net.shortninja.staffplus.application.database.migrations.sqlite.SqlLiteConnection;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
+import net.shortninja.staffplus.domain.actions.ExecutableActionEntity;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.*;
@@ -46,7 +47,7 @@ public class SqliteActionableRepository extends AbstractSqlActionableRepository 
 
             return generatedKey;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 }

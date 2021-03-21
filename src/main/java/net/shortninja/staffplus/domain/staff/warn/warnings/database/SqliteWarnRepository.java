@@ -1,10 +1,11 @@
 package net.shortninja.staffplus.domain.staff.warn.warnings.database;
 
-import net.shortninja.staffplus.domain.player.PlayerManager;
+import net.shortninja.staffplus.application.database.migrations.sqlite.SqlLiteConnection;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
+import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.domain.staff.warn.warnings.Warning;
-import net.shortninja.staffplus.application.database.migrations.sqlite.SqlLiteConnection;
 
 import java.sql.*;
 
@@ -44,7 +45,7 @@ public class SqliteWarnRepository extends AbstractSqlWarnRepository {
 
             return generatedKey;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 }

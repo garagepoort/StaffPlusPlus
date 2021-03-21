@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.domain.player.listeners;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.domain.player.PlayerManager;
+import net.shortninja.staffplus.application.IocContainer;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.utils.BukkitUtils;
 import net.shortninja.staffplus.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.domain.chat.blacklist.BlacklistService;
-import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.staff.tracing.TraceService;
-import net.shortninja.staffplus.common.utils.BukkitUtils;
 import net.shortninja.staffplusplus.chat.PlayerMentionedEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

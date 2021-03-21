@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.domain.staff.protect;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.session.SessionManagerImpl;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.domain.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.domain.staff.protect.database.ProtectedAreaRepository;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

@@ -1,14 +1,14 @@
 package net.shortninja.staffplus.domain.player.listeners;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManagerImpl;
+import net.shortninja.staffplus.common.utils.InventoryFactory;
 import net.shortninja.staffplus.domain.staff.chests.ChestGUI;
 import net.shortninja.staffplus.domain.staff.chests.ChestGuiType;
 import net.shortninja.staffplus.domain.staff.freeze.FreezeGui;
-import net.shortninja.staffplus.common.utils.InventoryFactory;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

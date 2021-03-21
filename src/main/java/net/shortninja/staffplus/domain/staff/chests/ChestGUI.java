@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.domain.staff.chests;
 
-import net.shortninja.staffplus.common.gui.PassThroughClickAction;
 import net.shortninja.staffplus.common.UpdatableGui;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.PassThroughClickAction;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 

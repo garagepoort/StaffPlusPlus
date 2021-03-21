@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.domain.actions.database;
 
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.domain.actions.ActionRunStrategy;
 import net.shortninja.staffplus.domain.actions.ExecutableActionEntity;
 import net.shortninja.staffplusplus.Actionable;
@@ -27,7 +28,7 @@ public abstract class AbstractSqlActionableRepository implements ActionableRepos
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return actions;
     }
@@ -40,7 +41,7 @@ public abstract class AbstractSqlActionableRepository implements ActionableRepos
             insert.setInt(2, executableActionId);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -52,7 +53,7 @@ public abstract class AbstractSqlActionableRepository implements ActionableRepos
             insert.setInt(2, executableActionId);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -64,7 +65,7 @@ public abstract class AbstractSqlActionableRepository implements ActionableRepos
             insert.setString(2, actionable.getActionableType());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 

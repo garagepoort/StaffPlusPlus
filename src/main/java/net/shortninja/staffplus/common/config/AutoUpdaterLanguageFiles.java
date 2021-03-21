@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.common.config;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.application.data.LanguageFile;
+import net.shortninja.staffplus.common.exceptions.ConfigurationException;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;

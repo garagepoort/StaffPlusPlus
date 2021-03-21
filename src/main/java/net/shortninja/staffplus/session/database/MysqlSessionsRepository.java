@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.session.database;
 
 import net.shortninja.staffplus.application.database.migrations.mysql.MySQLConnection;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 
 import java.sql.*;
 
@@ -29,7 +30,7 @@ public class MysqlSessionsRepository extends AbstractSqlSessionsRepository {
 
             return generatedKey;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 

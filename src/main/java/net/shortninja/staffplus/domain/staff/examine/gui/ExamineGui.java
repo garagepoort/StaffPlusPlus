@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.domain.staff.examine.gui;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.gui.AbstractGui;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
