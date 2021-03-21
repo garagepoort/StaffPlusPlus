@@ -2,9 +2,10 @@ package net.shortninja.staffplus.domain.staff.mute.database;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.domain.staff.mute.Mute;
 
 import java.sql.Connection;
@@ -42,7 +43,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return mutes;
     }
@@ -67,7 +68,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return mutes;
     }
@@ -85,7 +86,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }
@@ -103,7 +104,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }
@@ -120,7 +121,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return mutes;
     }
@@ -137,7 +138,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return result;
     }
@@ -153,7 +154,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return count;
     }
@@ -169,7 +170,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return count;
     }
@@ -184,7 +185,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
             insert.setInt(4, mute.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 

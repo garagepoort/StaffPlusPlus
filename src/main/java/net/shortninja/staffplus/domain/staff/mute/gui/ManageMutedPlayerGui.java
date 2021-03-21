@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.domain.staff.mute.gui;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.gui.AbstractGui;
-import net.shortninja.staffplus.domain.staff.mute.Mute;
-import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.common.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.domain.staff.mute.Mute;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Supplier;

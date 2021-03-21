@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.domain.staff.mode.config.modeitems.vanish;
 
+import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.domain.staff.mode.config.ModeItemLoader;
-import net.shortninja.staffplus.common.JavaUtils;
-import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;

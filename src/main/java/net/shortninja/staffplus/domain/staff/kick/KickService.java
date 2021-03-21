@@ -1,17 +1,17 @@
 package net.shortninja.staffplus.domain.staff.kick;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.domain.staff.kick.database.KicksRepository;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplusplus.kick.KickEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,11 +28,11 @@ public class KickService implements InfractionProvider {
     private final PermissionHandler permission;
     private final KicksRepository kicksRepository;
     private final Options options;
-    private MessageCoordinator message;
+    private MessageCoordinator messageCoordinator;
     private Messages messages;
 
-    public KickService(PermissionHandler permission, KicksRepository kicksRepository, Options options, MessageCoordinator message, Messages messages) {
-        this.message = message;
+    public KickService(PermissionHandler permission, KicksRepository kicksRepository, Options options, MessageCoordinator messageCoordinator, Messages messages) {
+        this.messageCoordinator = messageCoordinator;
         this.permission = permission;
         this.kicksRepository = kicksRepository;
         this.options = options;
@@ -63,7 +63,7 @@ public class KickService implements InfractionProvider {
             .replace("%target%", playerToKick.getUsername())
             .replace("%issuer%", issuerName)
             .replace("%reason%", reason);
-        playerToKick.getPlayer().kickPlayer(MessageCoordinator.colorize(message));
+        playerToKick.getPlayer().kickPlayer(this.messageCoordinator.colorize(message));
     }
 
     private void notifyPlayers(SppPlayer playerToKick, String issuerName, String reason) {
@@ -71,7 +71,7 @@ public class KickService implements InfractionProvider {
             .replace("%target%", playerToKick.getUsername())
             .replace("%issuer%", issuerName)
             .replace("%reason%", reason);
-        this.message.sendGlobalMessage(message, messages.prefixGeneral);
+        this.messageCoordinator.sendGlobalMessage(message, messages.prefixGeneral);
     }
 
     @Override

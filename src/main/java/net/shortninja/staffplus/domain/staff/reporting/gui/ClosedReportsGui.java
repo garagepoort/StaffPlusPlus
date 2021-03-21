@@ -1,14 +1,13 @@
 package net.shortninja.staffplus.domain.staff.reporting.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.gui.AbstractGui;
-import net.shortninja.staffplus.common.gui.PagedGui;
-import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.reporting.Report;
 import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.common.gui.PagedGui;
 import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.domain.staff.reporting.Report;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 public class ClosedReportsGui extends PagedGui {
 
     private PermissionHandler permission = IocContainer.getPermissionHandler();
-    private Options options = IocContainer.getOptions();
 
     public ClosedReportsGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);

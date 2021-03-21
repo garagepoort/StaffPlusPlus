@@ -11,7 +11,7 @@ import java.util.List;
 public class AppealReasonItemBuilder {
 
     public static ItemStack build(String reason) {
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
 
         ItemStack item = Items.editor(Items.builder().setMaterial(Material.PAPER).build())
             .setAmount(1)

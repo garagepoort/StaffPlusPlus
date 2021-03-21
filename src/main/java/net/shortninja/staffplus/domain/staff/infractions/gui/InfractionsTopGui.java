@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.domain.staff.infractions.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.gui.PagedGui;
-import net.shortninja.staffplus.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.common.gui.PagedGui;
+import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.domain.staff.infractions.InfractionType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

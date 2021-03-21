@@ -6,11 +6,11 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionLoader;
 import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -40,7 +40,7 @@ public class VanishServiceImpl {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     PlayerSession playerSession = sessionManager.get(p.getUniqueId());
                     if (playerSession.isVanished()) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(MessageCoordinator.colorize(messages.vanishEnabled)));
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message.colorize(messages.vanishEnabled)));
                     }
                 }
             }, 20L, 20L);

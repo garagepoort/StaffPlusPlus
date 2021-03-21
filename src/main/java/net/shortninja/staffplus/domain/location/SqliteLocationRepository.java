@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.domain.location;
 
-import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.application.database.migrations.sqlite.SqlLiteConnection;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import org.bukkit.Location;
 
 import java.sql.*;
@@ -40,7 +41,7 @@ public class SqliteLocationRepository extends AbstractSqlLocationRepository {
 
             return generatedKey;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 }

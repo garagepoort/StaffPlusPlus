@@ -1,15 +1,15 @@
 package net.shortninja.staffplus.domain.staff.mode;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManagerImpl;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplus.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.domain.staff.mode.config.ModeItemConfiguration;
 import net.shortninja.staffplus.domain.staff.mode.config.gui.GuiConfiguration;
 import net.shortninja.staffplus.domain.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
-import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

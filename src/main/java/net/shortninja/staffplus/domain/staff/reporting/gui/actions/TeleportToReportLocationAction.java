@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.domain.staff.reporting.gui.actions;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.common.config.Messages;
-import net.shortninja.staffplus.domain.staff.reporting.Report;
+import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.staff.reporting.Report;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

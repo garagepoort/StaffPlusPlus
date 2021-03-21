@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.application.database;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.application.database.migrations.mysql.MySQLConnection;
+import net.shortninja.staffplus.common.config.Options;
 
 public class DatabaseUtil {
 

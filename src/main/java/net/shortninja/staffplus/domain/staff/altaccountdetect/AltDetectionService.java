@@ -1,17 +1,17 @@
 package net.shortninja.staffplus.domain.staff.altaccountdetect;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.common.exceptions.NoPermissionException;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.altaccountdetect.checks.AltDetector;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.checks.AltDetectInfo;
+import net.shortninja.staffplus.domain.staff.altaccountdetect.checks.AltDetector;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.checks.IpDetector;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.checks.UsernameDetector;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.database.ipcheck.PlayerIpRepository;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.database.whitelist.AltDetectWhitelistRepository;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 import org.bukkit.Bukkit;

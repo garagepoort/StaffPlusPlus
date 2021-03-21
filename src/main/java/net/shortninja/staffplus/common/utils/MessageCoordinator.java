@@ -18,7 +18,7 @@ public class MessageCoordinator {
         this.permission = permission;
     }
 
-    public static String colorize(String message) {
+    public String colorize(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 

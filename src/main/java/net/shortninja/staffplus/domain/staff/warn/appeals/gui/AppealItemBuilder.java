@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.staff.warn.appeals.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.warnings.AppealStatus;
@@ -20,7 +20,7 @@ import static net.shortninja.staffplus.common.JavaUtils.formatLines;
 public class AppealItemBuilder {
 
     public static ItemStack build(IAppeal appeal) {
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
 
         LocalDateTime localDateTime = LocalDateTime.ofInstant(appeal.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat));
