@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.domain.staff.mode.config;
 
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.domain.actions.ActionConfigLoader;
 import net.shortninja.staffplus.domain.actions.ConfiguredAction;
-import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplusplus.vanish.VanishType;
-import net.shortninja.staffplus.common.JavaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 

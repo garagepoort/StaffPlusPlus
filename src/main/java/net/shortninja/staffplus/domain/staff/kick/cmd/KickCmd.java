@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.domain.staff.kick.cmd;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.kick.KickService;
 import net.shortninja.staffplus.common.utils.PermissionHandler;
-import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.domain.staff.kick.KickService;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;

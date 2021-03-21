@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.domain.staff.warn.appeals;
 
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.staff.warn.appeals.database.AppealRepository;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

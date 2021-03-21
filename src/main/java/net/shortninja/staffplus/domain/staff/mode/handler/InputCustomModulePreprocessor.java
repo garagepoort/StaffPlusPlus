@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.domain.staff.mode.handler;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.config.Messages;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.domain.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.staff.mode.item.CustomModuleConfiguration;
+import net.shortninja.staffplus.session.PlayerSession;
 import org.bukkit.Bukkit;
 
 import java.util.Map;

@@ -1,9 +1,10 @@
 package net.shortninja.staffplus.domain.staff.mute.database;
 
-import net.shortninja.staffplus.domain.player.PlayerManager;
-import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.mute.Mute;
 import net.shortninja.staffplus.application.database.migrations.mysql.MySQLConnection;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
+import net.shortninja.staffplus.domain.player.PlayerManager;
+import net.shortninja.staffplus.domain.staff.mute.Mute;
 
 import java.sql.*;
 
@@ -43,7 +44,7 @@ public class MysqlMuteRepository extends AbstractSqlMuteRepository {
 
             return generatedKey;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 

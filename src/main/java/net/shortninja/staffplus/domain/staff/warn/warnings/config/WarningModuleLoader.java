@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.domain.staff.warn.warnings.config;
 
 import net.shortninja.staffplus.common.Sounds;
-import net.shortninja.staffplus.domain.actions.ConfiguredAction;
 import net.shortninja.staffplus.common.config.ConfigLoader;
 import net.shortninja.staffplus.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.common.time.TimeUnit;
+import net.shortninja.staffplus.domain.actions.ConfiguredAction;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.*;

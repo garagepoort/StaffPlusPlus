@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.domain.staff.mute.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
+import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.domain.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.domain.staff.mute.Mute;
-import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,7 +24,7 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(mute.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat));
 
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
 
         lore.add("&bId: " + mute.getId());
         if(IocContainer.getOptions().serverSyncConfiguration.isMuteSyncEnabled()) {

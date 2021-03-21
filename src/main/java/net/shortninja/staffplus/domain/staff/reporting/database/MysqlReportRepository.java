@@ -1,10 +1,11 @@
 package net.shortninja.staffplus.domain.staff.reporting.database;
 
-import net.shortninja.staffplus.domain.player.PlayerManager;
-import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.location.LocationRepository;
-import net.shortninja.staffplus.domain.staff.reporting.Report;
 import net.shortninja.staffplus.application.database.migrations.mysql.MySQLConnection;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
+import net.shortninja.staffplus.domain.location.LocationRepository;
+import net.shortninja.staffplus.domain.player.PlayerManager;
+import net.shortninja.staffplus.domain.staff.reporting.Report;
 
 import java.sql.*;
 
@@ -50,7 +51,7 @@ public class MysqlReportRepository extends AbstractSqlReportRepository {
 
             return generatedKey;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 

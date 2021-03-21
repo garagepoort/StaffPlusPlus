@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.domain.staff.mode.cmd;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.domain.staff.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.domain.staff.mode.handler.GadgetHandler;
 import org.bukkit.command.CommandSender;
 
 import java.util.Optional;

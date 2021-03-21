@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.domain.staff.mode.handler;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.mode.config.modeitems.cps.CpsModeConfiguration;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.staff.mode.config.modeitems.cps.CpsModeConfiguration;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;

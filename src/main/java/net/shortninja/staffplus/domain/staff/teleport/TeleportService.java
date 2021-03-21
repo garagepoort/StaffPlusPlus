@@ -1,14 +1,17 @@
 package net.shortninja.staffplus.domain.staff.teleport;
 
 import net.shortninja.staffplus.common.config.Messages;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TeleportService {
 

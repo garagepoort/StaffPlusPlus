@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.domain.staff.protect.cmd;
 
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.domain.staff.protect.ProtectedArea;
 import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.domain.staff.protect.ProtectedArea;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class ProtectedAreaItemBuilder {
 
     public static ItemStack build(ProtectedArea protectedArea) {
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
 
         lore.add("&bId: " + protectedArea.getId());
         lore.add("&bName: " + protectedArea.getName());

@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.domain.staff.mute.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.config.Messages;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.staff.mute.MuteService;
+import net.shortninja.staffplus.session.PlayerSession;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

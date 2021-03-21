@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.delayedactions.database;
 
-import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.application.database.migrations.sqlite.SqlLiteConnection;
+import net.shortninja.staffplus.common.config.Options;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,14 +1,14 @@
 package net.shortninja.staffplus.domain.staff.reporting.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.Items;
-import net.shortninja.staffplus.common.gui.AbstractGui;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.gui.AbstractGui;
+import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplus.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.domain.staff.reporting.Report;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

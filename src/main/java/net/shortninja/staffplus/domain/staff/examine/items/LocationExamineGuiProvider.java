@@ -1,14 +1,14 @@
 package net.shortninja.staffplus.domain.staff.examine.items;
 
-import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
-import net.shortninja.staffplus.common.gui.IAction;
-import net.shortninja.staffplus.common.JavaUtils;
-import net.shortninja.staffplus.common.Items;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

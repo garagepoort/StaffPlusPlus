@@ -2,10 +2,10 @@ package net.shortninja.staffplus.domain.chat.blacklist;
 
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.domain.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.chat.blacklist.censors.ChatCensor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;

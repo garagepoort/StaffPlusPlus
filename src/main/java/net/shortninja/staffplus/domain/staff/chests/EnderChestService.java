@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.domain.staff.chests;
 
-import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.utils.InventoryFactory;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;

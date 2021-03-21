@@ -1,14 +1,14 @@
 package net.shortninja.staffplus.domain.player.listeners;
 
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.JavaUtils;
-import net.shortninja.staffplus.domain.player.PlayerManager;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.session.SessionManagerImpl;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.player.PlayerManager;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.chests.ChestGUI;
 import net.shortninja.staffplus.domain.staff.chests.ChestGuiType;
 import net.shortninja.staffplus.domain.staff.freeze.FreezeHandler;
@@ -18,7 +18,7 @@ import net.shortninja.staffplus.domain.staff.mode.handler.CustomModuleExecutor;
 import net.shortninja.staffplus.domain.staff.mode.handler.CustomModulePreProcessor;
 import net.shortninja.staffplus.domain.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.domain.staff.mode.item.CustomModuleConfiguration;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.block.*;
 import org.bukkit.entity.Player;

@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.domain.staff.examine.items;
 
-import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
-import net.shortninja.staffplus.common.gui.IAction;
-import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,7 +50,7 @@ public class FoodExamineGuiProvider implements ExamineGuiItemProvider {
     private ItemStack foodItem(Player player) {
         int healthLevel = (int) player.getHealth();
         int foodLevel = player.getFoodLevel();
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
 
         for (String string : messages.examineFood) {
             lore.add(string.replace("%health%", healthLevel + "/20").replace("%hunger%", foodLevel + "/20"));

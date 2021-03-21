@@ -2,9 +2,10 @@ package net.shortninja.staffplus.domain.staff.kick.database;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.Constants;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.domain.player.PlayerManager;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.domain.staff.kick.Kick;
 
 import java.sql.Connection;
@@ -46,7 +47,7 @@ public abstract class AbstractSqlKicksRepository implements KicksRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return kicks;
     }
@@ -62,7 +63,7 @@ public abstract class AbstractSqlKicksRepository implements KicksRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return count;
     }

@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.domain.staff.revive;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.domain.staff.mode.StaffModeService;
+import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.domain.staff.mode.StaffModeService;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.common.cmd;
 
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.application.StaffPlusCmd;
-import net.shortninja.staffplus.domain.confirmation.ConfirmActionCmd;
-import net.shortninja.staffplus.domain.chat.ChatCmd;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.domain.chat.ChatCmd;
+import net.shortninja.staffplus.domain.confirmation.ConfirmActionCmd;
 import net.shortninja.staffplus.domain.staff.PersonnelCmd;
 import net.shortninja.staffplus.domain.staff.alerts.AlertsCmd;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.cmd.AltDetectWhitelistCmd;

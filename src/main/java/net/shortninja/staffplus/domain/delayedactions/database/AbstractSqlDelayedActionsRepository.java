@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.domain.delayedactions.database;
 
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.domain.delayedactions.DelayedAction;
 import net.shortninja.staffplus.domain.delayedactions.Executor;
 
@@ -36,7 +37,7 @@ public abstract class AbstractSqlDelayedActionsRepository implements DelayedActi
             insert.setString(5, executor.name());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -59,7 +60,7 @@ public abstract class AbstractSqlDelayedActionsRepository implements DelayedActi
             insert.setString(7, executor.name());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -84,7 +85,7 @@ public abstract class AbstractSqlDelayedActionsRepository implements DelayedActi
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return actions;
     }
@@ -96,7 +97,7 @@ public abstract class AbstractSqlDelayedActionsRepository implements DelayedActi
             insert.setString(1, uuid.toString());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 }

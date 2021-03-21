@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.staff.protect;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Container;
 import org.bukkit.entity.Player;

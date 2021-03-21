@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.player.listeners;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
