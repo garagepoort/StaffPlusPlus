@@ -1,8 +1,9 @@
 package net.shortninja.staffplus.domain.staff.teleport;
 
-import net.shortninja.staffplus.application.IocContainer;
+import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,9 +15,13 @@ public class TeleportService {
     private static Map<Player, Deque<Location>> previousLocations = new HashMap<>();
 
     private final Options options;
+    private final MessageCoordinator message;
+    private final Messages messages;
 
-    public TeleportService(Options options) {
+    public TeleportService(Options options, MessageCoordinator message, Messages messages) {
         this.options = options;
+        this.message = message;
+        this.messages = messages;
     }
 
     public void teleportPlayerToLocation(CommandSender commandSender, Player targetPlayer, String locationId) {
@@ -27,14 +32,14 @@ public class TeleportService {
         Location location = options.locations.get(locationId);
         addPreviousLocation(targetPlayer);
         targetPlayer.teleport(location);
-        IocContainer.getMessage().send(commandSender, "&6" + targetPlayer.getName() + " teleported to " + locationId, IocContainer.getMessages().prefixGeneral);
+        message.send(commandSender, "&6" + targetPlayer.getName() + " teleported to " + locationId, messages.prefixGeneral);
     }
 
 
     public void teleportSelf(Player targetPlayer, Location location) {
         addPreviousLocation(targetPlayer);
         targetPlayer.teleport(location);
-        IocContainer.getMessage().send(targetPlayer, "&6You have been teleported", IocContainer.getMessages().prefixGeneral);
+        message.send(targetPlayer, "&6You have been teleported", messages.prefixGeneral);
     }
 
     public void teleportToPlayer(Player sourcePlayer, Player targetPlayer) {

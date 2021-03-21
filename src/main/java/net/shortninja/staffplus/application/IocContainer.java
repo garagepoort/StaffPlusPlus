@@ -280,7 +280,7 @@ public class IocContainer {
     }
 
     public static TeleportService getTeleportService() {
-        return initBean(TeleportService.class, () -> new TeleportService(getOptions()));
+        return initBean(TeleportService.class, () -> new TeleportService(getOptions(), getMessage(), getMessages()));
     }
 
     public static StaffModeItemsService getStaffModeItemsService() {
