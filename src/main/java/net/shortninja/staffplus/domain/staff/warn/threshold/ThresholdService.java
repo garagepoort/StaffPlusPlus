@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.domain.staff.warn.threshold;
 
+import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.domain.actions.ActionService;
 import net.shortninja.staffplus.domain.actions.ConfiguredAction;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.domain.staff.warn.warnings.config.WarningThresholdConfiguration;
 import net.shortninja.staffplus.domain.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplusplus.warnings.IWarning;

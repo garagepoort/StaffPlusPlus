@@ -4,10 +4,10 @@ import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.bungee.BungeeAction;
 import net.shortninja.staffplus.common.bungee.BungeeClient;
 import net.shortninja.staffplus.common.bungee.BungeeContext;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.broadcast.config.BroadcastConfiguration;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.staff.broadcast.config.BroadcastConfiguration;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;

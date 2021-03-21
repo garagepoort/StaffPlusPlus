@@ -1,8 +1,6 @@
 package net.shortninja.staffplus.application.data;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -17,15 +15,14 @@ public class LanguageFile {
     private final String FILE_NAME = StaffPlus.get().getConfig().getString("lang") + ".yml";
     private FileConfiguration lang;
     private File langFile;
-    private MessageCoordinator message = IocContainer.getMessage();
 
     public LanguageFile() {
         for (String fileName : LANG_FILES) {
             try {
                 copyFile(fileName);
             } catch (Exception exception) {
-                System.out.println(exception);
-                message.sendConsoleMessage("Error occured while initializing '" + fileName + "'!", true);
+                StaffPlus.get().getLogger().severe("Error occured while initializing '" + fileName + "'!");
+                StaffPlus.get().getLogger().severe(exception.getMessage());
             }
         }
 
@@ -50,7 +47,7 @@ public class LanguageFile {
             StaffPlus.get().getDataFolder().mkdirs();
             file.getParentFile().mkdirs();
             file.createNewFile();
-            message.sendConsoleMessage("Creating language file '" + fileName + "'.", false);
+            StaffPlus.get().getLogger().info("Creating language file '" + fileName + "'.");
         } else if (YamlConfiguration.loadConfiguration(file).getInt("lang-version") <
                 newLang.getInt("lang-version")) {
             YamlConfiguration oldLang = YamlConfiguration.loadConfiguration(file);

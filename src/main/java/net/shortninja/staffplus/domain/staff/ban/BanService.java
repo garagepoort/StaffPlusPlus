@@ -2,18 +2,18 @@ package net.shortninja.staffplus.domain.staff.ban;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.JavaUtils;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.domain.staff.ban.database.BansRepository;
 import net.shortninja.staffplus.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplusplus.ban.BanEvent;
 import net.shortninja.staffplusplus.ban.UnbanEvent;
 import org.bukkit.command.CommandSender;
@@ -22,10 +22,10 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 import static java.util.stream.Collectors.toMap;
+import static net.shortninja.staffplus.common.utils.BukkitUtils.sendEvent;
 import static net.shortninja.staffplus.domain.staff.ban.BanMessageStringUtil.replaceBanPlaceholders;
 import static net.shortninja.staffplus.domain.staff.ban.BanType.PERM_BAN;
 import static net.shortninja.staffplus.domain.staff.ban.BanType.TEMP_BAN;
-import static net.shortninja.staffplus.common.utils.BukkitUtils.sendEvent;
 
 public class BanService implements InfractionProvider {
 
@@ -127,7 +127,7 @@ public class BanService implements InfractionProvider {
     private void kickPlayer(SppPlayer playerToBan, Long duration, String issuerName, String reason, String templateMessage) {
         if (playerToBan.isOnline()) {
             String banMessage = replaceBanPlaceholders(templateMessage, playerToBan.getUsername(), issuerName, reason, duration);
-            playerToBan.getPlayer().kickPlayer(MessageCoordinator.colorize(banMessage));
+            playerToBan.getPlayer().kickPlayer(message.colorize(banMessage));
         }
     }
 

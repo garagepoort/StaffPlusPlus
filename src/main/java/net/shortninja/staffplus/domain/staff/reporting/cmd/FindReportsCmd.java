@@ -1,18 +1,20 @@
 package net.shortninja.staffplus.domain.staff.reporting.cmd;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.common.exceptions.BusinessException;
-import net.shortninja.staffplus.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
+import net.shortninja.staffplus.common.exceptions.NoPermissionException;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.reporting.ReportFilters.ReportFiltersBuilder;
 import net.shortninja.staffplus.domain.staff.reporting.gui.FindReportsGui;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FindReportsCmd extends AbstractCmd {

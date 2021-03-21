@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.domain.staff.mode.config;
 
-import net.shortninja.staffplus.common.config.ConfigLoader;
-import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.config.ConfigLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

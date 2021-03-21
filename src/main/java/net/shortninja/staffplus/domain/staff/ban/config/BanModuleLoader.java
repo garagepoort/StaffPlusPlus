@@ -2,6 +2,7 @@ package net.shortninja.staffplus.domain.staff.ban.config;
 
 import net.shortninja.staffplus.StaffPlus;
 import net.shortninja.staffplus.common.config.ConfigLoader;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.domain.staff.ban.BanType;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -74,7 +75,7 @@ public class BanModuleLoader extends ConfigLoader<BanConfiguration> {
         try (Stream<String> stream = Files.lines(filePath.toPath(), StandardCharsets.UTF_8)) {
             stream.forEach(s -> contentBuilder.append(s).append("\n"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return contentBuilder.toString();
     }

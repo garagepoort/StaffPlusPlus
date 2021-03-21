@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.domain.staff.kick.gui;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.IocContainer;
+import net.shortninja.staffplus.common.Items;
 import net.shortninja.staffplus.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.domain.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.domain.staff.kick.Kick;
-import net.shortninja.staffplus.common.Items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,7 +24,7 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(kick.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(IocContainer.getOptions().timestampFormat));
 
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
 
         lore.add("&bId: " + kick.getId());
         if(IocContainer.getOptions().serverSyncConfiguration.isKickSyncEnabled()) {

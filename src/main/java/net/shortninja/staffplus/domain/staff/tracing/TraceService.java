@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.domain.staff.tracing;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Options;
 import net.shortninja.staffplus.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplusplus.trace.StartTraceEvent;
 import net.shortninja.staffplusplus.trace.StopTraceEvent;

@@ -1,23 +1,22 @@
 package net.shortninja.staffplus.application;
 
 import net.shortninja.staffplus.StaffPlus;
+import net.shortninja.staffplus.application.database.DatabaseType;
+import net.shortninja.staffplus.application.database.DatabaseUtil;
 import net.shortninja.staffplus.authentication.AuthenticationProvider;
 import net.shortninja.staffplus.authentication.AuthenticationService;
 import net.shortninja.staffplus.authentication.authme.AuthMeAuthenticationService;
 import net.shortninja.staffplus.authentication.authme.NoopAuthenticationService;
+import net.shortninja.staffplus.common.bungee.BungeeClient;
+import net.shortninja.staffplus.common.config.Messages;
+import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.common.utils.PermissionHandler;
 import net.shortninja.staffplus.domain.actions.ActionExecutioner;
 import net.shortninja.staffplus.domain.actions.ActionService;
 import net.shortninja.staffplus.domain.actions.database.ActionableRepository;
 import net.shortninja.staffplus.domain.actions.database.MysqlActionableRepository;
 import net.shortninja.staffplus.domain.actions.database.SqliteActionableRepository;
-import net.shortninja.staffplus.common.bungee.BungeeClient;
-import net.shortninja.staffplus.domain.confirmation.ConfirmationChatService;
-import net.shortninja.staffplus.domain.confirmation.ConfirmationService;
-import net.shortninja.staffplus.domain.player.ChatActionChatInterceptor;
-import net.shortninja.staffplus.domain.player.providers.OfflinePlayerProvider;
-import net.shortninja.staffplus.domain.player.PlayerManager;
-import net.shortninja.staffplus.domain.player.providers.BukkitOfflinePlayerProvider;
-import net.shortninja.staffplus.domain.player.providers.NoopOfflinePlayerProvider;
 import net.shortninja.staffplus.domain.chat.ChatHandler;
 import net.shortninja.staffplus.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.domain.chat.GeneralChatInterceptor;
@@ -27,14 +26,19 @@ import net.shortninja.staffplus.domain.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.domain.chat.blacklist.censors.DomainChatCensor;
 import net.shortninja.staffplus.domain.chat.blacklist.censors.IllegalCharactersChatCensor;
 import net.shortninja.staffplus.domain.chat.blacklist.censors.IllegalWordsChatCensor;
-import net.shortninja.staffplus.common.config.Messages;
-import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.staffchat.StaffChatMessageFormatter;
-import net.shortninja.staffplus.session.SessionLoader;
-import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.session.database.MysqlSessionsRepository;
-import net.shortninja.staffplus.session.database.SessionsRepository;
-import net.shortninja.staffplus.session.database.SqliteSessionsRepository;
+import net.shortninja.staffplus.domain.confirmation.ConfirmationChatService;
+import net.shortninja.staffplus.domain.confirmation.ConfirmationService;
+import net.shortninja.staffplus.domain.delayedactions.database.DelayedActionsRepository;
+import net.shortninja.staffplus.domain.delayedactions.database.MysqlDelayedActionsRepository;
+import net.shortninja.staffplus.domain.delayedactions.database.SqliteDelayedActionsRepository;
+import net.shortninja.staffplus.domain.location.LocationRepository;
+import net.shortninja.staffplus.domain.location.MysqlLocationRepository;
+import net.shortninja.staffplus.domain.location.SqliteLocationRepository;
+import net.shortninja.staffplus.domain.player.ChatActionChatInterceptor;
+import net.shortninja.staffplus.domain.player.PlayerManager;
+import net.shortninja.staffplus.domain.player.providers.BukkitOfflinePlayerProvider;
+import net.shortninja.staffplus.domain.player.providers.NoopOfflinePlayerProvider;
+import net.shortninja.staffplus.domain.player.providers.OfflinePlayerProvider;
 import net.shortninja.staffplus.domain.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.AltDetectionService;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.database.ipcheck.MysqlPlayerIpRepository;
@@ -52,9 +56,6 @@ import net.shortninja.staffplus.domain.staff.ban.database.SqliteBansRepository;
 import net.shortninja.staffplus.domain.staff.ban.gui.BannedPlayerItemBuilder;
 import net.shortninja.staffplus.domain.staff.broadcast.BroadcastService;
 import net.shortninja.staffplus.domain.staff.chests.EnderChestService;
-import net.shortninja.staffplus.domain.delayedactions.database.DelayedActionsRepository;
-import net.shortninja.staffplus.domain.delayedactions.database.MysqlDelayedActionsRepository;
-import net.shortninja.staffplus.domain.delayedactions.database.SqliteDelayedActionsRepository;
 import net.shortninja.staffplus.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.domain.staff.examine.items.*;
 import net.shortninja.staffplus.domain.staff.freeze.FreezeChatInterceptor;
@@ -67,9 +68,6 @@ import net.shortninja.staffplus.domain.staff.kick.database.KicksRepository;
 import net.shortninja.staffplus.domain.staff.kick.database.MysqlKicksRepository;
 import net.shortninja.staffplus.domain.staff.kick.database.SqliteKicksRepository;
 import net.shortninja.staffplus.domain.staff.kick.gui.KickedPlayerItemBuilder;
-import net.shortninja.staffplus.domain.location.LocationRepository;
-import net.shortninja.staffplus.domain.location.MysqlLocationRepository;
-import net.shortninja.staffplus.domain.location.SqliteLocationRepository;
 import net.shortninja.staffplus.domain.staff.mode.ModeDataRepository;
 import net.shortninja.staffplus.domain.staff.mode.StaffModeItemsService;
 import net.shortninja.staffplus.domain.staff.mode.StaffModeService;
@@ -95,6 +93,7 @@ import net.shortninja.staffplus.domain.staff.reporting.database.ReportRepository
 import net.shortninja.staffplus.domain.staff.reporting.database.SqliteReportRepository;
 import net.shortninja.staffplus.domain.staff.reporting.gui.ReportItemBuilder;
 import net.shortninja.staffplus.domain.staff.staffchat.StaffChatChatInterceptor;
+import net.shortninja.staffplus.domain.staff.staffchat.StaffChatMessageFormatter;
 import net.shortninja.staffplus.domain.staff.staffchat.StaffChatServiceImpl;
 import net.shortninja.staffplus.domain.staff.teleport.TeleportService;
 import net.shortninja.staffplus.domain.staff.tracing.TraceChatInterceptor;
@@ -112,10 +111,11 @@ import net.shortninja.staffplus.domain.staff.warn.warnings.database.MysqlWarnRep
 import net.shortninja.staffplus.domain.staff.warn.warnings.database.SqliteWarnRepository;
 import net.shortninja.staffplus.domain.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplus.domain.staff.warn.warnings.gui.WarningItemBuilder;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.common.utils.PermissionHandler;
-import net.shortninja.staffplus.application.database.DatabaseType;
-import net.shortninja.staffplus.application.database.DatabaseUtil;
+import net.shortninja.staffplus.session.SessionLoader;
+import net.shortninja.staffplus.session.SessionManagerImpl;
+import net.shortninja.staffplus.session.database.MysqlSessionsRepository;
+import net.shortninja.staffplus.session.database.SessionsRepository;
+import net.shortninja.staffplus.session.database.SqliteSessionsRepository;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -352,11 +352,11 @@ public class IocContainer {
     }
 
     public static StaffChatServiceImpl getStaffChatService() {
-        return initBean(StaffChatServiceImpl.class, () -> new StaffChatServiceImpl(getMessages(), getOptions(), getStaffChatMessageFormatter()));
+        return initBean(StaffChatServiceImpl.class, () -> new StaffChatServiceImpl(getMessages(), getOptions(), getStaffChatMessageFormatter(), getMessage()));
     }
 
     public static StaffChatMessageFormatter getStaffChatMessageFormatter() {
-        return initBean(StaffChatMessageFormatter.class, () -> new StaffChatMessageFormatter(getMessages()));
+        return initBean(StaffChatMessageFormatter.class, () -> new StaffChatMessageFormatter(getMessages(), getMessage()));
     }
 
     public static VanishServiceImpl getVanishService() {

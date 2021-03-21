@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.domain.location;
 
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -28,7 +29,7 @@ public abstract class AbstractSqlLocationRepository implements LocationRepositor
             insert.setInt(1, id);
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -44,7 +45,7 @@ public abstract class AbstractSqlLocationRepository implements LocationRepositor
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return Optional.empty();
     }

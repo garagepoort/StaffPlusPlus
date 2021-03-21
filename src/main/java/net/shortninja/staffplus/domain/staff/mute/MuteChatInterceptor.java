@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.domain.staff.mute;
 
-import net.shortninja.staffplus.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.common.config.Messages;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.session.PlayerSession;
 import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class MuteChatInterceptor implements ChatInterceptor {

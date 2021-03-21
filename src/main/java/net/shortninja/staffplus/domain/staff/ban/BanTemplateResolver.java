@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.domain.staff.ban;
 
-import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
-import net.shortninja.staffplus.domain.staff.ban.config.BanReasonConfiguration;
+import net.shortninja.staffplus.common.exceptions.BusinessException;
 import net.shortninja.staffplus.common.utils.PermissionHandler;
+import net.shortninja.staffplus.domain.staff.ban.config.BanReasonConfiguration;
 import org.bukkit.command.CommandSender;
 
 import java.util.Optional;

@@ -1,14 +1,14 @@
 package net.shortninja.staffplus.domain.player.gui;
 
 import net.shortninja.staffplus.application.IocContainer;
-import net.shortninja.staffplus.common.gui.PagedGui;
-import net.shortninja.staffplus.domain.player.SppPlayer;
-import net.shortninja.staffplus.common.config.Messages;
-import net.shortninja.staffplus.session.PlayerSession;
-import net.shortninja.staffplus.common.gui.IAction;
-import net.shortninja.staffplus.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.common.JavaUtils;
 import net.shortninja.staffplus.common.Items;
+import net.shortninja.staffplus.common.JavaUtils;
+import net.shortninja.staffplus.common.config.Messages;
+import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.common.gui.PagedGui;
+import net.shortninja.staffplus.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.domain.player.SppPlayer;
+import net.shortninja.staffplus.session.PlayerSession;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

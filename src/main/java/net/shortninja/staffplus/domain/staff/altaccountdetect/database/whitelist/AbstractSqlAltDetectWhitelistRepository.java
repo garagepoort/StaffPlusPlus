@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.domain.staff.altaccountdetect.database.whitelist;
 
+import net.shortninja.staffplus.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.domain.staff.altaccountdetect.AltDetectWhitelistedItem;
 
 import java.sql.Connection;
@@ -27,7 +28,7 @@ public abstract class AbstractSqlAltDetectWhitelistRepository implements AltDete
             insert.setString(6, playerUuid2.toString());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -41,7 +42,7 @@ public abstract class AbstractSqlAltDetectWhitelistRepository implements AltDete
             insert.setString(4, playerUuid1.toString());
             insert.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
     }
 
@@ -59,7 +60,7 @@ public abstract class AbstractSqlAltDetectWhitelistRepository implements AltDete
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return whitelistedItems;
     }
@@ -78,7 +79,7 @@ public abstract class AbstractSqlAltDetectWhitelistRepository implements AltDete
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseException(e);
         }
         return whitelistedItems;
     }

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.domain.chat.blacklist.censors;
 
-import net.shortninja.staffplus.domain.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.domain.chat.blacklist.BlackListConfiguration;
 
 import java.util.Arrays;
 import java.util.List;

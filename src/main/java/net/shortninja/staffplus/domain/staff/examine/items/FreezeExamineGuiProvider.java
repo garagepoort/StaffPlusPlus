@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.domain.staff.examine.items;
 
-import net.shortninja.staffplus.common.gui.IAction;
 import net.shortninja.staffplus.common.Items;
-import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.common.config.Messages;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.common.gui.IAction;
+import net.shortninja.staffplus.domain.player.SppPlayer;
 import net.shortninja.staffplus.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.domain.staff.freeze.FreezeHandler;

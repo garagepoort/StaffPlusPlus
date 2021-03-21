@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.domain.player.listeners;
 
-import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.StaffPlus;
-import net.shortninja.staffplus.session.SessionManagerImpl;
-import net.shortninja.staffplus.domain.staff.mode.StaffModeService;
+import net.shortninja.staffplus.application.IocContainer;
 import net.shortninja.staffplus.common.config.Options;
+import net.shortninja.staffplus.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.domain.staff.tracing.TraceService;
+import net.shortninja.staffplus.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
