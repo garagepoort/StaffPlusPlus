@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

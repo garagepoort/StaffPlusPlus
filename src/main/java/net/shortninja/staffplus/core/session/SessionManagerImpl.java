@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.session;
 
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplusplus.session.SessionManager;
 import org.bukkit.entity.Player;
 

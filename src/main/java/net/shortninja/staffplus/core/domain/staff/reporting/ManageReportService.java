@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.reporting;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocContainer;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocContainer;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
