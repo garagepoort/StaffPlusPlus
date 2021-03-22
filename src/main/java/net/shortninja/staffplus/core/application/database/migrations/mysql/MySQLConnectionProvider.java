@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.database.migrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;

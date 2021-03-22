@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.common.cmd;
 
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.application.StaffPlusCmd;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.chat.ChatCmd;

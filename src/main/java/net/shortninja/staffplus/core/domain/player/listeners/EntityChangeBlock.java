@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;

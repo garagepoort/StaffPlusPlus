@@ -4,7 +4,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Constants;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;

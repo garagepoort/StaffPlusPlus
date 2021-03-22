@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.staffchat;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import org.bukkit.command.CommandSender;

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;

@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.staffchat;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 

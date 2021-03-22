@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.teleport;
 
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentExecutor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Options;

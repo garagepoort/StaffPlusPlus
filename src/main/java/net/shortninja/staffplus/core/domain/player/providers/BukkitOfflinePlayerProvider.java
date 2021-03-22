@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.providers;
 
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

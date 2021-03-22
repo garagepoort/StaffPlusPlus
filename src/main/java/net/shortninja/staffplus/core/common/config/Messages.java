@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.config;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 

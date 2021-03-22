@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui.actions;
 
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;

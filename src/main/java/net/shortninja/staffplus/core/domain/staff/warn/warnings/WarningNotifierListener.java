@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;

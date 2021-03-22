@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.broadcast;
 
-import net.shortninja.staffplus.core.application.IocContainer;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocContainer;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.bungee.BungeeAction;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.common.bungee.BungeeContext;

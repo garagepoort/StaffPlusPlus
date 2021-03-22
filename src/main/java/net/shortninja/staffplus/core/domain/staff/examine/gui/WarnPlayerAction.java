@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.examine.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;

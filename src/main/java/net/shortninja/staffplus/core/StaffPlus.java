@@ -5,7 +5,7 @@ import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextManager;
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.application.data.DataFile;
 import net.shortninja.staffplus.core.application.data.LanguageFile;
 import net.shortninja.staffplus.core.application.metrics.MetricsUtil;
@@ -97,7 +97,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         }
 
         IocContainer.registerBean(versionProtocol);
-        IocContainer.init(this);
+        IocContainer.init("net.shortninja.staffplus.core", getConfig());
 
         cpsHandler = new CpsHandler();
         gadgetHandler = new GadgetHandler();
