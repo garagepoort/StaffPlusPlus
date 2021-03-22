@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
-import net.shortninja.staffplus.core.application.database.migrations.Migration;
+import be.garagepoort.mcsqlmigrations.Migration;
 
 public class V39_CreateActionableActionsTableMigration implements Migration {
     @Override
