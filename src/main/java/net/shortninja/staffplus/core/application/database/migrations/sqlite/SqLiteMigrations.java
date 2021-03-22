@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.application.database.migrations.sqlite;
 
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.database.migrations.Migration;
 import net.shortninja.staffplus.core.application.database.migrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.database.migrations.SqlMigrations;
