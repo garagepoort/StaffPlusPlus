@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.application.database.migrations.sqlite;
 
-import net.shortninja.staffplus.core.application.database.migrations.Migration;
+import be.garagepoort.mcsqlmigrations.Migration;
 
 public class V5_CreateTicketsTableMigration implements Migration {
     @Override

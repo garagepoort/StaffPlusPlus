@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect.database.whitelist;
 
-import net.shortninja.staffplus.core.application.database.migrations.SqlConnectionProvider;
+import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectWhitelistedItem;
 
