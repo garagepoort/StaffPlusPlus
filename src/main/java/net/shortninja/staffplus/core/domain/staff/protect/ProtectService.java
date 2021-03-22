@@ -41,7 +41,7 @@ public class ProtectService {
             return false;
         }
 
-        boolean protectedArea = protectedAreas.stream().anyMatch(a -> a.isInArea(location));
+        boolean protectedArea = getAllProtectedAreas().stream().anyMatch(a -> a.isInArea(location));
         if (protectedArea) {
             message.send(player, "&7This area has been protected by a Staff Member", messages.prefixProtect);
         }
@@ -63,7 +63,7 @@ public class ProtectService {
         Location location2 = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() - half + correction, player.getLocation().getBlockY(), player.getLocation().getBlockZ() - half + correction);
 
         ProtectedArea protectedArea = new ProtectedArea(name, location1, location2, player.getUniqueId());
-        protectedAreas.add(protectedArea);
+        getAllProtectedAreas().add(protectedArea);
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             protectedAreaRepository.addProtectedArea(player, protectedArea);
         });
@@ -76,9 +76,9 @@ public class ProtectService {
             throw new BusinessException("&bCannot delete area. No area with name [" + name + "] found", messages.prefixProtect);
         }
         protectedAreaRepository.deleteProtectedArea(protectedArea.get().getId());
-        Optional<ProtectedArea> first = protectedAreas.stream().filter(p -> p.getName().equals(name)).findFirst();
+        Optional<ProtectedArea> first = getAllProtectedAreas().stream().filter(p -> p.getName().equals(name)).findFirst();
         if (first.isPresent()) {
-            protectedAreas.remove(first.get());
+            getAllProtectedAreas().remove(first.get());
             message.send(player, "&bProtected Area deleted", messages.prefixProtect);
         }
     }
@@ -89,9 +89,9 @@ public class ProtectService {
             throw new BusinessException("&bCannot delete area. No area with id [" + id + "] found", messages.prefixProtect);
         }
         protectedAreaRepository.deleteProtectedArea(id);
-        Optional<ProtectedArea> first = protectedAreas.stream().filter(p -> p.getName().equals(protectedArea.get().getName())).findFirst();
+        Optional<ProtectedArea> first = getAllProtectedAreas().stream().filter(p -> p.getName().equals(protectedArea.get().getName())).findFirst();
         if (first.isPresent()) {
-            protectedAreas.remove(first.get());
+            getAllProtectedAreas().remove(first.get());
             message.send(player, "&bProtected Area deleted", messages.prefixProtect);
         }
     }

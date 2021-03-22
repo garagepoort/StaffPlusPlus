@@ -203,6 +203,11 @@
             <artifactId>mcioc</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>be.garagepoort.mcsqlmigrations</groupId>
+            <artifactId>mc-sql-migrations</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
