@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.delayedactions.database;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.database.migrations.SqlConnectionProvider;
+import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.config.Options;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")

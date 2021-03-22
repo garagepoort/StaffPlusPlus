@@ -1,15 +1,18 @@
 package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcsqlmigrations.DatabaseType;
+import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.database.migrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class MySQLConnectionProvider implements SqlConnectionProvider {
@@ -27,6 +30,16 @@ public class MySQLConnectionProvider implements SqlConnectionProvider {
             getDataSource();
         }
         return datasource;
+    }
+
+    @Override
+    public List<String> getMigrationPackages() {
+        return Arrays.asList("net.shortninja.staffplus.core.application.database.migrations.mysql", "net.shortninja.staffplus.core.application.database.migrations.common");
+    }
+
+    @Override
+    public DatabaseType getDatabaseType() {
+        return DatabaseType.MYSQL;
     }
 
     public Connection getConnection() {
