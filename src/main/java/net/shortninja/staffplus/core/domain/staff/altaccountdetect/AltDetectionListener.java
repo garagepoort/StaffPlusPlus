@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

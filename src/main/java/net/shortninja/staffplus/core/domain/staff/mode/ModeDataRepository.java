@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

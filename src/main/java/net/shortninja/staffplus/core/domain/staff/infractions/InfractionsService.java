@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.infractions;
 
-import net.shortninja.staffplus.core.application.IocBean;
-import net.shortninja.staffplus.core.application.IocMulti;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMulti;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.utils;
 
 import de.tr7zw.nbtapi.*;
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
