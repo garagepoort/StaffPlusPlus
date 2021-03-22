@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting;
 
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.common.config.Messages;
