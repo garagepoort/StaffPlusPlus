@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.application;
 
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;

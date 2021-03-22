@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.utils;
 
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import org.bukkit.Bukkit;

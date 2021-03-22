@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.cmd;
 
-import net.shortninja.staffplus.core.application.IocContainer;
+import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;

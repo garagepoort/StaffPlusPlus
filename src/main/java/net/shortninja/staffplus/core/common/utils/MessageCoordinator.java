@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.common.utils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.IocBean;
+import be.garagepoort.mcioc.IocBean;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
