@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,11 +12,14 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.util.Optional;
 
+@IocBean
 public class BanListener implements Listener {
-    private final BanService banService = IocContainer.get(BanService.class);
-    private final Messages messages = IocContainer.get(Messages.class);
+    private final BanService banService;
+    private final Messages messages;
 
-    public BanListener() {
+    public BanListener(BanService banService, Messages messages) {
+        this.banService = banService;
+        this.messages = messages;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

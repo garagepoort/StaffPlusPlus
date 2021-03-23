@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.staffchat;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -30,7 +30,7 @@ public class BungeeStaffChatListener implements PluginMessageListener {
                 DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
                 String staffChatMessage = null;
                 staffChatMessage = msgin.readUTF();
-                IocContainer.get(StaffChatServiceImpl.class).handleBungeeMessage(staffChatMessage);
+                StaffPlus.get().iocContainer.get(StaffChatServiceImpl.class).handleBungeeMessage(staffChatMessage);
             }
         } catch (IOException e) {
             e.printStackTrace();

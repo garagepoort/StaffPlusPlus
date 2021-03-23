@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.infractions.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
@@ -46,7 +46,7 @@ public class InfractionsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(InfractionsService.class)
+        return StaffPlus.get().iocContainer.get(InfractionsService.class)
             .getAllInfractions(player, getTarget().getId(), getCurrentPage(), amount)
             .stream()
             .map(i -> {
@@ -57,7 +57,7 @@ public class InfractionsGui extends PagedGui {
     }
 
     private InfractionGuiProvider getInfractionGuiProvider(Infraction i) {
-        return IocContainer.getList(InfractionGuiProvider.class).stream()
+        return StaffPlus.get().iocContainer.getList(InfractionGuiProvider.class).stream()
             .filter(guiProvider -> guiProvider.getType().equals(i.getInfractionType())).findFirst()
             .orElseThrow(() -> new RuntimeException("No gui provider for infraction type: [" + i.getInfractionType() + "]"));
     }

@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 public class ManageBannedPlayerGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final BannedPlayerItemBuilder bannedPlayerItemBuilder = IocContainer.get(BannedPlayerItemBuilder.class);
+    private final BannedPlayerItemBuilder bannedPlayerItemBuilder = StaffPlus.get().iocContainer.get(BannedPlayerItemBuilder.class);
     private final Ban ban;
 
     public ManageBannedPlayerGui(String title, Ban ban, Supplier<AbstractGui> previousGuiSupplier) {

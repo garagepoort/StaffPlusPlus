@@ -1,18 +1,17 @@
 package net.shortninja.staffplus.core.application.metrics;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.Metrics;
 
-public class MetricsUtil {
+@IocBean(conditionalOnProperty = "metrics=true")
+public class MetricsService {
 
     private static final int PLUGIN_ID = 9351;
 
-    public static void initializeMetrics(StaffPlus staffPlus, Options options) {
-        if (!staffPlus.getConfig().getBoolean("metrics")) {
-            return;
-        }
-        Metrics metrics = new Metrics(staffPlus, PLUGIN_ID);
+    public MetricsService(Options options) {
+        Metrics metrics = new Metrics(StaffPlus.get(), PLUGIN_ID);
 
         boolean warningConfigurationEnabled = options.warningConfiguration.isEnabled();
         boolean appealConfigurationEnabled = options.appealConfiguration.isEnabled();

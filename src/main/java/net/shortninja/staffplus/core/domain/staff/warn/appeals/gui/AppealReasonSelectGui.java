@@ -16,8 +16,8 @@ import java.util.function.Supplier;
 public class AppealReasonSelectGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final Options options = IocContainer.get(Options.class);
-    private final AppealService appealService = IocContainer.get(AppealService.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final AppealService appealService = StaffPlus.get().iocContainer.get(AppealService.class);
     private final Warning warning;
 
     public AppealReasonSelectGui(Warning warning, String title, Supplier<AbstractGui> previousGuiSupplier) {

@@ -20,12 +20,12 @@ import org.bukkit.inventory.ItemStack;
 public class WarnPlayerAction implements IAction {
     private static final String CANCEL = "cancel";
     private static final String NONE = "none";
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final MessageCoordinator messageCoordinator = IocContainer.get(MessageCoordinator.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final WarnService warnService = IocContainer.get(WarnService.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
-    private final Options options = IocContainer.get(Options.class);
+    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    private final MessageCoordinator messageCoordinator = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
+    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
 
     private final SppPlayer targetPlayer;
 

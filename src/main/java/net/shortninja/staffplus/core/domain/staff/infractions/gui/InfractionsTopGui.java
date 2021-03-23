@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.infractions.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -42,7 +41,7 @@ public class InfractionsTopGui extends PagedGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 UUID playerUuid = UUID.fromString(StaffPlus.get().versionProtocol.getNbtString(item));
-                Optional<SppPlayer> offender = IocContainer.get(PlayerManager.class).getOnOrOfflinePlayer(playerUuid);
+                Optional<SppPlayer> offender = StaffPlus.get().iocContainer.get(PlayerManager.class).getOnOrOfflinePlayer(playerUuid);
                 offender.ifPresent(sppPlayer -> showInfractionsUI(player, sppPlayer));
             }
 
@@ -59,7 +58,7 @@ public class InfractionsTopGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(InfractionsService.class)
+        return StaffPlus.get().iocContainer.get(InfractionsService.class)
             .getTopInfractions(getCurrentPage(), amount, infractionFilters)
             .stream()
             .map(InfractionOverviewGuiProvider::build)

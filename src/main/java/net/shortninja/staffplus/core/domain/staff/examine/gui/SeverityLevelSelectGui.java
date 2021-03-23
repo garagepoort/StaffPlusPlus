@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.examine.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 public class SeverityLevelSelectGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final Options options = IocContainer.get(Options.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
     private final SppPlayer targetPlayer;
 
     public SeverityLevelSelectGui(String title, SppPlayer targetPlayer, Supplier<AbstractGui> previousGuiSupplier) {

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.utils;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import org.apache.commons.lang.StringUtils;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class Validator {
 
-    private final PermissionHandler permissionHandler = IocContainer.get(PermissionHandler.class);
+    private final PermissionHandler permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
 
     private final Player player;
 

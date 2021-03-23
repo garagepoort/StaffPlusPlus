@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
+import be.garagepoort.mcioc.IocBean;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -18,14 +18,19 @@ import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.getScheduler;
 
+@IocBean
 public class WarningNotifierListener implements Listener {
 
-    private final WarnService warnService = IocContainer.get(WarnService.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final Messages messages = IocContainer.get(Messages.class);
+    private final WarnService warnService;
+    private final Options options;
+    private final PermissionHandler permission;
+    private final Messages messages;
 
-    public WarningNotifierListener() {
+    public WarningNotifierListener(WarnService warnService, Options options, PermissionHandler permission, Messages messages) {
+        this.warnService = warnService;
+        this.options = options;
+        this.permission = permission;
+        this.messages = messages;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

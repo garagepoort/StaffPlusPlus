@@ -1,17 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
+import be.garagepoort.mcioc.IocBean;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextConsumer;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
 
+@IocBean
 public class StaffModeLuckPermsContextCalculator implements ContextCalculator<Player> {
     private static final String KEY = "staff++:staffmode";
     private final SessionManagerImpl sessionManager;
 
-    public StaffModeLuckPermsContextCalculator() {
-        sessionManager = IocContainer.get(SessionManagerImpl.class);
+    public StaffModeLuckPermsContextCalculator(SessionManagerImpl sessionManager) {
+        this.sessionManager = sessionManager;
     }
 
     @Override

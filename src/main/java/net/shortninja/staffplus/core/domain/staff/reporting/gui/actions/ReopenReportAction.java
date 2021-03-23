@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class ReopenReportAction implements IAction {
-    private ManageReportService manageReportService = IocContainer.get(ManageReportService.class);
+    private ManageReportService manageReportService = StaffPlus.get().iocContainer.get(ManageReportService.class);
 
     @Override
     public void click(Player player, ItemStack item, int slot) {

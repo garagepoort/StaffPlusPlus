@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mute.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 
 public class UnmuteCmd extends AbstractCmd {
 
-    private final MuteService muteService = IocContainer.get(MuteService.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private final MuteService muteService = StaffPlus.get().iocContainer.get(MuteService.class);
+    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
 
     public UnmuteCmd(String name) {
-        super(name, IocContainer.get(Options.class).muteConfiguration.getPermissionUnmutePlayer());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).muteConfiguration.getPermissionUnmutePlayer());
     }
 
     @Override

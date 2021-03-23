@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMulti;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
@@ -22,14 +23,20 @@ import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.CHAT;
 
+@IocBean
 public class AsyncPlayerChat implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final List<ChatInterceptor> chatInterceptors = IocContainer.getList(ChatInterceptor.class);
-    private final BlacklistService blacklistService = IocContainer.get(BlacklistService.class);
-    private final TraceService traceService = IocContainer.get(TraceService.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
+    private final Options options;
+    private final List<ChatInterceptor> chatInterceptors;
+    private final BlacklistService blacklistService;
+    private final TraceService traceService;
+    private final PlayerManager playerManager;
 
-    public AsyncPlayerChat() {
+    public AsyncPlayerChat(Options options, @IocMulti(ChatInterceptor.class) List<ChatInterceptor> chatInterceptors, BlacklistService blacklistService, TraceService traceService, PlayerManager playerManager) {
+        this.options = options;
+        this.chatInterceptors = chatInterceptors;
+        this.blacklistService = blacklistService;
+        this.traceService = traceService;
+        this.playerManager = playerManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

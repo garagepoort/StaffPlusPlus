@@ -39,7 +39,7 @@ public class ReportService implements InfractionProvider {
 
     private final PermissionHandler permission;
     private final MessageCoordinator message;
-    private final Options options = IocContainer.get(Options.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
     private final Messages messages;
     private final PlayerManager playerManager;
     private final ReportRepository reportRepository;

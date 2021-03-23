@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.examine.items;
 
-import be.garagepoort.mcioc.IocContainer;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -74,7 +74,7 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
                     if (!onOrOfflinePlayer.isPresent()) {
                         message.send(player1, messages.playerOffline, messages.prefixGeneral);
                     } else {
-                        IocContainer.get(WarnService.class).sendWarning(player1, onOrOfflinePlayer.get(), input);
+                        StaffPlus.get().iocContainer.get(WarnService.class).sendWarning(player1, onOrOfflinePlayer.get(), input);
                         message.send(player1, messages.inputAccepted, messages.prefixGeneral);
                     }
                 });

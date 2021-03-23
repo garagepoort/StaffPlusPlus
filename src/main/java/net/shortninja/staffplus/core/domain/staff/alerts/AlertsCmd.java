@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.alerts;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AlertsCmd extends AbstractCmd {
-    private MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private SessionLoader sessionLoader = IocContainer.get(SessionLoader.class);
+    private MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private SessionLoader sessionLoader = StaffPlus.get().iocContainer.get(SessionLoader.class);
 
     public AlertsCmd(String name) {
-        super(name, IocContainer.get(Options.class).alertsConfiguration.getPermissionAlerts());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).alertsConfiguration.getPermissionAlerts());
     }
 
     @Override
