@@ -196,12 +196,12 @@
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>mcioc</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.4</version>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
             <artifactId>mc-sql-migrations</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
 
@@ -262,6 +262,16 @@
                                     </excludes>
                                 </filter>
                             </filters>
+                            <relocations>
+                                <relocation>
+                                    <pattern>be.garagepoort.mcioc.</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcioc.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>be.garagepoort.mcsqlmigrations.</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcsqlmigrations.</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
