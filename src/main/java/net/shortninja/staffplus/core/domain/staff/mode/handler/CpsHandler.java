@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode.handler;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
@@ -14,15 +14,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@IocBean
 public class CpsHandler {
     private final static Map<UUID, Integer> currentTests = new HashMap<UUID, Integer>();
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final Messages messages = IocContainer.get(Messages.class);
+    private final MessageCoordinator message;
+    private final Options options;
+    private final Messages messages;
     private final CpsModeConfiguration cpsModeConfiguration;
 
-    public CpsHandler() {
-        cpsModeConfiguration = options.modeConfiguration.getCpsModeConfiguration();
+    public CpsHandler(MessageCoordinator message, Options options, Messages messages) {
+        this.message = message;
+        this.options = options;
+        this.messages = messages;
+        cpsModeConfiguration = this.options.modeConfiguration.getCpsModeConfiguration();
     }
 
     public boolean isTesting(UUID uuid) {

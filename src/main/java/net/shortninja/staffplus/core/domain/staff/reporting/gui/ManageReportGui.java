@@ -18,9 +18,9 @@ import java.util.function.Supplier;
 public class ManageReportGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final ReportItemBuilder reportItemBuilder = IocContainer.get(ReportItemBuilder.class);
+    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
     private final Player player;
     private final Report report;
 

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.exceptions;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 
 public class BusinessException extends RuntimeException {
@@ -8,7 +8,7 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {
         super(message);
-        this.prefix = IocContainer.get(Messages.class).prefixGeneral;
+        this.prefix = StaffPlus.get().iocContainer.get(Messages.class).prefixGeneral;
     }
 
     public BusinessException(String message, String prefix) {

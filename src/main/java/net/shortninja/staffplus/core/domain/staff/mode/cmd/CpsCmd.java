@@ -12,10 +12,10 @@ import org.bukkit.command.CommandSender;
 import java.util.Optional;
 
 public class CpsCmd extends AbstractCmd {
-    private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
+    private final GadgetHandler gadgetHandler = StaffPlus.get().iocContainer.get(GadgetHandler.class);
 
     public CpsCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionCps);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionCps);
     }
 
     @Override

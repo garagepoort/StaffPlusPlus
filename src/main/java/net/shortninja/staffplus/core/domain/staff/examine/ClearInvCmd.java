@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.examine;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -22,7 +22,7 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TE
 public class ClearInvCmd extends AbstractCmd {
 
     public ClearInvCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionClearInv);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionClearInv);
     }
 
     @Override

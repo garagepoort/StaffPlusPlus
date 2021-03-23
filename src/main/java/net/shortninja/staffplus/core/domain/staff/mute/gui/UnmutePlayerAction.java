@@ -13,10 +13,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class UnmutePlayerAction implements IAction {
     private static final String CANCEL = "cancel";
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final MessageCoordinator messageCoordinator = IocContainer.get(MessageCoordinator.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final MuteService muteService = IocContainer.get(MuteService.class);
+    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    private final MessageCoordinator messageCoordinator = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private final MuteService muteService = StaffPlus.get().iocContainer.get(MuteService.class);
 
     @Override
     public void click(Player player, ItemStack item, int slot) {

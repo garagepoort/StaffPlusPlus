@@ -1,8 +1,9 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -35,23 +36,40 @@ import java.util.*;
 import static net.shortninja.staffplus.core.common.cmd.CommandUtil.playerAction;
 import static net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration.ModuleType.COMMAND_DYNAMIC;
 
+@IocBean
 public class PlayerInteract implements Listener {
 
     private static final int COOLDOWN = 200;
     private static final Map<Player, Long> staffTimings = new HashMap<>();
 
-    private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
-    private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
-    private final FreezeHandler freezeHandler = IocContainer.get(FreezeHandler.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final List<CustomModulePreProcessor> customModulePreProcessors = IocContainer.getList(CustomModulePreProcessor.class);
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
+    private final IProtocol versionProtocol;
+    private final CpsHandler cpsHandler;
+    private final GadgetHandler gadgetHandler;
+    private final FreezeHandler freezeHandler;
+    private final PlayerManager playerManager;
+    private final Options options;
+    private final SessionManagerImpl sessionManager;
+    private final List<CustomModulePreProcessor> customModulePreProcessors;
+    private final Messages messages;
+    private final MessageCoordinator message;
 
-    public PlayerInteract() {
+    public PlayerInteract(IProtocol versionProtocol, CpsHandler cpsHandler,
+                          GadgetHandler gadgetHandler,
+                          FreezeHandler freezeHandler,
+                          PlayerManager playerManager, Options options, SessionManagerImpl sessionManager,
+                          @IocMulti(CustomModulePreProcessor.class) List<CustomModulePreProcessor> customModulePreProcessors,
+                          Messages messages,
+                          MessageCoordinator message) {
+        this.versionProtocol = versionProtocol;
+        this.cpsHandler = cpsHandler;
+        this.gadgetHandler = gadgetHandler;
+        this.freezeHandler = freezeHandler;
+        this.playerManager = playerManager;
+        this.options = options;
+        this.sessionManager = sessionManager;
+        this.customModulePreProcessors = customModulePreProcessors;
+        this.messages = messages;
+        this.message = message;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

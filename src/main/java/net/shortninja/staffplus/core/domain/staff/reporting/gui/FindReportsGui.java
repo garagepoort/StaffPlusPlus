@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class FindReportsGui extends PagedGui {
 
     private final ReportFilters reportFilters;
-    private final ReportItemBuilder reportItemBuilder = IocContainer.get(ReportItemBuilder.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
 
     public FindReportsGui(Player player, ReportFilters reportFilters, int page) {
         super(player, "Find reports", page);
@@ -35,7 +35,7 @@ public class FindReportsGui extends PagedGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                Report report = IocContainer.get(ReportService.class).getReport(reportId);
+                Report report = StaffPlus.get().iocContainer.get(ReportService.class).getReport(reportId);
                 new ManageReportGui(player, "Report by: " + report.getReporterName(), report, () -> new FindReportsGui(player, reportFilters, getCurrentPage()))
                     .show(player);
             }
@@ -49,7 +49,7 @@ public class FindReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(ReportService.class).findReports(reportFilters, offset, amount).stream()
+        return StaffPlus.get().iocContainer.get(ReportService.class).findReports(reportFilters, offset, amount).stream()
                 .map(reportItemBuilder::build)
                 .collect(Collectors.toList());
     }

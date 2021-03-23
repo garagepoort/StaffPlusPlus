@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
@@ -15,10 +15,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class ColorGui extends AbstractGui {
     private static final int SIZE = 27;
-    private SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
 
     public ColorGui(String title) {
-        super(SIZE, IocContainer.get(MessageCoordinator.class).colorize(title));
+        super(SIZE, StaffPlus.get().iocContainer.get(MessageCoordinator.class).colorize(title));
     }
 
     @Override

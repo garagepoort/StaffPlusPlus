@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 public class ManageAppealGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final ActionService actionService = IocContainer.get(ActionService.class);
-    private final Options options = IocContainer.get(Options.class);
+    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final ActionService actionService = StaffPlus.get().iocContainer.get(ActionService.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
 
     private final Player player;
     private final Warning warning;

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.vanish;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -22,16 +22,16 @@ import java.util.Optional;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 public class VanishCmd extends AbstractCmd {
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final VanishServiceImpl vanishServiceImpl = IocContainer.get(VanishServiceImpl.class);
-    private SessionLoader sessionLoader = IocContainer.get(SessionLoader.class);
+    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private final VanishServiceImpl vanishServiceImpl = StaffPlus.get().iocContainer.get(VanishServiceImpl.class);
+    private SessionLoader sessionLoader = StaffPlus.get().iocContainer.get(SessionLoader.class);
 
     public VanishCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionVanishCommand);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionVanishCommand);
     }
 
     @Override

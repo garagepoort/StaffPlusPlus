@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.chat.blacklist;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 
 import java.util.Arrays;
@@ -11,7 +11,7 @@ public class BlacklistFactory {
     private static String[] words = null;
     private static String[] domains = null;
     private static String[] periods = null;
-    private Options options = IocContainer.get(Options.class);
+    private Options options = StaffPlus.get().iocContainer.get(Options.class);
     private String originalMessage;
     private String censoredMessage;
     private boolean hasChanged = false;

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
@@ -24,7 +24,7 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.ST
 public class TeleportToPlayerCmd extends AbstractCmd {
 
     public TeleportToPlayerCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionTeleportToPlayer);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTeleportToPlayer);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class TeleportToPlayerCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        IocContainer.get(TeleportService.class).teleportToPlayer((Player) sender, targetPlayer.getPlayer());
+        StaffPlus.get().iocContainer.get(TeleportService.class).teleportToPlayer((Player) sender, targetPlayer.getPlayer());
         return true;
     }
 

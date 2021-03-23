@@ -17,17 +17,17 @@ public class ReportTypeSelectGui extends AbstractGui {
     private final Player staff;
     private final String reason;
     private final SppPlayer targetPlayer;
-    private final ReportService reportService = IocContainer.get(ReportService.class);
+    private final ReportService reportService = StaffPlus.get().iocContainer.get(ReportService.class);
 
     public ReportTypeSelectGui(Player staff, String reason, SppPlayer targetPlayer) {
-        super(getInventorySize(IocContainer.get(Options.class).reportConfiguration.getReportTypeConfigurations().size()), "Select the type of report");
+        super(getInventorySize(StaffPlus.get().iocContainer.get(Options.class).reportConfiguration.getReportTypeConfigurations().size()), "Select the type of report");
         this.staff = staff;
         this.reason = reason;
         this.targetPlayer = targetPlayer;
     }
 
     public ReportTypeSelectGui(Player staff, String reason) {
-        super(getInventorySize(IocContainer.get(Options.class).reportConfiguration.getReportTypeConfigurations().size()), "Select the type of report");
+        super(getInventorySize(StaffPlus.get().iocContainer.get(Options.class).reportConfiguration.getReportTypeConfigurations().size()), "Select the type of report");
         this.staff = staff;
         this.reason = reason;
         this.targetPlayer = null;

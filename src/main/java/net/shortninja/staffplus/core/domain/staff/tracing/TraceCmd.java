@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -23,8 +23,8 @@ public class TraceCmd extends AbstractCmd {
     private TraceService traceService;
 
     public TraceCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionTrace);
-        traceService = IocContainer.get(TraceService.class);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTrace);
+        traceService = StaffPlus.get().iocContainer.get(TraceService.class);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.reporting;
 
+import be.garagepoort.mcioc.IocBean;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
@@ -17,13 +17,17 @@ import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.getScheduler;
 
+@IocBean
 public class ReportListener implements Listener {
 
-    private final ReportService reportService = IocContainer.get(ReportService.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
+    private final ReportService reportService;
+    private final Options options;
+    private final PermissionHandler permission;
 
-    public ReportListener() {
+    public ReportListener(ReportService reportService, Options options, PermissionHandler permission) {
+        this.reportService = reportService;
+        this.options = options;
+        this.permission = permission;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

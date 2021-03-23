@@ -14,7 +14,7 @@ public class ManageMutedPlayerGui extends AbstractGui {
     private static final int SIZE = 54;
 
     private final Mute mute;
-    private final MutedPlayerItemBuilder mutedPlayerItemBuilder = IocContainer.get(MutedPlayerItemBuilder.class);
+    private final MutedPlayerItemBuilder mutedPlayerItemBuilder = StaffPlus.get().iocContainer.get(MutedPlayerItemBuilder.class);
 
     public ManageMutedPlayerGui(String title, Mute mute, Supplier<AbstractGui> previousGuiSupplier) {
         super(SIZE, title, previousGuiSupplier);

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
@@ -22,14 +22,14 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.ST
 public class TeleportToLocationCmd extends AbstractCmd {
 
     public TeleportToLocationCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionTeleportToLocation);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTeleportToLocation);
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
         String locationName = args[1];
 
-        IocContainer.get(TeleportService.class).teleportPlayerToLocation(sender, targetPlayer.getPlayer(), locationName);
+        StaffPlus.get().iocContainer.get(TeleportService.class).teleportPlayerToLocation(sender, targetPlayer.getPlayer(), locationName);
         return true;
     }
 
@@ -73,7 +73,7 @@ public class TeleportToLocationCmd extends AbstractCmd {
                 .collect(Collectors.toList());
         }
         if (args.length == 2) {
-            IocContainer.get(Options.class).locations.forEach((k, v) -> {
+            StaffPlus.get().iocContainer.get(Options.class).locations.forEach((k, v) -> {
                 suggestions.add(k);
             });
             return suggestions.stream()

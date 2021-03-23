@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class MyReportsCmd extends AbstractCmd {
 
     public MyReportsCmd(String name) {
-        super(name, IocContainer.get(Options.class).reportConfiguration.getMyReportsPermission());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).reportConfiguration.getMyReportsPermission());
     }
 
     @Override

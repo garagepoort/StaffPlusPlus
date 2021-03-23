@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -20,12 +20,12 @@ import java.util.stream.Stream;
 
 public class AltDetectWhitelistCmd extends AbstractCmd {
 
-    private final AltDetectionService altDetectionService = IocContainer.get(AltDetectionService.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
+    private final AltDetectionService altDetectionService = StaffPlus.get().iocContainer.get(AltDetectionService.class);
+    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
+    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
 
     public AltDetectWhitelistCmd(String name) {
-        super(name, IocContainer.get(Options.class).altDetectConfiguration.getWhitelistPermission());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).altDetectConfiguration.getWhitelistPermission());
     }
 
     @Override
