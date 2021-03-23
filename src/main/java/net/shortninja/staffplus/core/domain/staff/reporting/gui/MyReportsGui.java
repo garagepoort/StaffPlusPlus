@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class MyReportsGui extends PagedGui {
 
-    private final ReportItemBuilder reportItemBuilder = IocContainer.get(ReportItemBuilder.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
 
     public MyReportsGui(Player player, String title, int page) {
         super(player, title, page);
@@ -41,7 +41,7 @@ public class MyReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(ReportService.class)
+        return StaffPlus.get().iocContainer.get(ReportService.class)
                 .getMyReports(player.getUniqueId(), offset, amount)
                 .stream()
                 .map(reportItemBuilder::build)

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 public class ManageWarningGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final ActionService actionService = IocContainer.get(ActionService.class);
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final WarnService warnService = IocContainer.get(WarnService.class);
-    private final WarningItemBuilder warningItemBuilder = IocContainer.get(WarningItemBuilder.class);
+    private final ActionService actionService = StaffPlus.get().iocContainer.get(ActionService.class);
+    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
+    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().iocContainer.get(WarningItemBuilder.class);
 
     private final Player player;
     private final Warning warning;

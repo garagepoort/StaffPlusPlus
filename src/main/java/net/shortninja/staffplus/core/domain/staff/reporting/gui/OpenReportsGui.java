@@ -21,14 +21,14 @@ public class OpenReportsGui extends PagedGui {
 
     private final PermissionHandler permissionHandler;
     private final Options options;
-    private final ReportItemBuilder reportItemBuilder = IocContainer.get(ReportItemBuilder.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
     private final Supplier<AbstractGui> backGuiSupplier;
 
     public OpenReportsGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
         this.backGuiSupplier = backGuiSupplier;
-        permissionHandler = IocContainer.get(PermissionHandler.class);
-        options = IocContainer.get(Options.class);
+        permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+        options = StaffPlus.get().iocContainer.get(Options.class);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class OpenReportsGui extends PagedGui {
                     return;
                 }
                 int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                IocContainer.get(ManageReportService.class).acceptReport(player, reportId);
+                StaffPlus.get().iocContainer.get(ManageReportService.class).acceptReport(player, reportId);
             }
 
             @Override
@@ -57,7 +57,7 @@ public class OpenReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(ReportService.class).getUnresolvedReports(offset, amount).stream()
+        return StaffPlus.get().iocContainer.get(ReportService.class).getUnresolvedReports(offset, amount).stream()
             .map(reportItemBuilder::build)
             .collect(Collectors.toList());
     }

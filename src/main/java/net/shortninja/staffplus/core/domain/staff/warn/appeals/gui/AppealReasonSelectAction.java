@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.function.Supplier;
 
 public class AppealReasonSelectAction implements IAction {
-    private final Options options = IocContainer.get(Options.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
     private final Warning warning;
     private final Supplier<AbstractGui> previousGuiSupplier;
 

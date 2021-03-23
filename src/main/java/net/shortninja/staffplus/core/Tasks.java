@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core;
 
-import be.garagepoort.mcioc.IocContainer;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
@@ -16,26 +16,35 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 //TODO: Remove debug.
 
+@IocBean
 public class Tasks extends BukkitRunnable {
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final FreezeHandler freezeHandler = IocContainer.get(FreezeHandler.class);
-    private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
+    private final PermissionHandler permission;
+    private final MessageCoordinator message;
+    private final Options options;
+    private final Messages messages;
+    private final SessionManagerImpl sessionManager;
+    private final FreezeHandler freezeHandler;
+    private final GadgetHandler gadgetHandler;
     private final FreezeModeConfiguration freezeModeConfiguration;
     private int saveInterval;
     private int freezeInterval;
     private long now;
     private long later;
 
-    public Tasks() {
-        freezeModeConfiguration = options.modeConfiguration.getFreezeModeConfiguration();
+    public Tasks(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler) {
+        this.permission = permission;
+        this.message = message;
+        this.options = options;
+        this.messages = messages;
+        this.sessionManager = sessionManager;
+        this.freezeHandler = freezeHandler;
+        this.gadgetHandler = gadgetHandler;
+
+        freezeModeConfiguration = this.options.modeConfiguration.getFreezeModeConfiguration();
         saveInterval = 0;
         freezeInterval = 0;
         now = System.currentTimeMillis();
-        runTaskTimer(StaffPlus.get(), options.clock, options.clock);
+        runTaskTimer(StaffPlus.get(), this.options.clock, this.options.clock);
     }
 
     @Override

@@ -17,10 +17,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ExamineCmd extends AbstractCmd {
-    private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
+    private final GadgetHandler gadgetHandler = StaffPlus.get().iocContainer.get(GadgetHandler.class);
 
     public ExamineCmd(String name) {
-        super(name, IocContainer.get(Options.class).examineConfiguration.getPermissionExamine());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).examineConfiguration.getPermissionExamine());
     }
 
     @Override

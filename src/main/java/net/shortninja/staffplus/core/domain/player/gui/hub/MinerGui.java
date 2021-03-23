@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.gui.hub;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
@@ -21,8 +21,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class MinerGui extends PagedGui {
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final Messages messages = IocContainer.get(Messages.class);
+    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
 
     public MinerGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
@@ -54,8 +54,8 @@ public class MinerGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(PlayerManager.class).getOnlinePlayers().stream()
-            .filter(p -> p.getLocation().getBlockY() < IocContainer.get(Options.class).modeConfiguration.getGuiModeConfiguration().modeGuiMinerLevel)
+        return StaffPlus.get().iocContainer.get(PlayerManager.class).getOnlinePlayers().stream()
+            .filter(p -> p.getLocation().getBlockY() < StaffPlus.get().iocContainer.get(Options.class).modeConfiguration.getGuiModeConfiguration().modeGuiMinerLevel)
             .map(this::minerItem)
             .collect(Collectors.toList());
     }

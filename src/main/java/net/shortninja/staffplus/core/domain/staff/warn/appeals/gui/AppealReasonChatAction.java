@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
@@ -13,10 +13,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class AppealReasonChatAction implements IAction {
     private static final String CANCEL = "cancel";
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final MessageCoordinator messageCoordinator = IocContainer.get(MessageCoordinator.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final AppealService appealService = IocContainer.get(AppealService.class);
+    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    private final MessageCoordinator messageCoordinator = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private final AppealService appealService = StaffPlus.get().iocContainer.get(AppealService.class);
 
     private final Warning warning;
 

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.utils;
 
 import de.tr7zw.nbtapi.*;
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
@@ -21,7 +21,7 @@ public final class InventoryFactory {
 
     public static Inventory loadEnderchestOffline(Player player, SppPlayer target) {
         try {
-            String filename = Bukkit.getWorldContainer() + File.separator + IocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            String filename = Bukkit.getWorldContainer() + File.separator + StaffPlus.get().iocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
             Inventory inventory = Bukkit.createInventory(player, InventoryType.ENDER_CHEST);
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList enderItems = file.getCompoundList("EnderItems");
@@ -38,7 +38,7 @@ public final class InventoryFactory {
 
     public static void saveEnderchestOffline(Player player, SppPlayer target, Inventory inventory) {
         try {
-            String filename = Bukkit.getWorldContainer() + File.separator + IocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            String filename = Bukkit.getWorldContainer() + File.separator + StaffPlus.get().iocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList enderItems = file.getCompoundList("EnderItems");
             enderItems.clear();
@@ -59,7 +59,7 @@ public final class InventoryFactory {
 
     public static Inventory loadInventoryOffline(Player player, SppPlayer target) {
         try {
-            String filename = Bukkit.getWorldContainer() + File.separator + IocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            String filename = Bukkit.getWorldContainer() + File.separator + StaffPlus.get().iocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
             Inventory inventory = Bukkit.createInventory(player, InventoryType.PLAYER);
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList inventoryItems = file.getCompoundList("Inventory");
@@ -95,7 +95,7 @@ public final class InventoryFactory {
 
     public static void saveInventoryOffline(Player player, SppPlayer target, Inventory inventory) {
         try {
-            String filename = Bukkit.getWorldContainer() + File.separator + IocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            String filename = Bukkit.getWorldContainer() + File.separator + StaffPlus.get().iocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList inventoryNbt = file.getCompoundList("Inventory");
             inventoryNbt.clear();

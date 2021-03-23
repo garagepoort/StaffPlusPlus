@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.protect.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -21,10 +21,10 @@ public class ProtectAreaCmd extends AbstractCmd {
 
     private static final String CREATE = "create";
     private static final String DELETE = "delete";
-    private final ProtectService protectService = IocContainer.get(ProtectService.class);
+    private final ProtectService protectService = StaffPlus.get().iocContainer.get(ProtectService.class);
 
     public ProtectAreaCmd(String name) {
-        super(name, IocContainer.get(Options.class).protectConfiguration.getPermissionProtectArea());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).protectConfiguration.getPermissionProtectArea());
     }
 
     @Override

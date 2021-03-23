@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class MutedPlayersGui extends PagedGui {
 
-    private final MutedPlayerItemBuilder mutedPlayerItemBuilder = IocContainer.get(MutedPlayerItemBuilder.class);
+    private final MutedPlayerItemBuilder mutedPlayerItemBuilder = StaffPlus.get().iocContainer.get(MutedPlayerItemBuilder.class);
 
     public MutedPlayersGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
@@ -34,7 +34,7 @@ public class MutedPlayersGui extends PagedGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 int muteId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                Mute mute = IocContainer.get(MuteService.class).getById(muteId);
+                Mute mute = StaffPlus.get().iocContainer.get(MuteService.class).getById(muteId);
                 new ManageMutedPlayerGui("Player: " + mute.getTargetName(), mute, () -> new MutedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
             }
 
@@ -47,7 +47,7 @@ public class MutedPlayersGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(MuteService.class).getAllPaged(offset, amount).stream()
+        return StaffPlus.get().iocContainer.get(MuteService.class).getAllPaged(offset, amount).stream()
             .map(mutedPlayerItemBuilder::build)
             .collect(Collectors.toList());
     }

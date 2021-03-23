@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
@@ -14,13 +14,18 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.WORLD_CHANGE;
 
+@IocBean
 public class PlayerWorldChange implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final StaffModeService staffModeService = IocContainer.get(StaffModeService.class);
-    private final TraceService traceService = IocContainer.get(TraceService.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private final Options options;
+    private final StaffModeService staffModeService;
+    private final TraceService traceService;
+    private final SessionManagerImpl sessionManager;
 
-    public PlayerWorldChange() {
+    public PlayerWorldChange(Options options, StaffModeService staffModeService, TraceService traceService, SessionManagerImpl sessionManager) {
+        this.options = options;
+        this.staffModeService = staffModeService;
+        this.traceService = traceService;
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

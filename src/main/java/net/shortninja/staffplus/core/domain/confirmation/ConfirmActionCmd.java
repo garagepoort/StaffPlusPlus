@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.confirmation;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class ConfirmActionCmd extends AbstractCmd {
     public ConfirmActionCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionMode);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionMode);
     }
 
     @Override
@@ -26,11 +26,11 @@ public class ConfirmActionCmd extends AbstractCmd {
         UUID uuid = UUID.fromString(args[1]);
 
         if (action.equalsIgnoreCase("confirm")) {
-            IocContainer.get(ConfirmationChatService.class).confirmAction(uuid, (Player) sender);
+            StaffPlus.get().iocContainer.get(ConfirmationChatService.class).confirmAction(uuid, (Player) sender);
             return true;
         }
         if (action.equalsIgnoreCase("cancel")) {
-            IocContainer.get(ConfirmationChatService.class).cancelAction(uuid, (Player) sender);
+            StaffPlus.get().iocContainer.get(ConfirmationChatService.class).cancelAction(uuid, (Player) sender);
             return true;
         }
         return false;

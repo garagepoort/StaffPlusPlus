@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.application;
 
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CmdHandler;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -16,18 +16,18 @@ import java.util.Optional;
 
 public class StaffPlusCmd extends AbstractCmd {
 
-    private MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
+    private MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
 
     public StaffPlusCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionStaff);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionStaff);
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         if (args[0].equalsIgnoreCase("reload")) {
-            IocContainer.get(Options.class).reload();
-            IocContainer.get(Messages.class).reload();
-            StaffPlus.get().cmdHandler.reload();
+            StaffPlus.get().iocContainer.get(Options.class).reload();
+            StaffPlus.get().iocContainer.get(Messages.class).reload();
+            StaffPlus.get().iocContainer.get(CmdHandler.class).reload();
             sender.sendMessage("");
             message.send(sender, "Configuration has been reloaded", messages.prefixGeneral);
         }

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
@@ -17,16 +17,24 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+@IocBean
 public class PlayerQuit implements Listener {
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final StaffModeService staffModeService = IocContainer.get(StaffModeService.class);
-    private final TraceService traceService = IocContainer.get(TraceService.class);
-    private final XrayService xrayService = IocContainer.get(XrayService.class);
+    private final MessageCoordinator message;
+    private final Options options;
+    private final Messages messages;
+    private final SessionManagerImpl sessionManager;
+    private final StaffModeService staffModeService;
+    private final TraceService traceService;
+    private final XrayService xrayService;
 
-    public PlayerQuit() {
+    public PlayerQuit(MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, StaffModeService staffModeService, TraceService traceService, XrayService xrayService) {
+        this.message = message;
+        this.options = options;
+        this.messages = messages;
+        this.sessionManager = sessionManager;
+        this.staffModeService = staffModeService;
+        this.traceService = traceService;
+        this.xrayService = xrayService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

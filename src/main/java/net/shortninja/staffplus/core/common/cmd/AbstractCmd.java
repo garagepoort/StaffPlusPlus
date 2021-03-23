@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
@@ -29,12 +29,12 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.DE
 
 public abstract class AbstractCmd extends BukkitCommand {
     private final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
-    protected final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    protected final Messages messages = IocContainer.get(Messages.class);
-    protected final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    protected final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
+    protected final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    protected final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    protected final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    protected final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
     protected final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
-    protected final Options options = IocContainer.get(Options.class);
+    protected final Options options = StaffPlus.get().iocContainer.get(Options.class);
 
     protected AbstractCmd(String name, String permission) {
         super(name);
@@ -200,7 +200,7 @@ public abstract class AbstractCmd extends BukkitCommand {
 
     private void validateAuthentication(CommandSender sender) {
         if (isAuthenticationRequired() && sender instanceof Player) {
-            IocContainer.get(AuthenticationService.class).checkAuthentication((Player) sender);
+            StaffPlus.get().iocContainer.get(AuthenticationService.class).checkAuthentication((Player) sender);
         }
     }
 

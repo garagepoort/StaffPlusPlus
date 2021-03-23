@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class FreezeGui extends AbstractGui {
     private static final int SIZE = 9;
-    private Messages messages = IocContainer.get(Messages.class);
+    private Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
 
 
     public FreezeGui(String title) {

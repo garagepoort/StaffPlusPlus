@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class ManageWarningsGuiCmd extends AbstractCmd {
 
     public ManageWarningsGuiCmd(String name) {
-        super(name, IocContainer.get(Options.class).manageReportConfiguration.getPermissionView());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).manageReportConfiguration.getPermissionView());
     }
 
     @Override

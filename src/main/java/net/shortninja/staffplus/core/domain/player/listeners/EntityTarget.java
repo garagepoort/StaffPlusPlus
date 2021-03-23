@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
@@ -11,10 +11,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
+@IocBean
 public class EntityTarget implements Listener {
-    private SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private SessionManagerImpl sessionManager;
 
-    public EntityTarget() {
+    public EntityTarget(SessionManagerImpl sessionManager) {
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 
 public class ManageAppealedWarningsGui extends PagedGui {
 
-    private final Options options = IocContainer.get(Options.class);
-    private final WarnService warnService = IocContainer.get(WarnService.class);
-    private final WarningItemBuilder warningItemBuilder = IocContainer.get(WarningItemBuilder.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
+    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().iocContainer.get(WarningItemBuilder.class);
 
     public ManageAppealedWarningsGui(Player player, SppPlayer target, String title, int currentPage) {
         super(player, target, title, currentPage);

@@ -16,11 +16,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class RejectReportAction implements IAction {
     private static final String CANCEL = "cancel";
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final MessageCoordinator messageCoordinator = IocContainer.get(MessageCoordinator.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final ManageReportService manageReportService = IocContainer.get(ManageReportService.class);
-    private final Options options = IocContainer.get(Options.class);
+    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    private final MessageCoordinator messageCoordinator = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private final ManageReportService manageReportService = StaffPlus.get().iocContainer.get(ManageReportService.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
 
     @Override
     public void click(Player player, ItemStack item, int slot) {

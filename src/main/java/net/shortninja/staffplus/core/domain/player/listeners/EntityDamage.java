@@ -1,9 +1,8 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
@@ -16,12 +15,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.UUID;
 
+@IocBean
 public class EntityDamage implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final StaffModeService staffModeService = IocContainer.get(StaffModeService.class);
+    private final Options options;
+    private final SessionManagerImpl sessionManager;
 
-    public EntityDamage() {
+    public EntityDamage(Options options, SessionManagerImpl sessionManager) {
+        this.options = options;
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

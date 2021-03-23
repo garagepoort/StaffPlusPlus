@@ -16,8 +16,8 @@ import java.util.function.Supplier;
 public class ManageProtectedAreaGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final ProtectService protectService = IocContainer.get(ProtectService.class);
-    private final TeleportService teleportService = IocContainer.get(TeleportService.class);
+    private final ProtectService protectService = StaffPlus.get().iocContainer.get(ProtectService.class);
+    private final TeleportService teleportService = StaffPlus.get().iocContainer.get(TeleportService.class);
     private final ProtectedArea protectedArea;
 
     public ManageProtectedAreaGui(String title, ProtectedArea protectedArea, Supplier<AbstractGui> previousGuiSupplier) {

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.ban.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -25,14 +25,14 @@ import static net.shortninja.staffplus.core.domain.staff.ban.BanType.TEMP_BAN;
 public class TempBanCmd extends AbstractCmd {
 
     private static final String TEMPLATE_FILE = "-template=";
-    private final BanService banService = IocContainer.get(BanService.class);
+    private final BanService banService = StaffPlus.get().iocContainer.get(BanService.class);
     private PermissionHandler permissionHandler;
     private Options options;
 
     public TempBanCmd(String name) {
-        super(name, IocContainer.get(Options.class).banConfiguration.getPermissionBanPlayer());
-        permissionHandler = IocContainer.get(PermissionHandler.class);
-        options = IocContainer.get(Options.class);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).banConfiguration.getPermissionBanPlayer());
+        permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+        options = StaffPlus.get().iocContainer.get(Options.class);
     }
 
     @Override
