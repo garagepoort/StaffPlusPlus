@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.protect.cmd;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
@@ -32,7 +31,7 @@ public class ProtectedAreasGui extends PagedGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 int protectedAreaId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                ProtectedArea protectedArea = IocContainer.get(ProtectService.class).getById(protectedAreaId);
+                ProtectedArea protectedArea = StaffPlus.get().iocContainer.get(ProtectService.class).getById(protectedAreaId);
                 new ManageProtectedAreaGui("Protected area: " + protectedArea.getName(), protectedArea, () -> new ProtectedAreasGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
             }
 
@@ -45,7 +44,7 @@ public class ProtectedAreasGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(ProtectService.class).getAllProtectedAreasPaginated(offset, amount).stream()
+        return StaffPlus.get().iocContainer.get(ProtectService.class).getAllProtectedAreasPaginated(offset, amount).stream()
             .map(ProtectedAreaItemBuilder::build)
             .collect(Collectors.toList());
     }

@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.common.cmd;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import org.bukkit.command.Command;
@@ -10,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseCmd {
-    private MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private Messages messages = IocContainer.get(Messages.class);
+    private MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
     private Command command;
     private boolean isEnabled;
     private String match;

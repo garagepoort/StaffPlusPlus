@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceType;
@@ -20,12 +20,16 @@ import org.bukkit.projectiles.ProjectileSource;
 import java.util.Optional;
 import java.util.UUID;
 
+@IocBean
 public class EntityDamageByEntity implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final TraceService traceService = IocContainer.get(TraceService.class);
+    private final Options options;
+    private final SessionManagerImpl sessionManager;
+    private final TraceService traceService;
 
-    public EntityDamageByEntity() {
+    public EntityDamageByEntity(Options options, SessionManagerImpl sessionManager, TraceService traceService) {
+        this.options = options;
+        this.sessionManager = sessionManager;
+        this.traceService = traceService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

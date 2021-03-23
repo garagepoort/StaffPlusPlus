@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.application;
 
-import be.garagepoort.mcioc.IocContainer;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.BaseCmd;
 import net.shortninja.staffplus.core.common.cmd.CmdHandler;
@@ -26,18 +26,26 @@ import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.COMMANDS;
 
-
+@IocBean
 public class PlayerCommandPreprocess implements Listener {
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final FreezeHandler freezeHandler = IocContainer.get(FreezeHandler.class);
-    private final CmdHandler cmdHandler = StaffPlus.get().cmdHandler;
-    private final TraceService traceService = IocContainer.get(TraceService.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private final PermissionHandler permission;
+    private final MessageCoordinator message;
+    private final Options options;
+    private final Messages messages;
+    private final FreezeHandler freezeHandler;
+    private final CmdHandler cmdHandler;
+    private final TraceService traceService;
+    private final SessionManagerImpl sessionManager;
 
-    public PlayerCommandPreprocess() {
+    public PlayerCommandPreprocess(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, FreezeHandler freezeHandler, CmdHandler cmdHandler, TraceService traceService, SessionManagerImpl sessionManager) {
+        this.permission = permission;
+        this.message = message;
+        this.options = options;
+        this.messages = messages;
+        this.freezeHandler = freezeHandler;
+        this.cmdHandler = cmdHandler;
+        this.traceService = traceService;
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

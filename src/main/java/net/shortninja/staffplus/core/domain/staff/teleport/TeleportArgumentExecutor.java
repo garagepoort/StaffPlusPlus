@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.teleport;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentExecutor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TeleportArgumentExecutor implements ArgumentExecutor {
 
-    private final Options options = IocContainer.get(Options.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
 
     @Override
     public boolean execute(CommandSender commandSender, String playerName, String value) {
@@ -22,7 +22,7 @@ public class TeleportArgumentExecutor implements ArgumentExecutor {
             return false;
         }
 
-        IocContainer.get(TeleportService.class).teleportPlayerToLocation(commandSender, player, value);
+        StaffPlus.get().iocContainer.get(TeleportService.class).teleportPlayerToLocation(commandSender, player, value);
         return true;
     }
 

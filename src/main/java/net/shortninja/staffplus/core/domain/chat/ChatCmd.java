@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.chat;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -14,8 +14,8 @@ import java.util.Optional;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
 
 public class ChatCmd extends AbstractCmd {
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final ChatHandler chatHandler = IocContainer.get(ChatHandler.class);
+    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final ChatHandler chatHandler = StaffPlus.get().iocContainer.get(ChatHandler.class);
 
     public ChatCmd(String name) {
         super(name);

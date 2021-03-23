@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.protect.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -14,11 +14,11 @@ import java.util.Optional;
 
 public class ProtectPlayerCmd extends AbstractCmd {
 
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
 
     public ProtectPlayerCmd(String name) {
-        super(name, IocContainer.get(Options.class).protectConfiguration.getPermissionProtectPlayer());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).protectConfiguration.getPermissionProtectPlayer());
     }
 
     @Override

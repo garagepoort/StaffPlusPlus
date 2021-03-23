@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.delayedactions;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -21,9 +21,9 @@ public class DelayArgumentExecutor {
     private final MessageCoordinator message;
 
     public DelayArgumentExecutor() {
-        messages = IocContainer.get(Messages.class);
-        playerManager = IocContainer.get(PlayerManager.class);
-        message = IocContainer.get(MessageCoordinator.class);
+        messages = StaffPlus.get().iocContainer.get(Messages.class);
+        playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
+        message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
     }
 
     public boolean execute(CommandSender commandSender, String playerName, String command) {
@@ -33,7 +33,7 @@ public class DelayArgumentExecutor {
             throw new BusinessException("&CCannot delay the command. No user found on this server with name: [" + playerName + "]", messages.prefixGeneral);
         }
 
-        IocContainer.get(DelayedActionsRepository.class).saveDelayedAction(player.get().getId(), command, Executor.CONSOLE);
+        StaffPlus.get().iocContainer.get(DelayedActionsRepository.class).saveDelayedAction(player.get().getId(), command, Executor.CONSOLE);
         message.send(commandSender, "Your command has been delayed and will be executed next time [" + playerName + "] joins the server", messages.prefixGeneral);
         return true;
     }

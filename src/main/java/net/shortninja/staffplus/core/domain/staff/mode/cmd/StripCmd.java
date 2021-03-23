@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -19,7 +19,7 @@ public class StripCmd extends AbstractCmd {
     private final StripService stripService = StripService.getInstance();
 
     public StripCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionStrip);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionStrip);
     }
 
     @Override

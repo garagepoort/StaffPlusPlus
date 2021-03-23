@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.actions;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ExpireWarningAction implements IAction {
 
-    private final WarnService warnService = IocContainer.get(WarnService.class);
+    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
     private final Warning warning;
 
     public ExpireWarningAction(Warning warning) {

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
@@ -23,8 +23,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CounterGui extends PagedGui {
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final Messages messages = IocContainer.get(Messages.class);
+    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
 
 
     public CounterGui(Player player, String title, int page) {
@@ -57,15 +57,15 @@ public class CounterGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player staffViewing, SppPlayer target, int offset, int amount) {
-        List<Player> players = IocContainer.get(Options.class).modeConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? getModePlayers() : JavaUtils.getOnlinePlayers();
+        List<Player> players = StaffPlus.get().iocContainer.get(Options.class).modeConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? getModePlayers() : JavaUtils.getOnlinePlayers();
         return players.stream()
-            .filter(p -> IocContainer.get(PermissionHandler.class).has(p, IocContainer.get(Options.class).permissionMember))
+            .filter(p -> StaffPlus.get().iocContainer.get(PermissionHandler.class).has(p, StaffPlus.get().iocContainer.get(Options.class).permissionMember))
             .map(p -> modePlayerItem(staffViewing, p))
             .collect(Collectors.toList());
     }
 
     private List<Player> getModePlayers() {
-        return IocContainer.get(StaffModeService.class).getModeUsers()
+        return StaffPlus.get().iocContainer.get(StaffModeService.class).getModeUsers()
             .stream()
             .map(Bukkit::getPlayer)
             .filter(Objects::nonNull)
@@ -74,13 +74,13 @@ public class CounterGui extends PagedGui {
 
     private ItemStack modePlayerItem(Player staffViewing, Player player) {
         Location location = player.getLocation();
-        PlayerSession playerSession = IocContainer.get(SessionManagerImpl.class).get(player.getUniqueId());
+        PlayerSession playerSession = StaffPlus.get().iocContainer.get(SessionManagerImpl.class).get(player.getUniqueId());
 
         Items.ItemStackBuilder itemStackBuilder = Items.editor(Items.createSkull(player.getName()))
             .setName("&b" + player.getName())
             .addLore("&7" + location.getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(location));
 
-        if (IocContainer.get(PermissionHandler.class).has(staffViewing, IocContainer.get(Options.class).permissionCounterGuiShowVanish)) {
+        if (StaffPlus.get().iocContainer.get(PermissionHandler.class).has(staffViewing, StaffPlus.get().iocContainer.get(Options.class).permissionCounterGuiShowVanish)) {
             itemStackBuilder.addLore("&7Vanished: " + playerSession.isVanished());
         }
 

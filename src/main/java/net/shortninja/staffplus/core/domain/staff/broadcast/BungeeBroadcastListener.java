@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.broadcast;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -29,7 +29,7 @@ public class BungeeBroadcastListener implements PluginMessageListener {
 
                 DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
                 String broadcastMessage = msgin.readUTF();
-                IocContainer.get(BroadcastService.class).handleBungeeBroadcast(broadcastMessage);
+                StaffPlus.get().iocContainer.get(BroadcastService.class).handleBungeeBroadcast(broadcastMessage);
             }
         } catch (IOException e) {
             e.printStackTrace();

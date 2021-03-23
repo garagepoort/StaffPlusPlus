@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.revive;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
@@ -24,11 +23,11 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
 
 public class ReviveCmd extends AbstractCmd {
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final ReviveHandler reviveHandler = StaffPlus.get().reviveHandler;
+    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final ReviveHandler reviveHandler = StaffPlus.get().iocContainer.get(ReviveHandler.class);
 
     public ReviveCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionRevive);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionRevive);
     }
 
     @Override

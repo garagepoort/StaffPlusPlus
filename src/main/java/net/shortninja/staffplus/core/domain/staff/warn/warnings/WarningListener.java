@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -18,16 +18,21 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
+@IocBean
 public class WarningListener implements Listener {
 
     private static final String CREATION_CONTEXT = "creation";
 
-    private final ActionService actionService = IocContainer.get(ActionService.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final ThresholdService thresholdService = IocContainer.get(ThresholdService.class);
+    private final ActionService actionService;
+    private final PlayerManager playerManager;
+    private final Options options;
+    private final ThresholdService thresholdService;
 
-    public WarningListener() {
+    public WarningListener(ActionService actionService, PlayerManager playerManager, Options options, ThresholdService thresholdService) {
+        this.actionService = actionService;
+        this.playerManager = playerManager;
+        this.options = options;
+        this.thresholdService = thresholdService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

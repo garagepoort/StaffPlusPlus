@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.revive;
 
-import be.garagepoort.mcioc.IocContainer;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
@@ -12,10 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@IocBean
 public class ReviveHandler {
     private final static Map<UUID, InventoryVault> savedInventories = new HashMap<UUID, InventoryVault>();
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final Messages messages = IocContainer.get(Messages.class);
+    private final MessageCoordinator message;
+    private final Messages messages;
+
+    public ReviveHandler(MessageCoordinator message, Messages messages) {
+        this.message = message;
+        this.messages = messages;
+    }
 
     public boolean hasSavedInventory(UUID uuid) {
         return savedInventories.containsKey(uuid);

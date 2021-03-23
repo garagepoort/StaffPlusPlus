@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode.handler;
 
+import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
-import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -27,17 +26,33 @@ import org.bukkit.util.Vector;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@IocBean
 public class GadgetHandler {
     private final static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
-    private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final Messages messages = IocContainer.get(Messages.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final CpsHandler cpsHandler = StaffPlus.get().cpsHandler;
-    private final VanishServiceImpl vanishServiceImpl = IocContainer.get(VanishServiceImpl.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
+
+    private final IProtocol versionProtocol;
+    private final PermissionHandler permission;
+    private final MessageCoordinator message;
+    private final Options options;
+    private final Messages messages;
+    private final SessionManagerImpl sessionManager;
+    private final CpsHandler cpsHandler;
+    private final VanishServiceImpl vanishServiceImpl;
+    private final PlayerManager playerManager;
+    private final StaffModeService staffModeService;
+
+    public GadgetHandler(IProtocol versionProtocol, PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
+        this.versionProtocol = versionProtocol;
+        this.permission = permission;
+        this.message = message;
+        this.options = options;
+        this.messages = messages;
+        this.sessionManager = sessionManager;
+        this.cpsHandler = cpsHandler;
+        this.vanishServiceImpl = vanishServiceImpl;
+        this.playerManager = playerManager;
+        this.staffModeService = staffModeService;
+    }
 
     public GadgetType getGadgetType(ItemStack item, String value) {
         if (options.modeConfiguration.getCompassModeConfiguration().getIdentifier().equals(value)) {
@@ -199,7 +214,7 @@ public class GadgetHandler {
     }
 
     public void updateGadgets() {
-        Set<UUID> modeUsers = IocContainer.get(StaffModeService.class).getModeUsers();
+        Set<UUID> modeUsers = staffModeService.getModeUsers();
 
         for (UUID uuid : modeUsers) {
             Optional<Player> player = sessionManager.get(uuid).getPlayer();

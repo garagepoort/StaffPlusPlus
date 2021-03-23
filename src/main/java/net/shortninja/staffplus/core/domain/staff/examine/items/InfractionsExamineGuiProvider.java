@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.examine.items;
 
-import be.garagepoort.mcioc.IocContainer;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -67,7 +67,7 @@ public class InfractionsExamineGuiProvider implements ExamineGuiItemProvider {
         String latestReason = latestReport == null ? "null" : latestReport.getReason();
 
         for (String string : messages.infractionItem) {
-            List<Warning> warnings = IocContainer.get(WarnService.class).getWarnings(player.getId(), false);
+            List<Warning> warnings = StaffPlus.get().iocContainer.get(WarnService.class).getWarnings(player.getId(), false);
             lore.add(string.replace("%warnings%", Integer.toString(warnings.size())).replace("%reports%", Integer.toString(reports.size())).replace("%reason%", latestReason));
         }
 
