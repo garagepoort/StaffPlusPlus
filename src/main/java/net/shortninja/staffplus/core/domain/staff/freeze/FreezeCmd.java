@@ -1,8 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -19,15 +21,19 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
 
-public class FreezeCmd extends AbstractCmd {
+@IocBean
+@IocMultiProvider(SppCommand.class)
+public abstract class FreezeCmd extends AbstractCmd {
     private static final String ENABLED = "enabled";
     private static final String DISABLED = "disabled";
 
-    private final FreezeHandler freezeHandler = StaffPlus.get().iocContainer.get(FreezeHandler.class);
-    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
+    private final FreezeHandler freezeHandler;
+    private final PlayerManager playerManager;
 
-    public FreezeCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionFreeze);
+    public FreezeCmd(Options options, FreezeHandler freezeHandler, PlayerManager playerManager) {
+        super(options.commandFreeze, "Freezes or unfreezes the player", "{player} {enable | disable}", options.permissionFreeze);
+        this.freezeHandler = freezeHandler;
+        this.playerManager = playerManager;
     }
 
     @Override
@@ -71,7 +77,7 @@ public class FreezeCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permission.has(player, options.permissionFreezeBypass);
+        return permissionHandler.has(player, options.permissionFreezeBypass);
     }
 
     private FreezeRequest buildFreezeRequest(CommandSender sender, String[] args, Player targetPlayer) {

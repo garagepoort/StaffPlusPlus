@@ -1,11 +1,16 @@
 package net.shortninja.staffplus.core.domain.staff.examine;
 
-import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import org.bukkit.command.CommandSender;
@@ -16,19 +21,26 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class ExamineCmd extends AbstractCmd {
-    private final GadgetHandler gadgetHandler = StaffPlus.get().iocContainer.get(GadgetHandler.class);
+    private final GadgetHandler gadgetHandler;
 
-    public ExamineCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).examineConfiguration.getPermissionExamine());
+    protected ExamineCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, GadgetHandler gadgetHandler) {
+        super(options.examineConfiguration.getCommandExamine(), permissionHandler, messages, message, playerManager, options);
+        this.gadgetHandler = gadgetHandler;
+        setUsage("{player}");
+        setDescription("Examines the player's inventory");
+        setPermission(options.examineConfiguration.getPermissionExamine());
     }
+
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
         if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
-        if(((Player) sender).getUniqueId() == targetPlayer.getId()) {
+        if (((Player) sender).getUniqueId() == targetPlayer.getId()) {
             throw new BusinessException("Cannot examine yourself");
         }
 

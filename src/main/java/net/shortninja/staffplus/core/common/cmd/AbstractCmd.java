@@ -27,23 +27,25 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.N
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.DELAY;
 
-public abstract class AbstractCmd extends BukkitCommand {
+public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     private final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
-    protected final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    protected final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
-    protected final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    protected final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
     protected final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
-    protected final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    protected final PermissionHandler permissionHandler;
+    protected final Messages messages;
+    protected final MessageCoordinator message;
+    protected final PlayerManager playerManager;
+    protected final Options options;
+    private List<String> permissions;
 
-    protected AbstractCmd(String name, String permission) {
+    protected AbstractCmd(String name, PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options) {
         super(name);
-        setPermission(permission);
+        this.permissionHandler = permissionHandler;
+        this.messages = messages;
+        this.message = message;
+        this.playerManager = playerManager;
+        this.options = options;
     }
 
-    protected AbstractCmd(String name) {
-        super(name);
-    }
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
@@ -176,7 +178,7 @@ public abstract class AbstractCmd extends BukkitCommand {
             return null;
         }
 
-        if(strategy == OPTIONAL && !playerName.isPresent()) {
+        if (strategy == OPTIONAL && !playerName.isPresent()) {
             return null;
         }
 
@@ -205,10 +207,10 @@ public abstract class AbstractCmd extends BukkitCommand {
     }
 
     private void validatePermissions(CommandSender sender) {
-        if (getPermission() == null) {
-            return;
+        if (getPermission() != null && !permissionHandler.has(sender, getPermission())) {
+            throw new NoPermissionException(messages.prefixGeneral);
         }
-        if (!permission.has(sender, getPermission())) {
+        if (!permissions.isEmpty() && !permissionHandler.hasAny(sender, permissions)) {
             throw new NoPermissionException(messages.prefixGeneral);
         }
     }
@@ -236,4 +238,7 @@ public abstract class AbstractCmd extends BukkitCommand {
     }
 
 
+    protected void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
 }

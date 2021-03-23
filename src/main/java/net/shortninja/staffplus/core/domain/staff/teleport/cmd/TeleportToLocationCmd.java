@@ -1,8 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -19,10 +22,12 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class TeleportToLocationCmd extends AbstractCmd {
 
-    public TeleportToLocationCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTeleportToLocation);
+    public TeleportToLocationCmd(Options options) {
+        super(options.commandTeleportToLocation, "Teleports the player to predefined locations", "{player} {location}", options.permissionTeleportToLocation);
     }
 
     @Override
@@ -60,7 +65,7 @@ public class TeleportToLocationCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permission.has(player, options.permissionTeleportBypass);
+        return permissionHandler.has(player, options.permissionTeleportBypass);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -20,10 +23,12 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class TeleportBackCmd extends AbstractCmd {
 
-    public TeleportBackCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTeleportToLocation);
+    public TeleportBackCmd(Options options) {
+        super(options.commandTeleportBack, "Teleports the player to his last known location before teleportation happened", "{player}", options.permissionTeleportToLocation);
     }
 
     @Override
@@ -59,7 +64,7 @@ public class TeleportBackCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permission.has(player, options.permissionTeleportBypass);
+        return permissionHandler.has(player, options.permissionTeleportBypass);
     }
 
     @Override

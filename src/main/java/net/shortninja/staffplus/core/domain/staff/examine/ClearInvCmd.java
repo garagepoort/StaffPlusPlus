@@ -61,7 +61,7 @@ public class ClearInvCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permission.has(player, options.permissionClearInvBypass);
+        return permissionHandler.has(player, options.permissionClearInvBypass);
     }
 
     @Override

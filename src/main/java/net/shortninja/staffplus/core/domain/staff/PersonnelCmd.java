@@ -70,7 +70,7 @@ public class PersonnelCmd extends AbstractCmd {
 
     private boolean hasStatus(PlayerSession session, String status, Player player) {
         VanishType vanishType = session.getVanishType();
-        if (!permission.has(player, options.permissionMember)) {
+        if (!permissionHandler.has(player, options.permissionMember)) {
             return false;
         }
 

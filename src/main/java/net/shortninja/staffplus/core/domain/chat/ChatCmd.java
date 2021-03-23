@@ -23,7 +23,7 @@ public class ChatCmd extends AbstractCmd {
 
     @Override
     public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
-        if (args.length >= 2 && permission.isOp(sender)) {
+        if (args.length >= 2 && permissionHandler.isOp(sender)) {
             handleChatArgument(sender, args[0], args[1], false);
         } else if (args.length == 1) {
             handleChatArgument(sender, args[0], "", true);
@@ -54,17 +54,17 @@ public class ChatCmd extends AbstractCmd {
 
         switch (argument.toLowerCase()) {
             case "clear":
-                if (!shouldCheckPermission || permission.has(sender, options.permissionChatClear)) {
+                if (!shouldCheckPermission || permissionHandler.has(sender, options.permissionChatClear)) {
                     chatHandler.clearChat(name);
                 } else message.send(sender, messages.noPermission, messages.prefixGeneral);
                 break;
             case "toggle":
-                if (!shouldCheckPermission || permission.has(sender, options.permissionChatToggle)) {
+                if (!shouldCheckPermission || permissionHandler.has(sender, options.permissionChatToggle)) {
                     chatHandler.setChatEnabled(name, option.isEmpty() ? !chatHandler.isChatEnabled() : Boolean.parseBoolean(option));
                 } else message.send(sender, messages.noPermission, messages.prefixGeneral);
                 break;
             case "slow":
-                if (!shouldCheckPermission || permission.has(sender, options.permissionChatSlow)) {
+                if (!shouldCheckPermission || permissionHandler.has(sender, options.permissionChatSlow)) {
                     if (JavaUtils.isInteger(option)) {
                         chatHandler.setChatSlow(name, Integer.parseInt(option));
                     } else

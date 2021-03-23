@@ -1,8 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -21,10 +24,12 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class TeleportHereCmd extends AbstractCmd {
 
-    public TeleportHereCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTeleportHere);
+    public TeleportHereCmd(Options options) {
+        super(options.commandTeleportHere, "Teleport a player to your position", "{player}", options.permissionTeleportHere);
     }
 
     @Override
