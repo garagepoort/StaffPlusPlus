@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.actions;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class DeleteWarningAction implements IAction {
 
-    private final WarnService warnService = IocContainer.get(WarnService.class);
+    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
 
     private final Warning warning;
     private final Supplier<AbstractGui> previousGuiSupplier;

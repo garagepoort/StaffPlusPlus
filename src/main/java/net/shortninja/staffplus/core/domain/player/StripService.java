@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
@@ -12,8 +12,8 @@ public class StripService {
 
     private static StripService instance;
 
-    private MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private Messages messages = IocContainer.get(Messages.class);
+    private MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
 
     public static StripService getInstance() {
         if(instance == null) {

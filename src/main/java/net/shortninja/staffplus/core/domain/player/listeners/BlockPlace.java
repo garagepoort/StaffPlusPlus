@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
@@ -17,14 +17,20 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import java.util.UUID;
 
+@IocBean
 public class BlockPlace implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final FreezeHandler freezeHandler = IocContainer.get(FreezeHandler.class);
-    private final StaffModeService staffModeService = IocContainer.get(StaffModeService.class);
-    private final TraceService traceService = IocContainer.get(TraceService.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private final Options options;
+    private final FreezeHandler freezeHandler;
+    private final StaffModeService staffModeService;
+    private final TraceService traceService;
+    private final SessionManagerImpl sessionManager;
 
-    public BlockPlace() {
+    public BlockPlace(Options options, FreezeHandler freezeHandler, StaffModeService staffModeService, TraceService traceService, SessionManagerImpl sessionManager) {
+        this.options = options;
+        this.freezeHandler = freezeHandler;
+        this.staffModeService = staffModeService;
+        this.traceService = traceService;
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

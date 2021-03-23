@@ -17,10 +17,10 @@ import java.util.Optional;
 
 public class MyWarningsCmd extends AbstractCmd {
 
-    private final WarnService warnService = IocContainer.get(WarnService.class);
+    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
 
     public MyWarningsCmd(String name) {
-        super(name, IocContainer.get(Options.class).warningConfiguration.getMyWarningsPermission());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).warningConfiguration.getMyWarningsPermission());
     }
 
     @Override

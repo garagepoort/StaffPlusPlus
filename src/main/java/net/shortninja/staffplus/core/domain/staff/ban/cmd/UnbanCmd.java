@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.ban.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 
 public class UnbanCmd extends AbstractCmd {
 
-    private final BanService banService = IocContainer.get(BanService.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
+    private final BanService banService = StaffPlus.get().iocContainer.get(BanService.class);
+    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
 
     public UnbanCmd(String name) {
-        super(name, IocContainer.get(Options.class).banConfiguration.getPermissionUnbanPlayer());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).banConfiguration.getPermissionUnbanPlayer());
     }
 
     @Override

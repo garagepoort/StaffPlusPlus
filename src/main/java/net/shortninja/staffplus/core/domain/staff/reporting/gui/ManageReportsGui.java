@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
@@ -16,7 +16,7 @@ import static org.bukkit.Material.PAPER;
 
 public class ManageReportsGui extends AbstractGui {
 
-    private final Options options = IocContainer.get(Options.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
 
     private final GuiItemConfig closedReportsGui;
     private final GuiItemConfig myReportsGui;

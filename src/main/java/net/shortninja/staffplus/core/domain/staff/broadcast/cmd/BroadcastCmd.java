@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.broadcast.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 
 public class BroadcastCmd extends AbstractCmd {
 
-    private final BroadcastService broadcastService = IocContainer.get(BroadcastService.class);
-    private final BroadcastConfiguration broadcastConfiguration = IocContainer.get(Options.class).broadcastConfiguration;
+    private final BroadcastService broadcastService = StaffPlus.get().iocContainer.get(BroadcastService.class);
+    private final BroadcastConfiguration broadcastConfiguration = StaffPlus.get().iocContainer.get(Options.class).broadcastConfiguration;
 
     public BroadcastCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionBroadcast);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionBroadcast);
     }
 
     @Override

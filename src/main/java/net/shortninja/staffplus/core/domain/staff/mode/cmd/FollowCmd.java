@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -15,10 +14,10 @@ import java.util.Optional;
 
 public class FollowCmd extends AbstractCmd {
 
-    private final GadgetHandler gadgetHandler = StaffPlus.get().gadgetHandler;
+    private final GadgetHandler gadgetHandler = StaffPlus.get().iocContainer.get(GadgetHandler.class);
 
     public FollowCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionFollow);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionFollow);
     }
 
     @Override

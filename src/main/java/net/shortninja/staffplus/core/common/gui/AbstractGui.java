@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -19,10 +19,10 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public abstract class AbstractGui implements IGui {
-    protected final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    protected final Messages messages = IocContainer.get(Messages.class);
-    protected final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    protected final Options options = IocContainer.get(Options.class);
+    protected final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    protected final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    protected final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    protected final Options options = StaffPlus.get().iocContainer.get(Options.class);
 
     private String title;
     protected Supplier<AbstractGui> previousGuiSupplier;

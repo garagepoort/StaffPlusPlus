@@ -1,9 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.chests;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
-import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
@@ -17,12 +15,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
+@IocBean
 public class ChestGuiMove implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private PermissionHandler permissionHandler = IocContainer.get(PermissionHandler.class);
+    private final SessionManagerImpl sessionManager;
 
-    public ChestGuiMove() {
+    public ChestGuiMove(SessionManagerImpl sessionManager) {
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.cmd.CommandUtil;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -18,11 +18,14 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
+@IocBean
 public class InventoryClick implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private final Options options;
+    private final SessionManagerImpl sessionManager;
 
-    public InventoryClick() {
+    public InventoryClick(Options options, SessionManagerImpl sessionManager) {
+        this.options = options;
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

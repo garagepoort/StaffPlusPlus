@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.actions;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 
@@ -15,7 +15,7 @@ public class PermissionActionFilter implements ActionFilter {
                 return false;
             }
             String permission = configuredAction.getFilters().get(PERMISSION);
-            return IocContainer.get(PermissionHandler.class).has(target.getPlayer(), permission);
+            return StaffPlus.get().iocContainer.get(PermissionHandler.class).has(target.getPlayer(), permission);
         }
         return true;
     }

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.examine;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
@@ -20,7 +20,7 @@ public class EChestView extends AbstractCmd {
 
     public EChestView(String name) {
         super(name);
-        permissionHandler = IocContainer.get(PermissionHandler.class);
+        permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class EChestView extends AbstractCmd {
             return true;
         }
         Player p = (Player) sender;
-        IocContainer.get(EnderChestService.class).openEnderChest(p, target);
+        StaffPlus.get().iocContainer.get(EnderChestService.class).openEnderChest(p, target);
         return true;
     }
 

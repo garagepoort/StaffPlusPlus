@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.kick.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
 
 public class KickCmd extends AbstractCmd {
 
-    private final KickService kickService = IocContainer.get(KickService.class);
+    private final KickService kickService = StaffPlus.get().iocContainer.get(KickService.class);
     private PermissionHandler permissionHandler;
     private Options options;
 
     public KickCmd(String name) {
-        super(name, IocContainer.get(Options.class).kickConfiguration.getPermissionKickPlayer());
-        options = IocContainer.get(Options.class);
-        permissionHandler = IocContainer.get(PermissionHandler.class);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).kickConfiguration.getPermissionKickPlayer());
+        options = StaffPlus.get().iocContainer.get(Options.class);
+        permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
     }
 
     @Override

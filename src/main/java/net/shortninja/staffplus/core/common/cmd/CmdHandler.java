@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.core.common.cmd;
 
+import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
-import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.application.StaffPlusCmd;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.chat.ChatCmd;
@@ -40,16 +39,19 @@ import net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd.*;
 
 import java.util.Arrays;
 
+@IocBean
 public class CmdHandler {
-    private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-    private final Options options = IocContainer.get(Options.class);
+    private final IProtocol versionProtocol;
+    private final Options options;
     /*
      * Yes this is a mess, but I need to define these things early for help commands
      * to work the way that they should.
      */
     public BaseCmd[] commands;
 
-    public CmdHandler() {
+    public CmdHandler(IProtocol versionProtocol, Options options) {
+        this.versionProtocol = versionProtocol;
+        this.options = options;
         registerCommands();
     }
 

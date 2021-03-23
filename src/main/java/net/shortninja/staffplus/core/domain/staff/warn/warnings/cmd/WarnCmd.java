@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -20,12 +20,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class WarnCmd extends AbstractCmd {
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final WarnService warnService = IocContainer.get(WarnService.class);
+    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
 
     public WarnCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionWarn);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionWarn);
     }
 
     @Override

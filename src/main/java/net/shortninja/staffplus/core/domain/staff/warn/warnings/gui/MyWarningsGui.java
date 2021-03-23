@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 
 public class MyWarningsGui extends PagedGui {
 
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final WarnService warnService = IocContainer.get(WarnService.class);
-    private final WarningItemBuilder warningItemBuilder = IocContainer.get(WarningItemBuilder.class);
+    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
+    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().iocContainer.get(WarningItemBuilder.class);
 
     public MyWarningsGui(Player player, String title, int page) {
         super(player, title, page);
@@ -50,7 +50,7 @@ public class MyWarningsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(WarnService.class)
+        return StaffPlus.get().iocContainer.get(WarnService.class)
             .getWarnings(player.getUniqueId(), offset, amount, false)
             .stream()
             .map(warningItemBuilder::build)

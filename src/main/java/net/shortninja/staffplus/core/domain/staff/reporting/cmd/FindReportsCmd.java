@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 
 public class FindReportsCmd extends AbstractCmd {
 
-    private final PermissionHandler permissionHandler = IocContainer.get(PermissionHandler.class);
-    private final ReportFiltersMapper reportFiltersMapper = IocContainer.get(ReportFiltersMapper.class);
+    private final PermissionHandler permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final ReportFiltersMapper reportFiltersMapper = StaffPlus.get().iocContainer.get(ReportFiltersMapper.class);
 
     public FindReportsCmd(String name) {
         super(name);

@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 
 public class ClosedReportsGui extends PagedGui {
 
-    private PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final ReportItemBuilder reportItemBuilder = IocContainer.get(ReportItemBuilder.class);
+    private PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
 
     public ClosedReportsGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
@@ -38,7 +38,7 @@ public class ClosedReportsGui extends PagedGui {
             public void click(Player player, ItemStack item, int slot) {
                 if (permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
                     int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    Report report = IocContainer.get(ReportService.class).getReport(reportId);
+                    Report report = StaffPlus.get().iocContainer.get(ReportService.class).getReport(reportId);
                     new ClosedReportManageGui(player, "Manage closed report", report).show(player);
                 }
             }
@@ -52,7 +52,7 @@ public class ClosedReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(ManageReportService.class).getClosedReports(offset, amount)
+        return StaffPlus.get().iocContainer.get(ManageReportService.class).getClosedReports(offset, amount)
             .stream()
             .map(reportItemBuilder::build)
             .collect(Collectors.toList());

@@ -24,7 +24,7 @@ public class AppealItemBuilder {
         List<String> lore = new ArrayList<>();
 
         LocalDateTime localDateTime = LocalDateTime.ofInstant(appeal.getCreationDate().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(IocContainer.get(Options.class).timestampFormat));
+        String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(StaffPlus.get().iocContainer.get(Options.class).timestampFormat));
 
         lore.add("&bAppealer: " + appeal.getAppealerName());
         lore.add("&bTimeStamp: " + time);
