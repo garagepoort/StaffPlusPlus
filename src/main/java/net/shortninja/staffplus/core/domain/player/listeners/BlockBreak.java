@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
@@ -20,14 +20,20 @@ import java.util.UUID;
 
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.BLOCK_BREAK;
 
+@IocBean
 public class BlockBreak implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final FreezeHandler freezeHandler = IocContainer.get(FreezeHandler.class);
-    private final XrayService xrayService = IocContainer.get(XrayService.class);
-    private final TraceService traceService = IocContainer.get(TraceService.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private final Options options;
+    private final FreezeHandler freezeHandler;
+    private final XrayService xrayService;
+    private final TraceService traceService;
+    private final SessionManagerImpl sessionManager;
 
-    public BlockBreak() {
+    public BlockBreak(Options options, FreezeHandler freezeHandler, XrayService xrayService, TraceService traceService, SessionManagerImpl sessionManager) {
+        this.options = options;
+        this.freezeHandler = freezeHandler;
+        this.xrayService = xrayService;
+        this.traceService = traceService;
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

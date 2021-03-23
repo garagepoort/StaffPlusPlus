@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.InventoryFactory;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGUI;
@@ -17,11 +17,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+@IocBean
 public class InventoryClose implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private final Options options;
+    private final SessionManagerImpl sessionManager;
 
-    public InventoryClose() {
+    public InventoryClose(Options options, SessionManagerImpl sessionManager) {
+        this.options = options;
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

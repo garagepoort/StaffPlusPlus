@@ -1,9 +1,8 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
@@ -15,13 +14,16 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.PICKUP_ITEM;
 
+@IocBean
 public class PlayerPickupItem implements Listener {
-    private final Options options = IocContainer.get(Options.class);
-    private final StaffModeService staffModeService = IocContainer.get(StaffModeService.class);
-    private final TraceService traceService = IocContainer.get(TraceService.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private final Options options;
+    private final TraceService traceService;
+    private final SessionManagerImpl sessionManager;
 
-    public PlayerPickupItem() {
+    public PlayerPickupItem(Options options, TraceService traceService, SessionManagerImpl sessionManager) {
+        this.options = options;
+        this.traceService = traceService;
+        this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 

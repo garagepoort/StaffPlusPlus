@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -20,11 +20,11 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 public class NotesCmd extends AbstractCmd {
     public static final String GET = "get";
     public static final String CLEAR = "clear";
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
+    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
 
     public NotesCmd(String name) {
-        super(name, IocContainer.get(Options.class).examineConfiguration.getPermissionExamine());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).examineConfiguration.getPermissionExamine());
     }
 
     @Override

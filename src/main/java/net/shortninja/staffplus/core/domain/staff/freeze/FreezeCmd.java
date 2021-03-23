@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
@@ -23,11 +23,11 @@ public class FreezeCmd extends AbstractCmd {
     private static final String ENABLED = "enabled";
     private static final String DISABLED = "disabled";
 
-    private final FreezeHandler freezeHandler = IocContainer.get(FreezeHandler.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
+    private final FreezeHandler freezeHandler = StaffPlus.get().iocContainer.get(FreezeHandler.class);
+    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
 
     public FreezeCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionFreeze);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionFreeze);
     }
 
     @Override

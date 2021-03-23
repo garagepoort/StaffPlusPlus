@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class BannedPlayersGui extends PagedGui {
 
-    private final BannedPlayerItemBuilder bannedPlayerItemBuilder = IocContainer.get(BannedPlayerItemBuilder.class);
+    private final BannedPlayerItemBuilder bannedPlayerItemBuilder = StaffPlus.get().iocContainer.get(BannedPlayerItemBuilder.class);
 
     public BannedPlayersGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
@@ -34,7 +34,7 @@ public class BannedPlayersGui extends PagedGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 int banId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                Ban ban = IocContainer.get(BanService.class).getById(banId);
+                Ban ban = StaffPlus.get().iocContainer.get(BanService.class).getById(banId);
                 new ManageBannedPlayerGui("Player: " + ban.getTargetName(), ban, () -> new BannedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
             }
 
@@ -47,7 +47,7 @@ public class BannedPlayersGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return IocContainer.get(BanService.class).getAllPaged(offset, amount).stream()
+        return StaffPlus.get().iocContainer.get(BanService.class).getAllPaged(offset, amount).stream()
             .map(bannedPlayerItemBuilder::build)
             .collect(Collectors.toList());
     }

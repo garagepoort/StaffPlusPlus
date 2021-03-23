@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
@@ -15,11 +14,19 @@ import java.util.stream.Collectors;
 
 public abstract class AlertsHandler {
 
-    protected final AlertsConfiguration alertsConfiguration = IocContainer.get(Options.class).alertsConfiguration;
-    protected final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    protected final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    protected final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    protected final Messages messages = IocContainer.get(Messages.class);
+    protected final AlertsConfiguration alertsConfiguration;
+    protected final SessionManagerImpl sessionManager;
+    protected final MessageCoordinator message;
+    protected final PermissionHandler permission;
+    protected final Messages messages;
+
+    protected AlertsHandler(Options options, SessionManagerImpl sessionManager, MessageCoordinator message, PermissionHandler permission, Messages messages) {
+        this.alertsConfiguration = options.alertsConfiguration;
+        this.sessionManager = sessionManager;
+        this.message = message;
+        this.permission = permission;
+        this.messages = messages;
+    }
 
     public List<Player> getPlayersToNotify() {
         return sessionManager.getAll().stream()

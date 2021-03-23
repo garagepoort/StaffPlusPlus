@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class ReportsCmd extends AbstractCmd {
-    private final MessageCoordinator message = IocContainer.get(MessageCoordinator.class);
-    private final ReportService reportService = IocContainer.get(ReportService.class);
-    private final ManageReportService manageReportService = IocContainer.get(ManageReportService.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final PermissionHandler permissionHandler = IocContainer.get(PermissionHandler.class);
+    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final ReportService reportService = StaffPlus.get().iocContainer.get(ReportService.class);
+    private final ManageReportService manageReportService = StaffPlus.get().iocContainer.get(ManageReportService.class);
+    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final PermissionHandler permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
 
     public ReportsCmd(String name) {
         super(name);

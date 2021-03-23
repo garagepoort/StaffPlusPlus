@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.examine.items;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocContainer;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -37,7 +37,7 @@ public class EnderchestExamineGuiProvider implements ExamineGuiItemProvider {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                IocContainer.get(EnderChestService.class).openEnderChest(staff, target);
+                StaffPlus.get().iocContainer.get(EnderChestService.class).openEnderChest(staff, target);
             }
 
             @Override

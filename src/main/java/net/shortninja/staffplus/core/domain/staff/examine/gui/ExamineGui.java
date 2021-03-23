@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.examine.gui;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.entity.Player;
@@ -10,7 +10,7 @@ import java.util.List;
 public class ExamineGui extends AbstractGui {
 
     private static final int SIZE = 54;
-    private final List<ExamineGuiItemProvider> guiItemProviders = IocContainer.getList(ExamineGuiItemProvider.class);
+    private final List<ExamineGuiItemProvider> guiItemProviders = StaffPlus.get().iocContainer.getList(ExamineGuiItemProvider.class);
     private final SppPlayer targetPlayer;
     private final Player player;
 

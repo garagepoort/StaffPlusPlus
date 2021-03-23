@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.gui.hub;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
@@ -41,7 +41,7 @@ public class HubGui extends AbstractGui {
     public HubGui(Player player, String title) {
         super(SIZE, title);
         this.player = player;
-        options = IocContainer.get(Options.class);
+        options = StaffPlus.get().iocContainer.get(Options.class);
         protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
         banGuiItemConfig = options.banConfiguration.getGuiItemConfig();
         muteGuiItemConfig = options.muteConfiguration.getGuiItemConfig();
@@ -54,7 +54,7 @@ public class HubGui extends AbstractGui {
 
     @Override
     public void buildGui() {
-        PermissionHandler permissionHandler = IocContainer.get(PermissionHandler.class);
+        PermissionHandler permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
         if (openReportsGui.isEnabled() && permissionHandler.has(player, options.manageReportConfiguration.getPermissionView())) {
             setMenuItem(1, buildGuiItem(PAPER, openReportsGui), p -> new OpenReportsGui(p, openReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
             setMenuItem(2, buildGuiItem(PAPER, myAssignedReportsGui), p -> new MyAssignedReportsGui(p, myAssignedReportsGui.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
@@ -78,7 +78,7 @@ public class HubGui extends AbstractGui {
             setMenuItem(16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig), p -> new MutedPlayersGui(player, muteGuiItemConfig.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
         }
 
-        PlayerSession playerSession = IocContainer.get(SessionManagerImpl.class).get(player.getUniqueId());
+        PlayerSession playerSession = StaffPlus.get().iocContainer.get(SessionManagerImpl.class).get(player.getUniqueId());
         setGlass(playerSession);
     }
 

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
@@ -27,17 +27,26 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.util.List;
 import java.util.UUID;
 
+@IocBean
 public class PlayerJoin implements Listener {
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final SessionLoader sessionLoader = IocContainer.get(SessionLoader.class);
-    private final StaffModeService staffModeService = IocContainer.get(StaffModeService.class);
-    private final VanishServiceImpl vanishServiceImpl = IocContainer.get(VanishServiceImpl.class);
-    private final PlayerManager playerManager = IocContainer.get(PlayerManager.class);
-    private final ActionService actionService = IocContainer.get(ActionService.class);
+    private final PermissionHandler permission;
+    private final Options options;
+    private final SessionManagerImpl sessionManager;
+    private final SessionLoader sessionLoader;
+    private final StaffModeService staffModeService;
+    private final VanishServiceImpl vanishServiceImpl;
+    private final PlayerManager playerManager;
+    private final ActionService actionService;
 
-    public PlayerJoin() {
+    public PlayerJoin(PermissionHandler permission, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader, StaffModeService staffModeService, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, ActionService actionService) {
+        this.permission = permission;
+        this.options = options;
+        this.sessionManager = sessionManager;
+        this.sessionLoader = sessionLoader;
+        this.staffModeService = staffModeService;
+        this.vanishServiceImpl = vanishServiceImpl;
+        this.playerManager = playerManager;
+        this.actionService = actionService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -76,13 +85,13 @@ public class PlayerJoin implements Listener {
     }
 
     private void delayedActions(Player player) {
-        List<DelayedAction> delayedActions = IocContainer.get(DelayedActionsRepository.class).getDelayedActions(player.getUniqueId());
+        List<DelayedAction> delayedActions = StaffPlus.get().iocContainer.get(DelayedActionsRepository.class).getDelayedActions(player.getUniqueId());
         delayedActions.forEach(delayedAction -> {
             CommandSender sender = delayedAction.getExecutor() == Executor.CONSOLE ? Bukkit.getConsoleSender() : player;
             Bukkit.dispatchCommand(sender, delayedAction.getCommand().replace("%player%", player.getName()));
             updateActionable(delayedAction);
         });
-        IocContainer.get(DelayedActionsRepository.class).clearDelayedActions(player.getUniqueId());
+        StaffPlus.get().iocContainer.get(DelayedActionsRepository.class).clearDelayedActions(player.getUniqueId());
     }
 
     private void updateActionable(DelayedAction delayedAction) {

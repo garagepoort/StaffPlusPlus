@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
+import be.garagepoort.mcioc.IocBean;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -16,15 +16,20 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import static org.bukkit.Bukkit.getScheduler;
 
+@IocBean
 public class AppealNotifierListener implements Listener {
 
-    private final AppealRepository appealRepository = IocContainer.get(AppealRepository.class);
-    private final Options options = IocContainer.get(Options.class);
-    private final PermissionHandler permission = IocContainer.get(PermissionHandler.class);
-    private final Messages messages = IocContainer.get(Messages.class);
+    private final AppealRepository appealRepository;
+    private final Options options;
+    private final PermissionHandler permission;
+    private final Messages messages;
 
-    public AppealNotifierListener() {
-        if (options.appealConfiguration.isEnabled()) {
+    public AppealNotifierListener(AppealRepository appealRepository, Options options, PermissionHandler permission, Messages messages) {
+        this.appealRepository = appealRepository;
+        this.options = options;
+        this.permission = permission;
+        this.messages = messages;
+        if (this.options.appealConfiguration.isEnabled()) {
             Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
         }
     }

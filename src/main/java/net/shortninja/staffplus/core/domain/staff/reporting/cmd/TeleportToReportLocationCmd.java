@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -13,13 +13,13 @@ import java.util.Optional;
 
 public class TeleportToReportLocationCmd extends AbstractCmd {
     public TeleportToReportLocationCmd(String name) {
-        super(name, IocContainer.get(Options.class).manageReportConfiguration.getPermissionTeleport());
+        super(name, StaffPlus.get().iocContainer.get(Options.class).manageReportConfiguration.getPermissionTeleport());
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         int reportId = Integer.parseInt(args[0]);
-        IocContainer.get(ReportService.class).goToReportLocation((Player) sender, reportId);
+        StaffPlus.get().iocContainer.get(ReportService.class).goToReportLocation((Player) sender, reportId);
         return true;
     }
 

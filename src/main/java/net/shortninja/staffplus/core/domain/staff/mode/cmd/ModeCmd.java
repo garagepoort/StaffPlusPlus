@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -18,12 +18,12 @@ import java.util.Optional;
 public class ModeCmd extends AbstractCmd {
     private static final String ENABLE = "enable";
     private static final String DISABLE = "disable";
-    private final StaffModeService staffModeService = IocContainer.get(StaffModeService.class);
-    private final SessionManagerImpl sessionManager = IocContainer.get(SessionManagerImpl.class);
-    private final SessionLoader sessionLoader = IocContainer.get(SessionLoader.class);
+    private final StaffModeService staffModeService = StaffPlus.get().iocContainer.get(StaffModeService.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private final SessionLoader sessionLoader = StaffPlus.get().iocContainer.get(SessionLoader.class);
 
     public ModeCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionMode);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionMode);
     }
 
     @Override

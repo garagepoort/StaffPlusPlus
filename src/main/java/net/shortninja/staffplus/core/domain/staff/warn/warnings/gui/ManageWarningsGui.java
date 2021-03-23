@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 
 public class ManageWarningsGui extends PagedGui {
 
-    private final WarnService warnService = IocContainer.get(WarnService.class);
-    private final WarningItemBuilder warningItemBuilder = IocContainer.get(WarningItemBuilder.class);
+    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
+    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().iocContainer.get(WarningItemBuilder.class);
 
     public ManageWarningsGui(Player player, SppPlayer target, String title, int currentPage) {
         super(player, target, title, currentPage);

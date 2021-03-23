@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
@@ -23,12 +23,12 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.ST
 public class TeleportBackCmd extends AbstractCmd {
 
     public TeleportBackCmd(String name) {
-        super(name, IocContainer.get(Options.class).permissionTeleportToLocation);
+        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTeleportToLocation);
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
-        IocContainer.get(TeleportService.class).teleportPlayerBack(targetPlayer.getPlayer());
+        StaffPlus.get().iocContainer.get(TeleportService.class).teleportPlayerBack(targetPlayer.getPlayer());
         return true;
     }
 

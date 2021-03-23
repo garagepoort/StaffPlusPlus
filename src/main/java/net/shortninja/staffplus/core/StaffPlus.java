@@ -1,30 +1,21 @@
 package net.shortninja.staffplus.core;
 
+import be.garagepoort.mcioc.IocContainer;
 import be.garagepoort.staffplusplus.craftbukkit.api.ProtocolFactory;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextManager;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.application.data.DataFile;
 import net.shortninja.staffplus.core.application.data.LanguageFile;
-import net.shortninja.staffplus.core.application.metrics.MetricsUtil;
 import net.shortninja.staffplus.core.application.updates.UpdateNotifier;
-import net.shortninja.staffplus.core.common.UpdatableGui;
 import net.shortninja.staffplus.core.common.bungee.BungeeUtil;
-import net.shortninja.staffplus.core.common.cmd.CmdHandler;
 import net.shortninja.staffplus.core.common.config.AutoUpdater;
 import net.shortninja.staffplus.core.common.config.AutoUpdaterLanguageFiles;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeLuckPermsContextCalculator;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
-import net.shortninja.staffplus.core.domain.staff.mode.handler.CpsHandler;
-import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
-import net.shortninja.staffplus.core.domain.staff.mute.MuteSessionTask;
-import net.shortninja.staffplus.core.domain.staff.revive.ReviveHandler;
-import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarningExpireTask;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionLoader;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -50,13 +41,10 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private static StaffPlus plugin;
 
     public IProtocol versionProtocol;
-
-    public CpsHandler cpsHandler;
-    public GadgetHandler gadgetHandler;
-    public ReviveHandler reviveHandler;
-    public CmdHandler cmdHandler;
-    public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     public boolean usesPlaceholderAPI;
+    public IocContainer iocContainer;
+
+    public UUID consoleUUID = UUID.fromString("9c417515-22bc-46b8-be4d-538482992f8f");
     private BukkitTask guiUpdateTask;
 
     private ContextManager contextManager;
@@ -95,34 +83,14 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-
-        IocContainer.registerBean(versionProtocol);
-        IocContainer.init("net.shortninja.staffplus.core", getConfig());
-
-        cpsHandler = new CpsHandler();
-        gadgetHandler = new GadgetHandler();
-        reviveHandler = new ReviveHandler();
-        cmdHandler = new CmdHandler();
-        new Tasks();
-        new MuteSessionTask();
-        new WarningExpireTask();
+        iocContainer = new IocContainer();
+        iocContainer.registerBean(versionProtocol);
+        iocContainer.init("net.shortninja.staffplus.core", getConfig());
 
         getScheduler().runTaskAsynchronously(this, () -> new UpdateNotifier().checkUpdate());
 
-
-        Bukkit.getOnlinePlayers().forEach(player -> IocContainer.get(SessionManagerImpl.class).initialize(player));
-        BukkitUtils.initListeners();
+        Bukkit.getOnlinePlayers().forEach(player -> StaffPlus.get().iocContainer.get(SessionManagerImpl.class).initialize(player));
         BungeeUtil.initListeners(this);
-        MetricsUtil.initializeMetrics(this, IocContainer.get(Options.class));
-
-        guiUpdateTask = getScheduler().runTaskTimer(this, () -> {
-            for (PlayerSession playerSession : IocContainer.get(SessionManagerImpl.class).getAll()) {
-                if (playerSession.getCurrentGui().isPresent() && playerSession.getCurrentGui().get() instanceof UpdatableGui) {
-                    ((UpdatableGui) playerSession.getCurrentGui().get()).update();
-                }
-            }
-        }, 0, 10);
-
         enableLuckPermHooks();
         Bukkit.getServicesManager().register(IStaffPlus.class, this, this, ServicePriority.Normal);
 
@@ -151,8 +119,8 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     }
 
     public void saveUsers() {
-        for (PlayerSession session : IocContainer.get(SessionManagerImpl.class).getAll()) {
-            IocContainer.get(SessionLoader.class).saveSessionSynchronous(session);
+        for (PlayerSession session : StaffPlus.get().iocContainer.get(SessionManagerImpl.class).getAll()) {
+            StaffPlus.get().iocContainer.get(SessionLoader.class).saveSessionSynchronous(session);
         }
     }
 
@@ -171,32 +139,28 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
     private void stop() {
         saveUsers();
-        if (IocContainer.get(Options.class).modeConfiguration.isModeDisableOnLogout()) {
+        if (StaffPlus.get().iocContainer.get(Options.class).modeConfiguration.isModeDisableOnLogout()) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                IocContainer.get(StaffModeService.class).removeMode(player);
+                StaffPlus.get().iocContainer.get(StaffModeService.class).removeMode(player);
             }
         }
 
         versionProtocol = null;
-        cpsHandler = null;
-        gadgetHandler = null;
-        reviveHandler = null;
-        cmdHandler = null;
         plugin = null;
     }
 
     public PermissionHandler getPermissions() {
-        return IocContainer.get(PermissionHandler.class);
+        return StaffPlus.get().iocContainer.get(PermissionHandler.class);
     }
 
     @Override
     public StaffChatService getStaffChatService() {
-        return IocContainer.get(StaffChatService.class);
+        return StaffPlus.get().iocContainer.get(StaffChatService.class);
     }
 
     @Override
     public SessionManager getSessionManager() {
-        return IocContainer.get(SessionManager.class);
+        return StaffPlus.get().iocContainer.get(SessionManager.class);
     }
 
     private void enableLuckPermHooks() {
@@ -208,7 +172,7 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
                 throw new IllegalStateException("LuckPerms API not loaded.");
             }
             this.contextManager = luckPerms.getContextManager();
-            this.register("StaffMode", StaffModeLuckPermsContextCalculator::new);
+            this.register("StaffMode", () -> iocContainer.get(StaffModeLuckPermsContextCalculator.class));
         }
     }
 
