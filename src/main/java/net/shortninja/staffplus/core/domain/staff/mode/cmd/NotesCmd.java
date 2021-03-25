@@ -1,11 +1,17 @@
 package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -17,14 +23,20 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class NotesCmd extends AbstractCmd {
-    public static final String GET = "get";
-    public static final String CLEAR = "clear";
-    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private static final String GET = "get";
+    private static final String CLEAR = "clear";
 
-    public NotesCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).examineConfiguration.getPermissionExamine());
+    private final SessionManagerImpl sessionManager;
+
+    public NotesCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, SessionManagerImpl sessionManager) {
+        super(options.commandNotes, permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.sessionManager = sessionManager;
+        setPermission(options.examineConfiguration.getPermissionExamine());
+        setDescription("Adds or manages a player's notes");
+        setUsage("[player] [note]");
     }
 
     @Override

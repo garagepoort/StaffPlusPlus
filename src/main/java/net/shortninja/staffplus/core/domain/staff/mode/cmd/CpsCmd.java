@@ -1,21 +1,33 @@
 package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import org.bukkit.command.CommandSender;
 
 import java.util.Optional;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class CpsCmd extends AbstractCmd {
-    private final GadgetHandler gadgetHandler = StaffPlus.get().iocContainer.get(GadgetHandler.class);
+    private final GadgetHandler gadgetHandler;
 
-    public CpsCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionCps);
+    public CpsCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, GadgetHandler gadgetHandler) {
+        super(options.commandCps, permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.gadgetHandler = gadgetHandler;
+        setDescription("Starts a CPS test on the player.");
+        setUsage("{player}");
+        setPermission(options.permissionCps);
     }
 
     @Override

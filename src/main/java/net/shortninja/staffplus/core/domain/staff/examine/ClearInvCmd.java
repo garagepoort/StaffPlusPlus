@@ -1,11 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.examine;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,16 +26,19 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TELEPORT;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class ClearInvCmd extends AbstractCmd {
 
-    public ClearInvCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionClearInv);
+    public ClearInvCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options) {
+        super(options.commandClearInv, permissionHandler, authenticationService, messages, message, playerManager, options);
+        setPermission(options.permissionClearInv);
+        setDescription("Used to clear a desired player's inventory");
+        setUsage("[player]");
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
-        List<String> arguments = Arrays.asList(Arrays.copyOfRange(args, 1, args.length));
-
         JavaUtils.clearInventory(targetPlayer.getPlayer());
         sender.sendMessage(targetPlayer.getPlayer().getName() + "'s inventory has been cleared");
         return true;

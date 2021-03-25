@@ -7,9 +7,9 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextManager;
 import net.shortninja.staffplus.core.application.data.DataFile;
-import net.shortninja.staffplus.core.application.data.LanguageFile;
 import net.shortninja.staffplus.core.application.updates.UpdateNotifier;
 import net.shortninja.staffplus.core.common.bungee.BungeeUtil;
+import net.shortninja.staffplus.core.common.cmd.CmdHandler;
 import net.shortninja.staffplus.core.common.config.AutoUpdater;
 import net.shortninja.staffplus.core.common.config.AutoUpdaterLanguageFiles;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -23,8 +23,8 @@ import net.shortninja.staffplusplus.IStaffPlus;
 import net.shortninja.staffplusplus.session.SessionManager;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatService;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -50,7 +50,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
     private ContextManager contextManager;
     private final List<ContextCalculator<Player>> registeredCalculators = new ArrayList<>();
     private boolean luckPermsEnabled;
-    private FileConfiguration langFile;
 
     public static StaffPlus get() {
         return plugin;
@@ -77,7 +76,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         // Create all config files
         saveDefaultConfig();
-        langFile = new LanguageFile().get();
         DataFile.init();
         if (!loadConfig()) {
             Bukkit.getPluginManager().disablePlugin(this);
@@ -89,7 +87,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
 
         getScheduler().runTaskAsynchronously(this, () -> new UpdateNotifier().checkUpdate());
 
-        Bukkit.getOnlinePlayers().forEach(player -> StaffPlus.get().iocContainer.get(SessionManagerImpl.class).initialize(player));
         BungeeUtil.initListeners(this);
         enableLuckPermHooks();
         Bukkit.getServicesManager().register(IStaffPlus.class, this, this, ServicePriority.Normal);
@@ -106,16 +103,22 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         return true;
     }
 
-    public FileConfiguration getLangFile() {
-        return langFile;
-    }
-
     @Override
     public void onDisable() {
         guiUpdateTask.cancel();
         getLogger().info("Staff++ is now disabling!");
         this.disableLuckPermHooks();
         stop();
+    }
+
+    public void reload() {
+        reloadConfig();
+        HandlerList.unregisterAll(this);
+        iocContainer.get(CmdHandler.class).unregisterCommands();
+
+        iocContainer = new IocContainer();
+        iocContainer.registerBean(versionProtocol);
+        iocContainer.init("net.shortninja.staffplus.core", getConfig());
     }
 
     public void saveUsers() {
@@ -188,10 +191,5 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
         ContextCalculator<Player> calculator = calculatorSupplier.get();
         this.contextManager.registerCalculator(calculator);
         this.registeredCalculators.add(calculator);
-    }
-
-
-    public void reloadLangFile() {
-        this.langFile = new LanguageFile().get();
     }
 }

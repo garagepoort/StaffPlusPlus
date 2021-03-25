@@ -2,13 +2,17 @@ package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
@@ -28,8 +32,14 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.ST
 @IocMultiProvider(SppCommand.class)
 public class TeleportToPlayerCmd extends AbstractCmd {
 
-    public TeleportToPlayerCmd(Options options) {
-        super(options.commandTeleportToPlayer, "Teleport yourself to a specific player", "{player}", options.permissionTeleportToPlayer);
+    private final TeleportService teleportService;
+
+    public TeleportToPlayerCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, TeleportService teleportService) {
+        super(options.commandTeleportToPlayer, permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.teleportService = teleportService;
+        setDescription("Teleport yourself to a specific player");
+        setUsage("{player}");
+        setPermission(options.permissionTeleportToPlayer);
     }
 
     @Override
@@ -38,7 +48,7 @@ public class TeleportToPlayerCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        StaffPlus.get().iocContainer.get(TeleportService.class).teleportToPlayer((Player) sender, targetPlayer.getPlayer());
+        teleportService.teleportToPlayer((Player) sender, targetPlayer.getPlayer());
         return true;
     }
 

@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.examine;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
@@ -26,8 +27,8 @@ import java.util.stream.Collectors;
 public class ExamineCmd extends AbstractCmd {
     private final GadgetHandler gadgetHandler;
 
-    protected ExamineCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, GadgetHandler gadgetHandler) {
-        super(options.examineConfiguration.getCommandExamine(), permissionHandler, messages, message, playerManager, options);
+    public ExamineCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, GadgetHandler gadgetHandler) {
+        super(options.examineConfiguration.getCommandExamine(), permissionHandler, authenticationService, messages, message, playerManager, options);
         this.gadgetHandler = gadgetHandler;
         setUsage("{player}");
         setDescription("Examines the player's inventory");

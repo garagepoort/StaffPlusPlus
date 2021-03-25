@@ -2,12 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
 import org.bukkit.command.CommandSender;
@@ -26,15 +30,21 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.ST
 @IocMultiProvider(SppCommand.class)
 public class TeleportToLocationCmd extends AbstractCmd {
 
-    public TeleportToLocationCmd(Options options) {
-        super(options.commandTeleportToLocation, "Teleports the player to predefined locations", "{player} {location}", options.permissionTeleportToLocation);
+    private final TeleportService teleportService;
+
+    public TeleportToLocationCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, TeleportService teleportService) {
+        super(options.commandTeleportToLocation, permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.teleportService = teleportService;
+        setDescription("Teleports the player to predefined locations");
+        setUsage("{player} {location}");
+        setPermission(options.permissionTeleportToLocation);
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
         String locationName = args[1];
 
-        StaffPlus.get().iocContainer.get(TeleportService.class).teleportPlayerToLocation(sender, targetPlayer.getPlayer(), locationName);
+        teleportService.teleportPlayerToLocation(sender, targetPlayer.getPlayer(), locationName);
         return true;
     }
 
@@ -78,7 +88,7 @@ public class TeleportToLocationCmd extends AbstractCmd {
                 .collect(Collectors.toList());
         }
         if (args.length == 2) {
-            StaffPlus.get().iocContainer.get(Options.class).locations.forEach((k, v) -> {
+            options.locations.forEach((k, v) -> {
                 suggestions.add(k);
             });
             return suggestions.stream()

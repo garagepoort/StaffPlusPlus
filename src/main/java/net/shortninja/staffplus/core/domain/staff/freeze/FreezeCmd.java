@@ -2,11 +2,15 @@ package net.shortninja.staffplus.core.domain.staff.freeze;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -28,12 +32,13 @@ public abstract class FreezeCmd extends AbstractCmd {
     private static final String DISABLED = "disabled";
 
     private final FreezeHandler freezeHandler;
-    private final PlayerManager playerManager;
 
-    public FreezeCmd(Options options, FreezeHandler freezeHandler, PlayerManager playerManager) {
-        super(options.commandFreeze, "Freezes or unfreezes the player", "{player} {enable | disable}", options.permissionFreeze);
+    public FreezeCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, FreezeHandler freezeHandler) {
+        super(options.commandFreeze, permissionHandler, authenticationService, messages, message, playerManager, options);
         this.freezeHandler = freezeHandler;
-        this.playerManager = playerManager;
+        setDescription("Freezes or unfreezes the player");
+        setUsage("{player} {enable | disable}");
+        setPermission(options.permissionFreeze);
     }
 
     @Override

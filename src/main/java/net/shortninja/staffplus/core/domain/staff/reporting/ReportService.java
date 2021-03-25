@@ -1,9 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.reporting;
 
-import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.bungee.ServerSwitcher;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -184,7 +183,7 @@ public class ReportService implements InfractionProvider {
             player.teleport(location);
             message.send(player, "You have been teleported to the location where this report was created", messages.prefixReports);
         } else {
-            String command = "staffplus:teleport-to-report " + reportId + " " + report.getServerName();
+            String command = "staffplus:teleport-to-report " + reportId;
             delayedActionsRepository.saveDelayedAction(player.getUniqueId(), command, Executor.PLAYER, report.getServerName());
             ServerSwitcher.switchServer(player, report.getServerName());
         }

@@ -1,11 +1,17 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatServiceImpl;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -15,21 +21,28 @@ import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
+@IocBean(conditionalOnProperty = "staff-chat-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class StaffChatCmd extends AbstractCmd {
-    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
-    private final StaffChatServiceImpl staffChatService = StaffPlus.get().iocContainer.get(StaffChatServiceImpl.class);
+    private final SessionManagerImpl sessionManager;
+    private final StaffChatServiceImpl staffChatService;
 
-    public StaffChatCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).staffChatConfiguration.getPermissionStaffChat());
+    public StaffChatCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService) {
+        super(options.commandStaffChat, permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.sessionManager = sessionManager;
+        this.staffChatService = staffChatService;
+        setDescription("Sends a message or toggles staff chat.");
+        setUsage("{message}");
+        setPermission(options.staffChatConfiguration.getPermissionStaffChat());
     }
+
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         if (args.length > 0) {
             staffChatService.sendMessage(sender, JavaUtils.compileWords(args, 0));
         } else {
-            if(!(sender instanceof Player)) {
+            if (!(sender instanceof Player)) {
                 sender.sendMessage("Please provide a message");
                 return false;
             }

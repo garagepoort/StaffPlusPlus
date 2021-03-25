@@ -1,11 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.MyWarningsGui;
@@ -15,12 +22,17 @@ import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
+@IocBean(conditionalOnProperty = "warnings-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class MyWarningsCmd extends AbstractCmd {
 
-    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
+    private final WarnService warnService;
 
-    public MyWarningsCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).warningConfiguration.getMyWarningsPermission());
+    public MyWarningsCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, WarnService warnService) {
+        super(options.warningConfiguration.getMyWarningsCmd(), permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.warnService = warnService;
+        setPermission(options.warningConfiguration.getMyWarningsPermission());
+        setDescription("Open my warnings gui");
     }
 
     @Override

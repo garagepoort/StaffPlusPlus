@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.alerts;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -34,8 +35,8 @@ public class AlertsCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final SessionLoader sessionLoader;
 
-    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
-        super(options.examineConfiguration.getCommandExamine(), permissionHandler, messages, message, playerManager, options);
+    public AlertsCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
+        super(options.examineConfiguration.getCommandExamine(), permissionHandler, authenticationService, messages, message, playerManager, options);
         this.sessionManager = sessionManager;
         this.sessionLoader = sessionLoader;
         super.setPermissions(options.alertsConfiguration.getAllAlertsPermissions());

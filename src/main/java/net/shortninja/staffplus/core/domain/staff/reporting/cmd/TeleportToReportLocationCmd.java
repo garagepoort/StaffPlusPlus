@@ -1,9 +1,16 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import org.bukkit.command.CommandSender;
@@ -11,15 +18,24 @@ import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
+@IocBean(conditionalOnProperty = "reports-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class TeleportToReportLocationCmd extends AbstractCmd {
-    public TeleportToReportLocationCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).manageReportConfiguration.getPermissionTeleport());
+
+    private final ReportService reportService;
+
+    public TeleportToReportLocationCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, ReportService reportService) {
+        super("teleport-to-report", permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.reportService = reportService;
+        setDescription("Teleport to report location");
+        setUsage("[reportId]");
+        setPermission(options.manageReportConfiguration.getPermissionTeleport());
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         int reportId = Integer.parseInt(args[0]);
-        StaffPlus.get().iocContainer.get(ReportService.class).goToReportLocation((Player) sender, reportId);
+        reportService.goToReportLocation((Player) sender, reportId);
         return true;
     }
 

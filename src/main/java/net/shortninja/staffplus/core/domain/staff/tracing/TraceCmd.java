@@ -1,9 +1,16 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -16,16 +23,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class TraceCmd extends AbstractCmd {
 
     private static final String START = "start";
     private static final String STOP = "stop";
-    private TraceService traceService;
 
-    public TraceCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTrace);
-        traceService = StaffPlus.get().iocContainer.get(TraceService.class);
+    private final TraceService traceService;
+
+    public TraceCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, TraceService traceService) {
+        super(options.commandTrace, permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.traceService = traceService;
+        setPermission(options.permissionTrace);
+        setDescription("Used to start/stop tracing a player");
+        setUsage("[start | stop] [player]");
     }
+
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {

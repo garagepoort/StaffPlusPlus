@@ -1,24 +1,37 @@
 package net.shortninja.staffplus.core.domain.chat;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
 
+@IocBean(conditionalOnProperty = "chat-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class ChatCmd extends AbstractCmd {
-    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    private final ChatHandler chatHandler = StaffPlus.get().iocContainer.get(ChatHandler.class);
+    private final ChatHandler chatHandler;
 
-    public ChatCmd(String name) {
-        super(name);
+    public ChatCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, ChatHandler chatHandler) {
+        super(options.commandChat, permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.chatHandler = chatHandler;
+        setPermissions(Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle));
+        setDescription("Executes the given chat management action.");
+        setUsage("[clear | toggle | slow] {enable | disable | time}");
     }
 
     @Override

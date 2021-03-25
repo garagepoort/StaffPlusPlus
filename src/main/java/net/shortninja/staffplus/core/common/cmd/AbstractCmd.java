@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.common.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
@@ -31,15 +30,17 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     private final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
     protected final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
     protected final PermissionHandler permissionHandler;
+    protected final AuthenticationService authenticationService;
     protected final Messages messages;
     protected final MessageCoordinator message;
     protected final PlayerManager playerManager;
     protected final Options options;
     private List<String> permissions;
 
-    protected AbstractCmd(String name, PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options) {
+    protected AbstractCmd(String name, PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options) {
         super(name);
         this.permissionHandler = permissionHandler;
+        this.authenticationService = authenticationService;
         this.messages = messages;
         this.message = message;
         this.playerManager = playerManager;
@@ -202,7 +203,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     private void validateAuthentication(CommandSender sender) {
         if (isAuthenticationRequired() && sender instanceof Player) {
-            StaffPlus.get().iocContainer.get(AuthenticationService.class).checkAuthentication((Player) sender);
+            authenticationService.checkAuthentication((Player) sender);
         }
     }
 

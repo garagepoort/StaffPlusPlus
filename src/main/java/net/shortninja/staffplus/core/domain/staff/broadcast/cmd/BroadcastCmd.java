@@ -1,10 +1,17 @@
 package net.shortninja.staffplus.core.domain.staff.broadcast.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.broadcast.BroadcastService;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
@@ -17,13 +24,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class BroadcastCmd extends AbstractCmd {
 
-    private final BroadcastService broadcastService = StaffPlus.get().iocContainer.get(BroadcastService.class);
-    private final BroadcastConfiguration broadcastConfiguration = StaffPlus.get().iocContainer.get(Options.class).broadcastConfiguration;
+    private final BroadcastService broadcastService;
+    private final BroadcastConfiguration broadcastConfiguration;
 
-    public BroadcastCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionBroadcast);
+    public BroadcastCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, BroadcastService broadcastService, BroadcastConfiguration broadcastConfiguration) {
+        super(options.commandBroadcast, permissionHandler, authenticationService, messages, message, playerManager, options);
+        this.broadcastService = broadcastService;
+        this.broadcastConfiguration = broadcastConfiguration;
+        setPermission(options.permissionBroadcast);
+        setDescription("Broadcast messages to all players (over all servers)");
+        setUsage("[server] [message]");
     }
 
     @Override

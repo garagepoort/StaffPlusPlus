@@ -2,11 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -29,11 +34,14 @@ public class ModeCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final SessionLoader sessionLoader;
 
-    public ModeCmd(StaffModeService staffModeService, SessionManagerImpl sessionManager, SessionLoader sessionLoader, Options options) {
-        super(options.commandStaffMode, DESCRIPTION, USAGE, options.permissionMode);
+    public ModeCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, StaffModeService staffModeService, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
+        super(options.commandStaffMode, permissionHandler, authenticationService, messages, message, playerManager, options);
         this.staffModeService = staffModeService;
         this.sessionManager = sessionManager;
         this.sessionLoader = sessionLoader;
+        setDescription(DESCRIPTION);
+        setUsage(USAGE);
+        setPermission(options.permissionMode);
     }
 
     @Override
