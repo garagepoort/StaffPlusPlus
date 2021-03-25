@@ -18,7 +18,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -80,7 +79,7 @@ public class PlayerCommandPreprocess implements Listener {
 
         message.send(player, "&7" + message.LONG_LINE, "");
 
-        List<BaseCmd> sortedCommands = Arrays.stream(cmdHandler.commands)
+        List<BaseCmd> sortedCommands = cmdHandler.commands.stream()
             .sorted(Comparator.comparing(o -> o.getCommand().getName()))
             .collect(Collectors.toList());
 

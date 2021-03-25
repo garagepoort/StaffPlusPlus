@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.cmd.CommandUtil;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;

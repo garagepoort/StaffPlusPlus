@@ -1,11 +1,19 @@
 package net.shortninja.staffplus.core.domain.staff.mute.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -17,17 +25,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@IocBean(conditionalOnProperty = "mute-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class MuteCmd extends AbstractCmd {
 
-    private final MuteService muteService = StaffPlus.get().iocContainer.get(MuteService.class);
-    private SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
-    private PermissionHandler permissionHandler;
-    private Options options;
+    private final MuteService muteService;
+    private final SessionManagerImpl sessionManager;
 
-    public MuteCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).muteConfiguration.getPermissionMutePlayer());
-        options = StaffPlus.get().iocContainer.get(Options.class);
-        permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    public MuteCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, MuteService muteService, SessionManagerImpl sessionManager) {
+        super(options.muteConfiguration.getCommandMutePlayer(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.muteService = muteService;
+        this.sessionManager = sessionManager;
+        setPermission(options.muteConfiguration.getPermissionMutePlayer());
+        setDescription("Permanent mute a player");
+        setUsage("[player] [reason]");
     }
 
     @Override

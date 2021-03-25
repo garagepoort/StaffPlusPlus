@@ -1,11 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectWhitelistedItem;
@@ -18,14 +25,18 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@IocBean(conditionalOnProperty = "alt-detect-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class AltDetectWhitelistCmd extends AbstractCmd {
 
-    private final AltDetectionService altDetectionService = StaffPlus.get().iocContainer.get(AltDetectionService.class);
-    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
-    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private final AltDetectionService altDetectionService;
 
-    public AltDetectWhitelistCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).altDetectConfiguration.getWhitelistPermission());
+    public AltDetectWhitelistCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, AltDetectionService altDetectionService) {
+        super(options.altDetectConfiguration.getCommandWhitelist(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.altDetectionService = altDetectionService;
+        setPermission(options.altDetectConfiguration.getWhitelistPermission());
+        setDescription("Add/Remove players from the alt account detection whitelist");
+        setUsage("[add/remove] [player1] [player2]");
     }
 
     @Override
