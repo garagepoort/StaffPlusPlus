@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.kick.gui;
 
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;

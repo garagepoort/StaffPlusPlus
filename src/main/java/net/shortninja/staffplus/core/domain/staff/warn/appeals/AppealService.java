@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
-import me.rayzr522.jsonmessage.JSONMessage;
 import be.garagepoort.mcioc.IocBean;
+import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;

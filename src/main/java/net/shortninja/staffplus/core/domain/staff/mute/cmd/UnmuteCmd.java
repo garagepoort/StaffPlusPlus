@@ -1,10 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.mute.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
@@ -16,14 +24,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@IocBean(conditionalOnProperty = "mute-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class UnmuteCmd extends AbstractCmd {
 
-    private final MuteService muteService = StaffPlus.get().iocContainer.get(MuteService.class);
-    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
-    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private final MuteService muteService;
+    private final SessionManagerImpl sessionManager;
 
-    public UnmuteCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).muteConfiguration.getPermissionUnmutePlayer());
+    public UnmuteCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, MuteService muteService, SessionManagerImpl sessionManager) {
+        super(options.muteConfiguration.getCommandUnmutePlayer(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.muteService = muteService;
+        this.sessionManager = sessionManager;
+        setPermission(options.muteConfiguration.getPermissionUnmutePlayer());
+        setDescription("Unmute a player");
+        setUsage("[player] [reason]");
     }
 
     @Override

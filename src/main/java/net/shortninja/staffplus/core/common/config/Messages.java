@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.config;
 
-import net.shortninja.staffplus.core.StaffPlus;
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.application.data.LanguageFile;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -154,8 +154,7 @@ public class Messages {
     }
 
     public void reload() {
-        StaffPlus.get().reloadLangFile();
-        FileConfiguration config = StaffPlus.get().getLangFile();
+        FileConfiguration config = new LanguageFile().get();
         /*
          * Prefixes
          */

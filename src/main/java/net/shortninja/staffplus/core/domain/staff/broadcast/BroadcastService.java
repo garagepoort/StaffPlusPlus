@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.broadcast;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.bungee.BungeeAction;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.common.bungee.BungeeContext;
@@ -73,7 +72,7 @@ public class BroadcastService {
     private void broadcast(String message) {
         String[] lines = message.split(Pattern.quote("\\n"));
         for (String line : lines) {
-            this.message.sendGlobalMessage(line, StaffPlus.get().iocContainer.get(Options.class).broadcastConfiguration.getPrefix());
+            this.message.sendGlobalMessage(line, broadcastConfiguration.getPrefix());
         }
     }
 }

@@ -1,9 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.examine;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.chests.EnderChestService;
 import org.bukkit.command.CommandSender;
@@ -14,13 +23,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@IocBean(conditionalOnProperty = "enderchest-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class EChestView extends AbstractCmd {
 
-    private PermissionHandler permissionHandler;
+    private final EnderChestService enderChestService;
 
-    public EChestView(String name) {
-        super(name);
-        permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    public EChestView(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, EnderChestService enderChestService) {
+        super(options.enderchestsConfiguration.getCommandOpenEnderChests(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.enderChestService = enderChestService;
+        setDescription("Used to view a players ender chest");
+        setUsage("[player]");
     }
 
     @Override
@@ -30,7 +43,7 @@ public class EChestView extends AbstractCmd {
             return true;
         }
         Player p = (Player) sender;
-        StaffPlus.get().iocContainer.get(EnderChestService.class).openEnderChest(p, target);
+        enderChestService.openEnderChest(p, target);
         return true;
     }
 
