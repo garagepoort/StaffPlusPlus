@@ -20,14 +20,16 @@ import static org.bukkit.Bukkit.getScheduler;
 @IocBean
 public class ManageReportService {
 
-    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final PermissionHandler permission;
+    private final Options options;
     private final Messages messages;
     private final ReportService reportService;
     private final ReportRepository reportRepository;
     private final ReportNotifier reportNotifier;
 
-    public ManageReportService(ReportRepository reportRepository, Messages messages, ReportService reportService, ReportNotifier reportNotifier) {
+    public ManageReportService(PermissionHandler permission, Options options, ReportRepository reportRepository, Messages messages, ReportService reportService, ReportNotifier reportNotifier) {
+        this.permission = permission;
+        this.options = options;
         this.reportRepository = reportRepository;
         this.messages = messages;
         this.reportService = reportService;

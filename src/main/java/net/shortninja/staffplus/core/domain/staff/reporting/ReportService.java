@@ -38,16 +38,17 @@ public class ReportService implements InfractionProvider {
 
     private final PermissionHandler permission;
     private final MessageCoordinator message;
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final Options options;
     private final Messages messages;
     private final PlayerManager playerManager;
     private final ReportRepository reportRepository;
     private final DelayedActionsRepository delayedActionsRepository;
     private final ReportNotifier reportNotifier;
 
-    public ReportService(PermissionHandler permission, MessageCoordinator message, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository, ReportNotifier reportNotifier) {
+    public ReportService(PermissionHandler permission, MessageCoordinator message, Options options, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository, ReportNotifier reportNotifier) {
         this.permission = permission;
         this.message = message;
+        this.options = options;
         this.reportRepository = reportRepository;
         this.messages = messages;
         this.playerManager = playerManager;
