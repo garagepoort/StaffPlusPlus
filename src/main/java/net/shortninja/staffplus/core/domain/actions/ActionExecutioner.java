@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.actions;
 
-import net.shortninja.staffplus.core.StaffPlus;
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.domain.actions.database.ActionableRepository;
 import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;

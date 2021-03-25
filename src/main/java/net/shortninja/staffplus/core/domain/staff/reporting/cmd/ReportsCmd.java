@@ -1,12 +1,19 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
@@ -19,15 +26,28 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@IocBean(conditionalOnProperty = "reports-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class ReportsCmd extends AbstractCmd {
-    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    private final ReportService reportService = StaffPlus.get().iocContainer.get(ReportService.class);
-    private final ManageReportService manageReportService = StaffPlus.get().iocContainer.get(ManageReportService.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
-    private final PermissionHandler permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final ReportService reportService;
+    private final ManageReportService manageReportService;
 
-    public ReportsCmd(String name) {
-        super(name);
+    public ReportsCmd(PermissionHandler permissionHandler,
+                      AuthenticationService authenticationService,
+                      Messages messages,
+                      MessageCoordinator message,
+                      PlayerManager playerManager,
+                      Options options,
+                      ReportService reportService,
+                      ManageReportService manageReportService,
+                      DelayArgumentExecutor delayArgumentExecutor,
+                      ArgumentProcessor argumentProcessor) {
+
+        super(options.commandReports, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.reportService = reportService;
+        this.manageReportService = manageReportService;
+        setDescription("Manage Reports.");
+        setUsage("[get|clear] [player]");
     }
 
     @Override

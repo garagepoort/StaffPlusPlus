@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.common.config;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.core.authentication.AuthenticationConfigurationLoader;
-import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.Materials;

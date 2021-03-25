@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
@@ -8,18 +8,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+@IocBean
 public class StripService {
 
-    private static StripService instance;
+    private final MessageCoordinator message;
+    private final Messages messages;
 
-    private MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    private Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
-
-    public static StripService getInstance() {
-        if(instance == null) {
-            instance = new StripService();
-        }
-        return instance;
+    public StripService(MessageCoordinator message, Messages messages) {
+        this.message = message;
+        this.messages = messages;
     }
 
     public void strip(CommandSender sender,  Player player) {

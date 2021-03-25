@@ -5,7 +5,6 @@ import net.shortninja.staffplus.core.common.BukkitInventorySerialization;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,7 +69,7 @@ public class ModeDataSerializer {
         }
     }
 
-    public void save(ModeData modeData) {
+    public synchronized void save(ModeData modeData) {
         UUID uuid = modeData.getUuid();
         delete(uuid.toString());
         File dataFile = createFile(uuid.toString());
@@ -92,12 +91,5 @@ public class ModeDataSerializer {
 
     private File getFile(String uuid) {
         return new File(staff.getDataFolder() + File.separator + "ModeData" + File.separator + uuid + ".yml");
-    }
-
-    private ItemStack[] getContents(YamlConfiguration dataFile) {
-        if (dataFile.contains(INVENTORY) && dataFile.getList(INVENTORY) != null) {
-            return dataFile.getList(INVENTORY).toArray(new ItemStack[]{});
-        }
-        return new ItemStack[]{};
     }
 }

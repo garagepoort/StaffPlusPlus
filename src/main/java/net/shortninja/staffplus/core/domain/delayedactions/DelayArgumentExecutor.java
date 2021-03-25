@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.delayedactions;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
@@ -14,16 +15,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@IocBean
 public class DelayArgumentExecutor {
 
     private final Messages messages;
     private final PlayerManager playerManager;
     private final MessageCoordinator message;
 
-    public DelayArgumentExecutor() {
-        messages = StaffPlus.get().iocContainer.get(Messages.class);
-        playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
-        message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    public DelayArgumentExecutor(Messages messages, PlayerManager playerManager, MessageCoordinator message) {
+        this.messages = messages;
+        this.playerManager = playerManager;
+        this.message = message;
     }
 
     public boolean execute(CommandSender commandSender, String playerName, String command) {

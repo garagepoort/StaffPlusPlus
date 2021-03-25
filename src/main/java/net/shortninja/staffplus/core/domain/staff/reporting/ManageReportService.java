@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting;
 
-import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -21,14 +20,16 @@ import static org.bukkit.Bukkit.getScheduler;
 @IocBean
 public class ManageReportService {
 
-    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final PermissionHandler permission;
+    private final Options options;
     private final Messages messages;
     private final ReportService reportService;
     private final ReportRepository reportRepository;
     private final ReportNotifier reportNotifier;
 
-    public ManageReportService(ReportRepository reportRepository, Messages messages, ReportService reportService, ReportNotifier reportNotifier) {
+    public ManageReportService(PermissionHandler permission, Options options, ReportRepository reportRepository, Messages messages, ReportService reportService, ReportNotifier reportNotifier) {
+        this.permission = permission;
+        this.options = options;
         this.reportRepository = reportRepository;
         this.messages = messages;
         this.reportService = reportService;
