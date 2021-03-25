@@ -7,10 +7,12 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
@@ -27,8 +29,8 @@ public class UnbanCmd extends AbstractCmd {
 
     private final BanService banService;
 
-    public UnbanCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, BanService banService) {
-        super(options.banConfiguration.getCommandUnbanPlayer(), permissionHandler, authenticationService, messages, message, playerManager, options);
+    public UnbanCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, BanService banService) {
+        super(options.banConfiguration.getCommandUnbanPlayer(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
         this.banService = banService;
         setPermission(options.banConfiguration.getPermissionUnbanPlayer());
         setDescription("Unban a player");

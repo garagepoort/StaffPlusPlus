@@ -7,10 +7,12 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
@@ -29,8 +31,8 @@ public class UnmuteCmd extends AbstractCmd {
     private final MuteService muteService;
     private final SessionManagerImpl sessionManager;
 
-    public UnmuteCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, MuteService muteService, SessionManagerImpl sessionManager) {
-        super(options.muteConfiguration.getCommandUnmutePlayer(), permissionHandler, authenticationService, messages, message, playerManager, options);
+    public UnmuteCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, MuteService muteService, SessionManagerImpl sessionManager) {
+        super(options.muteConfiguration.getCommandUnmutePlayer(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
         this.muteService = muteService;
         this.sessionManager = sessionManager;
         setPermission(options.muteConfiguration.getPermissionUnmutePlayer());

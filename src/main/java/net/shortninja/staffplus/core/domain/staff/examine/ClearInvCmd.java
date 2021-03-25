@@ -7,11 +7,13 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -30,8 +32,8 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TE
 @IocMultiProvider(SppCommand.class)
 public class ClearInvCmd extends AbstractCmd {
 
-    public ClearInvCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options) {
-        super(options.commandClearInv, permissionHandler, authenticationService, messages, message, playerManager, options);
+    public ClearInvCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor) {
+        super(options.commandClearInv, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
         setPermission(options.permissionClearInv);
         setDescription("Used to clear a desired player's inventory");
         setUsage("[player]");

@@ -1,31 +1,22 @@
 package net.shortninja.staffplus.core.common.cmd.arguments;
 
-import net.shortninja.staffplus.core.domain.staff.mode.cmd.HealthArgumentExecutor;
-import net.shortninja.staffplus.core.domain.staff.mode.cmd.StripArgumentExecutor;
-import net.shortninja.staffplus.core.domain.staff.teleport.TeleportArgumentExecutor;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMulti;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+@IocBean
 public class ArgumentProcessor {
 
-    private final List<ArgumentExecutor> argumentExecutors = Arrays.asList(
-            new TeleportArgumentExecutor(),
-            new StripArgumentExecutor(),
-            new HealthArgumentExecutor());
+    private final List<ArgumentExecutor> argumentExecutors;
 
-    private static ArgumentProcessor instance;
-
-    public static ArgumentProcessor getInstance() {
-        if (instance == null) {
-            instance = new ArgumentProcessor();
-        }
-        return instance;
+    public ArgumentProcessor(@IocMulti(ArgumentExecutor.class) List<ArgumentExecutor> argumentExecutors) {
+        this.argumentExecutors = argumentExecutors;
     }
 
     public void parseArguments(CommandSender commandSender, String playerName, List<String> options, List<ArgumentType> validTypes) {

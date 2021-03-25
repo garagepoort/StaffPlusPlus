@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import org.bukkit.command.Command;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @IocBean
 public class CmdHandler {
@@ -17,7 +18,7 @@ public class CmdHandler {
     private final MessageCoordinator message;
     private final Messages messages;
 
-    public BaseCmd[] commands;
+    public List<BaseCmd> commands;
 
     public CmdHandler(IProtocol versionProtocol, @IocMulti(SppCommand.class) List<SppCommand> sppCommands, MessageCoordinator message, Messages messages) {
         this.versionProtocol = versionProtocol;
@@ -33,9 +34,11 @@ public class CmdHandler {
     }
 
     private void registerCommands() {
-        sppCommands.stream()
+        commands = sppCommands.stream()
             .map(sppCommand -> new BaseCmd(message, messages, (Command) sppCommand))
-            .forEach(baseCmd -> versionProtocol.registerCommand(baseCmd.getMatch(), baseCmd.getCommand()));
+            .collect(Collectors.toList());
+
+        commands.forEach(baseCmd -> versionProtocol.registerCommand(baseCmd.getMatch(), baseCmd.getCommand()));
     }
 
     public void unregisterCommands() {

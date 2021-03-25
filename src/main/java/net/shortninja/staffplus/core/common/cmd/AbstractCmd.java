@@ -27,17 +27,19 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.DELAY;
 
 public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
-    private final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
-    protected final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
+
     protected final PermissionHandler permissionHandler;
     protected final AuthenticationService authenticationService;
     protected final Messages messages;
     protected final MessageCoordinator message;
     protected final PlayerManager playerManager;
     protected final Options options;
-    private List<String> permissions;
+    private final DelayArgumentExecutor delayArgumentExecutor;
+    private final ArgumentProcessor argumentProcessor;
 
-    protected AbstractCmd(String name, PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options) {
+    private List<String> permissions = new ArrayList<>();
+
+    protected AbstractCmd(String name, PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor) {
         super(name);
         this.permissionHandler = permissionHandler;
         this.authenticationService = authenticationService;
@@ -45,6 +47,8 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         this.message = message;
         this.playerManager = playerManager;
         this.options = options;
+        this.delayArgumentExecutor = delayArgumentExecutor;
+        this.argumentProcessor = argumentProcessor;
     }
 
 

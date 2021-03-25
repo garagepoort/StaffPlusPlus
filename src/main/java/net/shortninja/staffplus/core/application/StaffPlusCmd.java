@@ -7,10 +7,12 @@ import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -23,8 +25,8 @@ import java.util.Optional;
 @IocMultiProvider(SppCommand.class)
 public class StaffPlusCmd extends AbstractCmd {
 
-    public StaffPlusCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options) {
-        super("staffplus", permissionHandler, authenticationService, messages, message, playerManager, options);
+    public StaffPlusCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor) {
+        super("staffplus", permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
         setPermission(options.permissionStaff);
         setDescription("Used for reloading config and lang file in use");
         setUsage("[reload]");

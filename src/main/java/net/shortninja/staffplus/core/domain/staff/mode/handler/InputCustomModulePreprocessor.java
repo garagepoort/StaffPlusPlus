@@ -1,9 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.mode.handler;
 
-import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;

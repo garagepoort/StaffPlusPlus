@@ -19,8 +19,8 @@ public class BaseCmd {
     public BaseCmd(MessageCoordinator message, Messages messages, Command command) {
         this.command = command;
         this.match = StaffPlus.get().getDescription().getName();
-        this.description = message.colorize(description);
-        this.usage = "/" + match + " " + usage;
+        this.description = message.colorize(command.getDescription());
+        this.usage = "/" + match + " " + command.getUsage();
 
         this.command.setPermissionMessage(message.colorize(messages.noPermission));
         this.command.setDescription(description);

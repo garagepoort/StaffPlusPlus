@@ -7,10 +7,12 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.broadcast.BroadcastService;
@@ -31,10 +33,10 @@ public class BroadcastCmd extends AbstractCmd {
     private final BroadcastService broadcastService;
     private final BroadcastConfiguration broadcastConfiguration;
 
-    public BroadcastCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, BroadcastService broadcastService, BroadcastConfiguration broadcastConfiguration) {
-        super(options.commandBroadcast, permissionHandler, authenticationService, messages, message, playerManager, options);
+    public BroadcastCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, BroadcastService broadcastService) {
+        super(options.commandBroadcast, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
         this.broadcastService = broadcastService;
-        this.broadcastConfiguration = broadcastConfiguration;
+        this.broadcastConfiguration = options.broadcastConfiguration;
         setPermission(options.permissionBroadcast);
         setDescription("Broadcast messages to all players (over all servers)");
         setUsage("[server] [message]");
