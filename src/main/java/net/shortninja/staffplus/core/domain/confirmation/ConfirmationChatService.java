@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.confirmation;
 
-import me.rayzr522.jsonmessage.JSONMessage;
 import be.garagepoort.mcioc.IocBean;
+import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import org.bukkit.entity.Player;

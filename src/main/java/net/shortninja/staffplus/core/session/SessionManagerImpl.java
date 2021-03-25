@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.session;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplusplus.session.SessionManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -11,12 +12,12 @@ import java.util.UUID;
 
 @IocBean
 public class SessionManagerImpl  implements SessionManager {
-    private static Map<UUID, PlayerSession> playerSessions;
+    private static Map<UUID, PlayerSession> playerSessions = new HashMap<>();
     private final SessionLoader sessionLoader;
 
     public SessionManagerImpl(SessionLoader sessionLoader) {
         this.sessionLoader = sessionLoader;
-        playerSessions = new HashMap<>();
+        Bukkit.getOnlinePlayers().forEach(this::initialize);
     }
 
     public void initialize(Player player) {

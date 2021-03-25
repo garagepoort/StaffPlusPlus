@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentExecutor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import org.bukkit.Bukkit;
@@ -11,6 +13,8 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.List;
 
+@IocBean
+@IocMultiProvider(ArgumentExecutor.class)
 public class HealthArgumentExecutor implements ArgumentExecutor {
 
     @Override

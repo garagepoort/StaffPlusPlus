@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocContainer;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;

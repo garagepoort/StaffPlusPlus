@@ -1,10 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -19,15 +27,20 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class FreezeCmd extends AbstractCmd {
     private static final String ENABLED = "enabled";
     private static final String DISABLED = "disabled";
 
-    private final FreezeHandler freezeHandler = StaffPlus.get().iocContainer.get(FreezeHandler.class);
-    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
+    private final FreezeHandler freezeHandler;
 
-    public FreezeCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionFreeze);
+    public FreezeCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, FreezeHandler freezeHandler) {
+        super(options.commandFreeze, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.freezeHandler = freezeHandler;
+        setDescription("Freezes or unfreezes the player");
+        setUsage("{player} {enable | disable}");
+        setPermission(options.permissionFreeze);
     }
 
     @Override
@@ -71,7 +84,7 @@ public class FreezeCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permission.has(player, options.permissionFreezeBypass);
+        return permissionHandler.has(player, options.permissionFreezeBypass);
     }
 
     private FreezeRequest buildFreezeRequest(CommandSender sender, String[] args, Player targetPlayer) {

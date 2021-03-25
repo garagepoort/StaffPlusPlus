@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.vanish;
 
+import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
