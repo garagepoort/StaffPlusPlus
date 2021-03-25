@@ -1,12 +1,20 @@
 package net.shortninja.staffplus.core.domain.staff.ban.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanReasonConfiguration;
@@ -20,18 +28,22 @@ import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.domain.staff.ban.BanType.PERM_BAN;
 
+@IocBean(conditionalOnProperty = "ban-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class BanCmd extends AbstractCmd {
 
     private static final String TEMPLATE_FILE = "-template=";
-    private final BanService banService = StaffPlus.get().iocContainer.get(BanService.class);
-    private PermissionHandler permissionHandler;
-    private Options options;
 
-    public BanCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).banConfiguration.getPermissionBanPlayer());
-        options = StaffPlus.get().iocContainer.get(Options.class);
-        permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final BanService banService;
+
+    public BanCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, BanService banService) {
+        super(options.banConfiguration.getCommandBanPlayer(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.banService = banService;
+        setPermission(options.banConfiguration.getPermissionBanPlayer());
+        setDescription("Permanent ban a player");
+        setUsage("[player] [-template=?] [reason]");
     }
+
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {

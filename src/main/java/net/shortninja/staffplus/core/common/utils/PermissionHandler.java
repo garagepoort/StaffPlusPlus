@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.List;
 
 @IocBean
 public class PermissionHandler {
@@ -27,8 +28,12 @@ public class PermissionHandler {
         return hasPermission;
     }
 
-    public boolean hasAny(Player player, String... permissions) {
+    public boolean hasAny(CommandSender player, String... permissions) {
         return Arrays.stream(permissions).anyMatch(permission -> this.has(player, permission));
+    }
+
+    public boolean hasAny(CommandSender player, List<String> permissions) {
+        return permissions.stream().anyMatch(permission -> this.has(player, permission));
     }
 
     public void validate(CommandSender player, String permission) {

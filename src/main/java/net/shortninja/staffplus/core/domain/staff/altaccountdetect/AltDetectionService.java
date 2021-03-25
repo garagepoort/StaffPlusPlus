@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect;
 
-import net.shortninja.staffplus.core.StaffPlus;
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;

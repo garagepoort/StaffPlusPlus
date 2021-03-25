@@ -1,14 +1,20 @@
 package net.shortninja.staffplus.core.domain.staff.vanish;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionLoader;
@@ -21,18 +27,23 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
+@IocBean(conditionalOnProperty = "vanish-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class VanishCmd extends AbstractCmd {
-    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
-    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
-    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
-    private final VanishServiceImpl vanishServiceImpl = StaffPlus.get().iocContainer.get(VanishServiceImpl.class);
-    private SessionLoader sessionLoader = StaffPlus.get().iocContainer.get(SessionLoader.class);
+    private final SessionManagerImpl sessionManager;
+    private final VanishServiceImpl vanishServiceImpl;
+    private SessionLoader sessionLoader;
 
-    public VanishCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionVanishCommand);
+    public VanishCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, SessionLoader sessionLoader) {
+        super(options.commandVanish, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.sessionManager = sessionManager;
+        this.vanishServiceImpl = vanishServiceImpl;
+        this.sessionLoader = sessionLoader;
+        setPermission(options.permissionVanishCommand);
+        setDescription("Enables or disables the type of vanish for the player.");
+        setUsage("[total | list] {player} {enable | disable}");
     }
+
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
@@ -40,7 +51,7 @@ public class VanishCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        if (args.length >= 3 && permission.isOp(sender)) {
+        if (args.length >= 3 && permissionHandler.isOp(sender)) {
             String option = args[2];
 
             if (option.equalsIgnoreCase("enable")) {
@@ -53,7 +64,7 @@ public class VanishCmd extends AbstractCmd {
             return true;
         }
 
-        if (args.length == 2 && permission.isOp(sender)) {
+        if (args.length == 2 && permissionHandler.isOp(sender)) {
             handleVanishArgument(sender, args[0], targetPlayer.getPlayer(), false);
             sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
             return true;
@@ -105,21 +116,21 @@ public class VanishCmd extends AbstractCmd {
 
         switch (vanishType) {
             case TOTAL:
-                if (permission.has(player, options.permissionVanishTotal) || !shouldCheckPermission) {
+                if (permissionHandler.has(player, options.permissionVanishTotal) || !shouldCheckPermission) {
                     if (user.getVanishType() != VanishType.TOTAL) {
                         vanishServiceImpl.addVanish(player, vanishType);
                     } else vanishServiceImpl.removeVanish(player);
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
             case LIST:
-                if (permission.has(player, options.permissionVanishList) || !shouldCheckPermission) {
+                if (permissionHandler.has(player, options.permissionVanishList) || !shouldCheckPermission) {
                     if (user.getVanishType() != VanishType.LIST) {
                         vanishServiceImpl.addVanish(player, vanishType);
                     } else vanishServiceImpl.removeVanish(player);
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
             case NONE:
-                if (permission.has(player, options.permissionVanishList) || permission.has(player, options.permissionVanishTotal) || !shouldCheckPermission) {
+                if (permissionHandler.has(player, options.permissionVanishList) || permissionHandler.has(player, options.permissionVanishTotal) || !shouldCheckPermission) {
                     vanishServiceImpl.removeVanish(player);
                 } else message.send(player, messages.noPermission, messages.prefixGeneral);
                 break;

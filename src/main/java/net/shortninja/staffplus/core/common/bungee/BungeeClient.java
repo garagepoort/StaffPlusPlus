@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.core.common.bungee;
 
+import be.garagepoort.mcioc.IocBean;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import net.shortninja.staffplus.core.StaffPlus;
-import be.garagepoort.mcioc.IocBean;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

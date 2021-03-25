@@ -1,11 +1,20 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
@@ -21,10 +30,18 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class TeleportHereCmd extends AbstractCmd {
 
-    public TeleportHereCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTeleportHere);
+    private final TeleportService teleportService;
+
+    public TeleportHereCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, TeleportService teleportService) {
+        super(options.commandTeleportHere, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.teleportService = teleportService;
+        setDescription("Teleport a player to your position");
+        setUsage("{player}");
+        setPermission(options.permissionTeleportHere);
     }
 
     @Override
@@ -33,7 +50,7 @@ public class TeleportHereCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        StaffPlus.get().iocContainer.get(TeleportService.class).teleportToPlayer(targetPlayer.getPlayer(), (Player) sender);
+        teleportService.teleportToPlayer(targetPlayer.getPlayer(), (Player) sender);
         return true;
     }
 
