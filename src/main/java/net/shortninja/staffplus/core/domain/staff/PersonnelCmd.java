@@ -1,9 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -14,12 +23,16 @@ import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class PersonnelCmd extends AbstractCmd {
-    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
+    private final SessionManagerImpl sessionManager;
 
-    public PersonnelCmd(String name) {
-        super(name);
+    public PersonnelCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, SessionManagerImpl sessionManager) {
+        super(options.commandStaffList, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.sessionManager = sessionManager;
+        setDescription("Lists all registered staff members.");
+        setUsage("{all | online | away | offline}");
     }
 
     @Override
@@ -70,7 +83,7 @@ public class PersonnelCmd extends AbstractCmd {
 
     private boolean hasStatus(PlayerSession session, String status, Player player) {
         VanishType vanishType = session.getVanishType();
-        if (!permission.has(player, options.permissionMember)) {
+        if (!permissionHandler.has(player, options.permissionMember)) {
             return false;
         }
 

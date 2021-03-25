@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.actions.database;
 
-import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.actions.ExecutableActionEntity;
 import org.apache.commons.lang.StringUtils;

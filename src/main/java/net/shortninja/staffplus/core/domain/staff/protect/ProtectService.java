@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.protect;
 
-import net.shortninja.staffplus.core.StaffPlus;
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;

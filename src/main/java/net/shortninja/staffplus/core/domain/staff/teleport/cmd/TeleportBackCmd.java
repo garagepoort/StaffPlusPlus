@@ -1,10 +1,19 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
@@ -20,15 +29,23 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class TeleportBackCmd extends AbstractCmd {
 
-    public TeleportBackCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionTeleportToLocation);
+    private final TeleportService teleportService;
+
+    public TeleportBackCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, TeleportService teleportService) {
+        super(options.commandTeleportBack, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.teleportService = teleportService;
+        setDescription("Teleports the player to his last known location before teleportation happened");
+        setUsage("{player}");
+        setPermission(options.permissionTeleportToLocation);
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
-        StaffPlus.get().iocContainer.get(TeleportService.class).teleportPlayerBack(targetPlayer.getPlayer());
+        teleportService.teleportPlayerBack(targetPlayer.getPlayer());
         return true;
     }
 
@@ -59,7 +76,7 @@ public class TeleportBackCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permission.has(player, options.permissionTeleportBypass);
+        return permissionHandler.has(player, options.permissionTeleportBypass);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.common.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
@@ -27,23 +26,31 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.N
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.DELAY;
 
-public abstract class AbstractCmd extends BukkitCommand {
-    private final DelayArgumentExecutor delayArgumentExecutor = new DelayArgumentExecutor();
-    protected final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    protected final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
-    protected final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    protected final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
-    protected final ArgumentProcessor argumentProcessor = ArgumentProcessor.getInstance();
-    protected final Options options = StaffPlus.get().iocContainer.get(Options.class);
+public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
-    protected AbstractCmd(String name, String permission) {
+    protected final PermissionHandler permissionHandler;
+    protected final AuthenticationService authenticationService;
+    protected final Messages messages;
+    protected final MessageCoordinator message;
+    protected final PlayerManager playerManager;
+    protected final Options options;
+    private final DelayArgumentExecutor delayArgumentExecutor;
+    private final ArgumentProcessor argumentProcessor;
+
+    private List<String> permissions = new ArrayList<>();
+
+    protected AbstractCmd(String name, PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor) {
         super(name);
-        setPermission(permission);
+        this.permissionHandler = permissionHandler;
+        this.authenticationService = authenticationService;
+        this.messages = messages;
+        this.message = message;
+        this.playerManager = playerManager;
+        this.options = options;
+        this.delayArgumentExecutor = delayArgumentExecutor;
+        this.argumentProcessor = argumentProcessor;
     }
 
-    protected AbstractCmd(String name) {
-        super(name);
-    }
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
@@ -176,7 +183,7 @@ public abstract class AbstractCmd extends BukkitCommand {
             return null;
         }
 
-        if(strategy == OPTIONAL && !playerName.isPresent()) {
+        if (strategy == OPTIONAL && !playerName.isPresent()) {
             return null;
         }
 
@@ -200,15 +207,15 @@ public abstract class AbstractCmd extends BukkitCommand {
 
     private void validateAuthentication(CommandSender sender) {
         if (isAuthenticationRequired() && sender instanceof Player) {
-            StaffPlus.get().iocContainer.get(AuthenticationService.class).checkAuthentication((Player) sender);
+            authenticationService.checkAuthentication((Player) sender);
         }
     }
 
     private void validatePermissions(CommandSender sender) {
-        if (getPermission() == null) {
-            return;
+        if (getPermission() != null && !permissionHandler.has(sender, getPermission())) {
+            throw new NoPermissionException(messages.prefixGeneral);
         }
-        if (!permission.has(sender, getPermission())) {
+        if (!permissions.isEmpty() && !permissionHandler.hasAny(sender, permissions)) {
             throw new NoPermissionException(messages.prefixGeneral);
         }
     }
@@ -236,4 +243,7 @@ public abstract class AbstractCmd extends BukkitCommand {
     }
 
 
+    protected void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
 }

@@ -1,10 +1,19 @@
 package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -15,15 +24,26 @@ import org.bukkit.entity.Player;
 
 import java.util.Optional;
 
+@IocBean
+@IocMultiProvider(SppCommand.class)
 public class ModeCmd extends AbstractCmd {
     private static final String ENABLE = "enable";
     private static final String DISABLE = "disable";
-    private final StaffModeService staffModeService = StaffPlus.get().iocContainer.get(StaffModeService.class);
-    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
-    private final SessionLoader sessionLoader = StaffPlus.get().iocContainer.get(SessionLoader.class);
+    private static final String DESCRIPTION = "Enables or disables staff mode.";
+    private static final String USAGE = "{player} {enable | disable}";
 
-    public ModeCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionMode);
+    private final StaffModeService staffModeService;
+    private final SessionManagerImpl sessionManager;
+    private final SessionLoader sessionLoader;
+
+    public ModeCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, StaffModeService staffModeService, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
+        super(options.commandStaffMode, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.staffModeService = staffModeService;
+        this.sessionManager = sessionManager;
+        this.sessionLoader = sessionLoader;
+        setDescription(DESCRIPTION);
+        setUsage(USAGE);
+        setPermission(options.permissionMode);
     }
 
     @Override
@@ -32,7 +52,7 @@ public class ModeCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        if (args.length >= 2 && permission.isOp(sender)) {
+        if (args.length >= 2 && permissionHandler.isOp(sender)) {
             String option = args[1];
 
             if (option.equalsIgnoreCase(ENABLE)) {
@@ -45,7 +65,7 @@ public class ModeCmd extends AbstractCmd {
                 throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
             }
 
-        } else if (args.length == 1 && permission.isOp(sender)) {
+        } else if (args.length == 1 && permissionHandler.isOp(sender)) {
             toggleMode(targetPlayer.getPlayer());
             sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
         } else {

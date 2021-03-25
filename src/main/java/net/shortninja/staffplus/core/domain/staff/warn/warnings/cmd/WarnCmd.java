@@ -1,12 +1,20 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
@@ -19,13 +27,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@IocBean(conditionalOnProperty = "warnings-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class WarnCmd extends AbstractCmd {
-    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
-    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
+    private final WarnService warnService;
 
-    public WarnCmd(String name) {
-        super(name, StaffPlus.get().iocContainer.get(Options.class).permissionWarn);
+    public WarnCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, WarnService warnService) {
+        super(options.commandWarn, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        this.warnService = warnService;
+        setPermission(options.permissionWarn);
+        setDescription("Issues a warning.");
+        setUsage("[severity] [player] [reason]");
     }
 
     @Override
@@ -50,7 +62,7 @@ public class WarnCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permission.has(player, options.permissionWarnBypass);
+        return permissionHandler.has(player, options.permissionWarnBypass);
     }
 
     @Override
