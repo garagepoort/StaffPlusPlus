@@ -1,13 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.config;
 
+import com.google.common.collect.Sets;
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class AlertsConfiguration {
     private final boolean alertsNameNotify;
@@ -109,8 +110,8 @@ public class AlertsConfiguration {
         return permissionChatPhraseDetection;
     }
 
-    public List<String> getAllAlertsPermissions() {
-        return Arrays.asList(getPermissionMention(), getPermissionNameChange(), getXrayConfiguration().getPermissionXray());
+    public Set<String> getAllAlertsPermissions() {
+        return Sets.newHashSet(getPermissionMention(), getPermissionNameChange(), getXrayConfiguration().getPermissionXray());
     }
 
     public String getPermissionForType(AlertType alertType) {

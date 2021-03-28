@@ -2,18 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.staffchat.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatServiceImpl;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -29,8 +25,8 @@ public class StaffChatCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final StaffChatServiceImpl staffChatService;
 
-    public StaffChatCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService) {
-        super(options.commandStaffChat, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public StaffChatCmd(Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService, CommandService commandService) {
+        super(options.commandStaffChat, messages, message, options, commandService);
         this.sessionManager = sessionManager;
         this.staffChatService = staffChatService;
         setDescription("Sends a message or toggles staff chat.");

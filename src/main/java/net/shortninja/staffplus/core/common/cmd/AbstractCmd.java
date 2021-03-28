@@ -1,79 +1,60 @@
 package net.shortninja.staffplus.core.common.cmd;
 
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.core.common.exceptions.PlayerOfflineException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL;
-import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.DELAY;
 
 public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
-    protected final PermissionHandler permissionHandler;
-    protected final AuthenticationService authenticationService;
     protected final Messages messages;
     protected final MessageCoordinator message;
-    protected final PlayerManager playerManager;
     protected final Options options;
-    private final DelayArgumentExecutor delayArgumentExecutor;
-    private final ArgumentProcessor argumentProcessor;
+    private final CommandService commandService;
 
-    private List<String> permissions = new ArrayList<>();
+    private Set<String> permissions = new HashSet<>();
 
-    protected AbstractCmd(String name, PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor) {
+    protected AbstractCmd(String name, Messages messages, MessageCoordinator message, Options options, CommandService commandService) {
         super(name);
-        this.permissionHandler = permissionHandler;
-        this.authenticationService = authenticationService;
         this.messages = messages;
         this.message = message;
-        this.playerManager = playerManager;
         this.options = options;
-        this.delayArgumentExecutor = delayArgumentExecutor;
-        this.argumentProcessor = argumentProcessor;
+        this.commandService = commandService;
     }
 
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
         try {
-            validateAuthentication(sender);
-            validatePermissions(sender);
+            commandService.validateAuthentication(isAuthenticationRequired(), sender);
+            commandService.validatePermissions(sender, permissions);
             validateMinimumArguments(sender, args);
 
-            SppPlayer player = retrievePlayer(sender, args);
-            if (player != null) {
-                if (player.isOnline() && canBypass(player.getPlayer())) {
+            PlayerRetrievalStrategy strategy = getPlayerRetrievalStrategy();
+            Optional<SppPlayer> player = commandService.retrievePlayer(args, getPlayerName(sender, args).orElse(null), strategy, isDelayable());
+
+            if (player.isPresent()) {
+                if (player.get().isOnline() && canBypass(player.get().getPlayer())) {
                     throw new BusinessException(messages.bypassed, messages.prefixGeneral);
                 }
-                if (shouldDelay(args)) {
-                    delayCommand(sender, alias, args, player.getUsername());
+                if (commandService.shouldDelay(args, isDelayable())) {
+                    commandService.delayCommand(sender, alias, args, player.get().getUsername());
                     return true;
                 }
             }
 
-            validateExecution(player);
-            processArguments(sender, args, getPreExecutionSppArguments());
-            boolean result = executeCmd(sender, alias, args, player);
-            processArguments(sender, args, getPostExecutionSppArguments());
+            validateExecution(player.orElse(null));
+            commandService.processArguments(sender, args, getPlayerName(sender, args).orElse(null), getPreExecutionSppArguments(), getMinimumArguments(sender, args));
+            boolean result = executeCmd(sender, alias, args, player.orElse(null));
+            commandService.processArguments(sender, args, getPlayerName(sender, args).orElse(null), getPostExecutionSppArguments(), getMinimumArguments(sender, args));
             return result;
         } catch (BusinessException e) {
             message.send(sender, e.getMessage(), e.getPrefix());
@@ -81,6 +62,11 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         }
     }
 
+    @Override
+    public void setPermission(String permission) {
+        super.setPermission(permission);
+        this.permissions.add(permission);
+    }
 
     /**
      * If your command requires extra custom validation apart from the one provided by the AbstractCmd class,
@@ -88,11 +74,6 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
      */
     protected void validateExecution(SppPlayer player) {
         //No execution by default
-    }
-
-    private void processArguments(CommandSender sender, String[] args, List<ArgumentType> executionSppArguments) {
-        List<String> sppArguments = getSppArguments(sender, args);
-        argumentProcessor.parseArguments(sender, getPlayerName(sender, args).orElse(null), sppArguments, executionSppArguments);
     }
 
     /**
@@ -112,14 +93,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     }
 
     protected List<String> getSppArgumentsSuggestions(CommandSender sender, String[] args) {
-        List<ArgumentType> validArguments = Stream.concat(getPreExecutionSppArguments().stream(), getPostExecutionSppArguments().stream())
-            .collect(toList());
-
-        List<String> suggestions = new ArrayList<>(argumentProcessor.getArgumentsSuggestions(sender, args[args.length - 1], validArguments));
-        if (isDelayable()) {
-            suggestions.add(DELAY.getPrefix());
-        }
-        return suggestions;
+        return commandService.getSppArgumentsSuggestions(sender, args, getPreExecutionSppArguments(), getPostExecutionSppArguments(), isDelayable());
     }
 
     /**
@@ -176,53 +150,9 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         return false;
     }
 
-    private SppPlayer retrievePlayer(CommandSender sender, String[] args) {
-        PlayerRetrievalStrategy strategy = getPlayerRetrievalStrategy();
-        Optional<String> playerName = getPlayerName(sender, args);
-        if (strategy == NONE) {
-            return null;
-        }
-
-        if (strategy == OPTIONAL && !playerName.isPresent()) {
-            return null;
-        }
-
-        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerName.get());
-        if (!player.isPresent()) {
-            throw new BusinessException(messages.playerNotRegistered);
-        }
-
-        switch (strategy) {
-            case BOTH:
-                return player.get();
-            case ONLINE:
-                if (!player.get().isOnline() && !shouldDelay(args)) {
-                    throw new PlayerOfflineException();
-                }
-                return player.get();
-            default:
-                return null;
-        }
-    }
-
-    private void validateAuthentication(CommandSender sender) {
-        if (isAuthenticationRequired() && sender instanceof Player) {
-            authenticationService.checkAuthentication((Player) sender);
-        }
-    }
-
-    private void validatePermissions(CommandSender sender) {
-        if (getPermission() != null && !permissionHandler.has(sender, getPermission())) {
-            throw new NoPermissionException(messages.prefixGeneral);
-        }
-        if (!permissions.isEmpty() && !permissionHandler.hasAny(sender, permissions)) {
-            throw new NoPermissionException(messages.prefixGeneral);
-        }
-    }
-
     private void validateMinimumArguments(CommandSender sender, String[] args) {
         if (args.length < getMinimumArguments(sender, args)) {
-            throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
+            throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()));
         }
     }
 
@@ -230,20 +160,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         return Arrays.asList(Arrays.copyOfRange(args, getMinimumArguments(sender, args), args.length));
     }
 
-    private boolean shouldDelay(String[] args) {
-        return isDelayable() && Arrays.asList(args).contains(delayArgumentExecutor.getType().getPrefix());
-    }
-
-    private void delayCommand(CommandSender sender, String alias, String[] args, String playerName) {
-        delayArgumentExecutor.execute(sender, playerName, getDelayedCommand(alias, args));
-    }
-
-    private String getDelayedCommand(String alias, String[] args) {
-        return alias + " " + Stream.of(args).filter(a -> !a.equals(delayArgumentExecutor.getType().getPrefix())).collect(Collectors.joining(" "));
-    }
-
-
-    protected void setPermissions(List<String> permissions) {
+    protected void setPermissions(Set<String> permissions) {
         this.permissions = permissions;
     }
 }
