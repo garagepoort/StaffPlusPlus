@@ -3,18 +3,14 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.MyWarningsGui;
@@ -30,8 +26,8 @@ public class MyWarningsCmd extends AbstractCmd {
 
     private final WarnService warnService;
 
-    public MyWarningsCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, WarnService warnService) {
-        super(options.warningConfiguration.getMyWarningsCmd(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public MyWarningsCmd(Messages messages, MessageCoordinator message, Options options, WarnService warnService, CommandService commandService) {
+        super(options.warningConfiguration.getMyWarningsCmd(), messages, message, options, commandService);
         this.warnService = warnService;
         setPermission(options.warningConfiguration.getMyWarningsPermission());
         setDescription("Open my warnings gui");

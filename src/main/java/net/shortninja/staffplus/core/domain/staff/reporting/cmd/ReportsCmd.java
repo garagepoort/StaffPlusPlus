@@ -2,18 +2,15 @@ package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
@@ -29,21 +26,20 @@ import java.util.Optional;
 @IocBean(conditionalOnProperty = "reports-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class ReportsCmd extends AbstractCmd {
+    private final PermissionHandler permissionHandler;
     private final ReportService reportService;
     private final ManageReportService manageReportService;
 
     public ReportsCmd(PermissionHandler permissionHandler,
-                      AuthenticationService authenticationService,
                       Messages messages,
                       MessageCoordinator message,
-                      PlayerManager playerManager,
                       Options options,
                       ReportService reportService,
                       ManageReportService manageReportService,
-                      DelayArgumentExecutor delayArgumentExecutor,
-                      ArgumentProcessor argumentProcessor) {
+                      CommandService commandService) {
 
-        super(options.commandReports, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+        super(options.commandReports, messages, message, options, commandService);
+        this.permissionHandler = permissionHandler;
         this.reportService = reportService;
         this.manageReportService = manageReportService;
         setDescription("Manage Reports.");
