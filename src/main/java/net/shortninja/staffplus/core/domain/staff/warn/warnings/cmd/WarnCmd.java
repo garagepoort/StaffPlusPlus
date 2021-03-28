@@ -2,18 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
@@ -31,10 +29,14 @@ import java.util.stream.Collectors;
 @IocMultiProvider(SppCommand.class)
 public class WarnCmd extends AbstractCmd {
     private final WarnService warnService;
+    private final PlayerManager playerManager;
+    private final PermissionHandler permissionHandler;
 
-    public WarnCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, WarnService warnService) {
-        super(options.commandWarn, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public WarnCmd(Messages messages, MessageCoordinator message, Options options, WarnService warnService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
+        super(options.commandWarn, messages, message, options, commandService);
         this.warnService = warnService;
+        this.playerManager = playerManager;
+        this.permissionHandler = permissionHandler;
         setPermission(options.permissionWarn);
         setDescription("Issues a warning.");
         setUsage("[severity] [player] [reason]");

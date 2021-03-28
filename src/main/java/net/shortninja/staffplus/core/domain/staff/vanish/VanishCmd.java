@@ -2,19 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.vanish;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionLoader;
@@ -32,13 +29,15 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 public class VanishCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final VanishServiceImpl vanishServiceImpl;
-    private SessionLoader sessionLoader;
+    private final SessionLoader sessionLoader;
+    private final PermissionHandler permissionHandler;
 
-    public VanishCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, SessionLoader sessionLoader) {
-        super(options.commandVanish, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public VanishCmd(Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, SessionLoader sessionLoader, CommandService commandService, PermissionHandler permissionHandler) {
+        super(options.commandVanish, messages, message, options, commandService);
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
         this.sessionLoader = sessionLoader;
+        this.permissionHandler = permissionHandler;
         setPermission(options.permissionVanishCommand);
         setDescription("Enables or disables the type of vanish for the player.");
         setUsage("[total | list] {player} {enable | disable}");

@@ -2,18 +2,15 @@ package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -32,10 +29,12 @@ public class NotesCmd extends AbstractCmd {
     private static final String CLEAR = "clear";
 
     private final SessionManagerImpl sessionManager;
+    private final PermissionHandler permissionHandler;
 
-    public NotesCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, SessionManagerImpl sessionManager) {
-        super(options.commandNotes, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public NotesCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
+        super(options.commandNotes, messages, message, options, commandService);
         this.sessionManager = sessionManager;
+        this.permissionHandler = permissionHandler;
         setPermission(options.examineConfiguration.getPermissionExamine());
         setDescription("Adds or manages a player's notes");
         setUsage("[player] [note]");

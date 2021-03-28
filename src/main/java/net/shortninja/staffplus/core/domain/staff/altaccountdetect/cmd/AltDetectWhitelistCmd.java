@@ -2,17 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.altaccountdetect.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectWhitelistedItem;
@@ -30,10 +27,12 @@ import java.util.stream.Stream;
 public class AltDetectWhitelistCmd extends AbstractCmd {
 
     private final AltDetectionService altDetectionService;
+    private final PlayerManager playerManager;
 
-    public AltDetectWhitelistCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, AltDetectionService altDetectionService) {
-        super(options.altDetectConfiguration.getCommandWhitelist(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public AltDetectWhitelistCmd(Messages messages, MessageCoordinator message, Options options, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager) {
+        super(options.altDetectConfiguration.getCommandWhitelist(), messages, message, options, commandService);
         this.altDetectionService = altDetectionService;
+        this.playerManager = playerManager;
         setPermission(options.altDetectConfiguration.getWhitelistPermission());
         setDescription("Add/Remove players from the alt account detection whitelist");
         setUsage("[add/remove] [player1] [player2]");
