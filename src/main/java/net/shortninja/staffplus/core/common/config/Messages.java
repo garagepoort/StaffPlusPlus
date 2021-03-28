@@ -122,6 +122,8 @@ public class Messages {
     public List<String> noteListEnd;
     public String bypassed;
     public String staffChatStatus;
+    public String staffChatMuted;
+    public String staffChatUnmuted;
     public String freezeLogout;
     public String freezeTitle;
     public String freezeSubtitle;
@@ -265,6 +267,8 @@ public class Messages {
         noteListEnd = JavaUtils.stringToList(config.getString("note-list-end"));
         bypassed = config.getString("bypassed");
         staffChatStatus = config.getString("staff-chat-status");
+        staffChatMuted = config.getString("staff-chat-muted");
+        staffChatUnmuted = config.getString("staff-chat-unmuted");
         strip = config.getString("strip");
 
         freeze = JavaUtils.stringToList(config.getString("freeze"));

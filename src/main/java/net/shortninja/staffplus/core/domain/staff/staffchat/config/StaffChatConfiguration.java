@@ -5,15 +5,21 @@ public class StaffChatConfiguration {
     private final boolean enabled;
     private final boolean bungeeEnabled;
     private final String handle;
+    private final String commandStaffChatMute;
     private final String permissionStaffChat;
+    private final String permissionStaffChatMute;
 
     public StaffChatConfiguration(boolean enabled,
                                   boolean bungeeEnabled,
-                                  String handle, String permissionStaffChat) {
+                                  String handle,
+                                  String commandStaffChatMute,
+                                  String permissionStaffChat, String permissionStaffChatMute) {
         this.enabled = enabled;
         this.bungeeEnabled = bungeeEnabled;
         this.handle = handle;
+        this.commandStaffChatMute = commandStaffChatMute;
         this.permissionStaffChat = permissionStaffChat;
+        this.permissionStaffChatMute = permissionStaffChatMute;
     }
 
     public boolean isEnabled() {
@@ -30,5 +36,13 @@ public class StaffChatConfiguration {
 
     public String getPermissionStaffChat() {
         return permissionStaffChat;
+    }
+
+    public String getPermissionStaffChatMute() {
+        return permissionStaffChatMute;
+    }
+
+    public String getCommandStaffChatMute() {
+        return commandStaffChatMute;
     }
 }
