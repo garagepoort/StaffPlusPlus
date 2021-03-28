@@ -2,18 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportFilters.ReportFiltersBuilder;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.FindReportsGui;
@@ -31,8 +27,8 @@ public class FindReportsCmd extends AbstractCmd {
 
     private final ReportFiltersMapper reportFiltersMapper;
 
-    public FindReportsCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, ReportFiltersMapper reportFiltersMapper) {
-        super(options.commandFindReports, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public FindReportsCmd(Messages messages, MessageCoordinator message, Options options, ReportFiltersMapper reportFiltersMapper, CommandService commandService) {
+        super(options.commandFindReports, messages, message, options, commandService);
         this.reportFiltersMapper = reportFiltersMapper;
         setDescription("Find reports.");
         setUsage("[filters...]");

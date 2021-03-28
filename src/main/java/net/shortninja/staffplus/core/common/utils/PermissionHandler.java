@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 @IocBean
 public class PermissionHandler {
@@ -19,8 +19,11 @@ public class PermissionHandler {
     }
 
     public boolean has(Player player, String permission) {
-        boolean hasPermission = false;
+        if (permission == null) {
+            return true;
+        }
 
+        boolean hasPermission = false;
         if (player != null) {
             hasPermission = player.hasPermission(permission) || isOp(player);
         }
@@ -32,19 +35,28 @@ public class PermissionHandler {
         return Arrays.stream(permissions).anyMatch(permission -> this.has(player, permission));
     }
 
-    public boolean hasAny(CommandSender player, List<String> permissions) {
+    public boolean hasAny(CommandSender player, Set<String> permissions) {
         return permissions.stream().anyMatch(permission -> this.has(player, permission));
     }
 
     public void validate(CommandSender player, String permission) {
-        if (!has(player, permission)) {
+        if (permission != null && !has(player, permission)) {
+            throw new NoPermissionException();
+        }
+    }
+
+    public void validateAny(CommandSender player, Set<String> permissions) {
+        if (!permissions.isEmpty() && !hasAny(player, permissions)) {
             throw new NoPermissionException();
         }
     }
 
     public boolean hasOnly(Player player, String permission) {
-        boolean hasPermission = false;
+        if (permission == null) {
+            return true;
+        }
 
+        boolean hasPermission = false;
         if (player != null) {
             hasPermission = player.hasPermission(permission) && !player.isOp();
         }
@@ -53,6 +65,9 @@ public class PermissionHandler {
     }
 
     public boolean has(CommandSender sender, String permission) {
+        if (permission == null) {
+            return true;
+        }
         return sender.hasPermission(permission) || isOp(sender);
     }
 

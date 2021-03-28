@@ -2,19 +2,15 @@ package net.shortninja.staffplus.core.domain.staff.protect.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectService;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectedArea;
@@ -35,8 +31,8 @@ public class ProtectAreaCmd extends AbstractCmd {
 
     private final ProtectService protectService;
 
-    public ProtectAreaCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, ProtectService protectService) {
-        super(options.protectConfiguration.getCommandProtectArea(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public ProtectAreaCmd(Messages messages, MessageCoordinator message, Options options, ProtectService protectService, CommandService commandService) {
+        super(options.protectConfiguration.getCommandProtectArea(), messages, message, options, commandService);
         this.protectService = protectService;
         setPermission(options.protectConfiguration.getPermissionProtectArea());
         setDescription("Protect an area around you.");

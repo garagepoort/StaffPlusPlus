@@ -2,18 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.examine;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -32,8 +30,13 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TE
 @IocMultiProvider(SppCommand.class)
 public class ClearInvCmd extends AbstractCmd {
 
-    public ClearInvCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor) {
-        super(options.commandClearInv, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    private final PermissionHandler permissionHandler;
+    private final PlayerManager playerManager;
+
+    public ClearInvCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, CommandService commandService, PlayerManager playerManager) {
+        super(options.commandClearInv, messages, message, options, commandService);
+        this.permissionHandler = permissionHandler;
+        this.playerManager = playerManager;
         setPermission(options.permissionClearInv);
         setDescription("Used to clear a desired player's inventory");
         setUsage("[player]");

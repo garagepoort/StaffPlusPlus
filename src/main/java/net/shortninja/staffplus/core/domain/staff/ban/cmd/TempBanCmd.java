@@ -2,19 +2,17 @@ package net.shortninja.staffplus.core.domain.staff.ban.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.time.TimeUnit;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
@@ -36,11 +34,15 @@ public class TempBanCmd extends AbstractCmd {
 
     private static final String TEMPLATE_FILE = "-template=";
 
+    private final PermissionHandler permissionHandler;
     private final BanService banService;
+    private final PlayerManager playerManager;
 
-    public TempBanCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, BanService banService) {
-        super(options.banConfiguration.getCommandTempBanPlayer(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public TempBanCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
+        super(options.banConfiguration.getCommandTempBanPlayer(), messages, message, options, commandService);
+        this.permissionHandler = permissionHandler;
         this.banService = banService;
+        this.playerManager = playerManager;
         setPermission(options.banConfiguration.getPermissionBanPlayer());
         setDescription("Temporary ban a player");
         setUsage("[player] [amount] [unit] [reason]");

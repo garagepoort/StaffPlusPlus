@@ -2,19 +2,15 @@ package net.shortninja.staffplus.core.domain.staff.infractions.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionsTopGui;
@@ -30,8 +26,8 @@ import java.util.stream.Collectors;
 @IocMultiProvider(SppCommand.class)
 public class InfractionsTopCmd extends AbstractCmd {
 
-    public InfractionsTopCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor) {
-        super(options.infractionsConfiguration.getCommandOpenTopGui(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public InfractionsTopCmd(Messages messages, MessageCoordinator message, Options options, CommandService commandService) {
+        super(options.infractionsConfiguration.getCommandOpenTopGui(), messages, message, options, commandService);
         setPermission(options.infractionsConfiguration.getPermissionViewInfractions());
         setDescription("View the top list of players with the most infractions");
         setUsage("[infractionType?]");
