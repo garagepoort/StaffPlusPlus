@@ -25,13 +25,16 @@ public class SessionLoader {
     private final MuteService muteService;
     private final Options options;
     private final SessionsRepository sessionsRepository;
-    private FileConfiguration dataFile = DataFile.getConfiguration();
+    private final DataFile dataFile;
+    private final FileConfiguration dataFileConfiguration;
 
-    public SessionLoader(PlayerManager playerManager, MuteService muteService, Options options, SessionsRepository sessionsRepository) {
+    public SessionLoader(PlayerManager playerManager, MuteService muteService, Options options, SessionsRepository sessionsRepository, DataFile dataFile) {
         this.playerManager = playerManager;
         this.muteService = muteService;
         this.options = options;
         this.sessionsRepository = sessionsRepository;
+        this.dataFileConfiguration = dataFile.getConfiguration();
+        this.dataFile = dataFile;
     }
 
     PlayerSession loadSession(Player player) {
@@ -39,7 +42,7 @@ public class SessionLoader {
     }
 
     PlayerSession loadSession(UUID playerUuid) {
-        return dataFile.contains(playerUuid.toString()) ? buildKnownSession(playerUuid) : buildNewSession(playerUuid);
+        return dataFileConfiguration.contains(playerUuid.toString()) ? buildKnownSession(playerUuid) : buildNewSession(playerUuid);
     }
 
     private PlayerSession buildNewSession(UUID uuid) {
@@ -51,10 +54,10 @@ public class SessionLoader {
     }
 
     private PlayerSession buildKnownSession(UUID uuid) {
-        String name = dataFile.getString(uuid + ".name");
-        String glassColor = dataFile.getString(uuid + ".glass-color");
-        VanishType vanishType = VanishType.valueOf(dataFile.getString(uuid + ".vanish-type", "NONE"));
-        boolean staffMode = dataFile.getBoolean(uuid + ".staff-mode", false);
+        String name = dataFileConfiguration.getString(uuid + ".name");
+        String glassColor = dataFileConfiguration.getString(uuid + ".glass-color");
+        VanishType vanishType = VanishType.valueOf(dataFileConfiguration.getString(uuid + ".vanish-type", "NONE"));
+        boolean staffMode = dataFileConfiguration.getBoolean(uuid + ".staff-mode", false);
         Material glassMaterial = Material.STAINED_GLASS_PANE;
         if (glassColor != null && !glassColor.equals("0")) {
             glassMaterial = Material.valueOf(glassColor);
@@ -84,9 +87,9 @@ public class SessionLoader {
     }
 
     private Map<AlertType, Boolean> loadAlertOptions(UUID uuid) {
-        Map<AlertType, Boolean> alertOptions = new HashMap<AlertType, Boolean>();
+        Map<AlertType, Boolean> alertOptions = new HashMap<>();
 
-        for (String string : dataFile.getStringList(uuid + ".alert-options")) {
+        for (String string : dataFileConfiguration.getStringList(uuid + ".alert-options")) {
             String[] parts = string.split(";");
 
             alertOptions.put(AlertType.valueOf(parts[0]), Boolean.valueOf(parts[1]));
@@ -98,7 +101,7 @@ public class SessionLoader {
     private List<String> loadPlayerNotes(UUID uuid) {
         List<String> playerNotes = new ArrayList<>();
 
-        for (String string : dataFile.getStringList(uuid + ".notes")) {
+        for (String string : dataFileConfiguration.getStringList(uuid + ".notes")) {
             if (string.contains("&7")) {
                 continue;
             }
@@ -118,7 +121,7 @@ public class SessionLoader {
     }
 
     private void save(PlayerSession playerSession) {
-        DataFile.save(playerSession);
+        dataFile.save(playerSession);
 
         if (options.serverSyncConfiguration.sessionSyncEnabled()) {
             Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
