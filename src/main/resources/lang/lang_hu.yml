@@ -113,6 +113,8 @@ infraction-item: "&bFigyelmeztetések: &7%warnings%, &bJelentések: &7%reports%,
 
 staff-chat: "&b%player% &8» &7%message%"
 staff-chat-status: "&bStaff chat &7%status%&b."
+staff-chat-muted: "&bStaff Chat has been &7muted&b."
+staff-chat-unmuted: "&bStaff Chat has been &7unmuted&b."
 
 chat-clear-line: ""
 chat-cleared: "&bA chat törölve &7%player%&b által."

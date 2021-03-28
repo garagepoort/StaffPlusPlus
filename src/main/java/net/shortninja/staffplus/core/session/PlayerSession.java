@@ -27,6 +27,7 @@ public class PlayerSession implements IPlayerSession {
     private boolean isProtected = false;
     private boolean muted = false;
     private boolean inStaffMode = false;
+    private boolean staffChatMuted = false;
 
     public PlayerSession(UUID uuid, String name, boolean muted) {
         this.uuid = uuid;
@@ -167,5 +168,13 @@ public class PlayerSession implements IPlayerSession {
 
     public void setMuted(boolean muted) {
         this.muted = muted;
+    }
+
+    public boolean isStaffChatMuted() {
+        return staffChatMuted;
+    }
+
+    public void setStaffChatMuted(boolean staffChatMuted) {
+        this.staffChatMuted = staffChatMuted;
     }
 }

@@ -26,10 +26,11 @@ public abstract class AbstractSqlSessionsRepository implements SessionsRepositor
     @Override
     public void update(SessionEntity sessionEntity) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_sessions set vanish_type=?, in_staff_mode=? WHERE ID=?")) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_sessions set vanish_type=?, in_staff_mode=?, staff_chat_muted=? WHERE ID=?")) {
             insert.setString(1, sessionEntity.getVanishType().toString());
             insert.setBoolean(2, sessionEntity.getStaffMode());
-            insert.setInt(3, sessionEntity.getId());
+            insert.setBoolean(3, sessionEntity.isStaffChatMuted());
+            insert.setInt(4, sessionEntity.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -58,12 +59,13 @@ public abstract class AbstractSqlSessionsRepository implements SessionsRepositor
         UUID playerUuid = UUID.fromString(rs.getString("player_uuid"));
         VanishType vanishType = VanishType.valueOf(rs.getString("vanish_type"));
         boolean inStaffMode = rs.getBoolean("in_staff_mode");
+        boolean staffChatMuted = rs.getBoolean("staff_chat_muted");
         return new SessionEntity(
             id,
             playerUuid,
             vanishType,
-            inStaffMode
-        );
+            inStaffMode,
+            staffChatMuted);
     }
 
 }
