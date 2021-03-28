@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat;
 
+import be.garagepoort.mcioc.IocBean;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import net.shortninja.staffplus.core.StaffPlus;
@@ -12,7 +13,12 @@ import java.io.IOException;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
+@IocBean
 public class BungeeStaffChatListener implements PluginMessageListener {
+
+    public BungeeStaffChatListener() {
+        StaffPlus.get().getServer().getMessenger().registerIncomingPluginChannel(StaffPlus.get(), BUNGEE_CORD_CHANNEL, this);
+    }
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {

@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.chat.blacklist;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
@@ -20,13 +19,14 @@ import java.util.stream.Collectors;
 @IocBean
 public class BlacklistService {
 
-    private final IProtocol versionProtocol = StaffPlus.get().versionProtocol;
+    private final IProtocol versionProtocol;
     private final Options options;
     private final PermissionHandler permission;
     private final Messages messages;
     private final List<ChatCensor> chatCensors;
 
-    public BlacklistService(Options options, PermissionHandler permission, Messages messages, @IocMulti(ChatCensor.class) List<ChatCensor> chatCensors) {
+    public BlacklistService(IProtocol versionProtocol, Options options, PermissionHandler permission, Messages messages, @IocMulti(ChatCensor.class) List<ChatCensor> chatCensors) {
+        this.versionProtocol = versionProtocol;
         this.options = options;
         this.permission = permission;
         this.messages = messages;
