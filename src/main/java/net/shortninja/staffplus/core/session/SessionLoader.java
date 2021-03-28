@@ -76,6 +76,7 @@ public class SessionLoader {
         if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
             playerSession.setVanishType(session.map(SessionEntity::getVanishType).orElse(vanishType));
         }
+        playerSession.setStaffChatMuted(session.map(SessionEntity::isStaffChatMuted).orElse(false));
     }
 
     private boolean isMuted(UUID uuid) {
@@ -119,18 +120,19 @@ public class SessionLoader {
     private void save(PlayerSession playerSession) {
         DataFile.save(playerSession);
 
-        if(options.serverSyncConfiguration.sessionSyncEnabled()) {
+        if (options.serverSyncConfiguration.sessionSyncEnabled()) {
             Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
             if (session.isPresent()) {
-                if(options.serverSyncConfiguration.isVanishSyncEnabled()) {
+                if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
                     session.get().setVanishType(playerSession.getVanishType());
                 }
                 if(options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
                     session.get().setStaffMode(playerSession.isInStaffMode());
                 }
+                session.get().setStaffChatMuted(playerSession.isStaffChatMuted());
                 sessionsRepository.update(session.get());
             } else {
-                sessionsRepository.addSession(new SessionEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode()));
+                sessionsRepository.addSession(new SessionEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode(), playerSession.isStaffChatMuted()));
             }
         }
     }

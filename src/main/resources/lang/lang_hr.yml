@@ -112,6 +112,8 @@ infraction-item: "&bUpozorenja: &7%warnings%, &bPrijave: &7%reports%, &bPrijava 
 
 staff-chat: "&b%player% &8» &7%message%"
 staff-chat-status: "&bStaff chat &7%status%&b."
+staff-chat-muted: "&bStaff Chat has been &7muted&b."
+staff-chat-unmuted: "&bStaff Chat has been &7unmuted&b."
 
 chat-clear-line: ""
 chat-cleared: "&bChat je obrisan od &7%player%&b."
