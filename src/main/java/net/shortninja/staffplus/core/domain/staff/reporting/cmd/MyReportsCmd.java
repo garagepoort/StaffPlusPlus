@@ -2,18 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.MyReportsGui;
 import org.bukkit.command.CommandSender;
@@ -25,8 +21,8 @@ import java.util.Optional;
 @IocMultiProvider(SppCommand.class)
 public class MyReportsCmd extends AbstractCmd {
 
-    public MyReportsCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor) {
-        super(options.reportConfiguration.getMyReportsCmd(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public MyReportsCmd(Messages messages, MessageCoordinator message, Options options, CommandService commandService) {
+        super(options.reportConfiguration.getMyReportsCmd(), messages, message, options, commandService);
         setDescription("Open my reports gui");
         setPermission(options.reportConfiguration.getMyReportsPermission());
     }

@@ -2,17 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.infractions.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionsGui;
@@ -28,11 +25,14 @@ import java.util.stream.Collectors;
 @IocMultiProvider(SppCommand.class)
 public class InfractionsCmd extends AbstractCmd {
 
-    public InfractionsCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor) {
-        super(options.infractionsConfiguration.getCommandOpenGui(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    private final PlayerManager playerManager;
+
+    public InfractionsCmd(Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, CommandService commandService) {
+        super(options.infractionsConfiguration.getCommandOpenGui(), messages, message, options, commandService);
         setPermission(options.infractionsConfiguration.getPermissionViewInfractions());
         setDescription("View all player's infractions");
         setUsage("[player]");
+        this.playerManager = playerManager;
     }
 
     @Override
