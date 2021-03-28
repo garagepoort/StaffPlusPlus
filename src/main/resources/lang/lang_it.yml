@@ -112,6 +112,8 @@ infraction-item: "&bAvvertimenti: &7%warnings%, &bSegnalazioni: &7%reports%, &bM
 
 staff-chat: "&b%player% &8» &7%message%"
 staff-chat-status: "&bStaff chat &7%status%&b."
+staff-chat-muted: "&bStaff Chat has been &7muted&b."
+staff-chat-unmuted: "&bStaff Chat has been &7unmuted&b."
 
 chat-clear-line: ""
 chat-cleared: "&bLa chat è stata pulita da &7%player%&b."
