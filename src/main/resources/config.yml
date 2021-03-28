@@ -838,6 +838,8 @@ permissions:
 
   # Permission for using staff chat.
   staff-chat: "staff.staffchat"
+  # Permission for muting staff chat.
+  staff-chat-mute: "staff.staffchat.mute"
 
   # Permission for using the vanish command
   vanish: "staff.vanish"
@@ -1066,6 +1068,8 @@ commands:
 
   # The command for toggling and using staff chat.
   staff-chat: "sc"
+  # The command for toggling and using staff chat.
+  staff-chat-mute: "sc-mute"
 
   # The command for opening the my reports gui
   my-reports: "my-reports"
