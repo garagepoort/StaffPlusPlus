@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.bungee;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
@@ -11,12 +12,21 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.util.Optional;
 
+import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
+@IocBean
 public class ReportDeletedBungeeListener implements PluginMessageListener {
 
-    private BungeeClient bungeeClient = StaffPlus.get().iocContainer.get(BungeeClient.class);
-    private ReportNotifier reportNotifier = StaffPlus.get().iocContainer.get(ReportNotifier.class);
-    private Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final BungeeClient bungeeClient;
+    private final ReportNotifier reportNotifier;
+    private final Options options;
+
+    public ReportDeletedBungeeListener(BungeeClient bungeeClient, ReportNotifier reportNotifier, Options options) {
+        this.bungeeClient = bungeeClient;
+        this.reportNotifier = reportNotifier;
+        this.options = options;
+        StaffPlus.get().getServer().getMessenger().registerIncomingPluginChannel(StaffPlus.get(), BUNGEE_CORD_CHANNEL, this);
+    }
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
