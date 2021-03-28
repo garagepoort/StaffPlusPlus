@@ -2,7 +2,10 @@ package net.shortninja.staffplus.core.common.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
+import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import org.bukkit.command.Command;
@@ -11,7 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @IocBean
-public class CmdHandler {
+@IocMultiProvider(PluginDisable.class)
+public class CmdHandler implements PluginDisable {
     private final IProtocol versionProtocol;
     private final List<SppCommand> sppCommands;
 
@@ -28,11 +32,6 @@ public class CmdHandler {
         registerCommands();
     }
 
-    public void reload() {
-        unregisterCommands();
-        registerCommands();
-    }
-
     private void registerCommands() {
         commands = sppCommands.stream()
             .map(sppCommand -> new BaseCmd(message, messages, (Command) sppCommand))
@@ -41,10 +40,8 @@ public class CmdHandler {
         commands.forEach(baseCmd -> versionProtocol.registerCommand(baseCmd.getMatch(), baseCmd.getCommand()));
     }
 
-    public void unregisterCommands() {
-        for (BaseCmd baseCmd : commands) {
-            versionProtocol.unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand());
-        }
+    @Override
+    public void disable(StaffPlus staffPlus) {
+        commands.forEach(baseCmd -> versionProtocol.unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand()));
     }
-
 }

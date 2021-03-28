@@ -1218,7 +1218,7 @@ auto-save: 3602
 
 # The interval in seconds at which calculations, like freeze checking, will be performed.
 # The higher this is, the less lag there will be.
-clock: 2
+clock: 10
 
 # The animation packets that will be listened for and cancelled for total vanished players.
 # Each packet is separated by a comma.
