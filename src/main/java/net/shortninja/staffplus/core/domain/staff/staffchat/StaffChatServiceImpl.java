@@ -8,6 +8,8 @@ import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+import net.shortninja.staffplus.core.session.PlayerSession;
+import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -17,22 +19,25 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
 public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffmode.chat.StaffChatService {
 
-    private Messages messages;
-    private Options options;
+    private final Messages messages;
+    private final Options options;
     private final StaffChatMessageFormatter staffChatMessageFormatter;
     private final MessageCoordinator message;
+    private final SessionManagerImpl sessionManager;
 
-    public StaffChatServiceImpl(Messages messages, Options options, StaffChatMessageFormatter staffChatMessageFormatter, MessageCoordinator message) {
+    public StaffChatServiceImpl(Messages messages, Options options, StaffChatMessageFormatter staffChatMessageFormatter, MessageCoordinator message, SessionManagerImpl sessionManager) {
         this.messages = messages;
         this.options = options;
         this.staffChatMessageFormatter = staffChatMessageFormatter;
         this.message = message;
+        this.sessionManager = sessionManager;
     }
 
     void handleBungeeMessage(String message) {
@@ -70,9 +75,12 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     }
 
     private void sendMessageToStaff(String formattedMessage) {
-        Bukkit.getOnlinePlayers().stream()
-            .filter(player -> player.hasPermission(options.staffChatConfiguration.getPermissionStaffChat()))
-            .forEach(player -> message.send(player, formattedMessage, messages.prefixStaffChat));
+        sessionManager.getAll().stream()
+            .filter(playerSession -> !playerSession.isStaffChatMuted())
+            .map(PlayerSession::getPlayer)
+            .filter(Optional::isPresent)
+            .filter(player -> player.get().isOnline() && player.get().hasPermission(options.staffChatConfiguration.getPermissionStaffChat()))
+            .forEach(player -> message.send(player.get(), formattedMessage, messages.prefixStaffChat));
     }
 
     private void sendBungeeMessage(CommandSender sender, String message) {

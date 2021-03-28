@@ -10,7 +10,9 @@ public class StaffChatModuleLoader extends ConfigLoader<StaffChatConfiguration> 
         boolean staffChatEnabled = config.getBoolean("staff-chat-module.enabled");
         boolean bungeeEnabled = config.getBoolean("staff-chat-module.bungee");
         String staffChatHandle = config.getString("staff-chat-module.handle");
+        String commandStaffChatMute = config.getString("commands.staff-chat-mute");
         String permissionStaffChat = config.getString("permissions.staff-chat");
-        return new StaffChatConfiguration(staffChatEnabled, bungeeEnabled, staffChatHandle, permissionStaffChat);
+        String permissionStaffChatMute = config.getString("permissions.staff-chat-mute");
+        return new StaffChatConfiguration(staffChatEnabled, bungeeEnabled, staffChatHandle, commandStaffChatMute, permissionStaffChat, permissionStaffChatMute);
     }
 }
