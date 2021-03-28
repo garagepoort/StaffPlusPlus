@@ -15,7 +15,8 @@ public class ServerSyncModuleLoader extends ConfigLoader<ServerSyncConfiguration
             config.getBoolean(SERVER_SYNC_MODULE + "report-sync"),
             config.getBoolean(SERVER_SYNC_MODULE + "warning-sync"),
             config.getBoolean(SERVER_SYNC_MODULE + "mute-sync"),
-            config.getBoolean(SERVER_SYNC_MODULE + "kick-sync")
+            config.getBoolean(SERVER_SYNC_MODULE + "kick-sync"),
+            config.getBoolean(SERVER_SYNC_MODULE + "investigation-sync")
         );
     }
 }

@@ -36,7 +36,6 @@ public class StaffPlus extends JavaPlugin implements IStaffPlus {
             usesPlaceholderAPI = true;
             Bukkit.getLogger().info("Hooked into PlaceholderAPI " + placeholderPlugin.getDescription().getVersion());
         }
-
     }
 
     @Override

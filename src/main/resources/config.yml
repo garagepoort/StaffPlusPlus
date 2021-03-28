@@ -60,6 +60,7 @@ server-sync-module:
     warning-sync: false
     mute-sync: false
     kick-sync: false
+    investigation-sync: false
 
 ############################################################
 # +------------------------------------------------------+ #
