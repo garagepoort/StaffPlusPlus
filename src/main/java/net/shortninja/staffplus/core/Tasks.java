@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.core.session.PlayerSession;
+import net.shortninja.staffplus.core.session.SessionLoader;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -30,8 +31,9 @@ public class Tasks extends BukkitRunnable {
     private int freezeInterval;
     private long now;
     private long later;
+    private SessionLoader sessionLoader;
 
-    public Tasks(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler) {
+    public Tasks(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler, SessionLoader sessionLoader) {
         this.permission = permission;
         this.message = message;
         this.options = options;
@@ -39,12 +41,13 @@ public class Tasks extends BukkitRunnable {
         this.sessionManager = sessionManager;
         this.freezeHandler = freezeHandler;
         this.gadgetHandler = gadgetHandler;
+        this.sessionLoader = sessionLoader;
 
         freezeModeConfiguration = this.options.modeConfiguration.getFreezeModeConfiguration();
         saveInterval = 0;
         freezeInterval = 0;
         now = System.currentTimeMillis();
-        runTaskTimer(StaffPlus.get(), this.options.clock, this.options.clock);
+        runTaskTimerAsynchronously(StaffPlus.get(), this.options.clock, this.options.clock);
     }
 
     @Override
@@ -65,7 +68,7 @@ public class Tasks extends BukkitRunnable {
         }
 
         if (saveInterval >= options.autoSave && saveInterval > 0) {
-            StaffPlus.get().saveUsers();
+            sessionManager.getAll().forEach(sessionLoader::saveSessionSynchronous);
             StaffPlus.get().getLogger().info("Staff++ is now auto saving...");
             saveInterval = 0;
         }

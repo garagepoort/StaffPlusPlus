@@ -7,6 +7,8 @@ import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Optional;
+
 @IocBean
 public class GuiUpdateTask extends BukkitRunnable {
     private final SessionManagerImpl sessionManager;
@@ -19,8 +21,9 @@ public class GuiUpdateTask extends BukkitRunnable {
     @Override
     public void run() {
         for (PlayerSession playerSession : sessionManager.getAll()) {
-            if (playerSession.getCurrentGui().isPresent() && playerSession.getCurrentGui().get() instanceof UpdatableGui) {
-                ((UpdatableGui) playerSession.getCurrentGui().get()).update();
+            Optional<IGui> currentGui = playerSession.getCurrentGui();
+            if (currentGui.isPresent() && currentGui.get() instanceof UpdatableGui) {
+                ((UpdatableGui) currentGui.get()).update();
             }
         }
     }
