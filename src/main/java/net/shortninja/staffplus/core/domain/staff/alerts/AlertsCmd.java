@@ -2,19 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.alerts;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionLoader;
@@ -34,11 +31,13 @@ import java.util.stream.Stream;
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class AlertsCmd extends AbstractCmd {
+    private final PermissionHandler permissionHandler;
     private final SessionManagerImpl sessionManager;
     private final SessionLoader sessionLoader;
 
-    public AlertsCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
-        super(options.alertsConfiguration.getCommandAlerts(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader, CommandService commandService) {
+        super(options.alertsConfiguration.getCommandAlerts(), messages, message, options, commandService);
+        this.permissionHandler = permissionHandler;
         this.sessionManager = sessionManager;
         this.sessionLoader = sessionLoader;
         super.setPermissions(options.alertsConfiguration.getAllAlertsPermissions());

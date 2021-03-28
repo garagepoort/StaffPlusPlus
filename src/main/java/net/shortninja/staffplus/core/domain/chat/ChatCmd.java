@@ -2,23 +2,20 @@ package net.shortninja.staffplus.core.domain.chat;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
+import com.google.common.collect.Sets;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
@@ -27,11 +24,13 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.N
 @IocMultiProvider(SppCommand.class)
 public class ChatCmd extends AbstractCmd {
     private final ChatHandler chatHandler;
+    private final PermissionHandler permissionHandler;
 
-    public ChatCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, ChatHandler chatHandler) {
-        super(options.commandChat, permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public ChatCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, ChatHandler chatHandler, CommandService commandService) {
+        super(options.commandChat, messages, message, options, commandService);
         this.chatHandler = chatHandler;
-        setPermissions(Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle));
+        this.permissionHandler = permissionHandler;
+        setPermissions(Sets.newHashSet(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle));
         setDescription("Executes the given chat management action.");
         setUsage("[clear | toggle | slow] {enable | disable | time}");
     }

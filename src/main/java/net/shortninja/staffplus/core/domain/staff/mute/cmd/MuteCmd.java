@@ -2,17 +2,15 @@ package net.shortninja.staffplus.core.domain.staff.mute.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.authentication.AuthenticationService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentProcessor;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayArgumentExecutor;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
@@ -29,13 +27,17 @@ import java.util.stream.Collectors;
 @IocMultiProvider(SppCommand.class)
 public class MuteCmd extends AbstractCmd {
 
+    private final PermissionHandler permissionHandler;
     private final MuteService muteService;
     private final SessionManagerImpl sessionManager;
+    private final PlayerManager playerManager;
 
-    public MuteCmd(PermissionHandler permissionHandler, AuthenticationService authenticationService, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, DelayArgumentExecutor delayArgumentExecutor, ArgumentProcessor argumentProcessor, MuteService muteService, SessionManagerImpl sessionManager) {
-        super(options.muteConfiguration.getCommandMutePlayer(), permissionHandler, authenticationService, messages, message, playerManager, options, delayArgumentExecutor, argumentProcessor);
+    public MuteCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
+        super(options.muteConfiguration.getCommandMutePlayer(), messages, message, options, commandService);
+        this.permissionHandler = permissionHandler;
         this.muteService = muteService;
         this.sessionManager = sessionManager;
+        this.playerManager = playerManager;
         setPermission(options.muteConfiguration.getPermissionMutePlayer());
         setDescription("Permanent mute a player");
         setUsage("[player] [reason]");
@@ -46,7 +48,9 @@ public class MuteCmd extends AbstractCmd {
         String reason = JavaUtils.compileWords(args, 1);
 
         muteService.permMute(sender, player, reason);
-        sessionManager.get(player.getId()).setMuted(true);
+        if (player.isOnline()) {
+            sessionManager.get(player.getId()).setMuted(true);
+        }
         return true;
     }
 
