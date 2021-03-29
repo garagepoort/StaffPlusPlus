@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -35,8 +35,8 @@ public class FreezeCmd extends AbstractCmd {
     private final FreezeHandler freezeHandler;
     private final PlayerManager playerManager;
 
-    public FreezeCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, FreezeHandler freezeHandler, CommandService commandService, PlayerManager playerManager) {
-        super(options.commandFreeze, messages, message, options, commandService);
+    public FreezeCmd(PermissionHandler permissionHandler, Messages messages, Options options, FreezeHandler freezeHandler, CommandService commandService, PlayerManager playerManager) {
+        super(options.commandFreeze, messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.freezeHandler = freezeHandler;
         this.playerManager = playerManager;

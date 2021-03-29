@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
@@ -21,7 +21,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class MinerGui extends PagedGui {
-    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
     private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
 
     public MinerGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
@@ -42,7 +41,7 @@ public class MinerGui extends PagedGui {
 
                 if (p != null) {
                     player.teleport(p);
-                } else message.send(player, messages.playerOffline, messages.prefixGeneral);
+                } else messages.send(player, messages.playerOffline, messages.prefixGeneral);
             }
 
             @Override

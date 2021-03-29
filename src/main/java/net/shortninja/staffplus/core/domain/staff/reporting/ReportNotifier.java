@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -32,16 +32,16 @@ public class ReportNotifier {
     private final BungeeClient bungeeClient;
     private final Options options;
     private final Messages messages;
-    private final MessageCoordinator message;
+
     private final PlayerManager playerManager;
 
 
-    public ReportNotifier(PermissionHandler permission, BungeeClient bungeeClient, Options options, Messages messages, MessageCoordinator message, PlayerManager playerManager) {
+    public ReportNotifier(PermissionHandler permission, BungeeClient bungeeClient, Options options, Messages messages, PlayerManager playerManager) {
         this.permission = permission;
         this.bungeeClient = bungeeClient;
         this.options = options;
         this.messages = messages;
-        this.message = message;
+
         this.playerManager = playerManager;
     }
 
@@ -57,14 +57,14 @@ public class ReportNotifier {
     }
 
     public void notifyStaffReportDeleted(String deletedByName, ReportBungee report) {
-        message.sendGroupMessage(deletedByName + " deleted report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(deletedByName + " deleted report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     public void notifyStaffReportDeleted(String deletedByName, Report report, boolean sendOnBungee) {
         if (sendOnBungee) {
             sendBungeeNotification(new ReportDeletedBungee(report, deletedByName), BUNGEE_REPORT_DELETED_CHANNEL);
         }
-        message.sendGroupMessage(deletedByName + " deleted report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(deletedByName + " deleted report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     public void notifyReportAccepted(ReportBungee report) {
@@ -79,7 +79,7 @@ public class ReportNotifier {
     }
 
     private void sendCreatedMessages(String reporterName, String culpritName, String reason) {
-        message.sendGroupMessage(messages.reportedStaff
+        messages.sendGroupMessage(messages.reportedStaff
             .replace("%target%", reporterName)
             .replace("%player%", culpritName == null ? "Unknown" : culpritName)
             .replace("%reason%", reason), options.permissionReportUpdateNotifications, messages.prefixReports);
@@ -87,7 +87,7 @@ public class ReportNotifier {
     }
 
     private void sendAcceptedMessages(String staffName, String reporterName, UUID reporterUuid) {
-        message.sendGroupMessage(staffName + " accepted report from " + reporterName, options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(staffName + " accepted report from " + reporterName, options.permissionReportUpdateNotifications, messages.prefixReports);
         if (options.reportConfiguration.getReporterNotifyStatuses().contains(ReportStatus.IN_PROGRESS)) {
             Optional<SppPlayer> reporter = playerManager.getOnlinePlayer(reporterUuid);
             reporter.ifPresent(sppPlayer -> buildMessage(sppPlayer.getPlayer(), "Your report has been accepted by " + staffName));
@@ -106,7 +106,7 @@ public class ReportNotifier {
     }
 
     private void sendClosedMessages(String staffName, ReportStatus reportStatus, String reporterName, UUID reporterUuid) {
-        message.sendGroupMessage(staffName + " changed report status to " + reportStatus + ". Reporter: " + reporterName, options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(staffName + " changed report status to " + reportStatus + ". Reporter: " + reporterName, options.permissionReportUpdateNotifications, messages.prefixReports);
 
         Optional<SppPlayer> reporter = playerManager.getOnlinePlayer(reporterUuid);
         reporter.ifPresent(sppPlayer -> {
@@ -121,14 +121,14 @@ public class ReportNotifier {
 
 
     public void notifyReportReopen(String player, ReportBungee report) {
-        message.sendGroupMessage(player + " reopened report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(player + " reopened report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     public void notifyReportReopen(String player, Report report, boolean sendOnBungee) {
         if (sendOnBungee) {
             sendBungeeNotification(new ReportReopenedBungee(report, player), BUNGEE_REPORT_REOPEN_CHANNEL);
         }
-        message.sendGroupMessage(player + " reopened report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(player + " reopened report from " + report.getReporterName(), options.permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     private void sendBungeeNotification(Object report, String channel) {

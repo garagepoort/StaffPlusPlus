@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -31,8 +31,8 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
 public class ReviveCmd extends AbstractCmd {
     private final ReviveHandler reviveHandler;
 
-    public ReviveCmd(Messages messages, MessageCoordinator message, Options options, ReviveHandler reviveHandler, CommandService commandService) {
-        super(options.commandRevive, messages, message, options, commandService);
+    public ReviveCmd(Messages messages, Options options, ReviveHandler reviveHandler, CommandService commandService) {
+        super(options.commandRevive, messages, options, commandService);
         this.reviveHandler = reviveHandler;
         setPermission(options.permissionRevive);
         setDescription("Gives the player's previous inventory back.");
@@ -42,7 +42,7 @@ public class ReviveCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         reviveHandler.restoreInventory(player.getPlayer());
-        message.send(sender, messages.revivedStaff.replace("%target%", player.getPlayer().getName()), messages.prefixGeneral);
+        messages.send(sender, messages.revivedStaff.replace("%target%", player.getPlayer().getName()), messages.prefixGeneral);
         return true;
     }
 

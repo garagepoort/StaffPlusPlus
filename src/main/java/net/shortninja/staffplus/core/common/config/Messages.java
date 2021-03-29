@@ -1,161 +1,163 @@
 package net.shortninja.staffplus.core.common.config;
 
 import be.garagepoort.mcioc.IocBean;
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.rayzr522.jsonmessage.JSONMessage;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.data.LanguageFile;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.Strings;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.List;
 
 @IocBean
 public class Messages {
+
+    public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
+
     /*
      * Prefixes
      */
-    public String prefixGeneral;
-    public String prefixProtect;
-    public String prefixReports;
-    public String prefixWarnings;
-    public String prefixStaffChat;
-    public String prefixTrace;
+    public final String prefixGeneral;
+    public final String prefixProtect;
+    public final String prefixReports;
+    public final String prefixWarnings;
+    public final String prefixStaffChat;
+    public final String prefixTrace;
     /*
      * General
      */
-    public String separatorColor;
-    public List<String> staffListStart;
-    public String staffListMember;
-    public List<String> staffListEnd;
-    public String lockdown;
-    public String revivedStaff;
-    public String revivedUser;
-    public String commandBlocked;
-    public String modeCommandBlocked;
-    public String commandOnCooldown;
-    public String noPermission;
-    public String playerOffline;
-    public String playerNotRegistered;
-    public String unknownCommand;
-    public String invalidArguments;
-    public String onlyPlayers;
-    public String noFound;
-    public String typeInput;
-    public String inputAccepted;
+    public final List<String> staffListStart;
+    public final String staffListMember;
+    public final List<String> staffListEnd;
+    public final String lockdown;
+    public final String revivedStaff;
+    public final String revivedUser;
+    public final String commandBlocked;
+    public final String modeCommandBlocked;
+    public final String commandOnCooldown;
+    public final String noPermission;
+    public final String playerOffline;
+    public final String playerNotRegistered;
+    public final String invalidArguments;
+    public final String onlyPlayers;
+    public final String noFound;
+    public final String typeInput;
+    public final String inputAccepted;
 
-    public String enabled;
-    public String disabled;
+    public final String enabled;
+    public final String disabled;
 
     /*
      * Infractions
      */
-    public String reported;
-    public String reportedStaff;
-    public String reportsCleared;
-    public List<String> reportsListStart;
-    public String reportsListEntry;
-    public List<String> reportsListEnd;
-    public String warned;
-    public String warn;
-    public String warningsCleared;
-    public String warningsNotify;
-    public List<String> warningsListStart;
-    public String warningsListEntry;
-    public List<String> warningsListEnd;
-    public List<String> infractionItem;
+    public final String reported;
+    public final String reportedStaff;
+    public final String reportsCleared;
+    public final List<String> reportsListStart;
+    public final String reportsListEntry;
+    public final List<String> reportsListEnd;
+    public final String warned;
+    public final String warn;
+    public final String warningsNotify;
+    public final List<String> warningsListStart;
+    public final String warningsListEntry;
+    public final List<String> warningsListEnd;
+    public final List<String> infractionItem;
     /*
      * Chat
      */
-    public String staffChat;
-    public String chatClearLine;
-    public String chatCleared;
-    public String chatToggled;
-    public String chatPrevented;
-    public String chatSlowed;
-    public String chattingFast;
-    public String blacklistHover;
-    public String blacklistCensorColor;
-    public String blacklistChatFormat;
+    public final String staffChat;
+    public final String chatClearLine;
+    public final String chatCleared;
+    public final String chatToggled;
+    public final String chatPrevented;
+    public final String chatSlowed;
+    public final String chattingFast;
+    public final String blacklistChatFormat;
     /*
      * Vanish
      */
-    public String totalVanish;
-    public String listVanish;
-    public String vanishEnabled;
+    public final String totalVanish;
+    public final String listVanish;
+    public final String vanishEnabled;
     /*
      * Alerts
      */
-    public String alertChanged;
-    public String alertsName;
-    public String alertsChatPhraseDetected;
-    public String alertsMention;
-    public String alertsXray;
+    public final String alertChanged;
+    public final String alertsName;
+    public final String alertsChatPhraseDetected;
+    public final String alertsMention;
+    public final String alertsXray;
     /*
      * Staff Mode
      */
-    public String modeStatus;
-    public String modeOriginalLocation;
-    public String modeRandomTeleport;
-    public String modeNotEnoughPlayers;
-    public String guiReports;
-    public String guiMine;
-    public String guiMiner;
-    public String guiCounted;
-    public List<String> freeze;
-    public List<String> unfrozen;
-    public String staffFroze;
-    public String staffUnfroze;
-    public String cpsStart;
-    public String cpsFinishNormal;
-    public String cpsFinishMax;
-    public List<String> examineFood;
-    public String examineIp;
-    public String examineGamemode;
-    public String examineLocation;
-    public String examineWarn;
-    public String examineFreeze;
-    public String examineNotes;
-    public String examineNotesNote;
-    public String follow;
-    public String noteAdded;
-    public String noteCleared;
-    public List<String> noteListStart;
-    public String noteListEntry;
-    public List<String> noteListEnd;
-    public String bypassed;
-    public String staffChatStatus;
-    public String staffChatMuted;
-    public String staffChatUnmuted;
-    public String freezeLogout;
-    public String freezeTitle;
-    public String freezeSubtitle;
-    public String strip;
+    public final String modeStatus;
+    public final String modeOriginalLocation;
+    public final String modeRandomTeleport;
+    public final String modeNotEnoughPlayers;
+    public final List<String> freeze;
+    public final List<String> unfrozen;
+    public final String staffFroze;
+    public final String staffUnfroze;
+    public final String cpsStart;
+    public final String cpsFinishNormal;
+    public final String cpsFinishMax;
+    public final List<String> examineFood;
+    public final String examineIp;
+    public final String examineGamemode;
+    public final String examineLocation;
+    public final String examineWarn;
+    public final String examineFreeze;
+    public final String examineNotes;
+    public final String follow;
+    public final String noteAdded;
+    public final String noteCleared;
+    public final List<String> noteListStart;
+    public final String noteListEntry;
+    public final List<String> noteListEnd;
+    public final String bypassed;
+    public final String staffChatStatus;
+    public final String staffChatMuted;
+    public final String staffChatUnmuted;
+    public final String freezeLogout;
+    public final String freezeTitle;
+    public final String freezeSubtitle;
+    public final String strip;
 
-    public String kickedNotify;
-    public String kickMessage;
+    public final String kickedNotify;
+    public final String kickMessage;
 
-    public String unbanned;
-    public String permanentBanned;
-    public String tempBanned;
-    public String permanentBannedKick;
-    public String tempBannedKick;
+    public final String unbanned;
+    public final String permanentBanned;
+    public final String tempBanned;
+    public final String permanentBannedKick;
+    public final String tempBannedKick;
 
-    public String muteExpired;
-    public String unmuted;
-    public String permanentMuted;
-    public String tempMuted;
-    public String muted;
+    public final String muteExpired;
+    public final String unmuted;
+    public final String permanentMuted;
+    public final String tempMuted;
+    public final String muted;
 
-    public String appealCreated;
-    public String appealApproved;
-    public String appealApprove;
-    public String appealRejected;
-    public String appealReject;
-    public String openAppealsNotify;
+    public final String appealCreated;
+    public final String appealApproved;
+    public final String appealApprove;
+    public final String appealRejected;
+    public final String appealReject;
+    public final String openAppealsNotify;
 
-    public Messages() {
-        reload();
-    }
+    private final PermissionHandler permission;
 
-    public void reload() {
+    public Messages(PermissionHandler permission) {
+        this.permission = permission;
         FileConfiguration config = new LanguageFile().get();
         /*
          * Prefixes
@@ -169,7 +171,6 @@ public class Messages {
         /*
          * General
          */
-        separatorColor = config.getString("separator-color");
         staffListStart = JavaUtils.stringToList(config.getString("staff-list-start"));
         staffListMember = config.getString("staff-list-member");
         staffListEnd = JavaUtils.stringToList(config.getString("staff-list-end"));
@@ -182,7 +183,6 @@ public class Messages {
         noPermission = config.getString("no-permission");
         playerOffline = config.getString("player-offline");
         playerNotRegistered = config.getString("player-not-registered", "This player does not exist");
-        unknownCommand = config.getString("unknown-command");
         invalidArguments = config.getString("invalid-arguments");
         onlyPlayers = config.getString("only-players");
         noFound = config.getString("no-found");
@@ -203,7 +203,6 @@ public class Messages {
         reportsListEnd = JavaUtils.stringToList(config.getString("reports-list-end"));
         warned = config.getString("warned");
         warn = config.getString("warn");
-        warningsCleared = config.getString("warnings-cleared");
         warningsNotify = config.getString("warnings-notify");
         warningsListStart = JavaUtils.stringToList(config.getString("warnings-list-start"));
         warningsListEntry = config.getString("warnings-list-entry");
@@ -219,8 +218,6 @@ public class Messages {
         chatPrevented = config.getString("chat-prevented");
         chatSlowed = config.getString("chat-slowed");
         chattingFast = config.getString("chatting-fast");
-        blacklistHover = config.getString("blacklist-hover");
-        blacklistCensorColor = config.getString("blacklist-censor-color");
         blacklistChatFormat = config.getString("blacklist-chat-format");
         /*
          * Vanish
@@ -243,10 +240,6 @@ public class Messages {
         modeOriginalLocation = config.getString("mode-original-location");
         modeRandomTeleport = config.getString("mode-random-teleport");
         modeNotEnoughPlayers = config.getString("mode-not-enough-players");
-        guiReports = config.getString("gui-reports");
-        guiMine = config.getString("gui-mine");
-        guiMiner = config.getString("gui-miner");
-        guiCounted = config.getString("gui-Counted");
 
         cpsStart = config.getString("cps-start");
         cpsFinishNormal = config.getString("cps-finish-normal");
@@ -258,7 +251,6 @@ public class Messages {
         examineWarn = config.getString("examine-warn");
         examineFreeze = config.getString("examine-freeze");
         examineNotes = config.getString("examine-notes");
-        examineNotesNote = config.getString("examine-notes-note");
         follow = config.getString("follow");
         noteAdded = config.getString("note-added");
         noteCleared = config.getString("note-cleared");
@@ -301,5 +293,59 @@ public class Messages {
         appealApprove = config.getString("appeal-approve", "");
         appealReject = config.getString("appeal-reject", "");
         openAppealsNotify = config.getString("appeal-open-notify", "");
+    }
+
+    public String colorize(String message) {
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    public void send(Player player, String message, String prefix, String permission) {
+        if (!this.permission.has(player, permission)) {
+            return;
+        }
+
+        if (StaffPlus.get().usesPlaceholderAPI) {
+            message = PlaceholderAPI.setPlaceholders(player, message);
+        }
+
+        player.sendMessage(colorize(prefix + " " + message));
+    }
+
+    public void send(CommandSender sender, String message, String prefix) {
+        if (sender instanceof Player && StaffPlus.get().usesPlaceholderAPI) {
+            message = PlaceholderAPI.setPlaceholders((Player) sender, message);
+        }
+
+        sender.sendMessage(colorize(prefix + " " + message));
+    }
+
+    public void sendGlobalMessage(String message, String prefix) {
+        Bukkit.broadcastMessage(colorize(prefix + " " + message));
+    }
+
+    public void sendGroupMessage(String message, String permission, String prefix) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (StaffPlus.get().usesPlaceholderAPI) {
+                message = PlaceholderAPI.setPlaceholders(player, message);
+            }
+
+            send(player, message, prefix, permission);
+        }
+    }
+
+    public void sendGroupMessage(JSONMessage jsonMessage, String permission) {
+        Bukkit.getOnlinePlayers().stream()
+            .filter(p -> this.permission.has(p, permission))
+            .forEach(jsonMessage::send);
+    }
+
+    public void sendCollectedMessage(Player player, Collection<String> messages, String prefix) {
+        for (String message : messages) {
+            if (StaffPlus.get().usesPlaceholderAPI) {
+                message = PlaceholderAPI.setPlaceholders(player, message);
+            }
+
+            send(player, message, prefix);
+        }
     }
 }

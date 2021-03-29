@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -31,18 +31,18 @@ public class AppealService {
     private final PlayerManager playerManager;
     private final AppealRepository appealRepository;
     private final WarnRepository warnRepository;
-    private final MessageCoordinator message;
+
     private final Messages messages;
     private final PermissionHandler permission;
     private final Options options;
     private final AppealConfiguration appealConfiguration;
 
     public AppealService(PlayerManager playerManager, AppealRepository appealRepository, WarnRepository warnRepository,
-                         MessageCoordinator message, Messages messages, PermissionHandler permission, Options options) {
+                         Messages messages, PermissionHandler permission, Options options) {
         this.playerManager = playerManager;
         this.appealRepository = appealRepository;
         this.warnRepository = warnRepository;
-        this.message = message;
+
         this.messages = messages;
         this.permission = permission;
         this.options = options;
@@ -58,7 +58,7 @@ public class AppealService {
         appealRepository.addAppeal(appeal);
 
         String message = messages.appealCreated.replace("%reason%", reason);
-        this.message.send(appealer, message, messages.prefixWarnings);
+        this.messages.send(appealer, message, messages.prefixWarnings);
 
         warning.setAppeal(appeal);
         sendAppealedMessageToStaff(warning, appealer);
@@ -80,7 +80,7 @@ public class AppealService {
 
         appealRepository.updateAppealStatus(appealId, resolver.getUniqueId(), appealReason, AppealStatus.APPROVED);
         sendMessageToPlayer(appeal, messages.appealApproved);
-        this.message.send(resolver, messages.appealApprove, messages.prefixWarnings);
+        this.messages.send(resolver, messages.appealApprove, messages.prefixWarnings);
 
         Warning updatedWarning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found."));
         sendEvent(new WarningAppealApprovedEvent(updatedWarning));
@@ -96,7 +96,7 @@ public class AppealService {
 
         appealRepository.updateAppealStatus(appealId, resolver.getUniqueId(), appealReason, AppealStatus.REJECTED);
         sendMessageToPlayer(appeal, messages.appealRejected);
-        this.message.send(resolver, messages.appealReject, messages.prefixWarnings);
+        this.messages.send(resolver, messages.appealReject, messages.prefixWarnings);
 
         Warning updatedWarning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found"));
         sendEvent(new WarningAppealRejectedEvent(updatedWarning));
@@ -108,13 +108,13 @@ public class AppealService {
             "View warnings!",
             "Click to open the warnings view",
             manageWarningsCommand, true);
-        this.message.sendGroupMessage(jsonMessage, appealConfiguration.getPermissionNotifications());
+        this.messages.sendGroupMessage(jsonMessage, appealConfiguration.getPermissionNotifications());
     }
 
     private void sendMessageToPlayer(Appeal appeal, String message) {
         Optional<SppPlayer> appealer = playerManager.getOnOrOfflinePlayer(appeal.getAppealerUuid());
         if (appealer.isPresent() && appealer.get().isOnline()) {
-            this.message.send(appealer.get().getPlayer(), message, messages.prefixWarnings);
+            this.messages.send(appealer.get().getPlayer(), message, messages.prefixWarnings);
         }
     }
 

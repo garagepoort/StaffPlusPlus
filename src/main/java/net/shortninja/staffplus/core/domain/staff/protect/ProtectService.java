@@ -5,7 +5,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.protect.database.ProtectedAreaRepository;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -24,13 +24,13 @@ public class ProtectService {
     private List<ProtectedArea> protectedAreas;
 
     private final ProtectedAreaRepository protectedAreaRepository;
-    private final MessageCoordinator message;
+
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
 
-    public ProtectService(ProtectedAreaRepository protectedAreaRepository, MessageCoordinator message, Messages messages, Options options, SessionManagerImpl sessionManager) {
+    public ProtectService(ProtectedAreaRepository protectedAreaRepository, Messages messages, Options options, SessionManagerImpl sessionManager) {
         this.protectedAreaRepository = protectedAreaRepository;
-        this.message = message;
+
         this.messages = messages;
         this.protectConfiguration = options.protectConfiguration;
         this.sessionManager = sessionManager;
@@ -43,7 +43,7 @@ public class ProtectService {
 
         boolean protectedArea = getAllProtectedAreas().stream().anyMatch(a -> a.isInArea(location));
         if (protectedArea) {
-            message.send(player, "&7This area has been protected by a Staff Member", messages.prefixProtect);
+            messages.send(player, "&7This area has been protected by a Staff Member", messages.prefixProtect);
         }
         return protectedArea;
     }
@@ -67,7 +67,7 @@ public class ProtectService {
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             protectedAreaRepository.addProtectedArea(player, protectedArea);
         });
-        message.send(player, "&bProtected Area added", messages.prefixProtect);
+        messages.send(player, "&bProtected Area added", messages.prefixProtect);
     }
 
     public void deleteProtectedArea(Player player, String name) {
@@ -79,7 +79,7 @@ public class ProtectService {
         Optional<ProtectedArea> first = getAllProtectedAreas().stream().filter(p -> p.getName().equals(name)).findFirst();
         if (first.isPresent()) {
             getAllProtectedAreas().remove(first.get());
-            message.send(player, "&bProtected Area deleted", messages.prefixProtect);
+            messages.send(player, "&bProtected Area deleted", messages.prefixProtect);
         }
     }
 
@@ -92,7 +92,7 @@ public class ProtectService {
         Optional<ProtectedArea> first = getAllProtectedAreas().stream().filter(p -> p.getName().equals(protectedArea.get().getName())).findFirst();
         if (first.isPresent()) {
             getAllProtectedAreas().remove(first.get());
-            message.send(player, "&bProtected Area deleted", messages.prefixProtect);
+            messages.send(player, "&bProtected Area deleted", messages.prefixProtect);
         }
     }
 

@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.MyWarningsGui;
@@ -26,8 +26,8 @@ public class MyWarningsCmd extends AbstractCmd {
 
     private final WarnService warnService;
 
-    public MyWarningsCmd(Messages messages, MessageCoordinator message, Options options, WarnService warnService, CommandService commandService) {
-        super(options.warningConfiguration.getMyWarningsCmd(), messages, message, options, commandService);
+    public MyWarningsCmd(Messages messages, Options options, WarnService warnService, CommandService commandService) {
+        super(options.warningConfiguration.getMyWarningsCmd(), messages, options, commandService);
         this.warnService = warnService;
         setPermission(options.warningConfiguration.getMyWarningsPermission());
         setDescription("Open my warnings gui");

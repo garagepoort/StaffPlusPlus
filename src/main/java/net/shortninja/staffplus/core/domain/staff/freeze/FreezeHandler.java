@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -27,15 +27,15 @@ import java.util.UUID;
 public class FreezeHandler {
     private final static Map<UUID, Location> lastFrozenLocations = new HashMap<>();
     private final PermissionHandler permission;
-    private final MessageCoordinator message;
+
     private final Options options;
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final FreezeModeConfiguration freezeModeConfiguration;
 
-    public FreezeHandler(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager) {
+    public FreezeHandler(PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager) {
         this.permission = permission;
-        this.message = message;
+
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -46,8 +46,8 @@ public class FreezeHandler {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     PlayerSession playerSession = sessionManager.get(p.getUniqueId());
                     if (playerSession.isFrozen()) {
-                        p.sendTitle(message.colorize(messages.freezeTitle), message.colorize(messages.freezeSubtitle), 1, 25, 1);
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message.colorize(messages.vanishEnabled)));
+                        p.sendTitle(messages.colorize(messages.freezeTitle), messages.colorize(messages.freezeSubtitle), 1, 25, 1);
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(messages.colorize(messages.vanishEnabled)));
                     }
                 }
             }, 20L, 20L);
@@ -77,10 +77,10 @@ public class FreezeHandler {
             new FreezeGui(freezeModeConfiguration.getModeFreezePromptTitle()).show(player);
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
         } else {
-            message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
+            messages.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
         }
 
-        message.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
+        messages.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
 
         sessionManager.get(player.getUniqueId()).setFrozen(true);
         lastFrozenLocations.put(uuid, player.getLocation());
@@ -95,7 +95,7 @@ public class FreezeHandler {
         PlayerSession session = sessionManager.get(uuid);
 
         if (permission.has(player, options.permissionFreezeBypass)) {
-            message.send(sender, messages.bypassed, messages.prefixGeneral);
+            messages.send(sender, messages.bypassed, messages.prefixGeneral);
             return;
         }
 
@@ -107,8 +107,8 @@ public class FreezeHandler {
 
         }
 
-        message.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
-        message.sendCollectedMessage(player, messages.unfrozen, messages.prefixGeneral);
+        messages.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
+        messages.sendCollectedMessage(player, messages.unfrozen, messages.prefixGeneral);
 
         session.setFrozen(false);
         lastFrozenLocations.remove(uuid);

@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.InvestigationsRepository;
 import org.bukkit.entity.Player;
@@ -13,11 +14,13 @@ public class InvestigationService {
 
     private final InvestigationsRepository investigationsRepository;
     private final Options options;
-    private final Messages ,;
+    private final Messages messages;
 
-    public InvestigationService(InvestigationsRepository investigationsRepository, Options options) {
+
+    public InvestigationService(InvestigationsRepository investigationsRepository, Options options, Messages messages) {
         this.investigationsRepository = investigationsRepository;
         this.options = options;
+        this.messages = messages;
     }
 
     public void startInvestigation(Player investigator, SppPlayer investigated) {

@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
@@ -33,11 +33,10 @@ public class MuteService implements InfractionProvider {
     private final PermissionHandler permission;
     private final MuteRepository muteRepository;
     private final Options options;
-    private MessageCoordinator message;
     private Messages messages;
 
-    public MuteService(PermissionHandler permission, MuteRepository muteRepository, Options options, MessageCoordinator message, Messages messages) {
-        this.message = message;
+    public MuteService(PermissionHandler permission, MuteRepository muteRepository, Options options, Messages messages) {
+
         this.permission = permission;
         this.muteRepository = muteRepository;
         this.options = options;
@@ -118,14 +117,14 @@ public class MuteService implements InfractionProvider {
                 .replace("%target%", playerToMute.getUsername())
                 .replace("%reason%", reason)
                 .replace("%issuer%", issuerName);
-            this.message.sendGlobalMessage(message, messages.prefixGeneral);
+            this.messages.sendGlobalMessage(message, messages.prefixGeneral);
         } else {
             String message = messages.tempMuted
                 .replace("%target%", playerToMute.getUsername())
                 .replace("%issuer%", issuerName)
                 .replace("%reason%", reason)
                 .replace("%duration%", JavaUtils.toHumanReadableDuration(duration));
-            this.message.sendGlobalMessage(message, messages.prefixGeneral);
+            this.messages.sendGlobalMessage(message, messages.prefixGeneral);
         }
     }
 
@@ -135,7 +134,7 @@ public class MuteService implements InfractionProvider {
         String unmuteMessage = messages.unmuted
             .replace("%target%", mute.getTargetName())
             .replace("%issuer%", mute.getUnmutedByName());
-        message.sendGlobalMessage(unmuteMessage, messages.prefixGeneral);
+        messages.sendGlobalMessage(unmuteMessage, messages.prefixGeneral);
         sendEvent(new UnmuteEvent(mute));
     }
 

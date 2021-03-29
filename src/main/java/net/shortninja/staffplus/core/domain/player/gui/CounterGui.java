@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
@@ -23,7 +23,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CounterGui extends PagedGui {
-    private final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
     private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
 
 
@@ -45,7 +44,7 @@ public class CounterGui extends PagedGui {
 
                 if (p != null) {
                     player.teleport(p);
-                } else message.send(player, messages.playerOffline, messages.prefixGeneral);
+                } else messages.send(player, messages.playerOffline, messages.prefixGeneral);
             }
 
             @Override

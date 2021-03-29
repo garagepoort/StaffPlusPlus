@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.MyReportsGui;
 import org.bukkit.command.CommandSender;
@@ -21,8 +21,8 @@ import java.util.Optional;
 @IocMultiProvider(SppCommand.class)
 public class MyReportsCmd extends AbstractCmd {
 
-    public MyReportsCmd(Messages messages, MessageCoordinator message, Options options, CommandService commandService) {
-        super(options.reportConfiguration.getMyReportsCmd(), messages, message, options, commandService);
+    public MyReportsCmd(Messages messages, Options options, CommandService commandService) {
+        super(options.reportConfiguration.getMyReportsCmd(), messages, options, commandService);
         setDescription("Open my reports gui");
         setPermission(options.reportConfiguration.getMyReportsPermission());
     }

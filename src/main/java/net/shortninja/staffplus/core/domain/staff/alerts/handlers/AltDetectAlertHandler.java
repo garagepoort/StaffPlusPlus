@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.alerts.AlertType;
@@ -20,8 +20,8 @@ import static net.shortninja.staffplusplus.alerts.AlertType.ALT_DETECT;
 @IocBean
 public class AltDetectAlertHandler extends AlertsHandler implements Listener {
 
-    public AltDetectAlertHandler(Options options, SessionManagerImpl sessionManager, MessageCoordinator message, PermissionHandler permission, Messages messages) {
-        super(options, sessionManager, message, permission, messages);
+    public AltDetectAlertHandler(Options options, SessionManagerImpl sessionManager, PermissionHandler permission, Messages messages) {
+        super(options, sessionManager, permission, messages);
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -33,7 +33,7 @@ public class AltDetectAlertHandler extends AlertsHandler implements Listener {
         }
 
         for (Player player : getPlayersToNotify()) {
-            message.send(player, String.format("&CAlt account check triggered, %s and %s might be the same player. Trust [%s]",
+            messages.send(player, String.format("&CAlt account check triggered, %s and %s might be the same player. Trust [%s]",
                 altDetectResult.getPlayerCheckedName(),
                 altDetectResult.getPlayerMatchedName(),
                 altDetectResult.getAltDetectTrustLevel()), messages.prefixGeneral);

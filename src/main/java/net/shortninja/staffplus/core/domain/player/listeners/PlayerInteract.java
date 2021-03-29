@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGUI;
@@ -51,15 +51,14 @@ public class PlayerInteract implements Listener {
     private final SessionManagerImpl sessionManager;
     private final List<CustomModulePreProcessor> customModulePreProcessors;
     private final Messages messages;
-    private final MessageCoordinator message;
+
 
     public PlayerInteract(IProtocol versionProtocol, CpsHandler cpsHandler,
                           GadgetHandler gadgetHandler,
                           FreezeHandler freezeHandler,
                           PlayerManager playerManager, Options options, SessionManagerImpl sessionManager,
                           @IocMulti(CustomModulePreProcessor.class) List<CustomModulePreProcessor> customModulePreProcessors,
-                          Messages messages,
-                          MessageCoordinator message) {
+                          Messages messages) {
         this.versionProtocol = versionProtocol;
         this.cpsHandler = cpsHandler;
         this.gadgetHandler = gadgetHandler;
@@ -69,7 +68,7 @@ public class PlayerInteract implements Listener {
         this.sessionManager = sessionManager;
         this.customModulePreProcessors = customModulePreProcessors;
         this.messages = messages;
-        this.message = message;
+
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -205,7 +204,7 @@ public class PlayerInteract implements Listener {
         }
 
         if(customModuleConfiguration.get().getType() == COMMAND_DYNAMIC && targetPlayer == null) {
-            message.send(player, "No target in range", messages.prefixGeneral);
+            messages.send(player, "No target in range", messages.prefixGeneral);
             return true;
         }
 

@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -18,8 +18,8 @@ import org.bukkit.event.Listener;
 @IocBean
 public class PlayerMentionAlertHandler extends AlertsHandler implements Listener {
 
-    public PlayerMentionAlertHandler(Options options, SessionManagerImpl sessionManager, MessageCoordinator message, PermissionHandler permission, Messages messages) {
-        super(options, sessionManager, message, permission, messages);
+    public PlayerMentionAlertHandler(Options options, SessionManagerImpl sessionManager, PermissionHandler permission, Messages messages) {
+        super(options, sessionManager, permission, messages);
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -33,7 +33,7 @@ public class PlayerMentionAlertHandler extends AlertsHandler implements Listener
             PlayerSession session = sessionManager.get(event.getMentionedPlayer().getUniqueId());
             Player mentionedPlayer = session.getPlayer().get();
             if (session.shouldNotify(AlertType.MENTION) && permission.has(mentionedPlayer, alertsConfiguration.getPermissionMention())) {
-                message.send(mentionedPlayer, messages.alertsMention.replace("%target%", event.getPlayer().getName()), messages.prefixGeneral, alertsConfiguration.getPermissionMention());
+                messages.send(mentionedPlayer, messages.alertsMention.replace("%target%", event.getPlayer().getName()), messages.prefixGeneral, alertsConfiguration.getPermissionMention());
                 alertsConfiguration.getAlertsSound().ifPresent(s -> s.play(mentionedPlayer));
             }
         }

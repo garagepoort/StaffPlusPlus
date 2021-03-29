@@ -3,11 +3,10 @@ package net.shortninja.staffplus.core.domain.player.gui;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.utils.GlassData;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,10 +14,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class ColorGui extends AbstractGui {
     private static final int SIZE = 27;
-    private SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
 
     public ColorGui(String title) {
-        super(SIZE, StaffPlus.get().iocContainer.get(MessageCoordinator.class).colorize(title));
+        super(SIZE, StaffPlus.get().iocContainer.get(Messages.class).colorize(title));
     }
 
     @Override

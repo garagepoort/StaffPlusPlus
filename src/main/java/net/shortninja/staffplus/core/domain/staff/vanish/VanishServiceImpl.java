@@ -7,7 +7,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionLoader;
@@ -22,16 +22,16 @@ import java.util.Optional;
 public class VanishServiceImpl {
     private final IProtocol versionProtocol;
     private final PermissionHandler permission;
-    private final MessageCoordinator message;
+
     private final Options options;
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final SessionLoader sessionLoader;
 
-    public VanishServiceImpl(IProtocol versionProtocol, PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
+    public VanishServiceImpl(IProtocol versionProtocol, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
         this.versionProtocol = versionProtocol;
         this.permission = permission;
-        this.message = message;
+
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -42,7 +42,7 @@ public class VanishServiceImpl {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     PlayerSession playerSession = sessionManager.get(p.getUniqueId());
                     if (playerSession.isVanished()) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message.colorize(messages.vanishEnabled)));
+                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(messages.colorize(messages.vanishEnabled)));
                     }
                 }
             }, 20L, 20L);
@@ -112,7 +112,7 @@ public class VanishServiceImpl {
         }
 
         if (shouldMessage && !message.isEmpty()) {
-            this.message.send(player, message, messages.prefixGeneral);
+            this.messages.send(player, message, messages.prefixGeneral);
         }
     }
 
@@ -136,7 +136,7 @@ public class VanishServiceImpl {
         }
 
         if (shouldMessage && !message.isEmpty()) {
-            this.message.send(player, message, messages.prefixGeneral);
+            this.messages.send(player, message, messages.prefixGeneral);
         }
     }
 }

@@ -5,7 +5,7 @@ import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -32,7 +32,7 @@ public class GadgetHandler {
 
     private final IProtocol versionProtocol;
     private final PermissionHandler permission;
-    private final MessageCoordinator message;
+
     private final Options options;
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
@@ -41,10 +41,10 @@ public class GadgetHandler {
     private final PlayerManager playerManager;
     private final StaffModeService staffModeService;
 
-    public GadgetHandler(IProtocol versionProtocol, PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
+    public GadgetHandler(IProtocol versionProtocol, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
         this.versionProtocol = versionProtocol;
         this.permission = permission;
-        this.message = message;
+
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -109,7 +109,7 @@ public class GadgetHandler {
 
 
         if (onlinePlayers.isEmpty()) {
-            message.send(player, messages.modeNotEnoughPlayers, messages.prefixGeneral);
+            messages.send(player, messages.modeNotEnoughPlayers, messages.prefixGeneral);
             return;
         }
 
@@ -125,7 +125,7 @@ public class GadgetHandler {
             lastRandomTeleport.put(uuid, lastIndex);
         }
 
-        message.send(player, messages.modeRandomTeleport, messages.prefixGeneral);
+        messages.send(player, messages.modeRandomTeleport, messages.prefixGeneral);
         player.teleport(currentPlayer);
     }
 

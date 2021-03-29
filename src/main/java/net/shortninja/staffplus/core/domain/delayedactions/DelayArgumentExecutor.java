@@ -5,7 +5,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -20,12 +20,12 @@ public class DelayArgumentExecutor {
 
     private final Messages messages;
     private final PlayerManager playerManager;
-    private final MessageCoordinator message;
 
-    public DelayArgumentExecutor(Messages messages, PlayerManager playerManager, MessageCoordinator message) {
+
+    public DelayArgumentExecutor(Messages messages, PlayerManager playerManager) {
         this.messages = messages;
         this.playerManager = playerManager;
-        this.message = message;
+
     }
 
     public boolean execute(CommandSender commandSender, String playerName, String command) {
@@ -36,7 +36,7 @@ public class DelayArgumentExecutor {
         }
 
         StaffPlus.get().iocContainer.get(DelayedActionsRepository.class).saveDelayedAction(player.get().getId(), command, Executor.CONSOLE);
-        message.send(commandSender, "Your command has been delayed and will be executed next time [" + playerName + "] joins the server", messages.prefixGeneral);
+        messages.send(commandSender, "Your command has been delayed and will be executed next time [" + playerName + "] joins the server", messages.prefixGeneral);
         return true;
     }
 

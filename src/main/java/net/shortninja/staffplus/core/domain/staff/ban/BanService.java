@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
@@ -39,11 +39,11 @@ public class BanService implements InfractionProvider {
     private final BanConfiguration banConfiguration;
     private final BanReasonResolver banReasonResolver;
     private final BanTemplateResolver banTemplateResolver;
-    private final MessageCoordinator message;
+
     private final Messages messages;
 
-    public BanService(PermissionHandler permission, BansRepository bansRepository, Options options, MessageCoordinator message, Messages messages, BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver) {
-        this.message = message;
+    public BanService(PermissionHandler permission, BansRepository bansRepository, Options options, Messages messages, BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver) {
+
         this.permission = permission;
         this.bansRepository = bansRepository;
         this.options = options;
@@ -131,7 +131,7 @@ public class BanService implements InfractionProvider {
     private void kickPlayer(SppPlayer playerToBan, Long duration, String issuerName, String reason, String templateMessage) {
         if (playerToBan.isOnline()) {
             String banMessage = replaceBanPlaceholders(templateMessage, playerToBan.getUsername(), issuerName, reason, duration);
-            playerToBan.getPlayer().kickPlayer(message.colorize(banMessage));
+            playerToBan.getPlayer().kickPlayer(messages.colorize(banMessage));
         }
     }
 
@@ -139,14 +139,14 @@ public class BanService implements InfractionProvider {
         String banMessage = duration == null ?
             replaceBanPlaceholders(messages.permanentBanned, playerToBan.getUsername(), issuerName, reason, duration) :
             replaceBanPlaceholders(messages.tempBanned, playerToBan.getUsername(), issuerName, reason, duration);
-        this.message.sendGlobalMessage(banMessage, messages.prefixGeneral);
+        this.messages.sendGlobalMessage(banMessage, messages.prefixGeneral);
     }
 
     private void unban(Ban ban) {
         bansRepository.update(ban);
 
         String unbanMessage = replaceBanPlaceholders(messages.unbanned, ban.getTargetName(), ban.getUnbannedByName(), ban.getReason(), ban.getEndTimestamp());
-        message.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
+        messages.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
         sendEvent(new UnbanEvent(ban));
     }
 

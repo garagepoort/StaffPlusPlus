@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
@@ -27,8 +27,8 @@ public class ExamineCmd extends AbstractCmd {
     private final GadgetHandler gadgetHandler;
     private final PlayerManager playerManager;
 
-    public ExamineCmd(Messages messages, MessageCoordinator message, Options options, GadgetHandler gadgetHandler, CommandService commandService, PlayerManager playerManager) {
-        super(options.examineConfiguration.getCommandExamine(), messages, message, options, commandService);
+    public ExamineCmd(Messages messages, Options options, GadgetHandler gadgetHandler, CommandService commandService, PlayerManager playerManager) {
+        super(options.examineConfiguration.getCommandExamine(), messages, options, commandService);
         this.gadgetHandler = gadgetHandler;
         this.playerManager = playerManager;
         setUsage("{player}");

@@ -4,7 +4,7 @@ import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -16,16 +16,15 @@ import java.util.*;
 public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     protected final Messages messages;
-    protected final MessageCoordinator message;
     protected final Options options;
     private final CommandService commandService;
 
     private Set<String> permissions = new HashSet<>();
 
-    protected AbstractCmd(String name, Messages messages, MessageCoordinator message, Options options, CommandService commandService) {
+    protected AbstractCmd(String name, Messages messages, Options options, CommandService commandService) {
         super(name);
         this.messages = messages;
-        this.message = message;
+
         this.options = options;
         this.commandService = commandService;
     }
@@ -57,7 +56,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
             commandService.processArguments(sender, args, getPlayerName(sender, args).orElse(null), getPostExecutionSppArguments(), getMinimumArguments(sender, args));
             return result;
         } catch (BusinessException e) {
-            message.send(sender, e.getMessage(), e.getPrefix());
+            messages.send(sender, e.getMessage(), e.getPrefix());
             return false;
         }
     }

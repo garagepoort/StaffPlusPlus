@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import net.shortninja.staffplusplus.trace.TraceWriter;
 import org.bukkit.Bukkit;
@@ -14,13 +14,13 @@ import java.util.UUID;
 
 public class ChatTraceWriter implements TraceWriter {
 
-    private final MessageCoordinator message;
+
     private final Messages messages;
     private final UUID tracerUuid;
 
-    public ChatTraceWriter(UUID tracerUuid, MessageCoordinator message, Messages messages) {
+    public ChatTraceWriter(UUID tracerUuid, Messages messages) {
         this.tracerUuid = tracerUuid;
-        this.message = message;
+
         this.messages = messages;
     }
 
@@ -29,7 +29,7 @@ public class ChatTraceWriter implements TraceWriter {
         Player player = Bukkit.getPlayer(tracerUuid);
         if(player != null) {
             String traceMessage = "[" + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_DATE_TIME) + "] : " + message;
-            this.message.send(player, traceMessage, messages.prefixTrace);
+            this.messages.send(player, traceMessage, messages.prefixTrace);
         }
     }
 
