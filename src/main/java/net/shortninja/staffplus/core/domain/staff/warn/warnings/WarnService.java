@@ -2,11 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
@@ -30,6 +28,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
@@ -64,7 +63,7 @@ public class WarnService implements InfractionProvider {
         }
 
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
-        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
+        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : CONSOLE_UUID;
         Warning warning = new Warning(culprit.getId(), culprit.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis(), severityConfig);
         createWarning(sender, culprit, warning);
     }
@@ -73,7 +72,7 @@ public class WarnService implements InfractionProvider {
     // This is only used when severity levels are empty, it the new system this is not recommended and it will be removed.
     public void sendWarning(CommandSender sender, SppPlayer user, String reason) {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
-        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
+        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : CONSOLE_UUID;
         Warning warning = new Warning(user.getId(), user.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis());
         createWarning(sender, user, warning);
     }

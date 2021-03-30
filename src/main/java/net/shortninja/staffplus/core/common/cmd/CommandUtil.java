@@ -12,7 +12,7 @@ public class CommandUtil {
         try {
             commandInterface.execute();
         } catch (BusinessException e) {
-            StaffPlus.get().iocContainer.get(Messages.class).send(player, e.getMessage(), e.getPrefix());
+            StaffPlus.get().getIocContainer().get(Messages.class).send(player, e.getMessage(), e.getPrefix());
         }
     }
 

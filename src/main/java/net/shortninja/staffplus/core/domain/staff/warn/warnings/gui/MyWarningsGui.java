@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
@@ -15,9 +16,9 @@ import java.util.stream.Collectors;
 
 public class MyWarningsGui extends PagedGui {
 
-    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
-    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().iocContainer.get(WarningItemBuilder.class);
+    private final PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
+    private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
+    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().getIocContainer().get(WarningItemBuilder.class);
 
     public MyWarningsGui(Player player, String title, int page) {
         super(player, title, page);
@@ -34,7 +35,7 @@ public class MyWarningsGui extends PagedGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 if (options.appealConfiguration.isEnabled() && permission.has(player, options.appealConfiguration.getCreateAppealPermission())) {
-                    int warningId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+                    int warningId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                     Warning warning = warnService.getWarning(warningId);
                     new ManageWarningGui(player, "Warning", warning, () -> new MyWarningsGui(player, getTitle(), getCurrentPage())).show(player);
                 }
@@ -49,7 +50,7 @@ public class MyWarningsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return StaffPlus.get().iocContainer.get(WarnService.class)
+        return StaffPlus.get().getIocContainer().get(WarnService.class)
             .getWarnings(player.getUniqueId(), offset, amount, false)
             .stream()
             .map(warningItemBuilder::build)

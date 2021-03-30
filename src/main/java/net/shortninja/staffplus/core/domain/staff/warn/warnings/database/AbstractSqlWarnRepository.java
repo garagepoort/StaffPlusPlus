@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
@@ -16,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 
 public abstract class AbstractSqlWarnRepository implements WarnRepository {
 
@@ -256,7 +257,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         String severity = rs.getString("severity") == null ? "No Severity" : rs.getString("severity");
 
         Optional<SppPlayer> warner = playerManager.getOnOrOfflinePlayer(warnerUuid);
-        String warnerName = warnerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : warner.map(SppPlayer::getUsername).orElse("Unknown user");
+        String warnerName = warnerUuid.equals(CONSOLE_UUID) ? "Console" : warner.map(SppPlayer::getUsername).orElse("Unknown user");
         int id = rs.getInt("ID");
         boolean read = rs.getBoolean("is_read");
         boolean expired = rs.getBoolean("is_expired");

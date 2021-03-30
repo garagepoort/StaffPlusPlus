@@ -1,9 +1,11 @@
 package net.shortninja.staffplus.core.domain.synchronization;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class ServerSyncModuleLoader extends ConfigLoader<ServerSyncConfiguration> {
+@IocBean
+public class ServerSyncModuleLoader extends AbstractConfigLoader<ServerSyncConfiguration> {
     public static final String SERVER_SYNC_MODULE = "server-sync-module.";
 
     @Override

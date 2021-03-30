@@ -23,13 +23,13 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
         this.confirmationConfig = confirmationConfig;
         this.requireInput = requireInput;
         this.inputPrompt = inputPrompt;
-        setEnabled(enabled);
-        setSlot(slot);
-        setItem(item);
         this.moduleType = moduleType;
         this.action = action;
         this.enchantment = "";
         this.level = 0;
+        setEnabled(enabled);
+        setSlot(slot);
+        setItem(item);
     }
 
     public ModuleType getType() {

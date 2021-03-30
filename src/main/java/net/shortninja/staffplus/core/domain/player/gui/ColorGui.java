@@ -16,7 +16,7 @@ public class ColorGui extends AbstractGui {
     private static final int SIZE = 27;
 
     public ColorGui(String title) {
-        super(SIZE, StaffPlus.get().iocContainer.get(Messages.class).colorize(title));
+        super(SIZE, StaffPlus.get().getIocContainer().get(Messages.class).colorize(title));
     }
 
     @Override

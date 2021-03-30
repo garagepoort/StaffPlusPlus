@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.examine.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.PlayerOfflineException;
 import net.shortninja.staffplus.core.common.gui.IAction;
-
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
@@ -19,12 +19,12 @@ import org.bukkit.inventory.ItemStack;
 public class WarnPlayerAction implements IAction {
     private static final String CANCEL = "cancel";
     private static final String NONE = "none";
-    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    private final Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
 
-    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
-    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
-    private final PlayerManager playerManager = StaffPlus.get().iocContainer.get(PlayerManager.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class);
+    private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
+    private final PlayerManager playerManager = StaffPlus.get().getIocContainer().get(PlayerManager.class);
+    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
     private final SppPlayer targetPlayer;
 
@@ -34,7 +34,7 @@ public class WarnPlayerAction implements IAction {
 
     @Override
     public void click(Player player, ItemStack item, int slot) {
-        String severityLevel = StaffPlus.get().versionProtocol.getNbtString(item);
+        String severityLevel = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item);
         PlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
         WarningSeverityConfiguration severityConfiguration = options.warningConfiguration.getSeverityConfiguration(severityLevel)

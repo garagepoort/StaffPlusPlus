@@ -74,7 +74,7 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
                     if (!onOrOfflinePlayer.isPresent()) {
                         messages.send(player1, messages.playerOffline, messages.prefixGeneral);
                     } else {
-                        StaffPlus.get().iocContainer.get(WarnService.class).sendWarning(player1, onOrOfflinePlayer.get(), input);
+                        StaffPlus.get().getIocContainer().get(WarnService.class).sendWarning(player1, onOrOfflinePlayer.get(), input);
                         messages.send(player1, messages.inputAccepted, messages.prefixGeneral);
                     }
                 });

@@ -35,7 +35,7 @@ public class InputCustomModulePreprocessor implements CustomModulePreProcessor {
                 inputPrompt = inputPrompt.replace(entry.getKey(), entry.getValue());
             }
 
-            PlayerSession playerSession = StaffPlus.get().iocContainer.get(SessionManagerImpl.class).get(player.getUniqueId());
+            PlayerSession playerSession = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class).get(player.getUniqueId());
             messages.send(player, "&7------", messages.prefixGeneral);
             messages.send(player, "&6" + inputPrompt, messages.prefixGeneral);
             messages.send(player, "&6 or \"cancel\" to cancel the action", messages.prefixGeneral);

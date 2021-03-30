@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public abstract class AbstractGui implements IGui {
-    protected final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
-    protected final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
-    protected final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    protected final Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
+    protected final SessionManagerImpl sessionManager = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class);
+    protected final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
     private String title;
     protected Supplier<AbstractGui> previousGuiSupplier;

@@ -15,7 +15,7 @@ public class PermissionActionFilter implements ActionFilter {
                 return false;
             }
             String permission = configuredAction.getFilters().get(PERMISSION);
-            return StaffPlus.get().iocContainer.get(PermissionHandler.class).has(target.getPlayer(), permission);
+            return StaffPlus.get().getIocContainer().get(PermissionHandler.class).has(target.getPlayer(), permission);
         }
         return true;
     }

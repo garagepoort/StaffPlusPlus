@@ -1,11 +1,10 @@
 package net.shortninja.staffplus.core.common.config;
 
 import be.garagepoort.mcioc.IocBean;
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.data.LanguageFile;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.Strings;
 import org.bukkit.Bukkit;
@@ -155,9 +154,11 @@ public class Messages {
     public final String openAppealsNotify;
 
     private final PermissionHandler permission;
+    private final PlaceholderService placeholderService;
 
-    public Messages(PermissionHandler permission) {
+    public Messages(PermissionHandler permission, PlaceholderService placeholderService) {
         this.permission = permission;
+        this.placeholderService = placeholderService;
         FileConfiguration config = new LanguageFile().get();
         /*
          * Prefixes
@@ -304,17 +305,12 @@ public class Messages {
             return;
         }
 
-        if (StaffPlus.get().usesPlaceholderAPI) {
-            message = PlaceholderAPI.setPlaceholders(player, message);
-        }
-
+        message = placeholderService.setPlaceholders(player, message);
         player.sendMessage(colorize(prefix + " " + message));
     }
 
     public void send(CommandSender sender, String message, String prefix) {
-        if (sender instanceof Player && StaffPlus.get().usesPlaceholderAPI) {
-            message = PlaceholderAPI.setPlaceholders((Player) sender, message);
-        }
+        message = placeholderService.setPlaceholders((Player) sender, message);
 
         sender.sendMessage(colorize(prefix + " " + message));
     }
@@ -325,10 +321,7 @@ public class Messages {
 
     public void sendGroupMessage(String message, String permission, String prefix) {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (StaffPlus.get().usesPlaceholderAPI) {
-                message = PlaceholderAPI.setPlaceholders(player, message);
-            }
-
+            message = placeholderService.setPlaceholders(player, message);
             send(player, message, prefix, permission);
         }
     }
@@ -341,10 +334,7 @@ public class Messages {
 
     public void sendCollectedMessage(Player player, Collection<String> messages, String prefix) {
         for (String message : messages) {
-            if (StaffPlus.get().usesPlaceholderAPI) {
-                message = PlaceholderAPI.setPlaceholders(player, message);
-            }
-
+            message = placeholderService.setPlaceholders(player, message);
             send(player, message, prefix);
         }
     }

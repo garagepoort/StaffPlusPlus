@@ -1,9 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.investigate;
 
+import net.shortninja.staffplusplus.investigate.IInvestigation;
+import net.shortninja.staffplusplus.investigate.InvestigationStatus;
+
 import java.util.Optional;
 import java.util.UUID;
 
-public class Investigation {
+public class Investigation implements IInvestigation {
 
     private int id;
     private Long creationDate;
@@ -72,5 +75,9 @@ public class Investigation {
 
     public InvestigationStatus getStatus() {
         return status;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

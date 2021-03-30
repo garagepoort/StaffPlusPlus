@@ -2,28 +2,17 @@ package net.shortninja.staffplus.core.domain.staff.mode.config;
 
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 import net.shortninja.staffplus.core.domain.staff.mode.config.gui.GuiConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.gui.StaffModeGuiConfigurationLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.compass.CompassModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.compass.CompassModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.counter.CounterModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.counter.CounterModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.cps.CpsModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.cps.CpsModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.follow.FollowModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.follow.FollowModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport.RandomTeleportModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport.RandomTeleportModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeItemLoader;
 import net.shortninja.staffplusplus.vanish.VanishType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GeneralModeConfiguration {
@@ -46,9 +35,7 @@ public class GeneralModeConfiguration {
     private boolean modeEnableOnLogin;
     private boolean modeDisableOnLogout;
 
-
-    private List<GuiConfiguration> guiConfigurations = new ArrayList<>();
-
+    private final List<GuiConfiguration> guiConfigurations;
     private final CompassModeConfiguration compassModeConfiguration;
     private final CounterModeConfiguration counterModeConfiguration;
     private final CpsModeConfiguration cpsModeConfiguration;
@@ -74,7 +61,17 @@ public class GeneralModeConfiguration {
                                     boolean modeCreative,
                                     boolean modeOriginalLocation,
                                     boolean modeEnableOnLogin,
-                                    boolean modeDisableOnLogout) {
+                                    boolean modeDisableOnLogout,
+                                    List<GuiConfiguration> guiConfigurations,
+                                    CompassModeConfiguration compassModeConfiguration,
+                                    CounterModeConfiguration counterModeConfiguration,
+                                    CpsModeConfiguration cpsModeConfiguration,
+                                    ExamineModeConfiguration examineModeConfiguration,
+                                    FollowModeConfiguration followModeConfiguration,
+                                    FreezeModeConfiguration freezeModeConfiguration,
+                                    GuiModeConfiguration guiModeConfiguration,
+                                    RandomTeleportModeConfiguration randomTeleportModeConfiguration,
+                                    VanishModeConfiguration vanishModeConfiguration) {
         this.modeVanish = modeVanish;
         this.modeItemPickup = modeItemPickup;
         this.modeItemDrop = modeItemDrop;
@@ -93,17 +90,16 @@ public class GeneralModeConfiguration {
         this.modeEnableOnLogin = modeEnableOnLogin;
         this.modeDisableOnLogout = modeDisableOnLogout;
 
-        this.guiConfigurations = new StaffModeGuiConfigurationLoader().loadConfig();
-
-        this.compassModeConfiguration = new CompassModeItemLoader().loadConfig();
-        this.counterModeConfiguration = new CounterModeItemLoader().loadConfig();
-        this.vanishModeConfiguration = new VanishModeItemLoader().loadConfig();
-        this.randomTeleportModeConfiguration = new RandomTeleportModeItemLoader().loadConfig();
-        this.cpsModeConfiguration = new CpsModeItemLoader().loadConfig();
-        this.examineModeConfiguration = new ExamineModeItemLoader().loadConfig();
-        this.followModeConfiguration = new FollowModeItemLoader().loadConfig();
-        this.freezeModeConfiguration = new FreezeModeItemLoader().loadConfig();
-        this.guiModeConfiguration = new GuiModeItemLoader().loadConfig();
+        this.guiConfigurations = guiConfigurations;
+        this.compassModeConfiguration = compassModeConfiguration;
+        this.counterModeConfiguration = counterModeConfiguration;
+        this.cpsModeConfiguration = cpsModeConfiguration;
+        this.examineModeConfiguration = examineModeConfiguration;
+        this.followModeConfiguration = followModeConfiguration;
+        this.freezeModeConfiguration = freezeModeConfiguration;
+        this.guiModeConfiguration = guiModeConfiguration;
+        this.randomTeleportModeConfiguration = randomTeleportModeConfiguration;
+        this.vanishModeConfiguration = vanishModeConfiguration;
     }
 
     public boolean isModeItemPickup() {
@@ -209,6 +205,7 @@ public class GeneralModeConfiguration {
     public boolean isModeEnableOnLogin() {
         return modeEnableOnLogin;
     }
+
     public boolean isModeDisableOnLogout() {
         return modeDisableOnLogout;
     }

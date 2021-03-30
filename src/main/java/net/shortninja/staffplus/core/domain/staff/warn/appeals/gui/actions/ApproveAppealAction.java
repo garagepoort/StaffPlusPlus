@@ -13,11 +13,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class ApproveAppealAction implements IAction {
     private static final String CANCEL = "cancel";
-    private final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    private final Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
 
-    private final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
-    private final AppealService appealService = StaffPlus.get().iocContainer.get(AppealService.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final SessionManagerImpl sessionManager = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class);
+    private final AppealService appealService = StaffPlus.get().getIocContainer().get(AppealService.class);
+    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
     private final int appealId;
 

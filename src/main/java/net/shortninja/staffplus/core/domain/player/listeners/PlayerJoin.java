@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
@@ -38,9 +38,9 @@ public class PlayerJoin implements Listener {
     private final VanishServiceImpl vanishServiceImpl;
     private final PlayerManager playerManager;
     private final ActionService actionService;
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
 
-    public PlayerJoin(PermissionHandler permission, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader, StaffModeService staffModeService, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, ActionService actionService, IProtocol versionProtocol) {
+    public PlayerJoin(PermissionHandler permission, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader, StaffModeService staffModeService, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, ActionService actionService, IProtocolService protocolService) {
         this.permission = permission;
         this.options = options;
         this.sessionManager = sessionManager;
@@ -49,13 +49,13 @@ public class PlayerJoin implements Listener {
         this.vanishServiceImpl = vanishServiceImpl;
         this.playerManager = playerManager;
         this.actionService = actionService;
-        this.versionProtocol = versionProtocol;
+        this.protocolService = protocolService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onJoin(PlayerJoinEvent event) {
-        versionProtocol.inject(event.getPlayer());
+        protocolService.getVersionProtocol().inject(event.getPlayer());
         playerManager.syncPlayer(event.getPlayer());
 
         Player player = event.getPlayer();
@@ -88,13 +88,13 @@ public class PlayerJoin implements Listener {
     }
 
     private void delayedActions(Player player) {
-        List<DelayedAction> delayedActions = StaffPlus.get().iocContainer.get(DelayedActionsRepository.class).getDelayedActions(player.getUniqueId());
+        List<DelayedAction> delayedActions = StaffPlus.get().getIocContainer().get(DelayedActionsRepository.class).getDelayedActions(player.getUniqueId());
         delayedActions.forEach(delayedAction -> {
             CommandSender sender = delayedAction.getExecutor() == Executor.CONSOLE ? Bukkit.getConsoleSender() : player;
             Bukkit.dispatchCommand(sender, delayedAction.getCommand().replace("%player%", player.getName()));
             updateActionable(delayedAction);
         });
-        StaffPlus.get().iocContainer.get(DelayedActionsRepository.class).clearDelayedActions(player.getUniqueId());
+        StaffPlus.get().getIocContainer().get(DelayedActionsRepository.class).clearDelayedActions(player.getUniqueId());
     }
 
     private void updateActionable(DelayedAction delayedAction) {

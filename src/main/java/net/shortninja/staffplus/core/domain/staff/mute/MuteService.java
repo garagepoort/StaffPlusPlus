@@ -2,12 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
@@ -24,6 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
@@ -75,7 +74,7 @@ public class MuteService implements InfractionProvider {
             .orElseThrow(() -> new BusinessException("&CCannot unmute, this user is not muted"));
 
         mute.setUnmutedByName(issuer instanceof Player ? issuer.getName() : "Console");
-        mute.setUnmutedByUuid(issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID);
+        mute.setUnmutedByUuid(issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID);
         mute.setUnmuteReason(reason);
         unmute(mute);
     }
@@ -101,7 +100,7 @@ public class MuteService implements InfractionProvider {
             });
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
-        UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID;
+        UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID;
 
         Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
         Mute mute = new Mute(reason, endDate, issuerName, issuerUuid, playerToMute.getUsername(), playerToMute.getId());

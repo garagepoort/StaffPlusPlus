@@ -1,12 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.broadcast.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class BroadcastConfigurationLoader extends ConfigLoader<BroadcastConfiguration> {
+@IocBean
+public class BroadcastConfigurationLoader extends AbstractConfigLoader<BroadcastConfiguration> {
     @Override
     protected BroadcastConfiguration load(FileConfiguration config) {
         boolean enabled = config.getBoolean("broadcast-module.enabled");

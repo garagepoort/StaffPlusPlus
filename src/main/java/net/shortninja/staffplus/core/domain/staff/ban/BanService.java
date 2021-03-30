@@ -2,12 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.ban;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
@@ -24,6 +22,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 import static java.util.stream.Collectors.toMap;
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 import static net.shortninja.staffplus.core.domain.staff.ban.BanMessageStringUtil.replaceBanPlaceholders;
 import static net.shortninja.staffplus.core.domain.staff.ban.BanType.PERM_BAN;
@@ -87,7 +86,7 @@ public class BanService implements InfractionProvider {
             .orElseThrow(() -> new BusinessException("&CCannot unban, this user is not banned"));
 
         ban.setUnbannedByName(issuer instanceof Player ? issuer.getName() : "Console");
-        ban.setUnbannedByUuid(issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID);
+        ban.setUnbannedByUuid(issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID);
         ban.setUnbanReason(reason);
         unban(ban);
     }
@@ -117,7 +116,7 @@ public class BanService implements InfractionProvider {
             });
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
-        UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID;
+        UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID;
 
         Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
         Ban ban = new Ban(fullReason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId());

@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
@@ -18,8 +19,8 @@ import java.util.stream.Collectors;
 
 public class ClosedReportsGui extends PagedGui {
 
-    private PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
+    private PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
 
     public ClosedReportsGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
@@ -36,8 +37,8 @@ public class ClosedReportsGui extends PagedGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 if (permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
-                    int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                    Report report = StaffPlus.get().iocContainer.get(ReportService.class).getReport(reportId);
+                    int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
+                    Report report = StaffPlus.get().getIocContainer().get(ReportService.class).getReport(reportId);
                     new ClosedReportManageGui(player, "Manage closed report", report).show(player);
                 }
             }
@@ -51,7 +52,7 @@ public class ClosedReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return StaffPlus.get().iocContainer.get(ManageReportService.class).getClosedReports(offset, amount)
+        return StaffPlus.get().getIocContainer().get(ManageReportService.class).getClosedReports(offset, amount)
             .stream()
             .map(reportItemBuilder::build)
             .collect(Collectors.toList());

@@ -1,11 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.mode.handler;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
 public class GadgetHandler {
     private final static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
 
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
     private final PermissionHandler permission;
 
     private final Options options;
@@ -41,8 +40,8 @@ public class GadgetHandler {
     private final PlayerManager playerManager;
     private final StaffModeService staffModeService;
 
-    public GadgetHandler(IProtocol versionProtocol, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
-        this.versionProtocol = versionProtocol;
+    public GadgetHandler(IProtocolService protocolService, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
+        this.protocolService = protocolService;
         this.permission = permission;
 
         this.options = options;
@@ -87,7 +86,7 @@ public class GadgetHandler {
     }
 
     public Optional<CustomModuleConfiguration> getModule(ItemStack item) {
-        String identifier = versionProtocol.getNbtString(item);
+        String identifier = protocolService.getVersionProtocol().getNbtString(item);
         return options.customModuleConfigurations
             .stream()
             .filter(m -> m.getIdentifier().equals(identifier))
@@ -228,7 +227,7 @@ public class GadgetHandler {
                     continue;
                 }
 
-                if (getGadgetType(item, versionProtocol.getNbtString(item)) == GadgetType.COUNTER) {
+                if (getGadgetType(item, protocolService.getVersionProtocol().getNbtString(item)) == GadgetType.COUNTER) {
                     item.setAmount(options.modeConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? modeUsers.size() : permission.getStaffCount());
                     break;
                 }

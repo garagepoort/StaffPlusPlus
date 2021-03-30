@@ -1,13 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.vanish;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionLoader;
@@ -20,7 +19,7 @@ import java.util.Optional;
 
 @IocBean
 public class VanishServiceImpl {
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
     private final PermissionHandler permission;
 
     private final Options options;
@@ -28,8 +27,8 @@ public class VanishServiceImpl {
     private final SessionManagerImpl sessionManager;
     private final SessionLoader sessionLoader;
 
-    public VanishServiceImpl(IProtocol versionProtocol, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
-        this.versionProtocol = versionProtocol;
+    public VanishServiceImpl(IProtocolService protocolService, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
+        this.protocolService = protocolService;
         this.permission = permission;
 
         this.options = options;
@@ -104,7 +103,7 @@ public class VanishServiceImpl {
                 break;
             case LIST:
                 if (options.vanishTabList) {
-                    versionProtocol.listVanish(player, true);
+                    protocolService.getVersionProtocol().listVanish(player, true);
                 }
 
                 message = messages.listVanish.replace("%status%", messages.enabled);
@@ -128,7 +127,7 @@ public class VanishServiceImpl {
                 message = messages.totalVanish.replace("%status%", messages.disabled);
                 break;
             case LIST:
-                versionProtocol.listVanish(player, false);
+                protocolService.getVersionProtocol().listVanish(player, false);
                 message = messages.listVanish.replace("%status%", messages.disabled);
                 break;
             default:

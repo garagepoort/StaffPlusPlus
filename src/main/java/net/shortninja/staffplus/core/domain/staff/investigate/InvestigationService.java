@@ -4,10 +4,12 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.InvestigationsRepository;
+import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
 import org.bukkit.entity.Player;
+
+import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
 public class InvestigationService {
@@ -32,7 +34,9 @@ public class InvestigationService {
         });
 
         Investigation investigation = new Investigation(investigator.getName(), investigator.getUniqueId(), investigated.getUsername(), investigated.getId(), options.serverName);
-        investigationsRepository.addInvestigation(investigation);
+        int id = investigationsRepository.addInvestigation(investigation);
+        investigation.setId(id);
+        sendEvent(new InvestigationStartedEvent(investigation));
     }
 
 }

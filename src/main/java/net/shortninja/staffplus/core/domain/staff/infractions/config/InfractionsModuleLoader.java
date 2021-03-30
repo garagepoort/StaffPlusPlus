@@ -1,10 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.infractions.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class InfractionsModuleLoader extends ConfigLoader<InfractionsConfiguration> {
+@IocBean
+public class InfractionsModuleLoader extends AbstractConfigLoader<InfractionsConfiguration> {
 
     @Override
     protected InfractionsConfiguration load(FileConfiguration config) {

@@ -5,6 +5,6 @@ import net.shortninja.staffplus.core.common.config.Messages;
 
 public class PlayerOfflineException extends BusinessException {
     public PlayerOfflineException() {
-        super(StaffPlus.get().iocContainer.get(Messages.class).playerOffline);
+        super(StaffPlus.get().getIocContainer().get(Messages.class).playerOffline);
     }
 }
