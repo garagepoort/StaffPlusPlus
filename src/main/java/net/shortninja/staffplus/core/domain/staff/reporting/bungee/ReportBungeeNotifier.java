@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.common.Constants.*;
 
-@IocBean()
+@IocBean(conditionalOnProperty = "server-sync-module.report-sync=true")
 public class ReportBungeeNotifier implements Listener {
 
     private final BungeeClient bungeeClient;
