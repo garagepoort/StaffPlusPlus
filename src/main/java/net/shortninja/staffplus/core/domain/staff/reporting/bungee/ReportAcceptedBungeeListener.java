@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocBean
+@IocBean(conditionalOnProperty = "server-sync-module.report-sync=true")
 public class ReportAcceptedBungeeListener implements PluginMessageListener {
 
     private BungeeClient bungeeClient;
