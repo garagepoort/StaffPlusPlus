@@ -99,7 +99,7 @@ public class ReportService implements InfractionProvider {
             report.setId(id);
 
             messages.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getCulpritName()).replace("%reason%", report.getReason()), messages.prefixReports);
-            reportNotifier.notifyStaffReportCreated(report, options.serverSyncConfiguration.isReportSyncEnabled());
+            reportNotifier.sendCreatedMessages(report.getReporterName(), report.getCulpritName(), report.getReason());
 
             lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
@@ -129,7 +129,7 @@ public class ReportService implements InfractionProvider {
             report.setId(id);
 
             messages.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
-            reportNotifier.notifyStaffReportCreated(report, options.serverSyncConfiguration.isReportSyncEnabled());
+            reportNotifier.sendCreatedMessages(report.getReporterName(), report.getCulpritName(), report.getReason());
 
             lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));

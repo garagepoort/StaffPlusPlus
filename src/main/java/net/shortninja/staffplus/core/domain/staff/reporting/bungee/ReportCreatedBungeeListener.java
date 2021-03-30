@@ -33,7 +33,7 @@ public class ReportCreatedBungeeListener implements PluginMessageListener {
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         if(options.serverSyncConfiguration.isReportSyncEnabled()) {
             Optional<ReportBungee> reportCreatedBungee = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_CREATED_CHANNEL, message, ReportBungee.class);
-            reportCreatedBungee.ifPresent(createdBungee -> reportNotifier.notifyStaffReportCreated(createdBungee));
+            reportCreatedBungee.ifPresent(report -> reportNotifier.sendCreatedMessages(report.getReporterName(), report.getCulpritName(), report.getReason()));
         }
     }
 }

@@ -31,7 +31,7 @@ public class ReportClosedBungeeListener implements PluginMessageListener {
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         if(options.serverSyncConfiguration.isReportSyncEnabled()) {
             Optional<ReportBungee> reportCreatedBungee = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_CLOSED_CHANNEL, message, ReportBungee.class);
-            reportCreatedBungee.ifPresent(createdBungee -> reportNotifier.notifyReportClosed(createdBungee));
+            reportCreatedBungee.ifPresent(report -> reportNotifier.sendClosedMessages(report.getStaffName(), report.getReportStatus(), report.getReporterName(), report.getReporterUuid()));
         }
     }
 }

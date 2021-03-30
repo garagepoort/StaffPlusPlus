@@ -32,7 +32,7 @@ public class ReportDeletedBungeeListener implements PluginMessageListener {
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         if(options.serverSyncConfiguration.isReportSyncEnabled()) {
             Optional<ReportDeletedBungee> reportCreatedBungee = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_DELETED_CHANNEL, message, ReportDeletedBungee.class);
-            reportCreatedBungee.ifPresent(createdBungee -> reportNotifier.notifyStaffReportDeleted(createdBungee.getDeletedByName(), createdBungee.getReport()));
+            reportCreatedBungee.ifPresent(report -> reportNotifier.notifyStaffReportDeleted(report.getDeletedByName(), report.getReporterName()));
         }
     }
 }

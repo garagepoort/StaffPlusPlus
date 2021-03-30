@@ -27,11 +27,12 @@ public class ReportAcceptedBungeeListener implements PluginMessageListener {
         this.options = options;
         StaffPlus.get().getServer().getMessenger().registerIncomingPluginChannel(StaffPlus.get(), BUNGEE_CORD_CHANNEL, this);
     }
+
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if(options.serverSyncConfiguration.isReportSyncEnabled()) {
+        if (options.serverSyncConfiguration.isReportSyncEnabled()) {
             Optional<ReportBungee> reportCreatedBungee = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_ACCEPTED_CHANNEL, message, ReportBungee.class);
-            reportCreatedBungee.ifPresent(createdBungee -> reportNotifier.notifyReportAccepted(createdBungee));
+            reportCreatedBungee.ifPresent(report -> reportNotifier.sendAcceptedMessages(report.getStaffName(), report.getReporterName(), report.getReporterUuid()));
         }
     }
 }
