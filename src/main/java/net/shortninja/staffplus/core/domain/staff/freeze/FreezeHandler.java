@@ -99,8 +99,6 @@ public class FreezeHandler {
             if (session.getCurrentGui().get() instanceof FreezeGui) {
                 player.closeInventory();
             }
-
-
         }
 
         messages.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
@@ -126,7 +124,7 @@ public class FreezeHandler {
                     continue;
                 }
 
-                player.teleport(lastLocation);
+                Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> player.teleport(lastLocation), 1);
             }
         }
     }
