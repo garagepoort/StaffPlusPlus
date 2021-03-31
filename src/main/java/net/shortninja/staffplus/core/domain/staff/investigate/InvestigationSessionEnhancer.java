@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.session.SessionEnhancer;
 
 import java.util.Optional;
 
-@IocBean
+@IocBean(conditionalOnProperty = "server-sync-module.investigation-sync=true")
 @IocMultiProvider(SessionEnhancer.class)
 public class InvestigationSessionEnhancer implements SessionEnhancer {
 
