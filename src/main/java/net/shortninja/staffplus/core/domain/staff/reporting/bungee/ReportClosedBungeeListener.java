@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.bungee;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocMessageListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -15,6 +15,7 @@ import java.util.Optional;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
 @IocBean(conditionalOnProperty = "server-sync-module.report-sync=true")
+@IocMessageListener(channel = BUNGEE_CORD_CHANNEL)
 public class ReportClosedBungeeListener implements PluginMessageListener {
 
     private final BungeeClient bungeeClient;
@@ -25,7 +26,6 @@ public class ReportClosedBungeeListener implements PluginMessageListener {
         this.bungeeClient = bungeeClient;
         this.reportNotifier = reportNotifier;
         this.options = options;
-        StaffPlus.get().getServer().getMessenger().registerIncomingPluginChannel(StaffPlus.get(), BUNGEE_CORD_CHANNEL, this);
     }
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
