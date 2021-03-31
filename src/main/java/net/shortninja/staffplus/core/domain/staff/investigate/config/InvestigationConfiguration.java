@@ -8,18 +8,20 @@ public class InvestigationConfiguration {
     private final String pauseInvestigationCmd;
     private final String concludeInvestigationCmd;
     private final boolean titleMessageEnabled;
+    private String staffNotificationPermission;
 
     public InvestigationConfiguration(boolean enabled,
                                       String investigatePermission,
                                       String startInvestigationCmd,
                                       String pauseInvestigationCmd,
-                                      String concludeInvestigationCmd, boolean titleMessageEnabled) {
+                                      String concludeInvestigationCmd, boolean titleMessageEnabled, String staffNotificationPermission) {
         this.enabled = enabled;
         this.investigatePermission = investigatePermission;
         this.startInvestigationCmd = startInvestigationCmd;
         this.pauseInvestigationCmd = pauseInvestigationCmd;
         this.concludeInvestigationCmd = concludeInvestigationCmd;
         this.titleMessageEnabled = titleMessageEnabled;
+        this.staffNotificationPermission = staffNotificationPermission;
     }
 
     public boolean isEnabled() {
@@ -44,5 +46,9 @@ public class InvestigationConfiguration {
 
     public boolean isTitleMessageEnabled() {
         return titleMessageEnabled;
+    }
+
+    public String getStaffNotificationPermission() {
+        return staffNotificationPermission;
     }
 }
