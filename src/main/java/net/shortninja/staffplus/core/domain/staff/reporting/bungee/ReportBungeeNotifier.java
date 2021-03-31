@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.bungee;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
+import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportBungee;
 import net.shortninja.staffplusplus.reports.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -52,9 +53,9 @@ public class ReportBungeeNotifier implements Listener {
         sendBungeeNotification(event.getReport(), BUNGEE_REPORT_REOPEN_CHANNEL);
     }
 
-    private void sendBungeeNotification(Object report, String channel) {
+    private void sendBungeeNotification(IReport report, String channel) {
         Player player = Bukkit.getOnlinePlayers().iterator().next();
-        bungeeClient.sendMessage(player, channel, report);
+        bungeeClient.sendMessage(player, channel, new ReportBungee(report));
     }
 
 }
