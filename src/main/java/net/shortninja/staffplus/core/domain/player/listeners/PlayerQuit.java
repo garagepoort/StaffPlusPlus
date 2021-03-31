@@ -1,11 +1,10 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
@@ -20,30 +19,30 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 @IocBean
 public class PlayerQuit implements Listener {
-    private final MessageCoordinator message;
+
     private final Options options;
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final StaffModeService staffModeService;
     private final TraceService traceService;
     private final XrayService xrayService;
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
 
-    public PlayerQuit(MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, StaffModeService staffModeService, TraceService traceService, XrayService xrayService, IProtocol versionProtocol) {
-        this.message = message;
+    public PlayerQuit(Options options, Messages messages, SessionManagerImpl sessionManager, StaffModeService staffModeService, TraceService traceService, XrayService xrayService, IProtocolService protocolService) {
+
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.staffModeService = staffModeService;
         this.traceService = traceService;
         this.xrayService = xrayService;
-        this.versionProtocol = versionProtocol;
+        this.protocolService = protocolService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onQuit(PlayerQuitEvent event) {
-        versionProtocol.uninject(event.getPlayer());
+        protocolService.getVersionProtocol().uninject(event.getPlayer());
 
         Player player = event.getPlayer();
         PlayerSession session = sessionManager.get(player.getUniqueId());
@@ -72,7 +71,7 @@ public class PlayerQuit implements Listener {
     private void manageUser(Player player) {
         PlayerSession session = sessionManager.get(player.getUniqueId());
         if (session.isFrozen()) {
-            message.sendGroupMessage(messages.freezeLogout.replace("%player%", player.getName()), options.permissionFreeze, messages.prefixGeneral);
+            messages.sendGroupMessage(messages.freezeLogout.replace("%player%", player.getName()), options.permissionFreeze, messages.prefixGeneral);
         }
         sessionManager.unload(player.getUniqueId());
     }

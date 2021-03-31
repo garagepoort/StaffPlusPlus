@@ -11,7 +11,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.time.TimeUnit;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -38,8 +38,8 @@ public class TempBanCmd extends AbstractCmd {
     private final BanService banService;
     private final PlayerManager playerManager;
 
-    public TempBanCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
-        super(options.banConfiguration.getCommandTempBanPlayer(), messages, message, options, commandService);
+    public TempBanCmd(PermissionHandler permissionHandler, Messages messages, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
+        super(options.banConfiguration.getCommandTempBanPlayer(), messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.banService = banService;
         this.playerManager = playerManager;

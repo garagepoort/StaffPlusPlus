@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -20,14 +21,14 @@ public class OpenReportsGui extends PagedGui {
 
     private final PermissionHandler permissionHandler;
     private final Options options;
-    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
     private final Supplier<AbstractGui> backGuiSupplier;
 
     public OpenReportsGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
         this.backGuiSupplier = backGuiSupplier;
-        permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-        options = StaffPlus.get().iocContainer.get(Options.class);
+        permissionHandler = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
+        options = StaffPlus.get().getIocContainer().get(Options.class);
     }
 
     @Override
@@ -43,8 +44,8 @@ public class OpenReportsGui extends PagedGui {
                 if (!permissionHandler.has(player, options.manageReportConfiguration.getPermissionAccept())) {
                     return;
                 }
-                int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                StaffPlus.get().iocContainer.get(ManageReportService.class).acceptReport(player, reportId);
+                int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
+                StaffPlus.get().getIocContainer().get(ManageReportService.class).acceptReport(player, reportId);
             }
 
             @Override
@@ -56,7 +57,7 @@ public class OpenReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return StaffPlus.get().iocContainer.get(ReportService.class).getUnresolvedReports(offset, amount).stream()
+        return StaffPlus.get().getIocContainer().get(ReportService.class).getUnresolvedReports(offset, amount).stream()
             .map(reportItemBuilder::build)
             .collect(Collectors.toList());
     }

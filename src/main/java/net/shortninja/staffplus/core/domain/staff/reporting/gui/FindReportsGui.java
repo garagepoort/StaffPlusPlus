@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 public class FindReportsGui extends PagedGui {
 
     private final ReportFilters reportFilters;
-    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
 
     public FindReportsGui(Player player, ReportFilters reportFilters, int page) {
         super(player, "Find reports", page);
@@ -33,8 +34,8 @@ public class FindReportsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                Report report = StaffPlus.get().iocContainer.get(ReportService.class).getReport(reportId);
+                int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
+                Report report = StaffPlus.get().getIocContainer().get(ReportService.class).getReport(reportId);
                 new ManageReportGui(player, "Report by: " + report.getReporterName(), report, () -> new FindReportsGui(player, reportFilters, getCurrentPage()))
                     .show(player);
             }
@@ -48,7 +49,7 @@ public class FindReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return StaffPlus.get().iocContainer.get(ReportService.class).findReports(reportFilters, offset, amount).stream()
+        return StaffPlus.get().getIocContainer().get(ReportService.class).findReports(reportFilters, offset, amount).stream()
                 .map(reportItemBuilder::build)
                 .collect(Collectors.toList());
     }

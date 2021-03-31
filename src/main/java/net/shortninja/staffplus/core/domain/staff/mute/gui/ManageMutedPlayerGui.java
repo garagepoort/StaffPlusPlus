@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -13,7 +14,7 @@ public class ManageMutedPlayerGui extends AbstractGui {
     private static final int SIZE = 54;
 
     private final Mute mute;
-    private final MutedPlayerItemBuilder mutedPlayerItemBuilder = StaffPlus.get().iocContainer.get(MutedPlayerItemBuilder.class);
+    private final MutedPlayerItemBuilder mutedPlayerItemBuilder = StaffPlus.get().getIocContainer().get(MutedPlayerItemBuilder.class);
 
     public ManageMutedPlayerGui(String title, Mute mute, Supplier<AbstractGui> previousGuiSupplier) {
         super(SIZE, title, previousGuiSupplier);
@@ -35,7 +36,7 @@ public class ManageMutedPlayerGui extends AbstractGui {
     }
 
     private void addUnmuteItem(Mute mute, IAction action, int slot) {
-        ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
+        ItemStack item = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(
             Items.editor(Items.createRedColoredGlass("Unmute player", "Click to unmute this player"))
                 .setAmount(1)
                 .build(), String.valueOf(mute.getId()));

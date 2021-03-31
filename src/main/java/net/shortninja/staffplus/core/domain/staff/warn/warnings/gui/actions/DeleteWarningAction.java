@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class DeleteWarningAction implements IAction {
 
-    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
+    private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
 
     private final Warning warning;
     private final Supplier<AbstractGui> previousGuiSupplier;

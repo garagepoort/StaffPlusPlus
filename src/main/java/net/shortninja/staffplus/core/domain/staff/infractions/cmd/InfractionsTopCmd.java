@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionsTopGui;
@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 @IocMultiProvider(SppCommand.class)
 public class InfractionsTopCmd extends AbstractCmd {
 
-    public InfractionsTopCmd(Messages messages, MessageCoordinator message, Options options, CommandService commandService) {
-        super(options.infractionsConfiguration.getCommandOpenTopGui(), messages, message, options, commandService);
+    public InfractionsTopCmd(Messages messages, Options options, CommandService commandService) {
+        super(options.infractionsConfiguration.getCommandOpenTopGui(), messages, options, commandService);
         setPermission(options.infractionsConfiguration.getPermissionViewInfractions());
         setDescription("View the top list of players with the most infractions");
         setUsage("[infractionType?]");

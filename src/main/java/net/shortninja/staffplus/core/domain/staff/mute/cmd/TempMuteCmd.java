@@ -11,7 +11,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.time.TimeUnit;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -35,8 +35,8 @@ public class TempMuteCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
 
-    public TempMuteCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
-        super(options.muteConfiguration.getCommandTempMutePlayer(), messages, message, options, commandService);
+    public TempMuteCmd(PermissionHandler permissionHandler, Messages messages, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
+        super(options.muteConfiguration.getCommandTempMutePlayer(), messages, options, commandService);
         this.muteService = muteService;
         this.sessionManager = sessionManager;
         this.permissionHandler = permissionHandler;

@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.broadcast.BroadcastService;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
@@ -29,8 +29,8 @@ public class BroadcastCmd extends AbstractCmd {
     private final BroadcastService broadcastService;
     private final BroadcastConfiguration broadcastConfiguration;
 
-    public BroadcastCmd(Messages messages, MessageCoordinator message, Options options, BroadcastService broadcastService, CommandService commandService) {
-        super(options.commandBroadcast, messages, message, options, commandService);
+    public BroadcastCmd(Messages messages, Options options, BroadcastService broadcastService, CommandService commandService) {
+        super(options.commandBroadcast, messages, options, commandService);
         this.broadcastService = broadcastService;
         this.broadcastConfiguration = options.broadcastConfiguration;
         setPermission(options.permissionBroadcast);

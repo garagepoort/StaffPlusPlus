@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.IAction;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
@@ -25,14 +25,14 @@ import java.util.List;
 public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Messages messages;
-    private final MessageCoordinator message;
+
     private final ExamineModeConfiguration examineModeConfiguration;
     private final Options options;
     private final SessionManagerImpl sessionManager;
 
-    public NotesExamineGuiProvider(Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager) {
+    public NotesExamineGuiProvider(Messages messages, Options options, SessionManagerImpl sessionManager) {
         this.messages = messages;
-        this.message = message;
+
         this.options = options;
         this.sessionManager = sessionManager;
         examineModeConfiguration = this.options.modeConfiguration.getExamineModeConfiguration();
@@ -50,11 +50,11 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
             public void click(Player player, ItemStack item, int slot) {
                 PlayerSession playerSession = sessionManager.get(staff.getUniqueId());
 
-                message.send(staff, messages.typeInput, messages.prefixGeneral);
+                messages.send(staff, messages.typeInput, messages.prefixGeneral);
 
                 playerSession.setChatAction((player12, input) -> {
                     sessionManager.get(targetPlayer.getId()).addPlayerNote("&7" + input);
-                    message.send(player12, messages.inputAccepted, messages.prefixGeneral);
+                    messages.send(player12, messages.inputAccepted, messages.prefixGeneral);
                 });
             }
 

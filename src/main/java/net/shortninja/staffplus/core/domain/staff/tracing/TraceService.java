@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -16,6 +15,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
@@ -32,7 +32,7 @@ public class TraceService {
     }
 
     public void startTrace(CommandSender tracer, SppPlayer traced) {
-        UUID tracerUuid = tracer instanceof Player ? ((Player) tracer).getUniqueId() : StaffPlus.get().consoleUUID;
+        UUID tracerUuid = tracer instanceof Player ? ((Player) tracer).getUniqueId() : CONSOLE_UUID;
 
         if (tracedPlayers.containsKey(tracerUuid)) {
             throw new BusinessException("&CCannot start a trace. You are already tracing a player");
@@ -45,7 +45,7 @@ public class TraceService {
     }
 
     public void stopTrace(CommandSender tracer) {
-        UUID tracerUuid = tracer instanceof Player ? ((Player) tracer).getUniqueId() : StaffPlus.get().consoleUUID;
+        UUID tracerUuid = tracer instanceof Player ? ((Player) tracer).getUniqueId() : CONSOLE_UUID;
         stopTrace(tracerUuid);
     }
 

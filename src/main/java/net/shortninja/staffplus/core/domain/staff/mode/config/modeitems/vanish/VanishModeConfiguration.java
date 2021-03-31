@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfiguration;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplusplus.vanish.VanishType;
@@ -12,7 +13,7 @@ public class VanishModeConfiguration extends ModeItemConfiguration {
 
     public VanishModeConfiguration(String identifier, ItemStack modeVanishItemOff) {
         super(identifier);
-        this.modeVanishItemOff = StaffPlus.get().versionProtocol.addNbtString(modeVanishItemOff, identifier);;
+        this.modeVanishItemOff = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(modeVanishItemOff, identifier);;
     }
 
     public ItemStack getModeVanishItem(PlayerSession session, VanishType vanishType) {

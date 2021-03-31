@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class BannedPlayersGui extends PagedGui {
 
-    private final BannedPlayerItemBuilder bannedPlayerItemBuilder = StaffPlus.get().iocContainer.get(BannedPlayerItemBuilder.class);
+    private final BannedPlayerItemBuilder bannedPlayerItemBuilder = StaffPlus.get().getIocContainer().get(BannedPlayerItemBuilder.class);
 
     public BannedPlayersGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
@@ -32,8 +33,8 @@ public class BannedPlayersGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                int banId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                Ban ban = StaffPlus.get().iocContainer.get(BanService.class).getById(banId);
+                int banId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
+                Ban ban = StaffPlus.get().getIocContainer().get(BanService.class).getById(banId);
                 new ManageBannedPlayerGui("Player: " + ban.getTargetName(), ban, () -> new BannedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
             }
 
@@ -46,7 +47,7 @@ public class BannedPlayersGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return StaffPlus.get().iocContainer.get(BanService.class).getAllPaged(offset, amount).stream()
+        return StaffPlus.get().getIocContainer().get(BanService.class).getAllPaged(offset, amount).stream()
             .map(bannedPlayerItemBuilder::build)
             .collect(Collectors.toList());
     }

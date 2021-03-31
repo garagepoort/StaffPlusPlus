@@ -11,7 +11,7 @@ public class BlacklistFactory {
     private static String[] words = null;
     private static String[] domains = null;
     private static String[] periods = null;
-    private Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private Options options = StaffPlus.get().getIocContainer().get(Options.class);
     private String originalMessage;
     private String censoredMessage;
     private boolean hasChanged = false;

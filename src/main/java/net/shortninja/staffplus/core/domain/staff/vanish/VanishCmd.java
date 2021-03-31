@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -32,8 +32,8 @@ public class VanishCmd extends AbstractCmd {
     private final SessionLoader sessionLoader;
     private final PermissionHandler permissionHandler;
 
-    public VanishCmd(Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, SessionLoader sessionLoader, CommandService commandService, PermissionHandler permissionHandler) {
-        super(options.commandVanish, messages, message, options, commandService);
+    public VanishCmd(Messages messages, Options options, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, SessionLoader sessionLoader, CommandService commandService, PermissionHandler permissionHandler) {
+        super(options.commandVanish, messages, options, commandService);
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
         this.sessionLoader = sessionLoader;
@@ -119,26 +119,26 @@ public class VanishCmd extends AbstractCmd {
                     if (user.getVanishType() != VanishType.TOTAL) {
                         vanishServiceImpl.addVanish(player, vanishType);
                     } else vanishServiceImpl.removeVanish(player);
-                } else message.send(player, messages.noPermission, messages.prefixGeneral);
+                } else messages.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
             case LIST:
                 if (permissionHandler.has(player, options.permissionVanishList) || !shouldCheckPermission) {
                     if (user.getVanishType() != VanishType.LIST) {
                         vanishServiceImpl.addVanish(player, vanishType);
                     } else vanishServiceImpl.removeVanish(player);
-                } else message.send(player, messages.noPermission, messages.prefixGeneral);
+                } else messages.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
             case NONE:
                 if (permissionHandler.has(player, options.permissionVanishList) || permissionHandler.has(player, options.permissionVanishTotal) || !shouldCheckPermission) {
                     vanishServiceImpl.removeVanish(player);
-                } else message.send(player, messages.noPermission, messages.prefixGeneral);
+                } else messages.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
         }
     }
 
     private void sendHelp(CommandSender sender) {
-        message.send(sender, "&7" + message.LONG_LINE, "");
-        message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
-        message.send(sender, "&7" + message.LONG_LINE, "");
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
+        messages.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
     }
 }

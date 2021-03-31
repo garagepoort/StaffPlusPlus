@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -33,8 +33,8 @@ public class ClearInvCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
 
-    public ClearInvCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, CommandService commandService, PlayerManager playerManager) {
-        super(options.commandClearInv, messages, message, options, commandService);
+    public ClearInvCmd(PermissionHandler permissionHandler, Messages messages, Options options, CommandService commandService, PlayerManager playerManager) {
+        super(options.commandClearInv, messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
         setPermission(options.permissionClearInv);

@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
@@ -20,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 @IocBean
 public class Tasks extends BukkitRunnable {
     private final PermissionHandler permission;
-    private final MessageCoordinator message;
+
     private final Options options;
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
@@ -33,9 +32,9 @@ public class Tasks extends BukkitRunnable {
     private long later;
     private SessionLoader sessionLoader;
 
-    public Tasks(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, SessionManagerImpl sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler, SessionLoader sessionLoader) {
+    public Tasks(PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler, SessionLoader sessionLoader) {
         this.permission = permission;
-        this.message = message;
+
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -80,7 +79,7 @@ public class Tasks extends BukkitRunnable {
                     freezeModeConfiguration.getModeFreezeSound().ifPresent(s->s.play(player));
 
                     if (!freezeModeConfiguration.isModeFreezePrompt()) {
-                        message.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
+                        messages.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
                     }
                 }
             }

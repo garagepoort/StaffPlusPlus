@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
@@ -32,13 +32,12 @@ public class ReportsCmd extends AbstractCmd {
 
     public ReportsCmd(PermissionHandler permissionHandler,
                       Messages messages,
-                      MessageCoordinator message,
                       Options options,
                       ReportService reportService,
                       ManageReportService manageReportService,
                       CommandService commandService) {
 
-        super(options.commandReports, messages, message, options, commandService);
+        super(options.commandReports, messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.reportService = reportService;
         this.manageReportService = manageReportService;
@@ -88,32 +87,32 @@ public class ReportsCmd extends AbstractCmd {
         List<Report> reports = reportService.getReports(player, 0, 40);
 
         for (String message : messages.reportsListStart) {
-            this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getUsername()).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports);
+            this.messages.send(sender, message.replace("%longline%", this.messages.LONG_LINE).replace("%target%", player.getUsername()).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports);
         }
 
         for (int i = 0; i < reports.size(); i++) {
             IReport report = reports.get(i);
-            message.send(sender, messages.reportsListEntry
+            messages.send(sender, messages.reportsListEntry
                 .replace("%count%", Integer.toString(i + 1))
                 .replace("%reason%", report.getReason())
                 .replace("%reporter%", report.getReporterName()), messages.prefixReports);
         }
 
         messages.reportsListEnd
-            .forEach(message -> this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getUsername()).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports));
+            .forEach(message -> this.messages.send(sender, message.replace("%longline%", this.messages.LONG_LINE).replace("%target%", player.getUsername()).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports));
     }
 
     private void clearReports(CommandSender sender, SppPlayer player) {
         manageReportService.clearReports(player);
-        message.send(sender, messages.reportsCleared.replace("%target%", player.getUsername()), messages.prefixReports);
+        messages.send(sender, messages.reportsCleared.replace("%target%", player.getUsername()), messages.prefixReports);
     }
 
     private void sendHelp(CommandSender sender) {
-        message.send(sender, "&7" + message.LONG_LINE, "");
-        message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixReports);
-        message.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixReports);
-        message.send(sender, "&b/" + getName() + " clear &7[player]", messages.prefixReports);
-        message.send(sender, "&7" + message.LONG_LINE, "");
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
+        messages.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixReports);
+        messages.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixReports);
+        messages.send(sender, "&b/" + getName() + " clear &7[player]", messages.prefixReports);
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
     }
 
     @Override

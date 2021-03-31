@@ -35,7 +35,7 @@ public class BungeeBroadcastListener implements PluginMessageListener {
 
                 DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
                 String broadcastMessage = msgin.readUTF();
-                StaffPlus.get().iocContainer.get(BroadcastService.class).handleBungeeBroadcast(broadcastMessage);
+                StaffPlus.get().getIocContainer().get(BroadcastService.class).handleBungeeBroadcast(broadcastMessage);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,11 +1,15 @@
 package net.shortninja.staffplus.core.domain.chat.configuration;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 
-public class ChatModuleLoader extends ConfigLoader<ChatConfiguration> {
+@IocBean
+public class ChatModuleLoader extends AbstractConfigLoader<ChatConfiguration> {
     @Override
     protected ChatConfiguration load(FileConfiguration config) {
         boolean chatEnabled = config.getBoolean("chat-module.enabled");

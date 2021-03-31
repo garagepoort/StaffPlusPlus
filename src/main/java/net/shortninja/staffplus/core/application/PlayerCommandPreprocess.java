@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.common.cmd.BaseCmd;
 import net.shortninja.staffplus.core.common.cmd.CmdHandler;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
@@ -28,7 +28,7 @@ import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.COMMA
 @IocBean
 public class PlayerCommandPreprocess implements Listener {
     private final PermissionHandler permission;
-    private final MessageCoordinator message;
+
     private final Options options;
     private final Messages messages;
     private final FreezeHandler freezeHandler;
@@ -36,9 +36,9 @@ public class PlayerCommandPreprocess implements Listener {
     private final TraceService traceService;
     private final SessionManagerImpl sessionManager;
 
-    public PlayerCommandPreprocess(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages, FreezeHandler freezeHandler, CmdHandler cmdHandler, TraceService traceService, SessionManagerImpl sessionManager) {
+    public PlayerCommandPreprocess(PermissionHandler permission, Options options, Messages messages, FreezeHandler freezeHandler, CmdHandler cmdHandler, TraceService traceService, SessionManagerImpl sessionManager) {
         this.permission = permission;
-        this.message = message;
+
         this.options = options;
         this.messages = messages;
         this.freezeHandler = freezeHandler;
@@ -62,13 +62,13 @@ public class PlayerCommandPreprocess implements Listener {
         }
 
         if (options.blockedCommands.contains(command) && permission.hasOnly(player, options.permissionBlock)) {
-            message.send(player, messages.commandBlocked, messages.prefixGeneral);
+            messages.send(player, messages.commandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
         } else if (sessionManager.get(uuid).isInStaffMode() && options.blockedModeCommands.contains(command)) {
-            message.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
+            messages.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
         } else if (freezeHandler.isFrozen(uuid) && (!options.modeConfiguration.getFreezeModeConfiguration().isModeFreezeChat() && !command.startsWith("/" + options.commandLogin))) {
-            message.send(player, messages.chatPrevented, messages.prefixGeneral);
+            messages.send(player, messages.chatPrevented, messages.prefixGeneral);
             event.setCancelled(true);
         }
     }
@@ -77,7 +77,7 @@ public class PlayerCommandPreprocess implements Listener {
     private void sendHelp(Player player) {
         int count = 0;
 
-        message.send(player, "&7" + message.LONG_LINE, "");
+        messages.send(player, "&7" + messages.LONG_LINE, "");
 
         List<BaseCmd> sortedCommands = cmdHandler.commands.stream()
             .sorted(Comparator.comparing(o -> o.getCommand().getName()))
@@ -85,12 +85,12 @@ public class PlayerCommandPreprocess implements Listener {
 
         for (BaseCmd baseCmd : sortedCommands) {
             if (baseCmd.getPermissions().isEmpty()) {
-                message.send(player, "&b/" + baseCmd.getCommand().getName() + " &7: " + baseCmd.getDescription().toLowerCase(), "");
+                messages.send(player, "&b/" + baseCmd.getCommand().getName() + " &7: " + baseCmd.getDescription().toLowerCase(), "");
                 count++;
             } else {
                 for (String permission : baseCmd.getPermissions()) {
                     if (this.permission.has(player, permission)) {
-                        message.send(player, "&b/" + baseCmd.getCommand().getName() + " &7: " + baseCmd.getDescription().toLowerCase(), "");
+                        messages.send(player, "&b/" + baseCmd.getCommand().getName() + " &7: " + baseCmd.getDescription().toLowerCase(), "");
                         count++;
                         break;
                     }
@@ -99,9 +99,9 @@ public class PlayerCommandPreprocess implements Listener {
         }
 
         if (count == 0) {
-            message.send(player, messages.noPermission, messages.prefixGeneral);
+            messages.send(player, messages.noPermission, messages.prefixGeneral);
         }
 
-        message.send(player, "&7" + message.LONG_LINE, "");
+        messages.send(player, "&7" + messages.LONG_LINE, "");
     }
 }

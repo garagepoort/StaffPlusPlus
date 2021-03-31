@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
@@ -29,8 +29,8 @@ public class UnmuteCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final PlayerManager playerManager;
 
-    public UnmuteCmd(Messages messages, MessageCoordinator message, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
-        super(options.muteConfiguration.getCommandUnmutePlayer(), messages, message, options, commandService);
+    public UnmuteCmd(Messages messages, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
+        super(options.muteConfiguration.getCommandUnmutePlayer(), messages, options, commandService);
         this.muteService = muteService;
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
