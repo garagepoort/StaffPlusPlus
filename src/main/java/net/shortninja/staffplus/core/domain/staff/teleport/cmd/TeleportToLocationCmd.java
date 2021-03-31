@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -34,8 +34,8 @@ public class TeleportToLocationCmd extends AbstractCmd {
     private final PlayerManager playerManager;
     private final TeleportService teleportService;
 
-    public TeleportToLocationCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, TeleportService teleportService, CommandService commandService) {
-        super(options.commandTeleportToLocation, messages, message, options, commandService);
+    public TeleportToLocationCmd(PermissionHandler permissionHandler, Messages messages, PlayerManager playerManager, Options options, TeleportService teleportService, CommandService commandService) {
+        super(options.commandTeleportToLocation, messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
         this.teleportService = teleportService;

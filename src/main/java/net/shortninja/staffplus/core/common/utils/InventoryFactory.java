@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.utils;
 
+import be.garagepoort.mcioc.IocBean;
 import de.tr7zw.nbtapi.*;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
@@ -14,14 +14,17 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
 
+@IocBean
 public final class InventoryFactory {
 
-    private InventoryFactory() {
+    private final Options options;
+    public InventoryFactory(Options options) {
+        this.options = options;
     }
 
-    public static Inventory loadEnderchestOffline(Player player, SppPlayer target) {
+    public Inventory loadEnderchestOffline(Player player, SppPlayer target) {
         try {
-            String filename = Bukkit.getWorldContainer() + File.separator + StaffPlus.get().iocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            String filename = Bukkit.getWorldContainer() + File.separator + options.mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
             Inventory inventory = Bukkit.createInventory(player, InventoryType.ENDER_CHEST);
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList enderItems = file.getCompoundList("EnderItems");
@@ -36,9 +39,9 @@ public final class InventoryFactory {
         }
     }
 
-    public static void saveEnderchestOffline(Player player, SppPlayer target, Inventory inventory) {
+    public void saveEnderchestOffline(SppPlayer target, Inventory inventory) {
         try {
-            String filename = Bukkit.getWorldContainer() + File.separator + StaffPlus.get().iocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            String filename = Bukkit.getWorldContainer() + File.separator + options.mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList enderItems = file.getCompoundList("EnderItems");
             enderItems.clear();
@@ -57,9 +60,9 @@ public final class InventoryFactory {
         }
     }
 
-    public static Inventory loadInventoryOffline(Player player, SppPlayer target) {
+    public Inventory loadInventoryOffline(Player player, SppPlayer target) {
         try {
-            String filename = Bukkit.getWorldContainer() + File.separator + StaffPlus.get().iocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            String filename = Bukkit.getWorldContainer() + File.separator + options.mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
             Inventory inventory = Bukkit.createInventory(player, InventoryType.PLAYER);
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList inventoryItems = file.getCompoundList("Inventory");
@@ -93,9 +96,9 @@ public final class InventoryFactory {
         }
     }
 
-    public static void saveInventoryOffline(Player player, SppPlayer target, Inventory inventory) {
+    public void saveInventoryOffline(SppPlayer target, Inventory inventory) {
         try {
-            String filename = Bukkit.getWorldContainer() + File.separator + StaffPlus.get().iocContainer.get(Options.class).mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
+            String filename = Bukkit.getWorldContainer() + File.separator + options.mainWorld + File.separator + "playerdata" + File.separator + target.getId() + ".dat";
             NBTFile file = new NBTFile(new File(filename));
             NBTCompoundList inventoryNbt = file.getCompoundList("Inventory");
             inventoryNbt.clear();
@@ -131,12 +134,4 @@ public final class InventoryFactory {
             throw new RuntimeException("Player data file could not be loaded", e);
         }
     }
-
-    public static boolean isInventoryEmpty(Inventory inv) {
-        for (ItemStack stack : inv.getContents())
-            if (stack != null)
-                return false;
-        return true;
-    }
-
 }

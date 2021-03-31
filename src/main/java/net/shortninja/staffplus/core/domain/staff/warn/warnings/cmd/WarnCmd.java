@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -32,8 +32,8 @@ public class WarnCmd extends AbstractCmd {
     private final PlayerManager playerManager;
     private final PermissionHandler permissionHandler;
 
-    public WarnCmd(Messages messages, MessageCoordinator message, Options options, WarnService warnService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
-        super(options.commandWarn, messages, message, options, commandService);
+    public WarnCmd(Messages messages, Options options, WarnService warnService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
+        super(options.commandWarn, messages, options, commandService);
         this.warnService = warnService;
         this.playerManager = playerManager;
         this.permissionHandler = permissionHandler;

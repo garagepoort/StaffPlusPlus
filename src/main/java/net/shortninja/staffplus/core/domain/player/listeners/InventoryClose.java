@@ -21,10 +21,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class InventoryClose implements Listener {
     private final Options options;
     private final SessionManagerImpl sessionManager;
+    private final InventoryFactory inventoryFactory;
 
-    public InventoryClose(Options options, SessionManagerImpl sessionManager) {
+    public InventoryClose(Options options, SessionManagerImpl sessionManager, InventoryFactory inventoryFactory) {
         this.options = options;
         this.sessionManager = sessionManager;
+        this.inventoryFactory = inventoryFactory;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -46,10 +48,10 @@ public class InventoryClose implements Listener {
         if (playerSession.getCurrentGui().isPresent() && (playerSession.getCurrentGui().get() instanceof ChestGUI)) {
             ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
             if (chestGUI.getChestGuiType() == ChestGuiType.ENDER_CHEST_EXAMINE && chestGUI.getTargetPlayer() != null && !chestGUI.getTargetPlayer().isOnline()) {
-                InventoryFactory.saveEnderchestOffline(player, chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
+                inventoryFactory.saveEnderchestOffline(chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
             }
             if (chestGUI.getChestGuiType() == ChestGuiType.PLAYER_INVENTORY_EXAMINE && chestGUI.getTargetPlayer() != null && !chestGUI.getTargetPlayer().isOnline()) {
-                InventoryFactory.saveInventoryOffline(player, chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
+                inventoryFactory.saveInventoryOffline(chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
             }
         }
 

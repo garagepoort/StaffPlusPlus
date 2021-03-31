@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -22,8 +22,8 @@ public class ProtectPlayerCmd extends AbstractCmd {
 
     private final SessionManagerImpl sessionManager;
 
-    public ProtectPlayerCmd(Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
-        super(options.protectConfiguration.getCommandProtectPlayer(), messages, message, options, commandService);
+    public ProtectPlayerCmd(Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
+        super(options.protectConfiguration.getCommandProtectPlayer(), messages, options, commandService);
         this.sessionManager = sessionManager;
         setPermission(options.protectConfiguration.getPermissionProtectPlayer());
         setDescription("Protect a player from all damage");
@@ -36,11 +36,11 @@ public class ProtectPlayerCmd extends AbstractCmd {
         playerSession.setProtected(!playerSession.isProtected());
 
         if (playerSession.isProtected()) {
-            message.send(sender, player.getUsername() + " is now protected from all damage", messages.prefixGeneral);
-            message.send(player.getPlayer(), "You have been protected from all damage by a staff member", messages.prefixGeneral);
+            messages.send(sender, player.getUsername() + " is now protected from all damage", messages.prefixGeneral);
+            messages.send(player.getPlayer(), "You have been protected from all damage by a staff member", messages.prefixGeneral);
         } else {
-            message.send(sender, player.getUsername() + " is no longer protected from all damage", messages.prefixGeneral);
-            message.send(player.getPlayer(), "You are no longer protected from damage", messages.prefixGeneral);
+            messages.send(sender, player.getUsername() + " is no longer protected from all damage", messages.prefixGeneral);
+            messages.send(player.getPlayer(), "You are no longer protected from damage", messages.prefixGeneral);
         }
         return true;
     }

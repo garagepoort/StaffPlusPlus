@@ -2,11 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.kick;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
@@ -23,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
@@ -32,11 +31,9 @@ public class KickService implements InfractionProvider {
     private final PermissionHandler permission;
     private final KicksRepository kicksRepository;
     private final Options options;
-    private MessageCoordinator messageCoordinator;
     private Messages messages;
 
-    public KickService(PermissionHandler permission, KicksRepository kicksRepository, Options options, MessageCoordinator messageCoordinator, Messages messages) {
-        this.messageCoordinator = messageCoordinator;
+    public KickService(PermissionHandler permission, KicksRepository kicksRepository, Options options, Messages messages) {
         this.permission = permission;
         this.kicksRepository = kicksRepository;
         this.options = options;
@@ -52,7 +49,7 @@ public class KickService implements InfractionProvider {
         }
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
-        UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : StaffPlus.get().consoleUUID;
+        UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID;
 
         Kick kick = new Kick(reason, issuerName, issuerUuid, playerToKick.getUsername(), playerToKick.getId());
         kick.setId(kicksRepository.addKick(kick));
@@ -67,7 +64,7 @@ public class KickService implements InfractionProvider {
             .replace("%target%", playerToKick.getUsername())
             .replace("%issuer%", issuerName)
             .replace("%reason%", reason);
-        playerToKick.getPlayer().kickPlayer(this.messageCoordinator.colorize(message));
+        playerToKick.getPlayer().kickPlayer(this.messages.colorize(message));
     }
 
     private void notifyPlayers(SppPlayer playerToKick, String issuerName, String reason) {
@@ -75,7 +72,7 @@ public class KickService implements InfractionProvider {
             .replace("%target%", playerToKick.getUsername())
             .replace("%issuer%", issuerName)
             .replace("%reason%", reason);
-        this.messageCoordinator.sendGlobalMessage(message, messages.prefixGeneral);
+        this.messages.sendGlobalMessage(message, messages.prefixGeneral);
     }
 
     @Override

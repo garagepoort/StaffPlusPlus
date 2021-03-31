@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -35,8 +35,8 @@ public class AlertsCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final SessionLoader sessionLoader;
 
-    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader, CommandService commandService) {
-        super(options.alertsConfiguration.getCommandAlerts(), messages, message, options, commandService);
+    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader, CommandService commandService) {
+        super(options.alertsConfiguration.getCommandAlerts(), messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.sessionManager = sessionManager;
         this.sessionLoader = sessionLoader;
@@ -128,7 +128,7 @@ public class AlertsCmd extends AbstractCmd {
         boolean isEnabled = option.isEmpty() ? !session.shouldNotify(alertType) : option.equalsIgnoreCase("enable");
         boolean wasChanged = setAlertType(player, alertType, isEnabled, shouldCheckPermission);
         if (wasChanged && shouldCheckPermission) {
-            message.send(player, messages.alertChanged.replace("%alerttype%", alertTypeName.replace("_", " ")).replace("%status%", isEnabled ? "enabled" : "disabled"), messages.prefixGeneral);
+            messages.send(player, messages.alertChanged.replace("%alerttype%", alertTypeName.replace("_", " ")).replace("%status%", isEnabled ? "enabled" : "disabled"), messages.prefixGeneral);
         }
     }
 
@@ -139,14 +139,14 @@ public class AlertsCmd extends AbstractCmd {
             sessionLoader.saveSession(session);
             return true;
         } else {
-            message.send(player, messages.noPermission, messages.prefixGeneral);
+            messages.send(player, messages.noPermission, messages.prefixGeneral);
         }
         return false;
     }
 
     private void sendHelp(CommandSender sender) {
-        message.send(sender, "&7" + message.LONG_LINE, "");
-        message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
-        message.send(sender, "&7" + message.LONG_LINE, "");
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
+        messages.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
     }
 }

@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.examine.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import org.bukkit.Material;
@@ -21,7 +22,7 @@ public class SeverityLevelItemBuilder {
             .setLore(lore)
             .build();
 
-        return StaffPlus.get().versionProtocol.addNbtString(item, severityConfiguration.getName());
+        return StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(item, severityConfiguration.getName());
     }
 
 

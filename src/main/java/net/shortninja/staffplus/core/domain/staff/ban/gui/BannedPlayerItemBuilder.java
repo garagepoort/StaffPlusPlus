@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.ban.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.ban.Ban;
@@ -24,11 +24,11 @@ import static net.shortninja.staffplus.core.common.JavaUtils.formatLines;
 @IocMultiProvider(InfractionGuiProvider.class)
 public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
 
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
     private final Options options;
 
-    public BannedPlayerItemBuilder(IProtocol versionProtocol, Options options) {
-        this.versionProtocol = versionProtocol;
+    public BannedPlayerItemBuilder(IProtocolService protocolService, Options options) {
+        this.protocolService = protocolService;
         this.options = options;
     }
 
@@ -63,7 +63,7 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
             .addLore(lore)
             .build();
 
-        return versionProtocol.addNbtString(item, String.valueOf(ban.getId()));
+        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(ban.getId()));
     }
 
     @Override

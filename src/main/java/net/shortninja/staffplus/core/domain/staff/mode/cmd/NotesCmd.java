@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -31,8 +31,8 @@ public class NotesCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final PermissionHandler permissionHandler;
 
-    public NotesCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
-        super(options.commandNotes, messages, message, options, commandService);
+    public NotesCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
+        super(options.commandNotes, messages, options, commandService);
         this.sessionManager = sessionManager;
         this.permissionHandler = permissionHandler;
         setPermission(options.examineConfiguration.getPermissionExamine());
@@ -89,17 +89,17 @@ public class NotesCmd extends AbstractCmd {
         List<String> notes = user.getPlayerNotes();
 
         for (String message : messages.noteListStart) {
-            this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%notes%", Integer.toString(notes.size())), message.contains("%longline%") ? "" : messages.prefixGeneral);
+            this.messages.send(sender, message.replace("%longline%", this.messages.LONG_LINE).replace("%target%", player.getName()).replace("%notes%", Integer.toString(notes.size())), message.contains("%longline%") ? "" : messages.prefixGeneral);
         }
 
         for (int i = 0; i < notes.size(); i++) {
             String note = notes.get(i);
 
-            message.send(sender, messages.noteListEntry.replace("%count%", Integer.toString(i + 1)).replace("%note%", note), messages.prefixGeneral);
+            messages.send(sender, messages.noteListEntry.replace("%count%", Integer.toString(i + 1)).replace("%note%", note), messages.prefixGeneral);
         }
 
         for (String message : messages.noteListEnd) {
-            this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getName()).replace("%notes%", Integer.toString(notes.size())), message.contains("%longline%") ? "" : messages.prefixGeneral);
+            this.messages.send(sender, message.replace("%longline%", this.messages.LONG_LINE).replace("%target%", player.getName()).replace("%notes%", Integer.toString(notes.size())), message.contains("%longline%") ? "" : messages.prefixGeneral);
         }
     }
 
@@ -107,19 +107,19 @@ public class NotesCmd extends AbstractCmd {
         PlayerSession user = sessionManager.get(player.getUniqueId());
 
         user.getPlayerNotes().clear();
-        message.send(sender, messages.noteCleared.replace("%target%", player.getName()), messages.prefixGeneral);
+        messages.send(sender, messages.noteCleared.replace("%target%", player.getName()), messages.prefixGeneral);
     }
 
     private void addNote(CommandSender sender, Player player, String note) {
         sessionManager.get(player.getUniqueId()).addPlayerNote(note);
-        message.send(sender, messages.noteAdded.replace("%target%", player.getName()), messages.prefixGeneral);
+        messages.send(sender, messages.noteAdded.replace("%target%", player.getName()), messages.prefixGeneral);
     }
 
     private void sendHelp(CommandSender sender) {
-        message.send(sender, "&7" + message.LONG_LINE, "");
-        message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
-        message.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixGeneral);
-        message.send(sender, "&b/" + getName() + " clear &7[player]", messages.prefixGeneral);
-        message.send(sender, "&7" + message.LONG_LINE, "");
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
+        messages.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
+        messages.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixGeneral);
+        messages.send(sender, "&b/" + getName() + " clear &7[player]", messages.prefixGeneral);
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
     }
 }

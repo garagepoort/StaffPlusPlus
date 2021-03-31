@@ -1,7 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.Sounds;
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.common.time.TimeUnit;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
@@ -12,7 +15,8 @@ import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.domain.actions.ActionConfigLoader.loadActions;
 
-public class WarningModuleLoader extends ConfigLoader<WarningConfiguration> {
+@IocBean
+public class WarningModuleLoader extends AbstractConfigLoader<WarningConfiguration> {
 
     private static final String SCORE = "score";
     private static final String ACTIONS = "actions";

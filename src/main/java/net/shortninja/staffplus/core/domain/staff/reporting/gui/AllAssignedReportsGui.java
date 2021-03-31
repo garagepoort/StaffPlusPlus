@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class AllAssignedReportsGui extends PagedGui {
 
-    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
 
     public AllAssignedReportsGui(Player player, String title, int page, Supplier<AbstractGui> previousGuiSupplier) {
         super(player, title, page, previousGuiSupplier);
@@ -32,8 +33,8 @@ public class AllAssignedReportsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                int reportId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                Report report = StaffPlus.get().iocContainer.get(ReportService.class).getReport(reportId);
+                int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
+                Report report = StaffPlus.get().getIocContainer().get(ReportService.class).getReport(reportId);
                 new ManageReportGui(player, "Report by: " + report.getReporterName(), report, () -> new AllAssignedReportsGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()))
                     .show(player);
             }
@@ -47,7 +48,7 @@ public class AllAssignedReportsGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return StaffPlus.get().iocContainer.get(ReportService.class)
+        return StaffPlus.get().getIocContainer().get(ReportService.class)
             .getAllAssignedReports(offset, amount)
             .stream()
             .map(reportItemBuilder::build)

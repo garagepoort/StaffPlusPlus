@@ -37,7 +37,7 @@ public class EnderchestExamineGuiProvider implements ExamineGuiItemProvider {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                StaffPlus.get().iocContainer.get(EnderChestService.class).openEnderChest(staff, target);
+                StaffPlus.get().getIocContainer().get(EnderChestService.class).openEnderChest(staff, target);
             }
 
             @Override

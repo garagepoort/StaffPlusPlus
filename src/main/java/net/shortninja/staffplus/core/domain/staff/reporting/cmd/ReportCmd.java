@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportTypeSelectGui;
@@ -26,8 +26,8 @@ import java.util.Optional;
 public class ReportCmd extends AbstractCmd {
     private final ReportService reportService;
 
-    public ReportCmd(Messages messages, MessageCoordinator message, Options options, ReportService reportService, CommandService commandService) {
-        super(options.commandReport, messages, message, options, commandService);
+    public ReportCmd(Messages messages, Options options, ReportService reportService, CommandService commandService) {
+        super(options.commandReport, messages, options, commandService);
         this.reportService = reportService;
         setPermission(options.permissionReport);
         setDescription("Sends a report without a specific player.");

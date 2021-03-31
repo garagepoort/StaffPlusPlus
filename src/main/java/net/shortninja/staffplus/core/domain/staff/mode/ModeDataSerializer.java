@@ -20,11 +20,10 @@ public class ModeDataSerializer {
     private static final String VANISH_TYPE = "VanishType";
     private static final String GAME_MODE = "GameMode";
     private static final String FIRE_TICKS = "FIRE_TICKS";
-    private StaffPlus staff = StaffPlus.get();
 
     private File createFile(String uuid) {
         File file = getFile(uuid);
-        File folder = new File(staff.getDataFolder(), "ModeData");
+        File folder = new File(StaffPlus.get().getDataFolder(), "ModeData");
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -90,6 +89,6 @@ public class ModeDataSerializer {
     }
 
     private File getFile(String uuid) {
-        return new File(staff.getDataFolder() + File.separator + "ModeData" + File.separator + uuid + ".yml");
+        return new File(StaffPlus.get().getDataFolder() + File.separator + "ModeData" + File.separator + uuid + ".yml");
     }
 }

@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
 
@@ -21,8 +21,8 @@ import java.util.Optional;
 @IocMultiProvider(SppCommand.class)
 public class StaffPlusCmd extends AbstractCmd {
 
-    public StaffPlusCmd(Messages messages, MessageCoordinator message, Options options, CommandService commandService) {
-        super("staffplus", messages, message, options, commandService);
+    public StaffPlusCmd(Messages messages, Options options, CommandService commandService) {
+        super("staffplus", messages, options, commandService);
         setPermission(options.permissionStaff);
         setDescription("Used for reloading config and lang file in use");
         setUsage("[reload]");
@@ -32,7 +32,7 @@ public class StaffPlusCmd extends AbstractCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         if (args[0].equalsIgnoreCase("reload")) {
             StaffPlus.get().reload();
-            message.send(sender, "Configuration has been reloaded", messages.prefixGeneral);
+            messages.send(sender, "Configuration has been reloaded", messages.prefixGeneral);
         }
         return true;
     }

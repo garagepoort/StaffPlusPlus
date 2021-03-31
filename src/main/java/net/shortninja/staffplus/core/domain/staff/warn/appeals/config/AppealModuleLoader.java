@@ -1,12 +1,16 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppealModuleLoader extends ConfigLoader<AppealConfiguration> {
+@IocBean
+public class AppealModuleLoader extends AbstractConfigLoader<AppealConfiguration> {
 
     @Override
     protected AppealConfiguration load(FileConfiguration config) {

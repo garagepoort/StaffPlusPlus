@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
@@ -29,8 +29,8 @@ public class ReportPlayerCmd extends AbstractCmd {
     private final ReportService reportService;
     private final PlayerManager playerManager;
 
-    public ReportPlayerCmd(Messages messages, MessageCoordinator message, Options options, ReportService reportService, PlayerManager playerManager, CommandService commandService) {
-        super(options.commandReportPlayer, messages, message, options, commandService);
+    public ReportPlayerCmd(Messages messages, Options options, ReportService reportService, PlayerManager playerManager, CommandService commandService) {
+        super(options.commandReportPlayer, messages, options, commandService);
         this.reportService = reportService;
         this.playerManager = playerManager;
         setPermission(options.permissionReport);

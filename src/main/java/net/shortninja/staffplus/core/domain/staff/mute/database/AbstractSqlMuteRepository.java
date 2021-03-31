@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mute.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
@@ -15,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 
 public abstract class AbstractSqlMuteRepository implements MuteRepository {
 
@@ -229,7 +230,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
 
     private String getPlayerName(UUID uuid) {
         String issuerName;
-        if (uuid.equals(StaffPlus.get().consoleUUID)) {
+        if (uuid.equals(CONSOLE_UUID)) {
             issuerName = "Console";
         } else {
             Optional<SppPlayer> issuer = playerManager.getOnOrOfflinePlayer(uuid);

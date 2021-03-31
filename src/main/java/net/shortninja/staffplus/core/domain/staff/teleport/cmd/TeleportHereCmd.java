@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
 import org.bukkit.Bukkit;
@@ -32,8 +32,8 @@ public class TeleportHereCmd extends AbstractCmd {
 
     private final TeleportService teleportService;
 
-    public TeleportHereCmd(Messages messages, MessageCoordinator message, Options options, TeleportService teleportService, CommandService commandService) {
-        super(options.commandTeleportHere, messages, message, options, commandService);
+    public TeleportHereCmd(Messages messages, Options options, TeleportService teleportService, CommandService commandService) {
+        super(options.commandTeleportHere, messages, options, commandService);
         this.teleportService = teleportService;
         setDescription("Teleport a player to your position");
         setUsage("{player}");

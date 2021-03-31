@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import org.bukkit.command.CommandSender;
@@ -22,8 +22,8 @@ public class TeleportToReportLocationCmd extends AbstractCmd {
 
     private final ReportService reportService;
 
-    public TeleportToReportLocationCmd(Messages messages, MessageCoordinator message, Options options, ReportService reportService, CommandService commandService) {
-        super("teleport-to-report", messages, message, options, commandService);
+    public TeleportToReportLocationCmd(Messages messages, Options options, ReportService reportService, CommandService commandService) {
+        super("teleport-to-report", messages, options, commandService);
         this.reportService = reportService;
         setDescription("Teleport to report location");
         setUsage("[reportId]");

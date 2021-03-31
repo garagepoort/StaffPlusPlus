@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import org.bukkit.command.CommandSender;
@@ -20,8 +20,8 @@ import java.util.Optional;
 public class CpsCmd extends AbstractCmd {
     private final GadgetHandler gadgetHandler;
 
-    public CpsCmd(Messages messages, MessageCoordinator message, Options options, GadgetHandler gadgetHandler, CommandService commandService) {
-        super(options.commandCps, messages, message, options, commandService);
+    public CpsCmd(Messages messages, Options options, GadgetHandler gadgetHandler, CommandService commandService) {
+        super(options.commandCps, messages, options, commandService);
         this.gadgetHandler = gadgetHandler;
         setDescription("Starts a CPS test on the player.");
         setUsage("{player}");
