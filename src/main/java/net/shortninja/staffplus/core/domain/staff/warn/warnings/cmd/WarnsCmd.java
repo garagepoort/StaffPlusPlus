@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
@@ -28,8 +28,8 @@ public class WarnsCmd extends AbstractCmd {
     private final WarnService warnService;
     private final PlayerManager playerManager;
 
-    public WarnsCmd(Messages messages, MessageCoordinator message, Options options, WarnService warnService, CommandService commandService, PlayerManager playerManager) {
-        super(options.commandWarns, messages, message, options, commandService);
+    public WarnsCmd(Messages messages, Options options, WarnService warnService, CommandService commandService, PlayerManager playerManager) {
+        super(options.commandWarns, messages, options, commandService);
         this.warnService = warnService;
         this.playerManager = playerManager;
         setPermission(options.permissionWarn);
@@ -68,24 +68,24 @@ public class WarnsCmd extends AbstractCmd {
         List<Warning> warnings = warnService.getWarnings(player.getId(), true);
 
         for (String message : messages.warningsListStart) {
-            this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getUsername()).replace("%warnings%", Integer.toString(warnings.size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
+            this.messages.send(sender, message.replace("%longline%", this.messages.LONG_LINE).replace("%target%", player.getUsername()).replace("%warnings%", Integer.toString(warnings.size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
         }
 
         for (int i = 0; i < warnings.size(); i++) {
             IWarning warning = warnings.get(i);
 
-            message.send(sender, messages.warningsListEntry.replace("%count%", Integer.toString(i + 1)).replace("%reason%", warning.getReason()).replace("%issuer%", warning.getIssuerName()) + " &b" + warning.getSeverity() + ": &b" + warning.getScore(), messages.prefixWarnings);
+            messages.send(sender, messages.warningsListEntry.replace("%count%", Integer.toString(i + 1)).replace("%reason%", warning.getReason()).replace("%issuer%", warning.getIssuerName()) + " &b" + warning.getSeverity() + ": &b" + warning.getScore(), messages.prefixWarnings);
         }
 
         for (String message : messages.warningsListEnd) {
-            this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE).replace("%target%", player.getUsername()).replace("%warnings%", Integer.toString(warnings.size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
+            this.messages.send(sender, message.replace("%longline%", this.messages.LONG_LINE).replace("%target%", player.getUsername()).replace("%warnings%", Integer.toString(warnings.size())), message.contains("%longline%") ? "" : messages.prefixWarnings);
         }
     }
 
     private void sendHelp(CommandSender sender) {
-        message.send(sender, "&7" + message.LONG_LINE, "");
-        message.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixReports);
-        message.send(sender, "&7" + message.LONG_LINE, "");
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
+        messages.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixReports);
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
     }
 
     @Override

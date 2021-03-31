@@ -4,9 +4,10 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.bungee.BungeeAction;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.common.bungee.BungeeContext;
+import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
 import org.bukkit.command.CommandSender;
 
@@ -17,12 +18,12 @@ import java.util.stream.Collectors;
 @IocBean
 public class BroadcastService {
 
-    private final MessageCoordinator message;
+    private final Messages messages;
     private final BroadcastConfiguration broadcastConfiguration;
     private final BungeeClient bungeeClient;
 
-    public BroadcastService(MessageCoordinator message, Options options, BungeeClient bungeeClient) {
-        this.message = message;
+    public BroadcastService(Messages messages, Options options, BungeeClient bungeeClient) {
+        this.messages = messages;
         this.broadcastConfiguration = options.broadcastConfiguration;
         this.bungeeClient = bungeeClient;
     }
@@ -72,7 +73,7 @@ public class BroadcastService {
     private void broadcast(String message) {
         String[] lines = message.split(Pattern.quote("\\n"));
         for (String line : lines) {
-            this.message.sendGlobalMessage(line, broadcastConfiguration.getPrefix());
+            this.messages.sendGlobalMessage(line, broadcastConfiguration.getPrefix());
         }
     }
 }

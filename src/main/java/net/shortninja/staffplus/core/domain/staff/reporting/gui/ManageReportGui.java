@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
@@ -17,9 +18,9 @@ import java.util.function.Supplier;
 public class ManageReportGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
-    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().iocContainer.get(ReportItemBuilder.class);
+    private final PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
+    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
+    private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
     private final Player player;
     private final Report report;
 
@@ -75,7 +76,7 @@ public class ManageReportGui extends AbstractGui {
     }
 
     private void addResolveItem(Report report, IAction action, int slot) {
-        ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
+        ItemStack item = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(
             Items.editor(Items.createGreenColoredGlass("Resolve report", "Click to mark this report as resolved"))
                 .setAmount(1)
                 .build(), String.valueOf(report.getId()));
@@ -83,7 +84,7 @@ public class ManageReportGui extends AbstractGui {
     }
 
     private void addRejectItem(Report report, IAction action, int slot) {
-        ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
+        ItemStack item = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(
             Items.editor(Items.createRedColoredGlass("Reject report", "Click to mark this report as rejected"))
                 .setAmount(1)
                 .build(), String.valueOf(report.getId()));
@@ -91,7 +92,7 @@ public class ManageReportGui extends AbstractGui {
     }
 
     private void addReopenItem(Report report, IAction action, int slot) {
-        ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
+        ItemStack item = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(
             Items.editor(Items.createWhiteColoredGlass("Unassign", "Click to unassign yourself from this report"))
                 .setAmount(1)
                 .build(), String.valueOf(report.getId()));
@@ -105,7 +106,7 @@ public class ManageReportGui extends AbstractGui {
             .addLore("Click to delete this report")
             .build();
 
-        ItemStack item = StaffPlus.get().versionProtocol.addNbtString(
+        ItemStack item = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(
             Items.editor(itemstack)
                 .setAmount(1)
                 .build(), String.valueOf(report.getId()));

@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.session;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMulti;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.data.DataFile;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -27,14 +28,16 @@ public class SessionLoader {
     private final SessionsRepository sessionsRepository;
     private final DataFile dataFile;
     private final FileConfiguration dataFileConfiguration;
+    private final List<SessionEnhancer> sessionEnhancers;
 
-    public SessionLoader(PlayerManager playerManager, MuteService muteService, Options options, SessionsRepository sessionsRepository, DataFile dataFile) {
+    public SessionLoader(PlayerManager playerManager, MuteService muteService, Options options, SessionsRepository sessionsRepository, DataFile dataFile, @IocMulti(SessionEnhancer.class) List<SessionEnhancer> sessionEnhancers) {
         this.playerManager = playerManager;
         this.muteService = muteService;
         this.options = options;
         this.sessionsRepository = sessionsRepository;
         this.dataFileConfiguration = dataFile.getConfiguration();
         this.dataFile = dataFile;
+        this.sessionEnhancers = sessionEnhancers;
     }
 
     PlayerSession loadSession(Player player) {
@@ -67,19 +70,8 @@ public class SessionLoader {
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
 
         PlayerSession playerSession = new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions, isMuted(uuid), vanishType, staffMode);
-        enhanceWithSyncedData(uuid, vanishType, staffMode, playerSession);
+        sessionEnhancers.forEach(s -> s.enhance(playerSession));
         return playerSession;
-    }
-
-    private void enhanceWithSyncedData(UUID uuid, VanishType vanishType, boolean staffMode, PlayerSession playerSession) {
-        Optional<SessionEntity> session = sessionsRepository.findSession(uuid);
-        if (options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
-            playerSession.setInStaffMode(session.map(SessionEntity::getStaffMode).orElse(staffMode));
-        }
-        if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
-            playerSession.setVanishType(session.map(SessionEntity::getVanishType).orElse(vanishType));
-        }
-        playerSession.setStaffChatMuted(session.map(SessionEntity::isStaffChatMuted).orElse(false));
     }
 
     private boolean isMuted(UUID uuid) {

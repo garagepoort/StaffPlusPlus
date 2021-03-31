@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectWhitelistedItem;
@@ -29,8 +29,8 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
     private final AltDetectionService altDetectionService;
     private final PlayerManager playerManager;
 
-    public AltDetectWhitelistCmd(Messages messages, MessageCoordinator message, Options options, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager) {
-        super(options.altDetectConfiguration.getCommandWhitelist(), messages, message, options, commandService);
+    public AltDetectWhitelistCmd(Messages messages, Options options, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager) {
+        super(options.altDetectConfiguration.getCommandWhitelist(), messages, options, commandService);
         this.altDetectionService = altDetectionService;
         this.playerManager = playerManager;
         setPermission(options.altDetectConfiguration.getWhitelistPermission());
@@ -65,13 +65,13 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
             for (AltDetectWhitelistedItem whitelistedItem : whitelistedItems) {
                 String whitelistPlayer1 = getPlayerName(whitelistedItem.getPlayerUuid1());
                 String whitelistPlayer2 = getPlayerName(whitelistedItem.getPlayerUuid2());
-                message.send(sender, String.format("&B#%s: %s - %s", counter, whitelistPlayer1, whitelistPlayer2), messages.prefixGeneral);
+                messages.send(sender, String.format("&B#%s: %s - %s", counter, whitelistPlayer1, whitelistPlayer2), messages.prefixGeneral);
                 counter++;
             }
             if (whitelistedItems.isEmpty()) {
-                message.send(sender, String.format("&6No items to display", page), messages.prefixGeneral);
+                messages.send(sender, String.format("&6No items to display", page), messages.prefixGeneral);
             } else {
-                message.send(sender, String.format("&6Showing page #%s", page), messages.prefixGeneral);
+                messages.send(sender, String.format("&6Showing page #%s", page), messages.prefixGeneral);
             }
 
             return true;

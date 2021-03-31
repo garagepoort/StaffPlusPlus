@@ -22,10 +22,12 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Options options;
     private PermissionHandler permissionHandler;
+    private InventoryFactory inventoryFactory;
 
-    public InventoryExamineGuiProvider(Options options, PermissionHandler permissionHandler) {
+    public InventoryExamineGuiProvider(Options options, PermissionHandler permissionHandler, InventoryFactory inventoryFactory) {
         this.options = options;
         this.permissionHandler = permissionHandler;
+        this.inventoryFactory = inventoryFactory;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
                 if (target.isOnline()) {
                     chestGUI = new ChestGUI(target, target.getPlayer().getPlayer().getInventory(), 45, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(player, options.examineConfiguration.getPermissionExamineInventoryInteraction()));
                 } else {
-                    chestGUI = new ChestGUI(target, InventoryFactory.loadInventoryOffline(staff, target), 45, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(player, options.examineConfiguration.getPermissionExamineInventoryInteractionOffline()));
+                    chestGUI = new ChestGUI(target, inventoryFactory.loadInventoryOffline(staff, target), 45, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(player, options.examineConfiguration.getPermissionExamineInventoryInteractionOffline()));
                 }
                 fillEmptyPlaces(chestGUI);
                 chestGUI.show(staff);

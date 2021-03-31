@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportFilters.ReportFiltersBuilder;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.FindReportsGui;
@@ -27,8 +27,8 @@ public class FindReportsCmd extends AbstractCmd {
 
     private final ReportFiltersMapper reportFiltersMapper;
 
-    public FindReportsCmd(Messages messages, MessageCoordinator message, Options options, ReportFiltersMapper reportFiltersMapper, CommandService commandService) {
-        super(options.commandFindReports, messages, message, options, commandService);
+    public FindReportsCmd(Messages messages, Options options, ReportFiltersMapper reportFiltersMapper, CommandService commandService) {
+        super(options.commandFindReports, messages, options, commandService);
         this.reportFiltersMapper = reportFiltersMapper;
         setDescription("Find reports.");
         setUsage("[filters...]");

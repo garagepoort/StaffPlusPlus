@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionsGui;
@@ -27,8 +27,8 @@ public class InfractionsCmd extends AbstractCmd {
 
     private final PlayerManager playerManager;
 
-    public InfractionsCmd(Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, CommandService commandService) {
-        super(options.infractionsConfiguration.getCommandOpenGui(), messages, message, options, commandService);
+    public InfractionsCmd(Messages messages, PlayerManager playerManager, Options options, CommandService commandService) {
+        super(options.infractionsConfiguration.getCommandOpenGui(), messages, options, commandService);
         setPermission(options.infractionsConfiguration.getPermissionViewInfractions());
         setDescription("View all player's infractions");
         setUsage("[player]");

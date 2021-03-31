@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.player.StripService;
 import org.bukkit.command.CommandSender;
@@ -25,8 +25,8 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 public class StripCmd extends AbstractCmd {
     private final StripService stripService;
 
-    public StripCmd(Messages messages, MessageCoordinator message, Options options, StripService stripService, CommandService commandService) {
-        super(options.commandStrip, messages, message, options, commandService);
+    public StripCmd(Messages messages, Options options, StripService stripService, CommandService commandService) {
+        super(options.commandStrip, messages, options, commandService);
         this.stripService = stripService;
         setPermission(options.permissionStrip);
         setDescription("Completely removes the target player's armor.");

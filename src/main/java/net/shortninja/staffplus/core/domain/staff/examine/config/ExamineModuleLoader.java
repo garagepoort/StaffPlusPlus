@@ -1,9 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.examine.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class ExamineModuleLoader extends ConfigLoader<ExamineConfiguration> {
+@IocBean
+public class ExamineModuleLoader extends AbstractConfigLoader<ExamineConfiguration> {
 
     @Override
     protected ExamineConfiguration load(FileConfiguration config) {

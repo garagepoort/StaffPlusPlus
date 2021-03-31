@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class MutedPlayersGui extends PagedGui {
 
-    private final MutedPlayerItemBuilder mutedPlayerItemBuilder = StaffPlus.get().iocContainer.get(MutedPlayerItemBuilder.class);
+    private final MutedPlayerItemBuilder mutedPlayerItemBuilder = StaffPlus.get().getIocContainer().get(MutedPlayerItemBuilder.class);
 
     public MutedPlayersGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
@@ -32,8 +33,8 @@ public class MutedPlayersGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot) {
-                int muteId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
-                Mute mute = StaffPlus.get().iocContainer.get(MuteService.class).getById(muteId);
+                int muteId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
+                Mute mute = StaffPlus.get().getIocContainer().get(MuteService.class).getById(muteId);
                 new ManageMutedPlayerGui("Player: " + mute.getTargetName(), mute, () -> new MutedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
             }
 
@@ -46,7 +47,7 @@ public class MutedPlayersGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return StaffPlus.get().iocContainer.get(MuteService.class).getAllPaged(offset, amount).stream()
+        return StaffPlus.get().getIocContainer().get(MuteService.class).getAllPaged(offset, amount).stream()
             .map(mutedPlayerItemBuilder::build)
             .collect(Collectors.toList());
     }

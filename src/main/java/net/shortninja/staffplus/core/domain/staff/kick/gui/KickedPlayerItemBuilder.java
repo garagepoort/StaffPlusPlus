@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.kick.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
@@ -23,11 +23,11 @@ import static net.shortninja.staffplus.core.common.JavaUtils.formatLines;
 @IocBean
 @IocMultiProvider(InfractionGuiProvider.class)
 public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
     private final Options options;
 
-    public KickedPlayerItemBuilder(IProtocol versionProtocol, Options options) {
-        this.versionProtocol = versionProtocol;
+    public KickedPlayerItemBuilder(IProtocolService protocolService, Options options) {
+        this.protocolService = protocolService;
         this.options = options;
     }
 
@@ -55,7 +55,7 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
             .addLore(lore)
             .build();
 
-        return versionProtocol.addNbtString(item, String.valueOf(kick.getId()));
+        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(kick.getId()));
     }
 
     @Override

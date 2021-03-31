@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ExpireWarningAction implements IAction {
 
-    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
+    private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
     private final Warning warning;
 
     public ExpireWarningAction(Warning warning) {

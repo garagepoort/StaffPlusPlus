@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
@@ -17,14 +17,14 @@ import java.util.stream.Collectors;
 @IocBean
 public class MuteSessionTask extends BukkitRunnable {
     public static final int DELAY = 10 * 20;
-    private final MessageCoordinator message;
+
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final MuteService muteService;
     private final Options options;
 
-    public MuteSessionTask(MessageCoordinator message, Messages messages, SessionManagerImpl sessionManager, MuteService muteService, Options options) {
-        this.message = message;
+    public MuteSessionTask(Messages messages, SessionManagerImpl sessionManager, MuteService muteService, Options options) {
+
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.muteService = muteService;
@@ -50,7 +50,7 @@ public class MuteSessionTask extends BukkitRunnable {
                 boolean playerIsMuted = activeMutes.stream().anyMatch(mute -> mute.getTargetUuid().equals(player.get().getUniqueId()));
                 playerSession.setMuted(playerIsMuted);
                 if (!playerIsMuted) {
-                    message.send(player.get(), messages.muteExpired, messages.prefixGeneral);
+                    messages.send(player.get(), messages.muteExpired, messages.prefixGeneral);
                 }
             }
         }

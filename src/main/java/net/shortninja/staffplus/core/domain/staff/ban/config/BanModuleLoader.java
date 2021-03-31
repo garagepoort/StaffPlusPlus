@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.ban.config;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.domain.staff.ban.BanType;
@@ -15,7 +16,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BanModuleLoader extends ConfigLoader<BanConfiguration> {
+@IocBean
+public class BanModuleLoader extends AbstractConfigLoader<BanConfiguration> {
 
     @Override
     protected BanConfiguration load(FileConfiguration config) {

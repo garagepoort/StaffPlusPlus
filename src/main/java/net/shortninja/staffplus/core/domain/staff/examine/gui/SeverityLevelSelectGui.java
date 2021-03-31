@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 public class SeverityLevelSelectGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
     private final SppPlayer targetPlayer;
 
     public SeverityLevelSelectGui(String title, SppPlayer targetPlayer, Supplier<AbstractGui> previousGuiSupplier) {

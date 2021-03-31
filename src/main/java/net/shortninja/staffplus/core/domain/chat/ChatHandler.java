@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.chat;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import org.bukkit.entity.Player;
 
@@ -15,16 +15,16 @@ import java.util.UUID;
 public class ChatHandler {
     private final static Map<UUID, Long> userChatTimes = new HashMap<UUID, Long>();
     private final PermissionHandler permission;
-    private final MessageCoordinator message;
+
     private final Options options;
     private final Messages messages;
     private boolean isChatEnabled = true;
     private long chatSlowLength = 0;
     private long chatSlowStart = 0;
 
-    public ChatHandler(PermissionHandler permission, MessageCoordinator message, Options options, Messages messages) {
+    public ChatHandler(PermissionHandler permission, Options options, Messages messages) {
         this.permission = permission;
-        this.message = message;
+
         this.options = options;
         this.messages = messages;
     }
@@ -60,21 +60,21 @@ public class ChatHandler {
     public void setChatEnabled(String name, boolean isChatEnabled) {
         String status = isChatEnabled ? "enabled" : "disabled";
 
-        message.sendGlobalMessage(messages.chatToggled.replace("%status%", status).replace("%player%", name), messages.prefixGeneral);
+        messages.sendGlobalMessage(messages.chatToggled.replace("%status%", status).replace("%player%", name), messages.prefixGeneral);
         this.isChatEnabled = isChatEnabled;
     }
 
     public void setChatSlow(String name, int time) {
         chatSlowLength = time * 1000;
         chatSlowStart = System.currentTimeMillis();
-        message.sendGlobalMessage(messages.chatSlowed.replace("%seconds%", Integer.toString(time)).replace("%player%", name), messages.prefixGeneral);
+        messages.sendGlobalMessage(messages.chatSlowed.replace("%seconds%", Integer.toString(time)).replace("%player%", name), messages.prefixGeneral);
     }
 
     public void clearChat(String name) {
         for (int i = 0; i < options.chatConfiguration.getChatLines(); i++) {
-            message.sendGlobalMessage(messages.chatClearLine, "");
+            messages.sendGlobalMessage(messages.chatClearLine, "");
         }
 
-        message.sendGlobalMessage(messages.chatCleared.replace("%player%", name), messages.prefixGeneral);
+        messages.sendGlobalMessage(messages.chatCleared.replace("%player%", name), messages.prefixGeneral);
     }
 }

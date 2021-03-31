@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -19,20 +19,20 @@ public class TraceChatInterceptor implements ChatInterceptor {
 
     private final TraceService traceService;
     private final Messages messages;
-    private final MessageCoordinator message;
+
     private Options options;
 
-    public TraceChatInterceptor(TraceService traceService, Messages messages, MessageCoordinator message, Options options) {
+    public TraceChatInterceptor(TraceService traceService, Messages messages, Options options) {
         this.traceService = traceService;
         this.messages = messages;
-        this.message = message;
+
         this.options = options;
     }
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
         if (traceService.isPlayerTracing(event.getPlayer()) && options.traceConfiguration.hasChannel(CHAT)) {
-            this.message.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
+            this.messages.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }
 

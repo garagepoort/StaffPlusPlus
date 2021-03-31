@@ -16,7 +16,7 @@ import static org.bukkit.Material.PAPER;
 
 public class ManageReportsGui extends AbstractGui {
 
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
     private final GuiItemConfig closedReportsGui;
     private final GuiItemConfig myReportsGui;

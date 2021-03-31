@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.actions.ActionFilter;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
@@ -30,7 +30,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 @IocBean
 public class StaffModeService {
 
-    private final MessageCoordinator message;
+
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final VanishServiceImpl vanishServiceImpl;
@@ -42,14 +42,13 @@ public class StaffModeService {
     private final Options options;
     private final PlayerManager playerManager;
 
-    public StaffModeService(MessageCoordinator message,
-                            Options options,
+    public StaffModeService(Options options,
                             Messages messages,
                             SessionManagerImpl sessionManager,
                             VanishServiceImpl vanishServiceImpl,
                             StaffModeItemsService staffModeItemsService,
                             ActionService actionService, ModeDataRepository modeDataRepository, PlayerManager playerManager) {
-        this.message = message;
+
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
@@ -87,7 +86,7 @@ public class StaffModeService {
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
         session.setInStaffMode(true);
         sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
-        message.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
+        messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
 
     public void removeMode(Player player) {
@@ -101,7 +100,7 @@ public class StaffModeService {
         ModeData modeData = existingModeData.get();
         if (modeConfiguration.isModeOriginalLocation()) {
             player.teleport(modeData.getPreviousLocation().setDirection(player.getLocation().getDirection()));
-            message.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
+            messages.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
         }
 
         runModeCommands(player, false);
@@ -122,7 +121,7 @@ public class StaffModeService {
 
         session.setInStaffMode(false);
         sendEvent(new ExitStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
-        message.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
+        messages.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
     private void runModeCommands(Player player, boolean isEnabled) {

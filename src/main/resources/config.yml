@@ -60,6 +60,7 @@ server-sync-module:
     warning-sync: false
     mute-sync: false
     kick-sync: false
+    investigation-sync: false
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -422,6 +423,18 @@ trace-module:
 # Interaction with enderchests
 enderchest-module:
     enabled: true
+
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   INVESTIGATIONS                     | #
+# +------------------------------------------------------+ #
+############################################################
+
+# Allow all investigation functionalities
+investigations-module:
+    enabled: true
+    title-message-enabled: true
 
 # Requires "permissions.mode" permission.
 staff-mode:
@@ -835,6 +848,10 @@ permissions:
           approve: "staff.warnings.appeals.approve"
           reject: "staff.warnings.appeals.reject"
           notifications: "staff.warnings.appeals.notifications"
+  investigations:
+      # All permission for managing warnings
+      manage:
+          investigate: "staff.investigation.manage.investigate"
 
   # Permission for using staff chat.
   staff-chat: "staff.staffchat"
@@ -1087,6 +1104,10 @@ commands:
         # The command for managing reports specifically targeting a player.
         cli: "reports"
 
+  investigations.manage:
+      start: "investigate"
+      pause: "pause-investigation"
+      conclude: "conclude-investigation"
   # The command for warning players
   warn: "warn"
 

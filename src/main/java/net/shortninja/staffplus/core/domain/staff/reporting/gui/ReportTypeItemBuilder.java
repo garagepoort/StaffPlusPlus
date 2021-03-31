@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportTypeConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -27,7 +28,7 @@ public class ReportTypeItemBuilder {
             .setLore(lore)
             .build();
 
-        return StaffPlus.get().versionProtocol.addNbtString(item, reportTypeConfiguration.getType());
+        return StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(item, reportTypeConfiguration.getType());
     }
 
 

@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -22,8 +22,8 @@ import java.util.Optional;
 public class StaffChatMuteCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
 
-    public StaffChatMuteCmd(Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
-        super(options.staffChatConfiguration.getCommandStaffChatMute(), messages, message, options, commandService);
+    public StaffChatMuteCmd(Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
+        super(options.staffChatConfiguration.getCommandStaffChatMute(), messages, options, commandService);
         this.sessionManager = sessionManager;
         setDescription("Mutes all staff chat. You can still send messages to staff chat but you won't see anything.");
         setPermission(options.staffChatConfiguration.getPermissionStaffChatMute());
@@ -35,9 +35,9 @@ public class StaffChatMuteCmd extends AbstractCmd {
         PlayerSession session = sessionManager.get(((Player) sender).getUniqueId());
 
         if (session.isStaffChatMuted()) {
-            message.send(sender, messages.staffChatUnmuted, messages.prefixStaffChat);
+            messages.send(sender, messages.staffChatUnmuted, messages.prefixStaffChat);
         } else {
-            message.send(sender, messages.staffChatMuted, messages.prefixStaffChat);
+            messages.send(sender, messages.staffChatMuted, messages.prefixStaffChat);
         }
 
         session.setStaffChatMuted(!session.isStaffChatMuted());

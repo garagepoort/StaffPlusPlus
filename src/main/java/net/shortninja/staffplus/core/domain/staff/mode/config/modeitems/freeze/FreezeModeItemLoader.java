@@ -1,10 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze;
 
+import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
+
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
 import org.bukkit.configuration.file.FileConfiguration;
 
+@IocBean
 public class FreezeModeItemLoader extends ModeItemLoader<FreezeModeConfiguration> {
+    public FreezeModeItemLoader(IProtocolService protocolService) {
+        super(protocolService);
+    }
+
     @Override
     protected String getModuleName() {
         return "freeze-module";

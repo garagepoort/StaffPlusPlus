@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.revive;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,11 +15,11 @@ import java.util.UUID;
 @IocBean
 public class ReviveHandler {
     private final static Map<UUID, InventoryVault> savedInventories = new HashMap<UUID, InventoryVault>();
-    private final MessageCoordinator message;
+
     private final Messages messages;
 
-    public ReviveHandler(MessageCoordinator message, Messages messages) {
-        this.message = message;
+    public ReviveHandler(Messages messages) {
+
         this.messages = messages;
     }
 
@@ -45,7 +45,7 @@ public class ReviveHandler {
         getItems(player, inventoryVault);
         player.getInventory().setArmorContents(inventoryVault.getArmor());
         player.getInventory().setExtraContents(inventoryVault.getOffHand());
-        message.send(player, messages.revivedUser, messages.prefixGeneral);
+        messages.send(player, messages.revivedUser, messages.prefixGeneral);
         savedInventories.remove(uuid);
     }
 

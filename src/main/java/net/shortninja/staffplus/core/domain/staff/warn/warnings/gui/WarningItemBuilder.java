@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -30,11 +30,11 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
     private final Options options;
     private final AppealConfiguration appealConfiguration;
     private final WarningConfiguration warningConfiguration;
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
 
-    public WarningItemBuilder(Options options, IProtocol versionProtocol) {
+    public WarningItemBuilder(Options options, IProtocolService protocolService) {
         this.options = options;
-        this.versionProtocol = versionProtocol;
+        this.protocolService = protocolService;
         appealConfiguration = options.appealConfiguration;
         warningConfiguration = options.warningConfiguration;
     }
@@ -72,7 +72,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
             .setLore(lore)
             .build();
 
-        return versionProtocol.addNbtString(item, String.valueOf(warning.getId()));
+        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(warning.getId()));
     }
 
     private void addExpiresAt(Warning warning, List<String> lore) {

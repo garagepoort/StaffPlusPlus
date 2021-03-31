@@ -24,6 +24,7 @@ public class PlayerSession implements IPlayerSession {
 
     private boolean isChatting = false;
     private boolean isFrozen = false;
+    private boolean underInvestigation = false;
     private boolean isProtected = false;
     private boolean muted = false;
     private boolean inStaffMode = false;
@@ -176,5 +177,13 @@ public class PlayerSession implements IPlayerSession {
 
     public void setStaffChatMuted(boolean staffChatMuted) {
         this.staffChatMuted = staffChatMuted;
+    }
+
+    public boolean isUnderInvestigation() {
+        return underInvestigation;
+    }
+
+    public void setUnderInvestigation(boolean underInvestigation) {
+        this.underInvestigation = underInvestigation;
     }
 }
