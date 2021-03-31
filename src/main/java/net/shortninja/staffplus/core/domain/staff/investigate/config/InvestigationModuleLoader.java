@@ -15,12 +15,13 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
         String startInvestigationCmd = config.getString("commands.investigations.manage.start");
         String pauseInvestigationCmd = config.getString("commands.investigations.manage.pause");
         String concludeInvestigationCmd = config.getString("commands.investigations.manage.conclude");
+        String staffNotificationPermission = config.getString("permissions.investigations.manage.notifications");
 
         return new InvestigationConfiguration(enabled,
             investigatePermission,
             startInvestigationCmd,
             pauseInvestigationCmd,
             concludeInvestigationCmd,
-            titleMessageEnabled);
+            titleMessageEnabled, staffNotificationPermission);
     }
 }

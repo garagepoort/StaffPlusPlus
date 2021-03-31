@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.google.gson.Gson;
 import net.shortninja.staffplus.core.StaffPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -20,7 +19,10 @@ import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL
 @IocBean
 public class BungeeClient {
 
-    public BungeeClient() {
+    private final GsonParser gsonParser;
+
+    public BungeeClient(GsonParser gsonParser) {
+        this.gsonParser = gsonParser;
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(StaffPlus.get(), BUNGEE_CORD_CHANNEL);
     }
 
@@ -72,7 +74,7 @@ public class BungeeClient {
             out.writeUTF(channel);
             ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
             DataOutputStream msgout = new DataOutputStream(msgbytes);
-            msgout.writeUTF(new Gson().toJson(event));
+            msgout.writeUTF(gsonParser.toJson(event));
 
             out.writeShort(msgbytes.toByteArray().length);
             out.write(msgbytes.toByteArray());
@@ -98,7 +100,7 @@ public class BungeeClient {
 
                 DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
                 String data = msgin.readUTF();
-                BungeeMessage bungeeMessage = new Gson().fromJson(data, classOf);
+                BungeeMessage bungeeMessage = gsonParser.fromJson(data, classOf);
                 if (getDuration(bungeeMessage) > 10) {
                     return Optional.empty();
                 }

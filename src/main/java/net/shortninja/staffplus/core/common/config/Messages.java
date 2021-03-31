@@ -159,6 +159,10 @@ public class Messages {
     public final String investigatedInvestigationPaused;
     public final String investigatedInvestigationConcluded;
     public final String underInvestigationTitle;
+    public final String underInvestigationJoin;
+    public final String investigationStaffNotificationsStarted;
+    public final String investigationStaffNotificationsConcluded;
+    public final String investigationStaffNotificationsPaused;
 
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
@@ -307,6 +311,10 @@ public class Messages {
         investigatedInvestigationPaused = config.getString("investigated.investigation-paused", null);
         investigatedInvestigationConcluded = config.getString("investigated.investigation-concluded", null);
         underInvestigationTitle = config.getString("investigated.under-investigation-title");
+        underInvestigationJoin = config.getString("investigated.under-investigation-join", null);
+        investigationStaffNotificationsStarted = config.getString("investigation.staff-notification-started", null);
+        investigationStaffNotificationsConcluded = config.getString("investigation.staff-notification-concluded", null);
+        investigationStaffNotificationsPaused = config.getString("investigation.staff-notification-paused", null);
     }
 
     public String colorize(String message) {
@@ -333,6 +341,9 @@ public class Messages {
     }
 
     public void sendGroupMessage(String message, String permission, String prefix) {
+        if(message == null) {
+            return;
+        }
         for (Player player : Bukkit.getOnlinePlayers()) {
             message = placeholderService.setPlaceholders(player, message);
             send(player, message, prefix, permission);
