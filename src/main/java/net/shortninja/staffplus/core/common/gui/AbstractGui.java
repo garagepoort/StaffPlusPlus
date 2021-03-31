@@ -4,7 +4,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.gui.ColorGui;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -20,10 +20,9 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public abstract class AbstractGui implements IGui {
-    protected final MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
-    protected final Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
-    protected final SessionManagerImpl sessionManager = StaffPlus.get().iocContainer.get(SessionManagerImpl.class);
-    protected final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    protected final Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
+    protected final SessionManagerImpl sessionManager = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class);
+    protected final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
     private String title;
     protected Supplier<AbstractGui> previousGuiSupplier;
@@ -37,12 +36,12 @@ public abstract class AbstractGui implements IGui {
 
     public AbstractGui(int size, String title) {
         this.title = title;
-        inventory = Bukkit.createInventory(null, size, message.colorize(title));
+        inventory = Bukkit.createInventory(null, size, messages.colorize(title));
     }
 
     public AbstractGui(int size, String title, Supplier<AbstractGui> previousGuiSupplier) {
         this.title = title;
-        inventory = Bukkit.createInventory(null, size, message.colorize(title));
+        inventory = Bukkit.createInventory(null, size, messages.colorize(title));
         this.previousGuiSupplier = previousGuiSupplier;
     }
 

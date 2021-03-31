@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -36,8 +36,8 @@ public class BanCmd extends AbstractCmd {
     private final BanService banService;
     private final PlayerManager playerManager;
 
-    public BanCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
-        super(options.banConfiguration.getCommandBanPlayer(), messages, message, options, commandService);
+    public BanCmd(PermissionHandler permissionHandler, Messages messages, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
+        super(options.banConfiguration.getCommandBanPlayer(), messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.banService = banService;
         this.playerManager = playerManager;

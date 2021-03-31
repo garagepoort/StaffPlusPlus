@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.core.authentication.AuthenticationConfigurationLoader;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.Materials;
@@ -26,6 +27,8 @@ import net.shortninja.staffplus.core.domain.staff.examine.config.ExamineConfigur
 import net.shortninja.staffplus.core.domain.staff.examine.config.ExamineModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsModuleLoader;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
@@ -84,6 +87,7 @@ public class Options {
     public Map<String, Location> locations;
     public AuthenticationConfiguration authenticationConfiguration;
     public InfractionsConfiguration infractionsConfiguration;
+    public InvestigationConfiguration investigationConfiguration;
     public ReportConfiguration reportConfiguration;
     public ManageReportConfiguration manageReportConfiguration;
     public ManageWarningsConfiguration manageWarningsConfiguration;
@@ -202,7 +206,77 @@ public class Options {
     public String mySqlPassword;
     public int mySqlPort;
 
-    public Options() {
+    private final AuthenticationConfigurationLoader authenticationConfigurationLoader;
+    private final InfractionsModuleLoader infractionsModuleLoader;
+    private final ReportingModuleLoader reportingModuleLoader;
+    private final ManageReportingModuleLoader manageReportingModuleLoader;
+    private final WarningModuleLoader warningModuleLoader;
+    private final AppealModuleLoader appealModuleLoader;
+    private final ManageWarningsModuleLoader manageWarningsModuleLoader;
+    private final BlackListConfigurationLoader blackListConfigurationLoader;
+    private final TraceModuleLoader traceModuleLoader;
+    private final BroadcastConfigurationLoader broadcastConfigurationLoader;
+    private final ProtectModuleLoader protectModuleLoader;
+    private final BanModuleLoader banModuleLoader;
+    private final KickModuleLoader kickModuleLoader;
+    private final MuteModuleLoader muteModuleLoader;
+    private final AltDetectModuleLoader altDetectModuleLoader;
+    private final StaffChatModuleLoader staffChatModuleLoader;
+    private final ExamineModuleLoader examineModuleLoader;
+    private final EnderchestsModuleLoader enderchestsModuleLoader;
+    private final StaffModeModuleLoader staffModeModuleLoader;
+    private final ServerSyncModuleLoader serverSyncModuleLoader;
+    private final AlertsModuleLoader alertsModuleLoader;
+    private final ChatModuleLoader chatModuleLoader;
+    private final InvestigationModuleLoader investigationModuleLoader;
+    private final IProtocolService protocolService;
+
+    public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
+                   InfractionsModuleLoader infractionsModuleLoader,
+                   ReportingModuleLoader reportingModuleLoader,
+                   ManageReportingModuleLoader manageReportingModuleLoader,
+                   WarningModuleLoader warningModuleLoader,
+                   AppealModuleLoader appealModuleLoader,
+                   ManageWarningsModuleLoader manageWarningsModuleLoader,
+                   BlackListConfigurationLoader blackListConfigurationLoader,
+                   TraceModuleLoader traceModuleLoader,
+                   BroadcastConfigurationLoader broadcastConfigurationLoader,
+                   ProtectModuleLoader protectModuleLoader,
+                   BanModuleLoader banModuleLoader,
+                   KickModuleLoader kickModuleLoader,
+                   MuteModuleLoader muteModuleLoader,
+                   AltDetectModuleLoader altDetectModuleLoader,
+                   StaffChatModuleLoader staffChatModuleLoader,
+                   ExamineModuleLoader examineModuleLoader,
+                   EnderchestsModuleLoader enderchestsModuleLoader,
+                   StaffModeModuleLoader staffModeModuleLoader,
+                   ServerSyncModuleLoader serverSyncModuleLoader,
+                   AlertsModuleLoader alertsModuleLoader,
+                   ChatModuleLoader chatModuleLoader, InvestigationModuleLoader investigationModuleLoader, IProtocolService protocolService) {
+        this.authenticationConfigurationLoader = authenticationConfigurationLoader;
+        this.infractionsModuleLoader = infractionsModuleLoader;
+        this.reportingModuleLoader = reportingModuleLoader;
+        this.manageReportingModuleLoader = manageReportingModuleLoader;
+        this.warningModuleLoader = warningModuleLoader;
+        this.appealModuleLoader = appealModuleLoader;
+        this.manageWarningsModuleLoader = manageWarningsModuleLoader;
+        this.blackListConfigurationLoader = blackListConfigurationLoader;
+        this.traceModuleLoader = traceModuleLoader;
+        this.broadcastConfigurationLoader = broadcastConfigurationLoader;
+        this.protectModuleLoader = protectModuleLoader;
+        this.banModuleLoader = banModuleLoader;
+        this.kickModuleLoader = kickModuleLoader;
+        this.muteModuleLoader = muteModuleLoader;
+        this.altDetectModuleLoader = altDetectModuleLoader;
+        this.staffChatModuleLoader = staffChatModuleLoader;
+        this.examineModuleLoader = examineModuleLoader;
+        this.enderchestsModuleLoader = enderchestsModuleLoader;
+        this.staffModeModuleLoader = staffModeModuleLoader;
+        this.serverSyncModuleLoader = serverSyncModuleLoader;
+        this.alertsModuleLoader = alertsModuleLoader;
+        this.chatModuleLoader = chatModuleLoader;
+        this.investigationModuleLoader = investigationModuleLoader;
+        this.protocolService = protocolService;
         reload();
     }
 
@@ -222,28 +296,29 @@ public class Options {
         offlinePlayersModeEnabled = config.getBoolean("offline-players-mode");
 
         locations = new LocationLoader().loadConfig();
-        authenticationConfiguration = new AuthenticationConfigurationLoader().loadConfig();
-        infractionsConfiguration = new InfractionsModuleLoader().loadConfig();
-        reportConfiguration = new ReportingModuleLoader().loadConfig();
-        manageReportConfiguration = new ManageReportingModuleLoader().loadConfig();
-        warningConfiguration = new WarningModuleLoader().loadConfig();
-        appealConfiguration = new AppealModuleLoader().loadConfig();
-        manageWarningsConfiguration = new ManageWarningsModuleLoader().loadConfig();
-        blackListConfiguration = new BlackListConfigurationLoader().loadConfig();
-        traceConfiguration = new TraceModuleLoader().loadConfig();
-        broadcastConfiguration = new BroadcastConfigurationLoader().loadConfig();
-        protectConfiguration = new ProtectModuleLoader().loadConfig();
-        banConfiguration = new BanModuleLoader().loadConfig();
-        kickConfiguration = new KickModuleLoader().loadConfig();
-        muteConfiguration = new MuteModuleLoader().loadConfig();
-        altDetectConfiguration = new AltDetectModuleLoader().loadConfig();
-        staffChatConfiguration = new StaffChatModuleLoader().loadConfig();
-        examineConfiguration = new ExamineModuleLoader().loadConfig();
-        enderchestsConfiguration = new EnderchestsModuleLoader().loadConfig();
-        modeConfiguration = new StaffModeModuleLoader().loadConfig();
-        serverSyncConfiguration = new ServerSyncModuleLoader().loadConfig();
-        alertsConfiguration = new AlertsModuleLoader().loadConfig();
-        chatConfiguration = new ChatModuleLoader().loadConfig();
+        authenticationConfiguration = this.authenticationConfigurationLoader.loadConfig();
+        infractionsConfiguration = this.infractionsModuleLoader.loadConfig();
+        reportConfiguration = this.reportingModuleLoader.loadConfig();
+        manageReportConfiguration = this.manageReportingModuleLoader.loadConfig();
+        warningConfiguration = this.warningModuleLoader.loadConfig();
+        appealConfiguration = this.appealModuleLoader.loadConfig();
+        manageWarningsConfiguration = this.manageWarningsModuleLoader.loadConfig();
+        blackListConfiguration = this.blackListConfigurationLoader.loadConfig();
+        traceConfiguration = this.traceModuleLoader.loadConfig();
+        broadcastConfiguration = this.broadcastConfigurationLoader.loadConfig();
+        protectConfiguration = this.protectModuleLoader.loadConfig();
+        banConfiguration = this.banModuleLoader.loadConfig();
+        kickConfiguration = this.kickModuleLoader.loadConfig();
+        muteConfiguration = this.muteModuleLoader.loadConfig();
+        altDetectConfiguration = this.altDetectModuleLoader.loadConfig();
+        staffChatConfiguration = this.staffChatModuleLoader.loadConfig();
+        examineConfiguration = this.examineModuleLoader.loadConfig();
+        enderchestsConfiguration = this.enderchestsModuleLoader.loadConfig();
+        modeConfiguration = this.staffModeModuleLoader.loadConfig();
+        serverSyncConfiguration = this.serverSyncModuleLoader.loadConfig();
+        alertsConfiguration = this.alertsModuleLoader.loadConfig();
+        chatConfiguration = this.chatModuleLoader.loadConfig();
+        investigationConfiguration = this.investigationModuleLoader.loadConfig();
 
         /*
          * Vanish
@@ -389,6 +464,7 @@ public class Options {
 
             boolean requireInput = config.getBoolean("staff-mode.custom-modules." + identifier + ".require-input", false);
             String inputPrompt = config.getString("staff-mode.custom-modules." + identifier + ".input-prompt", null);
+            item = protocolService.getVersionProtocol().addNbtString(item, identifier);
             customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, slot, item, action, confirmationConfig, requireInput, inputPrompt));
         }
     }

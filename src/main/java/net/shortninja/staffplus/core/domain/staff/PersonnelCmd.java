@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -26,8 +26,8 @@ public class PersonnelCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final SessionManagerImpl sessionManager;
 
-    public PersonnelCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
-        super(options.commandStaffList, messages, message, options, commandService);
+    public PersonnelCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
+        super(options.commandStaffList, messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.sessionManager = sessionManager;
         setDescription("Lists all registered staff members.");
@@ -43,18 +43,18 @@ public class PersonnelCmd extends AbstractCmd {
         }
 
         for (String message : messages.staffListStart) {
-            this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE), message.contains("%longline%") ? "" : messages.prefixGeneral);
+            this.messages.send(sender, message.replace("%longline%", this.messages.LONG_LINE), message.contains("%longline%") ? "" : messages.prefixGeneral);
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             PlayerSession session = sessionManager.get(player.getUniqueId());
             if (hasStatus(session, status, player)) {
-                message.send(sender, messages.staffListMember.replace("%player%", player.getName()).replace("%statuscolor%", getStatusColor(session, player)), messages.prefixGeneral);
+                messages.send(sender, messages.staffListMember.replace("%player%", player.getName()).replace("%statuscolor%", getStatusColor(session, player)), messages.prefixGeneral);
             }
         }
 
         for (String message : messages.staffListEnd) {
-            this.message.send(sender, message.replace("%longline%", this.message.LONG_LINE), message.contains("%longline%") ? "" : messages.prefixGeneral);
+            this.messages.send(sender, message.replace("%longline%", this.messages.LONG_LINE), message.contains("%longline%") ? "" : messages.prefixGeneral);
         }
 
         return true;

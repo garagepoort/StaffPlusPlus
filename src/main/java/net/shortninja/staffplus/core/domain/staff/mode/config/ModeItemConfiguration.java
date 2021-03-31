@@ -1,7 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
-import net.shortninja.staffplus.core.StaffPlus;
 import org.bukkit.inventory.ItemStack;
 
 public class ModeItemConfiguration {
@@ -35,8 +33,7 @@ public class ModeItemConfiguration {
     }
 
     public void setItem(ItemStack item) {
-        IProtocol versionProtocol = StaffPlus.get().versionProtocol;
-        this.item = versionProtocol.addNbtString(item, identifier);
+        this.item = item;
     }
 
     public String getIdentifier() {

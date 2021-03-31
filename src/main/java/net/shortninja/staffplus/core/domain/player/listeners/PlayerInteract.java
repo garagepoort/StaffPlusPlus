@@ -2,12 +2,11 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGUI;
@@ -42,7 +41,7 @@ public class PlayerInteract implements Listener {
     private static final int COOLDOWN = 200;
     private static final Map<Player, Long> staffTimings = new HashMap<>();
 
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
     private final CpsHandler cpsHandler;
     private final GadgetHandler gadgetHandler;
     private final FreezeHandler freezeHandler;
@@ -51,16 +50,15 @@ public class PlayerInteract implements Listener {
     private final SessionManagerImpl sessionManager;
     private final List<CustomModulePreProcessor> customModulePreProcessors;
     private final Messages messages;
-    private final MessageCoordinator message;
 
-    public PlayerInteract(IProtocol versionProtocol, CpsHandler cpsHandler,
+
+    public PlayerInteract(IProtocolService protocolService, CpsHandler cpsHandler,
                           GadgetHandler gadgetHandler,
                           FreezeHandler freezeHandler,
                           PlayerManager playerManager, Options options, SessionManagerImpl sessionManager,
                           @IocMulti(CustomModulePreProcessor.class) List<CustomModulePreProcessor> customModulePreProcessors,
-                          Messages messages,
-                          MessageCoordinator message) {
-        this.versionProtocol = versionProtocol;
+                          Messages messages) {
+        this.protocolService = protocolService;
         this.cpsHandler = cpsHandler;
         this.gadgetHandler = gadgetHandler;
         this.freezeHandler = freezeHandler;
@@ -69,7 +67,7 @@ public class PlayerInteract implements Listener {
         this.sessionManager = sessionManager;
         this.customModulePreProcessors = customModulePreProcessors;
         this.messages = messages;
-        this.message = message;
+
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -135,7 +133,7 @@ public class PlayerInteract implements Listener {
             return false;
         }
 
-        GadgetHandler.GadgetType gadgetType = gadgetHandler.getGadgetType(item, versionProtocol.getNbtString(item));
+        GadgetHandler.GadgetType gadgetType = gadgetHandler.getGadgetType(item, protocolService.getVersionProtocol().getNbtString(item));
         if (staffTimings.containsKey(player)) {
             if (System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
                 //Still cooling down but cancel the event if it is a staff item
@@ -205,7 +203,7 @@ public class PlayerInteract implements Listener {
         }
 
         if(customModuleConfiguration.get().getType() == COMMAND_DYNAMIC && targetPlayer == null) {
-            message.send(player, "No target in range", messages.prefixGeneral);
+            messages.send(player, "No target in range", messages.prefixGeneral);
             return true;
         }
 

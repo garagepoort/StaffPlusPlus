@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
@@ -15,8 +16,8 @@ import java.util.stream.Collectors;
 
 public class ManageWarningsGui extends PagedGui {
 
-    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
-    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().iocContainer.get(WarningItemBuilder.class);
+    private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
+    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().getIocContainer().get(WarningItemBuilder.class);
 
     public ManageWarningsGui(Player player, SppPlayer target, String title, int currentPage) {
         super(player, target, title, currentPage);
@@ -33,7 +34,7 @@ public class ManageWarningsGui extends PagedGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
 
-                int warningId = Integer.parseInt(StaffPlus.get().versionProtocol.getNbtString(item));
+                int warningId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                 Warning warning = warnService.getWarning(warningId);
                 new ManageWarningGui(player, "Manage warnings", warning, () -> new ManageWarningsGui(player, getTarget(), getTitle(), getCurrentPage())).show(player);
             }

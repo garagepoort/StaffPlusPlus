@@ -9,8 +9,9 @@ public class ServerSyncConfiguration {
     private boolean warningSyncEnabled;
     private boolean muteSyncEnabled;
     private boolean kickSyncEnabled;
+    private boolean investigationSyncEnabled;
 
-    public ServerSyncConfiguration(boolean vanishSyncEnabled, boolean staffModeSyncEnabled, boolean banSyncEnabled, boolean reportSyncEnabled, boolean warningSyncEnabled, boolean muteSyncEnabled, boolean kickSyncEnabled) {
+    public ServerSyncConfiguration(boolean vanishSyncEnabled, boolean staffModeSyncEnabled, boolean banSyncEnabled, boolean reportSyncEnabled, boolean warningSyncEnabled, boolean muteSyncEnabled, boolean kickSyncEnabled, boolean investigationSyncEnabled) {
         this.vanishSyncEnabled = vanishSyncEnabled;
         this.staffModeSyncEnabled = staffModeSyncEnabled;
         this.banSyncEnabled = banSyncEnabled;
@@ -18,6 +19,7 @@ public class ServerSyncConfiguration {
         this.warningSyncEnabled = warningSyncEnabled;
         this.muteSyncEnabled = muteSyncEnabled;
         this.kickSyncEnabled = kickSyncEnabled;
+        this.investigationSyncEnabled = investigationSyncEnabled;
     }
 
     public boolean isVanishSyncEnabled() {
@@ -50,5 +52,9 @@ public class ServerSyncConfiguration {
 
     public boolean sessionSyncEnabled() {
         return vanishSyncEnabled || staffModeSyncEnabled;
+    }
+
+    public boolean isInvestigationSyncEnabled() {
+        return investigationSyncEnabled;
     }
 }

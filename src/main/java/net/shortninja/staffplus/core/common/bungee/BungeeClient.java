@@ -80,7 +80,7 @@ public class BungeeClient {
     }
 
 
-    public <T> Optional<T> handleReceived(String channel, String subChannel, byte[] message, Class<T> classOf) {
+    public <T> Optional<T> handleReceived(String channel, String subChannel, byte[] message, Class<? extends BungeeMessage> classOf) {
         if (!channel.equals(BUNGEE_CORD_CHANNEL)) {
             return Optional.empty();
         }
@@ -94,11 +94,20 @@ public class BungeeClient {
 
                 DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
                 String data = msgin.readUTF();
-                return Optional.of(new Gson().fromJson(data, classOf));
+                BungeeMessage bungeeMessage = new Gson().fromJson(data, classOf);
+                if (getDuration(bungeeMessage) > 10) {
+                    return Optional.empty();
+                }
+                return (Optional<T>) Optional.of(bungeeMessage);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    private long getDuration(BungeeMessage bungeeMessage) {
+        long now = System.currentTimeMillis();
+        return (now - bungeeMessage.getTimestamp()) / 1000;
     }
 }

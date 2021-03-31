@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 public class ManageWarningGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final ActionService actionService = StaffPlus.get().iocContainer.get(ActionService.class);
-    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
-    private final WarnService warnService = StaffPlus.get().iocContainer.get(WarnService.class);
-    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().iocContainer.get(WarningItemBuilder.class);
+    private final ActionService actionService = StaffPlus.get().getIocContainer().get(ActionService.class);
+    private final PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
+    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
+    private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
+    private final WarningItemBuilder warningItemBuilder = StaffPlus.get().getIocContainer().get(WarningItemBuilder.class);
 
     private final Player player;
     private final Warning warning;

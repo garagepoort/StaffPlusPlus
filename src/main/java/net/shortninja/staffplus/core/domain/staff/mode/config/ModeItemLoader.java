@@ -1,8 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,7 +13,13 @@ import java.util.List;
 
 import static net.shortninja.staffplus.core.common.config.Options.stringToMaterial;
 
-public abstract class ModeItemLoader<T extends ModeItemConfiguration> extends ConfigLoader<T> {
+public abstract class ModeItemLoader<T extends ModeItemConfiguration> extends AbstractConfigLoader<T> {
+
+    protected final IProtocolService protocolService;
+
+    protected ModeItemLoader(IProtocolService protocolService) {
+        this.protocolService = protocolService;
+    }
 
     protected T loadGeneralConfig(FileConfiguration config, T modeItemConfiguration) {
         String prefix = "staff-mode." + getModuleName() + ".";
@@ -27,6 +34,7 @@ public abstract class ModeItemLoader<T extends ModeItemConfiguration> extends Co
 
         modeItemConfiguration.setEnabled(enabled);
         modeItemConfiguration.setSlot(slot);
+        item = protocolService.getVersionProtocol().addNbtString(item, modeItemConfiguration.getIdentifier());
         modeItemConfiguration.setItem(item);
 
         return modeItemConfiguration;

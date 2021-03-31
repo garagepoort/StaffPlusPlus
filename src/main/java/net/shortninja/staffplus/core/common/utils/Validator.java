@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class Validator {
 
-    private final PermissionHandler permissionHandler = StaffPlus.get().iocContainer.get(PermissionHandler.class);
+    private final PermissionHandler permissionHandler = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
 
     private final Player player;
 

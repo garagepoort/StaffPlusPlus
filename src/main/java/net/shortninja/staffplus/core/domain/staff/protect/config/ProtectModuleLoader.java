@@ -1,10 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.protect.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class ProtectModuleLoader extends ConfigLoader<ProtectConfiguration> {
+@IocBean
+public class ProtectModuleLoader extends AbstractConfigLoader<ProtectConfiguration> {
 
     @Override
     protected ProtectConfiguration load(FileConfiguration config) {

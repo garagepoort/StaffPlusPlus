@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.function.Supplier;
 
 public class AppealReasonSelectAction implements IAction {
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
     private final Warning warning;
     private final Supplier<AbstractGui> previousGuiSupplier;
 

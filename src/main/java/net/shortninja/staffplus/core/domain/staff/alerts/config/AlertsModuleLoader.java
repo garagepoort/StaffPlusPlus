@@ -1,7 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.Sounds;
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayBlockConfig;
 import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,7 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AlertsModuleLoader extends ConfigLoader<AlertsConfiguration> {
+@IocBean
+public class AlertsModuleLoader extends AbstractConfigLoader<AlertsConfiguration> {
     @Override
     protected AlertsConfiguration load(FileConfiguration config) {
         boolean alertsNameNotify = config.getBoolean("alerts-module.name-notify");

@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -32,8 +32,8 @@ public class MuteCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final PlayerManager playerManager;
 
-    public MuteCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
-        super(options.muteConfiguration.getCommandMutePlayer(), messages, message, options, commandService);
+    public MuteCmd(PermissionHandler permissionHandler, Messages messages, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
+        super(options.muteConfiguration.getCommandMutePlayer(), messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.muteService = muteService;
         this.sessionManager = sessionManager;

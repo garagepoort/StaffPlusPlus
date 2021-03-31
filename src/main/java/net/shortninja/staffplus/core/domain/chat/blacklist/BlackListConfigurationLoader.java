@@ -1,14 +1,18 @@
 package net.shortninja.staffplus.core.domain.chat.blacklist;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class BlackListConfigurationLoader extends ConfigLoader<BlackListConfiguration> {
+@IocBean
+public class BlackListConfigurationLoader extends AbstractConfigLoader<BlackListConfiguration> {
 
     @Override
     protected BlackListConfiguration load(FileConfiguration config) {

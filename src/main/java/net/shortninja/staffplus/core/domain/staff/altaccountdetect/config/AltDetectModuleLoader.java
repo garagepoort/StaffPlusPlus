@@ -1,9 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class AltDetectModuleLoader extends ConfigLoader<AltDetectConfiguration> {
+@IocBean
+public class AltDetectModuleLoader extends AbstractConfigLoader<AltDetectConfiguration> {
 
     @Override
     protected AltDetectConfiguration load(FileConfiguration config) {

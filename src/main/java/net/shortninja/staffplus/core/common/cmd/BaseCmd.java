@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.common.cmd;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import org.bukkit.command.Command;
 
 import java.util.ArrayList;
@@ -16,13 +16,13 @@ public class BaseCmd {
     private String usage;
     private List<String> permissions = new ArrayList<>();
 
-    public BaseCmd(MessageCoordinator message, Messages messages, Command command) {
+    public BaseCmd(Messages messages, Command command) {
         this.command = command;
         this.match = StaffPlus.get().getDescription().getName();
-        this.description = message.colorize(command.getDescription());
+        this.description = messages.colorize(command.getDescription());
         this.usage = "/" + match + " " + command.getUsage();
 
-        this.command.setPermissionMessage(message.colorize(messages.noPermission));
+        this.command.setPermissionMessage(messages.colorize(messages.noPermission));
         this.command.setDescription(description);
         this.command.setUsage(usage);
     }

@@ -1,13 +1,15 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.gui;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class StaffModeGuiConfigurationLoader extends ConfigLoader<List<GuiConfiguration>> {
+@IocBean
+public class StaffModeGuiConfigurationLoader extends AbstractConfigLoader<List<GuiConfiguration>> {
     @Override
     protected List<GuiConfiguration> load(FileConfiguration config) {
         ConfigurationSection configurationSection = config.getConfigurationSection("staff-mode.custom-gui");

@@ -1,10 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.mute.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class MuteModuleLoader extends ConfigLoader<MuteConfiguration> {
+@IocBean
+public class MuteModuleLoader extends AbstractConfigLoader<MuteConfiguration> {
 
     @Override
     protected MuteConfiguration load(FileConfiguration config) {

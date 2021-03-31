@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
@@ -27,8 +27,8 @@ public class UnbanCmd extends AbstractCmd {
     private final BanService banService;
     private final PlayerManager playerManager;
 
-    public UnbanCmd(Messages messages, MessageCoordinator message, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
-        super(options.banConfiguration.getCommandUnbanPlayer(), messages, message, options, commandService);
+    public UnbanCmd(Messages messages, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
+        super(options.banConfiguration.getCommandUnbanPlayer(), messages, options, commandService);
         this.playerManager = playerManager;
         this.banService = banService;
         setPermission(options.banConfiguration.getPermissionUnbanPlayer());
