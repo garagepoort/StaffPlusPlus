@@ -264,6 +264,10 @@ investigated.investigation-started: "&6You are currently under investigation"
 investigated.investigation-paused: "&6The investigation has been paused"
 investigated.investigation-concluded: "&6The investigation on you has been concluded"
 investigated.under-investigation-title: "&CYou are under investigation"
+investigated.under-investigation-join: "&6You are under currently being investigated"
+investigation.staff-notification-started: "&4%investigator% &6has started investigating &4%investigated%"
+investigation.staff-notification-concluded: "&4%investigator% &6has concluded the investigation on &4%investigated%"
+investigation.staff-notification-paused: "&4%investigator% &6has paused investigating &4%investigated%"
 
 
 # 请勿修改此数除非你知道你你在做什么!
