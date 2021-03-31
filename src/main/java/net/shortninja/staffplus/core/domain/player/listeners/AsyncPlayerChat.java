@@ -53,20 +53,23 @@ public class AsyncPlayerChat implements Listener {
             }
         }
 
-
         traceService.sendTraceMessage(CHAT, player.getUniqueId(), event.getMessage());
-
-        List<OfflinePlayer> mentioned = getMentioned(message);
-        for (OfflinePlayer user : mentioned) {
-            BukkitUtils.sendEvent(new PlayerMentionedEvent(options.serverName, player, user, message));
-        }
-
+        notifyMentioned(player, message);
         blacklistService.censorMessage(player, event);
     }
 
+    private void notifyMentioned(Player player, String message) {
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            getMentioned(message).stream()
+                .map(user -> new PlayerMentionedEvent(options.serverName, player, user, message))
+                .forEach(BukkitUtils::sendEvent);
+        });
+    }
+
     private List<OfflinePlayer> getMentioned(String message) {
-        return playerManager.getAllPLayers().stream()
-            .filter(offlinePlayer -> message.toLowerCase().contains(offlinePlayer.getName().toLowerCase()))
+        return playerManager.getOnAndOfflinePlayers().stream()
+            .filter(offlinePlayer -> message.toLowerCase().contains(offlinePlayer.getUsername().toLowerCase()))
+            .map(p -> Bukkit.getOfflinePlayer(p.getId()))
             .collect(Collectors.toList());
     }
 }

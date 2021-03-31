@@ -20,6 +20,10 @@ import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL
 @IocBean
 public class BungeeClient {
 
+    public BungeeClient() {
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(StaffPlus.get(), BUNGEE_CORD_CHANNEL);
+    }
+
     public void sendAll(CommandSender sender, BungeeAction action, BungeeContext context, String message) {
         send(sender, action, "ALL", context, message);
     }
@@ -58,7 +62,7 @@ public class BungeeClient {
     }
 
     public void sendMessage(Player player, String channel, Object event) {
-        if(player == null) {
+        if (player == null) {
             return;
         }
         try {
