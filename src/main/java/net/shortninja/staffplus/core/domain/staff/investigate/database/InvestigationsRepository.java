@@ -10,6 +10,8 @@ public interface InvestigationsRepository {
 
     int addInvestigation(Investigation investigation);
 
+    void updateInvestigation(Investigation investigationId);
+
     Optional<Investigation> getOpenedInvestigationForInvestigator(UUID investigatorUuid);
 
     Optional<Investigation> getOpenedInvestigationForInvestigated(UUID investigatedUuid);

@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 

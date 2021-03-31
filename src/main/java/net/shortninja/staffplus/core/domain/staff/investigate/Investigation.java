@@ -80,4 +80,12 @@ public class Investigation implements IInvestigation {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setStatus(InvestigationStatus status) {
+        this.status = status;
+    }
+
+    public void setConclusionDate(Long conclusionDate) {
+        this.conclusionDate = conclusionDate;
+    }
 }

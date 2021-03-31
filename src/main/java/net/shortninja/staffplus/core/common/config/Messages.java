@@ -30,6 +30,7 @@ public class Messages {
     public final String prefixWarnings;
     public final String prefixStaffChat;
     public final String prefixTrace;
+    public final String prefixInvestigations;
     /*
      * General
      */
@@ -153,6 +154,12 @@ public class Messages {
     public final String appealReject;
     public final String openAppealsNotify;
 
+    // Investigations
+    public final String investigatedInvestigationStarted;
+    public final String investigatedInvestigationPaused;
+    public final String investigatedInvestigationConcluded;
+    public final String underInvestigationTitle;
+
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
 
@@ -169,6 +176,7 @@ public class Messages {
         prefixWarnings = config.getString("warnings-prefix");
         prefixStaffChat = config.getString("staff-chat-prefix");
         prefixTrace = config.getString("trace-prefix", "&dTrace &8»");
+        prefixInvestigations = config.getString("investigations-prefix", "&dInvestigations &8»");
         /*
          * General
          */
@@ -294,6 +302,11 @@ public class Messages {
         appealApprove = config.getString("appeal-approve", "");
         appealReject = config.getString("appeal-reject", "");
         openAppealsNotify = config.getString("appeal-open-notify", "");
+
+        investigatedInvestigationStarted = config.getString("investigated.investigation-started", null);
+        investigatedInvestigationPaused = config.getString("investigated.investigation-paused", null);
+        investigatedInvestigationConcluded = config.getString("investigated.investigation-concluded", null);
+        underInvestigationTitle = config.getString("investigated.under-investigation-title");
     }
 
     public String colorize(String message) {
@@ -310,7 +323,7 @@ public class Messages {
     }
 
     public void send(CommandSender sender, String message, String prefix) {
-        message = placeholderService.setPlaceholders((Player) sender, message);
+        message = placeholderService.setPlaceholders(sender, message);
 
         sender.sendMessage(colorize(prefix + " " + message));
     }

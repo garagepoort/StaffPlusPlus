@@ -12,8 +12,15 @@ import org.bukkit.plugin.ServicePriority;
 
 public class StaffPlus extends TubingPlugin implements IStaffPlus {
 
+    private static StaffPlus plugin;
+
+    public static StaffPlus get() {
+        return plugin;
+    }
+
     @Override
     protected void enable() {
+        plugin = this;
         saveDefaultConfig();
         if (!loadConfig()) {
             Bukkit.getPluginManager().disablePlugin(this);

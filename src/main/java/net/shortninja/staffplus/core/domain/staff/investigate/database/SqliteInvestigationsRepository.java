@@ -19,7 +19,7 @@ public class SqliteInvestigationsRepository extends AbstractSqlInvestigationsRep
     @Override
     public int addInvestigation(Investigation investigation) {
         try (Connection connection = getConnection();
-             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_investigation(investigator_uuid, investigated_uuid, status, creation_timestamp, server_name) " +
+             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_investigations(investigator_uuid, investigated_uuid, status, creation_timestamp, server_name) " +
                  "VALUES(?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             insert.setString(1, investigation.getInvestigatorUuid().toString());
             insert.setString(2, investigation.getInvestigatedUuid().toString());

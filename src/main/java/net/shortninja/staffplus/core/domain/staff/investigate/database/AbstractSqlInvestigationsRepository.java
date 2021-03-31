@@ -8,10 +8,7 @@ import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +34,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
         this.playerManager = playerManager;
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.options = options;
-        serverNameFilter = !options.serverSyncConfiguration.isKickSyncEnabled() ? "AND (server_name='" + options.serverName + "')" : "";
+        serverNameFilter = !options.serverSyncConfiguration.isInvestigationSyncEnabled() ? "AND (server_name='" + options.serverName + "')" : "";
     }
 
     protected Connection getConnection() {
@@ -45,10 +42,28 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     }
 
     @Override
+    public void updateInvestigation(Investigation investigation) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_investigations set status=?, conclusion_timestamp=? WHERE ID=? " + serverNameFilter + ";")) {
+            insert.setString(1, investigation.getStatus().name());
+            if (investigation.getConclusionDate().isPresent()) {
+                insert.setLong(2, investigation.getConclusionDate().get());
+            } else {
+                insert.setNull(2, Types.BIGINT);
+            }
+            insert.setInt(3, investigation.getId());
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    @Override
     public Optional<Investigation> getOpenedInvestigationForInvestigator(UUID investigatorUuid) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND status=? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
             ps.setString(1, investigatorUuid.toString());
+            ps.setString(2, InvestigationStatus.OPEN.name());
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {
@@ -64,8 +79,9 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     @Override
     public Optional<Investigation> getOpenedInvestigationForInvestigated(UUID investigatedUuid) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigated_uuid = ? AND " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigated_uuid = ? AND status=? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
             ps.setString(1, investigatedUuid.toString());
+            ps.setString(2, InvestigationStatus.OPEN.name());
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {

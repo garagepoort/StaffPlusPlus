@@ -1,13 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
 import be.garagepoort.mcioc.IocBean;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -47,7 +44,6 @@ public class FreezeHandler {
                     PlayerSession playerSession = sessionManager.get(p.getUniqueId());
                     if (playerSession.isFrozen()) {
                         p.sendTitle(messages.colorize(messages.freezeTitle), messages.colorize(messages.freezeSubtitle), 1, 25, 1);
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(messages.colorize(messages.vanishEnabled)));
                     }
                 }
             }, 20L, 20L);

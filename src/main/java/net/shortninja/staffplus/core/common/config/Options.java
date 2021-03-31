@@ -27,6 +27,8 @@ import net.shortninja.staffplus.core.domain.staff.examine.config.ExamineConfigur
 import net.shortninja.staffplus.core.domain.staff.examine.config.ExamineModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsModuleLoader;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
@@ -85,6 +87,7 @@ public class Options {
     public Map<String, Location> locations;
     public AuthenticationConfiguration authenticationConfiguration;
     public InfractionsConfiguration infractionsConfiguration;
+    public InvestigationConfiguration investigationConfiguration;
     public ReportConfiguration reportConfiguration;
     public ManageReportConfiguration manageReportConfiguration;
     public ManageWarningsConfiguration manageWarningsConfiguration;
@@ -225,6 +228,7 @@ public class Options {
     private final ServerSyncModuleLoader serverSyncModuleLoader;
     private final AlertsModuleLoader alertsModuleLoader;
     private final ChatModuleLoader chatModuleLoader;
+    private final InvestigationModuleLoader investigationModuleLoader;
     private final IProtocolService protocolService;
 
     public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
@@ -248,7 +252,7 @@ public class Options {
                    StaffModeModuleLoader staffModeModuleLoader,
                    ServerSyncModuleLoader serverSyncModuleLoader,
                    AlertsModuleLoader alertsModuleLoader,
-                   ChatModuleLoader chatModuleLoader, IProtocolService protocolService) {
+                   ChatModuleLoader chatModuleLoader, InvestigationModuleLoader investigationModuleLoader, IProtocolService protocolService) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
         this.reportingModuleLoader = reportingModuleLoader;
@@ -271,6 +275,7 @@ public class Options {
         this.serverSyncModuleLoader = serverSyncModuleLoader;
         this.alertsModuleLoader = alertsModuleLoader;
         this.chatModuleLoader = chatModuleLoader;
+        this.investigationModuleLoader = investigationModuleLoader;
         this.protocolService = protocolService;
         reload();
     }
@@ -313,6 +318,7 @@ public class Options {
         serverSyncConfiguration = this.serverSyncModuleLoader.loadConfig();
         alertsConfiguration = this.alertsModuleLoader.loadConfig();
         chatConfiguration = this.chatModuleLoader.loadConfig();
+        investigationConfiguration = this.investigationModuleLoader.loadConfig();
 
         /*
          * Vanish
