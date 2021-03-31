@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplusplus.appeals.IAppeal;
@@ -23,7 +24,7 @@ public class AppealItemBuilder {
         List<String> lore = new ArrayList<>();
 
         LocalDateTime localDateTime = LocalDateTime.ofInstant(appeal.getCreationDate().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(StaffPlus.get().iocContainer.get(Options.class).timestampFormat));
+        String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(StaffPlus.get().getIocContainer().get(Options.class).timestampFormat));
 
         lore.add("&bAppealer: " + appeal.getAppealerName());
         lore.add("&bTimeStamp: " + time);
@@ -51,7 +52,7 @@ public class AppealItemBuilder {
             .setLore(lore)
             .build();
 
-        return StaffPlus.get().versionProtocol.addNbtString(item, String.valueOf(appeal.getId()));
+        return StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(item, String.valueOf(appeal.getId()));
     }
 
 }

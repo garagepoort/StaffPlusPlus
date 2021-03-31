@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
@@ -33,8 +33,8 @@ public class TeleportBackCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final TeleportService teleportService;
 
-    public TeleportBackCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, TeleportService teleportService, CommandService commandService) {
-        super(options.commandTeleportBack, messages, message, options, commandService);
+    public TeleportBackCmd(PermissionHandler permissionHandler, Messages messages, Options options, TeleportService teleportService, CommandService commandService) {
+        super(options.commandTeleportBack, messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.teleportService = teleportService;
         setDescription("Teleports the player to his last known location before teleportation happened");

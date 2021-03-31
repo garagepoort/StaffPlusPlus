@@ -1,9 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.kick.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class KickModuleLoader extends ConfigLoader<KickConfiguration> {
+@IocBean
+public class KickModuleLoader extends AbstractConfigLoader<KickConfiguration> {
 
     @Override
     protected KickConfiguration load(FileConfiguration config) {

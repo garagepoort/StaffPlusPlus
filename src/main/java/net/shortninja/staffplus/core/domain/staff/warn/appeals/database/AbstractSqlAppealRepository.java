@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -15,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 
 public abstract class AbstractSqlAppealRepository implements AppealRepository {
 
@@ -156,7 +157,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     private Appeal buildAppeal(ResultSet rs) throws SQLException {
         UUID appealerUuid = UUID.fromString(rs.getString("appealer_uuid"));
         Optional<SppPlayer> appealer = playerManager.getOnOrOfflinePlayer(appealerUuid);
-        String appealerName = appealerUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : appealer.map(SppPlayer::getUsername).orElse("Unknown user");
+        String appealerName = appealerUuid.equals(CONSOLE_UUID) ? "Console" : appealer.map(SppPlayer::getUsername).orElse("Unknown user");
 
         String resolveReason = rs.getString("resolve_reason");
         String resolverStringUuid = rs.getString("resolver_uuid");
@@ -165,7 +166,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
         if (StringUtils.isNotEmpty(resolverStringUuid)) {
             resolverUuid = UUID.fromString(resolverStringUuid);
             Optional<SppPlayer> resolver = playerManager.getOnOrOfflinePlayer(resolverUuid);
-            resolverName = resolverUuid.equals(StaffPlus.get().consoleUUID) ? "Console" : resolver.map(SppPlayer::getUsername).orElse("Unknown user");
+            resolverName = resolverUuid.equals(CONSOLE_UUID) ? "Console" : resolver.map(SppPlayer::getUsername).orElse("Unknown user");
         }
 
         int id = rs.getInt("ID");

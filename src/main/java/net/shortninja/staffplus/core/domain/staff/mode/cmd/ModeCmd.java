@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
@@ -34,8 +34,8 @@ public class ModeCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final SessionLoader sessionLoader;
 
-    public ModeCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, StaffModeService staffModeService, SessionManagerImpl sessionManager, SessionLoader sessionLoader, CommandService commandService) {
-        super(options.commandStaffMode, messages, message, options, commandService);
+    public ModeCmd(PermissionHandler permissionHandler, Messages messages, Options options, StaffModeService staffModeService, SessionManagerImpl sessionManager, SessionLoader sessionLoader, CommandService commandService) {
+        super(options.commandStaffMode, messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.staffModeService = staffModeService;
         this.sessionManager = sessionManager;

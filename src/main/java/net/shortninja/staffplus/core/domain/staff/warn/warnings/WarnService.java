@@ -2,11 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
@@ -30,26 +28,26 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
 @IocMultiProvider(InfractionProvider.class)
 public class WarnService implements InfractionProvider {
     private final PermissionHandler permission;
-    private final MessageCoordinator message;
+
     private final Options options;
     private final Messages messages;
     private final WarnRepository warnRepository;
     private final AppealRepository appealRepository;
 
     public WarnService(PermissionHandler permission,
-                       MessageCoordinator message,
                        Options options,
                        Messages messages,
                        WarnRepository warnRepository,
                        AppealRepository appealRepository) {
         this.permission = permission;
-        this.message = message;
+
         this.options = options;
         this.messages = messages;
         this.warnRepository = warnRepository;
@@ -65,7 +63,7 @@ public class WarnService implements InfractionProvider {
         }
 
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
-        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
+        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : CONSOLE_UUID;
         Warning warning = new Warning(culprit.getId(), culprit.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis(), severityConfig);
         createWarning(sender, culprit, warning);
     }
@@ -74,7 +72,7 @@ public class WarnService implements InfractionProvider {
     // This is only used when severity levels are empty, it the new system this is not recommended and it will be removed.
     public void sendWarning(CommandSender sender, SppPlayer user, String reason) {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
-        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : StaffPlus.get().consoleUUID;
+        UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : CONSOLE_UUID;
         Warning warning = new Warning(user.getId(), user.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis());
         createWarning(sender, user, warning);
     }
@@ -82,19 +80,19 @@ public class WarnService implements InfractionProvider {
     private void createWarning(CommandSender sender, SppPlayer user, Warning warning) {
         // Offline users cannot bypass being warned this way. Permissions are taken away upon logging out
         if (user.isOnline() && permission.has(user.getPlayer(), options.permissionWarnBypass)) {
-            message.send(sender, messages.bypassed, messages.prefixGeneral);
+            messages.send(sender, messages.bypassed, messages.prefixGeneral);
             return;
         }
 
         int warningId = warnRepository.addWarning(warning);
         warning.setId(warningId);
-        message.send(sender, messages.warned.replace("%target%", warning.getTargetName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
+        messages.send(sender, messages.warned.replace("%target%", warning.getTargetName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
 
         sendEvent(new WarningCreatedEvent(warning));
 
         if (user.isOnline()) {
             Player p = user.getPlayer();
-            message.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
+            messages.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
             options.warningConfiguration.getSound().ifPresent(s -> s.play(p));
         }
     }
@@ -122,14 +120,14 @@ public class WarnService implements InfractionProvider {
 
         appealRepository.deleteAppealsForWarning(id);
         warnRepository.removeWarning(id);
-        message.send(sender, "&2Warning has been removed", messages.prefixWarnings);
+        messages.send(sender, "&2Warning has been removed", messages.prefixWarnings);
         sendEvent(new WarningRemovedEvent(warning));
     }
 
     public void expireWarning(CommandSender sender, int id) {
         Warning warning = getWarning(id);
         warnRepository.expireWarning(id);
-        message.send(sender, "&2Warning has been expired", messages.prefixWarnings);
+        messages.send(sender, "&2Warning has been expired", messages.prefixWarnings);
         sendEvent(new WarningExpiredEvent(warning));
     }
 

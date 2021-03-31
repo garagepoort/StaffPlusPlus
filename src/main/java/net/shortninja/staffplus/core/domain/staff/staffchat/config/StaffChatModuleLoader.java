@@ -1,9 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class StaffChatModuleLoader extends ConfigLoader<StaffChatConfiguration> {
+@IocBean
+public class StaffChatModuleLoader extends AbstractConfigLoader<StaffChatConfiguration> {
 
     @Override
     protected StaffChatConfiguration load(FileConfiguration config) {

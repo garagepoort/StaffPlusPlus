@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.protect.cmd;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectedArea;
 import org.bukkit.Material;
@@ -32,7 +33,7 @@ public class ProtectedAreaItemBuilder {
             .addLore(lore)
             .build();
 
-        return StaffPlus.get().versionProtocol.addNbtString(item, String.valueOf(protectedArea.getId()));
+        return StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(item, String.valueOf(protectedArea.getId()));
     }
 
 

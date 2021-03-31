@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -16,14 +16,13 @@ public abstract class AlertsHandler {
 
     protected final AlertsConfiguration alertsConfiguration;
     protected final SessionManagerImpl sessionManager;
-    protected final MessageCoordinator message;
     protected final PermissionHandler permission;
     protected final Messages messages;
 
-    protected AlertsHandler(Options options, SessionManagerImpl sessionManager, MessageCoordinator message, PermissionHandler permission, Messages messages) {
+    protected AlertsHandler(Options options, SessionManagerImpl sessionManager, PermissionHandler permission, Messages messages) {
         this.alertsConfiguration = options.alertsConfiguration;
         this.sessionManager = sessionManager;
-        this.message = message;
+
         this.permission = permission;
         this.messages = messages;
     }

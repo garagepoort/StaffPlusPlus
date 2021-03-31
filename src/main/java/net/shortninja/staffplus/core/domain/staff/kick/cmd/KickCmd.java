@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.kick.KickService;
@@ -30,8 +30,8 @@ public class KickCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final KickService kickService;
 
-    public KickCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, KickService kickService, CommandService commandService) {
-        super(options.kickConfiguration.getCommandKickPlayer(), messages, message, options, commandService);
+    public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService) {
+        super(options.kickConfiguration.getCommandKickPlayer(), messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.kickService = kickService;
         setPermission(options.kickConfiguration.getPermissionKickPlayer());

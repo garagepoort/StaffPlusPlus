@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +20,7 @@ public class AppealReasonItemBuilder {
             .setLore(lore)
             .build();
 
-        return StaffPlus.get().versionProtocol.addNbtString(item, reason);
+        return StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(item, reason);
     }
 
 

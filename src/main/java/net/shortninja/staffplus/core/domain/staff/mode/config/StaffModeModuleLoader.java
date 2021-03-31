@@ -1,9 +1,30 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.staff.mode.config.gui.GuiConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.gui.StaffModeGuiConfigurationLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.compass.CompassModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.compass.CompassModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.counter.CounterModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.counter.CounterModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.cps.CpsModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.cps.CpsModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.follow.FollowModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.follow.FollowModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport.RandomTeleportModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport.RandomTeleportModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeItemLoader;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,7 +33,41 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration> {
+@IocBean
+public class StaffModeModuleLoader extends AbstractConfigLoader<GeneralModeConfiguration> {
+
+    private final StaffModeGuiConfigurationLoader staffModeGuiConfigurationLoader;
+    private final CompassModeItemLoader compassModeItemLoader;
+    private final CounterModeItemLoader counterModeItemLoader;
+    private final CpsModeItemLoader cpsModeItemLoader;
+    private final ExamineModeItemLoader examineModeItemLoader;
+    private final FollowModeItemLoader followModeItemLoader;
+    private final FreezeModeItemLoader freezeModeItemLoader;
+    private final GuiModeItemLoader guiModeItemLoader;
+    private final RandomTeleportModeItemLoader randomTeleportModeItemLoader;
+    private final VanishModeItemLoader vanishModeItemLoader;
+
+    public StaffModeModuleLoader(StaffModeGuiConfigurationLoader staffModeGuiConfigurationLoader,
+                                 CompassModeItemLoader compassModeItemLoader,
+                                 CounterModeItemLoader counterModeItemLoader,
+                                 CpsModeItemLoader cpsModeItemLoader,
+                                 ExamineModeItemLoader examineModeItemLoader,
+                                 FollowModeItemLoader followModeItemLoader,
+                                 FreezeModeItemLoader freezeModeItemLoader,
+                                 GuiModeItemLoader guiModeItemLoader,
+                                 RandomTeleportModeItemLoader randomTeleportModeItemLoader,
+                                 VanishModeItemLoader vanishModeItemLoader) {
+        this.staffModeGuiConfigurationLoader = staffModeGuiConfigurationLoader;
+        this.compassModeItemLoader = compassModeItemLoader;
+        this.counterModeItemLoader = counterModeItemLoader;
+        this.cpsModeItemLoader = cpsModeItemLoader;
+        this.examineModeItemLoader = examineModeItemLoader;
+        this.followModeItemLoader = followModeItemLoader;
+        this.freezeModeItemLoader = freezeModeItemLoader;
+        this.guiModeItemLoader = guiModeItemLoader;
+        this.randomTeleportModeItemLoader = randomTeleportModeItemLoader;
+        this.vanishModeItemLoader = vanishModeItemLoader;
+    }
 
     @Override
     protected GeneralModeConfiguration load(FileConfiguration config) {
@@ -34,6 +89,17 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
         boolean modeEnableOnLogin = config.getBoolean("staff-mode.enable-on-login");
         boolean modeDisableOnLogout = config.getBoolean("staff-mode.disable-on-logout");
 
+        List<GuiConfiguration> guiConfigurations = staffModeGuiConfigurationLoader.loadConfig();
+        CompassModeConfiguration compassModeConfiguration = compassModeItemLoader.loadConfig();
+        CounterModeConfiguration counterModeConfiguration = counterModeItemLoader.loadConfig();
+        CpsModeConfiguration cpsModeConfiguration = cpsModeItemLoader.loadConfig();
+        ExamineModeConfiguration examineModeConfiguration = examineModeItemLoader.loadConfig();
+        FollowModeConfiguration followModeConfiguration = followModeItemLoader.loadConfig();
+        FreezeModeConfiguration freezeModeConfiguration = freezeModeItemLoader.loadConfig();
+        GuiModeConfiguration guiModeConfiguration = guiModeItemLoader.loadConfig();
+        RandomTeleportModeConfiguration randomTeleportModeConfiguration = randomTeleportModeItemLoader.loadConfig();
+        VanishModeConfiguration vanishModeConfiguration = vanishModeItemLoader.loadConfig();
+
         return new GeneralModeConfiguration(modeVanish,
             modeItemPickup, modeItemDrop, modeDamage,
             modeHungerLoss,
@@ -48,7 +114,17 @@ public class StaffModeModuleLoader extends ConfigLoader<GeneralModeConfiguration
             modeCreative,
             modeOriginalLocation,
             modeEnableOnLogin,
-            modeDisableOnLogout);
+            modeDisableOnLogout,
+            guiConfigurations,
+            compassModeConfiguration,
+            counterModeConfiguration,
+            cpsModeConfiguration,
+            examineModeConfiguration,
+            followModeConfiguration,
+            freezeModeConfiguration,
+            guiModeConfiguration,
+            randomTeleportModeConfiguration,
+            vanishModeConfiguration);
     }
 
     private VanishType stringToVanishType(String string) {

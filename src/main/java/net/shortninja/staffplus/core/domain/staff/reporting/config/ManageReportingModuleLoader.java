@@ -1,9 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class ManageReportingModuleLoader extends ConfigLoader<ManageReportConfiguration> {
+@IocBean
+public class ManageReportingModuleLoader extends AbstractConfigLoader<ManageReportConfiguration> {
 
     @Override
     protected ManageReportConfiguration load(FileConfiguration config) {

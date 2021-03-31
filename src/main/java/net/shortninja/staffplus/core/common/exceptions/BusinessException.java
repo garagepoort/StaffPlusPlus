@@ -8,7 +8,7 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {
         super(message);
-        this.prefix = StaffPlus.get().iocContainer.get(Messages.class).prefixGeneral;
+        this.prefix = StaffPlus.get().getIocContainer().get(Messages.class).prefixGeneral;
     }
 
     public BusinessException(String message, String prefix) {

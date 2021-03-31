@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -13,7 +14,8 @@ import java.util.Map;
 
 import static java.lang.Double.parseDouble;
 
-public class LocationLoader extends ConfigLoader<Map<String, Location>> {
+@IocBean
+public class LocationLoader extends AbstractConfigLoader<Map<String, Location>> {
 
     @Override
     protected Map<String, Location> load(FileConfiguration config) {

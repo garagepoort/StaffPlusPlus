@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.ManageWarningsGui;
@@ -27,8 +27,8 @@ public class ManageWarningsGuiCmd extends AbstractCmd {
 
     private final PlayerManager playerManager;
 
-    public ManageWarningsGuiCmd(Messages messages, MessageCoordinator message, PlayerManager playerManager, Options options, CommandService commandService) {
-        super(options.manageWarningsConfiguration.getCommandManageWarningsGui(), messages, message, options, commandService);
+    public ManageWarningsGuiCmd(Messages messages, PlayerManager playerManager, Options options, CommandService commandService) {
+        super(options.manageWarningsConfiguration.getCommandManageWarningsGui(), messages, options, commandService);
         this.playerManager = playerManager;
         setPermission(options.manageReportConfiguration.getPermissionView());
         setDescription("Open the manage Warnings GUI.");

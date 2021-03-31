@@ -10,7 +10,7 @@ import java.util.List;
 public class ExamineGui extends AbstractGui {
 
     private static final int SIZE = 54;
-    private final List<ExamineGuiItemProvider> guiItemProviders = StaffPlus.get().iocContainer.getList(ExamineGuiItemProvider.class);
+    private final List<ExamineGuiItemProvider> guiItemProviders = StaffPlus.get().getIocContainer().getList(ExamineGuiItemProvider.class);
     private final SppPlayer targetPlayer;
     private final Player player;
 

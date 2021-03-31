@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatServiceImpl;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -25,8 +25,8 @@ public class StaffChatCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final StaffChatServiceImpl staffChatService;
 
-    public StaffChatCmd(Messages messages, MessageCoordinator message, Options options, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService, CommandService commandService) {
-        super(options.commandStaffChat, messages, message, options, commandService);
+    public StaffChatCmd(Messages messages, Options options, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService, CommandService commandService) {
+        super(options.commandStaffChat, messages, options, commandService);
         this.sessionManager = sessionManager;
         this.staffChatService = staffChatService;
         setDescription("Sends a message or toggles staff chat.");
@@ -47,10 +47,10 @@ public class StaffChatCmd extends AbstractCmd {
             PlayerSession session = sessionManager.get(((Player) sender).getUniqueId());
 
             if (session.inStaffChatMode()) {
-                message.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);
+                messages.send(sender, messages.staffChatStatus.replace("%status%", messages.disabled), messages.prefixStaffChat);
                 session.setChatting(false);
             } else {
-                message.send(sender, messages.staffChatStatus.replace("%status%", messages.enabled), messages.prefixStaffChat);
+                messages.send(sender, messages.staffChatStatus.replace("%status%", messages.enabled), messages.prefixStaffChat);
                 session.setChatting(true);
             }
         }

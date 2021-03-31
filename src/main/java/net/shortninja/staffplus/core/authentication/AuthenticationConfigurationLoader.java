@@ -1,13 +1,17 @@
 package net.shortninja.staffplus.core.authentication;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import static net.shortninja.staffplus.core.authentication.AuthenticationProvider.AUTHME;
 
-public class AuthenticationConfigurationLoader extends ConfigLoader<AuthenticationConfiguration> {
+@IocBean
+public class AuthenticationConfigurationLoader extends AbstractConfigLoader<AuthenticationConfiguration> {
 
     @Override
     protected AuthenticationConfiguration load(FileConfiguration config) {

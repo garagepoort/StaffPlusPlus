@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
@@ -24,11 +24,11 @@ import static net.shortninja.staffplus.core.common.JavaUtils.formatLines;
 @IocMultiProvider(InfractionGuiProvider.class)
 public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
 
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
     private final Options options;
 
-    public MutedPlayerItemBuilder(IProtocol versionProtocol, Options options) {
-        this.versionProtocol = versionProtocol;
+    public MutedPlayerItemBuilder(IProtocolService protocolService, Options options) {
+        this.protocolService = protocolService;
         this.options = options;
     }
 
@@ -62,7 +62,7 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
             .addLore(lore)
             .build();
 
-        return versionProtocol.addNbtString(item, String.valueOf(mute.getId()));
+        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(mute.getId()));
     }
 
     @Override
