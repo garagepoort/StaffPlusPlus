@@ -40,7 +40,7 @@ public class AsyncPlayerChat implements Listener {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         String message = event.getMessage();
@@ -52,6 +52,7 @@ public class AsyncPlayerChat implements Listener {
                 return;
             }
         }
+
 
         traceService.sendTraceMessage(CHAT, player.getUniqueId(), event.getMessage());
 
