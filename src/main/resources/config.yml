@@ -849,9 +849,10 @@ permissions:
           reject: "staff.warnings.appeals.reject"
           notifications: "staff.warnings.appeals.notifications"
   investigations:
-      # All permission for managing warnings
+      # All permission for managing investigations
       manage:
           investigate: "staff.investigation.manage.investigate"
+          notifications: "staff.investigation.manage.notifications"
 
   # Permission for using staff chat.
   staff-chat: "staff.staffchat"
