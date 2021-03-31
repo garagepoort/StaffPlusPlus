@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.alerts.AlertType;
@@ -17,8 +17,8 @@ import org.bukkit.event.Listener;
 @IocBean
 public class NameChangeAlertHandler extends AlertsHandler implements Listener {
 
-    public NameChangeAlertHandler(Options options, SessionManagerImpl sessionManager, MessageCoordinator message, PermissionHandler permission, Messages messages) {
-        super(options, sessionManager, message, permission, messages);
+    public NameChangeAlertHandler(Options options, SessionManagerImpl sessionManager, PermissionHandler permission, Messages messages) {
+        super(options, sessionManager, permission, messages);
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -29,7 +29,7 @@ public class NameChangeAlertHandler extends AlertsHandler implements Listener {
         }
 
         for (Player player : getPlayersToNotify()) {
-            message.send(player, messages.alertsName.replace("%old%", nameChangeEvent.getOldName()).replace("%new%", nameChangeEvent.getNewName()), messages.prefixGeneral, getPermission());
+            messages.send(player, messages.alertsName.replace("%old%", nameChangeEvent.getOldName()).replace("%new%", nameChangeEvent.getNewName()), messages.prefixGeneral, getPermission());
         }
     }
 

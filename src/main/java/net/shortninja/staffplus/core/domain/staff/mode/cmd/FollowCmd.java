@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import org.bukkit.command.CommandSender;
@@ -23,8 +23,8 @@ public class FollowCmd extends AbstractCmd {
 
     private final GadgetHandler gadgetHandler;
 
-    public FollowCmd(Messages messages, MessageCoordinator message, Options options, GadgetHandler gadgetHandler, CommandService commandService) {
-        super(options.commandFollow, messages, message, options, commandService);
+    public FollowCmd(Messages messages, Options options, GadgetHandler gadgetHandler, CommandService commandService) {
+        super(options.commandFollow, messages, options, commandService);
         this.gadgetHandler = gadgetHandler;
         setPermission(options.permissionFollow);
         setDescription("Follows or unfollows the player.");

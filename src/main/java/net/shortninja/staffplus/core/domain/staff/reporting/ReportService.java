@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.bungee.ServerSwitcher;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.delayedactions.Executor;
 import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
@@ -37,7 +37,7 @@ public class ReportService implements InfractionProvider {
     private static final Map<UUID, Long> lastUse = new HashMap<>();
 
     private final PermissionHandler permission;
-    private final MessageCoordinator message;
+
     private final Options options;
     private final Messages messages;
     private final PlayerManager playerManager;
@@ -45,9 +45,9 @@ public class ReportService implements InfractionProvider {
     private final DelayedActionsRepository delayedActionsRepository;
     private final ReportNotifier reportNotifier;
 
-    public ReportService(PermissionHandler permission, MessageCoordinator message, Options options, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository, ReportNotifier reportNotifier) {
+    public ReportService(PermissionHandler permission, Options options, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository, ReportNotifier reportNotifier) {
         this.permission = permission;
-        this.message = message;
+
         this.options = options;
         this.reportRepository = reportRepository;
         this.messages = messages;
@@ -79,7 +79,7 @@ public class ReportService implements InfractionProvider {
 
             // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
             if (user.isOnline() && permission.has(user.getPlayer(), options.permissionReportBypass)) {
-                message.send(player, messages.bypassed, messages.prefixGeneral);
+                messages.send(player, messages.bypassed, messages.prefixGeneral);
                 return;
             }
 
@@ -98,8 +98,8 @@ public class ReportService implements InfractionProvider {
             int id = reportRepository.addReport(report);
             report.setId(id);
 
-            message.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getCulpritName()).replace("%reason%", report.getReason()), messages.prefixReports);
-            reportNotifier.notifyStaffReportCreated(report, options.serverSyncConfiguration.isReportSyncEnabled());
+            messages.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getCulpritName()).replace("%reason%", report.getReason()), messages.prefixReports);
+            reportNotifier.sendCreatedMessages(report.getReporterName(), report.getCulpritName(), report.getReason());
 
             lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
@@ -128,8 +128,8 @@ public class ReportService implements InfractionProvider {
             int id = reportRepository.addReport(report);
             report.setId(id);
 
-            message.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
-            reportNotifier.notifyStaffReportCreated(report, options.serverSyncConfiguration.isReportSyncEnabled());
+            messages.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
+            reportNotifier.sendCreatedMessages(report.getReporterName(), report.getCulpritName(), report.getReason());
 
             lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
@@ -182,7 +182,7 @@ public class ReportService implements InfractionProvider {
         Location location = report.getLocation().orElseThrow(() -> new BusinessException("Cannot teleport to report, report has no known location"));
         if (report.getServerName().equalsIgnoreCase(options.serverName)) {
             player.teleport(location);
-            message.send(player, "You have been teleported to the location where this report was created", messages.prefixReports);
+            messages.send(player, "You have been teleported to the location where this report was created", messages.prefixReports);
         } else {
             String command = "staffplus:teleport-to-report " + reportId;
             delayedActionsRepository.saveDelayedAction(player.getUniqueId(), command, Executor.PLAYER, report.getServerName());

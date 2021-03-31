@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.chests.EnderChestService;
@@ -27,8 +27,8 @@ public class EChestView extends AbstractCmd {
     private final EnderChestService enderChestService;
     private final PlayerManager playerManager;
 
-    public EChestView(Messages messages, MessageCoordinator message, Options options, EnderChestService enderChestService, CommandService commandService, PlayerManager playerManager) {
-        super(options.enderchestsConfiguration.getCommandOpenEnderChests(), messages, message, options, commandService);
+    public EChestView(Messages messages, Options options, EnderChestService enderChestService, CommandService commandService, PlayerManager playerManager) {
+        super(options.enderchestsConfiguration.getCommandOpenEnderChests(), messages, options, commandService);
         this.enderChestService = enderChestService;
         this.playerManager = playerManager;
         setDescription("Used to view a players ender chest");

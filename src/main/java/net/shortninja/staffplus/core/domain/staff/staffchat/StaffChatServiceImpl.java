@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatEvent;
@@ -29,14 +29,14 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     private final Messages messages;
     private final Options options;
     private final StaffChatMessageFormatter staffChatMessageFormatter;
-    private final MessageCoordinator message;
+
     private final SessionManagerImpl sessionManager;
 
-    public StaffChatServiceImpl(Messages messages, Options options, StaffChatMessageFormatter staffChatMessageFormatter, MessageCoordinator message, SessionManagerImpl sessionManager) {
+    public StaffChatServiceImpl(Messages messages, Options options, StaffChatMessageFormatter staffChatMessageFormatter, SessionManagerImpl sessionManager) {
         this.messages = messages;
         this.options = options;
         this.staffChatMessageFormatter = staffChatMessageFormatter;
-        this.message = message;
+
         this.sessionManager = sessionManager;
     }
 
@@ -80,7 +80,7 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
             .map(PlayerSession::getPlayer)
             .filter(Optional::isPresent)
             .filter(player -> player.get().isOnline() && player.get().hasPermission(options.staffChatConfiguration.getPermissionStaffChat()))
-            .forEach(player -> message.send(player.get(), formattedMessage, messages.prefixStaffChat));
+            .forEach(player -> messages.send(player.get(), formattedMessage, messages.prefixStaffChat));
     }
 
     private void sendBungeeMessage(CommandSender sender, String message) {

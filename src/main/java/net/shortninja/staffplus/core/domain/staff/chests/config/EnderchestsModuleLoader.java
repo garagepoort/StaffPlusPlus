@@ -1,9 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.chests.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import org.bukkit.configuration.file.FileConfiguration;
 
-public class EnderchestsModuleLoader extends ConfigLoader<EnderchestsConfiguration> {
+@IocBean
+public class EnderchestsModuleLoader extends AbstractConfigLoader<EnderchestsConfiguration> {
 
     @Override
     protected EnderchestsConfiguration load(FileConfiguration config) {

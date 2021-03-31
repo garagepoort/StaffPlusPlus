@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -26,8 +26,8 @@ public class ChatCmd extends AbstractCmd {
     private final ChatHandler chatHandler;
     private final PermissionHandler permissionHandler;
 
-    public ChatCmd(PermissionHandler permissionHandler, Messages messages, MessageCoordinator message, Options options, ChatHandler chatHandler, CommandService commandService) {
-        super(options.commandChat, messages, message, options, commandService);
+    public ChatCmd(PermissionHandler permissionHandler, Messages messages, Options options, ChatHandler chatHandler, CommandService commandService) {
+        super(options.commandChat, messages, options, commandService);
         this.chatHandler = chatHandler;
         this.permissionHandler = permissionHandler;
         setPermissions(Sets.newHashSet(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle));
@@ -70,30 +70,30 @@ public class ChatCmd extends AbstractCmd {
             case "clear":
                 if (!shouldCheckPermission || permissionHandler.has(sender, options.permissionChatClear)) {
                     chatHandler.clearChat(name);
-                } else message.send(sender, messages.noPermission, messages.prefixGeneral);
+                } else messages.send(sender, messages.noPermission, messages.prefixGeneral);
                 break;
             case "toggle":
                 if (!shouldCheckPermission || permissionHandler.has(sender, options.permissionChatToggle)) {
                     chatHandler.setChatEnabled(name, option.isEmpty() ? !chatHandler.isChatEnabled() : Boolean.parseBoolean(option));
-                } else message.send(sender, messages.noPermission, messages.prefixGeneral);
+                } else messages.send(sender, messages.noPermission, messages.prefixGeneral);
                 break;
             case "slow":
                 if (!shouldCheckPermission || permissionHandler.has(sender, options.permissionChatSlow)) {
                     if (JavaUtils.isInteger(option)) {
                         chatHandler.setChatSlow(name, Integer.parseInt(option));
                     } else
-                        message.send(sender, messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
-                } else message.send(sender, messages.noPermission, messages.prefixGeneral);
+                        messages.send(sender, messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
+                } else messages.send(sender, messages.noPermission, messages.prefixGeneral);
                 break;
             default:
-                message.send(sender, messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
+                messages.send(sender, messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
                 break;
         }
     }
 
     private void sendHelp(CommandSender sender) {
-        message.send(sender, "&7" + message.LONG_LINE, "");
-        message.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
-        message.send(sender, "&7" + message.LONG_LINE, "");
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
+        messages.send(sender, "&b/" + getName() + " &7" + getUsage(), messages.prefixGeneral);
+        messages.send(sender, "&7" + messages.LONG_LINE, "");
     }
 }

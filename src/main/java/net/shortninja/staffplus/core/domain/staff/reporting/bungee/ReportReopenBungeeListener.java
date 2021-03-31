@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocBean
+@IocBean(conditionalOnProperty = "server-sync-module.report-sync=true")
 public class ReportReopenBungeeListener implements PluginMessageListener {
 
     private final BungeeClient bungeeClient;
@@ -32,7 +32,7 @@ public class ReportReopenBungeeListener implements PluginMessageListener {
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         if (options.serverSyncConfiguration.isReportSyncEnabled()) {
             Optional<ReportReopenedBungee> reportCreatedBungee = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_REOPEN_CHANNEL, message, ReportReopenedBungee.class);
-            reportCreatedBungee.ifPresent(createdBungee -> reportNotifier.notifyReportReopen(createdBungee.getReopenByName(), createdBungee.getReport()));
+            reportCreatedBungee.ifPresent(report -> reportNotifier.notifyReportReopen(report.getReopenByName(), report.getReporterName()));
         }
     }
 }

@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.chat;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 @IocBean
@@ -11,24 +11,24 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class GeneralChatInterceptor implements ChatInterceptor {
 
     private final ChatHandler chatHandler;
-    private final MessageCoordinator message;
+
     private final Messages messages;
 
-    public GeneralChatInterceptor(ChatHandler chatHandler, MessageCoordinator message, Messages messages) {
+    public GeneralChatInterceptor(ChatHandler chatHandler, Messages messages) {
         this.chatHandler = chatHandler;
-        this.message = message;
+
         this.messages = messages;
     }
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
         if (!chatHandler.canChat(event.getPlayer())) {
-            this.message.send(event.getPlayer(), messages.chattingFast, messages.prefixGeneral);
+            this.messages.send(event.getPlayer(), messages.chattingFast, messages.prefixGeneral);
             return true;
         }
 
         if (!chatHandler.isChatEnabled(event.getPlayer())) {
-            this.message.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
+            this.messages.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }
 

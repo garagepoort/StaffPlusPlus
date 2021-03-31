@@ -13,7 +13,7 @@ import java.util.List;
 
 public class FreezeGui extends AbstractGui {
     private static final int SIZE = 9;
-    private Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
+    private Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
 
 
     public FreezeGui(String title) {

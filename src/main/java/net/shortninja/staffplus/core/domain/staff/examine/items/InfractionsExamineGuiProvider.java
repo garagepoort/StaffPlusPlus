@@ -67,7 +67,7 @@ public class InfractionsExamineGuiProvider implements ExamineGuiItemProvider {
         String latestReason = latestReport == null ? "null" : latestReport.getReason();
 
         for (String string : messages.infractionItem) {
-            List<Warning> warnings = StaffPlus.get().iocContainer.get(WarnService.class).getWarnings(player.getId(), false);
+            List<Warning> warnings = StaffPlus.get().getIocContainer().get(WarnService.class).getWarnings(player.getId(), false);
             lore.add(string.replace("%warnings%", Integer.toString(warnings.size())).replace("%reports%", Integer.toString(reports.size())).replace("%reason%", latestReason));
         }
 

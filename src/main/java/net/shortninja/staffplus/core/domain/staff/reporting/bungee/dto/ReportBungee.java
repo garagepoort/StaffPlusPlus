@@ -1,13 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto;
 
 import net.shortninja.staffplus.core.common.SppLocation;
-import net.shortninja.staffplus.core.domain.staff.reporting.Report;
+import net.shortninja.staffplus.core.common.bungee.BungeeMessage;
 import net.shortninja.staffplusplus.ILocation;
+import net.shortninja.staffplusplus.reports.IReport;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 
 import java.util.UUID;
 
-public class ReportBungee {
+public class ReportBungee extends BungeeMessage {
 
     private int id;
     private UUID culpritUuid;
@@ -19,11 +20,11 @@ public class ReportBungee {
     private UUID staffUuid;
     private ReportStatus reportStatus;
     private String closeReason;
-    private String serverName;
     private SppLocation sppLocation;
     private String type;
 
-    public ReportBungee(Report report) {
+    public ReportBungee(IReport report) {
+        super(report.getServerName());
         this.id = report.getId();
         this.culpritUuid = report.getCulpritUuid();
         this.culpritName = report.getCulpritName();
@@ -34,7 +35,6 @@ public class ReportBungee {
         this.staffUuid = report.getStaffUuid();
         this.reportStatus = report.getReportStatus();
         this.closeReason = report.getCloseReason();
-        this.serverName = report.getServerName();
         this.sppLocation = (SppLocation) report.getSppLocation().orElse(null);
         this.type = report.getReportType().orElse(null);
     }
@@ -77,10 +77,6 @@ public class ReportBungee {
 
     public String getCloseReason() {
         return closeReason;
-    }
-
-    public String getServerName() {
-        return serverName;
     }
 
     public ILocation getSppLocation() {

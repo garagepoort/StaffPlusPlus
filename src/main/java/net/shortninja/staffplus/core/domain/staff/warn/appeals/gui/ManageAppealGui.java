@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 public class ManageAppealGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final PermissionHandler permission = StaffPlus.get().iocContainer.get(PermissionHandler.class);
-    private final ActionService actionService = StaffPlus.get().iocContainer.get(ActionService.class);
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
+    private final PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
+    private final ActionService actionService = StaffPlus.get().getIocContainer().get(ActionService.class);
+    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
     private final Player player;
     private final Warning warning;

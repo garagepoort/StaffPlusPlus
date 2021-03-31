@@ -5,7 +5,7 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.Sounds;
 import org.bukkit.configuration.file.FileConfiguration;
 
-public abstract class ConfigLoader<T> {
+public abstract class AbstractConfigLoader<T> {
 
     public T loadConfig() {
         return load(StaffPlus.get().getConfig());

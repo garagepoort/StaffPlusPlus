@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.ManageAppealedWarningsGui;
 import org.bukkit.command.CommandSender;
@@ -21,8 +21,8 @@ import java.util.Optional;
 @IocMultiProvider(SppCommand.class)
 public class ManageAppealedWarningsGuiCmd extends AbstractCmd {
 
-    public ManageAppealedWarningsGuiCmd(Messages messages, MessageCoordinator message, Options options, CommandService commandService) {
-        super(options.manageWarningsConfiguration.getCommandManageAppealedWarningsGui(), messages, message, options, commandService);
+    public ManageAppealedWarningsGuiCmd(Messages messages, Options options, CommandService commandService) {
+        super(options.manageWarningsConfiguration.getCommandManageAppealedWarningsGui(), messages, options, commandService);
         setPermission(options.manageWarningsConfiguration.getPermissionView());
         setDescription("Open the manage Appealed Warnings GUI.");
         setUsage("");

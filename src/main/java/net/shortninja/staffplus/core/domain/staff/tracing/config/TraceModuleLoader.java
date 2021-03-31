@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.tracing.config;
 
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceType;
 import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,7 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TraceModuleLoader extends ConfigLoader<TraceConfiguration> {
+@IocBean
+public class TraceModuleLoader extends AbstractConfigLoader<TraceConfiguration> {
 
     @Override
     protected TraceConfiguration load(FileConfiguration config) {

@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectService;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectedArea;
@@ -31,8 +31,8 @@ public class ProtectAreaCmd extends AbstractCmd {
 
     private final ProtectService protectService;
 
-    public ProtectAreaCmd(Messages messages, MessageCoordinator message, Options options, ProtectService protectService, CommandService commandService) {
-        super(options.protectConfiguration.getCommandProtectArea(), messages, message, options, commandService);
+    public ProtectAreaCmd(Messages messages, Options options, ProtectService protectService, CommandService commandService) {
+        super(options.protectConfiguration.getCommandProtectArea(), messages, options, commandService);
         this.protectService = protectService;
         setPermission(options.protectConfiguration.getPermissionProtectArea());
         setDescription("Protect an area around you.");

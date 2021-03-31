@@ -28,6 +28,7 @@ staff-chat-prefix: "&dChat del Staff&8»"
 tickets-prefix: "&dTickets &8»"
 trace-prefix: "&dTrace &8»"
 protect-prefix: "&dProtected &8»"
+investigations-prefix: "&dInvestigations &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       General                        | #
@@ -260,6 +261,16 @@ appeal-rejected: "&6Your appeal has been &4rejected&6."
 appeal-approve: "&6Appeal approved"
 appeal-reject: "&6Appeal rejected"
 appeal-open-notify: "There are %appealsCount% unresolved appealed warnings!"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   INVESTIGATIONS                     | #
+# +------------------------------------------------------+ #
+############################################################
+investigated.investigation-started: "&6You are currently under investigation"
+investigated.investigation-paused: "&6The investigation has been paused"
+investigated.investigation-concluded: "&6The investigation on you has been concluded"
+investigated.under-investigation-title: "&CYou are under investigation"
 
 
 # No cambies esto si no sabes que es!!!!!!

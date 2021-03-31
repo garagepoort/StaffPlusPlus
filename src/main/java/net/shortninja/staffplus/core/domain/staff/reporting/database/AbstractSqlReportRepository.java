@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.SppLocation;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -22,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 
 public abstract class AbstractSqlReportRepository implements ReportRepository {
 
@@ -328,7 +329,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         UUID staffUUID = rs.getString("staff_uuid") != null ? UUID.fromString(rs.getString("staff_uuid")) : null;
 
         String reporterName;
-        if (reporterUUID.equals(StaffPlus.get().consoleUUID)) {
+        if (reporterUUID.equals(CONSOLE_UUID)) {
             reporterName = "Console";
         } else {
             Optional<SppPlayer> reporter = playerManager.getOnOrOfflinePlayer(reporterUUID);

@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -30,8 +30,8 @@ public class TraceCmd extends AbstractCmd {
 
     private final TraceService traceService;
 
-    public TraceCmd(Messages messages, MessageCoordinator message, Options options, TraceService traceService, CommandService commandService) {
-        super(options.commandTrace, messages, message, options, commandService);
+    public TraceCmd(Messages messages, Options options, TraceService traceService, CommandService commandService) {
+        super(options.commandTrace, messages, options, commandService);
         this.traceService = traceService;
         setPermission(options.permissionTrace);
         setDescription("Used to start/stop tracing a player");

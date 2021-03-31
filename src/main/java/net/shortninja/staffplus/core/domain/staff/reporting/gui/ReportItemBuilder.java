@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.staffplusplus.craftbukkit.common.IProtocol;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -27,11 +27,11 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
     private static final String VALUE_COLOR = "&7";
     private static final String UNKNOWN = "Unknown";
 
-    private final IProtocol versionProtocol;
+    private final IProtocolService protocolService;
     private final Options options;
 
-    public ReportItemBuilder(IProtocol versionProtocol, Options options) {
-        this.versionProtocol = versionProtocol;
+    public ReportItemBuilder(IProtocolService protocolService, Options options) {
+        this.protocolService = protocolService;
         this.options = options;
     }
 
@@ -78,7 +78,7 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
             .setLore(lore)
             .build();
 
-        return versionProtocol.addNbtString(item, String.valueOf(report.getId()));
+        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(report.getId()));
     }
 
     private static void addLoreLine(List<String> lore, String tag, String value) {

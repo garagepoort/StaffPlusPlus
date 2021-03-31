@@ -1,7 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
+import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.Sounds;
-import net.shortninja.staffplus.core.common.config.ConfigLoader;
+import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.Material;
@@ -15,7 +17,8 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
-public class ReportingModuleLoader extends ConfigLoader<ReportConfiguration> {
+@IocBean
+public class ReportingModuleLoader extends AbstractConfigLoader<ReportConfiguration> {
 
     @Override
     protected ReportConfiguration load(FileConfiguration config) {

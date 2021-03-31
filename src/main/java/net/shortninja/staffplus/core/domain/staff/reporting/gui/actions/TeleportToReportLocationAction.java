@@ -3,15 +3,14 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui.actions;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.gui.IAction;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class TeleportToReportLocationAction implements IAction {
-    private Messages messages = StaffPlus.get().iocContainer.get(Messages.class);
-    private MessageCoordinator message = StaffPlus.get().iocContainer.get(MessageCoordinator.class);
+    private Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
     private final Report report;
 
     public TeleportToReportLocationAction(Report report) {
@@ -21,9 +20,9 @@ public class TeleportToReportLocationAction implements IAction {
     @Override
     public void click(Player player, ItemStack item, int slot) {
         if (report.getLocation().isPresent()) {
-            StaffPlus.get().iocContainer.get(ReportService.class).goToReportLocation(player, report.getId());
+            StaffPlus.get().getIocContainer().get(ReportService.class).goToReportLocation(player, report.getId());
         } else {
-            message.send(player, "&cLocation not known for this report.", messages.prefixReports);
+            messages.send(player, "&cLocation not known for this report.", messages.prefixReports);
         }
     }
 

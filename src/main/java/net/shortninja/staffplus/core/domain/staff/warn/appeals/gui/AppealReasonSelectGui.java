@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.cmd.CommandUtil;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
@@ -15,8 +16,8 @@ import java.util.function.Supplier;
 public class AppealReasonSelectGui extends AbstractGui {
     private static final int SIZE = 54;
 
-    private final Options options = StaffPlus.get().iocContainer.get(Options.class);
-    private final AppealService appealService = StaffPlus.get().iocContainer.get(AppealService.class);
+    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
+    private final AppealService appealService = StaffPlus.get().getIocContainer().get(AppealService.class);
     private final Warning warning;
 
     public AppealReasonSelectGui(Warning warning, String title, Supplier<AbstractGui> previousGuiSupplier) {
@@ -31,7 +32,7 @@ public class AppealReasonSelectGui extends AbstractGui {
             @Override
             public void click(Player player, ItemStack item, int slot) {
                 CommandUtil.playerAction(player, () -> {
-                    String reason = StaffPlus.get().versionProtocol.getNbtString(item);
+                    String reason = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item);
                     appealService.addAppeal(player, warning, reason);
                     previousGuiSupplier.get().show(player);
                 });

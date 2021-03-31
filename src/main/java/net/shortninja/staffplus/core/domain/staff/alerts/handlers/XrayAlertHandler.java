@@ -5,7 +5,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.MessageCoordinator;
+
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.alerts.AlertType;
@@ -18,8 +18,8 @@ import org.bukkit.event.Listener;
 @IocBean
 public class XrayAlertHandler extends AlertsHandler implements Listener {
 
-    public XrayAlertHandler(Options options, SessionManagerImpl sessionManager, MessageCoordinator message, PermissionHandler permission, Messages messages) {
-        super(options, sessionManager, message, permission, messages);
+    public XrayAlertHandler(Options options, SessionManagerImpl sessionManager, PermissionHandler permission, Messages messages) {
+        super(options, sessionManager, permission, messages);
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -39,7 +39,7 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
             if (event.getDuration().isPresent()) {
                 xrayMessage = xrayMessage + String.format(" in %s seconds", event.getDuration().get() / 1000);
             }
-            message.send(user, xrayMessage, messages.prefixGeneral, alertsConfiguration.getXrayConfiguration().getPermissionXray());
+            messages.send(user, xrayMessage, messages.prefixGeneral, alertsConfiguration.getXrayConfiguration().getPermissionXray());
         }
 
     }
