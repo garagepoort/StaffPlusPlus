@@ -2,7 +2,13 @@ package net.shortninja.staffplus.core.domain.staff.investigate.config;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
+import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @IocBean
 public class InvestigationModuleLoader extends AbstractConfigLoader<InvestigationConfiguration> {
@@ -10,18 +16,31 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
     @Override
     protected InvestigationConfiguration load(FileConfiguration config) {
         boolean enabled = config.getBoolean("investigations-module.enabled");
-        boolean titleMessageEnabled = config.getBoolean("investigations-module.title-message-enabled");
+        boolean investigatedTitleMessageEnabled = config.getBoolean("investigations-module.notifications.investigated.title-message-enabled");
+        boolean investigatedChatMessageEnabled = config.getBoolean("investigations-module.notifications.investigated.chat-message-enabled");
+        boolean allowOfflineInvestigation = config.getBoolean("investigations-module.allow-offline-investigation");
         String investigatePermission = config.getString("permissions.investigations.manage.investigate");
+        String viewPermission = config.getString("permissions.investigations.manage.view");
         String startInvestigationCmd = config.getString("commands.investigations.manage.start");
         String pauseInvestigationCmd = config.getString("commands.investigations.manage.pause");
         String concludeInvestigationCmd = config.getString("commands.investigations.manage.conclude");
+        String commandManageInvestigationsGui = config.getString("commands.investigations.manage.gui");
         String staffNotificationPermission = config.getString("permissions.investigations.manage.notifications");
+        List<ConfiguredAction> startInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("investigations-module.start-investigation-commands", new ArrayList<>()));
+        List<ConfiguredAction> concludeInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("investigations-module.conclude-investigation-commands", new ArrayList<>()));
+        List<ConfiguredAction> pauseInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("investigations-module.pause-investigation-commands", new ArrayList<>()));
 
         return new InvestigationConfiguration(enabled,
+            allowOfflineInvestigation,
             investigatePermission,
             startInvestigationCmd,
             pauseInvestigationCmd,
             concludeInvestigationCmd,
-            titleMessageEnabled, staffNotificationPermission);
+            investigatedTitleMessageEnabled,
+            investigatedChatMessageEnabled,
+            staffNotificationPermission,
+            startInvestigationCommands,
+            concludeInvestigationCommands,
+            pauseInvestigationCommands, commandManageInvestigationsGui, viewPermission);
     }
 }

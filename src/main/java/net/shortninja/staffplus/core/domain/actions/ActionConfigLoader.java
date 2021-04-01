@@ -20,12 +20,13 @@ public class ActionConfigLoader {
             }
             String command = (String) map.get("command");
             String rollbackCommand = (String) map.get("rollback-command");
+            String target = map.containsKey("target") ? (String) map.get("target") : "player";
             ActionRunStrategy runStrategy = map.containsKey("run-strategy") ? ActionRunStrategy.valueOf((String) map.get("run-strategy")) : ActionRunStrategy.ALWAYS;
             ActionRunStrategy rollbackRunStrategy = map.containsKey("rollback-run-strategy") ? ActionRunStrategy.valueOf((String) map.get("rollback-run-strategy")) : runStrategy;
 
             Map<String, String> filterMap = loadFilters(map);
 
-            return new ConfiguredAction(command, rollbackCommand, runStrategy, rollbackRunStrategy, filterMap);
+            return new ConfiguredAction(command, rollbackCommand, runStrategy, rollbackRunStrategy, filterMap, target);
         }).collect(Collectors.toList());
     }
 
