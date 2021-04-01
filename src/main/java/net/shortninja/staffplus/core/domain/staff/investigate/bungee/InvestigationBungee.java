@@ -4,14 +4,17 @@ import net.shortninja.staffplus.core.common.bungee.BungeeMessage;
 import net.shortninja.staffplusplus.investigate.IInvestigation;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
 public class InvestigationBungee extends BungeeMessage implements IInvestigation {
 
     private int id;
-    private Long creationDate;
-    private Long conclusionDate;
+    private Long creationTimestamp;
+    private Long conclusionTimestamp;
+    private ZonedDateTime creationDate;
+    private ZonedDateTime conclusionDate;
     private String investigatorName;
     private UUID investigatorUuid;
     private String investigatedName;
@@ -23,6 +26,8 @@ public class InvestigationBungee extends BungeeMessage implements IInvestigation
         id = investigation.getId();
         creationDate = investigation.getCreationDate();
         conclusionDate = investigation.getConclusionDate().orElse(null);
+        creationTimestamp = investigation.getCreationTimestamp();
+        conclusionTimestamp = investigation.getConclusionTimestamp().orElse(null);
         investigatorName = investigation.getInvestigatorName();
         investigatorUuid = investigation.getInvestigatorUuid();
         investigatedName = investigation.getInvestigatedName();
@@ -36,12 +41,22 @@ public class InvestigationBungee extends BungeeMessage implements IInvestigation
     }
 
     @Override
-    public Long getCreationDate() {
+    public Long getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    @Override
+    public ZonedDateTime getCreationDate() {
         return creationDate;
     }
 
     @Override
-    public Optional<Long> getConclusionDate() {
+    public Optional<Long> getConclusionTimestamp() {
+        return Optional.ofNullable(conclusionTimestamp);
+    }
+
+    @Override
+    public Optional<ZonedDateTime> getConclusionDate() {
         return Optional.ofNullable(conclusionDate);
     }
 

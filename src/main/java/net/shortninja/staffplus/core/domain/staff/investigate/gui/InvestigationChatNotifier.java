@@ -44,32 +44,50 @@ public class InvestigationChatNotifier implements Listener {
 
     @EventHandler
     public void notifyInvestigationStarted(InvestigationStartedEvent event) {
-        sendChat(event.getInvestigation(), INVESTIGATION_STARTED, messages.investigatedInvestigationStarted, messages.investigationStaffNotificationsStarted);
+        IInvestigation investigation = event.getInvestigation();
+        sendInvestigatorMessage(investigation, INVESTIGATION_STARTED);
+        sendInvestigatedMessage(investigation, messages.investigatedInvestigationStarted);
+        sendStaffNotifications(investigation, messages.investigationStaffNotificationsStarted);
     }
 
     @EventHandler
     public void notifyInvestigationStarted(InvestigationStartedBungeeEvent event) {
-        sendChat(event.getInvestigation(), INVESTIGATION_STARTED, messages.investigatedInvestigationStarted, messages.investigationStaffNotificationsStarted);
+        IInvestigation investigation = event.getInvestigation();
+        sendInvestigatorMessage(investigation, INVESTIGATION_STARTED);
+        sendInvestigatedMessage(investigation, messages.investigatedInvestigationStarted);
+        sendStaffNotifications(investigation, messages.investigationStaffNotificationsStarted);
     }
 
     @EventHandler
     public void notifyInvestigationConcluded(InvestigationConcludedEvent event) {
-        sendChat(event.getInvestigation(), INVESTIGATION_CONCLUDED, messages.investigatedInvestigationConcluded, messages.investigationStaffNotificationsConcluded);
+        IInvestigation investigation = event.getInvestigation();
+        sendInvestigatorMessage(investigation, INVESTIGATION_CONCLUDED);
+        sendInvestigatedMessage(investigation, messages.investigatedInvestigationConcluded);
+        sendStaffNotifications(investigation, messages.investigationStaffNotificationsConcluded);
     }
 
     @EventHandler
     public void notifyInvestigationConcluded(InvestigationConcludedBungeeEvent event) {
-        sendChat(event.getInvestigation(), INVESTIGATION_CONCLUDED, messages.investigatedInvestigationConcluded, messages.investigationStaffNotificationsConcluded);
+        IInvestigation investigation = event.getInvestigation();
+        sendInvestigatorMessage(investigation, INVESTIGATION_CONCLUDED);
+        sendInvestigatedMessage(investigation, messages.investigatedInvestigationConcluded);
+        sendStaffNotifications(investigation, messages.investigationStaffNotificationsConcluded);
     }
 
     @EventHandler
     public void notifyInvestigationPaused(InvestigationPausedEvent event) {
-        sendChat(event.getInvestigation(), INVESTIGATION_PAUSED, messages.investigatedInvestigationPaused, messages.investigationStaffNotificationsPaused);
+        IInvestigation investigation = event.getInvestigation();
+        sendInvestigatorMessage(investigation, INVESTIGATION_PAUSED);
+        sendInvestigatedMessage(investigation, messages.investigatedInvestigationPaused);
+        sendStaffNotifications(investigation, messages.investigationStaffNotificationsPaused);
     }
 
     @EventHandler
     public void notifyInvestigationPaused(InvestigationPausedBungeeEvent event) {
-        sendChat(event.getInvestigation(), INVESTIGATION_PAUSED, messages.investigatedInvestigationPaused, messages.investigationStaffNotificationsPaused);
+        IInvestigation investigation = event.getInvestigation();
+        sendInvestigatorMessage(investigation, INVESTIGATION_PAUSED);
+        sendInvestigatedMessage(investigation, messages.investigatedInvestigationPaused);
+        sendStaffNotifications(investigation, messages.investigationStaffNotificationsPaused);
     }
 
     @EventHandler
@@ -78,11 +96,6 @@ public class InvestigationChatNotifier implements Listener {
         if (playerSession.isUnderInvestigation() && StringUtils.isNotEmpty(messages.underInvestigationJoin)) {
             messages.send(playerJoinEvent.getPlayer(), messages.underInvestigationJoin, messages.prefixInvestigations);
         }
-    }
-
-    private void sendChat(IInvestigation investigation, String investigatorMessage, String investigatedMessage, String staffNotificationMessage) {
-        sendMessage(investigation, investigatorMessage, investigatedMessage);
-        sendStaffNotifications(investigation, staffNotificationMessage);
     }
 
     private void sendStaffNotifications(IInvestigation investigation, String messageToSend) {
@@ -94,11 +107,13 @@ public class InvestigationChatNotifier implements Listener {
         }
     }
 
-    private void sendMessage(IInvestigation investigation, String investigatorMessage, String investigatedMessage) {
+    private void sendInvestigatorMessage(IInvestigation investigation, String investigatorMessage) {
         Optional<SppPlayer> investigator = playerManager.getOnlinePlayer(investigation.getInvestigatorUuid());
         investigator.map(SppPlayer::getPlayer).ifPresent(p -> messages.send(p, investigatorMessage, messages.prefixInvestigations));
+    }
 
-        if (StringUtils.isNotEmpty(investigatedMessage)) {
+    private void sendInvestigatedMessage(IInvestigation investigation, String investigatedMessage) {
+        if (StringUtils.isNotEmpty(investigatedMessage) && options.investigationConfiguration.isInvestigatedChatMessageEnabled()) {
             playerManager.getOnlinePlayer(investigation.getInvestigatedUuid())
                 .filter(SppPlayer::isOnline)
                 .ifPresent(sppPlayer -> messages.send(sppPlayer.getPlayer(), investigatedMessage, messages.prefixInvestigations));

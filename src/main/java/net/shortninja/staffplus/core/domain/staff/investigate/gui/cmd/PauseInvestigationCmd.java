@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.cmd;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -18,14 +18,14 @@ import java.util.Optional;
 
 @IocBean(conditionalOnProperty = "investigations-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
-public class ConcludeInvestigationCmd extends AbstractCmd {
+public class PauseInvestigationCmd extends AbstractCmd {
 
     private final InvestigationService investigationService;
 
-    public ConcludeInvestigationCmd(Messages messages, Options options, CommandService commandService, InvestigationService investigationService) {
-        super(options.investigationConfiguration.getConcludeInvestigationCmd(), messages, options, commandService);
+    public PauseInvestigationCmd(Messages messages, Options options, CommandService commandService, InvestigationService investigationService) {
+        super(options.investigationConfiguration.getPauseInvestigationCmd(), messages, options, commandService);
         this.investigationService = investigationService;
-        setDescription("Conclude your investigation");
+        setDescription("Pause your investigation");
         setPermission(options.investigationConfiguration.getInvestigatePermission());
     }
 
@@ -35,7 +35,7 @@ public class ConcludeInvestigationCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        investigationService.concludeInvestigation((Player) sender);
+        investigationService.pauseInvestigation((Player) sender);
         return true;
     }
 

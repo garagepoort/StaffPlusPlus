@@ -9,6 +9,7 @@ import net.shortninja.staffplusplus.Actionable;
 import org.bukkit.Bukkit;
 
 import java.util.List;
+import java.util.Map;
 
 import static net.shortninja.staffplus.core.domain.actions.ActionRunStrategy.*;
 import static net.shortninja.staffplus.core.domain.delayedactions.Executor.CONSOLE;
@@ -25,7 +26,8 @@ public class ActionExecutioner {
         this.delayedActionsRepository = delayedActionsRepository;
     }
 
-    boolean executeAction(Actionable actionable, SppPlayer target, ConfiguredAction action, List<ActionFilter> actionFilters) {
+    boolean executeAction(Actionable actionable, ActionTargetProvider targetProvider, ConfiguredAction action, List<ActionFilter> actionFilters) {
+        SppPlayer target = targetProvider.getTarget(action);
         if (actionFilters != null && actionFilters.stream().anyMatch(a -> !a.isValidAction(target, action))) {
             return false;
         }
@@ -43,19 +45,25 @@ public class ActionExecutioner {
         return false;
     }
 
-    boolean executeAction(SppPlayer target, ConfiguredAction action, List<ActionFilter> actionFilters) {
+    boolean executeAction(ActionTargetProvider targetProvider, ConfiguredAction action, List<ActionFilter> actionFilters, Map<String, String> placeholders) {
+        SppPlayer target = targetProvider.getTarget(action);
+        placeholders.putIfAbsent("%player%", target.getUsername());
+
         if (actionFilters != null && actionFilters.stream().anyMatch(a -> !a.isValidAction(target, action))) {
             return false;
         }
+        String commandLine = replacePlaceholders(action.getCommand(), placeholders);
+
         if (runActionNow(target, action.getRunStrategy())) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", target.getUsername()));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandLine);
             return true;
         } else if (action.getRunStrategy() == DELAY && !target.isOnline()) {
-            delayedActionsRepository.saveDelayedAction(target.getId(), action.getCommand(), CONSOLE);
+            delayedActionsRepository.saveDelayedAction(target.getId(), commandLine, CONSOLE);
             return true;
         }
         return false;
     }
+
 
     boolean rollbackAction(ExecutableActionEntity action, SppPlayer target) {
         if (runActionNow(target, action.getRollbackRunStrategy())) {
@@ -67,6 +75,14 @@ public class ActionExecutioner {
             return true;
         }
         return false;
+    }
+
+    private String replacePlaceholders(String message, Map<String, String> placeholders) {
+        String result = message;
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+            result = result.replace(entry.getKey(), entry.getValue());
+        }
+        return result;
     }
 
     private boolean runActionNow(SppPlayer target, ActionRunStrategy runStrategy) {
