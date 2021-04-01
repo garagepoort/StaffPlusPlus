@@ -3,6 +3,9 @@ package net.shortninja.staffplus.core.domain.staff.investigate;
 import net.shortninja.staffplusplus.investigate.IInvestigation;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,12 +48,23 @@ public class Investigation implements IInvestigation {
         return id;
     }
 
-    public Long getCreationDate() {
+    public Long getCreationTimestamp() {
         return creationDate;
     }
 
-    public Optional<Long> getConclusionDate() {
+    public ZonedDateTime getCreationDate() {
+        return ZonedDateTime.ofInstant(Instant.ofEpochMilli(creationDate), ZoneId.systemDefault());
+    }
+
+    public Optional<Long> getConclusionTimestamp() {
         return Optional.ofNullable(conclusionDate);
+    }
+
+    public Optional<ZonedDateTime> getConclusionDate() {
+        if (conclusionDate == null) {
+            return Optional.empty();
+        }
+        return Optional.of(ZonedDateTime.ofInstant(Instant.ofEpochMilli(conclusionDate), ZoneId.systemDefault()));
     }
 
     public String getInvestigatorName() {
@@ -87,5 +101,13 @@ public class Investigation implements IInvestigation {
 
     public void setConclusionDate(Long conclusionDate) {
         this.conclusionDate = conclusionDate;
+    }
+
+    public void setInvestigatorName(String investigatorName) {
+        this.investigatorName = investigatorName;
+    }
+
+    public void setInvestigatorUuid(UUID investigatorUuid) {
+        this.investigatorUuid = investigatorUuid;
     }
 }

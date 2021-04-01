@@ -7,10 +7,7 @@ import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplusplus.Actionable;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @IocBean
@@ -26,20 +23,20 @@ public class ActionService {
         this.actionExecutioner = actionExecutioner;
     }
 
-    public List<ConfiguredAction> executeActions(Actionable actionable, SppPlayer target, List<ConfiguredAction> actions, List<ActionFilter> actionFilters) {
+    public List<ConfiguredAction> executeActions(Actionable actionable, ActionTargetProvider targetProvider, List<ConfiguredAction> actions, List<ActionFilter> actionFilters) {
         return actions.stream()
-            .filter(action -> actionExecutioner.executeAction(actionable, target, action, actionFilters))
+            .filter(action -> actionExecutioner.executeAction(actionable, targetProvider, action, actionFilters))
             .collect(Collectors.toList());
     }
 
-    public List<ConfiguredAction> executeActions(SppPlayer target, List<ConfiguredAction> actions, List<ActionFilter> actionFilters) {
+    public List<ConfiguredAction> executeActions(ActionTargetProvider targetProvider, List<ConfiguredAction> actions, List<ActionFilter> actionFilters, Map<String, String> placeholders) {
         return actions.stream()
-            .filter(action -> actionExecutioner.executeAction(target, action, actionFilters))
+            .filter(action -> actionExecutioner.executeAction(targetProvider, action, actionFilters, placeholders))
             .collect(Collectors.toList());
     }
 
-    public List<ConfiguredAction> executeActions(Actionable actionable, SppPlayer target, List<ConfiguredAction> actions) {
-        return this.executeActions(actionable, target, actions, null);
+    public List<ConfiguredAction> executeActions(Actionable actionable, ActionTargetProvider targetProvider, List<ConfiguredAction> actions) {
+        return this.executeActions(actionable, targetProvider, actions, null);
     }
 
     public List<ExecutableActionEntity> rollbackActionable(Actionable actionable) {

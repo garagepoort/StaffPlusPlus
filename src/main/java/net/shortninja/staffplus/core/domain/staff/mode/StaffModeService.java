@@ -5,10 +5,7 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 
-import net.shortninja.staffplus.core.domain.actions.ActionFilter;
-import net.shortninja.staffplus.core.domain.actions.ActionService;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
-import net.shortninja.staffplus.core.domain.actions.PermissionActionFilter;
+import net.shortninja.staffplus.core.domain.actions.*;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
@@ -129,7 +126,7 @@ public class StaffModeService {
         if (target.isPresent()) {
             List<ActionFilter> actionFilters = Collections.singletonList(new PermissionActionFilter());
             List<ConfiguredAction> actions = isEnabled ? options.modeConfiguration.getModeEnableCommands() : options.modeConfiguration.getModeDisableCommands();
-            actionService.executeActions(target.get(), actions, actionFilters);
+            actionService.executeActions(configuredAction -> target.get(), actions, actionFilters, new HashMap<>());
         }
     }
 
