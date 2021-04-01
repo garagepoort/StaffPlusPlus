@@ -434,7 +434,15 @@ enderchest-module:
 # Allow all investigation functionalities
 investigations-module:
     enabled: true
-    title-message-enabled: true
+    allow-offline-investigation: false
+    notifications:
+        investigated:
+            title-message-enabled: true
+            chat-message-enabled: true
+    start-investigation-commands: []
+    conclude-investigation-commands: []
+    pause-investigation-commands: []
+
 
 # Requires "permissions.mode" permission.
 staff-mode:
@@ -853,6 +861,7 @@ permissions:
       manage:
           investigate: "staff.investigation.manage.investigate"
           notifications: "staff.investigation.manage.notifications"
+          view: "staff.investigation.manage.view"
 
   # Permission for using staff chat.
   staff-chat: "staff.staffchat"
@@ -1109,6 +1118,7 @@ commands:
       start: "investigate"
       pause: "pause-investigation"
       conclude: "conclude-investigation"
+      gui: "manage-investigations"
   # The command for warning players
   warn: "warn"
 

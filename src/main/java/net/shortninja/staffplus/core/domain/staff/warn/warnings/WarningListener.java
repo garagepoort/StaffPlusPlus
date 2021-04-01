@@ -42,7 +42,7 @@ public class WarningListener implements Listener {
         UUID targetUuid = warningCreatedEvent.getWarning().getTargetUuid();
         Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
         if (target.isPresent()) {
-            actionService.executeActions(warningCreatedEvent.getWarning(), target.get(), options.warningConfiguration.getActions(), Arrays.asList(new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT)));
+            actionService.executeActions(warningCreatedEvent.getWarning(), configuredAction -> target.get(), options.warningConfiguration.getActions(), Arrays.asList(new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT)));
             thresholdService.handleThresholds(warningCreatedEvent.getWarning(), target.get());
         }
     }

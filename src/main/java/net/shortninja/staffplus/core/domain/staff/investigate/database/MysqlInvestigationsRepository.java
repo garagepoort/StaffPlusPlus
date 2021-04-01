@@ -24,7 +24,7 @@ public class MysqlInvestigationsRepository extends AbstractSqlInvestigationsRepo
             insert.setString(1, investigation.getInvestigatorUuid().toString());
             insert.setString(2, investigation.getInvestigatedUuid().toString());
             insert.setString(3, investigation.getStatus().name());
-            insert.setLong(4, investigation.getCreationDate());
+            insert.setLong(4, investigation.getCreationTimestamp());
             insert.setString(5, options.serverName);
             insert.executeUpdate();
 

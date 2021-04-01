@@ -10,12 +10,14 @@ public class ConfiguredAction {
     private ActionRunStrategy runStrategy;
     private ActionRunStrategy rollbackRunStrategy;
     private Map<String, String> filters;
+    private String target;
 
-    public ConfiguredAction(String command, String rollbackCommand, ActionRunStrategy runStrategy, ActionRunStrategy rollbackRunStrategy, Map<String, String> filters) {
+    public ConfiguredAction(String command, String rollbackCommand, ActionRunStrategy runStrategy, ActionRunStrategy rollbackRunStrategy, Map<String, String> filters, String target) {
         this.command = command;
         this.rollbackCommand = rollbackCommand;
         this.runStrategy = runStrategy;
         this.rollbackRunStrategy = rollbackRunStrategy;
+        this.target = target;
         this.filters = new HashMap<>();
         filters.forEach((k, v) -> this.filters.put(k.toLowerCase(), v.toLowerCase()));
     }
@@ -38,5 +40,9 @@ public class ConfiguredAction {
 
     public ActionRunStrategy getRollbackRunStrategy() {
         return rollbackRunStrategy;
+    }
+
+    public String getTarget() {
+        return target;
     }
 }

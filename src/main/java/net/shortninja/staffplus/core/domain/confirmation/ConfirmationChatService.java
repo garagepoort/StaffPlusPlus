@@ -13,13 +13,13 @@ import java.util.UUID;
 @IocBean
 public class ConfirmationChatService {
 
-    private Map<UUID, ConfirmationAction> confirmationActions = new HashMap<>();
-    private Map<UUID, CancelAction> cancelActions = new HashMap<>();
+    private static Map<UUID, ConfirmationAction> confirmationActions = new HashMap<>();
+    private static Map<UUID, CancelAction> cancelActions = new HashMap<>();
 
     public void sendConfirmationMessage(Player player, String confirmationMessage, ConfirmationAction confirmationAction, CancelAction cancelAction) {
         UUID uuid = UUID.randomUUID();
-        this.confirmationActions.put(uuid, confirmationAction);
-        this.cancelActions.put(uuid, cancelAction);
+        confirmationActions.put(uuid, confirmationAction);
+        cancelActions.put(uuid, cancelAction);
 
         JSONMessage jsonMessage = JavaUtils.buildConfirmationMessage(confirmationMessage,
             "staffplus:confirm-action confirm " + uuid.toString(),
@@ -32,9 +32,9 @@ public class ConfirmationChatService {
         if(!confirmationActions.containsKey(uuid)) {
             throw new BusinessException("&CNo confirmation action found");
         }
-        ConfirmationAction confirmationAction = this.confirmationActions.get(uuid);
-        this.confirmationActions.remove(uuid);
-        this.cancelActions.remove(uuid);
+        ConfirmationAction confirmationAction = confirmationActions.get(uuid);
+        confirmationActions.remove(uuid);
+        cancelActions.remove(uuid);
 
         confirmationAction.execute(player);
     }
@@ -43,9 +43,9 @@ public class ConfirmationChatService {
         if(!cancelActions.containsKey(uuid)) {
             throw new BusinessException("&CNo cancel action found");
         }
-        CancelAction cancelAction = this.cancelActions.get(uuid);
-        this.confirmationActions.remove(uuid);
-        this.cancelActions.remove(uuid);
+        CancelAction cancelAction = cancelActions.get(uuid);
+        confirmationActions.remove(uuid);
+        cancelActions.remove(uuid);
 
         cancelAction.execute(player);
     }
