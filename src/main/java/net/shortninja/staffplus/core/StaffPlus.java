@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core;
 
 import be.garagepoort.mcioc.TubingPlugin;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
+import net.shortninja.staffplus.core.application.data.LanguageFile;
 import net.shortninja.staffplus.core.common.config.AutoUpdater;
 import net.shortninja.staffplus.core.common.config.AutoUpdaterLanguageFiles;
 import net.shortninja.staffplusplus.IStaffPlus;
@@ -22,6 +23,7 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
     protected void enable() {
         plugin = this;
         saveDefaultConfig();
+        new LanguageFile();
         if (!loadConfig()) {
             Bukkit.getPluginManager().disablePlugin(this);
             return;

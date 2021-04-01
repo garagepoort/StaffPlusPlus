@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import net.md_5.bungee.api.ChatMessageType;
@@ -11,7 +11,7 @@ import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-@IocBean(conditionalOnProperty = "investigations-module.title-message-enabled=true")
+@IocBean(conditionalOnProperty = "investigations-module.notifications.investigated.title-message-enabled=true")
 public class InvestigationActionBarService {
 
     private final SessionManagerImpl sessionManager;
@@ -19,15 +19,13 @@ public class InvestigationActionBarService {
     public InvestigationActionBarService(Options options, SessionManagerImpl sessionManager, Messages messages) {
         this.sessionManager = sessionManager;
 
-        if (options.investigationConfiguration.isTitleMessageEnabled()) {
-            Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    PlayerSession playerSession = this.sessionManager.get(p.getUniqueId());
-                    if (playerSession.isUnderInvestigation()) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(messages.colorize(messages.underInvestigationTitle)));
-                    }
+        Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                PlayerSession playerSession = this.sessionManager.get(p.getUniqueId());
+                if (playerSession.isUnderInvestigation()) {
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(messages.colorize(messages.underInvestigationTitle)));
                 }
-            }, 20L, 20L);
-        }
+            }
+        }, 20L, 20L);
     }
 }
