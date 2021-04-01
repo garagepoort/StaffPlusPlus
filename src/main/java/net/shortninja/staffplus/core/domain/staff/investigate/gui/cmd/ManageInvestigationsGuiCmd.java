@@ -1,7 +1,8 @@
-package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -9,10 +10,11 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.ManageWarningsGui;
+import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationItemBuilder;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.ManageInvestigationsGui;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -21,18 +23,24 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@IocBean(conditionalOnProperty = "warnings-module.enabled=true")
+@IocBean(conditionalOnProperty = "investigations-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
-public class ManageWarningsGuiCmd extends AbstractCmd {
+public class ManageInvestigationsGuiCmd extends AbstractCmd {
 
     private final PlayerManager playerManager;
+    private final InvestigationService investigationService;
+    private final InvestigationItemBuilder investigationItemBuilder;
+    private final IProtocolService protocolService;
 
-    public ManageWarningsGuiCmd(Messages messages, PlayerManager playerManager, Options options, CommandService commandService) {
-        super(options.manageWarningsConfiguration.getCommandManageWarningsGui(), messages, options, commandService);
+    public ManageInvestigationsGuiCmd(Messages messages, PlayerManager playerManager, Options options, CommandService commandService, InvestigationService investigationService, InvestigationItemBuilder investigationItemBuilder, IProtocolService protocolService) {
+        super(options.investigationConfiguration.getCommandManageInvestigationsGui(), messages, options, commandService);
         this.playerManager = playerManager;
-        setPermission(options.manageWarningsConfiguration.getPermissionView());
-        setDescription("Open the manage Warnings GUI.");
-        setUsage("[playername]");
+        this.investigationService = investigationService;
+        this.investigationItemBuilder = investigationItemBuilder;
+        this.protocolService = protocolService;
+        setPermission(options.investigationConfiguration.getPermissionView());
+        setDescription("Open the manage Investigations GUI.");
+        setUsage("[playername?]");
     }
 
     @Override
@@ -41,7 +49,7 @@ public class ManageWarningsGuiCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        new ManageWarningsGui((Player) sender, player, "Manage Warnings", 0).show((Player) sender);
+        new ManageInvestigationsGui((Player) sender, player, "Manage Investigation", 0, investigationService, investigationItemBuilder, protocolService).show((Player) sender);
         return true;
     }
 
