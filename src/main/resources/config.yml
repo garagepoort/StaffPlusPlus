@@ -863,6 +863,10 @@ permissions:
           investigate: "staff.investigation.manage.investigate"
           notifications: "staff.investigation.manage.notifications"
           view: "staff.investigation.manage.view"
+          link-evidence: "staff.investigation.manage.link-evidence"
+          add-note: "staff.investigation.manage.add-note"
+          delete-note: "staff.investigation.manage.delete-note"
+          delete-note-others: "staff.investigation.manage.delete-note-others"
 
   # Permission for using staff chat.
   staff-chat: "staff.staffchat"
@@ -1120,6 +1124,7 @@ commands:
       pause: "pause-investigation"
       conclude: "conclude-investigation"
       gui: "manage-investigations"
+      add-note: "inote"
   # The command for warning players
   warn: "warn"
 

@@ -112,12 +112,22 @@ public final class Items {
             .setMaterial(Material.BOOK)
             .build();
     }
+
     public static ItemStack createAnvil(String name, String lore) {
         List<String> loreList = new ArrayList<>(formatLines(lore, 30));
         return Items.builder()
             .setName(name)
             .setLore(loreList)
             .setMaterial(Material.ANVIL)
+            .build();
+    }
+
+    public static ItemStack createPaper(String name, String lore) {
+        List<String> loreList = new ArrayList<>(formatLines(lore, 30));
+        return Items.builder()
+            .setName(name)
+            .setLore(loreList)
+            .setMaterial(Material.PAPER)
             .build();
     }
 

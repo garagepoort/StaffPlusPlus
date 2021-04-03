@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.IProtocolService;
