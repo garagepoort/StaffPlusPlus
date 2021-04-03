@@ -71,9 +71,7 @@ public class ManageReportGui extends AbstractGui {
         if(permission.has(player, options.manageReportConfiguration.getPermissionTeleport())) {
             addTeleportItem(teleportAction, 0);
         }
-        if(permission.has(player, options.manageReportConfiguration.getPermissionTeleport())) {
-            investigationGuiComponent.addEvidenceButton(this, 14, report);
-        }
+        investigationGuiComponent.addEvidenceButton(this, 14, report);
     }
 
     private boolean isAssignee() {
