@@ -3,14 +3,16 @@ package net.shortninja.staffplus.core.domain.staff.ban;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.investigate.Evidence;
 import net.shortninja.staffplusplus.ban.IBan;
+import net.shortninja.staffplusplus.investigate.EvidenceType;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public class Ban implements IBan, Infraction {
+public class Ban implements IBan, Infraction, Evidence {
 
     private int id;
     private String reason;
@@ -71,6 +73,16 @@ public class Ban implements IBan, Infraction {
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public EvidenceType getEvidenceType() {
+        return EvidenceType.BAN;
+    }
+
+    @Override
+    public String getDescription() {
+        return reason;
     }
 
     @Override
