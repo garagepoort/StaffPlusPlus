@@ -435,6 +435,7 @@ enderchest-module:
 investigations-module:
     enabled: true
     allow-offline-investigation: false
+    max-concurrent-investigations: 1
     notifications:
         investigated:
             title-message-enabled: true

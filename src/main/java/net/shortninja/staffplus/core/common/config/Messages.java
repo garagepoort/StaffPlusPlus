@@ -163,6 +163,8 @@ public class Messages {
     public final String investigationStaffNotificationsStarted;
     public final String investigationStaffNotificationsConcluded;
     public final String investigationStaffNotificationsPaused;
+    public final String investigationEvidenceLinked;
+    public final String investigationEvidenceUnlinked;
 
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
@@ -315,6 +317,8 @@ public class Messages {
         investigationStaffNotificationsStarted = config.getString("investigation.staff-notification-started", null);
         investigationStaffNotificationsConcluded = config.getString("investigation.staff-notification-concluded", null);
         investigationStaffNotificationsPaused = config.getString("investigation.staff-notification-paused", null);
+        investigationEvidenceLinked = config.getString("investigation.staff-notification-evidence-linked", null);
+        investigationEvidenceUnlinked = config.getString("investigation.staff-notification-evidence-unlinked", null);
     }
 
     public String colorize(String message) {

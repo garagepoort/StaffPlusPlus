@@ -4,6 +4,7 @@ package net.shortninja.staffplus.core.common.gui;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public abstract class PagedGui extends AbstractGui {
 
         IAction nextPageAction = new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 getNextUi(player, target, getTitle(), currentPage + 1).show(player);
             }
 
@@ -68,7 +69,7 @@ public abstract class PagedGui extends AbstractGui {
 
         IAction previousPageAction = new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 getNextUi(player, target, getTitle(), currentPage - 1).show(player);
             }
 

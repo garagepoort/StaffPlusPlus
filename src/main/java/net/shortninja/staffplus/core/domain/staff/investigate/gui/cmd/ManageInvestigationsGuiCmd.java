@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -12,9 +11,7 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationItemBuilder;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.ManageInvestigationsGui;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -27,17 +24,13 @@ import java.util.stream.Collectors;
 @IocMultiProvider(SppCommand.class)
 public class ManageInvestigationsGuiCmd extends AbstractCmd {
 
+    private final InvestigationGuiComponent investigationGuiComponent;
     private final PlayerManager playerManager;
-    private final InvestigationService investigationService;
-    private final InvestigationItemBuilder investigationItemBuilder;
-    private final IProtocolService protocolService;
 
-    public ManageInvestigationsGuiCmd(Messages messages, PlayerManager playerManager, Options options, CommandService commandService, InvestigationService investigationService, InvestigationItemBuilder investigationItemBuilder, IProtocolService protocolService) {
+    public ManageInvestigationsGuiCmd(Messages messages, PlayerManager playerManager, Options options, CommandService commandService, InvestigationGuiComponent investigationGuiComponent) {
         super(options.investigationConfiguration.getCommandManageInvestigationsGui(), messages, options, commandService);
         this.playerManager = playerManager;
-        this.investigationService = investigationService;
-        this.investigationItemBuilder = investigationItemBuilder;
-        this.protocolService = protocolService;
+        this.investigationGuiComponent = investigationGuiComponent;
         setPermission(options.investigationConfiguration.getPermissionView());
         setDescription("Open the manage Investigations GUI.");
         setUsage("[playername?]");
@@ -49,7 +42,7 @@ public class ManageInvestigationsGuiCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        new ManageInvestigationsGui((Player) sender, player, "Manage Investigation", 0, investigationService, investigationItemBuilder, protocolService).show((Player) sender);
+        investigationGuiComponent.openManageInvestigationsGui((Player) sender, player);
         return true;
     }
 

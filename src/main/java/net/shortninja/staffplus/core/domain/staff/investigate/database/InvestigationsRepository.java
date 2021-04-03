@@ -13,13 +13,13 @@ public interface InvestigationsRepository {
 
     void updateInvestigation(Investigation investigation);
 
-    Optional<Investigation> getOpenedInvestigationForInvestigator(UUID investigatorUuid);
+    Optional<Investigation> findInvestigationForInvestigated(UUID investigatorUuid, UUID investigatedUuid, List<InvestigationStatus> investigationStatuses);
 
-    Optional<Investigation> getInvestigationForInvestigated(UUID investigatedUuid, List<InvestigationStatus> investigationStatuses);
+    List<Investigation> findAllInvestigationForInvestigated(UUID investigatedUuid, List<InvestigationStatus> investigationStatuses);
 
-    List<Investigation> getInvestigationsForInvestigator(UUID playerUUID);
+    Optional<Investigation> getInvestigationForInvestigator(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses);
 
-    List<Investigation> getInvestigationsForInvestigated(UUID playerUUID);
+    List<Investigation> getInvestigationsForInvestigated(UUID investigatedUuid);
 
     List<Investigation> getAllInvestigations(int offset, int amount);
 
