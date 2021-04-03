@@ -4,18 +4,31 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class ConfirmationGui extends AbstractGui {
     private final ConfirmationAction onConfirm;
     private final CancelAction onCancel;
     private final String confirmationMessage;
+    private boolean closeOnCancel = true;
+    private boolean closeOnConfirmation = true;
 
     public ConfirmationGui(String title, String confirmationMessage, ConfirmationAction onConfirm, CancelAction onCancel) {
         super(27, title);
         this.confirmationMessage = confirmationMessage;
         this.onConfirm = onConfirm;
         this.onCancel = onCancel;
+    }
+
+    public ConfirmationGui closeOnCancel(boolean closeOnCancel) {
+        this.closeOnCancel = closeOnCancel;
+        return this;
+    }
+
+    public ConfirmationGui closeOnConfirmation(boolean closeOnConfirmation) {
+        this.closeOnConfirmation = closeOnConfirmation;
+        return this;
     }
 
     @Override
@@ -42,13 +55,13 @@ public class ConfirmationGui extends AbstractGui {
         ItemStack itemStack = Items.createGreenColoredGlass("Confirm","");
         setItem(slot, itemStack, new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 onConfirm.execute(player);
             }
 
             @Override
             public boolean shouldClose(Player player) {
-                return true;
+                return closeOnConfirmation;
             }
         });
     }
@@ -57,13 +70,13 @@ public class ConfirmationGui extends AbstractGui {
         ItemStack itemStack = Items.createRedColoredGlass("Cancel", "");
         setItem(slot, itemStack, new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                     onCancel.execute(player);
             }
 
             @Override
             public boolean shouldClose(Player player) {
-                return true;
+                return closeOnCancel;
             }
         });
     }

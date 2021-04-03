@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class MinerGui extends PagedGui {
     public IAction getAction() {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 Player p = Bukkit.getPlayerExact(item.getItemMeta().getDisplayName().substring(2));
 
                 if (p != null) {

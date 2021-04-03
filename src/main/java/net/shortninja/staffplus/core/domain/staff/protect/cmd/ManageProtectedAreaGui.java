@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.staff.protect.ProtectService;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectedArea;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Supplier;
@@ -30,7 +31,7 @@ public class ManageProtectedAreaGui extends AbstractGui {
 
         IAction teleportAction = new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 teleportService.teleportSelf(player, protectedArea.getCornerPoint1());
             }
 
@@ -42,7 +43,7 @@ public class ManageProtectedAreaGui extends AbstractGui {
 
         IAction deleteAction = new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 protectService.deleteProtectedArea(player, protectedArea.getId());
                 previousGuiSupplier.get();
             }

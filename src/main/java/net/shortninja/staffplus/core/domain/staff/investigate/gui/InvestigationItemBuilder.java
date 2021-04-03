@@ -29,16 +29,18 @@ public class InvestigationItemBuilder {
     public ItemStack build(Investigation investigation) {
         List<String> lore = new ArrayList<>();
 
-        lore.add("&bId: " + investigation.getId());
+        lore.add("&bId: &6" + investigation.getId());
         if (options.serverSyncConfiguration.isInvestigationSyncEnabled()) {
-            lore.add("&bServer: " + investigation.getServerName());
+            lore.add("&bServer: &6" + investigation.getServerName());
         }
-        lore.add("&bStatus: " + investigation.getStatus());
-        lore.add("&bStart time: " + investigation.getCreationDate().format(DateTimeFormatter.ofPattern(options.timestampFormat)));
+        lore.add("&bInvestigator: &6" + investigation.getInvestigatorName());
+        lore.add("&bStatus: &6" + investigation.getStatus());
+        lore.add("&bStart time: &6" + investigation.getCreationDate().format(DateTimeFormatter.ofPattern(options.timestampFormat)));
+        lore.add("&bInvestigated: &6" + investigation.getInvestigatedName());
 
 
-        ItemStack item = Items.editor(Items.createSkull(investigation.getInvestigatedName())).setAmount(1)
-            .setName("&6Investigation")
+        ItemStack item = Items.editor(Items.createBook(investigation.getInvestigatedName(), "")).setAmount(1)
+            .setName("&7Investigation")
             .setLore(lore)
             .build();
 

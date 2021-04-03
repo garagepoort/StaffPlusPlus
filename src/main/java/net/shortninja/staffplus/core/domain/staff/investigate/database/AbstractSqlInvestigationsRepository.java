@@ -10,10 +10,7 @@ import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
@@ -62,24 +59,6 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     }
 
     @Override
-    public Optional<Investigation> getOpenedInvestigationForInvestigator(UUID investigatorUuid) {
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND status=? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
-            ps.setString(1, investigatorUuid.toString());
-            ps.setString(2, InvestigationStatus.OPEN.name());
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean first = rs.next();
-                if (first) {
-                    return Optional.of(buildInvestigation(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<Investigation> findInvestigation(int id) {
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE id = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
@@ -97,18 +76,19 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     }
 
     @Override
-    public Optional<Investigation> getInvestigationForInvestigated(UUID investigatedUuid, List<InvestigationStatus> investigationStatuses) {
-        if(investigationStatuses.isEmpty()) {
+    public Optional<Investigation> findInvestigationForInvestigated(UUID investigatorUuid, UUID investigatedUuid, List<InvestigationStatus> investigationStatuses) {
+        if (investigationStatuses.isEmpty()) {
             return Optional.empty();
         }
 
         List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
-        String query = "SELECT * FROM sp_investigations WHERE investigated_uuid = ? AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
+        String query = "SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND investigated_uuid = ? AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
 
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
-            ps.setString(1, investigatedUuid.toString());
-            int index = 2;
+            ps.setString(1, investigatorUuid.toString());
+            ps.setString(2, investigatedUuid.toString());
+            int index = 3;
             for (InvestigationStatus status : investigationStatuses) {
                 ps.setString(index, status.name());
                 index++;
@@ -127,11 +107,24 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     }
 
     @Override
-    public List<Investigation> getInvestigationsForInvestigator(UUID investigatorUuid) {
+    public List<Investigation> findAllInvestigationForInvestigated(UUID investigatedUuid, List<InvestigationStatus> investigationStatuses) {
+        if (investigationStatuses.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         List<Investigation> investigations = new ArrayList<>();
+        List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
+        String query = "SELECT * FROM sp_investigations WHERE investigated_uuid = ? AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
+
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigator_uuid = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
-            ps.setString(1, investigatorUuid.toString());
+             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
+            ps.setString(1, investigatedUuid.toString());
+            int index = 2;
+            for (InvestigationStatus status : investigationStatuses) {
+                ps.setString(index, status.name());
+                index++;
+            }
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     investigations.add(buildInvestigation(rs));
@@ -141,6 +134,36 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
             throw new DatabaseException(e);
         }
         return investigations;
+    }
+
+    @Override
+    public Optional<Investigation> getInvestigationForInvestigator(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses) {
+        if (investigationStatuses.isEmpty()) {
+            return Optional.empty();
+        }
+
+        List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
+        String query = "SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
+
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
+            ps.setString(1, investigatorUuid.toString());
+            int index = 2;
+            for (InvestigationStatus status : investigationStatuses) {
+                ps.setString(index, status.name());
+                index++;
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildInvestigation(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return Optional.empty();
     }
 
     @Override

@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class TeleportToReportLocationAction implements IAction {
@@ -18,7 +19,7 @@ public class TeleportToReportLocationAction implements IAction {
     }
 
     @Override
-    public void click(Player player, ItemStack item, int slot) {
+    public void click(Player player, ItemStack item, int slot, ClickType clickType) {
         if (report.getLocation().isPresent()) {
             StaffPlus.get().getIocContainer().get(ReportService.class).goToReportLocation(player, report.getId());
         } else {

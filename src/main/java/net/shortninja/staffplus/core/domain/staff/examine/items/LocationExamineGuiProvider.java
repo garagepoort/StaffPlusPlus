@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 @IocBean
@@ -39,7 +40,7 @@ public class LocationExamineGuiProvider implements ExamineGuiItemProvider {
     public IAction getClickAction(ExamineGui examineGui, Player staff, SppPlayer target) {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 staff.teleport(target.getPlayer());
             }
 

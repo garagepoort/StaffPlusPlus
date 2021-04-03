@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Supplier;
@@ -21,7 +22,7 @@ public class AppealReasonSelectAction implements IAction {
     }
 
     @Override
-    public void click(Player player, ItemStack item, int slot) {
+    public void click(Player player, ItemStack item, int slot, ClickType clickType) {
         if (warning.getAppeal().isPresent()) {
             return;
         }

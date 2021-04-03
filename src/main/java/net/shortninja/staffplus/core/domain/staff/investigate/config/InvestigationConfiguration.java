@@ -8,6 +8,7 @@ public class InvestigationConfiguration {
 
     private final boolean enabled;
     private final boolean allowOfflineInvestigation;
+    private final int maxConcurrentInvestigation;
     private final String investigatePermission;
     private final String startInvestigationCmd;
     private final String pauseInvestigationCmd;
@@ -22,7 +23,9 @@ public class InvestigationConfiguration {
     private String permissionView;
 
     public InvestigationConfiguration(boolean enabled,
-                                      boolean allowOfflineInvestigation, String investigatePermission,
+                                      boolean allowOfflineInvestigation,
+                                      int maxConcurrentInvestigation,
+                                      String investigatePermission,
                                       String startInvestigationCmd,
                                       String pauseInvestigationCmd,
                                       String concludeInvestigationCmd,
@@ -31,6 +34,7 @@ public class InvestigationConfiguration {
                                       String staffNotificationPermission, List<ConfiguredAction> startInvestigationCommands, List<ConfiguredAction> concludeInvestigationCommands, List<ConfiguredAction> pauseInvestigationCommands, String commandManageInvestigationsGui, String permissionView) {
         this.enabled = enabled;
         this.allowOfflineInvestigation = allowOfflineInvestigation;
+        this.maxConcurrentInvestigation = maxConcurrentInvestigation;
         this.investigatePermission = investigatePermission;
         this.startInvestigationCmd = startInvestigationCmd;
         this.pauseInvestigationCmd = pauseInvestigationCmd;
@@ -99,5 +103,9 @@ public class InvestigationConfiguration {
 
     public boolean isAllowOfflineInvestigation() {
         return allowOfflineInvestigation;
+    }
+
+    public int getMaxConcurrentInvestigation() {
+        return maxConcurrentInvestigation;
     }
 }
