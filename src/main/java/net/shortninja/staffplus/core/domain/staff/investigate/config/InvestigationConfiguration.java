@@ -13,14 +13,19 @@ public class InvestigationConfiguration {
     private final String startInvestigationCmd;
     private final String pauseInvestigationCmd;
     private final String concludeInvestigationCmd;
+    private final String addNoteCmd;
     private final boolean investigatedTitleMessageEnabled;
     private final boolean investigatedChatMessageEnabled;
     private String staffNotificationPermission;
     private final List<ConfiguredAction> startInvestigationCommands;
     private final List<ConfiguredAction> concludeInvestigationCommands;
     private final List<ConfiguredAction> pauseInvestigationCommands;
-    private String commandManageInvestigationsGui;
-    private String permissionView;
+    private final String commandManageInvestigationsGui;
+    private final String permissionView;
+    private final String linkEvidencePermission;
+    private final String addNotePermission;
+    private final String deleteNotePermission;
+    private final String deleteNoteOthersPermission;
 
     public InvestigationConfiguration(boolean enabled,
                                       boolean allowOfflineInvestigation,
@@ -29,9 +34,18 @@ public class InvestigationConfiguration {
                                       String startInvestigationCmd,
                                       String pauseInvestigationCmd,
                                       String concludeInvestigationCmd,
-                                      boolean investigatedTitleMessageEnabled,
+                                      String addNoteCmd, boolean investigatedTitleMessageEnabled,
                                       boolean investigatedChatMessageEnabled,
-                                      String staffNotificationPermission, List<ConfiguredAction> startInvestigationCommands, List<ConfiguredAction> concludeInvestigationCommands, List<ConfiguredAction> pauseInvestigationCommands, String commandManageInvestigationsGui, String permissionView) {
+                                      String staffNotificationPermission,
+                                      List<ConfiguredAction> startInvestigationCommands,
+                                      List<ConfiguredAction> concludeInvestigationCommands,
+                                      List<ConfiguredAction> pauseInvestigationCommands,
+                                      String commandManageInvestigationsGui,
+                                      String permissionView,
+                                      String linkEvidencePermission,
+                                      String addNotePermission,
+                                      String deleteNotePermission,
+                                      String deleteNoteOthersPermission) {
         this.enabled = enabled;
         this.allowOfflineInvestigation = allowOfflineInvestigation;
         this.maxConcurrentInvestigation = maxConcurrentInvestigation;
@@ -39,6 +53,7 @@ public class InvestigationConfiguration {
         this.startInvestigationCmd = startInvestigationCmd;
         this.pauseInvestigationCmd = pauseInvestigationCmd;
         this.concludeInvestigationCmd = concludeInvestigationCmd;
+        this.addNoteCmd = addNoteCmd;
         this.investigatedTitleMessageEnabled = investigatedTitleMessageEnabled;
         this.investigatedChatMessageEnabled = investigatedChatMessageEnabled;
         this.staffNotificationPermission = staffNotificationPermission;
@@ -47,6 +62,25 @@ public class InvestigationConfiguration {
         this.pauseInvestigationCommands = pauseInvestigationCommands;
         this.commandManageInvestigationsGui = commandManageInvestigationsGui;
         this.permissionView = permissionView;
+        this.linkEvidencePermission = linkEvidencePermission;
+        this.addNotePermission = addNotePermission;
+        this.deleteNotePermission = deleteNotePermission;
+        this.deleteNoteOthersPermission = deleteNoteOthersPermission;
+    }
+
+    public String getLinkEvidencePermission() {
+        return linkEvidencePermission;
+    }
+    public String getAddNotePermission() {
+        return addNotePermission;
+    }
+
+    public String getDeleteNotePermission() {
+        return deleteNotePermission;
+    }
+
+    public String getDeleteNoteOthersPermission() {
+        return deleteNoteOthersPermission;
     }
 
     public boolean isEnabled() {
@@ -67,6 +101,9 @@ public class InvestigationConfiguration {
 
     public String getConcludeInvestigationCmd() {
         return concludeInvestigationCmd;
+    }
+    public String getAddNoteCmd() {
+        return addNoteCmd;
     }
 
     public boolean isInvestigatedTitleMessageEnabled() {
