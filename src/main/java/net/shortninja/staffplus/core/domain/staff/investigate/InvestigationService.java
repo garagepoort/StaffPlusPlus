@@ -13,7 +13,6 @@ import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -40,15 +39,7 @@ public class InvestigationService {
 
     public void startInvestigation(Player investigator, SppPlayer investigated) {
         bukkitUtils.runTaskAsync(investigator, () -> {
-            if (!investigated.isOnline() && !options.investigationConfiguration.isAllowOfflineInvestigation()) {
-                throw new BusinessException("Not allowed to investigate an offline player");
-            }
-            investigationsRepository.getOpenedInvestigationForInvestigator(investigator.getUniqueId()).ifPresent(investigation1 -> {
-                throw new BusinessException("&CCan't start an investigation, you currently have an investigation running", messages.prefixInvestigations);
-            });
-            investigationsRepository.getInvestigationForInvestigated(investigated.getId(), Arrays.asList(OPEN, PAUSED)).ifPresent(investigation1 -> {
-                throw new BusinessException("&CCan't start an investigation. This player is already being investigated.", messages.prefixInvestigations);
-            });
+            validateInvestigationStart(investigator, investigated);
 
             Investigation investigation = new Investigation(investigator.getName(), investigator.getUniqueId(), investigated.getUsername(), investigated.getId(), options.serverName);
             int id = investigationsRepository.addInvestigation(investigation);
@@ -59,17 +50,9 @@ public class InvestigationService {
 
     public void resumeInvestigation(Player investigator, SppPlayer investigated) {
         bukkitUtils.runTaskAsync(investigator, () -> {
-            if (!investigated.isOnline() && !options.investigationConfiguration.isAllowOfflineInvestigation()) {
-                throw new BusinessException("Not allowed to investigate an offline player");
-            }
-            investigationsRepository.getOpenedInvestigationForInvestigator(investigator.getUniqueId()).ifPresent(investigation1 -> {
-                throw new BusinessException("&CCan't start an investigation, you currently have an investigation running", messages.prefixInvestigations);
-            });
-            investigationsRepository.getInvestigationForInvestigated(investigated.getId(), Collections.singletonList(OPEN)).ifPresent(investigation1 -> {
-                throw new BusinessException("&CCan't start an investigation. This player is already being investigated.", messages.prefixInvestigations);
-            });
+            validateInvestigationStart(investigator, investigated);
 
-            Investigation investigation = investigationsRepository.getInvestigationForInvestigated(investigated.getId(), Collections.singletonList(PAUSED))
+            Investigation investigation = investigationsRepository.findInvestigationForInvestigated(investigator.getUniqueId(), investigated.getId(), Collections.singletonList(PAUSED))
                 .orElseThrow(() -> new BusinessException("Cannot resume investigation. No paused investigation found"));
             investigation.setStatus(OPEN);
             investigation.setInvestigatorName(investigator.getName());
@@ -79,13 +62,30 @@ public class InvestigationService {
         });
     }
 
-    public Optional<Investigation> getPausedInvestigation(SppPlayer investigated) {
-        return investigationsRepository.getInvestigationForInvestigated(investigated.getId(), Collections.singletonList(PAUSED));
+    public Optional<Investigation> getPausedInvestigation(Player investigator, SppPlayer investigated) {
+        return investigationsRepository.findInvestigationForInvestigated(investigator.getUniqueId(), investigated.getId(), Collections.singletonList(PAUSED));
     }
 
     public void concludeInvestigation(Player investigator) {
         bukkitUtils.runTaskAsync(investigator, () -> {
-            Investigation investigation = investigationsRepository.getOpenedInvestigationForInvestigator(investigator.getUniqueId()).orElseThrow(() -> new BusinessException("&CYou currently have no investigation running", messages.prefixInvestigations));
+            Investigation investigation = investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
+                .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running.", messages.prefixInvestigations));
+            investigation.setConclusionDate(System.currentTimeMillis());
+            investigation.setStatus(InvestigationStatus.CONCLUDED);
+
+            investigationsRepository.updateInvestigation(investigation);
+            sendEvent(new InvestigationConcludedEvent(investigation));
+        });
+    }
+
+    public void concludeInvestigation(Player investigator, int investigationId) {
+        bukkitUtils.runTaskAsync(investigator, () -> {
+            Investigation investigation = investigationsRepository.findInvestigation(investigationId)
+                .orElseThrow(() -> new BusinessException("&CNo investigation found with thid id.", messages.prefixInvestigations));
+
+            if(investigation.getStatus() == OPEN && !investigation.getInvestigatorUuid().equals(investigator.getUniqueId())) {
+                throw new BusinessException("$CCannot conclude the investigation. This investigation is currently ongoing.");
+            }
             investigation.setConclusionDate(System.currentTimeMillis());
             investigation.setStatus(InvestigationStatus.CONCLUDED);
 
@@ -96,7 +96,8 @@ public class InvestigationService {
 
     public void pauseInvestigation(Player investigator) {
         bukkitUtils.runTaskAsync(investigator, () -> {
-            Investigation investigation = investigationsRepository.getOpenedInvestigationForInvestigator(investigator.getUniqueId()).orElseThrow(() -> new BusinessException("&CYou currently have no investigation running", messages.prefixInvestigations));
+            Investigation investigation = investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
+                .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running", messages.prefixInvestigations));
             investigation.setStatus(InvestigationStatus.PAUSED);
 
             investigationsRepository.updateInvestigation(investigation);
@@ -115,6 +116,19 @@ public class InvestigationService {
     public Investigation getInvestigation(int investigationId) {
         return investigationsRepository.findInvestigation(investigationId)
             .orElseThrow(() -> new BusinessException("Investigation with id [" + investigationId + "] not found", messages.prefixInvestigations));
+    }
+
+    private void validateInvestigationStart(Player investigator, SppPlayer investigated) {
+        if (!investigated.isOnline() && !options.investigationConfiguration.isAllowOfflineInvestigation()) {
+            throw new BusinessException("Not allowed to investigate an offline player");
+        }
+        investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN)).ifPresent(investigation1 -> {
+            throw new BusinessException("&CCan't start an investigation, you currently have an investigation running", messages.prefixInvestigations);
+        });
+        List<Investigation> runningInvestigations = investigationsRepository.findAllInvestigationForInvestigated(investigated.getId(), Collections.singletonList(OPEN));
+        if (options.investigationConfiguration.getMaxConcurrentInvestigation() > 0 && runningInvestigations.size() >= options.investigationConfiguration.getMaxConcurrentInvestigation()) {
+            throw new BusinessException("&CCannot start investigation. There are already too many investigations ongoing at this moment.");
+        }
     }
 
 }

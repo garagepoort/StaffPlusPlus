@@ -11,6 +11,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class ClosedReportManageGui extends AbstractGui {
@@ -33,7 +34,7 @@ public class ClosedReportManageGui extends AbstractGui {
     public void buildGui() {
         IAction deleteAction = new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                 manageReportService.deleteReport(player, reportId);
             }

@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSe
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class WarnPlayerAction implements IAction {
@@ -33,7 +34,7 @@ public class WarnPlayerAction implements IAction {
     }
 
     @Override
-    public void click(Player player, ItemStack item, int slot) {
+    public void click(Player player, ItemStack item, int slot, ClickType clickType) {
         String severityLevel = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item);
         PlayerSession playerSession = sessionManager.get(player.getUniqueId());
 

@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class MyWarningsGui extends PagedGui {
     public IAction getAction() {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 if (options.appealConfiguration.isEnabled() && permission.has(player, options.appealConfiguration.getCreateAppealPermission())) {
                     int warningId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                     Warning warning = warnService.getWarning(warningId);

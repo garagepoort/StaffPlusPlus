@@ -11,6 +11,7 @@ import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -55,7 +56,7 @@ public abstract class AbstractGui implements IGui {
                 .build();
             setItem(getBackButtonSlot(), item, new IAction() {
                 @Override
-                public void click(Player player, ItemStack item, int slot) {
+                public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                     previousGuiSupplier.get().show(player);
                 }
 
@@ -104,7 +105,7 @@ public abstract class AbstractGui implements IGui {
 
         IAction action = new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 new ColorGui(options.glassTitle).show(player);
             }
 

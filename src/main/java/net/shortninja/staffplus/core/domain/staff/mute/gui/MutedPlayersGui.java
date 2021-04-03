@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class MutedPlayersGui extends PagedGui {
     public IAction getAction() {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 int muteId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                 Mute mute = StaffPlus.get().getIocContainer().get(MuteService.class).getById(muteId);
                 new ManageMutedPlayerGui("Player: " + mute.getTargetName(), mute, () -> new MutedPlayersGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier())).show(player);
