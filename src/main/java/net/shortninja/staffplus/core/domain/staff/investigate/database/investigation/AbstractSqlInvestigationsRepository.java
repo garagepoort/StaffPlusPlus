@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.database;
+package net.shortninja.staffplus.core.domain.staff.investigate.database.investigation;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.Constants;

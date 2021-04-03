@@ -1,9 +1,8 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui.actions;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence;
 
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.EvidenceOverviewGui;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;

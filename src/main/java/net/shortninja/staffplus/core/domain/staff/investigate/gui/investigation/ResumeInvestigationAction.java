@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui.actions;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation;
 
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.gui.IAction;
