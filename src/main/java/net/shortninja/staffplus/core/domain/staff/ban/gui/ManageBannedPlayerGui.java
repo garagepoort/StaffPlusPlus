@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.ban.Ban;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Supplier;
@@ -14,6 +15,7 @@ public class ManageBannedPlayerGui extends AbstractGui {
     private static final int SIZE = 54;
 
     private final BannedPlayerItemBuilder bannedPlayerItemBuilder = StaffPlus.get().getIocContainer().get(BannedPlayerItemBuilder.class);
+    private final InvestigationGuiComponent investigationGuiComponent = StaffPlus.get().getIocContainer().get(InvestigationGuiComponent.class);
     private final Ban ban;
 
     public ManageBannedPlayerGui(String title, Ban ban, Supplier<AbstractGui> previousGuiSupplier) {
@@ -26,6 +28,7 @@ public class ManageBannedPlayerGui extends AbstractGui {
         IAction unbanAction = new UnbanPlayerAction();
 
         setItem(13, bannedPlayerItemBuilder.build(ban), null);
+        investigationGuiComponent.addEvidenceButton(this, 14, ban);
 
         addUnbanItem(ban, unbanAction, 30);
         addUnbanItem(ban, unbanAction, 31);
