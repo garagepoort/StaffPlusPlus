@@ -1,11 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @IocBean
-@IocMultiProvider(InfractionGuiProvider.class)
 public class InvestigationItemBuilder {
 
     private final Options options;

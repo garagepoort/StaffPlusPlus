@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,6 +16,7 @@ public class ManageMutedPlayerGui extends AbstractGui {
 
     private final Mute mute;
     private final MutedPlayerItemBuilder mutedPlayerItemBuilder = StaffPlus.get().getIocContainer().get(MutedPlayerItemBuilder.class);
+    private final InvestigationGuiComponent investigationGuiComponent = StaffPlus.get().getIocContainer().get(InvestigationGuiComponent.class);
 
     public ManageMutedPlayerGui(String title, Mute mute, Supplier<AbstractGui> previousGuiSupplier) {
         super(SIZE, title, previousGuiSupplier);
@@ -26,6 +28,7 @@ public class ManageMutedPlayerGui extends AbstractGui {
         IAction unmuteAction = new UnmutePlayerAction();
 
         setItem(13, mutedPlayerItemBuilder.build(mute), null);
+        investigationGuiComponent.addEvidenceButton(this, 14, mute);
 
         addUnmuteItem(mute, unmuteAction, 30);
         addUnmuteItem(mute, unmuteAction, 31);

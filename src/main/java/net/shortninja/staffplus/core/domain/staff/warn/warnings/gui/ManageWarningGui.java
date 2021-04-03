@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.ExecutableActionEntity;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.gui.AppealItemBuilder;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.gui.AppealReasonChatAction;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.gui.AppealReasonSelectAction;
@@ -33,6 +34,7 @@ public class ManageWarningGui extends AbstractGui {
     private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
     private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
     private final WarningItemBuilder warningItemBuilder = StaffPlus.get().getIocContainer().get(WarningItemBuilder.class);
+    private final InvestigationGuiComponent investigationGuiComponent = StaffPlus.get().getIocContainer().get(InvestigationGuiComponent.class);
 
     private final Player player;
     private final Warning warning;
@@ -49,6 +51,7 @@ public class ManageWarningGui extends AbstractGui {
     public void buildGui() {
         IAction deleteAction = new DeleteWarningAction(warning, previousGuiSupplier);
         setItem(13, warningItemBuilder.build(warning), null);
+        investigationGuiComponent.addEvidenceButton(this, 14, warning);
 
         if (permission.has(player, options.manageWarningsConfiguration.getPermissionDelete())) {
             addDeleteItem(warning, deleteAction, 8);

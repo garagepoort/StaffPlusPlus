@@ -42,7 +42,7 @@ public class InvestigationGuiComponent {
         if(!options.investigationConfiguration.isEnabled()) {
             return;
         }
-        ItemStack book = Items.createBook("Add this as evidence to investigation", "Click to link evidence to investigation");
+        ItemStack book = Items.createAnvil("Add this as evidence to investigation", "Click to link evidence to investigation");
         abstractGui.setItem(slot, book, new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot, ClickType clickType) {
