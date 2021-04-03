@@ -2,8 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.investigate.Evidence;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
+import net.shortninja.staffplusplus.investigate.EvidenceType;
 import net.shortninja.staffplusplus.warnings.AppealStatus;
 import net.shortninja.staffplusplus.warnings.IWarning;
 
@@ -13,7 +15,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Warning implements IWarning, Infraction {
+public class Warning implements IWarning, Infraction, Evidence {
     private final UUID targetUuid;
     private final String targetName;
     private final String reason;
@@ -95,6 +97,16 @@ public class Warning implements IWarning, Infraction {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public EvidenceType getEvidenceType() {
+        return EvidenceType.WARNING;
+    }
+
+    @Override
+    public String getDescription() {
+        return severity + " " + reason;
     }
 
     public int getScore() {
