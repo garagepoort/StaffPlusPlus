@@ -3,6 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.investigate.Evidence;
+import net.shortninja.staffplusplus.investigate.EvidenceType;
 import net.shortninja.staffplusplus.mute.IMute;
 
 import java.time.Instant;
@@ -10,7 +12,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public class Mute implements IMute, Infraction {
+public class Mute implements IMute, Infraction, Evidence {
 
     private int id;
     private String reason;
@@ -71,6 +73,16 @@ public class Mute implements IMute, Infraction {
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public EvidenceType getEvidenceType() {
+        return EvidenceType.MUTE;
+    }
+
+    @Override
+    public String getDescription() {
+        return reason;
     }
 
     @Override
