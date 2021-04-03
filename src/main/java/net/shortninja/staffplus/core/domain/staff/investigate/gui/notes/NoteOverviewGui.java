@@ -1,14 +1,15 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.notes;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;
+import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
 import net.shortninja.staffplus.core.domain.confirmation.ConfirmationGui;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
-import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationEvidenceService;
+import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationNoteService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -17,28 +18,33 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class EvidenceOverviewGui extends PagedGui {
+public class NoteOverviewGui extends PagedGui {
 
-    private final InvestigationEvidenceService investigationEvidenceService = StaffPlus.get().getIocContainer().get(InvestigationEvidenceService.class);
+    private final InvestigationNoteService investigationNoteService = StaffPlus.get().getIocContainer().get(InvestigationNoteService.class);
     private final IProtocolService protocolService = StaffPlus.get().getIocContainer().get(IProtocolService.class);
-    private final InvestigationEvidenceItemBuilder investigationEvidenceItemBuilder = StaffPlus.get().getIocContainer().get(InvestigationEvidenceItemBuilder.class);
-    private final List<EvidenceDetailGuiProvider> evidenceDetailGuiProvider = StaffPlus.get().getIocContainer().getList(EvidenceDetailGuiProvider.class);
+    private final InvestigationNoteItemBuilder investigationEvidenceItemBuilder = StaffPlus.get().getIocContainer().get(InvestigationNoteItemBuilder.class);
 
     private final Investigation investigation;
     private final Supplier<AbstractGui> goBack;
 
-    public EvidenceOverviewGui(Player player,
-                               String title,
-                               int currentPage,
-                               Investigation investigation, Supplier<AbstractGui> previousGuiSupplier) {
+    public NoteOverviewGui(Player player,
+                           String title,
+                           int currentPage,
+                           Investigation investigation, Supplier<AbstractGui> previousGuiSupplier) {
         super(player, title, currentPage, previousGuiSupplier);
         this.investigation = investigation;
-        this.goBack = () -> new EvidenceOverviewGui(player, getTitle(), getCurrentPage(), investigation, previousGuiSupplier);
+        this.goBack = () -> new NoteOverviewGui(player, getTitle(), getCurrentPage(), investigation, previousGuiSupplier);
     }
 
     @Override
     protected AbstractGui getNextUi(Player player, SppPlayer target, String title, int page) {
-        return new EvidenceOverviewGui(player, title, page, investigation, goBack);
+        return new NoteOverviewGui(player, title, page, investigation, goBack);
+    }
+
+    @Override
+    public void buildGui() {
+        super.buildGui();
+        setItem(50, Items.createBook("Add note", ""), new AddNoteAction(investigation));
     }
 
     @Override
@@ -47,25 +53,18 @@ public class EvidenceOverviewGui extends PagedGui {
             @Override
             public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 String nbtString = protocolService.getVersionProtocol().getNbtString(item);
-                int id = Integer.parseInt(nbtString.split(";")[0]);
-                String type = nbtString.split(";")[1];
-                int evidenceId = Integer.parseInt(nbtString.split(";")[2]);
+                int noteId = Integer.parseInt(nbtString);
 
                 if (clickType == ClickType.RIGHT) {
-                    new ConfirmationGui("Unlink evidence?", "Are you sure you want to unlink: " + type + "(ID=" + evidenceId + ")",
+                    new ConfirmationGui("Delete note?", "Are you sure you want to delete note(ID=" + noteId + ")",
                         p -> {
-                            investigationEvidenceService.unlinkEvidence(p, investigation, id);
+                            investigationNoteService.deleteNote(p, investigation, noteId);
                             goBack.get().show(p);
                         },
                         p -> goBack.get().show(p))
                         .closeOnCancel(false)
                         .closeOnConfirmation(false)
                         .show(player);
-                } else {
-                    evidenceDetailGuiProvider.stream()
-                        .filter(e -> e.getType().name().equals(type))
-                        .findFirst()
-                        .ifPresent(e -> e.get(player, getTarget(), evidenceId, goBack).show(player));
                 }
             }
 
@@ -78,7 +77,7 @@ public class EvidenceOverviewGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
-        return investigationEvidenceService.getEvidenceForInvestigation(investigation, offset, amount)
+        return investigationNoteService.getNotesForInvestigation(investigation, offset, amount)
             .stream().map(investigationEvidenceItemBuilder::build)
             .collect(Collectors.toList());
     }
