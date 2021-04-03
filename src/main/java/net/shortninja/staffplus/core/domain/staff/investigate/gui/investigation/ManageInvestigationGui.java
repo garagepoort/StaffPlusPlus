@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation;
 
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
@@ -6,10 +6,8 @@ import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.actions.ConcludeInvestigationAction;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.actions.GoToEvidenceOverviewAction;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.actions.PauseInvestigationAction;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.actions.ResumeInvestigationAction;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.GoToEvidenceOverviewAction;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.notes.GoToNoteOverviewAction;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -44,7 +42,7 @@ public class ManageInvestigationGui extends AbstractGui {
 
     @Override
     public void buildGui() {
-        setItem(11, investigationItemBuilder.build(investigation), null);
+        setItem(11, Items.createPaper("Notes", "Go to notes overview"), new GoToNoteOverviewAction(investigation, goBack));
         setItem(13, investigationItemBuilder.build(investigation), null);
         setItem(15, Items.createAnvil("Evidence", "Go to evidence overview"), new GoToEvidenceOverviewAction(investigation, goBack));
 
@@ -64,7 +62,7 @@ public class ManageInvestigationGui extends AbstractGui {
         }
 
         if (investigation.getStatus() != InvestigationStatus.CONCLUDED) {
-            ConcludeInvestigationAction pauseAction = new ConcludeInvestigationAction(investigationService);
+            ConcludeInvestigationAction pauseAction = new ConcludeInvestigationAction(investigationService, investigation);
             addConcludeItem(pauseAction, 34);
             addConcludeItem(pauseAction, 35);
             addConcludeItem(pauseAction, 43);
@@ -77,6 +75,7 @@ public class ManageInvestigationGui extends AbstractGui {
         itemStack.setAmount(1);
         setItem(slot, itemStack, action);
     }
+
     private void addPauseItem(IAction action, int slot) {
         ItemStack itemStack = Items.createWhiteColoredGlass("Pause", "Click to take a break investigating");
         itemStack.setAmount(1);

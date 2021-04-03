@@ -5,8 +5,9 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.investigate.database.InvestigationsRepository;
+import net.shortninja.staffplus.core.domain.staff.investigate.database.investigation.InvestigationsRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationConcludedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationPausedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
@@ -28,17 +29,20 @@ public class InvestigationService {
     private final Options options;
     private final Messages messages;
     private final BukkitUtils bukkitUtils;
+    private final PermissionHandler permissionHandler;
 
 
-    public InvestigationService(InvestigationsRepository investigationsRepository, Options options, Messages messages, BukkitUtils bukkitUtils) {
+    public InvestigationService(InvestigationsRepository investigationsRepository, Options options, Messages messages, BukkitUtils bukkitUtils, PermissionHandler permissionHandler) {
         this.investigationsRepository = investigationsRepository;
         this.options = options;
         this.messages = messages;
         this.bukkitUtils = bukkitUtils;
+        this.permissionHandler = permissionHandler;
     }
 
     public void startInvestigation(Player investigator, SppPlayer investigated) {
         bukkitUtils.runTaskAsync(investigator, () -> {
+            permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
             validateInvestigationStart(investigator, investigated);
 
             Investigation investigation = new Investigation(investigator.getName(), investigator.getUniqueId(), investigated.getUsername(), investigated.getId(), options.serverName);
@@ -50,6 +54,7 @@ public class InvestigationService {
 
     public void resumeInvestigation(Player investigator, SppPlayer investigated) {
         bukkitUtils.runTaskAsync(investigator, () -> {
+            permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
             validateInvestigationStart(investigator, investigated);
 
             Investigation investigation = investigationsRepository.findInvestigationForInvestigated(investigator.getUniqueId(), investigated.getId(), Collections.singletonList(PAUSED))
@@ -68,6 +73,7 @@ public class InvestigationService {
 
     public void concludeInvestigation(Player investigator) {
         bukkitUtils.runTaskAsync(investigator, () -> {
+            permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
             Investigation investigation = investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
                 .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running.", messages.prefixInvestigations));
             investigation.setConclusionDate(System.currentTimeMillis());
@@ -80,6 +86,7 @@ public class InvestigationService {
 
     public void concludeInvestigation(Player investigator, int investigationId) {
         bukkitUtils.runTaskAsync(investigator, () -> {
+            permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
             Investigation investigation = investigationsRepository.findInvestigation(investigationId)
                 .orElseThrow(() -> new BusinessException("&CNo investigation found with thid id.", messages.prefixInvestigations));
 
