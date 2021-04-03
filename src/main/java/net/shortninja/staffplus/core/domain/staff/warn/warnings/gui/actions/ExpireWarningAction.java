@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class ExpireWarningAction implements IAction {
@@ -17,7 +18,7 @@ public class ExpireWarningAction implements IAction {
     }
 
     @Override
-    public void click(Player player, ItemStack item, int slot) {
+    public void click(Player player, ItemStack item, int slot, ClickType clickType) {
         warnService.expireWarning(player, warning.getId());
     }
 

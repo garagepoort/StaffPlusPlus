@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class UnmutePlayerAction implements IAction {
@@ -18,7 +19,7 @@ public class UnmutePlayerAction implements IAction {
     private final MuteService muteService = StaffPlus.get().getIocContainer().get(MuteService.class);
 
     @Override
-    public void click(Player player, ItemStack item, int slot) {
+    public void click(Player player, ItemStack item, int slot, ClickType clickType) {
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
         messages.send(player, "&6         You have chosen to unmute this player", messages.prefixGeneral);
         messages.send(player, "&6Type your reason for unmuting this player in chat", messages.prefixGeneral);

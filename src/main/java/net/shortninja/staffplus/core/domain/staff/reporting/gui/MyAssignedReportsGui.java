@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class MyAssignedReportsGui extends PagedGui {
     public IAction getAction() {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                 Report report = StaffPlus.get().getIocContainer().get(ReportService.class).getReport(reportId);
                 new ManageReportGui(player, "Report by: " + report.getReporterName(), report, () -> new MyAssignedReportsGui(player, getTitle(), getCurrentPage(), getPreviousGuiSupplier()))

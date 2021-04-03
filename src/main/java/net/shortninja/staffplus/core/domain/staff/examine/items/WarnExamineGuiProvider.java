@@ -19,6 +19,7 @@ import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
@@ -52,7 +53,7 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
     public IAction getClickAction(ExamineGui examineGui, Player staff, SppPlayer targetPlayer) {
         IAction severityAction = new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 new SeverityLevelSelectGui("Select severity level", targetPlayer, () -> new ExamineGui(player, targetPlayer, examineGui.getTitle())).show(player);
             }
 
@@ -64,7 +65,7 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
 
         IAction warnAction = new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 PlayerSession playerSession = sessionManager.get(staff.getUniqueId());
 
                 messages.send(staff, messages.typeInput, messages.prefixGeneral);

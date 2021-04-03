@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.staff.warn.appeals.AppealService;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class RejectAppealAction implements IAction {
@@ -26,7 +27,7 @@ public class RejectAppealAction implements IAction {
     }
 
     @Override
-    public void click(Player player, ItemStack item, int slot) {
+    public void click(Player player, ItemStack item, int slot, ClickType clickType) {
         if (options.appealConfiguration.isResolveReasonEnabled()) {
             messages.send(player, "&1==================================================", messages.prefixWarnings);
             messages.send(player, "&6        You have chosen to reject this appeal", messages.prefixWarnings);

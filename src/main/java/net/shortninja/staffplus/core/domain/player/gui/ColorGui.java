@@ -10,6 +10,7 @@ import net.shortninja.staffplus.core.common.utils.GlassData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class ColorGui extends AbstractGui {
@@ -23,7 +24,7 @@ public class ColorGui extends AbstractGui {
     public void buildGui() {
         IAction action = new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 sessionManager.get(player.getUniqueId()).setGlassColor(item.getType());
             }
 

@@ -3,7 +3,9 @@ package net.shortninja.staffplus.core.domain.staff.reporting;
 import net.shortninja.staffplus.core.common.SppLocation;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.investigate.Evidence;
 import net.shortninja.staffplusplus.ILocation;
+import net.shortninja.staffplusplus.investigate.EvidenceType;
 import net.shortninja.staffplusplus.reports.IReport;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.Location;
@@ -15,7 +17,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Report implements IReport, Infraction {
+public class Report implements IReport, Infraction, Evidence {
     private final UUID culpritUuid;
     private final String culpritName;
     private final String reason;
@@ -78,6 +80,16 @@ public class Report implements IReport, Infraction {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public EvidenceType getEvidenceType() {
+        return EvidenceType.REPORT;
+    }
+
+    @Override
+    public String getDescription() {
+        return reason;
     }
 
     public UUID getUuid() {
