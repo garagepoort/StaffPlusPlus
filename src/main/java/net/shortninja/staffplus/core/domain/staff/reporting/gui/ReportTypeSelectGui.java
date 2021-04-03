@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportTypeConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getInventorySize;
@@ -46,7 +47,7 @@ public class ReportTypeSelectGui extends AbstractGui {
     private IAction getSelectAction() {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 String reportType = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item);
                 if (targetPlayer == null) {
                     reportService.sendReport(staff, reason, reportType);

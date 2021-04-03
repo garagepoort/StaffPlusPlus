@@ -44,10 +44,8 @@ public class StartInvestigationCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        if (investigationService.getPausedInvestigation(player).isPresent()) {
-            confirmationChatService.sendConfirmationMessage((Player) sender, messages.prefixInvestigations + " &6This player currently has an investigation paused. Do you want to resume this investigation?",
-                p -> investigationService.resumeInvestigation((Player) sender, player),
-                p -> messages.send(sender, "&6Action cancelled", messages.prefixInvestigations));
+        if (investigationService.getPausedInvestigation((Player) sender, player).isPresent()) {
+            investigationService.resumeInvestigation((Player) sender, player);
             return true;
         }
 

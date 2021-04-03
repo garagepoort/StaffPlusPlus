@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.session.SessionEnhancer;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 
 import java.util.Collections;
-import java.util.Optional;
+import java.util.List;
 
 @IocBean
 @IocMultiProvider(SessionEnhancer.class)
@@ -23,7 +23,7 @@ public class InvestigationSessionEnhancer implements SessionEnhancer {
 
     @Override
     public void enhance(PlayerSession playerSession) {
-        Optional<Investigation> investigation = investigationsRepository.getInvestigationForInvestigated(playerSession.getUuid(), Collections.singletonList(InvestigationStatus.OPEN));
-        playerSession.setUnderInvestigation(investigation.isPresent());
+        List<Investigation> investigation = investigationsRepository.findAllInvestigationForInvestigated(playerSession.getUuid(), Collections.singletonList(InvestigationStatus.OPEN));
+        playerSession.setUnderInvestigation(!investigation.isEmpty());
     }
 }

@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.actions.*;
 import org.bukkit.Material;
@@ -21,6 +22,7 @@ public class ManageReportGui extends AbstractGui {
     private final PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
     private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
     private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
+    private final InvestigationGuiComponent investigationGuiComponent = StaffPlus.get().getIocContainer().get(InvestigationGuiComponent.class);
     private final Player player;
     private final Report report;
 
@@ -68,6 +70,9 @@ public class ManageReportGui extends AbstractGui {
 
         if(permission.has(player, options.manageReportConfiguration.getPermissionTeleport())) {
             addTeleportItem(teleportAction, 0);
+        }
+        if(permission.has(player, options.manageReportConfiguration.getPermissionTeleport())) {
+            investigationGuiComponent.addEvidenceButton(this, 14, report);
         }
     }
 

@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionsService;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class InfractionsTopGui extends PagedGui {
     public IAction getAction() {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 UUID playerUuid = UUID.fromString(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                 Optional<SppPlayer> offender = StaffPlus.get().getIocContainer().get(PlayerManager.class).getOnOrOfflinePlayer(playerUuid);
                 offender.ifPresent(sppPlayer -> showInfractionsUI(player, sppPlayer));

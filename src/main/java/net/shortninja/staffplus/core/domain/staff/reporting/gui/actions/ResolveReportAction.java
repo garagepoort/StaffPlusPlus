@@ -11,6 +11,7 @@ import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class ResolveReportAction implements IAction {
@@ -22,7 +23,7 @@ public class ResolveReportAction implements IAction {
     private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
     @Override
-    public void click(Player player, ItemStack item, int slot) {
+    public void click(Player player, ItemStack item, int slot, ClickType clickType) {
 
         int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
         if(options.reportConfiguration.isClosingReasonEnabled()) {
