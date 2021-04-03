@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.database;
+package net.shortninja.staffplus.core.domain.staff.investigate.database.investigation;
 
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
