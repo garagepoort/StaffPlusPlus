@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
     public IAction getClickAction(ExamineGui examineGui, Player staff, SppPlayer targetPlayer) {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 if (targetPlayer.getPlayer() != null) {
                     freezeHandler.execute(new FreezeRequest(staff, targetPlayer.getPlayer(), !freezeHandler.isFrozen(targetPlayer.getId())));
                 }

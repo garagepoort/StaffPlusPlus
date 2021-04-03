@@ -4,10 +4,12 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -18,37 +20,46 @@ public class ManageInvestigationsGui extends PagedGui {
 
     private final InvestigationService investigationService;
     private final InvestigationItemBuilder investigationItemBuilder;
+    private final PlayerManager playerManager;
     private final IProtocolService protocolService;
     private final Supplier<AbstractGui> goback;
 
-    public ManageInvestigationsGui(Player player, SppPlayer target, String title, int currentPage, InvestigationService investigationService, InvestigationItemBuilder investigationItemBuilder, IProtocolService protocolService) {
+    public ManageInvestigationsGui(Player player,
+                                   SppPlayer target,
+                                   String title,
+                                   int currentPage,
+                                   InvestigationService investigationService,
+                                   InvestigationItemBuilder investigationItemBuilder,
+                                   PlayerManager playerManager,
+                                   IProtocolService protocolService) {
         super(player, target, title, currentPage);
         this.investigationService = investigationService;
         this.investigationItemBuilder = investigationItemBuilder;
+        this.playerManager = playerManager;
         this.protocolService = protocolService;
         goback = () -> new ManageInvestigationsGui(player, getTarget(), getTitle(), getCurrentPage(),
             investigationService,
             investigationItemBuilder,
-            protocolService);
+            playerManager, protocolService);
     }
 
     @Override
     protected AbstractGui getNextUi(Player player, SppPlayer target, String title, int page) {
-        return new ManageInvestigationsGui(player, target, title, page, investigationService, investigationItemBuilder, protocolService);
+        return new ManageInvestigationsGui(player, target, title, page, investigationService, investigationItemBuilder, playerManager, protocolService);
     }
 
     @Override
     public IAction getAction() {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
-
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 int investigationId = Integer.parseInt(protocolService.getVersionProtocol().getNbtString(item));
                 Investigation investigation = investigationService.getInvestigation(investigationId);
                 new ManageInvestigationGui(player,
                     "Manage Investigation",
                     investigation,
                     goback,
+                    playerManager,
                     investigationService,
                     investigationItemBuilder)
                     .show(player);

@@ -267,6 +267,8 @@ investigated.under-investigation-join: "&6You are under currently being investig
 investigation.staff-notification-started: "&4%investigator% &6has started investigating &4%investigated%"
 investigation.staff-notification-concluded: "&4%investigator% &6has concluded the investigation on &4%investigated%"
 investigation.staff-notification-paused: "&4%investigator% &6has paused investigating &4%investigated%"
+investigation.staff-notification-evidence-linked: "&4%investigator% &6has linked evidence %evidenceType% (ID=%evidenceId%) to investigation (ID=%investigationId%)"
+investigation.staff-notification-evidence-unlinked: "&4%investigator% &6has unlinked evidence %evidenceType% (ID=%evidenceId%) from investigation (ID=%investigationId%)"
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
 lang-version: 6198

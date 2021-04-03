@@ -26,32 +26,32 @@ public class InvestigationSessionSynchronizer implements Listener {
     }
 
     @EventHandler
-    public void notifyInvestigationStarted(InvestigationStartedEvent event) {
+    public void onInvestigationStarted(InvestigationStartedEvent event) {
         playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(true));
     }
 
     @EventHandler
-    public void notifyInvestigationStarted(InvestigationStartedBungeeEvent event) {
+    public void onInvestigationStarted(InvestigationStartedBungeeEvent event) {
         playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(true));
     }
 
     @EventHandler
-    public void notifyInvestigationConcluded(InvestigationConcludedEvent event) {
+    public void onInvestigationConcluded(InvestigationConcludedEvent event) {
         playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
     }
 
     @EventHandler
-    public void notifyInvestigationConcluded(InvestigationConcludedBungeeEvent event) {
+    public void onInvestigationConcluded(InvestigationConcludedBungeeEvent event) {
         playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
     }
 
     @EventHandler
-    public void notifyInvestigationPaused(InvestigationPausedEvent event) {
+    public void onInvestigationPaused(InvestigationPausedEvent event) {
         playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
     }
 
     @EventHandler
-    public void notifyInvestigationPaused(InvestigationPausedBungeeEvent event) {
+    public void onInvestigationPaused(InvestigationPausedBungeeEvent event) {
         playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
     }
 }

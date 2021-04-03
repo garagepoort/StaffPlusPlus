@@ -15,6 +15,7 @@ import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -47,7 +48,7 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
     public IAction getClickAction(ExamineGui examineGui, Player staff, SppPlayer targetPlayer) {
         return new IAction() {
             @Override
-            public void click(Player player, ItemStack item, int slot) {
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
                 PlayerSession playerSession = sessionManager.get(staff.getUniqueId());
 
                 messages.send(staff, messages.typeInput, messages.prefixGeneral);

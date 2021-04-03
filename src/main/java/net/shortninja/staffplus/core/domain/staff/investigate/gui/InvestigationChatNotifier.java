@@ -11,10 +11,7 @@ import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.Inve
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationStartedBungeeEvent;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
-import net.shortninja.staffplusplus.investigate.IInvestigation;
-import net.shortninja.staffplusplus.investigate.InvestigationConcludedEvent;
-import net.shortninja.staffplusplus.investigate.InvestigationPausedEvent;
-import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
+import net.shortninja.staffplusplus.investigate.*;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,9 +23,9 @@ import java.util.Optional;
 @IocListener
 public class InvestigationChatNotifier implements Listener {
 
-    private static final String INVESTIGATION_STARTED = "Investigation Started";
-    private static final String INVESTIGATION_CONCLUDED = "Investigation Concluded";
-    private static final String INVESTIGATION_PAUSED = "Investigation Paused";
+    private static final String INVESTIGATION_STARTED = "Investigation Started (ID=%investigationId%)";
+    private static final String INVESTIGATION_CONCLUDED = "Investigation Concluded (ID=%investigationId%)";
+    private static final String INVESTIGATION_PAUSED = "Investigation Paused (ID=%investigationId%)";
 
     private final PlayerManager playerManager;
     private final Messages messages;
@@ -101,6 +98,7 @@ public class InvestigationChatNotifier implements Listener {
     private void sendStaffNotifications(IInvestigation investigation, String messageToSend) {
         if (messageToSend != null) {
             String message = messageToSend
+                .replace("%investigationId%", String.valueOf(investigation.getId()))
                 .replace("%investigator%", investigation.getInvestigatorName())
                 .replace("%investigated%", investigation.getInvestigatedName());
             messages.sendGroupMessage(message, options.investigationConfiguration.getStaffNotificationPermission(), messages.prefixInvestigations);
@@ -109,7 +107,10 @@ public class InvestigationChatNotifier implements Listener {
 
     private void sendInvestigatorMessage(IInvestigation investigation, String investigatorMessage) {
         Optional<SppPlayer> investigator = playerManager.getOnlinePlayer(investigation.getInvestigatorUuid());
-        investigator.map(SppPlayer::getPlayer).ifPresent(p -> messages.send(p, investigatorMessage, messages.prefixInvestigations));
+        investigator.map(SppPlayer::getPlayer).ifPresent(p -> {
+            String message = investigatorMessage.replace("%investigationId%", String.valueOf(investigation.getId()));
+            messages.send(p, message, messages.prefixInvestigations);
+        });
     }
 
     private void sendInvestigatedMessage(IInvestigation investigation, String investigatedMessage) {
