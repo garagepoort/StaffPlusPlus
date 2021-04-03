@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
+import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedSelector;
@@ -26,16 +27,21 @@ public class InvestigationGuiComponent {
     private final InvestigationItemBuilder investigationItemBuilder;
     private final PlayerManager playerManager;
     private final IProtocolService protocolService;
+    private final Options options;
 
-    public InvestigationGuiComponent(InvestigationService investigationService, InvestigationEvidenceService investigationEvidenceService, InvestigationItemBuilder investigationItemBuilder, PlayerManager playerManager, IProtocolService protocolService) {
+    public InvestigationGuiComponent(InvestigationService investigationService, InvestigationEvidenceService investigationEvidenceService, InvestigationItemBuilder investigationItemBuilder, PlayerManager playerManager, IProtocolService protocolService, Options options) {
         this.investigationService = investigationService;
         this.investigationEvidenceService = investigationEvidenceService;
         this.investigationItemBuilder = investigationItemBuilder;
         this.playerManager = playerManager;
         this.protocolService = protocolService;
+        this.options = options;
     }
 
     public void addEvidenceButton(AbstractGui abstractGui, int slot, Evidence evidence) {
+        if(!options.investigationConfiguration.isEnabled()) {
+            return;
+        }
         ItemStack book = Items.createBook("Add this as evidence to investigation", "Click to link evidence to investigation");
         abstractGui.setItem(slot, book, new IAction() {
             @Override
