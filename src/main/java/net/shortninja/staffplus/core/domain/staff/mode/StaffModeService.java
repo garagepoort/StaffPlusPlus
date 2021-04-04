@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 
+import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.actions.*;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
@@ -84,6 +85,18 @@ public class StaffModeService {
         session.setInStaffMode(true);
         sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
         messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
+    }
+
+    public void toggleStaffFly(Player player) {
+        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        if (!playerSession.isInStaffMode()) {
+            throw new BusinessException("&CYou can only toggle fly while in staff mode");
+        }
+
+        if (!options.modeConfiguration.isModeFlight()) {
+            throw new BusinessException("&CCannot toggle fly. Flight is not enabled while in staff mode");
+        }
+        player.setAllowFlight(!player.getAllowFlight());
     }
 
     public void removeMode(Player player) {
