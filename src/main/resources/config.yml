@@ -1073,6 +1073,8 @@ permissions:
 commands:
   # The command for toggling staff mode.
   staff-mode: "staff"
+  # The command for toggling fly while in staff mode.
+  staff-mode-fly: "sfly"
 
   # The command for toggling freeze on players.
   freeze: "freeze"
