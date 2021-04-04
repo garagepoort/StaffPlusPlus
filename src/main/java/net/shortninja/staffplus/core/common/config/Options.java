@@ -168,6 +168,7 @@ public class Options {
      * Commands
      */
     public String commandStaffMode;
+    public String commandStaffFly;
     public String commandFreeze;
     public String commandTeleportToLocation;
     public String commandTeleportBack;
@@ -381,6 +382,7 @@ public class Options {
          * Commands
          */
         commandStaffMode = config.getString("commands.staff-mode");
+        commandStaffFly = config.getString("commands.staff-mode-fly");
         commandFreeze = config.getString("commands.freeze");
         commandTeleportToLocation = config.getString("commands.teleport-to-location");
         commandTeleportBack = config.getString("commands.teleport-back");
