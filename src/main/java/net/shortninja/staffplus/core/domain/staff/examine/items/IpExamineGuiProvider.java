@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.IAction;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
@@ -21,10 +22,12 @@ public class IpExamineGuiProvider implements ExamineGuiItemProvider {
     private final Messages messages;
     private final ExamineModeConfiguration examineModeConfiguration;
     private final Options options;
+    private final PermissionHandler permissionHandler;
 
-    public IpExamineGuiProvider(Messages messages, Options options) {
+    public IpExamineGuiProvider(Messages messages, Options options, PermissionHandler permissionHandler) {
         this.messages = messages;
         this.options = options;
+        this.permissionHandler = permissionHandler;
         examineModeConfiguration = this.options.modeConfiguration.getExamineModeConfiguration();
     }
 
@@ -49,7 +52,7 @@ public class IpExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     private ItemStack ipItem(Player player) {
-        String ip = player.hasPermission(options.ipHidePerm) ? "127.0.0.1" : player.getAddress().getAddress().getHostAddress().replace("/", "");
+        String ip = permissionHandler.has(player, options.ipHidePerm) ? "127.0.0.1" : player.getAddress().getAddress().getHostAddress().replace("/", "");
 
         ItemStack item = Items.builder()
             .setMaterial(Material.COMPASS).setAmount(1)
