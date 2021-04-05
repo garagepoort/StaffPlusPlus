@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @IocBean
@@ -74,6 +75,10 @@ public class InvestigationGuiComponent {
     }
 
     public void openManageInvestigationsGui(Player player, SppPlayer target) {
-        new ManageInvestigationsGui(player, target, "Manage Investigation", 0, investigationService, investigationItemBuilder, playerManager, protocolService).show(player);
+        new ManageInvestigationsGui(player, "Manage Investigation", 0, target, investigationService, investigationItemBuilder, playerManager, protocolService).show(player);
+    }
+
+    public void openManageInvestigationsGui(Player player, SppPlayer target, Supplier<AbstractGui> previousGui) {
+        new ManageInvestigationsGui(player, "Manage Investigation", 0, target, previousGui, investigationService, investigationItemBuilder, playerManager, protocolService).show(player);
     }
 }

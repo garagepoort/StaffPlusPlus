@@ -25,9 +25,9 @@ public class ManageInvestigationsGui extends PagedGui {
     private final Supplier<AbstractGui> goback;
 
     public ManageInvestigationsGui(Player player,
-                                   SppPlayer target,
                                    String title,
                                    int currentPage,
+                                   SppPlayer target,
                                    InvestigationService investigationService,
                                    InvestigationItemBuilder investigationItemBuilder,
                                    PlayerManager playerManager,
@@ -37,15 +37,35 @@ public class ManageInvestigationsGui extends PagedGui {
         this.investigationItemBuilder = investigationItemBuilder;
         this.playerManager = playerManager;
         this.protocolService = protocolService;
-        goback = () -> new ManageInvestigationsGui(player, getTarget(), getTitle(), getCurrentPage(),
-            investigationService,
+        goback = () -> new ManageInvestigationsGui(player, getTitle(), getCurrentPage(),
+            target, investigationService,
+            investigationItemBuilder,
+            playerManager, protocolService);
+    }
+
+    public ManageInvestigationsGui(Player player,
+                                   String title,
+                                   int currentPage,
+                                   SppPlayer target,
+                                   Supplier<AbstractGui> previousGui,
+                                   InvestigationService investigationService,
+                                   InvestigationItemBuilder investigationItemBuilder,
+                                   PlayerManager playerManager,
+                                   IProtocolService protocolService) {
+        super(player, target, title, currentPage, previousGui);
+        this.investigationService = investigationService;
+        this.investigationItemBuilder = investigationItemBuilder;
+        this.playerManager = playerManager;
+        this.protocolService = protocolService;
+        goback = () -> new ManageInvestigationsGui(player, getTitle(), getCurrentPage(),
+            target, previousGui, investigationService,
             investigationItemBuilder,
             playerManager, protocolService);
     }
 
     @Override
     protected AbstractGui getNextUi(Player player, SppPlayer target, String title, int page) {
-        return new ManageInvestigationsGui(player, target, title, page, investigationService, investigationItemBuilder, playerManager, protocolService);
+        return new ManageInvestigationsGui(player, title, page, target, getPreviousGuiSupplier(), investigationService, investigationItemBuilder, playerManager, protocolService);
     }
 
     @Override
