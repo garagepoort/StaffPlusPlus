@@ -167,6 +167,35 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     }
 
     @Override
+    public List<Investigation> getInvestigationsForInvestigated(UUID investigatedUuid, List<InvestigationStatus> investigationStatuses) {
+        if (investigationStatuses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<Investigation> investigations = new ArrayList<>();
+        List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
+        String query = "SELECT * FROM sp_investigations WHERE investigated_uuid = ? AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
+
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
+            ps.setString(1, investigatedUuid.toString());
+            int index = 2;
+            for (InvestigationStatus status : investigationStatuses) {
+                ps.setString(index, status.name());
+                index++;
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    investigations.add(buildInvestigation(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return investigations;
+    }
+
+    @Override
     public List<Investigation> getInvestigationsForInvestigated(UUID investigatedUuid) {
         List<Investigation> investigations = new ArrayList<>();
         try (Connection sql = getConnection();

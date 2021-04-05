@@ -9,6 +9,7 @@ public class InvestigationConfiguration {
 
     private final boolean enabled;
     private final boolean allowOfflineInvestigation;
+    private final boolean automaticPause;
     private final int maxConcurrentInvestigation;
     private final String investigatePermission;
     private final String startInvestigationCmd;
@@ -31,6 +32,7 @@ public class InvestigationConfiguration {
 
     public InvestigationConfiguration(boolean enabled,
                                       boolean allowOfflineInvestigation,
+                                      boolean automaticPause,
                                       int maxConcurrentInvestigation,
                                       String investigatePermission,
                                       String startInvestigationCmd,
@@ -50,6 +52,7 @@ public class InvestigationConfiguration {
                                       String deleteNoteOthersPermission, GuiItemConfig guiItemConfig) {
         this.enabled = enabled;
         this.allowOfflineInvestigation = allowOfflineInvestigation;
+        this.automaticPause = automaticPause;
         this.maxConcurrentInvestigation = maxConcurrentInvestigation;
         this.investigatePermission = investigatePermission;
         this.startInvestigationCmd = startInvestigationCmd;
@@ -151,5 +154,9 @@ public class InvestigationConfiguration {
 
     public GuiItemConfig getGuiItemConfig() {
         return guiItemConfig;
+    }
+
+    public boolean isAutomaticPause() {
+        return automaticPause;
     }
 }
