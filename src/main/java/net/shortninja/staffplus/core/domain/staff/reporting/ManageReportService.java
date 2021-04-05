@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplusplus.reports.*;
 import org.bukkit.entity.Player;

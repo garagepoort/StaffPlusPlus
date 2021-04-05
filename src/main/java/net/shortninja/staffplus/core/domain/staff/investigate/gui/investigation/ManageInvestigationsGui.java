@@ -5,7 +5,7 @@ import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
 import org.bukkit.entity.Player;

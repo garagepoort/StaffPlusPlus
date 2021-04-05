@@ -1,11 +1,11 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui.notes;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.notes;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.investigate.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

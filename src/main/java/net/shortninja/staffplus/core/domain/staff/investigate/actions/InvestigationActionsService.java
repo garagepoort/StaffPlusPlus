@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.investigate.IInvestigation;
 import net.shortninja.staffplusplus.investigate.InvestigationConcludedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationPausedEvent;

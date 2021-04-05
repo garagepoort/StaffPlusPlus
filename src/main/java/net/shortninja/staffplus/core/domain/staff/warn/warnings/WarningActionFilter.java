@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import net.shortninja.staffplus.core.domain.actions.ActionFilter;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.warnings.IWarning;
 
 import java.util.Arrays;

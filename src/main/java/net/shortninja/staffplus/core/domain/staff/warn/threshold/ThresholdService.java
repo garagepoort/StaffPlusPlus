@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningThresholdConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplusplus.warnings.IWarning;
