@@ -47,11 +47,12 @@ public class OpenReportsGui extends PagedGui {
                 }
                 int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                 StaffPlus.get().getIocContainer().get(ManageReportService.class).acceptReport(player, reportId);
+                backGuiSupplier.get().show(player);
             }
 
             @Override
             public boolean shouldClose(Player player) {
-                return permissionHandler.has(player, options.manageReportConfiguration.getPermissionAccept());
+                return false;
             }
         };
     }
