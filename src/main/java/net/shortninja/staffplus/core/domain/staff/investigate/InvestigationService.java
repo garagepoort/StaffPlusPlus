@@ -90,7 +90,7 @@ public class InvestigationService {
             Investigation investigation = investigationsRepository.findInvestigation(investigationId)
                 .orElseThrow(() -> new BusinessException("&CNo investigation found with thid id.", messages.prefixInvestigations));
 
-            if(investigation.getStatus() == OPEN && !investigation.getInvestigatorUuid().equals(investigator.getUniqueId())) {
+            if (investigation.getStatus() == OPEN && !investigation.getInvestigatorUuid().equals(investigator.getUniqueId())) {
                 throw new BusinessException("$CCannot conclude the investigation. This investigation is currently ongoing.");
             }
             investigation.setConclusionDate(System.currentTimeMillis());
@@ -109,6 +109,17 @@ public class InvestigationService {
 
             investigationsRepository.updateInvestigation(investigation);
             sendEvent(new InvestigationPausedEvent(investigation));
+        });
+    }
+
+    public void pauseInvestigationsForInvestigated(Player investigated) {
+        bukkitUtils.runTaskAsync(investigated, () -> {
+            List<Investigation> investigations = investigationsRepository.getInvestigationsForInvestigated(investigated.getUniqueId(), Collections.singletonList(OPEN));
+            for (Investigation investigation : investigations) {
+                investigation.setStatus(InvestigationStatus.PAUSED);
+                investigationsRepository.updateInvestigation(investigation);
+                sendEvent(new InvestigationPausedEvent(investigation));
+            }
         });
     }
 

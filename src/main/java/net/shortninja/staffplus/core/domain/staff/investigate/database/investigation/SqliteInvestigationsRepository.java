@@ -21,6 +21,7 @@ public class SqliteInvestigationsRepository extends AbstractSqlInvestigationsRep
         try (Connection connection = getConnection();
              PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_investigations(investigator_uuid, investigated_uuid, status, creation_timestamp, server_name) " +
                  "VALUES(?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
+            connection.setAutoCommit(false);
             insert.setString(1, investigation.getInvestigatorUuid().toString());
             insert.setString(2, investigation.getInvestigatedUuid().toString());
             insert.setString(3, investigation.getStatus().name());
