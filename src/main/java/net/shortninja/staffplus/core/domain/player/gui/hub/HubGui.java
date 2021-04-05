@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.ban.gui.BannedPlayersGui;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.gui.MutedPlayersGui;
 import net.shortninja.staffplus.core.domain.staff.protect.cmd.ProtectedAreasGui;
@@ -32,12 +33,15 @@ public class HubGui extends AbstractGui {
     private final GuiItemConfig protectGuiItemConfig;
     private final GuiItemConfig banGuiItemConfig;
     private final GuiItemConfig muteGuiItemConfig;
+    private final GuiItemConfig investigationGuiItemConfig;
     private final GuiItemConfig closedReportsGui;
     private final GuiItemConfig myAssignedReportsGui;
     private final GuiItemConfig assignedReportsGui;
     private final GuiItemConfig openReportsGui;
     private final GuiModeConfiguration guiModeConfiguration;
     private final Player player;
+
+    private final InvestigationGuiComponent investigationGuiComponent = StaffPlus.get().getIocContainer().get(InvestigationGuiComponent.class);
 
     public HubGui(Player player, String title) {
         super(SIZE, title);
@@ -46,6 +50,7 @@ public class HubGui extends AbstractGui {
         protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
         banGuiItemConfig = options.banConfiguration.getGuiItemConfig();
         muteGuiItemConfig = options.muteConfiguration.getGuiItemConfig();
+        investigationGuiItemConfig = options.investigationConfiguration.getGuiItemConfig();
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
         myAssignedReportsGui = options.reportConfiguration.getMyReportsGui();
@@ -77,6 +82,10 @@ public class HubGui extends AbstractGui {
 
         if (muteGuiItemConfig.isEnabled()) {
             setMenuItem(16, buildGuiItem(SIGN, muteGuiItemConfig), p -> new MutedPlayersGui(player, muteGuiItemConfig.getTitle(), 0, () -> new HubGui(player, getTitle())).show(p));
+        }
+
+        if (investigationGuiItemConfig.isEnabled()) {
+            setMenuItem(25, buildGuiItem(BOOK, investigationGuiItemConfig), p -> investigationGuiComponent.openManageInvestigationsGui(p, null, () -> new HubGui(player, getTitle())));
         }
 
         PlayerSession playerSession = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class).get(player.getUniqueId());

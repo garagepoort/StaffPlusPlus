@@ -624,6 +624,13 @@ staff-mode:
     mute-name: "&bMuted players GUI"
     mute-lore: "&7Shows all currently muted players."
 
+    # ============== MUTING ==================
+    # Whether or not the mute GUI is enabled in the hub.
+    investigation-gui: true
+    investigation-title: "&bOverview investigations"
+    investigation-name: "&bInvestigations GUI"
+    investigation-lore: "&7Shows all investigations."
+
   ############################################################
   # +------------------------------------------------------+ #
   # |                        Counter                       | #
