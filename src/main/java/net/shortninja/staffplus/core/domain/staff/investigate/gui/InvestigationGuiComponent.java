@@ -9,13 +9,13 @@ import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedSelector;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.investigate.Evidence;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationEvidenceService;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation.InvestigationItemBuilder;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation.ManageInvestigationsGui;
+import net.shortninja.staffplusplus.investigate.evidence.Evidence;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -75,7 +75,11 @@ public class InvestigationGuiComponent {
     }
 
     public void openManageInvestigationsGui(Player player, SppPlayer target) {
-        new ManageInvestigationsGui(player, "Manage Investigation", 0, target, investigationService, investigationItemBuilder, playerManager, protocolService).show(player);
+        getManageInvestigationsGui(player, target, 0).show(player);
+    }
+
+    public ManageInvestigationsGui getManageInvestigationsGui(Player player, SppPlayer target, int page) {
+        return new ManageInvestigationsGui(player, "Manage Investigation", page, target, investigationService, investigationItemBuilder, playerManager, protocolService);
     }
 
     public void openManageInvestigationsGui(Player player, SppPlayer target, Supplier<AbstractGui> previousGui) {

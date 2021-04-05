@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.investigate;
 
-import net.shortninja.staffplusplus.investigate.EvidenceType;
-import net.shortninja.staffplusplus.investigate.IInvestigationEvidence;
+import net.shortninja.staffplusplus.investigate.evidence.Evidence;
+import net.shortninja.staffplusplus.investigate.evidence.IInvestigationEvidence;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -13,13 +13,13 @@ public class EvidenceEntity implements IInvestigationEvidence, Evidence {
     private int id;
     private int investigationId;
     private int evidenceId;
-    private EvidenceType evidenceType;
+    private String evidenceType;
     private UUID linkedByUuid;
     private String linkedByName;
     private String description;
     private long timestamp;
 
-    public EvidenceEntity(int investigationId, int evidenceId, EvidenceType evidenceType, UUID linkedByUuid, String linkedByName, String description) {
+    public EvidenceEntity(int investigationId, int evidenceId, String evidenceType, UUID linkedByUuid, String linkedByName, String description) {
         this.investigationId = investigationId;
         this.evidenceId = evidenceId;
         this.evidenceType = evidenceType;
@@ -29,7 +29,7 @@ public class EvidenceEntity implements IInvestigationEvidence, Evidence {
         this.timestamp = System.currentTimeMillis();
     }
 
-    public EvidenceEntity(int id, int investigationId, int evidenceId, EvidenceType evidenceType, UUID linkedByUuid, String linkedByName, String description, long timestamp) {
+    public EvidenceEntity(int id, int investigationId, int evidenceId, String evidenceType, UUID linkedByUuid, String linkedByName, String description, long timestamp) {
         this.id = id;
         this.investigationId = investigationId;
         this.evidenceId = evidenceId;
@@ -52,7 +52,7 @@ public class EvidenceEntity implements IInvestigationEvidence, Evidence {
         return evidenceId;
     }
 
-    public EvidenceType getEvidenceType() {
+    public String getEvidenceType() {
         return evidenceType;
     }
 

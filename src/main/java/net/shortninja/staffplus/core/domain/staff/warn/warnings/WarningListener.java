@@ -5,7 +5,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.threshold.ThresholdService;
 import net.shortninja.staffplusplus.warnings.WarningAppealApprovedEvent;
 import net.shortninja.staffplusplus.warnings.WarningCreatedEvent;
