@@ -1,93 +1,29 @@
 package net.shortninja.staffplus.core.common.utils;
 
-import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.Set;
 
-@IocBean
-public class PermissionHandler {
-    private Options options;
+public interface PermissionHandler {
 
-    public PermissionHandler(Options options) {
-        this.options = options;
-    }
+    boolean has(Player player, String permission);
 
-    public boolean has(Player player, String permission) {
-        if (permission == null) {
-            return true;
-        }
+    boolean hasAny(CommandSender player, String... permissions);
 
-        boolean hasPermission = false;
-        if (player != null) {
-            hasPermission = player.hasPermission(permission) || isOp(player);
-        }
+    boolean hasAny(CommandSender player, Set<String> permissions);
 
-        return hasPermission;
-    }
+    void validate(CommandSender player, String permission);
 
-    public boolean hasAny(CommandSender player, String... permissions) {
-        return Arrays.stream(permissions).anyMatch(permission -> this.has(player, permission));
-    }
+    void validateAny(CommandSender player, Set<String> permissions);
 
-    public boolean hasAny(CommandSender player, Set<String> permissions) {
-        return permissions.stream().anyMatch(permission -> this.has(player, permission));
-    }
+    boolean hasOnly(Player player, String permission);
 
-    public void validate(CommandSender player, String permission) {
-        if (permission != null && !has(player, permission)) {
-            throw new NoPermissionException();
-        }
-    }
+    boolean has(CommandSender sender, String permission);
 
-    public void validateAny(CommandSender player, Set<String> permissions) {
-        if (!permissions.isEmpty() && !hasAny(player, permissions)) {
-            throw new NoPermissionException();
-        }
-    }
+    boolean isOp(Player player);
 
-    public boolean hasOnly(Player player, String permission) {
-        if (permission == null) {
-            return true;
-        }
+    boolean isOp(CommandSender sender);
 
-        boolean hasPermission = false;
-        if (player != null) {
-            hasPermission = player.hasPermission(permission) && !player.isOp();
-        }
-
-        return hasPermission;
-    }
-
-    public boolean has(CommandSender sender, String permission) {
-        if (permission == null) {
-            return true;
-        }
-        return sender.hasPermission(permission) || isOp(sender);
-    }
-
-    public boolean isOp(Player player) {
-        return player.isOp();
-    }
-
-    public boolean isOp(CommandSender sender) {
-        return sender.isOp();
-    }
-
-    public int getStaffCount() {
-        int count = 0;
-
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (has(player, options.permissionMember)) {
-                count++;
-            }
-        }
-
-        return count;
-    }
+    int getStaffCount();
 }
