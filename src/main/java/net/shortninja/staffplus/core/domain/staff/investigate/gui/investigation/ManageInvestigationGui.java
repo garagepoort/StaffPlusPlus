@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.GoToEvidenceOverviewAction;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.notes.GoToNoteOverviewAction;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.notes.GoToNoteOverviewAction;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -5,11 +5,11 @@ import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplusplus.investigate.IInvestigation;
-import net.shortninja.staffplusplus.investigate.IInvestigationEvidence;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceLinkedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceUnlinkedEvent;
+import net.shortninja.staffplusplus.investigate.evidence.IInvestigationEvidence;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -52,7 +52,7 @@ public class InvestigationEvidenceChatNotifier implements Listener {
                 .replace("%investigationId%", String.valueOf(investigation.getId()))
                 .replace("%investigator%", investigation.getInvestigatorName())
                 .replace("%evidenceId%", String.valueOf(evidence.getEvidenceId()))
-                .replace("%evidenceType%", evidence.getEvidenceType().name())
+                .replace("%evidenceType%", evidence.getEvidenceType())
                 .replace("%investigated%", investigation.getInvestigatedName());
             messages.sendGroupMessage(message, options.investigationConfiguration.getStaffNotificationPermission(), messages.prefixInvestigations);
         }
@@ -64,7 +64,7 @@ public class InvestigationEvidenceChatNotifier implements Listener {
             String message = investigatorMessage
                 .replace("%investigationId%", String.valueOf(investigation.getId()))
                 .replace("%evidenceId%", String.valueOf(evidence.getEvidenceId()))
-                .replace("%evidenceType%", evidence.getEvidenceType().name());
+                .replace("%evidenceType%", evidence.getEvidenceType());
             messages.send(p, message, messages.prefixInvestigations);
         });
     }

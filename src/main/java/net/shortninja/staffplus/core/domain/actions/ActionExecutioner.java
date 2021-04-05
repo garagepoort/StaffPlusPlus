@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.domain.actions.database.ActionableRepository;
 import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.Actionable;
 import org.bukkit.Bukkit;
 

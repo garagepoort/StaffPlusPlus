@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.actions;
 
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 
 public interface ActionTargetProvider {
 

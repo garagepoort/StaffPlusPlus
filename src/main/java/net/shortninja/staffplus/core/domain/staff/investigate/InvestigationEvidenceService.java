@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.evidence.InvestigationEvidenceRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceLinkedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceUnlinkedEvent;
+import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import org.bukkit.entity.Player;
 
 import java.util.List;

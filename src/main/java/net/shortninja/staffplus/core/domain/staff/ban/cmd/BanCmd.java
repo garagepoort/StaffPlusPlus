@@ -13,7 +13,7 @@ import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanReasonConfiguration;
 import org.bukkit.command.CommandSender;

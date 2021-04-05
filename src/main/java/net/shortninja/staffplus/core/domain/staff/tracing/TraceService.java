@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.tracing;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplusplus.trace.StartTraceEvent;
 import net.shortninja.staffplusplus.trace.StopTraceEvent;

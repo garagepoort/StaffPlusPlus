@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui.notes;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.notes;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;

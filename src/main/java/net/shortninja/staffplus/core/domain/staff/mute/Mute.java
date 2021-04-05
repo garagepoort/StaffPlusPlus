@@ -3,8 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.investigate.Evidence;
-import net.shortninja.staffplusplus.investigate.EvidenceType;
+import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import net.shortninja.staffplusplus.mute.IMute;
 
 import java.time.Instant;
@@ -76,8 +75,8 @@ public class Mute implements IMute, Infraction, Evidence {
     }
 
     @Override
-    public EvidenceType getEvidenceType() {
-        return EvidenceType.MUTE;
+    public String getEvidenceType() {
+        return "MUTE";
     }
 
     @Override

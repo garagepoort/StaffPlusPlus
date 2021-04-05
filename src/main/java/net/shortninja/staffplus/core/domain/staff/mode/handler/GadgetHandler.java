@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.player.gui.CounterGui;
 import net.shortninja.staffplus.core.domain.player.gui.hub.HubGui;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;

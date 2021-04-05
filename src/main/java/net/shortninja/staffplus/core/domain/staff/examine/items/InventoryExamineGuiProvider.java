@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.utils.InventoryFactory;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGUI;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiType;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;

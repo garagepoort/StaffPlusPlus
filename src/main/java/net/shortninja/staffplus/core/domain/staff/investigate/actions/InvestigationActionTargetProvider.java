@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.investigate.actions;
 
 import net.shortninja.staffplus.core.domain.actions.ActionTargetProvider;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 
 public class InvestigationActionTargetProvider implements ActionTargetProvider {
     private static final String INVESTIGATED_IDENTIFIER = "investigated";

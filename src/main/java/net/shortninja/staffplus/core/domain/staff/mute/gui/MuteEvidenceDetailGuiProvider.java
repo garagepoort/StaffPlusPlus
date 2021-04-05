@@ -2,34 +2,46 @@ package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.gui.AbstractGui;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.EvidenceDetailGuiProvider;
+import net.shortninja.staffplus.core.common.Items;
+import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
-import net.shortninja.staffplusplus.investigate.EvidenceType;
+import net.shortninja.staffplusplus.investigate.evidence.EvidenceGuiClick;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
-
-import java.util.function.Supplier;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemStack;
 
 @IocBean
-@IocMultiProvider(EvidenceDetailGuiProvider.class)
-public class MuteEvidenceDetailGuiProvider implements EvidenceDetailGuiProvider {
+@IocMultiProvider(EvidenceGuiClick.class)
+public class MuteEvidenceDetailGuiProvider implements EvidenceGuiClick {
 
-    private final MuteService banService;
+    private final MuteService muteService;
 
     public MuteEvidenceDetailGuiProvider(MuteService muteService) {
-        this.banService = muteService;
+        this.muteService = muteService;
     }
 
     @Override
-    public AbstractGui get(Player player, SppPlayer target, int id, Supplier<AbstractGui> previousGuiSupplier) {
-        Mute mute = banService.getById(id);
-        return new ManageMutedPlayerGui("Player: " + mute.getTargetName(), mute, previousGuiSupplier);
+    public void onClick(Player player, SppPlayer target, int id, Runnable back) {
+        Mute mute = muteService.getById(id);
+        ManageMutedPlayerGui manageMutedPlayerGui = new ManageMutedPlayerGui("Player: " + mute.getTargetName(), mute, null);
+        manageMutedPlayerGui.show(player);
+        manageMutedPlayerGui.setItem(49, Items.createBackDoor(), new IAction() {
+            @Override
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
+                back.run();
+            }
+
+            @Override
+            public boolean shouldClose(Player player) {
+                return false;
+            }
+        });
     }
 
     @Override
-    public EvidenceType getType() {
-        return EvidenceType.MUTE;
+    public String getType() {
+        return "MUTE";
     }
 }
