@@ -436,6 +436,7 @@ investigations-module:
     enabled: true
     allow-offline-investigation: false
     max-concurrent-investigations: 1
+    automatic-pause: true
     notifications:
         investigated:
             title-message-enabled: true
