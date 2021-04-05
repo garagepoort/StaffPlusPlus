@@ -18,6 +18,7 @@ public class SqliteSessionsRepository extends AbstractSqlSessionsRepository {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_sessions(player_uuid, vanish_type, in_staff_mode, staff_chat_muted) " +
                  "VALUES(?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
+            sql.setAutoCommit(false);
             insert.setString(1, sessionEntity.getPlayerUuid().toString());
             insert.setString(2, sessionEntity.getVanishType().toString());
             insert.setBoolean(3, sessionEntity.getStaffMode());

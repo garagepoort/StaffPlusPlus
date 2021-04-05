@@ -19,6 +19,8 @@ public interface InvestigationsRepository {
 
     Optional<Investigation> getInvestigationForInvestigator(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses);
 
+    List<Investigation> getInvestigationsForInvestigated(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses);
+
     List<Investigation> getInvestigationsForInvestigated(UUID investigatedUuid);
 
     List<Investigation> getAllInvestigations(int offset, int amount);
