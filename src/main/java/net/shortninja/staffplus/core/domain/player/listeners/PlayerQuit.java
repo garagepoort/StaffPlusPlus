@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.config.Messages;
@@ -18,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 @IocBean
+@IocListener
 public class PlayerQuit implements Listener {
 
     private final Options options;
@@ -29,7 +31,6 @@ public class PlayerQuit implements Listener {
     private final IProtocolService protocolService;
 
     public PlayerQuit(Options options, Messages messages, SessionManagerImpl sessionManager, StaffModeService staffModeService, TraceService traceService, XrayService xrayService, IProtocolService protocolService) {
-
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -37,7 +38,6 @@ public class PlayerQuit implements Listener {
         this.traceService = traceService;
         this.xrayService = xrayService;
         this.protocolService = protocolService;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
