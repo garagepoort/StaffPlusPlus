@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -29,10 +30,12 @@ public class TraceCmd extends AbstractCmd {
     private static final String STOP = "stop";
 
     private final TraceService traceService;
+    private final PermissionHandler permissionHandler;
 
-    public TraceCmd(Messages messages, Options options, TraceService traceService, CommandService commandService) {
+    public TraceCmd(Messages messages, Options options, TraceService traceService, CommandService commandService, PermissionHandler permissionHandler) {
         super(options.commandTrace, messages, options, commandService);
         this.traceService = traceService;
+        this.permissionHandler = permissionHandler;
         setPermission(options.permissionTrace);
         setDescription("Used to start/stop tracing a player");
         setUsage("[start | stop] [player]");
@@ -84,7 +87,7 @@ public class TraceCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return player.hasPermission(options.permissionTraceBypass);
+        return permissionHandler.has(player, options.permissionTraceBypass);
     }
 
     @Override

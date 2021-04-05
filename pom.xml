@@ -192,12 +192,24 @@
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>tubing</artifactId>
-            <version>2.0.1</version>
+            <version>2.1.0</version>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
             <artifactId>mc-sql-migrations</artifactId>
             <version>1.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ElgarL</groupId>
+            <artifactId>groupmanager</artifactId>
+            <version>2.9</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
