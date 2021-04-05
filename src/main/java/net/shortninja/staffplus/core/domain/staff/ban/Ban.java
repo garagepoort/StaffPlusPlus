@@ -3,9 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.ban;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.investigate.Evidence;
+import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import net.shortninja.staffplusplus.ban.IBan;
-import net.shortninja.staffplusplus.investigate.EvidenceType;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -76,8 +75,8 @@ public class Ban implements IBan, Infraction, Evidence {
     }
 
     @Override
-    public EvidenceType getEvidenceType() {
-        return EvidenceType.BAN;
+    public String getEvidenceType() {
+        return "BAN";
     }
 
     @Override

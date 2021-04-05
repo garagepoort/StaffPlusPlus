@@ -6,9 +6,10 @@ import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
 import net.shortninja.staffplus.core.domain.confirmation.ConfirmationGui;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationEvidenceService;
+import net.shortninja.staffplusplus.investigate.evidence.EvidenceGuiClick;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +23,7 @@ public class EvidenceOverviewGui extends PagedGui {
     private final InvestigationEvidenceService investigationEvidenceService = StaffPlus.get().getIocContainer().get(InvestigationEvidenceService.class);
     private final IProtocolService protocolService = StaffPlus.get().getIocContainer().get(IProtocolService.class);
     private final InvestigationEvidenceItemBuilder investigationEvidenceItemBuilder = StaffPlus.get().getIocContainer().get(InvestigationEvidenceItemBuilder.class);
-    private final List<EvidenceDetailGuiProvider> evidenceDetailGuiProvider = StaffPlus.get().getIocContainer().getList(EvidenceDetailGuiProvider.class);
+    private final List<EvidenceGuiClick> evidenceGuiClicks = StaffPlus.get().getIocContainer().getList(EvidenceGuiClick.class);
 
     private final Investigation investigation;
     private final Supplier<AbstractGui> goBack;
@@ -62,10 +63,10 @@ public class EvidenceOverviewGui extends PagedGui {
                         .closeOnConfirmation(false)
                         .show(player);
                 } else {
-                    evidenceDetailGuiProvider.stream()
-                        .filter(e -> e.getType().name().equals(type))
+                    evidenceGuiClicks.stream()
+                        .filter(e -> e.getType().equals(type))
                         .findFirst()
-                        .ifPresent(e -> e.get(player, getTarget(), evidenceId, goBack).show(player));
+                        .ifPresent(e -> e.onClick(player, getTarget(), evidenceId, () -> goBack.get().show(player)));
                 }
             }
 

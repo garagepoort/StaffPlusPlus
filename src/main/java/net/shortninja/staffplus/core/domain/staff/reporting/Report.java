@@ -3,9 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.reporting;
 import net.shortninja.staffplus.core.common.SppLocation;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.investigate.Evidence;
+import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import net.shortninja.staffplusplus.ILocation;
-import net.shortninja.staffplusplus.investigate.EvidenceType;
 import net.shortninja.staffplusplus.reports.IReport;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.Location;
@@ -83,8 +82,8 @@ public class Report implements IReport, Infraction, Evidence {
     }
 
     @Override
-    public EvidenceType getEvidenceType() {
-        return EvidenceType.REPORT;
+    public String getEvidenceType() {
+        return "REPORT";
     }
 
     @Override

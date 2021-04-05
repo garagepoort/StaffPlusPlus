@@ -9,7 +9,7 @@ import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;

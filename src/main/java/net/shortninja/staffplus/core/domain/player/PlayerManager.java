@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.player;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.domain.player.providers.OfflinePlayerProvider;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

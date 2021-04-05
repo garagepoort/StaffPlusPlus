@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.common;
 
 import net.shortninja.staffplus.core.common.utils.Strings;
-import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -79,9 +78,10 @@ public final class Items {
             .build();
     }
 
-    public static ItemStack createColoredArmor(Armor armor, Color color) {
-        return createColoredArmor(armor, color,
-            "&l" + WordUtils.capitalize(armor.name().toLowerCase()));
+    public static ItemStack createBackDoor() {
+        return Items.editor(Items.createDoor("Back", "Go back"))
+            .setAmount(1)
+            .build();
     }
 
     public static ItemStack createSkull(String name) {
