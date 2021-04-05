@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.investigate.config;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,6 +37,12 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
         List<ConfiguredAction> concludeInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("investigations-module.conclude-investigation-commands", new ArrayList<>()));
         List<ConfiguredAction> pauseInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("investigations-module.pause-investigation-commands", new ArrayList<>()));
 
+        boolean modeGuiInvestigation = config.getBoolean("staff-mode.gui-module.investigation-gui");
+        String modeGuiInvestigationTitle = config.getString("staff-mode.gui-module.investigation-title");
+        String modeGuiInvestigationName = config.getString("staff-mode.gui-module.investigation-name");
+        String modeGuiInvestigationLore = config.getString("staff-mode.gui-module.investigation-lore");
+        GuiItemConfig guiItemConfig = new GuiItemConfig(modeGuiInvestigation, modeGuiInvestigationTitle, modeGuiInvestigationName, modeGuiInvestigationLore);
+
         return new InvestigationConfiguration(enabled,
             allowOfflineInvestigation,
             maxConcurrentInvestigation,
@@ -54,6 +61,7 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
             viewPermission,linkEvidencePermission,
             addNotePermission,
             deleteNotePermission,
-            deleteNoteOthersPermission);
+            deleteNoteOthersPermission,
+            guiItemConfig);
     }
 }
