@@ -2,19 +2,19 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.gui.AbstractGui;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.EvidenceDetailGuiProvider;
+import net.shortninja.staffplus.core.common.Items;
+import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
-import net.shortninja.staffplusplus.investigate.EvidenceType;
+import net.shortninja.staffplusplus.investigate.evidence.EvidenceGuiClick;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
-
-import java.util.function.Supplier;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemStack;
 
 @IocBean
-@IocMultiProvider(EvidenceDetailGuiProvider.class)
-public class WarningEvidenceDetailGuiProvider implements EvidenceDetailGuiProvider {
+@IocMultiProvider(EvidenceGuiClick.class)
+public class WarningEvidenceDetailGuiProvider implements EvidenceGuiClick {
 
     private final WarnService warnService;
 
@@ -23,13 +23,25 @@ public class WarningEvidenceDetailGuiProvider implements EvidenceDetailGuiProvid
     }
 
     @Override
-    public AbstractGui get(Player player, SppPlayer target, int id, Supplier<AbstractGui> previousGuiSupplier) {
+    public void onClick(Player player, SppPlayer target, int id, Runnable back) {
         Warning warning = warnService.getWarning(id);
-        return new ManageWarningGui(player, "Manage warning", warning, previousGuiSupplier);
+        ManageWarningGui manageWarningGui = new ManageWarningGui(player, "Manage warning", warning, null);
+        manageWarningGui.show(player);
+        manageWarningGui.setItem(49, Items.createBackDoor(), new IAction() {
+            @Override
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
+                back.run();
+            }
+
+            @Override
+            public boolean shouldClose(Player player) {
+                return false;
+            }
+        });
     }
 
     @Override
-    public EvidenceType getType() {
-        return EvidenceType.WARNING;
+    public String getType() {
+        return "WARNING";
     }
 }

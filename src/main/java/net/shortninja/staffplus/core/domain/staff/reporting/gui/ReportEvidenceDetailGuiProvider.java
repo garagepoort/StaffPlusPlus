@@ -2,19 +2,19 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.gui.AbstractGui;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.EvidenceDetailGuiProvider;
+import net.shortninja.staffplus.core.common.Items;
+import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
-import net.shortninja.staffplusplus.investigate.EvidenceType;
+import net.shortninja.staffplusplus.investigate.evidence.EvidenceGuiClick;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
-
-import java.util.function.Supplier;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemStack;
 
 @IocBean
-@IocMultiProvider(EvidenceDetailGuiProvider.class)
-public class ReportEvidenceDetailGuiProvider implements EvidenceDetailGuiProvider {
+@IocMultiProvider(EvidenceGuiClick.class)
+public class ReportEvidenceDetailGuiProvider implements EvidenceGuiClick {
 
     private final ReportService reportService;
 
@@ -23,13 +23,25 @@ public class ReportEvidenceDetailGuiProvider implements EvidenceDetailGuiProvide
     }
 
     @Override
-    public AbstractGui get(Player player, SppPlayer target, int id, Supplier<AbstractGui> previousGuiSupplier) {
+    public void onClick(Player player, SppPlayer target, int id, Runnable back) {
         Report report = reportService.getReport(id);
-        return new ManageReportGui(player, "Report by: " + report.getReporterName(), report, previousGuiSupplier);
+        ManageReportGui manageReportGui = new ManageReportGui(player, "Report by: " + report.getReporterName(), report, null);
+        manageReportGui.show(player);
+        manageReportGui.setItem(49, Items.createBackDoor(), new IAction() {
+            @Override
+            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
+                back.run();
+            }
+
+            @Override
+            public boolean shouldClose(Player player) {
+                return false;
+            }
+        });
     }
 
     @Override
-    public EvidenceType getType() {
-        return EvidenceType.REPORT;
+    public String getType() {
+        return "REPORT";
     }
 }

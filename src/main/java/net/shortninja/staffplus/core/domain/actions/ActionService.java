@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.actions;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.domain.actions.database.ActionableRepository;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.Actionable;
 import org.apache.commons.lang.StringUtils;
 

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.providers;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.util.Optional;
 import java.util.UUID;
