@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
 import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;

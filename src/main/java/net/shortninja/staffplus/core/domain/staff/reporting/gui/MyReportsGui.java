@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.common.gui;
 
 import net.shortninja.staffplus.core.common.gui.selector.OnSelect;
 import net.shortninja.staffplus.core.common.gui.selector.PageItemsRetriever;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;

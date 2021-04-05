@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks;
 
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
+import net.shortninja.staffplusplus.session.SppPlayer;
 
 public interface AltDetector {
 

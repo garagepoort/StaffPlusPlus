@@ -5,11 +5,10 @@ import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.investigate.Evidence;
+import net.shortninja.staffplusplus.session.SppPlayer;
+import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import net.shortninja.staffplus.core.domain.staff.investigate.EvidenceEntity;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
-import net.shortninja.staffplusplus.investigate.EvidenceType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -53,7 +52,7 @@ public class SqlInvestigationEvidenceRepository implements InvestigationEvidence
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigation_evidence WHERE investigation_id = ? AND evidence_id = ? AND evidence_type = ?")) {
             ps.setInt(1, investigation.getId());
             ps.setInt(2, evidence.getId());
-            ps.setString(3, evidence.getEvidenceType().name());
+            ps.setString(3, evidence.getEvidenceType());
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {
@@ -90,7 +89,7 @@ public class SqlInvestigationEvidenceRepository implements InvestigationEvidence
                  "VALUES(?, ?, ?, ?, ?, ?);")) {
             insert.setInt(1, evidenceEntity.getInvestigationId());
             insert.setInt(2, evidenceEntity.getEvidenceId());
-            insert.setString(3, evidenceEntity.getEvidenceType().name());
+            insert.setString(3, evidenceEntity.getEvidenceType());
             insert.setString(4, evidenceEntity.getLinkedByUuid().toString());
             insert.setString(5, evidenceEntity.getDescription());
             insert.setLong(6, evidenceEntity.getCreationTimestamp());
@@ -154,7 +153,7 @@ public class SqlInvestigationEvidenceRepository implements InvestigationEvidence
 
         int investigationId = rs.getInt(INVESTIGATION_ID_COLUMN);
         int evidenceId = rs.getInt(EVIDENCE_ID_COLUMN);
-        EvidenceType evidenceType = EvidenceType.valueOf(rs.getString(EVIDENCE_TYPE_COLUMN));
+        String evidenceType = rs.getString(EVIDENCE_TYPE_COLUMN);
         String description = rs.getString(EVIDENCE_DESCRIPTION_COLUMN);
 
         return new EvidenceEntity(
