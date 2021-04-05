@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.config;
 
+import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class InvestigationConfiguration {
     private final String addNotePermission;
     private final String deleteNotePermission;
     private final String deleteNoteOthersPermission;
+    private final GuiItemConfig guiItemConfig;
 
     public InvestigationConfiguration(boolean enabled,
                                       boolean allowOfflineInvestigation,
@@ -45,7 +47,7 @@ public class InvestigationConfiguration {
                                       String linkEvidencePermission,
                                       String addNotePermission,
                                       String deleteNotePermission,
-                                      String deleteNoteOthersPermission) {
+                                      String deleteNoteOthersPermission, GuiItemConfig guiItemConfig) {
         this.enabled = enabled;
         this.allowOfflineInvestigation = allowOfflineInvestigation;
         this.maxConcurrentInvestigation = maxConcurrentInvestigation;
@@ -66,6 +68,7 @@ public class InvestigationConfiguration {
         this.addNotePermission = addNotePermission;
         this.deleteNotePermission = deleteNotePermission;
         this.deleteNoteOthersPermission = deleteNoteOthersPermission;
+        this.guiItemConfig = guiItemConfig;
     }
 
     public String getLinkEvidencePermission() {
@@ -144,5 +147,9 @@ public class InvestigationConfiguration {
 
     public int getMaxConcurrentInvestigation() {
         return maxConcurrentInvestigation;
+    }
+
+    public GuiItemConfig getGuiItemConfig() {
+        return guiItemConfig;
     }
 }
