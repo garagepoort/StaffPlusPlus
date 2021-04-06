@@ -9,9 +9,9 @@ public class AltDetectModuleLoader extends AbstractConfigLoader<AltDetectConfigu
     @Override
     protected AltDetectConfiguration load() {
         boolean banEnabled = defaultConfig.getBoolean("alt-detect-module.enabled");
-        String bypassPermission = defaultConfig.getString("permissions.alt-detect-bypass");
-        String whitelistPermission = defaultConfig.getString("permissions.alt-detect-whitelist");
-        String commandWhitelist = defaultConfig.getString("commands.alt-detect-whitelist");
+        String bypassPermission = permissionsConfig.getString("permissions.alt-detect-bypass");
+        String whitelistPermission = permissionsConfig.getString("permissions.alt-detect-whitelist");
+        String commandWhitelist = commandsConfig.getString("commands.alt-detect-whitelist");
 
         return new AltDetectConfiguration(banEnabled, bypassPermission, whitelistPermission, commandWhitelist);
     }

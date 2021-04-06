@@ -8,11 +8,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 public abstract class AbstractConfigLoader<T> {
 
     protected FileConfiguration defaultConfig;
+    protected FileConfiguration permissionsConfig;
+    protected FileConfiguration commandsConfig;
     protected FileConfiguration staffModeModulesConfig;
     protected FileConfiguration staffModeCustomModulesConfig;
 
     public T loadConfig() {
         defaultConfig = StaffPlus.get().getFileConfigurations().get("config");
+        permissionsConfig = StaffPlus.get().getFileConfigurations().get("permissions");
+        commandsConfig = StaffPlus.get().getFileConfigurations().get("commands");
         staffModeModulesConfig = StaffPlus.get().getFileConfigurations().get("staffmode-modules");
         staffModeCustomModulesConfig = StaffPlus.get().getFileConfigurations().get("staffmode-custom-modules");
         return load();
