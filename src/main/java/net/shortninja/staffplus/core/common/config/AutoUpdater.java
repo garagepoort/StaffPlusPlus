@@ -3,31 +3,31 @@ package net.shortninja.staffplus.core.common.config;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.migrators.ConfigMigrator;
 import net.shortninja.staffplus.core.common.config.migrators.StaffModeCommandMigrator;
+import net.shortninja.staffplus.core.common.config.migrators.StaffModeModulesMigrator;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class AutoUpdater extends AbstractConfigUpdater{
+public class AutoUpdater extends AbstractConfigUpdater {
 
-    private static final String CONFIG_FILE = "config.yml";
+    private static final List<ConfigMigrator> MIGRATORS = Arrays.asList(new StaffModeCommandMigrator(), new StaffModeModulesMigrator());
 
-    private static final List<ConfigMigrator> MIGRATORS = Collections.singletonList(new StaffModeCommandMigrator());
-
-    public static boolean updateConfig(StaffPlus staffPlus) {
+    public static boolean updateConfig(ConfigurationFile configurationFile) {
         try {
-            staffPlus.getLogger().info("Attempting to fix configuration file...");
-            validateConfigFile(CONFIG_FILE);
+            StaffPlus.get().getLogger().info("Attempting to fix configuration file...");
+            validateConfigFile(configurationFile.getPath());
 
-            FileConfiguration config = staffPlus.getConfig();
+            FileConfiguration config = configurationFile.getFileConfiguration();
             AtomicInteger counter = new AtomicInteger();
-            Map<String, Object> defaultConfigMap = loadConfig(CONFIG_FILE);
+            Map<String, Object> defaultConfigMap = loadConfig(configurationFile.getPath());
 
             defaultConfigMap.forEach((k, v) -> {
                 if (!config.contains(k, true) && !(v instanceof ConfigurationSection)) {
@@ -35,20 +35,32 @@ public class AutoUpdater extends AbstractConfigUpdater{
                     counter.getAndIncrement();
                 }
             });
-            MIGRATORS.forEach(m -> m.migrate(config));
 
-            staffPlus.saveConfig();
+            File file = new File(StaffPlus.get().getDataFolder() + File.separator + configurationFile.getPath());
+            config.save(file);
             if (counter.get() > 0) {
-                staffPlus.getLogger().info("Configuration file Fixed. [" + counter.get() + "] properties were added. Should StaffPlusPlus still have problems starting up, please compare your config with the default configuration: https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
+                StaffPlus.get().getLogger().info("Configuration file Fixed. [" + counter.get() + "] properties were added. Should StaffPlusPlus still have problems starting up, please compare your config with the default configuration: https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
             } else {
-                staffPlus.getLogger().info("Configuration file is up to date. No fix needed");
+                StaffPlus.get().getLogger().info("Configuration file is up to date. No fix needed");
             }
             return true;
         } catch (InvalidConfigurationException | IOException | ConfigurationException e) {
-            staffPlus.getLogger().severe("Configuration file is INVALID!!! Disabling StaffPlusPlus!");
-            staffPlus.getLogger().severe("Full error [" + e.getMessage() + "]");
+            StaffPlus.get().getLogger().severe("Configuration file is INVALID!!! Disabling StaffPlusPlus!");
+            StaffPlus.get().getLogger().severe("Full error [" + e.getMessage() + "]");
             return false;
         }
     }
 
+    public static void runMigrations(List<ConfigurationFile> fileConfigurations) {
+        try {
+            MIGRATORS.forEach(m -> m.migrate(fileConfigurations));
+            for (ConfigurationFile configurationFile : fileConfigurations) {
+                File file = new File(StaffPlus.get().getDataFolder() + File.separator + configurationFile.getPath());
+                configurationFile.getFileConfiguration().options().copyDefaults(true);
+                configurationFile.getFileConfiguration().save(file);
+            }
+        } catch (IOException e) {
+            throw new ConfigurationException("Unable to migrate configurations", e);
+        }
+    }
 }
