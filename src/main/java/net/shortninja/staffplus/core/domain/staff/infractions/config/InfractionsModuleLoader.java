@@ -23,9 +23,9 @@ public class InfractionsModuleLoader extends AbstractConfigLoader<InfractionsCon
         Material reportedGuiItem = Material.valueOf(defaultConfig.getString("infractions-module.reported-gui-item"));
         Material kicksGuiItem = Material.valueOf(defaultConfig.getString("infractions-module.kicks-gui-item"));
 
-        String commandViewTopInfraction = defaultConfig.getString("commands.infractions-top-view");
-        String commandViewInfraction = defaultConfig.getString("commands.infractions-view");
-        String permissionViewInfractions = defaultConfig.getString("permissions.infractions.view");
+        String commandViewTopInfraction = commandsConfig.getString("commands.infractions-top-view");
+        String commandViewInfraction = commandsConfig.getString("commands.infractions-view");
+        String permissionViewInfractions = permissionsConfig.getString("permissions.infractions.view");
 
         return new InfractionsConfiguration(infractionsEnabled, commandViewInfraction, commandViewTopInfraction, permissionViewInfractions,
             showBans,

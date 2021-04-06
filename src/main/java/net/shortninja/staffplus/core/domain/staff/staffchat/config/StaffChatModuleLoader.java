@@ -11,9 +11,9 @@ public class StaffChatModuleLoader extends AbstractConfigLoader<StaffChatConfigu
         boolean staffChatEnabled = defaultConfig.getBoolean("staff-chat-module.enabled");
         boolean bungeeEnabled = defaultConfig.getBoolean("staff-chat-module.bungee");
         String staffChatHandle = defaultConfig.getString("staff-chat-module.handle");
-        String commandStaffChatMute = defaultConfig.getString("commands.staff-chat-mute");
-        String permissionStaffChat = defaultConfig.getString("permissions.staff-chat");
-        String permissionStaffChatMute = defaultConfig.getString("permissions.staff-chat-mute");
+        String commandStaffChatMute = commandsConfig.getString("commands.staff-chat-mute");
+        String permissionStaffChat = permissionsConfig.getString("permissions.staff-chat");
+        String permissionStaffChatMute = permissionsConfig.getString("permissions.staff-chat-mute");
         return new StaffChatConfiguration(staffChatEnabled, bungeeEnabled, staffChatHandle, commandStaffChatMute, permissionStaffChat, permissionStaffChatMute);
     }
 }

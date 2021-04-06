@@ -31,14 +31,14 @@ public class BanModuleLoader extends AbstractConfigLoader<BanConfiguration> {
         String modeGuiBanLore = staffModeModulesConfig.getString("modules.gui-module.ban-lore");
         GuiItemConfig guiItemConfig = new GuiItemConfig(modeGuiBan, modeGuiBanTitle, modeGuiBanName, modeGuiBanLore);
 
-        String commandBanPlayer = defaultConfig.getString("commands.ban");
-        String commandUnbanPlayer = defaultConfig.getString("commands.unban");
-        String commandTempBanPlayer = defaultConfig.getString("commands.tempban");
+        String commandBanPlayer = commandsConfig.getString("commands.ban");
+        String commandUnbanPlayer = commandsConfig.getString("commands.unban");
+        String commandTempBanPlayer = commandsConfig.getString("commands.tempban");
 
-        String permissionBanPlayer = defaultConfig.getString("permissions.ban");
-        String permissionUnbanPlayer = defaultConfig.getString("permissions.unban");
-        String permissionBanByPass = defaultConfig.getString("permissions.ban-bypass");
-        String permissionBanTemplateOverwrite = defaultConfig.getString("permissions.ban-template-overwrite");
+        String permissionBanPlayer = permissionsConfig.getString("permissions.ban");
+        String permissionUnbanPlayer = permissionsConfig.getString("permissions.unban");
+        String permissionBanByPass = permissionsConfig.getString("permissions.ban-bypass");
+        String permissionBanTemplateOverwrite = permissionsConfig.getString("permissions.ban-template-overwrite");
 
         return new BanConfiguration(banEnabled,
             commandBanPlayer,

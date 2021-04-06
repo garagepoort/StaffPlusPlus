@@ -19,11 +19,11 @@ public class ProtectModuleLoader extends AbstractConfigLoader<ProtectConfigurati
         String modeGuiProtectedAreasLore = staffModeModulesConfig.getString("modules.gui-module.protected-areas-lore");
         GuiItemConfig guiItemConfig = new GuiItemConfig(modeGuiProtectedAreas, modeGuiProtectedAreasTitle, modeGuiProtectedAreasName, modeGuiProtectedAreasLore);
 
-        String commandProtectPlayer = defaultConfig.getString("commands.protect-player");
-        String commandProtectArea = defaultConfig.getString("commands.protect-area");
+        String commandProtectPlayer = commandsConfig.getString("commands.protect-player");
+        String commandProtectArea = commandsConfig.getString("commands.protect-area");
 
-        String permissionProtectPlayer = defaultConfig.getString("permissions.protect-player");
-        String permissionProtectArea = defaultConfig.getString("permissions.protect-area");
+        String permissionProtectPlayer = permissionsConfig.getString("permissions.protect-player");
+        String permissionProtectArea = permissionsConfig.getString("permissions.protect-area");
 
         return new ProtectConfiguration(
             playerProtectEnabled,

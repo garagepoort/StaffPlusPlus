@@ -9,10 +9,10 @@ public class EnderchestsModuleLoader extends AbstractConfigLoader<EnderchestsCon
     @Override
     protected EnderchestsConfiguration load() {
         boolean enabled = defaultConfig.getBoolean("enderchest-module.enabled");
-        String commandOpenEnderChests = defaultConfig.getString("commands.echest_view");
-        String permissionViewOnline = defaultConfig.getString("permissions.enderchests.view.online");
-        String permissionViewOffline = defaultConfig.getString("permissions.enderchests.view.offline");
-        String permissionInteract = defaultConfig.getString("permissions.enderchests.interact");
+        String commandOpenEnderChests = commandsConfig.getString("commands.echest_view");
+        String permissionViewOnline = permissionsConfig.getString("permissions.enderchests.view.online");
+        String permissionViewOffline = permissionsConfig.getString("permissions.enderchests.view.offline");
+        String permissionInteract = permissionsConfig.getString("permissions.enderchests.interact");
 
         return new EnderchestsConfiguration(enabled, commandOpenEnderChests, permissionViewOnline, permissionViewOffline, permissionInteract);
     }
