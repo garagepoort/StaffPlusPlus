@@ -23,6 +23,10 @@ public class BukkitUtils {
         getScheduler().runTask(StaffPlus.get(), () -> Bukkit.getPluginManager().callEvent(event));
     }
 
+    public static void sendEventAsync(Event event) {
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> Bukkit.getPluginManager().callEvent(event));
+    }
+
     public void runTaskAsync(CommandSender sender, Runnable runnable) {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             try {
