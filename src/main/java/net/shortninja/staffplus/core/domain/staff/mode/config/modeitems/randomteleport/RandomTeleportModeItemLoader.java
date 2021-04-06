@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
-import org.bukkit.configuration.file.FileConfiguration;
 
 @IocBean
 public class RandomTeleportModeItemLoader extends ModeItemLoader<RandomTeleportModeConfiguration> {
@@ -18,8 +17,8 @@ public class RandomTeleportModeItemLoader extends ModeItemLoader<RandomTeleportM
     }
 
     @Override
-    protected RandomTeleportModeConfiguration load(FileConfiguration config) {
-        RandomTeleportModeConfiguration modeItemConfiguration = new RandomTeleportModeConfiguration(getModuleName(), config.getBoolean("staff-mode.random-teleport-module.random"));
-        return super.loadGeneralConfig(config, modeItemConfiguration);
+    protected RandomTeleportModeConfiguration load() {
+        RandomTeleportModeConfiguration modeItemConfiguration = new RandomTeleportModeConfiguration(getModuleName(), staffModeModulesConfig.getBoolean("modules.random-teleport-module.random"));
+        return super.loadGeneralConfig(modeItemConfiguration);
     }
 }

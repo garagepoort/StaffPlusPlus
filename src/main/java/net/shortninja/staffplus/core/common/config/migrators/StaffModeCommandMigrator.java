@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.common.config.migrators;
 
+import net.shortninja.staffplus.core.common.config.ConfigurationFile;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -7,8 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class StaffModeCommandMigrator implements ConfigMigrator {
+
     @Override
-    public void migrate(FileConfiguration config) {
+    public void migrate(List<ConfigurationFile> configs) {
+        FileConfiguration config = getConfig(configs, "config");
         migrateCommands(config, "staff-mode.enable-commands");
         migrateCommands(config, "staff-mode.disable-commands");
     }

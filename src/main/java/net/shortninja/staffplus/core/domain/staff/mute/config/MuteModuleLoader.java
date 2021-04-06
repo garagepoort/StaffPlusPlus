@@ -1,32 +1,30 @@
 package net.shortninja.staffplus.core.domain.staff.mute.config;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
-import org.bukkit.configuration.file.FileConfiguration;
 
 @IocBean
 public class MuteModuleLoader extends AbstractConfigLoader<MuteConfiguration> {
 
     @Override
-    protected MuteConfiguration load(FileConfiguration config) {
-        boolean muteEnabled = config.getBoolean("mute-module.enabled");
+    protected MuteConfiguration load() {
+        boolean muteEnabled = defaultConfig.getBoolean("mute-module.enabled");
 
-        boolean modeGuiMute = config.getBoolean("staff-mode.gui-module.mute-gui");
-        String modeGuiMuteTitle = config.getString("staff-mode.gui-module.mute-title");
-        String modeGuiMuteName = config.getString("staff-mode.gui-module.mute-name");
-        String modeGuiMuteLore = config.getString("staff-mode.gui-module.mute-lore");
+        boolean modeGuiMute = staffModeModulesConfig.getBoolean("modules.gui-module.mute-gui");
+        String modeGuiMuteTitle = staffModeModulesConfig.getString("modules.gui-module.mute-title");
+        String modeGuiMuteName = staffModeModulesConfig.getString("modules.gui-module.mute-name");
+        String modeGuiMuteLore = staffModeModulesConfig.getString("modules.gui-module.mute-lore");
         GuiItemConfig guiItemConfig = new GuiItemConfig(modeGuiMute, modeGuiMuteTitle, modeGuiMuteName, modeGuiMuteLore);
 
-        String commandMutePlayer = config.getString("commands.mute");
-        String commandUnmutePlayer = config.getString("commands.unmute");
-        String commandTempMutePlayer = config.getString("commands.tempmute");
+        String commandMutePlayer = defaultConfig.getString("commands.mute");
+        String commandUnmutePlayer = defaultConfig.getString("commands.unmute");
+        String commandTempMutePlayer = defaultConfig.getString("commands.tempmute");
 
-        String permissionMutePlayer = config.getString("permissions.mute");
-        String permissionUnmutePlayer = config.getString("permissions.unmute");
-        String permissionMuteByPass = config.getString("permissions.mute-bypass");
+        String permissionMutePlayer = defaultConfig.getString("permissions.mute");
+        String permissionUnmutePlayer = defaultConfig.getString("permissions.unmute");
+        String permissionMuteByPass = defaultConfig.getString("permissions.mute-bypass");
 
         return new MuteConfiguration(muteEnabled, commandMutePlayer, commandTempMutePlayer, commandUnmutePlayer, permissionMutePlayer, permissionUnmutePlayer, permissionMuteByPass, guiItemConfig);
     }

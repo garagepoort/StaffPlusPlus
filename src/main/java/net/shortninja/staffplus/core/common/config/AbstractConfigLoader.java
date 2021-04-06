@@ -7,11 +7,18 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public abstract class AbstractConfigLoader<T> {
 
+    protected FileConfiguration defaultConfig;
+    protected FileConfiguration staffModeModulesConfig;
+    protected FileConfiguration staffModeCustomModulesConfig;
+
     public T loadConfig() {
-        return load(StaffPlus.get().getConfig());
+        defaultConfig = StaffPlus.get().getFileConfigurations().get("config");
+        staffModeModulesConfig = StaffPlus.get().getFileConfigurations().get("staffmode-modules");
+        staffModeCustomModulesConfig = StaffPlus.get().getFileConfigurations().get("staffmode-custom-modules");
+        return load();
     }
 
-    protected abstract T load(FileConfiguration config);
+    protected abstract T load();
 
     protected Sounds stringToSound(String string) {
         Sounds sound = Sounds.ORB_PICKUP;
