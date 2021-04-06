@@ -27,8 +27,8 @@ public class WarningModuleLoader extends AbstractConfigLoader<WarningConfigurati
         boolean notifyUser = defaultConfig.getBoolean("warnings-module.user-notifications.enabled");
         boolean alwaysNotifyUser = defaultConfig.getBoolean("warnings-module.user-notifications.always-notify");
         List<ConfiguredAction> actions = loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("warnings-module.actions", new ArrayList<>()));
-        String myWarningsPermission = defaultConfig.getString("permissions.view-my-warnings");
-        String myWarningsCmd = defaultConfig.getString("commands.my-warnings");
+        String myWarningsPermission = permissionsConfig.getString("permissions.view-my-warnings");
+        String myWarningsCmd = commandsConfig.getString("commands.my-warnings");
         Sounds sound = stringToSound(sanitize(defaultConfig.getString("warnings-module.sound")));
 
         return new WarningConfiguration(enabled,

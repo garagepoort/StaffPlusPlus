@@ -8,14 +8,14 @@ public class ManageReportingModuleLoader extends AbstractConfigLoader<ManageRepo
 
     @Override
     protected ManageReportConfiguration load() {
-        String commandManageReportsGui = defaultConfig.getString("commands.reports.manage.gui");
-        String permissionManageReportsView = defaultConfig.getString("permissions.reports.manage.view");
-        String permissionManageReportsDelete = defaultConfig.getString("permissions.reports.manage.delete");
-        String permissionManageReportsAccept = defaultConfig.getString("permissions.reports.manage.accept");
-        String permissionManageReportsResolve = defaultConfig.getString("permissions.reports.manage.resolve");
-        String permissionManageReportsReject = defaultConfig.getString("permissions.reports.manage.reject");
-        String permissionManageReportsTeleport = defaultConfig.getString("permissions.reports.manage.teleport");
-        String permissionManageReportsReopenOther = defaultConfig.getString("permissions.reports.manage.reopen-other");
+        String commandManageReportsGui = commandsConfig.getString("commands.reports.manage.gui");
+        String permissionManageReportsView = permissionsConfig.getString("permissions.reports.manage.view");
+        String permissionManageReportsDelete = permissionsConfig.getString("permissions.reports.manage.delete");
+        String permissionManageReportsAccept = permissionsConfig.getString("permissions.reports.manage.accept");
+        String permissionManageReportsResolve = permissionsConfig.getString("permissions.reports.manage.resolve");
+        String permissionManageReportsReject = permissionsConfig.getString("permissions.reports.manage.reject");
+        String permissionManageReportsTeleport = permissionsConfig.getString("permissions.reports.manage.teleport");
+        String permissionManageReportsReopenOther = permissionsConfig.getString("permissions.reports.manage.reopen-other");
 
         return new ManageReportConfiguration(
             commandManageReportsGui,
