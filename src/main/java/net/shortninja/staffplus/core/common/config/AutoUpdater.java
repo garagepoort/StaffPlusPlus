@@ -1,9 +1,7 @@
 package net.shortninja.staffplus.core.common.config;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.migrators.ConfigMigrator;
-import net.shortninja.staffplus.core.common.config.migrators.StaffModeCommandMigrator;
-import net.shortninja.staffplus.core.common.config.migrators.StaffModeModulesMigrator;
+import net.shortninja.staffplus.core.common.config.migrators.*;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -18,7 +16,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AutoUpdater extends AbstractConfigUpdater {
 
-    private static final List<ConfigMigrator> MIGRATORS = Arrays.asList(new StaffModeCommandMigrator(), new StaffModeModulesMigrator());
+    private static final List<ConfigMigrator> MIGRATORS = Arrays.asList(
+        new StaffModeCommandMigrator(),
+        new StaffModeModulesMigrator(),
+        new PermissionsMigrator(),
+        new CommandsMigrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         try {

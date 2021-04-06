@@ -10,9 +10,9 @@ public class KickModuleLoader extends AbstractConfigLoader<KickConfiguration> {
     protected KickConfiguration load() {
         boolean kickEnabled = defaultConfig.getBoolean("kick-module.enabled");
 
-        String commandKickPlayer = defaultConfig.getString("commands.kick");
-        String permissionKickPlayer = defaultConfig.getString("permissions.kick");
-        String permissionKickByPass = defaultConfig.getString("permissions.kick-bypass");
+        String commandKickPlayer = commandsConfig.getString("commands.kick");
+        String permissionKickPlayer = permissionsConfig.getString("permissions.kick");
+        String permissionKickByPass = permissionsConfig.getString("permissions.kick-bypass");
 
         return new KickConfiguration(kickEnabled, commandKickPlayer, permissionKickPlayer, permissionKickByPass);
     }

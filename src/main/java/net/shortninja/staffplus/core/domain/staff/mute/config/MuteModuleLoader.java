@@ -18,13 +18,13 @@ public class MuteModuleLoader extends AbstractConfigLoader<MuteConfiguration> {
         String modeGuiMuteLore = staffModeModulesConfig.getString("modules.gui-module.mute-lore");
         GuiItemConfig guiItemConfig = new GuiItemConfig(modeGuiMute, modeGuiMuteTitle, modeGuiMuteName, modeGuiMuteLore);
 
-        String commandMutePlayer = defaultConfig.getString("commands.mute");
-        String commandUnmutePlayer = defaultConfig.getString("commands.unmute");
-        String commandTempMutePlayer = defaultConfig.getString("commands.tempmute");
+        String commandMutePlayer = commandsConfig.getString("commands.mute");
+        String commandUnmutePlayer = commandsConfig.getString("commands.unmute");
+        String commandTempMutePlayer = commandsConfig.getString("commands.tempmute");
 
-        String permissionMutePlayer = defaultConfig.getString("permissions.mute");
-        String permissionUnmutePlayer = defaultConfig.getString("permissions.unmute");
-        String permissionMuteByPass = defaultConfig.getString("permissions.mute-bypass");
+        String permissionMutePlayer = permissionsConfig.getString("permissions.mute");
+        String permissionUnmutePlayer = permissionsConfig.getString("permissions.unmute");
+        String permissionMuteByPass = permissionsConfig.getString("permissions.mute-bypass");
 
         return new MuteConfiguration(muteEnabled, commandMutePlayer, commandTempMutePlayer, commandUnmutePlayer, permissionMutePlayer, permissionUnmutePlayer, permissionMuteByPass, guiItemConfig);
     }
