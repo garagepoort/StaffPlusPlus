@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
-import org.bukkit.configuration.file.FileConfiguration;
 
 @IocBean
 public class GuiModeItemLoader extends ModeItemLoader<GuiModeConfiguration> {
@@ -18,14 +17,14 @@ public class GuiModeItemLoader extends ModeItemLoader<GuiModeConfiguration> {
     }
 
     @Override
-    protected GuiModeConfiguration load(FileConfiguration config) {
+    protected GuiModeConfiguration load() {
         GuiModeConfiguration modeItemConfiguration = new GuiModeConfiguration(getModuleName(),
-            config.getBoolean("staff-mode.gui-module.miner-gui"),
-            config.getString("staff-mode.gui-module.miner-title"),
-            config.getString("staff-mode.gui-module.miner-name"),
-            config.getString("staff-mode.gui-module.miner-lore"),
-            config.getInt("staff-mode.gui-module.xray-level")
+            staffModeModulesConfig.getBoolean("modules.gui-module.miner-gui"),
+            staffModeModulesConfig.getString("modules.gui-module.miner-title"),
+            staffModeModulesConfig.getString("modules.gui-module.miner-name"),
+            staffModeModulesConfig.getString("modules.gui-module.miner-lore"),
+            staffModeModulesConfig.getInt("modules.gui-module.xray-level")
         );
-        return super.loadGeneralConfig(config, modeItemConfiguration);
+        return super.loadGeneralConfig(modeItemConfiguration);
     }
 }

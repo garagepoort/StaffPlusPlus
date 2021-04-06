@@ -6,7 +6,6 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -21,15 +20,15 @@ public abstract class ModeItemLoader<T extends ModeItemConfiguration> extends Ab
         this.protocolService = protocolService;
     }
 
-    protected T loadGeneralConfig(FileConfiguration config, T modeItemConfiguration) {
-        String prefix = "staff-mode." + getModuleName() + ".";
+    protected T loadGeneralConfig(T modeItemConfiguration) {
+        String prefix = "modules." + getModuleName() + ".";
 
-        boolean enabled = config.getBoolean(prefix + "enabled");
-        int slot = config.getInt(prefix + "slot") - 1;
-        Material type = stringToMaterial(sanitize(config.getString(prefix + "item")));
-        short durability = getMaterialData(config.getString(prefix + "item"));
-        String name = config.getString(prefix + "name");
-        List<String> lore = JavaUtils.stringToList(config.getString(prefix + "lore"));
+        boolean enabled = staffModeModulesConfig.getBoolean(prefix + "enabled");
+        int slot = staffModeModulesConfig.getInt(prefix + "slot") - 1;
+        Material type = stringToMaterial(sanitize(staffModeModulesConfig.getString(prefix + "item")));
+        short durability = getMaterialData(staffModeModulesConfig.getString(prefix + "item"));
+        String name = staffModeModulesConfig.getString(prefix + "name");
+        List<String> lore = JavaUtils.stringToList(staffModeModulesConfig.getString(prefix + "lore"));
         ItemStack item = Items.builder().setMaterial(type).setData(durability).setName(name).setLore(lore).build();
 
         modeItemConfiguration.setEnabled(enabled);
