@@ -20,25 +20,25 @@ import java.util.stream.Stream;
 public class BanModuleLoader extends AbstractConfigLoader<BanConfiguration> {
 
     @Override
-    protected BanConfiguration load(FileConfiguration config) {
-        boolean banEnabled = config.getBoolean("ban-module.enabled");
-        String permBanTemplate = config.getString("ban-module.permban-template");
-        String tempBanTemplate = config.getString("ban-module.tempban-template");
+    protected BanConfiguration load() {
+        boolean banEnabled = defaultConfig.getBoolean("ban-module.enabled");
+        String permBanTemplate = defaultConfig.getString("ban-module.permban-template");
+        String tempBanTemplate = defaultConfig.getString("ban-module.tempban-template");
 
-        boolean modeGuiBan = config.getBoolean("staff-mode.gui-module.ban-gui");
-        String modeGuiBanTitle = config.getString("staff-mode.gui-module.ban-title");
-        String modeGuiBanName = config.getString("staff-mode.gui-module.ban-name");
-        String modeGuiBanLore = config.getString("staff-mode.gui-module.ban-lore");
+        boolean modeGuiBan = staffModeModulesConfig.getBoolean("modules.gui-module.ban-gui");
+        String modeGuiBanTitle = staffModeModulesConfig.getString("modules.gui-module.ban-title");
+        String modeGuiBanName = staffModeModulesConfig.getString("modules.gui-module.ban-name");
+        String modeGuiBanLore = staffModeModulesConfig.getString("modules.gui-module.ban-lore");
         GuiItemConfig guiItemConfig = new GuiItemConfig(modeGuiBan, modeGuiBanTitle, modeGuiBanName, modeGuiBanLore);
 
-        String commandBanPlayer = config.getString("commands.ban");
-        String commandUnbanPlayer = config.getString("commands.unban");
-        String commandTempBanPlayer = config.getString("commands.tempban");
+        String commandBanPlayer = defaultConfig.getString("commands.ban");
+        String commandUnbanPlayer = defaultConfig.getString("commands.unban");
+        String commandTempBanPlayer = defaultConfig.getString("commands.tempban");
 
-        String permissionBanPlayer = config.getString("permissions.ban");
-        String permissionUnbanPlayer = config.getString("permissions.unban");
-        String permissionBanByPass = config.getString("permissions.ban-bypass");
-        String permissionBanTemplateOverwrite = config.getString("permissions.ban-template-overwrite");
+        String permissionBanPlayer = defaultConfig.getString("permissions.ban");
+        String permissionUnbanPlayer = defaultConfig.getString("permissions.unban");
+        String permissionBanByPass = defaultConfig.getString("permissions.ban-bypass");
+        String permissionBanTemplateOverwrite = defaultConfig.getString("permissions.ban-template-overwrite");
 
         return new BanConfiguration(banEnabled,
             commandBanPlayer,
@@ -52,7 +52,7 @@ public class BanModuleLoader extends AbstractConfigLoader<BanConfiguration> {
             permBanTemplate,
             tempBanTemplate,
             getTemplates(),
-            getBanReasons(config));
+            getBanReasons(defaultConfig));
     }
 
     private Map<String, String> getTemplates() {

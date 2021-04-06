@@ -11,17 +11,17 @@ import java.util.stream.Collectors;
 @IocBean
 public class StaffModeGuiConfigurationLoader extends AbstractConfigLoader<List<GuiConfiguration>> {
     @Override
-    protected List<GuiConfiguration> load(FileConfiguration config) {
-        ConfigurationSection configurationSection = config.getConfigurationSection("staff-mode.custom-gui");
+    protected List<GuiConfiguration> load() {
+        ConfigurationSection configurationSection = defaultConfig.getConfigurationSection("staff-mode.custom-gui");
         if (configurationSection == null) {
             return Collections.emptyList();
         }
 
         return configurationSection.getKeys(false).stream().map(k -> {
             String prefix = "staff-mode.custom-gui." + k + ".";
-            String permission = config.getString(prefix + "permission");
-            int weight = config.getInt(prefix + "weight");
-            return new GuiConfiguration(permission, weight, getItemSlots(config, prefix));
+            String permission = defaultConfig.getString(prefix + "permission");
+            int weight = defaultConfig.getInt(prefix + "weight");
+            return new GuiConfiguration(permission, weight, getItemSlots(defaultConfig, prefix));
         })
             .sorted(Comparator.comparingInt(GuiConfiguration::getWeight).reversed())
             .collect(Collectors.toList());

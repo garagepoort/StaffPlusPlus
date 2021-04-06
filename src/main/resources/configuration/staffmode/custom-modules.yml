@@ -1,0 +1,9 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                       Custom                         | #
+# +------------------------------------------------------+ #
+############################################################
+# Add custom actions to your staff mode items
+# When clicked, this will execute the custom action.
+# For more information: https://staffplusplus-minecraft.gitbook.io/staffplusplus/features/staff-mode/custom-staff-modules
+custom-modules:
