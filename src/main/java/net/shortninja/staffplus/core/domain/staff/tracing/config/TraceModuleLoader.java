@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 public class TraceModuleLoader extends AbstractConfigLoader<TraceConfiguration> {
 
     @Override
-    protected TraceConfiguration load(FileConfiguration config) {
-        boolean enabled = config.getBoolean("trace-module.enabled");
+    protected TraceConfiguration load() {
+        boolean enabled = defaultConfig.getBoolean("trace-module.enabled");
         if (!enabled) {
             return new TraceConfiguration(false, Collections.emptyList(), Collections.emptyList());
         }
 
-        List<TraceType> traceTypes = getTraceTypes(config);
-        List<TraceOutputChannel> traceOutputChannels = getTraceOutputChannels(config);
+        List<TraceType> traceTypes = getTraceTypes(defaultConfig);
+        List<TraceOutputChannel> traceOutputChannels = getTraceOutputChannels(defaultConfig);
         return new TraceConfiguration(true, traceTypes, traceOutputChannels);
     }
 

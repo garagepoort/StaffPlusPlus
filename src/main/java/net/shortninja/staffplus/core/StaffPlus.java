@@ -5,15 +5,23 @@ import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.application.data.LanguageFile;
 import net.shortninja.staffplus.core.common.config.AutoUpdater;
 import net.shortninja.staffplus.core.common.config.AutoUpdaterLanguageFiles;
+import net.shortninja.staffplus.core.common.config.ConfigurationFile;
 import net.shortninja.staffplusplus.IStaffPlus;
 import net.shortninja.staffplusplus.session.SessionManager;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatService;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.ServicePriority;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StaffPlus extends TubingPlugin implements IStaffPlus {
 
     private static StaffPlus plugin;
+    private List<ConfigurationFile> configurationFiles;
 
     public static StaffPlus get() {
         return plugin;
@@ -22,8 +30,6 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
     @Override
     protected void enable() {
         plugin = this;
-        saveDefaultConfig();
-        new LanguageFile();
         if (!loadConfig()) {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
@@ -47,14 +53,6 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
         getIocContainer().getList(PluginDisable.class).forEach(b -> b.disable(this));
     }
 
-    private boolean loadConfig() {
-        if (!AutoUpdater.updateConfig(this) || !AutoUpdaterLanguageFiles.updateConfig(this)) {
-            Bukkit.getPluginManager().disablePlugin(this);
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public StaffChatService getStaffChatService() {
         return StaffPlus.get().getIocContainer().get(StaffChatService.class);
@@ -65,4 +63,33 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
         return StaffPlus.get().getIocContainer().get(SessionManager.class);
     }
 
+    @Override
+    public Map<String, FileConfiguration> getFileConfigurations() {
+        return configurationFiles.stream()
+            .collect(Collectors.toMap(ConfigurationFile::getIdentifier, ConfigurationFile::getFileConfiguration, (a, b) -> a));
+    }
+
+    private boolean loadConfig() {
+        saveDefaultConfig();
+        new LanguageFile();
+        if (!AutoUpdaterLanguageFiles.updateConfig(this)) {
+            Bukkit.getPluginManager().disablePlugin(this);
+            return false;
+        }
+
+        configurationFiles = Arrays.asList(
+            new ConfigurationFile("config.yml"),
+            new ConfigurationFile("configuration/staffmode/modules.yml"),
+            new ConfigurationFile("configuration/staffmode/custom-modules.yml")
+        );
+
+        AutoUpdater.runMigrations(configurationFiles);
+        for (ConfigurationFile c : configurationFiles) {
+            if (!AutoUpdater.updateConfig(c)) {
+                Bukkit.getPluginManager().disablePlugin(this);
+                return false;
+            }
+        }
+        return true;
+    }
 }

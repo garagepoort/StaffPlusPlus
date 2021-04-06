@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
-import org.bukkit.configuration.file.FileConfiguration;
 
 @IocBean
 public class FollowModeItemLoader extends ModeItemLoader<FollowModeConfiguration> {
@@ -18,8 +17,8 @@ public class FollowModeItemLoader extends ModeItemLoader<FollowModeConfiguration
     }
 
     @Override
-    protected FollowModeConfiguration load(FileConfiguration config) {
+    protected FollowModeConfiguration load() {
         FollowModeConfiguration modeItemConfiguration = new FollowModeConfiguration(getModuleName());
-        return super.loadGeneralConfig(config, modeItemConfiguration);
+        return super.loadGeneralConfig(modeItemConfiguration);
     }
 }

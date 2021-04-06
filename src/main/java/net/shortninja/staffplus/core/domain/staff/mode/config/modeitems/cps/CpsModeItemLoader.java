@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
-import org.bukkit.configuration.file.FileConfiguration;
 
 @IocBean
 public class CpsModeItemLoader extends ModeItemLoader<CpsModeConfiguration> {
@@ -18,11 +17,11 @@ public class CpsModeItemLoader extends ModeItemLoader<CpsModeConfiguration> {
     }
 
     @Override
-    protected CpsModeConfiguration load(FileConfiguration config) {
+    protected CpsModeConfiguration load() {
         CpsModeConfiguration modeItemConfiguration = new CpsModeConfiguration(getModuleName(),
-            config.getInt("staff-mode.cps-module.time") * 20,
-            config.getInt("staff-mode.cps-module.max")
+            staffModeModulesConfig.getInt("modules.cps-module.time") * 20,
+            staffModeModulesConfig.getInt("modules.cps-module.max")
         );
-        return super.loadGeneralConfig(config, modeItemConfiguration);
+        return super.loadGeneralConfig(modeItemConfiguration);
     }
 }
