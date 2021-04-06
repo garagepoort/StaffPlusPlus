@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.counter
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
-import org.bukkit.configuration.file.FileConfiguration;
 
 @IocBean
 public class CounterModeItemLoader extends ModeItemLoader<CounterModeConfiguration> {
@@ -17,10 +16,10 @@ public class CounterModeItemLoader extends ModeItemLoader<CounterModeConfigurati
     }
 
     @Override
-    protected CounterModeConfiguration load(FileConfiguration config) {
+    protected CounterModeConfiguration load() {
         CounterModeConfiguration modeItemConfiguration = new CounterModeConfiguration(getModuleName(),
-            config.getBoolean("staff-mode.counter-module.show-staff-mode"),
-            config.getString("staff-mode.counter-module.title"));
-        return super.loadGeneralConfig(config, modeItemConfiguration);
+            staffModeModulesConfig.getBoolean("modules.counter-module.show-staff-mode"),
+            staffModeModulesConfig.getString("modules.counter-module.title"));
+        return super.loadGeneralConfig(modeItemConfiguration);
     }
 }

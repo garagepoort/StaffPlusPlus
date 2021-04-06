@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 
@@ -22,15 +21,15 @@ public class WarningModuleLoader extends AbstractConfigLoader<WarningConfigurati
     private static final String ACTIONS = "actions";
 
     @Override
-    protected WarningConfiguration load(FileConfiguration config) {
-        boolean enabled = config.getBoolean("warnings-module.enabled");
-        boolean showIssuer = config.getBoolean("warnings-module.show-issuer");
-        boolean notifyUser = config.getBoolean("warnings-module.user-notifications.enabled");
-        boolean alwaysNotifyUser = config.getBoolean("warnings-module.user-notifications.always-notify");
-        List<ConfiguredAction> actions = loadActions((List<LinkedHashMap<String, Object>>) config.getList("warnings-module.actions", new ArrayList<>()));
-        String myWarningsPermission = config.getString("permissions.view-my-warnings");
-        String myWarningsCmd = config.getString("commands.my-warnings");
-        Sounds sound = stringToSound(sanitize(config.getString("warnings-module.sound")));
+    protected WarningConfiguration load() {
+        boolean enabled = defaultConfig.getBoolean("warnings-module.enabled");
+        boolean showIssuer = defaultConfig.getBoolean("warnings-module.show-issuer");
+        boolean notifyUser = defaultConfig.getBoolean("warnings-module.user-notifications.enabled");
+        boolean alwaysNotifyUser = defaultConfig.getBoolean("warnings-module.user-notifications.always-notify");
+        List<ConfiguredAction> actions = loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("warnings-module.actions", new ArrayList<>()));
+        String myWarningsPermission = defaultConfig.getString("permissions.view-my-warnings");
+        String myWarningsCmd = defaultConfig.getString("commands.my-warnings");
+        Sounds sound = stringToSound(sanitize(defaultConfig.getString("warnings-module.sound")));
 
         return new WarningConfiguration(enabled,
             showIssuer,
@@ -38,8 +37,8 @@ public class WarningModuleLoader extends AbstractConfigLoader<WarningConfigurati
             notifyUser, alwaysNotifyUser,
             myWarningsPermission,
             myWarningsCmd,
-            getThresholds(config),
-            getSeverityLevels(config),
+            getThresholds(defaultConfig),
+            getSeverityLevels(defaultConfig),
             actions);
     }
 

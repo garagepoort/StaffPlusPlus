@@ -5,7 +5,6 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
-import org.bukkit.configuration.file.FileConfiguration;
 
 @IocBean
 public class FreezeModeItemLoader extends ModeItemLoader<FreezeModeConfiguration> {
@@ -19,16 +18,16 @@ public class FreezeModeItemLoader extends ModeItemLoader<FreezeModeConfiguration
     }
 
     @Override
-    protected FreezeModeConfiguration load(FileConfiguration config) {
+    protected FreezeModeConfiguration load() {
         FreezeModeConfiguration modeItemConfiguration = new FreezeModeConfiguration(getModuleName(),
-            config.getInt("staff-mode.freeze-module.timer"),
-            stringToSound(sanitize(config.getString("staff-mode.freeze-module.sound"))),
-            config.getBoolean("staff-mode.freeze-module.prompt"),
-            config.getString("staff-mode.freeze-module.prompt-title"),
-            config.getBoolean("staff-mode.freeze-module.chat"),
-            config.getBoolean("staff-mode.freeze-module.damage"),
-            config.getBoolean("staff-mode.freeze-module.title-message-enabled"),
-            JavaUtils.stringToList(config.getString("staff-mode.freeze-module.logout-commands")));
-        return super.loadGeneralConfig(config, modeItemConfiguration);
+            staffModeModulesConfig.getInt("modules.freeze-module.timer"),
+            stringToSound(sanitize(staffModeModulesConfig.getString("modules.freeze-module.sound"))),
+            staffModeModulesConfig.getBoolean("modules.freeze-module.prompt"),
+            staffModeModulesConfig.getString("modules.freeze-module.prompt-title"),
+            staffModeModulesConfig.getBoolean("modules.freeze-module.chat"),
+            staffModeModulesConfig.getBoolean("modules.freeze-module.damage"),
+            staffModeModulesConfig.getBoolean("modules.freeze-module.title-message-enabled"),
+            JavaUtils.stringToList(staffModeModulesConfig.getString("modules.freeze-module.logout-commands")));
+        return super.loadGeneralConfig(modeItemConfiguration);
     }
 }

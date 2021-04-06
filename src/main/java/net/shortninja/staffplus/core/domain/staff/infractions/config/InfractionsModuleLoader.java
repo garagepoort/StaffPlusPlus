@@ -1,33 +1,31 @@
 package net.shortninja.staffplus.core.domain.staff.infractions.config;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 
 @IocBean
 public class InfractionsModuleLoader extends AbstractConfigLoader<InfractionsConfiguration> {
 
     @Override
-    protected InfractionsConfiguration load(FileConfiguration config) {
-        boolean infractionsEnabled = config.getBoolean("infractions-module.enabled");
-        boolean showBans = config.getBoolean("infractions-module.show-bans");
-        boolean showMutes = config.getBoolean("infractions-module.show-mutes");
-        boolean showWarnings = config.getBoolean("infractions-module.show-warnings");
-        boolean showReported = config.getBoolean("infractions-module.show-reported");
-        boolean showKicks = config.getBoolean("infractions-module.show-kicks");
+    protected InfractionsConfiguration load() {
+        boolean infractionsEnabled = defaultConfig.getBoolean("infractions-module.enabled");
+        boolean showBans = defaultConfig.getBoolean("infractions-module.show-bans");
+        boolean showMutes = defaultConfig.getBoolean("infractions-module.show-mutes");
+        boolean showWarnings = defaultConfig.getBoolean("infractions-module.show-warnings");
+        boolean showReported = defaultConfig.getBoolean("infractions-module.show-reported");
+        boolean showKicks = defaultConfig.getBoolean("infractions-module.show-kicks");
 
-        Material bansGuiItem = Material.valueOf(config.getString("infractions-module.bans-gui-item"));
-        Material mutesGuiItem = Material.valueOf(config.getString("infractions-module.mutes-gui-item"));
-        Material warningsGuiItem = Material.valueOf(config.getString("infractions-module.warnings-gui-item"));
-        Material reportedGuiItem = Material.valueOf(config.getString("infractions-module.reported-gui-item"));
-        Material kicksGuiItem = Material.valueOf(config.getString("infractions-module.kicks-gui-item"));
+        Material bansGuiItem = Material.valueOf(defaultConfig.getString("infractions-module.bans-gui-item"));
+        Material mutesGuiItem = Material.valueOf(defaultConfig.getString("infractions-module.mutes-gui-item"));
+        Material warningsGuiItem = Material.valueOf(defaultConfig.getString("infractions-module.warnings-gui-item"));
+        Material reportedGuiItem = Material.valueOf(defaultConfig.getString("infractions-module.reported-gui-item"));
+        Material kicksGuiItem = Material.valueOf(defaultConfig.getString("infractions-module.kicks-gui-item"));
 
-        String commandViewTopInfraction = config.getString("commands.infractions-top-view");
-        String commandViewInfraction = config.getString("commands.infractions-view");
-        String permissionViewInfractions = config.getString("permissions.infractions.view");
+        String commandViewTopInfraction = defaultConfig.getString("commands.infractions-top-view");
+        String commandViewInfraction = defaultConfig.getString("commands.infractions-view");
+        String permissionViewInfractions = defaultConfig.getString("permissions.infractions.view");
 
         return new InfractionsConfiguration(infractionsEnabled, commandViewInfraction, commandViewTopInfraction, permissionViewInfractions,
             showBans,

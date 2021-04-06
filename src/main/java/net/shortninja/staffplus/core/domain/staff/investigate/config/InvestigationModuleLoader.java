@@ -5,7 +5,6 @@ import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,33 +14,33 @@ import java.util.List;
 public class InvestigationModuleLoader extends AbstractConfigLoader<InvestigationConfiguration> {
 
     @Override
-    protected InvestigationConfiguration load(FileConfiguration config) {
-        boolean enabled = config.getBoolean("investigations-module.enabled");
-        boolean investigatedTitleMessageEnabled = config.getBoolean("investigations-module.notifications.investigated.title-message-enabled");
-        boolean investigatedChatMessageEnabled = config.getBoolean("investigations-module.notifications.investigated.chat-message-enabled");
-        boolean allowOfflineInvestigation = config.getBoolean("investigations-module.allow-offline-investigation");
-        boolean automaticPause = config.getBoolean("investigations-module.automatic-pause");
-        int maxConcurrentInvestigation = config.getInt("investigations-module.max-concurrent-investigations", -1);
-        String investigatePermission = config.getString("permissions.investigations.manage.investigate");
-        String viewPermission = config.getString("permissions.investigations.manage.view");
-        String linkEvidencePermission = config.getString("permissions.investigations.manage.link-evidence");
-        String addNotePermission = config.getString("permissions.investigations.manage.add-note");
-        String deleteNotePermission = config.getString("permissions.investigations.manage.delete-note");
-        String deleteNoteOthersPermission = config.getString("permissions.investigations.manage.delete-note-others");
-        String startInvestigationCmd = config.getString("commands.investigations.manage.start");
-        String pauseInvestigationCmd = config.getString("commands.investigations.manage.pause");
-        String concludeInvestigationCmd = config.getString("commands.investigations.manage.conclude");
-        String addNoteCmd = config.getString("commands.investigations.manage.add-note");
-        String commandManageInvestigationsGui = config.getString("commands.investigations.manage.gui");
-        String staffNotificationPermission = config.getString("permissions.investigations.manage.notifications");
-        List<ConfiguredAction> startInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("investigations-module.start-investigation-commands", new ArrayList<>()));
-        List<ConfiguredAction> concludeInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("investigations-module.conclude-investigation-commands", new ArrayList<>()));
-        List<ConfiguredAction> pauseInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) config.getList("investigations-module.pause-investigation-commands", new ArrayList<>()));
+    protected InvestigationConfiguration load() {
+        boolean enabled = defaultConfig.getBoolean("investigations-module.enabled");
+        boolean investigatedTitleMessageEnabled = defaultConfig.getBoolean("investigations-module.notifications.investigated.title-message-enabled");
+        boolean investigatedChatMessageEnabled = defaultConfig.getBoolean("investigations-module.notifications.investigated.chat-message-enabled");
+        boolean allowOfflineInvestigation = defaultConfig.getBoolean("investigations-module.allow-offline-investigation");
+        boolean automaticPause = defaultConfig.getBoolean("investigations-module.automatic-pause");
+        int maxConcurrentInvestigation = defaultConfig.getInt("investigations-module.max-concurrent-investigations", -1);
+        String investigatePermission = defaultConfig.getString("permissions.investigations.manage.investigate");
+        String viewPermission = defaultConfig.getString("permissions.investigations.manage.view");
+        String linkEvidencePermission = defaultConfig.getString("permissions.investigations.manage.link-evidence");
+        String addNotePermission = defaultConfig.getString("permissions.investigations.manage.add-note");
+        String deleteNotePermission = defaultConfig.getString("permissions.investigations.manage.delete-note");
+        String deleteNoteOthersPermission = defaultConfig.getString("permissions.investigations.manage.delete-note-others");
+        String startInvestigationCmd = defaultConfig.getString("commands.investigations.manage.start");
+        String pauseInvestigationCmd = defaultConfig.getString("commands.investigations.manage.pause");
+        String concludeInvestigationCmd = defaultConfig.getString("commands.investigations.manage.conclude");
+        String addNoteCmd = defaultConfig.getString("commands.investigations.manage.add-note");
+        String commandManageInvestigationsGui = defaultConfig.getString("commands.investigations.manage.gui");
+        String staffNotificationPermission = defaultConfig.getString("permissions.investigations.manage.notifications");
+        List<ConfiguredAction> startInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("investigations-module.start-investigation-commands", new ArrayList<>()));
+        List<ConfiguredAction> concludeInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("investigations-module.conclude-investigation-commands", new ArrayList<>()));
+        List<ConfiguredAction> pauseInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("investigations-module.pause-investigation-commands", new ArrayList<>()));
 
-        boolean modeGuiInvestigation = config.getBoolean("staff-mode.gui-module.investigation-gui");
-        String modeGuiInvestigationTitle = config.getString("staff-mode.gui-module.investigation-title");
-        String modeGuiInvestigationName = config.getString("staff-mode.gui-module.investigation-name");
-        String modeGuiInvestigationLore = config.getString("staff-mode.gui-module.investigation-lore");
+        boolean modeGuiInvestigation = staffModeModulesConfig.getBoolean("modules.gui-module.investigation-gui");
+        String modeGuiInvestigationTitle = staffModeModulesConfig.getString("modules.gui-module.investigation-title");
+        String modeGuiInvestigationName = staffModeModulesConfig.getString("modules.gui-module.investigation-name");
+        String modeGuiInvestigationLore = staffModeModulesConfig.getString("modules.gui-module.investigation-lore");
         GuiItemConfig guiItemConfig = new GuiItemConfig(modeGuiInvestigation, modeGuiInvestigationTitle, modeGuiInvestigationName, modeGuiInvestigationLore);
 
         return new InvestigationConfiguration(enabled,

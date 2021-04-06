@@ -1,0 +1,294 @@
+modules:
+    compass-module:
+        enabled: true
+        slot: 1
+
+        # The velocity at which a player will be launched.
+        velocity: 5
+        item: COMPASS
+
+        # The name of the compass item.
+        name: "&4Launcher"
+
+        # The lore of the compass item.
+        # Lines are separated by commas.
+        lore: "&7Launches you towards the, &7location you are facing."
+
+        ############################################################
+        # +------------------------------------------------------+ #
+        # |                    Random Teleport                   | #
+        # +------------------------------------------------------+ #
+        ############################################################
+
+        # When clicked, this teleports the staff to a random player.
+    random-teleport-module:
+        enabled: true
+        slot: 2
+        item: ENDEREYE
+
+        # The name of the compass item.
+        name: "&cRandom Teleport"
+
+        # The lore of the compass item.
+        # Lines are separated by commas.
+        lore: "&7Teleports you to a random player."
+
+        # Whether or not actual pseudo-randomness will be used.
+        # If set to false, "random" teleport will just cycle through players in order.
+        random: false
+
+    ############################################################
+    # +------------------------------------------------------+ #
+    # |                        Vanish                        | #
+    # +------------------------------------------------------+ #
+    ############################################################
+
+    # When clicked, this will toggle the staff"s invisibility.
+    vanish-module:
+        enabled: true
+        slot: 3
+        item: INK:10
+
+        # The name of the compass item.
+        name: "&6Vanish"
+
+        # The lore of the compass item.
+        # Lines are separated by commas.
+        lore: "&7Toggles your total vanish."
+
+        # The type of item for when vanish is disabled.
+        item-off: INK:8
+
+    ############################################################
+    # +------------------------------------------------------+ #
+    # |                       GUI Hub                        | #
+    # +------------------------------------------------------+ #
+    ############################################################
+
+    # When clicked, this will open unresolved reports in a GUI.
+    gui-module:
+        enabled: true
+        slot: 4
+        item: PAPER
+
+        name: "&eGUI Hub"
+        lore: "&7Opens the GUI hub."
+
+        reports-gui: true
+        reports-name: "&bUnresolved reports GUI"
+        reports-title: "&bUnresolved reports"
+        reports-lore: "&7Shows all open reports."
+        my-reports-title: "&bReports assigned to you"
+        my-reports-lore: "&7Shows reports currently assigned to you."
+        assigned-reports-title: "&bReports In Progress"
+        assigned-reports-lore: "&7Shows reports that are currently being worked on."
+        closed-reports-title: "&bClosed reports"
+        closed-reports-lore: "&7History of all closed reports."
+
+        miner-gui: true
+        miner-title: "&bUnderground users"
+        miner-name: "&bMiner GUI"
+        miner-lore: "&7Shows all players under the set Y value."
+        xray-level: 16
+
+        # ============== PROTECTED AREAS ==================
+        # Whether or not the protected areas GUI is enabled in the hub.
+        protected-areas-gui: true
+        protected-areas-title: "&bOverview protected areas"
+        protected-areas-name: "&bProtected Areas GUI"
+        protected-areas-lore: "&7Shows all currently set protected areas."
+
+        # ============== BANNING ==================
+        # Whether or not the banning GUI is enabled in the hub.
+        ban-gui: true
+        ban-title: "&bOverview banned players"
+        ban-name: "&bBanned players GUI"
+        ban-lore: "&7Shows all currently banned players."
+
+        # ============== MUTING ==================
+        # Whether or not the mute GUI is enabled in the hub.
+        mute-gui: true
+        mute-title: "&bOverview muted players"
+        mute-name: "&bMuted players GUI"
+        mute-lore: "&7Shows all currently muted players."
+
+        # ============== MUTING ==================
+        # Whether or not the mute GUI is enabled in the hub.
+        investigation-gui: true
+        investigation-title: "&bOverview investigations"
+        investigation-name: "&bInvestigations GUI"
+        investigation-lore: "&7Shows all investigations."
+
+    ############################################################
+    # +------------------------------------------------------+ #
+    # |                        Counter                       | #
+    # +------------------------------------------------------+ #
+    ############################################################
+
+    # Simply shows all staff online and in staff mode.
+    counter-module:
+        enabled: true
+        slot: 5
+        item: HEAD
+
+        # The name of the compass item.
+        name: "&aStaff List"
+
+        # The lore of the compass item.
+        # Lines are separated by commas.
+        lore: "&7Shows all staff online and in staff mode"
+
+        # The title of the counter GUI.
+        title: "&bCurrent staff online"
+
+        # Whether or not the head item count will represent online staff or staff in staff mode.
+        show-staff-mode: false
+
+    ############################################################
+    # +------------------------------------------------------+ #
+    # |                        Freeze                        | #
+    # +------------------------------------------------------+ #
+    ############################################################
+
+    # When clicked, this will freeze the player that the staff is looking at.
+    freeze-module:
+        enabled: true
+        slot: 6
+        item: BLAZE_ROD
+
+        # The name of the compass item.
+        name: "&2Freeze"
+
+        # The lore of the compass item.
+        # Lines are separated by commas.
+        lore: "&7Toggles freeze for the clicked player."
+
+        # Whether or not a player can chat while frozen.
+        chat: true
+
+        # Whether or not a player is able to damage or be damaged while frozen.
+        damage: false
+
+        # The interval, in seconds, at which a frozen player will be reminded that they are frozen.
+        # Disable by setting to zero.
+        timer: 5
+
+        # The sound that is played to the player when warned.
+        # Set to "NONE" to disable.
+        sound: ORB_PICKUP
+
+        # Whether or not a GUI prompt will open up with a paper containing the freeze message.
+        prompt: false
+
+        # The title of the frozen prompt GUI.
+        prompt-title: "&bFrozen"
+
+        logout-commands: "ban %player%"
+
+        title-message-enabled: true
+
+    ############################################################
+    # +------------------------------------------------------+ #
+    # |                         CPS                          | #
+    # +------------------------------------------------------+ #
+    ############################################################
+
+    # When clicked, this will test the CPS of the player and send it to the staff.
+    cps-module:
+        enabled: true
+        slot: 7
+        item: CLOCK
+
+        # The name of the compass item.
+        name: "&3CPS"
+
+        # The lore of the compass item.
+        # Lines are separated by commas.
+        lore: "&7Runs a click per second test on, &7the player that was clicked."
+
+        # Amount of time, in seconds, that the test will run for.
+        time: 10
+
+        # The maximum allowed amount of CPS. If a result contains this amount or more, it will be significantly marked.
+        max: 16.0
+
+    ############################################################
+    # +------------------------------------------------------+ #
+    # |                       Examine                        | #
+    # +------------------------------------------------------+ #
+    ############################################################
+
+    # When clicked, this will open the inventory of the player that the staff is looking at.
+    examine-module:
+        enabled: true
+        slot: 8
+        item: CHEST
+
+        # The name of the compass item.
+        name: "&bExamine"
+
+        # The lore of the compass item.
+        # Lines are separated by commas.
+        lore: "&7Inspects the inventory of the player that was clicked."
+
+        # The title of the examine GUI.
+        title: "&bExamine inventory"
+
+        # The configuration of the final line of the examine GUI.
+        # Set the slot of a node to zero to disable it.
+        # Remember that the maximum amount of allowed items within this line is nine!
+        info-line:
+            # Food and hunger information.
+            food: 1
+
+            # IP address information.
+            ip-address: 2
+
+            # Ping information.
+            ping: 3
+
+            # Gamemode and flight information.
+            gamemode: 4
+
+            # Infractions information.
+            infractions: 5
+
+            # Location information and teleport button.
+            location: 6
+
+            # Player "notes" button.
+            notes: 7
+
+            # Freeze button
+            freeze: 8
+
+            # Warn button.
+            warn: 9
+
+    ############################################################
+    # +------------------------------------------------------+ #
+    # |                       Follow                         | #
+    # +------------------------------------------------------+ #
+    ############################################################
+
+    # When clicked, this will mount the player that the staff is looking at.
+    follow-module:
+        enabled: true
+        slot: 9
+        item: LEAD
+
+        # The name of the compass item.
+        name: "&9Follow"
+
+        # The lore of the compass item.
+        # Lines are separated by commas.
+        lore: "&7Mounts the player that was clicked."
+
+    ############################################################
+    # +------------------------------------------------------+ #
+    # |                       Custom                         | #
+    # +------------------------------------------------------+ #
+    ############################################################
+    # Add custom actions to your staff mode items
+    # When clicked, this will execute the custom action.
+    # For more information: https://staffplusplus-minecraft.gitbook.io/staffplusplus/features/staff-mode/custom-staff-modules
