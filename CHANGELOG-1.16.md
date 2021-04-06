@@ -1,6 +1,18 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.54 (NOT YET RELEASED)
+### V1.16.55
+
+# Features
+- Added staff toggle fly command
+- Added staffchat mute command.
+- Added investigations
+- Fix reload command. Reload should work for everything now.
+
+# bugs
+- Fix staff chat sending in regular chat when using venturechat
+- Fixed namechangeEvent failing
+
+### V1.16.54
 
 # bugs
 - Luckperms prefix placeholder in staffchat was not using correct player.
