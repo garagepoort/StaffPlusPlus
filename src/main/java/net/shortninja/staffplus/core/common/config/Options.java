@@ -278,6 +278,8 @@ public class Options {
 
     public void reload() {
         FileConfiguration defaultConfig = StaffPlus.get().getFileConfigurations().get("config");
+        FileConfiguration permissionsConfig = StaffPlus.get().getFileConfigurations().get("permissions");
+        FileConfiguration commandsConfig = StaffPlus.get().getFileConfigurations().get("commands");
 
         blockedCommands = JavaUtils.stringToList(defaultConfig.getString("blocked-commands", ""));
         blockedModeCommands = JavaUtils.stringToList(defaultConfig.getString("blocked-mode-commands", ""));
@@ -334,71 +336,71 @@ public class Options {
         /*
          * Permissions
          */
-        permissionStaff = defaultConfig.getString("permissions.staffplus");
-        permissionStrip = defaultConfig.getString("permissions.strip");
-        permissionWildcard = defaultConfig.getString("permissions.wild-card");
-        permissionBlock = defaultConfig.getString("permissions.block");
-        permissionReport = defaultConfig.getString("permissions.report");
-        permissionReportBypass = defaultConfig.getString("permissions.report-bypass");
-        permissionReportUpdateNotifications = defaultConfig.getString("permissions.report-update-notifications");
-        permissionWarn = defaultConfig.getString("permissions.warn");
-        permissionWarnBypass = defaultConfig.getString("permissions.warn-bypass");
-        permissionVanishCommand = defaultConfig.getString("permissions.vanish");
-        permissionVanishTotal = defaultConfig.getString("permissions.vanish-total");
-        permissionVanishList = defaultConfig.getString("permissions.vanish-list");
-        permissionChatClear = defaultConfig.getString("permissions.chat-clear");
-        permissionChatToggle = defaultConfig.getString("permissions.chat-toggle");
-        permissionChatSlow = defaultConfig.getString("permissions.chat-slow");
-        permissionBlacklist = defaultConfig.getString("permissions.blacklist");
-        permissionMode = defaultConfig.getString("permissions.mode");
-        permissionModeSilentChestInteraction = defaultConfig.getString("permissions.mode-silent-chest-interaction");
-        permissionFreeze = defaultConfig.getString("permissions.freeze");
-        permissionFreezeBypass = defaultConfig.getString("permissions.freeze-bypass");
-        permissionTeleportToLocation = defaultConfig.getString("permissions.teleport-to-location");
-        permissionTeleportToPlayer = defaultConfig.getString("permissions.teleport-to-player");
-        permissionTeleportHere = defaultConfig.getString("permissions.teleport-here");
-        permissionTeleportBypass = defaultConfig.getString("permissions.teleport-bypass");
-        permissionTrace = defaultConfig.getString("permissions.trace");
-        permissionTraceBypass = defaultConfig.getString("permissions.trace-bypass");
-        permissionCps = defaultConfig.getString("permissions.cps");
-        permissionFollow = defaultConfig.getString("permissions.follow");
-        permissionRevive = defaultConfig.getString("permissions.revive");
-        permissionMember = defaultConfig.getString("permissions.member");
-        ipHidePerm = defaultConfig.getString("permissions.ipPerm");
-        permissionClearInv = defaultConfig.getString("permissions.invClear");
-        permissionClearInvBypass = defaultConfig.getString("permissions.invClear-bypass");
-        permissionBroadcast = defaultConfig.getString("permissions.broadcast");
-        permissionCounterGuiShowVanish = defaultConfig.getString("permissions.counter-show-vanished");
+        permissionStaff = permissionsConfig.getString("permissions.staffplus");
+        permissionStrip = permissionsConfig.getString("permissions.strip");
+        permissionWildcard = permissionsConfig.getString("permissions.wild-card");
+        permissionBlock = permissionsConfig.getString("permissions.block");
+        permissionReport = permissionsConfig.getString("permissions.report");
+        permissionReportBypass = permissionsConfig.getString("permissions.report-bypass");
+        permissionReportUpdateNotifications = permissionsConfig.getString("permissions.report-update-notifications");
+        permissionWarn = permissionsConfig.getString("permissions.warn");
+        permissionWarnBypass = permissionsConfig.getString("permissions.warn-bypass");
+        permissionVanishCommand = permissionsConfig.getString("permissions.vanish");
+        permissionVanishTotal = permissionsConfig.getString("permissions.vanish-total");
+        permissionVanishList = permissionsConfig.getString("permissions.vanish-list");
+        permissionChatClear = permissionsConfig.getString("permissions.chat-clear");
+        permissionChatToggle = permissionsConfig.getString("permissions.chat-toggle");
+        permissionChatSlow = permissionsConfig.getString("permissions.chat-slow");
+        permissionBlacklist = permissionsConfig.getString("permissions.blacklist");
+        permissionMode = permissionsConfig.getString("permissions.mode");
+        permissionModeSilentChestInteraction = permissionsConfig.getString("permissions.mode-silent-chest-interaction");
+        permissionFreeze = permissionsConfig.getString("permissions.freeze");
+        permissionFreezeBypass = permissionsConfig.getString("permissions.freeze-bypass");
+        permissionTeleportToLocation = permissionsConfig.getString("permissions.teleport-to-location");
+        permissionTeleportToPlayer = permissionsConfig.getString("permissions.teleport-to-player");
+        permissionTeleportHere = permissionsConfig.getString("permissions.teleport-here");
+        permissionTeleportBypass = permissionsConfig.getString("permissions.teleport-bypass");
+        permissionTrace = permissionsConfig.getString("permissions.trace");
+        permissionTraceBypass = permissionsConfig.getString("permissions.trace-bypass");
+        permissionCps = permissionsConfig.getString("permissions.cps");
+        permissionFollow = permissionsConfig.getString("permissions.follow");
+        permissionRevive = permissionsConfig.getString("permissions.revive");
+        permissionMember = permissionsConfig.getString("permissions.member");
+        ipHidePerm = permissionsConfig.getString("permissions.ipPerm");
+        permissionClearInv = permissionsConfig.getString("permissions.invClear");
+        permissionClearInvBypass = permissionsConfig.getString("permissions.invClear-bypass");
+        permissionBroadcast = permissionsConfig.getString("permissions.broadcast");
+        permissionCounterGuiShowVanish = permissionsConfig.getString("permissions.counter-show-vanished");
 
         /*
          * Commands
          */
-        commandStaffMode = defaultConfig.getString("commands.staff-mode");
-        commandStaffFly = defaultConfig.getString("commands.staff-mode-fly");
-        commandFreeze = defaultConfig.getString("commands.freeze");
-        commandTeleportToLocation = defaultConfig.getString("commands.teleport-to-location");
-        commandTeleportBack = defaultConfig.getString("commands.teleport-back");
-        commandTeleportToPlayer = defaultConfig.getString("commands.teleport-to-player");
-        commandTeleportHere = defaultConfig.getString("commands.teleport-here");
-        commandCps = defaultConfig.getString("commands.cps");
-        commandStaffChat = defaultConfig.getString("commands.staff-chat");
-        commandReport = defaultConfig.getString("commands.report");
-        commandReportPlayer = defaultConfig.getString("commands.reportPlayer");
-        commandReports = defaultConfig.getString("commands.reports.manage.cli");
-        commandFindReports = defaultConfig.getString("commands.reports.manage.gui-find-reports");
-        commandWarn = defaultConfig.getString("commands.warn");
-        commandWarns = defaultConfig.getString("commands.warns");
-        commandVanish = defaultConfig.getString("commands.vanish");
-        commandChat = defaultConfig.getString("commands.chat");
-        commandFollow = defaultConfig.getString("commands.follow");
-        commandRevive = defaultConfig.getString("commands.revive");
-        commandStaffList = defaultConfig.getString("commands.staff-list");
-        commandClearInv = defaultConfig.getString("commands.clearInv");
-        commandTrace = defaultConfig.getString("commands.trace");
-        commandBroadcast = defaultConfig.getString("commands.broadcast");
-        commandNotes = defaultConfig.getString("commands.notes");
-        commandLogin = defaultConfig.getString("commands.login");
-        commandStrip = defaultConfig.getString("commands.strip");
+        commandStaffMode = commandsConfig.getString("commands.staff-mode");
+        commandStaffFly = commandsConfig.getString("commands.staff-mode-fly");
+        commandFreeze = commandsConfig.getString("commands.freeze");
+        commandTeleportToLocation = commandsConfig.getString("commands.teleport-to-location");
+        commandTeleportBack = commandsConfig.getString("commands.teleport-back");
+        commandTeleportToPlayer = commandsConfig.getString("commands.teleport-to-player");
+        commandTeleportHere = commandsConfig.getString("commands.teleport-here");
+        commandCps = commandsConfig.getString("commands.cps");
+        commandStaffChat = commandsConfig.getString("commands.staff-chat");
+        commandReport = commandsConfig.getString("commands.report");
+        commandReportPlayer = commandsConfig.getString("commands.reportPlayer");
+        commandReports = commandsConfig.getString("commands.reports.manage.cli");
+        commandFindReports = commandsConfig.getString("commands.reports.manage.gui-find-reports");
+        commandWarn = commandsConfig.getString("commands.warn");
+        commandWarns = commandsConfig.getString("commands.warns");
+        commandVanish = commandsConfig.getString("commands.vanish");
+        commandChat = commandsConfig.getString("commands.chat");
+        commandFollow = commandsConfig.getString("commands.follow");
+        commandRevive = commandsConfig.getString("commands.revive");
+        commandStaffList = commandsConfig.getString("commands.staff-list");
+        commandClearInv = commandsConfig.getString("commands.clearInv");
+        commandTrace = commandsConfig.getString("commands.trace");
+        commandBroadcast = commandsConfig.getString("commands.broadcast");
+        commandNotes = commandsConfig.getString("commands.notes");
+        commandLogin = commandsConfig.getString("commands.login");
+        commandStrip = commandsConfig.getString("commands.strip");
 
         /*
          * Storage

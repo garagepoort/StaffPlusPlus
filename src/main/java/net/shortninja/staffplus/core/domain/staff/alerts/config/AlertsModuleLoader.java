@@ -23,15 +23,15 @@ public class AlertsModuleLoader extends AbstractConfigLoader<AlertsConfiguration
             .map(AltDetectTrustLevel::valueOf)
             .collect(Collectors.toList());
 
-        String permissionAlerts = defaultConfig.getString("permissions.alerts");
-        String permissionAlertsAltDetect = defaultConfig.getString("permissions.alerts-alt-detect");
-        String permissionMention = defaultConfig.getString("permissions.mention");
-        String permissionNameChange = defaultConfig.getString("permissions.name-change");
-        String permissionChatPhraseDetection = defaultConfig.getString("permissions.alerts-chat-phrase-detection");
+        String permissionAlerts = permissionsConfig.getString("permissions.alerts");
+        String permissionAlertsAltDetect = permissionsConfig.getString("permissions.alerts-alt-detect");
+        String permissionMention = permissionsConfig.getString("permissions.mention");
+        String permissionNameChange = permissionsConfig.getString("permissions.name-change");
+        String permissionChatPhraseDetection = permissionsConfig.getString("permissions.alerts-chat-phrase-detection");
         Sounds alertsSound = stringToSound(sanitize(defaultConfig.getString("alerts-module.sound")));
-        String commandAlerts = defaultConfig.getString("commands.alerts");
+        String commandAlerts = commandsConfig.getString("commands.alerts");
 
-        String permissionXray = defaultConfig.getString("permissions.xray");
+        String permissionXray = permissionsConfig.getString("permissions.xray");
         List<XrayBlockConfig> alertsXrayBlocks = Arrays.stream(defaultConfig.getString("alerts-module.xray-alerts.blocks").split("\\s*,\\s*"))
             .map(XrayBlockConfig::new)
             .collect(Collectors.toList());
