@@ -28,9 +28,7 @@ import net.shortninja.staffplus.core.domain.staff.investigate.config.Investigati
 import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.StaffModeCustomModulesLoader;
-import net.shortninja.staffplus.core.domain.staff.mode.config.StaffModeModuleLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.*;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteModuleLoader;
@@ -101,6 +99,7 @@ public class Options {
     public ServerSyncConfiguration serverSyncConfiguration;
     public AlertsConfiguration alertsConfiguration;
     public ChatConfiguration chatConfiguration;
+    public StaffItemsConfiguration staffItemsConfiguration;
 
     /*
      * Vanish
@@ -224,6 +223,7 @@ public class Options {
     private final ChatModuleLoader chatModuleLoader;
     private final InvestigationModuleLoader investigationModuleLoader;
     private final StaffModeCustomModulesLoader staffModeCustomModulesLoader;
+    private final StaffItemsLoader staffItemsLoader;
 
     public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
                    InfractionsModuleLoader infractionsModuleLoader,
@@ -248,7 +248,8 @@ public class Options {
                    AlertsModuleLoader alertsModuleLoader,
                    ChatModuleLoader chatModuleLoader,
                    InvestigationModuleLoader investigationModuleLoader,
-                   StaffModeCustomModulesLoader staffModeCustomModulesLoader) {
+                   StaffModeCustomModulesLoader staffModeCustomModulesLoader,
+                   StaffItemsLoader staffItemsLoader) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
         this.reportingModuleLoader = reportingModuleLoader;
@@ -273,6 +274,7 @@ public class Options {
         this.chatModuleLoader = chatModuleLoader;
         this.investigationModuleLoader = investigationModuleLoader;
         this.staffModeCustomModulesLoader = staffModeCustomModulesLoader;
+        this.staffItemsLoader = staffItemsLoader;
         reload();
     }
 
@@ -318,6 +320,7 @@ public class Options {
         chatConfiguration = this.chatModuleLoader.loadConfig();
         investigationConfiguration = this.investigationModuleLoader.loadConfig();
         customModuleConfigurations = this.staffModeCustomModulesLoader.loadConfig();
+        staffItemsConfiguration = this.staffItemsLoader.loadConfig();
 
         /*
          * Vanish

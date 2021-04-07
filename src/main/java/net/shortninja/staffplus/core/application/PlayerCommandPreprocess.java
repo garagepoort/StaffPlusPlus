@@ -67,7 +67,7 @@ public class PlayerCommandPreprocess implements Listener {
         } else if (sessionManager.get(uuid).isInStaffMode() && options.blockedModeCommands.contains(command)) {
             messages.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
-        } else if (freezeHandler.isFrozen(uuid) && (!options.modeConfiguration.getFreezeModeConfiguration().isModeFreezeChat() && !command.startsWith("/" + options.commandLogin))) {
+        } else if (freezeHandler.isFrozen(uuid) && (!options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezeChat() && !command.startsWith("/" + options.commandLogin))) {
             messages.send(player, messages.chatPrevented, messages.prefixGeneral);
             event.setCancelled(true);
         }

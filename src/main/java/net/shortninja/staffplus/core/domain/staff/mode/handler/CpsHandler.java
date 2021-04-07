@@ -26,7 +26,7 @@ public class CpsHandler {
 
         this.options = options;
         this.messages = messages;
-        cpsModeConfiguration = this.options.modeConfiguration.getCpsModeConfiguration();
+        cpsModeConfiguration = this.options.staffItemsConfiguration.getCpsModeConfiguration();
     }
 
     public boolean isTesting(UUID uuid) {

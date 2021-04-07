@@ -1,0 +1,25 @@
+modes:
+    default:
+        block-manipulation: false
+        inventory-interaction: true
+        silent-chest-interaction: false
+        item-drop: false
+        item-pickup: false
+        vanish-type: TOTAL
+        invincible: true
+        damage: false
+        hunger-loss: false
+        flight: true
+        creative: false
+        original-location: false
+        enable-on-login: false
+        disable-on-logout: false
+        enable-commands:
+            -   command: 'example1 %player%'
+            -   command: 'example2 %player%'
+        disable-commands:
+            -   command: 'example1 %player%'
+            -   command: 'example2 %player%'
+        disable-on-world-change: false
+        staff-see-staff-in-mode: false
+    helper:

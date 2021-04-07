@@ -36,7 +36,7 @@ public class InfractionsExamineGuiProvider implements ExamineGuiItemProvider {
         this.messages = messages;
         this.options = options;
         this.reportService = reportService;
-        examineModeConfiguration = this.options.modeConfiguration.getExamineModeConfiguration();
+        examineModeConfiguration = this.options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override

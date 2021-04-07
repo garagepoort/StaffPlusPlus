@@ -25,7 +25,7 @@ public class GamemodeExamineGuiProvider implements ExamineGuiItemProvider {
     public GamemodeExamineGuiProvider(Messages messages, Options options) {
         this.messages = messages;
         this.options = options;
-        examineModeConfiguration = this.options.modeConfiguration.getExamineModeConfiguration();
+        examineModeConfiguration = this.options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override

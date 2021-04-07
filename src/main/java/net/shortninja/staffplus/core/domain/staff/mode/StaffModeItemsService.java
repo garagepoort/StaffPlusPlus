@@ -37,15 +37,15 @@ public class StaffModeItemsService {
         this.sessionManager = sessionManager;
 
         MODE_ITEMS = Arrays.asList(
-            options.modeConfiguration.getCompassModeConfiguration(),
-            options.modeConfiguration.getRandomTeleportModeConfiguration(),
-            options.modeConfiguration.getVanishModeConfiguration(),
-            options.modeConfiguration.getGuiModeConfiguration(),
-            options.modeConfiguration.getCounterModeConfiguration(),
-            options.modeConfiguration.getFreezeModeConfiguration(),
-            options.modeConfiguration.getCpsModeConfiguration(),
-            options.modeConfiguration.getExamineModeConfiguration(),
-            options.modeConfiguration.getFollowModeConfiguration()
+            options.staffItemsConfiguration.getCompassModeConfiguration(),
+            options.staffItemsConfiguration.getRandomTeleportModeConfiguration(),
+            options.staffItemsConfiguration.getVanishModeConfiguration(),
+            options.staffItemsConfiguration.getGuiModeConfiguration(),
+            options.staffItemsConfiguration.getCounterModeConfiguration(),
+            options.staffItemsConfiguration.getFreezeModeConfiguration(),
+            options.staffItemsConfiguration.getCpsModeConfiguration(),
+            options.staffItemsConfiguration.getExamineModeConfiguration(),
+            options.staffItemsConfiguration.getFollowModeConfiguration()
         );
     }
 
