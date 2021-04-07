@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.application.bootstrap;
 
-import be.garagepoort.mcioc.IocConditional;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
@@ -35,11 +34,6 @@ public class LuckPermsHook implements PluginDisable {
             this.contextManager = luckPerms.getContextManager();
             this.register("StaffMode", () -> new StaffModeLuckPermsContextCalculator(this.sessionManager));
         }
-    }
-
-    @IocConditional
-    public static boolean shouldInitialize() {
-        return Bukkit.getPluginManager().getPlugin("LuckPerms") != null;
     }
 
     @Override
