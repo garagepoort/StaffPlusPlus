@@ -222,7 +222,7 @@ public class Options {
     private final AlertsModuleLoader alertsModuleLoader;
     private final ChatModuleLoader chatModuleLoader;
     private final InvestigationModuleLoader investigationModuleLoader;
-    private final StaffModeCustomModulesLoader staffModeCustomModulesLoader;
+    private final StaffCustomItemsLoader staffCustomItemsLoader;
     private final StaffItemsLoader staffItemsLoader;
 
     public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
@@ -248,7 +248,7 @@ public class Options {
                    AlertsModuleLoader alertsModuleLoader,
                    ChatModuleLoader chatModuleLoader,
                    InvestigationModuleLoader investigationModuleLoader,
-                   StaffModeCustomModulesLoader staffModeCustomModulesLoader,
+                   StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
@@ -273,7 +273,7 @@ public class Options {
         this.alertsModuleLoader = alertsModuleLoader;
         this.chatModuleLoader = chatModuleLoader;
         this.investigationModuleLoader = investigationModuleLoader;
-        this.staffModeCustomModulesLoader = staffModeCustomModulesLoader;
+        this.staffCustomItemsLoader = staffCustomItemsLoader;
         this.staffItemsLoader = staffItemsLoader;
         reload();
     }
@@ -319,7 +319,7 @@ public class Options {
         alertsConfiguration = this.alertsModuleLoader.loadConfig();
         chatConfiguration = this.chatModuleLoader.loadConfig();
         investigationConfiguration = this.investigationModuleLoader.loadConfig();
-        customModuleConfigurations = this.staffModeCustomModulesLoader.loadConfig();
+        customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();
         staffItemsConfiguration = this.staffItemsLoader.loadConfig();
 
         /*

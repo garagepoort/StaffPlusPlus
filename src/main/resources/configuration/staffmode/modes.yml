@@ -22,4 +22,15 @@ modes:
             -   command: 'example2 %player%'
         disable-on-world-change: false
         staff-see-staff-in-mode: false
+        gui:
+            - compass-module:1
+            - random-teleport-module:2
+            - vanish-module:3
+            - gui-module:4
+            - counter-module:5
+            - freeze-module:6
+            - cps-module:7
+            - examine-module:8
+            - follow-module:9
     helper:
+        extends: default

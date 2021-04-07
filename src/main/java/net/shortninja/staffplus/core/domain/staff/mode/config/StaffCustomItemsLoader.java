@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @IocBean
-public class StaffModeCustomModulesLoader extends AbstractConfigLoader<List<CustomModuleConfiguration>> {
+public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModuleConfiguration>> {
     private final IProtocolService protocolService;
 
-    public StaffModeCustomModulesLoader(IProtocolService protocolService) {
+    public StaffCustomItemsLoader(IProtocolService protocolService) {
         this.protocolService = protocolService;
     }
 
