@@ -27,7 +27,7 @@ public class StaffPlusPlusConfiguration {
         }
 
         RegisteredServiceProvider<Permission> registration = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
-        if (registration.getProvider() != null) {
+        if (registration != null) {
             StaffPlus.get().getLogger().info("Vault found. Permissions will be handled by Vault");
             return VaultPermissionHandler.class;
         }
