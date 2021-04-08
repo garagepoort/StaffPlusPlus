@@ -82,7 +82,8 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
             new ConfigurationFile("configuration/permissions.yml"),
             new ConfigurationFile("configuration/commands.yml"),
             new ConfigurationFile("configuration/staffmode/modules.yml"),
-            new ConfigurationFile("configuration/staffmode/custom-modules.yml")
+            new ConfigurationFile("configuration/staffmode/custom-modules.yml"),
+            new ConfigurationFile("configuration/staffmode/modes.yml")
         );
 
         AutoUpdater.runMigrations(configurationFiles);

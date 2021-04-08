@@ -51,7 +51,7 @@ public class PlayerQuit implements Listener {
             event.setQuitMessage("");
         }
 
-        if(options.modeConfiguration.isModeDisableOnLogout() && session.isInStaffMode()) {
+        if(session.isInStaffMode() && session.getModeConfiguration().get().isModeDisableOnLogout()) {
             staffModeService.removeMode(player);
         }
 

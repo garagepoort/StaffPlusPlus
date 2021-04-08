@@ -95,7 +95,7 @@ public class Options {
     public StaffChatConfiguration staffChatConfiguration;
     public ExamineConfiguration examineConfiguration;
     public EnderchestsConfiguration enderchestsConfiguration;
-    public GeneralModeConfiguration modeConfiguration;
+    public Map<String, GeneralModeConfiguration> modeConfigurations;
     public ServerSyncConfiguration serverSyncConfiguration;
     public AlertsConfiguration alertsConfiguration;
     public ChatConfiguration chatConfiguration;
@@ -217,7 +217,7 @@ public class Options {
     private final StaffChatModuleLoader staffChatModuleLoader;
     private final ExamineModuleLoader examineModuleLoader;
     private final EnderchestsModuleLoader enderchestsModuleLoader;
-    private final StaffModeModuleLoader staffModeModuleLoader;
+    private final StaffModesLoader staffModesLoader;
     private final ServerSyncModuleLoader serverSyncModuleLoader;
     private final AlertsModuleLoader alertsModuleLoader;
     private final ChatModuleLoader chatModuleLoader;
@@ -243,7 +243,7 @@ public class Options {
                    StaffChatModuleLoader staffChatModuleLoader,
                    ExamineModuleLoader examineModuleLoader,
                    EnderchestsModuleLoader enderchestsModuleLoader,
-                   StaffModeModuleLoader staffModeModuleLoader,
+                   StaffModesLoader staffModesLoader,
                    ServerSyncModuleLoader serverSyncModuleLoader,
                    AlertsModuleLoader alertsModuleLoader,
                    ChatModuleLoader chatModuleLoader,
@@ -268,7 +268,7 @@ public class Options {
         this.staffChatModuleLoader = staffChatModuleLoader;
         this.examineModuleLoader = examineModuleLoader;
         this.enderchestsModuleLoader = enderchestsModuleLoader;
-        this.staffModeModuleLoader = staffModeModuleLoader;
+        this.staffModesLoader = staffModesLoader;
         this.serverSyncModuleLoader = serverSyncModuleLoader;
         this.alertsModuleLoader = alertsModuleLoader;
         this.chatModuleLoader = chatModuleLoader;
@@ -314,7 +314,7 @@ public class Options {
         staffChatConfiguration = this.staffChatModuleLoader.loadConfig();
         examineConfiguration = this.examineModuleLoader.loadConfig();
         enderchestsConfiguration = this.enderchestsModuleLoader.loadConfig();
-        modeConfiguration = this.staffModeModuleLoader.loadConfig();
+        modeConfigurations = this.staffModesLoader.loadConfig();
         serverSyncConfiguration = this.serverSyncModuleLoader.loadConfig();
         alertsConfiguration = this.alertsModuleLoader.loadConfig();
         chatConfiguration = this.chatModuleLoader.loadConfig();

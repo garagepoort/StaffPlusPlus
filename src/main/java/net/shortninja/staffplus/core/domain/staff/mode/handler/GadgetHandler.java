@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.player.gui.CounterGui;
 import net.shortninja.staffplus.core.domain.player.gui.hub.HubGui;
@@ -43,7 +44,6 @@ public class GadgetHandler {
     public GadgetHandler(IProtocolService protocolService, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
         this.protocolService = protocolService;
         this.permission = permission;
-
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -133,15 +133,16 @@ public class GadgetHandler {
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
         PlayerSession session = sessionManager.get(player.getUniqueId());
-        if (session.getVanishType() == options.modeConfiguration.getModeVanish()) {
+        GeneralModeConfiguration modeConfiguration = session.getModeConfiguration().get();
+        if (session.getVanishType() == modeConfiguration.getModeVanish()) {
             vanishServiceImpl.removeVanish(player);
         } else {
-            vanishServiceImpl.addVanish(player, options.modeConfiguration.getModeVanish());
+            vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
         }
 
         if (shouldUpdateItem && item != null) {
             player.getInventory().remove(item);
-            player.getInventory().setItem(slot, options.staffItemsConfiguration.getVanishModeConfiguration().getModeVanishItem(session, options.modeConfiguration.getModeVanish()));
+            player.getInventory().setItem(slot, options.staffItemsConfiguration.getVanishModeConfiguration().getModeVanishItem(session, modeConfiguration.getModeVanish()));
         }
     }
 

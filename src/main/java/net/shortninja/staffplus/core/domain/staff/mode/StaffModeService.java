@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.actions.*;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -34,27 +35,27 @@ public class StaffModeService {
     private final VanishServiceImpl vanishServiceImpl;
     private final StaffModeItemsService staffModeItemsService;
     private final ActionService actionService;
+    private final PermissionHandler permissionHandler;
 
-    private final GeneralModeConfiguration modeConfiguration;
     private final ModeDataRepository modeDataRepository;
     private final Options options;
     private final PlayerManager playerManager;
+    private final Map<String, GeneralModeConfiguration> configurationMap;
 
     public StaffModeService(Options options,
                             Messages messages,
                             SessionManagerImpl sessionManager,
                             VanishServiceImpl vanishServiceImpl,
                             StaffModeItemsService staffModeItemsService,
-                            ActionService actionService, ModeDataRepository modeDataRepository, PlayerManager playerManager) {
-
+                            ActionService actionService, PermissionHandler permissionHandler, ModeDataRepository modeDataRepository, PlayerManager playerManager) {
+        this.configurationMap = options.modeConfigurations;
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
-
         this.options = options;
         this.actionService = actionService;
+        this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
-        modeConfiguration = this.options.modeConfiguration;
         this.staffModeItemsService = staffModeItemsService;
         this.modeDataRepository = modeDataRepository;
     }
@@ -75,14 +76,16 @@ public class StaffModeService {
             modeDataRepository.saveModeData(modeData);
         }
 
-        staffModeItemsService.setStaffModeItems(player);
+        GeneralModeConfiguration modeConfiguration = getModeConfig(player);
+        staffModeItemsService.setStaffModeItems(player, modeConfiguration);
 
         player.setAllowFlight(modeConfiguration.isModeFlight() && !modeConfiguration.isModeCreative());
         if (modeConfiguration.isModeCreative()) player.setGameMode(GameMode.CREATIVE);
 
-        runModeCommands(player, true);
+        runModeCommands(player, true, modeConfiguration);
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
         session.setInStaffMode(true);
+        session.setModeConfiguration(modeConfiguration);
         sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
         messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
@@ -93,7 +96,8 @@ public class StaffModeService {
             throw new BusinessException("&CYou can only toggle fly while in staff mode");
         }
 
-        if (!options.modeConfiguration.isModeFlight()) {
+        Optional<GeneralModeConfiguration> modeConfiguration = playerSession.getModeConfiguration();
+        if (modeConfiguration.isPresent() && !modeConfiguration.get().isModeFlight()) {
             throw new BusinessException("&CCannot toggle fly. Flight is not enabled while in staff mode");
         }
         player.setAllowFlight(!player.getAllowFlight());
@@ -107,38 +111,43 @@ public class StaffModeService {
             return;
         }
 
-        ModeData modeData = existingModeData.get();
-        if (modeConfiguration.isModeOriginalLocation()) {
-            player.teleport(modeData.getPreviousLocation().setDirection(player.getLocation().getDirection()));
-            messages.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
+        Optional<GeneralModeConfiguration> modeConfiguration = session.getModeConfiguration();
+        if(modeConfiguration.isPresent()) {
+            ModeData modeData = existingModeData.get();
+            if (modeConfiguration.get().isModeOriginalLocation()) {
+                player.teleport(modeData.getPreviousLocation().setDirection(player.getLocation().getDirection()));
+                messages.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
+            }
+
+            runModeCommands(player, false, modeConfiguration.get());
+            JavaUtils.clearInventory(player);
+            player.getInventory().setContents(modeData.getPlayerInventory());
+            player.updateInventory();
+            player.setExp(modeData.getXp());
+            player.setAllowFlight(modeData.hasFlight());
+            player.setGameMode(modeData.getGameMode());
+            player.setFireTicks(modeData.getFireTicks());
+
+            if (modeData.getVanishType() == VanishType.NONE) {
+                vanishServiceImpl.removeVanish(player);
+            } else {
+                vanishServiceImpl.addVanish(player, modeData.getVanishType());
+            }
+            modeDataRepository.deleteModeData(player);
         }
 
-        runModeCommands(player, false);
-        JavaUtils.clearInventory(player);
-        player.getInventory().setContents(modeData.getPlayerInventory());
-        player.updateInventory();
-        player.setExp(modeData.getXp());
-        player.setAllowFlight(modeData.hasFlight());
-        player.setGameMode(modeData.getGameMode());
-        player.setFireTicks(modeData.getFireTicks());
-
-        if (modeData.getVanishType() == VanishType.NONE) {
-            vanishServiceImpl.removeVanish(player);
-        } else {
-            vanishServiceImpl.addVanish(player, modeData.getVanishType());
-        }
-        modeDataRepository.deleteModeData(player);
 
         session.setInStaffMode(false);
+        session.setModeConfiguration(null);
         sendEvent(new ExitStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
         messages.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
-    private void runModeCommands(Player player, boolean isEnabled) {
+    private void runModeCommands(Player player, boolean isEnabled, GeneralModeConfiguration modeConfiguration) {
         Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(player.getUniqueId());
         if (target.isPresent()) {
             List<ActionFilter> actionFilters = Collections.singletonList(new PermissionActionFilter());
-            List<ConfiguredAction> actions = isEnabled ? options.modeConfiguration.getModeEnableCommands() : options.modeConfiguration.getModeDisableCommands();
+            List<ConfiguredAction> actions = isEnabled ? modeConfiguration.getModeEnableCommands() : modeConfiguration.getModeDisableCommands();
             actionService.executeActions(configuredAction -> target.get(), actions, actionFilters, new HashMap<>());
         }
     }
@@ -151,4 +160,11 @@ public class StaffModeService {
         return itemStacks.toArray(new ItemStack[]{});
     }
 
+    public GeneralModeConfiguration getModeConfig(Player player) {
+        return configurationMap.values().stream()
+            .sorted(Comparator.comparingInt(GeneralModeConfiguration::getWeight).reversed())
+            .filter(g -> permissionHandler.has(player, g.getPermission()))
+            .findFirst()
+            .orElseThrow(() -> new BusinessException("No suitable staff mode found for this player. Does he have the correct permissions?"));
+    }
 }

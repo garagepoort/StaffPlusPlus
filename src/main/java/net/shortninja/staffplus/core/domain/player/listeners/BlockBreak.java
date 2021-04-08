@@ -48,7 +48,7 @@ public class BlockBreak implements Listener {
             return;
         }
 
-        if (options.modeConfiguration.isModeBlockManipulation() || !session.isInStaffMode()) {
+        if (!session.isInStaffMode() || session.getModeConfiguration().get().isModeBlockManipulation()) {
             Block block = event.getBlock();
             xrayService.handleBlockBreak(block.getType(), player);
             traceService.sendTraceMessage(BLOCK_BREAK, event.getPlayer().getUniqueId(),

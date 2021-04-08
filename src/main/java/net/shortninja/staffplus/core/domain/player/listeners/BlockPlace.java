@@ -2,9 +2,7 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceType;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -19,16 +17,12 @@ import java.util.UUID;
 
 @IocBean
 public class BlockPlace implements Listener {
-    private final Options options;
     private final FreezeHandler freezeHandler;
-    private final StaffModeService staffModeService;
     private final TraceService traceService;
     private final SessionManagerImpl sessionManager;
 
-    public BlockPlace(Options options, FreezeHandler freezeHandler, StaffModeService staffModeService, TraceService traceService, SessionManagerImpl sessionManager) {
-        this.options = options;
+    public BlockPlace(FreezeHandler freezeHandler, TraceService traceService, SessionManagerImpl sessionManager) {
         this.freezeHandler = freezeHandler;
-        this.staffModeService = staffModeService;
         this.traceService = traceService;
         this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -39,7 +33,7 @@ public class BlockPlace implements Listener {
         UUID uuid = event.getPlayer().getUniqueId();
         PlayerSession session = sessionManager.get(uuid);
 
-        if ((options.modeConfiguration.isModeBlockManipulation() || !session.isInStaffMode()) && !freezeHandler.isFrozen(uuid)) {
+        if ((!session.isInStaffMode() || session.getModeConfiguration().get().isModeBlockManipulation()) && !freezeHandler.isFrozen(uuid)) {
             traceService.sendTraceMessage(TraceType.BLOCK_PLACE, uuid, "Blocked [" + event.getBlock().getType() + "] placed");
             return;
         }

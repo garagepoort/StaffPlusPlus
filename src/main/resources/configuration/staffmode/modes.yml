@@ -32,5 +32,3 @@ modes:
             - cps-module:7
             - examine-module:8
             - follow-module:9
-    helper:
-        extends: default

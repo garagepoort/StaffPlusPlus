@@ -1,20 +1,22 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
-import net.shortninja.staffplus.core.domain.staff.mode.config.gui.GuiConfiguration;
 import net.shortninja.staffplusplus.vanish.VanishType;
 
 import java.util.List;
+import java.util.Map;
 
 public class GeneralModeConfiguration {
 
+    private String permission;
+    private int weight;
     private VanishType modeVanish;
     private boolean modeItemPickup;
     private boolean modeItemDrop;
     private boolean modeDamage;
     private boolean modeHungerLoss;
-    private final List<ConfiguredAction> modeEnableCommands;
-    private final List<ConfiguredAction> modeDisableCommands;
+    private List<ConfiguredAction> modeEnableCommands;
+    private List<ConfiguredAction> modeDisableCommands;
     private boolean worldChange;
     private boolean modeBlockManipulation;
     private boolean modeInventoryInteraction;
@@ -25,44 +27,26 @@ public class GeneralModeConfiguration {
     private boolean modeOriginalLocation;
     private boolean modeEnableOnLogin;
     private boolean modeDisableOnLogout;
+    private Map<String, Integer> itemSlots;
 
-    private final List<GuiConfiguration> guiConfigurations;
 
-    public GeneralModeConfiguration(VanishType modeVanish,
-                                    boolean modeItemPickup,
-                                    boolean modeItemDrop, boolean modeDamage,
-                                    boolean modeHungerLoss,
-                                    List<ConfiguredAction> modeEnableCommands,
-                                    List<ConfiguredAction> modeDisableCommands,
-                                    boolean worldChange,
-                                    boolean modeBlockManipulation,
-                                    boolean modeInventoryInteraction,
-                                    boolean modeSilentChestInteraction,
-                                    boolean modeInvincible,
-                                    boolean modeFlight,
-                                    boolean modeCreative,
-                                    boolean modeOriginalLocation,
-                                    boolean modeEnableOnLogin,
-                                    boolean modeDisableOnLogout,
-                                    List<GuiConfiguration> guiConfigurations) {
-        this.modeVanish = modeVanish;
-        this.modeItemPickup = modeItemPickup;
-        this.modeItemDrop = modeItemDrop;
-        this.modeDamage = modeDamage;
-        this.modeHungerLoss = modeHungerLoss;
-        this.modeEnableCommands = modeEnableCommands;
-        this.modeDisableCommands = modeDisableCommands;
-        this.worldChange = worldChange;
-        this.modeBlockManipulation = modeBlockManipulation;
-        this.modeInventoryInteraction = modeInventoryInteraction;
-        this.modeSilentChestInteraction = modeSilentChestInteraction;
-        this.modeInvincible = modeInvincible;
-        this.modeFlight = modeFlight;
-        this.modeCreative = modeCreative;
-        this.modeOriginalLocation = modeOriginalLocation;
-        this.modeEnableOnLogin = modeEnableOnLogin;
-        this.modeDisableOnLogout = modeDisableOnLogout;
-        this.guiConfigurations = guiConfigurations;
+    public GeneralModeConfiguration() {
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     public boolean isModeItemPickup() {
@@ -71,10 +55,6 @@ public class GeneralModeConfiguration {
 
     public boolean isModeItemDrop() {
         return modeItemDrop;
-    }
-
-    public List<GuiConfiguration> getStaffGuiConfigurations() {
-        return guiConfigurations;
     }
 
     public VanishType getModeVanish() {
@@ -137,4 +117,79 @@ public class GeneralModeConfiguration {
         return modeDisableOnLogout;
     }
 
+    public void setModeVanish(VanishType modeVanish) {
+        this.modeVanish = modeVanish;
+    }
+
+    public void setModeItemPickup(boolean modeItemPickup) {
+        this.modeItemPickup = modeItemPickup;
+    }
+
+    public void setModeItemDrop(boolean modeItemDrop) {
+        this.modeItemDrop = modeItemDrop;
+    }
+
+    public void setModeDamage(boolean modeDamage) {
+        this.modeDamage = modeDamage;
+    }
+
+    public void setModeHungerLoss(boolean modeHungerLoss) {
+        this.modeHungerLoss = modeHungerLoss;
+    }
+
+    public void setWorldChange(boolean worldChange) {
+        this.worldChange = worldChange;
+    }
+
+    public void setModeBlockManipulation(boolean modeBlockManipulation) {
+        this.modeBlockManipulation = modeBlockManipulation;
+    }
+
+    public void setModeInventoryInteraction(boolean modeInventoryInteraction) {
+        this.modeInventoryInteraction = modeInventoryInteraction;
+    }
+
+    public void setModeSilentChestInteraction(boolean modeSilentChestInteraction) {
+        this.modeSilentChestInteraction = modeSilentChestInteraction;
+    }
+
+    public void setModeInvincible(boolean modeInvincible) {
+        this.modeInvincible = modeInvincible;
+    }
+
+    public void setModeFlight(boolean modeFlight) {
+        this.modeFlight = modeFlight;
+    }
+
+    public void setModeCreative(boolean modeCreative) {
+        this.modeCreative = modeCreative;
+    }
+
+    public void setModeOriginalLocation(boolean modeOriginalLocation) {
+        this.modeOriginalLocation = modeOriginalLocation;
+    }
+
+    public void setModeEnableOnLogin(boolean modeEnableOnLogin) {
+        this.modeEnableOnLogin = modeEnableOnLogin;
+    }
+
+    public void setModeDisableOnLogout(boolean modeDisableOnLogout) {
+        this.modeDisableOnLogout = modeDisableOnLogout;
+    }
+
+    public void setModeEnableCommands(List<ConfiguredAction> modeEnableCommands) {
+        this.modeEnableCommands = modeEnableCommands;
+    }
+
+    public void setModeDisableCommands(List<ConfiguredAction> modeDisableCommands) {
+        this.modeDisableCommands = modeDisableCommands;
+    }
+
+    public Map<String, Integer> getItemSlots() {
+        return itemSlots;
+    }
+
+    public void setItemSlots(Map<String, Integer> itemSlots) {
+        this.itemSlots = itemSlots;
+    }
 }
