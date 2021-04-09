@@ -79,7 +79,7 @@ public class StaffModeService {
         GeneralModeConfiguration modeConfiguration = getModeConfig(player);
         staffModeItemsService.setStaffModeItems(player, modeConfiguration);
 
-        player.setAllowFlight(modeConfiguration.isModeFlight() && !modeConfiguration.isModeCreative());
+        player.setAllowFlight(modeConfiguration.isModeFlight());
         if (modeConfiguration.isModeCreative()) player.setGameMode(GameMode.CREATIVE);
 
         runModeCommands(player, true, modeConfiguration);
