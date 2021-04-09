@@ -9,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @IocBean
 public class PlayerManager {
@@ -67,6 +68,9 @@ public class PlayerManager {
 
     public void syncPlayer(Player player) {
         cachedPlayerNames.add(player.getName());
+
+        List<SppPlayer> existingCache = cachedSppPlayers.stream().filter(p -> p.getId().equals(player.getUniqueId())).collect(Collectors.toList());
+        cachedSppPlayers.removeAll(existingCache);
         cachedSppPlayers.add(new SppPlayer(player.getUniqueId(), player.getName()));
     }
 

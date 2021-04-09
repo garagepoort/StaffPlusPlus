@@ -17,7 +17,7 @@ public class GeneralModeConfiguration {
     private boolean modeHungerLoss;
     private List<ConfiguredAction> modeEnableCommands;
     private List<ConfiguredAction> modeDisableCommands;
-    private boolean worldChange;
+    private boolean disableOnWorldChange;
     private boolean modeBlockManipulation;
     private boolean modeInventoryInteraction;
     private boolean modeSilentChestInteraction;
@@ -77,8 +77,8 @@ public class GeneralModeConfiguration {
         return modeDisableCommands;
     }
 
-    public boolean isWorldChange() {
-        return worldChange;
+    public boolean isDisableOnWorldChange() {
+        return disableOnWorldChange;
     }
 
     public boolean isModeBlockManipulation() {
@@ -137,8 +137,8 @@ public class GeneralModeConfiguration {
         this.modeHungerLoss = modeHungerLoss;
     }
 
-    public void setWorldChange(boolean worldChange) {
-        this.worldChange = worldChange;
+    public void setDisableOnWorldChange(boolean disableOnWorldChange) {
+        this.disableOnWorldChange = disableOnWorldChange;
     }
 
     public void setModeBlockManipulation(boolean modeBlockManipulation) {

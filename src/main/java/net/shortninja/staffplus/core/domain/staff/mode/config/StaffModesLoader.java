@@ -59,7 +59,7 @@ public class StaffModesLoader extends AbstractConfigLoader<Map<String, GeneralMo
             modeConfig.setModeDisableCommands(ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) configurationSection.getList("disable-commands", new ArrayList<>())));
         }
         if(configurationSection.contains("disable-on-world-change")) {
-            modeConfig.setWorldChange(configurationSection.getBoolean("disable-on-world-change"));
+            modeConfig.setDisableOnWorldChange(configurationSection.getBoolean("disable-on-world-change"));
         }
         if(configurationSection.contains("block-manipulation")) {
             modeConfig.setModeBlockManipulation(configurationSection.getBoolean("block-manipulation"));

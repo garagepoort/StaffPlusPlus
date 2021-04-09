@@ -31,7 +31,7 @@ public class PlayerWorldChange implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onWorldChange(PlayerChangedWorldEvent event) {
         PlayerSession session = sessionManager.get(event.getPlayer().getUniqueId());
-        if (session.isInStaffMode() && session.getModeConfiguration().get().isWorldChange()) {
+        if (session.isInStaffMode() && session.getModeConfiguration().get().isDisableOnWorldChange()) {
             staffModeService.removeMode(event.getPlayer());
         }
         traceService.sendTraceMessage(WORLD_CHANGE, event.getPlayer().getUniqueId(), String.format("World changed from [%s] to [%s]", event.getFrom().getName(), event.getPlayer().getWorld().getName()));

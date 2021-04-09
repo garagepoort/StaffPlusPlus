@@ -435,6 +435,7 @@ enderchest-module:
 investigations-module:
     enabled: true
     allow-offline-investigation: false
+    enforce-staff-mode: false
     max-concurrent-investigations: 1
     automatic-pause: true
     notifications:
@@ -445,66 +446,6 @@ investigations-module:
     conclude-investigation-commands: []
     pause-investigation-commands: []
 
-
-# Requires "permissions.mode" permission.
-staff-mode:
-
-  # Whether or not a player is allowed to break/place blocks while in staff mode.
-  block-manipulation: false
-
-  # Whether or not a player is allowed to interact with their inventory while in staff mode.
-  inventory-interaction: true
-
-  # Whether or not a player is allowed to interact with chest/hoppers/dispensers,... while in staff mode.
-  silent-chest-interaction: false
-
-  # Whether or not a player is allowed to drop/pickup items while in staff mode.
-  item-drop: false
-  item-pickup: false
-
-  # The type of vanish that will be applied when a player goes into staff mode.
-  # Valid vanish types are: TOTAL, LIST, and NONE.
-  vanish-type: TOTAL
-
-  # Whether or not a player will be invincible while in staff mode.
-  invincible: true
-
-  # Whether or not a player in staff mode can attack other players.
-  damage: false
-
-  # Whether or not a player will lose hunger while in staff mode.
-  hunger-loss: false
-
-  # Whether or not a player can fly while in staff mode.
-  flight: true
-
-  # Whether or not a player will be put into creative while in staff mode.
-  creative: false
-
-  # Whether or not to a player to the location they were in before they toggled staff mode.
-  original-location: false
-
-  # Whether or not staff mode will be enabled for staff when they login.
-  enable-on-login: false
-
-  # Whether or not staff mode will be disabled for staff when they logout. If false the staff mode will be reenabled on login.
-  disable-on-logout: false
-
-  # Commands to execute when staff mode is enabled. Leave blank to disable.
-  enable-commands:
-      - command: 'example1 %player%'
-      - command: 'example2 %player%'
-
-  # Commands to execute when staff mode is disable. Leave blank to disable.
-  disable-commands:
-      - command: 'example1 %player%'
-      - command: 'example2 %player%'
-
-  # Should Staff mode disable on world change
-  disable-on-world-change: false
-
-  # Should other staff be able to see staff that are in mode while they are not in mode.
-  staff-see-staff-in-mode: false
 
 ############################################################
 # +------------------------------------------------------+ #
