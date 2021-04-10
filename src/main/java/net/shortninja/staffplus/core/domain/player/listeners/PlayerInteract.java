@@ -8,6 +8,8 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
+import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGUI;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiType;
@@ -83,24 +85,26 @@ public class PlayerInteract implements Listener {
             cpsHandler.updateCount(uuid);
         }
 
-        boolean inStaffMode = sessionManager.get(uuid).isInStaffMode();
+        PlayerSession playerSession = sessionManager.get(uuid);
+        boolean inStaffMode = playerSession.isInStaffMode();
 
         if (!inStaffMode || item == null) {
             return;
         }
+        GeneralModeConfiguration modeConfiguration = playerSession.getModeConfiguration().get();
 
         if (staffCheckingChest(event, player)) {
             event.setCancelled(true);
             Container container = (Container) event.getClickedBlock().getState();
 
             if (container instanceof Furnace) {
-                new ChestGUI(container.getInventory(), InventoryType.FURNACE, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
+                new ChestGUI(container.getInventory(), InventoryType.FURNACE, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
             } else if (container instanceof BrewingStand) {
-                new ChestGUI(container.getInventory(), InventoryType.BREWING, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
+                new ChestGUI(container.getInventory(), InventoryType.BREWING, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
             } else if (container instanceof Dispenser || container instanceof Dropper) {
-                new ChestGUI(container.getInventory(), InventoryType.DISPENSER, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
+                new ChestGUI(container.getInventory(), InventoryType.DISPENSER, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
             } else if (container instanceof Hopper) {
-                new ChestGUI(container.getInventory(), InventoryType.HOPPER, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
+                new ChestGUI(container.getInventory(), InventoryType.HOPPER, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
             } else {
                 // Either Chest, Chest-like or new block.
                 // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
@@ -109,7 +113,7 @@ public class PlayerInteract implements Listener {
                     Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
                     containerSize += (9 - containerSize % 9);
                 }
-                new ChestGUI(container.getInventory(), containerSize, ChestGuiType.CONTAINER, options.modeConfiguration.isModeSilentChestInteraction()).show(player);
+                new ChestGUI(container.getInventory(), containerSize, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
             }
             return;
         }

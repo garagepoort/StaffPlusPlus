@@ -57,7 +57,7 @@ public class CounterGui extends PagedGui {
 
     @Override
     public List<ItemStack> getItems(Player staffViewing, SppPlayer target, int offset, int amount) {
-        List<Player> players = StaffPlus.get().getIocContainer().get(Options.class).modeConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? getModePlayers() : JavaUtils.getOnlinePlayers();
+        List<Player> players = StaffPlus.get().getIocContainer().get(Options.class).staffItemsConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? getModePlayers() : JavaUtils.getOnlinePlayers();
         return players.stream()
             .filter(p -> StaffPlus.get().getIocContainer().get(PermissionHandler.class).has(p, StaffPlus.get().getIocContainer().get(Options.class).permissionMember))
             .map(p -> modePlayerItem(staffViewing, p))
