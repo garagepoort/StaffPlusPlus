@@ -52,7 +52,7 @@ public class PlayerQuit implements Listener {
         }
 
         if(session.isInStaffMode() && session.getModeConfiguration().get().isModeDisableOnLogout()) {
-            staffModeService.removeMode(player);
+            staffModeService.turnStaffModeOff(player);
         }
 
         if (session.isFrozen()) {

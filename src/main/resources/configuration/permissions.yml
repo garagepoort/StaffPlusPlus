@@ -108,6 +108,9 @@ permissions:
     # Permission for toggling staff mode.
     mode: "staff.mode"
 
+    # Permission for turning on a specific staff mode
+    mode-specific: "staff.mode.specific"
+
     # permission to interact with chests/hoppers/dispensers.
     mode-silent-chest-interaction: "staff.mode.silent-chest-interaction"
 

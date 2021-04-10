@@ -5,7 +5,6 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.actions.ActionFilter;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
@@ -14,6 +13,7 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.core.session.PlayerSession;
+import net.shortninja.staffplus.core.session.SessionLoader;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
@@ -37,29 +37,29 @@ public class StaffModeService {
     private final VanishServiceImpl vanishServiceImpl;
     private final StaffModeItemsService staffModeItemsService;
     private final ActionService actionService;
-    private final PermissionHandler permissionHandler;
 
     private final ModeDataRepository modeDataRepository;
     private final Options options;
     private final PlayerManager playerManager;
-    private final Map<String, GeneralModeConfiguration> configurationMap;
+    private final ModeProvider modeProvider;
+    private final SessionLoader sessionLoader;
 
     public StaffModeService(Options options,
                             Messages messages,
                             SessionManagerImpl sessionManager,
                             VanishServiceImpl vanishServiceImpl,
                             StaffModeItemsService staffModeItemsService,
-                            ActionService actionService, PermissionHandler permissionHandler, ModeDataRepository modeDataRepository, PlayerManager playerManager) {
-        this.configurationMap = options.modeConfigurations;
+                            ActionService actionService, ModeDataRepository modeDataRepository, PlayerManager playerManager, ModeProvider modeProvider, SessionLoader sessionLoader) {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
         this.options = options;
         this.actionService = actionService;
-        this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
         this.staffModeItemsService = staffModeItemsService;
         this.modeDataRepository = modeDataRepository;
+        this.modeProvider = modeProvider;
+        this.sessionLoader = sessionLoader;
     }
 
     public Set<UUID> getModeUsers() {
@@ -68,7 +68,20 @@ public class StaffModeService {
             .map(PlayerSession::getUuid).collect(Collectors.toSet());
     }
 
-    public void addMode(Player player) {
+    public void turnStaffModeOn(Player player, String mode) {
+        GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, mode);
+
+        turnStaffModeOn(player, modeConfiguration);
+    }
+
+    public void turnStaffModeOn(Player player) {
+        GeneralModeConfiguration modeConfiguration = modeProvider.calculateMode(player)
+            .orElseThrow(() -> new BusinessException("&CNo suitable staff mode found. Can't enable staff mode"));
+
+       this.turnStaffModeOn(player, modeConfiguration);
+    }
+
+    public void turnStaffModeOn(Player player, GeneralModeConfiguration modeConfiguration) {
         UUID uuid = player.getUniqueId();
         PlayerSession session = sessionManager.get(uuid);
 
@@ -77,10 +90,6 @@ public class StaffModeService {
             ModeData modeData = new ModeData(player, session.getVanishType());
             modeDataRepository.saveModeData(modeData);
         }
-
-        GeneralModeConfiguration modeConfiguration = getModeConfig(player)
-            .orElseThrow(() -> new BusinessException("&CNo suitable staff mode found. Can't enable staff mode"));
-
         staffModeItemsService.setStaffModeItems(player, modeConfiguration);
 
         player.setAllowFlight(modeConfiguration.isModeFlight());
@@ -88,8 +97,10 @@ public class StaffModeService {
 
         runModeCommands(player, true, modeConfiguration);
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
+
         session.setInStaffMode(true);
         session.setModeConfiguration(modeConfiguration);
+        sessionLoader.saveSession(session);
         sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
         messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
@@ -107,7 +118,7 @@ public class StaffModeService {
         player.setAllowFlight(!player.getAllowFlight());
     }
 
-    public void removeMode(Player player) {
+    public void turnStaffModeOff(Player player) {
         PlayerSession session = sessionManager.get(player.getUniqueId());
 
         Optional<ModeData> existingModeData = modeDataRepository.retrieveModeData(player.getUniqueId());
@@ -165,10 +176,6 @@ public class StaffModeService {
     }
 
     public Optional<GeneralModeConfiguration> getModeConfig(Player player) {
-        return configurationMap.values().stream()
-            .sorted(Comparator.comparingInt(GeneralModeConfiguration::getWeight).reversed())
-            .filter(g -> permissionHandler.has(player, g.getPermission()))
-            .filter(g -> g.isModeValidInWorld(player.getWorld()))
-            .findFirst();
+        return modeProvider.calculateMode(player);
     }
 }
