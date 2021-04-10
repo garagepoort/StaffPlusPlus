@@ -42,7 +42,7 @@ public class Tasks extends BukkitRunnable {
         this.gadgetHandler = gadgetHandler;
         this.sessionLoader = sessionLoader;
 
-        freezeModeConfiguration = this.options.modeConfiguration.getFreezeModeConfiguration();
+        freezeModeConfiguration = this.options.staffItemsConfiguration.getFreezeModeConfiguration();
         saveInterval = 0;
         freezeInterval = 0;
         now = System.currentTimeMillis();

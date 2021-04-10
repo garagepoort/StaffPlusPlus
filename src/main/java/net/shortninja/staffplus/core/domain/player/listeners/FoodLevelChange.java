@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
@@ -15,11 +14,9 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 @IocBean
 public class FoodLevelChange implements Listener {
-    private final Options options;
     private final SessionManagerImpl sessionManager;
 
-    public FoodLevelChange(Options options, SessionManagerImpl sessionManager) {
-        this.options = options;
+    public FoodLevelChange(SessionManagerImpl sessionManager) {
         this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
@@ -33,7 +30,7 @@ public class FoodLevelChange implements Listener {
         }
 
         PlayerSession session = sessionManager.get(entity.getUniqueId());
-        if (options.modeConfiguration.isModeHungerLoss() || !session.isInStaffMode()) {
+        if (!session.isInStaffMode() || session.getModeConfiguration().get().isModeHungerLoss()) {
             return;
         }
 

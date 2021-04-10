@@ -6,12 +6,12 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.investigation.InvestigationsRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationConcludedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationPausedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -109,6 +109,17 @@ public class InvestigationService {
 
             investigationsRepository.updateInvestigation(investigation);
             sendEvent(new InvestigationPausedEvent(investigation));
+        });
+    }
+
+    public void tryPausingInvestigation(Player investigator) {
+        bukkitUtils.runTaskAsync(investigator, () -> {
+            investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
+                .ifPresent(investigation -> {
+                    investigation.setStatus(InvestigationStatus.PAUSED);
+                    investigationsRepository.updateInvestigation(investigation);
+                    sendEvent(new InvestigationPausedEvent(investigation));
+                });
         });
     }
 

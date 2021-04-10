@@ -1,0 +1,34 @@
+modes:
+    default:
+        block-manipulation: false
+        inventory-interaction: true
+        silent-chest-interaction: false
+        item-drop: false
+        item-pickup: false
+        vanish-type: TOTAL
+        invincible: true
+        damage: false
+        hunger-loss: false
+        flight: true
+        creative: false
+        original-location: false
+        enable-on-login: false
+        disable-on-logout: false
+        enable-commands:
+            -   command: 'example1 %player%'
+            -   command: 'example2 %player%'
+        disable-commands:
+            -   command: 'example1 %player%'
+            -   command: 'example2 %player%'
+        disable-on-world-change: false
+        staff-see-staff-in-mode: false
+        gui:
+            - compass-module:1
+            - random-teleport-module:2
+            - vanish-module:3
+            - gui-module:4
+            - counter-module:5
+            - freeze-module:6
+            - cps-module:7
+            - examine-module:8
+            - follow-module:9
