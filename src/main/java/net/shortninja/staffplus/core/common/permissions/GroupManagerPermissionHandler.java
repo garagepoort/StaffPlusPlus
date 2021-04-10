@@ -82,15 +82,6 @@ public class GroupManagerPermissionHandler implements PermissionHandler {
         return worldPermissions.has((Player) sender, permission) || isOp(sender);
     }
 
-    public boolean isOp(Player player) {
-        return player.isOp();
-    }
-
-    public boolean isOp(CommandSender sender) {
-        return sender.isOp();
-    }
-
-
     @Override
     public int getStaffCount() {
         int count = 0;
