@@ -36,7 +36,7 @@ public class FreezeHandler {
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
-        freezeModeConfiguration = options.modeConfiguration.getFreezeModeConfiguration();
+        freezeModeConfiguration = options.staffItemsConfiguration.getFreezeModeConfiguration();
 
         if (freezeModeConfiguration.isTitleMessageEnabled()) {
             Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {

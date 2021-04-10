@@ -20,6 +20,7 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
         boolean investigatedChatMessageEnabled = defaultConfig.getBoolean("investigations-module.notifications.investigated.chat-message-enabled");
         boolean allowOfflineInvestigation = defaultConfig.getBoolean("investigations-module.allow-offline-investigation");
         boolean automaticPause = defaultConfig.getBoolean("investigations-module.automatic-pause");
+        boolean enforceStaffMode = defaultConfig.getBoolean("investigations-module.enforce-staff-mode");
         int maxConcurrentInvestigation = defaultConfig.getInt("investigations-module.max-concurrent-investigations", -1);
         String investigatePermission = permissionsConfig.getString("permissions.investigations.manage.investigate");
         String viewPermission = permissionsConfig.getString("permissions.investigations.manage.view");
@@ -46,6 +47,7 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
         return new InvestigationConfiguration(enabled,
             allowOfflineInvestigation,
             automaticPause,
+            enforceStaffMode,
             maxConcurrentInvestigation,
             investigatePermission,
             startInvestigationCmd,

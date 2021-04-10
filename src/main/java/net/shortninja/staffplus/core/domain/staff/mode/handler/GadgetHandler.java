@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.player.gui.CounterGui;
 import net.shortninja.staffplus.core.domain.player.gui.hub.HubGui;
@@ -43,7 +44,6 @@ public class GadgetHandler {
     public GadgetHandler(IProtocolService protocolService, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
         this.protocolService = protocolService;
         this.permission = permission;
-
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -54,31 +54,31 @@ public class GadgetHandler {
     }
 
     public GadgetType getGadgetType(ItemStack item, String value) {
-        if (options.modeConfiguration.getCompassModeConfiguration().getIdentifier().equals(value)) {
+        if (options.staffItemsConfiguration.getCompassModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.COMPASS;
         }
-        if (options.modeConfiguration.getRandomTeleportModeConfiguration().getIdentifier().equals(value)) {
+        if (options.staffItemsConfiguration.getRandomTeleportModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.RANDOM_TELEPORT;
         }
-        if (options.modeConfiguration.getVanishModeConfiguration().getIdentifier().equals(value)) {
+        if (options.staffItemsConfiguration.getVanishModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.VANISH;
         }
-        if (options.modeConfiguration.getGuiModeConfiguration().getIdentifier().equals(value)) {
+        if (options.staffItemsConfiguration.getGuiModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.GUI_HUB;
         }
-        if (options.modeConfiguration.getCounterModeConfiguration().getIdentifier().equals(value)) {
+        if (options.staffItemsConfiguration.getCounterModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.COUNTER;
         }
-        if (options.modeConfiguration.getFreezeModeConfiguration().getIdentifier().equals(value)) {
+        if (options.staffItemsConfiguration.getFreezeModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.FREEZE;
         }
-        if (options.modeConfiguration.getCpsModeConfiguration().getIdentifier().equals(value)) {
+        if (options.staffItemsConfiguration.getCpsModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.CPS;
         }
-        if (options.modeConfiguration.getExamineModeConfiguration().getIdentifier().equals(value)) {
+        if (options.staffItemsConfiguration.getExamineModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.EXAMINE;
         }
-        if (options.modeConfiguration.getFollowModeConfiguration().getIdentifier().equals(value)) {
+        if (options.staffItemsConfiguration.getFollowModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.FOLLOW;
         }
 
@@ -97,7 +97,7 @@ public class GadgetHandler {
         Vector vector = player.getLocation().getDirection();
 
 
-        player.setVelocity(JavaUtils.makeVelocitySafe(vector.multiply(options.modeConfiguration.getCompassModeConfiguration().getVelocity())));
+        player.setVelocity(JavaUtils.makeVelocitySafe(vector.multiply(options.staffItemsConfiguration.getCompassModeConfiguration().getVelocity())));
     }
 
     public void onRandomTeleport(Player player) {
@@ -113,7 +113,7 @@ public class GadgetHandler {
         }
 
         Player currentPlayer = null;
-        if (options.modeConfiguration.getRandomTeleportModeConfiguration().isRandom()) {
+        if (options.staffItemsConfiguration.getRandomTeleportModeConfiguration().isRandom()) {
             Random random = new Random();
             currentPlayer = onlinePlayers.get(random.nextInt(onlinePlayers.size()));
         } else {
@@ -133,24 +133,25 @@ public class GadgetHandler {
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
         PlayerSession session = sessionManager.get(player.getUniqueId());
-        if (session.getVanishType() == options.modeConfiguration.getModeVanish()) {
+        GeneralModeConfiguration modeConfiguration = session.getModeConfiguration().get();
+        if (session.getVanishType() == modeConfiguration.getModeVanish()) {
             vanishServiceImpl.removeVanish(player);
         } else {
-            vanishServiceImpl.addVanish(player, options.modeConfiguration.getModeVanish());
+            vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
         }
 
         if (shouldUpdateItem && item != null) {
             player.getInventory().remove(item);
-            player.getInventory().setItem(slot, options.modeConfiguration.getVanishModeConfiguration().getModeVanishItem(session, options.modeConfiguration.getModeVanish()));
+            player.getInventory().setItem(slot, options.staffItemsConfiguration.getVanishModeConfiguration().getModeVanishItem(session, modeConfiguration.getModeVanish()));
         }
     }
 
     public void onGuiHub(Player player) {
-        new HubGui(player, options.modeConfiguration.getGuiModeConfiguration().getItem().getItemMeta().getDisplayName()).show(player);
+        new HubGui(player, options.staffItemsConfiguration.getGuiModeConfiguration().getItem().getItemMeta().getDisplayName()).show(player);
     }
 
     public void onCounter(Player player) {
-        new CounterGui(player, options.modeConfiguration.getCounterModeConfiguration().getTitle(), 0).show(player);
+        new CounterGui(player, options.staffItemsConfiguration.getCounterModeConfiguration().getTitle(), 0).show(player);
     }
 
     public void onCps(CommandSender sender, Player targetPlayer) {
@@ -166,7 +167,7 @@ public class GadgetHandler {
             return;
         }
 
-        new ExamineGui(player, targetPlayer, options.modeConfiguration.getExamineModeConfiguration().getModeExamineTitle()).show(player);
+        new ExamineGui(player, targetPlayer, options.staffItemsConfiguration.getExamineModeConfiguration().getModeExamineTitle()).show(player);
     }
 
     public void onFollow(Player player, Player targetPlayer) {
@@ -228,7 +229,7 @@ public class GadgetHandler {
                 }
 
                 if (getGadgetType(item, protocolService.getVersionProtocol().getNbtString(item)) == GadgetType.COUNTER) {
-                    item.setAmount(options.modeConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? modeUsers.size() : permission.getStaffCount());
+                    item.setAmount(options.staffItemsConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? modeUsers.size() : permission.getStaffCount());
                     break;
                 }
             }

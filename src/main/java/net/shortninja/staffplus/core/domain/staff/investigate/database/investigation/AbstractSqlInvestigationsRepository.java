@@ -59,6 +59,19 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     }
 
     @Override
+    public void pauseAllInvestigations() {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_investigations set status=? WHERE status=? AND server_name=?;")) {
+            insert.setString(1, InvestigationStatus.PAUSED.name());
+            insert.setString(2, InvestigationStatus.OPEN.name());
+            insert.setString(3, options.serverName);
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    @Override
     public Optional<Investigation> findInvestigation(int id) {
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE id = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {

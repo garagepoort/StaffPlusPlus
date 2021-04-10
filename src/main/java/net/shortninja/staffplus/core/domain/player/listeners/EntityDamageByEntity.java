@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceType;
 import net.shortninja.staffplus.core.session.PlayerSession;
@@ -22,12 +21,10 @@ import java.util.UUID;
 
 @IocBean
 public class EntityDamageByEntity implements Listener {
-    private final Options options;
     private final SessionManagerImpl sessionManager;
     private final TraceService traceService;
 
-    public EntityDamageByEntity(Options options, SessionManagerImpl sessionManager, TraceService traceService) {
-        this.options = options;
+    public EntityDamageByEntity(SessionManagerImpl sessionManager, TraceService traceService) {
         this.sessionManager = sessionManager;
         this.traceService = traceService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -42,7 +39,7 @@ public class EntityDamageByEntity implements Listener {
         if (damager.isPresent()) {
             UUID playerUuid = damager.get().getUniqueId();
             PlayerSession session = sessionManager.get(playerUuid);
-            if (session.isFrozen() || (!options.modeConfiguration.isModeDamage() && session.isInStaffMode())) {
+            if (session.isFrozen() || (session.isInStaffMode() && !session.getModeConfiguration().get().isModeDamage())) {
                 event.setCancelled(true);
                 return;
             }

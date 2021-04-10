@@ -31,10 +31,12 @@ public class PlayerMentionAlertHandler extends AlertsHandler implements Listener
 
         if (event.getMentionedPlayer().isOnline()) {
             PlayerSession session = sessionManager.get(event.getMentionedPlayer().getUniqueId());
-            Player mentionedPlayer = session.getPlayer().get();
-            if (session.shouldNotify(AlertType.MENTION) && permission.has(mentionedPlayer, alertsConfiguration.getPermissionMention())) {
-                messages.send(mentionedPlayer, messages.alertsMention.replace("%target%", event.getPlayer().getName()), messages.prefixGeneral, alertsConfiguration.getPermissionMention());
-                alertsConfiguration.getAlertsSound().ifPresent(s -> s.play(mentionedPlayer));
+            if (session.getPlayer().isPresent()) {
+                Player mentionedPlayer = session.getPlayer().get();
+                if (session.shouldNotify(AlertType.MENTION) && permission.has(mentionedPlayer, alertsConfiguration.getPermissionMention())) {
+                    messages.send(mentionedPlayer, messages.alertsMention.replace("%target%", event.getPlayer().getName()), messages.prefixGeneral, alertsConfiguration.getPermissionMention());
+                    alertsConfiguration.getAlertsSound().ifPresent(s -> s.play(mentionedPlayer));
+                }
             }
         }
 

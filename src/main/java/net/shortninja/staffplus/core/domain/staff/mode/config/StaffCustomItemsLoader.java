@@ -21,10 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @IocBean
-public class StaffModeCustomModulesLoader extends AbstractConfigLoader<List<CustomModuleConfiguration>> {
+public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModuleConfiguration>> {
+    private static final String CUSTOM_MODULES = "custom-modules.";
     private final IProtocolService protocolService;
 
-    public StaffModeCustomModulesLoader(IProtocolService protocolService) {
+    public StaffCustomItemsLoader(IProtocolService protocolService) {
         this.protocolService = protocolService;
     }
 
@@ -41,26 +42,25 @@ public class StaffModeCustomModulesLoader extends AbstractConfigLoader<List<Cust
         }
 
         for (String identifier : config.getConfigurationSection("custom-modules").getKeys(false)) {
-            boolean enabled = config.getBoolean("custom-modules." + identifier + ".enabled");
+            boolean enabled = config.getBoolean(CUSTOM_MODULES + identifier + ".enabled");
             if (!enabled) {
                 continue;
             }
 
-            CustomModuleConfiguration.ModuleType moduleType = stringToModuleType(sanitize(config.getString("custom-modules." + identifier + ".type")));
-            int slot = config.getInt("custom-modules." + identifier + ".slot") - 1;
-            Material type = Options.stringToMaterial(sanitize(config.getString("custom-modules." + identifier + ".item")));
-            short data = getMaterialData(config.getString("custom-modules." + identifier + ".item"));
-            String name = config.getString("custom-modules." + identifier + ".name");
+            CustomModuleConfiguration.ModuleType moduleType = stringToModuleType(sanitize(config.getString(CUSTOM_MODULES + identifier + ".type")));
+            Material type = Options.stringToMaterial(sanitize(config.getString(CUSTOM_MODULES + identifier + ".item")));
+            short data = getMaterialData(config.getString(CUSTOM_MODULES + identifier + ".item"));
+            String name = config.getString(CUSTOM_MODULES + identifier + ".name");
 
             ConfirmationConfig confirmationConfig = getConfirmationConfig(config, identifier);
 
-            List<String> lore = JavaUtils.stringToList(config.getString("custom-modules." + identifier + ".lore"));
+            List<String> lore = JavaUtils.stringToList(config.getString(CUSTOM_MODULES + identifier + ".lore"));
             ItemStack item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
             String action = "";
 
 
-            if (!config.getString("custom-modules." + identifier + ".enchantment", "").equalsIgnoreCase("")) {
-                String enchantInfo = config.getString("custom-modules." + identifier + ".enchantment");
+            if (!config.getString(CUSTOM_MODULES + identifier + ".enchantment", "").equalsIgnoreCase("")) {
+                String enchantInfo = config.getString(CUSTOM_MODULES + identifier + ".enchantment");
                 String[] enchantInfoParts = enchantInfo.split(":");
                 Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantInfoParts[0]));
                 if (enchantment == null) {
@@ -69,27 +69,26 @@ public class StaffModeCustomModulesLoader extends AbstractConfigLoader<List<Cust
                 int level = Integer.parseInt(enchantInfoParts[1]);
                 item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore)
                     .addEnchantment(enchantment, level).build();
-            } else
-                item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
+            }
 
 
             if (moduleType != CustomModuleConfiguration.ModuleType.ITEM) {
-                action = config.getString("custom-modules." + identifier + ".command");
+                action = config.getString(CUSTOM_MODULES + identifier + ".command");
             }
 
-            boolean requireInput = config.getBoolean("custom-modules." + identifier + ".require-input", false);
-            String inputPrompt = config.getString("custom-modules." + identifier + ".input-prompt", null);
+            boolean requireInput = config.getBoolean(CUSTOM_MODULES + identifier + ".require-input", false);
+            String inputPrompt = config.getString(CUSTOM_MODULES + identifier + ".input-prompt", null);
             item = protocolService.getVersionProtocol().addNbtString(item, identifier);
-            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, slot, item, action, confirmationConfig, requireInput, inputPrompt));
+            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, item, action, confirmationConfig, requireInput, inputPrompt));
         }
         return customModuleConfigurations;
     }
 
     private ConfirmationConfig getConfirmationConfig(FileConfiguration config, String identifier) {
         ConfirmationConfig confirmationConfig = null;
-        ConfirmationType confirmationType = config.getString("custom-modules." + identifier + ".confirmation", null) == null ? null : ConfirmationType.valueOf(config.getString("custom-modules." + identifier + ".confirmation"));
+        ConfirmationType confirmationType = config.getString(CUSTOM_MODULES + identifier + ".confirmation", null) == null ? null : ConfirmationType.valueOf(config.getString(CUSTOM_MODULES + identifier + ".confirmation"));
         if (confirmationType != null) {
-            String confirmationMessage = config.getString("custom-modules." + identifier + ".confirmation-message", null);
+            String confirmationMessage = config.getString(CUSTOM_MODULES + identifier + ".confirmation-message", null);
             confirmationConfig = new ConfirmationConfig(confirmationType, confirmationMessage);
         }
         return confirmationConfig;

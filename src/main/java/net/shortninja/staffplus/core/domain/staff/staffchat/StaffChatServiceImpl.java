@@ -67,10 +67,6 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
 
     @Override
     public void sendMessage(String message) {
-        if (!messages.prefixStaffChat.isEmpty()) {
-            message = messages.prefixStaffChat + " " + message;
-        }
-
         sendMessageToStaff(message);
     }
 
