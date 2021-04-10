@@ -70,14 +70,6 @@ public class DefaultPermissionHandler implements PermissionHandler {
         return sender.hasPermission(permission) || isOp(sender);
     }
 
-    public boolean isOp(Player player) {
-        return player.isOp();
-    }
-
-    public boolean isOp(CommandSender sender) {
-        return sender.isOp();
-    }
-
     public int getStaffCount() {
         int count = 0;
 

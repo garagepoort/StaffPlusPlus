@@ -33,7 +33,7 @@ public class PlayerWorldChange implements Listener {
         World currentWorld = event.getPlayer().getWorld();
 
         if (session.isInStaffMode() && (session.getModeConfiguration().get().isDisableOnWorldChange() || !session.getModeConfiguration().get().isModeValidInWorld(currentWorld))) {
-            staffModeService.removeMode(event.getPlayer());
+            staffModeService.turnStaffModeOff(event.getPlayer());
         }
         traceService.sendTraceMessage(WORLD_CHANGE, event.getPlayer().getUniqueId(), String.format("World changed from [%s] to [%s]", event.getFrom().getName(), currentWorld.getName()));
     }
