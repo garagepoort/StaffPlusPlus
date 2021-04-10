@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.mode.config;
 
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 import net.shortninja.staffplusplus.vanish.VanishType;
+import org.bukkit.World;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ public class GeneralModeConfiguration {
     private boolean modeEnableOnLogin;
     private boolean modeDisableOnLogout;
     private Map<String, Integer> itemSlots;
+
+    private List<String> validWorlds;
 
 
     public GeneralModeConfiguration() {
@@ -191,5 +194,16 @@ public class GeneralModeConfiguration {
 
     public void setItemSlots(Map<String, Integer> itemSlots) {
         this.itemSlots = itemSlots;
+    }
+
+    public void setValidWorlds(List<String> validWorlds) {
+        this.validWorlds = validWorlds;
+    }
+
+    public boolean isModeValidInWorld(World world) {
+        if(validWorlds == null) {
+            return true;
+        }
+        return validWorlds.contains(world.getName());
     }
 }
