@@ -4,16 +4,18 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.domain.actions.*;
+import net.shortninja.staffplus.core.domain.actions.ActionFilter;
+import net.shortninja.staffplus.core.domain.actions.ActionService;
+import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.actions.PermissionActionFilter;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplusplus.vanish.VanishType;
@@ -76,7 +78,9 @@ public class StaffModeService {
             modeDataRepository.saveModeData(modeData);
         }
 
-        GeneralModeConfiguration modeConfiguration = getModeConfig(player);
+        GeneralModeConfiguration modeConfiguration = getModeConfig(player)
+            .orElseThrow(() -> new BusinessException("&CNo suitable staff mode found. Can't enable staff mode"));
+
         staffModeItemsService.setStaffModeItems(player, modeConfiguration);
 
         player.setAllowFlight(modeConfiguration.isModeFlight());
@@ -160,11 +164,11 @@ public class StaffModeService {
         return itemStacks.toArray(new ItemStack[]{});
     }
 
-    public GeneralModeConfiguration getModeConfig(Player player) {
+    public Optional<GeneralModeConfiguration> getModeConfig(Player player) {
         return configurationMap.values().stream()
             .sorted(Comparator.comparingInt(GeneralModeConfiguration::getWeight).reversed())
             .filter(g -> permissionHandler.has(player, g.getPermission()))
-            .findFirst()
-            .orElseThrow(() -> new BusinessException("No suitable staff mode found for this player. Does he have the correct permissions?"));
+            .filter(g -> g.isModeValidInWorld(player.getWorld()))
+            .findFirst();
     }
 }
