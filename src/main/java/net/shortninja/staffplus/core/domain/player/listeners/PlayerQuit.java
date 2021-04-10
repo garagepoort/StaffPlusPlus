@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
@@ -52,12 +51,12 @@ public class PlayerQuit implements Listener {
             event.setQuitMessage("");
         }
 
-        if(options.modeConfiguration.isModeDisableOnLogout() && session.isInStaffMode()) {
+        if(session.isInStaffMode() && session.getModeConfiguration().get().isModeDisableOnLogout()) {
             staffModeService.removeMode(player);
         }
 
         if (session.isFrozen()) {
-            for (String command : options.modeConfiguration.getFreezeModeConfiguration().getLogoutCommands()) {
+            for (String command : options.staffItemsConfiguration.getFreezeModeConfiguration().getLogoutCommands()) {
                 command = command.replace("%player%", player.getName());
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
             }

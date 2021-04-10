@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.session;
 
 import net.shortninja.staffplus.core.common.gui.IGui;
 import net.shortninja.staffplus.core.domain.chat.ChatAction;
+import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.session.IPlayerSession;
 import net.shortninja.staffplusplus.vanish.VanishType;
@@ -29,6 +30,7 @@ public class PlayerSession implements IPlayerSession {
     private boolean muted = false;
     private boolean inStaffMode = false;
     private boolean staffChatMuted = false;
+    private GeneralModeConfiguration modeConfiguration = null;
 
     public PlayerSession(UUID uuid, String name, boolean muted) {
         this.uuid = uuid;
@@ -92,6 +94,14 @@ public class PlayerSession implements IPlayerSession {
 
     public void setInStaffMode(boolean inStaffMode) {
         this.inStaffMode = inStaffMode;
+    }
+
+    public void setModeConfiguration(GeneralModeConfiguration generalModeConfiguration) {
+        this.modeConfiguration = generalModeConfiguration;
+    }
+
+    public Optional<GeneralModeConfiguration> getModeConfiguration() {
+        return Optional.ofNullable(modeConfiguration);
     }
 
     @Override

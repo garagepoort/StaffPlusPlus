@@ -1,5 +1,14 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.57
+
+# Features
+- Added support for multiple staffmodes
+
+# bugs
+- Fix synchronisation on namechange of player
+
+
 ### V1.16.55
 
 # Features

@@ -28,4 +28,6 @@ public interface InvestigationsRepository {
     List<Investigation> getInvestigationsForInvestigated(UUID id, int offset, int amount);
 
     Optional<Investigation> findInvestigation(int investigationId);
+
+    void pauseAllInvestigations();
 }

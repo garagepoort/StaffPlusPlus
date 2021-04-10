@@ -36,7 +36,7 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
 
         this.options = options;
         this.sessionManager = sessionManager;
-        examineModeConfiguration = this.options.modeConfiguration.getExamineModeConfiguration();
+        examineModeConfiguration = this.options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override

@@ -26,7 +26,7 @@ public class FreezeChatInterceptor implements ChatInterceptor {
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
-        if (freezeHandler.isFrozen(event.getPlayer().getUniqueId()) && !options.modeConfiguration.getFreezeModeConfiguration().isModeFreezeChat()) {
+        if (freezeHandler.isFrozen(event.getPlayer().getUniqueId()) && !options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezeChat()) {
             this.messages.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }

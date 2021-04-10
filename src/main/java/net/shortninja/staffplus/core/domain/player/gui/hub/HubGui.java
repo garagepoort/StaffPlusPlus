@@ -55,7 +55,7 @@ public class HubGui extends AbstractGui {
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
         myAssignedReportsGui = options.reportConfiguration.getMyReportsGui();
         assignedReportsGui = options.reportConfiguration.getAssignedReportsGui();
-        guiModeConfiguration = options.modeConfiguration.getGuiModeConfiguration();
+        guiModeConfiguration = options.staffItemsConfiguration.getGuiModeConfiguration();
     }
 
     @Override
