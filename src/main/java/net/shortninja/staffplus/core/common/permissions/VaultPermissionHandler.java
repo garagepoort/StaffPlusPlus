@@ -80,15 +80,6 @@ public class VaultPermissionHandler implements PermissionHandler {
         return perms.has(sender, permission) || isOp(sender);
     }
 
-    public boolean isOp(Player player) {
-        return player.isOp();
-    }
-
-    public boolean isOp(CommandSender sender) {
-        return sender.isOp();
-    }
-
-
     @Override
     public int getStaffCount() {
         int count = 0;

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.common.utils;
 
+import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -21,9 +22,15 @@ public interface PermissionHandler {
 
     boolean has(CommandSender sender, String permission);
 
-    boolean isOp(Player player);
-
-    boolean isOp(CommandSender sender);
+    default boolean isOp(CommandSender sender) {
+        return sender.isOp();
+    }
 
     int getStaffCount();
+
+    default void validateOp(CommandSender sender) {
+        if(!sender.isOp()) {
+            throw new NoPermissionException();
+        }
+    }
 }
