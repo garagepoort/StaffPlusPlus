@@ -28,9 +28,7 @@ import net.shortninja.staffplus.core.domain.staff.investigate.config.Investigati
 import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.StaffModeCustomModulesLoader;
-import net.shortninja.staffplus.core.domain.staff.mode.config.StaffModeModuleLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.*;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteModuleLoader;
@@ -97,10 +95,11 @@ public class Options {
     public StaffChatConfiguration staffChatConfiguration;
     public ExamineConfiguration examineConfiguration;
     public EnderchestsConfiguration enderchestsConfiguration;
-    public GeneralModeConfiguration modeConfiguration;
+    public Map<String, GeneralModeConfiguration> modeConfigurations;
     public ServerSyncConfiguration serverSyncConfiguration;
     public AlertsConfiguration alertsConfiguration;
     public ChatConfiguration chatConfiguration;
+    public StaffItemsConfiguration staffItemsConfiguration;
 
     /*
      * Vanish
@@ -218,12 +217,13 @@ public class Options {
     private final StaffChatModuleLoader staffChatModuleLoader;
     private final ExamineModuleLoader examineModuleLoader;
     private final EnderchestsModuleLoader enderchestsModuleLoader;
-    private final StaffModeModuleLoader staffModeModuleLoader;
+    private final StaffModesLoader staffModesLoader;
     private final ServerSyncModuleLoader serverSyncModuleLoader;
     private final AlertsModuleLoader alertsModuleLoader;
     private final ChatModuleLoader chatModuleLoader;
     private final InvestigationModuleLoader investigationModuleLoader;
-    private final StaffModeCustomModulesLoader staffModeCustomModulesLoader;
+    private final StaffCustomItemsLoader staffCustomItemsLoader;
+    private final StaffItemsLoader staffItemsLoader;
 
     public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
                    InfractionsModuleLoader infractionsModuleLoader,
@@ -243,12 +243,13 @@ public class Options {
                    StaffChatModuleLoader staffChatModuleLoader,
                    ExamineModuleLoader examineModuleLoader,
                    EnderchestsModuleLoader enderchestsModuleLoader,
-                   StaffModeModuleLoader staffModeModuleLoader,
+                   StaffModesLoader staffModesLoader,
                    ServerSyncModuleLoader serverSyncModuleLoader,
                    AlertsModuleLoader alertsModuleLoader,
                    ChatModuleLoader chatModuleLoader,
                    InvestigationModuleLoader investigationModuleLoader,
-                   StaffModeCustomModulesLoader staffModeCustomModulesLoader) {
+                   StaffCustomItemsLoader staffCustomItemsLoader,
+                   StaffItemsLoader staffItemsLoader) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
         this.reportingModuleLoader = reportingModuleLoader;
@@ -267,12 +268,13 @@ public class Options {
         this.staffChatModuleLoader = staffChatModuleLoader;
         this.examineModuleLoader = examineModuleLoader;
         this.enderchestsModuleLoader = enderchestsModuleLoader;
-        this.staffModeModuleLoader = staffModeModuleLoader;
+        this.staffModesLoader = staffModesLoader;
         this.serverSyncModuleLoader = serverSyncModuleLoader;
         this.alertsModuleLoader = alertsModuleLoader;
         this.chatModuleLoader = chatModuleLoader;
         this.investigationModuleLoader = investigationModuleLoader;
-        this.staffModeCustomModulesLoader = staffModeCustomModulesLoader;
+        this.staffCustomItemsLoader = staffCustomItemsLoader;
+        this.staffItemsLoader = staffItemsLoader;
         reload();
     }
 
@@ -312,12 +314,13 @@ public class Options {
         staffChatConfiguration = this.staffChatModuleLoader.loadConfig();
         examineConfiguration = this.examineModuleLoader.loadConfig();
         enderchestsConfiguration = this.enderchestsModuleLoader.loadConfig();
-        modeConfiguration = this.staffModeModuleLoader.loadConfig();
+        modeConfigurations = this.staffModesLoader.loadConfig();
         serverSyncConfiguration = this.serverSyncModuleLoader.loadConfig();
         alertsConfiguration = this.alertsModuleLoader.loadConfig();
         chatConfiguration = this.chatModuleLoader.loadConfig();
         investigationConfiguration = this.investigationModuleLoader.loadConfig();
-        customModuleConfigurations = this.staffModeCustomModulesLoader.loadConfig();
+        customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();
+        staffItemsConfiguration = this.staffItemsLoader.loadConfig();
 
         /*
          * Vanish

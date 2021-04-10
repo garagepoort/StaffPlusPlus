@@ -18,7 +18,7 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
     private boolean requireInput;
     private String inputPrompt;
 
-    public CustomModuleConfiguration(boolean enabled, String identifier, ModuleType moduleType, int slot, ItemStack item, String action, ConfirmationConfig confirmationConfig, boolean requireInput, String inputPrompt) {
+    public CustomModuleConfiguration(boolean enabled, String identifier, ModuleType moduleType, ItemStack item, String action, ConfirmationConfig confirmationConfig, boolean requireInput, String inputPrompt) {
         super(identifier);
         this.confirmationConfig = confirmationConfig;
         this.requireInput = requireInput;
@@ -28,7 +28,6 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
         this.enchantment = "";
         this.level = 0;
         setEnabled(enabled);
-        setSlot(slot);
         setItem(item);
     }
 

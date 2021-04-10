@@ -41,7 +41,7 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
         this.options = options;
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
-        examineModeConfiguration = this.options.modeConfiguration.getExamineModeConfiguration();
+        examineModeConfiguration = this.options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override

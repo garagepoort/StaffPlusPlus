@@ -9,10 +9,9 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.domain.confirmation.ConfirmationChatService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,13 +24,11 @@ import java.util.stream.Collectors;
 public class StartInvestigationCmd extends AbstractCmd {
 
     private final InvestigationService investigationService;
-    private final ConfirmationChatService confirmationChatService;
     private final PlayerManager playerManager;
 
-    public StartInvestigationCmd(Messages messages, Options options, CommandService commandService, InvestigationService investigationService, ConfirmationChatService confirmationChatService, PlayerManager playerManager) {
+    public StartInvestigationCmd(Messages messages, Options options, CommandService commandService, InvestigationService investigationService, PlayerManager playerManager) {
         super(options.investigationConfiguration.getStartInvestigationCmd(), messages, options, commandService);
         this.investigationService = investigationService;
-        this.confirmationChatService = confirmationChatService;
         this.playerManager = playerManager;
         setDescription("Start investigating a player");
         setUsage("[playername]");

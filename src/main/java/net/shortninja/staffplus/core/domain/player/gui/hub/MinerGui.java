@@ -55,7 +55,7 @@ public class MinerGui extends PagedGui {
     @Override
     public List<ItemStack> getItems(Player player, SppPlayer target, int offset, int amount) {
         return StaffPlus.get().getIocContainer().get(PlayerManager.class).getOnlinePlayers().stream()
-            .filter(p -> p.getLocation().getBlockY() < StaffPlus.get().getIocContainer().get(Options.class).modeConfiguration.getGuiModeConfiguration().modeGuiMinerLevel)
+            .filter(p -> p.getLocation().getBlockY() < StaffPlus.get().getIocContainer().get(Options.class).staffItemsConfiguration.getGuiModeConfiguration().modeGuiMinerLevel)
             .map(this::minerItem)
             .collect(Collectors.toList());
     }
