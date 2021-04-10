@@ -28,7 +28,7 @@ public class IpExamineGuiProvider implements ExamineGuiItemProvider {
         this.messages = messages;
         this.options = options;
         this.permissionHandler = permissionHandler;
-        examineModeConfiguration = this.options.modeConfiguration.getExamineModeConfiguration();
+        examineModeConfiguration = this.options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override
