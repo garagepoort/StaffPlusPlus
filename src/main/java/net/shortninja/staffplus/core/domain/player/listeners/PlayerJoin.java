@@ -12,6 +12,7 @@ import net.shortninja.staffplus.core.domain.delayedactions.Executor;
 import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
+import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionLoader;
@@ -26,6 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @IocBean
@@ -64,12 +66,14 @@ public class PlayerJoin implements Listener {
         vanishServiceImpl.updateVanish();
 
         PlayerSession session = sessionManager.get(player.getUniqueId());
-        if (permission.has(player, options.permissionMode) && (staffModeService.getModeConfig(player).isModeEnableOnLogin() || session.isInStaffMode())) {
+
+        Optional<GeneralModeConfiguration> modeConfig = staffModeService.getModeConfig(player);
+        if (!session.isInStaffMode() || !modeConfig.isPresent()) {
+            staffModeService.removeMode(player);
+        } else if (permission.has(player, options.permissionMode) && (modeConfig.get().isModeEnableOnLogin() || session.isInStaffMode())) {
             staffModeService.addMode(player);
         }
-        if (!session.isInStaffMode()) {
-            staffModeService.removeMode(player);
-        }
+
         if (session.isVanished()) {
             event.setJoinMessage("");
         }
