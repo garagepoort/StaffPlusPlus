@@ -37,58 +37,61 @@ public class StaffModesLoader extends AbstractConfigLoader<Map<String, GeneralMo
     }
 
     private void enhanceMode(GeneralModeConfiguration modeConfig, ConfigurationSection configurationSection) {
-        if(configurationSection.contains("vanish-type")) {
+        if (configurationSection.contains("allowed-worlds")) {
+            modeConfig.setValidWorlds(configurationSection.getStringList("allowed-worlds"));
+        }
+        if (configurationSection.contains("vanish-type")) {
             modeConfig.setModeVanish(stringToVanishType(configurationSection.getString("vanish-type")));
         }
-        if(configurationSection.contains("item-drop")) {
+        if (configurationSection.contains("item-drop")) {
             modeConfig.setModeItemDrop(configurationSection.getBoolean("item-drop"));
         }
-        if(configurationSection.contains("item-pickup")) {
+        if (configurationSection.contains("item-pickup")) {
             modeConfig.setModeItemPickup(configurationSection.getBoolean("item-pickup"));
         }
-        if(configurationSection.contains("damage")) {
+        if (configurationSection.contains("damage")) {
             modeConfig.setModeDamage(configurationSection.getBoolean("damage"));
         }
-        if(configurationSection.contains("hunger-loss")) {
+        if (configurationSection.contains("hunger-loss")) {
             modeConfig.setModeHungerLoss(configurationSection.getBoolean("hunger-loss"));
         }
-        if(configurationSection.contains("enable-commands")) {
+        if (configurationSection.contains("enable-commands")) {
             modeConfig.setModeEnableCommands(ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) configurationSection.getList("enable-commands", new ArrayList<>())));
         }
-        if(configurationSection.contains("disable-commands")) {
+        if (configurationSection.contains("disable-commands")) {
             modeConfig.setModeDisableCommands(ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) configurationSection.getList("disable-commands", new ArrayList<>())));
         }
-        if(configurationSection.contains("disable-on-world-change")) {
+        if (configurationSection.contains("disable-on-world-change")) {
             modeConfig.setDisableOnWorldChange(configurationSection.getBoolean("disable-on-world-change"));
         }
-        if(configurationSection.contains("block-manipulation")) {
+        if (configurationSection.contains("block-manipulation")) {
             modeConfig.setModeBlockManipulation(configurationSection.getBoolean("block-manipulation"));
         }
-        if(configurationSection.contains("inventory-interaction")) {
+        if (configurationSection.contains("inventory-interaction")) {
             modeConfig.setModeInventoryInteraction(configurationSection.getBoolean("inventory-interaction"));
         }
-        if(configurationSection.contains("silent-chest-interaction")) {
+        if (configurationSection.contains("silent-chest-interaction")) {
             modeConfig.setModeSilentChestInteraction(configurationSection.getBoolean("silent-chest-interaction"));
         }
-        if(configurationSection.contains("invincible")) {
+        if (configurationSection.contains("invincible")) {
             modeConfig.setModeInvincible(configurationSection.getBoolean("invincible"));
         }
-        if(configurationSection.contains("flight")) {
+        if (configurationSection.contains("flight")) {
             modeConfig.setModeFlight(configurationSection.getBoolean("flight"));
         }
-        if(configurationSection.contains("creative")) {
+        if (configurationSection.contains("creative")) {
             modeConfig.setModeCreative(configurationSection.getBoolean("creative"));
         }
-        if(configurationSection.contains("original-location")) {
+        if (configurationSection.contains("original-location")) {
             modeConfig.setModeOriginalLocation(configurationSection.getBoolean("original-location"));
         }
-        if(configurationSection.contains("enable-on-login")) {
+        if (configurationSection.contains("enable-on-login")) {
             modeConfig.setModeEnableOnLogin(configurationSection.getBoolean("enable-on-login"));
         }
-        if(configurationSection.contains("disable-on-logout")) {
+        if (configurationSection.contains("disable-on-logout")) {
             modeConfig.setModeDisableOnLogout(configurationSection.getBoolean("disable-on-logout"));
         }
-        if(configurationSection.contains("gui")) {
+        if (configurationSection.contains("gui")) {
             modeConfig.setItemSlots(getItemSlots(configurationSection.getList("gui", new ArrayList<>())));
         }
     }
