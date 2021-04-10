@@ -69,9 +69,9 @@ public class PlayerJoin implements Listener {
 
         Optional<GeneralModeConfiguration> modeConfig = staffModeService.getModeConfig(player);
         if (!session.isInStaffMode() || !modeConfig.isPresent()) {
-            staffModeService.removeMode(player);
+            staffModeService.turnStaffModeOff(player);
         } else if (permission.has(player, options.permissionMode) && (modeConfig.get().isModeEnableOnLogin() || session.isInStaffMode())) {
-            staffModeService.addMode(player);
+            staffModeService.turnStaffModeOn(player);
         }
 
         if (session.isVanished()) {

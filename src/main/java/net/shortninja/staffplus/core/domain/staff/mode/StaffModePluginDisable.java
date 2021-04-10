@@ -24,6 +24,6 @@ public class StaffModePluginDisable implements PluginDisable {
             .filter(p -> p.isInStaffMode() && p.getPlayer().isPresent())
             .filter(p -> p.getModeConfiguration().get().isModeDisableOnLogout())
             .map(p -> p.getPlayer().get())
-            .forEach(staffModeService::removeMode);
+            .forEach(staffModeService::turnStaffModeOff);
     }
 }
