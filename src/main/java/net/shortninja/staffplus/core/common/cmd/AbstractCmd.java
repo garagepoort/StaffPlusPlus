@@ -29,6 +29,11 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         this.commandService = commandService;
     }
 
+    protected void validatePlayer(CommandSender sender) {
+        if (!(sender instanceof Player)) {
+            throw new BusinessException(messages.onlyPlayers);
+        }
+    }
 
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
