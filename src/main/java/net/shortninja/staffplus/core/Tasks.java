@@ -8,13 +8,10 @@ import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionLoader;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-//TODO: Remove debug.
 
 @IocBean
 public class Tasks extends BukkitRunnable {
@@ -30,9 +27,8 @@ public class Tasks extends BukkitRunnable {
     private int freezeInterval;
     private long now;
     private long later;
-    private SessionLoader sessionLoader;
 
-    public Tasks(PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler, SessionLoader sessionLoader) {
+    public Tasks(PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler) {
         this.permission = permission;
 
         this.options = options;
@@ -40,7 +36,6 @@ public class Tasks extends BukkitRunnable {
         this.sessionManager = sessionManager;
         this.freezeHandler = freezeHandler;
         this.gadgetHandler = gadgetHandler;
-        this.sessionLoader = sessionLoader;
 
         freezeModeConfiguration = this.options.staffItemsConfiguration.getFreezeModeConfiguration();
         saveInterval = 0;
@@ -64,12 +59,6 @@ public class Tasks extends BukkitRunnable {
             saveInterval += addition;
             freezeInterval += addition;
             now = System.currentTimeMillis();
-        }
-
-        if (saveInterval >= options.autoSave && saveInterval > 0) {
-            sessionManager.getAll().forEach(sessionLoader::saveSessionSynchronous);
-            StaffPlus.get().getLogger().info("Staff++ is now auto saving...");
-            saveInterval = 0;
         }
 
         if (freezeInterval >= freezeModeConfiguration.getModeFreezeTimer() && freezeInterval > 0) {

@@ -45,7 +45,6 @@ public class PlayerQuit implements Listener {
 
         Player player = event.getPlayer();
         PlayerSession session = sessionManager.get(player.getUniqueId());
-        manageUser(player);
 
         if(session.isVanished()) {
             event.setQuitMessage("");
@@ -65,6 +64,7 @@ public class PlayerQuit implements Listener {
         traceService.sendTraceMessage(player.getUniqueId(), "Left the game");
         traceService.stopAllTracesForPlayer(player.getUniqueId());
         xrayService.clearTrace(player);
+        manageUser(player);
     }
 
     private void manageUser(Player player) {
@@ -72,6 +72,5 @@ public class PlayerQuit implements Listener {
         if (session.isFrozen()) {
             messages.sendGroupMessage(messages.freezeLogout.replace("%player%", player.getName()), options.permissionFreeze, messages.prefixGeneral);
         }
-        sessionManager.unload(player.getUniqueId());
     }
 }
