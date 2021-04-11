@@ -49,4 +49,8 @@ public class SessionManagerImpl  implements SessionManager {
         sessionLoader.saveSession(playerSessions.get(uniqueId));
         playerSessions.remove(uniqueId);
     }
+
+    public void saveAll() {
+        sessionLoader.saveSessions(playerSessions.values());
+    }
 }
