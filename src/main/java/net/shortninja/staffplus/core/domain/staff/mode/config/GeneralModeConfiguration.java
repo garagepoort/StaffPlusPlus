@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class GeneralModeConfiguration {
 
+    private String name;
     private String permission;
     private int weight;
     private VanishType modeVanish;
@@ -205,5 +206,13 @@ public class GeneralModeConfiguration {
             return true;
         }
         return validWorlds.contains(world.getName());
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

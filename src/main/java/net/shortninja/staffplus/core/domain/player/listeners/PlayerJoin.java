@@ -66,12 +66,12 @@ public class PlayerJoin implements Listener {
         vanishServiceImpl.updateVanish();
 
         PlayerSession session = sessionManager.get(player.getUniqueId());
-
-        Optional<GeneralModeConfiguration> modeConfig = staffModeService.getModeConfig(player);
-        if (!session.isInStaffMode() || !modeConfig.isPresent()) {
+        Optional<GeneralModeConfiguration> defaultMode = staffModeService.getModeConfig(player);
+        Optional<GeneralModeConfiguration> modeConfiguration = session.getModeConfiguration().isPresent() ? session.getModeConfiguration() : defaultMode;
+        if (session.isInStaffMode() && modeConfiguration.isPresent() && permission.has(player, options.permissionMode)) {
+            staffModeService.turnStaffModeOn(player, modeConfiguration.get());
+        } else {
             staffModeService.turnStaffModeOff(player);
-        } else if (permission.has(player, options.permissionMode) && (modeConfig.get().isModeEnableOnLogin() || session.isInStaffMode())) {
-            staffModeService.turnStaffModeOn(player);
         }
 
         if (session.isVanished()) {

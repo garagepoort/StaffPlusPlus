@@ -19,6 +19,7 @@ public class StaffModesLoader extends AbstractConfigLoader<Map<String, GeneralMo
         ConfigurationSection modes = staffModeModesConfig.getConfigurationSection("modes");
         for (String key : modes.getKeys(false)) {
             GeneralModeConfiguration modeConfiguration = new GeneralModeConfiguration();
+            modeConfiguration.setName(key);
             modeConfiguration.setWeight(modes.getInt(key + ".weight"));
             modeConfiguration.setPermission(modes.getString(key + ".permission"));
             parseMode(modeConfiguration, modes, key);

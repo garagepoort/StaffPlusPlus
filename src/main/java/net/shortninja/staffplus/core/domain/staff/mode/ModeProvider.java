@@ -38,6 +38,14 @@ public class ModeProvider {
         return modeConfiguration;
     }
 
+    public Optional<GeneralModeConfiguration> findMode(Player player, String modeName) {
+        return modeConfigurations.values().stream()
+            .filter(m -> m.getName().equals(modeName))
+            .filter(g -> permissionHandler.has(player, g.getPermission()))
+            .filter(g -> g.isModeValidInWorld(player.getWorld()))
+            .findFirst();
+    }
+
     public Optional<GeneralModeConfiguration> calculateMode(Player player) {
         return modeConfigurations.values().stream()
             .sorted(Comparator.comparingInt(GeneralModeConfiguration::getWeight).reversed())

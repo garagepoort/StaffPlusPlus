@@ -4,10 +4,7 @@ import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplusplus.vanish.VanishType;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,11 +23,16 @@ public abstract class AbstractSqlSessionsRepository implements SessionsRepositor
     @Override
     public void update(SessionEntity sessionEntity) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_sessions set vanish_type=?, in_staff_mode=?, staff_chat_muted=? WHERE ID=?")) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_sessions set vanish_type=?, in_staff_mode=?, staff_chat_muted=? , staff_mode_name=? WHERE ID=?")) {
             insert.setString(1, sessionEntity.getVanishType().toString());
             insert.setBoolean(2, sessionEntity.getStaffMode());
             insert.setBoolean(3, sessionEntity.isStaffChatMuted());
-            insert.setInt(4, sessionEntity.getId());
+            if (sessionEntity.getStaffModeName() == null) {
+                insert.setNull(4, Types.VARCHAR);
+            } else {
+                insert.setString(4, sessionEntity.getStaffModeName());
+            }
+            insert.setInt(5, sessionEntity.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -60,12 +62,13 @@ public abstract class AbstractSqlSessionsRepository implements SessionsRepositor
         VanishType vanishType = VanishType.valueOf(rs.getString("vanish_type"));
         boolean inStaffMode = rs.getBoolean("in_staff_mode");
         boolean staffChatMuted = rs.getBoolean("staff_chat_muted");
+        String staffModeName = rs.getString("staff_mode_name");
         return new SessionEntity(
             id,
             playerUuid,
             vanishType,
             inStaffMode,
-            staffChatMuted);
+            staffChatMuted, staffModeName);
     }
 
 }
