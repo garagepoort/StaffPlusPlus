@@ -20,7 +20,9 @@ public class BukkitUtils {
     }
 
     public static void sendEvent(Event event) {
-        getScheduler().runTask(StaffPlus.get(), () -> Bukkit.getPluginManager().callEvent(event));
+        if (StaffPlus.get().isEnabled()) {
+            getScheduler().runTask(StaffPlus.get(), () -> Bukkit.getPluginManager().callEvent(event));
+        }
     }
 
     public static void sendEventAsync(Event event) {
