@@ -11,22 +11,25 @@ public class SessionEntity {
     private VanishType vanishType;
     private boolean staffMode;
     private boolean staffChatMuted;
+    private String staffModeName;
 
     public SessionEntity() {}
 
-    public SessionEntity(int id, UUID playerUuid, VanishType vanishType, boolean staffMode, boolean staffChatMuted) {
+    public SessionEntity(int id, UUID playerUuid, VanishType vanishType, boolean staffMode, boolean staffChatMuted, String staffModeName) {
         this.id = id;
         this.playerUuid = playerUuid;
         this.vanishType = vanishType;
         this.staffMode = staffMode;
         this.staffChatMuted = staffChatMuted;
+        this.staffModeName = staffModeName;
     }
 
-    public SessionEntity(UUID playerUuid, VanishType vanishType, boolean staffMode, boolean staffChatMuted) {
+    public SessionEntity(UUID playerUuid, VanishType vanishType, boolean staffMode, boolean staffChatMuted, String staffModeName) {
         this.playerUuid = playerUuid;
         this.vanishType = vanishType;
         this.staffMode = staffMode;
         this.staffChatMuted = staffChatMuted;
+        this.staffModeName = staffModeName;
     }
 
     public UUID getPlayerUuid() {
@@ -49,6 +52,10 @@ public class SessionEntity {
         this.staffMode = staffMode;
     }
 
+    public void setStaffModeName(String staffModeName) {
+        this.staffModeName = staffModeName;
+    }
+
     public boolean getStaffMode() {
         return staffMode;
     }
@@ -63,5 +70,9 @@ public class SessionEntity {
 
     public boolean isStaffChatMuted() {
         return staffChatMuted;
+    }
+
+    public String getStaffModeName() {
+        return staffModeName;
     }
 }
