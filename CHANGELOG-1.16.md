@@ -7,6 +7,7 @@
 
 # bugs
 - Fix synchronisation on namechange of player
+- Fix session synchronisation issues. (Vanish desync bug)
 
 
 ### V1.16.55

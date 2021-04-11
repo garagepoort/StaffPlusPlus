@@ -1,40 +1,34 @@
 package net.shortninja.staffplus.core.domain.staff.vanish;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMulti;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionLoader;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.Optional;
 
 @IocBean
 public class VanishServiceImpl {
-    private final IProtocolService protocolService;
-    private final PermissionHandler permission;
 
-    private final Options options;
-    private final Messages messages;
     private final SessionManagerImpl sessionManager;
-    private final SessionLoader sessionLoader;
+    private final List<VanishStrategy> vanishStrategies;
 
-    public VanishServiceImpl(IProtocolService protocolService, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
-        this.protocolService = protocolService;
-        this.permission = permission;
-
-        this.options = options;
-        this.messages = messages;
+    public VanishServiceImpl(Options options,
+                             Messages messages,
+                             SessionManagerImpl sessionManager,
+                             @IocMulti(VanishStrategy.class) List<VanishStrategy> vanishStrategies) {
         this.sessionManager = sessionManager;
-        this.sessionLoader = sessionLoader;
+        this.vanishStrategies = vanishStrategies;
 
         if (options.vanishMessageEnabled) {
             Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
@@ -54,13 +48,10 @@ public class VanishServiceImpl {
 
         if (userVanishType == vanishType) {
             return;
-        } else if (userVanishType != VanishType.NONE) {
-            unapplyVanish(player, userVanishType, true);
         }
 
-        applyVanish(player, vanishType, true);
+        getVanishStrategy(vanishType).vanish(player);
         session.setVanishType(vanishType);
-        sessionLoader.saveSession(session);
     }
 
     public void removeVanish(Player player) {
@@ -71,9 +62,8 @@ public class VanishServiceImpl {
             return;
         }
 
-        unapplyVanish(player, vanishType, true);
+        getVanishStrategy(vanishType).unvanish(player);
         session.setVanishType(VanishType.NONE);
-        sessionLoader.saveSession(session);
     }
 
     public boolean isVanished(Player player) {
@@ -82,60 +72,19 @@ public class VanishServiceImpl {
     }
 
     public void updateVanish() {
+        VanishStrategy vanishStrategy = getVanishStrategy(VanishType.TOTAL);
         for (PlayerSession user : sessionManager.getAll()) {
             Optional<Player> player = user.getPlayer();
 
             if (player.isPresent() && user.getVanishType() == VanishType.TOTAL) {
-                applyVanish(player.get(), user.getVanishType(), false);
+                vanishStrategy.vanish(player.get());
             }
         }
     }
 
-    private void applyVanish(Player player, VanishType vanishType, boolean shouldMessage) {
-        String message = "";
-
-        switch (vanishType) {
-            case TOTAL:
-                Bukkit.getOnlinePlayers().stream()
-                    .filter(p -> !options.staffView || !permission.has(p, options.permissionMode))
-                    .forEach(p -> p.hidePlayer(player));
-                message = messages.totalVanish.replace("%status%", messages.enabled);
-                break;
-            case LIST:
-                if (options.vanishTabList) {
-                    protocolService.getVersionProtocol().listVanish(player, true);
-                }
-
-                message = messages.listVanish.replace("%status%", messages.enabled);
-                break;
-        }
-
-        if (shouldMessage && !message.isEmpty()) {
-            this.messages.send(player, message, messages.prefixGeneral);
-        }
-    }
-
-    private void unapplyVanish(Player player, VanishType vanishType, boolean shouldMessage) {
-
-        String message = "";
-
-        switch (vanishType) {
-            case TOTAL:
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.showPlayer(player);
-                }
-                message = messages.totalVanish.replace("%status%", messages.disabled);
-                break;
-            case LIST:
-                protocolService.getVersionProtocol().listVanish(player, false);
-                message = messages.listVanish.replace("%status%", messages.disabled);
-                break;
-            default:
-                break;
-        }
-
-        if (shouldMessage && !message.isEmpty()) {
-            this.messages.send(player, message, messages.prefixGeneral);
-        }
+    private VanishStrategy getVanishStrategy(VanishType vanishType) {
+        return vanishStrategies.stream().filter(v -> v.getVanishType() == vanishType)
+            .findFirst()
+            .orElseThrow(() -> new BusinessException("&CNo Suitable vanish strategy found for type [" + vanishType + "]"));
     }
 }
