@@ -105,32 +105,36 @@ public class SessionLoader {
     }
 
     public void saveSession(PlayerSession playerSession) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> save(playerSession));
-    }
-
-    public void saveSessionSynchronous(PlayerSession playerSession) {
-        save(playerSession);
-    }
-
-    private void save(PlayerSession playerSession) {
-        dataFile.save(playerSession);
-
-        if (options.serverSyncConfiguration.sessionSyncEnabled()) {
-            Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
-            String staffModeName = playerSession.getModeConfiguration().map(GeneralModeConfiguration::getName).orElse(null);
-            if (session.isPresent()) {
-                if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
-                    session.get().setVanishType(playerSession.getVanishType());
-                }
-                if (options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
-                    session.get().setStaffMode(playerSession.isInStaffMode());
-                    session.get().setStaffModeName(staffModeName);
-                }
-                session.get().setStaffChatMuted(playerSession.isStaffChatMuted());
-                sessionsRepository.update(session.get());
-            } else {
-                sessionsRepository.addSession(new SessionEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode(), playerSession.isStaffChatMuted(), staffModeName));
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            dataFile.save(playerSession);
+            if (options.serverSyncConfiguration.sessionSyncEnabled()) {
+                updateSqlSession(playerSession);
             }
+        });
+    }
+
+    public void saveSessions(Collection<PlayerSession> playerSessions) {
+        dataFile.save(playerSessions);
+        if (options.serverSyncConfiguration.sessionSyncEnabled()) {
+            playerSessions.forEach(this::updateSqlSession);
+        }
+    }
+
+    private void updateSqlSession(PlayerSession playerSession) {
+        Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
+        String staffModeName = playerSession.getModeConfiguration().map(GeneralModeConfiguration::getName).orElse(null);
+        if (session.isPresent()) {
+            if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
+                session.get().setVanishType(playerSession.getVanishType());
+            }
+            if (options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
+                session.get().setStaffMode(playerSession.isInStaffMode());
+                session.get().setStaffModeName(staffModeName);
+            }
+            session.get().setStaffChatMuted(playerSession.isStaffChatMuted());
+            sessionsRepository.update(session.get());
+        } else {
+            sessionsRepository.addSession(new SessionEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode(), playerSession.isStaffChatMuted(), staffModeName));
         }
     }
 }

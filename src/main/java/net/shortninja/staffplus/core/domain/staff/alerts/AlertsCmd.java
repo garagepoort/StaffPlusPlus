@@ -10,13 +10,11 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionLoader;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.alerts.AlertType;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
@@ -33,13 +31,11 @@ import java.util.stream.Stream;
 public class AlertsCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final SessionManagerImpl sessionManager;
-    private final SessionLoader sessionLoader;
 
-    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader, CommandService commandService) {
+    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
         super(options.alertsConfiguration.getCommandAlerts(), messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.sessionManager = sessionManager;
-        this.sessionLoader = sessionLoader;
         super.setPermissions(options.alertsConfiguration.getAllAlertsPermissions());
         setUsage("[namechange | mention | xray] {player} {enable | disable}");
         setDescription("Enables or disables the alert type.");
@@ -136,11 +132,10 @@ public class AlertsCmd extends AbstractCmd {
         PlayerSession session = sessionManager.get(player.getUniqueId());
         if (this.permissionHandler.has(player, options.alertsConfiguration.getPermissionForType(alertType)) || !shouldCheckPermission) {
             session.setAlertOption(alertType, isEnabled);
-            sessionLoader.saveSession(session);
             return true;
-        } else {
-            messages.send(player, messages.noPermission, messages.prefixGeneral);
         }
+
+        messages.send(player, messages.noPermission, messages.prefixGeneral);
         return false;
     }
 

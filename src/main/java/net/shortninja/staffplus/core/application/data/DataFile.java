@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,17 +34,33 @@ public class DataFile {
     public synchronized void save(PlayerSession session) {
         try {
             File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
-            configuration.set(session.getUuid() + ".name", session.getName());
-            configuration.set(session.getUuid() + ".glass-color", session.getGlassColor() != null ? session.getGlassColor().name() : Material.STAINED_GLASS_PANE);
-            configuration.set(session.getUuid() + ".notes", new ArrayList<>(session.getPlayerNotes()));
-            configuration.set(session.getUuid() + ".alert-options", alertOptions(session));
-            configuration.set(session.getUuid() + ".vanish-type", session.getVanishType() != null ? session.getVanishType().name() : VanishType.NONE.name());
-            configuration.set(session.getUuid() + ".staff-mode", session.isInStaffMode());
-            configuration.set(session.getUuid() + ".staff-mode-name", session.getModeConfiguration().map(GeneralModeConfiguration::getName).orElse(null));
+            updateSessionInfo(session);
             configuration.save(file);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public synchronized void save(Collection<PlayerSession> sessions) {
+        try {
+            File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
+            for (PlayerSession session : sessions) {
+                updateSessionInfo(session);
+            }
+            configuration.save(file);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void updateSessionInfo(PlayerSession session) {
+        configuration.set(session.getUuid() + ".name", session.getName());
+        configuration.set(session.getUuid() + ".glass-color", session.getGlassColor() != null ? session.getGlassColor().name() : Material.STAINED_GLASS_PANE);
+        configuration.set(session.getUuid() + ".notes", new ArrayList<>(session.getPlayerNotes()));
+        configuration.set(session.getUuid() + ".alert-options", alertOptions(session));
+        configuration.set(session.getUuid() + ".vanish-type", session.getVanishType() != null ? session.getVanishType().name() : VanishType.NONE.name());
+        configuration.set(session.getUuid() + ".staff-mode", session.isInStaffMode());
+        configuration.set(session.getUuid() + ".staff-mode-name", session.getModeConfiguration().map(GeneralModeConfiguration::getName).orElse(null));
     }
 
     private List<String> alertOptions(PlayerSession session) {

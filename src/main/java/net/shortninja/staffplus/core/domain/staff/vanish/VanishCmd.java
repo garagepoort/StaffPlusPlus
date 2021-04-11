@@ -10,12 +10,10 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionLoader;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,14 +27,12 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 public class VanishCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final VanishServiceImpl vanishServiceImpl;
-    private final SessionLoader sessionLoader;
     private final PermissionHandler permissionHandler;
 
-    public VanishCmd(Messages messages, Options options, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, SessionLoader sessionLoader, CommandService commandService, PermissionHandler permissionHandler) {
+    public VanishCmd(Messages messages, Options options, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler) {
         super(options.commandVanish, messages, options, commandService);
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
-        this.sessionLoader = sessionLoader;
         this.permissionHandler = permissionHandler;
         setPermission(options.permissionVanishCommand);
         setDescription("Enables or disables the type of vanish for the player.");
@@ -59,19 +55,16 @@ public class VanishCmd extends AbstractCmd {
                 vanishServiceImpl.removeVanish(targetPlayer.getPlayer());
             }
 
-            sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
             return true;
         }
 
         if (args.length == 2 && permissionHandler.isOp(sender)) {
             handleVanishArgument(sender, args[0], targetPlayer.getPlayer(), false);
-            sessionLoader.saveSession(sessionManager.get(targetPlayer.getId()));
             return true;
         }
 
         if (args.length == 1) {
             handleVanishArgument(sender, args[0], (Player) sender, true);
-            sessionLoader.saveSession(sessionManager.get(((Player) sender).getUniqueId()));
             return true;
         }
 

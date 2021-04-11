@@ -100,7 +100,6 @@ public class StaffModeService {
 
         session.setInStaffMode(true);
         session.setModeConfiguration(modeConfiguration);
-        sessionLoader.saveSession(session);
         sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
         messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
