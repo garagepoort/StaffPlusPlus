@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.application.data;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.vanish.VanishType;
@@ -38,6 +39,7 @@ public class DataFile {
             configuration.set(session.getUuid() + ".alert-options", alertOptions(session));
             configuration.set(session.getUuid() + ".vanish-type", session.getVanishType() != null ? session.getVanishType().name() : VanishType.NONE.name());
             configuration.set(session.getUuid() + ".staff-mode", session.isInStaffMode());
+            configuration.set(session.getUuid() + ".staff-mode-name", session.getModeConfiguration().map(GeneralModeConfiguration::getName).orElse(null));
             configuration.save(file);
         } catch (IOException exception) {
             exception.printStackTrace();

@@ -27,12 +27,8 @@ public class DefaultSessionEnhancer implements SessionEnhancer {
     @Override
     public void enhance(PlayerSession playerSession) {
         VanishType vanishType = VanishType.valueOf(dataFileConfiguration.getString(playerSession.getUuid() + ".vanish-type", "NONE"));
-        boolean staffMode = dataFileConfiguration.getBoolean(playerSession.getUuid() + ".staff-mode", false);
 
         Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
-        if (options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
-            playerSession.setInStaffMode(session.map(SessionEntity::getStaffMode).orElse(staffMode));
-        }
         if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
             playerSession.setVanishType(session.map(SessionEntity::getVanishType).orElse(vanishType));
         }

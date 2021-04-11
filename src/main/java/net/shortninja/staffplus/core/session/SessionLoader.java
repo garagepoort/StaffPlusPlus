@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.data.DataFile;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.core.session.database.SessionEntity;
@@ -60,7 +61,6 @@ public class SessionLoader {
         String name = dataFileConfiguration.getString(uuid + ".name");
         String glassColor = dataFileConfiguration.getString(uuid + ".glass-color");
         VanishType vanishType = VanishType.valueOf(dataFileConfiguration.getString(uuid + ".vanish-type", "NONE"));
-        boolean staffMode = dataFileConfiguration.getBoolean(uuid + ".staff-mode", false);
         Material glassMaterial = Material.STAINED_GLASS_PANE;
         if (glassColor != null && !glassColor.equals("0")) {
             glassMaterial = Material.valueOf(glassColor);
@@ -69,7 +69,7 @@ public class SessionLoader {
         List<String> playerNotes = loadPlayerNotes(uuid);
         Map<AlertType, Boolean> alertOptions = loadAlertOptions(uuid);
 
-        PlayerSession playerSession = new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions, isMuted(uuid), vanishType, staffMode);
+        PlayerSession playerSession = new PlayerSession(uuid, name, glassMaterial, playerNotes, alertOptions, isMuted(uuid), vanishType);
         sessionEnhancers.forEach(s -> s.enhance(playerSession));
         return playerSession;
     }
@@ -117,17 +117,19 @@ public class SessionLoader {
 
         if (options.serverSyncConfiguration.sessionSyncEnabled()) {
             Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
+            String staffModeName = playerSession.getModeConfiguration().map(GeneralModeConfiguration::getName).orElse(null);
             if (session.isPresent()) {
                 if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
                     session.get().setVanishType(playerSession.getVanishType());
                 }
-                if(options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
+                if (options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
                     session.get().setStaffMode(playerSession.isInStaffMode());
+                    session.get().setStaffModeName(staffModeName);
                 }
                 session.get().setStaffChatMuted(playerSession.isStaffChatMuted());
                 sessionsRepository.update(session.get());
             } else {
-                sessionsRepository.addSession(new SessionEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode(), playerSession.isStaffChatMuted()));
+                sessionsRepository.addSession(new SessionEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode(), playerSession.isStaffChatMuted(), staffModeName));
             }
         }
     }

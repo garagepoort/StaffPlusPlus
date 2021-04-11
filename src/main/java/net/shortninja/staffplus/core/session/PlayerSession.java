@@ -43,7 +43,7 @@ public class PlayerSession implements IPlayerSession {
         }
     }
 
-    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions, boolean muted, VanishType vanishType, boolean inStaffMode) {
+    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions, boolean muted, VanishType vanishType) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
@@ -51,7 +51,6 @@ public class PlayerSession implements IPlayerSession {
         this.alertOptions = alertOptions;
         this.muted = muted;
         this.vanishType = vanishType;
-        this.inStaffMode = inStaffMode;
     }
 
     public Optional<Player> getPlayer() {
