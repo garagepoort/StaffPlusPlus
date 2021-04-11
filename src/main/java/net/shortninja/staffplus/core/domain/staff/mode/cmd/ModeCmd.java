@@ -54,14 +54,14 @@ public class ModeCmd extends AbstractCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
 
         if (args.length == 0) {
-            validatePlayer(sender);
+            validateIsPlayer(sender);
             toggleMode((Player) sender);
             return true;
         }
 
         if (args.length == 1) {
             if (args[0].startsWith(MODE_TYPE)) {
-                validatePlayer(sender);
+                validateIsPlayer(sender);
                 staffModeService.turnStaffModeOn((Player) sender, getModeName(args[0]));
             } else {
                 permissionHandler.validateOp(sender);
@@ -73,7 +73,7 @@ public class ModeCmd extends AbstractCmd {
         permissionHandler.validateOp(sender);
         String option = args[1];
         if (option.startsWith(MODE_TYPE)) {
-            validatePlayer(sender);
+            validateIsPlayer(sender);
             staffModeService.turnStaffModeOn((Player) sender, getModeName(args[0]));
         } else {
             switch (option) {

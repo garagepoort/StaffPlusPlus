@@ -7,17 +7,17 @@ import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 
 @IocBean
 @IocMultiProvider(PluginDisable.class)
-public class SessionPluginDisable implements PluginDisable {
-    private final SessionManagerImpl sessionManager;
-    private final SessionLoader sessionLoader;
+public class SessionSaveOnPluginDisable implements PluginDisable {
 
-    public SessionPluginDisable(SessionManagerImpl sessionManager, SessionLoader sessionLoader) {
+    private final SessionManagerImpl sessionManager;
+
+    public SessionSaveOnPluginDisable(SessionManagerImpl sessionManager) {
         this.sessionManager = sessionManager;
-        this.sessionLoader = sessionLoader;
     }
 
     @Override
     public void disable(StaffPlus staffPlus) {
-        sessionManager.getAll().forEach(sessionLoader::saveSessionSynchronous);
+        StaffPlus.get().getLogger().info("Saving all sessions...");
+        sessionManager.saveAll();
     }
 }
