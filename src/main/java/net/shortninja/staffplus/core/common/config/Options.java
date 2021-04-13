@@ -137,6 +137,7 @@ public class Options {
     public String permissionChatSlow;
     public String permissionBlacklist;
     public String permissionMode;
+    public String permissionModeSpecific;
     public String permissionModeSilentChestInteraction;
     public String permissionFreeze;
     public String permissionFreezeBypass;
@@ -356,6 +357,7 @@ public class Options {
         permissionChatSlow = permissionsConfig.getString("permissions.chat-slow");
         permissionBlacklist = permissionsConfig.getString("permissions.blacklist");
         permissionMode = permissionsConfig.getString("permissions.mode");
+        permissionModeSpecific = permissionsConfig.getString("permissions.mode-specific");
         permissionModeSilentChestInteraction = permissionsConfig.getString("permissions.mode-silent-chest-interaction");
         permissionFreeze = permissionsConfig.getString("permissions.freeze");
         permissionFreezeBypass = permissionsConfig.getString("permissions.freeze-bypass");
