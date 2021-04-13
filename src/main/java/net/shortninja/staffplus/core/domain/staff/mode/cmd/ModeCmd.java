@@ -61,8 +61,7 @@ public class ModeCmd extends AbstractCmd {
 
         if (args.length == 1) {
             if (args[0].startsWith(MODE_TYPE)) {
-                validateIsPlayer(sender);
-                staffModeService.turnStaffModeOn((Player) sender, getModeName(args[0]));
+                turnOnSpecificStaffMode(sender, args[0]);
             } else {
                 permissionHandler.validateOp(sender);
                 toggleMode(targetPlayer.getPlayer());
@@ -73,8 +72,7 @@ public class ModeCmd extends AbstractCmd {
         permissionHandler.validateOp(sender);
         String option = args[1];
         if (option.startsWith(MODE_TYPE)) {
-            validateIsPlayer(sender);
-            staffModeService.turnStaffModeOn((Player) sender, getModeName(args[0]));
+            turnOnSpecificStaffMode(sender, args[0]);
         } else {
             switch (option) {
                 case ENABLE:
@@ -88,6 +86,12 @@ public class ModeCmd extends AbstractCmd {
             }
         }
         return true;
+    }
+
+    private void turnOnSpecificStaffMode(CommandSender sender, String arg) {
+        validateIsPlayer(sender);
+        permissionHandler.validate(sender, options.permissionModeSpecific);
+        staffModeService.turnStaffModeOn((Player) sender, getModeName(arg));
     }
 
     @Override
