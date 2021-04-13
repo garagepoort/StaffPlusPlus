@@ -4,6 +4,7 @@ import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 
 import java.util.List;
+import java.util.Optional;
 
 public class InvestigationConfiguration {
 
@@ -11,6 +12,7 @@ public class InvestigationConfiguration {
     private final boolean allowOfflineInvestigation;
     private final boolean automaticPause;
     private final boolean enforceStaffMode;
+    private final String staffMode;
     private final int maxConcurrentInvestigation;
     private final String investigatePermission;
     private final String startInvestigationCmd;
@@ -35,6 +37,7 @@ public class InvestigationConfiguration {
                                       boolean allowOfflineInvestigation,
                                       boolean automaticPause,
                                       boolean enforceStaffMode,
+                                      String staffMode,
                                       int maxConcurrentInvestigation,
                                       String investigatePermission,
                                       String startInvestigationCmd,
@@ -56,6 +59,7 @@ public class InvestigationConfiguration {
         this.allowOfflineInvestigation = allowOfflineInvestigation;
         this.automaticPause = automaticPause;
         this.enforceStaffMode = enforceStaffMode;
+        this.staffMode = staffMode;
         this.maxConcurrentInvestigation = maxConcurrentInvestigation;
         this.investigatePermission = investigatePermission;
         this.startInvestigationCmd = startInvestigationCmd;
@@ -165,5 +169,9 @@ public class InvestigationConfiguration {
 
     public boolean isEnforceStaffMode() {
         return enforceStaffMode;
+    }
+
+    public Optional<String> getStaffMode() {
+        return Optional.ofNullable(staffMode);
     }
 }
