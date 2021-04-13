@@ -21,6 +21,7 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
         boolean allowOfflineInvestigation = defaultConfig.getBoolean("investigations-module.allow-offline-investigation");
         boolean automaticPause = defaultConfig.getBoolean("investigations-module.automatic-pause");
         boolean enforceStaffMode = defaultConfig.getBoolean("investigations-module.enforce-staff-mode");
+        String staffMode = defaultConfig.getString("investigations-module.staff-mode");
         int maxConcurrentInvestigation = defaultConfig.getInt("investigations-module.max-concurrent-investigations", -1);
         String investigatePermission = permissionsConfig.getString("permissions.investigations.manage.investigate");
         String viewPermission = permissionsConfig.getString("permissions.investigations.manage.view");
@@ -48,6 +49,7 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
             allowOfflineInvestigation,
             automaticPause,
             enforceStaffMode,
+            staffMode,
             maxConcurrentInvestigation,
             investigatePermission,
             startInvestigationCmd,
