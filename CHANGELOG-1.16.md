@@ -5,12 +5,18 @@
 # Features
 - Added support for multiple staffmodes
 - Investigations can now be started without needing a player to investigate.
+- Enforce a certain staff mode when starting/resuming an investigation.
+- Permissions have been moved from config.yml to configuration/permissions.yml
+- Commands have been moved from config.yml to configuration/commands.yml
+- Staff modes have been moved from config.yml to configuration/staffmode/modes.yml
+- Staff modules have been moved from config.yml to configuration/staffmode/modules.yml
+- Custom Staff modules have been moved from config.yml to configuration/staffmode/custom-modules.yml
 
 # bugs
 - Fix synchronisation on namechange of player
 - Fix session synchronisation issues. (Vanish desync bug)
 - Staffchat message was incorrect when using a multi char handle.
-
+- Fix discord staffchat duplicate prefix
 
 ### V1.16.55
 
