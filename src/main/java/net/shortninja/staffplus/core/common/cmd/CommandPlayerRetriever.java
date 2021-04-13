@@ -9,8 +9,7 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.util.Optional;
 
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL;
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.*;
 
 @IocBean
 public class CommandPlayerRetriever {
@@ -28,7 +27,7 @@ public class CommandPlayerRetriever {
             return Optional.empty();
         }
 
-        if (strategy == OPTIONAL && playerName == null) {
+        if ((strategy == OPTIONAL_BOTH || strategy == OPTIONAL_ONLINE) && playerName == null) {
             return Optional.empty();
         }
 
@@ -36,8 +35,10 @@ public class CommandPlayerRetriever {
 
         switch (strategy) {
             case BOTH:
+            case OPTIONAL_BOTH:
                 return Optional.of(player);
             case ONLINE:
+            case OPTIONAL_ONLINE:
                 if (!player.isOnline() && !delayed) {
                     throw new PlayerOfflineException();
                 }

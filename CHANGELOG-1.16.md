@@ -4,10 +4,12 @@
 
 # Features
 - Added support for multiple staffmodes
+- Investigations can now be started without needing a player to investigate.
 
 # bugs
 - Fix synchronisation on namechange of player
 - Fix session synchronisation issues. (Vanish desync bug)
+- Staffchat message was incorrect when using a multi char handle.
 
 
 ### V1.16.55

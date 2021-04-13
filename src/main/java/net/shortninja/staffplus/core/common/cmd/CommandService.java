@@ -38,14 +38,13 @@ public class CommandService {
     }
 
     public void processArguments(CommandSender sender, String[] args, String playerName, List<ArgumentType> executionSppArguments, int minimumArguments) {
-        List<String> sppArguments = getSppArguments(sender, args, minimumArguments);
+        List<String> sppArguments = getSppArguments(args, minimumArguments);
         argumentProcessor.parseArguments(sender, playerName, sppArguments, executionSppArguments);
     }
 
-    private List<String> getSppArguments(CommandSender sender, String[] args, int minimumArguments) {
+    private List<String> getSppArguments(String[] args, int minimumArguments) {
         return Arrays.asList(Arrays.copyOfRange(args, minimumArguments, args.length));
     }
-
 
     public void validateAuthentication(boolean authenticate, CommandSender sender) {
         if (authenticate && sender instanceof Player) {

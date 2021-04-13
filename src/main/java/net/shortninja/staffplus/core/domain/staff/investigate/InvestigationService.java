@@ -52,6 +52,35 @@ public class InvestigationService {
         });
     }
 
+    public void startInvestigation(Player investigator) {
+        bukkitUtils.runTaskAsync(investigator, () -> {
+            permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
+            validateInvestigationStart(investigator);
+
+            Investigation investigation = new Investigation(investigator.getName(), investigator.getUniqueId(), options.serverName);
+            int id = investigationsRepository.addInvestigation(investigation);
+            investigation.setId(id);
+            sendEvent(new InvestigationStartedEvent(investigation));
+        });
+    }
+
+    public void resumeInvestigation(Player investigator, int investigationId) {
+        bukkitUtils.runTaskAsync(investigator, () -> {
+            permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
+            validateInvestigationStart(investigator);
+
+            Investigation investigation = getInvestigation(investigationId);
+            if(investigation.getStatus() != PAUSED) {
+                throw new BusinessException("&CCan not resume investigation. This investigation is not paused");
+            }
+            investigation.setStatus(OPEN);
+            investigation.setInvestigatorName(investigator.getName());
+            investigation.setInvestigatorUuid(investigator.getUniqueId());
+            investigationsRepository.updateInvestigation(investigation);
+            sendEvent(new InvestigationStartedEvent(investigation));
+        });
+    }
+
     public void resumeInvestigation(Player investigator, SppPlayer investigated) {
         bukkitUtils.runTaskAsync(investigator, () -> {
             permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
@@ -69,6 +98,14 @@ public class InvestigationService {
 
     public Optional<Investigation> getPausedInvestigation(Player investigator, SppPlayer investigated) {
         return investigationsRepository.findInvestigationForInvestigated(investigator.getUniqueId(), investigated.getId(), Collections.singletonList(PAUSED));
+    }
+
+    public List<Investigation> getPausedInvestigations(Player investigator) {
+        return investigationsRepository.findAllInvestigationsForInvestigator(investigator.getUniqueId(), Collections.singletonList(PAUSED));
+    }
+
+    public List<Investigation> getPausedInvestigations(Player investigator, int offset, int amount) {
+        return investigationsRepository.findAllInvestigationsForInvestigator(investigator.getUniqueId(), Collections.singletonList(PAUSED), offset, amount);
     }
 
     public void concludeInvestigation(Player investigator) {
@@ -113,14 +150,13 @@ public class InvestigationService {
     }
 
     public void tryPausingInvestigation(Player investigator) {
-        bukkitUtils.runTaskAsync(investigator, () -> {
+        bukkitUtils.runTaskAsync(investigator, () ->
             investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
-                .ifPresent(investigation -> {
-                    investigation.setStatus(InvestigationStatus.PAUSED);
-                    investigationsRepository.updateInvestigation(investigation);
-                    sendEvent(new InvestigationPausedEvent(investigation));
-                });
-        });
+            .ifPresent(investigation -> {
+                investigation.setStatus(InvestigationStatus.PAUSED);
+                investigationsRepository.updateInvestigation(investigation);
+                sendEvent(new InvestigationPausedEvent(investigation));
+            }));
     }
 
     public void pauseInvestigationsForInvestigated(Player investigated) {
@@ -154,10 +190,16 @@ public class InvestigationService {
         investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN)).ifPresent(investigation1 -> {
             throw new BusinessException("&CCan't start an investigation, you currently have an investigation running", messages.prefixInvestigations);
         });
-        List<Investigation> runningInvestigations = investigationsRepository.findAllInvestigationForInvestigated(investigated.getId(), Collections.singletonList(OPEN));
+        List<Investigation> runningInvestigations = investigationsRepository.getInvestigationsForInvestigated(investigated.getId(), Collections.singletonList(OPEN));
         if (options.investigationConfiguration.getMaxConcurrentInvestigation() > 0 && runningInvestigations.size() >= options.investigationConfiguration.getMaxConcurrentInvestigation()) {
             throw new BusinessException("&CCannot start investigation. There are already too many investigations ongoing at this moment.");
         }
+    }
+
+    private void validateInvestigationStart(Player investigator) {
+        investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN)).ifPresent(investigation1 -> {
+            throw new BusinessException("&CCan't start an investigation, you currently have an investigation running", messages.prefixInvestigations);
+        });
     }
 
 }

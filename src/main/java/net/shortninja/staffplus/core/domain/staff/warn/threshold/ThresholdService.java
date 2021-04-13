@@ -42,7 +42,7 @@ public class ThresholdService {
             return;
         }
 
-        List<String> executedCommands = actionService.executeActions(warning, configuredAction -> user, threshold.get().getActions()).stream()
+        List<String> executedCommands = actionService.executeActions(warning, configuredAction -> Optional.of(user), threshold.get().getActions()).stream()
             .map(ConfiguredAction::getCommand)
             .collect(Collectors.toList());
 

@@ -162,7 +162,7 @@ public class StaffModeService {
         if (target.isPresent()) {
             List<ActionFilter> actionFilters = Collections.singletonList(new PermissionActionFilter());
             List<ConfiguredAction> actions = isEnabled ? modeConfiguration.getModeEnableCommands() : modeConfiguration.getModeDisableCommands();
-            actionService.executeActions(configuredAction -> target.get(), actions, actionFilters, new HashMap<>());
+            actionService.executeActions(configuredAction -> target, actions, actionFilters, new HashMap<>());
         }
     }
 
