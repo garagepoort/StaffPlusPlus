@@ -30,8 +30,8 @@ public class InvestigationBungee extends BungeeMessage implements IInvestigation
         conclusionTimestamp = investigation.getConclusionTimestamp().orElse(null);
         investigatorName = investigation.getInvestigatorName();
         investigatorUuid = investigation.getInvestigatorUuid();
-        investigatedName = investigation.getInvestigatedName();
-        investigatedUuid = investigation.getInvestigatedUuid();
+        investigatedName = investigation.getInvestigatedName().orElse(null);
+        investigatedUuid = investigation.getInvestigatedUuid().orElse(null);
         status = investigation.getStatus();
     }
 
@@ -71,13 +71,13 @@ public class InvestigationBungee extends BungeeMessage implements IInvestigation
     }
 
     @Override
-    public String getInvestigatedName() {
-        return investigatedName;
+    public Optional<String> getInvestigatedName() {
+        return Optional.ofNullable(investigatedName);
     }
 
     @Override
-    public UUID getInvestigatedUuid() {
-        return investigatedUuid;
+    public Optional<UUID> getInvestigatedUuid() {
+        return Optional.ofNullable(investigatedUuid);
     }
 
     @Override

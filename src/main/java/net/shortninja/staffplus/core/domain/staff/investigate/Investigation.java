@@ -44,6 +44,14 @@ public class Investigation implements IInvestigation {
         this.creationDate = System.currentTimeMillis();
     }
 
+    public Investigation(String investigatorName, UUID investigatorUuid, String serverName) {
+        this.investigatorName = investigatorName;
+        this.investigatorUuid = investigatorUuid;
+        this.serverName = serverName;
+        this.status = InvestigationStatus.OPEN;
+        this.creationDate = System.currentTimeMillis();
+    }
+
     public int getId() {
         return id;
     }
@@ -75,12 +83,12 @@ public class Investigation implements IInvestigation {
         return investigatorUuid;
     }
 
-    public String getInvestigatedName() {
-        return investigatedName;
+    public Optional<String> getInvestigatedName() {
+        return Optional.ofNullable(investigatedName);
     }
 
-    public UUID getInvestigatedUuid() {
-        return investigatedUuid;
+    public Optional<UUID> getInvestigatedUuid() {
+        return Optional.ofNullable(investigatedUuid);
     }
 
     public String getServerName() {
