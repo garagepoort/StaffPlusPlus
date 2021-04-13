@@ -48,7 +48,7 @@ public class InvestigationNoteChatNotifier implements Listener {
             String message = messageToSend
                 .replace("%investigationId%", String.valueOf(investigation.getId()))
                 .replace("%investigator%", investigation.getInvestigatorName())
-                .replace("%investigated%", investigation.getInvestigatedName());
+                .replace("%investigated%", investigation.getInvestigatedName().orElse("Unknown"));
             messages.sendGroupMessage(message, options.investigationConfiguration.getStaffNotificationPermission(), messages.prefixInvestigations);
         }
     }

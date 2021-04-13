@@ -100,7 +100,7 @@ public class InvestigationChatNotifier implements Listener {
             String message = messageToSend
                 .replace("%investigationId%", String.valueOf(investigation.getId()))
                 .replace("%investigator%", investigation.getInvestigatorName())
-                .replace("%investigated%", investigation.getInvestigatedName());
+                .replace("%investigated%", investigation.getInvestigatedName().orElse("Unknown"));
             messages.sendGroupMessage(message, options.investigationConfiguration.getStaffNotificationPermission(), messages.prefixInvestigations);
         }
     }
@@ -115,7 +115,7 @@ public class InvestigationChatNotifier implements Listener {
 
     private void sendInvestigatedMessage(IInvestigation investigation, String investigatedMessage) {
         if (StringUtils.isNotEmpty(investigatedMessage) && options.investigationConfiguration.isInvestigatedChatMessageEnabled()) {
-            playerManager.getOnlinePlayer(investigation.getInvestigatedUuid())
+            investigation.getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer)
                 .filter(SppPlayer::isOnline)
                 .ifPresent(sppPlayer -> messages.send(sppPlayer.getPlayer(), investigatedMessage, messages.prefixInvestigations));
         }

@@ -19,16 +19,16 @@ import java.util.UUID;
 
 @IocBean
 @IocMultiProvider(SppCommand.class)
-public class ConfirmActionCmd extends AbstractCmd {
+public class ChoiceActionCmd extends AbstractCmd {
 
-    private final ConfirmationChatService confirmationChatService;
+    private final ChoiceChatService choiceChatService;
 
-    public ConfirmActionCmd(Messages messages, Options options, ConfirmationChatService confirmationChatService, CommandService commandService) {
-        super("confirm-action", messages, options, commandService);
-        this.confirmationChatService = confirmationChatService;
+    public ChoiceActionCmd(Messages messages, Options options, ChoiceChatService choiceChatService, CommandService commandService) {
+        super("choice-action", messages, options, commandService);
+        this.choiceChatService = choiceChatService;
         setPermission(options.permissionMode);
-        setDescription("Confirms or cancels an action.");
-        setUsage("[confirm|cancel] [actionUuid]");
+        setDescription("Selects 1 of 2 action.");
+        setUsage("[option1|option2] [actionUuid]");
     }
 
     @Override
@@ -39,12 +39,12 @@ public class ConfirmActionCmd extends AbstractCmd {
         String action = args[0];
         UUID uuid = UUID.fromString(args[1]);
 
-        if (action.equalsIgnoreCase("confirm")) {
-            confirmationChatService.confirmAction(uuid, (Player) sender);
+        if (action.equalsIgnoreCase("option1")) {
+            choiceChatService.selectOption1(uuid, (Player) sender);
             return true;
         }
-        if (action.equalsIgnoreCase("cancel")) {
-            confirmationChatService.cancelAction(uuid, (Player) sender);
+        if (action.equalsIgnoreCase("option2")) {
+            choiceChatService.selectOption2(uuid, (Player) sender);
             return true;
         }
         return false;

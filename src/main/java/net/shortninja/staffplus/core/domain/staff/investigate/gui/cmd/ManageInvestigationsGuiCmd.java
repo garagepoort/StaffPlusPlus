@@ -53,7 +53,7 @@ public class ManageInvestigationsGuiCmd extends AbstractCmd {
 
     @Override
     protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.OPTIONAL;
+        return PlayerRetrievalStrategy.OPTIONAL_BOTH;
     }
 
     @Override
