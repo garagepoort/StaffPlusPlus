@@ -22,7 +22,11 @@ public class MysqlInvestigationsRepository extends AbstractSqlInvestigationsRepo
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_investigations(investigator_uuid, investigated_uuid, status, creation_timestamp, server_name) " +
                  "VALUES(?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             insert.setString(1, investigation.getInvestigatorUuid().toString());
-            insert.setString(2, investigation.getInvestigatedUuid().toString());
+            if(investigation.getInvestigatedUuid().isPresent()) {
+                insert.setString(2, investigation.getInvestigatedUuid().toString());
+            }else {
+                insert.setNull(2, Types.VARCHAR);
+            }
             insert.setString(3, investigation.getStatus().name());
             insert.setLong(4, investigation.getCreationTimestamp());
             insert.setString(5, options.serverName);

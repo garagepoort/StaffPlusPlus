@@ -334,10 +334,10 @@ public class JavaUtils {
     }
 
     public static JSONMessage buildClickableMessage(String message, String clickMessage, String tooltip, String command, boolean showButton) {
-        if(!message.startsWith(DEFAULT_MESSAGE_COLOR)) {
+        if (!message.startsWith(DEFAULT_MESSAGE_COLOR)) {
             message = DEFAULT_MESSAGE_COLOR + message;
         }
-        if(!clickMessage.startsWith(DEFAULT_CLICK_MESSAGE_COLOR)) {
+        if (!clickMessage.startsWith(DEFAULT_CLICK_MESSAGE_COLOR)) {
             clickMessage = DEFAULT_CLICK_MESSAGE_COLOR + clickMessage;
         }
 
@@ -353,22 +353,20 @@ public class JavaUtils {
         return jsonMessage;
     }
 
-    public static JSONMessage buildConfirmationMessage(String message, String confirmCommand, String cancelCommand) {
+    public static JSONMessage buildChoiceMessage(String message, String option1Message, String option1Command, String option2Message, String option2Command) {
         JSONMessage jsonMessage = JSONMessage.create();
         addColorizedMessage(message, jsonMessage);
-
-        jsonMessage.then(" Confirm | ")
-            .color(ChatColor.GREEN)
-            .runCommand("/" + confirmCommand)
-            .then("Cancel")
-            .color(ChatColor.RED)
-            .runCommand("/" + cancelCommand);
+        addColorizedMessage(" " + option1Message, jsonMessage);
+        jsonMessage.runCommand("/" + option1Command);
+        addColorizedMessage(" &7| ", jsonMessage);
+        addColorizedMessage(option2Message, jsonMessage);
+        jsonMessage.runCommand("/" + option2Command);
 
         return jsonMessage;
     }
 
     private static void addColorizedMessage(String message, JSONMessage jsonMessage) {
-        String[] coloredString = message.split("(?=&1|&2|&3|&4|&5|&6|&7|&8)");
+        String[] coloredString = message.split("(?=&1|&2|&3|&4|&5|&6|&7|&8|&9|&0|&a|&e|&b|&d|&f|&c)");
         for (String messagePart : coloredString) {
             if (messagePart.length() < 2) {
                 jsonMessage.then(messagePart).color(ChatColor.GOLD);
