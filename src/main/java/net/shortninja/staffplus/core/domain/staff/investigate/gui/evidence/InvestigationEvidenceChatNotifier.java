@@ -53,7 +53,7 @@ public class InvestigationEvidenceChatNotifier implements Listener {
                 .replace("%investigator%", investigation.getInvestigatorName())
                 .replace("%evidenceId%", String.valueOf(evidence.getEvidenceId()))
                 .replace("%evidenceType%", evidence.getEvidenceType())
-                .replace("%investigated%", investigation.getInvestigatedName());
+                .replace("%investigated%", investigation.getInvestigatedName().orElse("Unknown"));
             messages.sendGroupMessage(message, options.investigationConfiguration.getStaffNotificationPermission(), messages.prefixInvestigations);
         }
     }

@@ -17,11 +17,13 @@ public interface InvestigationsRepository {
 
     List<Investigation> findAllInvestigationForInvestigated(UUID investigatedUuid, List<InvestigationStatus> investigationStatuses);
 
+    List<Investigation> findAllInvestigationsForInvestigator(UUID investigatedUuid, List<InvestigationStatus> investigationStatuses);
+
+    List<Investigation> findAllInvestigationsForInvestigator(UUID uniqueId, List<InvestigationStatus> singletonList, int offset, int amount);
+
     Optional<Investigation> getInvestigationForInvestigator(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses);
 
     List<Investigation> getInvestigationsForInvestigated(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses);
-
-    List<Investigation> getInvestigationsForInvestigated(UUID investigatedUuid);
 
     List<Investigation> getAllInvestigations(int offset, int amount);
 
@@ -30,4 +32,5 @@ public interface InvestigationsRepository {
     Optional<Investigation> findInvestigation(int investigationId);
 
     void pauseAllInvestigations();
+
 }

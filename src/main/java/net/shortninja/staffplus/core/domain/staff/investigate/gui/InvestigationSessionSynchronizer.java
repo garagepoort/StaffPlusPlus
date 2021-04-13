@@ -27,31 +27,31 @@ public class InvestigationSessionSynchronizer implements Listener {
 
     @EventHandler
     public void onInvestigationStarted(InvestigationStartedEvent event) {
-        playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(true));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(true));
     }
 
     @EventHandler
     public void onInvestigationStarted(InvestigationStartedBungeeEvent event) {
-        playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(true));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(true));
     }
 
     @EventHandler
     public void onInvestigationConcluded(InvestigationConcludedEvent event) {
-        playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
     }
 
     @EventHandler
     public void onInvestigationConcluded(InvestigationConcludedBungeeEvent event) {
-        playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
     }
 
     @EventHandler
     public void onInvestigationPaused(InvestigationPausedEvent event) {
-        playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
     }
 
     @EventHandler
     public void onInvestigationPaused(InvestigationPausedBungeeEvent event) {
-        playerManager.getOnlinePlayer(event.getInvestigation().getInvestigatedUuid()).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
     }
 }

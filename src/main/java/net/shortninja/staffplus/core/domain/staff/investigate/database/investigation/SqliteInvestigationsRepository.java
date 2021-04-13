@@ -23,7 +23,11 @@ public class SqliteInvestigationsRepository extends AbstractSqlInvestigationsRep
                  "VALUES(?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
             insert.setString(1, investigation.getInvestigatorUuid().toString());
-            insert.setString(2, investigation.getInvestigatedUuid().toString());
+            if (investigation.getInvestigatedUuid().isPresent()) {
+                insert.setString(2, investigation.getInvestigatedUuid().toString());
+            } else {
+                insert.setNull(2, Types.VARCHAR);
+            }
             insert.setString(3, investigation.getStatus().name());
             insert.setLong(4, investigation.getCreationTimestamp());
             insert.setString(5, options.serverName);

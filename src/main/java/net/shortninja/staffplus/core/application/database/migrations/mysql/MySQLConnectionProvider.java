@@ -56,7 +56,7 @@ public class MySQLConnectionProvider implements SqlConnectionProvider {
             String host = options.mySqlHost;
             int port = options.mySqlPort;
             String db = options.database;
-            config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + db + "?autoReconnect=true&useSSL=false");
+            config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + db + "?autoReconnect=true&useSSL=false&allowMultiQueries=true");
             config.setUsername(options.mySqlUser);
             config.setPassword(options.mySqlPassword);
             config.setMaximumPoolSize(5);

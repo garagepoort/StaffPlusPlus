@@ -8,6 +8,8 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.*;
@@ -121,32 +123,17 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
 
     @Override
     public List<Investigation> findAllInvestigationForInvestigated(UUID investigatedUuid, List<InvestigationStatus> investigationStatuses) {
-        if (investigationStatuses.isEmpty()) {
-            return Collections.emptyList();
-        }
+        return getInvestigations(investigatedUuid, investigationStatuses, "SELECT * FROM sp_investigations WHERE investigated_uuid = ? ");
+    }
 
-        List<Investigation> investigations = new ArrayList<>();
-        List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
-        String query = "SELECT * FROM sp_investigations WHERE investigated_uuid = ? AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
+    @Override
+    public List<Investigation> findAllInvestigationsForInvestigator(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses) {
+        return getInvestigations(investigatorUuid, investigationStatuses, "SELECT * FROM sp_investigations WHERE investigator_uuid = ? ");
+    }
 
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
-            ps.setString(1, investigatedUuid.toString());
-            int index = 2;
-            for (InvestigationStatus status : investigationStatuses) {
-                ps.setString(index, status.name());
-                index++;
-            }
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    investigations.add(buildInvestigation(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return investigations;
+    @Override
+    public List<Investigation> findAllInvestigationsForInvestigator(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses, int offset, int amount) {
+        return getInvestigationsPaged(investigatorUuid, investigationStatuses, "SELECT * FROM sp_investigations WHERE investigator_uuid = ? ", offset, amount);
     }
 
     @Override
@@ -181,48 +168,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
 
     @Override
     public List<Investigation> getInvestigationsForInvestigated(UUID investigatedUuid, List<InvestigationStatus> investigationStatuses) {
-        if (investigationStatuses.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<Investigation> investigations = new ArrayList<>();
-        List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
-        String query = "SELECT * FROM sp_investigations WHERE investigated_uuid = ? AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
-
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
-            ps.setString(1, investigatedUuid.toString());
-            int index = 2;
-            for (InvestigationStatus status : investigationStatuses) {
-                ps.setString(index, status.name());
-                index++;
-            }
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    investigations.add(buildInvestigation(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return investigations;
-    }
-
-    @Override
-    public List<Investigation> getInvestigationsForInvestigated(UUID investigatedUuid) {
-        List<Investigation> investigations = new ArrayList<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigated_uuid = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
-            ps.setString(1, investigatedUuid.toString());
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    investigations.add(buildInvestigation(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return investigations;
+        return getInvestigations(investigatedUuid, investigationStatuses, "SELECT * FROM sp_investigations WHERE investigated_uuid = ? ");
     }
 
     @Override
@@ -263,13 +209,76 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
         return investigations;
     }
 
+    @NotNull
+    private List<Investigation> getInvestigations(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses, String s) {
+        if (investigationStatuses.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Investigation> investigations = new ArrayList<>();
+        List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
+        String query = s + " AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
+
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
+            ps.setString(1, investigatorUuid.toString());
+            int index = 2;
+            for (InvestigationStatus status : investigationStatuses) {
+                ps.setString(index, status.name());
+                index++;
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    investigations.add(buildInvestigation(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return investigations;
+    }
+
+
+    @NotNull
+    private List<Investigation> getInvestigationsPaged(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses, String s, int offset, int amount) {
+        if (investigationStatuses.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Investigation> investigations = new ArrayList<>();
+        List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
+        String query = s + " AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC LIMIT ?,?";
+
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
+            ps.setString(1, investigatorUuid.toString());
+            int index = 2;
+            for (InvestigationStatus status : investigationStatuses) {
+                ps.setString(index, status.name());
+                index++;
+            }
+
+            ps.setInt(index, offset);
+            ps.setInt(index + 1, amount);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    investigations.add(buildInvestigation(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return investigations;
+    }
+
 
     private Investigation buildInvestigation(ResultSet rs) throws SQLException {
         UUID investigatorUuid = UUID.fromString(rs.getString(INVESTIGATOR_UUID_COLUMN));
-        UUID investigatedUuid = UUID.fromString(rs.getString(INVESTIGATED_UUID_COLUMN));
+        UUID investigatedUuid = StringUtils.isEmpty(rs.getString(INVESTIGATED_UUID_COLUMN)) ? null : UUID.fromString(rs.getString(INVESTIGATED_UUID_COLUMN));
 
         String investigatorName = getPlayerName(investigatorUuid);
-        String investigatedName = getPlayerName(investigatedUuid);
+        String investigatedName = investigatedUuid != null ? getPlayerName(investigatedUuid) : null;
 
         int id = rs.getInt(ID_COLUMN);
         String serverName = rs.getString(SERVER_NAME_COLUMN);

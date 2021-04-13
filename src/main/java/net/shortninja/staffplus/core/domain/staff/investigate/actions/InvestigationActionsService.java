@@ -47,13 +47,13 @@ public class InvestigationActionsService implements Listener {
 
     private void executeActions(IInvestigation investigation, List<ConfiguredAction> concludeInvestigationCommands) {
         Optional<SppPlayer> investigator = playerManager.getOnlinePlayer(investigation.getInvestigatorUuid());
-        Optional<SppPlayer> investigated = playerManager.getOnlinePlayer(investigation.getInvestigatedUuid());
+        Optional<SppPlayer> investigated = investigation.getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer);
 
-        if (investigator.isPresent() && investigated.isPresent()) {
+        if (investigator.isPresent()) {
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("%investigator%", investigator.get().getUsername());
-            placeholders.put("%investigated%", investigated.get().getUsername());
-            actionService.executeActions(new InvestigationActionTargetProvider(investigator.get(), investigated.get()), concludeInvestigationCommands, Collections.emptyList(), placeholders);
+            investigated.ifPresent(sppPlayer -> placeholders.put("%investigated%", sppPlayer.getUsername()));
+            actionService.executeActions(new InvestigationActionTargetProvider(investigator.get(), investigated.orElse(null)), concludeInvestigationCommands, Collections.emptyList(), placeholders);
         }
     }
 

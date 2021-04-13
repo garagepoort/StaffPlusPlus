@@ -24,9 +24,13 @@ public class ResumeInvestigationAction implements IAction {
 
     @Override
     public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-        SppPlayer investigated = playerManager.getOnOrOfflinePlayer(investigation.getInvestigatedUuid())
-            .orElseThrow(() -> new BusinessException("Can't resume investigation. Player not found."));
-        investigationService.resumeInvestigation(player, investigated);
+        if (investigation.getInvestigatedUuid().isPresent()) {
+            SppPlayer investigated = playerManager.getOnOrOfflinePlayer(investigation.getInvestigatedUuid().get())
+                .orElseThrow(() -> new BusinessException("Can't resume investigation. Player not found."));
+            investigationService.resumeInvestigation(player, investigated);
+        } else {
+            investigationService.resumeInvestigation(player, investigation.getId());
+        }
     }
 
     @Override
