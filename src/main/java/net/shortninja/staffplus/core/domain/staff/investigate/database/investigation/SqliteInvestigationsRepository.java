@@ -24,7 +24,7 @@ public class SqliteInvestigationsRepository extends AbstractSqlInvestigationsRep
             connection.setAutoCommit(false);
             insert.setString(1, investigation.getInvestigatorUuid().toString());
             if (investigation.getInvestigatedUuid().isPresent()) {
-                insert.setString(2, investigation.getInvestigatedUuid().toString());
+                insert.setString(2, investigation.getInvestigatedUuid().get().toString());
             } else {
                 insert.setNull(2, Types.VARCHAR);
             }
