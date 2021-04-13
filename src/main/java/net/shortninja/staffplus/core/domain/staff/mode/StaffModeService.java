@@ -13,7 +13,6 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionLoader;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
@@ -42,14 +41,13 @@ public class StaffModeService {
     private final Options options;
     private final PlayerManager playerManager;
     private final ModeProvider modeProvider;
-    private final SessionLoader sessionLoader;
 
     public StaffModeService(Options options,
                             Messages messages,
                             SessionManagerImpl sessionManager,
                             VanishServiceImpl vanishServiceImpl,
                             StaffModeItemsService staffModeItemsService,
-                            ActionService actionService, ModeDataRepository modeDataRepository, PlayerManager playerManager, ModeProvider modeProvider, SessionLoader sessionLoader) {
+                            ActionService actionService, ModeDataRepository modeDataRepository, PlayerManager playerManager, ModeProvider modeProvider) {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
@@ -59,7 +57,6 @@ public class StaffModeService {
         this.staffModeItemsService = staffModeItemsService;
         this.modeDataRepository = modeDataRepository;
         this.modeProvider = modeProvider;
-        this.sessionLoader = sessionLoader;
     }
 
     public Set<UUID> getModeUsers() {
