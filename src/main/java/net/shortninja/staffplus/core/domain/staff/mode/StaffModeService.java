@@ -69,8 +69,8 @@ public class StaffModeService {
     }
 
     public void turnStaffModeOn(Player player, String mode) {
+        turnStaffModeOff(player);
         GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, mode);
-
         turnStaffModeOn(player, modeConfiguration);
     }
 
