@@ -8,13 +8,13 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 public class ConfirmationGui extends AbstractGui {
-    private final ConfirmationAction onConfirm;
-    private final CancelAction onCancel;
+    private final ChoiceAction onConfirm;
+    private final ChoiceAction onCancel;
     private final String confirmationMessage;
     private boolean closeOnCancel = true;
     private boolean closeOnConfirmation = true;
 
-    public ConfirmationGui(String title, String confirmationMessage, ConfirmationAction onConfirm, CancelAction onCancel) {
+    public ConfirmationGui(String title, String confirmationMessage, ChoiceAction onConfirm, ChoiceAction onCancel) {
         super(27, title);
         this.confirmationMessage = confirmationMessage;
         this.onConfirm = onConfirm;
@@ -51,7 +51,7 @@ public class ConfirmationGui extends AbstractGui {
         setItem(slot, itemStack, null);
     }
 
-    private void addConfirmItem(ConfirmationAction onConfirm, int slot) {
+    private void addConfirmItem(ChoiceAction onConfirm, int slot) {
         ItemStack itemStack = Items.createGreenColoredGlass("Confirm","");
         setItem(slot, itemStack, new IAction() {
             @Override
@@ -66,7 +66,7 @@ public class ConfirmationGui extends AbstractGui {
         });
     }
 
-    private void addCancelItem(CancelAction onCancel, int slot) {
+    private void addCancelItem(ChoiceAction onCancel, int slot) {
         ItemStack itemStack = Items.createRedColoredGlass("Cancel", "");
         setItem(slot, itemStack, new IAction() {
             @Override

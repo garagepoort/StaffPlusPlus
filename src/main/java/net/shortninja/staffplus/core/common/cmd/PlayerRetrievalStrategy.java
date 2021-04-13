@@ -4,5 +4,6 @@ public enum PlayerRetrievalStrategy {
     ONLINE,
     BOTH,
     NONE,
-    OPTIONAL
+    OPTIONAL_BOTH,
+    OPTIONAL_ONLINE
 }

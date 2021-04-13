@@ -33,10 +33,12 @@ public class InvestigationItemBuilder {
         lore.add("&bInvestigator: &6" + investigation.getInvestigatorName());
         lore.add("&bStatus: &6" + investigation.getStatus());
         lore.add("&bStart time: &6" + investigation.getCreationDate().format(DateTimeFormatter.ofPattern(options.timestampFormat)));
-        lore.add("&bInvestigated: &6" + investigation.getInvestigatedName());
+        lore.add("&bInvestigated: &6" + investigation.getInvestigatedName().orElse("Unknown"));
 
 
-        ItemStack item = Items.editor(Items.createBook(investigation.getInvestigatedName(), "")).setAmount(1)
+        String title = investigation.getInvestigatedName().orElse("Investigation #" + investigation.getId());
+
+        ItemStack item = Items.editor(Items.createBook(title, "")).setAmount(1)
             .setName("&7Investigation")
             .setLore(lore)
             .build();

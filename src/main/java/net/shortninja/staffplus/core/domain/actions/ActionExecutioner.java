@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static net.shortninja.staffplus.core.domain.actions.ActionRunStrategy.*;
 import static net.shortninja.staffplus.core.domain.delayedactions.Executor.CONSOLE;
@@ -27,38 +28,45 @@ public class ActionExecutioner {
     }
 
     boolean executeAction(Actionable actionable, ActionTargetProvider targetProvider, ConfiguredAction action, List<ActionFilter> actionFilters) {
-        SppPlayer target = targetProvider.getTarget(action);
-        if (actionFilters != null && actionFilters.stream().anyMatch(a -> !a.isValidAction(target, action))) {
+        Optional<SppPlayer> target = targetProvider.getTarget(action);
+        if(!target.isPresent()) {
             return false;
         }
-        if (runActionNow(target, action.getRunStrategy())) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", target.getUsername()));
+
+        if (actionFilters != null && actionFilters.stream().anyMatch(a -> !a.isValidAction(target.get(), action))) {
+            return false;
+        }
+        if (runActionNow(target.get(), action.getRunStrategy())) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getCommand().replace("%player%", target.get().getUsername()));
             ExecutableActionEntity executableActionEntity = new ExecutableActionEntity(action, actionable, true);
             actionableRepository.saveActionable(executableActionEntity);
             return true;
-        } else if (action.getRunStrategy() == DELAY && !target.isOnline()) {
+        } else if (action.getRunStrategy() == DELAY && !target.get().isOnline()) {
             ExecutableActionEntity executableActionEntity = new ExecutableActionEntity(action, actionable, false);
             int executableActionId = actionableRepository.saveActionable(executableActionEntity);
-            delayedActionsRepository.saveDelayedAction(target.getId(), action.getCommand(), CONSOLE, executableActionId, false);
+            delayedActionsRepository.saveDelayedAction(target.get().getId(), action.getCommand(), CONSOLE, executableActionId, false);
             return true;
         }
         return false;
     }
 
     boolean executeAction(ActionTargetProvider targetProvider, ConfiguredAction action, List<ActionFilter> actionFilters, Map<String, String> placeholders) {
-        SppPlayer target = targetProvider.getTarget(action);
-        placeholders.putIfAbsent("%player%", target.getUsername());
+        Optional<SppPlayer> target = targetProvider.getTarget(action);
+        if(!target.isPresent()) {
+            return false;
+        }
+        placeholders.putIfAbsent("%player%", target.get().getUsername());
 
-        if (actionFilters != null && actionFilters.stream().anyMatch(a -> !a.isValidAction(target, action))) {
+        if (actionFilters != null && actionFilters.stream().anyMatch(a -> !a.isValidAction(target.get(), action))) {
             return false;
         }
         String commandLine = replacePlaceholders(action.getCommand(), placeholders);
 
-        if (runActionNow(target, action.getRunStrategy())) {
+        if (runActionNow(target.get(), action.getRunStrategy())) {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandLine);
             return true;
-        } else if (action.getRunStrategy() == DELAY && !target.isOnline()) {
-            delayedActionsRepository.saveDelayedAction(target.getId(), commandLine, CONSOLE);
+        } else if (action.getRunStrategy() == DELAY && !target.get().isOnline()) {
+            delayedActionsRepository.saveDelayedAction(target.get().getId(), commandLine, CONSOLE);
             return true;
         }
         return false;
