@@ -27,7 +27,13 @@ public class StaffModeHook implements Listener {
     public void handleInvestigationStarted(InvestigationStartedEvent investigationStartedEvent) {
         if (options.investigationConfiguration.isEnforceStaffMode()) {
             playerManager.getOnlinePlayer(investigationStartedEvent.getInvestigation().getInvestigatorUuid())
-                .ifPresent(p -> staffModeService.turnStaffModeOn(p.getPlayer()));
+                .ifPresent(p -> {
+                    if (options.investigationConfiguration.getStaffMode().isPresent()) {
+                        staffModeService.turnStaffModeOn(p.getPlayer(), options.investigationConfiguration.getStaffMode().get());
+                    } else {
+                        staffModeService.turnStaffModeOn(p.getPlayer());
+                    }
+                });
         }
     }
 }
