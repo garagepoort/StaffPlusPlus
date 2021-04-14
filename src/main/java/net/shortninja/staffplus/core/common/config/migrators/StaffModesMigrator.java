@@ -51,6 +51,10 @@ public class StaffModesMigrator implements ConfigMigrator {
     }
 
     private void migrateGuiModules(List<String> guiModules, ConfigurationSection modules) {
+        if(modules == null) {
+            return;
+        }
+
         for (String key : modules.getKeys(false)) {
             boolean enabled = modules.getConfigurationSection(key).getBoolean("enabled");
             if (enabled) {
