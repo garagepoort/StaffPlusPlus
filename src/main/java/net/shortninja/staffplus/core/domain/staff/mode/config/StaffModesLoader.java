@@ -95,6 +95,9 @@ public class StaffModesLoader extends AbstractConfigLoader<Map<String, GeneralMo
         if (configurationSection.contains("gui")) {
             modeConfig.setItemSlots(getItemSlots(configurationSection.getList("gui", new ArrayList<>())));
         }
+        if (configurationSection.contains("staff-see-staff-in-mode")) {
+            modeConfig.setStaffCanSeeVanished(configurationSection.getBoolean("staff-see-staff-in-mode", false));
+        }
     }
 
     private VanishType stringToVanishType(String string) {

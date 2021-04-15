@@ -111,11 +111,6 @@ public class Options {
     public boolean vanishMessageEnabled;
 
     /*
-     * Staff Mode
-     */
-    public boolean staffView;
-
-    /*
      * Custom
      */
     public List<CustomModuleConfiguration> customModuleConfigurations;
@@ -331,11 +326,6 @@ public class Options {
         vanishShowAway = defaultConfig.getBoolean("vanish-module.show-away");
         vanishChatEnabled = defaultConfig.getBoolean("vanish-module.chat");
         vanishMessageEnabled = defaultConfig.getBoolean("vanish-module.vanish-message-enabled");
-
-        /*
-         * Staff Mode
-         */
-        staffView = defaultConfig.getBoolean("staff-mode.staff-see-staff-in-mode");
 
         /*
          * Permissions
