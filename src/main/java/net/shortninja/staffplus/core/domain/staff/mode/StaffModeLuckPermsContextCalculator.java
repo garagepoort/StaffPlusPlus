@@ -15,8 +15,12 @@ public class StaffModeLuckPermsContextCalculator implements ContextCalculator<Pl
 
     @Override
     public void calculate(Player target, ContextConsumer consumer) {
-        if(target.isOnline()) {
-            consumer.accept(KEY, Boolean.toString(sessionManager.get(target.getUniqueId()).isInStaffMode()));
+        if (target.isOnline()) {
+            if (sessionManager.has(target.getUniqueId())) {
+                consumer.accept(KEY, Boolean.toString(sessionManager.get(target.getUniqueId()).isInStaffMode()));
+            } else {
+                consumer.accept(KEY, String.valueOf(false));
+            }
         }
     }
 }
