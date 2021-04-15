@@ -17,6 +17,7 @@ public class GeneralModeConfiguration {
     private boolean modeItemDrop;
     private boolean modeDamage;
     private boolean modeHungerLoss;
+    private boolean staffCanSeeVanished;
     private List<ConfiguredAction> modeEnableCommands;
     private List<ConfiguredAction> modeDisableCommands;
     private boolean disableOnWorldChange;
@@ -214,5 +215,13 @@ public class GeneralModeConfiguration {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setStaffCanSeeVanished(boolean staffCanSeeVanished) {
+        this.staffCanSeeVanished = staffCanSeeVanished;
+    }
+
+    public boolean isStaffCanSeeVanished() {
+        return staffCanSeeVanished;
     }
 }
