@@ -1,6 +1,12 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.57
+### V1.16.59 (NOT YET RELEASED)
+
+# bugs
+- When no prefixed used, messages had an extra space.
+- staff-see-staff-in-mode was no longer working
+
+### V1.16.58
 
 # Features
 - Added support for multiple staffmodes
