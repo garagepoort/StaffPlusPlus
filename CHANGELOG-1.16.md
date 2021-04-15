@@ -5,6 +5,7 @@
 # bugs
 - When no prefixed used, messages had an extra space.
 - staff-see-staff-in-mode was no longer working
+- Fix bug in luckperms context mode calculator
 
 ### V1.16.58
 
