@@ -45,6 +45,11 @@ public class ListVanishStrategy implements VanishStrategy {
     }
 
     @Override
+    public void updateVanish(Player player) {
+        // no implementation for list vanish
+    }
+
+    @Override
     public VanishType getVanishType() {
         return VanishType.LIST;
     }

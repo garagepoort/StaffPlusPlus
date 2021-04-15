@@ -40,6 +40,15 @@ public class TotalVanishStrategy implements VanishStrategy {
         }
     }
 
+    @Override
+    public void updateVanish(Player player) {
+        if(checkStaffMode(player)) {
+            sessionManager.getAll().stream()
+                .filter(session -> session.getPlayer().isPresent() && session.getVanishType() == VanishType.TOTAL)
+                .forEach(p -> player.hidePlayer(p.getPlayer().get()));
+        }
+    }
+
     private boolean checkStaffMode(Player p) {
         PlayerSession playerSession = sessionManager.get(p.getUniqueId());
         return !playerSession.isInStaffMode() || !playerSession.getModeConfiguration().get().isStaffCanSeeVanished();
