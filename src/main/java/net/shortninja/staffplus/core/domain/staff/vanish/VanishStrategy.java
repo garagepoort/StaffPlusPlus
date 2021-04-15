@@ -9,5 +9,12 @@ public interface VanishStrategy {
 
     void unvanish(Player player);
 
+    /**
+     * Triggered when a new player joins.
+     * Make sure all currently vanished players are not visible for the given recently join player
+     * @param player
+     */
+    void updateVanish(Player player);
+
     VanishType getVanishType();
 }

@@ -15,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-import java.util.Optional;
 
 @IocBean
 public class VanishServiceImpl {
@@ -71,15 +70,8 @@ public class VanishServiceImpl {
         return user.getVanishType() != VanishType.NONE;
     }
 
-    public void updateVanish() {
-        VanishStrategy vanishStrategy = getVanishStrategy(VanishType.TOTAL);
-        for (PlayerSession user : sessionManager.getAll()) {
-            Optional<Player> player = user.getPlayer();
-
-            if (player.isPresent() && user.getVanishType() == VanishType.TOTAL) {
-                vanishStrategy.vanish(player.get());
-            }
-        }
+    public void updateVanish(Player player) {
+        vanishStrategies.forEach(v -> v.updateVanish(player));
     }
 
     private VanishStrategy getVanishStrategy(VanishType vanishType) {
