@@ -61,9 +61,7 @@ public class PlayerJoin implements Listener {
         playerManager.syncPlayer(event.getPlayer());
 
         Player player = event.getPlayer();
-
         manageUser(player);
-        vanishServiceImpl.updateVanish();
 
         PlayerSession session = sessionManager.get(player.getUniqueId());
         Optional<GeneralModeConfiguration> defaultMode = staffModeService.getModeConfig(player);
@@ -73,6 +71,8 @@ public class PlayerJoin implements Listener {
         } else {
             staffModeService.turnStaffModeOff(player);
         }
+
+        vanishServiceImpl.updateVanish(player);
 
         if (session.isVanished()) {
             event.setJoinMessage("");
