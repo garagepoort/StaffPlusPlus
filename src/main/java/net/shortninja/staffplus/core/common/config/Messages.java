@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.Strings;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -335,21 +336,20 @@ public class Messages {
         }
 
         message = placeholderService.setPlaceholders(player, message);
-        player.sendMessage(colorize(prefix + " " + message));
+        player.sendMessage(buildMessage(prefix, message));
     }
 
     public void send(CommandSender sender, String message, String prefix) {
         message = placeholderService.setPlaceholders(sender, message);
-
-        sender.sendMessage(colorize(prefix + " " + message));
+        sender.sendMessage(buildMessage(prefix, message));
     }
 
     public void sendGlobalMessage(String message, String prefix) {
-        Bukkit.broadcastMessage(colorize(prefix + " " + message));
+        Bukkit.broadcastMessage(buildMessage(prefix, message));
     }
 
     public void sendGroupMessage(String message, String permission, String prefix) {
-        if(message == null) {
+        if (message == null) {
             return;
         }
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -368,6 +368,14 @@ public class Messages {
         for (String message : messages) {
             message = placeholderService.setPlaceholders(player, message);
             send(player, message, prefix);
+        }
+    }
+
+    private String buildMessage(String prefix, String message) {
+        if (StringUtils.isEmpty(prefix)) {
+            return colorize(message);
+        } else {
+            return colorize(prefix + " " + message);
         }
     }
 }

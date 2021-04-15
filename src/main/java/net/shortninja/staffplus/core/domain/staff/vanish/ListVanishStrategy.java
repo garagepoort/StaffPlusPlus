@@ -5,7 +5,6 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
@@ -15,13 +14,11 @@ import org.bukkit.entity.Player;
 public class ListVanishStrategy implements VanishStrategy {
 
     private final Options options;
-    private final PermissionHandler permission;
     private final Messages messages;
     private final IProtocolService protocolService;
 
-    public ListVanishStrategy(Options options, PermissionHandler permission, Messages messages, IProtocolService protocolService) {
+    public ListVanishStrategy(Options options, Messages messages, IProtocolService protocolService) {
         this.options = options;
-        this.permission = permission;
         this.messages = messages;
         this.protocolService = protocolService;
     }
