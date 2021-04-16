@@ -55,20 +55,24 @@ public class VanishCmd extends AbstractCmd {
                 vanishServiceImpl.removeVanish(targetPlayer.getPlayer());
             }
 
+            sessionManager.saveSession(targetPlayer.getPlayer());
             return true;
         }
 
         if (args.length == 2 && permissionHandler.isOp(sender)) {
             handleVanishArgument(sender, args[0], targetPlayer.getPlayer(), false);
+            sessionManager.saveSession(targetPlayer.getPlayer());
             return true;
         }
 
         if (args.length == 1) {
             handleVanishArgument(sender, args[0], (Player) sender, true);
+            sessionManager.saveSession(targetPlayer.getPlayer());
             return true;
         }
 
         sendHelp(sender);
+        sessionManager.saveSession(targetPlayer.getPlayer());
         return true;
     }
 

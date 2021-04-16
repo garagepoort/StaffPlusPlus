@@ -59,6 +59,7 @@ public class NotesCmd extends AbstractCmd {
             sendHelp(sender);
         }
 
+        sessionManager.saveSession(targetPlayer.getPlayer());
         return true;
     }
 

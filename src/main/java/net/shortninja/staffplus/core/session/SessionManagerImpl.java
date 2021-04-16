@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @IocBean
-public class SessionManagerImpl  implements SessionManager {
+public class SessionManagerImpl implements SessionManager {
     private static Map<UUID, PlayerSession> playerSessions = new HashMap<>();
     private final SessionLoader sessionLoader;
 
@@ -52,5 +52,9 @@ public class SessionManagerImpl  implements SessionManager {
 
     public void saveAll() {
         sessionLoader.saveSessions(playerSessions.values());
+    }
+
+    public void saveSession(Player player) {
+        sessionLoader.saveSession(get(player.getUniqueId()));
     }
 }
