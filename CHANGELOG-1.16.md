@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.59 (NOT YET RELEASED)
+### V1.16.60
 
 # bugs
 - When no prefixed used, messages had an extra space.
