@@ -7,6 +7,7 @@
 - staff-see-staff-in-mode was no longer working
 - Fix bug in luckperms context mode calculator
 - Fix bug, vanish message shown every time a new player joins
+- Fix session sync issues
 
 ### V1.16.58
 

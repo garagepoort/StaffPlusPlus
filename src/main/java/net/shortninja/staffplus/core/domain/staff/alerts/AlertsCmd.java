@@ -126,6 +126,7 @@ public class AlertsCmd extends AbstractCmd {
         if (wasChanged && shouldCheckPermission) {
             messages.send(player, messages.alertChanged.replace("%alerttype%", alertTypeName.replace("_", " ")).replace("%status%", isEnabled ? "enabled" : "disabled"), messages.prefixGeneral);
         }
+        sessionManager.saveSession(player);
     }
 
     private boolean setAlertType(Player player, AlertType alertType, boolean isEnabled, boolean shouldCheckPermission) {

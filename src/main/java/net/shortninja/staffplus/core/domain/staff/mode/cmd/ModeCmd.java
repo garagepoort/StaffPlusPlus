@@ -56,6 +56,7 @@ public class ModeCmd extends AbstractCmd {
         if (args.length == 0) {
             validateIsPlayer(sender);
             toggleMode((Player) sender);
+            sessionManager.saveSession(targetPlayer.getPlayer());
             return true;
         }
 
@@ -66,6 +67,7 @@ public class ModeCmd extends AbstractCmd {
                 permissionHandler.validateOp(sender);
                 toggleMode(targetPlayer.getPlayer());
             }
+            sessionManager.saveSession(targetPlayer.getPlayer());
             return true;
         }
 
@@ -77,14 +79,18 @@ public class ModeCmd extends AbstractCmd {
             switch (option) {
                 case ENABLE:
                     staffModeService.turnStaffModeOn(targetPlayer.getPlayer());
+                    sessionManager.saveSession(targetPlayer.getPlayer());
                     return true;
                 case DISABLE:
                     staffModeService.turnStaffModeOff(targetPlayer.getPlayer());
+                    sessionManager.saveSession(targetPlayer.getPlayer());
                     return true;
                 default:
                     throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
             }
         }
+
+        sessionManager.saveSession(targetPlayer.getPlayer());
         return true;
     }
 
