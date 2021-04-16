@@ -53,6 +53,7 @@ public class StaffModeHook implements Listener {
             playerManager.getOnlinePlayer(exitStaffModeEvent.getPlayerUuid()).ifPresent(p -> investigationService.tryPausingInvestigation(p.getPlayer()));
         }
     }
+
     @EventHandler
     public void handleExitStaffMode(SwitchStaffModeEvent switchStaffModeEvent) {
         Optional<String> staffModeConfig = options.investigationConfiguration.getStaffMode();
