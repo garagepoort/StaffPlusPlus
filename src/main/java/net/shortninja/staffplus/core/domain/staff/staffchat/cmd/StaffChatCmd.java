@@ -55,6 +55,9 @@ public class StaffChatCmd extends AbstractCmd {
             }
         }
 
+        if (sender instanceof Player) {
+            sessionManager.saveSession((Player) sender);
+        }
         return true;
     }
 
