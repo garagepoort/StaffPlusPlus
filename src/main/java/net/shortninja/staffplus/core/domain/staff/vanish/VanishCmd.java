@@ -9,7 +9,6 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
@@ -42,10 +41,6 @@ public class VanishCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
-        if(!(sender instanceof Player)) {
-            throw new BusinessException(messages.onlyPlayers);
-        }
-
         if (args.length >= 3 && permissionHandler.isOp(sender)) {
             String option = args[2];
 
@@ -66,6 +61,7 @@ public class VanishCmd extends AbstractCmd {
         }
 
         if (args.length == 1) {
+            validateIsPlayer(sender);
             handleVanishArgument(sender, args[0], (Player) sender, true);
             sessionManager.saveSession(targetPlayer.getPlayer());
             return true;
