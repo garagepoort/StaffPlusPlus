@@ -263,3 +263,6 @@ permissions:
             online: "staff.enderchests.view.online"
             offline: "staff.enderchests.view.offline"
         interact: "staff.enderchests.interact"
+
+    webui:
+        register: "staff.webui.register"
