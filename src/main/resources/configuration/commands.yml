@@ -161,3 +161,6 @@ commands:
 
     # The command to view the players with the most infractions
     infractions-top-view: "infractions-top"
+
+    webui:
+        register: "register"

@@ -200,8 +200,8 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
         UUID issuerUuid = UUID.fromString(rs.getString("issuer_uuid"));
         UUID unmutedByUUID = rs.getString("unmuted_by_uuid") != null ? UUID.fromString(rs.getString("unmuted_by_uuid")) : null;
 
-        String playerName = getPlayerName(playerUuid);
-        String issuerName = getPlayerName(issuerUuid);
+        String playerName = rs.getString("player_name");
+        String issuerName = rs.getString("issuer_uuid");
 
         String unmutedByName = null;
         if (unmutedByUUID != null) {

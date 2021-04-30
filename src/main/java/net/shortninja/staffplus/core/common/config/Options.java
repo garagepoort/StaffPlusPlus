@@ -51,6 +51,8 @@ import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningCo
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningModuleLoader;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncModuleLoader;
+import net.shortninja.staffplus.core.domain.webui.config.WebUiConfiguration;
+import net.shortninja.staffplus.core.domain.webui.config.WebUiModuleLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -100,6 +102,7 @@ public class Options {
     public AlertsConfiguration alertsConfiguration;
     public ChatConfiguration chatConfiguration;
     public StaffItemsConfiguration staffItemsConfiguration;
+    public WebUiConfiguration webuiConfiguration;
 
     /*
      * Vanish
@@ -220,6 +223,7 @@ public class Options {
     private final InvestigationModuleLoader investigationModuleLoader;
     private final StaffCustomItemsLoader staffCustomItemsLoader;
     private final StaffItemsLoader staffItemsLoader;
+    private final WebUiModuleLoader webUiModuleLoader;
 
     public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
                    InfractionsModuleLoader infractionsModuleLoader,
@@ -245,7 +249,8 @@ public class Options {
                    ChatModuleLoader chatModuleLoader,
                    InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
-                   StaffItemsLoader staffItemsLoader) {
+                   StaffItemsLoader staffItemsLoader,
+                   WebUiModuleLoader webUiModuleLoader) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
         this.reportingModuleLoader = reportingModuleLoader;
@@ -271,6 +276,7 @@ public class Options {
         this.investigationModuleLoader = investigationModuleLoader;
         this.staffCustomItemsLoader = staffCustomItemsLoader;
         this.staffItemsLoader = staffItemsLoader;
+        this.webUiModuleLoader = webUiModuleLoader;
         reload();
     }
 
@@ -317,6 +323,7 @@ public class Options {
         investigationConfiguration = this.investigationModuleLoader.loadConfig();
         customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();
         staffItemsConfiguration = this.staffItemsLoader.loadConfig();
+        webuiConfiguration = this.webUiModuleLoader.loadConfig();
 
         /*
          * Vanish
