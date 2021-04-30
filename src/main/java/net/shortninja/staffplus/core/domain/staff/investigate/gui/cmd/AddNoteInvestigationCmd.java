@@ -26,7 +26,7 @@ public class AddNoteInvestigationCmd extends AbstractCmd {
         super(options.investigationConfiguration.getAddNoteCmd(), messages, options, commandService);
         this.investigationNoteService = investigationNoteService;
         setDescription("Add a note to your investigation");
-        setDescription("[note]");
+        setUsage("[note]");
         setPermission(options.investigationConfiguration.getAddNotePermission());
     }
 
