@@ -27,7 +27,7 @@ public enum TimeUnit {
     }
 
     public static long getDuration(String un, int time) {
-        if (!JavaUtils.isValidEnum(TimeUnit.class, un)) {
+        if (!JavaUtils.isValidEnum(TimeUnit.class, un.toUpperCase())) {
             throw new BusinessException("&CInvalid time unit used. Valid values: [" + Arrays.stream(TimeUnit.values()).map(Enum::name).collect(Collectors.joining(", ")) + "]");
         }
         TimeUnit timeUnit = TimeUnit.valueOf(un.toUpperCase());
