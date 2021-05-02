@@ -20,7 +20,7 @@ public class BaseCmd {
         this.command = command;
         this.match = StaffPlus.get().getDescription().getName();
         this.description = messages.colorize(command.getDescription());
-        this.usage = "/" + match + " " + command.getUsage();
+        this.usage = "/" + command.getName() + " " + command.getUsage();
 
         this.command.setPermissionMessage(messages.colorize(messages.noPermission));
         this.command.setDescription(description);

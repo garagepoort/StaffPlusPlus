@@ -8,6 +8,8 @@
 
 # bugs
 - Issue with NONE vanish strategy
+- Fix warn without options threw internal exception
+- Fix usage description of commands
 
 ### V1.16.60
 
