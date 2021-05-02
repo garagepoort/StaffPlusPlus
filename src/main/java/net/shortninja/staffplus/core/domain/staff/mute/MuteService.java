@@ -3,11 +3,9 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
@@ -15,6 +13,7 @@ import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.mute.database.MuteRepository;
 import net.shortninja.staffplusplus.mute.MuteEvent;
 import net.shortninja.staffplusplus.mute.UnmuteEvent;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -32,14 +31,12 @@ public class MuteService implements InfractionProvider {
     private final PermissionHandler permission;
     private final MuteRepository muteRepository;
     private final Options options;
-    private Messages messages;
 
-    public MuteService(PermissionHandler permission, MuteRepository muteRepository, Options options, Messages messages) {
+    public MuteService(PermissionHandler permission, MuteRepository muteRepository, Options options) {
 
         this.permission = permission;
         this.muteRepository = muteRepository;
         this.options = options;
-        this.messages = messages;
     }
 
     public void permMute(CommandSender issuer, SppPlayer playerToMute, String reason) {
@@ -106,34 +103,11 @@ public class MuteService implements InfractionProvider {
         Mute mute = new Mute(reason, endDate, issuerName, issuerUuid, playerToMute.getUsername(), playerToMute.getId());
         mute.setId(muteRepository.addMute(mute));
 
-        notifyPlayers(playerToMute, durationInMillis, issuerName, reason);
         sendEvent(new MuteEvent(mute));
-    }
-
-    private void notifyPlayers(SppPlayer playerToMute, Long duration, String issuerName, String reason) {
-        if (duration == null) {
-            String message = messages.permanentMuted
-                .replace("%target%", playerToMute.getUsername())
-                .replace("%reason%", reason)
-                .replace("%issuer%", issuerName);
-            this.messages.sendGlobalMessage(message, messages.prefixGeneral);
-        } else {
-            String message = messages.tempMuted
-                .replace("%target%", playerToMute.getUsername())
-                .replace("%issuer%", issuerName)
-                .replace("%reason%", reason)
-                .replace("%duration%", JavaUtils.toHumanReadableDuration(duration));
-            this.messages.sendGlobalMessage(message, messages.prefixGeneral);
-        }
     }
 
     private void unmute(Mute mute) {
         muteRepository.update(mute);
-
-        String unmuteMessage = messages.unmuted
-            .replace("%target%", mute.getTargetName())
-            .replace("%issuer%", mute.getUnmutedByName());
-        messages.sendGlobalMessage(unmuteMessage, messages.prefixGeneral);
         sendEvent(new UnmuteEvent(mute));
     }
 
