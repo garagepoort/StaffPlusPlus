@@ -25,7 +25,8 @@ public class MuteModuleLoader extends AbstractConfigLoader<MuteConfiguration> {
         String permissionMutePlayer = permissionsConfig.getString("permissions.mute");
         String permissionUnmutePlayer = permissionsConfig.getString("permissions.unmute");
         String permissionMuteByPass = permissionsConfig.getString("permissions.mute-bypass");
+        String permissionMuteNotifications = permissionsConfig.getString("permissions.mute-notifications");
 
-        return new MuteConfiguration(muteEnabled, commandMutePlayer, commandTempMutePlayer, commandUnmutePlayer, permissionMutePlayer, permissionUnmutePlayer, permissionMuteByPass, guiItemConfig);
+        return new MuteConfiguration(muteEnabled, commandMutePlayer, commandTempMutePlayer, commandUnmutePlayer, permissionMutePlayer, permissionUnmutePlayer, permissionMuteByPass, guiItemConfig, permissionMuteNotifications);
     }
 }
