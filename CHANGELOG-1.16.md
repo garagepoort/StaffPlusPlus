@@ -1,5 +1,14 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.61 (NOT YET RELEASED)
+# features
+- Mutes/unmutes are now no longer broadcasted by default. A permission node is needed to receive mute notifications
+- Web UI registration
+- Allow vanish command to be executed by console
+
+# bugs
+- Issue with NONE vanish strategy
+
 ### V1.16.60
 
 # bugs
