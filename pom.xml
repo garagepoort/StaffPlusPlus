@@ -55,10 +55,6 @@
             <url>https://raw.github.com/rjenkinsjr/maven2/repo</url>
         </repository>
         <repository>
-            <id>rayzr-repo</id>
-            <url>https://rayzr.dev/repo/</url>
-        </repository>
-        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>

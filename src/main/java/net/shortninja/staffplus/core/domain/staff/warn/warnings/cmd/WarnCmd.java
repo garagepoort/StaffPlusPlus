@@ -74,6 +74,10 @@ public class WarnCmd extends AbstractCmd {
             return 2;
         }
 
+        if(args.length == 0) {
+            return 3;
+        }
+
         String severityLevel = args[0];
         WarningSeverityConfiguration severityConfiguration = options.warningConfiguration.getSeverityConfiguration(severityLevel)
             .orElseThrow(() -> new BusinessException("&CCannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
