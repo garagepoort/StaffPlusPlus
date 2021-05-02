@@ -45,6 +45,7 @@ public class WarningSeverityConfiguration {
     public boolean isReasonSettable() {
         return !getReason().isPresent() || isReasonOverwriteEnabled();
     }
+
     public boolean hasDefaultReason() {
         return getReason().isPresent();
     }
