@@ -232,6 +232,9 @@ permissions:
     # Permission to bypass being muted
     mute-bypass: "staff.staffplus.mute-bypass"
 
+    # Permission to receive notifications when someone is muted/unmuted
+    mute-notifications: "staff.staffplus.mute-notifications"
+
     # Permission to add/remove players from the alt detection whitelist
     alt-detect-whitelist: "staff.staffplus.alt-detect-whitelist"
 
