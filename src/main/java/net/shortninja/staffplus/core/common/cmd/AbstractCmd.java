@@ -156,7 +156,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     private void validateMinimumArguments(CommandSender sender, String[] args) {
         if (args.length < getMinimumArguments(sender, args)) {
-            throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()));
+            throw new BusinessException(messages.invalidArguments.replace("%usage%", " &7" + getUsage()));
         }
     }
 
