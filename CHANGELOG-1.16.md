@@ -10,6 +10,7 @@
 - Issue with NONE vanish strategy
 - Fix warn without options threw internal exception
 - Fix usage description of commands
+- Fix enable-on-login staff mode
 
 ### V1.16.60
 
