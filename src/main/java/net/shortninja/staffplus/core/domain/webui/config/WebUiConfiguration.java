@@ -6,10 +6,12 @@ public class WebUiConfiguration {
     private final String host;
     private final String registrationCmd;
     private final String registrationPermission;
+    private final String applicationKey;
 
-    public WebUiConfiguration(boolean enabled, String host, String registrationCmd, String registrationPermission) {
+    public WebUiConfiguration(boolean enabled, String host, String applicationKey, String registrationCmd, String registrationPermission) {
         this.enabled = enabled;
         this.host = host;
+        this.applicationKey = applicationKey;
         this.registrationCmd = registrationCmd;
         this.registrationPermission = registrationPermission;
     }
@@ -28,5 +30,9 @@ public class WebUiConfiguration {
 
     public String getRegistrationPermission() {
         return registrationPermission;
+    }
+
+    public String getApplicationKey() {
+        return applicationKey;
     }
 }

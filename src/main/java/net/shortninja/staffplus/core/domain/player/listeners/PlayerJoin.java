@@ -66,7 +66,7 @@ public class PlayerJoin implements Listener {
         PlayerSession session = sessionManager.get(player.getUniqueId());
         Optional<GeneralModeConfiguration> defaultMode = staffModeService.getModeConfig(player);
         Optional<GeneralModeConfiguration> modeConfiguration = session.getModeConfiguration().isPresent() ? session.getModeConfiguration() : defaultMode;
-        if (session.isInStaffMode() && modeConfiguration.isPresent() && permission.has(player, options.permissionMode)) {
+        if (modeConfiguration.isPresent() && permission.has(player, options.permissionMode) && (session.isInStaffMode() || modeConfiguration.get().isModeEnableOnLogin())) {
             staffModeService.turnStaffModeOn(player, modeConfiguration.get());
         } else {
             staffModeService.turnStaffModeOff(player);

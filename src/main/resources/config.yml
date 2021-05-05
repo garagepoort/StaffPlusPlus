@@ -454,8 +454,9 @@ investigations-module:
 
 # Allow all investigation functionalities
 webui-module:
-    enabled: true
-    host: https://yourserverwebsitehere.com
+    enabled: false
+    host: https://web.staffplusplus.org/
+    application-key:
 
 
 ############################################################
