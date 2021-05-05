@@ -10,9 +10,10 @@ public class WebUiModuleLoader extends AbstractConfigLoader<WebUiConfiguration> 
     protected WebUiConfiguration load() {
         boolean enabled = defaultConfig.getBoolean("webui-module.enabled");
         String host = defaultConfig.getString("webui-module.host");
+        String applicationKey = defaultConfig.getString("webui-module.application-key");
         String registrationCmd = commandsConfig.getString("commands.webui.register");
         String registrationPermission = permissionsConfig.getString("permissions.webui.register");
 
-        return new WebUiConfiguration(enabled, host, registrationCmd, registrationPermission);
+        return new WebUiConfiguration(enabled, host, applicationKey, registrationCmd, registrationPermission);
     }
 }
