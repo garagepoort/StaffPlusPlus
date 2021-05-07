@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
+import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 
 import java.util.List;
@@ -23,6 +24,10 @@ public class ReportConfiguration {
     private boolean notifyReporterOnJoin;
     private List<ReportStatus> reporterNotifyStatuses;
     private List<ReportTypeConfiguration> reportTypeConfigurations;
+    private List<ConfiguredAction> acceptReportActions;
+    private final List<ConfiguredAction> rejectReportActions;
+    private final List<ConfiguredAction> reopenReportActions;
+    private final List<ConfiguredAction> resolveReportActions;
 
 
     public ReportConfiguration(boolean enabled,
@@ -34,7 +39,12 @@ public class ReportConfiguration {
                                GuiItemConfig assignedReportsGui,
                                GuiItemConfig closedReportsGui,
                                String myReportsPermission, String myReportsCmd, boolean notifyReporterOnJoin,
-                               List<ReportStatus> reporterNotifyStatuses, List<ReportTypeConfiguration> reportTypeConfigurations) {
+                               List<ReportStatus> reporterNotifyStatuses,
+                               List<ReportTypeConfiguration> reportTypeConfigurations,
+                               List<ConfiguredAction> acceptReportActions,
+                               List<ConfiguredAction> rejectReportActions,
+                               List<ConfiguredAction> reopenReportActions,
+                               List<ConfiguredAction> resolveReportActions) {
         this.enabled = enabled;
         this.cooldown = cooldown;
         this.showReporter = showReporter;
@@ -49,6 +59,10 @@ public class ReportConfiguration {
         this.notifyReporterOnJoin = notifyReporterOnJoin;
         this.reporterNotifyStatuses = reporterNotifyStatuses;
         this.reportTypeConfigurations = reportTypeConfigurations;
+        this.acceptReportActions = acceptReportActions;
+        this.rejectReportActions = rejectReportActions;
+        this.reopenReportActions = reopenReportActions;
+        this.resolveReportActions = resolveReportActions;
     }
 
     public boolean isClosingReasonEnabled() {
@@ -105,5 +119,21 @@ public class ReportConfiguration {
 
     public List<ReportTypeConfiguration> getReportTypeConfigurations() {
         return reportTypeConfigurations;
+    }
+
+    public List<ConfiguredAction> getAcceptReportActions() {
+        return acceptReportActions;
+    }
+
+    public List<ConfiguredAction> getRejectReportActions() {
+        return rejectReportActions;
+    }
+
+    public List<ConfiguredAction> getReopenReportActions() {
+        return reopenReportActions;
+    }
+
+    public List<ConfiguredAction> getResolveReportActions() {
+        return resolveReportActions;
     }
 }

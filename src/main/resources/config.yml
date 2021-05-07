@@ -110,6 +110,11 @@ reports-module:
       # Enable status change notifications. Whenever a staff member changes the status to one of the specified statuses, the reporter will be notified (if he is online).
       # Statuses must be semi-colon separated
       status-change-notifications: IN_PROGRESS;RESOLVED;REJECTED
+  # command hooks
+  accept-commands: []
+  reject-commands: []
+  reopen-commands: []
+  resolve-commands: []
 
 
 ############################################################
