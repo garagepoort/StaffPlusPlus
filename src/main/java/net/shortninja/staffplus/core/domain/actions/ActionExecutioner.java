@@ -29,7 +29,7 @@ public class ActionExecutioner {
 
     boolean executeAction(Actionable actionable, ActionTargetProvider targetProvider, ConfiguredAction action, List<ActionFilter> actionFilters) {
         Optional<SppPlayer> target = targetProvider.getTarget(action);
-        if(!target.isPresent()) {
+        if (!target.isPresent()) {
             return false;
         }
 
@@ -50,39 +50,33 @@ public class ActionExecutioner {
         return false;
     }
 
-    boolean executeAction(ActionTargetProvider targetProvider, ConfiguredAction action, List<ActionFilter> actionFilters, Map<String, String> placeholders) {
+    void executeAction(ActionTargetProvider targetProvider, ConfiguredAction action, List<ActionFilter> actionFilters, Map<String, String> placeholders) {
         Optional<SppPlayer> target = targetProvider.getTarget(action);
-        if(!target.isPresent()) {
-            return false;
+        if (!target.isPresent()) {
+            return;
         }
         placeholders.putIfAbsent("%player%", target.get().getUsername());
 
         if (actionFilters != null && actionFilters.stream().anyMatch(a -> !a.isValidAction(target.get(), action))) {
-            return false;
+            return;
         }
         String commandLine = replacePlaceholders(action.getCommand(), placeholders);
 
         if (runActionNow(target.get(), action.getRunStrategy())) {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandLine);
-            return true;
         } else if (action.getRunStrategy() == DELAY && !target.get().isOnline()) {
             delayedActionsRepository.saveDelayedAction(target.get().getId(), commandLine, CONSOLE);
-            return true;
         }
-        return false;
     }
 
 
-    boolean rollbackAction(ExecutableActionEntity action, SppPlayer target) {
+    void rollbackAction(ExecutableActionEntity action, SppPlayer target) {
         if (runActionNow(target, action.getRollbackRunStrategy())) {
             Bukkit.getScheduler().runTask(StaffPlus.get(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getRollbackCommand().replace("%player%", target.getUsername())));
             actionableRepository.markRollbacked(action.getId());
-            return true;
         } else if (action.getRollbackRunStrategy() == DELAY && !target.isOnline()) {
             delayedActionsRepository.saveDelayedAction(target.getId(), action.getRollbackCommand(), CONSOLE, action.getId(), true);
-            return true;
         }
-        return false;
     }
 
     private String replacePlaceholders(String message, Map<String, String> placeholders) {
