@@ -29,34 +29,28 @@ public class ActionService {
             .collect(Collectors.toList());
     }
 
-    public List<ConfiguredAction> executeActions(ActionTargetProvider targetProvider, List<ConfiguredAction> actions, List<ActionFilter> actionFilters, Map<String, String> placeholders) {
-        return actions.stream()
-            .filter(action -> actionExecutioner.executeAction(targetProvider, action, actionFilters, placeholders))
-            .collect(Collectors.toList());
+    public void executeActions(ActionTargetProvider targetProvider, List<ConfiguredAction> actions, List<ActionFilter> actionFilters, Map<String, String> placeholders) {
+        actions.forEach(action -> actionExecutioner.executeAction(targetProvider, action, actionFilters, placeholders));
     }
 
     public List<ConfiguredAction> executeActions(Actionable actionable, ActionTargetProvider targetProvider, List<ConfiguredAction> actions) {
         return this.executeActions(actionable, targetProvider, actions, null);
     }
 
-    public List<ExecutableActionEntity> rollbackActionable(Actionable actionable) {
+    public void rollbackActionable(Actionable actionable) {
         Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(actionable.getTargetUuid());
         if (!target.isPresent()) {
-            return Collections.emptyList();
+            return;
         }
 
         List<ExecutableActionEntity> actions = getRollbackActions(actionable);
-        return this.rollbackActions(actions, target.get());
+        actions.forEach(action -> actionExecutioner.rollbackAction(action, target.get()));
     }
 
     public List<ExecutableActionEntity> getRollbackActions(Actionable actionable) {
         return actionableRepository.getActions(actionable)
-                .stream().filter(a -> a.isExecuted() && !a.isRollbacked() && StringUtils.isNotEmpty(a.getRollbackCommand()))
-                .collect(Collectors.toList());
-    }
-
-    public List<ExecutableActionEntity> getActions(Actionable actionable) {
-        return actionableRepository.getActions(actionable);
+            .stream().filter(a -> a.isExecuted() && !a.isRollbacked() && StringUtils.isNotEmpty(a.getRollbackCommand()))
+            .collect(Collectors.toList());
     }
 
     public void markExecuted(int executableActionId) {
@@ -65,16 +59,6 @@ public class ActionService {
 
     public void markRollbacked(int executableActionId) {
         actionableRepository.markRollbacked(executableActionId);
-    }
-
-    private List<ExecutableActionEntity> rollbackActions(List<ExecutableActionEntity> actions, SppPlayer target) {
-        List<ExecutableActionEntity> executedCommands = new ArrayList<>();
-        for (ExecutableActionEntity action : actions) {
-            if (actionExecutioner.rollbackAction(action, target)) {
-                executedCommands.add(action);
-            }
-        }
-        return executedCommands;
     }
 
     public void deleteActions(Actionable actionable) {

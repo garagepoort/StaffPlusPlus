@@ -5,6 +5,8 @@ import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
 
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
+import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
+import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -48,6 +50,11 @@ public class ReportingModuleLoader extends AbstractConfigLoader<ReportConfigurat
         GuiItemConfig assignedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiAssignedReportsTitle, modeGuiAssignedReportsTitle, modeGuiAssignedReportsLore);
         GuiItemConfig closedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiClosedReportsTitle, modeGuiClosedReportsTitle, modeGuiClosedReportsLore);
 
+        List<ConfiguredAction> acceptReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.accept-commands", new ArrayList<>()));
+        List<ConfiguredAction> rejectReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.reject-commands", new ArrayList<>()));
+        List<ConfiguredAction> reopenReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.reopen-commands", new ArrayList<>()));
+        List<ConfiguredAction> resolveReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.resolve-commands", new ArrayList<>()));
+
         return new ReportConfiguration(enabled,
             cooldown,
             showReporter,
@@ -61,7 +68,11 @@ public class ReportingModuleLoader extends AbstractConfigLoader<ReportConfigurat
             myReportsCmd,
             notifyReportOnJoin,
             reporterNotifyStatuses,
-            getReportTypes(defaultConfig));
+            getReportTypes(defaultConfig),
+            acceptReportActions,
+            rejectReportActions,
+            reopenReportActions,
+            resolveReportActions);
     }
 
     private List<ReportTypeConfiguration> getReportTypes(FileConfiguration config) {
