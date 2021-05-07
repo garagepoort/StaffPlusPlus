@@ -5,6 +5,7 @@
 - Mutes/unmutes are now no longer broadcasted by default. A permission node is needed to receive mute notifications
 - Web UI registration
 - Allow vanish command to be executed by console
+- Add command hooks for reports
 
 # bugs
 - Issue with NONE vanish strategy

@@ -18,13 +18,13 @@ import java.util.*;
 
 @IocBean
 @IocListener
-public class InvestigationActionsService implements Listener {
+public class InvestigationActionsHook implements Listener {
 
     private final Options options;
     private final ActionService actionService;
     private final PlayerManager playerManager;
 
-    public InvestigationActionsService(Options options, ActionService actionService, PlayerManager playerManager) {
+    public InvestigationActionsHook(Options options, ActionService actionService, PlayerManager playerManager) {
         this.options = options;
         this.actionService = actionService;
         this.playerManager = playerManager;
