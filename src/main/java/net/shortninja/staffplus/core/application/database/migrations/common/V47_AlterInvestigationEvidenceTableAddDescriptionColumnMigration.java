@@ -6,7 +6,7 @@ public class V47_AlterInvestigationEvidenceTableAddDescriptionColumnMigration im
 
     @Override
     public String getStatement() {
-        return "ALTER TABLE sp_investigation_evidence ADD COLUMN description TEXT NOT NULL DEFAULT '';";
+        return "ALTER TABLE sp_investigation_evidence ADD COLUMN description TEXT NOT NULL;";
     }
 
     @Override
