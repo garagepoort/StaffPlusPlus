@@ -9,6 +9,7 @@ public class V51_CreateWebUiRegistrationTableMigration implements Migration {
             "ID INT NOT NULL AUTO_INCREMENT,  " +
             "authentication_key VARCHAR(32) NOT NULL,  " +
             "player_uuid VARCHAR(36) NOT NULL, " +
+            "role VARCHAR(36) NOT NULL, " +
             "timestamp BIGINT NOT NULL, " +
             "PRIMARY KEY (ID)) ENGINE = InnoDB;";
     }

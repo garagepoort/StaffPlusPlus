@@ -461,6 +461,7 @@ investigations-module:
 webui-module:
     enabled: false
     host: https://web.staffplusplus.org/
+    role: MEMBER
     application-key:
 
 
