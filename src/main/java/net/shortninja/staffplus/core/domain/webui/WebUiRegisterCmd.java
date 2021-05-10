@@ -31,7 +31,7 @@ public class WebUiRegisterCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
 
@@ -39,11 +39,10 @@ public class WebUiRegisterCmd extends AbstractCmd {
         String serverName = options.serverName;
         String uuid = ((Player) sender).getUniqueId().toString();
         String applicationKey = options.webuiConfiguration.getApplicationKey();
-        webUiRegistrationRepository.addRegistrationRequest(((Player) sender).getUniqueId(), authenticationKey, options.webuiConfiguration.getRole());
+        webUiRegistrationRepository.addRegistrationRequest(sender.getName(), ((Player) sender).getUniqueId(), authenticationKey, options.webuiConfiguration.getRole());
 
-        String registrationLink = String.format(options.webuiConfiguration.getHost() + "/register?applicationKey=%s&uuid=%s&authenticationKey=%s&serverName=%s", applicationKey, uuid, authenticationKey, serverName);
-//        messages.send(sender, "Registration link: " + registrationLink, messages.prefixGeneral);
-        sender.sendMessage("Registration link: " + registrationLink);
+        String registrationLink = String.format(options.webuiConfiguration.getHost() + "/register?applicationKey=%s&&uuid=%s&&authenticationKey=%s&&serverName=%s", applicationKey, uuid, authenticationKey, serverName);
+        messages.send(sender, "&bRegistration link: &6" + registrationLink, messages.prefixGeneral);
         return true;
     }
 
