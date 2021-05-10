@@ -39,7 +39,8 @@ public class WebUiRegisterCmd extends AbstractCmd {
         String serverName = options.serverName;
         String uuid = ((Player) sender).getUniqueId().toString();
         String applicationKey = options.webuiConfiguration.getApplicationKey();
-        webUiRegistrationRepository.addRegistrationRequest(((Player) sender).getUniqueId(), authenticationKey);
+        webUiRegistrationRepository.addRegistrationRequest(((Player) sender).getUniqueId(), authenticationKey, options.webuiConfiguration.getRole());
+
         String registrationLink = String.format(options.webuiConfiguration.getHost() + "/register?applicationKey=%s&uuid=%s&authenticationKey=%s&serverName=%s", applicationKey, uuid, authenticationKey, serverName);
 //        messages.send(sender, "Registration link: " + registrationLink, messages.prefixGeneral);
         sender.sendMessage("Registration link: " + registrationLink);

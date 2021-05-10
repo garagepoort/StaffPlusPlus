@@ -4,5 +4,5 @@ import java.util.UUID;
 
 public interface WebUiRegistrationRepository {
 
-    void addRegistrationRequest(UUID playerUuid, String authenticationKey);
+    void addRegistrationRequest(UUID playerUuid, String authenticationKey, String role);
 }
