@@ -460,7 +460,7 @@ investigations-module:
 # Allow all investigation functionalities
 webui-module:
     enabled: false
-    host: https://web.staffplusplus.org/
+    host: https://web.staffplusplus.org
     role: MEMBER
     application-key:
 
