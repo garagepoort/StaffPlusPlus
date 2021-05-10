@@ -327,7 +327,9 @@ public class Messages {
     }
 
     public String colorize(String message) {
-        return ChatColor.translateAlternateColorCodes('&', message);
+        message = message.replaceAll("&&", "<ampersand>");
+        message = ChatColor.translateAlternateColorCodes('&', message);
+        return message.replaceAll("<ampersand>", "&");
     }
 
     public void send(Player player, String message, String prefix, String permission) {
