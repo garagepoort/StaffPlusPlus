@@ -55,9 +55,7 @@ public class VanishServiceImpl {
 
     public void removeVanish(Player player) {
         PlayerSession session = sessionManager.get(player.getUniqueId());
-        VanishType vanishType = session.getVanishType();
-
-        getVanishStrategy(vanishType).unvanish(player);
+        vanishStrategies.forEach(v -> v.unvanish(player));
         session.setVanishType(VanishType.NONE);
     }
 
