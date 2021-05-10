@@ -26,13 +26,14 @@ public class SqlWebUiRegistrationRepository implements WebUiRegistrationReposito
     }
 
     @Override
-    public void addRegistrationRequest(UUID playerUuid, String authenticationKey) {
+    public void addRegistrationRequest(UUID playerUuid, String authenticationKey, String role) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_web_ui_registration(player_uuid, authentication_key, timestamp) " +
-                 "VALUES(?, ?, ?);")) {
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_web_ui_registration(player_uuid, authentication_key, role, timestamp) " +
+                 "VALUES(?, ?, ?, ?);")) {
             insert.setString(1, playerUuid.toString());
             insert.setString(2, authenticationKey);
-            insert.setLong(3, System.currentTimeMillis());
+            insert.setString(3, role);
+            insert.setLong(4, System.currentTimeMillis());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);

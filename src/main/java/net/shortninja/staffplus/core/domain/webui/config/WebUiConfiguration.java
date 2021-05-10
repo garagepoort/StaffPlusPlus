@@ -7,13 +7,15 @@ public class WebUiConfiguration {
     private final String registrationCmd;
     private final String registrationPermission;
     private final String applicationKey;
+    private final String role;
 
-    public WebUiConfiguration(boolean enabled, String host, String applicationKey, String registrationCmd, String registrationPermission) {
+    public WebUiConfiguration(boolean enabled, String host, String applicationKey, String registrationCmd, String registrationPermission, String role) {
         this.enabled = enabled;
         this.host = host;
         this.applicationKey = applicationKey;
         this.registrationCmd = registrationCmd;
         this.registrationPermission = registrationPermission;
+        this.role = role;
     }
 
     public boolean isEnabled() {
@@ -34,5 +36,9 @@ public class WebUiConfiguration {
 
     public String getApplicationKey() {
         return applicationKey;
+    }
+
+    public String getRole() {
+        return role;
     }
 }
