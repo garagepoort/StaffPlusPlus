@@ -12,6 +12,7 @@
 - Fix warn without options threw internal exception
 - Fix usage description of commands
 - Fix enable-on-login staff mode
+- Fix for staff getting stuck in vanish
 
 ### V1.16.60
 

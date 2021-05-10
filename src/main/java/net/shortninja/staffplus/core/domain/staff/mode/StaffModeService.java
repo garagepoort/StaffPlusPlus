@@ -18,7 +18,6 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.SwitchStaffModeEvent;
-import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -174,11 +173,7 @@ public class StaffModeService {
             runModeCommands(player, false, modeConfiguration.get());
             resetPlayer(player, modeData);
 
-            if (modeData.getVanishType() == VanishType.NONE) {
-                vanishServiceImpl.removeVanish(player);
-            } else {
-                vanishServiceImpl.addVanish(player, modeData.getVanishType());
-            }
+            vanishServiceImpl.removeVanish(player);
             modeDataRepository.deleteModeData(player);
         }
 
