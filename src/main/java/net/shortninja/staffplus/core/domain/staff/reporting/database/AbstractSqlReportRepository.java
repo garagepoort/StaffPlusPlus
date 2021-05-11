@@ -349,13 +349,13 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         String type = rs.getString("type");
         Location location = null;
         SppLocation sppLocation = null;
-        rs.getInt(14);
+        rs.getInt(16);
 
         if (!rs.wasNull()) {
-            double locationX = rs.getDouble(15);
-            double locationY = rs.getDouble(16);
-            double locationZ = rs.getDouble(17);
-            String worldName = rs.getString(18);
+            double locationX = rs.getDouble(17);
+            double locationY = rs.getDouble(18);
+            double locationZ = rs.getDouble(19);
+            String worldName = rs.getString(20);
             World locationWorld = Bukkit.getServer().getWorld(worldName);
             location = new Location(locationWorld, locationX, locationY, locationZ);
             sppLocation = new SppLocation(worldName, locationX, locationY, locationZ, serverName);
