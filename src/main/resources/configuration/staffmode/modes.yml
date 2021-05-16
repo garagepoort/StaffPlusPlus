@@ -21,7 +21,6 @@ modes:
             -   command: 'example1 %player%'
             -   command: 'example2 %player%'
         disable-on-world-change: false
-        staff-see-staff-in-mode: false
         gui:
             - compass-module:1
             - random-teleport-module:2
