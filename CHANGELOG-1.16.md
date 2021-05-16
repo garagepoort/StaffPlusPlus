@@ -5,7 +5,8 @@
 - Added permission `see-vanished`. Option `staff-see-staff-in-mode` has been removed
 
 # features
-- Add reporter
+- Add reports support for web-ui
+- Update upgrade notifier to stop using the spiget api
 
 ### V1.16.62
 # features
