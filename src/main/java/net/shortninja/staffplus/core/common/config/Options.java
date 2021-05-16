@@ -128,6 +128,7 @@ public class Options {
     public String permissionWarn;
     public String permissionWarnBypass;
     public String permissionVanishCommand;
+    public String permissionSeeVanished;
     public String permissionVanishTotal;
     public String permissionVanishList;
     public String permissionChatClear;
@@ -346,6 +347,7 @@ public class Options {
         permissionReportUpdateNotifications = permissionsConfig.getString("permissions.report-update-notifications");
         permissionWarn = permissionsConfig.getString("permissions.warn");
         permissionWarnBypass = permissionsConfig.getString("permissions.warn-bypass");
+        permissionSeeVanished = permissionsConfig.getString("permissions.see-vanished");
         permissionVanishCommand = permissionsConfig.getString("permissions.vanish");
         permissionVanishTotal = permissionsConfig.getString("permissions.vanish-total");
         permissionVanishList = permissionsConfig.getString("permissions.vanish-list");
