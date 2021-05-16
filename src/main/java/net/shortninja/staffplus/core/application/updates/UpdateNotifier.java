@@ -10,14 +10,12 @@ import feign.slf4j.Slf4jLogger;
 import net.shortninja.staffplus.core.StaffPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.List;
-import java.util.Optional;
+import org.json.simple.JSONObject;
 
 @IocBean
 public class UpdateNotifier extends BukkitRunnable {
 
-    private static final String RESOURCE_API_URL = "https://api.spiget.org/v2/resources/83562";
+    private static final String RESOURCE_API_URL = "https://staffplusplus.org";
     private static final String DOT = ".";
     private static final String LINE = "============================================================";
 
@@ -37,16 +35,17 @@ public class UpdateNotifier extends BukkitRunnable {
     @Override
     public void run() {
         try {
-            List<ResourceVersion> versions = spigetClient.getVersions();
+            JSONObject versions = spigetClient.getVersions();
             String currentVersion = StaffPlus.get().getDescription().getVersion();
-            String mcVersion = currentVersion.substring(0, currentVersion.lastIndexOf(DOT));
 
-            Optional<ResourceVersion> higherVersion = versions.stream()
-                .filter(r -> r.getName().startsWith(mcVersion))
-                .filter(r -> getMinecraftVersion(r.getName()) > getMinecraftVersion(currentVersion))
-                .findFirst();
+            String jar = (String) versions.get("1.16");
+            if(jar == null) {
+                return;
+            }
+            String latestVersion = jar.substring(jar.lastIndexOf("-") +1).replace(".jar", "");
+            boolean outdated = getMinecraftVersion(latestVersion) > getMinecraftVersion(currentVersion);
 
-            if (higherVersion.isPresent()) {
+            if (outdated) {
                 Bukkit.getLogger().info(LINE);
                 Bukkit.getLogger().info("=           A new Version of Staff++ is available          =");
                 Bukkit.getLogger().info("=                         Visit                            =");
