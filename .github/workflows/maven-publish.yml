@@ -50,6 +50,7 @@ jobs:
           port: ${{ secrets.PORT }}
           source: "target/staffplusplus*.jar"
           target: "/var/www/html/releases/${{steps.get-release-version.outputs.releaseVersion}}/"
+          strip_components: 1
 
       - name: Bump version
         run: chmod +x ./bump_version.sh && ./bump_version.sh
@@ -59,5 +60,10 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "Bumped version" -a
-
+            -
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            branch: ${{ steps.vars.outputs.branch }}
 
