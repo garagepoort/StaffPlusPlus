@@ -24,19 +24,21 @@ public class MysqlReportRepository extends AbstractSqlReportRepository {
     public int addReport(Report report) {
         int locationId = locationRepository.addLocation(report.getLocation().get());
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, Player_UUID, status, timestamp, server_name, location_id, type) " +
-                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, reporter_name, Player_UUID, player_name, status, timestamp, server_name, location_id, type) " +
+                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             insert.setString(1, report.getReason());
             insert.setString(2, report.getReporterUuid().toString());
-            insert.setString(3, report.getCulpritUuid() == null ? null : report.getCulpritUuid().toString());
-            insert.setString(4, report.getReportStatus().toString());
-            insert.setLong(5, report.getCreationDate().toInstant().toEpochMilli());
-            insert.setString(6, options.serverName);
-            insert.setInt(7, locationId);
+            insert.setString(3, report.getReporterName());
+            insert.setString(4, report.getCulpritUuid() == null ? null : report.getCulpritUuid().toString());
+            insert.setString(5, report.getCulpritName());
+            insert.setString(6, report.getReportStatus().toString());
+            insert.setLong(7, report.getCreationDate().toInstant().toEpochMilli());
+            insert.setString(8, options.serverName);
+            insert.setInt(9, locationId);
             if (report.getReportType().isPresent()) {
-                insert.setString(8, report.getReportType().get());
+                insert.setString(10, report.getReportType().get());
             } else {
-                insert.setNull(8, Types.VARCHAR);
+                insert.setNull(10, Types.VARCHAR);
             }
             insert.executeUpdate();
 

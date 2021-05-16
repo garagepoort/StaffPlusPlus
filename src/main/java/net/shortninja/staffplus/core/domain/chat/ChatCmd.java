@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.chat;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import com.google.common.collect.Sets;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -16,6 +15,8 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
@@ -30,7 +31,7 @@ public class ChatCmd extends AbstractCmd {
         super(options.commandChat, messages, options, commandService);
         this.chatHandler = chatHandler;
         this.permissionHandler = permissionHandler;
-        setPermissions(Sets.newHashSet(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle));
+        setPermissions(new HashSet<>(Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle)));
         setDescription("Executes the given chat management action.");
         setUsage("[clear | toggle | slow] {enable | disable | time}");
     }

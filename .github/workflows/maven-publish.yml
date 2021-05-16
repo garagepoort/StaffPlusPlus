@@ -15,6 +15,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
@@ -46,8 +48,19 @@ jobs:
           git config --local user.name "GitHub Action"
           git commit -m "Bumped version" -a
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+      - id: get-release-version
+        uses: actions/github-script@0.9.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ steps.vars.outputs.branch }}
+            script: |
+                const releaseVersion = $GITHUB_REF_SLUG.substring($GITHUB_REF_SLUG.lastIndexOf("/") + 1, $GITHUB_REF_SLUG.lastIndexOf("."));
+                core.setOutput('releaseVersion', releaseVersion)
+
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          source: "target/staffplusplus*.jar"
+          target: "/var/www/html/releases/${{steps.get-release-version.outputs.releaseVersion}}/"
