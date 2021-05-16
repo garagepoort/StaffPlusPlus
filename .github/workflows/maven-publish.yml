@@ -35,7 +35,7 @@ jobs:
         uses: actions/github-script@0.9.0
         with:
             script: |
-                const releaseVersion = process.env.GITHUB_REF_SLUG.substring(process.env.GITHUB_REF_SLUG.lastIndexOf("/") + 1, process.env.GITHUB_REF_SLUG.lastIndexOf("."));
+                const releaseVersion = process.env.GITHUB_REF_SLUG.substring(process.env.GITHUB_REF_SLUG.indexOf("-") + 1, process.env.GITHUB_REF_SLUG.lastIndexOf("."));
                 core.setOutput('releaseVersion', releaseVersion)
 
       - name: Build with Maven
