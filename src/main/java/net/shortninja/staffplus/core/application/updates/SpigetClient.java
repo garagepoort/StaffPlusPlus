@@ -2,13 +2,12 @@ package net.shortninja.staffplus.core.application.updates;
 
 import feign.Headers;
 import feign.RequestLine;
-
-import java.util.List;
+import org.json.simple.JSONObject;
 
 public interface SpigetClient {
 
-    @RequestLine("GET /versions?size=5&sort=-releaseDate")
+    @RequestLine("GET /latest_versions.json")
     @Headers("Content-Type: application/json")
-    List<ResourceVersion> getVersions();
+    JSONObject getVersions();
 
 }
