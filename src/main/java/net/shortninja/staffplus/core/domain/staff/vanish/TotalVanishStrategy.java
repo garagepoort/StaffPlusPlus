@@ -5,7 +5,6 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.apache.commons.lang.StringUtils;
@@ -31,7 +30,7 @@ public class TotalVanishStrategy implements VanishStrategy {
     @Override
     public void vanish(Player player) {
         Bukkit.getOnlinePlayers().stream()
-            .filter(p -> checkStaffMode(p) || !permission.has(p, options.permissionMode))
+            .filter(p -> !permission.has(p, options.permissionSeeVanished))
             .forEach(p -> p.hidePlayer(player));
 
         String message = messages.totalVanish.replace("%status%", messages.enabled);
@@ -42,16 +41,11 @@ public class TotalVanishStrategy implements VanishStrategy {
 
     @Override
     public void updateVanish(Player player) {
-        if(checkStaffMode(player)) {
+        if(!permission.has(player, options.permissionSeeVanished)) {
             sessionManager.getAll().stream()
                 .filter(session -> session.getPlayer().isPresent() && session.getVanishType() == VanishType.TOTAL)
                 .forEach(p -> player.hidePlayer(p.getPlayer().get()));
         }
-    }
-
-    private boolean checkStaffMode(Player p) {
-        PlayerSession playerSession = sessionManager.get(p.getUniqueId());
-        return !playerSession.isInStaffMode() || !playerSession.getModeConfiguration().get().isStaffCanSeeVanished();
     }
 
     @Override

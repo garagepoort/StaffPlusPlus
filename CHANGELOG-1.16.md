@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.16
 
+### V1.16.63
+# Breaking change
+- Added permission `see-vanished`. Option `staff-see-staff-in-mode` has been removed
+
+# features
+- Add reporter
+
 ### V1.16.62
 # features
 - Mutes/unmutes are now no longer broadcasted by default. A permission node is needed to receive mute notifications
