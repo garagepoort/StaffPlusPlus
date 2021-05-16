@@ -31,29 +31,15 @@ jobs:
           echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
-      - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy -X -s $GITHUB_WORKSPACE/settings.xml
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - name: Bump version
-        run: chmod +x ./bump_version.sh && ./bump_version.sh
-
-      - name: Commit files
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m "Bumped version" -a
-
       - id: get-release-version
         uses: actions/github-script@0.9.0
         with:
             script: |
                 const releaseVersion = $GITHUB_REF_SLUG.substring($GITHUB_REF_SLUG.lastIndexOf("/") + 1, $GITHUB_REF_SLUG.lastIndexOf("."));
                 core.setOutput('releaseVersion', releaseVersion)
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
 
       - name: copy file via ssh password
         uses: appleboy/scp-action@master
@@ -64,3 +50,14 @@ jobs:
           port: ${{ secrets.PORT }}
           source: "target/staffplusplus*.jar"
           target: "/var/www/html/releases/${{steps.get-release-version.outputs.releaseVersion}}/"
+
+      - name: Bump version
+        run: chmod +x ./bump_version.sh && ./bump_version.sh
+
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Bumped version" -a
+
+
