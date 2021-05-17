@@ -24,12 +24,11 @@ jobs:
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-      - name: Declare some variables
-        id: vars
+      - name: Get current version
+        id: get-version
         shell: bash
         run: |
-          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
 
       - id: get-release-version
         uses: actions/github-script@0.9.0
@@ -51,6 +50,14 @@ jobs:
           source: "target/staffplusplus*.jar"
           target: "/var/www/html/releases/${{steps.get-release-version.outputs.releaseVersion}}/"
           strip_components: 1
+
+      - name: Deploy changes
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+            command: cd /home && ./update-latest-version.sh "${{steps.get-release-version.outputs.releaseVersion}}" "${{steps.get-version.outputs.version}}"
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            privateKey: ${{ secrets.KEY}}
 
       - name: Bump version
         run: chmod +x ./bump_version.sh && ./bump_version.sh

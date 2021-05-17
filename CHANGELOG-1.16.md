@@ -7,6 +7,7 @@
 # features
 - Add reports support for web-ui
 - Update upgrade notifier to stop using the spiget api
+- All commands can now be disabled by configuring an empty command name using '' 
 
 ### V1.16.62
 # features
