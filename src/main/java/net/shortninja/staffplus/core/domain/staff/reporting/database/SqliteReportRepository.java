@@ -26,6 +26,7 @@ public class SqliteReportRepository extends AbstractSqlReportRepository {
         try (Connection connection = getConnection();
              PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, reporter_name, Player_UUID, player_name, status, timestamp, server_name, location_id, type) " +
                  "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
+            connection.setAutoCommit(false);
             insert.setString(1, report.getReason());
             insert.setString(2, report.getReporterUuid().toString());
             insert.setString(3, report.getReporterName());
