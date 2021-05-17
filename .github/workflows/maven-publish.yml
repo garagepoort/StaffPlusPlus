@@ -24,6 +24,13 @@ jobs:
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
+      - name: Declare some variables
+        id: vars
+        shell: bash
+        run: |
+            echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+            echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       - name: Get current version
         id: get-version
         shell: bash
