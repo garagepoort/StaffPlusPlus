@@ -59,6 +59,13 @@ jobs:
             username: ${{ secrets.USERNAME }}
             privateKey: ${{ secrets.KEY}}
 
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.5
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            custom_tag: ${{steps.get-version.outputs.version}}
+
       - name: Bump version
         run: chmod +x ./bump_version.sh && ./bump_version.sh
 
