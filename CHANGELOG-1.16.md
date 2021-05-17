@@ -1,40 +1,40 @@
 # Changelog Staff++ | v1.16
 
-### V1.16.63
-# Breaking change
+# V1.16.63
+### Breaking change
 - Added permission `see-vanished`. Option `staff-see-staff-in-mode` has been removed
 
-# features
+### features
 - Add reports support for web-ui
 - Update upgrade notifier to stop using the spiget api
 - All commands can now be disabled by configuring an empty command name using '' 
 
-### V1.16.62
-# features
+# V1.16.62
+### features
 - Mutes/unmutes are now no longer broadcasted by default. A permission node is needed to receive mute notifications
 - Web UI registration
 - Allow vanish command to be executed by console
 - Add command hooks for reports
 
-# bugs
+### bugs
 - Issue with NONE vanish strategy
 - Fix warn without options threw internal exception
 - Fix usage description of commands
 - Fix enable-on-login staff mode
 - Fix for staff getting stuck in vanish
 
-### V1.16.60
+# V1.16.60
 
-# bugs
+### bugs
 - When no prefixed used, messages had an extra space.
 - staff-see-staff-in-mode was no longer working
 - Fix bug in luckperms context mode calculator
 - Fix bug, vanish message shown every time a new player joins
 - Fix session sync issues
 
-### V1.16.58
+# V1.16.58
 
-# Features
+### Features
 - Added support for multiple staffmodes
 - Investigations can now be started without needing a player to investigate.
 - Enforce a certain staff mode when starting/resuming an investigation.
@@ -44,36 +44,36 @@
 - Staff modules have been moved from config.yml to configuration/staffmode/modules.yml
 - Custom Staff modules have been moved from config.yml to configuration/staffmode/custom-modules.yml
 
-# bugs
+### bugs
 - Fix synchronisation on namechange of player
 - Fix session synchronisation issues. (Vanish desync bug)
 - Staffchat message was incorrect when using a multi char handle.
 - Fix discord staffchat duplicate prefix
 
-### V1.16.55
+# V1.16.55
 
-# Features
+### Features
 - Added staff toggle fly command
 - Added staffchat mute command.
 - Added investigations
 - Fix reload command. Reload should work for everything now.
 
-# bugs
+### bugs
 - Fix staff chat sending in regular chat when using venturechat
 - Fixed namechangeEvent failing
 
-### V1.16.54
+# V1.16.54
 
-# bugs
+### bugs
 - Luckperms prefix placeholder in staffchat was not using correct player.
 
-### V1.16.53
+# V1.16.53
 
-# Bugs
+### Bugs
 - lang files were not copied when clean installing the plugin
 - The data.yml file writing was not thread safe
 
-### V1.16.52
+# V1.16.52
 
 ### Features
 - freeze module now allows for a title & subtitle message to be displayed when a player is frozen.
@@ -93,7 +93,7 @@
 - Fix bugs when creating reports in a multi server setup having different servers using different world names.
 - Fireticks are now stored and restored when exiting/entering staff mode
 
-### V1.16.51
+# V1.16.51
 
 ### Features
 - Added ability to configure custom report types
@@ -113,14 +113,14 @@
 ### Extras
 - Extracted S++ API to https://github.com/garagepoort/staffplusplus-api
 
-### V1.16.49
+# V1.16.49
 
 ### Features
 - Added warning expiration
 - Some small performance improvements
 - Add staff mode discord notifications.
 
-### V1.16.48
+# V1.16.48
 
 ### Features
 - Added appeals to discord integration
@@ -129,7 +129,7 @@
 - Reports now save the location where they were created.
 - Report GUI has teleport to button
 
-### V1.16.47
+# V1.16.47
 
 ### Features
 - Add warning appeal system
@@ -139,7 +139,7 @@
 ### Bugs
 - Staff item Endereye no longer gets dropped when spammed
 
-### V1.16.45
+# V1.16.45
 
 ### Features
 - Timestamp format can now be configured
@@ -152,7 +152,7 @@
 - Fix luckperms context error when new players join
 - Fix luckperms context not being set correctly
 
-### V1.16.44
+# V1.16.44
 ### Features
 - Rework miner GUI to be more consistent with the other GUIs, pagination + back button
 - Add notify warnings message to the lang files
