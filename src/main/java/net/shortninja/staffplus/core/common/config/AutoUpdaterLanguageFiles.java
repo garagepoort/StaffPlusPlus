@@ -32,7 +32,6 @@ public class AutoUpdaterLanguageFiles extends AbstractConfigUpdater {
 
     private static boolean updateConfig(StaffPlus staffPlus, String languageFile) throws IOException {
         try {
-            staffPlus.getLogger().info("Attempting to fix language file [" + languageFile + "]");
             File langDirectory = new File(StaffPlus.get().getDataFolder() + "/lang/");
             validateConfigFile(langDirectory, languageFile);
 
@@ -50,12 +49,10 @@ public class AutoUpdaterLanguageFiles extends AbstractConfigUpdater {
             lang.save(langFile);
             if (counter.get() > 0) {
                 staffPlus.getLogger().info("Language file " + languageFile + " Fixed. [" + counter.get() + "] properties were added.");
-            } else {
-                staffPlus.getLogger().info("Language file " + languageFile + " is up to date. No fix needed");
             }
             return true;
         } catch (InvalidConfigurationException | IOException | ConfigurationException e) {
-            staffPlus.getLogger().severe("Language file is INVALID!!! Disabling StaffPlusPlus!");
+            staffPlus.getLogger().severe("Language file " + languageFile + " is INVALID!!! Disabling StaffPlusPlus!");
             staffPlus.getLogger().severe("Full error [" + e.getMessage() + "]");
             return false;
         }
