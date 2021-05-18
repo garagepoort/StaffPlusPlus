@@ -25,7 +25,6 @@ public class AutoUpdater extends AbstractConfigUpdater {
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         try {
-            StaffPlus.get().getLogger().info("Attempting to fix configuration file...");
             validateConfigFile(configurationFile.getPath());
 
             FileConfiguration config = configurationFile.getFileConfiguration();
@@ -43,8 +42,6 @@ public class AutoUpdater extends AbstractConfigUpdater {
             config.save(file);
             if (counter.get() > 0) {
                 StaffPlus.get().getLogger().info("Configuration file Fixed. [" + counter.get() + "] properties were added. Should StaffPlusPlus still have problems starting up, please compare your config with the default configuration: https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
-            } else {
-                StaffPlus.get().getLogger().info("Configuration file is up to date. No fix needed");
             }
             return true;
         } catch (InvalidConfigurationException | IOException | ConfigurationException e) {
