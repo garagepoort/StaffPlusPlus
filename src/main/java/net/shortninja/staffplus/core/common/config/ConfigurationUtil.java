@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.common.config;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
+import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -16,14 +18,15 @@ public class ConfigurationUtil {
 
     private static final Logger logger = StaffPlus.get().getLogger();
 
-    private ConfigurationUtil() {}
+    private ConfigurationUtil() {
+    }
 
     public static void saveConfiguration(String configurationFile) {
         File dataFolder = StaffPlus.get().getDataFolder();
         String fullConfigResourcePath = (configurationFile).replace('\\', '/');
 
         InputStream in = getResource(fullConfigResourcePath);
-        if(in == null) {
+        if (in == null) {
             logger.log(Level.SEVERE, "Could not find configuration file " + fullConfigResourcePath);
             return;
         }
@@ -68,6 +71,16 @@ public class ConfigurationUtil {
     }
 
     public static FileConfiguration loadConfiguration(String path) {
-        return YamlConfiguration.loadConfiguration(Paths.get(StaffPlus.get().getDataFolder() + File.separator + path).toFile());
+        File file = Paths.get(StaffPlus.get().getDataFolder() + File.separator + path).toFile();
+
+        Validate.notNull(file, "File cannot be null");
+        YamlConfiguration config = new YamlConfiguration();
+        try {
+            config.load(file);
+        } catch (Exception e) {
+            throw new ConfigurationException("Cannot load " + file, e);
+        }
+
+        return config;
     }
 }
