@@ -278,6 +278,10 @@
                                     <pattern>be.garagepoort.mcsqlmigrations.</pattern>
                                     <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcsqlmigrations.</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>io.github.openfeign.</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.core.io.github.openfeign.</shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
