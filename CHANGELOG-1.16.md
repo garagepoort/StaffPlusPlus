@@ -3,6 +3,7 @@
 # V1.16.65
 ### Features
 - Add multiple staff chat channels
+- Reports can now have fixed reasons (optionally linked to report types)
 
 ### Bugs
 - Invalid yaml configuration caused configuration file to reset
