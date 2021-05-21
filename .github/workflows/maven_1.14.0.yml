@@ -1,14 +1,15 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Release_1.12.0
+name: Release_1.14.0
 
 on:
   push:
-    branches: [ release/1.12.0 ]
+    branches: [ release/1.14.0 ]
   pull_request:
-    branches: [ release/1.12.0 ]
-
+    branches: [ release/1.14.0 ]
+  workflow_dispatch:
+      branches: [ release/1.14.0 ]
 jobs:
   build:
 
@@ -24,4 +25,4 @@ jobs:
       with:
         mirrors: '[{"id": "nexus-staffplusplus-mirror", "name": "nexus-staffplusplus", "mirrorOf": "external:http:*", "url": "http://staffplusplus.org:8081/repository/staffplusplus"}]'
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B clean install --file pom.xml
