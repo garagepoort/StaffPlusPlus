@@ -11,6 +11,8 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -82,5 +84,17 @@ public class ConfigurationUtil {
         }
 
         return config;
+    }
+
+    public static Map<String, String> loadFilters(String filtersString) {
+        Map<String, String> filterMap = new HashMap<>();
+        if (filtersString != null) {
+            String[] split = filtersString.split(";");
+            for (String filter : split) {
+                String[] filterPair = filter.split("=");
+                filterMap.put(filterPair[0].toLowerCase(), filterPair[1].toLowerCase());
+            }
+        }
+        return filterMap;
     }
 }
