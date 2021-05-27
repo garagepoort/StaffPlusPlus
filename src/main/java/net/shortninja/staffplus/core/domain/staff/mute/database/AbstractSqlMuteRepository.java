@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
+import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 
 public abstract class AbstractSqlMuteRepository implements MuteRepository {
 
@@ -179,6 +180,40 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
             throw new DatabaseException(e);
         }
         return count;
+    }
+
+    @Override
+    public long getTotalCount() {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT count(*) as count FROM sp_muted_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isMuteSyncEnabled()))) {
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return rs.getLong("count");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return 0;
+    }
+
+
+    @Override
+    public long getActiveCount() {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_muted_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isMuteSyncEnabled()))) {
+            ps.setLong(1, System.currentTimeMillis());
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return rs.getLong("count");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return 0;
     }
 
     @Override
