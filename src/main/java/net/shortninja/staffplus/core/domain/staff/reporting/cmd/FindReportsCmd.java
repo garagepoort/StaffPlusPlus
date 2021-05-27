@@ -9,10 +9,9 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
-import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.reporting.ReportFilters.ReportFiltersBuilder;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.FindReportsGui;
+import net.shortninja.staffplusplus.reports.ReportFilters.ReportFiltersBuilder;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

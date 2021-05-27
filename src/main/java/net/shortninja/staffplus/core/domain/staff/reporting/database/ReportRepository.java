@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.database;
 
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
-import net.shortninja.staffplus.core.domain.staff.reporting.ReportFilters;
+import net.shortninja.staffplusplus.reports.ReportFilters;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +19,8 @@ public interface ReportRepository {
     List<Report> getUnresolvedReports(int offset, int amount);
 
     void removeReports(UUID playerUuid);
+
+    long getReportCount(ReportFilters reportFilter);
 
     Optional<Report> findOpenReport(int reportId);
 
