@@ -12,6 +12,7 @@ import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.delayedactions.Executor;
 import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
@@ -32,7 +33,7 @@ import static org.bukkit.Bukkit.getScheduler;
 
 @IocBean
 @IocMultiProvider(InfractionProvider.class)
-public class ReportService implements InfractionProvider {
+public class ReportService implements InfractionProvider, net.shortninja.staffplusplus.reports.ReportService {
 
     private static final Map<UUID, Long> lastUse = new HashMap<>();
 
@@ -191,6 +192,11 @@ public class ReportService implements InfractionProvider {
     }
 
     @Override
+    public long getReportCount(ReportFilters reportFilter) {
+        return this.reportRepository.getReportCount(reportFilter);
+    }
+
+    @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
         if (!options.infractionsConfiguration.isShowReported()) {
             return Collections.emptyList();
@@ -210,4 +216,6 @@ public class ReportService implements InfractionProvider {
     public InfractionType getType() {
         return InfractionType.REPORTED;
     }
+
+
 }

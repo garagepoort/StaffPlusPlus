@@ -26,7 +26,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
 @IocMultiProvider(InfractionProvider.class)
-public class MuteService implements InfractionProvider {
+public class MuteService implements InfractionProvider, net.shortninja.staffplusplus.mute.MuteService {
 
     private final PermissionHandler permission;
     private final MuteRepository muteRepository;
@@ -139,5 +139,15 @@ public class MuteService implements InfractionProvider {
     @Override
     public InfractionType getType() {
         return InfractionType.MUTE;
+    }
+
+    @Override
+    public long getTotalMuteCount() {
+        return muteRepository.getTotalCount();
+    }
+
+    @Override
+    public long getActiveMuteCount() {
+        return muteRepository.getActiveCount();
     }
 }

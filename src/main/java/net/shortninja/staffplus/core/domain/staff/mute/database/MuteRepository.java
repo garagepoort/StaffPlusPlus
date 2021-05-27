@@ -28,4 +28,8 @@ public interface MuteRepository {
     Map<UUID, Integer> getCountByPlayer();
 
     List<UUID> getAllPermanentMutedPlayers();
+
+    long getTotalCount();
+
+    long getActiveCount();
 }
