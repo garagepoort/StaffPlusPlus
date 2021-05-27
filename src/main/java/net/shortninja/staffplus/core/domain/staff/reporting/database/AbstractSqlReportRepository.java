@@ -6,11 +6,11 @@ import net.shortninja.staffplus.core.common.SppLocation;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
-import net.shortninja.staffplus.core.domain.staff.reporting.ReportFilter;
-import net.shortninja.staffplus.core.domain.staff.reporting.ReportFilters;
+import net.shortninja.staffplusplus.reports.ReportFilter;
+import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -65,18 +65,13 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     @Override
     public List<Report> findReports(ReportFilters reportFilters, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
-        String filterQuery = reportFilters.getReportFilters().stream()
-            .map(r -> " AND " + r.getSqlColumn() + "=? ")
-            .collect(Collectors.joining());
+        String filterQuery = mapFilters(reportFilters);
 
         String query = "SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE deleted=? " + filterQuery + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?";
         try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
             ps.setBoolean(1, false);
             int index = 2;
-            for (ReportFilter reportFilter : reportFilters.getReportFilters()) {
-                ps.setObject(index, reportFilter.getValue(), reportFilter.getSqlType());
-                index++;
-            }
+            index = insertFilterValues(reportFilters, ps, index);
             ps.setInt(index, offset);
             ps.setInt(index + 1, amount);
 
@@ -89,6 +84,22 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             throw new DatabaseException(e);
         }
         return reports;
+    }
+
+    private int insertFilterValues(ReportFilters reportFilters, PreparedStatement ps, int index) throws SQLException {
+        for (ReportFilter reportFilter : reportFilters.getReportFilters()) {
+            if (reportFilter.getValue() instanceof Collection) {
+                Collection<String> collection = (Collection<String>) reportFilter.getValue();
+                for (String value : collection) {
+                    ps.setObject(index, value, reportFilter.getSqlType());
+                    index++;
+                }
+            } else {
+                ps.setObject(index, reportFilter.getValue(), reportFilter.getSqlType());
+                index++;
+            }
+        }
+        return index;
     }
 
     @Override
@@ -149,6 +160,24 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             throw new DatabaseException(e);
         }
         return reports;
+    }
+
+    @Override
+    public long getReportCount(ReportFilters reportFilters) {
+        String filterQuery = mapFilters(reportFilters);
+
+        String query = "SELECT count(*) as count FROM sp_reports WHERE deleted=? " + filterQuery + serverNameFilter;
+        try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
+            ps.setBoolean(1, false);
+            int index = 2;
+            insertFilterValues(reportFilters, ps, index);
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getLong("count");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
     }
 
     @Override
@@ -371,6 +400,18 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
             staffUUID,
             rs.getString("close_reason"),
             serverName, location, sppLocation, type);
+    }
+
+    private String mapFilters(ReportFilters reportFilters) {
+        return reportFilters.getReportFilters().stream()
+            .map(r -> {
+                if (r.getValue() instanceof Collection) {
+                    List<String> questionMarks = ((Collection<String>) r.getValue()).stream().map(p -> "?").collect(Collectors.toList());
+                    return " AND " + r.getSqlColumn() + " in (" + String.join(", ", questionMarks) + ")";
+                }
+                return " AND " + r.getSqlColumn() + r.getOperator() + "? ";
+            })
+            .collect(Collectors.joining());
     }
 
 }

@@ -5,8 +5,8 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.reporting.ReportFilters.ReportFiltersBuilder;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public class ReportFiltersMapper {
         return Arrays.asList(ID, REPORTER, ASSIGNEE, CULPRIT, STATUS, TYPE);
     }
 
-    public void map(String key, String value, ReportFiltersBuilder reportFiltersBuilder) {
+    public void map(String key, String value, ReportFilters.ReportFiltersBuilder reportFiltersBuilder) {
         if (key.equalsIgnoreCase(ID)) {
             reportFiltersBuilder.id(Integer.parseInt(value));
         }
