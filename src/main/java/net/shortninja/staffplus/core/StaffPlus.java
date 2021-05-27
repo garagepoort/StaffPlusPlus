@@ -7,6 +7,9 @@ import net.shortninja.staffplus.core.common.config.AutoUpdater;
 import net.shortninja.staffplus.core.common.config.AutoUpdaterLanguageFiles;
 import net.shortninja.staffplus.core.common.config.ConfigurationFile;
 import net.shortninja.staffplusplus.IStaffPlus;
+import net.shortninja.staffplusplus.ban.BanService;
+import net.shortninja.staffplusplus.mute.MuteService;
+import net.shortninja.staffplusplus.reports.ReportService;
 import net.shortninja.staffplusplus.session.SessionManager;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatService;
 import org.bukkit.Bukkit;
@@ -30,7 +33,6 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
     @Override
     protected void enable() {
         try {
-
             plugin = this;
             if (!loadConfig()) {
                 Bukkit.getPluginManager().disablePlugin(this);
@@ -60,16 +62,6 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
     protected void beforeReload() {
         getIocContainer().getList(PluginDisable.class).forEach(b -> b.disable(this));
         loadConfig();
-    }
-
-    @Override
-    public StaffChatService getStaffChatService() {
-        return StaffPlus.get().getIocContainer().get(StaffChatService.class);
-    }
-
-    @Override
-    public SessionManager getSessionManager() {
-        return StaffPlus.get().getIocContainer().get(SessionManager.class);
     }
 
     @Override
@@ -103,5 +95,30 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
             }
         }
         return true;
+    }
+
+    @Override
+    public StaffChatService getStaffChatService() {
+        return StaffPlus.get().getIocContainer().get(StaffChatService.class);
+    }
+
+    @Override
+    public SessionManager getSessionManager() {
+        return StaffPlus.get().getIocContainer().get(SessionManager.class);
+    }
+
+    @Override
+    public BanService getBanService() {
+        return StaffPlus.get().getIocContainer().get(BanService.class);
+    }
+
+    @Override
+    public MuteService getMuteService() {
+        return StaffPlus.get().getIocContainer().get(MuteService.class);
+    }
+
+    @Override
+    public ReportService getReportService() {
+        return StaffPlus.get().getIocContainer().get(ReportService.class);
     }
 }

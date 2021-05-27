@@ -30,7 +30,7 @@ import static net.shortninja.staffplus.core.domain.staff.ban.BanType.TEMP_BAN;
 
 @IocBean
 @IocMultiProvider(InfractionProvider.class)
-public class BanService implements InfractionProvider {
+public class BanService implements InfractionProvider, net.shortninja.staffplusplus.ban.BanService {
 
     private final PermissionHandler permission;
     private final BansRepository bansRepository;
@@ -178,4 +178,13 @@ public class BanService implements InfractionProvider {
         return InfractionType.BAN;
     }
 
+    @Override
+    public long getTotalBanCount() {
+        return bansRepository.getTotalCount();
+    }
+
+    @Override
+    public long getActiveBanCount() {
+        return bansRepository.getActiveCount();
+    }
 }
