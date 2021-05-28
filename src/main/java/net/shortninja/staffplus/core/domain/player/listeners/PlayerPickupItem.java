@@ -25,7 +25,7 @@ public class PlayerPickupItem implements Listener {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPickup(EntityPickupItemEvent event) {
         if (event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
