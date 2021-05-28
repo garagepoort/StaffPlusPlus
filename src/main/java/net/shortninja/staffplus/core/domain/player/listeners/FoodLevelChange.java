@@ -21,7 +21,7 @@ public class FoodLevelChange implements Listener {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlace(FoodLevelChangeEvent event) {
         Entity entity = event.getEntity();
 

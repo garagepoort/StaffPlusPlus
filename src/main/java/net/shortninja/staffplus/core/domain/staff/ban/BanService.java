@@ -102,18 +102,17 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     }
 
     private void ban(CommandSender issuer, SppPlayer playerToBan, final String reason, final String providedTemplateName, Long durationInMillis, BanType banType) {
+        if (providedTemplateName != null) permission.validate(issuer, options.banConfiguration.getPermissionBanTemplateOverwrite());
         String fullReason = banReasonResolver.resolveBanReason(reason, banType);
-        String templateMessage = banTemplateResolver.resolveTemplate(issuer, reason, providedTemplateName, banType);
-
+        String templateMessage = banTemplateResolver.resolveTemplate(reason, providedTemplateName, banType);
 
         if (playerToBan.isOnline() && permission.has(playerToBan.getPlayer(), banConfiguration.getPermissionBanByPass())) {
             throw new BusinessException("&CThis player bypasses being banned");
         }
 
-        bansRepository.findActiveBan(playerToBan.getId())
-            .ifPresent(ban -> {
-                throw new BusinessException("&CCannot ban this player, the player is already banned");
-            });
+        bansRepository.findActiveBan(playerToBan.getId()).ifPresent(ban -> {
+            throw new BusinessException("&CCannot ban this player, the player is already banned");
+        });
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID;
@@ -122,7 +121,6 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         Ban ban = new Ban(fullReason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId());
         ban.setId(bansRepository.addBan(ban));
 
-        notifyPlayers(playerToBan, durationInMillis, issuerName, fullReason);
         kickPlayer(playerToBan, durationInMillis, issuerName, fullReason, templateMessage);
         sendEvent(new BanEvent(ban));
     }
@@ -134,18 +132,8 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         }
     }
 
-    private void notifyPlayers(SppPlayer playerToBan, Long duration, String issuerName, String reason) {
-        String banMessage = duration == null ?
-            replaceBanPlaceholders(messages.permanentBanned, playerToBan.getUsername(), issuerName, reason, duration) :
-            replaceBanPlaceholders(messages.tempBanned, playerToBan.getUsername(), issuerName, reason, duration);
-        this.messages.sendGlobalMessage(banMessage, messages.prefixGeneral);
-    }
-
     private void unban(Ban ban) {
         bansRepository.update(ban);
-
-        String unbanMessage = replaceBanPlaceholders(messages.unbanned, ban.getTargetName(), ban.getUnbannedByName(), ban.getReason(), ban.getEndTimestamp());
-        messages.sendGlobalMessage(unbanMessage, messages.prefixGeneral);
         sendEvent(new UnbanEvent(ban));
     }
 
