@@ -3,13 +3,13 @@ package net.shortninja.staffplus.core.domain.staff.ban.database;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.Ban;
+import net.shortninja.staffplusplus.session.SppPlayer;
+import org.codejargon.fluentjdbc.api.FluentJdbc;
+import org.codejargon.fluentjdbc.api.FluentJdbcBuilder;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -22,11 +22,17 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     private final PlayerManager playerManager;
     private final SqlConnectionProvider sqlConnectionProvider;
     protected final Options options;
+    private final FluentJdbc fluentJdbc;
+    private final boolean banSyncEnabled;
 
     public AbstractSqlBansRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
         this.playerManager = playerManager;
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.options = options;
+        this.banSyncEnabled = options.serverSyncConfiguration.isBanSyncEnabled();
+        this.fluentJdbc = new FluentJdbcBuilder()
+            .connectionProvider(sqlConnectionProvider.getDatasource())
+            .build();
     }
 
     public Connection getConnection() {
@@ -35,170 +41,91 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
 
     @Override
     public List<Ban> getActiveBans(int offset, int amount) {
-        List<Ban> bans = new ArrayList<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isBanSyncEnabled()) + " ORDER BY creation_timestamp DESC LIMIT ?,?")) {
-            ps.setLong(1, System.currentTimeMillis());
-            ps.setInt(2, offset);
-            ps.setInt(3, amount);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    bans.add(buildBan(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return bans;
+        return fluentJdbc.query()
+            .select("SELECT * FROM sp_banned_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) "
+                + getServerNameFilterWithAnd(banSyncEnabled)
+                + " ORDER BY creation_timestamp DESC LIMIT ?,?")
+            .params(System.currentTimeMillis(), offset, amount)
+            .listResult(this::buildBan);
     }
 
     @Override
     public Optional<Ban> findActiveBan(int banId) {
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE id = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isBanSyncEnabled()))) {
-            ps.setInt(1, banId);
-            ps.setLong(2, System.currentTimeMillis());
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean first = rs.next();
-                if (first) {
-                    return Optional.of(buildBan(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return Optional.empty();
+        return fluentJdbc.query()
+            .select("SELECT * FROM sp_banned_players WHERE id = ? AND (end_timestamp IS NULL OR end_timestamp > ?) "
+                + getServerNameFilterWithAnd(banSyncEnabled))
+            .params(banId, System.currentTimeMillis())
+            .firstResult(this::buildBan);
     }
 
     @Override
     public Optional<Ban> findActiveBan(UUID playerUuid) {
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE player_uuid = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isBanSyncEnabled()))) {
-            ps.setString(1, playerUuid.toString());
-            ps.setLong(2, System.currentTimeMillis());
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean first = rs.next();
-                if (first) {
-                    return Optional.of(buildBan(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return Optional.empty();
+        return fluentJdbc.query()
+            .select("SELECT * FROM sp_banned_players WHERE player_uuid = ? AND (end_timestamp IS NULL OR end_timestamp > ?) "
+                + getServerNameFilterWithAnd(banSyncEnabled))
+            .params(playerUuid.toString(), System.currentTimeMillis())
+            .firstResult(this::buildBan);
     }
 
     @Override
     public List<Ban> getBansForPlayer(UUID playerUuid) {
-        List<Ban> bans = new ArrayList<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE player_uuid = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isBanSyncEnabled()) + " ORDER BY creation_timestamp DESC")) {
-            ps.setString(1, playerUuid.toString());
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    bans.add(buildBan(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return bans;
+        return fluentJdbc.query()
+            .select("SELECT * FROM sp_banned_players WHERE player_uuid = ? "
+                + getServerNameFilterWithAnd(banSyncEnabled) + " ORDER BY creation_timestamp DESC")
+            .params(playerUuid.toString())
+            .listResult(this::buildBan);
     }
 
     @Override
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_banned_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isBanSyncEnabled()) + " GROUP BY player_uuid ORDER BY count DESC")) {
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    count.put(UUID.fromString(rs.getString("player_uuid")), rs.getInt("count"));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
+        fluentJdbc.query()
+            .select("SELECT player_uuid, count(*) as count FROM sp_banned_players "
+                + Constants.getServerNameFilterWithWhere(banSyncEnabled)
+                + " GROUP BY player_uuid ORDER BY count DESC")
+            .iterateResult(rs -> count.put(UUID.fromString(rs.getString("player_uuid")), rs.getInt("count")));
         return count;
     }
 
     @Override
     public long getTotalCount() {
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT count(*) as count FROM sp_banned_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isBanSyncEnabled()))) {
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean first = rs.next();
-                if (first) {
-                    return rs.getLong("count");
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return 0;
+        return fluentJdbc.query()
+            .select("SELECT count(*) as count FROM sp_banned_players " + Constants.getServerNameFilterWithWhere(banSyncEnabled))
+            .firstResult(rs -> rs.getLong("count")).orElse(0L);
     }
 
 
     @Override
     public long getActiveCount() {
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isBanSyncEnabled()))) {
-            ps.setLong(1, System.currentTimeMillis());
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean first = rs.next();
-                if (first) {
-                    return rs.getLong("count");
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return 0;
+        return fluentJdbc.query()
+            .select("SELECT count(*) as count FROM sp_banned_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(banSyncEnabled))
+            .params(System.currentTimeMillis())
+            .firstResult(rs -> rs.getLong("count")).orElse(0L);
     }
 
     @Override
     public Map<UUID, Long> getBanDurationByPlayer() {
         Map<UUID, Long> count = new HashMap<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_banned_players WHERE end_timestamp is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isWarningSyncEnabled()) + " GROUP BY player_uuid ORDER BY count DESC")) {
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    count.put(UUID.fromString(rs.getString("player_uuid")), rs.getLong("count"));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
+        fluentJdbc.query()
+            .select("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_banned_players WHERE end_timestamp is not null "
+                + Constants.getServerNameFilterWithAnd(banSyncEnabled)
+                + " GROUP BY player_uuid ORDER BY count DESC")
+            .iterateResult(rs -> count.put(UUID.fromString(rs.getString("player_uuid")), rs.getLong("count")));
         return count;
     }
 
     @Override
     public List<UUID> getAllPermanentBannedPlayers() {
-        List<UUID> result = new ArrayList<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid FROM sp_banned_players WHERE end_timestamp IS NULL " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isWarningSyncEnabled()) + " GROUP BY player_uuid")) {
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    result.add(UUID.fromString(rs.getString("player_uuid")));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return result;
+        return fluentJdbc.query()
+            .select("SELECT player_uuid FROM sp_banned_players WHERE end_timestamp IS NULL " + Constants.getServerNameFilterWithAnd(banSyncEnabled) + " GROUP BY player_uuid")
+            .listResult(rs -> UUID.fromString(rs.getString("player_uuid")));
     }
 
     @Override
     public void update(Ban ban) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_banned_players set unbanned_by_uuid=?, unban_reason=?, end_timestamp=? WHERE ID=?")) {
-            insert.setString(1, ban.getUnbannedByUuid().toString());
-            insert.setString(2, ban.getUnbanReason());
-            insert.setLong(3, System.currentTimeMillis());
-            insert.setInt(4, ban.getId());
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
+        fluentJdbc.query().update("UPDATE sp_banned_players set unbanned_by_uuid=?, unban_reason=?, end_timestamp=? WHERE ID=?")
+            .params(ban.getUnbannedByUuid().toString(), ban.getUnbanReason(), System.currentTimeMillis(), ban.getId())
+            .run();
     }
 
     private Ban buildBan(ResultSet rs) throws SQLException {
@@ -207,7 +134,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
         UUID unbannedByUUID = rs.getString("unbanned_by_uuid") != null ? UUID.fromString(rs.getString("unbanned_by_uuid")) : null;
 
         String playerName = rs.getString("player_name");
-        String issuerName = rs.getString("issuer_uuid");
+        String issuerName = rs.getString("issuer_name");
 
         String unbannedByName = null;
         if (unbannedByUUID != null) {
