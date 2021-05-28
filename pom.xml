@@ -200,6 +200,11 @@
             <version>2.9</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.codejargon</groupId>
+            <artifactId>fluentjdbc</artifactId>
+            <version>1.8.3</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -272,6 +277,10 @@
                                 <relocation>
                                     <pattern>io.github.openfeign.</pattern>
                                     <shadedPattern>net.shortninja.staffplus.core.io.github.openfeign.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.codejargon.</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.core.org.codejargon.</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
