@@ -4,9 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanReasonConfiguration;
-import org.bukkit.command.CommandSender;
 
 import java.util.Optional;
 
@@ -14,18 +12,15 @@ import java.util.Optional;
 public class BanTemplateResolver {
 
     private final Options options;
-    private final PermissionHandler permission;
     private final Messages messages;
 
-    public BanTemplateResolver(Options options, PermissionHandler permission, Messages messages) {
+    public BanTemplateResolver(Options options, Messages messages) {
         this.options = options;
-        this.permission = permission;
         this.messages = messages;
     }
 
-    public String resolveTemplate(CommandSender player, String reason, String providedTemplate, BanType banType) {
+    public String resolveTemplate(String reason, String providedTemplate, BanType banType) {
         if (providedTemplate != null) {
-            permission.validate(player, options.banConfiguration.getPermissionBanTemplateOverwrite());
             return getTemplate(providedTemplate);
         }
 
