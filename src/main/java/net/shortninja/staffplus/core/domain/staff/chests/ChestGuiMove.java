@@ -58,7 +58,7 @@ public class ChestGuiMove implements Listener {
     }
 
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void dragItem(InventoryDragEvent event) {
         Player player = (Player) event.getWhoClicked();
         PlayerSession playerSession = sessionManager.get(player.getUniqueId());
