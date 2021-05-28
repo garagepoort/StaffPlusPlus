@@ -213,6 +213,9 @@ permissions:
     # Permission to bypass being banned
     ban-bypass: "staff.staffplus.ban-bypass"
 
+    # Permission to receive notifications when someone is banned/unbanned
+    ban-notifications: "staff.staffplus.ban-notifications"
+
     # Permission to kick players
     kick: "staff.staffplus.kick"
 

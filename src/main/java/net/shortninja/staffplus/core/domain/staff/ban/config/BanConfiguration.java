@@ -25,6 +25,7 @@ public class BanConfiguration {
     private final String tempBanTemplate;
     private final Map<String, String> templates;
     private final List<BanReasonConfiguration> banReasons;
+    private final String staffNotificationPermission;
 
     public BanConfiguration(boolean banEnabled,
                             String commandBanPlayer,
@@ -35,7 +36,7 @@ public class BanConfiguration {
                             String permissionBanByPass,
                             String permissionBanTemplateOverwrite, GuiItemConfig guiItemConfig, String permBanTemplate,
                             String tempBanTemplate,
-                            Map<String, String> templates, List<BanReasonConfiguration> banReasons) {
+                            Map<String, String> templates, List<BanReasonConfiguration> banReasons, String staffNotificationPermission) {
         this.banEnabled = banEnabled;
         this.commandBanPlayer = commandBanPlayer;
         this.commandTempBanPlayer = commandTempBanPlayer;
@@ -49,6 +50,7 @@ public class BanConfiguration {
         this.tempBanTemplate = tempBanTemplate;
         this.templates = templates;
         this.banReasons = banReasons;
+        this.staffNotificationPermission = staffNotificationPermission;
     }
 
     public boolean isEnabled() {
@@ -112,4 +114,7 @@ public class BanConfiguration {
             .collect(Collectors.toList());
     }
 
+    public String getStaffNotificationPermission() {
+        return staffNotificationPermission;
+    }
 }
