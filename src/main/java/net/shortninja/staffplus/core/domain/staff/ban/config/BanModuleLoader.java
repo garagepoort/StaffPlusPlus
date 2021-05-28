@@ -39,6 +39,7 @@ public class BanModuleLoader extends AbstractConfigLoader<BanConfiguration> {
         String permissionUnbanPlayer = permissionsConfig.getString("permissions.unban");
         String permissionBanByPass = permissionsConfig.getString("permissions.ban-bypass");
         String permissionBanTemplateOverwrite = permissionsConfig.getString("permissions.ban-template-overwrite");
+        String permissionBanNotifications = permissionsConfig.getString("permissions.ban-notifications");
 
         return new BanConfiguration(banEnabled,
             commandBanPlayer,
@@ -52,7 +53,8 @@ public class BanModuleLoader extends AbstractConfigLoader<BanConfiguration> {
             permBanTemplate,
             tempBanTemplate,
             getTemplates(),
-            getBanReasons(defaultConfig));
+            getBanReasons(defaultConfig),
+            permissionBanNotifications);
     }
 
     private Map<String, String> getTemplates() {

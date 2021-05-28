@@ -20,7 +20,7 @@ public class EntityTarget implements Listener {
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onTarget(EntityTargetEvent event) {
         if (event.getTarget() instanceof Player) {
             Player player = (Player) event.getTarget();
