@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.Migrations;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 
-@IocBean
+@IocBean(priority = true)
 public class DatabaseInitializer {
 
     public DatabaseInitializer(SqlConnectionProvider sqlConnectionProvider) {
