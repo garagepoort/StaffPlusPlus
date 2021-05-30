@@ -88,6 +88,8 @@ public class PlayerJoin implements Listener {
 
         if (!playerSession.getName().equals(player.getName())) {
             BukkitUtils.sendEventAsync(new NameChangeEvent(options.serverName, player, playerSession.getName(), player.getName()));
+            playerSession.setName(player.getName());
+            sessionManager.saveSession(player);
         }
     }
 
