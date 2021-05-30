@@ -15,7 +15,7 @@ import java.util.*;
 public class PlayerSession implements IPlayerSession {
 
     private final UUID uuid;
-    private final String name;
+    private String name;
     private Material glassColor;
     private VanishType vanishType = VanishType.NONE;
     private IGui currentGui = null;
@@ -205,5 +205,9 @@ public class PlayerSession implements IPlayerSession {
 
     public void setUnderInvestigation(boolean underInvestigation) {
         this.underInvestigation = underInvestigation;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

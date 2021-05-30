@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.session;
 
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplusplus.session.SessionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -9,14 +11,19 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @IocBean
 public class SessionManagerImpl implements SessionManager {
     private static Map<UUID, PlayerSession> playerSessions = new HashMap<>();
     private final SessionLoader sessionLoader;
+    private final PermissionHandler permissionHandler;
+    private final Options options;
 
-    public SessionManagerImpl(SessionLoader sessionLoader) {
+    public SessionManagerImpl(SessionLoader sessionLoader, PermissionHandler permissionHandler, Options options) {
         this.sessionLoader = sessionLoader;
+        this.permissionHandler = permissionHandler;
+        this.options = options;
         Bukkit.getOnlinePlayers().forEach(this::initialize);
     }
 
@@ -26,8 +33,17 @@ public class SessionManagerImpl implements SessionManager {
         }
     }
 
+    @Override
     public Collection<PlayerSession> getAll() {
         return playerSessions.values();
+    }
+
+    @Override
+    public Collection<PlayerSession> getOnlineStaffMembers() {
+        return playerSessions.values().stream()
+            .filter(p -> p.getPlayer().isPresent())
+            .filter(p -> permissionHandler.has(p.getPlayer().get(), options.permissionMember))
+            .collect(Collectors.toList());
     }
 
     public PlayerSession get(UUID uuid) {
