@@ -1,8 +1,7 @@
 # Changelog Staff++ | v1.16
 
-# V1.16.66 (NOT YET RELEASED)
+# V1.16.66
 ### Features
-- Add PAPI placeholders
 - Bans/unbans are now no longer broadcasted by default. A permission node is needed to receive ban notifications
 - Add hex color support for 1.16 (example "#FFAA44")
 
