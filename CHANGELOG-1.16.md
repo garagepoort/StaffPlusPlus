@@ -1,12 +1,13 @@
 # Changelog Staff++ | v1.16
 
-# V1.16.65 (NOT YET RELEASED)
+# V1.16.66 (NOT YET RELEASED)
 ### Features
 - Add PAPI placeholders
 - Bans/unbans are now no longer broadcasted by default. A permission node is needed to receive ban notifications
 
 ### Bugfixes
 - Wrong event priority for pickupitems in staff mode
+- Changing username could cause for problems with staffchat or alerts.
 
 # V1.16.65
 ### Features
