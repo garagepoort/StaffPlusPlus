@@ -16,12 +16,15 @@ import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @IocBean
 public class Messages {
 
     public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
 
+    private final Pattern hexColorPattern = Pattern.compile("#[a-fA-F0-9]{6}");
     /*
      * Prefixes
      */
@@ -325,9 +328,16 @@ public class Messages {
     }
 
     public String colorize(String message) {
-        message = message.replaceAll("&&", "<ampersand>");
+        Matcher matcher = hexColorPattern.matcher(message);
+        while (matcher.find()) {
+            String color = message.substring(matcher.start(), matcher.end());
+            message = message.replace(color, net.md_5.bungee.api.ChatColor.of(color) + "");
+            matcher = hexColorPattern.matcher(message);
+        }
+
+        message = message.replace("&&", "<ampersand>");
         message = ChatColor.translateAlternateColorCodes('&', message);
-        return message.replaceAll("<ampersand>", "&");
+        return message.replace("<ampersand>", "&");
     }
 
     public void send(Player player, String message, String prefix, String permission) {
