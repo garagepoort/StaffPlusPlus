@@ -54,7 +54,7 @@ public class PlayerSession implements IPlayerSession {
     }
 
     public Optional<Player> getPlayer() {
-        return Optional.ofNullable(Bukkit.getPlayerExact(name));
+        return Optional.ofNullable(Bukkit.getPlayer(uuid));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.database;
 
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
+import net.shortninja.staffplusplus.warnings.WarningFilters;
 
 import java.util.List;
 import java.util.Map;
@@ -15,9 +16,9 @@ public interface WarnRepository {
 
     int getTotalScore(UUID uuid);
 
-    int addWarning(Warning warning);
+    int getTotalScore(String playerName);
 
-    void removeWarnings(UUID uuid);
+    int addWarning(Warning warning);
 
     void removeWarning(int id);
 
@@ -29,6 +30,8 @@ public interface WarnRepository {
 
     List<Warning> getAllWarnings(int offset, int amount);
 
+    List<Warning> findWarnings(WarningFilters warningFilters, int offset, int amount);
+
     void markWarningsRead(UUID uniqueId);
 
     Map<UUID, Integer> getCountByPlayer();
@@ -36,4 +39,6 @@ public interface WarnRepository {
     Optional<Warning> findWarning(int warningId);
 
     List<Warning> getAppealedWarnings(int offset, int amount);
+
+    long getWarnCount(WarningFilters warningFilters);
 }
