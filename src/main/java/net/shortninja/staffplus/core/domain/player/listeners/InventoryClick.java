@@ -51,9 +51,7 @@ public class InventoryClick implements Listener {
                     return;
                 }
 
-                CommandUtil.playerAction(player, () -> {
-                    action.click(player, item, slot, event.getClick());
-                });
+                CommandUtil.playerAction(player, () -> action.click(player, item, slot, event.getClick()));
 
                 if (action.shouldClose(player)) {
                     player.closeInventory();

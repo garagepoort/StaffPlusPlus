@@ -5,10 +5,11 @@ import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
+import net.shortninja.staffplusplus.session.SppPlayer;
+import net.shortninja.staffplusplus.warnings.WarningFilters;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
+import static net.shortninja.staffplus.core.common.Constants.*;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.insertFilterValues;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.mapFilters;
 
 public abstract class AbstractSqlWarnRepository implements WarnRepository {
 
@@ -44,6 +47,22 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
              PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE Player_UUID = ? AND is_expired=? AND id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + serverNameFilter)
         ) {
             ps.setString(1, uuid.toString());
+            ps.setBoolean(2, false);
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getInt("sum");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    @Override
+    public int getTotalScore(String name) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE player_name = ? AND is_expired=? AND id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + serverNameFilter)
+        ) {
+            ps.setString(1, name);
             ps.setBoolean(2, false);
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
@@ -99,10 +118,33 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     public List<Warning> getAllWarnings(int offset, int amount) {
         List<Warning> warnings = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isWarningSyncEnabled()) + " ORDER BY timestamp DESC LIMIT ?,?")
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings " + getServerNameFilterWithWhere(options.serverSyncConfiguration.isWarningSyncEnabled()) + " ORDER BY timestamp DESC LIMIT ?,?")
         ) {
             ps.setInt(1, offset);
             ps.setInt(2, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Warning warning = buildWarning(rs);
+                    warnings.add(warning);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return warnings;
+    }
+
+    @Override
+    public List<Warning> findWarnings(WarningFilters warningFilters, int offset, int amount) {
+        List<Warning> warnings = new ArrayList<>();
+        String filterQuery = mapFilters(warningFilters, false);
+
+        String query = "SELECT * FROM sp_warnings WHERE 1=1 AND " + filterQuery + " ORDER BY timestamp DESC LIMIT ?,?";
+        try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
+            int index = insertFilterValues(warningFilters, ps, 1);
+            ps.setInt(index, offset);
+            ps.setInt(index + 1, amount);
+
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Warning warning = buildWarning(rs);
@@ -120,7 +162,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         List<Warning> warnings = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT sp_warnings.* FROM sp_warnings INNER JOIN sp_warning_appeals appeals on sp_warnings.id = appeals.warning_id AND appeals.status = 'OPEN' "
-                 + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isWarningSyncEnabled()) +
+                 + getServerNameFilterWithWhere(options.serverSyncConfiguration.isWarningSyncEnabled()) +
                  " ORDER BY sp_warnings.timestamp DESC LIMIT ?,?")
         ) {
             ps.setInt(1, offset);
@@ -135,6 +177,22 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
             throw new DatabaseException(e);
         }
         return warnings;
+    }
+
+    @Override
+    public long getWarnCount(WarningFilters warningFilters) {
+        String filterQuery = mapFilters(warningFilters, true);
+
+        String query = "SELECT count(*) as count FROM sp_warnings WHERE 1=1 " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.isWarningSyncEnabled());
+        try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
+            insertFilterValues(warningFilters, ps, 1);
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getLong("count");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
     }
 
     @Override
@@ -154,17 +212,6 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
             throw new DatabaseException(e);
         }
         return warnings;
-    }
-
-    @Override
-    public void removeWarnings(UUID playerUuid) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_warnings WHERE Player_UUID = ? " + serverNameFilter);) {
-            insert.setString(1, playerUuid.toString());
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
     }
 
     @Override
