@@ -73,7 +73,7 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>2.1.1</version>
+                <version>2.1.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -123,7 +123,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>3.3.1</version>
+            <version>3.4.5</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -272,6 +272,10 @@
                                 <relocation>
                                     <pattern>io.github.openfeign.</pattern>
                                     <shadedPattern>net.shortninja.staffplus.core.io.github.openfeign.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.zaxxer.</pattern>
+                                    <shadedPattern>xyz.blockstackers.taxationsystem.com.zaxxer.</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
