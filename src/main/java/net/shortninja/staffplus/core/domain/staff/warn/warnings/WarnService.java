@@ -14,10 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
-import net.shortninja.staffplusplus.warnings.AppealStatus;
-import net.shortninja.staffplusplus.warnings.WarningCreatedEvent;
-import net.shortninja.staffplusplus.warnings.WarningExpiredEvent;
-import net.shortninja.staffplusplus.warnings.WarningRemovedEvent;
+import net.shortninja.staffplusplus.warnings.*;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,7 +30,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
 @IocMultiProvider(InfractionProvider.class)
-public class WarnService implements InfractionProvider {
+public class WarnService implements InfractionProvider, WarningService {
     private final PermissionHandler permission;
 
     private final Options options;
@@ -141,6 +138,21 @@ public class WarnService implements InfractionProvider {
         return warnRepository.getAllWarnings(offset, amount)
             .stream().filter(w -> includeExpired || !w.isExpired())
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public long getWarnCount(WarningFilters warningFilters) {
+        return warnRepository.getWarnCount(warningFilters);
+    }
+
+    @Override
+    public int getTotalScore(String playerName) {
+        return warnRepository.getTotalScore(playerName);
+    }
+
+    @Override
+    public List<Warning> findWarnings(WarningFilters warningFilters, int offset, int amount) {
+        return warnRepository.findWarnings(warningFilters, offset, amount);
     }
 
     public List<Warning> getAppealedWarnings(int offset, int amount) {
