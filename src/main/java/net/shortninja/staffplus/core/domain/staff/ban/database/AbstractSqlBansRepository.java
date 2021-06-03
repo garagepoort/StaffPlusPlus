@@ -141,7 +141,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     @Override
     public long getActiveCount() {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isBanSyncEnabled()))) {
+             PreparedStatement ps = sql.prepareStatement("SELECT count(*) as count FROM sp_banned_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isBanSyncEnabled()))) {
             ps.setLong(1, System.currentTimeMillis());
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();

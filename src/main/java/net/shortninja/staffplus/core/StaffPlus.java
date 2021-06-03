@@ -12,6 +12,7 @@ import net.shortninja.staffplusplus.mute.MuteService;
 import net.shortninja.staffplusplus.reports.ReportService;
 import net.shortninja.staffplusplus.session.SessionManager;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatService;
+import net.shortninja.staffplusplus.warnings.WarningService;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.ServicePriority;
@@ -120,5 +121,10 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
     @Override
     public ReportService getReportService() {
         return StaffPlus.get().getIocContainer().get(ReportService.class);
+    }
+
+    @Override
+    public WarningService getWarningService() {
+        return StaffPlus.get().getIocContainer().get(WarningService.class);
     }
 }
