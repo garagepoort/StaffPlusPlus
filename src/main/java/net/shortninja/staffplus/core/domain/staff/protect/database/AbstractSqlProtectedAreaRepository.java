@@ -144,10 +144,10 @@ public abstract class AbstractSqlProtectedAreaRepository implements ProtectedAre
         double location1Z = rs.getDouble(9);
         World location1World = Bukkit.getServer().getWorld(rs.getString(10));
 
-        double location2X = rs.getDouble(12);
-        double location2Y = rs.getDouble(13);
-        double location2Z = rs.getDouble(14);
-        World location2World = Bukkit.getServer().getWorld(rs.getString(15));
+        double location2X = rs.getDouble(13);
+        double location2Y = rs.getDouble(14);
+        double location2Z = rs.getDouble(15);
+        World location2World = Bukkit.getServer().getWorld(rs.getString(16));
 
         Location cornerPointLocation1 = new Location(location1World, location1X, location1Y, location1Z);
         Location cornerPointLocation2 = new Location(location2World, location2X, location2Y, location2Z);
