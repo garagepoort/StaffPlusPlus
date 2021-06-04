@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.16
 
+# V1.16.67 (NOT YET RELEASED)
+### Features 
+- Placeholder API support
+
+### Bugfixes
+- Protected areas were using wrong location.
+
 # V1.16.66
 ### Features
 - Bans/unbans are now no longer broadcasted by default. A permission node is needed to receive ban notifications
