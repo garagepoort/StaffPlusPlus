@@ -43,7 +43,6 @@ public class TempBanCmd extends AbstractCmd {
         this.permissionHandler = permissionHandler;
         this.banService = banService;
         this.playerManager = playerManager;
-        setPermission(options.banConfiguration.getPermissionBanPlayer());
         setDescription("Temporary ban a player");
         setUsage("[player] [amount] [unit] [reason]");
     }

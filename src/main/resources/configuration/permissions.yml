@@ -201,8 +201,11 @@ permissions:
     # Permission to toggle protection of an area
     protect-area: "staff.staffplus.protect-area"
 
-    # Permission to ban/tempban players
+    # Permission to ban players
     ban: "staff.staffplus.ban"
+
+    # Permission to tempban players
+    tempban: "staff.staffplus.tempban"
 
     # Permission to use the -template= parameter when banning
     ban-template-overwrite: "staff.staffplus.ban-template-overwrite"
@@ -222,8 +225,11 @@ permissions:
     # Permission to bypass being kicked
     kick-bypass: "staff.staffplus.kick-bypass"
 
-    # Permission to mute/tempmute players
+    # Permission to mute players
     mute: "staff.staffplus.mute"
+
+    # Permission to tempmute players
+    tempmute: "staff.staffplus.tempmute"
 
     # Permission to unmute players
     unmute: "staff.staffplus.unmute"

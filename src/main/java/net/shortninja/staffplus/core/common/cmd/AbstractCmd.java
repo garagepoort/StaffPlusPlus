@@ -68,7 +68,6 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     @Override
     public void setPermission(String permission) {
-        super.setPermission(permission);
         this.permissions.add(permission);
     }
 
