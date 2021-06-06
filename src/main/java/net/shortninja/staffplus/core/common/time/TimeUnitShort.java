@@ -26,6 +26,13 @@ public enum TimeUnitShort {
         this.temporalUnit = temporalUnit;
     }
 
+    public static long getDurationFromString(String duration) {
+        String amountString = duration.substring(0, duration.length() - 1);
+        String timeUnit = duration.substring(duration.length() - 1);
+        int amount = Integer.parseInt(amountString);
+        return TimeUnitShort.getDuration(timeUnit, amount);
+    }
+
     public static long getDuration(String un, int time) {
         if (!JavaUtils.isValidEnum(TimeUnitShort.class, un)) {
             throw new BusinessException("&CInvalid time unit used. Valid values: ["+ Arrays.stream(TimeUnitShort.values()).map(Enum::name).collect(Collectors.joining(", "))+"]");
