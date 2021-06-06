@@ -2,7 +2,7 @@
 
 # V1.16.69
 ### Features 
-- Tempban and tempmute now have a separate permission. You can configure how long 
+- Tempban and tempmute now have a separate permission.
 - Alers can now be configured to be send to the console
 
 ### Bugfixes
