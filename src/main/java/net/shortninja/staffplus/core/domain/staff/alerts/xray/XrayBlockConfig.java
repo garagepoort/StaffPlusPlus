@@ -18,11 +18,9 @@ public class XrayBlockConfig {
         }
 
         if(split.length == 3) {
-            String amountString = split[2].substring(0, split[2].length() - 1);
-            String timeUnit = split[2].substring(split[2].length() - 1);
-            int amount = Integer.parseInt(amountString);
-            this.duration = TimeUnitShort.getDuration(timeUnit, amount);
+            this.duration = TimeUnitShort.getDurationFromString(split[2]);
         }
+
         if(split.length >= 2) {
             amountOfBlocks = Integer.parseInt(split[1]);
         }

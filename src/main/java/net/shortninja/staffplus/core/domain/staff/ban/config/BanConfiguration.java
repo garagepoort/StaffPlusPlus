@@ -17,6 +17,7 @@ public class BanConfiguration {
     private final String commandTempBanPlayer;
     private final String commandUnbanPlayer;
     private final String permissionBanPlayer;
+    private final String permissionTempbanPlayer;
     private final String permissionUnbanPlayer;
     private final String permissionBanByPass;
     private final String permissionBanTemplateOverwrite;
@@ -32,7 +33,7 @@ public class BanConfiguration {
                             String commandTempBanPlayer,
                             String commandUnbanPlayer,
                             String permissionBanPlayer,
-                            String permissionUnbanPlayer,
+                            String permissionTempbanPlayer, String permissionUnbanPlayer,
                             String permissionBanByPass,
                             String permissionBanTemplateOverwrite, GuiItemConfig guiItemConfig, String permBanTemplate,
                             String tempBanTemplate,
@@ -42,6 +43,7 @@ public class BanConfiguration {
         this.commandTempBanPlayer = commandTempBanPlayer;
         this.commandUnbanPlayer = commandUnbanPlayer;
         this.permissionBanPlayer = permissionBanPlayer;
+        this.permissionTempbanPlayer = permissionTempbanPlayer;
         this.permissionUnbanPlayer = permissionUnbanPlayer;
         this.permissionBanByPass = permissionBanByPass;
         this.permissionBanTemplateOverwrite = permissionBanTemplateOverwrite;
@@ -75,6 +77,10 @@ public class BanConfiguration {
 
     public String getPermissionBanPlayer() {
         return permissionBanPlayer;
+    }
+
+    public String getPermissionTempbanPlayer() {
+        return permissionTempbanPlayer;
     }
 
     public String getPermissionBanByPass() {
