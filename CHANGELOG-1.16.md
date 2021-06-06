@@ -2,7 +2,6 @@
 
 # V1.16.69
 ### Features 
-- Placeholder API support
 - Tempban and tempmute now have a separate permission. You can configure how long 
 - Alers can now be configured to be send to the console
 
