@@ -6,6 +6,7 @@
 
 ### Bugfixes
 - Protected areas were using wrong location.
+- Fix session instantiation on damage from offline player
 
 # V1.16.66
 ### Features
