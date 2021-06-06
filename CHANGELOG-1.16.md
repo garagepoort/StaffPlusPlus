@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.16
 
-# V1.16.67 (NOT YET RELEASED)
+# V1.16.68 (NOT YET RELEASED)
 ### Features 
 - Placeholder API support
 - Tempban and tempmute now have a separate permission. You can configure how long 

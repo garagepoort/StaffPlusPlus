@@ -386,12 +386,15 @@ alt-detect-module:
 alerts-module:
   # Whether or not staff will be notified when a user changes their name.
   name-notify: true
+  name-notify-console: false
 
   # Whether or not staff will be notified when they are mentioned.
   mention-notify: true
+  mention-notify-console: false
 
   # Whether or not staff will be notified when the chat module detect phrases.
   chat-phrase-detection: true
+  chat-phrase-detection-console: false
 
   # The sound that is played to staff when notified.
   sound: ORB_PICKUP
@@ -400,12 +403,13 @@ alerts-module:
   xray-alerts:
     # Whether or not this module is enabled.
     enabled: true
-
+    console: false
     # Block type that, when mined, will invoke an alert.
     blocks: SPAWNER, EMERALD_ORE, DIAMOND_ORE, GOLD_ORE, IRON_ORE, COAL_ORE, LAPIS_ORE, REDSTONE_ORE
 
   alt-detect-notify:
       enabled: true
+      console: false
       # Trust levels for which an alert should be triggered
       # POSITIVE;FAIRLY_POSITIVE;POSSIBLE;NOT_LIKELY
       trust-levels: FAIRLY_POSITIVE;POSITIVE
