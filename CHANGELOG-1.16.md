@@ -1,9 +1,10 @@
 # Changelog Staff++ | v1.16
 
-# V1.16.68 (NOT YET RELEASED)
+# V1.16.69
 ### Features 
 - Placeholder API support
 - Tempban and tempmute now have a separate permission. You can configure how long 
+- Alers can now be configured to be send to the console
 
 ### Bugfixes
 - Protected areas were using wrong location.
