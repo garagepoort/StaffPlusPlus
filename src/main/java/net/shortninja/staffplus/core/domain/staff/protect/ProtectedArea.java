@@ -49,6 +49,9 @@ public class ProtectedArea {
     }
 
     public boolean isInArea(Location location) {
+        if (!location.getWorld().getName().equalsIgnoreCase(this.cornerPoint1.getWorld().getName())) {
+            return false;
+        }
         int minX = Math.min(cornerPoint1.getBlockX(), cornerPoint2.getBlockX());
         int minZ = Math.min(cornerPoint1.getBlockZ(), cornerPoint2.getBlockZ());
         int maxX = Math.max(cornerPoint1.getBlockX(), cornerPoint2.getBlockX());
