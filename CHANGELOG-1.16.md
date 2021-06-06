@@ -3,10 +3,12 @@
 # V1.16.67 (NOT YET RELEASED)
 ### Features 
 - Placeholder API support
+- Tempban and tempmute now have a separate permission. You can configure how long 
 
 ### Bugfixes
 - Protected areas were using wrong location.
 - Fix session instantiation on damage from offline player
+- fix ban duration not shown correct in chat notifications
 
 # V1.16.66
 ### Features

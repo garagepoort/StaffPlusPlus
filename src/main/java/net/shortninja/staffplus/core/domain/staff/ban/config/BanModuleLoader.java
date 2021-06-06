@@ -36,6 +36,7 @@ public class BanModuleLoader extends AbstractConfigLoader<BanConfiguration> {
         String commandTempBanPlayer = commandsConfig.getString("commands.tempban");
 
         String permissionBanPlayer = permissionsConfig.getString("permissions.ban");
+        String permissionTempbanPlayer = permissionsConfig.getString("permissions.tempban");
         String permissionUnbanPlayer = permissionsConfig.getString("permissions.unban");
         String permissionBanByPass = permissionsConfig.getString("permissions.ban-bypass");
         String permissionBanTemplateOverwrite = permissionsConfig.getString("permissions.ban-template-overwrite");
@@ -46,6 +47,7 @@ public class BanModuleLoader extends AbstractConfigLoader<BanConfiguration> {
             commandTempBanPlayer,
             commandUnbanPlayer,
             permissionBanPlayer,
+            permissionTempbanPlayer,
             permissionUnbanPlayer,
             permissionBanByPass,
             permissionBanTemplateOverwrite,

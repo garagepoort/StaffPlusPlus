@@ -41,7 +41,6 @@ public class TempMuteCmd extends AbstractCmd {
         this.sessionManager = sessionManager;
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
-        setPermission(options.muteConfiguration.getPermissionMutePlayer());
         setDescription("Temporary mute a player");
         setUsage("[player] [amount] [unit] [reason]");
     }
