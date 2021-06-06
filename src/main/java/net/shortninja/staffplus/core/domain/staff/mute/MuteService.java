@@ -5,6 +5,8 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
+import net.shortninja.staffplus.core.common.time.TimeUnitShort;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
@@ -44,6 +46,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     }
 
     public void tempMute(CommandSender issuer, SppPlayer playerToMute, Long durationInMillis, String reason) {
+        this.checkDurationPermission(issuer, durationInMillis);
         mute(issuer, playerToMute, reason, durationInMillis);
     }
 
@@ -149,5 +152,20 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     @Override
     public long getActiveMuteCount() {
         return muteRepository.getActiveCount();
+    }
+
+    private void checkDurationPermission(CommandSender player, long durationProvided) {
+        List<String> permissions = permission.getPermissions(player);
+        if(permissions.stream().noneMatch(p -> p.startsWith(options.muteConfiguration.getPermissionTempmutePlayer()))) {
+            throw new NoPermissionException();
+        }
+        Optional<Long> duration = permissions.stream()
+            .filter(p -> p.startsWith(options.muteConfiguration.getPermissionTempmutePlayer() + "."))
+            .map(p -> TimeUnitShort.getDurationFromString(p.substring(p.lastIndexOf(".") + 1)))
+            .max(Comparator.naturalOrder());
+
+        if(duration.isPresent() && duration.get() < durationProvided) {
+            throw new NoPermissionException();
+        }
     }
 }

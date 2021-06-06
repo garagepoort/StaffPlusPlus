@@ -3,10 +3,19 @@ package net.shortninja.staffplus.core.common.utils;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public interface PermissionHandler {
+
+    default List<String> getPermissions(CommandSender player) {
+        return player.getEffectivePermissions().stream()
+            .map(PermissionAttachmentInfo::getPermission)
+            .collect(Collectors.toList());
+    }
 
     boolean has(Player player, String permission);
 
@@ -29,7 +38,7 @@ public interface PermissionHandler {
     int getStaffCount();
 
     default void validateOp(CommandSender sender) {
-        if(!sender.isOp()) {
+        if (!sender.isOp()) {
             throw new NoPermissionException();
         }
     }
