@@ -3,7 +3,7 @@
 # V1.16.69
 ### Features 
 - Tempban and tempmute now have a separate permission.
-- Alerts can now be configured to be send to the console
+- Alerts can now be configured to be sent to the console
 
 ### Bugfixes
 - Protected areas were using wrong location.
