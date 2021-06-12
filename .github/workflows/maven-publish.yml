@@ -17,10 +17,18 @@ jobs:
       - uses: actions/checkout@v2
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
+
+      - id: get-release-version
+        uses: actions/github-script@0.9.0
+        with:
+            script: |
+                const releaseVersion = process.env.GITHUB_REF_SLUG.substring(process.env.GITHUB_REF_SLUG.indexOf("-") + 1, process.env.GITHUB_REF_SLUG.lastIndexOf("."));
+                core.setOutput('releaseVersion', releaseVersion)
+
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
+          java-version: ${{ steps.get-release-version.outputs.releaseVersion == '1.17' && '1.16' || '1.8' }}
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
@@ -41,12 +49,6 @@ jobs:
         run: |
           echo "::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
 
-      - id: get-release-version
-        uses: actions/github-script@0.9.0
-        with:
-            script: |
-                const releaseVersion = process.env.GITHUB_REF_SLUG.substring(process.env.GITHUB_REF_SLUG.indexOf("-") + 1, process.env.GITHUB_REF_SLUG.lastIndexOf("."));
-                core.setOutput('releaseVersion', releaseVersion)
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
