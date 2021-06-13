@@ -1,5 +1,9 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.1
+# bugfixes
+- fix /eview command for offline players
+
 # V1.17.0
 ### Features 
 - 1.17 added
