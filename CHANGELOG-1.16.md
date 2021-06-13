@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.16
 
+# V1.16.70
+# bugfixes
+- clean install of the plugin using sqlite was not working on versions 15 and below
+- Fix tempmute command to not try and mute an offline player
+
 # V1.16.69
 ### Features 
 - Tempban and tempmute now have a separate permission.
