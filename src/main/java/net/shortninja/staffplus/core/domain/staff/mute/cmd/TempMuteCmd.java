@@ -56,7 +56,9 @@ public class TempMuteCmd extends AbstractCmd {
         String reason = JavaUtils.compileWords(args, 3);
 
         muteService.tempMute(sender, player, TimeUnit.getDuration(timeUnit, amount), reason);
-        sessionManager.get(player.getId()).setMuted(true);
+        if(player.isOnline()) {
+            sessionManager.get(player.getId()).setMuted(true);
+        }
         return true;
     }
 
