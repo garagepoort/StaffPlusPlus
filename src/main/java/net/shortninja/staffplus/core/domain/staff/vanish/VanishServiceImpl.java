@@ -19,6 +19,7 @@ import java.util.List;
 @IocBean
 public class VanishServiceImpl {
 
+    private final Options options;
     private final SessionManagerImpl sessionManager;
     private final List<VanishStrategy> vanishStrategies;
 
@@ -26,6 +27,7 @@ public class VanishServiceImpl {
                              Messages messages,
                              SessionManagerImpl sessionManager,
                              @IocMulti(VanishStrategy.class) List<VanishStrategy> vanishStrategies) {
+        this.options = options;
         this.sessionManager = sessionManager;
         this.vanishStrategies = vanishStrategies;
 
@@ -42,6 +44,10 @@ public class VanishServiceImpl {
     }
 
     public void addVanish(Player player, VanishType vanishType) {
+        if(!options.vanishEnabled) {
+            return;
+        }
+
         PlayerSession session = sessionManager.get(player.getUniqueId());
         VanishType userVanishType = session.getVanishType();
 
@@ -54,6 +60,9 @@ public class VanishServiceImpl {
     }
 
     public void removeVanish(Player player) {
+        if(!options.vanishEnabled) {
+            return;
+        }
         PlayerSession session = sessionManager.get(player.getUniqueId());
         vanishStrategies.forEach(v -> v.unvanish(player));
         session.setVanishType(VanishType.NONE);
@@ -65,6 +74,9 @@ public class VanishServiceImpl {
     }
 
     public void updateVanish(Player player) {
+        if(!options.vanishEnabled) {
+            return;
+        }
         vanishStrategies.forEach(v -> v.updateVanish(player));
     }
 
