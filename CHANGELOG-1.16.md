@@ -1,5 +1,9 @@
 # Changelog Staff++ | v1.16
 
+# V1.16.71 (NOT YET RELEASED)
+# bugfixes
+- fixes vanish messages shown when exiting staff mode, even when vanish module was disabled
+
 # V1.16.70
 # bugfixes
 - clean install of the plugin using sqlite was not working on versions 15 and below
