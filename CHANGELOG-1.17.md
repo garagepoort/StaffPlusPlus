@@ -1,5 +1,9 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.2 (NOT YET RELEASED)
+# bugfixes
+- fixes vanish messages shown when exiting staff mode, even when vanish module was disabled
+
 # V1.17.1
 # bugfixes
 - fix /eview command for offline players
