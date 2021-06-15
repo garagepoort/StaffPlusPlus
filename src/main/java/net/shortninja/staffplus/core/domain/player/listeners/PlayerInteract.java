@@ -118,7 +118,7 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        if (inStaffMode) {
+        if (inStaffMode && !playerSession.getCurrentGui().isPresent()) {
             if (handleInteraction(player, item, action)) {
                 event.setCancelled(true);
             }

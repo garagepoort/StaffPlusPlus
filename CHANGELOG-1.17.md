@@ -1,8 +1,12 @@
 # Changelog Staff++ | v1.17
 
 # V1.17.2 (NOT YET RELEASED)
+# Features
+- Add manage-bans command
+
 # bugfixes
 - fixes vanish messages shown when exiting staff mode, even when vanish module was disabled
+- Fixes GUI hub sometimes not opening submenus
 
 # V1.17.1
 # bugfixes
