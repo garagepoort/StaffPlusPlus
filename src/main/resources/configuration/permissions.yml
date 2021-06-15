@@ -201,22 +201,13 @@ permissions:
     # Permission to toggle protection of an area
     protect-area: "staff.staffplus.protect-area"
 
-    # Permission to ban players
+    # ban permissions
     ban: "staff.staffplus.ban"
-
-    # Permission to tempban players
     tempban: "staff.staffplus.tempban"
-
-    # Permission to use the -template= parameter when banning
+    ban-view: "staff.staffplus.ban-view"
     ban-template-overwrite: "staff.staffplus.ban-template-overwrite"
-
-    # Permission to unban players
     unban: "staff.staffplus.unban"
-
-    # Permission to bypass being banned
     ban-bypass: "staff.staffplus.ban-bypass"
-
-    # Permission to receive notifications when someone is banned/unbanned
     ban-notifications: "staff.staffplus.ban-notifications"
 
     # Permission to kick players
