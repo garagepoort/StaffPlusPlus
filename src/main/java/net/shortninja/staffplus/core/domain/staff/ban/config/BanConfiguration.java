@@ -16,11 +16,13 @@ public class BanConfiguration {
     private final String commandBanPlayer;
     private final String commandTempBanPlayer;
     private final String commandUnbanPlayer;
+    private final String commandManageBansGui;
     private final String permissionBanPlayer;
     private final String permissionTempbanPlayer;
     private final String permissionUnbanPlayer;
     private final String permissionBanByPass;
     private final String permissionBanTemplateOverwrite;
+    private final String permissionBanView;
     private final GuiItemConfig guiItemConfig;
     private final String permBanTemplate;
     private final String tempBanTemplate;
@@ -32,21 +34,23 @@ public class BanConfiguration {
                             String commandBanPlayer,
                             String commandTempBanPlayer,
                             String commandUnbanPlayer,
-                            String permissionBanPlayer,
+                            String commandManageBansGui, String permissionBanPlayer,
                             String permissionTempbanPlayer, String permissionUnbanPlayer,
                             String permissionBanByPass,
-                            String permissionBanTemplateOverwrite, GuiItemConfig guiItemConfig, String permBanTemplate,
+                            String permissionBanTemplateOverwrite, String permissionBanView, GuiItemConfig guiItemConfig, String permBanTemplate,
                             String tempBanTemplate,
                             Map<String, String> templates, List<BanReasonConfiguration> banReasons, String staffNotificationPermission) {
         this.banEnabled = banEnabled;
         this.commandBanPlayer = commandBanPlayer;
         this.commandTempBanPlayer = commandTempBanPlayer;
         this.commandUnbanPlayer = commandUnbanPlayer;
+        this.commandManageBansGui = commandManageBansGui;
         this.permissionBanPlayer = permissionBanPlayer;
         this.permissionTempbanPlayer = permissionTempbanPlayer;
         this.permissionUnbanPlayer = permissionUnbanPlayer;
         this.permissionBanByPass = permissionBanByPass;
         this.permissionBanTemplateOverwrite = permissionBanTemplateOverwrite;
+        this.permissionBanView = permissionBanView;
         this.guiItemConfig = guiItemConfig;
         this.permBanTemplate = permBanTemplate;
         this.tempBanTemplate = tempBanTemplate;
@@ -75,6 +79,10 @@ public class BanConfiguration {
         return commandTempBanPlayer;
     }
 
+    public String getCommandManageBansGui() {
+        return commandManageBansGui;
+    }
+
     public String getPermissionBanPlayer() {
         return permissionBanPlayer;
     }
@@ -100,6 +108,10 @@ public class BanConfiguration {
             return StringUtils.isEmpty(permBanTemplate) ? Optional.empty() : Optional.ofNullable(permBanTemplate);
         }
         return StringUtils.isEmpty(tempBanTemplate) ? Optional.empty() : Optional.ofNullable(tempBanTemplate);
+    }
+
+    public String getPermissionBanView() {
+        return permissionBanView;
     }
 
     public Optional<String> getTemplate(String template) {
