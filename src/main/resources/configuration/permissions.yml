@@ -76,6 +76,8 @@ permissions:
 
     # Permission for using "/v list".
     vanish-list: "staff.vanish.list"
+    # Permission for using "/v player".
+    vanish-player: "staff.vanish.player"
 
     # Permission for using "/chat clear".
     chat-clear: "staff.chat.clear"

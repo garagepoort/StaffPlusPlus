@@ -43,6 +43,8 @@ import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatModu
 import net.shortninja.staffplus.core.domain.staff.teleport.config.LocationLoader;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceModuleLoader;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWarningsConfiguration;
@@ -103,15 +105,7 @@ public class Options {
     public ChatConfiguration chatConfiguration;
     public StaffItemsConfiguration staffItemsConfiguration;
     public WebUiConfiguration webuiConfiguration;
-
-    /*
-     * Vanish
-     */
-    public boolean vanishEnabled;
-    public boolean vanishTabList;
-    public boolean vanishShowAway;
-    public boolean vanishChatEnabled;
-    public boolean vanishMessageEnabled;
+    public VanishConfiguration vanishConfiguration;
 
     /*
      * Custom
@@ -127,10 +121,6 @@ public class Options {
     public String permissionReportUpdateNotifications;
     public String permissionWarn;
     public String permissionWarnBypass;
-    public String permissionVanishCommand;
-    public String permissionSeeVanished;
-    public String permissionVanishTotal;
-    public String permissionVanishList;
     public String permissionChatClear;
     public String permissionChatToggle;
     public String permissionChatSlow;
@@ -174,7 +164,6 @@ public class Options {
     public String commandFindReports;
     public String commandWarn;
     public String commandWarns;
-    public String commandVanish;
     public String commandChat;
     public String commandFollow;
     public String commandRevive;
@@ -225,6 +214,7 @@ public class Options {
     private final StaffCustomItemsLoader staffCustomItemsLoader;
     private final StaffItemsLoader staffItemsLoader;
     private final WebUiModuleLoader webUiModuleLoader;
+    private final VanishModuleLoader vanishModuleLoader;
 
     public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
                    InfractionsModuleLoader infractionsModuleLoader,
@@ -251,7 +241,7 @@ public class Options {
                    InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader,
-                   WebUiModuleLoader webUiModuleLoader) {
+                   WebUiModuleLoader webUiModuleLoader, VanishModuleLoader vanishModuleLoader) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
         this.reportingModuleLoader = reportingModuleLoader;
@@ -278,6 +268,7 @@ public class Options {
         this.staffCustomItemsLoader = staffCustomItemsLoader;
         this.staffItemsLoader = staffItemsLoader;
         this.webUiModuleLoader = webUiModuleLoader;
+        this.vanishModuleLoader = vanishModuleLoader;
         reload();
     }
 
@@ -325,15 +316,7 @@ public class Options {
         customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();
         staffItemsConfiguration = this.staffItemsLoader.loadConfig();
         webuiConfiguration = this.webUiModuleLoader.loadConfig();
-
-        /*
-         * Vanish
-         */
-        vanishEnabled = defaultConfig.getBoolean("vanish-module.enabled");
-        vanishTabList = defaultConfig.getBoolean("vanish-module.tab-list");
-        vanishShowAway = defaultConfig.getBoolean("vanish-module.show-away");
-        vanishChatEnabled = defaultConfig.getBoolean("vanish-module.chat");
-        vanishMessageEnabled = defaultConfig.getBoolean("vanish-module.vanish-message-enabled");
+        vanishConfiguration = this.vanishModuleLoader.loadConfig();
 
         /*
          * Permissions
@@ -347,10 +330,6 @@ public class Options {
         permissionReportUpdateNotifications = permissionsConfig.getString("permissions.report-update-notifications");
         permissionWarn = permissionsConfig.getString("permissions.warn");
         permissionWarnBypass = permissionsConfig.getString("permissions.warn-bypass");
-        permissionSeeVanished = permissionsConfig.getString("permissions.see-vanished");
-        permissionVanishCommand = permissionsConfig.getString("permissions.vanish");
-        permissionVanishTotal = permissionsConfig.getString("permissions.vanish-total");
-        permissionVanishList = permissionsConfig.getString("permissions.vanish-list");
         permissionChatClear = permissionsConfig.getString("permissions.chat-clear");
         permissionChatToggle = permissionsConfig.getString("permissions.chat-toggle");
         permissionChatSlow = permissionsConfig.getString("permissions.chat-slow");
@@ -394,7 +373,6 @@ public class Options {
         commandFindReports = commandsConfig.getString("commands.reports.manage.gui-find-reports");
         commandWarn = commandsConfig.getString("commands.warn");
         commandWarns = commandsConfig.getString("commands.warns");
-        commandVanish = commandsConfig.getString("commands.vanish");
         commandChat = commandsConfig.getString("commands.chat");
         commandFollow = commandsConfig.getString("commands.follow");
         commandRevive = commandsConfig.getString("commands.revive");
