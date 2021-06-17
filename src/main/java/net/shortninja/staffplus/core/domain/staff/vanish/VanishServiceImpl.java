@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.vanish.VanishType;
@@ -19,19 +20,21 @@ import java.util.List;
 @IocBean
 public class VanishServiceImpl {
 
-    private final Options options;
     private final SessionManagerImpl sessionManager;
     private final List<VanishStrategy> vanishStrategies;
+    private final VanishConfiguration vanishConfiguration;
+    private final PermissionHandler permissionHandler;
 
     public VanishServiceImpl(Options options,
                              Messages messages,
                              SessionManagerImpl sessionManager,
-                             @IocMulti(VanishStrategy.class) List<VanishStrategy> vanishStrategies) {
-        this.options = options;
+                             @IocMulti(VanishStrategy.class) List<VanishStrategy> vanishStrategies, PermissionHandler permissionHandler) {
         this.sessionManager = sessionManager;
         this.vanishStrategies = vanishStrategies;
 
-        if (options.vanishMessageEnabled) {
+        this.vanishConfiguration = options.vanishConfiguration;
+        this.permissionHandler = permissionHandler;
+        if (vanishConfiguration.isVanishMessageEnabled()) {
             Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     PlayerSession playerSession = sessionManager.get(p.getUniqueId());
@@ -44,7 +47,7 @@ public class VanishServiceImpl {
     }
 
     public void addVanish(Player player, VanishType vanishType) {
-        if(!options.vanishEnabled) {
+        if (!vanishConfiguration.isVanishEnabled()) {
             return;
         }
 
@@ -60,11 +63,13 @@ public class VanishServiceImpl {
     }
 
     public void removeVanish(Player player) {
-        if(!options.vanishEnabled) {
+        if (!vanishConfiguration.isVanishEnabled()) {
             return;
         }
         PlayerSession session = sessionManager.get(player.getUniqueId());
-        vanishStrategies.forEach(v -> v.unvanish(player));
+        vanishStrategies.stream()
+            .filter(s -> s.getVanishType() == session.getVanishType())
+            .forEach(v -> v.unvanish(player));
         session.setVanishType(VanishType.NONE);
     }
 
@@ -74,7 +79,7 @@ public class VanishServiceImpl {
     }
 
     public void updateVanish(Player player) {
-        if(!options.vanishEnabled) {
+        if (!vanishConfiguration.isVanishEnabled()) {
             return;
         }
         vanishStrategies.forEach(v -> v.updateVanish(player));
