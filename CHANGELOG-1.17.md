@@ -3,6 +3,7 @@
 # V1.17.2 (NOT YET RELEASED)
 # Features
 - Add manage-bans command
+- Add PLAYER vanish type (vanishes player in game but keeps name in tablist)
 
 # bugfixes
 - fixes vanish messages shown when exiting staff mode, even when vanish module was disabled
