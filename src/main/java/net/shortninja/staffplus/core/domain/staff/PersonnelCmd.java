@@ -88,11 +88,11 @@ public class PersonnelCmd extends AbstractCmd {
 
         switch (status.toLowerCase()) {
             case "online":
-                return vanishType == VanishType.NONE;
+                return vanishType == VanishType.NONE || vanishType == VanishType.PLAYER;
             case "offline":
-                return vanishType == VanishType.TOTAL || (vanishType == VanishType.LIST && !options.vanishShowAway);
+                return vanishType == VanishType.TOTAL || (vanishType == VanishType.LIST && !options.vanishConfiguration.isVanishShowAway());
             case "away":
-                return vanishType == VanishType.NONE || (vanishType == VanishType.LIST && options.vanishShowAway);
+                return vanishType == VanishType.NONE || (vanishType == VanishType.LIST && options.vanishConfiguration.isVanishShowAway());
         }
         return true;
     }

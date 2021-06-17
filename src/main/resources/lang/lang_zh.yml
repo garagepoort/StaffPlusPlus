@@ -132,6 +132,7 @@ blacklist-chat-format: "&7%player% &8» &7%message%"
 
 total-vanish: "&b完全隐身已被设为&7%status%&b!"
 list-vanish: "&b列表隐身已被设为&7%status%&b!"
+player-vanish: "&bYour player vanish has been &7%status%&b!"
 vanish-enabled: "&2Vanish enabled"
 
 ############################################################
