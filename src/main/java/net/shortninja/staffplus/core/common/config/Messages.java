@@ -87,6 +87,7 @@ public class Messages {
      */
     public final String totalVanish;
     public final String listVanish;
+    public final String playerVanish;
     public final String vanishEnabled;
     /*
      * Alerts
@@ -240,6 +241,7 @@ public class Messages {
          */
         totalVanish = config.getString("total-vanish");
         listVanish = config.getString("list-vanish");
+        playerVanish = config.getString("player-vanish");
         vanishEnabled = config.getString("vanish-enabled");
         /*
          * Alerts
