@@ -35,7 +35,7 @@ public class VanishChatInterceptor implements ChatInterceptor {
         if (chatAction != null) {
             return false;
         }
-        if (options.vanishEnabled && !options.vanishChatEnabled && vanishServiceImpl.isVanished(event.getPlayer())) {
+        if (options.vanishConfiguration.isVanishEnabled() && !options.vanishConfiguration.isVanishChatEnabled() && vanishServiceImpl.isVanished(event.getPlayer())) {
             this.messages.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }

@@ -30,7 +30,7 @@ public class TotalVanishStrategy implements VanishStrategy {
     @Override
     public void vanish(Player player) {
         Bukkit.getOnlinePlayers().stream()
-            .filter(p -> !permission.has(p, options.permissionSeeVanished))
+            .filter(p -> !permission.has(p, options.vanishConfiguration.getPermissionSeeVanished()))
             .forEach(p -> p.hidePlayer(player));
 
         String message = messages.totalVanish.replace("%status%", messages.enabled);
@@ -41,7 +41,7 @@ public class TotalVanishStrategy implements VanishStrategy {
 
     @Override
     public void updateVanish(Player player) {
-        if(!permission.has(player, options.permissionSeeVanished)) {
+        if(!permission.has(player, options.vanishConfiguration.getPermissionSeeVanished())) {
             sessionManager.getAll().stream()
                 .filter(session -> session.getPlayer().isPresent() && session.getVanishType() == VanishType.TOTAL)
                 .forEach(p -> player.hidePlayer(p.getPlayer().get()));

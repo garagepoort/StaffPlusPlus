@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.vanish;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -10,6 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -17,7 +17,12 @@ import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
@@ -27,25 +32,30 @@ public class VanishCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final VanishServiceImpl vanishServiceImpl;
     private final PermissionHandler permissionHandler;
+    private final PlayerManager playerManager;
 
-    public VanishCmd(Messages messages, Options options, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler) {
-        super(options.commandVanish, messages, options, commandService);
+    public VanishCmd(Messages messages, Options options, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler, PlayerManager playerManager) {
+        super(options.vanishConfiguration.getCommandVanish(), messages, options, commandService);
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
         this.permissionHandler = permissionHandler;
-        setPermission(options.permissionVanishCommand);
+        this.playerManager = playerManager;
+        setPermission(options.vanishConfiguration.getPermissionVanishCommand());
         setDescription("Enables or disables the type of vanish for the player.");
-        setUsage("[total | list] {player} {enable | disable}");
+        setUsage("[total | list | player] {player} {enable | disable}");
     }
 
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+
+        VanishType vanishType = VanishType.valueOf(args[0].toUpperCase());
+
         if (args.length >= 3 && permissionHandler.isOp(sender)) {
             String option = args[2];
 
             if (option.equalsIgnoreCase("enable")) {
-                handleVanishArgument(sender, args[0], targetPlayer.getPlayer(), false);
+                handleVanishArgument(vanishType, targetPlayer.getPlayer(), false);
             } else {
                 vanishServiceImpl.removeVanish(targetPlayer.getPlayer());
             }
@@ -55,14 +65,14 @@ public class VanishCmd extends AbstractCmd {
         }
 
         if (args.length == 2 && permissionHandler.isOp(sender)) {
-            handleVanishArgument(sender, args[0], targetPlayer.getPlayer(), false);
+            handleVanishArgument(vanishType, targetPlayer.getPlayer(), false);
             sessionManager.saveSession(targetPlayer.getPlayer());
             return true;
         }
 
         if (args.length == 1) {
             validateIsPlayer(sender);
-            handleVanishArgument(sender, args[0], (Player) sender, true);
+            handleVanishArgument(vanishType, (Player) sender, true);
             sessionManager.saveSession(targetPlayer.getPlayer());
             return true;
         }
@@ -74,7 +84,7 @@ public class VanishCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        if(sender instanceof Player) {
+        if (sender instanceof Player) {
             return 1;
         }
         return 2;
@@ -96,36 +106,61 @@ public class VanishCmd extends AbstractCmd {
         return Optional.empty();
     }
 
-    private void handleVanishArgument(CommandSender sender, String argument, Player player, boolean shouldCheckPermission) {
-        boolean isValid = JavaUtils.isValidEnum(VanishType.class, argument.toUpperCase());
-        VanishType vanishType = VanishType.NONE;
-        PlayerSession user = sessionManager.get(player.getUniqueId());
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        if (args.length == 1) {
+            return Arrays.stream(VanishType.values()).map(Enum::name)
+                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .collect(Collectors.toList());
+        }
 
-        if (!isValid) {
-            sendHelp(sender);
-            return;
-        } else vanishType = VanishType.valueOf(argument.toUpperCase());
+        if (args.length == 2) {
+            return playerManager.getAllPlayerNames().stream()
+                .filter(s -> args[1].isEmpty() || s.contains(args[1]))
+                .collect(Collectors.toList());
+        }
+
+
+        if (args.length == 3) {
+            return Stream.of("enable", "disable")
+                .filter(s -> args[2].isEmpty() || s.contains(args[2]))
+                .collect(Collectors.toList());
+        }
+
+        return Collections.emptyList();
+    }
+
+    private void handleVanishArgument(VanishType vanishType, Player player, boolean shouldCheckPermission) {
 
         switch (vanishType) {
             case TOTAL:
-                if (permissionHandler.has(player, options.permissionVanishTotal) || !shouldCheckPermission) {
-                    if (user.getVanishType() != VanishType.TOTAL) {
-                        vanishServiceImpl.addVanish(player, vanishType);
-                    } else vanishServiceImpl.removeVanish(player);
-                } else messages.send(player, messages.noPermission, messages.prefixGeneral);
+                setVanish(vanishType, player, shouldCheckPermission, options.vanishConfiguration.getPermissionVanishTotal());
                 break;
             case LIST:
-                if (permissionHandler.has(player, options.permissionVanishList) || !shouldCheckPermission) {
-                    if (user.getVanishType() != VanishType.LIST) {
-                        vanishServiceImpl.addVanish(player, vanishType);
-                    } else vanishServiceImpl.removeVanish(player);
-                } else messages.send(player, messages.noPermission, messages.prefixGeneral);
+                setVanish(vanishType, player, shouldCheckPermission, options.vanishConfiguration.getPermissionVanishList());
+                break;
+            case PLAYER:
+                setVanish(vanishType, player, shouldCheckPermission, options.vanishConfiguration.getPermissionVanishPlayer());
                 break;
             case NONE:
-                if (permissionHandler.has(player, options.permissionVanishList) || permissionHandler.has(player, options.permissionVanishTotal) || !shouldCheckPermission) {
+                if (permissionHandler.hasAny(player, options.vanishConfiguration.getPermissionVanishList(), options.vanishConfiguration.getPermissionVanishPlayer(), options.vanishConfiguration.getPermissionVanishTotal()) || !shouldCheckPermission) {
                     vanishServiceImpl.removeVanish(player);
                 } else messages.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
+        }
+    }
+
+    private void setVanish(VanishType vanishType, Player player, boolean shouldCheckPermission, String permissionVanishTotal) {
+        PlayerSession session = sessionManager.get(player.getUniqueId());
+        if (shouldCheckPermission && !permissionHandler.has(player, permissionVanishTotal)) {
+            messages.send(player, messages.noPermission, messages.prefixGeneral);
+            return;
+        }
+
+        if (session.getVanishType() != vanishType) {
+            vanishServiceImpl.addVanish(player, vanishType);
+        } else {
+            vanishServiceImpl.removeVanish(player);
         }
     }
 
