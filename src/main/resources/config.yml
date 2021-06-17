@@ -475,7 +475,7 @@ webui-module:
     enabled: false
     host: https://web.staffplusplus.org
     role: MEMBER
-    application-key:
+    application-key: 'EXAMPLE_KEY'
 
 
 ############################################################
