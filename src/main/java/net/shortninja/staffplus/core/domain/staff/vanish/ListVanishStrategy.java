@@ -25,7 +25,7 @@ public class ListVanishStrategy implements VanishStrategy {
 
     @Override
     public void vanish(Player player) {
-        if (options.vanishTabList) {
+        if (options.vanishConfiguration.isVanishTabList()) {
             protocolService.getVersionProtocol().listVanish(player, true);
         }
 
