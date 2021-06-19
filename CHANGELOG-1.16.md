@@ -8,6 +8,7 @@
 # bugfixes
 - fixes vanish messages shown when exiting staff mode, even when vanish module was disabled
 - Fixes GUI hub sometimes not opening submenus
+- Fix tempban not working through console
 
 # V1.16.70
 # bugfixes
