@@ -56,8 +56,15 @@ public class KickCmd extends AbstractCmd {
             return true;
         }
 
+        if (args.length == 2) {
+            String reason = JavaUtils.compileWords(args, 1);
+            if (kickReasonConfigurations.stream().anyMatch(k -> k.getReason().equalsIgnoreCase(reason))) {
+                kickService.kick(sender, player, reason);
+            }
+        }
+
         validateIsPlayer(sender);
-        new KickReasonSelectGui((Player) sender, player, kickReasonConfigurations);
+        new KickReasonSelectGui((Player) sender, player, kickReasonConfigurations).show((Player) sender);
         return true;
     }
 
@@ -86,8 +93,17 @@ public class KickCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        String currentArg = args.length > 0 ? args[args.length - 1] : "";
+
         if (args.length == 1) {
             return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+        }
+
+        if (args.length == 2 && !kickReasonConfigurations.isEmpty()) {
+            return kickReasonConfigurations.stream()
+                .map(KickReasonConfiguration::getReason)
+                .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
+                .collect(Collectors.toList());
         }
 
         return Collections.emptyList();
