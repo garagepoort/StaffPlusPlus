@@ -4,6 +4,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
+import net.shortninja.staffplus.core.common.gui.SimpleItemBuilder;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportReasonConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportTypeConfiguration;
@@ -47,8 +48,8 @@ public class ReportTypeSelectGui extends AbstractGui {
     public void buildGui() {
         IAction selectAction = getSelectAction();
         int count = 0;
-        for (ReportTypeConfiguration reportTypeConfiguration : reportTypeConfigurations) {
-            setItem(count, ReportTypeItemBuilder.build(reportTypeConfiguration), selectAction);
+        for (ReportTypeConfiguration r : reportTypeConfigurations) {
+            setItem(count, SimpleItemBuilder.build(r.getType(), r.getLore(), r.getMaterial()), selectAction);
             count++;
         }
     }
