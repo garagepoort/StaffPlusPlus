@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
+import net.shortninja.staffplus.core.common.gui.SimpleItemBuilder;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.CulpritFilterPredicate;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportReasonConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.actions.SelectReportReasonAction;
@@ -43,8 +44,8 @@ public class ReportReasonSelectGui extends AbstractGui {
     @Override
     public void buildGui() {
         int count = 0;
-        for (ReportReasonConfiguration reportReasonConfiguration : reportReasonConfigurations) {
-            setItem(count, ReportReasonItemBuilder.build(reportReasonConfiguration), new SelectReportReasonAction(reportReasonConfiguration, staff, targetPlayer, type));
+        for (ReportReasonConfiguration r : reportReasonConfigurations) {
+            setItem(count, SimpleItemBuilder.build(r.getReason(), r.getLore(), r.getMaterial()), new SelectReportReasonAction(r, staff, targetPlayer, type));
             count++;
         }
     }
