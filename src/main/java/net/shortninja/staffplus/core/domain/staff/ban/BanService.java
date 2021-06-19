@@ -181,6 +181,10 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     }
 
     private void checkDurationPermission(CommandSender player, long durationProvided) {
+        if(!(player instanceof Player)) {
+            return;
+        }
+
         List<String> permissions = permission.getPermissions(player);
         if(permissions.stream().noneMatch(p -> p.startsWith(banConfiguration.getPermissionTempbanPlayer()))) {
             throw new NoPermissionException();
