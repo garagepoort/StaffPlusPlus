@@ -9,10 +9,11 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.kick.KickService;
+import net.shortninja.staffplus.core.domain.staff.kick.config.KickReasonConfiguration;
+import net.shortninja.staffplus.core.domain.staff.kick.gui.KickReasonSelectGui;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
@@ -29,6 +30,7 @@ public class KickCmd extends AbstractCmd {
 
     private final PermissionHandler permissionHandler;
     private final KickService kickService;
+    private final List<KickReasonConfiguration> kickReasonConfigurations;
 
     public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService) {
         super(options.kickConfiguration.getCommandKickPlayer(), messages, options, commandService);
@@ -36,20 +38,35 @@ public class KickCmd extends AbstractCmd {
         this.kickService = kickService;
         setPermission(options.kickConfiguration.getPermissionKickPlayer());
         setDescription("Kick a player");
-        setUsage("[player] [reason]");
+        setUsage("[player] [reason?]");
+        kickReasonConfigurations = options.kickConfiguration.getKickReasons();
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
-        String reason = JavaUtils.compileWords(args, 1);
 
-        kickService.kick(sender, player, reason);
+        if (kickReasonConfigurations.isEmpty() || (!options.kickConfiguration.isFixedReason() && args.length == 2)) {
+            String reason = JavaUtils.compileWords(args, 1);
+            kickService.kick(sender, player, reason);
+            return true;
+        }
+
+        if (kickReasonConfigurations.size() == 1) {
+            kickService.kick(sender, player, kickReasonConfigurations.get(0).getReason());
+            return true;
+        }
+
+        validateIsPlayer(sender);
+        new KickReasonSelectGui((Player) sender, player, kickReasonConfigurations);
         return true;
     }
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        return 2;
+        if (kickReasonConfigurations.isEmpty()) {
+            return 2;
+        }
+        return 1;
     }
 
     @Override
