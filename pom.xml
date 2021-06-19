@@ -271,7 +271,7 @@
                                 </relocation>
                                 <relocation>
                                     <pattern>com.zaxxer.</pattern>
-                                    <shadedPattern>xyz.blockstackers.taxationsystem.com.zaxxer.</shadedPattern>
+                                    <shadedPattern>net.shortninja.staffplus.core.com.zaxxer.</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

@@ -342,6 +342,8 @@ ban-module:
 kick-module:
   # Whether or not the plugin will use "/kick" features.
   enabled: false
+  fixed-reason: false
+  reasons: []
 
 ############################################################
 # +------------------------------------------------------+ #
