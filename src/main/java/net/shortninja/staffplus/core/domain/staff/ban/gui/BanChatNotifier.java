@@ -27,6 +27,9 @@ public class BanChatNotifier implements Listener {
     @EventHandler
     public void notifyPlayerBanned(BanEvent event) {
         IBan ban = event.getBan();
+        if(ban.isSilentBan()) {
+            return;
+        }
         String banMessage = ban.getEndDate() == null ? messages.permanentBanned : messages.tempBanned;
         String message = replaceBanPlaceholders(banMessage, ban.getTargetName(), ban.getIssuerName(), ban.getReason(), ban.getEndTimestamp());
 
@@ -36,8 +39,11 @@ public class BanChatNotifier implements Listener {
     @EventHandler
     public void notifyUnban(UnbanEvent event) {
         IBan ban = event.getBan();
-        String unbanMessage = replaceBanPlaceholders(messages.unbanned, ban.getTargetName(), ban.getUnbannedByName(), ban.getReason(), ban.getEndTimestamp());
+        if(ban.isSilentUnban()) {
+            return;
+        }
 
+        String unbanMessage = replaceBanPlaceholders(messages.unbanned, ban.getTargetName(), ban.getUnbannedByName(), ban.getReason(), ban.getEndTimestamp());
         this.messages.sendGroupMessage(unbanMessage, options.banConfiguration.getStaffNotificationPermission(), messages.prefixGeneral);
     }
 

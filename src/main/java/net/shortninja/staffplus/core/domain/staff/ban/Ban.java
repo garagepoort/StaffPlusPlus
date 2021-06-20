@@ -25,8 +25,10 @@ public class Ban implements IBan, Infraction, Evidence {
     private UUID unbannedByUuid;
     private String unbanReason;
     private String serverName;
+    private boolean silentBan;
+    private boolean silentUnban;
 
-    public Ban(int id, String reason, Long creationDate, Long endDate, String targetName, UUID targetUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName) {
+    public Ban(int id, String reason, Long creationDate, Long endDate, String targetName, UUID targetUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName, boolean silentBan, boolean silentUnban) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
@@ -39,21 +41,25 @@ public class Ban implements IBan, Infraction, Evidence {
         this.unbannedByUuid = unbannedByUuid;
         this.unbanReason = unbanReason;
         this.serverName = serverName;
+        this.silentBan = silentBan;
+        this.silentUnban = silentUnban;
     }
 
-    public Ban(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid) {
+    public Ban(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan) {
         this.reason = reason;
         this.targetName = targetName;
         this.issuerName = issuerName;
+        this.silentBan = silentBan;
         this.creationDate = System.currentTimeMillis();
         this.endDate = endDate;
         this.targetUuid = targetUuid;
         this.issuerUuid = issuerUuid;
     }
-    public Ban(String reason, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid) {
+    public Ban(String reason, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan) {
         this.reason = reason;
         this.targetName = targetName;
         this.issuerName = issuerName;
+        this.silentBan = silentBan;
         this.creationDate = System.currentTimeMillis();
         this.targetUuid = targetUuid;
         this.issuerUuid = issuerUuid;
@@ -170,5 +176,19 @@ public class Ban implements IBan, Infraction, Evidence {
     @Override
     public String getServerName() {
         return serverName;
+    }
+
+    @Override
+    public boolean isSilentBan() {
+        return silentBan;
+    }
+
+    @Override
+    public boolean isSilentUnban() {
+        return silentUnban;
+    }
+
+    public void setSilentUnban(boolean silentUnban) {
+        this.silentUnban = silentUnban;
     }
 }
