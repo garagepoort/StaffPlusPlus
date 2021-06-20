@@ -190,11 +190,12 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     @Override
     public void update(Ban ban) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_banned_players set unbanned_by_uuid=?, unban_reason=?, end_timestamp=? WHERE ID=?")) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_banned_players set unbanned_by_uuid=?, unban_reason=?, end_timestamp=?, silent_unban=? WHERE ID=?")) {
             insert.setString(1, ban.getUnbannedByUuid().toString());
             insert.setString(2, ban.getUnbanReason());
             insert.setLong(3, System.currentTimeMillis());
-            insert.setInt(4, ban.getId());
+            insert.setBoolean(4, ban.isSilentUnban());
+            insert.setInt(5, ban.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -208,6 +209,8 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
 
         String playerName = rs.getString("player_name");
         String issuerName = rs.getString("issuer_name");
+        boolean silentBan = rs.getBoolean("silent_ban");
+        boolean silentUnban = rs.getBoolean("silent_unban");
 
         String unbannedByName = null;
         if (unbannedByUUID != null) {
@@ -231,7 +234,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
             unbannedByName,
             unbannedByUUID,
             rs.getString("unban_reason"),
-            serverName);
+            serverName, silentBan, silentUnban);
     }
 
     private String getPlayerName(UUID uuid) {

@@ -23,6 +23,7 @@ public class BanConfiguration {
     private final String permissionBanByPass;
     private final String permissionBanTemplateOverwrite;
     private final String permissionBanView;
+    private final String permissionBanSilent;
     private final GuiItemConfig guiItemConfig;
     private final String permBanTemplate;
     private final String tempBanTemplate;
@@ -37,7 +38,7 @@ public class BanConfiguration {
                             String commandManageBansGui, String permissionBanPlayer,
                             String permissionTempbanPlayer, String permissionUnbanPlayer,
                             String permissionBanByPass,
-                            String permissionBanTemplateOverwrite, String permissionBanView, GuiItemConfig guiItemConfig, String permBanTemplate,
+                            String permissionBanTemplateOverwrite, String permissionBanView, String permissionBanSilent, GuiItemConfig guiItemConfig, String permBanTemplate,
                             String tempBanTemplate,
                             Map<String, String> templates, List<BanReasonConfiguration> banReasons, String staffNotificationPermission) {
         this.banEnabled = banEnabled;
@@ -51,6 +52,7 @@ public class BanConfiguration {
         this.permissionBanByPass = permissionBanByPass;
         this.permissionBanTemplateOverwrite = permissionBanTemplateOverwrite;
         this.permissionBanView = permissionBanView;
+        this.permissionBanSilent = permissionBanSilent;
         this.guiItemConfig = guiItemConfig;
         this.permBanTemplate = permBanTemplate;
         this.tempBanTemplate = tempBanTemplate;
@@ -134,5 +136,9 @@ public class BanConfiguration {
 
     public String getStaffNotificationPermission() {
         return staffNotificationPermission;
+    }
+
+    public String getPermissionBanSilent() {
+        return permissionBanSilent;
     }
 }
