@@ -19,8 +19,8 @@ public class SqliteBansRepository extends AbstractSqlBansRepository {
     @Override
     public int addBan(Ban ban) {
         try (Connection connection = getConnection();
-             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_banned_players(reason, player_uuid, player_name, issuer_uuid, issuer_name, end_timestamp, creation_timestamp, server_name) " +
-                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?);")) {
+             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_banned_players(reason, player_uuid, player_name, issuer_uuid, issuer_name, end_timestamp, creation_timestamp, server_name, silent_ban) " +
+                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);")) {
             connection.setAutoCommit(false);
             insert.setString(1, ban.getReason());
             insert.setString(2, ban.getTargetUuid().toString());
@@ -34,6 +34,7 @@ public class SqliteBansRepository extends AbstractSqlBansRepository {
             }
             insert.setLong(7, ban.getCreationTimestamp());
             insert.setString(8, options.serverName);
+            insert.setBoolean(9, ban.isSilentBan());
             insert.executeUpdate();
 
             Statement statement = connection.createStatement();
