@@ -11,13 +11,13 @@ public class UsernameDetector implements AltDetector {
         int levenshteinDistance = StringUtils.getLevenshteinDistance(strippedUsernamePlayer, strippedUsernameOtherPlayer);
         double changePercentage = ((double) levenshteinDistance) / (Math.max(strippedUsernamePlayer.length(), strippedUsernameOtherPlayer.length()));
         if (changePercentage <= 0.3) {
-            return 3;
+            return 4;
         }
         if (changePercentage <= 0.5) {
-            return 2;
+            return 3;
         }
         if (changePercentage <= 0.7) {
-            return 1;
+            return 2;
         }
         return 0;
     }
