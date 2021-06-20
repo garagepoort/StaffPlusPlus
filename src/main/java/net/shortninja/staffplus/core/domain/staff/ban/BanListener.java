@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.util.Optional;
 
+import static net.shortninja.staffplus.core.domain.staff.ban.BanMessageStringUtil.replaceBanPlaceholders;
+
 @IocBean
 @IocListener
 public class BanListener implements Listener {
@@ -26,16 +28,15 @@ public class BanListener implements Listener {
     public void onJoin(PlayerLoginEvent event) {
         Player player = event.getPlayer();
 
-        Optional<Ban> ban = banService.getBanByBannedUuid(player.getUniqueId());
-        if (ban.isPresent()) {
-            if (ban.get().getEndTimestamp() == null) {
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.permanentBannedKick
-                    .replace("%reason%", ban.get().getReason()));
+        Optional<Ban> optionalBan = banService.getBanByBannedUuid(player.getUniqueId());
+        if (optionalBan.isPresent()) {
+            Ban ban = optionalBan.get();
+            if (ban.getEndTimestamp() == null) {
+                String banMessage = replaceBanPlaceholders(messages.permanentBannedKick, ban.getTargetName(), ban.getIssuerName(), ban.getReason(), ban.getEndTimestamp());
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.colorize(banMessage));
             } else {
-                String message = messages.tempBannedKick
-                    .replace("%duration%", ban.get().getHumanReadableDuration())
-                        .replace("%reason%", ban.get().getReason());
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, message);
+                String banMessage = replaceBanPlaceholders(messages.tempBannedKick, ban.getTargetName(), ban.getIssuerName(), ban.getReason(), ban.getEndTimestamp());
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.colorize(banMessage));
             }
         }
     }

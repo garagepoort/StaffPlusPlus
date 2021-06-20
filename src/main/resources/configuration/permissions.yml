@@ -206,6 +206,7 @@ permissions:
     # ban permissions
     ban: "staff.staffplus.ban"
     tempban: "staff.staffplus.tempban"
+    ban-silent: "staff.staffplus.ban-silent"
     ban-view: "staff.staffplus.ban-view"
     ban-template-overwrite: "staff.staffplus.ban-template-overwrite"
     unban: "staff.staffplus.unban"
