@@ -10,11 +10,14 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 
+import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
+import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +29,13 @@ public class UnbanCmd extends AbstractCmd {
 
     private final BanService banService;
     private final PlayerManager playerManager;
+    private final PermissionHandler permissionHandler;
 
-    public UnbanCmd(Messages messages, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
+    public UnbanCmd(Messages messages, Options options, BanService banService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
         super(options.banConfiguration.getCommandUnbanPlayer(), messages, options, commandService);
         this.playerManager = playerManager;
         this.banService = banService;
+        this.permissionHandler = permissionHandler;
         setPermission(options.banConfiguration.getPermissionUnbanPlayer());
         setDescription("Unban a player");
         setUsage("[player] [reason]");
@@ -38,9 +43,15 @@ public class UnbanCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+        boolean isSilent = Arrays.stream(args).anyMatch(a -> a.equalsIgnoreCase("-silent"));
+        if(isSilent && !permissionHandler.has(sender, options.banConfiguration.getPermissionBanSilent())) {
+            throw new NoPermissionException("You don't have the permission to execute a silent unban");
+        }
+
+        args = Arrays.stream(args).filter(a -> !a.equalsIgnoreCase("-silent")).toArray(String[]::new);
         String reason = JavaUtils.compileWords(args, 1);
 
-        banService.unban(sender, player, reason);
+        banService.unban(sender, player, reason, isSilent);
         return true;
     }
 
@@ -61,9 +72,10 @@ public class UnbanCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        String[] finalArgs = Arrays.stream(args).filter(a -> !a.equalsIgnoreCase("-silent")).toArray(String[]::new);
         if (args.length == 1) {
             return playerManager.getAllPlayerNames().stream()
-                .filter(s -> args[0].isEmpty() || s.contains(args[0]))
+                .filter(s -> finalArgs[0].isEmpty() || s.contains(finalArgs[0]))
                 .collect(Collectors.toList());
         }
         return Collections.emptyList();

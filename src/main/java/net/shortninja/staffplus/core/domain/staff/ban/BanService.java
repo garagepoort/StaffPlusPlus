@@ -54,22 +54,22 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         this.banTemplateResolver = banTemplateResolver;
     }
 
-    public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason, String template) {
-        ban(issuer, playerToBan, reason, template, null, PERM_BAN);
+    public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason, String template, boolean isSilent) {
+        ban(issuer, playerToBan, reason, template, null, PERM_BAN, isSilent);
     }
 
-    public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason) {
-        ban(issuer, playerToBan, reason, null, null, PERM_BAN);
+    public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason, boolean isSilent) {
+        ban(issuer, playerToBan, reason, null, null, PERM_BAN, isSilent);
     }
 
-    public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason, String template) {
+    public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason, String template, boolean isSilent) {
         this.checkDurationPermission(issuer, durationInMillis);
-        ban(issuer, playerToBan, reason, template, durationInMillis, TEMP_BAN);
+        ban(issuer, playerToBan, reason, template, durationInMillis, TEMP_BAN, isSilent);
     }
 
-    public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason) {
+    public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason, boolean isSilent) {
         this.checkDurationPermission(issuer, durationInMillis);
-        ban(issuer, playerToBan, reason, null, durationInMillis, TEMP_BAN);
+        ban(issuer, playerToBan, reason, null, durationInMillis, TEMP_BAN, isSilent);
     }
 
     public Optional<Ban> getBanByBannedUuid(UUID playerUuid) {
@@ -85,13 +85,14 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     }
 
 
-    public void unban(CommandSender issuer, SppPlayer playerToUnban, String reason) {
+    public void unban(CommandSender issuer, SppPlayer playerToUnban, String reason, boolean isSilent) {
         Ban ban = bansRepository.findActiveBan(playerToUnban.getId())
             .orElseThrow(() -> new BusinessException("&CCannot unban, this user is not banned"));
 
         ban.setUnbannedByName(issuer instanceof Player ? issuer.getName() : "Console");
         ban.setUnbannedByUuid(issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID);
         ban.setUnbanReason(reason);
+        ban.setSilentUnban(isSilent);
         unban(ban);
     }
 
@@ -105,7 +106,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         unban(ban);
     }
 
-    private void ban(CommandSender issuer, SppPlayer playerToBan, final String reason, final String providedTemplateName, Long durationInMillis, BanType banType) {
+    private void ban(CommandSender issuer, SppPlayer playerToBan, final String reason, final String providedTemplateName, Long durationInMillis, BanType banType, boolean isSilent) {
         if (providedTemplateName != null) permission.validate(issuer, options.banConfiguration.getPermissionBanTemplateOverwrite());
         String fullReason = banReasonResolver.resolveBanReason(reason, banType);
         String templateMessage = banTemplateResolver.resolveTemplate(reason, providedTemplateName, banType);
@@ -122,7 +123,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID;
 
         Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
-        Ban ban = new Ban(fullReason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId());
+        Ban ban = new Ban(fullReason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId(), isSilent);
         ban.setId(bansRepository.addBan(ban));
 
         kickPlayer(playerToBan, durationInMillis, issuerName, fullReason, templateMessage);
