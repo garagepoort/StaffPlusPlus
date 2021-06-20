@@ -32,10 +32,12 @@ public class AltDetectionService {
     private final AltDetectWhitelistRepository altDetectWhitelistRepository;
     private final PermissionHandler permission;
     private final Options options;
+    private final IpDetector ipDetector;
 
     public AltDetectionService(PlayerManager playerManager, PlayerIpRepository playerIpRepository, AltDetectWhitelistRepository altDetectWhitelistRepository, PermissionHandler permission, Options options) {
         this.playerManager = playerManager;
-        this.altDetectors = Arrays.asList(new UsernameDetector(), new IpDetector(playerIpRepository));
+        ipDetector = new IpDetector(playerIpRepository);
+        this.altDetectors = Arrays.asList(new UsernameDetector(), ipDetector);
         this.playerIpRepository = playerIpRepository;
         this.altDetectWhitelistRepository = altDetectWhitelistRepository;
         this.permission = permission;
@@ -83,6 +85,11 @@ public class AltDetectionService {
             for (SppPlayer onAndOfflinePlayer : onAndOfflinePlayers) {
                 boolean isWhitelisted = whitelistedItems.stream().anyMatch(w -> w.isWhitelisted(player.getUniqueId(), onAndOfflinePlayer.getId()));
                 if (onAndOfflinePlayer.getId().equals(player.getUniqueId()) || isWhitelisted) {
+                    continue;
+                }
+
+                boolean sameIp = ipDetector.getScore(altDetectInfo, onAndOfflinePlayer) == 1;
+                if(options.altDetectConfiguration.isSameIpRequired() && !sameIp) {
                     continue;
                 }
 
