@@ -4,6 +4,7 @@
 # Features
 - Add manage-bans command
 - Add PLAYER vanish type (vanishes player in game but keeps name in tablist)
+- Placeholders and formatting added for `ban-permabanned-kick` and `ban-tempbanned-kick` message
 
 # bugfixes
 - fixes vanish messages shown when exiting staff mode, even when vanish module was disabled
