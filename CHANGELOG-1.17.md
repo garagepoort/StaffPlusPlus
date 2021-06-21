@@ -1,5 +1,9 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.3
+# bugfixes
+- duration of tempban messages was broken
+
 # V1.17.2
 # Features
 - Add manage-bans command

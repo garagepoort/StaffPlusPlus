@@ -32,10 +32,10 @@ public class BanListener implements Listener {
         if (optionalBan.isPresent()) {
             Ban ban = optionalBan.get();
             if (ban.getEndTimestamp() == null) {
-                String banMessage = replaceBanPlaceholders(messages.permanentBannedKick, ban.getTargetName(), ban.getIssuerName(), ban.getReason(), ban.getEndTimestamp());
+                String banMessage = replaceBanPlaceholders(messages.permanentBannedKick, ban);
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.colorize(banMessage));
             } else {
-                String banMessage = replaceBanPlaceholders(messages.tempBannedKick, ban.getTargetName(), ban.getIssuerName(), ban.getReason(), ban.getEndTimestamp());
+                String banMessage = replaceBanPlaceholders(messages.tempBannedKick, ban);
                 event.disallow(PlayerLoginEvent.Result.KICK_OTHER, messages.colorize(banMessage));
             }
         }
