@@ -126,13 +126,13 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         Ban ban = new Ban(fullReason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId(), isSilent);
         ban.setId(bansRepository.addBan(ban));
 
-        kickPlayer(playerToBan, durationInMillis, issuerName, fullReason, templateMessage);
+        kickPlayer(playerToBan, ban, templateMessage);
         sendEvent(new BanEvent(ban));
     }
 
-    private void kickPlayer(SppPlayer playerToBan, Long duration, String issuerName, String reason, String templateMessage) {
+    private void kickPlayer(SppPlayer playerToBan, Ban ban, String templateMessage) {
         if (playerToBan.isOnline()) {
-            String banMessage = replaceBanPlaceholders(templateMessage, playerToBan.getUsername(), issuerName, reason, duration);
+            String banMessage = replaceBanPlaceholders(templateMessage, ban);
             playerToBan.getPlayer().kickPlayer(messages.colorize(banMessage));
         }
     }
@@ -182,7 +182,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     }
 
     private void checkDurationPermission(CommandSender player, long durationProvided) {
-        if(!(player instanceof Player)) {
+        if(!(player instanceof Player) || permission.isOp(player)) {
             return;
         }
 

@@ -31,7 +31,7 @@ public class BanChatNotifier implements Listener {
             return;
         }
         String banMessage = ban.getEndDate() == null ? messages.permanentBanned : messages.tempBanned;
-        String message = replaceBanPlaceholders(banMessage, ban.getTargetName(), ban.getIssuerName(), ban.getReason(), ban.getEndTimestamp());
+        String message = replaceBanPlaceholders(banMessage, ban);
 
         this.messages.sendGroupMessage(message, options.banConfiguration.getStaffNotificationPermission(), messages.prefixGeneral);
     }
@@ -43,7 +43,7 @@ public class BanChatNotifier implements Listener {
             return;
         }
 
-        String unbanMessage = replaceBanPlaceholders(messages.unbanned, ban.getTargetName(), ban.getUnbannedByName(), ban.getReason(), ban.getEndTimestamp());
+        String unbanMessage = replaceBanPlaceholders(messages.unbanned, ban);
         this.messages.sendGroupMessage(unbanMessage, options.banConfiguration.getStaffNotificationPermission(), messages.prefixGeneral);
     }
 
