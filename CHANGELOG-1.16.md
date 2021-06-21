@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.16
 
-# V1.16.71 (NOT YET RELEASED)
+# V1.16.71
 # Features
 - Add manage-bans command
 - Add PLAYER vanish type (vanishes player in game but keeps name in tablist)

@@ -1,10 +1,11 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.2 (NOT YET RELEASED)
+# V1.17.2
 # Features
 - Add manage-bans command
 - Add PLAYER vanish type (vanishes player in game but keeps name in tablist)
 - Placeholders and formatting added for `ban-permabanned-kick` and `ban-tempbanned-kick` message
+- bans/tempbans/unbans can now be performed silently
 - Add ip-required option + SAME_IP detection level to the alt-detect module
 
 # bugfixes
