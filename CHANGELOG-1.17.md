@@ -4,6 +4,7 @@
 
 ### Features
 - Staff chat channels formatting can now be configured per channel.
+- Added permissions for bypassing triggering alerts
 
 ### bugfixes
 - Vanish not enabled when reconnecting in staff mode
