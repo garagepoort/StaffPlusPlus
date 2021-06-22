@@ -2,9 +2,7 @@ package net.shortninja.staffplus.core;
 
 import be.garagepoort.mcioc.TubingPlugin;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
-import net.shortninja.staffplus.core.application.data.LanguageFile;
 import net.shortninja.staffplus.core.common.config.AutoUpdater;
-import net.shortninja.staffplus.core.common.config.AutoUpdaterLanguageFiles;
 import net.shortninja.staffplus.core.common.config.ConfigurationFile;
 import net.shortninja.staffplusplus.IStaffPlus;
 import net.shortninja.staffplusplus.ban.BanService;
@@ -73,19 +71,25 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
 
     private boolean loadConfig() {
         saveDefaultConfig();
-        new LanguageFile();
-        if (!AutoUpdaterLanguageFiles.updateConfig(this)) {
-            Bukkit.getPluginManager().disablePlugin(this);
-            return false;
-        }
-
         configurationFiles = Arrays.asList(
             new ConfigurationFile("config.yml"),
             new ConfigurationFile("configuration/permissions.yml"),
             new ConfigurationFile("configuration/commands.yml"),
             new ConfigurationFile("configuration/staffmode/modules.yml"),
             new ConfigurationFile("configuration/staffmode/custom-modules.yml"),
-            new ConfigurationFile("configuration/staffmode/modes.yml")
+            new ConfigurationFile("configuration/staffmode/modes.yml"),
+            new ConfigurationFile("lang/lang_de.yml"),
+            new ConfigurationFile("lang/lang_en.yml"),
+            new ConfigurationFile("lang/lang_es.yml"),
+            new ConfigurationFile("lang/lang_fr.yml"),
+            new ConfigurationFile("lang/lang_hr.yml"),
+            new ConfigurationFile("lang/lang_hu.yml"),
+            new ConfigurationFile("lang/lang_it.yml"),
+            new ConfigurationFile("lang/lang_nl.yml"),
+            new ConfigurationFile("lang/lang_no.yml"),
+            new ConfigurationFile("lang/lang_pt.yml"),
+            new ConfigurationFile("lang/lang_sv.yml"),
+            new ConfigurationFile("lang/lang_zh.yml")
         );
 
         AutoUpdater.runMigrations(configurationFiles);
