@@ -108,7 +108,7 @@ infraction-item: "&b警告: &7%warnings%, &b举报: &7%reports%, &b举报原因:
 # +------------------------------------------------------+ #
 ############################################################
 
-staff-chat: "&b%player% &8» &7%message%"
+
 staff-chat-status: "&bStaff chat &7%status%&b."
 staff-chat-muted: "&bStaff Chat has been &7muted&b."
 staff-chat-unmuted: "&bStaff Chat has been &7unmuted&b."
