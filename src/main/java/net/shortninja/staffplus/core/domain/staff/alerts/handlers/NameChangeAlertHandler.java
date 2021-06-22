@@ -17,8 +17,11 @@ import org.bukkit.event.Listener;
 @IocBean
 public class NameChangeAlertHandler extends AlertsHandler implements Listener {
 
+    private final Options options;
+
     public NameChangeAlertHandler(Options options, SessionManagerImpl sessionManager, PermissionHandler permission, Messages messages) {
         super(options, sessionManager, permission, messages);
+        this.options = options;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -27,7 +30,9 @@ public class NameChangeAlertHandler extends AlertsHandler implements Listener {
         if (!alertsConfiguration.isNameNotifyEnabled()) {
             return;
         }
-
+        if (permission.has(nameChangeEvent.getPlayer(), options.alertsConfiguration.getPermissionNameChangeBypass())) {
+            return;
+        }
         for (Player player : getPlayersToNotify()) {
             messages.send(player, messages.alertsName.replace("%old%", nameChangeEvent.getOldName()).replace("%new%", nameChangeEvent.getNewName()), messages.prefixGeneral, getPermission());
         }
