@@ -28,6 +28,9 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
         if (!alertsConfiguration.isXrayEnabled()) {
             return;
         }
+        if (permission.has(event.getPlayer(), alertsConfiguration.getXrayConfiguration().getPermissionXrayBypass())) {
+            return;
+        }
 
         for (Player user : getPlayersToNotify()) {
             String xrayMessage = messages.alertsXray
