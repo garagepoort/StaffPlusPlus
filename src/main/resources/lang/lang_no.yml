@@ -107,7 +107,7 @@ infraction-item: "&bAdvarsler: &7%warnings%, &bRapporter: &7%reports%, &bRapport
 # +------------------------------------------------------+ #
 ############################################################
 
-staff-chat: "&b%player% &8» &7%message%"
+
 staff-chat-status: "&bStaff chat &7%status%&b."
 staff-chat-muted: "&bStaff Chat has been &7muted&b."
 staff-chat-unmuted: "&bStaff Chat has been &7unmuted&b."

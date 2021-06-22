@@ -42,7 +42,7 @@ public class PlayerManager {
     }
 
     public Set<SppPlayer> getOnAndOfflinePlayers() {
-        return cachedSppPlayers;
+        return new HashSet<>(cachedSppPlayers);
     }
 
 
@@ -63,7 +63,7 @@ public class PlayerManager {
     }
 
     public Set<String> getAllPlayerNames() {
-        return cachedPlayerNames;
+        return new HashSet<>(cachedPlayerNames);
     }
 
     public void syncPlayer(Player player) {

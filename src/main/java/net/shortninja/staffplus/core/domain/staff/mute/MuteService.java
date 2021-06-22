@@ -155,6 +155,10 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     }
 
     private void checkDurationPermission(CommandSender player, long durationProvided) {
+        if(!(player instanceof Player) || permission.isOp(player)) {
+            return;
+        }
+
         List<String> permissions = permission.getPermissions(player);
         if(permissions.stream().noneMatch(p -> p.startsWith(options.muteConfiguration.getPermissionTempmutePlayer()))) {
             throw new NoPermissionException();
