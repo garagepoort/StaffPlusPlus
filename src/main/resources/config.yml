@@ -189,6 +189,7 @@ staff-chat-module:
         handle: "@"
         name: staffchat
         prefix: '&dStaffChat &8»'
+        message-format: '&b%player% &8» &7%message%'
         permission: staff.staffchat
 
 ############################################################

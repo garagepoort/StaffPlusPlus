@@ -109,7 +109,6 @@ infraction-item: "&bVerwarnungen: &7%warnings%, &bReports: &7%reports%, &bReport
 # +------------------------------------------------------+ #
 ############################################################
 
-staff-chat: "&b%player% &8» &7%message%"
 staff-chat-status: "&bdTeamchat &7%status%&b."
 staff-chat-muted: "&bStaff Chat has been &7muted&b."
 staff-chat-unmuted: "&bStaff Chat has been &7unmuted&b."

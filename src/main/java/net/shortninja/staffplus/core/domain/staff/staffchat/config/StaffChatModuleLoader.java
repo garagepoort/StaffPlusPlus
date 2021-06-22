@@ -31,7 +31,8 @@ public class StaffChatModuleLoader extends AbstractConfigLoader<StaffChatConfigu
             String permission = (String) map.get("permission");
             String prefix = (String) map.get("prefix");
             String handle = (String) map.get("handle");
-            return new StaffChatChannelConfiguration(name, command, permission, handle, prefix);
+            String messageFormat = (String) map.get("message-format");
+            return new StaffChatChannelConfiguration(name, command, permission, handle, prefix, messageFormat);
         }).collect(Collectors.toList());
     }
 }
