@@ -26,12 +26,16 @@ public class AlertsModuleLoader extends AbstractConfigLoader<AlertsConfiguration
         String permissionAlerts = permissionsConfig.getString("permissions.alerts");
         String permissionAlertsAltDetect = permissionsConfig.getString("permissions.alerts-alt-detect");
         String permissionMention = permissionsConfig.getString("permissions.mention");
+        String permissionMentionBypass = permissionsConfig.getString("permissions.mention-bypass");
         String permissionNameChange = permissionsConfig.getString("permissions.name-change");
+        String permissionNameChangeBypass = permissionsConfig.getString("permissions.name-change-bypass");
         String permissionChatPhraseDetection = permissionsConfig.getString("permissions.alerts-chat-phrase-detection");
+        String permissionChatPhraseDetectionBypass = permissionsConfig.getString("permissions.alerts-chat-phrase-detection-bypass");
         Sounds alertsSound = stringToSound(sanitize(defaultConfig.getString("alerts-module.sound")));
         String commandAlerts = commandsConfig.getString("commands.alerts");
 
         String permissionXray = permissionsConfig.getString("permissions.xray");
+        String permissionXrayBypass = permissionsConfig.getString("permissions.xray-bypass");
         List<XrayBlockConfig> alertsXrayBlocks = Arrays.stream(defaultConfig.getString("alerts-module.xray-alerts.blocks").split("\\s*,\\s*"))
             .map(XrayBlockConfig::new)
             .collect(Collectors.toList());
@@ -46,9 +50,12 @@ public class AlertsModuleLoader extends AbstractConfigLoader<AlertsConfiguration
             permissionAlerts,
             permissionAlertsAltDetect,
             permissionMention,
+            permissionMentionBypass,
             permissionNameChange,
-            permissionChatPhraseDetection, commandAlerts,
+            permissionNameChangeBypass,
+            permissionChatPhraseDetection,
+            permissionChatPhraseDetectionBypass, commandAlerts,
             alertsSound,
-            new XrayConfiguration(alertsXrayBlocks, permissionXray));
+            new XrayConfiguration(alertsXrayBlocks, permissionXray, permissionXrayBypass));
     }
 }
