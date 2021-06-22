@@ -6,6 +6,7 @@
 - Staff chat channels formatting can now be configured per channel.
 
 ### bugfixes
+- Vanish not enabled when reconnecting in staff mode
 - Fix tempmute not working through console
 - Fix ConcurrentModificationException for alt detection
 
