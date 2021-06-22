@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.common.config;
 
 import be.garagepoort.mcioc.IocBean;
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.core.application.data.LanguageFile;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
@@ -77,7 +77,6 @@ public class Messages {
     /*
      * Chat
      */
-    public final String staffChat;
     public final String chatClearLine;
     public final String chatCleared;
     public final String chatToggled;
@@ -174,11 +173,13 @@ public class Messages {
 
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
+    private final FileConfiguration config;
 
     public Messages(PermissionHandler permission, PlaceholderService placeholderService) {
         this.permission = permission;
         this.placeholderService = placeholderService;
-        FileConfiguration config = new LanguageFile().get();
+        String langFile = StaffPlus.get().getConfig().getString("lang");
+        config = StaffPlus.get().getFileConfigurations().get("lang-" + langFile);
         /*
          * Prefixes
          */
@@ -231,7 +232,6 @@ public class Messages {
         /*
          * Chat
          */
-        staffChat = config.getString("staff-chat");
         chatClearLine = config.getString("chat-clear-line");
         chatCleared = config.getString("chat-cleared");
         chatToggled = config.getString("chat-toggled");
