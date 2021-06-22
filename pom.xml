@@ -256,16 +256,16 @@
                             </filters>
                             <relocations>
                                 <relocation>
+                                    <pattern>be.garagepoort.mcioc.</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcioc.</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>be.garagepoort.mcsqlmigrations.</pattern>
                                     <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcsqlmigrations.</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>io.github.openfeign.</pattern>
                                     <shadedPattern>net.shortninja.staffplus.core.io.github.openfeign.</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.zaxxer.</pattern>
-                                    <shadedPattern>net.shortninja.staffplus.core.com.zaxxer.</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
