@@ -11,20 +11,19 @@ public class StaffChatMessageFormatter {
     private final Messages messages;
     private final PlaceholderService placeholderService;
 
-
     public StaffChatMessageFormatter(Messages messages, PlaceholderService placeholderService) {
         this.messages = messages;
         this.placeholderService = placeholderService;
     }
 
-    String formatMessage(CommandSender sender, String chatMessage) {
-        String formattedMessage = messages.staffChat.replace("%player%", sender.getName()).replace("%message%", chatMessage);
+    String formatMessage(CommandSender sender, StaffChatChannelConfiguration channel, String chatMessage) {
+        String formattedMessage = channel.getMessageFormat().replace("%player%", sender.getName()).replace("%message%", chatMessage);
         formattedMessage = placeholderService.setPlaceholders(sender, formattedMessage);
         return messages.colorize(formattedMessage);
     }
 
-    String formatMessage(String senderName, String chatMessage) {
-        String formattedMessage = messages.staffChat.replace("%player%", senderName).replace("%message%", chatMessage);
+    String formatMessage(String senderName, StaffChatChannelConfiguration channel, String chatMessage) {
+        String formattedMessage = channel.getMessageFormat().replace("%player%", senderName).replace("%message%", chatMessage);
         return messages.colorize(formattedMessage);
     }
 }

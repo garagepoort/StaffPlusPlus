@@ -46,14 +46,14 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     public void handleBungeeMessage(StaffChatReceivedBungeeEvent event) {
         StaffChatBungeeMessage staffChatMessage = event.getStaffChatMessage();
         StaffChatChannelConfiguration channel = getChannel(staffChatMessage.getChannel());
-        String formattedMessage = staffChatMessageFormatter.formatMessage(staffChatMessage.getPlayerName(), staffChatMessage.getMessage());
+        String formattedMessage = staffChatMessageFormatter.formatMessage(staffChatMessage.getPlayerName(), channel, staffChatMessage.getMessage());
         sendMessageToStaff(channel, formattedMessage);
     }
 
     public void sendMessage(CommandSender sender, String channelName, String message) {
         StaffChatChannelConfiguration channel = getChannel(channelName);
 
-        String formattedMessage = staffChatMessageFormatter.formatMessage(sender, message);
+        String formattedMessage = staffChatMessageFormatter.formatMessage(sender, channel, message);
         sendMessageToStaff(channel, formattedMessage);
 
         if (sender instanceof Player) {
