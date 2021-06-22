@@ -96,12 +96,17 @@ permissions:
 
     # Permission for receiving mention alerts.
     mention: "staff.alerts.mention"
+    # Permission for receiving mention alerts.
+    mention-bypass: "staff.alerts.mention.bypass"
 
     # Permission for receiving name change alerts.
     name-change: "staff.alerts.namechange"
+    # Permission for bypassing being alerting for name change alerts.
+    name-change-bypass: "staff.alerts.namechange.bypass"
 
     # Permission for receiving xray alerts.
     xray: "staff.alerts.xray"
+    xray-bypass: "staff.alerts.xray.bypass"
 
     # Permission for toggling staff mode.
     mode: "staff.mode"
@@ -239,11 +244,13 @@ permissions:
 
     # Permission to bypass the alt detection
     alt-detect-bypass: "staff.staffplus.alt-detect-bypass"
-
     # Permission for receiving alt detect alerts.
     alerts-alt-detect: "staff.alerts.alt-detects"
+
     # Permission for receiving chat word mentions alerts.
     alerts-chat-phrase-detection: "staff.alerts.chat-phrase-detection"
+    # Permission for bypassing chat word mentions alerts.
+    alerts-chat-phrase-detection-bypass: "staff.alerts.chat-phrase-detection.bypass"
 
     # Permission to have inventory interaction while in examine mode
     examine-inventory-interaction.online: "staff.examine.inventory-interaction"

@@ -29,6 +29,10 @@ public class PlayerMentionAlertHandler extends AlertsHandler implements Listener
             return;
         }
 
+        if (permission.has(event.getPlayer(), alertsConfiguration.getPermissionMentionBypass())) {
+            return;
+        }
+
         if (event.getMentionedPlayer().isOnline()) {
             PlayerSession session = sessionManager.get(event.getMentionedPlayer().getUniqueId());
             if (session.getPlayer().isPresent()) {

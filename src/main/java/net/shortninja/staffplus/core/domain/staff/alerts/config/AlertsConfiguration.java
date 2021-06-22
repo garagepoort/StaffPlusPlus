@@ -17,8 +17,11 @@ public class AlertsConfiguration {
     private final String permissionAlerts;
     private final String permissionAlertsAltDetect;
     private final String permissionMention;
+    private final String permissionMentionBypass;
     private final String permissionNameChange;
+    private final String permissionNameChangeBypass;
     private final String permissionChatPhraseDetection;
+    private final String permissionChatPhraseDetectionBypass;
     private final String commandAlerts;
     private final Sounds alertsSound;
     private final XrayConfiguration xrayConfiguration;
@@ -32,8 +35,13 @@ public class AlertsConfiguration {
                                String permissionAlerts,
                                String permissionAlertsAltDetect,
                                String permissionMention,
+                               String permissionMentionBypass,
                                String permissionNameChange,
-                               String permissionChatPhraseDetection, String commandAlerts, Sounds alertsSound, XrayConfiguration xrayConfiguration) {
+                               String permissionNameChangeBypass,
+                               String permissionChatPhraseDetection,
+                               String permissionChatPhraseDetectionBypass, String commandAlerts,
+                               Sounds alertsSound,
+                               XrayConfiguration xrayConfiguration) {
 
         this.alertsNameNotify = alertsNameNotify;
         this.alertsMentionNotify = alertsMentionNotify;
@@ -44,8 +52,11 @@ public class AlertsConfiguration {
         this.permissionAlerts = permissionAlerts;
         this.permissionAlertsAltDetect = permissionAlertsAltDetect;
         this.permissionMention = permissionMention;
+        this.permissionMentionBypass = permissionMentionBypass;
         this.permissionNameChange = permissionNameChange;
+        this.permissionNameChangeBypass = permissionNameChangeBypass;
         this.permissionChatPhraseDetection = permissionChatPhraseDetection;
+        this.permissionChatPhraseDetectionBypass = permissionChatPhraseDetectionBypass;
         this.commandAlerts = commandAlerts;
         this.alertsSound = alertsSound;
         this.xrayConfiguration = xrayConfiguration;
@@ -99,8 +110,20 @@ public class AlertsConfiguration {
         return permissionMention;
     }
 
+    public String getPermissionMentionBypass() {
+        return permissionMentionBypass;
+    }
+
+    public String getPermissionChatPhraseDetectionBypass() {
+        return permissionChatPhraseDetectionBypass;
+    }
+
     public String getPermissionNameChange() {
         return permissionNameChange;
+    }
+
+    public String getPermissionNameChangeBypass() {
+        return permissionNameChangeBypass;
     }
 
     public String getPermissionChatPhraseDetection() {

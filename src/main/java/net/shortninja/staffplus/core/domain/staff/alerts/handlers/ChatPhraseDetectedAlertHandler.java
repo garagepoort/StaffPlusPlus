@@ -28,6 +28,10 @@ public class ChatPhraseDetectedAlertHandler extends AlertsHandler implements Lis
             return;
         }
 
+        if (permission.has(phrasesDetectedEvent.getPlayer(), alertsConfiguration.getPermissionChatPhraseDetectionBypass())) {
+            return;
+        }
+
         for (Player player : getPlayersToNotify()) {
             messages.send(player, messages.alertsChatPhraseDetected
                 .replace("%target%", phrasesDetectedEvent.getPlayer().getName())
