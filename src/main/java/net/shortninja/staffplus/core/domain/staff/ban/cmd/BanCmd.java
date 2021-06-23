@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanReasonConfiguration;
@@ -35,15 +36,17 @@ public class BanCmd extends AbstractCmd {
     private static final String TEMPLATE_FILE = "-template=";
 
     private final PermissionHandler permissionHandler;
+    private final BanConfiguration banConfiguration;
     private final BanService banService;
     private final PlayerManager playerManager;
 
-    public BanCmd(PermissionHandler permissionHandler, Messages messages, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
-        super(options.banConfiguration.getCommandBanPlayer(), messages, options, commandService);
+    public BanCmd(PermissionHandler permissionHandler, Messages messages, Options options, BanConfiguration banConfiguration, BanService banService, CommandService commandService, PlayerManager playerManager) {
+        super(banConfiguration.getCommandBanPlayer(), messages, options, commandService);
         this.permissionHandler = permissionHandler;
+        this.banConfiguration = banConfiguration;
         this.banService = banService;
         this.playerManager = playerManager;
-        setPermission(options.banConfiguration.getPermissionBanPlayer());
+        setPermission(banConfiguration.getPermissionBanPlayer());
         setDescription("Permanent ban a player");
         setUsage("[player] [-template=?] [reason]");
     }
@@ -52,7 +55,7 @@ public class BanCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         boolean isSilent = Arrays.stream(args).anyMatch(a -> a.equalsIgnoreCase("-silent"));
-        if(isSilent && !permissionHandler.has(sender, options.banConfiguration.getPermissionBanSilent())) {
+        if(isSilent && !permissionHandler.has(sender, banConfiguration.getPermissionBanSilent())) {
             throw new NoPermissionException("You don't have the permission to execute a silent ban");
         }
 
@@ -98,7 +101,7 @@ public class BanCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, options.banConfiguration.getPermissionBanByPass());
+        return permissionHandler.has(player, banConfiguration.getPermissionBanByPass());
     }
 
     @Override
@@ -115,12 +118,12 @@ public class BanCmd extends AbstractCmd {
         if (args.length == 2) {
             if (currentArg.startsWith("-")) {
                 return getTemplateCompletion();
-            } else if (!options.banConfiguration.getBanReasons(PERM_BAN).isEmpty()) {
+            } else if (!banConfiguration.getBanReasons(PERM_BAN).isEmpty()) {
                 return getBanReasonCompletion(currentArg);
             }
         }
 
-        if (args.length == 3 && !options.banConfiguration.getBanReasons(PERM_BAN).isEmpty()) {
+        if (args.length == 3 && !banConfiguration.getBanReasons(PERM_BAN).isEmpty()) {
             return getBanReasonCompletion(currentArg);
         }
 
@@ -128,13 +131,13 @@ public class BanCmd extends AbstractCmd {
     }
 
     private List<String> getTemplateCompletion() {
-        return options.banConfiguration.getTemplates().keySet().stream()
+        return banConfiguration.getTemplates().keySet().stream()
             .map(k -> TEMPLATE_FILE + k)
             .collect(Collectors.toList());
     }
 
     private List<String> getBanReasonCompletion(String currentArg) {
-        return options.banConfiguration.getBanReasons(PERM_BAN).stream()
+        return banConfiguration.getBanReasons(PERM_BAN).stream()
             .map(BanReasonConfiguration::getName)
             .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
             .collect(Collectors.toList());

@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.ban;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanReasonConfiguration;
 
 import java.util.Optional;
@@ -11,11 +11,11 @@ import java.util.Optional;
 @IocBean
 public class BanTemplateResolver {
 
-    private final Options options;
+    private final BanConfiguration banConfiguration;
     private final Messages messages;
 
-    public BanTemplateResolver(Options options, Messages messages) {
-        this.options = options;
+    public BanTemplateResolver(BanConfiguration banConfiguration, Messages messages) {
+        this.banConfiguration = banConfiguration;
         this.messages = messages;
     }
 
@@ -24,12 +24,12 @@ public class BanTemplateResolver {
             return getTemplate(providedTemplate);
         }
 
-        Optional<BanReasonConfiguration> banReasonConfig = options.banConfiguration.getBanReason(reason, banType);
+        Optional<BanReasonConfiguration> banReasonConfig = banConfiguration.getBanReason(reason, banType);
         if (banReasonConfig.isPresent() && banReasonConfig.get().getTemplate().isPresent()) {
             return getTemplate(banReasonConfig.get().getTemplate().get());
         }
 
-        Optional<String> defaultTemplate = options.banConfiguration.getDefaultBanTemplate(banType);
+        Optional<String> defaultTemplate = banConfiguration.getDefaultBanTemplate(banType);
         if (defaultTemplate.isPresent()) {
             return getTemplate(defaultTemplate.get());
         }
@@ -38,7 +38,7 @@ public class BanTemplateResolver {
     }
 
     private String getTemplate(String providedTemplate) {
-        return options.banConfiguration.getTemplate(providedTemplate)
+        return banConfiguration.getTemplate(providedTemplate)
             .orElseThrow(() -> new BusinessException("&CCannot find ban template with name [" + providedTemplate + "]"));
     }
 }
