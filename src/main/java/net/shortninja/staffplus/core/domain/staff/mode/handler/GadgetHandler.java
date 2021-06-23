@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.player.gui.CounterGui;
@@ -31,6 +32,7 @@ public class GadgetHandler {
     private final static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
 
     private final IProtocolService protocolService;
+    private final BanConfiguration banConfiguration;
     private final PermissionHandler permission;
 
     private final Options options;
@@ -41,8 +43,9 @@ public class GadgetHandler {
     private final PlayerManager playerManager;
     private final StaffModeService staffModeService;
 
-    public GadgetHandler(IProtocolService protocolService, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
+    public GadgetHandler(IProtocolService protocolService, BanConfiguration banConfiguration, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
         this.protocolService = protocolService;
+        this.banConfiguration = banConfiguration;
         this.permission = permission;
         this.options = options;
         this.messages = messages;
@@ -147,7 +150,7 @@ public class GadgetHandler {
     }
 
     public void onGuiHub(Player player) {
-        new HubGui(player, options.staffItemsConfiguration.getGuiModeConfiguration().getItem().getItemMeta().getDisplayName()).show(player);
+        new HubGui(player, options.staffItemsConfiguration.getGuiModeConfiguration().getItem().getItemMeta().getDisplayName(), banConfiguration).show(player);
     }
 
     public void onCounter(Player player) {

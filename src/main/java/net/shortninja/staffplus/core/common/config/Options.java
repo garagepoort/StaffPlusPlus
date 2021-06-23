@@ -8,14 +8,10 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.Materials;
 import net.shortninja.staffplus.core.domain.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.core.domain.chat.blacklist.BlackListConfigurationLoader;
-import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;
-import net.shortninja.staffplus.core.domain.chat.configuration.ChatModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
-import net.shortninja.staffplus.core.domain.staff.ban.config.BanModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfigurationLoader;
 import net.shortninja.staffplus.core.domain.staff.chests.config.EnderchestsConfiguration;
@@ -38,8 +34,6 @@ import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportC
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportingModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportingModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatConfiguration;
-import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.teleport.config.LocationLoader;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceModuleLoader;
@@ -76,7 +70,6 @@ public class Options {
     public String timestampFormat;
     public int autoSave;
     public long clock;
-    private List<String> soundNames;
     public boolean offlinePlayersModeEnabled;
 
     public Map<String, Location> locations;
@@ -92,17 +85,14 @@ public class Options {
     public TraceConfiguration traceConfiguration;
     public BroadcastConfiguration broadcastConfiguration;
     public ProtectConfiguration protectConfiguration;
-    public BanConfiguration banConfiguration;
     public KickConfiguration kickConfiguration;
     public MuteConfiguration muteConfiguration;
     public AltDetectConfiguration altDetectConfiguration;
-    public StaffChatConfiguration staffChatConfiguration;
     public ExamineConfiguration examineConfiguration;
     public EnderchestsConfiguration enderchestsConfiguration;
     public Map<String, GeneralModeConfiguration> modeConfigurations;
     public ServerSyncConfiguration serverSyncConfiguration;
     public AlertsConfiguration alertsConfiguration;
-    public ChatConfiguration chatConfiguration;
     public StaffItemsConfiguration staffItemsConfiguration;
     public WebUiConfiguration webuiConfiguration;
     public VanishConfiguration vanishConfiguration;
@@ -199,17 +189,14 @@ public class Options {
     private final TraceModuleLoader traceModuleLoader;
     private final BroadcastConfigurationLoader broadcastConfigurationLoader;
     private final ProtectModuleLoader protectModuleLoader;
-    private final BanModuleLoader banModuleLoader;
     private final KickModuleLoader kickModuleLoader;
     private final MuteModuleLoader muteModuleLoader;
     private final AltDetectModuleLoader altDetectModuleLoader;
-    private final StaffChatModuleLoader staffChatModuleLoader;
     private final ExamineModuleLoader examineModuleLoader;
     private final EnderchestsModuleLoader enderchestsModuleLoader;
     private final StaffModesLoader staffModesLoader;
     private final ServerSyncModuleLoader serverSyncModuleLoader;
     private final AlertsModuleLoader alertsModuleLoader;
-    private final ChatModuleLoader chatModuleLoader;
     private final InvestigationModuleLoader investigationModuleLoader;
     private final StaffCustomItemsLoader staffCustomItemsLoader;
     private final StaffItemsLoader staffItemsLoader;
@@ -227,17 +214,14 @@ public class Options {
                    TraceModuleLoader traceModuleLoader,
                    BroadcastConfigurationLoader broadcastConfigurationLoader,
                    ProtectModuleLoader protectModuleLoader,
-                   BanModuleLoader banModuleLoader,
                    KickModuleLoader kickModuleLoader,
                    MuteModuleLoader muteModuleLoader,
                    AltDetectModuleLoader altDetectModuleLoader,
-                   StaffChatModuleLoader staffChatModuleLoader,
                    ExamineModuleLoader examineModuleLoader,
                    EnderchestsModuleLoader enderchestsModuleLoader,
                    StaffModesLoader staffModesLoader,
                    ServerSyncModuleLoader serverSyncModuleLoader,
                    AlertsModuleLoader alertsModuleLoader,
-                   ChatModuleLoader chatModuleLoader,
                    InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader,
@@ -253,17 +237,14 @@ public class Options {
         this.traceModuleLoader = traceModuleLoader;
         this.broadcastConfigurationLoader = broadcastConfigurationLoader;
         this.protectModuleLoader = protectModuleLoader;
-        this.banModuleLoader = banModuleLoader;
         this.kickModuleLoader = kickModuleLoader;
         this.muteModuleLoader = muteModuleLoader;
         this.altDetectModuleLoader = altDetectModuleLoader;
-        this.staffChatModuleLoader = staffChatModuleLoader;
         this.examineModuleLoader = examineModuleLoader;
         this.enderchestsModuleLoader = enderchestsModuleLoader;
         this.staffModesLoader = staffModesLoader;
         this.serverSyncModuleLoader = serverSyncModuleLoader;
         this.alertsModuleLoader = alertsModuleLoader;
-        this.chatModuleLoader = chatModuleLoader;
         this.investigationModuleLoader = investigationModuleLoader;
         this.staffCustomItemsLoader = staffCustomItemsLoader;
         this.staffItemsLoader = staffItemsLoader;
@@ -286,7 +267,6 @@ public class Options {
         timestampFormat = defaultConfig.getString("timestamp-format");
         autoSave = defaultConfig.getInt("auto-save");
         clock = defaultConfig.getInt("clock") * 20;
-        soundNames = JavaUtils.stringToList(defaultConfig.getString("sound-names"));
         offlinePlayersModeEnabled = defaultConfig.getBoolean("offline-players-mode");
 
         locations = new LocationLoader().loadConfig();
@@ -301,17 +281,14 @@ public class Options {
         traceConfiguration = this.traceModuleLoader.loadConfig();
         broadcastConfiguration = this.broadcastConfigurationLoader.loadConfig();
         protectConfiguration = this.protectModuleLoader.loadConfig();
-        banConfiguration = this.banModuleLoader.loadConfig();
         kickConfiguration = this.kickModuleLoader.loadConfig();
         muteConfiguration = this.muteModuleLoader.loadConfig();
         altDetectConfiguration = this.altDetectModuleLoader.loadConfig();
-        staffChatConfiguration = this.staffChatModuleLoader.loadConfig();
         examineConfiguration = this.examineModuleLoader.loadConfig();
         enderchestsConfiguration = this.enderchestsModuleLoader.loadConfig();
         modeConfigurations = this.staffModesLoader.loadConfig();
         serverSyncConfiguration = this.serverSyncModuleLoader.loadConfig();
         alertsConfiguration = this.alertsModuleLoader.loadConfig();
-        chatConfiguration = this.chatModuleLoader.loadConfig();
         investigationConfiguration = this.investigationModuleLoader.loadConfig();
         customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();
         staffItemsConfiguration = this.staffItemsLoader.loadConfig();

@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat;
 
-import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
+import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatConfiguration;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -10,21 +10,21 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class StaffChatChatInterceptor implements ChatInterceptor {
     private final StaffChatServiceImpl staffChatService;
     private final PermissionHandler permission;
-    private final Options options;
     private final SessionManagerImpl sessionManager;
     private final StaffChatChannelConfiguration channelConfiguration;
+    private final StaffChatConfiguration staffChatConfiguration;
 
-    public StaffChatChatInterceptor(StaffChatServiceImpl staffChatService, PermissionHandler permission, Options options, SessionManagerImpl sessionManager, StaffChatChannelConfiguration channelConfiguration) {
+    public StaffChatChatInterceptor(StaffChatServiceImpl staffChatService, PermissionHandler permission, SessionManagerImpl sessionManager, StaffChatChannelConfiguration channelConfiguration, StaffChatConfiguration staffChatConfiguration) {
         this.staffChatService = staffChatService;
         this.permission = permission;
-        this.options = options;
         this.sessionManager = sessionManager;
         this.channelConfiguration = channelConfiguration;
+        this.staffChatConfiguration = staffChatConfiguration;
     }
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
-        if(!options.staffChatConfiguration.isEnabled()) {
+        if(!staffChatConfiguration.isEnabled()) {
             return false;
         }
 

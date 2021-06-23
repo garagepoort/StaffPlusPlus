@@ -4,19 +4,20 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.Metrics;
+import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 
 @IocBean(conditionalOnProperty = "metrics=true")
 public class MetricsService {
 
     private static final int PLUGIN_ID = 9351;
 
-    public MetricsService(Options options) {
+    public MetricsService(Options options, BanConfiguration banConfiguration) {
         Metrics metrics = new Metrics(StaffPlus.get(), PLUGIN_ID);
 
         boolean warningConfigurationEnabled = options.warningConfiguration.isEnabled();
         boolean appealConfigurationEnabled = options.appealConfiguration.isEnabled();
         boolean reportConfigurationEnabled = options.reportConfiguration.isEnabled();
-        boolean banConfigurationEnabled = options.banConfiguration.isEnabled();
+        boolean banConfigurationEnabled = banConfiguration.isEnabled();
         boolean muteConfigurationEnabled = options.muteConfiguration.isEnabled();
         boolean kickConfigurationEnabled = options.kickConfiguration.isEnabled();
         boolean altDetectionConfigurationEnabled = options.altDetectConfiguration.isEnabled();
