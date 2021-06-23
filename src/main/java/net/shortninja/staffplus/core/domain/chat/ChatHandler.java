@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class ChatHandler {
     private final static Map<UUID, Long> userChatTimes = new HashMap<UUID, Long>();
     private final PermissionHandler permission;
+    private final ChatConfiguration chatConfiguration;
 
     private final Options options;
     private final Messages messages;
@@ -22,9 +24,9 @@ public class ChatHandler {
     private long chatSlowLength = 0;
     private long chatSlowStart = 0;
 
-    public ChatHandler(PermissionHandler permission, Options options, Messages messages) {
+    public ChatHandler(PermissionHandler permission, ChatConfiguration chatConfiguration, Options options, Messages messages) {
         this.permission = permission;
-
+        this.chatConfiguration = chatConfiguration;
         this.options = options;
         this.messages = messages;
     }
@@ -49,7 +51,7 @@ public class ChatHandler {
                 chatSlowLength = 0;
                 chatSlowStart = 0;
                 userChatTimes.clear();
-            } else if (((now - lastChat) / 1000) <= options.chatConfiguration.getChatSlow()) {
+            } else if (((now - lastChat) / 1000) <= chatConfiguration.getChatSlow()) {
                 canChat = false;
             } else userChatTimes.put(uuid, now);
         }
@@ -71,7 +73,7 @@ public class ChatHandler {
     }
 
     public void clearChat(String name) {
-        for (int i = 0; i < options.chatConfiguration.getChatLines(); i++) {
+        for (int i = 0; i < chatConfiguration.getChatLines(); i++) {
             messages.sendGlobalMessage(messages.chatClearLine, "");
         }
 

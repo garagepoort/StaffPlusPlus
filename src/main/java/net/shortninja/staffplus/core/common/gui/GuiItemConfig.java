@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.gui;
 
-public class GuiItemConfig {
+public class GuiItemConfig implements IGuiItemConfig{
     private final boolean enabled;
     private final String title;
     private final String itemName;
