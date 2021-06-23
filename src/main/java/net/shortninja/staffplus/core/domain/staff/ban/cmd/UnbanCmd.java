@@ -13,6 +13,7 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
 import org.bukkit.command.CommandSender;
@@ -28,15 +29,17 @@ import java.util.stream.Collectors;
 public class UnbanCmd extends AbstractCmd {
 
     private final BanService banService;
+    private final BanConfiguration banConfiguration;
     private final PlayerManager playerManager;
     private final PermissionHandler permissionHandler;
 
-    public UnbanCmd(Messages messages, Options options, BanService banService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
-        super(options.banConfiguration.getCommandUnbanPlayer(), messages, options, commandService);
+    public UnbanCmd(Messages messages, BanConfiguration banConfiguration, Options options, BanService banService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
+        super(banConfiguration.getCommandUnbanPlayer(), messages, options, commandService);
+        this.banConfiguration = banConfiguration;
         this.playerManager = playerManager;
         this.banService = banService;
         this.permissionHandler = permissionHandler;
-        setPermission(options.banConfiguration.getPermissionUnbanPlayer());
+        setPermission(banConfiguration.getPermissionUnbanPlayer());
         setDescription("Unban a player");
         setUsage("[player] [reason]");
     }
@@ -44,7 +47,7 @@ public class UnbanCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         boolean isSilent = Arrays.stream(args).anyMatch(a -> a.equalsIgnoreCase("-silent"));
-        if(isSilent && !permissionHandler.has(sender, options.banConfiguration.getPermissionBanSilent())) {
+        if(isSilent && !permissionHandler.has(sender, banConfiguration.getPermissionBanSilent())) {
             throw new NoPermissionException("You don't have the permission to execute a silent unban");
         }
 
