@@ -1,6 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.ban.config;
 
-import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigListTransformer;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import net.shortninja.staffplus.core.common.gui.IGuiItemConfig;
 import net.shortninja.staffplus.core.domain.staff.ban.BanType;
 import org.apache.commons.lang.StringUtils;
 
@@ -9,64 +12,61 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@IocBean
 public class BanConfiguration {
 
-    private final boolean banEnabled;
+    @ConfigProperty("ban-module.enabled")
+    private boolean banEnabled;
 
-    private final String commandBanPlayer;
-    private final String commandTempBanPlayer;
-    private final String commandUnbanPlayer;
-    private final String commandManageBansGui;
-    private final String permissionBanPlayer;
-    private final String permissionTempbanPlayer;
-    private final String permissionUnbanPlayer;
-    private final String permissionBanByPass;
-    private final String permissionBanTemplateOverwrite;
-    private final String permissionBanView;
-    private final String permissionBanSilent;
-    private final GuiItemConfig guiItemConfig;
-    private final String permBanTemplate;
-    private final String tempBanTemplate;
+    @ConfigProperty("commands:commands.ban")
+    private String commandBanPlayer;
+    @ConfigProperty("commands:commands.tempban")
+    private String commandTempBanPlayer;
+    @ConfigProperty("commands:commands.unban")
+    private String commandUnbanPlayer;
+    @ConfigProperty("commands:commands.bans.manage.gui")
+    private String commandManageBansGui;
+
+    @ConfigProperty("permissions:ban")
+    private String permissionBanPlayer;
+    @ConfigProperty("permissions:tempban")
+    private String permissionTempbanPlayer;
+    @ConfigProperty("permissions:unban")
+    private String permissionUnbanPlayer;
+    @ConfigProperty("permissions:ban-bypass")
+    private String permissionBanByPass;
+    @ConfigProperty("permissions:ban-template-overwrite")
+    private String permissionBanTemplateOverwrite;
+    @ConfigProperty("permissions:ban-view")
+    private String permissionBanView;
+    @ConfigProperty("permissions:ban-silent")
+    private String permissionBanSilent;
+    @ConfigProperty("permissions:ban-notifications")
+    private String staffNotificationPermission;
+
+    @ConfigProperty("ban-module.permban-template")
+    private String permBanTemplate;
+    @ConfigProperty("ban-module.tempban-template")
+    private String tempBanTemplate;
+
+    @ConfigProperty("ban-module.reasons")
+    @ConfigListTransformer(BanReasonConfigMapper.class)
+    private List<BanReasonConfiguration> banReasons;
+
     private final Map<String, String> templates;
-    private final List<BanReasonConfiguration> banReasons;
-    private final String staffNotificationPermission;
+    private final BanGuiItemConfig banGuiItemConfig;
 
-    public BanConfiguration(boolean banEnabled,
-                            String commandBanPlayer,
-                            String commandTempBanPlayer,
-                            String commandUnbanPlayer,
-                            String commandManageBansGui, String permissionBanPlayer,
-                            String permissionTempbanPlayer, String permissionUnbanPlayer,
-                            String permissionBanByPass,
-                            String permissionBanTemplateOverwrite, String permissionBanView, String permissionBanSilent, GuiItemConfig guiItemConfig, String permBanTemplate,
-                            String tempBanTemplate,
-                            Map<String, String> templates, List<BanReasonConfiguration> banReasons, String staffNotificationPermission) {
-        this.banEnabled = banEnabled;
-        this.commandBanPlayer = commandBanPlayer;
-        this.commandTempBanPlayer = commandTempBanPlayer;
-        this.commandUnbanPlayer = commandUnbanPlayer;
-        this.commandManageBansGui = commandManageBansGui;
-        this.permissionBanPlayer = permissionBanPlayer;
-        this.permissionTempbanPlayer = permissionTempbanPlayer;
-        this.permissionUnbanPlayer = permissionUnbanPlayer;
-        this.permissionBanByPass = permissionBanByPass;
-        this.permissionBanTemplateOverwrite = permissionBanTemplateOverwrite;
-        this.permissionBanView = permissionBanView;
-        this.permissionBanSilent = permissionBanSilent;
-        this.guiItemConfig = guiItemConfig;
-        this.permBanTemplate = permBanTemplate;
-        this.tempBanTemplate = tempBanTemplate;
-        this.templates = templates;
-        this.banReasons = banReasons;
-        this.staffNotificationPermission = staffNotificationPermission;
+    public BanConfiguration(BanTemplateLoader banTemplateLoader, BanGuiItemConfig banGuiItemConfig) {
+        this.templates = banTemplateLoader.loadTemplates();
+        this.banGuiItemConfig = banGuiItemConfig;
     }
 
     public boolean isEnabled() {
         return banEnabled;
     }
 
-    public GuiItemConfig getGuiItemConfig() {
-        return guiItemConfig;
+    public IGuiItemConfig getGuiItemConfig() {
+        return banGuiItemConfig;
     }
 
     public String getCommandBanPlayer() {

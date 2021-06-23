@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.gui.BannedPlayersGui;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -20,9 +21,9 @@ import java.util.Optional;
 @IocMultiProvider(SppCommand.class)
 public class ManageBansGuiCmd extends AbstractCmd {
 
-    public ManageBansGuiCmd(Messages messages, Options options, CommandService commandService) {
-        super(options.banConfiguration.getCommandManageBansGui(), messages, options, commandService);
-        setPermission(options.banConfiguration.getPermissionBanView());
+    public ManageBansGuiCmd(Messages messages, Options options, BanConfiguration banConfiguration, CommandService commandService) {
+        super(banConfiguration.getCommandManageBansGui(), messages, options, commandService);
+        setPermission(banConfiguration.getPermissionBanView());
         setDescription("Open the manage Bans GUI.");
     }
 
