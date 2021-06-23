@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.chat.blacklist.censors.ChatCensor;
+import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -24,13 +25,15 @@ public class BlacklistService {
     private final PermissionHandler permission;
     private final Messages messages;
     private final List<ChatCensor> chatCensors;
+    private final ChatConfiguration chatConfiguration;
 
-    public BlacklistService(IProtocolService protocolService, Options options, PermissionHandler permission, Messages messages, @IocMulti(ChatCensor.class) List<ChatCensor> chatCensors) {
+    public BlacklistService(IProtocolService protocolService, Options options, PermissionHandler permission, Messages messages, @IocMulti(ChatCensor.class) List<ChatCensor> chatCensors, ChatConfiguration chatConfiguration) {
         this.protocolService = protocolService;
         this.options = options;
         this.permission = permission;
         this.messages = messages;
         this.chatCensors = chatCensors;
+        this.chatConfiguration = chatConfiguration;
     }
 
     public void censorMessage(Player player, AsyncPlayerChatEvent event) {
@@ -38,7 +41,7 @@ public class BlacklistService {
             return;
         }
 
-        if (options.blackListConfiguration.isEnabled() && options.chatConfiguration.isChatEnabled()) {
+        if (options.blackListConfiguration.isEnabled() && chatConfiguration.isChatEnabled()) {
             String originalMessage = event.getMessage();
             String censoredMessage = originalMessage;
             for (ChatCensor chatCensor : chatCensors) {

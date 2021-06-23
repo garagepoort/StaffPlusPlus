@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;
 import net.shortninja.staffplusplus.chat.PhrasesDetectedEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -15,15 +16,17 @@ import java.util.stream.Collectors;
 public class PhraseDetectionChatInterceptor implements ChatInterceptor {
 
     private final Options options;
+    private final ChatConfiguration chatConfiguration;
 
-    public PhraseDetectionChatInterceptor(Options options) {
+    public PhraseDetectionChatInterceptor(Options options, ChatConfiguration chatConfiguration) {
         this.options = options;
+        this.chatConfiguration = chatConfiguration;
     }
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
-        List<String> detectedPhrases = options.chatConfiguration.getDetectionPhrases().stream()
+        List<String> detectedPhrases = chatConfiguration.getDetectionPhrases().stream()
             .filter(phrase -> message.toLowerCase().contains(phrase.toLowerCase()))
             .collect(Collectors.toList());
         if (!detectedPhrases.isEmpty()) {
