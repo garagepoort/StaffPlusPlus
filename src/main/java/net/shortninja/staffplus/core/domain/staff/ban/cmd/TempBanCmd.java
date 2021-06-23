@@ -15,6 +15,7 @@ import net.shortninja.staffplus.core.common.time.TimeUnit;
 
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanReasonConfiguration;
@@ -37,12 +38,14 @@ public class TempBanCmd extends AbstractCmd {
     private static final String TEMPLATE_FILE = "-template=";
 
     private final PermissionHandler permissionHandler;
+    private final BanConfiguration banConfiguration;
     private final BanService banService;
     private final PlayerManager playerManager;
 
-    public TempBanCmd(PermissionHandler permissionHandler, Messages messages, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
-        super(options.banConfiguration.getCommandTempBanPlayer(), messages, options, commandService);
+    public TempBanCmd(PermissionHandler permissionHandler, Messages messages, BanConfiguration banConfiguration, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
+        super(banConfiguration.getCommandTempBanPlayer(), messages, options, commandService);
         this.permissionHandler = permissionHandler;
+        this.banConfiguration = banConfiguration;
         this.banService = banService;
         this.playerManager = playerManager;
         setDescription("Temporary ban a player");
@@ -52,7 +55,7 @@ public class TempBanCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
         boolean isSilent = Arrays.stream(args).anyMatch(a -> a.equalsIgnoreCase("-silent"));
-        if(isSilent && !permissionHandler.has(sender, options.banConfiguration.getPermissionBanSilent())) {
+        if(isSilent && !permissionHandler.has(sender, banConfiguration.getPermissionBanSilent())) {
             throw new NoPermissionException("You don't have the permission to execute a silent ban");
         }
         args = Arrays.stream(args).filter(a -> !a.equalsIgnoreCase("-silent")).toArray(String[]::new);
@@ -105,7 +108,7 @@ public class TempBanCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, options.banConfiguration.getPermissionBanByPass());
+        return permissionHandler.has(player, banConfiguration.getPermissionBanByPass());
     }
 
     @Override
@@ -133,7 +136,7 @@ public class TempBanCmd extends AbstractCmd {
                 .collect(Collectors.toList());
         }
         if (args.length == 4 && currentArg.startsWith("-")) {
-            return options.banConfiguration.getTemplates().keySet().stream()
+            return banConfiguration.getTemplates().keySet().stream()
                 .map(k -> TEMPLATE_FILE + k)
                 .collect(Collectors.toList());
         }
@@ -141,12 +144,12 @@ public class TempBanCmd extends AbstractCmd {
         if (args.length == 4) {
             if (currentArg.startsWith("-")) {
                 return getTemplateCompletion();
-            } else if (!options.banConfiguration.getBanReasons(TEMP_BAN).isEmpty()) {
+            } else if (!banConfiguration.getBanReasons(TEMP_BAN).isEmpty()) {
                 return getBanReasonCompletion(currentArg);
             }
         }
 
-        if (args.length == 5 && !options.banConfiguration.getBanReasons(TEMP_BAN).isEmpty()) {
+        if (args.length == 5 && !banConfiguration.getBanReasons(TEMP_BAN).isEmpty()) {
             return getBanReasonCompletion(currentArg);
         }
 
@@ -154,13 +157,13 @@ public class TempBanCmd extends AbstractCmd {
     }
 
     private List<String> getTemplateCompletion() {
-        return options.banConfiguration.getTemplates().keySet().stream()
+        return banConfiguration.getTemplates().keySet().stream()
             .map(k -> TEMPLATE_FILE + k)
             .collect(Collectors.toList());
     }
 
     private List<String> getBanReasonCompletion(String currentArg) {
-        return options.banConfiguration.getBanReasons(TEMP_BAN).stream()
+        return banConfiguration.getBanReasons(TEMP_BAN).stream()
             .map(BanReasonConfiguration::getName)
             .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
             .collect(Collectors.toList());

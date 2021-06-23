@@ -43,13 +43,13 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
     private final Messages messages;
 
-    public BanService(PermissionHandler permission, BansRepository bansRepository, Options options, Messages messages, BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver) {
+    public BanService(PermissionHandler permission, BansRepository bansRepository, BanConfiguration banConfiguration, Options options, Messages messages, BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver) {
 
         this.permission = permission;
         this.bansRepository = bansRepository;
         this.options = options;
         this.messages = messages;
-        banConfiguration = options.banConfiguration;
+        this.banConfiguration = banConfiguration;
         this.banReasonResolver = banReasonResolver;
         this.banTemplateResolver = banTemplateResolver;
     }
@@ -107,7 +107,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     }
 
     private void ban(CommandSender issuer, SppPlayer playerToBan, final String reason, final String providedTemplateName, Long durationInMillis, BanType banType, boolean isSilent) {
-        if (providedTemplateName != null) permission.validate(issuer, options.banConfiguration.getPermissionBanTemplateOverwrite());
+        if (providedTemplateName != null) permission.validate(issuer, banConfiguration.getPermissionBanTemplateOverwrite());
         String fullReason = banReasonResolver.resolveBanReason(reason, banType);
         String templateMessage = banTemplateResolver.resolveTemplate(reason, providedTemplateName, banType);
 

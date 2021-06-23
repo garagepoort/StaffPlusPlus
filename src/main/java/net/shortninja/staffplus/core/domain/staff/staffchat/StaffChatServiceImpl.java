@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.staffchat.bungee.StaffChatBungeeMessage;
 import net.shortninja.staffplus.core.domain.staff.staffchat.bungee.StaffChatReceivedBungeeEvent;
+import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatConfiguration;
 import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatEvent;
@@ -30,14 +31,16 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     private final Options options;
     private final PermissionHandler permissionHandler;
     private final StaffChatMessageFormatter staffChatMessageFormatter;
+    private final StaffChatConfiguration staffChatConfiguration;
 
     private final SessionManagerImpl sessionManager;
 
-    public StaffChatServiceImpl(Messages messages, Options options, PermissionHandler permissionHandler, StaffChatMessageFormatter staffChatMessageFormatter, SessionManagerImpl sessionManager) {
+    public StaffChatServiceImpl(Messages messages, Options options, PermissionHandler permissionHandler, StaffChatMessageFormatter staffChatMessageFormatter, StaffChatConfiguration staffChatConfiguration, SessionManagerImpl sessionManager) {
         this.messages = messages;
         this.options = options;
         this.permissionHandler = permissionHandler;
         this.staffChatMessageFormatter = staffChatMessageFormatter;
+        this.staffChatConfiguration = staffChatConfiguration;
 
         this.sessionManager = sessionManager;
     }
@@ -62,7 +65,7 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     }
 
     private StaffChatChannelConfiguration getChannel(String channelName) {
-        return options.staffChatConfiguration.getChannelConfigurations().stream()
+        return staffChatConfiguration.getChannelConfigurations().stream()
             .filter(c -> c.getName().equalsIgnoreCase(channelName))
             .findFirst().orElseThrow(() -> new ConfigurationException("No channel with name [" + channelName + "] configured"));
     }
