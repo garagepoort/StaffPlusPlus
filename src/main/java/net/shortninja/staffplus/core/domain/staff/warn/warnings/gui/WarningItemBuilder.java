@@ -52,6 +52,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
         if (options.warningConfiguration.isShowIssuer()) {
             lore.add("&bIssuer: " + warning.getIssuerName());
         }
+        lore.add("&bCulprit: " + warning.getTargetName());
 
         lore.add("&bReason:");
         for (String line : formatLines(warning.getReason(), 30)) {
