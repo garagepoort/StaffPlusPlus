@@ -9,24 +9,30 @@ import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import static net.shortninja.staffplus.core.domain.staff.mute.MuteMessageStringUtil.replaceMutePlaceholders;
+
 @IocBean
 @IocMultiProvider(ChatInterceptor.class)
 public class MuteChatInterceptor implements ChatInterceptor {
 
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
+    private final MuteService muteService;
 
-    public MuteChatInterceptor(SessionManagerImpl sessionManager, Messages messages) {
+    public MuteChatInterceptor(SessionManagerImpl sessionManager, Messages messages, MuteService muteService) {
         this.sessionManager = sessionManager;
-
         this.messages = messages;
+        this.muteService = muteService;
     }
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
         PlayerSession playerSession = sessionManager.get(event.getPlayer().getUniqueId());
-        if(playerSession.isMuted()) {
-            this.messages.send(event.getPlayer(), messages.muted, messages.prefixGeneral);
+        if (playerSession.isMuted()) {
+            muteService.getMuteByMutedUuid(event.getPlayer().getUniqueId()).ifPresent(mute -> {
+                String message = replaceMutePlaceholders(messages.muted, mute);
+                this.messages.send(event.getPlayer(), message, messages.prefixGeneral);
+            });
             return true;
         }
         return false;

@@ -10,6 +10,8 @@ import net.shortninja.staffplusplus.mute.UnmuteEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import static net.shortninja.staffplus.core.domain.staff.mute.MuteMessageStringUtil.replaceMutePlaceholders;
+
 @IocBean
 @IocListener
 public class MuteChatNotifier implements Listener {
@@ -26,17 +28,10 @@ public class MuteChatNotifier implements Listener {
     public void notifyPlayerMuted(MuteEvent event) {
         IMute mute = event.getMute();
         if (mute.getEndTimestamp() == null) {
-            String message = messages.permanentMuted
-                .replace("%target%", mute.getTargetName())
-                .replace("%reason%", mute.getReason())
-                .replace("%issuer%", mute.getIssuerName());
+            String message = replaceMutePlaceholders(messages.permanentMuted, mute);
             messages.sendGroupMessage(message, options.muteConfiguration.getStaffNotificationPermission(), messages.prefixGeneral);
         } else {
-            String message = messages.tempMuted
-                .replace("%target%", mute.getTargetName())
-                .replace("%reason%", mute.getReason())
-                .replace("%issuer%", mute.getIssuerName())
-                .replace("%duration%", mute.getHumanReadableDuration());
+            String message = replaceMutePlaceholders(messages.tempMuted, mute);
             messages.sendGroupMessage(message, options.muteConfiguration.getStaffNotificationPermission(), messages.prefixGeneral);
         }
     }
@@ -44,9 +39,7 @@ public class MuteChatNotifier implements Listener {
     @EventHandler
     public void notifyUnmute(UnmuteEvent event) {
         IMute mute = event.getMute();
-        String unmuteMessage = messages.unmuted
-            .replace("%target%", mute.getTargetName())
-            .replace("%issuer%", mute.getUnmutedByName());
+        String unmuteMessage = replaceMutePlaceholders(messages.unmuted, mute);
         messages.sendGroupMessage(unmuteMessage, options.muteConfiguration.getStaffNotificationPermission(), messages.prefixGeneral);
     }
 
