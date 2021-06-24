@@ -4,8 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Messages;
 import net.shortninja.staffplus.core.common.config.Options;
-
-import net.shortninja.staffplus.core.session.PlayerSession;
 import net.shortninja.staffplus.core.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,7 +22,6 @@ public class MuteSessionTask extends BukkitRunnable {
     private final Options options;
 
     public MuteSessionTask(Messages messages, SessionManagerImpl sessionManager, MuteService muteService, Options options) {
-
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.muteService = muteService;
@@ -44,7 +41,7 @@ public class MuteSessionTask extends BukkitRunnable {
 
         List<Mute> activeMutes = muteService.getAllActiveMutes(players);
 
-        for (PlayerSession playerSession : sessionManager.getAll()) {
+        sessionManager.getAll().forEach(playerSession -> {
             Optional<Player> player = playerSession.getPlayer();
             if (playerSession.isMuted() && player.isPresent()) {
                 boolean playerIsMuted = activeMutes.stream().anyMatch(mute -> mute.getTargetUuid().equals(player.get().getUniqueId()));
@@ -53,6 +50,6 @@ public class MuteSessionTask extends BukkitRunnable {
                     messages.send(player.get(), messages.muteExpired, messages.prefixGeneral);
                 }
             }
-        }
+        });
     }
 }
