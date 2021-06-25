@@ -98,6 +98,7 @@ warnings-list-entry: "&b%count%: &7%reason%"
 # Linjer är separerat genom komman.
 warnings-list-end: "&7%longline%"
 warnings-notify: "You have %warningsCount% new warnings!"
+warned-announcement: '&7%issuer% &bhas warned &7%target% &bfor &7%reason%&b.'
 
 # Linjer är separerat genom komman.
 infraction-item: "&bVarningar: &7%warnings%, &bRapporter: &7%reports%, &bRapport anledning: &7%reason%"

@@ -45,6 +45,7 @@ permissions:
     # Permission for bypassing warnings.
     warn-bypass: "staff.warn.bypass"
     warnings:
+        notifications: "staff.warnings.notifications"
         # All permission for managing warnings
         manage:
             view: "staff.warnings.manage.view"

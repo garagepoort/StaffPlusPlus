@@ -1,12 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.ban.config;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.configuration.ConfigListTransformer;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.common.gui.IGuiItemConfig;
 import net.shortninja.staffplus.core.domain.staff.ban.BanType;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,21 +28,21 @@ public class BanConfiguration {
     @ConfigProperty("commands:commands.bans.manage.gui")
     private String commandManageBansGui;
 
-    @ConfigProperty("permissions:ban")
+    @ConfigProperty("permissions:permissions.ban")
     private String permissionBanPlayer;
-    @ConfigProperty("permissions:tempban")
+    @ConfigProperty("permissions:permissions.tempban")
     private String permissionTempbanPlayer;
-    @ConfigProperty("permissions:unban")
+    @ConfigProperty("permissions:permissions.unban")
     private String permissionUnbanPlayer;
-    @ConfigProperty("permissions:ban-bypass")
+    @ConfigProperty("permissions:permissions.ban-bypass")
     private String permissionBanByPass;
-    @ConfigProperty("permissions:ban-template-overwrite")
+    @ConfigProperty("permissions:permissions.ban-template-overwrite")
     private String permissionBanTemplateOverwrite;
-    @ConfigProperty("permissions:ban-view")
+    @ConfigProperty("permissions:permissions.ban-view")
     private String permissionBanView;
-    @ConfigProperty("permissions:ban-silent")
+    @ConfigProperty("permissions:permissions.ban-silent")
     private String permissionBanSilent;
-    @ConfigProperty("permissions:ban-notifications")
+    @ConfigProperty("permissions:permissions.ban-notifications")
     private String staffNotificationPermission;
 
     @ConfigProperty("ban-module.permban-template")
@@ -50,8 +51,8 @@ public class BanConfiguration {
     private String tempBanTemplate;
 
     @ConfigProperty("ban-module.reasons")
-    @ConfigListTransformer(BanReasonConfigMapper.class)
-    private List<BanReasonConfiguration> banReasons;
+    @ConfigTransformer(BanReasonConfigMapper.class)
+    private List<BanReasonConfiguration> banReasons = new ArrayList<>();
 
     private final Map<String, String> templates;
     private final BanGuiItemConfig banGuiItemConfig;

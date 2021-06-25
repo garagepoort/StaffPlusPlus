@@ -1,17 +1,16 @@
 package net.shortninja.staffplus.core.domain.staff.ban.config;
 
-import be.garagepoort.mcioc.configuration.IConfigListTransformer;
+import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import net.shortninja.staffplus.core.domain.staff.ban.BanType;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class BanReasonConfigMapper implements IConfigListTransformer {
+public class BanReasonConfigMapper implements IConfigTransformer<List<BanReasonConfiguration>, List<LinkedHashMap<String, Object>>> {
+
     @Override
-    public List mapConfig(List<LinkedHashMap<String, Object>> list) {
-        return Objects.requireNonNull(list).stream().map(map -> {
+    public List<BanReasonConfiguration> mapConfig(List<LinkedHashMap<String, Object>> list) {
+        return list.stream().map(map -> {
             String name = (String) map.get("name");
             String reason = (String) map.get("reason");
             String template = (String) map.get("template");

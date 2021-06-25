@@ -98,6 +98,7 @@ warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
 # Le linee sono separate da virgole.
 warnings-list-end: "&7%longline%"
 warnings-notify: "You have %warningsCount% new warnings!"
+warned-announcement: '&7%issuer% &bhas warned &7%target% &bfor &7%reason%&b.'
 
 # Le linee sono separate da virgole.
 infraction-item: "&bAvvertimenti: &7%warnings%, &bSegnalazioni: &7%reports%, &bMotivo segnalazione: &7%reason%"
