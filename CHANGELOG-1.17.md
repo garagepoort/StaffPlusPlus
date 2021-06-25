@@ -4,6 +4,8 @@
 
 ### Features
 - Placeholders and formatting added for `tempmuted` and `muted` message
+- Warnings GUI now shows the player who was warned
+- New permission `staff.warnings.notifications`, player with this permission will be notified of other players getting warned.
 
 # V1.17.4
 

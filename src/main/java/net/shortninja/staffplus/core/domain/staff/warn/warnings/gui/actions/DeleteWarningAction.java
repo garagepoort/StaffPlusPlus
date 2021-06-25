@@ -25,7 +25,7 @@ public class DeleteWarningAction implements IAction {
 
     @Override
     public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-        warnService.removeWarning(player, warning.getId());
+        warnService.removeWarning(warning.getId());
         previousGuiSupplier.get().show(player);
     }
 
