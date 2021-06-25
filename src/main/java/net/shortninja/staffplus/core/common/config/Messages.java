@@ -65,6 +65,7 @@ public class Messages {
     public final String reportsListEntry;
     public final List<String> reportsListEnd;
     public final String warned;
+    public final String warnedAnnouncement;
     public final String warn;
     public final String warningsNotify;
     public final List<String> warningsListStart;
@@ -220,6 +221,7 @@ public class Messages {
         reportsListEntry = config.getString("reports-list-entry");
         reportsListEnd = JavaUtils.stringToList(config.getString("reports-list-end"));
         warned = config.getString("warned");
+        warnedAnnouncement = config.getString("warned-announcement");
         warn = config.getString("warn");
         warningsNotify = config.getString("warnings-notify");
         warningsListStart = JavaUtils.stringToList(config.getString("warnings-list-start"));

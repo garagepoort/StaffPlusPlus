@@ -1,42 +1,47 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.common.Sounds;
+import net.shortninja.staffplus.core.common.config.SoundsConfigTransformer;
+import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@IocBean
 public class WarningConfiguration {
 
+    @ConfigProperty("warnings-module.enabled")
     private boolean enabled;
+    @ConfigProperty("warnings-module.show-issuer")
     private boolean showIssuer;
+    @ConfigProperty("warnings-module.sound")
+    @ConfigTransformer(SoundsConfigTransformer.class)
     private Sounds sound;
+    @ConfigProperty("warnings-module.user-notifications.enabled")
     private boolean notifyUser;
+    @ConfigProperty("warnings-module.user-notifications.always-notify")
     private boolean alwaysNotifyUser;
-    private final String myWarningsCmd;
-    private List<WarningThresholdConfiguration> thresholds;
-    private List<WarningSeverityConfiguration> severityLevels;
-    private final List<ConfiguredAction> actions;
+    @ConfigProperty("warnings-module.thresholds")
+    @ConfigTransformer(ThresholdConfigTransformer.class)
+    private List<WarningThresholdConfiguration> thresholds = new ArrayList<>();
+    @ConfigProperty("warnings-module.severity-levels")
+    @ConfigTransformer(SeverityConfigTransformer.class)
+    private List<WarningSeverityConfiguration> severityLevels = new ArrayList<>();
+    @ConfigProperty("warnings-module.actions")
+    @ConfigTransformer(ActionConfigLoader.class)
+    private List<ConfiguredAction> actions = new ArrayList<>();
+
+    @ConfigProperty("commands:commands.my-warnings")
+    private String myWarningsCmd;
+    @ConfigProperty("permissions:permissions.view-my-warnings")
     private String myWarningsPermission;
-
-
-    public WarningConfiguration(boolean enabled, boolean showIssuer, Sounds sound,
-                                boolean notifyUser,
-                                boolean alwaysNotifyUser,
-                                String myWarningsPermission,
-                                String myWarningsCmd,
-                                List<WarningThresholdConfiguration> thresholds, List<WarningSeverityConfiguration> severityLevels, List<ConfiguredAction> actions) {
-        this.enabled = enabled;
-        this.showIssuer = showIssuer;
-        this.sound = sound;
-        this.notifyUser = notifyUser;
-        this.alwaysNotifyUser = alwaysNotifyUser;
-        this.myWarningsPermission = myWarningsPermission;
-        this.myWarningsCmd = myWarningsCmd;
-        this.thresholds = thresholds;
-        this.severityLevels = severityLevels;
-        this.actions = actions;
-    }
+    @ConfigProperty("permissions:permissions.warnings.notifications")
+    private String notificationsPermission;
 
     public boolean isEnabled() {
         return enabled;
@@ -76,6 +81,10 @@ public class WarningConfiguration {
 
     public List<ConfiguredAction> getActions() {
         return actions;
+    }
+
+    public String getNotificationsPermission() {
+        return notificationsPermission;
     }
 
     public Optional<WarningSeverityConfiguration> getSeverityConfiguration(String severityLevel) {
