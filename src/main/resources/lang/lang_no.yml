@@ -97,6 +97,7 @@ warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
 # Linjer er separert med komma
 warnings-list-end: "&7%longline%"
 warnings-notify: "You have %warningsCount% new warnings!"
+warned-announcement: '&7%issuer% &bhas warned &7%target% &bfor &7%reason%&b.'
 
 # Linjer er separert med komma
 infraction-item: "&bAdvarsler: &7%warnings%, &bRapporter: &7%reports%, &bRapporter grunn: &7%reason%"

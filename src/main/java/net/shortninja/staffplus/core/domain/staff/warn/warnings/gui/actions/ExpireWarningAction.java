@@ -19,7 +19,7 @@ public class ExpireWarningAction implements IAction {
 
     @Override
     public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-        warnService.expireWarning(player, warning.getId());
+        warnService.expireWarning(warning.getId());
     }
 
     @Override
