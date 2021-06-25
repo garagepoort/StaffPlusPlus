@@ -98,6 +98,7 @@ warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
 # Lijnen zijn gescheiden door kommas.
 warnings-list-end: "&7%longline%"
 warnings-notify: "You have %warningsCount% new warnings!"
+warned-announcement: '&7%issuer% &bhas warned &7%target% &bfor &7%reason%&b.'
 
 # Lijnen zijn gescheiden door kommas.
 infraction-item: "&bWaarschuwingen: &7%warnings%, &bAangiftes: &7%reports%, &bReden: &7%reason%"

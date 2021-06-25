@@ -44,7 +44,6 @@ public class WarnService implements InfractionProvider, WarningService {
                        WarnRepository warnRepository,
                        AppealRepository appealRepository) {
         this.permission = permission;
-
         this.options = options;
         this.messages = messages;
         this.warnRepository = warnRepository;
@@ -62,7 +61,7 @@ public class WarnService implements InfractionProvider, WarningService {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : CONSOLE_UUID;
         Warning warning = new Warning(culprit.getId(), culprit.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis(), severityConfig);
-        createWarning(sender, culprit, warning);
+        createWarning(culprit, warning);
     }
 
     @Deprecated
@@ -71,27 +70,18 @@ public class WarnService implements InfractionProvider, WarningService {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : CONSOLE_UUID;
         Warning warning = new Warning(user.getId(), user.getUsername(), reason, issuerName, issuerUuid, System.currentTimeMillis());
-        createWarning(sender, user, warning);
+        createWarning(user, warning);
     }
 
-    private void createWarning(CommandSender sender, SppPlayer user, Warning warning) {
+    private void createWarning(SppPlayer user, Warning warning) {
         // Offline users cannot bypass being warned this way. Permissions are taken away upon logging out
         if (user.isOnline() && permission.has(user.getPlayer(), options.permissionWarnBypass)) {
-            messages.send(sender, messages.bypassed, messages.prefixGeneral);
-            return;
+            throw new BusinessException(messages.bypassed);
         }
 
         int warningId = warnRepository.addWarning(warning);
         warning.setId(warningId);
-        messages.send(sender, messages.warned.replace("%target%", warning.getTargetName()).replace("%reason%", warning.getReason()), messages.prefixWarnings);
-
         sendEvent(new WarningCreatedEvent(warning));
-
-        if (user.isOnline()) {
-            Player p = user.getPlayer();
-            messages.send(p, messages.warn.replace("%reason%", warning.getReason()), messages.prefixWarnings);
-            options.warningConfiguration.getSound().ifPresent(s -> s.play(p));
-        }
     }
 
     public Warning getWarning(int warningId) {
@@ -109,7 +99,7 @@ public class WarnService implements InfractionProvider, WarningService {
         return warnRepository.getWarnings();
     }
 
-    public void removeWarning(CommandSender sender, int id) {
+    public void removeWarning(int id) {
         Warning warning = getWarning(id);
         if (warning.getServerName() != null && !warning.getServerName().equals(options.serverName)) {
             throw new BusinessException("For consistency reasons a warning must be removed on the same server it was created. Please try removing the warning while connected to server " + warning.getServerName());
@@ -117,14 +107,12 @@ public class WarnService implements InfractionProvider, WarningService {
 
         appealRepository.deleteAppealsForWarning(id);
         warnRepository.removeWarning(id);
-        messages.send(sender, "&2Warning has been removed", messages.prefixWarnings);
         sendEvent(new WarningRemovedEvent(warning));
     }
 
-    public void expireWarning(CommandSender sender, int id) {
+    public void expireWarning(int id) {
         Warning warning = getWarning(id);
         warnRepository.expireWarning(id);
-        messages.send(sender, "&2Warning has been expired", messages.prefixWarnings);
         sendEvent(new WarningExpiredEvent(warning));
     }
 

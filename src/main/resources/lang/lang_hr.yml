@@ -98,6 +98,7 @@ warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
 # Linije su odvojene sa zarezima.
 warnings-list-end: "&7%longline%"
 warnings-notify: "You have %warningsCount% new warnings!"
+warned-announcement: '&7%issuer% &bhas warned &7%target% &bfor &7%reason%&b.'
 
 # Linije su odvojene sa zarezima.
 infraction-item: "&bUpozorenja: &7%warnings%, &bPrijave: &7%reports%, &bPrijava razlog: &7%reason%"
