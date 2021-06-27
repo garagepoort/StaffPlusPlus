@@ -4,6 +4,7 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -28,6 +29,14 @@ public class DefaultPermissionHandler implements PermissionHandler {
         }
 
         return hasPermission;
+    }
+
+    public boolean has(OfflinePlayer player, String permission) {
+        if (permission == null) {
+            return true;
+        }
+
+        return false;
     }
 
     public boolean hasAny(CommandSender player, String... permissions) {

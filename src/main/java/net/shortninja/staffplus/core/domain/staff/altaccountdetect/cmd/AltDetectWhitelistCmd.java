@@ -11,6 +11,7 @@ import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectWhitelistedItem;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectionService;
@@ -29,11 +30,11 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
     private final AltDetectionService altDetectionService;
     private final PlayerManager playerManager;
 
-    public AltDetectWhitelistCmd(Messages messages, Options options, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager) {
-        super(options.altDetectConfiguration.getCommandWhitelist(), messages, options, commandService);
+    public AltDetectWhitelistCmd(Messages messages, Options options, AltDetectConfiguration altDetectConfiguration, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager) {
+        super(altDetectConfiguration.commandWhitelist, messages, options, commandService);
         this.altDetectionService = altDetectionService;
         this.playerManager = playerManager;
-        setPermission(options.altDetectConfiguration.getWhitelistPermission());
+        setPermission(altDetectConfiguration.whitelistPermission);
         setDescription("Add/Remove players from the alt account detection whitelist");
         setUsage("[add/remove] [player1] [player2]");
     }

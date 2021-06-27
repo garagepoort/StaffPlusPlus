@@ -153,6 +153,8 @@ commands:
 
     # The command to unban a player
     alt-detect-whitelist: "altWhitelist"
+    # The command to unban a player
+    alt-detect-check: "altCheck"
 
     # The command to view the infractions of a player
     infractions-view: "infractions"
