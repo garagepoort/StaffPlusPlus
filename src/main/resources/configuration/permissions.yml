@@ -242,6 +242,8 @@ permissions:
 
     # Permission to add/remove players from the alt detection whitelist
     alt-detect-whitelist: "staff.staffplus.alt-detect-whitelist"
+    # Permission to run an alt detection check
+    alt-detect-check: "staff.staffplus.alt-detect-check"
 
     # Permission to bypass the alt detection
     alt-detect-bypass: "staff.staffplus.alt-detect-bypass"

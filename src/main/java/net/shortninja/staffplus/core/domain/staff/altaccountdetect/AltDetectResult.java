@@ -1,24 +1,37 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect;
 
+import net.shortninja.staffplusplus.altdetect.AltDetectResultType;
 import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 import net.shortninja.staffplusplus.altdetect.IAltDetectResult;
 
+import java.util.List;
 import java.util.UUID;
+
+import static net.shortninja.staffplusplus.altdetect.AltDetectResultType.SAME_IP;
 
 public class AltDetectResult implements IAltDetectResult {
 
-    private UUID playerCheckedUuid;
-    private String playerCheckedName;
-    private UUID playerMatchedUuid;
-    private String playerMatchedName;
-    private AltDetectTrustLevel altDetectTrustLevel;
+    private final UUID playerCheckedUuid;
+    private final String playerCheckedName;
+    private final UUID playerMatchedUuid;
+    private final String playerMatchedName;
+    private final boolean ipMatched;
+    private final AltDetectTrustLevel altDetectTrustLevel;
+    private final List<AltDetectResultType> altDetectResults;
 
-    public AltDetectResult(UUID playerCheckedUuid, String playerCheckedName, UUID playerMatchedUuid, String playerMatchedName, AltDetectTrustLevel altDetectTrustLevel) {
+    public AltDetectResult(UUID playerCheckedUuid, String playerCheckedName, UUID playerMatchedUuid, String playerMatchedName, List<AltDetectResultType> altDetectResults) {
         this.playerCheckedUuid = playerCheckedUuid;
         this.playerCheckedName = playerCheckedName;
         this.playerMatchedUuid = playerMatchedUuid;
         this.playerMatchedName = playerMatchedName;
-        this.altDetectTrustLevel = altDetectTrustLevel;
+        this.altDetectResults = altDetectResults;
+        this.altDetectTrustLevel = AltDetectTrustLevel.fromScore(altDetectResults.stream().mapToInt(AltDetectResultType::getScore).sum());
+        this.ipMatched = altDetectResults.contains(SAME_IP);
+    }
+
+    @Override
+    public boolean isIpMatched() {
+        return ipMatched;
     }
 
     @Override
@@ -44,5 +57,10 @@ public class AltDetectResult implements IAltDetectResult {
     @Override
     public AltDetectTrustLevel getAltDetectTrustLevel() {
         return altDetectTrustLevel;
+    }
+
+    @Override
+    public List<AltDetectResultType> getAltDetectResultTypes() {
+        return altDetectResults;
     }
 }

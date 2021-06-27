@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.config.Options;
 import net.shortninja.staffplus.core.common.utils.Metrics;
+import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 
 @IocBean(conditionalOnProperty = "metrics=true")
@@ -11,7 +12,7 @@ public class MetricsService {
 
     private static final int PLUGIN_ID = 9351;
 
-    public MetricsService(Options options, BanConfiguration banConfiguration) {
+    public MetricsService(Options options, BanConfiguration banConfiguration, AltDetectConfiguration altDetectConfiguration) {
         Metrics metrics = new Metrics(StaffPlus.get(), PLUGIN_ID);
 
         boolean warningConfigurationEnabled = options.warningConfiguration.isEnabled();
@@ -20,7 +21,6 @@ public class MetricsService {
         boolean banConfigurationEnabled = banConfiguration.isEnabled();
         boolean muteConfigurationEnabled = options.muteConfiguration.isEnabled();
         boolean kickConfigurationEnabled = options.kickConfiguration.isEnabled();
-        boolean altDetectionConfigurationEnabled = options.altDetectConfiguration.isEnabled();
 
         metrics.addCustomChart(new Metrics.SimplePie("warnings_module", () -> String.valueOf(warningConfigurationEnabled)));
         metrics.addCustomChart(new Metrics.SimplePie("warning_appeals_module", () -> String.valueOf(appealConfigurationEnabled)));
@@ -28,6 +28,6 @@ public class MetricsService {
         metrics.addCustomChart(new Metrics.SimplePie("ban_module", () -> String.valueOf(banConfigurationEnabled)));
         metrics.addCustomChart(new Metrics.SimplePie("mute_module", () -> String.valueOf(muteConfigurationEnabled)));
         metrics.addCustomChart(new Metrics.SimplePie("kick_module", () -> String.valueOf(kickConfigurationEnabled)));
-        metrics.addCustomChart(new Metrics.SimplePie("alt_detection_module", () -> String.valueOf(altDetectionConfigurationEnabled)));
+        metrics.addCustomChart(new Metrics.SimplePie("alt_detection_module", () -> String.valueOf(altDetectConfiguration.enabled)));
     }
 }

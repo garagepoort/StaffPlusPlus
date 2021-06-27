@@ -18,7 +18,7 @@ public class BukkitOfflinePlayerProvider implements OfflinePlayerProvider {
             return Optional.empty();
         }
 
-        return Optional.of(new SppPlayer(playerExact.getUniqueId(), playerExact.getName()));
+        return Optional.of(new SppPlayer(playerExact.getUniqueId(), playerExact.getName(), playerExact));
     }
 
     @Override
@@ -28,6 +28,6 @@ public class BukkitOfflinePlayerProvider implements OfflinePlayerProvider {
             return Optional.empty();
         }
 
-        return Optional.of(new SppPlayer(playerExact.getUniqueId(), playerExact.getName()));
+        return Optional.of(new SppPlayer(playerExact.getUniqueId(), playerExact.getName(), playerExact));
     }
 }
