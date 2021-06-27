@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import org.anjocaido.groupmanager.GroupManager;
 import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -34,6 +35,21 @@ public class GroupManagerPermissionHandler implements PermissionHandler {
         if (player != null) {
             AnjoPermissionsHandler worldPermissions = gMplugin.getWorldsHolder().getWorldPermissions(player);
             hasPermission = worldPermissions.has(player, permission) || isOp(player);
+        }
+
+        return hasPermission;
+    }
+
+    @Override
+    public boolean has(OfflinePlayer player, String permission) {
+        if (permission == null) {
+            return true;
+        }
+
+        boolean hasPermission = false;
+        if (player != null) {
+            AnjoPermissionsHandler worldPermissions = gMplugin.getWorldsHolder().getWorldPermissionsByPlayerName(player.getName());
+            hasPermission = worldPermissions.permission(player.getName(), permission);
         }
 
         return hasPermission;
