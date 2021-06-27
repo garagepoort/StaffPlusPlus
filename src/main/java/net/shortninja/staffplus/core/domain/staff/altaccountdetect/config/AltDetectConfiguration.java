@@ -1,38 +1,25 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+
+@IocBean
 public class AltDetectConfiguration {
 
-    private final boolean enabled;
-    private final boolean sameIpRequired;
-    private final String bypassPermission;
-    private final String whitelistPermission;
-    private final String commandWhitelist;
+    @ConfigProperty("alt-detect-module.enabled")
+    public boolean enabled;
+    @ConfigProperty("alt-detect-module.same-ip-required")
+    public boolean sameIpRequired;
 
+    @ConfigProperty("permissions:permissions.alt-detect-bypass")
+    public String bypassPermission;
+    @ConfigProperty("permissions:permissions.alt-detect-whitelist")
+    public String whitelistPermission;
+    @ConfigProperty("permissions:permissions.alt-detect-check")
+    public String checkPermission;
 
-    public AltDetectConfiguration(boolean enabled, boolean sameIpRequired, String bypassPermission, String whitelistPermission, String commandWhitelist) {
-        this.enabled = enabled;
-        this.sameIpRequired = sameIpRequired;
-        this.bypassPermission = bypassPermission;
-        this.whitelistPermission = whitelistPermission;
-        this.commandWhitelist = commandWhitelist;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public String getWhitelistPermission() {
-        return whitelistPermission;
-    }
-    public String getBypassPermission() {
-        return bypassPermission;
-    }
-
-    public String getCommandWhitelist() {
-        return commandWhitelist;
-    }
-
-    public boolean isSameIpRequired() {
-        return sameIpRequired;
-    }
+    @ConfigProperty("commands:commands.alt-detect-whitelist")
+    public String commandWhitelist;
+    @ConfigProperty("commands:commands.alt-detect-check")
+    public String commandCheck;
 }

@@ -6,6 +6,8 @@ import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -35,6 +37,21 @@ public class VaultPermissionHandler implements PermissionHandler {
         boolean hasPermission = false;
         if (player != null) {
             hasPermission = perms.has(player, permission) || isOp(player);
+        }
+
+        return hasPermission;
+    }
+
+    @Override
+    public boolean has(OfflinePlayer player, String permission) {
+        if (permission == null) {
+            return true;
+        }
+
+        boolean hasPermission = false;
+        if (player != null) {
+            World world = Bukkit.getWorlds().stream().filter(w -> w.getName().equalsIgnoreCase(options.mainWorld)).findFirst().orElse(Bukkit.getWorlds().get(0));
+            hasPermission = perms.playerHas(world.getName(), player, permission);
         }
 
         return hasPermission;
