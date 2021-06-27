@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.common.utils;
 
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -18,6 +19,8 @@ public interface PermissionHandler {
     }
 
     boolean has(Player player, String permission);
+
+    boolean has(OfflinePlayer player, String permission);
 
     boolean hasAny(CommandSender player, String... permissions);
 

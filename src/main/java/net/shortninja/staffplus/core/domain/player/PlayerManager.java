@@ -26,7 +26,7 @@ public class PlayerManager {
             String name = offlinePlayer.getName();
             if (StringUtils.isNotEmpty(name)) {
                 playerNames.add(name);
-                sppPlayers.add(new SppPlayer(offlinePlayer.getUniqueId(), offlinePlayer.getName()));
+                sppPlayers.add(new SppPlayer(offlinePlayer.getUniqueId(), offlinePlayer.getName(), offlinePlayer));
             }
         }
         cachedPlayerNames = playerNames;
@@ -71,7 +71,7 @@ public class PlayerManager {
 
         List<SppPlayer> existingCache = cachedSppPlayers.stream().filter(p -> p.getId().equals(player.getUniqueId())).collect(Collectors.toList());
         cachedSppPlayers.removeAll(existingCache);
-        cachedSppPlayers.add(new SppPlayer(player.getUniqueId(), player.getName()));
+        cachedSppPlayers.add(new SppPlayer(player.getUniqueId(), player.getName(), player));
     }
 
     public Collection<? extends Player> getOnlinePlayers() {
