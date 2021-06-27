@@ -10,8 +10,6 @@ import net.shortninja.staffplus.core.domain.chat.blacklist.BlackListConfiguratio
 import net.shortninja.staffplus.core.domain.chat.blacklist.BlackListConfigurationLoader;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
-import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfigurationLoader;
 import net.shortninja.staffplus.core.domain.staff.chests.config.EnderchestsConfiguration;
@@ -86,7 +84,6 @@ public class Options {
     public ProtectConfiguration protectConfiguration;
     public KickConfiguration kickConfiguration;
     public MuteConfiguration muteConfiguration;
-    public AltDetectConfiguration altDetectConfiguration;
     public ExamineConfiguration examineConfiguration;
     public EnderchestsConfiguration enderchestsConfiguration;
     public Map<String, GeneralModeConfiguration> modeConfigurations;
@@ -189,7 +186,6 @@ public class Options {
     private final ProtectModuleLoader protectModuleLoader;
     private final KickModuleLoader kickModuleLoader;
     private final MuteModuleLoader muteModuleLoader;
-    private final AltDetectModuleLoader altDetectModuleLoader;
     private final ExamineModuleLoader examineModuleLoader;
     private final EnderchestsModuleLoader enderchestsModuleLoader;
     private final StaffModesLoader staffModesLoader;
@@ -213,7 +209,6 @@ public class Options {
                    ProtectModuleLoader protectModuleLoader,
                    KickModuleLoader kickModuleLoader,
                    MuteModuleLoader muteModuleLoader,
-                   AltDetectModuleLoader altDetectModuleLoader,
                    ExamineModuleLoader examineModuleLoader,
                    EnderchestsModuleLoader enderchestsModuleLoader,
                    StaffModesLoader staffModesLoader,
@@ -235,7 +230,6 @@ public class Options {
         this.protectModuleLoader = protectModuleLoader;
         this.kickModuleLoader = kickModuleLoader;
         this.muteModuleLoader = muteModuleLoader;
-        this.altDetectModuleLoader = altDetectModuleLoader;
         this.examineModuleLoader = examineModuleLoader;
         this.enderchestsModuleLoader = enderchestsModuleLoader;
         this.staffModesLoader = staffModesLoader;
@@ -279,7 +273,6 @@ public class Options {
         protectConfiguration = this.protectModuleLoader.loadConfig();
         kickConfiguration = this.kickModuleLoader.loadConfig();
         muteConfiguration = this.muteModuleLoader.loadConfig();
-        altDetectConfiguration = this.altDetectModuleLoader.loadConfig();
         examineConfiguration = this.examineModuleLoader.loadConfig();
         enderchestsConfiguration = this.enderchestsModuleLoader.loadConfig();
         modeConfigurations = this.staffModesLoader.loadConfig();

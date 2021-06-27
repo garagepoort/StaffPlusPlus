@@ -1,9 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks;
 
+import net.shortninja.staffplusplus.altdetect.AltDetectResultType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.database.ipcheck.PlayerIpRepository;
 
 import java.util.List;
+
+import static net.shortninja.staffplusplus.altdetect.AltDetectResultType.SAME_IP;
 
 public class IpDetector implements AltDetector {
     private final PlayerIpRepository playerIpRepository;
@@ -13,11 +16,11 @@ public class IpDetector implements AltDetector {
     }
 
     @Override
-    public int getScore(AltDetectInfo altDetectInfo, SppPlayer sppPlayer) {
+    public AltDetectResultType getResult(AltDetectInfo altDetectInfo, SppPlayer sppPlayer) {
         List<String> ips = playerIpRepository.getIps(sppPlayer.getId());
-        if (ips.contains(altDetectInfo.getIp())) {
-            return 1;
+        if (altDetectInfo.getIp() != null && ips.contains(altDetectInfo.getIp())) {
+            return SAME_IP;
         }
-        return 0;
+        return null;
     }
 }

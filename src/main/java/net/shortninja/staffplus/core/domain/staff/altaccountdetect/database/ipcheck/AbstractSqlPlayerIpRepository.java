@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepository {
@@ -53,6 +54,22 @@ public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepositor
             throw new DatabaseException(e);
         }
         return ips;
+    }
+    @Override
+    public Optional<String> getLastIp(UUID playerUuid) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT ip FROM sp_player_ips WHERE player_uuid = ? ORDER BY timestamp DESC LIMIT 1")) {
+            ps.setString(1, playerUuid.toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(rs.getString(1));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return Optional.empty();
     }
 
 }
