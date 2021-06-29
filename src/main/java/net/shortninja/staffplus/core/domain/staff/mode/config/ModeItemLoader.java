@@ -3,14 +3,14 @@ package net.shortninja.staffplus.core.domain.staff.mode.config;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-import static net.shortninja.staffplus.core.common.config.Options.stringToMaterial;
+import static net.shortninja.staffplus.core.application.config.Options.stringToMaterial;
 
 public abstract class ModeItemLoader<T extends ModeItemConfiguration> extends AbstractConfigLoader<T> {
 

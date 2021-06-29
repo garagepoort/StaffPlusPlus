@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.xray;
 
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.common.time.TimeUnitShort;
 import org.bukkit.Material;

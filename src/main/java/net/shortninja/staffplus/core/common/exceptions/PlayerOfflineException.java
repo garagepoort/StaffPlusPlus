@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.exceptions;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.application.config.Messages;
 
 public class PlayerOfflineException extends BusinessException {
     public PlayerOfflineException() {

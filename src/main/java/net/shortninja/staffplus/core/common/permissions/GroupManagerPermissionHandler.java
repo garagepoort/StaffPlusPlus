@@ -1,9 +1,8 @@
 package net.shortninja.staffplus.core.common.permissions;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import org.anjocaido.groupmanager.GroupManager;
 import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 import org.bukkit.Bukkit;

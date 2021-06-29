@@ -2,10 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.ExecutableActionEntity;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;

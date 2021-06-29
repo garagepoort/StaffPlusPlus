@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfiguration;
-import net.shortninja.staffplus.core.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.inventory.ItemStack;
 

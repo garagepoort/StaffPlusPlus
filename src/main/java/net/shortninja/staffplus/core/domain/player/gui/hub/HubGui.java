@@ -2,12 +2,12 @@ package net.shortninja.staffplus.core.domain.player.gui.hub;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.IGuiItemConfig;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.gui.BannedPlayersGui;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
@@ -18,8 +18,8 @@ import net.shortninja.staffplus.core.domain.staff.reporting.gui.AllAssignedRepor
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.MyAssignedReportsGui;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.OpenReportsGui;
-import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
