@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto;
 
-import net.shortninja.staffplus.core.domain.staff.reporting.Report;
+import net.shortninja.staffplusplus.reports.IReport;
 
-public class ReportDeletedBungee extends ReportBungee {
+public class ReportDeletedBungeeDto extends ReportBungeeDto {
 
     private String deletedByName;
 
-    public ReportDeletedBungee(Report report, String deletedByName) {
+    public ReportDeletedBungeeDto(IReport report, String deletedByName) {
         super(report);
         this.deletedByName = deletedByName;
     }

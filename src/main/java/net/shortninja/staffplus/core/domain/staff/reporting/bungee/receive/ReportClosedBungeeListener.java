@@ -1,12 +1,13 @@
-package net.shortninja.staffplus.core.domain.staff.reporting.bungee;
+package net.shortninja.staffplus.core.domain.staff.reporting.bungee.receive;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMessageListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.domain.staff.reporting.ReportNotifier;
-import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportDeletedBungee;
+import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportBungeeDto;
+import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportClosedBungeeEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -16,23 +17,20 @@ import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL
 
 @IocBean(conditionalOnProperty = "server-sync-module.report-sync=true")
 @IocMessageListener(channel = BUNGEE_CORD_CHANNEL)
-public class ReportDeletedBungeeListener implements PluginMessageListener {
+public class ReportClosedBungeeListener implements PluginMessageListener {
 
     private final BungeeClient bungeeClient;
-    private final ReportNotifier reportNotifier;
     private final Options options;
 
-    public ReportDeletedBungeeListener(BungeeClient bungeeClient, ReportNotifier reportNotifier, Options options) {
+    public ReportClosedBungeeListener(BungeeClient bungeeClient, Options options) {
         this.bungeeClient = bungeeClient;
-        this.reportNotifier = reportNotifier;
         this.options = options;
     }
-
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         if(options.serverSyncConfiguration.isReportSyncEnabled()) {
-            Optional<ReportDeletedBungee> reportCreatedBungee = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_DELETED_CHANNEL, message, ReportDeletedBungee.class);
-            reportCreatedBungee.ifPresent(report -> reportNotifier.notifyStaffReportDeleted(report.getDeletedByName(), report.getReporterName()));
+            Optional<ReportBungeeDto> reportCreatedBungee = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_CLOSED_CHANNEL, message, ReportBungeeDto.class);
+            reportCreatedBungee.ifPresent(b -> Bukkit.getPluginManager().callEvent(new ReportClosedBungeeEvent(b)));
         }
     }
 }
