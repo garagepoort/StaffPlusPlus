@@ -14,12 +14,27 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 @IocBean
 public class Messages {
 
+    public static final List<String> LANG_FILES = Arrays.asList(
+        "lang_de",
+        "lang_en",
+        "lang_es",
+        "lang_fr",
+        "lang_hr",
+        "lang_hu",
+        "lang_it",
+        "lang_nl",
+        "lang_no",
+        "lang_pt",
+        "lang_sv",
+        "lang_zh"
+    );
     public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
 
     /*
@@ -27,7 +42,6 @@ public class Messages {
      */
     public final String prefixGeneral;
     public final String prefixProtect;
-    public final String prefixReports;
     public final String prefixWarnings;
     public final String prefixTrace;
     public final String prefixInvestigations;
@@ -56,14 +70,28 @@ public class Messages {
     public final String disabled;
 
     /*
-     * Infractions
+     * Reports
      */
-    public final String reported;
-    public final String reportedStaff;
+    public final String prefixReports;
+    public final String reporterReportCreated;
+    public final String reporterReportPlayerCreated;
+    public final String reporterReportRejected;
+    public final String reporterReportResolved;
+    public final String reporterReportAccepted;
+    public final String reporterViewReportsButton;
+    public final String reporterViewReportsButtonTooltip;
+    public final String reportCreatedNotification;
+    public final String reportCulpritCreatedNotification;
+    public final String reportReopenedNotification;
+    public final String reportDeletedNotification;
+    public final String reportClosedNotification;
+    public final String reportAcceptedNotification;
     public final String reportsCleared;
     public final List<String> reportsListStart;
     public final String reportsListEntry;
     public final List<String> reportsListEnd;
+
+
     public final String warned;
     public final String warnedAnnouncement;
     public final String warn;
@@ -177,13 +205,12 @@ public class Messages {
         this.permission = permission;
         this.placeholderService = placeholderService;
         String langFile = StaffPlus.get().getConfig().getString("lang");
-        config = StaffPlus.get().getFileConfigurations().get("lang-" + langFile);
+        config = StaffPlus.get().getFileConfigurations().get(langFile);
         /*
          * Prefixes
          */
         prefixGeneral = config.getString("general-prefix");
         prefixProtect = config.getString("protect-prefix", "&dProtected &8»");
-        prefixReports = config.getString("reports-prefix");
         prefixWarnings = config.getString("warnings-prefix");
         prefixTrace = config.getString("trace-prefix", "&dTrace &8»");
         prefixInvestigations = config.getString("investigations-prefix", "&dInvestigations &8»");
@@ -212,14 +239,31 @@ public class Messages {
         disabled = config.getString("disabled", "disabled");
 
         /*
-         * Infractions
+         * REPORTS
          */
-        reported = config.getString("reported");
-        reportedStaff = config.getString("reported-staff");
-        reportsCleared = config.getString("reports-cleared");
-        reportsListStart = JavaUtils.stringToList(config.getString("reports-list-start"));
-        reportsListEntry = config.getString("reports-list-entry");
-        reportsListEnd = JavaUtils.stringToList(config.getString("reports-list-end"));
+        prefixReports = config.getString("reports.prefix", "");
+
+        reporterReportCreated = config.getString("reports.reporter.report-created", "");
+        reporterReportPlayerCreated = config.getString("reports.reporter.report-player-created", "");
+        reporterReportRejected = config.getString("reports.reporter.report-rejected", "");
+        reporterReportResolved = config.getString("reports.reporter.report-resolved", "");
+        reporterReportAccepted = config.getString("reports.reporter.report-accepted", "");
+        reporterViewReportsButton = config.getString("reports.reporter.view-reports-button", "");
+        reporterViewReportsButtonTooltip = config.getString("reports.reporter.view-reports-button-tooltip", "");
+
+        reportCreatedNotification = config.getString("reports.report-created-notification", "");
+        reportCulpritCreatedNotification = config.getString("reports.report-player-created-notification", "");
+        reportReopenedNotification = config.getString("reports.report-reopened-notification", "");
+        reportDeletedNotification = config.getString("reports.report-deleted-notification", "");
+        reportClosedNotification = config.getString("reports.report-closed-notification", "");
+        reportAcceptedNotification = config.getString("reports.report-accepted-notification", "");
+
+        reportsCleared = config.getString("reports.reports-cleared", "");
+        reportsListStart = JavaUtils.stringToList(config.getString("reports.reports-list-start", ""));
+        reportsListEntry = config.getString("reports.reports-list-entry", "");
+        reportsListEnd = JavaUtils.stringToList(config.getString("reports.reports-list-end", ""));
+//        END REPORTS
+
         warned = config.getString("warned");
         warnedAnnouncement = config.getString("warned-announcement");
         warn = config.getString("warn");

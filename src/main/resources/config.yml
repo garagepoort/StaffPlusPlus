@@ -315,7 +315,7 @@ infractions-module:
   show-bans: true
   show-mutes: true
   show-warnings: true
-  show-reported: true
+  show-reporter.report-created: true
   show-kicks: true
   bans-gui-item: PAPER
   mutes-gui-item: PAPER

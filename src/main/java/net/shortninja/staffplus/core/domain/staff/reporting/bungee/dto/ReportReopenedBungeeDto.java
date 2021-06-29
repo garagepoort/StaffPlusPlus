@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto;
 
-import net.shortninja.staffplus.core.domain.staff.reporting.Report;
+import net.shortninja.staffplusplus.reports.IReport;
 
-public class ReportReopenedBungee extends ReportBungee {
+public class ReportReopenedBungeeDto extends ReportBungeeDto {
 
     private String reopenByName;
 
-    public ReportReopenedBungee(Report report, String reopenByName) {
+    public ReportReopenedBungeeDto(IReport report, String reopenByName) {
         super(report);
         this.reopenByName = reopenByName;
     }
