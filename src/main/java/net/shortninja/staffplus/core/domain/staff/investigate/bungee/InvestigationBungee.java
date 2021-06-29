@@ -10,16 +10,16 @@ import java.util.UUID;
 
 public class InvestigationBungee extends BungeeMessage implements IInvestigation {
 
-    private int id;
-    private Long creationTimestamp;
-    private Long conclusionTimestamp;
-    private ZonedDateTime creationDate;
-    private ZonedDateTime conclusionDate;
-    private String investigatorName;
-    private UUID investigatorUuid;
-    private String investigatedName;
-    private UUID investigatedUuid;
-    private InvestigationStatus status;
+    private final int id;
+    private final Long creationTimestamp;
+    private final Long conclusionTimestamp;
+    private final ZonedDateTime creationDate;
+    private final ZonedDateTime conclusionDate;
+    private final String investigatorName;
+    private final UUID investigatorUuid;
+    private final String investigatedName;
+    private final UUID investigatedUuid;
+    private final InvestigationStatus status;
 
     public InvestigationBungee(IInvestigation investigation) {
         super(investigation.getServerName());
