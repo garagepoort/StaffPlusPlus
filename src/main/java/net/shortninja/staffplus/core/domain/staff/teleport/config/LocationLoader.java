@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.config;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

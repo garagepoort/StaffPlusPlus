@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 
 @IocBean
 public class ManageWarningsModuleLoader extends AbstractConfigLoader<ManageWarningsConfiguration> {

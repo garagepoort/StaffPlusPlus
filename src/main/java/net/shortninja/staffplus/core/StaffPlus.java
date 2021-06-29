@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core;
 
 import be.garagepoort.mcioc.TubingPlugin;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
-import net.shortninja.staffplus.core.common.config.AutoUpdater;
-import net.shortninja.staffplus.core.common.config.ConfigurationFile;
+import net.shortninja.staffplus.core.application.config.AutoUpdater;
+import net.shortninja.staffplus.core.application.config.ConfigurationFile;
 import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_17_R0;
 import net.shortninja.staffplusplus.IStaffPlus;
 import net.shortninja.staffplusplus.ban.BanService;

@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.ban.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 import net.shortninja.staffplusplus.ban.BanEvent;
 import net.shortninja.staffplusplus.ban.IBan;

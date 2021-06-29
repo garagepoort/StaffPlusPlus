@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.delayedactions.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.delayedactions.DelayedAction;
 import net.shortninja.staffplus.core.domain.delayedactions.Executor;

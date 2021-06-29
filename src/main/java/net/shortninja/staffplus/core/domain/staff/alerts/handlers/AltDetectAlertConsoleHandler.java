@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import net.shortninja.staffplusplus.altdetect.IAltDetectResult;

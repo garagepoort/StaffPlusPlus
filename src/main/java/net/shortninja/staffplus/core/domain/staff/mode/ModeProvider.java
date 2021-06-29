@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import org.bukkit.entity.Player;
 

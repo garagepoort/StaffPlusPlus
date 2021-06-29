@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.chat;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;
 import net.shortninja.staffplusplus.chat.PhrasesDetectedEvent;

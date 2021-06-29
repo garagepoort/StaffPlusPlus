@@ -3,11 +3,11 @@ package net.shortninja.staffplus.core.domain.staff.mode.handler;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.application.config.Messages;
 
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
-import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 
 import java.util.Map;
