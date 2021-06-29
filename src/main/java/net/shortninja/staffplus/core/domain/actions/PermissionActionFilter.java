@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.actions;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
 public class PermissionActionFilter implements ActionFilter {

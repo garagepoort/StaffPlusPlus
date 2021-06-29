@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.authentication;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import org.bukkit.Bukkit;
 

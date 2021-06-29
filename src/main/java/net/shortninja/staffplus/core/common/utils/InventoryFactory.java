@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.common.utils;
 
 import be.garagepoort.mcioc.IocBean;
 import de.tr7zw.nbtapi.*;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

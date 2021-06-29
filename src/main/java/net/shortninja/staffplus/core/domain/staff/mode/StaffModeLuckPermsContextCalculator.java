@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.mode;
 
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextConsumer;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
 
 public class StaffModeLuckPermsContextCalculator implements ContextCalculator<Player> {

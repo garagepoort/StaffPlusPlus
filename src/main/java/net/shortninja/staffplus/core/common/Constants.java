@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 
 import java.util.UUID;
 
