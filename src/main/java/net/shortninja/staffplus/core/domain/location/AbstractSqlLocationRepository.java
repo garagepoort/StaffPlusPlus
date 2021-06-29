@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.location;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

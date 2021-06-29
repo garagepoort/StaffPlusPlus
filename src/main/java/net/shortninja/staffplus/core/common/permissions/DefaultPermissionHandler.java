@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.core.common.permissions;
 
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;

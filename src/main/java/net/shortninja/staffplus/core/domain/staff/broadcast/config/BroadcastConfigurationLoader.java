@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.broadcast.config;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 
 import java.util.Arrays;
 import java.util.List;

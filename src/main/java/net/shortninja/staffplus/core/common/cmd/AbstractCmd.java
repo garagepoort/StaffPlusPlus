@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.common.cmd;
 
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
-import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
 import net.shortninja.staffplusplus.session.SppPlayer;
