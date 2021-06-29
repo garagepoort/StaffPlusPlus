@@ -14,9 +14,6 @@
 # Il prefisso per tutti i messaggi non inerenti a uno specifico modulo.
 general-prefix: "&dStaff++ &8»"
 
-# Il prefisso per tutti i messaggi inerenti alle segnalazioni.
-reports-prefix: "&dSegnalazioni &8»"
-
 # Il prefisso per tutti i messaggi inerenti agli avvertimenti.
 warnings-prefix: "&dAvvertimenti &8»"
 
@@ -79,15 +76,26 @@ disabled: "disabilitato"
 # |                      Infrazioni                     | #
 # +------------------------------------------------------+ #
 ############################################################
-
-reported: "&bSegnalato &7%target% &bper &7%reason%&b."
-reported-staff: "&7%player% &bè stato segnalato da &7%target% &bper &7%reason%&b."
-reports-cleared: "&bSegnalazioni azzerate per &7%target%&b!"
-# Le linee sono separate da virgole.
-reports-list-start: "&7%longline%, &7%target% &bha &7%reports% &bsegnalazioni."
-reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
-# Le linee sono separate da virgole.
-reports-list-end: "&7%longline%"
+reports:
+    # Il prefisso per tutti i messaggi inerenti alle segnalazioni.
+    prefix: "&dSegnalazioni &8»"
+    reporter.report-created: "&bSegnalato &7%culprit% &bper &7%reason%&b."
+    reporter.report-player-created: "&bSegnalato &7%culprit% &bper &7%reason%&b."
+    reporter.report-rejected: "&7Your report has been rejected by &6%staff%&7."
+    reporter.report-resolved: "&7Your report has been resolved by &6%staff%&7."
+    reporter.report-accepted: "&7Your report has been accepted by &6%staff%&7."
+    reporter.view-reports-button: "&9View your reports!"
+    reporter.view-reports-button-tooltip: "Click to view your reports"
+    report-created-notification: "&7%culprit% &bè stato segnalato da &7%reporter% &bper &7%reason%&b."
+    report-player-created-notification: "&7%reporter% &bhas reported %culprit% for &7%reason%&b."
+    report-reopened-notification: "&b%staff% &7reopened report from &6%reporter%"
+    report-deleted-notification: "&b%staff% &7deleted report from &6%reporter%"
+    reports-cleared: "&bSegnalazioni azzerate per &7%culprit%&b!"
+    # Le linee sono separate da virgole.
+    reports-list-start: "&7%longline%, &7%target% &bha &7%reports% &bsegnalazioni."
+    reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+    # Le linee sono separate da virgole.
+    reports-list-end: "&7%longline%"
 
 warned: "&bAvvertito &7%target% &bper &7%reason%&b."
 warn: "&bSei stato avvertito per &7%reason%&b."

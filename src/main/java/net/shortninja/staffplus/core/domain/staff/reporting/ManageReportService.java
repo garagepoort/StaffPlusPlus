@@ -25,15 +25,13 @@ public class ManageReportService {
     private final Messages messages;
     private final ReportService reportService;
     private final ReportRepository reportRepository;
-    private final ReportNotifier reportNotifier;
 
-    public ManageReportService(PermissionHandler permission, Options options, ReportRepository reportRepository, Messages messages, ReportService reportService, ReportNotifier reportNotifier) {
+    public ManageReportService(PermissionHandler permission, Options options, ReportRepository reportRepository, Messages messages, ReportService reportService) {
         this.permission = permission;
         this.options = options;
         this.reportRepository = reportRepository;
         this.messages = messages;
         this.reportService = reportService;
-        this.reportNotifier = reportNotifier;
     }
 
     public void clearReports(SppPlayer player) {
@@ -54,7 +52,6 @@ public class ManageReportService {
             report.setStaffUuid(player.getUniqueId());
             report.setStaffName(player.getName());
             reportRepository.updateReport(report);
-            reportNotifier.sendAcceptedMessages(report.getStaffName(), report.getReporterName(), report.getReporterUuid());
             sendEvent(new AcceptReportEvent(report));
         });
 
@@ -71,8 +68,7 @@ public class ManageReportService {
             report.setStaffName(null);
             report.setReportStatus(ReportStatus.OPEN);
             reportRepository.updateReport(report);
-            reportNotifier.notifyReportReopen(player.getName(), report.getReporterName());
-            sendEvent(new ReopenReportEvent(report));
+            sendEvent(new ReopenReportEvent(report, player.getName()));
         });
     }
 
@@ -80,7 +76,6 @@ public class ManageReportService {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             Report report = reportService.getReport(closeReportRequest.getReportId());
             closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
-            reportNotifier.sendClosedMessages(report.getStaffName(), report.getReportStatus(), report.getReporterName(), report.getReporterUuid());
             sendEvent(closeReportRequest.getStatus() == ReportStatus.REJECTED ? new RejectReportEvent(report) : new ResolveReportEvent(report));
         });
     }
@@ -111,6 +106,6 @@ public class ManageReportService {
         }
         Report report = reportService.getReport(reportId);
         reportRepository.markReportDeleted(report);
-        reportNotifier.notifyStaffReportDeleted(player.getName(), report.getReporterName());
+        sendEvent(new DeleteReportEvent(report, player.getName()));
     }
 }

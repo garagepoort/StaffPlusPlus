@@ -43,17 +43,14 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
     private final PlayerManager playerManager;
     private final ReportRepository reportRepository;
     private final DelayedActionsRepository delayedActionsRepository;
-    private final ReportNotifier reportNotifier;
 
-    public ReportService(PermissionHandler permission, Options options, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository, ReportNotifier reportNotifier) {
+    public ReportService(PermissionHandler permission, Options options, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository) {
         this.permission = permission;
-
         this.options = options;
         this.reportRepository = reportRepository;
         this.messages = messages;
         this.playerManager = playerManager;
         this.delayedActionsRepository = delayedActionsRepository;
-        this.reportNotifier = reportNotifier;
     }
 
     public List<Report> getReports(SppPlayer player, int offset, int amount) {
@@ -98,9 +95,6 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
             int id = reportRepository.addReport(report);
             report.setId(id);
 
-            messages.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", report.getCulpritName()).replace("%reason%", report.getReason()), messages.prefixReports);
-            reportNotifier.sendCreatedMessages(report.getReporterName(), report.getCulpritName(), report.getReason());
-
             lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
         });
@@ -127,9 +121,6 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
 
             int id = reportRepository.addReport(report);
             report.setId(id);
-
-            messages.send(player, messages.reported.replace("%player%", report.getReporterName()).replace("%target%", "unknown").replace("%reason%", report.getReason()), messages.prefixReports);
-            reportNotifier.sendCreatedMessages(report.getReporterName(), report.getCulpritName(), report.getReason());
 
             lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
