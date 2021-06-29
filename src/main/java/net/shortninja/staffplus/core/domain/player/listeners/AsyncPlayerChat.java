@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.core.domain.chat.blacklist.BlacklistService;

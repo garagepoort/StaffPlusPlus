@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.common.utils;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 

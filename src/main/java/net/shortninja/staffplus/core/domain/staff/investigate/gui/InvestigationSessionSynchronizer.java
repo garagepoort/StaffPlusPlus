@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationConcludedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationPausedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationStartedBungeeEvent;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.investigate.InvestigationConcludedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationPausedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;

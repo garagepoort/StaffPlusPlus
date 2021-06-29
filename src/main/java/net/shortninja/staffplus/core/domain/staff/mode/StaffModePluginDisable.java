@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 
 @IocBean
 @IocMultiProvider(PluginDisable.class)

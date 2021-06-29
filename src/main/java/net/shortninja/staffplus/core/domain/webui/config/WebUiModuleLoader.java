@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.webui.config;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 
 @IocBean
 public class WebUiModuleLoader extends AbstractConfigLoader<WebUiConfiguration> {

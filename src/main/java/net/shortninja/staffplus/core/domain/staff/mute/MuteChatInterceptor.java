@@ -2,11 +2,11 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.application.config.Messages;
 
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
-import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import static net.shortninja.staffplus.core.domain.staff.mute.MuteMessageStringUtil.replaceMutePlaceholders;

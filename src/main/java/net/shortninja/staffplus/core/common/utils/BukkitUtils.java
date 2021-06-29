@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.common.utils;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

@@ -2,8 +2,7 @@ package net.shortninja.staffplus.core.application.metrics;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.common.utils.Metrics;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
 

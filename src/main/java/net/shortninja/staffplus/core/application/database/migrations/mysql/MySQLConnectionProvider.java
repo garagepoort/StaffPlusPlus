@@ -5,7 +5,7 @@ import be.garagepoort.mcsqlmigrations.DatabaseType;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 
 import javax.sql.DataSource;

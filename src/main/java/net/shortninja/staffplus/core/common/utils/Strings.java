@@ -32,16 +32,6 @@ public final class Strings {
         return collection;
     }
 
-    public static String prefix(String string, String prefix) {
-        StringBuilder builder = new StringBuilder();
-
-        for (String word : string.split(" ")) {
-            builder.append(prefix + word + " ");
-        }
-
-        return builder.toString().trim();
-    }
-
     public static String repeat(char c, int count) {
         if (count == 0) return "";
         StringBuilder builder = new StringBuilder();
