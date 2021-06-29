@@ -12,7 +12,7 @@ public class StaffChatMessageFormatMigrator implements ConfigMigrator {
     @Override
     public void migrate(List<ConfigurationFile> configs) {
         FileConfiguration config = getConfig(configs, "config");
-        FileConfiguration langConfig = getConfig(configs, "lang-" + config.getString("lang"));
+        FileConfiguration langConfig = getConfig(configs, config.getString("lang"));
 
         if(langConfig.contains("staff-chat")) {
             String messageFormat = langConfig.getString("staff-chat");

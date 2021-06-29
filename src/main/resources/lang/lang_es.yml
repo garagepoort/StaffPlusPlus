@@ -15,9 +15,6 @@
 general-prefix: "&dStaff++ &8»"
 
 
-# El prefijo para todos los mensajes relacionados con reportes.
-reports-prefix: "&dReportes &8»"
-
 # El prefijo para todos los mensajes relacionados con advertencias.
 warnings-prefix: "&dAdvertencias &8»"
 
@@ -79,16 +76,26 @@ disabled: "deshabilitado"
 # |                     Infracciones                     | #
 # +------------------------------------------------------+ #
 ############################################################
-
-reported: "&bHas reportado a &7%target%. &bRazón: &7%reason%&b."
-reported-staff: "&7%player% &bha sido reportado por &7%target%. &bRazón: &7%reason%&b."
-
-reports-cleared: "&bLos reportes de &7%target%&b han sido limpiados!"
-# Lineas están separadas por comas.
-reports-list-start: "&7%longline%, &7%target% &btiene &7%reports% &breportes."
-reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
-# Lineas están separadas por comas.
-reports-list-end: "&7%longline%"
+reports:
+    # El prefijo para todos los mensajes relacionados con reportes.
+    prefix: "&dReportes &8»"
+    reporter.report-created: "&bHas reportado a &7%culprit%. &bRazón: &7%reason%&b."
+    reporter.report-player-created: "&bHas reportado a &7%culprit%. &bRazón: &7%reason%&b."
+    reporter.report-rejected: "&7Your report has been rejected by &6%staff%&7."
+    reporter.report-resolved: "&7Your report has been resolved by &6%staff%&7."
+    reporter.report-accepted: "&7Your report has been accepted by &6%staff%&7."
+    reporter.view-reports-button: "&9View your reports!"
+    reporter.view-reports-button-tooltip: "Click to view your reports"
+    report-created-notification: "&7%culprit% &bha sido reportado por &7%reporter%. &bRazón: &7%reason%&b."
+    report-player-created-notification: "&7%reporter% &bhas reported %culprit% for &7%reason%&b."
+    report-reopened-notification: "&b%staff% &7reopened report from &6%reporter%"
+    report-deleted-notification: "&b%staff% &7deleted report from &6%reporter%"
+    reports-cleared: "&bLos reportes de &7%culprit%&b han sido limpiados!"
+    # Lineas están separadas por comas.
+    reports-list-start: "&7%longline%, &7%target% &btiene &7%reports% &breportes."
+    reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
+    # Lineas están separadas por comas.
+    reports-list-end: "&7%longline%"
 
 warned: "&bHas advertido a &7%target% &bRazón: &7%reason%&b."
 warn: "&bHas sido advertido por la razón: &7%reason%&b."

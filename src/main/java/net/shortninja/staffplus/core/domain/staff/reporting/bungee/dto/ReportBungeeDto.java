@@ -8,22 +8,22 @@ import net.shortninja.staffplusplus.reports.ReportStatus;
 
 import java.util.UUID;
 
-public class ReportBungee extends BungeeMessage {
+public class ReportBungeeDto extends BungeeMessage {
 
-    private int id;
-    private UUID culpritUuid;
-    private String culpritName;
-    private String reason;
-    private UUID reporterUuid;
-    private String reporterName;
-    private String staffName;
-    private UUID staffUuid;
-    private ReportStatus reportStatus;
-    private String closeReason;
-    private SppLocation sppLocation;
-    private String type;
+    private final int id;
+    private final UUID culpritUuid;
+    private final String culpritName;
+    private final String reason;
+    private final UUID reporterUuid;
+    private final String reporterName;
+    private final String staffName;
+    private final UUID staffUuid;
+    private final ReportStatus reportStatus;
+    private final String closeReason;
+    private final SppLocation sppLocation;
+    private final String type;
 
-    public ReportBungee(IReport report) {
+    public ReportBungeeDto(IReport report) {
         super(report.getServerName());
         this.id = report.getId();
         this.culpritUuid = report.getCulpritUuid();
