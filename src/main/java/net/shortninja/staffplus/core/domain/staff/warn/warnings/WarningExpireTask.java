@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @IocBean

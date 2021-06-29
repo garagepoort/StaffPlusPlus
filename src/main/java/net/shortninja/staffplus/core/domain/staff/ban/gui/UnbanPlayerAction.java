@@ -2,11 +2,11 @@ package net.shortninja.staffplus.core.domain.staff.ban.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;
-import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.ban.BanService;
-import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;

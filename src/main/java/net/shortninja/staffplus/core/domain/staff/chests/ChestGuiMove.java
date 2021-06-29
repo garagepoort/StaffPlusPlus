@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.chests;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

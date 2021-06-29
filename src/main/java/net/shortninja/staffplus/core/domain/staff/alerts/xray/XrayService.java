@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.xray;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplusplus.xray.XrayEvent;
 import org.bukkit.Material;

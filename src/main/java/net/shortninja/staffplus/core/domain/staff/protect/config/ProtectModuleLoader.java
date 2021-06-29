@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.protect.config;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 
 @IocBean

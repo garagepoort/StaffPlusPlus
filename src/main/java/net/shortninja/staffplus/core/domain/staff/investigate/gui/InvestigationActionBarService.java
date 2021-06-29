@@ -4,10 +4,10 @@ import be.garagepoort.mcioc.IocBean;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.config.Options;
-import net.shortninja.staffplus.core.session.PlayerSession;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

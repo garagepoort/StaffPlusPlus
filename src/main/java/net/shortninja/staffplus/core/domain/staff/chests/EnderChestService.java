@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.chests;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.InventoryFactory;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;

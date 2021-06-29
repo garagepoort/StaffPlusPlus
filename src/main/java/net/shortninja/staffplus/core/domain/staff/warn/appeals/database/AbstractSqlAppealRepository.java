@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -21,11 +22,12 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
 
     private final PlayerManager playerManager;
     private final SqlConnectionProvider sqlConnectionProvider;
-    private boolean warningSyncEnabled;
+    private final boolean warningSyncEnabled;
 
-    public AbstractSqlAppealRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider) {
+    public AbstractSqlAppealRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.playerManager = playerManager;
+        this.warningSyncEnabled = options.serverSyncConfiguration.isWarningSyncEnabled();
     }
 
     public Connection getConnection() {

@@ -2,11 +2,11 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.Options;
 
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
-import net.shortninja.staffplus.core.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import net.shortninja.staffplusplus.altdetect.IAltDetectResult;

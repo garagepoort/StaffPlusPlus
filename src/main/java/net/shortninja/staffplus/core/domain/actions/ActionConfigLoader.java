@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.actions;
 
 import be.garagepoort.mcioc.configuration.IConfigTransformer;
-import net.shortninja.staffplus.core.common.config.ConfigurationUtil;
+import net.shortninja.staffplus.core.application.config.ConfigurationUtil;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.jetbrains.annotations.NotNull;
 
