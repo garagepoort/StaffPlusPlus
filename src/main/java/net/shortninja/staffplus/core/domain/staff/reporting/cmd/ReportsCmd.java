@@ -104,7 +104,7 @@ public class ReportsCmd extends AbstractCmd {
 
     private void clearReports(CommandSender sender, SppPlayer player) {
         manageReportService.clearReports(player);
-        messages.send(sender, messages.reportsCleared.replace("%target%", player.getUsername()), messages.prefixReports);
+        messages.send(sender, messages.reportsCleared.replace("%culprit%", player.getUsername()), messages.prefixReports);
     }
 
     private void sendHelp(CommandSender sender) {

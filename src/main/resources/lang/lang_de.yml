@@ -14,9 +14,6 @@
 # Allgemeines Prefix für alle Befehle (abgesehen von Befehlen die einen eigenen Prefix haben!)
 general-prefix: "&dStaff++ &8»"
 
-# Prefix für alle Nachrichten bezüglich reports.
-reports-prefix: "&dReports &8»"
-
 # Prefix für alle Nachrichten bezüglich Verwarnungen.
 warnings-prefix: "&dVerwarnungen &8»"
 
@@ -80,15 +77,27 @@ disabled: "deaktiviert"
 # |                      Verwarnungen                    | #
 # +------------------------------------------------------+ #
 ############################################################
+reports:
+    # Prefix für alle Nachrichten bezüglich reports.
+    prefix: "&dReports &8»"
+    reporter.report-created: "&bDu hast &7%culprit% &baus dem Grund &7%reason%&b reportet."
+    reporter.report-player-created: "&bDu hast &7%culprit% &baus dem Grund &7%reason%&b reportet."
+    reporter.report-rejected: "&7Your report has been rejected by &6%staff%&7."
+    reporter.report-resolved: "&7Your report has been resolved by &6%staff%&7."
+    reporter.report-accepted: "&7Your report has been accepted by &6%staff%&7."
+    reporter.view-reports-button: "&9View your reports!"
+    reporter.view-reports-button-tooltip: "Click to view your reports"
+    report-created-notification: "&7%culprit% &breportet &7%reporter% &bfür &7%reason%&b."
+    report-player-created-notification: "&7%reporter% &bhas reported %culprit% for &7%reason%&b."
+    report-reopened-notification: "&b%staff% &7reopened report from &6%reporter%"
+    report-deleted-notification: "&b%staff% &7deleted report from &6%reporter%"
+    reports-cleared: "&bDu hast alle Reports von &7%culprit%&b geöscht."
 
-reported: "&bDu hast &7%target% &baus dem Grund &7%reason%&b reportet."
-reported-staff: "&7%player% &breportet &7%target% &bfür &7%reason%&b."
-reports-cleared: "&bDu hast alle Reports von &7%target%&b geöscht."
-# Linien werden durch Kommas getrennt
-reports-list-start: "&7%longline%, &7%target% &bhat &7%reports% &breports."
-reports-list-entry: "&b%count%: &7%reason%"
-# Linien werden durch Kommas getrennt
-reports-list-end: "&7%longline%"
+    # Linien werden durch Kommas getrennt
+    reports-list-start: "&7%longline%, &7%target% &bhat &7%reports% &breports."
+    reports-list-entry: "&b%count%: &7%reason%"
+    # Linien werden durch Kommas getrennt
+    reports-list-end: "&7%longline%"
 
 warned: "&bDu hast &7%target% &bverwarnt mit dem Grund: &7%reason%&b."
 warn: "&bDu wurdest gewarnt für &7%reason%&b."

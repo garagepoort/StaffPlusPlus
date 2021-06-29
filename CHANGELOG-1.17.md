@@ -7,6 +7,7 @@
 - Warnings GUI now shows the player who was warned
 - New permission `staff.warnings.notifications`, player with this permission will be notified of other players getting warned.
 - Added /altcheck command.
+- New and improved report messages support.
 
 # V1.17.4
 

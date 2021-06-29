@@ -30,6 +30,7 @@ public class ConfigurationFile {
     private String getConfigId(String path) {
         return path.replace("/", "-")
             .replace(".yml", "")
+            .replace("lang-", "")
             .replace("configuration-", "");
     }
 }
