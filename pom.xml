@@ -259,10 +259,14 @@
                                 </filter>
                             </filters>
                             <relocations>
-<!--                                <relocation>-->
-<!--                                    <pattern>be.garagepoort.mcioc.</pattern>-->
-<!--                                    <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcioc.</shadedPattern>-->
-<!--                                </relocation>-->
+                                <relocation>
+                                    <pattern>be.garagepoort.mcioc.</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcioc.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>de.tr7zw.nbtapi.</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.core.de.tr7zw.nbtapi.</shadedPattern>
+                                </relocation>
                                 <relocation>
                                     <pattern>be.garagepoort.mcsqlmigrations.</pattern>
                                     <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcsqlmigrations.</shadedPattern>
