@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.gui;
 
-import net.shortninja.staffplus.core.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 

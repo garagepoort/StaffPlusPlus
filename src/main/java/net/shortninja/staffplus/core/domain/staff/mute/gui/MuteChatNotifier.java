@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplusplus.mute.IMute;
 import net.shortninja.staffplusplus.mute.MuteEvent;
 import net.shortninja.staffplusplus.mute.UnmuteEvent;

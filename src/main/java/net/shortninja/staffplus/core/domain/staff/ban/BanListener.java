@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.ban;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.application.config.Messages;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

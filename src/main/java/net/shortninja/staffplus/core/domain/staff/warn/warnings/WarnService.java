@@ -2,10 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.config.Messages;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.utils.PermissionHandler;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;

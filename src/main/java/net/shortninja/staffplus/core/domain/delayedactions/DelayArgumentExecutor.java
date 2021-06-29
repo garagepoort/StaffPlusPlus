@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.delayedactions;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
-import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
 import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;

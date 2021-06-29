@@ -6,7 +6,7 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.common.IProtocolService;
-import net.shortninja.staffplus.core.common.config.Messages;
+import net.shortninja.staffplus.core.application.config.Messages;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.defaults.BukkitCommand;

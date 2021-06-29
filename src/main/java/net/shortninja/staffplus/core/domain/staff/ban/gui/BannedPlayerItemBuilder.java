@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.common.config.Options;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.ban.Ban;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionGuiProvider;
