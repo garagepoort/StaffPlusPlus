@@ -42,4 +42,9 @@ public class TraceChatInterceptor implements ChatInterceptor {
         }
         return false;
     }
+
+    @Override
+    public int getPriority() {
+        return 8;
+    }
 }
