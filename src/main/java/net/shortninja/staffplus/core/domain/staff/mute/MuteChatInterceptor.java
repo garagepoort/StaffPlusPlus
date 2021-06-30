@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.mute;
+ package net.shortninja.staffplus.core.domain.staff.mute;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -36,5 +36,10 @@ public class MuteChatInterceptor implements ChatInterceptor {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int getPriority() {
+        return 3;
     }
 }

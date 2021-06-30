@@ -34,4 +34,9 @@ public class GeneralChatInterceptor implements ChatInterceptor {
 
         return false;
     }
+
+    @Override
+    public int getPriority() {
+        return 5;
+    }
 }

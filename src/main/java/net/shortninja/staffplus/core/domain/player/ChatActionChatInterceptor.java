@@ -34,4 +34,9 @@ public class ChatActionChatInterceptor implements ChatInterceptor {
         }
         return false;
     }
+
+    @Override
+    public int getPriority() {
+        return 1;
+    }
 }

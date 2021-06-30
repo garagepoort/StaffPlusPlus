@@ -41,4 +41,9 @@ public class VanishChatInterceptor implements ChatInterceptor {
         }
         return false;
     }
+
+    @Override
+    public int getPriority() {
+        return 4;
+    }
 }
