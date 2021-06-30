@@ -18,6 +18,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ public class AsyncPlayerChat implements Listener {
 
     public AsyncPlayerChat(Options options, @IocMulti(ChatInterceptor.class) List<ChatInterceptor> chatInterceptors, BlacklistService blacklistService, TraceService traceService, PlayerManager playerManager) {
         this.options = options;
-        this.chatInterceptors = chatInterceptors;
+        this.chatInterceptors = chatInterceptors.stream().sorted(Comparator.comparingInt(ChatInterceptor::getPriority)).collect(Collectors.toList());
         this.blacklistService = blacklistService;
         this.traceService = traceService;
         this.playerManager = playerManager;
