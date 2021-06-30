@@ -11,4 +11,6 @@ public interface ChatInterceptor {
      */
     boolean intercept(AsyncPlayerChatEvent event);
 
+    int getPriority();
+
 }

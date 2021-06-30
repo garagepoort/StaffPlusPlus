@@ -34,4 +34,9 @@ public class PhraseDetectionChatInterceptor implements ChatInterceptor {
         }
         return false;
     }
+
+    @Override
+    public int getPriority() {
+        return 7;
+    }
 }
