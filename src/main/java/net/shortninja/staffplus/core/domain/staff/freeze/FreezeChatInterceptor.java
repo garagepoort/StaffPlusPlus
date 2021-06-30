@@ -32,4 +32,9 @@ public class FreezeChatInterceptor implements ChatInterceptor {
         }
         return false;
     }
+
+    @Override
+    public int getPriority() {
+        return 2;
+    }
 }
