@@ -41,4 +41,9 @@ public class StaffChatChatInterceptor implements ChatInterceptor {
         }
         return false;
     }
+
+    @Override
+    public int getPriority() {
+        return 6;
+    }
 }

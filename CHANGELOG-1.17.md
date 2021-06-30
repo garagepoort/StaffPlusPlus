@@ -9,6 +9,9 @@
 - Added /altcheck command.
 - New and improved report messages support.
 
+### bugfixes
+- Mute was not enforced when chatting it the staffchat channels
+
 # V1.17.4
 
 ### Features
