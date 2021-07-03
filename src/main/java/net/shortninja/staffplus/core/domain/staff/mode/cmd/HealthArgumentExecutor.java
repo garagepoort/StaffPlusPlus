@@ -42,7 +42,7 @@ public class HealthArgumentExecutor implements ArgumentExecutor {
     }
 
     @Override
-    public List<String> complete(CommandSender sender, String currentArg) {
+    public List<String> complete(String currentArg) {
         return Arrays.asList("-H", "-H50", "-H25");
     }
 }
