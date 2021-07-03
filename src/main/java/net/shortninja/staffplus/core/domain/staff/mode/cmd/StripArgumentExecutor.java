@@ -39,7 +39,7 @@ public class StripArgumentExecutor implements ArgumentExecutor {
     }
 
     @Override
-    public List<String> complete(CommandSender sender, String currentArg) {
+    public List<String> complete(String currentArg) {
         return Collections.singletonList(getType().getPrefix());
     }
 }

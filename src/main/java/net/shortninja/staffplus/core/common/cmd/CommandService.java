@@ -14,9 +14,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
-import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.DELAY;
-
 @IocBean
 public class CommandService {
 
@@ -34,13 +31,8 @@ public class CommandService {
         this.argumentProcessor = argumentProcessor;
     }
 
-    public void processArguments(CommandSender sender, String[] args, String playerName, List<ArgumentType> executionSppArguments, int minimumArguments) {
-        List<String> sppArguments = getSppArguments(args, minimumArguments);
-        argumentProcessor.parseArguments(sender, playerName, sppArguments, executionSppArguments);
-    }
-
-    private List<String> getSppArguments(String[] args, int minimumArguments) {
-        return Arrays.asList(Arrays.copyOfRange(args, minimumArguments, args.length));
+    public void processArguments(CommandSender sender, String[] args, String playerName, List<ArgumentType> executionSppArguments) {
+        argumentProcessor.parseArguments(sender, playerName, args, executionSppArguments);
     }
 
     public void validateAuthentication(boolean authenticate, CommandSender sender) {
@@ -69,14 +61,12 @@ public class CommandService {
         delayArgumentExecutor.execute(sender, playerName, delayedCommand);
     }
 
-    public List<String> getSppArgumentsSuggestions(CommandSender sender, String[] args, List<ArgumentType> preExecutionSppArguments, List<ArgumentType> postExecutionSppArguments, boolean isDelayable) {
-        List<ArgumentType> validArguments = Stream.concat(preExecutionSppArguments.stream(), postExecutionSppArguments.stream())
-            .collect(toList());
-
-        List<String> suggestions = new ArrayList<>(argumentProcessor.getArgumentsSuggestions(sender, args[args.length - 1], validArguments));
-        if (isDelayable) {
-            suggestions.add(DELAY.getPrefix());
-        }
-        return suggestions;
+    public List<String> getSppArgumentsTabCompletion(List<ArgumentType> validTypes, String[] args) {
+        return validTypes.stream().filter(t -> Arrays.stream(args).noneMatch(a -> a.startsWith(t.getPrefix())))
+            .map(ArgumentType::getPrefix)
+            .collect(Collectors.toList());
+    }
+    public List<String> getSppArgumentTabCompletion(String currentArg, ArgumentType argumentType) {
+        return argumentProcessor.getTabCompletion(currentArg, argumentType);
     }
 }
