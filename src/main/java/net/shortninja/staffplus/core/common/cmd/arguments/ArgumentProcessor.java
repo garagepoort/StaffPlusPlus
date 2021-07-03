@@ -5,6 +5,7 @@ import be.garagepoort.mcioc.IocMulti;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -19,15 +20,15 @@ public class ArgumentProcessor {
         this.argumentExecutors = argumentExecutors;
     }
 
-    public void parseArguments(CommandSender commandSender, String playerName, List<String> options, List<ArgumentType> validTypes) {
+    public void parseArguments(CommandSender commandSender, String playerName, String[] options, List<ArgumentType> validTypes) {
         List<ArgumentExecutor> validExecutors = argumentExecutors.stream()
-                .filter(a -> validTypes.contains(a.getType()))
-                .collect(Collectors.toList());
+            .filter(a -> validTypes.contains(a.getType()))
+            .collect(Collectors.toList());
 
         for (String option : options) {
             Optional<ArgumentExecutor> argumentExecutor = validExecutors.stream()
-                    .filter(a -> option.startsWith(a.getType().getPrefix()))
-                    .findFirst();
+                .filter(a -> option.startsWith(a.getType().getPrefix()))
+                .findFirst();
 
             if (argumentExecutor.isPresent()) {
                 String value = option.replace(argumentExecutor.get().getType().getPrefix(), "");
@@ -37,13 +38,11 @@ public class ArgumentProcessor {
         }
     }
 
-    public List<String> getArgumentsSuggestions(CommandSender commandSender, String currentArg, List<ArgumentType> validTypes) {
-        List<ArgumentExecutor> validExecutors = argumentExecutors.stream()
-                .filter(a -> validTypes.contains(a.getType()))
-                .filter(a -> currentArg.length() <= 1 || a.getType().getPrefix().startsWith(currentArg))
-                .collect(Collectors.toList());
-
-        return validExecutors.stream().flatMap(e -> e.complete(commandSender, currentArg).stream()).collect(Collectors.toList());
+    public List<String> getTabCompletion(String currentArg, ArgumentType argumentType) {
+        Optional<ArgumentExecutor> argumentExecutor = argumentExecutors.stream().filter(a -> a.getType() == argumentType).findFirst();
+        if(argumentExecutor.isPresent()) {
+            return argumentExecutor.get().complete(currentArg);
+        }
+        return Collections.emptyList();
     }
-
 }

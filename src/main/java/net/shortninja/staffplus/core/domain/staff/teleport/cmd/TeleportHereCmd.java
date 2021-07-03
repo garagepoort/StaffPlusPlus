@@ -19,6 +19,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -71,7 +72,7 @@ public class TeleportHereCmd extends AbstractCmd {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+    public List<String> autoComplete(CommandSender sender, String[] args, String[] sppArgs) throws IllegalArgumentException {
         if (args.length == 1) {
             List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
             return onlinePlayers.stream()
@@ -79,6 +80,6 @@ public class TeleportHereCmd extends AbstractCmd {
                 .collect(Collectors.toList());
         }
 
-        return getSppArgumentsSuggestions(sender, args);
+        return Collections.emptyList();
     }
 }
