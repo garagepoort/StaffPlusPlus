@@ -12,6 +12,7 @@
 
 ### bugfixes
 - Mute was not enforced when chatting it the staffchat channels
+- preventing entity damage while in staff mode was broken. 
 
 # V1.17.4
 
