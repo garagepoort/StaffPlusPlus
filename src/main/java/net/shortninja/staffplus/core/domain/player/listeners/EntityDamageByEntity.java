@@ -34,7 +34,7 @@ public class EntityDamageByEntity implements Listener {
     public void onDamage(EntityDamageByEntityEvent event) {
         Entity damaged = event.getEntity();
 
-        Optional<Player> damager = getDamager(event.getEntity());
+        Optional<Player> damager = getDamager(event.getDamager());
         if (damager.isPresent() && damager.get().isOnline()) {
             UUID playerUuid = damager.get().getUniqueId();
             PlayerSession session = sessionManager.get(playerUuid);
