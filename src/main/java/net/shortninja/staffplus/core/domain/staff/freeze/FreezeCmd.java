@@ -16,10 +16,7 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
@@ -100,7 +97,7 @@ public class FreezeCmd extends AbstractCmd {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+    public List<String> autoComplete(CommandSender sender, String[] args, String[] sppArgs) throws IllegalArgumentException {
 
         if (args.length == 1) {
             List<String> suggestions = new ArrayList<>();
@@ -122,6 +119,6 @@ public class FreezeCmd extends AbstractCmd {
             }
         }
 
-        return getSppArgumentsSuggestions(sender, args);
+        return Collections.emptyList();
     }
 }
