@@ -1,16 +1,17 @@
 package net.shortninja.staffplus.core.common.cmd;
 
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
@@ -40,25 +41,31 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         try {
             commandService.validateAuthentication(isAuthenticationRequired(), sender);
             commandService.validatePermissions(sender, permissions);
-            validateMinimumArguments(sender, args);
+            String[] sppArgs = Arrays.stream(args).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).anyMatch(a::startsWith)).toArray(String[]::new);
+            String[] filteredArgs = Arrays.stream(args).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).noneMatch(a::startsWith)).toArray(String[]::new);
+
+            validateMinimumArguments(sender, filteredArgs);
 
             PlayerRetrievalStrategy strategy = getPlayerRetrievalStrategy();
-            Optional<SppPlayer> player = commandService.retrievePlayer(args, getPlayerName(sender, args).orElse(null), strategy, isDelayable());
+            String playerName = getPlayerName(sender, filteredArgs).orElse(null);
+
+            Optional<SppPlayer> player = commandService.retrievePlayer(sppArgs, playerName, strategy, isDelayable());
 
             if (player.isPresent()) {
                 if (player.get().isOnline() && canBypass(player.get().getPlayer())) {
                     throw new BusinessException(messages.bypassed, messages.prefixGeneral);
                 }
-                if (commandService.shouldDelay(args, isDelayable())) {
-                    commandService.delayCommand(sender, alias, args, player.get().getUsername());
+                if (commandService.shouldDelay(sppArgs, isDelayable())) {
+                    commandService.delayCommand(sender, alias, filteredArgs, player.get().getUsername());
                     return true;
                 }
             }
 
             validateExecution(player.orElse(null));
-            commandService.processArguments(sender, args, getPlayerName(sender, args).orElse(null), getPreExecutionSppArguments(), getMinimumArguments(sender, args));
-            boolean result = executeCmd(sender, alias, args, player.orElse(null));
-            commandService.processArguments(sender, args, getPlayerName(sender, args).orElse(null), getPostExecutionSppArguments(), getMinimumArguments(sender, args));
+
+            commandService.processArguments(sender, sppArgs, playerName, getPreExecutionSppArguments());
+            boolean result = executeCmd(sender, alias, filteredArgs, player.orElse(null));
+            commandService.processArguments(sender, sppArgs, playerName, getPostExecutionSppArguments());
             return result;
         } catch (BusinessException e) {
             messages.send(sender, e.getMessage(), e.getPrefix());
@@ -71,6 +78,13 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         this.permissions.add(permission);
     }
 
+    private List<ArgumentType> getSppArguments() {
+        List<ArgumentType> collect = Stream.of(getPreExecutionSppArguments(), getPostExecutionSppArguments()).flatMap(Collection::stream).collect(Collectors.toList());
+        if(isDelayable()) {
+            collect.add(ArgumentType.DELAY);
+        }
+        return collect;
+    }
     /**
      * If your command requires extra custom validation apart from the one provided by the AbstractCmd class,
      * you can add them by overriding this method. Validation will be executed right before preSppArgument execution.
@@ -93,10 +107,6 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
      */
     protected List<ArgumentType> getPostExecutionSppArguments() {
         return Collections.emptyList();
-    }
-
-    protected List<String> getSppArgumentsSuggestions(CommandSender sender, String[] args) {
-        return commandService.getSppArgumentsSuggestions(sender, args, getPreExecutionSppArguments(), getPostExecutionSppArguments(), isDelayable());
     }
 
     /**
@@ -159,11 +169,29 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         }
     }
 
-    protected List<String> getSppArguments(CommandSender sender, String[] args) {
-        return Arrays.asList(Arrays.copyOfRange(args, getMinimumArguments(sender, args), args.length));
-    }
-
     protected void setPermissions(Set<String> permissions) {
         this.permissions = permissions;
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        String[] filteredArgs = Arrays.stream(args).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).noneMatch(a::startsWith)).toArray(String[]::new);
+        String[] sppArgs = Arrays.stream(args).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).anyMatch(a::startsWith)).toArray(String[]::new);
+
+        String currentArg = args.length > 0 ? args[args.length - 1] : "";
+        Optional<ArgumentType> matchedArgType = getSppArguments().stream().filter(a -> currentArg.startsWith(a.getPrefix())).findFirst();
+        if(matchedArgType.isPresent()) {
+            return commandService.getSppArgumentTabCompletion(currentArg, matchedArgType.get());
+        }
+
+        List<String> tabResults = autoComplete(sender, filteredArgs, sppArgs);
+        if(tabResults.isEmpty()) {
+            return commandService.getSppArgumentsTabCompletion(getSppArguments(), args);
+        }
+        return tabResults;
+    }
+
+    protected List<String> autoComplete(CommandSender sender, String[] args, String[] sppArgs) throws IllegalArgumentException {
+        return Collections.emptyList();
     }
 }

@@ -41,7 +41,7 @@ public class TeleportArgumentExecutor implements ArgumentExecutor {
     }
 
     @Override
-    public List<String> complete(CommandSender sender, String currentArg) {
+    public List<String> complete(String currentArg) {
         List<String> suggestions = new ArrayList<>();
         options.locations.forEach((k,v) -> {
             suggestions.add(getType().getPrefix() + k);

@@ -17,10 +17,7 @@ import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
@@ -83,7 +80,7 @@ public class TeleportToLocationCmd extends AbstractCmd {
     }
 
     @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+    public List<String> autoComplete(CommandSender sender, String[] args, String[] sppArgs) throws IllegalArgumentException {
         List<String> suggestions = new ArrayList<>();
 
         if (args.length == 1) {
@@ -100,6 +97,6 @@ public class TeleportToLocationCmd extends AbstractCmd {
                 .collect(Collectors.toList());
         }
 
-        return getSppArgumentsSuggestions(sender, args);
+        return Collections.emptyList();
     }
 }
