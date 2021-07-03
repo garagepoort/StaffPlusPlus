@@ -8,6 +8,7 @@
 - New permission `staff.warnings.notifications`, player with this permission will be notified of other players getting warned.
 - Added /altcheck command.
 - New and improved report messages support.
+- tempmute command can now be delayed
 
 ### bugfixes
 - Mute was not enforced when chatting it the staffchat channels
