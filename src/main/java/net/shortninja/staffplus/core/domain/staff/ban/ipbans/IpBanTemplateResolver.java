@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.ban.ipbans;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
 
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class IpBanTemplateResolver {
         this.messages = messages;
     }
 
-    public String resolveTemplate(String providedTemplate) {
+    public String resolveTemplate(String providedTemplate, BanType banType) {
         if (providedTemplate != null) {
             return getTemplate(providedTemplate);
         }
@@ -27,7 +28,7 @@ public class IpBanTemplateResolver {
             return getTemplate(defaultTemplate.get());
         }
 
-        return messages.ipbanPermabannedKick;
+        return banType == BanType.PERM_BAN ? messages.ipbanPermabannedKick : messages.ipbanTempbannedKick;
     }
 
     private String getTemplate(String providedTemplate) {
