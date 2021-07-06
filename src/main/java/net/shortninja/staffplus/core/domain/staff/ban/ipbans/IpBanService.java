@@ -78,10 +78,14 @@ public class IpBanService {
     }
 
     public void unbanIp(String ipAddress, boolean silent) {
-        IpBan ipBan = ipBanRepository.getBannedRule(ipAddress).orElseThrow(() -> new BusinessException("No ipban found with rule: " + ipAddress, messages.prefixBans));
+        IpBan ipBan = ipBanRepository.getActiveBannedRule(ipAddress).orElseThrow(() -> new BusinessException("No ipban found with rule: " + ipAddress, messages.prefixBans));
         ipBan.setSilentUnban(silent);
 
         ipBanRepository.deleteBan(ipBan);
         sendEvent(new IpUnbanEvent(ipBan));
+    }
+
+    public List<IpBan> getAllActiveBans() {
+        return ipBanRepository.getBannedIps();
     }
 }
