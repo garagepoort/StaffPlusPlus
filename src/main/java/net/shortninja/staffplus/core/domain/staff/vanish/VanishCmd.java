@@ -17,10 +17,7 @@ import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,7 +44,7 @@ public class VanishCmd extends AbstractCmd {
 
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
 
         VanishType vanishType = VanishType.valueOf(args[0].toUpperCase());
 

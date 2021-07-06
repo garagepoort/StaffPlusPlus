@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
@@ -31,7 +32,7 @@ public class StaffFlyCmd extends AbstractCmd {
     }
 
     @Override
-    public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+    public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
         if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }

@@ -42,7 +42,7 @@ public class TeleportToLocationCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
         String locationName = args[1];
 
         teleportService.teleportPlayerToLocation(sender, targetPlayer.getPlayer(), locationName);

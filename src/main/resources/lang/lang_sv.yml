@@ -233,6 +233,19 @@ ban-permabanned-kick: "[Banned] You have been permanently banned from this serve
 
 ############################################################
 # +------------------------------------------------------+ #
+# |                     Ip-banning                          | #
+# +------------------------------------------------------+ #
+############################################################
+ipbans:
+    prefix: "&dBans &8»"
+    permabanned: "&6%issuer% has banned ip-address %ip% from the server"
+    tempbanned: "&6%issuer% has banned ip-address %ip% from the server for %duration%"
+    unbanned: "&6%issuer% has unbanned ip-address %ip%  from the server"
+    tempbanned-kick: "[Banned] Your ip-address has been temporarily banned from this server"
+    permabanned-kick: "[Banned] Your ip-address has been permanently banned from this server"
+
+############################################################
+# +------------------------------------------------------+ #
 # |                     KICKING                          | #
 # +------------------------------------------------------+ #
 ############################################################

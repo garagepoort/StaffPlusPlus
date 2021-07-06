@@ -4,14 +4,15 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.AltDetectInfo;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.AltDetector;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.IpDetector;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.UsernameDetector;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
-import net.shortninja.staffplus.core.domain.staff.altaccountdetect.database.ipcheck.PlayerIpRepository;
-import net.shortninja.staffplus.core.domain.staff.altaccountdetect.database.whitelist.AltDetectWhitelistRepository;
+import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
+import net.shortninja.staffplus.core.domain.staff.altaccountdetect.database.AltDetectWhitelistRepository;
 import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import net.shortninja.staffplusplus.altdetect.AltDetectResultType;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -111,8 +112,7 @@ public class AltDetectionService {
     private String getPlayerIp(SppPlayer sppPlayer) {
         String playerIp;
         if (sppPlayer.isOnline()) {
-            playerIp = sppPlayer.getPlayer().getAddress().getAddress().getHostAddress().replace("/", "");
-            playerIpRepository.save(sppPlayer.getId(), playerIp);
+            playerIp = BukkitUtils.getIpFromPlayer(sppPlayer.getPlayer());
         } else {
             playerIp = playerIpRepository.getLastIp(sppPlayer.getId()).orElse(null);
         }

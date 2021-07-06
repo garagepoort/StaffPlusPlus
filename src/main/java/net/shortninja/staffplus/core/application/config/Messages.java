@@ -173,6 +173,13 @@ public class Messages {
     public final String permanentBannedKick;
     public final String tempBannedKick;
 
+    public final String prefixBans;
+    public final String ipbanPermabanned;
+    public final String ipbanTempbanned;
+    public final String ipbanUnbanned;
+    public final String ipbanTempbannedKick;
+    public final String ipbanPermabannedKick;
+
     public final String muteExpired;
     public final String unmuted;
     public final String permanentMuted;
@@ -347,6 +354,13 @@ public class Messages {
         tempBanned = config.getString("ban-tempbanned", "");
         permanentBannedKick = config.getString("ban-permabanned-kick", "");
         tempBannedKick = config.getString("ban-tempbanned-kick", "");
+
+        prefixBans = config.getString("ipbans.prefix", "&dBans &8»");
+        ipbanPermabanned = config.getString("ipbans.permabanned", "");
+        ipbanTempbanned = config.getString("ipbans.tempbanned", "");
+        ipbanUnbanned = config.getString("ipbans.unbanned", "");
+        ipbanTempbannedKick = config.getString("ipbans.tempbanned-kick", "");
+        ipbanPermabannedKick = config.getString("ipbans.permabanned-kick", "");
 
         muteExpired = config.getString("mute-expired", "");
         unmuted = config.getString("mute-unmuted", "");

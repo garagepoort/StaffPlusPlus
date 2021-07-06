@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.Optional;
 
 @IocBean(conditionalOnProperty = "reports-module.enabled=true")
@@ -31,7 +32,7 @@ public class TeleportToReportLocationCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         int reportId = Integer.parseInt(args[0]);
         reportService.goToReportLocation((Player) sender, reportId);
         return true;
