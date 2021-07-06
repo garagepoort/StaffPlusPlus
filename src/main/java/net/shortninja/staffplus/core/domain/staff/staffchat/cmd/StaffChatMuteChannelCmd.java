@@ -12,6 +12,7 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class StaffChatMuteChannelCmd extends AbstractCmd {
@@ -30,7 +31,7 @@ public class StaffChatMuteChannelCmd extends AbstractCmd {
 
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         PlayerSession session = sessionManager.get(((Player) sender).getUniqueId());
 
         if (session.isStaffChatMuted(channelConfiguration.getName())) {

@@ -13,6 +13,7 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import org.bukkit.command.CommandSender;
 
+import java.util.Map;
 import java.util.Optional;
 
 @IocBean
@@ -29,7 +30,7 @@ public class CpsCmd extends AbstractCmd {
     }
 
     @Override
-    public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+    public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
         gadgetHandler.onCps(sender, targetPlayer.getPlayer());
         return true;
     }

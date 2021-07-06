@@ -15,6 +15,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @IocBean
@@ -29,7 +30,7 @@ public class StaffPlusCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         if (args[0].equalsIgnoreCase("reload")) {
             StaffPlus.get().reload();
             messages.send(sender, "Configuration has been reloaded", messages.prefixGeneral);

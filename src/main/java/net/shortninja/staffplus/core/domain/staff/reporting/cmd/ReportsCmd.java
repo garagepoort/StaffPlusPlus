@@ -18,10 +18,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplusplus.reports.IReport;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @IocBean(conditionalOnProperty = "reports-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
@@ -46,7 +43,7 @@ public class ReportsCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         String argument = args[0];
 
         if (argument.equalsIgnoreCase("get")) {
