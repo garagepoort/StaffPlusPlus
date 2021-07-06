@@ -20,6 +20,10 @@ public class IpBanConfiguration {
     public String commandIpTempBan;
     @ConfigProperty("commands:commands.ipban.unban")
     public String commandIpUnban;
+    @ConfigProperty("commands:commands.ipban.bancheck")
+    public String commandIpBanCheck;
+    @ConfigProperty("commands:commands.ipban.ipbans")
+    public String commandIpBans;
 
     @ConfigProperty("permissions:permissions.ipban.ban")
     public String permissionIpBan;
@@ -29,6 +33,8 @@ public class IpBanConfiguration {
     public String permissionUnban;
     @ConfigProperty("permissions:permissions.ipban.ban-view")
     public String permissionIpBanView;
+    @ConfigProperty("permissions:permissions.ipban.ban-check")
+    public String permissionIpBanCheck;
     @ConfigProperty("permissions:permissions.ipban.ban-silent")
     public String permissionBanSilent;
     @ConfigProperty("permissions:permissions.ipban.ban-template-overwrite")

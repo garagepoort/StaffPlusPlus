@@ -60,7 +60,11 @@ public class IpTempBanCmd extends AbstractCmd {
 
         String ipAddress = ipArg;
         String template = ipBanCmdUtil.retrieveTemplate(sender, optionalParameters);
-        ipBanCmdUtil.sendBanChoiceMessage((Player) sender, ipAddress, p -> banService.tempBanIp(sender, ipAddress, template, getDuration(timeUnit, amount), optionalParameters.containsKey("-silent")));
+        if (sender instanceof Player) {
+            ipBanCmdUtil.sendBanChoiceMessage((Player) sender, ipAddress, p -> banService.tempBanIp(sender, ipAddress, template, getDuration(timeUnit, amount), optionalParameters.containsKey("-silent")));
+        } else {
+            banService.tempBanIp(sender, ipAddress, template, getDuration(timeUnit, amount), optionalParameters.containsKey("-silent"));
+        }
         return true;
     }
 

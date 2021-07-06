@@ -11,7 +11,7 @@ public interface IpBanRepository {
 
     Long saveBan(IpBan ipBan);
 
-    Optional<IpBan> getBannedRule(String ipAddress);
+    Optional<IpBan> getActiveBannedRule(String ipAddress);
 
     void deleteBan(IpBan ipBan);
 }

@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpService;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
 import net.shortninja.staffplusplus.ban.IIpBan;
 import net.shortninja.staffplusplus.ban.IpBanEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -48,7 +49,8 @@ public class IpBanKickPlayerListener implements Listener {
                     .map(Optional::get)
                     .collect(Collectors.toList());
 
-                String template = ipBanTemplateResolver.resolveTemplate(ipBanEvent.getKickTemplate().orElse(null));
+                BanType banType = ban.getEndTimestamp().isPresent() ? BanType.TEMP_BAN : BanType.PERM_BAN;
+                String template = ipBanTemplateResolver.resolveTemplate(ipBanEvent.getKickTemplate().orElse(null), banType);
                 String banMessage = replaceBanPlaceholders(template, ban);
                 sppPlayers.forEach(sppPlayer -> sppPlayer.getPlayer().kickPlayer(messages.colorize(banMessage)));
             }, 1);
