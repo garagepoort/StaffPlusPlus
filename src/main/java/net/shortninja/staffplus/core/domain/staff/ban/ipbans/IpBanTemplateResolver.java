@@ -23,7 +23,7 @@ public class IpBanTemplateResolver {
             return getTemplate(providedTemplate);
         }
 
-        Optional<String> defaultTemplate = banConfiguration.getDefaultBanTemplate();
+        Optional<String> defaultTemplate = banConfiguration.getDefaultBanTemplate(banType);
         if (defaultTemplate.isPresent()) {
             return getTemplate(defaultTemplate.get());
         }
