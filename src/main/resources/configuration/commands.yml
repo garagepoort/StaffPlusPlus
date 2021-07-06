@@ -169,3 +169,5 @@ commands:
         ban: "ipban"
         tempban: "iptempban"
         unban: "ipunban"
+        bancheck: "ipban-check"
+        ipbans: "ipbans"

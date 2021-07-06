@@ -54,7 +54,11 @@ public class IpUnBanCmd extends AbstractCmd {
         String ipAddress = ipArg;
 
         List<IpBan> matchingIpBans = banService.findMatchingIpBans(ipAddress);
-        ipBanCmdUtil.sendUnbanChoiceMessage((Player) sender, matchingIpBans, p -> banService.unbanIp(ipAddress, optionalParameters.containsKey("-silent")));
+        if (sender instanceof Player) {
+            ipBanCmdUtil.sendUnbanChoiceMessage((Player) sender, matchingIpBans, p -> banService.unbanIp(ipAddress, optionalParameters.containsKey("-silent")));
+        } else {
+            banService.unbanIp(ipAddress, optionalParameters.containsKey("-silent"));
+        }
 
         return true;
     }
