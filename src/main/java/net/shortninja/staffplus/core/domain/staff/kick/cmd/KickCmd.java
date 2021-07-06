@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,7 @@ public class KickCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
 
         if (kickReasonConfigurations.isEmpty() || (!options.kickConfiguration.isFixedReason() && args.length == 2)) {
             String reason = JavaUtils.compileWords(args, 1);

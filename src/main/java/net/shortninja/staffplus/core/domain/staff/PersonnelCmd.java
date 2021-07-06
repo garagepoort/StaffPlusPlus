@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.Optional;
 
 @IocBean
@@ -35,7 +36,7 @@ public class PersonnelCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer sppPlayer) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer sppPlayer, Map<String, String> optionalParameters) {
         String status = "all";
 
         if (args.length == 1) {

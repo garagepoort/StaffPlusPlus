@@ -1,8 +1,12 @@
 package net.shortninja.staffplus.core.common;
 
+import inet.ipaddr.IPAddress;
+import inet.ipaddr.IPAddressString;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplusplus.ILocation;
 import org.apache.commons.lang.WordUtils;
+import org.apache.commons.net.util.SubnetUtils;
+import org.apache.commons.validator.routines.InetAddressValidator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -382,4 +386,26 @@ public class JavaUtils {
         }
     }
 
+    public static long convertIp(String ipAddress) {
+        IPAddress addr = new IPAddressString(ipAddress).getAddress();
+        return addr.getValue().longValue();
+    }
+
+    public static String[] cidrToIpRange(String cidr) {
+        IPAddressString string = new IPAddressString(cidr);
+        IPAddress addr = string.getAddress();
+        IPAddress lower = addr.getLower();
+        IPAddress upper = addr.getUpper();
+        return new String[] {lower.toString(), upper.toString()};
+    }
+
+    public static boolean isValidCidrOrIp(String cidrIp) {
+        boolean isValid = true;
+        try {
+            new SubnetUtils(cidrIp);
+        } catch (IllegalArgumentException e) {
+            isValid = false;
+        }
+        return InetAddressValidator.getInstance().isValid(cidrIp) || isValid;
+    }
 }

@@ -41,8 +41,10 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         try {
             commandService.validateAuthentication(isAuthenticationRequired(), sender);
             commandService.validatePermissions(sender, permissions);
-            String[] sppArgs = Arrays.stream(args).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).anyMatch(a::startsWith)).toArray(String[]::new);
-            String[] filteredArgs = Arrays.stream(args).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).noneMatch(a::startsWith)).toArray(String[]::new);
+            String[] optionalParamaters = Arrays.stream(args).filter(a -> getOptionalParameters().stream().anyMatch(a::startsWith)).toArray(String[]::new);
+            String[] filteredArgs = Arrays.stream(args).filter(a -> getOptionalParameters().stream().noneMatch(a::startsWith)).toArray(String[]::new);
+            String[] sppArgs = Arrays.stream(filteredArgs).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).anyMatch(a::startsWith)).toArray(String[]::new);
+            filteredArgs = Arrays.stream(args).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).noneMatch(a::startsWith)).toArray(String[]::new);
 
             validateMinimumArguments(sender, filteredArgs);
 
@@ -64,13 +66,26 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
             validateExecution(player.orElse(null));
 
             commandService.processArguments(sender, sppArgs, playerName, getPreExecutionSppArguments());
-            boolean result = executeCmd(sender, alias, filteredArgs, player.orElse(null));
+            boolean result = executeCmd(sender, alias, filteredArgs, player.orElse(null), mapOptionalParameters(optionalParamaters));
             commandService.processArguments(sender, sppArgs, playerName, getPostExecutionSppArguments());
             return result;
         } catch (BusinessException e) {
             messages.send(sender, e.getMessage(), e.getPrefix());
             return false;
         }
+    }
+
+    private Map<String, String> mapOptionalParameters(String[] optionalParamaters) {
+        Map<String, String> result = new HashMap<>();
+        for (String optionalParamater : optionalParamaters) {
+            String[] templateParams = optionalParamater.split("=");
+            if (templateParams.length != 2) {
+                result.put(templateParams[0], null);
+            } else {
+                result.put(templateParams[0], templateParams[1]);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -80,17 +95,22 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     private List<ArgumentType> getSppArguments() {
         List<ArgumentType> collect = Stream.of(getPreExecutionSppArguments(), getPostExecutionSppArguments()).flatMap(Collection::stream).collect(Collectors.toList());
-        if(isDelayable()) {
+        if (isDelayable()) {
             collect.add(ArgumentType.DELAY);
         }
         return collect;
     }
+
     /**
      * If your command requires extra custom validation apart from the one provided by the AbstractCmd class,
      * you can add them by overriding this method. Validation will be executed right before preSppArgument execution.
      */
     protected void validateExecution(SppPlayer player) {
         //No execution by default
+    }
+
+    protected List<String> getOptionalParameters() {
+        return Collections.emptyList();
     }
 
     /**
@@ -118,7 +138,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         return false;
     }
 
-    protected abstract boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player);
+    protected abstract boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters);
 
     /**
      * @param sender CommandSender
@@ -180,12 +200,12 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
         String currentArg = args.length > 0 ? args[args.length - 1] : "";
         Optional<ArgumentType> matchedArgType = getSppArguments().stream().filter(a -> currentArg.startsWith(a.getPrefix())).findFirst();
-        if(matchedArgType.isPresent()) {
+        if (matchedArgType.isPresent()) {
             return commandService.getSppArgumentTabCompletion(currentArg, matchedArgType.get());
         }
 
         List<String> tabResults = autoComplete(sender, filteredArgs, sppArgs);
-        if(tabResults.isEmpty()) {
+        if (tabResults.isEmpty()) {
             return commandService.getSppArgumentsTabCompletion(getSppArguments(), args);
         }
         return tabResults;

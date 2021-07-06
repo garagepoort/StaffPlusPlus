@@ -219,6 +219,15 @@ permissions:
     ban-bypass: "staff.staffplus.ban-bypass"
     ban-notifications: "staff.staffplus.ban-notifications"
 
+    ipban:
+        ban: "staff.staffplus.ipban.ban"
+        tempban: "staff.staffplus.ipban.tempban"
+        unban: "staff.staffplus.ipban.unban"
+        ban-view: "staff.staffplus.ipban.ban-view"
+        ban-silent: "staff.staffplus.ipban.ban-silent"
+        ban-template-overwrite: "staff.staffplus.ipban.ban-template-overwrite"
+        ban-notifications: "staff.staffplus.ipban.ban-notifications"
+
     # Permission to kick players
     kick: "staff.staffplus.kick"
 
