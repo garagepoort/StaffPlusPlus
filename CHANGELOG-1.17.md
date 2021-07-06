@@ -9,9 +9,10 @@
 - Added /altcheck command.
 - New and improved report messages support.
 - tempmute command can now be delayed
+- Implemented a first version of IP-bans
 
 ### bugfixes
-- Mute was not enforced when chatting it the staffchat channels
+- Mute was not enforced when chatting in the staffchat channels
 - preventing entity damage while in staff mode was broken. 
 
 # V1.17.4

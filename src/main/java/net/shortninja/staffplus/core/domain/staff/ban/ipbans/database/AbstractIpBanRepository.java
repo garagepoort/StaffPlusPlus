@@ -54,10 +54,11 @@ public abstract class AbstractIpBanRepository implements IpBanRepository {
     }
 
     @Override
-    public Optional<IpBan> getBannedRule(String ipAddress) {
+    public Optional<IpBan> getActiveBannedRule(String ipAddress) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_ips WHERE ip = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isBanSyncEnabled()))) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_ips WHERE ip = ? AND (end_timestamp IS NULL OR end_timestamp > ?)" + getServerNameFilterWithAnd(options.serverSyncConfiguration.isBanSyncEnabled()))) {
             ps.setString(1, ipAddress);
+            ps.setLong(2, System.currentTimeMillis());
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {
