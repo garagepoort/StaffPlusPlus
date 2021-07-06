@@ -43,7 +43,7 @@ public class FreezeCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer sppPlayer) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer sppPlayer, Map<String, String> optionalParameters) {
         freezeHandler.execute(buildFreezeRequest(sender, args, sppPlayer.getPlayer()));
         return true;
     }

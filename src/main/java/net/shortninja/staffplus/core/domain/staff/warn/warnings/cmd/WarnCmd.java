@@ -19,10 +19,7 @@ import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSe
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @IocBean(conditionalOnProperty = "warnings-module.enabled=true")
@@ -43,7 +40,7 @@ public class WarnCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         List<WarningSeverityConfiguration> severityLevels = options.warningConfiguration.getSeverityLevels();
         if (severityLevels.isEmpty()) {
             String reason = JavaUtils.compileWords(args, 1);

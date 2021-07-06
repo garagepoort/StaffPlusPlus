@@ -17,6 +17,7 @@ import net.shortninja.staffplusplus.warnings.IWarning;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -38,7 +39,7 @@ public class WarnsCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         if (args.length == 2) {
             String argument = args[0];
             if (argument.equalsIgnoreCase("get")) {

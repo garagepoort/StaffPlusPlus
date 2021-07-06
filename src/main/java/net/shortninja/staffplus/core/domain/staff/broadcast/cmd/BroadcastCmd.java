@@ -16,10 +16,7 @@ import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConf
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastSelector;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @IocBean
@@ -39,7 +36,7 @@ public class BroadcastCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         String serverSelector = args[0];
         String message = JavaUtils.compileWords(args, 1);
 

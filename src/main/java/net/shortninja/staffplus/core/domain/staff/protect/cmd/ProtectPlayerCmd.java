@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.command.CommandSender;
 
+import java.util.Map;
 import java.util.Optional;
 
 @IocBean(conditionalOnProperty = "protect-module.player-enabled=true")
@@ -31,7 +32,7 @@ public class ProtectPlayerCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         PlayerSession playerSession = sessionManager.get(player.getId());
         playerSession.setProtected(!playerSession.isProtected());
 
