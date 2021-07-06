@@ -223,6 +223,7 @@ permissions:
         ban: "staff.staffplus.ipban.ban"
         tempban: "staff.staffplus.ipban.tempban"
         unban: "staff.staffplus.ipban.unban"
+        ban-check: "staff.staffplus.ipban.ban-check"
         ban-view: "staff.staffplus.ipban.ban-view"
         ban-silent: "staff.staffplus.ipban.ban-silent"
         ban-template-overwrite: "staff.staffplus.ipban.ban-template-overwrite"
