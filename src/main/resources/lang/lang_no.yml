@@ -21,6 +21,7 @@ tickets-prefix: "&dbilletter &8»"
 trace-prefix: "&dTrace &8»"
 protect-prefix: "&dProtected &8»"
 investigations-prefix: "&dInvestigations &8»"
+bans-prefix: "&dBans &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Generell                       | #
@@ -229,6 +230,19 @@ ban-unbanned: "&6%target% has been unbanned from the server by %issuer%"
 
 ban-tempbanned-kick: "[Banned] You have been temporarily banned from this server. Ban ends in: %duration%"
 ban-permabanned-kick: "[Banned] You have been permanently banned from this server"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Ip-banning                          | #
+# +------------------------------------------------------+ #
+############################################################
+ipbans:
+    prefix: "&dBans &8»"
+    permabanned: "&6%issuer% has banned ip-address %ip% from the server"
+    tempbanned: "&6%issuer% has banned ip-address %ip% from the server for %duration%"
+    unbanned: "&6%issuer% has unbanned ip-address %ip%  from the server"
+    tempbanned-kick: "[Banned] Your ip-address has been temporarily banned from this server"
+    permabanned-kick: "[Banned] Your ip-address has been permanently banned from this server"
 
 ############################################################
 # +------------------------------------------------------+ #

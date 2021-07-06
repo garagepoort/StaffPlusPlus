@@ -18,6 +18,7 @@ import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectionS
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
 
         String action = args[0];
 

@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
-import net.shortninja.staffplus.core.domain.staff.ban.config.BanConfiguration;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 
 @IocBean(conditionalOnProperty = "metrics=true")
 public class MetricsService {

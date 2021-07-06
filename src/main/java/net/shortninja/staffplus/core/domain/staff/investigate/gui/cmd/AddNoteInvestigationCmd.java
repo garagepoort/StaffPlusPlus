@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationNoteS
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.Optional;
 
 @IocBean(conditionalOnProperty = "investigations-module.enabled=true")
@@ -31,7 +32,7 @@ public class AddNoteInvestigationCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         if(!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }

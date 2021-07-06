@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import static org.bukkit.Bukkit.getScheduler;
@@ -47,6 +48,10 @@ public class BukkitUtils {
             return division * 9;
         }
         return amountOfItems;
+    }
+
+    public static String getIpFromPlayer(Player player) {
+        return player.getAddress().getAddress().getHostAddress().replace("/", "");
     }
 
 }

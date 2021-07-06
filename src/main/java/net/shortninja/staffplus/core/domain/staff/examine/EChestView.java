@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,7 @@ public class EChestView extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer target) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer target, Map<String, String> optionalParameters) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("Command can only be used by players");
             return true;
