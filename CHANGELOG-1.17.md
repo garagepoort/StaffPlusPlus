@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.5 (NOT YET RELEASED)
+# V1.17.5
 
 ### Features
 - Placeholders and formatting added for `tempmuted` and `muted` message
