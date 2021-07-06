@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public class InfractionsTopCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }

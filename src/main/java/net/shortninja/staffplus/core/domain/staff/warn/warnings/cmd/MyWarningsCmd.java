@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.Optional;
 
 @IocBean(conditionalOnProperty = "warnings-module.enabled=true")
@@ -34,7 +35,7 @@ public class MyWarningsCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         if(!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }

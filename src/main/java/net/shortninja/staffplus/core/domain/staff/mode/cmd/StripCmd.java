@@ -16,6 +16,7 @@ import net.shortninja.staffplus.core.domain.player.StripService;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
@@ -34,7 +35,7 @@ public class StripCmd extends AbstractCmd {
     }
 
     @Override
-    public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer) {
+    public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
         stripService.strip(sender, targetPlayer.getPlayer());
         return true;
     }

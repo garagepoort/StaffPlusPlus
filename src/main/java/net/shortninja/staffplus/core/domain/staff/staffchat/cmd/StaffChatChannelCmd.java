@@ -14,6 +14,7 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class StaffChatChannelCmd extends AbstractCmd {
@@ -32,7 +33,7 @@ public class StaffChatChannelCmd extends AbstractCmd {
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         if (args.length > 0) {
             staffChatService.sendMessage(sender, channelConfiguration.getName(), JavaUtils.compileWords(args, 0));
         } else {

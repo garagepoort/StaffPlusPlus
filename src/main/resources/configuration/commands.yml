@@ -164,3 +164,8 @@ commands:
 
     webui:
         register: "register"
+
+    ipban:
+        ban: "ipban"
+        tempban: "iptempban"
+        unban: "ipunban"
