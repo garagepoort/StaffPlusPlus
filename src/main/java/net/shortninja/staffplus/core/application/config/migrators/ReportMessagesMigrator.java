@@ -28,7 +28,10 @@ public class ReportMessagesMigrator implements ConfigMigrator {
 
     private void replace(FileConfiguration langFile, String path, Function<String, String> f) {
         if (langFile.contains(path)) {
-            langFile.set(path, f.apply(langFile.getString("reports." + path)));
+            String string = langFile.getString("reports." + path);
+            if (string != null) {
+                langFile.set(path, f.apply(string));
+            }
         }
     }
 
