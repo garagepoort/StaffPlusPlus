@@ -26,7 +26,7 @@ public class PhraseDetectionChatInterceptor implements ChatInterceptor {
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
         String message = event.getMessage();
-        List<String> detectedPhrases = chatConfiguration.getDetectionPhrases().stream()
+        List<String> detectedPhrases = chatConfiguration.detectionPhrases.stream()
             .filter(phrase -> message.toLowerCase().contains(phrase.toLowerCase()))
             .collect(Collectors.toList());
         if (!detectedPhrases.isEmpty()) {
