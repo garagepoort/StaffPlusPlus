@@ -41,7 +41,7 @@ public class BlacklistService {
             return;
         }
 
-        if (options.blackListConfiguration.isEnabled() && chatConfiguration.isChatEnabled()) {
+        if (options.blackListConfiguration.isEnabled() && chatConfiguration.chatEnabled) {
             String originalMessage = event.getMessage();
             String censoredMessage = originalMessage;
             for (ChatCensor chatCensor : chatCensors) {
