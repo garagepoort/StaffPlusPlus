@@ -51,7 +51,7 @@ public class ChatHandler {
                 chatSlowLength = 0;
                 chatSlowStart = 0;
                 userChatTimes.clear();
-            } else if (((now - lastChat) / 1000) <= chatConfiguration.getChatSlow()) {
+            } else if (((now - lastChat) / 1000) <= chatConfiguration.chatSlow) {
                 canChat = false;
             } else userChatTimes.put(uuid, now);
         }
@@ -73,7 +73,7 @@ public class ChatHandler {
     }
 
     public void clearChat(String name) {
-        for (int i = 0; i < chatConfiguration.getChatLines(); i++) {
+        for (int i = 0; i < chatConfiguration.chatLines; i++) {
             messages.sendGlobalMessage(messages.chatClearLine, "");
         }
 

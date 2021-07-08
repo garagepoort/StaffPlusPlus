@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.7 (NOT YET RELEASED)
+
+### bugfixes
+- Fix Session Exception on EntityTargetLivingEntityEvent
+
 # V1.17.6
 
 ### Features
