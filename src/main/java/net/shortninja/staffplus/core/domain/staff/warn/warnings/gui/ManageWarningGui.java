@@ -61,7 +61,7 @@ public class ManageWarningGui extends AbstractGui {
             addExpireItem(warning, 26);
         }
 
-        if (options.appealConfiguration.isEnabled()) {
+        if (options.appealConfiguration.enabled) {
             if (!warning.getAppeal().isPresent()) {
                 if (canAddAppeal(player, warning)) {
                     addAppealItem(31);
@@ -73,10 +73,10 @@ public class ManageWarningGui extends AbstractGui {
     }
 
     private boolean canAddAppeal(Player player, Warning warning) {
-        if (permission.has(player, options.appealConfiguration.getCreateOthersAppealPermission())) {
+        if (permission.has(player, options.appealConfiguration.permissionCreateOthersAppeal)) {
             return true;
         }
-        return permission.has(player, options.appealConfiguration.getCreateAppealPermission()) && warning.getTargetUuid().equals(player.getUniqueId());
+        return permission.has(player, options.appealConfiguration.createAppealPermission) && warning.getTargetUuid().equals(player.getUniqueId());
     }
 
     private void addDeleteItem(Warning warning, IAction action, int slot) {
@@ -109,7 +109,7 @@ public class ManageWarningGui extends AbstractGui {
     private void addAppealItem(int slot) {
         IAction appealAction = null;
         if (!warning.getAppeal().isPresent()) {
-            appealAction = options.appealConfiguration.isFixedAppealReason() ?
+            appealAction = options.appealConfiguration.fixedAppealReason ?
                 new AppealReasonSelectAction(warning, goBack) :
                 new AppealReasonChatAction(warning);
         }
@@ -134,6 +134,6 @@ public class ManageWarningGui extends AbstractGui {
     }
 
     private boolean canManageAppeals() {
-        return permission.has(player, options.appealConfiguration.getApproveAppealPermission()) || permission.has(player, options.appealConfiguration.getRejectAppealPermission());
+        return permission.has(player, options.appealConfiguration.approveAppealPermission) || permission.has(player, options.appealConfiguration.rejectAppealPermission);
     }
 }

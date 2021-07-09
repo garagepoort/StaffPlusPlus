@@ -34,7 +34,7 @@ public class AppealNotifierListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void notifyAppeals(PlayerJoinEvent event) {
-        if (!permission.has(event.getPlayer(), options.appealConfiguration.getPermissionNotifications())) {
+        if (!permission.has(event.getPlayer(), options.appealConfiguration.permissionNotifications)) {
             return;
         }
 
@@ -58,7 +58,7 @@ public class AppealNotifierListener implements Listener {
     }
 
     private boolean canManageAppeal(PlayerJoinEvent event) {
-        return permission.has(event.getPlayer(), options.appealConfiguration.getApproveAppealPermission())
-            || permission.has(event.getPlayer(), options.appealConfiguration.getRejectAppealPermission());
+        return permission.has(event.getPlayer(), options.appealConfiguration.approveAppealPermission)
+            || permission.has(event.getPlayer(), options.appealConfiguration.rejectAppealPermission);
     }
 }

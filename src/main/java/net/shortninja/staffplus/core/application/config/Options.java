@@ -38,7 +38,6 @@ import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceModuleLoad
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWarningsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWarningsModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
@@ -178,7 +177,6 @@ public class Options {
     private final InfractionsModuleLoader infractionsModuleLoader;
     private final ReportingModuleLoader reportingModuleLoader;
     private final ManageReportingModuleLoader manageReportingModuleLoader;
-    private final AppealModuleLoader appealModuleLoader;
     private final ManageWarningsModuleLoader manageWarningsModuleLoader;
     private final BlackListConfigurationLoader blackListConfigurationLoader;
     private final TraceModuleLoader traceModuleLoader;
@@ -201,7 +199,6 @@ public class Options {
                    InfractionsModuleLoader infractionsModuleLoader,
                    ReportingModuleLoader reportingModuleLoader,
                    ManageReportingModuleLoader manageReportingModuleLoader,
-                   AppealModuleLoader appealModuleLoader,
                    ManageWarningsModuleLoader manageWarningsModuleLoader,
                    BlackListConfigurationLoader blackListConfigurationLoader,
                    TraceModuleLoader traceModuleLoader,
@@ -217,12 +214,14 @@ public class Options {
                    InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader,
-                   WebUiModuleLoader webUiModuleLoader, VanishModuleLoader vanishModuleLoader, WarningConfiguration warningConfiguration) {
+                   WebUiModuleLoader webUiModuleLoader,
+                   VanishModuleLoader vanishModuleLoader,
+                   WarningConfiguration warningConfiguration,
+                   AppealConfiguration appealConfiguration) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
         this.reportingModuleLoader = reportingModuleLoader;
         this.manageReportingModuleLoader = manageReportingModuleLoader;
-        this.appealModuleLoader = appealModuleLoader;
         this.manageWarningsModuleLoader = manageWarningsModuleLoader;
         this.blackListConfigurationLoader = blackListConfigurationLoader;
         this.traceModuleLoader = traceModuleLoader;
@@ -241,6 +240,7 @@ public class Options {
         this.webUiModuleLoader = webUiModuleLoader;
         this.vanishModuleLoader = vanishModuleLoader;
         this.warningConfiguration = warningConfiguration;
+        this.appealConfiguration = appealConfiguration;
         reload();
     }
 
@@ -265,7 +265,6 @@ public class Options {
         infractionsConfiguration = this.infractionsModuleLoader.loadConfig();
         reportConfiguration = this.reportingModuleLoader.loadConfig();
         manageReportConfiguration = this.manageReportingModuleLoader.loadConfig();
-        appealConfiguration = this.appealModuleLoader.loadConfig();
         manageWarningsConfiguration = this.manageWarningsModuleLoader.loadConfig();
         blackListConfiguration = this.blackListConfigurationLoader.loadConfig();
         traceConfiguration = this.traceModuleLoader.loadConfig();

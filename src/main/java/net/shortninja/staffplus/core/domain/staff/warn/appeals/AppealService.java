@@ -51,7 +51,7 @@ public class AppealService {
 
     public void addAppeal(Player appealer, Warning warning, String reason) {
         validator(appealer)
-            .validateAnyPermission(appealConfiguration.getCreateAppealPermissions())
+            .validateAnyPermission(appealConfiguration.createAppealPermission)
             .validateNotEmpty(reason, "Reason for appeal can not be empty");
 
         Appeal appeal = new Appeal(warning.getId(), appealer.getUniqueId(), appealer.getName(), reason);
@@ -70,7 +70,7 @@ public class AppealService {
     }
 
     public void approveAppeal(Player resolver, int appealId, String appealReason) {
-        permission.validate(resolver, appealConfiguration.getApproveAppealPermission());
+        permission.validate(resolver, appealConfiguration.approveAppealPermission);
         Appeal appeal = appealRepository.findAppeal(appealId).orElseThrow(() -> new BusinessException("No appeal found with id: [" + appealId + "]"));
         Warning warning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found."));
 
@@ -91,7 +91,7 @@ public class AppealService {
     }
 
     public void rejectAppeal(Player resolver, int appealId, String appealReason) {
-        permission.validate(resolver, appealConfiguration.getRejectAppealPermission());
+        permission.validate(resolver, appealConfiguration.rejectAppealPermission);
         Appeal appeal = appealRepository.findAppeal(appealId).orElseThrow(() -> new BusinessException("No appeal found with id: [" + appealId + "]"));
 
         appealRepository.updateAppealStatus(appealId, resolver.getUniqueId(), appealReason, AppealStatus.REJECTED);
@@ -108,7 +108,7 @@ public class AppealService {
             "View warnings!",
             "Click to open the warnings view",
             manageWarningsCommand, true);
-        this.messages.sendGroupMessage(jsonMessage, appealConfiguration.getPermissionNotifications());
+        this.messages.sendGroupMessage(jsonMessage, appealConfiguration.permissionNotifications);
     }
 
     private void sendMessageToPlayer(Appeal appeal, String message) {
