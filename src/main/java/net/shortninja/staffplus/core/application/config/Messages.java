@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.application.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.Strings;
@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -43,350 +42,329 @@ public class Messages {
     /*
      * Prefixes
      */
-    public final String prefixGeneral;
-    public final String prefixProtect;
-    public final String prefixWarnings;
-    public final String prefixTrace;
-    public final String prefixInvestigations;
+    @ConfigProperty("%lang%:general-prefix")
+    public String prefixGeneral;
+    @ConfigProperty("%lang%:protect-prefix")
+    public String prefixProtect;
+    @ConfigProperty("%lang%:warnings-prefix")
+    public String prefixWarnings;
+    @ConfigProperty("%lang%:trace-prefix")
+    public String prefixTrace;
+    @ConfigProperty("%lang%:investigations-prefix")
+    public String prefixInvestigations;
     /*
      * General
      */
-    public final List<String> staffListStart;
-    public final String staffListMember;
-    public final List<String> staffListEnd;
-    public final String lockdown;
-    public final String revivedStaff;
-    public final String revivedUser;
-    public final String commandBlocked;
-    public final String modeCommandBlocked;
-    public final String commandOnCooldown;
-    public final String noPermission;
-    public final String playerOffline;
-    public final String playerNotRegistered;
-    public final String invalidArguments;
-    public final String onlyPlayers;
-    public final String noFound;
-    public final String typeInput;
-    public final String inputAccepted;
+    @ConfigProperty("%lang%:staff-list-start")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> staffListStart;
+    @ConfigProperty("%lang%:staff-list-end")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> staffListEnd;
 
-    public final String enabled;
-    public final String disabled;
+    @ConfigProperty("%lang%:staff-list-member")
+    public String staffListMember;
+    @ConfigProperty("%lang%:lockdown")
+    public String lockdown;
+    @ConfigProperty("%lang%:revived-staff")
+    public String revivedStaff;
+    @ConfigProperty("%lang%:revived-user")
+    public String revivedUser;
+    @ConfigProperty("%lang%:command-blocked")
+    public String commandBlocked;
+    @ConfigProperty("%lang%:mode-command-blocked")
+    public String modeCommandBlocked;
+    @ConfigProperty("%lang%:on-cooldown")
+    public String commandOnCooldown;
+    @ConfigProperty("%lang%:no-permission")
+    public String noPermission;
+    @ConfigProperty("%lang%:player-offline")
+    public String playerOffline;
+    @ConfigProperty("%lang%:player-not-registered")
+    public String playerNotRegistered = "This player does not exist";
+    @ConfigProperty("%lang%:invalid-arguments")
+    public String invalidArguments;
+    @ConfigProperty("%lang%:only-players")
+    public String onlyPlayers;
+    @ConfigProperty("%lang%:no-found")
+    public String noFound;
+    @ConfigProperty("%lang%:type-input")
+    public String typeInput;
+    @ConfigProperty("%lang%:input-accepted")
+    public String inputAccepted;
+    @ConfigProperty("%lang%:enabled")
+    public String enabled;
+    @ConfigProperty("%lang%:disabled")
+    public String disabled;
 
     /*
      * Reports
      */
-    public final String prefixReports;
-    public final String reporterReportCreated;
-    public final String reporterReportPlayerCreated;
-    public final String reporterReportRejected;
-    public final String reporterReportResolved;
-    public final String reporterReportAccepted;
-    public final String reporterViewReportsButton;
-    public final String reporterViewReportsButtonTooltip;
-    public final String reportCreatedNotification;
-    public final String reportCulpritCreatedNotification;
-    public final String reportReopenedNotification;
-    public final String reportDeletedNotification;
-    public final String reportClosedNotification;
-    public final String reportAcceptedNotification;
-    public final String reportsCleared;
-    public final List<String> reportsListStart;
-    public final String reportsListEntry;
-    public final List<String> reportsListEnd;
+    @ConfigProperty("%lang%:reports.prefix")
+    public String prefixReports;
+    @ConfigProperty("%lang%:reports.reporter.report-created")
+    public String reporterReportCreated;
+    @ConfigProperty("%lang%:reports.reporter.report-player-created")
+    public String reporterReportPlayerCreated;
+    @ConfigProperty("%lang%:reports.reporter.report-rejected")
+    public String reporterReportRejected;
+    @ConfigProperty("%lang%:reports.reporter.report-resolved")
+    public String reporterReportResolved;
+    @ConfigProperty("%lang%:reports.reporter.report-accepted")
+    public String reporterReportAccepted;
+    @ConfigProperty("%lang%:reports.reporter.view-reports-button")
+    public String reporterViewReportsButton;
+    @ConfigProperty("%lang%:reports.reporter.view-reports-button-tooltip")
+    public String reporterViewReportsButtonTooltip;
+    @ConfigProperty("%lang%:reports.report-created-notification")
+    public String reportCreatedNotification;
+    @ConfigProperty("%lang%:reports.report-player-created-notification")
+    public String reportCulpritCreatedNotification;
+    @ConfigProperty("%lang%:reports.report-reopened-notification")
+    public String reportReopenedNotification;
+    @ConfigProperty("%lang%:reports.report-deleted-notification")
+    public String reportDeletedNotification;
+    @ConfigProperty("%lang%:reports.report-closed-notification")
+    public String reportClosedNotification;
+    @ConfigProperty("%lang%:reports.report-accepted-notification")
+    public String reportAcceptedNotification;
+    @ConfigProperty("%lang%:reports.reports-cleared")
+    public String reportsCleared;
+    @ConfigProperty("%lang%:reports.reports-list-entry")
+    public String reportsListEntry;
 
+    @ConfigProperty("%lang%:reports.reports-list-start")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> reportsListStart;
+    @ConfigProperty("%lang%:reports.reports-list-end")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> reportsListEnd;
 
-    public final String warned;
-    public final String warnedAnnouncement;
-    public final String warn;
-    public final String warningsNotify;
-    public final List<String> warningsListStart;
-    public final String warningsListEntry;
-    public final List<String> warningsListEnd;
-    public final List<String> infractionItem;
+    @ConfigProperty("%lang%:warned")
+    public String warned;
+    @ConfigProperty("%lang%:warned-announcement")
+    public String warnedAnnouncement;
+    @ConfigProperty("%lang%:warn")
+    public String warn;
+    @ConfigProperty("%lang%:warnings-notify")
+    public String warningsNotify;
+    @ConfigProperty("%lang%:warnings-list-entry")
+    public String warningsListEntry;
+    @ConfigProperty("%lang%:warnings-list-start")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> warningsListStart;
+    @ConfigProperty("%lang%:warnings-list-end")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> warningsListEnd;
+
+    @ConfigProperty("%lang%:infraction-item")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> infractionItem;
+
     /*
      * Chat
      */
-    public final String chatClearLine;
-    public final String chatCleared;
-    public final String chatToggled;
-    public final String chatPrevented;
-    public final String chatSlowed;
-    public final String chattingFast;
-    public final String blacklistChatFormat;
+    @ConfigProperty("%lang%:chat-clear-line")
+    public String chatClearLine;
+    @ConfigProperty("%lang%:chat-cleared")
+    public String chatCleared;
+    @ConfigProperty("%lang%:chat-toggled")
+    public String chatToggled;
+    @ConfigProperty("%lang%:chat-prevented")
+    public String chatPrevented;
+    @ConfigProperty("%lang%:chat-slowed")
+    public String chatSlowed;
+    @ConfigProperty("%lang%:chatting-fast")
+    public String chattingFast;
+
+    @ConfigProperty("%lang%:blacklist-chat-format")
+    public String blacklistChatFormat;
     /*
      * Vanish
      */
-    public final String totalVanish;
-    public final String listVanish;
-    public final String playerVanish;
-    public final String vanishEnabled;
+    @ConfigProperty("%lang%:total-vanish")
+    public String totalVanish;
+    @ConfigProperty("%lang%:list-vanish")
+    public String listVanish;
+    @ConfigProperty("%lang%:player-vanish")
+    public String playerVanish;
+    @ConfigProperty("%lang%:vanish-enabled")
+    public String vanishEnabled;
     /*
      * Alerts
      */
-    public final String alertChanged;
-    public final String alertsName;
-    public final String alertsChatPhraseDetected;
-    public final String alertsMention;
-    public final String alertsXray;
+    @ConfigProperty("%lang%:alert-changed")
+    public String alertChanged;
+    @ConfigProperty("%lang%:alerts-name")
+    public String alertsName;
+    @ConfigProperty("%lang%:alerts-chat-phrase-detected")
+    public String alertsChatPhraseDetected;
+    @ConfigProperty("%lang%:alerts-mention")
+    public String alertsMention;
+    @ConfigProperty("%lang%:alerts-xray")
+    public String alertsXray;
     /*
      * Staff Mode
      */
-    public final String modeStatus;
-    public final String modeOriginalLocation;
-    public final String modeRandomTeleport;
-    public final String modeNotEnoughPlayers;
-    public final List<String> freeze;
-    public final List<String> unfrozen;
-    public final String staffFroze;
-    public final String staffUnfroze;
-    public final String cpsStart;
-    public final String cpsFinishNormal;
-    public final String cpsFinishMax;
-    public final List<String> examineFood;
-    public final String examineIp;
-    public final String examineGamemode;
-    public final String examineLocation;
-    public final String examineWarn;
-    public final String examineFreeze;
-    public final String examineNotes;
-    public final String follow;
-    public final String noteAdded;
-    public final String noteCleared;
-    public final List<String> noteListStart;
-    public final String noteListEntry;
-    public final List<String> noteListEnd;
-    public final String bypassed;
-    public final String staffChatStatus;
-    public final String staffChatMuted;
-    public final String staffChatUnmuted;
-    public final String freezeLogout;
-    public final String freezeTitle;
-    public final String freezeSubtitle;
-    public final String strip;
+    @ConfigProperty("%lang%:mode-status")
+    public String modeStatus;
+    @ConfigProperty("%lang%:mode-original-location")
+    public String modeOriginalLocation;
+    @ConfigProperty("%lang%:mode-random-teleport")
+    public String modeRandomTeleport;
+    @ConfigProperty("%lang%:mode-not-enough-players")
+    public String modeNotEnoughPlayers;
 
-    public final String kickedNotify;
-    public final String kickMessage;
+    @ConfigProperty("%lang%:freeze")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> freeze;
+    @ConfigProperty("%lang%:unfrozen")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> unfrozen;
+    @ConfigProperty("%lang%:staff-froze")
+    public String staffFroze;
+    @ConfigProperty("%lang%:staff-unfroze")
+    public String staffUnfroze;
+    @ConfigProperty("%lang%:freeze-logout")
+    public String freezeLogout;
+    @ConfigProperty("%lang%:freeze-title")
+    public String freezeTitle;
+    @ConfigProperty("%lang%:freeze-subtitle")
+    public String freezeSubtitle;
 
-    public final String unbanned;
-    public final String permanentBanned;
-    public final String tempBanned;
-    public final String permanentBannedKick;
-    public final String tempBannedKick;
+    @ConfigProperty("%lang%:cps-start")
+    public String cpsStart;
+    @ConfigProperty("%lang%:cps-finish-normal")
+    public String cpsFinishNormal;
+    @ConfigProperty("%lang%:cps-finish-max")
+    public String cpsFinishMax;
+    @ConfigProperty("%lang%:examine-food")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> examineFood;
+    @ConfigProperty("%lang%:examine-ip")
+    public String examineIp;
+    @ConfigProperty("%lang%:examine-gamemode")
+    public String examineGamemode;
+    @ConfigProperty("%lang%:examine-location")
+    public String examineLocation;
+    @ConfigProperty("%lang%:examine-warn")
+    public String examineWarn;
+    @ConfigProperty("%lang%:examine-freeze")
+    public String examineFreeze;
+    @ConfigProperty("%lang%:examine-notes")
+    public String examineNotes;
+    @ConfigProperty("%lang%:follow")
+    public String follow;
+    @ConfigProperty("%lang%:strip")
+    public String strip;
 
-    public final String prefixBans;
-    public final String ipbanPermabanned;
-    public final String ipbanTempbanned;
-    public final String ipbanUnbanned;
-    public final String ipbanTempbannedKick;
-    public final String ipbanPermabannedKick;
+    @ConfigProperty("%lang%:note-added")
+    public String noteAdded;
+    @ConfigProperty("%lang%:note-cleared")
+    public String noteCleared;
+    @ConfigProperty("%lang%:note-list-start")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> noteListStart;
+    @ConfigProperty("%lang%:note-list-entry")
+    public String noteListEntry;
+    @ConfigProperty("%lang%:note-list-end")
+    @ConfigTransformer(MessageMultiLineTransformer.class)
+    public List<String> noteListEnd;
 
-    public final String muteExpired;
-    public final String unmuted;
-    public final String permanentMuted;
-    public final String tempMuted;
-    public final String muted;
+    @ConfigProperty("%lang%:bypassed")
+    public String bypassed;
+    @ConfigProperty("%lang%:staff-chat-status")
+    public String staffChatStatus;
+    @ConfigProperty("%lang%:staff-chat-muted")
+    public String staffChatMuted;
+    @ConfigProperty("%lang%:staff-chat-unmuted")
+    public String staffChatUnmuted;
 
-    public final String appealCreated;
-    public final String appealApproved;
-    public final String appealApprove;
-    public final String appealRejected;
-    public final String appealReject;
-    public final String openAppealsNotify;
+    @ConfigProperty("%lang%:kick-notifyplayers")
+    public String kickedNotify;
+    @ConfigProperty("%lang%:kick-kickmessage")
+    public String kickMessage;
+
+    @ConfigProperty("%lang%:ban-unbanned")
+    public String unbanned;
+    @ConfigProperty("%lang%:ban-permabanned")
+    public String permanentBanned;
+    @ConfigProperty("%lang%:ban-tempbanned")
+    public String tempBanned;
+    @ConfigProperty("%lang%:ban-permabanned-kick")
+    public String permanentBannedKick;
+    @ConfigProperty("%lang%:ban-tempbanned-kick")
+    public String tempBannedKick;
+
+    @ConfigProperty("%lang%:ipbans.prefix")
+    public String prefixBans;
+    @ConfigProperty("%lang%:ipbans.permabanned")
+    public String ipbanPermabanned;
+    @ConfigProperty("%lang%:ipbans.tempbanned")
+    public String ipbanTempbanned;
+    @ConfigProperty("%lang%:ipbans.unbanned")
+    public String ipbanUnbanned;
+    @ConfigProperty("%lang%:ipbans.tempbanned-kick")
+    public String ipbanTempbannedKick;
+    @ConfigProperty("%lang%:ipbans.permabanned-kick")
+    public String ipbanPermabannedKick;
+
+    @ConfigProperty("%lang%:mute-expired")
+    public String muteExpired;
+    @ConfigProperty("%lang%:mute-unmuted")
+    public String unmuted;
+    @ConfigProperty("%lang%:mute-permamuted")
+    public String permanentMuted;
+    @ConfigProperty("%lang%:mute-tempmuted")
+    public String tempMuted;
+    @ConfigProperty("%lang%:mute-muted")
+    public String muted;
+
+    @ConfigProperty("%lang%:appeal-created")
+    public String appealCreated;
+    @ConfigProperty("%lang%:appeal-approved")
+    public String appealApproved;
+    @ConfigProperty("%lang%:appeal-approve")
+    public String appealApprove;
+    @ConfigProperty("%lang%:appeal-rejected")
+    public String appealRejected;
+    @ConfigProperty("%lang%:appeal-reject")
+    public String appealReject;
+    @ConfigProperty("%lang%:appeal-open-notify")
+    public String openAppealsNotify;
 
     // Investigations
-    public final String investigatedInvestigationStarted;
-    public final String investigatedInvestigationPaused;
-    public final String investigatedInvestigationConcluded;
-    public final String underInvestigationTitle;
-    public final String underInvestigationJoin;
-    public final String investigationStaffNotificationsStarted;
-    public final String investigationStaffNotificationsConcluded;
-    public final String investigationStaffNotificationsPaused;
-    public final String investigationEvidenceLinked;
-    public final String investigationEvidenceUnlinked;
-    public final String investigationNoteAdded;
-    public final String investigationNoteDeleted;
+    @ConfigProperty("%lang%:investigated.investigation-started")
+    public String investigatedInvestigationStarted;
+    @ConfigProperty("%lang%:investigated.investigation-paused")
+    public String investigatedInvestigationPaused;
+    @ConfigProperty("%lang%:investigated.investigation-concluded")
+    public String investigatedInvestigationConcluded;
+    @ConfigProperty("%lang%:investigated.under-investigation-title")
+    public String underInvestigationTitle;
+    @ConfigProperty("%lang%:investigated.under-investigation-join")
+    public String underInvestigationJoin;
+    @ConfigProperty("%lang%:investigation.staff-notification-started")
+    public String investigationStaffNotificationsStarted;
+    @ConfigProperty("%lang%:investigation.staff-notification-concluded")
+    public String investigationStaffNotificationsConcluded;
+    @ConfigProperty("%lang%:investigation.staff-notification-paused")
+    public String investigationStaffNotificationsPaused;
+    @ConfigProperty("%lang%:investigation.staff-notification-evidence-linked")
+    public String investigationEvidenceLinked;
+    @ConfigProperty("%lang%:investigation.staff-notification-evidence-unlinked")
+    public String investigationEvidenceUnlinked;
+    @ConfigProperty("%lang%:investigation.staff-notification-note-added")
+    public String investigationNoteAdded;
+    @ConfigProperty("%lang%:investigation.staff-notification-note-deleted")
+    public String investigationNoteDeleted;
 
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
-    private final FileConfiguration config;
 
     public Messages(PermissionHandler permission, PlaceholderService placeholderService) {
         this.permission = permission;
         this.placeholderService = placeholderService;
-        String langFile = StaffPlus.get().getConfig().getString("lang");
-        config = StaffPlus.get().getFileConfigurations().get(langFile);
-        /*
-         * Prefixes
-         */
-        prefixGeneral = config.getString("general-prefix");
-        prefixProtect = config.getString("protect-prefix", "&dProtected &8»");
-        prefixWarnings = config.getString("warnings-prefix");
-        prefixTrace = config.getString("trace-prefix", "&dTrace &8»");
-        prefixInvestigations = config.getString("investigations-prefix", "&dInvestigations &8»");
-        /*
-         * General
-         */
-        staffListStart = JavaUtils.stringToList(config.getString("staff-list-start"));
-        staffListMember = config.getString("staff-list-member");
-        staffListEnd = JavaUtils.stringToList(config.getString("staff-list-end"));
-        lockdown = config.getString("lockdown");
-        revivedStaff = config.getString("revived-staff");
-        revivedUser = config.getString("revived-user");
-        commandBlocked = config.getString("command-blocked");
-        modeCommandBlocked = config.getString("mode-command-blocked");
-        commandOnCooldown = config.getString("on-cooldown");
-        noPermission = config.getString("no-permission");
-        playerOffline = config.getString("player-offline");
-        playerNotRegistered = config.getString("player-not-registered", "This player does not exist");
-        invalidArguments = config.getString("invalid-arguments");
-        onlyPlayers = config.getString("only-players");
-        noFound = config.getString("no-found");
-        typeInput = config.getString("type-input");
-        inputAccepted = config.getString("input-accepted");
-
-        enabled = config.getString("enabled", "enabled");
-        disabled = config.getString("disabled", "disabled");
-
-        /*
-         * REPORTS
-         */
-        prefixReports = config.getString("reports.prefix", "");
-
-        reporterReportCreated = config.getString("reports.reporter.report-created", "");
-        reporterReportPlayerCreated = config.getString("reports.reporter.report-player-created", "");
-        reporterReportRejected = config.getString("reports.reporter.report-rejected", "");
-        reporterReportResolved = config.getString("reports.reporter.report-resolved", "");
-        reporterReportAccepted = config.getString("reports.reporter.report-accepted", "");
-        reporterViewReportsButton = config.getString("reports.reporter.view-reports-button", "");
-        reporterViewReportsButtonTooltip = config.getString("reports.reporter.view-reports-button-tooltip", "");
-
-        reportCreatedNotification = config.getString("reports.report-created-notification", "");
-        reportCulpritCreatedNotification = config.getString("reports.report-player-created-notification", "");
-        reportReopenedNotification = config.getString("reports.report-reopened-notification", "");
-        reportDeletedNotification = config.getString("reports.report-deleted-notification", "");
-        reportClosedNotification = config.getString("reports.report-closed-notification", "");
-        reportAcceptedNotification = config.getString("reports.report-accepted-notification", "");
-
-        reportsCleared = config.getString("reports.reports-cleared", "");
-        reportsListStart = JavaUtils.stringToList(config.getString("reports.reports-list-start", ""));
-        reportsListEntry = config.getString("reports.reports-list-entry", "");
-        reportsListEnd = JavaUtils.stringToList(config.getString("reports.reports-list-end", ""));
-//        END REPORTS
-
-        warned = config.getString("warned");
-        warnedAnnouncement = config.getString("warned-announcement");
-        warn = config.getString("warn");
-        warningsNotify = config.getString("warnings-notify");
-        warningsListStart = JavaUtils.stringToList(config.getString("warnings-list-start"));
-        warningsListEntry = config.getString("warnings-list-entry");
-        warningsListEnd = JavaUtils.stringToList(config.getString("warnings-list-end"));
-        infractionItem = JavaUtils.stringToList(config.getString("infraction-item"));
-        /*
-         * Chat
-         */
-        chatClearLine = config.getString("chat-clear-line");
-        chatCleared = config.getString("chat-cleared");
-        chatToggled = config.getString("chat-toggled");
-        chatPrevented = config.getString("chat-prevented");
-        chatSlowed = config.getString("chat-slowed");
-        chattingFast = config.getString("chatting-fast");
-        blacklistChatFormat = config.getString("blacklist-chat-format");
-        /*
-         * Vanish
-         */
-        totalVanish = config.getString("total-vanish");
-        listVanish = config.getString("list-vanish");
-        playerVanish = config.getString("player-vanish");
-        vanishEnabled = config.getString("vanish-enabled");
-        /*
-         * Alerts
-         */
-        alertChanged = config.getString("alert-changed");
-        alertsName = config.getString("alerts-name");
-        alertsChatPhraseDetected = config.getString("alerts-chat-phrase-detected");
-        alertsMention = config.getString("alerts-mention");
-        alertsXray = config.getString("alerts-xray");
-        /*
-         * Staff Mode
-         */
-        modeStatus = config.getString("mode-status");
-        modeOriginalLocation = config.getString("mode-original-location");
-        modeRandomTeleport = config.getString("mode-random-teleport");
-        modeNotEnoughPlayers = config.getString("mode-not-enough-players");
-
-        cpsStart = config.getString("cps-start");
-        cpsFinishNormal = config.getString("cps-finish-normal");
-        cpsFinishMax = config.getString("cps-finish-max");
-        examineFood = JavaUtils.stringToList(config.getString("examine-food"));
-        examineIp = config.getString("examine-ip");
-        examineGamemode = config.getString("examine-gamemode");
-        examineLocation = config.getString("examine-location");
-        examineWarn = config.getString("examine-warn");
-        examineFreeze = config.getString("examine-freeze");
-        examineNotes = config.getString("examine-notes");
-        follow = config.getString("follow");
-        noteAdded = config.getString("note-added");
-        noteCleared = config.getString("note-cleared");
-        noteListStart = JavaUtils.stringToList(config.getString("note-list-start"));
-        noteListEntry = config.getString("note-list-entry");
-        noteListEnd = JavaUtils.stringToList(config.getString("note-list-end"));
-        bypassed = config.getString("bypassed");
-        staffChatStatus = config.getString("staff-chat-status");
-        staffChatMuted = config.getString("staff-chat-muted");
-        staffChatUnmuted = config.getString("staff-chat-unmuted");
-        strip = config.getString("strip");
-
-        freeze = JavaUtils.stringToList(config.getString("freeze"));
-        freezeLogout = config.getString("freeze-logout");
-        freezeTitle = config.getString("freeze-title");
-        freezeSubtitle = config.getString("freeze-subtitle");
-        unfrozen = JavaUtils.stringToList(config.getString("unfrozen"));
-        staffFroze = config.getString("staff-froze");
-        staffUnfroze = config.getString("staff-unfroze");
-
-
-        kickedNotify = config.getString("kick-notifyplayers", "");
-        kickMessage = config.getString("kick-kickmessage", "");
-
-        unbanned = config.getString("ban-unbanned", "");
-        permanentBanned = config.getString("ban-permabanned", "");
-        tempBanned = config.getString("ban-tempbanned", "");
-        permanentBannedKick = config.getString("ban-permabanned-kick", "");
-        tempBannedKick = config.getString("ban-tempbanned-kick", "");
-
-        prefixBans = config.getString("ipbans.prefix", "&dBans &8»");
-        ipbanPermabanned = config.getString("ipbans.permabanned", "");
-        ipbanTempbanned = config.getString("ipbans.tempbanned", "");
-        ipbanUnbanned = config.getString("ipbans.unbanned", "");
-        ipbanTempbannedKick = config.getString("ipbans.tempbanned-kick", "");
-        ipbanPermabannedKick = config.getString("ipbans.permabanned-kick", "");
-
-        muteExpired = config.getString("mute-expired", "");
-        unmuted = config.getString("mute-unmuted", "");
-        permanentMuted = config.getString("mute-permamuted", "");
-        tempMuted = config.getString("mute-tempmuted", "");
-        muted = config.getString("mute-muted", "");
-
-        appealCreated = config.getString("appeal-created", "");
-        appealApproved = config.getString("appeal-approved", "");
-        appealRejected = config.getString("appeal-rejected", "");
-        appealApprove = config.getString("appeal-approve", "");
-        appealReject = config.getString("appeal-reject", "");
-        openAppealsNotify = config.getString("appeal-open-notify", "");
-
-        investigatedInvestigationStarted = config.getString("investigated.investigation-started", null);
-        investigatedInvestigationPaused = config.getString("investigated.investigation-paused", null);
-        investigatedInvestigationConcluded = config.getString("investigated.investigation-concluded", null);
-        underInvestigationTitle = config.getString("investigated.under-investigation-title");
-        underInvestigationJoin = config.getString("investigated.under-investigation-join", null);
-        investigationStaffNotificationsStarted = config.getString("investigation.staff-notification-started", null);
-        investigationStaffNotificationsConcluded = config.getString("investigation.staff-notification-concluded", null);
-        investigationStaffNotificationsPaused = config.getString("investigation.staff-notification-paused", null);
-        investigationEvidenceLinked = config.getString("investigation.staff-notification-evidence-linked", null);
-        investigationEvidenceUnlinked = config.getString("investigation.staff-notification-evidence-unlinked", null);
-        investigationNoteAdded = config.getString("investigation.staff-notification-note-added", null);
-        investigationNoteDeleted = config.getString("investigation.staff-notification-note-deleted", null);
     }
 
     public String colorize(String message) {
