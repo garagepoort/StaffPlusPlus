@@ -60,7 +60,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
         }
 
         Optional<Appeal> appeal = warning.getAppeal();
-        if (appealConfiguration.isEnabled() && appeal.isPresent() && appeal.get().getStatus() == AppealStatus.APPROVED) {
+        if (appealConfiguration.enabled && appeal.isPresent() && appeal.get().getStatus() == AppealStatus.APPROVED) {
             lore.add("&bAppeal &2approved");
         } else if (warning.isExpired()) {
             lore.add("&cExpired");

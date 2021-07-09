@@ -26,7 +26,7 @@ public class AppealReasonSelectAction implements IAction {
         if (warning.getAppeal().isPresent()) {
             return;
         }
-        if (options.appealConfiguration.isFixedAppealReason()) {
+        if (options.appealConfiguration.fixedAppealReason) {
             new AppealReasonSelectGui(warning, "Select your reason for appeal", previousGuiSupplier)
                 .show(player);
         }
