@@ -20,9 +20,9 @@ warnings-prefix: "&dAdvertencias &8»"
 
 # El prefijo para todos los mensajes relacionados con tickets
 tickets-prefix: "&dTickets &8»"
-trace-prefix: "&dTrace &8»"
-protect-prefix: "&dProtected &8»"
-investigations-prefix: "&dInvestigations &8»"
+trace-prefix: "&dSeguimiento &8»"
+protect-prefix: "&dProtegido &8»"
+investigations-prefix: "&dInvestigaciones &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       General                        | #
@@ -41,34 +41,34 @@ staff-list-end: "&7%longline%"
 
 lockdown: "&bEste servidor esta cerrado para fines de seguridad."
 
-revived-staff: "&bHas reestablecido el inventario de &7%target%'s &ba su estado anterior!"
-revived-user: "&bTu inventario ha sido reestablecido a su estado anterior!"
+revived-staff: "&bReestableciste el inventario de &7%target%'s &ba su estado anterior!"
+revived-user: "&b¡Tu inventario ha sido reestablecido a su estado anterior!"
 
-command-blocked: "&bEse comando esta bloqueado para el staff!"
-mode-command-blocked: "&bEse comando esta bloqueado en modo de staff!"
+command-blocked: "&b¡Ese comando esta bloqueado para el staff!"
+mode-command-blocked: "&b¡Ese comando esta bloqueado en modo de staff!"
 on-cooldown: "&bNo puedes volver a usar eso hasta &7%seconds% &bsegundos."
 
-note-added: "&bNota agregado para &7%target%&b."
-note-cleared: "&bNotas limpiado para la &7%target%&b."
+note-added: "&bNota agregada para &7%target%&b."
+note-cleared: "&bNotas limpiadas para &7%target%&b."
 note-list-start: "&7%longline%"
 note-list-entry: "&b%count% &7%note%"
 # Lines are separated by commas
-note-list-end: "&7%longline%"
-player-not-registered: "This player does not exist"
+note-list-end: "&7%longline%" 
+player-not-registered: "Este jugador no existe"
 
-login-register: "&bDado que usted es el personal, debe registrarse una contraseña para proteger su cuenta de ser secuestrado. Utilizar y &7/registro &bpara registrar."
-login-registered: "&bContraseña aceptada! Se le pedirá a utilizar esta contraseña cada vez que se conecte."
-login-waiting: "&bYou have been frozen! Please enter your staff password to continue."
+login-register: "&bDado que usted es staff, debe registrar una contraseña para proteger su cuenta de ser secuestrada. Utilizar y &7/register &bpara registrar."
+login-registered: "&b¡Contraseña aceptada! Se le pedirá a utilizar esta contraseña cada vez que se conecte."
+login-waiting: "&b¡Te han congelado! Coloque su contraseña del staff para continuar."
 login-accepted: "&bConectado."
 passwords-dont-match: "&bLas contraseñas no coinciden"
 
 
-no-permission: "&cTu no tienes permisos para usar eso!"
-bypassed: "&cEse jugador evita este comando!"
-player-offline: "&cEse jugador esta desconectado!"
+no-permission: "&c¡No tienes permisos para usar esto!"
+bypassed: "&c¡Ese jugador evita este comando!"
+player-offline: "&c¡Ese jugador está desconectado!"
 unknown-command: "&cComando desconocido."
-invalid-arguments: "&cArgumentos invalidos! (%usage%)"
-only-players: "&bSolo jugadores pueden ejecutar este comando!"
+invalid-arguments: "&c¡Argumentos inválidos! (%usage%)"
+only-players: "&b¡Solo jugadores pueden ejecutar este comando!"
 
 enabled: "habilitado"
 disabled: "deshabilitado"
@@ -82,16 +82,16 @@ reports:
     prefix: "&dReportes &8»"
     reporter.report-created: "&bHas reportado a &7%culprit%. &bRazón: &7%reason%&b."
     reporter.report-player-created: "&bHas reportado a &7%culprit%. &bRazón: &7%reason%&b."
-    reporter.report-rejected: "&7Your report has been rejected by &6%staff%&7."
-    reporter.report-resolved: "&7Your report has been resolved by &6%staff%&7."
-    reporter.report-accepted: "&7Your report has been accepted by &6%staff%&7."
-    reporter.view-reports-button: "&9View your reports!"
-    reporter.view-reports-button-tooltip: "Click to view your reports"
+    reporter.report-rejected: "&7Tu reporte ha sido rechazado por &6%staff%&7."
+    reporter.report-resolved: "&7Tu reporte ha sido resuelto por &6%staff%&7."
+    reporter.report-accepted: "&7Tu reporte ha sido aceptado por &6%staff%&7."
+    reporter.view-reports-button: "&9¡Ver tus reportes!"
+    reporter.view-reports-button-tooltip: "Click para ver tus reportes"
     report-created-notification: "&7%culprit% &bha sido reportado por &7%reporter%. &bRazón: &7%reason%&b."
-    report-player-created-notification: "&7%reporter% &bhas reported %culprit% for &7%reason%&b."
-    report-reopened-notification: "&b%staff% &7reopened report from &6%reporter%"
-    report-deleted-notification: "&b%staff% &7deleted report from &6%reporter%"
-    reports-cleared: "&bLos reportes de &7%culprit%&b han sido limpiados!"
+    report-player-created-notification: "&7%reporter% &breportó a %culprit% por &7%reason%&b."
+    report-reopened-notification: "&b%staff% &7reabrió el reporte de &6%reporter%"
+    report-deleted-notification: "&b%staff% &7eliminó el reporte de &6%reporter%"
+    reports-cleared: "&b¡Los reportes de &7%culprit%&b han sido limpiados!"
     # Lineas están separadas por comas.
     reports-list-start: "&7%longline%, &7%target% &btiene &7%reports% &breportes."
     reports-list-entry: "&b%count%: &7%reason% (%reporter%)"
@@ -106,7 +106,7 @@ warnings-list-start: "&7%longline%, &7%target% &btiene &7%warnings% &badvertenci
 warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
 # Lineas están separadas por comas.
 warnings-list-end: "&7%longline%"
-warnings-notify: "You have %warningsCount% new warnings!"
+warnings-notify: "¡Tienes %warningsCount% nuevas advertencias!"
 warned-announcement: '&7%issuer% &bhas warned &7%target% &bfor &7%reason%&b.'
 
 # Lineas están separadas por comas.
@@ -120,16 +120,16 @@ infraction-item: "&bAdvertencias: &7%warnings%, &bReportes: &7%reports%, &bRazó
 
 
 staff-chat-status: "&bChat del Staff &7%status%&b."
-staff-chat-muted: "&bStaff Chat has been &7muted&b."
-staff-chat-unmuted: "&bStaff Chat has been &7unmuted&b."
+staff-chat-muted: "&bEl chat del staff ha sido &7silenciado&b."
+staff-chat-unmuted: "&bEl chat del staff ha sido &7desmutado&b."
 
 chat-clear-line: ""
 chat-cleared: "&bEl chat ha sido limpiado por &7%player%&b."
 chat-toggled: "&bEl chat ha sido &7%status% &bpor &7%player%&b."
 
-chat-prevented: "&bNo tienes permitido el uso del chat de momento!"
-chat-slowed: "&bEl chat se ha ralentizado &7%seconds% &bsegundos por &7%player%&b."
-chatting-fast: "&bEstas enviando demasiados mensajes!"
+chat-prevented: "&b¡No tienes permitido el uso del chat de momento!"
+chat-slowed: "&bEl chat se ha ralentizado a &7%seconds% &bsegundos por &7%player%&b."
+chatting-fast: "&b¡Estas enviando demasiados mensajes!"
 
 blacklist-hover: "&bEste mensaje ha sido censorado por &7%censoredlist%&b."
 blacklist-censor-color: ""
@@ -142,10 +142,10 @@ blacklist-chat-format: "&7%player% &8» &7%message%"
 ############################################################
 
 
-total-vanish: "&bTu invisibilidad &7%status%&b!"
-list-vanish: "&bTu lista de invisibilidad ha sido &7%status%&b!"
-player-vanish: "&bYour player vanish has been &7%status%&b!"
-vanish-enabled: "&2Vanish enabled"
+total-vanish: "&b¡Tu invisibilidad total ha sido &7%status%&b!"
+list-vanish: "&b¡Tu nvisibilidad en lista ha sido &7%status%&b!"
+player-vanish: "&b¡Tu invisibilidad a jugadores ha sido &7%status%&b!"
+vanish-enabled: "&2Invisibilidad activada"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -154,13 +154,13 @@ vanish-enabled: "&2Vanish enabled"
 ############################################################
 
 
-ticket-submitted: "&bTu ticket ha sido entregado! &7(#%ticket%)"
-ticket-opened: "&bEl ticket &7#%ticket% &bha sido marcado como abierto por ti!"
-ticket-removed: "&bEl ticket &7#%ticket% &bha sido marcado como resuelto! (%reason%)"
+ticket-submitted: "&b¡Tu ticket ha sido entregado! &7(#%ticket%)"
+ticket-opened: "&bEl ticket &7#%ticket% &b¡ha sido marcado como abierto por ti!"
+ticket-removed: "&bEl ticket &7#%ticket% &b¡ha sido marcado como resuelto! (%reason%)"
 ticket-response-staff: "&b#%ticket% - Staff: &7%player% &8» &7%message%"
 ticket-response-user: "&b#%ticket% - Usuario: &7%player% &8» &7%message%"
 ticket: "&b#%ticket%: &7%player% &8» &7%message%"
-ticket-not-found: "&bEse ticket no existe o esta cerrado!"
+ticket-not-found: "&b¡Ese ticket no existe o está cerrado!"
 # Lineas están separadas por comas.
 ticket-list-start: "&7%longline%, &7%tickets% &btickets abiertos"
 ticket-list-entry: "&b#%ticket% - %target%: &7%message%"
@@ -174,10 +174,10 @@ ticket-list-end: "&7%longline%"
 ############################################################
 
 
-alerts-name: "&b&7%old% &bha cambiado su nombre a &7%new%&b!"
-alerts-chat-phrase-detected: "&7%target% &bhas placed a message in chat containing the words (&7%detectedPhrases%&b)"
-alerts-mention: "&7%target% &bha mencionado tu nombre en el chat!"
-alerts-xray: "&b&7%target% &bha minado &7%count% %itemtype%&b! &7(%lightlevel%&7)"
+alerts-name: "&b&7%old% &b¡ha cambiado su nombre a &7%new%&b!"
+alerts-chat-phrase-detected: "&7%target% &bcolocó una palabra en el chat que contenía (&7%detectedPhrases%&b)"
+alerts-mention: "&7%target% &b¡ha mencionado tu nombre en el chat!"
+alerts-xray: "&b&7%target% &bha minado &7%count% %itemtype%&b &7(%lightlevel%&7)"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -187,9 +187,9 @@ alerts-xray: "&b&7%target% &bha minado &7%count% %itemtype%&b! &7(%lightlevel%&7
 
 
 mode-status: "&bTu servicio como staff fue &7%status%&b."
-mode-original-location: "&bHas sido transportado a tu ubicacion original!"
-mode-random-teleport: "&bHas sido transportado a una ubicacion aleatoria!"
-mode-not-enough-players: "&bNo hay suficientes jugadores conectados para transportar aleatoriamente!"
+mode-original-location: "&b¡Has sido transportado a tu ubicacion original!"
+mode-random-teleport: "&b¡Has sido transportado a una ubicacion aleatoria!"
+mode-not-enough-players: "&b¡No hay suficientes jugadores conectados para poder transportarse aleatoriamente!"
 
 gui-reports: "&bReportes"
 gui-mine: "&bMineros"
@@ -198,24 +198,24 @@ gui-counted: "&b%player%"
 
 # Lineas están separadas por comas.
 
-freeze: "&4&lHas sido congelado por el staff No te salgas del juego!, &4&lPor favor, entra a discord.gg/hqZJPKz"
+freeze: "&4&lFuiste congelado por el staff ¡No te salgas del juego!, &4&lPor favor, entra a discord.gg/hqZJPKz"
 # Lineas están separadas por comas.
-unfrozen: "&bTu has sido descongelado."
-staff-froze: "&bHas congelado a &7%target%&b."
-staff-unfroze: "&bHas descongelado a &7%target%&b."
-freeze-logout: "&7%player% &bdesconectado mientras congelado!"
-freeze-title: "&6You have been frozen."
-freeze-subtitle: "Do not log out!"
+unfrozen: "&bFuiste descongelado."
+staff-froze: "&bCongelaste a &7%target%&b."
+staff-unfroze: "&bDescongelaste a &7%target%&b."
+freeze-logout: "&7%player% &b¡se ha desconectado mientras estaba congelado!"
+freeze-title: "&6Has sido congelado."
+freeze-subtitle: "¡No te desconectes!"
 
 cps-start: "&bEjecutando un test de CPS en &7%target% &bdurante &7%seconds% &bsegundos..."
-cps-finish-normal: "&7%player% &btiene acerca &7%cps% &bCPS. &7(probablemente no peligroso)"
-cps-finish-max: "&7%player% &btiene acerca &7%cps% &bCPS. &7(probablemente autoclicking)"
+cps-finish-normal: "&7%player% &btiene cerca de &7%cps% &bCPS. &7(probablemente no peligroso)"
+cps-finish-max: "&7%player% &btiene cerca de &7%cps% &bCPS. &7(probablemente con autoclick)"
 
 # Lineas están separadas por comas.
 examine-food: "&bVida: &7%health%, &bHambre: &7%hunger%"
 examine-ip: "&bDireccion IP: &7%ipaddress%"
 examine-gamemode: "&bModo de juego: &7%gamemode%"
-examine-location: "&bUbicacion: &7%location%"
+examine-location: "&bUbicación: &7%location%"
 examine-warn: "&bAlertar a este usuario"
 examine-freeze: "&bCongelar a este usuario"
 examine-notes: "&bNotas del jugador:"
@@ -223,20 +223,20 @@ examine-notes: "&bNotas del jugador:"
 # Todas las notas están separadas en nuevas lineas.
 examine-notes-note: "&b%player%: &7%note%"
 
-follow: "&bAhora estas &7%status% a %target%&b."
-strip: "&7%player%'s armadura ha sido removida!"
+follow: "&bAhora estás &7%status% a %target%&b."
+strip: "&7La armadura de %player% ¡ha sido removida!"
 
 ############################################################
 # +------------------------------------------------------+ #
 # |                     Banning                          | #
 # +------------------------------------------------------+ #
 ############################################################
-ban-permabanned: "&6%target% has been permanently banned from the server by %issuer%"
-ban-tempbanned: "&6%target% has been banned from the server by %issuer% for %duration%"
-ban-unbanned: "&6%target% has been unbanned from the server by %issuer%"
+ban-permabanned: "&6%target% ha sido baneado permanentemente del servidor por %issuer%"
+ban-tempbanned: "&6%target% ha sido baneado del servidor por %issuer%. Tiempo: %duration%"
+ban-unbanned: "&6%target% ha sido desbaneado por %issuer%"
 
-ban-tempbanned-kick: "[Banned] You have been temporarily banned from this server. Ban ends in: %duration%"
-ban-permabanned-kick: "[Banned] You have been permanently banned from this server"
+ban-tempbanned-kick: "[Baneado] Fuiste baneado temporalmente en este servidor. El baneo terminará en: %duration%"
+ban-permabanned-kick: "[Baneado] Fuiste baneado permanentemente en este servidor"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -244,61 +244,61 @@ ban-permabanned-kick: "[Banned] You have been permanently banned from this serve
 # +------------------------------------------------------+ #
 ############################################################
 ipbans:
-    prefix: "&dBans &8»"
-    permabanned: "&6%issuer% has banned ip-address %ip% from the server"
-    tempbanned: "&6%issuer% has banned ip-address %ip% from the server for %duration%"
-    unbanned: "&6%issuer% has unbanned ip-address %ip%  from the server"
-    tempbanned-kick: "[Banned] Your ip-address has been temporarily banned from this server"
-    permabanned-kick: "[Banned] Your ip-address has been permanently banned from this server"
+    prefix: "&dBaneos &8»"
+    permabanned: "&6%issuer% ha baneado la dirección ip %ip% del servidor"
+    tempbanned: "&6%issuer% ha baneado la dirección ip %ip% del servidor por %duration%"
+    unbanned: "&6%issuer% ha desbaneado la dirección ip %ip% del servidor"
+    tempbanned-kick: "[Baneado] Tu dirección ip ha sido baneada temporalmente"
+    permabanned-kick: "[Baneado] Tu dirección ip ha sido baneada permanentemente"
 
 ############################################################
 # +------------------------------------------------------+ #
 # |                     KICKING                          | #
 # +------------------------------------------------------+ #
 ############################################################
-kick-notifyplayers: "&6%target% has been kicked from the server by %issuer%"
-kick-kickmessage: "&6You have been kicked from the server by %issuer%. Reason: %reason%"
+kick-notifyplayers: "&6%target% ha sido expulsado del servidor por %issuer%"
+kick-kickmessage: "&6Fuiste expulsado por %issuer%. Razón: %reason%"
 
 ############################################################
 # +------------------------------------------------------+ #
 # |                     Muting                          | #
 # +------------------------------------------------------+ #
 ############################################################
-mute-expired: "&6Your mute has expired. You can now chat again."
-mute-permamuted: "&6%target% has been muted by %issuer%"
-mute-unmuted: "&6%target% has been unmuted by %issuer%"
-mute-tempmuted: "&6%target% has been muted by %issuer% for %duration%"
-mute-muted: "&6You are currently muted. You are not allowed to chat."
+mute-expired: "&6Tu muteo ha expirado. Puedes escribir nuevamente."
+mute-permamuted: "&6%target% fue silenciado por %issuer%"
+mute-unmuted: "&6%target% ha desmuteado a %issuer%"
+mute-tempmuted: "&6%target% ha silenciado a %issuer% por %duration%"
+mute-muted: "&6Te encuentran silenciado. No puedes escribir."
 
 ############################################################
 # +------------------------------------------------------+ #
 # |                     APPEALS                          | #
 # +------------------------------------------------------+ #
 ############################################################
-appeal-created: "&6Appeal has been submitted."
-appeal-approved: "&6Your appeal has been &2approved&6."
-appeal-rejected: "&6Your appeal has been &4rejected&6."
-appeal-approve: "&6Appeal approved"
-appeal-reject: "&6Appeal rejected"
-appeal-open-notify: "There are %appealsCount% unresolved appealed warnings!"
+appeal-created: "&6La apelación ha sido enviada."
+appeal-approved: "&6Tu apelación ha sido &2aprovada&6."
+appeal-rejected: "&6Tu apelación ha sido &4rechazada&6."
+appeal-approve: "&6Apelación aprobado"
+appeal-reject: "&6Apelación rechazada"
+appeal-open-notify: "¡Aquí hay %appealsCount% alertas de apelaciones inconclusas!"
 
 ############################################################
 # +------------------------------------------------------+ #
 # |                   INVESTIGATIONS                     | #
 # +------------------------------------------------------+ #
 ############################################################
-investigated.investigation-started: "&6You are currently under investigation"
-investigated.investigation-paused: "&6The investigation has been paused"
-investigated.investigation-concluded: "&6The investigation on you has been concluded"
-investigated.under-investigation-title: "&CYou are under investigation"
-investigated.under-investigation-join: "&6You are under currently being investigated"
-investigation.staff-notification-started: "&4%investigator% &6has started investigating &4%investigated%"
-investigation.staff-notification-concluded: "&4%investigator% &6has concluded the investigation on &4%investigated%"
-investigation.staff-notification-paused: "&4%investigator% &6has paused investigating &4%investigated%"
-investigation.staff-notification-evidence-linked: "&4%investigator% &6has linked evidence %evidenceType% (ID=%evidenceId%) to investigation (ID=%investigationId%)"
-investigation.staff-notification-evidence-unlinked: "&4%investigator% &6has unlinked evidence %evidenceType% (ID=%evidenceId%) from investigation (ID=%investigationId%)"
-investigation.staff-notification-note-added: "&4%investigator% &6has added note to investigation (ID=%investigationId%)"
-investigation.staff-notification-note-deleted: "&4%investigator% &6has removed note from investigation (ID=%investigationId%)"
+investigated.investigation-started: "&6Estás siendo investigado investigación"
+investigated.investigation-paused: "&6La investigación ha sido pausada"
+investigated.investigation-concluded: "&6La investigación en tí ha terminado"
+investigated.under-investigation-title: "&cEstás bajo investigación"
+investigated.under-investigation-join: "&6Actuamente estás bajo investigación"
+investigation.staff-notification-started: "&4%investigator% &6ha iniciado una investigación contra &4%investigated%"
+investigation.staff-notification-concluded: "&4%investigator% &6terminó la investigación en &4%investigated%"
+investigation.staff-notification-paused: "&4%investigator% &6ha pausado &4%investigated%"
+investigation.staff-notification-evidence-linked: "&4%investigator% &6ha adjuntado una evidencia %evidenceType% (ID=%evidenceId%) para la investigación (ID=%investigationId%)"
+investigation.staff-notification-evidence-unlinked: "&4%investigator% &6ha retirado la evidencia %evidenceType% (ID=%evidenceId%) de la investigación (ID=%investigationId%)"
+investigation.staff-notification-note-added: "&4%investigator% &6agregó una nota a la investigación (ID=%investigationId%)"
+investigation.staff-notification-note-deleted: "&4%investigator% &6has removido la nota de la investigación (ID=%investigationId%)"
 
 
 # No cambies esto si no sabes que es!!!!!!
