@@ -31,12 +31,12 @@ public class UnbanCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
 
     public UnbanCmd(Messages messages, BanConfiguration banConfiguration, Options options, BanService banService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
-        super(banConfiguration.getCommandUnbanPlayer(), messages, options, commandService);
+        super(banConfiguration.commandUnbanPlayer, messages, options, commandService);
         this.banConfiguration = banConfiguration;
         this.playerManager = playerManager;
         this.banService = banService;
         this.permissionHandler = permissionHandler;
-        setPermission(banConfiguration.getPermissionUnbanPlayer());
+        setPermission(banConfiguration.permissionUnbanPlayer);
         setDescription("Unban a player");
         setUsage("[player] [reason]");
     }
@@ -44,7 +44,7 @@ public class UnbanCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         boolean isSilent = Arrays.stream(args).anyMatch(a -> a.equalsIgnoreCase("-silent"));
-        if(isSilent && !permissionHandler.has(sender, banConfiguration.getPermissionBanSilent())) {
+        if(isSilent && !permissionHandler.has(sender, banConfiguration.permissionBanSilent)) {
             throw new NoPermissionException("You don't have the permission to execute a silent unban");
         }
 
