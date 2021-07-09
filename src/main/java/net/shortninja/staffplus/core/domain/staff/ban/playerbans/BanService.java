@@ -106,11 +106,11 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     }
 
     private void ban(CommandSender issuer, SppPlayer playerToBan, final String reason, final String providedTemplateName, Long durationInMillis, BanType banType, boolean isSilent) {
-        if (providedTemplateName != null) permission.validate(issuer, banConfiguration.getPermissionBanTemplateOverwrite());
+        if (providedTemplateName != null) permission.validate(issuer, banConfiguration.permissionBanTemplateOverwrite);
         String fullReason = banReasonResolver.resolveBanReason(reason, banType);
         String templateMessage = banTemplateResolver.resolveTemplate(reason, providedTemplateName, banType);
 
-        if (playerToBan.isOnline() && permission.has(playerToBan.getPlayer(), banConfiguration.getPermissionBanByPass())) {
+        if (playerToBan.isOnline() && permission.has(playerToBan.getPlayer(), banConfiguration.permissionBanByPass)) {
             throw new BusinessException("&CThis player bypasses being banned");
         }
 
@@ -186,11 +186,11 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         }
 
         List<String> permissions = permission.getPermissions(player);
-        if(permissions.stream().noneMatch(p -> p.startsWith(banConfiguration.getPermissionTempbanPlayer()))) {
+        if(permissions.stream().noneMatch(p -> p.startsWith(banConfiguration.permissionTempbanPlayer))) {
             throw new NoPermissionException();
         }
         Optional<Long> duration = permissions.stream()
-            .filter(p -> p.startsWith(banConfiguration.getPermissionTempbanPlayer() + "."))
+            .filter(p -> p.startsWith(banConfiguration.permissionTempbanPlayer + "."))
             .map(p -> TimeUnitShort.getDurationFromString(p.substring(p.lastIndexOf(".") + 1)))
             .max(Comparator.naturalOrder());
 

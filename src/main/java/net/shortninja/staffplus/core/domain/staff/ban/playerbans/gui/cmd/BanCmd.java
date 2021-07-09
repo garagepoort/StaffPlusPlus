@@ -38,12 +38,12 @@ public class BanCmd extends AbstractCmd {
     private final PlayerManager playerManager;
 
     public BanCmd(PermissionHandler permissionHandler, Messages messages, Options options, BanConfiguration banConfiguration, BanService banService, CommandService commandService, PlayerManager playerManager) {
-        super(banConfiguration.getCommandBanPlayer(), messages, options, commandService);
+        super(banConfiguration.commandBanPlayer, messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.banConfiguration = banConfiguration;
         this.banService = banService;
         this.playerManager = playerManager;
-        setPermission(banConfiguration.getPermissionBanPlayer());
+        setPermission(banConfiguration.permissionBanPlayer);
         setDescription("Permanent ban a player");
         setUsage("[player] [-template=?] [reason]");
     }
@@ -52,7 +52,7 @@ public class BanCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         boolean isSilent = Arrays.stream(args).anyMatch(a -> a.equalsIgnoreCase("-silent"));
-        if(isSilent && !permissionHandler.has(sender, banConfiguration.getPermissionBanSilent())) {
+        if(isSilent && !permissionHandler.has(sender, banConfiguration.permissionBanSilent)) {
             throw new NoPermissionException("You don't have the permission to execute a silent ban");
         }
 
@@ -98,7 +98,7 @@ public class BanCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, banConfiguration.getPermissionBanByPass());
+        return permissionHandler.has(player, banConfiguration.permissionBanByPass);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class BanCmd extends AbstractCmd {
     }
 
     private List<String> getTemplateCompletion() {
-        return banConfiguration.getTemplates().keySet().stream()
+        return banConfiguration.templates.keySet().stream()
             .map(k -> TEMPLATE_FILE + k)
             .collect(Collectors.toList());
     }

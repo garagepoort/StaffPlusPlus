@@ -52,7 +52,7 @@ public class HubGui extends AbstractGui {
         this.banConfiguration = banConfiguration;
         options = StaffPlus.get().getIocContainer().get(Options.class);
         protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
-        banGuiItemConfig = banConfiguration.getGuiItemConfig();
+        banGuiItemConfig = banConfiguration.banGuiItemConfig;
         muteGuiItemConfig = options.muteConfiguration.getGuiItemConfig();
         investigationGuiItemConfig = options.investigationConfiguration.getGuiItemConfig();
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
