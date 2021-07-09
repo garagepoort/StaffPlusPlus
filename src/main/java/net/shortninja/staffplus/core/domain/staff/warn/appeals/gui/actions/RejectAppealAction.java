@@ -28,7 +28,7 @@ public class RejectAppealAction implements IAction {
 
     @Override
     public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-        if (options.appealConfiguration.isResolveReasonEnabled()) {
+        if (options.appealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1==================================================", messages.prefixWarnings);
             messages.send(player, "&6        You have chosen to reject this appeal", messages.prefixWarnings);
             messages.send(player, "&6Type your closing reason in chat to reject the appeal", messages.prefixWarnings);
