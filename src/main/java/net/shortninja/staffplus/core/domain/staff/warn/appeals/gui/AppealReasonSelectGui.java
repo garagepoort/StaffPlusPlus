@@ -45,7 +45,7 @@ public class AppealReasonSelectGui extends AbstractGui {
             }
         };
         int count = 0;
-        for (String appealReason : options.appealConfiguration.getAppealReasons()) {
+        for (String appealReason : options.appealConfiguration.appealReasons) {
             setItem(count, AppealReasonItemBuilder.build(appealReason), selectAction);
             count++;
         }

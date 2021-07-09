@@ -45,7 +45,7 @@ public class ManageAppealGui extends AbstractGui {
         setItem(13, AppealItemBuilder.build(appeal), null);
 
 
-        if (permission.has(player, options.appealConfiguration.getApproveAppealPermission())) {
+        if (permission.has(player, options.appealConfiguration.approveAppealPermission)) {
             List<String> actions = actionService.getRollbackActions(warning).stream()
                 .map(ExecutableActionEntity::getRollbackCommand)
                 .collect(Collectors.toList());
@@ -57,7 +57,7 @@ public class ManageAppealGui extends AbstractGui {
         }
 
 
-        if (permission.has(player, options.appealConfiguration.getRejectAppealPermission())) {
+        if (permission.has(player, options.appealConfiguration.rejectAppealPermission)) {
             addRejectItem(rejectAction, 30);
             addRejectItem(rejectAction, 31);
             addRejectItem(rejectAction, 32);
