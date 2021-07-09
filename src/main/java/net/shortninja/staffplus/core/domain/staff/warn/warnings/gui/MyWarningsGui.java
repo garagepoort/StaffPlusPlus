@@ -35,7 +35,7 @@ public class MyWarningsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                if (options.appealConfiguration.isEnabled() && permission.has(player, options.appealConfiguration.getCreateAppealPermission())) {
+                if (options.appealConfiguration.enabled && permission.has(player, options.appealConfiguration.createAppealPermission)) {
                     int warningId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                     Warning warning = warnService.getWarning(warningId);
                     new ManageWarningGui(player, "Warning", warning, () -> new MyWarningsGui(player, getTitle(), getCurrentPage())).show(player);
