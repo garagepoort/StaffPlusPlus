@@ -17,7 +17,7 @@ public class MetricsService {
         boolean warningConfigurationEnabled = options.warningConfiguration.isEnabled();
         boolean appealConfigurationEnabled = options.appealConfiguration.isEnabled();
         boolean reportConfigurationEnabled = options.reportConfiguration.isEnabled();
-        boolean banConfigurationEnabled = banConfiguration.isEnabled();
+        boolean banConfigurationEnabled = banConfiguration.enabled;
         boolean muteConfigurationEnabled = options.muteConfiguration.isEnabled();
         boolean kickConfigurationEnabled = options.kickConfiguration.isEnabled();
 
