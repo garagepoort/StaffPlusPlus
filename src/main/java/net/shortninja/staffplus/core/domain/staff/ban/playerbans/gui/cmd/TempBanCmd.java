@@ -40,7 +40,7 @@ public class TempBanCmd extends AbstractCmd {
     private final PlayerManager playerManager;
 
     public TempBanCmd(PermissionHandler permissionHandler, Messages messages, BanConfiguration banConfiguration, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
-        super(banConfiguration.getCommandTempBanPlayer(), messages, options, commandService);
+        super(banConfiguration.commandTempBanPlayer, messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.banConfiguration = banConfiguration;
         this.banService = banService;
@@ -52,7 +52,7 @@ public class TempBanCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         boolean isSilent = Arrays.stream(args).anyMatch(a -> a.equalsIgnoreCase("-silent"));
-        if (isSilent && !permissionHandler.has(sender, banConfiguration.getPermissionBanSilent())) {
+        if (isSilent && !permissionHandler.has(sender, banConfiguration.permissionBanSilent)) {
             throw new NoPermissionException("You don't have the permission to execute a silent ban");
         }
         args = Arrays.stream(args).filter(a -> !a.equalsIgnoreCase("-silent")).toArray(String[]::new);
@@ -104,7 +104,7 @@ public class TempBanCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, banConfiguration.getPermissionBanByPass());
+        return permissionHandler.has(player, banConfiguration.permissionBanByPass);
     }
 
     @Override
@@ -143,7 +143,7 @@ public class TempBanCmd extends AbstractCmd {
     }
 
     private List<String> getTemplateCompletion() {
-        return banConfiguration.getTemplates().keySet().stream()
+        return banConfiguration.templates.keySet().stream()
             .map(k -> TEMPLATE_FILE + k)
             .collect(Collectors.toList());
     }

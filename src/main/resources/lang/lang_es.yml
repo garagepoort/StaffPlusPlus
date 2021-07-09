@@ -54,6 +54,7 @@ note-list-start: "&7%longline%"
 note-list-entry: "&b%count% &7%note%"
 # Lines are separated by commas
 note-list-end: "&7%longline%"
+player-not-registered: "This player does not exist"
 
 login-register: "&bDado que usted es el personal, debe registrarse una contraseña para proteger su cuenta de ser secuestrado. Utilizar y &7/registro &bpara registrar."
 login-registered: "&bContraseña aceptada! Se le pedirá a utilizar esta contraseña cada vez que se conecte."
