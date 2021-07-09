@@ -53,7 +53,8 @@ note-cleared: "&bNotas limpiadas para &7%target%&b."
 note-list-start: "&7%longline%"
 note-list-entry: "&b%count% &7%note%"
 # Lines are separated by commas
-note-list-end: "&7%longline%"
+note-list-end: "&7%longline%" 
+player-not-registered: "Este jugador no existe"
 
 login-register: "&bDado que usted es staff, debe registrar una contraseña para proteger su cuenta de ser secuestrada. Utilizar y &7/register &bpara registrar."
 login-registered: "&b¡Contraseña aceptada! Se le pedirá a utilizar esta contraseña cada vez que se conecte."
