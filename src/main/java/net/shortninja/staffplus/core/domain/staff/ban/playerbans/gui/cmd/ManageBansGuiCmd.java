@@ -23,8 +23,8 @@ import java.util.Optional;
 public class ManageBansGuiCmd extends AbstractCmd {
 
     public ManageBansGuiCmd(Messages messages, Options options, BanConfiguration banConfiguration, CommandService commandService) {
-        super(banConfiguration.getCommandManageBansGui(), messages, options, commandService);
-        setPermission(banConfiguration.getPermissionBanView());
+        super(banConfiguration.commandManageBansGui, messages, options, commandService);
+        setPermission(banConfiguration.permissionBanView);
         setDescription("Open the manage Bans GUI.");
     }
 
