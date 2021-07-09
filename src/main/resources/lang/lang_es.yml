@@ -55,7 +55,7 @@ note-list-entry: "&b%count% &7%note%"
 # Lines are separated by commas
 note-list-end: "&7%longline%"
 
-login-register: "&bDado que usted es staff, debe registrarse una contraseña para proteger su cuenta de ser secuestrado. Utilizar y &7/registro &bpara registrar."
+login-register: "&bDado que usted es staff, debe registrar una contraseña para proteger su cuenta de ser secuestrada. Utilizar y &7/register &bpara registrar."
 login-registered: "&b¡Contraseña aceptada! Se le pedirá a utilizar esta contraseña cada vez que se conecte."
 login-waiting: "&b¡Te han congelado! Coloque su contraseña del staff para continuar."
 login-accepted: "&bConectado."
