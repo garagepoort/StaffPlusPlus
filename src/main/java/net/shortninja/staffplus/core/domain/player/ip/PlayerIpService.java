@@ -21,7 +21,6 @@ public class PlayerIpService {
 
     public void savePlayerIp(Player player) {
         String ipFromPlayer = BukkitUtils.getIpFromPlayer(player);
-        playerIpRepository.delete(player.getUniqueId(), ipFromPlayer);
         playerIpRepository.save(player.getUniqueId(), player.getName(), ipFromPlayer);
     }
 
