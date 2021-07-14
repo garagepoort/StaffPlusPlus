@@ -85,6 +85,14 @@ public class IpBan implements IIpBan {
         return Optional.ofNullable(unbannedByUuid);
     }
 
+    public void setUnbannedByName(String unbannedByName) {
+        this.unbannedByName = unbannedByName;
+    }
+
+    public void setUnbannedByUuid(UUID unbannedByUuid) {
+        this.unbannedByUuid = unbannedByUuid;
+    }
+
     public boolean isSilentBan() {
         return silentBan;
     }
