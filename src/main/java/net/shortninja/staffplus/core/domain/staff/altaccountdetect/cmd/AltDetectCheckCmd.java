@@ -3,17 +3,17 @@ package net.shortninja.staffplus.core.domain.staff.altaccountdetect.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectResult;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectionService;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
-import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -46,7 +46,7 @@ public class AltDetectCheckCmd extends AbstractCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             messages.send(sender, "&fChecking alt accounts for player: &6%player%".replace("%player%", player.getUsername()), messages.prefixGeneral);
-            messages.send(sender, "&fLast know IP: &6%ip%".replace("%ip%", playerIpRepository.getLastIp(player.getId()).orElse("Unknown")), messages.prefixGeneral);
+            messages.send(sender, "&fLast known IP: &6%ip%".replace("%ip%", playerIpRepository.getLastIp(player.getId()).orElse("Unknown")), messages.prefixGeneral);
             messages.send(sender, messages.LONG_LINE, messages.prefixGeneral);
 
             List<AltDetectResult> altAccounts = altDetectionService.getAltAccounts(player).stream()

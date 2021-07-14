@@ -45,7 +45,10 @@ public class UnmuteCmd extends AbstractCmd {
         String reason = JavaUtils.compileWords(args, 1);
 
         muteService.unmute(sender, player, reason);
-        sessionManager.get(player.getId()).setMuted(false);
+
+        if (player.isOnline()) {
+            sessionManager.get(player.getId()).setMuted(false);
+        }
         return true;
     }
 
