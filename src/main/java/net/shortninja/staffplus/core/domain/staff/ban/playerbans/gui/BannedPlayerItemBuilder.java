@@ -2,9 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionGuiProvider;
@@ -15,10 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
-
-import static net.shortninja.staffplus.core.common.JavaUtils.formatLines;
 
 @IocBean
 @IocMultiProvider(InfractionGuiProvider.class)
@@ -37,26 +35,17 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(ban.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(options.timestampFormat));
 
-        List<String> lore = new ArrayList<>();
+        List<String> lore = LoreBuilder.builder("&b", "&6")
+            .addItem("Id", String.valueOf(ban.getId()))
+            .addItem("Server", ban.getServerName(), options.serverSyncConfiguration.isBanSyncEnabled())
+            .addItem("Banned player", ban.getTargetName())
+            .addItem("Issuer", ban.getIssuerName())
+            .addItem("Issued on", time)
+            .addIndented("Reason", ban.getReason())
+            .addDuration("Time Left", ban.getHumanReadableDuration(), ban.getEndTimestamp() != null)
+            .addItem("Permanent ban", ban.getEndTimestamp() == null)
+            .build();
 
-        lore.add("&bId: " + ban.getId());
-        if(options.serverSyncConfiguration.isBanSyncEnabled()) {
-            lore.add("&bServer: " + ban.getServerName());
-        }
-        lore.add("&bBanned player: " + ban.getTargetName());
-        lore.add("&bIssuer: " + ban.getIssuerName());
-        lore.add("&bIssued on: " + time);
-        lore.add("&bReason:");
-        for (String line : formatLines(ban.getReason(), 30)) {
-            lore.add("  &b" + line);
-        }
-
-        if(ban.getEndTimestamp() != null) {
-            lore.add("&bTime left:");
-            lore.add("  &b" + ban.getHumanReadableDuration());
-        }else {
-            lore.add("&bPermanent ban");
-        }
         ItemStack item = Items.builder()
             .setMaterial(Material.BANNER)
             .setName("&cBan")

@@ -2,9 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.kick.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.core.domain.staff.kick.Kick;
@@ -15,10 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
-
-import static net.shortninja.staffplus.core.common.JavaUtils.formatLines;
 
 @IocBean
 @IocMultiProvider(InfractionGuiProvider.class)
@@ -35,19 +33,14 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(kick.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(options.timestampFormat));
 
-        List<String> lore = new ArrayList<>();
-
-        lore.add("&bId: " + kick.getId());
-        if(options.serverSyncConfiguration.isKickSyncEnabled()) {
-            lore.add("&bServer: " + kick.getServerName());
-        }
-        lore.add("&bKicked player: " + kick.getTargetName());
-        lore.add("&bIssuer: " + kick.getIssuerName());
-        lore.add("&bIssued on: " + time);
-        lore.add("&bReason:");
-        for (String line : formatLines(kick.getReason(), 30)) {
-            lore.add("  &b" + line);
-        }
+        List<String> lore = LoreBuilder.builder("&b", "&6")
+            .addItem("Id", String.valueOf(kick.getId()))
+            .addItem("Server", kick.getServerName(), options.serverSyncConfiguration.isKickSyncEnabled())
+            .addItem("bKicked player", kick.getTargetName())
+            .addItem("Issuer", kick.getIssuerName())
+            .addItem("Issued on", time)
+            .addIndented("Reason", kick.getReason())
+            .build();
 
         ItemStack item = Items.builder()
             .setMaterial(Material.BANNER)
