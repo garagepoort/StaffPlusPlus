@@ -14,8 +14,6 @@ public interface PlayerIpRepository {
 
     void save(UUID playerUuid, String playerName, String ip);
 
-    void delete(UUID playerUuid, String ip);
-
     Optional<String> getLastIp(UUID playerUuid);
 
     List<PlayerIpRecord> findInSubnet(long lower, long upper);
