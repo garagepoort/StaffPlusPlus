@@ -2,9 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionGuiProvider;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
@@ -15,10 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
-
-import static net.shortninja.staffplus.core.common.JavaUtils.formatLines;
 
 @IocBean
 @IocMultiProvider(InfractionGuiProvider.class)
@@ -36,26 +34,17 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(mute.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(options.timestampFormat));
 
-        List<String> lore = new ArrayList<>();
+        List<String> lore = LoreBuilder.builder("&b", "&6")
+            .addItem("Id", String.valueOf(mute.getId()))
+            .addItem("Server", mute.getServerName(), options.serverSyncConfiguration.isMuteSyncEnabled())
+            .addItem("Muted player", mute.getTargetName())
+            .addItem("Issuer", mute.getIssuerName())
+            .addItem("Issued on", time)
+            .addIndented("Reason", mute.getReason())
+            .addDuration("Time Left", mute.getHumanReadableDuration(), mute.getEndTimestamp() != null)
+            .addItem("Permanent mute", mute.getEndTimestamp() == null)
+            .build();
 
-        lore.add("&bId: " + mute.getId());
-        if(options.serverSyncConfiguration.isMuteSyncEnabled()) {
-            lore.add("&bServer: " + mute.getServerName());
-        }
-        lore.add("&bMuted player: " + mute.getTargetName());
-        lore.add("&bIssuer: " + mute.getIssuerName());
-        lore.add("&bIssued on: " + time);
-        lore.add("&bReason:");
-        for (String line : formatLines(mute.getReason(), 30)) {
-            lore.add("  &b" + line);
-        }
-
-        if(mute.getEndTimestamp() != null) {
-            lore.add("&bTime left:");
-            lore.add("  &b" + mute.getHumanReadableDuration());
-        }else {
-            lore.add("&bPermanent mute");
-        }
         ItemStack item = Items.builder()
             .setMaterial(Material.PLAYER_HEAD)
             .setName("&3Mute")
