@@ -25,7 +25,7 @@ public class PermissionMethodAspect {
     public void annotatedMethod(Permission permission) {
     }
 
-    @Before("annotatedMethod(permission) && execution(* *(..))")
+    @Before(value = "annotatedMethod(permission)", argNames = "pjp,permission")
     public void around(JoinPoint pjp, Permission permission) {
         PermissionHandler permissionHandler = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
         Object[] args = pjp.getArgs();

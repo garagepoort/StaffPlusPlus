@@ -6,13 +6,8 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.permissions.Permission;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.common.permissions.PlayerParam;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -27,7 +22,11 @@ import java.util.stream.Collectors;
 
 @IocBean(conditionalOnProperty = "mute-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
-@Permission(permissions = "permissions:permissions.mute")
+@Command(
+    permissions = "permissions:permissions.mute",
+    description = "Permanent mute a player",
+    usage = "[player] [reason]"
+)
 public class MuteCmd extends AbstractCmd {
 
     private final PermissionHandler permissionHandler;
@@ -41,12 +40,10 @@ public class MuteCmd extends AbstractCmd {
         this.muteService = muteService;
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
-        setDescription("Permanent mute a player");
-        setUsage("[player] [reason]");
     }
 
     @Override
-    protected boolean executeCmd(@PlayerParam CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         String reason = JavaUtils.compileWords(args, 1);
 
         muteService.permMute(sender, player, reason);
