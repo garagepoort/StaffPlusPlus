@@ -48,11 +48,11 @@ public class ChestGuiMove implements Listener {
         }
 
         if (event.getClickedInventory() != null && event.getClickedInventory().equals(chestGUI.getInventory())) {
-            handleChestInventoryClick(event, player, chestGUI);
+            handleChestInventoryClick(event, chestGUI);
         }
 
         if (event.getClickedInventory() != null && event.getClickedInventory().equals(player.getInventory())) {
-            handleStaffInventoryClick(event, player, chestGUI);
+            handleStaffInventoryClick(event, chestGUI);
         }
     }
 
@@ -67,11 +67,9 @@ public class ChestGuiMove implements Listener {
         event.setCancelled(true);
     }
 
-    private void handleChestInventoryClick(InventoryClickEvent event, Player player, ChestGUI chestGUI) {
-        if (!isEmptyStack(event.getCursor()) && isEmptyStack(event.getCurrentItem())) {
-            if ("staff".equalsIgnoreCase(chestGUI.getItemSelectedFrom())) {
-                chestGUI.getTargetInventory().setItem(event.getSlot(), event.getCursor());
-            }
+    private void handleChestInventoryClick(InventoryClickEvent event, ChestGUI chestGUI) {
+        if (!isEmptyStack(event.getCursor()) && isEmptyStack(event.getCurrentItem()) && "staff".equalsIgnoreCase(chestGUI.getItemSelectedFrom())) {
+            chestGUI.getTargetInventory().setItem(event.getSlot(), event.getCursor());
         }
 
         chestGUI.setItemSelectedFrom(null);
@@ -82,11 +80,9 @@ public class ChestGuiMove implements Listener {
         }
     }
 
-    private void handleStaffInventoryClick(InventoryClickEvent event, Player player, ChestGUI chestGUI) {
-        if (!isEmptyStack(event.getCursor()) && isEmptyStack(event.getCurrentItem())) {
-            if ("player".equalsIgnoreCase(chestGUI.getItemSelectedFrom())) {
-                chestGUI.getTargetInventory().setItem(chestGUI.getItemSelectedSlot(), null);
-            }
+    private void handleStaffInventoryClick(InventoryClickEvent event, ChestGUI chestGUI) {
+        if (!isEmptyStack(event.getCursor()) && isEmptyStack(event.getCurrentItem()) && "player".equalsIgnoreCase(chestGUI.getItemSelectedFrom())) {
+            chestGUI.getTargetInventory().setItem(chestGUI.getItemSelectedSlot(), null);
         }
 
         chestGUI.setItemSelectedFrom(null);
