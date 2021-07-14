@@ -7,17 +7,15 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AppealReasonItemBuilder {
 
     public static ItemStack build(String reason) {
-        List<String> lore = new ArrayList<>();
 
         ItemStack item = Items.editor(Items.builder().setMaterial(Material.PAPER).build())
             .setAmount(1)
             .setName("&b" + reason)
-            .setLore(lore)
+            .setLore(new ArrayList<String>())
             .build();
 
         return StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(item, reason);
