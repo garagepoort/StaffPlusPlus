@@ -12,7 +12,7 @@ public interface PlayerIpRepository {
 
     List<PlayerIpRecord> getAllIpRecords();
 
-    void save(UUID playerUuid, String playerName, String ip);
+    void save(UUID playerUuid, String playerName, String ip, String server);
 
     Optional<String> getLastIp(UUID playerUuid);
 
