@@ -5,7 +5,7 @@
 ### bugfixes
 
   - Fix Session Exception on EntityTargetLivingEntityEven
-  - Fix duplicate ip entr
+  - Fix duplicate ip entries
   - Fix reports lang migrator
 
 # V1.17.6
