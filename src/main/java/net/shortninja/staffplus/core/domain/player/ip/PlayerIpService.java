@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.ip;
 
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
@@ -14,14 +15,16 @@ import static net.shortninja.staffplus.core.common.JavaUtils.convertIp;
 public class PlayerIpService {
 
     private final PlayerIpRepository playerIpRepository;
+    private final Options options;
 
-    public PlayerIpService(PlayerIpRepository playerIpRepository) {
+    public PlayerIpService(PlayerIpRepository playerIpRepository, Options options) {
         this.playerIpRepository = playerIpRepository;
+        this.options = options;
     }
 
     public void savePlayerIp(Player player) {
         String ipFromPlayer = BukkitUtils.getIpFromPlayer(player);
-        playerIpRepository.save(player.getUniqueId(), player.getName(), ipFromPlayer);
+        playerIpRepository.save(player.getUniqueId(), player.getName(), ipFromPlayer, options.serverName);
     }
 
     public List<PlayerIpRecord> getMatchedBySubnet(String cidr) {
