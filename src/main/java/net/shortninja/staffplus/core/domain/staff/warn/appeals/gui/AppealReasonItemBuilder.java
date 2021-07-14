@@ -15,7 +15,7 @@ public class AppealReasonItemBuilder {
         ItemStack item = Items.editor(Items.builder().setMaterial(Material.PAPER).build())
             .setAmount(1)
             .setName("&b" + reason)
-            .setLore(new ArrayList<>())
+            .setLore(new ArrayList<String>())
             .build();
 
         return StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(item, reason);

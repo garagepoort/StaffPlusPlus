@@ -80,6 +80,7 @@ public class IpBanService {
     public void unbanIp(CommandSender sender, String ipAddress, boolean silent) {
         IpBan ipBan = ipBanRepository.getActiveBannedRule(ipAddress).orElseThrow(() -> new BusinessException("No ipban found with rule: " + ipAddress, messages.prefixBans));
         ipBan.setSilentUnban(silent);
+
         ipBan.setUnbannedByName(sender instanceof Player ? sender.getName() : "CONSOLE");
         ipBan.setUnbannedByUuid(sender instanceof Player ? ((Player) sender).getUniqueId() : CONSOLE_UUID);
         ipBanRepository.deleteBan(ipBan);

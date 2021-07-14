@@ -20,10 +20,8 @@ import static net.shortninja.staffplusplus.warnings.AppealStatus.OPEN;
 public class AppealItemBuilder {
 
     public static ItemStack build(IAppeal appeal) {
-
         LocalDateTime localDateTime = LocalDateTime.ofInstant(appeal.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(StaffPlus.get().getIocContainer().get(Options.class).timestampFormat));
-
 
         List<String> lore = LoreBuilder.builder("&b", "&6")
             .addItem("Appealer", appeal.getAppealerName())
@@ -36,7 +34,7 @@ public class AppealItemBuilder {
         ItemStack itemStack = Items.builder()
             .setMaterial(Material.WRITABLE_BOOK)
             .build();
-        
+
         ItemStack item = Items.editor(itemStack).setAmount(1)
             .setName("Appeal &6" + appeal.getStatus().name().toLowerCase())
             .setLore(lore)
