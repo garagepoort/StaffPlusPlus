@@ -28,10 +28,10 @@ public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepositor
     }
 
     @Override
-    public void save(UUID playerUuid, String playerName, String ip) {
+    public void save(UUID playerUuid, String playerName, String ip, String server) {
         try (Connection sql = getConnection();
              PreparedStatement delete = sql.prepareStatement("DELETE FROM sp_player_ips WHERE player_uuid = ? AND ip=?;");
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_player_ips(player_uuid, player_name, ip, ip_numeric, timestamp) VALUES (?,?,?,?,?);");
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_player_ips(player_uuid, player_name, ip, ip_numeric, server_name, timestamp) VALUES (?,?,?,?,?,?);");
              ) {
             sql.setAutoCommit(false);
             delete.setString(1, playerUuid.toString());
@@ -42,7 +42,8 @@ public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepositor
             insert.setString(2, playerName);
             insert.setString(3, ip);
             insert.setLong(4, JavaUtils.convertIp(ip));
-            insert.setLong(5, System.currentTimeMillis());
+            insert.setString(5, server);
+            insert.setLong(6, System.currentTimeMillis());
             insert.executeUpdate();
             sql.commit();
         } catch (SQLException e) {
