@@ -2,17 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.altaccountdetect;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.permissions.Permission;
+import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.common.permissions.PlayerParam;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.AltDetectInfo;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.AltDetector;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.IpDetector;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.UsernameDetector;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
+import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.database.AltDetectWhitelistRepository;
 import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import net.shortninja.staffplusplus.altdetect.AltDetectResultType;
@@ -47,20 +46,26 @@ public class AltDetectionService {
         this.permission = permission;
     }
 
-    @Permission(permissions = "permissions:permissions.alt-detect-whitelist")
-    public void addToWhitelist(@PlayerParam CommandSender sender, SppPlayer player1, SppPlayer player2) {
+    public void addToWhitelist(CommandSender sender, SppPlayer player1, SppPlayer player2) {
+        if (!permission.has(sender, altDetectConfiguration.whitelistPermission)) {
+            throw new NoPermissionException();
+        }
         altDetectWhitelistRepository.addWhitelistedItem(player1.getId(), player2.getId());
         sender.sendMessage("Successfully added to whitelist");
     }
 
-    @Permission(permissions = "permissions:permissions.alt-detect-whitelist")
-    public void removeFromWhitelist(@PlayerParam CommandSender sender, SppPlayer player1, SppPlayer player2) {
+    public void removeFromWhitelist(CommandSender sender, SppPlayer player1, SppPlayer player2) {
+        if (!permission.has(sender, altDetectConfiguration.whitelistPermission)) {
+            throw new NoPermissionException();
+        }
         altDetectWhitelistRepository.removeWhitelistedItem(player1.getId(), player2.getId());
         sender.sendMessage("Successfully removed from whitelist");
     }
 
-    @Permission(permissions = "permissions:permissions.alt-detect-whitelist")
-    public List<AltDetectWhitelistedItem> getWhitelistedItems(@PlayerParam CommandSender sender, int offset, int amount) {
+    public List<AltDetectWhitelistedItem> getWhitelistedItems(CommandSender sender, int offset, int amount) {
+        if (!permission.has(sender, altDetectConfiguration.whitelistPermission)) {
+            throw new NoPermissionException();
+        }
         return altDetectWhitelistRepository.getAllPAgedWhitelistedItems(offset, amount);
     }
 

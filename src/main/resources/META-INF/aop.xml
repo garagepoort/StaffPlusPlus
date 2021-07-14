@@ -1,8 +1,0 @@
-<aspectj>
-    <aspects>
-        <aspect name="net.shortninja.staffplus.core.common.permissions.aspect.PermissionMethodAspect"/>
-        <weaver options="-verbose -showWeaveInfo">
-            <include within="net.shortninja.staffplus.core.*"/>
-        </weaver>
-    </aspects>
-</aspectj>
