@@ -4,6 +4,7 @@
 
 ### bugfixes
 - Fix Session Exception on EntityTargetLivingEntityEvent
+- Fix duplicate ip entry
 
 # V1.17.6
 

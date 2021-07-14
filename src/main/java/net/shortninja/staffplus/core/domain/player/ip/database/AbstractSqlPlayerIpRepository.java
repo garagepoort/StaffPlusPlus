@@ -30,25 +30,21 @@ public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepositor
     @Override
     public void save(UUID playerUuid, String playerName, String ip) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_player_ips(player_uuid, player_name, ip, ip_numeric, timestamp) VALUES (?,?,?,?,?);")) {
+             PreparedStatement delete = sql.prepareStatement("DELETE FROM sp_player_ips WHERE player_uuid = ? AND ip=?;");
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_player_ips(player_uuid, player_name, ip, ip_numeric, timestamp) VALUES (?,?,?,?,?);");
+             ) {
+            sql.setAutoCommit(false);
+            delete.setString(1, playerUuid.toString());
+            delete.setString(2, ip);
+            delete.executeUpdate();
+
             insert.setString(1, playerUuid.toString());
             insert.setString(2, playerName);
             insert.setString(3, ip);
             insert.setLong(4, JavaUtils.convertIp(ip));
             insert.setLong(5, System.currentTimeMillis());
             insert.executeUpdate();
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-    }
-
-    @Override
-    public void delete(UUID playerUuid, String ip) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_player_ips WHERE player_uuid = ? AND ip_numeric=?;")) {
-            insert.setString(1, playerUuid.toString());
-            insert.setLong(2, JavaUtils.convertIp(ip));
-            insert.executeUpdate();
+            sql.commit();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
