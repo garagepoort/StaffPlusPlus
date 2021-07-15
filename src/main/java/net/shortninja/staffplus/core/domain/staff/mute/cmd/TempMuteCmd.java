@@ -6,10 +6,7 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.time.TimeUnit;
@@ -23,6 +20,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Command(
+    command = "commands:commands.tempmute",
+    permissions = "permissions:permissions.tempmute",
+    description = "Temporary mute a player",
+    usage = "[player] [amount] [unit] [reason]",
+    delayable = true
+)
 @IocBean(conditionalOnProperty = "mute-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class TempMuteCmd extends AbstractCmd {
@@ -33,13 +37,11 @@ public class TempMuteCmd extends AbstractCmd {
     private final PlayerManager playerManager;
 
     public TempMuteCmd(PermissionHandler permissionHandler, Messages messages, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
-        super(options.muteConfiguration.getCommandTempMutePlayer(), messages, options, commandService);
+        super(messages, options, commandService);
         this.muteService = muteService;
         this.sessionManager = sessionManager;
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
-        setDescription("Temporary mute a player");
-        setUsage("[player] [amount] [unit] [reason]");
     }
 
     @Override
@@ -53,7 +55,7 @@ public class TempMuteCmd extends AbstractCmd {
         String reason = JavaUtils.compileWords(args, 3);
 
         muteService.tempMute(sender, player, TimeUnit.getDuration(timeUnit, amount), reason);
-        if(player.isOnline()) {
+        if (player.isOnline()) {
             sessionManager.get(player.getId()).setMuted(true);
         }
         return true;
@@ -77,11 +79,6 @@ public class TempMuteCmd extends AbstractCmd {
     @Override
     protected boolean canBypass(Player player) {
         return permissionHandler.has(player, options.muteConfiguration.getPermissionMuteByPass());
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return true;
     }
 
     @Override

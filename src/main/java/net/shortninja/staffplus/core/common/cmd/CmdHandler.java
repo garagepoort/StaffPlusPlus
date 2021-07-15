@@ -8,12 +8,12 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.IProtocolService;
+import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.defaults.BukkitCommand;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,8 +38,8 @@ public class CmdHandler implements PluginDisable {
 
     private void registerCommands() {
         commands = sppCommands.stream()
-            .filter(s -> StringUtils.isNotBlank(((BukkitCommand) s).getName()))
             .peek(this::injectPermissions)
+            .filter(s -> StringUtils.isNotBlank(((BukkitCommand) s).getName()))
             .map(sppCommand -> new BaseCmd(messages, (org.bukkit.command.Command) sppCommand))
             .collect(Collectors.toList());
 
@@ -50,15 +50,19 @@ public class CmdHandler implements PluginDisable {
         Command command = s.getClass().getAnnotation(Command.class);
         if (command != null) {
             Set<String> permissions = Arrays.stream(command.permissions())
-                .map(p -> ReflectionUtils.getConfigValue(p, StaffPlus.get().getFileConfigurations()))
-                .filter(Optional::isPresent)
-                .map(p -> (String) p.get())
+                .map(p -> (String) ReflectionUtils.getConfigValue(p, StaffPlus.get().getFileConfigurations()).orElseThrow(() -> new ConfigurationException("Invalid permission: " + p)))
                 .collect(Collectors.toSet());
 
             AbstractCmd abstractCmd = (AbstractCmd) s;
             permissions.forEach(abstractCmd::setPermission);
             abstractCmd.setDescription(command.description());
             abstractCmd.setUsage(command.usage());
+            abstractCmd.setDelayable(command.delayable());
+            if (StringUtils.isNotBlank(command.command())) {
+                String commandName = (String) ReflectionUtils.getConfigValue(command.command(), StaffPlus.get().getFileConfigurations())
+                    .orElseThrow(() -> new ConfigurationException("Invalid command name: " + command.command()));
+                abstractCmd.setName(commandName);
+            }
         }
     }
 

@@ -11,4 +11,6 @@ public @interface Command {
     String[] permissions();
     String description() default "";
     String usage() default  "";
+    boolean delayable() default  false;
+    String command() default "";
 }
