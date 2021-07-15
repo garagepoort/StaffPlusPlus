@@ -2,10 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -23,6 +20,13 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
+@Command(
+    command = "commands:commands.teleport-to-location",
+    permissions = "permissions:permissions.teleport-to-location",
+    description = "Teleports the player to predefined locations",
+    usage = "[player] [location]",
+    delayable = true
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class TeleportToLocationCmd extends AbstractCmd {
@@ -32,13 +36,10 @@ public class TeleportToLocationCmd extends AbstractCmd {
     private final TeleportService teleportService;
 
     public TeleportToLocationCmd(PermissionHandler permissionHandler, Messages messages, PlayerManager playerManager, Options options, TeleportService teleportService, CommandService commandService) {
-        super(options.commandTeleportToLocation, messages, options, commandService);
+        super(messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
         this.teleportService = teleportService;
-        setDescription("Teleports the player to predefined locations");
-        setUsage("{player} {location}");
-        setPermission(options.permissionTeleportToLocation);
     }
 
     @Override
@@ -62,11 +63,6 @@ public class TeleportToLocationCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 2;
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return true;
     }
 
     @Override

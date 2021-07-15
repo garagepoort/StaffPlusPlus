@@ -2,10 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.freeze;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -22,6 +19,13 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
 
+@Command(
+    command = "commands:commands.freeze",
+    permissions = "permissions:permissions.freeze",
+    description = "Freezes or unfreezes the player",
+    usage = "[player] [enable | disable]",
+    delayable = true
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class FreezeCmd extends AbstractCmd {
@@ -33,13 +37,10 @@ public class FreezeCmd extends AbstractCmd {
     private final PlayerManager playerManager;
 
     public FreezeCmd(PermissionHandler permissionHandler, Messages messages, Options options, FreezeHandler freezeHandler, CommandService commandService, PlayerManager playerManager) {
-        super(options.commandFreeze, messages, options, commandService);
+        super(messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.freezeHandler = freezeHandler;
         this.playerManager = playerManager;
-        setDescription("Freezes or unfreezes the player");
-        setUsage("{player} {enable | disable}");
-        setPermission(options.permissionFreeze);
     }
 
     @Override
@@ -69,11 +70,6 @@ public class FreezeCmd extends AbstractCmd {
             }
         }
         return 1;
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return true;
     }
 
     @Override
