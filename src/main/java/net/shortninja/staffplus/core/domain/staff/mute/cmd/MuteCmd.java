@@ -20,13 +20,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@IocBean(conditionalOnProperty = "mute-module.enabled=true")
-@IocMultiProvider(SppCommand.class)
 @Command(
+    command = "commands:commands.mute",
     permissions = "permissions:permissions.mute",
     description = "Permanent mute a player",
     usage = "[player] [reason]"
 )
+@IocBean(conditionalOnProperty = "mute-module.enabled=true")
+@IocMultiProvider(SppCommand.class)
 public class MuteCmd extends AbstractCmd {
 
     private final PermissionHandler permissionHandler;
@@ -35,7 +36,7 @@ public class MuteCmd extends AbstractCmd {
     private final PlayerManager playerManager;
 
     public MuteCmd(PermissionHandler permissionHandler, Messages messages, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
-        super(options.muteConfiguration.getCommandMutePlayer(), messages, options, commandService);
+        super(messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.muteService = muteService;
         this.sessionManager = sessionManager;
