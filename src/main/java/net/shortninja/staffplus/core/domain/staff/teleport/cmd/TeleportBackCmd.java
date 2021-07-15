@@ -2,10 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -24,6 +21,13 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
+@Command(
+    command = "commands:commands.teleport-back",
+    permissions = "permissions:permissions.teleport-to-location",
+    description = "Teleports the player to his last known location before teleportation happened",
+    usage = "[player]",
+    delayable = true
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class TeleportBackCmd extends AbstractCmd {
@@ -32,12 +36,9 @@ public class TeleportBackCmd extends AbstractCmd {
     private final TeleportService teleportService;
 
     public TeleportBackCmd(PermissionHandler permissionHandler, Messages messages, Options options, TeleportService teleportService, CommandService commandService) {
-        super(options.commandTeleportBack, messages, options, commandService);
+        super(messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.teleportService = teleportService;
-        setDescription("Teleports the player to his last known location before teleportation happened");
-        setUsage("{player}");
-        setPermission(options.permissionTeleportToLocation);
     }
 
     @Override
@@ -59,11 +60,6 @@ public class TeleportBackCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return false;
     }
 
     @Override
