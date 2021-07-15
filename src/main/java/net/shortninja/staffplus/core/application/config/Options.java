@@ -115,7 +115,6 @@ public class Options {
     public String permissionModeSilentChestInteraction;
     public String permissionFreeze;
     public String permissionFreezeBypass;
-    public String permissionTeleportToLocation;
     public String permissionTeleportToPlayer;
     public String permissionTeleportHere;
     public String permissionTeleportBypass;
@@ -137,8 +136,6 @@ public class Options {
     public String commandStaffMode;
     public String commandStaffFly;
     public String commandFreeze;
-    public String commandTeleportToLocation;
-    public String commandTeleportBack;
     public String commandTeleportToPlayer;
     public String commandTeleportHere;
     public String commandCps;
@@ -304,7 +301,6 @@ public class Options {
         permissionModeSilentChestInteraction = permissionsConfig.getString("permissions.mode-silent-chest-interaction");
         permissionFreeze = permissionsConfig.getString("permissions.freeze");
         permissionFreezeBypass = permissionsConfig.getString("permissions.freeze-bypass");
-        permissionTeleportToLocation = permissionsConfig.getString("permissions.teleport-to-location");
         permissionTeleportToPlayer = permissionsConfig.getString("permissions.teleport-to-player");
         permissionTeleportHere = permissionsConfig.getString("permissions.teleport-here");
         permissionTeleportBypass = permissionsConfig.getString("permissions.teleport-bypass");
@@ -326,8 +322,6 @@ public class Options {
         commandStaffMode = commandsConfig.getString("commands.staff-mode");
         commandStaffFly = commandsConfig.getString("commands.staff-mode-fly");
         commandFreeze = commandsConfig.getString("commands.freeze");
-        commandTeleportToLocation = commandsConfig.getString("commands.teleport-to-location");
-        commandTeleportBack = commandsConfig.getString("commands.teleport-back");
         commandTeleportToPlayer = commandsConfig.getString("commands.teleport-to-player");
         commandTeleportHere = commandsConfig.getString("commands.teleport-here");
         commandCps = commandsConfig.getString("commands.cps");

@@ -3,10 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.examine;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -26,18 +23,22 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TE
 
 @IocBean
 @IocMultiProvider(SppCommand.class)
+@Command(
+    command = "commands:commands.clearInv",
+    permissions = "permissions:permissions.invClear",
+    description = "Used to clear a desired player's inventory",
+    usage = "[player]",
+    delayable = true
+)
 public class ClearInvCmd extends AbstractCmd {
 
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
 
     public ClearInvCmd(PermissionHandler permissionHandler, Messages messages, Options options, CommandService commandService, PlayerManager playerManager) {
-        super(options.commandClearInv, messages, options, commandService);
+        super(messages, options, commandService);
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
-        setPermission(options.permissionClearInv);
-        setDescription("Used to clear a desired player's inventory");
-        setUsage("[player]");
     }
 
     @Override
@@ -60,11 +61,6 @@ public class ClearInvCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected boolean isDelayable() {
-        return true;
     }
 
     @Override
