@@ -19,11 +19,17 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     protected final Messages messages;
     protected final Options options;
     private final CommandService commandService;
-
+    private boolean delayable;
     private Set<String> permissions = new HashSet<>();
 
     protected AbstractCmd(String name, Messages messages, Options options, CommandService commandService) {
         super(name);
+        this.messages = messages;
+        this.options = options;
+        this.commandService = commandService;
+    }
+    protected AbstractCmd(Messages messages, Options options, CommandService commandService) {
+        super("");
         this.messages = messages;
         this.options = options;
         this.commandService = commandService;
@@ -50,13 +56,13 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
             PlayerRetrievalStrategy strategy = getPlayerRetrievalStrategy();
             String playerName = getPlayerName(sender, filteredArgs).orElse(null);
 
-            Optional<SppPlayer> player = commandService.retrievePlayer(sppArgs, playerName, strategy, isDelayable());
+            Optional<SppPlayer> player = commandService.retrievePlayer(sppArgs, playerName, strategy, delayable);
 
             if (player.isPresent()) {
                 if (player.get().isOnline() && canBypass(player.get().getPlayer())) {
                     throw new BusinessException(messages.bypassed, messages.prefixGeneral);
                 }
-                if (commandService.shouldDelay(sppArgs, isDelayable())) {
+                if (commandService.shouldDelay(sppArgs, delayable)) {
                     commandService.delayCommand(sender, alias, filteredArgs, player.get().getUsername());
                     return true;
                 }
@@ -95,7 +101,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     private List<ArgumentType> getSppArguments() {
         List<ArgumentType> collect = Stream.of(getPreExecutionSppArguments(), getPostExecutionSppArguments()).flatMap(Collection::stream).collect(Collectors.toList());
-        if (isDelayable()) {
+        if (delayable) {
             collect.add(ArgumentType.DELAY);
         }
         return collect;
@@ -176,11 +182,8 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
      */
     protected abstract Optional<String> getPlayerName(CommandSender sender, String[] args);
 
-    /**
-     * @return boolean Indicates if this method can be delayed until the next login of a player
-     */
-    protected boolean isDelayable() {
-        return false;
+    public void setDelayable(boolean delayable) {
+        this.delayable = delayable;
     }
 
     private void validateMinimumArguments(CommandSender sender, String[] args) {
