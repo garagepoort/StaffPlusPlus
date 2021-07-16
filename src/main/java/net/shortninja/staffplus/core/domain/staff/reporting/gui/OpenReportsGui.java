@@ -2,14 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class OpenReportsGui extends PagedGui {
 
     private final PermissionHandler permissionHandler;
-    private final Options options;
+    private final ManageReportConfiguration manageReportConfiguration = StaffPlus.get().getIocContainer().get(ManageReportConfiguration.class);
     private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
     private final Supplier<AbstractGui> backGuiSupplier;
 
@@ -29,7 +29,6 @@ public class OpenReportsGui extends PagedGui {
         super(player, title, page, backGuiSupplier);
         this.backGuiSupplier = backGuiSupplier;
         permissionHandler = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
-        options = StaffPlus.get().getIocContainer().get(Options.class);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class OpenReportsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                if (!permissionHandler.has(player, options.manageReportConfiguration.getPermissionAccept())) {
+                if (!permissionHandler.has(player, manageReportConfiguration.permissionAccept)) {
                     return;
                 }
                 int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));

@@ -2,14 +2,12 @@ package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import org.bukkit.command.CommandSender;
@@ -18,18 +16,26 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 import java.util.Optional;
 
+@Command(
+    command = "commands:commands.follow",
+    permissions = "permissions:permissions.follow",
+    description = "Follows or unfollows the player.",
+    usage = "[player]",
+    playerRetrievalStrategy = PlayerRetrievalStrategy.ONLINE
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class FollowCmd extends AbstractCmd {
 
     private final GadgetHandler gadgetHandler;
 
-    public FollowCmd(Messages messages, Options options, GadgetHandler gadgetHandler, CommandService commandService) {
-        super(options.commandFollow, messages, options, commandService);
+    public FollowCmd(Messages messages,
+                     Options options,
+                     GadgetHandler gadgetHandler,
+                     CommandService commandService,
+                     PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.gadgetHandler = gadgetHandler;
-        setPermission(options.permissionFollow);
-        setDescription("Follows or unfollows the player.");
-        setUsage("{player}");
     }
 
     @Override
@@ -42,15 +48,9 @@ public class FollowCmd extends AbstractCmd {
         return true;
     }
 
-
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
     }
 
     @Override

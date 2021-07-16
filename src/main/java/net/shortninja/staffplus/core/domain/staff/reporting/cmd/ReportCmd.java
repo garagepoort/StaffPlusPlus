@@ -2,22 +2,22 @@ package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.CulpritFilterPredicate;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportReasonConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportTypeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportReasonSelectGui;
-import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportTypeSelectGui;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,20 +26,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Command(
+    command = "commands:commands.report",
+    permissions = "permissions:permissions.report",
+    description = "Sends a report without a specific player.",
+    usage = "[reason]"
+)
 @IocBean(conditionalOnProperty = "reports-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class ReportCmd extends AbstractCmd {
     private static final CulpritFilterPredicate culpritFilterPredicate = new CulpritFilterPredicate(false);
+    private final Options options;
     private final ReportService reportService;
     private final List<ReportTypeConfiguration> reportTypeConfigurations;
     private final List<ReportReasonConfiguration> reportReasonConfigurations;
 
-    public ReportCmd(Messages messages, Options options, ReportService reportService, CommandService commandService) {
-        super(options.commandReport, messages, options, commandService);
+    public ReportCmd(Messages messages,
+                     Options options,
+                     ReportService reportService,
+                     CommandService commandService,
+                     PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
+        this.options = options;
         this.reportService = reportService;
-        setPermission(options.permissionReport);
-        setDescription("Sends a report without a specific player.");
-        setUsage("[reason]");
         reportTypeConfigurations = options.reportConfiguration.getReportTypeConfigurations(culpritFilterPredicate);
         reportReasonConfigurations = options.reportConfiguration.getReportReasonConfigurations(culpritFilterPredicate);
     }
@@ -78,11 +87,6 @@ public class ReportCmd extends AbstractCmd {
     @Override
     protected boolean isAuthenticationRequired() {
         return false;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override

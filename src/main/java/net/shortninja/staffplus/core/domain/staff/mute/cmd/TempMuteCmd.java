@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.mute.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.*;
@@ -12,6 +11,7 @@ import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.time.TimeUnit;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
+import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,12 +20,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
+
 @Command(
     command = "commands:commands.tempmute",
     permissions = "permissions:permissions.tempmute",
     description = "Temporary mute a player",
     usage = "[player] [amount] [unit] [reason]",
-    delayable = true
+    delayable = true,
+    playerRetrievalStrategy = BOTH
 )
 @IocBean(conditionalOnProperty = "mute-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
@@ -35,13 +38,21 @@ public class TempMuteCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
+    private final MuteConfiguration muteConfiguration;
 
-    public TempMuteCmd(PermissionHandler permissionHandler, Messages messages, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
-        super(messages, options, commandService);
+    public TempMuteCmd(PermissionHandler permissionHandler,
+                       Messages messages,
+                       MuteService muteService,
+                       SessionManagerImpl sessionManager,
+                       CommandService commandService,
+                       PlayerManager playerManager,
+                       MuteConfiguration muteConfiguration) {
+        super(messages, permissionHandler, commandService);
         this.muteService = muteService;
         this.sessionManager = sessionManager;
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
+        this.muteConfiguration = muteConfiguration;
     }
 
     @Override
@@ -67,18 +78,13 @@ public class TempMuteCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
-    }
-
-    @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.ofNullable(args[0]);
     }
 
     @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, options.muteConfiguration.getPermissionMuteByPass());
+        return permissionHandler.has(player, muteConfiguration.permissionMuteByPass);
     }
 
     @Override

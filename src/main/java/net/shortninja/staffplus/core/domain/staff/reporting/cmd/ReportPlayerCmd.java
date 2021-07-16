@@ -3,14 +3,12 @@ package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.CulpritFilterPredicate;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportReasonConfiguration;
@@ -28,6 +26,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
+
+@Command(
+    command = "commands:commands.reportPlayer",
+    permissions = "permissions:permissions.report",
+    description = "Sends a report with the given player and reason.",
+    usage = "[player] [reason]",
+    playerRetrievalStrategy = BOTH
+)
 @IocBean(conditionalOnProperty = "reports-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class ReportPlayerCmd extends AbstractCmd {
@@ -35,16 +42,15 @@ public class ReportPlayerCmd extends AbstractCmd {
     private final List<ReportTypeConfiguration> reportTypeConfigurations;
     private final List<ReportReasonConfiguration> reportReasonConfigurations;
 
+    private final Options options;
     private final ReportService reportService;
     private final PlayerManager playerManager;
 
-    public ReportPlayerCmd(Messages messages, Options options, ReportService reportService, PlayerManager playerManager, CommandService commandService) {
-        super(options.commandReportPlayer, messages, options, commandService);
+    public ReportPlayerCmd(Messages messages, Options options, ReportService reportService, PlayerManager playerManager, CommandService commandService, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
+        this.options = options;
         this.reportService = reportService;
         this.playerManager = playerManager;
-        setPermission(options.permissionReport);
-        setDescription("Sends a report with the given player and reason.");
-        setUsage("[player] [reason]");
         reportTypeConfigurations = options.reportConfiguration.getReportTypeConfigurations(culpritFilterPredicate);
         reportReasonConfigurations = options.reportConfiguration.getReportReasonConfigurations(culpritFilterPredicate);
     }
@@ -82,11 +88,6 @@ public class ReportPlayerCmd extends AbstractCmd {
     @Override
     protected boolean isAuthenticationRequired() {
         return false;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
     }
 
     @Override

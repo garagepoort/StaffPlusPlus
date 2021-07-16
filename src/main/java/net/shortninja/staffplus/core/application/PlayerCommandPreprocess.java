@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.application;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.cmd.BaseCmd;
 import net.shortninja.staffplus.core.common.cmd.CmdHandler;
@@ -36,6 +37,9 @@ public class PlayerCommandPreprocess implements Listener {
     private final TraceService traceService;
     private final SessionManagerImpl sessionManager;
 
+    @ConfigProperty("commands:commands.login")
+    private String commandLogin;
+
     public PlayerCommandPreprocess(PermissionHandler permission, Options options, Messages messages, FreezeHandler freezeHandler, CmdHandler cmdHandler, TraceService traceService, SessionManagerImpl sessionManager) {
         this.permission = permission;
 
@@ -67,7 +71,7 @@ public class PlayerCommandPreprocess implements Listener {
         } else if (sessionManager.get(uuid).isInStaffMode() && options.blockedModeCommands.contains(command)) {
             messages.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
-        } else if (freezeHandler.isFrozen(uuid) && (!options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezeChat() && !command.startsWith("/" + options.commandLogin))) {
+        } else if (freezeHandler.isFrozen(uuid) && (!options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezeChat() && !command.startsWith("/" + commandLogin))) {
             messages.send(player, messages.chatPrevented, messages.prefixGeneral);
             event.setCancelled(true);
         }

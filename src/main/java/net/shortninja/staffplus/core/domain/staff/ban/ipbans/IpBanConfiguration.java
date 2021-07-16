@@ -12,30 +12,6 @@ import java.util.Optional;
 @IocBean
 public class IpBanConfiguration {
 
-    @ConfigProperty("ban-module.ipban.enabled")
-    public boolean banEnabled;
-
-    @ConfigProperty("commands:commands.ipban.ban")
-    public String commandIpBan;
-    @ConfigProperty("commands:commands.ipban.tempban")
-    public String commandIpTempBan;
-    @ConfigProperty("commands:commands.ipban.unban")
-    public String commandIpUnban;
-    @ConfigProperty("commands:commands.ipban.bancheck")
-    public String commandIpBanCheck;
-    @ConfigProperty("commands:commands.ipban.ipbans")
-    public String commandIpBans;
-
-    @ConfigProperty("permissions:permissions.ipban.ban")
-    public String permissionIpBan;
-    @ConfigProperty("permissions:permissions.ipban.tempban")
-    public String permissionIpTempBan;
-    @ConfigProperty("permissions:permissions.ipban.unban")
-    public String permissionUnban;
-    @ConfigProperty("permissions:permissions.ipban.ban-view")
-    public String permissionIpBanView;
-    @ConfigProperty("permissions:permissions.ipban.ban-check")
-    public String permissionIpBanCheck;
     @ConfigProperty("permissions:permissions.ipban.ban-silent")
     public String permissionBanSilent;
     @ConfigProperty("permissions:permissions.ipban.ban-template-overwrite")
@@ -56,13 +32,9 @@ public class IpBanConfiguration {
 
     public Optional<String> getDefaultBanTemplate(BanType banType) {
         if (banType == BanType.PERM_BAN) {
-            return StringUtils.isEmpty(permBanTemplate) ? Optional.empty() : Optional.ofNullable(permBanTemplate);
+            return StringUtils.isEmpty(permBanTemplate) ? Optional.empty() : Optional.of(permBanTemplate);
         }
-        return StringUtils.isEmpty(tempBanTemplate) ? Optional.empty() : Optional.ofNullable(tempBanTemplate);
-    }
-
-    public Map<String, String> getTemplates() {
-        return templates;
+        return StringUtils.isEmpty(tempBanTemplate) ? Optional.empty() : Optional.of(tempBanTemplate);
     }
 
     public Optional<String> getTemplate(String template) {

@@ -2,10 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -25,30 +23,44 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
+
+@Command(
+    command = "commands:commands.staff-mode",
+    permissions = "permissions:permissions.mode",
+    description = "Enables or disables staff mode.",
+    usage = "[player] [enable | disable]",
+    playerRetrievalStrategy = ONLINE
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class ModeCmd extends AbstractCmd {
     private static final String ENABLE = "enable";
     private static final String DISABLE = "disable";
-    private static final String DESCRIPTION = "Enables or disables staff mode.";
-    private static final String USAGE = "{player} {enable | disable}";
-
     private static final String MODE_TYPE = "-mode=";
 
     private final PermissionHandler permissionHandler;
+    private final Options options;
     private final StaffModeService staffModeService;
     private final SessionManagerImpl sessionManager;
     private final PlayerManager playerManager;
 
-    public ModeCmd(PermissionHandler permissionHandler, Messages messages, Options options, StaffModeService staffModeService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
-        super(options.commandStaffMode, messages, options, commandService);
+    @ConfigProperty("permissions:permissions.mode-specific")
+    private String permissionModeSpecific;
+
+    public ModeCmd(PermissionHandler permissionHandler,
+                   Messages messages,
+                   Options options,
+                   StaffModeService staffModeService,
+                   SessionManagerImpl sessionManager,
+                   CommandService commandService,
+                   PlayerManager playerManager) {
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
+        this.options = options;
         this.staffModeService = staffModeService;
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
-        setDescription(DESCRIPTION);
-        setUsage(USAGE);
-        setPermission(options.permissionMode);
     }
 
     @Override
@@ -97,7 +109,7 @@ public class ModeCmd extends AbstractCmd {
 
     private void turnOnSpecificStaffMode(CommandSender sender, String arg) {
         validateIsPlayer(sender);
-        permissionHandler.validate(sender, options.permissionModeSpecific);
+        permissionHandler.validate(sender, permissionModeSpecific);
         staffModeService.turnStaffModeOn((Player) sender, getModeName(arg));
     }
 
@@ -107,11 +119,6 @@ public class ModeCmd extends AbstractCmd {
             return 0;
         }
         return 1;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
     }
 
     @Override

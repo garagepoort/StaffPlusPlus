@@ -2,18 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-
-import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,6 +21,13 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
+@Command(
+    command = "commands:commands.notes",
+    permissions = "permissions:permissions.examine",
+    description = "Adds or manages a player's notes",
+    usage = "[player] [note]",
+    playerRetrievalStrategy = ONLINE
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class NotesCmd extends AbstractCmd {
@@ -32,24 +37,20 @@ public class NotesCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final PermissionHandler permissionHandler;
 
-    public NotesCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
-        super(options.commandNotes, messages, options, commandService);
+    public NotesCmd(PermissionHandler permissionHandler, Messages messages, SessionManagerImpl sessionManager, CommandService commandService) {
+        super(messages, permissionHandler, commandService);
         this.sessionManager = sessionManager;
         this.permissionHandler = permissionHandler;
-        setPermission(options.examineConfiguration.getPermissionExamine());
-        setDescription("Adds or manages a player's notes");
-        setUsage("[player] [note]");
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
         if (args.length == 2) {
             String argument = args[0];
-            boolean hasPermission = permissionHandler.has(sender, options.examineConfiguration.getPermissionExamine());
 
-            if (argument.equalsIgnoreCase(GET) && hasPermission) {
+            if (argument.equalsIgnoreCase(GET)) {
                 listNotes(sender, targetPlayer.getPlayer());
-            } else if (argument.equalsIgnoreCase(CLEAR) && hasPermission) {
+            } else if (argument.equalsIgnoreCase(CLEAR)) {
                 clearNotes(sender, targetPlayer.getPlayer());
             } else {
                 addNote(sender, targetPlayer.getPlayer(), JavaUtils.compileWords(args, 1));
@@ -70,15 +71,9 @@ public class NotesCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return ONLINE;
-    }
-
-    @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         if (args.length == 2) {
-            boolean hasPermission = permissionHandler.has(sender, options.examineConfiguration.getPermissionExamine());
-            if ((args[0].equalsIgnoreCase(GET) || args[0].equalsIgnoreCase(CLEAR)) && hasPermission) {
+            if ((args[0].equalsIgnoreCase(GET) || args[0].equalsIgnoreCase(CLEAR))) {
                 return Optional.of(args[1]);
             }
         }
