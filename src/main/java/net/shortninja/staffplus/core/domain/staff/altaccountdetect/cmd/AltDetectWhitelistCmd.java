@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Command(
-    command = "commands:commands.alt-detect-whitelist",
-    permissions = "permissions:permissions.alt-detect-check",
+    command = "commands:alt-detect-whitelist",
+    permissions = "permissions:alt-detect-check",
     description = "Add/Remove players from the alt account detection whitelist",
     usage = "[add/remove] [player1] [player2]"
 )

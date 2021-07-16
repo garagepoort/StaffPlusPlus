@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.echest_view",
+    command = "commands:echest_view",
     description = "Used to view a players ender chest",
     usage = "[player]",
     playerRetrievalStrategy = BOTH

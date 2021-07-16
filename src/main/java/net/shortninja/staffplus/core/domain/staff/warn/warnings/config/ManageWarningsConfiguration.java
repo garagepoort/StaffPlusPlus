@@ -6,15 +6,15 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 @IocBean
 public class ManageWarningsConfiguration {
 
-    @ConfigProperty("commands:commands.warnings.manage.gui")
+    @ConfigProperty("commands:warnings.manage.gui")
     public String commandManageWarningsGui;
-    @ConfigProperty("commands:commands.warnings.manage.appealed-gui")
+    @ConfigProperty("commands:warnings.manage.appealed-gui")
     public String commandManageAppealedWarningsGui;
-    @ConfigProperty("permissions:permissions.warnings.manage.view")
+    @ConfigProperty("permissions:warnings.manage.view")
     public String permissionView;
-    @ConfigProperty("permissions:permissions.warnings.manage.delete")
+    @ConfigProperty("permissions:warnings.manage.delete")
     public String permissionDelete;
-    @ConfigProperty("permissions:permissions.warnings.manage.expire")
+    @ConfigProperty("permissions:warnings.manage.expire")
     public String permissionExpire;
 
 }

@@ -26,8 +26,8 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TE
 @IocBean
 @IocMultiProvider(SppCommand.class)
 @Command(
-    command = "commands:commands.clearInv",
-    permissions = "permissions:permissions.invClear",
+    command = "commands:clearInv",
+    permissions = "permissions:invClear",
     description = "Used to clear a desired player's inventory",
     usage = "[player]",
     delayable = true,
@@ -38,7 +38,7 @@ public class ClearInvCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
 
-    @ConfigProperty("permissions:permissions.invClear-bypass")
+    @ConfigProperty("permissions:invClear-bypass")
     private String permissionClearInvBypass;
 
     public ClearInvCmd(PermissionHandler permissionHandler, Messages messages, CommandService commandService, PlayerManager playerManager) {

@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.unmute",
-    permissions = "permissions:permissions.unmute",
+    command = "commands:unmute",
+    permissions = "permissions:unmute",
     description = "Unmute a player",
     usage = "[player] [reason]",
     playerRetrievalStrategy = BOTH

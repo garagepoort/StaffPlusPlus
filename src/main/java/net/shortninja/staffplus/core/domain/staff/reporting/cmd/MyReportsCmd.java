@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.my-reports",
-    permissions = "permissions:permissions.view-my-reports",
+    command = "commands:my-reports",
+    permissions = "permissions:view-my-reports",
     description = "Open my reports gui"
 )
 @IocBean(conditionalOnProperty = "reports-module.enabled=true")
