@@ -1,9 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.revive;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.application.config.Messages;
-
+import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
@@ -15,9 +15,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
-import static net.shortninja.staffplus.core.common.Constants.*;
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
+import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
+import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithWhere;
 import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.insertFilterValues;
 import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.mapFilters;
 

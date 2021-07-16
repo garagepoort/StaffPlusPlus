@@ -5,8 +5,10 @@ import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplusplus.investigate.IInvestigation;
+import net.shortninja.staffplusplus.investigate.InvestigationNoteCreatedEvent;
+import net.shortninja.staffplusplus.investigate.InvestigationNoteDeletedEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplusplus.investigate.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

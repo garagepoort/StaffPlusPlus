@@ -6,12 +6,12 @@ import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.AltDetectInfo;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.AltDetector;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.IpDetector;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks.UsernameDetector;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
-import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.database.AltDetectWhitelistRepository;
 import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import net.shortninja.staffplusplus.altdetect.AltDetectResultType;
@@ -20,7 +20,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplusplus.altdetect.AltDetectResultType.SAME_IP;

@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.infractions.config;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
-
 import org.bukkit.Material;
 
 @IocBean
