@@ -22,10 +22,10 @@ public class VaultPermissionHandler implements PermissionHandler {
     public VaultPermissionHandler(Options options) {
         this.options = options;
         RegisteredServiceProvider<Permission> rsp = Bukkit.getServer().getServicesManager().getRegistration(Permission.class);
-        perms = rsp.getProvider();
-        if (perms == null) {
+        if (rsp == null) {
             throw new ConfigurationException("Vault plugin was not found. Please disable vault in the config or provide the vault plugin");
         }
+        perms = rsp.getProvider();
     }
 
     public boolean has(Player player, String permission) {

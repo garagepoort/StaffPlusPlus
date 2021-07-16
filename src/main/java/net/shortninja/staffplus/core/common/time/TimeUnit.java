@@ -41,7 +41,7 @@ public enum TimeUnit {
     public static long getDuration(String duration) {
         String[] split = duration.split(" ");
         if (split.length != 2) {
-            throw new RuntimeException("Invalid duration string");
+            throw new TimeParsingException("Invalid duration string");
         }
         return getDuration(split[1], Integer.parseInt(split[0]));
     }
