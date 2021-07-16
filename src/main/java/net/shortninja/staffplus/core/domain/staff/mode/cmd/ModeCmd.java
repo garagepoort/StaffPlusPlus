@@ -26,8 +26,8 @@ import java.util.stream.Stream;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.staff-mode",
-    permissions = "permissions:permissions.mode",
+    command = "commands:staff-mode",
+    permissions = "permissions:mode",
     description = "Enables or disables staff mode.",
     usage = "[player] [enable | disable]",
     playerRetrievalStrategy = ONLINE
@@ -45,7 +45,7 @@ public class ModeCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final PlayerManager playerManager;
 
-    @ConfigProperty("permissions:permissions.mode-specific")
+    @ConfigProperty("permissions:mode-specific")
     private String permissionModeSpecific;
 
     public ModeCmd(PermissionHandler permissionHandler,

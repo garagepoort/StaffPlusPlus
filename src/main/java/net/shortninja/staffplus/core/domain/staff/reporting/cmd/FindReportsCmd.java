@@ -23,8 +23,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Command(
-    command = "commands:commands.reports.manage.gui-find-reports",
-    permissions = "permissions:permissions.reports.manage.view",
+    command = "commands:reports.manage.gui-find-reports",
+    permissions = "permissions:reports.manage.view",
     description = "Find reports.",
     usage = "[filters...]"
 )

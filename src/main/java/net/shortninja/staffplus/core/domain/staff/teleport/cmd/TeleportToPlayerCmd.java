@@ -25,8 +25,8 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HE
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
 @Command(
-    command = "commands:commands.teleport-to-player",
-    permissions = "permissions:permissions.teleport-to-player",
+    command = "commands:teleport-to-player",
+    permissions = "permissions:teleport-to-player",
     description = "Teleport yourself to a specific player",
     usage = "[player]",
     playerRetrievalStrategy = ONLINE

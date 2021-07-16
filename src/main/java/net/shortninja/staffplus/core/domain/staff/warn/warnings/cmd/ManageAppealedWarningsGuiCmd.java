@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.warnings.manage.appealed-gui",
-    permissions = "permissions:permissions.warnings.manage.view",
+    command = "commands:warnings.manage.appealed-gui",
+    permissions = "permissions:warnings.manage.view",
     description = "Open the manage Appealed Warnings GUI."
 )
 @IocBean(conditionalOnProperty = "warnings-module.appeals.enabled=true")

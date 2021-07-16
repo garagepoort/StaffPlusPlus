@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.reports.manage.teleport-to-report",
-    permissions = "permissions:permissions.reports.manage.teleport",
+    command = "commands:reports.manage.teleport-to-report",
+    permissions = "permissions:reports.manage.teleport",
     description = "Teleport to report location",
     usage = "[reportId]"
 )

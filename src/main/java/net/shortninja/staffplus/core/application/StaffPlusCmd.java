@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.staffplus",
-    permissions = "permissions:permissions.staffplus",
+    command = "commands:staffplus",
+    permissions = "permissions:staffplus",
     description = "Used for reloading config and lang file in use",
     usage = "[reload]"
 )

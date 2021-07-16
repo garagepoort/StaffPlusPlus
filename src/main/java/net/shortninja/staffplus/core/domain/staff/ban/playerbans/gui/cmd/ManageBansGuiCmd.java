@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.bans.manage.gui",
-    permissions = "permissions:permissions.ban-view",
+    command = "commands:bans.manage.gui",
+    permissions = "permissions:ban-view",
     description = "Open the manage Bans GUI."
 )
 @IocBean(conditionalOnProperty = "ban-module.enabled=true")

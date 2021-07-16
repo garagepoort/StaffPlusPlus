@@ -26,8 +26,8 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType.PERM_BAN;
 
 @Command(
-    command = "commands:commands.ban",
-    permissions = "permissions:permissions.ban",
+    command = "commands:ban",
+    permissions = "permissions:ban",
     description = "Permanent ban a player",
     usage = "[player] [-template=?] [reason]",
     playerRetrievalStrategy = BOTH

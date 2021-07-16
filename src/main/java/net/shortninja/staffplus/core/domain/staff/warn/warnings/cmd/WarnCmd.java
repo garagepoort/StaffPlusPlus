@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.warn",
-    permissions = "permissions:permissions.warn",
+    command = "commands:warn",
+    permissions = "permissions:warn",
     description = "Issues a warning.",
     usage = "[severity] [player] [reason]",
     playerRetrievalStrategy = BOTH
@@ -35,7 +35,7 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 @IocMultiProvider(SppCommand.class)
 public class WarnCmd extends AbstractCmd {
 
-    @ConfigProperty("permissions:permissions.warn-bypass")
+    @ConfigProperty("permissions:warn-bypass")
     private String permissionWarnBypass;
 
     private final WarningConfiguration warningConfiguration;

@@ -16,8 +16,8 @@ import java.util.Optional;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.protect-player",
-    permissions = "permissions:permissions.protect-player",
+    command = "commands:protect-player",
+    permissions = "permissions:protect-player",
     description = "Protect a player from all damage",
     usage = "[player]",
     delayable = true,

@@ -23,8 +23,8 @@ import java.util.stream.Stream;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.tempmute",
-    permissions = "permissions:permissions.tempmute",
+    command = "commands:tempmute",
+    permissions = "permissions:tempmute",
     description = "Temporary mute a player",
     usage = "[player] [amount] [unit] [reason]",
     delayable = true,

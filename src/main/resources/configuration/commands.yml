@@ -6,172 +6,172 @@
 
 # All commands and their according names.
 # Leave a command blank to disable it.
-commands:
-    staffplus: "staffplus"
-    # The command for toggling staff mode.
-    staff-mode: "staff"
-    # The command for toggling fly while in staff mode.
-    staff-mode-fly: "sfly"
 
-    # The command for toggling freeze on players.
-    freeze: "freeze"
+staffplus: "staffplus"
+# The command for toggling staff mode.
+staff-mode: "staff"
+# The command for toggling fly while in staff mode.
+staff-mode-fly: "sfly"
 
-    # The command for teleporting a player to predefined locations
-    teleport-to-location: "teleportToLocation"
+# The command for toggling freeze on players.
+freeze: "freeze"
 
-    # The command for teleporting a player back to a previous location
-    teleport-back: "teleportBack"
+# The command for teleporting a player to predefined locations
+teleport-to-location: "teleportToLocation"
 
-    # The command for teleporting yourself to another player
-    teleport-to-player: "teleportToPlayer"
+# The command for teleporting a player back to a previous location
+teleport-back: "teleportBack"
 
-    # The command for teleporting a player to your location
-    teleport-here: "teleportHere"
+# The command for teleporting yourself to another player
+teleport-to-player: "teleportToPlayer"
 
-    # The command for examining players' inventory
-    examine: "examine"
+# The command for teleporting a player to your location
+teleport-here: "teleportHere"
 
-    # The command for managing notes for players.
-    notes: "notes"
+# The command for examining players' inventory
+examine: "examine"
 
-    # The command for running a clicks per second test on a player
-    cps: "cps"
+# The command for managing notes for players.
+notes: "notes"
 
-    # The command for opening the my reports gui
-    my-reports: "my-reports"
+# The command for running a clicks per second test on a player
+cps: "cps"
 
-    # The command for reporting and managing reports.
-    report: "report"
+# The command for opening the my reports gui
+my-reports: "my-reports"
 
-    # The command for reporting and managing reports specifically targeting a player.
-    reportPlayer: "reportPlayer"
+# The command for reporting and managing reports.
+report: "report"
 
-    reports.manage:
-        #Command to open the manage reports gui
-        gui: "manage-reports"
-        gui-find-reports: "find-reports"
-        # The command for managing reports specifically targeting a player.
-        cli: "reports"
-        teleport-to-report: "teleport-to-report"
+# The command for reporting and managing reports specifically targeting a player.
+reportPlayer: "reportPlayer"
 
-    investigations.manage:
-        start: "investigate"
-        pause: "pause-investigation"
-        conclude: "conclude-investigation"
-        gui: "manage-investigations"
-        add-note: "inote"
-    # The command for warning players
-    warn: "warn"
+reports.manage:
+    #Command to open the manage reports gui
+    gui: "manage-reports"
+    gui-find-reports: "find-reports"
+    # The command for managing reports specifically targeting a player.
+    cli: "reports"
+    teleport-to-report: "teleport-to-report"
 
-    # The command for warning and managing warnings.
-    warns: "warns"
+investigations.manage:
+    start: "investigate"
+    pause: "pause-investigation"
+    conclude: "conclude-investigation"
+    gui: "manage-investigations"
+    add-note: "inote"
+# The command for warning players
+warn: "warn"
 
-    warnings.manage:
-        #Command to open the manage warnings gui
-        gui: "manage-warnings"
-        #Command to open the manage warnings gui
-        appealed-gui: "manage-appealed-warnings"
+# The command for warning and managing warnings.
+warns: "warns"
 
-    # The command for opening the my warnings gui
-    my-warnings: "my-warnings"
+warnings.manage:
+    #Command to open the manage warnings gui
+    gui: "manage-warnings"
+    #Command to open the manage warnings gui
+    appealed-gui: "manage-appealed-warnings"
 
-    # The command for toggling vanish modes.
-    vanish: "vanish"
+# The command for opening the my warnings gui
+my-warnings: "my-warnings"
 
-    # The command for chat management.
-    chat: "chat"
+# The command for toggling vanish modes.
+vanish: "vanish"
 
-    # The command for creating and managing tickets.
-    ticket: "ticket"
+# The command for chat management.
+chat: "chat"
 
-    # The command for alerts management.
-    alerts: "alerts"
+# The command for creating and managing tickets.
+ticket: "ticket"
 
-    # The command for toggling player following.
-    follow: "follow"
+# The command for alerts management.
+alerts: "alerts"
 
-    # The command for reviving players.
-    revive: "revive"
+# The command for toggling player following.
+follow: "follow"
 
-    # The command for listing staff members.
-    staff-list: "personnel"
+# The command for reviving players.
+revive: "revive"
 
-    # The command for logging in.
-    login: "login"
+# The command for listing staff members.
+staff-list: "personnel"
 
-    # The command for registering a password.
+# The command for logging in.
+login: "login"
+
+# The command for registering a password.
+register: "register"
+
+# The command for stripping a player's armor.
+strip: "strip"
+
+# The command for clearing a players inventory
+clearInv: "clear"
+
+# The command to start/stop tracing a player
+trace: "trace"
+
+# The command for resetting a users password
+resetPass: "resetPassword"
+
+# The command to change your own password
+changePass: "changepassword"
+
+# The command to view a players ender chest
+echest_view: "eview"
+
+# The command to broadcast a message over all servers
+broadcast: "broadcast"
+
+# The command to toggle protection of a player
+protect-player: "protectPlayer"
+
+# The command to create/delete a protected area
+protect-area: "protectArea"
+
+bans.manage:
+    gui: "manage-bans"
+
+# The command to permanently ban a player
+ban: "ban"
+
+# The command to temporarily ban a player
+tempban: "tempban"
+
+# The command to unban a player
+unban: "unban"
+
+# The command to kick a player
+kick: "kick"
+
+# The command to permanently mute a player
+mute: "mute"
+
+# The command to temporarily mute a player
+tempmute: "tempmute"
+
+# The command to unmute a player
+unmute: "unmute"
+
+# The command to unban a player
+alt-detect-whitelist: "altWhitelist"
+# The command to unban a player
+alt-detect-check: "altCheck"
+
+# The command to view the infractions of a player
+infractions-view: "infractions"
+
+# The command to view the players with the most infractions
+infractions-top-view: "infractions-top"
+
+webui:
     register: "register"
 
-    # The command for stripping a player's armor.
-    strip: "strip"
+ipban:
+    ban: "ipban"
+    tempban: "iptempban"
+    unban: "ipunban"
+    bancheck: "ipban-check"
+    ipbans: "ipbans"
 
-    # The command for clearing a players inventory
-    clearInv: "clear"
-
-    # The command to start/stop tracing a player
-    trace: "trace"
-
-    # The command for resetting a users password
-    resetPass: "resetPassword"
-
-    # The command to change your own password
-    changePass: "changepassword"
-
-    # The command to view a players ender chest
-    echest_view: "eview"
-
-    # The command to broadcast a message over all servers
-    broadcast: "broadcast"
-
-    # The command to toggle protection of a player
-    protect-player: "protectPlayer"
-
-    # The command to create/delete a protected area
-    protect-area: "protectArea"
-
-    bans.manage:
-        gui: "manage-bans"
-
-    # The command to permanently ban a player
-    ban: "ban"
-
-    # The command to temporarily ban a player
-    tempban: "tempban"
-
-    # The command to unban a player
-    unban: "unban"
-
-    # The command to kick a player
-    kick: "kick"
-
-    # The command to permanently mute a player
-    mute: "mute"
-
-    # The command to temporarily mute a player
-    tempmute: "tempmute"
-
-    # The command to unmute a player
-    unmute: "unmute"
-
-    # The command to unban a player
-    alt-detect-whitelist: "altWhitelist"
-    # The command to unban a player
-    alt-detect-check: "altCheck"
-
-    # The command to view the infractions of a player
-    infractions-view: "infractions"
-
-    # The command to view the players with the most infractions
-    infractions-top-view: "infractions-top"
-
-    webui:
-        register: "register"
-
-    ipban:
-        ban: "ipban"
-        tempban: "iptempban"
-        unban: "ipunban"
-        bancheck: "ipban-check"
-        ipbans: "ipbans"
-
-    choice-action: "choice-action"
+choice-action: "choice-action"
