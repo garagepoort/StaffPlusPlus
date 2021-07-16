@@ -1,18 +1,23 @@
 package net.shortninja.staffplus.core.domain.staff.kick.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.kick.Kick;
+import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 

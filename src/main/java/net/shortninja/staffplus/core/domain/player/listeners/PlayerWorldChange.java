@@ -2,10 +2,10 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
-import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
+import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

@@ -7,7 +7,12 @@ import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class MysqlInvestigationsRepository extends AbstractSqlInvestigationsRepository {

@@ -4,15 +4,17 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.domain.actions.database.ActionableRepository;
 import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.Actionable;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static net.shortninja.staffplus.core.domain.actions.ActionRunStrategy.*;
+import static net.shortninja.staffplus.core.domain.actions.ActionRunStrategy.ALWAYS;
+import static net.shortninja.staffplus.core.domain.actions.ActionRunStrategy.DELAY;
+import static net.shortninja.staffplus.core.domain.actions.ActionRunStrategy.ONLINE;
 import static net.shortninja.staffplus.core.domain.delayedactions.Executor.CONSOLE;
 
 @IocBean

@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.common.cmd;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import org.bukkit.entity.Player;
 
 public class CommandUtil {

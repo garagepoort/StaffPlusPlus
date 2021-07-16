@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport;
 
 import be.garagepoort.mcioc.IocBean;
-
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
 

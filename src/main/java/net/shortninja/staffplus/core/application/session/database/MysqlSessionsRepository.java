@@ -4,7 +4,12 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class MysqlSessionsRepository extends AbstractSqlSessionsRepository {

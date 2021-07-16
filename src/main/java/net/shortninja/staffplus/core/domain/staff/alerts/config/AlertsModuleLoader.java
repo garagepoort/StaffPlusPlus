@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.config;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayBlockConfig;
 import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 

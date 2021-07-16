@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.domain.player.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.utils.GlassData;

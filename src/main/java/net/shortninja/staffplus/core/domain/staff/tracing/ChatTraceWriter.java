@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import net.shortninja.staffplus.core.application.config.Messages;
-
 import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import net.shortninja.staffplusplus.trace.TraceWriter;
 import org.bukkit.Bukkit;

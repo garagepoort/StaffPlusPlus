@@ -3,20 +3,25 @@ package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.common.cmd.*;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
@@ -41,7 +46,7 @@ public class TeleportBackCmd extends AbstractCmd {
     @ConfigProperty("permissions:teleport-bypass")
     private String permissionTeleportBypass;
 
-    public TeleportBackCmd(PermissionHandler permissionHandler, Messages messages, Options options, TeleportService teleportService, CommandService commandService) {
+    public TeleportBackCmd(PermissionHandler permissionHandler, Messages messages, TeleportService teleportService, CommandService commandService) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.teleportService = teleportService;

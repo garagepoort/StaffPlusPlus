@@ -5,7 +5,9 @@ import net.shortninja.staffplus.core.application.config.ConfigurationUtil;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ActionConfigLoader implements IConfigTransformer<List<ConfiguredAction>, List<LinkedHashMap<String, Object>>> {

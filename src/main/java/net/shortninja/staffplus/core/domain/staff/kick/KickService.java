@@ -6,13 +6,13 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.kick.database.KicksRepository;
 import net.shortninja.staffplusplus.kick.KickEvent;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

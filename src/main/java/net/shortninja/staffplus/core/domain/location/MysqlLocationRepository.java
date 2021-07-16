@@ -6,7 +6,11 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import org.bukkit.Location;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class MysqlLocationRepository extends AbstractSqlLocationRepository {

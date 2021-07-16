@@ -9,7 +9,9 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.util.Optional;
 
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.*;
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL_BOTH;
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL_ONLINE;
 
 @IocBean
 public class CommandPlayerRetriever {

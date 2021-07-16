@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect.checks;
 
+import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 import net.shortninja.staffplusplus.altdetect.AltDetectResultType;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 
 import java.util.List;
 

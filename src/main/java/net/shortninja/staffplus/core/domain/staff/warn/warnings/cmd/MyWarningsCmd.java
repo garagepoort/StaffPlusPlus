@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -32,7 +31,7 @@ public class MyWarningsCmd extends AbstractCmd {
 
     private final WarnService warnService;
 
-    public MyWarningsCmd(Messages messages, Options options, WarnService warnService, CommandService commandService, PermissionHandler permissionHandler) {
+    public MyWarningsCmd(Messages messages, WarnService warnService, CommandService commandService, PermissionHandler permissionHandler) {
         super(messages, permissionHandler, commandService);
         this.warnService = warnService;
     }
