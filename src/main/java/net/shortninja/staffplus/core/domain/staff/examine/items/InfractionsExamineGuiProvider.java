@@ -29,14 +29,12 @@ public class InfractionsExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Messages messages;
     private final ExamineModeConfiguration examineModeConfiguration;
-    private final Options options;
     private final ReportService reportService;
 
     public InfractionsExamineGuiProvider(Messages messages, Options options, ReportService reportService) {
         this.messages = messages;
-        this.options = options;
         this.reportService = reportService;
-        examineModeConfiguration = this.options.staffItemsConfiguration.getExamineModeConfiguration();
+        examineModeConfiguration = options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override

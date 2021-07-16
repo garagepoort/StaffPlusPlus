@@ -25,14 +25,12 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Messages messages;
     private final ExamineModeConfiguration examineModeConfiguration;
-    private final Options options;
     private final FreezeHandler freezeHandler;
 
     public FreezeExamineGuiProvider(Messages messages, Options options, FreezeHandler freezeHandler) {
         this.messages = messages;
-        this.options = options;
         this.freezeHandler = freezeHandler;
-        examineModeConfiguration = this.options.staffItemsConfiguration.getExamineModeConfiguration();
+        examineModeConfiguration = options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override

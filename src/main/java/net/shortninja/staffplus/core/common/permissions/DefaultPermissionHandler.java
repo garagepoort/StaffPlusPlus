@@ -31,11 +31,7 @@ public class DefaultPermissionHandler implements PermissionHandler {
     }
 
     public boolean has(OfflinePlayer player, String permission) {
-        if (permission == null) {
-            return true;
-        }
-
-        return false;
+        return permission == null;
     }
 
     public boolean hasAny(CommandSender player, String... permissions) {
