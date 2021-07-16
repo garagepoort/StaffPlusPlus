@@ -3,7 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import net.shortninja.staffplus.core.common.time.TimeUnit;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class SeverityConfigTransformer implements IConfigTransformer<List<WarningSeverityConfiguration>, List<LinkedHashMap<String, Object>>> {

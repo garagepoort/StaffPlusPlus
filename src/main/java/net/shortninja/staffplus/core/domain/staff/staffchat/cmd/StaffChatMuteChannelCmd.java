@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat.cmd;
 
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
@@ -19,7 +18,7 @@ public class StaffChatMuteChannelCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final StaffChatChannelConfiguration channelConfiguration;
 
-    public StaffChatMuteChannelCmd(Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService, StaffChatChannelConfiguration channelConfiguration, PermissionHandler permissionHandler) {
+    public StaffChatMuteChannelCmd(Messages messages, SessionManagerImpl sessionManager, CommandService commandService, StaffChatChannelConfiguration channelConfiguration, PermissionHandler permissionHandler) {
         super(channelConfiguration.getCommand() + "-mute", messages, permissionHandler, commandService);
         this.sessionManager = sessionManager;
         this.channelConfiguration = channelConfiguration;
@@ -28,7 +27,6 @@ public class StaffChatMuteChannelCmd extends AbstractCmd {
             setPermission(channelConfiguration.getPermission().get() + ".mute");
         }
     }
-
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {

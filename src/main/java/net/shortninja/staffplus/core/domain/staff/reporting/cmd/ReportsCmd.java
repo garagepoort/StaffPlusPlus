@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -18,7 +17,11 @@ import net.shortninja.staffplusplus.reports.IReport;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
@@ -45,7 +48,6 @@ public class ReportsCmd extends AbstractCmd {
 
     public ReportsCmd(PermissionHandler permissionHandler,
                       Messages messages,
-                      Options options,
                       ReportService reportService,
                       ManageReportService manageReportService,
                       CommandService commandService) {

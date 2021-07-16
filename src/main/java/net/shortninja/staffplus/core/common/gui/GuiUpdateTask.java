@@ -2,9 +2,9 @@ package net.shortninja.staffplus.core.common.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.UpdatableGui;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.UpdatableGui;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Optional;

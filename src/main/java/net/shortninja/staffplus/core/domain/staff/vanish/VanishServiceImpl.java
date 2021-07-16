@@ -6,7 +6,6 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -23,8 +22,7 @@ public class VanishServiceImpl {
     private final List<VanishStrategy> vanishStrategies;
     private final VanishConfiguration vanishConfiguration;
 
-    public VanishServiceImpl(Options options,
-                             Messages messages,
+    public VanishServiceImpl(Messages messages,
                              SessionManagerImpl sessionManager,
                              @IocMulti(VanishStrategy.class) List<VanishStrategy> vanishStrategies,
                              VanishConfiguration vanishConfiguration) {

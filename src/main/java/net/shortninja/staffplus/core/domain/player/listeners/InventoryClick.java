@@ -2,12 +2,12 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.common.cmd.CommandUtil;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.gui.IAction;
-import net.shortninja.staffplus.core.common.gui.PassThroughClickAction;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.cmd.CommandUtil;
+import net.shortninja.staffplus.core.common.gui.IAction;
+import net.shortninja.staffplus.core.common.gui.PassThroughClickAction;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

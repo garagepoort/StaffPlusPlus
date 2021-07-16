@@ -2,10 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
-import net.shortninja.staffplus.core.domain.staff.investigate.database.investigation.InvestigationsRepository;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionEnhancer;
+import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
+import net.shortninja.staffplus.core.domain.staff.investigate.database.investigation.InvestigationsRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 
 import java.util.Collections;

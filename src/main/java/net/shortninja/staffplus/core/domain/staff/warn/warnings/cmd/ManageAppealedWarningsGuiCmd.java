@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -27,7 +26,7 @@ import java.util.Optional;
 @IocMultiProvider(SppCommand.class)
 public class ManageAppealedWarningsGuiCmd extends AbstractCmd {
 
-    public ManageAppealedWarningsGuiCmd(Messages messages, Options options, CommandService commandService, PermissionHandler permissionHandler) {
+    public ManageAppealedWarningsGuiCmd(Messages messages, CommandService commandService, PermissionHandler permissionHandler) {
         super(messages, permissionHandler, commandService);
     }
 

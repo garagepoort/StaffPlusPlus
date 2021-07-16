@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

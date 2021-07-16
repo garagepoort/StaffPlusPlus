@@ -35,12 +35,10 @@ public class NotesCmd extends AbstractCmd {
     private static final String CLEAR = "clear";
 
     private final SessionManagerImpl sessionManager;
-    private final PermissionHandler permissionHandler;
 
     public NotesCmd(PermissionHandler permissionHandler, Messages messages, SessionManagerImpl sessionManager, CommandService commandService) {
         super(messages, permissionHandler, commandService);
         this.sessionManager = sessionManager;
-        this.permissionHandler = permissionHandler;
     }
 
     @Override

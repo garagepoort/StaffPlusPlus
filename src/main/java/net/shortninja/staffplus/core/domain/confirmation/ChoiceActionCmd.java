@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.confirmation;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -30,7 +29,7 @@ public class ChoiceActionCmd extends AbstractCmd {
 
     private final ChoiceChatService choiceChatService;
 
-    public ChoiceActionCmd(Messages messages, Options options, ChoiceChatService choiceChatService, CommandService commandService, PermissionHandler permissionHandler) {
+    public ChoiceActionCmd(Messages messages, ChoiceChatService choiceChatService, CommandService commandService, PermissionHandler permissionHandler) {
         super(messages, permissionHandler, commandService);
         this.choiceChatService = choiceChatService;
     }

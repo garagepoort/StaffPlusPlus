@@ -4,7 +4,9 @@ import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.domain.actions.ActionConfigLoader.loadActions;

@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.common.cmd;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-
 import org.bukkit.command.Command;
 
 import java.util.ArrayList;
