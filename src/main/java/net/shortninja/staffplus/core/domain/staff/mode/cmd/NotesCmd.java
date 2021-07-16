@@ -22,8 +22,8 @@ import java.util.Optional;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.notes",
-    permissions = "permissions:permissions.examine",
+    command = "commands:notes",
+    permissions = "permissions:examine",
     description = "Adds or manages a player's notes",
     usage = "[player] [note]",
     playerRetrievalStrategy = ONLINE

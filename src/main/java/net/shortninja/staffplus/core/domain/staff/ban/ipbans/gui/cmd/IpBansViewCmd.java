@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.ipban.ipbans",
-    permissions = "permissions:permissions.ipban.ban-view",
+    command = "commands:ipban.ipbans",
+    permissions = "permissions:ipban.ban-view",
     description = "List all ip banning rules"
 )
 @IocBean(conditionalOnProperty = "ban-module.ipban.enabled=true")

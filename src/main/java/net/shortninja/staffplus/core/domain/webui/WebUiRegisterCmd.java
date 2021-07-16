@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.webui.register",
-    permissions = "permissions:permissions.webui.register",
+    command = "commands:webui.register",
+    permissions = "permissions:webui.register",
     description = "Create registration link for the web interface",
     usage = "[player] [enable | disable]"
 )

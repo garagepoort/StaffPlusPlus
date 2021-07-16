@@ -23,8 +23,8 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HE
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
 @Command(
-    command = "commands:commands.teleport-to-location",
-    permissions = "permissions:permissions.teleport-to-location",
+    command = "commands:teleport-to-location",
+    permissions = "permissions:teleport-to-location",
     description = "Teleports the player to predefined locations",
     usage = "[player] [location]",
     delayable = true,
@@ -39,7 +39,7 @@ public class TeleportToLocationCmd extends AbstractCmd {
     private final Options options;
     private final TeleportService teleportService;
 
-    @ConfigProperty("permissions:permissions.teleport-bypass")
+    @ConfigProperty("permissions:teleport-bypass")
     private String permissionTeleportBypass;
 
     public TeleportToLocationCmd(PermissionHandler permissionHandler, Messages messages, PlayerManager playerManager, Options options, TeleportService teleportService, CommandService commandService) {

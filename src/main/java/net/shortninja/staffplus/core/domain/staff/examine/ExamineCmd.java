@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.examine",
-    permissions = "permissions:permissions.examine",
+    command = "commands:examine",
+    permissions = "permissions:examine",
     description = "Examines the player's inventory",
     usage = "[player]",
     playerRetrievalStrategy = BOTH

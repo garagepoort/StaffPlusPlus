@@ -9,11 +9,11 @@ public class MuteConfiguration {
     @ConfigProperty("mute-module.enabled")
     public boolean muteEnabled;
 
-    @ConfigProperty("permissions:permissions.tempmute")
+    @ConfigProperty("permissions:tempmute")
     public String permissionTempmutePlayer;
-    @ConfigProperty("permissions:permissions.mute-bypass")
+    @ConfigProperty("permissions:mute-bypass")
     public String permissionMuteByPass;
-    @ConfigProperty("permissions:permissions.mute-notifications")
+    @ConfigProperty("permissions:mute-notifications")
     public String staffNotificationPermission;
 
     public final MuteGuiItemConfig guiItemConfig;

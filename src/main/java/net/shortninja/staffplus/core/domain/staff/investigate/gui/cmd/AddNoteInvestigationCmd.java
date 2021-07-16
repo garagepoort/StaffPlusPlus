@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.investigations.manage.add-note",
-    permissions = "permissions:permissions.investigations.manage.add-note",
+    command = "commands:investigations.manage.add-note",
+    permissions = "permissions:investigations.manage.add-note",
     description = "Add a note to your investigation",
     usage = "[note]"
 )

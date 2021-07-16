@@ -13,15 +13,15 @@ public class AppealConfiguration {
     @ConfigProperty("warnings-module.appeals.resolve-reason-enabled")
     public boolean resolveReasonEnabled;
 
-    @ConfigProperty("permissions:permissions.warnings.appeals.approve")
+    @ConfigProperty("permissions:warnings.appeals.approve")
     public String approveAppealPermission;
-    @ConfigProperty("permissions:permissions.warnings.appeals.reject")
+    @ConfigProperty("permissions:warnings.appeals.reject")
     public String rejectAppealPermission;
-    @ConfigProperty("permissions:permissions.warnings.appeals.create")
+    @ConfigProperty("permissions:warnings.appeals.create")
     public String createAppealPermission;
-    @ConfigProperty("permissions:permissions.warnings.appeals.create-others")
+    @ConfigProperty("permissions:warnings.appeals.create-others")
     public String permissionCreateOthersAppeal;
-    @ConfigProperty("permissions:permissions.warnings.appeals.notifications")
+    @ConfigProperty("permissions:warnings.appeals.notifications")
     public String permissionNotifications;
 
     @ConfigProperty("warnings-module.appeals.fixed-reason")
