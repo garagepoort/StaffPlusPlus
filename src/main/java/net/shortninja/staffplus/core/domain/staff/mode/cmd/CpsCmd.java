@@ -15,8 +15,8 @@ import java.util.Optional;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.cps",
-    permissions = "permissions:permissions.cps",
+    command = "commands:cps",
+    permissions = "permissions:cps",
     description = "Starts a CPS test on the player.",
     usage = "[player]",
     playerRetrievalStrategy = ONLINE

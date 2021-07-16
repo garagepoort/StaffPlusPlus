@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.kick",
-    permissions = "permissions:permissions.kick",
+    command = "commands:kick",
+    permissions = "permissions:kick",
     description = "Kick a player",
     usage = "[player] [reason]",
     playerRetrievalStrategy = ONLINE
@@ -41,7 +41,7 @@ public class KickCmd extends AbstractCmd {
     private final List<KickReasonConfiguration> kickReasonConfigurations;
     private final Options options;
 
-    @ConfigProperty("permissions:permissions.kick-bypass")
+    @ConfigProperty("permissions:kick-bypass")
     private String permissionKickByPass;
 
     public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService, Options options1) {

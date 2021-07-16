@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL_BOTH;
 
 @Command(
-    command = "commands:commands.warnings.manage.gui",
-    permissions = "permissions:permissions.warnings.manage.view",
+    command = "commands:warnings.manage.gui",
+    permissions = "permissions:warnings.manage.view",
     description = "Open the manage Warnings GUI.",
     usage = "[player]",
     playerRetrievalStrategy = OPTIONAL_BOTH

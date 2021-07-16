@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL_BOTH;
 
 @Command(
-    command = "commands:commands.investigations.manage.gui",
-    permissions = "permissions:permissions.investigations.manage.view",
+    command = "commands:investigations.manage.gui",
+    permissions = "permissions:investigations.manage.view",
     description = "Open the manage Investigations GUI.",
     usage = "[player?]",
     playerRetrievalStrategy = OPTIONAL_BOTH

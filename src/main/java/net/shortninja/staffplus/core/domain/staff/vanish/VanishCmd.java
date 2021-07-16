@@ -21,8 +21,8 @@ import java.util.stream.Stream;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.vanish",
-    permissions = "permissions:permissions.vanish",
+    command = "commands:vanish",
+    permissions = "permissions:vanish",
     description = "Enables or disables the type of vanish for the player.",
     usage = "[total | list | player] {player} {enable | disable}",
     playerRetrievalStrategy = ONLINE

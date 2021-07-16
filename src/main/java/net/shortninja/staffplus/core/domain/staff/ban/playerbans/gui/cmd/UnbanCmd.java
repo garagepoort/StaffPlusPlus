@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.unban",
-    permissions = "permissions:permissions.unban",
+    command = "commands:unban",
+    permissions = "permissions:unban",
     description = "Unban a player",
     usage = "[player] [reason]",
     playerRetrievalStrategy = BOTH

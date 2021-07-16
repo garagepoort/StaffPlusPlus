@@ -23,8 +23,8 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HE
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
 @Command(
-    command = "commands:commands.teleport-here",
-    permissions = "permissions:permissions.teleport-here",
+    command = "commands:teleport-here",
+    permissions = "permissions:teleport-here",
     description = "Teleport a player to your position",
     usage = "[player]",
     playerRetrievalStrategy = PlayerRetrievalStrategy.ONLINE

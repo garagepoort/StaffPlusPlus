@@ -36,11 +36,11 @@ public class WarningConfiguration {
     @ConfigTransformer(ActionConfigLoader.class)
     private List<ConfiguredAction> actions = new ArrayList<>();
 
-    @ConfigProperty("commands:commands.my-warnings")
+    @ConfigProperty("commands:my-warnings")
     private String myWarningsCmd;
-    @ConfigProperty("permissions:permissions.view-my-warnings")
+    @ConfigProperty("permissions:view-my-warnings")
     private String myWarningsPermission;
-    @ConfigProperty("permissions:permissions.warnings.notifications")
+    @ConfigProperty("permissions:warnings.notifications")
     private String notificationsPermission;
 
     public boolean isEnabled() {

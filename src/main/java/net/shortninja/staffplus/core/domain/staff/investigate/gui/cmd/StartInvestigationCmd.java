@@ -23,8 +23,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Command(
-    command = "commands:commands.investigations.manage.start",
-    permissions = "permissions:permissions.investigations.manage.investigate",
+    command = "commands:investigations.manage.start",
+    permissions = "permissions:investigations.manage.investigate",
     description = "Start investigating a player",
     usage = "[player]"
 )

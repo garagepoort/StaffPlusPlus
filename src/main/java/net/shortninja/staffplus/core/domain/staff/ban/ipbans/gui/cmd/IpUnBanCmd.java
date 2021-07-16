@@ -28,8 +28,8 @@ import static net.shortninja.staffplus.core.common.JavaUtils.isValidCidrOrIp;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPlayer;
 
 @Command(
-    command = "commands:commands.ipban.unban",
-    permissions = "permissions:permissions.ipban.unban",
+    command = "commands:ipban.unban",
+    permissions = "permissions:ipban.unban",
     description = "Unban an ip-address",
     usage = "[player/ip-address]"
 )

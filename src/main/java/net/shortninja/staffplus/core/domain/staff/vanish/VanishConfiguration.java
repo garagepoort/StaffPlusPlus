@@ -17,18 +17,18 @@ public class VanishConfiguration {
     @ConfigProperty("vanish-module.vanish-message-enabled")
     public boolean vanishMessageEnabled;
 
-    @ConfigProperty("permissions:permissions.vanish")
+    @ConfigProperty("permissions:vanish")
     public String permissionVanishCommand;
-    @ConfigProperty("permissions:permissions.see-vanished")
+    @ConfigProperty("permissions:see-vanished")
     public String permissionSeeVanished;
-    @ConfigProperty("permissions:permissions.vanish-total")
+    @ConfigProperty("permissions:vanish-total")
     public String permissionVanishTotal;
-    @ConfigProperty("permissions:permissions.vanish-list")
+    @ConfigProperty("permissions:vanish-list")
     public String permissionVanishList;
-    @ConfigProperty("permissions:permissions.vanish-player")
+    @ConfigProperty("permissions:vanish-player")
     public String permissionVanishPlayer;
 
-    @ConfigProperty("commands:commands.vanish")
+    @ConfigProperty("commands:vanish")
     public String commandVanish;
 
 }

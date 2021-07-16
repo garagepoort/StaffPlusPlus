@@ -19,8 +19,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Command(
-    command = "commands:commands.choice-action",
-    permissions = "permissions:permissions.mode",
+    command = "commands:choice-action",
+    permissions = "permissions:mode",
     description = "Selects 1 of 2 action.",
     usage = "[option1|option2] [actionUuid]"
 )

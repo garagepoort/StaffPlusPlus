@@ -37,7 +37,7 @@ public class PlayerCommandPreprocess implements Listener {
     private final TraceService traceService;
     private final SessionManagerImpl sessionManager;
 
-    @ConfigProperty("commands:commands.login")
+    @ConfigProperty("commands:login")
     private String commandLogin;
 
     public PlayerCommandPreprocess(PermissionHandler permission, Options options, Messages messages, FreezeHandler freezeHandler, CmdHandler cmdHandler, TraceService traceService, SessionManagerImpl sessionManager) {
