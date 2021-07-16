@@ -2,10 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.vanish;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -23,6 +20,13 @@ import java.util.stream.Stream;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
+@Command(
+    command = "commands:commands.vanish",
+    permissions = "permissions:permissions.vanish",
+    description = "Enables or disables the type of vanish for the player.",
+    usage = "[total | list | player] {player} {enable | disable}",
+    playerRetrievalStrategy = ONLINE
+)
 @IocBean(conditionalOnProperty = "vanish-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class VanishCmd extends AbstractCmd {
@@ -30,16 +34,15 @@ public class VanishCmd extends AbstractCmd {
     private final VanishServiceImpl vanishServiceImpl;
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
+    private final VanishConfiguration vanishConfiguration;
 
-    public VanishCmd(Messages messages, Options options, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler, PlayerManager playerManager) {
-        super(options.vanishConfiguration.getCommandVanish(), messages, options, commandService);
+    public VanishCmd(Messages messages, Options options, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler, PlayerManager playerManager, VanishConfiguration vanishConfiguration) {
+        super(messages, permissionHandler, commandService);
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
-        setPermission(options.vanishConfiguration.getPermissionVanishCommand());
-        setDescription("Enables or disables the type of vanish for the player.");
-        setUsage("[total | list | player] {player} {enable | disable}");
+        this.vanishConfiguration = vanishConfiguration;
     }
 
 
@@ -88,11 +91,6 @@ public class VanishCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return ONLINE;
-    }
-
-    @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         if (args.length > 1) {
             return Optional.of(args[1]);
@@ -131,16 +129,16 @@ public class VanishCmd extends AbstractCmd {
 
         switch (vanishType) {
             case TOTAL:
-                setVanish(vanishType, player, shouldCheckPermission, options.vanishConfiguration.getPermissionVanishTotal());
+                setVanish(vanishType, player, shouldCheckPermission, vanishConfiguration.permissionVanishTotal);
                 break;
             case LIST:
-                setVanish(vanishType, player, shouldCheckPermission, options.vanishConfiguration.getPermissionVanishList());
+                setVanish(vanishType, player, shouldCheckPermission, vanishConfiguration.permissionVanishList);
                 break;
             case PLAYER:
-                setVanish(vanishType, player, shouldCheckPermission, options.vanishConfiguration.getPermissionVanishPlayer());
+                setVanish(vanishType, player, shouldCheckPermission, vanishConfiguration.permissionVanishPlayer);
                 break;
             case NONE:
-                if (permissionHandler.hasAny(player, options.vanishConfiguration.getPermissionVanishList(), options.vanishConfiguration.getPermissionVanishPlayer(), options.vanishConfiguration.getPermissionVanishTotal()) || !shouldCheckPermission) {
+                if (permissionHandler.hasAny(player, vanishConfiguration.permissionVanishList, vanishConfiguration.permissionVanishPlayer, vanishConfiguration.permissionVanishTotal) || !shouldCheckPermission) {
                     vanishServiceImpl.removeVanish(player);
                 } else messages.send(player, messages.noPermission, messages.prefixGeneral);
                 break;

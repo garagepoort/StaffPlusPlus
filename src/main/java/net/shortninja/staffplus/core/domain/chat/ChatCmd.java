@@ -2,39 +2,45 @@ package net.shortninja.staffplus.core.domain.chat;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
-
+@Command(
+    command = "commands:commands.chat",
+    permissions = {"permissions:permissions.chat-clear","permissions:permissions.chat-toggle","permissions:permissions.chat-slow"},
+    description = "Executes the given chat management action.",
+    usage = "[clear | toggle | slow] {enable | disable | time}"
+)
 @IocBean(conditionalOnProperty = "chat-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class ChatCmd extends AbstractCmd {
+
     private final ChatHandler chatHandler;
     private final PermissionHandler permissionHandler;
 
-    public ChatCmd(PermissionHandler permissionHandler, Messages messages, Options options, ChatHandler chatHandler, CommandService commandService) {
-        super(options.commandChat, messages, options, commandService);
+    @ConfigProperty("permissions:permissions.chat-clear")
+    private String permissionChatClear;
+    @ConfigProperty("permissions:permissions.chat-toggle")
+    private String permissionChatToggle;
+    @ConfigProperty("permissions:permissions.chat-slow")
+    private String permissionChatSlow;
+
+    public ChatCmd(PermissionHandler permissionHandler, Messages messages, ChatHandler chatHandler, CommandService commandService) {
+        super(messages, permissionHandler, commandService);
         this.chatHandler = chatHandler;
         this.permissionHandler = permissionHandler;
-        setPermissions(new HashSet<>(Arrays.asList(options.permissionChatClear, options.permissionChatSlow, options.permissionChatToggle)));
-        setDescription("Executes the given chat management action.");
-        setUsage("[clear | toggle | slow] {enable | disable | time}");
     }
 
     @Override
@@ -56,11 +62,6 @@ public class ChatCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return NONE;
-    }
-
-    @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.empty();
     }
@@ -70,17 +71,17 @@ public class ChatCmd extends AbstractCmd {
 
         switch (argument.toLowerCase()) {
             case "clear":
-                if (!shouldCheckPermission || permissionHandler.has(sender, options.permissionChatClear)) {
+                if (!shouldCheckPermission || permissionHandler.has(sender, permissionChatClear)) {
                     chatHandler.clearChat(name);
                 } else messages.send(sender, messages.noPermission, messages.prefixGeneral);
                 break;
             case "toggle":
-                if (!shouldCheckPermission || permissionHandler.has(sender, options.permissionChatToggle)) {
+                if (!shouldCheckPermission || permissionHandler.has(sender, permissionChatToggle)) {
                     chatHandler.setChatEnabled(name, option.isEmpty() ? !chatHandler.isChatEnabled() : Boolean.parseBoolean(option));
                 } else messages.send(sender, messages.noPermission, messages.prefixGeneral);
                 break;
             case "slow":
-                if (!shouldCheckPermission || permissionHandler.has(sender, options.permissionChatSlow)) {
+                if (!shouldCheckPermission || permissionHandler.has(sender, permissionChatSlow)) {
                     if (JavaUtils.isInteger(option)) {
                         chatHandler.setChatSlow(name, Integer.parseInt(option));
                     } else

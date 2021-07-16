@@ -2,14 +2,12 @@ package net.shortninja.staffplus.core.domain.staff;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
@@ -21,18 +19,25 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 import java.util.Optional;
 
+@Command(
+    command = "commands:commands.staff-list",
+    description = "Lists all registered staff members.",
+    usage = "{all | online | away | offline}"
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class PersonnelCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
+    private Options options;
     private final SessionManagerImpl sessionManager;
+    private final VanishConfiguration vanishConfiguration;
 
-    public PersonnelCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
-        super(options.commandStaffList, messages, options, commandService);
+    public PersonnelCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService, VanishConfiguration vanishConfiguration) {
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
+        this.options = options;
         this.sessionManager = sessionManager;
-        setDescription("Lists all registered staff members.");
-        setUsage("{all | online | away | offline}");
+        this.vanishConfiguration = vanishConfiguration;
     }
 
     @Override
@@ -72,11 +77,6 @@ public class PersonnelCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
-    }
-
-    @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.empty();
     }
@@ -91,9 +91,9 @@ public class PersonnelCmd extends AbstractCmd {
             case "online":
                 return vanishType == VanishType.NONE || vanishType == VanishType.PLAYER;
             case "offline":
-                return vanishType == VanishType.TOTAL || (vanishType == VanishType.LIST && !options.vanishConfiguration.isVanishShowAway());
+                return vanishType == VanishType.TOTAL || (vanishType == VanishType.LIST && !vanishConfiguration.vanishShowAway);
             case "away":
-                return vanishType == VanishType.NONE || (vanishType == VanishType.LIST && options.vanishConfiguration.isVanishShowAway());
+                return vanishType == VanishType.NONE || (vanishType == VanishType.LIST && vanishConfiguration.vanishShowAway);
         }
         return true;
     }

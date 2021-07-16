@@ -3,10 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.alerts;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -27,19 +24,27 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
+
+@Command(
+    command = "commands:commands.alerts",
+    permissions = {"permissions:permissions.mention", "permissions:permissions.name-change", "permissions:permissions.xray"},
+    description = "Enables or disables the alert type.",
+    usage = "[namechange | mention | xray] {player} {enable | disable}",
+    playerRetrievalStrategy = ONLINE
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class AlertsCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
+    private final Options options;
     private final SessionManagerImpl sessionManager;
 
     public AlertsCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
-        super(options.alertsConfiguration.getCommandAlerts(), messages, options, commandService);
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
+        this.options = options;
         this.sessionManager = sessionManager;
-        super.setPermissions(options.alertsConfiguration.getAllAlertsPermissions());
-        setUsage("[namechange | mention | xray] {player} {enable | disable}");
-        setDescription("Enables or disables the alert type.");
     }
 
     @Override
@@ -66,11 +71,6 @@ public class AlertsCmd extends AbstractCmd {
             return 1;
         }
         return 2;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
     }
 
     @Override

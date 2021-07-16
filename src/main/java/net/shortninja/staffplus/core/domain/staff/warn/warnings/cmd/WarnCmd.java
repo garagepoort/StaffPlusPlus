@@ -2,46 +2,63 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
+import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
+
+@Command(
+    command = "commands:commands.warn",
+    permissions = "permissions:permissions.warn",
+    description = "Issues a warning.",
+    usage = "[severity] [player] [reason]",
+    playerRetrievalStrategy = BOTH
+)
 @IocBean(conditionalOnProperty = "warnings-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class WarnCmd extends AbstractCmd {
+
+    @ConfigProperty("permissions:permissions.warn-bypass")
+    private String permissionWarnBypass;
+
+    private final WarningConfiguration warningConfiguration;
     private final WarnService warnService;
     private final PlayerManager playerManager;
     private final PermissionHandler permissionHandler;
 
-    public WarnCmd(Messages messages, Options options, WarnService warnService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
-        super(options.commandWarn, messages, options, commandService);
+    public WarnCmd(Messages messages,
+                   WarningConfiguration warningConfiguration,
+                   WarnService warnService,
+                   CommandService commandService,
+                   PlayerManager playerManager,
+                   PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
+        this.warningConfiguration = warningConfiguration;
         this.warnService = warnService;
         this.playerManager = playerManager;
         this.permissionHandler = permissionHandler;
-        setPermission(options.permissionWarn);
-        setDescription("Issues a warning.");
-        setUsage("[severity] [player] [reason]");
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        List<WarningSeverityConfiguration> severityLevels = options.warningConfiguration.getSeverityLevels();
+        List<WarningSeverityConfiguration> severityLevels = warningConfiguration.getSeverityLevels();
         if (severityLevels.isEmpty()) {
             String reason = JavaUtils.compileWords(args, 1);
             warnService.sendWarning(sender, player, reason);
@@ -52,7 +69,7 @@ public class WarnCmd extends AbstractCmd {
         String severityLevel = args[0];
         String reason = JavaUtils.compileWords(args, 2);
 
-        WarningSeverityConfiguration severity = options.warningConfiguration.getSeverityConfiguration(severityLevel)
+        WarningSeverityConfiguration severity = warningConfiguration.getSeverityConfiguration(severityLevel)
             .orElseThrow(() -> new BusinessException("&CCannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
 
         warnService.sendWarning(sender, player, reason, severity);
@@ -61,12 +78,12 @@ public class WarnCmd extends AbstractCmd {
 
     @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, options.permissionWarnBypass);
+        return permissionHandler.has(player, permissionWarnBypass);
     }
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        List<WarningSeverityConfiguration> severityLevels = options.warningConfiguration.getSeverityLevels();
+        List<WarningSeverityConfiguration> severityLevels = warningConfiguration.getSeverityLevels();
         if (severityLevels.isEmpty()) {
             return 2;
         }
@@ -76,7 +93,7 @@ public class WarnCmd extends AbstractCmd {
         }
 
         String severityLevel = args[0];
-        WarningSeverityConfiguration severityConfiguration = options.warningConfiguration.getSeverityConfiguration(severityLevel)
+        WarningSeverityConfiguration severityConfiguration = warningConfiguration.getSeverityConfiguration(severityLevel)
             .orElseThrow(() -> new BusinessException("&CCannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
 
         if (severityConfiguration.hasDefaultReason()) {
@@ -86,13 +103,8 @@ public class WarnCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
-    }
-
-    @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
-        List<WarningSeverityConfiguration> severityLevels = options.warningConfiguration.getSeverityLevels();
+        List<WarningSeverityConfiguration> severityLevels = warningConfiguration.getSeverityLevels();
         if (severityLevels.isEmpty()) {
             return Optional.of(args[0]);
         }
@@ -101,7 +113,7 @@ public class WarnCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        List<WarningSeverityConfiguration> severityLevels = options.warningConfiguration.getSeverityLevels();
+        List<WarningSeverityConfiguration> severityLevels = warningConfiguration.getSeverityLevels();
         if (args.length == 1) {
             List<String> suggestions = new ArrayList<>();
             if (severityLevels.isEmpty()) {

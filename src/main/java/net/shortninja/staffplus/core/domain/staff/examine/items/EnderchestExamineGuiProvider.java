@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.chests.config.EnderchestsConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.chests.EnderChestService;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
@@ -21,11 +22,13 @@ import org.bukkit.inventory.ItemStack;
 public class EnderchestExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Options options;
-    private PermissionHandler permissionHandler;
+    private final PermissionHandler permissionHandler;
+    private final EnderchestsConfiguration enderchestsConfiguration;
 
-    public EnderchestExamineGuiProvider(Options options, PermissionHandler permissionHandler) {
+    public EnderchestExamineGuiProvider(Options options, PermissionHandler permissionHandler, EnderchestsConfiguration enderchestsConfiguration) {
         this.options = options;
         this.permissionHandler = permissionHandler;
+        this.enderchestsConfiguration = enderchestsConfiguration;
     }
 
     @Override
@@ -51,9 +54,9 @@ public class EnderchestExamineGuiProvider implements ExamineGuiItemProvider {
     @Override
     public boolean enabled(Player staff, SppPlayer player) {
         if (player.isOnline()) {
-            return permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionViewOnline());
+            return permissionHandler.has(staff, enderchestsConfiguration.permissionViewOnline);
         } else {
-            return permissionHandler.has(staff, options.enderchestsConfiguration.getPermissionViewOffline());
+            return permissionHandler.has(staff, enderchestsConfiguration.permissionViewOffline);
         }
     }
 

@@ -2,19 +2,18 @@ package net.shortninja.staffplus.core.domain.staff.altaccountdetect.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectWhitelistedItem;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectionService;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -24,6 +23,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Command(
+    command = "commands:commands.alt-detect-whitelist",
+    permissions = "permissions:permissions.alt-detect-check",
+    description = "Add/Remove players from the alt account detection whitelist",
+    usage = "[add/remove] [player1] [player2]"
+)
 @IocBean(conditionalOnProperty = "alt-detect-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class AltDetectWhitelistCmd extends AbstractCmd {
@@ -31,13 +36,15 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
     private final AltDetectionService altDetectionService;
     private final PlayerManager playerManager;
 
-    public AltDetectWhitelistCmd(Messages messages, Options options, AltDetectConfiguration altDetectConfiguration, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager) {
-        super(altDetectConfiguration.commandWhitelist, messages, options, commandService);
+    public AltDetectWhitelistCmd(Messages messages,
+                                 Options options,
+                                 AltDetectionService altDetectionService,
+                                 CommandService commandService,
+                                 PlayerManager playerManager,
+                                 PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.altDetectionService = altDetectionService;
         this.playerManager = playerManager;
-        setPermission(altDetectConfiguration.whitelistPermission);
-        setDescription("Add/Remove players from the alt account detection whitelist");
-        setUsage("[add/remove] [player1] [player2]");
     }
 
     @Override
@@ -95,11 +102,6 @@ public class AltDetectWhitelistCmd extends AbstractCmd {
             return 1;
         }
         return 3;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override

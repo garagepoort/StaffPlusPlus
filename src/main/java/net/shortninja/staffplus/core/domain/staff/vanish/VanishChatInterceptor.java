@@ -3,11 +3,10 @@ package net.shortninja.staffplus.core.domain.staff.vanish;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.domain.chat.ChatAction;
-import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.domain.chat.ChatAction;
+import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 @IocBean
@@ -15,14 +14,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class VanishChatInterceptor implements ChatInterceptor {
 
     private final VanishServiceImpl vanishServiceImpl;
-    private final Options options;
+    private final VanishConfiguration vanishConfiguration;
 
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
 
-    public VanishChatInterceptor(VanishServiceImpl vanishServiceImpl, Options options, Messages messages, SessionManagerImpl sessionManager) {
+    public VanishChatInterceptor(VanishServiceImpl vanishServiceImpl, VanishConfiguration vanishConfiguration, Messages messages, SessionManagerImpl sessionManager) {
         this.vanishServiceImpl = vanishServiceImpl;
-        this.options = options;
+        this.vanishConfiguration = vanishConfiguration;
         this.messages = messages;
         this.sessionManager = sessionManager;
     }
@@ -35,7 +34,7 @@ public class VanishChatInterceptor implements ChatInterceptor {
         if (chatAction != null) {
             return false;
         }
-        if (options.vanishConfiguration.isVanishEnabled() && !options.vanishConfiguration.isVanishChatEnabled() && vanishServiceImpl.isVanished(event.getPlayer())) {
+        if (vanishConfiguration.vanishEnabled && !vanishConfiguration.vanishChatEnabled && vanishServiceImpl.isVanished(event.getPlayer())) {
             this.messages.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }
