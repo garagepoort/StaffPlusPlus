@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.follow",
-    permissions = "permissions:permissions.follow",
+    command = "commands:follow",
+    permissions = "permissions:follow",
     description = "Follows or unfollows the player.",
     usage = "[player]",
     playerRetrievalStrategy = PlayerRetrievalStrategy.ONLINE

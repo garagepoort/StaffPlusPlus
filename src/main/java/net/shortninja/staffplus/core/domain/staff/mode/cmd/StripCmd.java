@@ -20,8 +20,8 @@ import java.util.Optional;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.strip",
-    permissions = "permissions:permissions.strip",
+    command = "commands:strip",
+    permissions = "permissions:strip",
     description = "Completely removes the target player's armor.",
     usage = "[player]",
     playerRetrievalStrategy = ONLINE

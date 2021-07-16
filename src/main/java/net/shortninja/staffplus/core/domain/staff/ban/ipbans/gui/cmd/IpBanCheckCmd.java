@@ -23,8 +23,8 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPlayer;
 
 @Command(
-    command = "commands:commands.ipban.bancheck",
-    permissions = "permissions:permissions.ipban.ban-check",
+    command = "commands:ipban.bancheck",
+    permissions = "permissions:ipban.ban-check",
     description = "Check if a player is ip banned",
     usage = "[player]",
     playerRetrievalStrategy = BOTH

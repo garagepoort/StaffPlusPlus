@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.alt-detect-check",
-    permissions = "permissions:permissions.alt-detect-check",
+    command = "commands:alt-detect-check",
+    permissions = "permissions:alt-detect-check",
     description = "Run an alt detection check on a certain player. Will print all results",
     usage = "[player]",
     playerRetrievalStrategy = BOTH

@@ -21,8 +21,8 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
 
 @Command(
-    command = "commands:commands.freeze",
-    permissions = "permissions:permissions.freeze",
+    command = "commands:freeze",
+    permissions = "permissions:freeze",
     description = "Freezes or unfreezes the player",
     usage = "[player] [enable | disable]",
     delayable = true,
@@ -39,7 +39,7 @@ public class FreezeCmd extends AbstractCmd {
     private final FreezeHandler freezeHandler;
     private final PlayerManager playerManager;
 
-    @ConfigProperty("permissions:permissions.freeze-bypass")
+    @ConfigProperty("permissions:freeze-bypass")
     private String permissionFreezeBypass;
 
     public FreezeCmd(PermissionHandler permissionHandler, Messages messages, Options options, FreezeHandler freezeHandler, CommandService commandService, PlayerManager playerManager) {

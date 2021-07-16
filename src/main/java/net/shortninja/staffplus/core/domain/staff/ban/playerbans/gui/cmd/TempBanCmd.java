@@ -28,7 +28,7 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType.TEMP_BAN;
 
 @Command(
-    command = "commands:commands.tempban",
+    command = "commands:tempban",
     description = "Temporary ban a player",
     usage = "[player] [amount] [unit] [reason]",
     playerRetrievalStrategy = BOTH

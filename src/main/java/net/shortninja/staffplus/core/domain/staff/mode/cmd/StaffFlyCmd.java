@@ -18,8 +18,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.staff-mode-fly",
-    permissions = "permissions:permissions.mode",
+    command = "commands:staff-mode-fly",
+    permissions = "permissions:mode",
     description = "Toggles fly while in staff mode"
 )
 @IocBean

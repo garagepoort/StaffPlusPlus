@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.staff-list",
+    command = "commands:staff-list",
     description = "Lists all registered staff members.",
     usage = "{all | online | away | offline}"
 )

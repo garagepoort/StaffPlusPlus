@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.infractions-view",
-    permissions = "permissions:permissions.infractions.view",
+    command = "commands:infractions-view",
+    permissions = "permissions:infractions.view",
     description = "View all player's infractions",
     usage = "[player]",
     playerRetrievalStrategy = BOTH

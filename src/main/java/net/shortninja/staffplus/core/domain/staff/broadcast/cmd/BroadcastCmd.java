@@ -20,8 +20,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Command(
-    command = "commands:commands.broadcast",
-    permissions = "permissions:permissions.broadcast",
+    command = "commands:broadcast",
+    permissions = "permissions:broadcast",
     description = "Broadcast messages to all players (over all servers)",
     usage = "[server] [message]"
 )
