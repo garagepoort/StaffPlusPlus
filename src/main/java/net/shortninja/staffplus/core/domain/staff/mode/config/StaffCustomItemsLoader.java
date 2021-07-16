@@ -18,6 +18,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @IocBean
@@ -54,7 +55,12 @@ public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModu
 
             ConfirmationConfig confirmationConfig = getConfirmationConfig(config, identifier);
 
-            List<String> lore = JavaUtils.stringToList(config.getString(CUSTOM_MODULES + identifier + ".lore"));
+            String commas = config.getString(CUSTOM_MODULES + identifier + ".lore");
+            if (commas == null) {
+                throw new IllegalArgumentException("Commas may not be null.");
+            }
+
+            List<String> lore = new ArrayList<>(Arrays.asList(commas.split("\\s*,\\s*")));
             ItemStack item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
             String action = "";
 
