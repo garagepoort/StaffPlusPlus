@@ -2,16 +2,17 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -21,6 +22,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL_BOTH;
+
+@Command(
+    command = "commands:commands.investigations.manage.gui",
+    permissions = "permissions:permissions.investigations.manage.view",
+    description = "Open the manage Investigations GUI.",
+    usage = "[player?]",
+    playerRetrievalStrategy = OPTIONAL_BOTH
+)
 @IocBean(conditionalOnProperty = "investigations-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class ManageInvestigationsGuiCmd extends AbstractCmd {
@@ -28,18 +38,20 @@ public class ManageInvestigationsGuiCmd extends AbstractCmd {
     private final InvestigationGuiComponent investigationGuiComponent;
     private final PlayerManager playerManager;
 
-    public ManageInvestigationsGuiCmd(Messages messages, PlayerManager playerManager, Options options, CommandService commandService, InvestigationGuiComponent investigationGuiComponent) {
-        super(options.investigationConfiguration.getCommandManageInvestigationsGui(), messages, options, commandService);
+    public ManageInvestigationsGuiCmd(Messages messages,
+                                      PlayerManager playerManager,
+                                      Options options,
+                                      CommandService commandService,
+                                      InvestigationGuiComponent investigationGuiComponent,
+                                      PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.playerManager = playerManager;
         this.investigationGuiComponent = investigationGuiComponent;
-        setPermission(options.investigationConfiguration.getPermissionView());
-        setDescription("Open the manage Investigations GUI.");
-        setUsage("[playername?]");
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
 
@@ -53,13 +65,8 @@ public class ManageInvestigationsGuiCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.OPTIONAL_BOTH;
-    }
-
-    @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
-        if(args.length == 0) {
+        if (args.length == 0) {
             return Optional.empty();
         }
         return Optional.ofNullable(args[0]);

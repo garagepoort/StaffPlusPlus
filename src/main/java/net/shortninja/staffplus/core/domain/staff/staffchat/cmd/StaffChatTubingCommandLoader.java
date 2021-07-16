@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 public class StaffChatTubingCommandLoader {
 
     @IocMultiProvider(SppCommand.class)
-    public static List<SppCommand> loadCommands(Messages messages, Options options, StaffChatConfiguration staffChatConfiguration, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService, CommandService commandService) {
+    public static List<SppCommand> loadCommands(Messages messages, Options options, StaffChatConfiguration staffChatConfiguration, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService, CommandService commandService, PermissionHandler permissionHandler) {
         List<SppCommand> commands = new ArrayList<>();
         List<StaffChatChannelConfiguration> channelConfigurations = staffChatConfiguration.getChannelConfigurations();
         for (StaffChatChannelConfiguration channelConfiguration : channelConfigurations) {
-            commands.add(new StaffChatChannelCmd(messages, options, sessionManager, staffChatService, commandService, channelConfiguration));
-            commands.add(new StaffChatMuteChannelCmd(messages, options, sessionManager, commandService, channelConfiguration));
+            commands.add(new StaffChatChannelCmd(messages, options, sessionManager, staffChatService, commandService, channelConfiguration, permissionHandler));
+            commands.add(new StaffChatMuteChannelCmd(messages, options, sessionManager, commandService, channelConfiguration, permissionHandler));
         }
         return commands;
     }

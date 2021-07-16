@@ -3,12 +3,12 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.actions.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,9 +20,10 @@ public class ManageReportGui extends AbstractGui {
     private static final int SIZE = 54;
 
     private final PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
-    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
     private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
     private final InvestigationGuiComponent investigationGuiComponent = StaffPlus.get().getIocContainer().get(InvestigationGuiComponent.class);
+    private final ManageReportConfiguration manageReportConfiguration = StaffPlus.get().getIocContainer().get(ManageReportConfiguration.class);
+
     private final Player player;
     private final Report report;
 
@@ -43,20 +44,20 @@ public class ManageReportGui extends AbstractGui {
 
         setItem(13, reportItemBuilder.build(report), null);
 
-        if(isAssignee() && permission.has(player, options.manageReportConfiguration.getPermissionResolve())) {
+        if(isAssignee() && permission.has(player, manageReportConfiguration.permissionResolve)) {
             addResolveItem(report, resolveAction, 34);
             addResolveItem(report, resolveAction, 35);
             addResolveItem(report, resolveAction, 43);
             addResolveItem(report, resolveAction, 44);
         }
 
-        if(isAssignee() || permission.has(player, options.manageReportConfiguration.getPermissionReopenOther())) {
+        if(isAssignee() || permission.has(player, manageReportConfiguration.permissionReopenOther)) {
             addReopenItem(report, reopenAction, 27);
             addReopenItem(report, reopenAction, 28);
             addReopenItem(report, reopenAction, 36);
             addReopenItem(report, reopenAction, 37);
         }
-        if(isAssignee() && permission.has(player, options.manageReportConfiguration.getPermissionReject())) {
+        if(isAssignee() && permission.has(player, manageReportConfiguration.permissionReject)) {
             addRejectItem(report, rejectAction, 30);
             addRejectItem(report, rejectAction, 31);
             addRejectItem(report, rejectAction, 32);
@@ -64,11 +65,11 @@ public class ManageReportGui extends AbstractGui {
             addRejectItem(report, rejectAction, 40);
             addRejectItem(report, rejectAction, 41);
         }
-        if(isAssignee() && permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
+        if(isAssignee() && permission.has(player, manageReportConfiguration.permissionDelete)) {
             addDeleteItem(report, deleteAction, 8);
         }
 
-        if(permission.has(player, options.manageReportConfiguration.getPermissionTeleport())) {
+        if(permission.has(player, manageReportConfiguration.permissionTeleport)) {
             addTeleportItem(teleportAction, 0);
         }
         investigationGuiComponent.addEvidenceButton(this, 14, report);

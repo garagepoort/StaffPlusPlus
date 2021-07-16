@@ -2,23 +2,21 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.core.common.time.TimeUnit;
-
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.time.TimeUnit;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanReasonConfiguration;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,8 +24,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType.TEMP_BAN;
 
+@Command(
+    command = "commands:commands.tempban",
+    description = "Temporary ban a player",
+    usage = "[player] [amount] [unit] [reason]",
+    playerRetrievalStrategy = BOTH
+)
 @IocBean(conditionalOnProperty = "ban-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class TempBanCmd extends AbstractCmd {
@@ -39,14 +44,17 @@ public class TempBanCmd extends AbstractCmd {
     private final BanService banService;
     private final PlayerManager playerManager;
 
-    public TempBanCmd(PermissionHandler permissionHandler, Messages messages, BanConfiguration banConfiguration, Options options, BanService banService, CommandService commandService, PlayerManager playerManager) {
-        super(banConfiguration.commandTempBanPlayer, messages, options, commandService);
+    public TempBanCmd(PermissionHandler permissionHandler,
+                      Messages messages,
+                      BanConfiguration banConfiguration,
+                      BanService banService,
+                      CommandService commandService,
+                      PlayerManager playerManager) {
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.banConfiguration = banConfiguration;
         this.banService = banService;
         this.playerManager = playerManager;
-        setDescription("Temporary ban a player");
-        setUsage("[player] [amount] [unit] [reason]");
     }
 
     @Override
@@ -90,11 +98,6 @@ public class TempBanCmd extends AbstractCmd {
             return 5;
         }
         return 4;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
     }
 
     @Override

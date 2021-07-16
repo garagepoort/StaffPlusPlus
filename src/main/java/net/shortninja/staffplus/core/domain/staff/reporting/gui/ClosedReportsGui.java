@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedGui;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
@@ -20,8 +21,9 @@ import java.util.stream.Collectors;
 
 public class ClosedReportsGui extends PagedGui {
 
-    private PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
+    private final PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
     private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
+    private final ManageReportConfiguration manageReportConfiguration = StaffPlus.get().getIocContainer().get(ManageReportConfiguration.class);
 
     public ClosedReportsGui(Player player, String title, int page, Supplier<AbstractGui> backGuiSupplier) {
         super(player, title, page, backGuiSupplier);
@@ -37,7 +39,7 @@ public class ClosedReportsGui extends PagedGui {
         return new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                if (permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
+                if (permission.has(player, manageReportConfiguration.permissionDelete)) {
                     int reportId = Integer.parseInt(StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item));
                     Report report = StaffPlus.get().getIocContainer().get(ReportService.class).getReport(reportId);
                     new ClosedReportManageGui(player, "Manage closed report", report).show(player);

@@ -2,13 +2,11 @@ package net.shortninja.staffplus.core.domain.staff.kick.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.kick.KickService;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickReasonConfiguration;
@@ -25,6 +23,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
+
+@Command(
+    command = "commands:commands.kick",
+    permissions = "permissions:permissions.kick",
+    description = "Kick a player",
+    usage = "[player] [reason]",
+    playerRetrievalStrategy = ONLINE
+)
 @IocBean(conditionalOnProperty = "kick-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class KickCmd extends AbstractCmd {
@@ -32,15 +39,17 @@ public class KickCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final KickService kickService;
     private final List<KickReasonConfiguration> kickReasonConfigurations;
+    private final Options options;
 
-    public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService) {
-        super(options.kickConfiguration.getCommandKickPlayer(), messages, options, commandService);
+    @ConfigProperty("permissions:permissions.kick-bypass")
+    private String permissionKickByPass;
+
+    public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService, Options options1) {
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.kickService = kickService;
-        setPermission(options.kickConfiguration.getPermissionKickPlayer());
-        setDescription("Kick a player");
-        setUsage("[player] [reason?]");
-        kickReasonConfigurations = options.kickConfiguration.getKickReasons();
+        this.options = options1;
+        this.kickReasonConfigurations = options.kickConfiguration.getKickReasons();
     }
 
     @Override
@@ -78,18 +87,13 @@ public class KickCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
-    }
-
-    @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.ofNullable(args[0]);
     }
 
     @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, options.kickConfiguration.getPermissionKickByPass());
+        return permissionHandler.has(player, permissionKickByPass);
     }
 
     @Override

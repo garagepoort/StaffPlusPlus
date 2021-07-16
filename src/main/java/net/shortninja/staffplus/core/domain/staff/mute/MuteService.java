@@ -2,16 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.core.common.time.TimeUnitShort;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.database.MuteRepository;
 import net.shortninja.staffplusplus.mute.MuteEvent;
 import net.shortninja.staffplusplus.mute.UnmuteEvent;
@@ -33,12 +33,13 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     private final PermissionHandler permission;
     private final MuteRepository muteRepository;
     private final Options options;
+    private final MuteConfiguration muteConfiguration;
 
-    public MuteService(PermissionHandler permission, MuteRepository muteRepository, Options options) {
-
+    public MuteService(PermissionHandler permission, MuteRepository muteRepository, Options options, MuteConfiguration muteConfiguration) {
         this.permission = permission;
         this.muteRepository = muteRepository;
         this.options = options;
+        this.muteConfiguration = muteConfiguration;
     }
 
     public void permMute(CommandSender issuer, SppPlayer playerToMute, String reason) {
@@ -90,7 +91,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     }
 
     private void mute(CommandSender issuer, SppPlayer playerToMute, String reason, Long durationInMillis) {
-        if (playerToMute.isOnline() && permission.has(playerToMute.getPlayer(), options.muteConfiguration.getPermissionMuteByPass())) {
+        if (playerToMute.isOnline() && permission.has(playerToMute.getPlayer(), muteConfiguration.permissionMuteByPass)) {
             throw new BusinessException("&CThis player bypasses being muted");
         }
 
@@ -160,13 +161,11 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
         }
 
         List<String> permissions = permission.getPermissions(player);
-        if(permissions.stream().noneMatch(p -> p.startsWith(options.muteConfiguration.getPermissionTempmutePlayer()))) {
+        if(permissions.stream().noneMatch(p -> p.startsWith(muteConfiguration.permissionTempmutePlayer))) {
             throw new NoPermissionException();
         }
-        Optional<Long> duration = permissions.stream()
-            .filter(p -> p.startsWith(options.muteConfiguration.getPermissionTempmutePlayer() + "."))
-            .map(p -> TimeUnitShort.getDurationFromString(p.substring(p.lastIndexOf(".") + 1)))
-            .max(Comparator.naturalOrder());
+
+        Optional<Long> duration = permission.getDurationInSeconds(player, muteConfiguration.permissionTempmutePlayer);
 
         if(duration.isPresent() && duration.get() < durationProvided) {
             throw new NoPermissionException();

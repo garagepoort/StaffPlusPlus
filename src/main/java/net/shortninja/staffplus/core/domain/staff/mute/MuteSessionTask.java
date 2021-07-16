@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -19,19 +19,19 @@ public class MuteSessionTask extends BukkitRunnable {
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final MuteService muteService;
-    private final Options options;
+    private final MuteConfiguration muteConfiguration;
 
-    public MuteSessionTask(Messages messages, SessionManagerImpl sessionManager, MuteService muteService, Options options) {
+    public MuteSessionTask(Messages messages, SessionManagerImpl sessionManager, MuteService muteService, MuteConfiguration muteConfiguration) {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.muteService = muteService;
-        this.options = options;
+        this.muteConfiguration = muteConfiguration;
         runTaskTimerAsynchronously(StaffPlus.get(), DELAY, DELAY);
     }
 
     @Override
     public void run() {
-        if(!options.muteConfiguration.isEnabled()) {
+        if(!muteConfiguration.muteEnabled) {
             return;
         }
         List<Player> players = sessionManager.getAll().stream()

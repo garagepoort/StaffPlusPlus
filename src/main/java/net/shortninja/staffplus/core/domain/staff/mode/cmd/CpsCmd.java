@@ -2,31 +2,33 @@ package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-
-import net.shortninja.staffplusplus.session.SppPlayer;
+import net.shortninja.staffplus.core.common.cmd.*;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
 import java.util.Map;
 import java.util.Optional;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
+
+@Command(
+    command = "commands:commands.cps",
+    permissions = "permissions:permissions.cps",
+    description = "Starts a CPS test on the player.",
+    usage = "[player]",
+    playerRetrievalStrategy = ONLINE
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class CpsCmd extends AbstractCmd {
     private final GadgetHandler gadgetHandler;
 
-    public CpsCmd(Messages messages, Options options, GadgetHandler gadgetHandler, CommandService commandService) {
-        super(options.commandCps, messages, options, commandService);
+    public CpsCmd(Messages messages, GadgetHandler gadgetHandler, CommandService commandService, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.gadgetHandler = gadgetHandler;
-        setDescription("Starts a CPS test on the player.");
-        setUsage("{player}");
-        setPermission(options.permissionCps);
     }
 
     @Override
@@ -38,11 +40,6 @@ public class CpsCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
     }
 
     @Override

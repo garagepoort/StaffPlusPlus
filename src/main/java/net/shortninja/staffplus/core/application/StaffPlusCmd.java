@@ -3,13 +3,13 @@ package net.shortninja.staffplus.core.application;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
@@ -18,15 +18,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Command(
+    command = "commands:commands.staffplus",
+    permissions = "permissions:permissions.staffplus",
+    description = "Used for reloading config and lang file in use",
+    usage = "[reload]"
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class StaffPlusCmd extends AbstractCmd {
 
-    public StaffPlusCmd(Messages messages, Options options, CommandService commandService) {
-        super("staffplus", messages, options, commandService);
-        setPermission(options.permissionStaff);
-        setDescription("Used for reloading config and lang file in use");
-        setUsage("[reload]");
+    public StaffPlusCmd(Messages messages, Options options, CommandService commandService, PermissionHandler permissionHandler) {
+        super( messages, permissionHandler, commandService);
     }
 
     @Override
@@ -41,11 +44,6 @@ public class StaffPlusCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override

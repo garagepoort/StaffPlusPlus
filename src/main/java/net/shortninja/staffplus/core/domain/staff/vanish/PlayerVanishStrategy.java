@@ -2,11 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.vanish;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.IProtocolService;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -16,18 +15,18 @@ import org.bukkit.entity.Player;
 @IocMultiProvider(VanishStrategy.class)
 public class PlayerVanishStrategy implements VanishStrategy {
 
-    private final Options options;
     private final Messages messages;
     private final IProtocolService protocolService;
     private final PermissionHandler permission;
     private final SessionManagerImpl sessionManager;
+    private final VanishConfiguration vanishConfiguration;
 
-    public PlayerVanishStrategy(Options options, Messages messages, IProtocolService protocolService, PermissionHandler permission, SessionManagerImpl sessionManager) {
-        this.options = options;
+    public PlayerVanishStrategy(Messages messages, IProtocolService protocolService, PermissionHandler permission, SessionManagerImpl sessionManager, VanishConfiguration vanishConfiguration) {
         this.messages = messages;
         this.protocolService = protocolService;
         this.permission = permission;
         this.sessionManager = sessionManager;
+        this.vanishConfiguration = vanishConfiguration;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class PlayerVanishStrategy implements VanishStrategy {
         }
 
         Bukkit.getOnlinePlayers().stream()
-            .filter(p -> !permission.has(p, options.vanishConfiguration.getPermissionSeeVanished()))
+            .filter(p -> !permission.has(p, vanishConfiguration.permissionSeeVanished))
             .forEach(p -> p.hidePlayer(player));
 
         protocolService.getVersionProtocol().listVanish(player, false);
@@ -56,7 +55,7 @@ public class PlayerVanishStrategy implements VanishStrategy {
 
     @Override
     public void updateVanish(Player player) {
-        if (!permission.has(player, options.vanishConfiguration.getPermissionSeeVanished())) {
+        if (!permission.has(player, vanishConfiguration.permissionSeeVanished)) {
             sessionManager.getAll().stream()
                 .filter(session -> session.getPlayer().isPresent() && session.getVanishType() == VanishType.PLAYER)
                 .forEach(p -> {
