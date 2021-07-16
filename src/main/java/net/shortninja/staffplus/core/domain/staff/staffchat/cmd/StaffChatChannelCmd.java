@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat.cmd;
 
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
@@ -22,7 +21,7 @@ public class StaffChatChannelCmd extends AbstractCmd {
     private final StaffChatServiceImpl staffChatService;
     private final StaffChatChannelConfiguration channelConfiguration;
 
-    public StaffChatChannelCmd(Messages messages, Options options, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService, CommandService commandService, StaffChatChannelConfiguration channelConfiguration, PermissionHandler permissionHandler) {
+    public StaffChatChannelCmd(Messages messages, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService, CommandService commandService, StaffChatChannelConfiguration channelConfiguration, PermissionHandler permissionHandler) {
         super(channelConfiguration.getCommand(), messages, permissionHandler, commandService);
         this.sessionManager = sessionManager;
         this.staffChatService = staffChatService;

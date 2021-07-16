@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation;
 
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import org.bukkit.inventory.ItemStack;
 

@@ -1,8 +1,10 @@
 package net.shortninja.staffplus.core.domain.player.gui.hub;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -20,8 +22,6 @@ import net.shortninja.staffplus.core.domain.staff.reporting.gui.AllAssignedRepor
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ClosedReportsGui;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.MyAssignedReportsGui;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.OpenReportsGui;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -29,11 +29,14 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Consumer;
 
-import static org.bukkit.Material.*;
+import static org.bukkit.Material.BANNER;
+import static org.bukkit.Material.BOOK;
+import static org.bukkit.Material.PAPER;
+import static org.bukkit.Material.SHIELD;
+import static org.bukkit.Material.SIGN;
 
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
-    private final Options options;
     private final BanConfiguration banConfiguration;
     private final GuiItemConfig protectGuiItemConfig;
     private final IGuiItemConfig banGuiItemConfig;
@@ -47,18 +50,19 @@ public class HubGui extends AbstractGui {
     private final Player player;
 
     private final InvestigationGuiComponent investigationGuiComponent = StaffPlus.get().getIocContainer().get(InvestigationGuiComponent.class);
-    private final MuteConfiguration muteConfiguration;
     private final ManageReportConfiguration manageReportConfiguration;
 
     public HubGui(Player player, String title, BanConfiguration banConfiguration) {
         super(SIZE, title);
         this.player = player;
         this.banConfiguration = banConfiguration;
-        options = StaffPlus.get().getIocContainer().get(Options.class);
-        protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
         banGuiItemConfig = banConfiguration.banGuiItemConfig;
         manageReportConfiguration = StaffPlus.get().getIocContainer().get(ManageReportConfiguration.class);
-        muteConfiguration = StaffPlus.get().getIocContainer().get(MuteConfiguration.class);
+
+        Options options = StaffPlus.get().getIocContainer().get(Options.class);
+        protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
+
+        MuteConfiguration muteConfiguration = StaffPlus.get().getIocContainer().get(MuteConfiguration.class);
         muteGuiItemConfig = muteConfiguration.guiItemConfig;
         investigationGuiItemConfig = options.investigationConfiguration.getGuiItemConfig();
         openReportsGui = options.reportConfiguration.getOpenReportsGui();

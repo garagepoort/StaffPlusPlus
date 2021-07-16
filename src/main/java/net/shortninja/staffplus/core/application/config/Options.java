@@ -20,7 +20,11 @@ import net.shortninja.staffplus.core.domain.staff.investigate.config.Investigati
 import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.mode.config.*;
+import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.StaffCustomItemsLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.StaffModesLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.protect.config.ProtectModuleLoader;
@@ -161,7 +165,6 @@ public class Options {
     public void reload() {
         FileConfiguration defaultConfig = StaffPlus.get().getFileConfigurations().get("config");
         FileConfiguration permissionsConfig = StaffPlus.get().getFileConfigurations().get("permissions");
-        FileConfiguration commandsConfig = StaffPlus.get().getFileConfigurations().get("commands");
 
         blockedCommands = JavaUtils.stringToList(defaultConfig.getString("blocked-commands", ""));
         blockedModeCommands = JavaUtils.stringToList(defaultConfig.getString("blocked-mode-commands", ""));

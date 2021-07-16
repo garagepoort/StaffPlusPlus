@@ -2,10 +2,10 @@ package net.shortninja.staffplus.core.domain.player;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.domain.chat.ChatAction;
-import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.domain.chat.ChatAction;
+import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import static net.shortninja.staffplus.core.common.cmd.CommandUtil.playerAction;

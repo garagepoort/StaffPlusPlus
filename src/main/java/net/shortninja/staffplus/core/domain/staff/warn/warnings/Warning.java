@@ -2,9 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
+import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import net.shortninja.staffplusplus.warnings.AppealStatus;
 import net.shortninja.staffplusplus.warnings.IWarning;
 

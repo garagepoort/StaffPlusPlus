@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.tracing;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.trace.StartTraceEvent;
 import net.shortninja.staffplusplus.trace.StopTraceEvent;
 import net.shortninja.staffplusplus.trace.TraceWriter;
@@ -12,7 +12,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;

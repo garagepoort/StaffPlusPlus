@@ -1,7 +1,17 @@
 package net.shortninja.staffplus.core.application.config;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.migrators.*;
+import net.shortninja.staffplus.core.application.config.migrators.CommandsMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.CommandsV2Migrator;
+import net.shortninja.staffplus.core.application.config.migrators.ConfigMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.PermissionsMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.PermissionsV2Migrator;
+import net.shortninja.staffplus.core.application.config.migrators.ReportMessagesMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffChatChannelMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffChatMessageFormatMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffModeCommandMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffModeModulesMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffModesMigrator;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -15,7 +25,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AutoUpdater {

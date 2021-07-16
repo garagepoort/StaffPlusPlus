@@ -6,7 +6,12 @@ import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.actions.ExecutableActionEntity;
 import org.apache.commons.lang.StringUtils;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
 public class SqliteActionableRepository extends AbstractSqlActionableRepository {

@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat;
 
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatConfiguration;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class StaffChatChatInterceptor implements ChatInterceptor {

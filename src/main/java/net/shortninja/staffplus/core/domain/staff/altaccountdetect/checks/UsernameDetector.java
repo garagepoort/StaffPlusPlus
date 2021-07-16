@@ -4,7 +4,9 @@ import net.shortninja.staffplusplus.altdetect.AltDetectResultType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 
-import static net.shortninja.staffplusplus.altdetect.AltDetectResultType.*;
+import static net.shortninja.staffplusplus.altdetect.AltDetectResultType.NAME_SIMILARITY_30;
+import static net.shortninja.staffplusplus.altdetect.AltDetectResultType.NAME_SIMILARITY_50;
+import static net.shortninja.staffplusplus.altdetect.AltDetectResultType.NAME_SIMILARITY_70;
 
 public class UsernameDetector implements AltDetector {
     @Override

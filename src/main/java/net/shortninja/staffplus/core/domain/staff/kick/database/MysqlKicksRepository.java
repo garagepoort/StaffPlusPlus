@@ -7,7 +7,11 @@ import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.kick.Kick;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class MysqlKicksRepository extends AbstractSqlKicksRepository {
