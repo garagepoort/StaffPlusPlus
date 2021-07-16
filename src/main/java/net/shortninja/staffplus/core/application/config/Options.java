@@ -42,6 +42,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -166,8 +168,18 @@ public class Options {
         FileConfiguration defaultConfig = StaffPlus.get().getFileConfigurations().get("config");
         FileConfiguration permissionsConfig = StaffPlus.get().getFileConfigurations().get("permissions");
 
-        blockedCommands = JavaUtils.stringToList(defaultConfig.getString("blocked-commands", ""));
-        blockedModeCommands = JavaUtils.stringToList(defaultConfig.getString("blocked-mode-commands", ""));
+        String commas1 = defaultConfig.getString("blocked-commands", "");
+        if (commas1 == null) {
+            throw new IllegalArgumentException("Commas may not be null.");
+        }
+
+        blockedCommands = new ArrayList<>(Arrays.asList(commas1.split("\\s*,\\s*")));
+        String commas = defaultConfig.getString("blocked-mode-commands", "");
+        if (commas == null) {
+            throw new IllegalArgumentException("Commas may not be null.");
+        }
+
+        blockedModeCommands = new ArrayList<>(Arrays.asList(commas.split("\\s*,\\s*")));
         glassTitle = defaultConfig.getString("glass-title");
 
         serverName = defaultConfig.getString("server-name");

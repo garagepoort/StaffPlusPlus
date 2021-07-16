@@ -22,8 +22,8 @@ import org.bukkit.inventory.ItemStack;
 public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Options options;
-    private PermissionHandler permissionHandler;
-    private InventoryFactory inventoryFactory;
+    private final PermissionHandler permissionHandler;
+    private final InventoryFactory inventoryFactory;
 
     public InventoryExamineGuiProvider(Options options, PermissionHandler permissionHandler, InventoryFactory inventoryFactory) {
         this.options = options;

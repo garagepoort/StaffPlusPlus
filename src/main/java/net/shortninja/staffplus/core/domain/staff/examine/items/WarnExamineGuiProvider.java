@@ -28,7 +28,6 @@ import java.util.Optional;
 public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Messages messages;
-
     private final ExamineModeConfiguration examineModeConfiguration;
     private final Options options;
     private final SessionManagerImpl sessionManager;
@@ -36,7 +35,6 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
 
     public WarnExamineGuiProvider(Messages messages, Options options, SessionManagerImpl sessionManager, PlayerManager playerManager) {
         this.messages = messages;
-
         this.options = options;
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
@@ -100,12 +98,10 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     private ItemStack warnItem() {
-        ItemStack item = Items.builder()
+        return Items.builder()
             .setMaterial(Material.PAPER).setAmount(1)
             .setName("&bWarn player")
             .addLore(messages.examineWarn)
             .build();
-
-        return item;
     }
 }
