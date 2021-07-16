@@ -1,39 +1,16 @@
 package net.shortninja.staffplus.core.domain.staff.chests.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+
+@IocBean
 public class EnderchestsConfiguration {
 
-    private final boolean enabled;
+    @ConfigProperty("permissions:permissions.enderchests.view.online")
+    public String permissionViewOnline;
+    @ConfigProperty("permissions:permissions.enderchests.view.offline")
+    public String permissionViewOffline;
+    @ConfigProperty("permissions:permissions.enderchests.interact")
+    public String permissionInteract;
 
-    private final String commandOpenEnderChests;
-    private final String permissionViewOnline;
-    private final String permissionViewOffline;
-    private final String permissionInteract;
-
-    public EnderchestsConfiguration(boolean enabled, String commandOpenEnderChests, String permissionViewOnline, String permissionViewOffline, String permissionInteract) {
-        this.enabled = enabled;
-        this.commandOpenEnderChests = commandOpenEnderChests;
-        this.permissionViewOnline = permissionViewOnline;
-        this.permissionViewOffline = permissionViewOffline;
-        this.permissionInteract = permissionInteract;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public String getCommandOpenEnderChests() {
-        return commandOpenEnderChests;
-    }
-
-    public String getPermissionViewOnline() {
-        return permissionViewOnline;
-    }
-
-    public String getPermissionViewOffline() {
-        return permissionViewOffline;
-    }
-
-    public String getPermissionInteract() {
-        return permissionInteract;
-    }
 }

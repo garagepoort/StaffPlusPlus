@@ -1,15 +1,15 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat.cmd;
 
+import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatChannelConfiguration;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatServiceImpl;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,8 +22,8 @@ public class StaffChatChannelCmd extends AbstractCmd {
     private final StaffChatServiceImpl staffChatService;
     private final StaffChatChannelConfiguration channelConfiguration;
 
-    public StaffChatChannelCmd(Messages messages, Options options, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService, CommandService commandService, StaffChatChannelConfiguration channelConfiguration) {
-        super(channelConfiguration.getCommand(), messages, options, commandService);
+    public StaffChatChannelCmd(Messages messages, Options options, SessionManagerImpl sessionManager, StaffChatServiceImpl staffChatService, CommandService commandService, StaffChatChannelConfiguration channelConfiguration, PermissionHandler permissionHandler) {
+        super(channelConfiguration.getCommand(), messages, permissionHandler, commandService);
         this.sessionManager = sessionManager;
         this.staffChatService = staffChatService;
         this.channelConfiguration = channelConfiguration;
@@ -61,11 +61,6 @@ public class StaffChatChannelCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 0;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override

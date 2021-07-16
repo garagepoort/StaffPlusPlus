@@ -24,12 +24,13 @@ public class AlertsModuleLoader extends AbstractConfigLoader<AlertsConfiguration
             .collect(Collectors.toList());
 
         String permissionAlerts = permissionsConfig.getString("permissions.alerts");
-        String permissionAlertsAltDetect = permissionsConfig.getString("permissions.alerts-alt-detect");
         String permissionMention = permissionsConfig.getString("permissions.mention");
-        String permissionMentionBypass = permissionsConfig.getString("permissions.mention-bypass");
         String permissionNameChange = permissionsConfig.getString("permissions.name-change");
-        String permissionNameChangeBypass = permissionsConfig.getString("permissions.name-change-bypass");
         String permissionChatPhraseDetection = permissionsConfig.getString("permissions.alerts-chat-phrase-detection");
+        String permissionAlertsAltDetect = permissionsConfig.getString("permissions.alerts-alt-detect");
+
+        String permissionMentionBypass = permissionsConfig.getString("permissions.mention-bypass");
+        String permissionNameChangeBypass = permissionsConfig.getString("permissions.name-change-bypass");
         String permissionChatPhraseDetectionBypass = permissionsConfig.getString("permissions.alerts-chat-phrase-detection-bypass");
         Sounds alertsSound = stringToSound(sanitize(defaultConfig.getString("alerts-module.sound")));
         String commandAlerts = commandsConfig.getString("commands.alerts");

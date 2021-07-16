@@ -3,9 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.vanish;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -15,13 +14,13 @@ import org.bukkit.entity.Player;
 @IocMultiProvider(VanishStrategy.class)
 public class TotalVanishStrategy implements VanishStrategy {
 
-    private final Options options;
+    private final VanishConfiguration vanishConfiguration;
     private final PermissionHandler permission;
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
 
-    public TotalVanishStrategy(Options options, PermissionHandler permission, Messages messages, SessionManagerImpl sessionManager) {
-        this.options = options;
+    public TotalVanishStrategy(VanishConfiguration vanishConfiguration, PermissionHandler permission, Messages messages, SessionManagerImpl sessionManager) {
+        this.vanishConfiguration = vanishConfiguration;
         this.permission = permission;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -30,7 +29,7 @@ public class TotalVanishStrategy implements VanishStrategy {
     @Override
     public void vanish(Player player) {
         Bukkit.getOnlinePlayers().stream()
-            .filter(p -> !permission.has(p, options.vanishConfiguration.getPermissionSeeVanished()))
+            .filter(p -> !permission.has(p, vanishConfiguration.permissionSeeVanished))
             .forEach(p -> p.hidePlayer(player));
 
         String message = messages.totalVanish.replace("%status%", messages.enabled);
@@ -41,7 +40,7 @@ public class TotalVanishStrategy implements VanishStrategy {
 
     @Override
     public void updateVanish(Player player) {
-        if(!permission.has(player, options.vanishConfiguration.getPermissionSeeVanished())) {
+        if (!permission.has(player, vanishConfiguration.permissionSeeVanished)) {
             sessionManager.getAll().stream()
                 .filter(session -> session.getPlayer().isPresent() && session.getVanishType() == VanishType.TOTAL)
                 .forEach(p -> player.hidePlayer(p.getPlayer().get()));

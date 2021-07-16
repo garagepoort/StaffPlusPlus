@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.common.cmd;
 
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -17,21 +17,24 @@ import java.util.stream.Stream;
 public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     protected final Messages messages;
-    protected final Options options;
+    protected final PermissionHandler permissionHandler;
     private final CommandService commandService;
     private boolean delayable;
+    private PlayerRetrievalStrategy playerRetrievalStrategy;
     private Set<String> permissions = new HashSet<>();
+    private static final Map<UUID, Long> lastUse = new HashMap<>();
 
-    protected AbstractCmd(String name, Messages messages, Options options, CommandService commandService) {
+    protected AbstractCmd(String name, Messages messages, PermissionHandler permissionHandler, CommandService commandService) {
         super(name);
         this.messages = messages;
-        this.options = options;
+        this.permissionHandler = permissionHandler;
         this.commandService = commandService;
     }
-    protected AbstractCmd(Messages messages, Options options, CommandService commandService) {
+
+    protected AbstractCmd(Messages messages, PermissionHandler permissionHandler, CommandService commandService) {
         super("");
         this.messages = messages;
-        this.options = options;
+        this.permissionHandler = permissionHandler;
         this.commandService = commandService;
     }
 
@@ -46,6 +49,8 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         try {
             commandService.validateAuthentication(isAuthenticationRequired(), sender);
             commandService.validatePermissions(sender, permissions);
+            validateCoolDown(sender);
+
             String[] optionalParamaters = Arrays.stream(args).filter(a -> getOptionalParameters().stream().anyMatch(a::startsWith)).toArray(String[]::new);
             String[] filteredArgs = Arrays.stream(args).filter(a -> getOptionalParameters().stream().noneMatch(a::startsWith)).toArray(String[]::new);
             String[] sppArgs = Arrays.stream(filteredArgs).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).anyMatch(a::startsWith)).toArray(String[]::new);
@@ -53,10 +58,9 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
             validateMinimumArguments(sender, filteredArgs);
 
-            PlayerRetrievalStrategy strategy = getPlayerRetrievalStrategy();
             String playerName = getPlayerName(sender, filteredArgs).orElse(null);
 
-            Optional<SppPlayer> player = commandService.retrievePlayer(sppArgs, playerName, strategy, delayable);
+            Optional<SppPlayer> player = commandService.retrievePlayer(sppArgs, playerName, getPlayerRetrievalStrategy(), delayable);
 
             if (player.isPresent()) {
                 if (player.get().isOnline() && canBypass(player.get().getPlayer())) {
@@ -73,10 +77,27 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
             commandService.processArguments(sender, sppArgs, playerName, getPreExecutionSppArguments());
             boolean result = executeCmd(sender, alias, filteredArgs, player.orElse(null), mapOptionalParameters(optionalParamaters));
             commandService.processArguments(sender, sppArgs, playerName, getPostExecutionSppArguments());
+            if (sender instanceof Player) {
+                lastUse.put(((Player) sender).getUniqueId(), System.currentTimeMillis());
+            }
             return result;
         } catch (BusinessException e) {
             messages.send(sender, e.getMessage(), e.getPrefix());
             return false;
+        }
+    }
+
+    private void validateCoolDown(CommandSender sender) {
+        if (sender instanceof Player) {
+            Optional<Long> cooldown = permissionHandler.getDurationInSeconds(sender, "staff." + getName() + ".cooldown");
+            if (cooldown.isPresent()) {
+                long last = lastUse.get(((Player) sender).getUniqueId());
+                long secondsOnCooldown = (System.currentTimeMillis() - last) / 1000;
+
+                if (secondsOnCooldown < cooldown.get()) {
+                    throw new BusinessException(messages.commandOnCooldown.replace("%seconds%", Long.toString(cooldown.get() - secondsOnCooldown)), messages.prefixGeneral);
+                }
+            }
         }
     }
 
@@ -95,7 +116,6 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     @Override
     public void setPermission(String permission) {
-        super.setPermission(permission);
         this.permissions.add(permission);
     }
 
@@ -105,6 +125,10 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
             collect.add(ArgumentType.DELAY);
         }
         return collect;
+    }
+
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return playerRetrievalStrategy;
     }
 
     /**
@@ -168,10 +192,12 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
      * Use ONLINE, if this cmd only targets online players. If the player can't be found or if he is online an exception will be thrown
      * If the `DELAY` flag is set this command won't throw an error if the player is found but offline.
      * Use BOTH, if this command targets online and offline users. An exception will be thrown if the user is not known to the server.
-     *
-     * @return PlayerRetrievalStrategy NONE|ONLINE|BOTH
+     * OPTIONAL_BOTH is either NONE or BOTH depending on if the getPlayerName() method returns a playername or not
+     * OPTIONAL_ONLINE is either NONE or ONLINE depending on if the getPlayerName() method returns a playername or not
      */
-    protected abstract PlayerRetrievalStrategy getPlayerRetrievalStrategy();
+    public void setPlayerRetrievalStrategy(PlayerRetrievalStrategy playerRetrievalStrategy) {
+        this.playerRetrievalStrategy = playerRetrievalStrategy;
+    }
 
     /**
      * Used to find the player before running the `executeCmd` method

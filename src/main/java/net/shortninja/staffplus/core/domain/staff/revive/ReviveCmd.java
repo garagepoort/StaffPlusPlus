@@ -2,15 +2,12 @@ package net.shortninja.staffplus.core.domain.staff.revive;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.cmd.*;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -20,20 +17,23 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
 
+@Command(
+    command = "commands:commands.revive",
+    permissions = "permissions:permissions.revive",
+    description = "Gives the player's previous inventory back.",
+    usage = "[player]",
+    playerRetrievalStrategy = PlayerRetrievalStrategy.ONLINE
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class ReviveCmd extends AbstractCmd {
     private final ReviveHandler reviveHandler;
 
-    public ReviveCmd(Messages messages, Options options, ReviveHandler reviveHandler, CommandService commandService) {
-        super(options.commandRevive, messages, options, commandService);
+    public ReviveCmd(Messages messages, Options options, ReviveHandler reviveHandler, CommandService commandService, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.reviveHandler = reviveHandler;
-        setPermission(options.permissionRevive);
-        setDescription("Gives the player's previous inventory back.");
-        setUsage("[player]");
     }
 
     @Override
@@ -64,11 +64,6 @@ public class ReviveCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return ONLINE;
-    }
-
-    @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         if (args.length == 0 && (sender instanceof Player)) {
             return Optional.of(sender.getName());
@@ -79,8 +74,7 @@ public class ReviveCmd extends AbstractCmd {
     @Override
     public List<String> autoComplete(CommandSender sender, String[] args, String[] sppArgs) throws IllegalArgumentException {
         if (args.length == 1) {
-            List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-            return new ArrayList<>(onlinePlayers);
+            return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
         }
 
         return Collections.emptyList();

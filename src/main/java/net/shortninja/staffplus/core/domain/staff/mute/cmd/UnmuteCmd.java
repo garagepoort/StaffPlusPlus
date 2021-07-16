@@ -2,18 +2,18 @@ package net.shortninja.staffplus.core.domain.staff.mute.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
@@ -22,6 +22,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
+
+@Command(
+    command = "commands:commands.unmute",
+    permissions = "permissions:permissions.unmute",
+    description = "Unmute a player",
+    usage = "[player] [reason]",
+    playerRetrievalStrategy = BOTH
+)
 @IocBean(conditionalOnProperty = "mute-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class UnmuteCmd extends AbstractCmd {
@@ -30,14 +39,17 @@ public class UnmuteCmd extends AbstractCmd {
     private final SessionManagerImpl sessionManager;
     private final PlayerManager playerManager;
 
-    public UnmuteCmd(Messages messages, Options options, MuteService muteService, SessionManagerImpl sessionManager, CommandService commandService, PlayerManager playerManager) {
-        super(options.muteConfiguration.getCommandUnmutePlayer(), messages, options, commandService);
+    public UnmuteCmd(Messages messages,
+                     Options options,
+                     MuteService muteService,
+                     SessionManagerImpl sessionManager,
+                     CommandService commandService,
+                     PlayerManager playerManager,
+                     PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.muteService = muteService;
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
-        setPermission(options.muteConfiguration.getPermissionUnmutePlayer());
-        setDescription("Unmute a player");
-        setUsage("[player] [reason]");
     }
 
     @Override
@@ -54,11 +66,6 @@ public class UnmuteCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 2;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
     }
 
     @Override
