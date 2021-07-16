@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui.actions;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.gui.IAction;
-
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import org.bukkit.entity.Player;

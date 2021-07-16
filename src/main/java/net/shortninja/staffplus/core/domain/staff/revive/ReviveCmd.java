@@ -3,8 +3,11 @@ package net.shortninja.staffplus.core.domain.staff.revive;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.cmd.*;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -14,10 +17,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
+import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
+import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
+import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TELEPORT;
 
 @Command(
     command = "commands:revive",
@@ -31,7 +40,7 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
 public class ReviveCmd extends AbstractCmd {
     private final ReviveHandler reviveHandler;
 
-    public ReviveCmd(Messages messages, Options options, ReviveHandler reviveHandler, CommandService commandService, PermissionHandler permissionHandler) {
+    public ReviveCmd(Messages messages, ReviveHandler reviveHandler, CommandService commandService, PermissionHandler permissionHandler) {
         super(messages, permissionHandler, commandService);
         this.reviveHandler = reviveHandler;
     }

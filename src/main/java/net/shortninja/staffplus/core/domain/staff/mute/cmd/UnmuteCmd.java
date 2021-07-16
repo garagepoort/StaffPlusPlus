@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.mute.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
@@ -40,7 +39,6 @@ public class UnmuteCmd extends AbstractCmd {
     private final PlayerManager playerManager;
 
     public UnmuteCmd(Messages messages,
-                     Options options,
                      MuteService muteService,
                      SessionManagerImpl sessionManager,
                      CommandService commandService,

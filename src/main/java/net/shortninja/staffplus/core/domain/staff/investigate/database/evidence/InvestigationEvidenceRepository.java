@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.database.evidence;
 
-import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import net.shortninja.staffplus.core.domain.staff.investigate.EvidenceEntity;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
+import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 
 import java.util.List;
 import java.util.Optional;

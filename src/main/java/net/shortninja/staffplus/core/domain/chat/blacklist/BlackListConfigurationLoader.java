@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.chat.blacklist;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.common.JavaUtils;
 
 import java.util.List;
 

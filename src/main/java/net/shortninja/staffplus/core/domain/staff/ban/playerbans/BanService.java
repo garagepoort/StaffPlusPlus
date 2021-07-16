@@ -2,13 +2,13 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
-import net.shortninja.staffplus.core.common.time.TimeUnitShort;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.time.TimeUnitShort;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.database.BansRepository;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
@@ -21,7 +21,13 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.toMap;
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
