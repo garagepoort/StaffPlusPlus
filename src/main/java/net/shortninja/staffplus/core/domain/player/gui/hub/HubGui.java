@@ -33,7 +33,7 @@ import static org.bukkit.Material.BOOK;
 import static org.bukkit.Material.PAPER;
 import static org.bukkit.Material.PLAYER_HEAD;
 import static org.bukkit.Material.SHIELD;
-import static org.bukkit.Material.SPRUCE_SIGN;
+import static org.bukkit.Material.SIGN;
 
 public class HubGui extends AbstractGui {
     private static final int SIZE = 27;
