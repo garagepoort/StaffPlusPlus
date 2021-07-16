@@ -23,12 +23,10 @@ public class LocationExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Messages messages;
     private final ExamineModeConfiguration examineModeConfiguration;
-    private final Options options;
 
     public LocationExamineGuiProvider(Messages messages, Options options) {
         this.messages = messages;
-        this.options = options;
-        examineModeConfiguration = this.options.staffItemsConfiguration.getExamineModeConfiguration();
+        examineModeConfiguration = options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override
