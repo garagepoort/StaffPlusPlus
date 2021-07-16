@@ -1,44 +1,23 @@
 package net.shortninja.staffplus.core.domain.webui.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+
+@IocBean
 public class WebUiConfiguration {
 
-    private final boolean enabled;
-    private final String host;
-    private final String registrationCmd;
-    private final String registrationPermission;
-    private final String applicationKey;
-    private final String role;
+    @ConfigProperty("webui-module.enabled")
+    public boolean enabled;
+    @ConfigProperty("webui-module.host")
+    public String host;
+    @ConfigProperty("webui-module.application-key")
+    public String applicationKey;
+    @ConfigProperty("webui-module.role")
+    public String role;
 
-    public WebUiConfiguration(boolean enabled, String host, String applicationKey, String registrationCmd, String registrationPermission, String role) {
-        this.enabled = enabled;
-        this.host = host;
-        this.applicationKey = applicationKey;
-        this.registrationCmd = registrationCmd;
-        this.registrationPermission = registrationPermission;
-        this.role = role;
-    }
+    @ConfigProperty("commands:commands.webui.register")
+    public String registrationCmd;
+    @ConfigProperty("permissions:permissions.webui.register")
+    public String registrationPermission;
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public String getRegistrationCmd() {
-        return registrationCmd;
-    }
-
-    public String getRegistrationPermission() {
-        return registrationPermission;
-    }
-
-    public String getApplicationKey() {
-        return applicationKey;
-    }
-
-    public String getRole() {
-        return role;
-    }
 }

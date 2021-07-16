@@ -8,9 +8,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface Command {
-    String[] permissions();
+    String[] permissions() default "";
     String description() default "";
     String usage() default  "";
     boolean delayable() default  false;
-    String command() default "";
+    String command();
+    PlayerRetrievalStrategy playerRetrievalStrategy() default PlayerRetrievalStrategy.NONE;
 }

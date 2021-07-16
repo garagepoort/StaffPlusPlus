@@ -2,17 +2,17 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.warnings.IWarning;
 import org.bukkit.command.CommandSender;
 
@@ -22,6 +22,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
+
+@Command(
+    command = "commands:commands.warn",
+    permissions = "permissions:permissions.warn",
+    description = "List all warnings of a player",
+    usage = "[get] [player]",
+    playerRetrievalStrategy = BOTH
+)
 @IocBean(conditionalOnProperty = "warnings-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class WarnsCmd extends AbstractCmd {
@@ -29,13 +38,10 @@ public class WarnsCmd extends AbstractCmd {
     private final WarnService warnService;
     private final PlayerManager playerManager;
 
-    public WarnsCmd(Messages messages, Options options, WarnService warnService, CommandService commandService, PlayerManager playerManager) {
-        super(options.commandWarns, messages, options, commandService);
+    public WarnsCmd(Messages messages, Options options, WarnService warnService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.warnService = warnService;
         this.playerManager = playerManager;
-        setPermission(options.permissionWarn);
-        setDescription("List all warnings of a player");
-        setUsage("[get] [player]");
     }
 
     @Override
@@ -53,11 +59,6 @@ public class WarnsCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 2;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
     }
 
     @Override

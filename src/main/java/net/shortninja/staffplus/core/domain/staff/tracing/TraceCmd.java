@@ -2,13 +2,12 @@ package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
@@ -23,23 +22,31 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
+
+@Command(
+    command = "commands:commands.trace",
+    permissions = "permissions:permissions.trace",
+    description = "Used to start/stop tracing a player",
+    usage = "[start | stop] [player]",
+    playerRetrievalStrategy = ONLINE
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class TraceCmd extends AbstractCmd {
-
     private static final String START = "start";
     private static final String STOP = "stop";
+
+    @ConfigProperty("permissions:permissions.trace-bypass")
+    private String permissionTraceBypass;
 
     private final TraceService traceService;
     private final PermissionHandler permissionHandler;
 
-    public TraceCmd(Messages messages, Options options, TraceService traceService, CommandService commandService, PermissionHandler permissionHandler) {
-        super(options.commandTrace, messages, options, commandService);
+    public TraceCmd(Messages messages, TraceService traceService, CommandService commandService, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.traceService = traceService;
         this.permissionHandler = permissionHandler;
-        setPermission(options.permissionTrace);
-        setDescription("Used to start/stop tracing a player");
-        setUsage("[start | stop] [player]");
     }
 
 
@@ -82,13 +89,8 @@ public class TraceCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
-    }
-
-    @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, options.permissionTraceBypass);
+        return permissionHandler.has(player, permissionTraceBypass);
     }
 
     @Override

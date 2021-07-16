@@ -2,12 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.examine;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.*;
-import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-
+import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -28,15 +30,19 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TE
     permissions = "permissions:permissions.invClear",
     description = "Used to clear a desired player's inventory",
     usage = "[player]",
-    delayable = true
+    delayable = true,
+    playerRetrievalStrategy = ONLINE
 )
 public class ClearInvCmd extends AbstractCmd {
 
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
 
-    public ClearInvCmd(PermissionHandler permissionHandler, Messages messages, Options options, CommandService commandService, PlayerManager playerManager) {
-        super(messages, options, commandService);
+    @ConfigProperty("permissions:permissions.invClear-bypass")
+    private String permissionClearInvBypass;
+
+    public ClearInvCmd(PermissionHandler permissionHandler, Messages messages, CommandService commandService, PlayerManager playerManager) {
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
     }
@@ -64,13 +70,8 @@ public class ClearInvCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return ONLINE;
-    }
-
-    @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, options.permissionClearInvBypass);
+        return permissionHandler.has(player, permissionClearInvBypass);
     }
 
     @Override

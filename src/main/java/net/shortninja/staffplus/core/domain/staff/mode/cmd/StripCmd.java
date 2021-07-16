@@ -3,14 +3,12 @@ package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.player.StripService;
 import org.bukkit.command.CommandSender;
@@ -21,17 +19,21 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
+@Command(
+    command = "commands:commands.strip",
+    permissions = "permissions:permissions.strip",
+    description = "Completely removes the target player's armor.",
+    usage = "[player]",
+    playerRetrievalStrategy = ONLINE
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class StripCmd extends AbstractCmd {
     private final StripService stripService;
 
-    public StripCmd(Messages messages, Options options, StripService stripService, CommandService commandService) {
-        super(options.commandStrip, messages, options, commandService);
+    public StripCmd(Messages messages, Options options, StripService stripService, CommandService commandService, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.stripService = stripService;
-        setPermission(options.permissionStrip);
-        setDescription("Completely removes the target player's armor.");
-        setUsage("[player]");
     }
 
     @Override
@@ -53,11 +55,6 @@ public class StripCmd extends AbstractCmd {
             return 0;
         }
         return 1;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return ONLINE;
     }
 
     @Override

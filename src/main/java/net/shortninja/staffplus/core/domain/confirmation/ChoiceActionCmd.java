@@ -2,14 +2,14 @@ package net.shortninja.staffplus.core.domain.confirmation;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,18 +18,21 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@Command(
+    command = "commands:commands.choice-action",
+    permissions = "permissions:permissions.mode",
+    description = "Selects 1 of 2 action.",
+    usage = "[option1|option2] [actionUuid]"
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class ChoiceActionCmd extends AbstractCmd {
 
     private final ChoiceChatService choiceChatService;
 
-    public ChoiceActionCmd(Messages messages, Options options, ChoiceChatService choiceChatService, CommandService commandService) {
-        super("choice-action", messages, options, commandService);
+    public ChoiceActionCmd(Messages messages, Options options, ChoiceChatService choiceChatService, CommandService commandService, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.choiceChatService = choiceChatService;
-        setPermission(options.permissionMode);
-        setDescription("Selects 1 of 2 action.");
-        setUsage("[option1|option2] [actionUuid]");
     }
 
     @Override
@@ -54,11 +57,6 @@ public class ChoiceActionCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 2;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override
