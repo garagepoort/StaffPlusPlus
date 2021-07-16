@@ -3,14 +3,12 @@ package net.shortninja.staffplus.core.domain.staff.protect.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectService;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectedArea;
@@ -23,6 +21,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
+
+@Command(
+    command = "commands:commands.protect-area",
+    permissions = "permissions:permissions.protect-area",
+    description = "Protect an area around you.",
+    usage = "[radius] [area name]",
+    playerRetrievalStrategy = ONLINE
+)
 @IocBean(conditionalOnProperty = "protect-module.area-enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class ProtectAreaCmd extends AbstractCmd {
@@ -32,12 +39,13 @@ public class ProtectAreaCmd extends AbstractCmd {
 
     private final ProtectService protectService;
 
-    public ProtectAreaCmd(Messages messages, Options options, ProtectService protectService, CommandService commandService) {
-        super(options.protectConfiguration.getCommandProtectArea(), messages, options, commandService);
+    public ProtectAreaCmd(Messages messages,
+                          Options options,
+                          ProtectService protectService,
+                          CommandService commandService,
+                          PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.protectService = protectService;
-        setPermission(options.protectConfiguration.getPermissionProtectArea());
-        setDescription("Protect an area around you.");
-        setUsage("[radius] [area name]");
     }
 
     @Override
@@ -77,11 +85,6 @@ public class ProtectAreaCmd extends AbstractCmd {
             return 2;
         }
         return 3;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override

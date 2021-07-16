@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.application.config.Messages;
@@ -18,6 +19,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
@@ -26,7 +28,8 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.ST
     permissions = "permissions:permissions.teleport-to-location",
     description = "Teleports the player to his last known location before teleportation happened",
     usage = "[player]",
-    delayable = true
+    delayable = true,
+    playerRetrievalStrategy = ONLINE
 )
 @IocBean
 @IocMultiProvider(SppCommand.class)
@@ -35,8 +38,11 @@ public class TeleportBackCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final TeleportService teleportService;
 
+    @ConfigProperty("permissions:permissions.teleport-bypass")
+    private String permissionTeleportBypass;
+
     public TeleportBackCmd(PermissionHandler permissionHandler, Messages messages, Options options, TeleportService teleportService, CommandService commandService) {
-        super(messages, options, commandService);
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.teleportService = teleportService;
     }
@@ -63,13 +69,8 @@ public class TeleportBackCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
-    }
-
-    @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, options.permissionTeleportBypass);
+        return permissionHandler.has(player, permissionTeleportBypass);
     }
 
     @Override

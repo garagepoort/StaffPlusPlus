@@ -2,13 +2,15 @@ package net.shortninja.staffplus.core.domain.webui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.webui.config.WebUiConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.command.CommandSender;
@@ -17,17 +19,25 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 import java.util.Optional;
 
+@Command(
+    command = "commands:commands.webui.register",
+    permissions = "permissions:permissions.webui.register",
+    description = "Create registration link for the web interface",
+    usage = "[player] [enable | disable]"
+)
 @IocBean(conditionalOnProperty = "webui-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class WebUiRegisterCmd extends AbstractCmd {
 
+    private final Options options;
     private final WebUiRegistrationRepository webUiRegistrationRepository;
+    private final WebUiConfiguration webUiConfiguration;
 
-    public WebUiRegisterCmd(Messages messages, Options options, CommandService commandService, WebUiRegistrationRepository webUiRegistrationRepository) {
-        super(options.webuiConfiguration.getRegistrationCmd(), messages, options, commandService);
+    public WebUiRegisterCmd(Messages messages, WebUiConfiguration webUiConfiguration, CommandService commandService, WebUiRegistrationRepository webUiRegistrationRepository, PermissionHandler permissionHandler, Options options) {
+        super(messages, permissionHandler, commandService);
+        this.webUiConfiguration = webUiConfiguration;
         this.webUiRegistrationRepository = webUiRegistrationRepository;
-        setPermission(options.webuiConfiguration.getRegistrationPermission());
-        setDescription("Create registration link for the web interface");
+        this.options = options;
     }
 
     @Override
@@ -39,10 +49,10 @@ public class WebUiRegisterCmd extends AbstractCmd {
         String authenticationKey = RandomStringUtils.randomAlphanumeric(32);
         String serverName = options.serverName;
         String uuid = ((Player) sender).getUniqueId().toString();
-        String applicationKey = options.webuiConfiguration.getApplicationKey();
-        webUiRegistrationRepository.addRegistrationRequest(sender.getName(), ((Player) sender).getUniqueId(), authenticationKey, options.webuiConfiguration.getRole());
+        String applicationKey = webUiConfiguration.applicationKey;
+        webUiRegistrationRepository.addRegistrationRequest(sender.getName(), ((Player) sender).getUniqueId(), authenticationKey, webUiConfiguration.role);
 
-        String registrationLink = String.format(options.webuiConfiguration.getHost() + "/register?applicationKey=%s&&uuid=%s&&authenticationKey=%s&&serverName=%s", applicationKey, uuid, authenticationKey, serverName);
+        String registrationLink = String.format(webUiConfiguration.host + "/register?applicationKey=%s&&uuid=%s&&authenticationKey=%s&&serverName=%s", applicationKey, uuid, authenticationKey, serverName);
         messages.send(sender, "&bRegistration link: &6" + registrationLink, messages.prefixGeneral);
         return true;
     }
@@ -50,11 +60,6 @@ public class WebUiRegisterCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 0;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override

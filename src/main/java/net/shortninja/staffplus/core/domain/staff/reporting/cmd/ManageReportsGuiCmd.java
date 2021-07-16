@@ -2,14 +2,11 @@ package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ManageReportsGui;
 import org.bukkit.command.CommandSender;
@@ -18,14 +15,17 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 import java.util.Optional;
 
+@Command(
+    command = "commands:commands.reports.manage.gui",
+    permissions = "permissions:permissions.reports.manage.view",
+    description = "Open the manage Reports GUI."
+)
 @IocBean(conditionalOnProperty = "reports-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class ManageReportsGuiCmd extends AbstractCmd {
 
-    public ManageReportsGuiCmd(Messages messages, Options options, CommandService commandService) {
-        super(options.manageReportConfiguration.getCommandManageReportsGui(), messages, options, commandService);
-        setPermission(options.manageReportConfiguration.getPermissionView());
-        setDescription("Open the manage Reports GUI.");
+    public ManageReportsGuiCmd(Messages messages, PermissionHandler permissionHandler, CommandService commandService) {
+        super(messages, permissionHandler, commandService);
     }
 
     @Override
@@ -41,11 +41,6 @@ public class ManageReportsGuiCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 0;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override

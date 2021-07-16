@@ -2,30 +2,46 @@ package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
-
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplusplus.reports.IReport;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
 import java.util.*;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
+
+@Command(
+    command = "commands:commands.reports.manage.cli",
+    permissions = "permissions:permissions.reports.manage.view",
+    description = "Manage Reports.",
+    usage = "[get|clear] [player]",
+    playerRetrievalStrategy = BOTH
+)
 @IocBean(conditionalOnProperty = "reports-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class ReportsCmd extends AbstractCmd {
+
+    @ConfigProperty("permissions:permissions.reports.manage.view")
+    public String permissionView;
+    @ConfigProperty("permissions:permissions.reports.manage.view")
+    public String permissionDelete;
+
     private final PermissionHandler permissionHandler;
     private final ReportService reportService;
     private final ManageReportService manageReportService;
+
 
     public ReportsCmd(PermissionHandler permissionHandler,
                       Messages messages,
@@ -33,13 +49,10 @@ public class ReportsCmd extends AbstractCmd {
                       ReportService reportService,
                       ManageReportService manageReportService,
                       CommandService commandService) {
-
-        super(options.commandReports, messages, options, commandService);
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.reportService = reportService;
         this.manageReportService = manageReportService;
-        setDescription("Manage Reports.");
-        setUsage("[get|clear] [player]");
     }
 
     @Override
@@ -47,14 +60,14 @@ public class ReportsCmd extends AbstractCmd {
         String argument = args[0];
 
         if (argument.equalsIgnoreCase("get")) {
-            if (!permissionHandler.has(sender, options.manageReportConfiguration.getPermissionView())) {
+            if (!permissionHandler.has(sender, permissionView)) {
                 throw new NoPermissionException();
             }
             listReports(sender, player);
             return true;
         }
         if (argument.equalsIgnoreCase("clear")) {
-            if (!permissionHandler.has(sender, options.manageReportConfiguration.getPermissionDelete())) {
+            if (!permissionHandler.has(sender, permissionDelete)) {
                 throw new NoPermissionException();
             }
             clearReports(sender, player);
@@ -68,11 +81,6 @@ public class ReportsCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 2;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
     }
 
     @Override

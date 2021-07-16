@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWarningsConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
@@ -36,9 +37,10 @@ public class AppealService {
     private final PermissionHandler permission;
     private final Options options;
     private final AppealConfiguration appealConfiguration;
+    private final ManageWarningsConfiguration manageWarningsConfiguration;
 
     public AppealService(PlayerManager playerManager, AppealRepository appealRepository, WarnRepository warnRepository,
-                         Messages messages, PermissionHandler permission, Options options) {
+                         Messages messages, PermissionHandler permission, Options options, ManageWarningsConfiguration manageWarningsConfiguration) {
         this.playerManager = playerManager;
         this.appealRepository = appealRepository;
         this.warnRepository = warnRepository;
@@ -47,6 +49,7 @@ public class AppealService {
         this.permission = permission;
         this.options = options;
         this.appealConfiguration = options.appealConfiguration;
+        this.manageWarningsConfiguration = manageWarningsConfiguration;
     }
 
     public void addAppeal(Player appealer, Warning warning, String reason) {
@@ -103,7 +106,7 @@ public class AppealService {
     }
 
     private void sendAppealedMessageToStaff(Warning warning, Player appealer) {
-        String manageWarningsCommand = options.manageWarningsConfiguration.getCommandManageWarningsGui() + " " + warning.getTargetName();
+        String manageWarningsCommand = manageWarningsConfiguration.commandManageWarningsGui + " " + warning.getTargetName();
         JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed a warning",
             "View warnings!",
             "Click to open the warnings view",

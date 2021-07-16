@@ -15,6 +15,7 @@ import net.shortninja.staffplus.core.domain.staff.warn.appeals.gui.AppealReasonS
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.gui.actions.GoToManageAppealGuiAction;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
+import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWarningsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.actions.DeleteWarningAction;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.actions.ExpireWarningAction;
 import net.shortninja.staffplusplus.warnings.AppealStatus;
@@ -35,6 +36,7 @@ public class ManageWarningGui extends AbstractGui {
     private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
     private final WarningItemBuilder warningItemBuilder = StaffPlus.get().getIocContainer().get(WarningItemBuilder.class);
     private final InvestigationGuiComponent investigationGuiComponent = StaffPlus.get().getIocContainer().get(InvestigationGuiComponent.class);
+    private final ManageWarningsConfiguration manageWarningsConfiguration = StaffPlus.get().getIocContainer().get(ManageWarningsConfiguration.class);
 
     private final Player player;
     private final Warning warning;
@@ -53,11 +55,11 @@ public class ManageWarningGui extends AbstractGui {
         setItem(13, warningItemBuilder.build(warning), null);
         investigationGuiComponent.addEvidenceButton(this, 14, warning);
 
-        if (permission.has(player, options.manageWarningsConfiguration.getPermissionDelete())) {
+        if (permission.has(player, manageWarningsConfiguration.permissionDelete)) {
             addDeleteItem(warning, deleteAction, 8);
         }
 
-        if (permission.has(player, options.manageWarningsConfiguration.getPermissionExpire()) && !warning.isExpired() && !warning.hasApprovedAppeal()) {
+        if (permission.has(player, manageWarningsConfiguration.permissionExpire) && !warning.isExpired() && !warning.hasApprovedAppeal()) {
             addExpireItem(warning, 26);
         }
 

@@ -7,6 +7,7 @@
 # All commands and their according names.
 # Leave a command blank to disable it.
 commands:
+    staffplus: "staffplus"
     # The command for toggling staff mode.
     staff-mode: "staff"
     # The command for toggling fly while in staff mode.
@@ -51,6 +52,7 @@ commands:
         gui-find-reports: "find-reports"
         # The command for managing reports specifically targeting a player.
         cli: "reports"
+        teleport-to-report: "teleport-to-report"
 
     investigations.manage:
         start: "investigate"
@@ -171,3 +173,5 @@ commands:
         unban: "ipunban"
         bancheck: "ipban-check"
         ipbans: "ipbans"
+
+    choice-action: "choice-action"

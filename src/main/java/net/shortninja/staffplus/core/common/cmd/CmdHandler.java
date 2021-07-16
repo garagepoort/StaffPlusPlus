@@ -22,23 +22,19 @@ import java.util.stream.Collectors;
 public class CmdHandler implements PluginDisable {
     private final IProtocolService versionProtocol;
     private final List<SppCommand> sppCommands;
-
-
     private final Messages messages;
-
     public List<BaseCmd> commands;
 
     public CmdHandler(IProtocolService protocolService, @IocMulti(SppCommand.class) List<SppCommand> sppCommands, Messages messages) {
         this.versionProtocol = protocolService;
         this.sppCommands = sppCommands;
-
         this.messages = messages;
         registerCommands();
     }
 
     private void registerCommands() {
         commands = sppCommands.stream()
-            .peek(this::injectPermissions)
+            .peek(this::processCommandAnnotation)
             .filter(s -> StringUtils.isNotBlank(((BukkitCommand) s).getName()))
             .map(sppCommand -> new BaseCmd(messages, (org.bukkit.command.Command) sppCommand))
             .collect(Collectors.toList());
@@ -46,18 +42,20 @@ public class CmdHandler implements PluginDisable {
         commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().registerCommand(baseCmd.getMatch(), baseCmd.getCommand()));
     }
 
-    private void injectPermissions(SppCommand s) {
+    private void processCommandAnnotation(SppCommand s) {
         Command command = s.getClass().getAnnotation(Command.class);
         if (command != null) {
             Set<String> permissions = Arrays.stream(command.permissions())
+                .filter(StringUtils::isNotBlank)
                 .map(p -> (String) ReflectionUtils.getConfigValue(p, StaffPlus.get().getFileConfigurations()).orElseThrow(() -> new ConfigurationException("Invalid permission: " + p)))
                 .collect(Collectors.toSet());
 
             AbstractCmd abstractCmd = (AbstractCmd) s;
-            permissions.forEach(abstractCmd::setPermission);
+            abstractCmd.setPermissions(permissions);
             abstractCmd.setDescription(command.description());
             abstractCmd.setUsage(command.usage());
             abstractCmd.setDelayable(command.delayable());
+            abstractCmd.setPlayerRetrievalStrategy(command.playerRetrievalStrategy());
             if (StringUtils.isNotBlank(command.command())) {
                 String commandName = (String) ReflectionUtils.getConfigValue(command.command(), StaffPlus.get().getFileConfigurations())
                     .orElseThrow(() -> new ConfigurationException("Invalid command name: " + command.command()));

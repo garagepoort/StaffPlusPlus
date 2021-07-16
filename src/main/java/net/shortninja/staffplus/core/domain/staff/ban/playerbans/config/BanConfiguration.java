@@ -18,8 +18,6 @@ public class BanConfiguration {
     @ConfigProperty("ban-module.enabled")
     public boolean enabled;
 
-    @ConfigProperty("commands:commands.ban")
-    public String commandBanPlayer;
     @ConfigProperty("commands:commands.tempban")
     public String commandTempBanPlayer;
     @ConfigProperty("commands:commands.unban")
@@ -27,8 +25,6 @@ public class BanConfiguration {
     @ConfigProperty("commands:commands.bans.manage.gui")
     public String commandManageBansGui;
 
-    @ConfigProperty("permissions:permissions.ban")
-    public String permissionBanPlayer;
     @ConfigProperty("permissions:permissions.tempban")
     public String permissionTempbanPlayer;
     @ConfigProperty("permissions:permissions.unban")
@@ -63,9 +59,9 @@ public class BanConfiguration {
 
     public Optional<String> getDefaultBanTemplate(BanType banType) {
         if (banType == BanType.PERM_BAN) {
-            return StringUtils.isEmpty(permBanTemplate) ? Optional.empty() : Optional.ofNullable(permBanTemplate);
+            return StringUtils.isEmpty(permBanTemplate) ? Optional.empty() : Optional.of(permBanTemplate);
         }
-        return StringUtils.isEmpty(tempBanTemplate) ? Optional.empty() : Optional.ofNullable(tempBanTemplate);
+        return StringUtils.isEmpty(tempBanTemplate) ? Optional.empty() : Optional.of(tempBanTemplate);
     }
 
     public Optional<String> getTemplate(String template) {

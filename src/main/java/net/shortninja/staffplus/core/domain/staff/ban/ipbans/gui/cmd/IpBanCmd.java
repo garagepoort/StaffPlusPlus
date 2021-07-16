@@ -4,14 +4,11 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
-import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBanService;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -23,6 +20,12 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.JavaUtils.isValidCidrOrIp;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPlayer;
 
+@Command(
+    command = "commands:commands.ipban.ban",
+    permissions = "permissions:permissions.ipban.ban",
+    description = "Permanent ban an ip-address",
+    usage = "[player/ip-address]"
+)
 @IocBean(conditionalOnProperty = "ban-module.ipban.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class IpBanCmd extends AbstractCmd {
@@ -32,15 +35,19 @@ public class IpBanCmd extends AbstractCmd {
     private final PlayerIpRepository playerIpRepository;
     private final IpBanCmdUtil ipBanCmdUtil;
 
-    public IpBanCmd(Messages messages, Options options, IpBanConfiguration banConfiguration, IpBanService banService, CommandService commandService, PlayerManager playerManager, PlayerIpRepository playerIpRepository, IpBanCmdUtil ipBanCmdUtil) {
-        super(banConfiguration.commandIpBan, messages, options, commandService);
+    public IpBanCmd(Messages messages,
+                    Options options,
+                    IpBanService banService,
+                    CommandService commandService,
+                    PlayerManager playerManager,
+                    PlayerIpRepository playerIpRepository,
+                    IpBanCmdUtil ipBanCmdUtil,
+                    PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.banService = banService;
         this.playerManager = playerManager;
         this.playerIpRepository = playerIpRepository;
         this.ipBanCmdUtil = ipBanCmdUtil;
-        setPermission(banConfiguration.permissionIpBan);
-        setDescription("Permanent ban an ip-address");
-        setUsage("[player/ip-address]");
     }
 
 
@@ -69,11 +76,6 @@ public class IpBanCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override
