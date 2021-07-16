@@ -27,15 +27,13 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
     private final Messages messages;
 
     private final ExamineModeConfiguration examineModeConfiguration;
-    private final Options options;
     private final SessionManagerImpl sessionManager;
 
     public NotesExamineGuiProvider(Messages messages, Options options, SessionManagerImpl sessionManager) {
         this.messages = messages;
 
-        this.options = options;
         this.sessionManager = sessionManager;
-        examineModeConfiguration = this.options.staffItemsConfiguration.getExamineModeConfiguration();
+        examineModeConfiguration = options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override
