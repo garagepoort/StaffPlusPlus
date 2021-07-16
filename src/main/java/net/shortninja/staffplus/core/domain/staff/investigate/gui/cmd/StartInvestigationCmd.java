@@ -2,14 +2,12 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.IProtocolService;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.IProtocolService;
+import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.gui.PagedSelector;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.confirmation.ChoiceChatService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
@@ -24,6 +22,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Command(
+    command = "commands:commands.investigations.manage.start",
+    permissions = "permissions:permissions.investigations.manage.investigate",
+    description = "Start investigating a player",
+    usage = "[player]"
+)
 @IocBean(conditionalOnProperty = "investigations-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class StartInvestigationCmd extends AbstractCmd {
@@ -33,18 +37,23 @@ public class StartInvestigationCmd extends AbstractCmd {
     private final IProtocolService protocolService;
     private final InvestigationItemBuilder investigationItemBuilder;
     private final ChoiceChatService choiceChatService;
+    private final Options options;
 
-    public StartInvestigationCmd(Messages messages, Options options, CommandService commandService, InvestigationService investigationService, PlayerManager playerManager, IProtocolService protocolService, InvestigationItemBuilder investigationItemBuilder, ChoiceChatService choiceChatService) {
-        super(options.investigationConfiguration.getStartInvestigationCmd(), messages, options, commandService);
+    public StartInvestigationCmd(Messages messages,
+                                 CommandService commandService,
+                                 PermissionHandler permissionHandler,
+                                 InvestigationService investigationService,
+                                 PlayerManager playerManager,
+                                 IProtocolService protocolService,
+                                 InvestigationItemBuilder investigationItemBuilder,
+                                 ChoiceChatService choiceChatService, Options options) {
+        super(messages, permissionHandler, commandService);
         this.investigationService = investigationService;
         this.playerManager = playerManager;
         this.protocolService = protocolService;
         this.investigationItemBuilder = investigationItemBuilder;
         this.choiceChatService = choiceChatService;
-
-        setDescription("Start investigating a player");
-        setUsage("[playername]");
-        setPermission(options.investigationConfiguration.getInvestigatePermission());
+        this.options = options;
     }
 
     @Override

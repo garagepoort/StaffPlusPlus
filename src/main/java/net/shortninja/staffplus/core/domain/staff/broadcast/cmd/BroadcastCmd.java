@@ -2,23 +2,29 @@ package net.shortninja.staffplus.core.domain.staff.broadcast.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-
-import net.shortninja.staffplusplus.session.SppPlayer;
+import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.broadcast.BroadcastService;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastSelector;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Command(
+    command = "commands:commands.broadcast",
+    permissions = "permissions:permissions.broadcast",
+    description = "Broadcast messages to all players (over all servers)",
+    usage = "[server] [message]"
+)
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class BroadcastCmd extends AbstractCmd {
@@ -26,13 +32,10 @@ public class BroadcastCmd extends AbstractCmd {
     private final BroadcastService broadcastService;
     private final BroadcastConfiguration broadcastConfiguration;
 
-    public BroadcastCmd(Messages messages, Options options, BroadcastService broadcastService, CommandService commandService) {
-        super(options.commandBroadcast, messages, options, commandService);
+    public BroadcastCmd(Messages messages, Options options, BroadcastService broadcastService, CommandService commandService, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.broadcastService = broadcastService;
         this.broadcastConfiguration = options.broadcastConfiguration;
-        setPermission(options.permissionBroadcast);
-        setDescription("Broadcast messages to all players (over all servers)");
-        setUsage("[server] [message]");
     }
 
     @Override
@@ -56,11 +59,6 @@ public class BroadcastCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 2;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override

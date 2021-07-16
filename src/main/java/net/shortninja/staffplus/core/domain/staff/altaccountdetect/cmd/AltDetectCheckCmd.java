@@ -4,16 +4,15 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectResult;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectionService;
-import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -24,6 +23,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
+
+@Command(
+    command = "commands:commands.alt-detect-check",
+    permissions = "permissions:permissions.alt-detect-check",
+    description = "Run an alt detection check on a certain player. Will print all results",
+    usage = "[player]",
+    playerRetrievalStrategy = BOTH
+)
 @IocBean(conditionalOnProperty = "alt-detect-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class AltDetectCheckCmd extends AbstractCmd {
@@ -32,14 +40,11 @@ public class AltDetectCheckCmd extends AbstractCmd {
     private final PlayerManager playerManager;
     private final PlayerIpRepository playerIpRepository;
 
-    public AltDetectCheckCmd(Messages messages, Options options, AltDetectConfiguration altDetectConfiguration, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager, PlayerIpRepository playerIpRepository) {
-        super(altDetectConfiguration.commandCheck, messages, options, commandService);
+    public AltDetectCheckCmd(Messages messages, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager, PlayerIpRepository playerIpRepository, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.altDetectionService = altDetectionService;
         this.playerManager = playerManager;
         this.playerIpRepository = playerIpRepository;
-        setPermission(altDetectConfiguration.checkPermission);
-        setDescription("Run an alt detection check on a certain player. Will print all results");
-        setUsage("[player]");
     }
 
     @Override
@@ -71,11 +76,6 @@ public class AltDetectCheckCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 1;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
     }
 
     @Override

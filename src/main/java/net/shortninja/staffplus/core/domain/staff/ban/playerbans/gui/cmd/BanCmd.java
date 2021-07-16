@@ -2,30 +2,36 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanReasonConfiguration;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType.PERM_BAN;
 
+@Command(
+    command = "commands:commands.ban",
+    permissions = "permissions:permissions.ban",
+    description = "Permanent ban a player",
+    usage = "[player] [-template=?] [reason]",
+    playerRetrievalStrategy = BOTH
+)
 @IocBean(conditionalOnProperty = "ban-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class BanCmd extends AbstractCmd {
@@ -37,15 +43,12 @@ public class BanCmd extends AbstractCmd {
     private final BanService banService;
     private final PlayerManager playerManager;
 
-    public BanCmd(PermissionHandler permissionHandler, Messages messages, Options options, BanConfiguration banConfiguration, BanService banService, CommandService commandService, PlayerManager playerManager) {
-        super(banConfiguration.commandBanPlayer, messages, options, commandService);
+    public BanCmd(PermissionHandler permissionHandler, Messages messages, BanConfiguration banConfiguration, BanService banService, CommandService commandService, PlayerManager playerManager) {
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.banConfiguration = banConfiguration;
         this.banService = banService;
         this.playerManager = playerManager;
-        setPermission(banConfiguration.permissionBanPlayer);
-        setDescription("Permanent ban a player");
-        setUsage("[player] [-template=?] [reason]");
     }
 
 
@@ -84,11 +87,6 @@ public class BanCmd extends AbstractCmd {
             return 3;
         }
         return 2;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.BOTH;
     }
 
     @Override

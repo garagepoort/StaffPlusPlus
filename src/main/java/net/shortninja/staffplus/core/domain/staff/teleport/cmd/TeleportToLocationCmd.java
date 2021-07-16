@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.teleport.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.application.config.Messages;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
@@ -25,7 +27,8 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.ST
     permissions = "permissions:permissions.teleport-to-location",
     description = "Teleports the player to predefined locations",
     usage = "[player] [location]",
-    delayable = true
+    delayable = true,
+    playerRetrievalStrategy = ONLINE
 )
 @IocBean
 @IocMultiProvider(SppCommand.class)
@@ -33,12 +36,17 @@ public class TeleportToLocationCmd extends AbstractCmd {
 
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
+    private final Options options;
     private final TeleportService teleportService;
 
+    @ConfigProperty("permissions:permissions.teleport-bypass")
+    private String permissionTeleportBypass;
+
     public TeleportToLocationCmd(PermissionHandler permissionHandler, Messages messages, PlayerManager playerManager, Options options, TeleportService teleportService, CommandService commandService) {
-        super(messages, options, commandService);
+        super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
+        this.options = options;
         this.teleportService = teleportService;
     }
 
@@ -66,13 +74,8 @@ public class TeleportToLocationCmd extends AbstractCmd {
     }
 
     @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.ONLINE;
-    }
-
-    @Override
     protected boolean canBypass(Player player) {
-        return permissionHandler.has(player, options.permissionTeleportBypass);
+        return permissionHandler.has(player, permissionTeleportBypass);
     }
 
     @Override

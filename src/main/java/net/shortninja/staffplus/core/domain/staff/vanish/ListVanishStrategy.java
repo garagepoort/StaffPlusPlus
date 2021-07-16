@@ -2,9 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.vanish;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
@@ -13,19 +12,19 @@ import org.bukkit.entity.Player;
 @IocMultiProvider(VanishStrategy.class)
 public class ListVanishStrategy implements VanishStrategy {
 
-    private final Options options;
+    private final VanishConfiguration vanishConfiguration;
     private final Messages messages;
     private final IProtocolService protocolService;
 
-    public ListVanishStrategy(Options options, Messages messages, IProtocolService protocolService) {
-        this.options = options;
+    public ListVanishStrategy(VanishConfiguration vanishConfiguration, Messages messages, IProtocolService protocolService) {
+        this.vanishConfiguration = vanishConfiguration;
         this.messages = messages;
         this.protocolService = protocolService;
     }
 
     @Override
     public void vanish(Player player) {
-        if (options.vanishConfiguration.isVanishTabList()) {
+        if (vanishConfiguration.vanishTabList) {
             protocolService.getVersionProtocol().listVanish(player, true);
         }
 

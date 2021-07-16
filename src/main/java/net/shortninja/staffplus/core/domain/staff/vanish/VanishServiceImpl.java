@@ -7,10 +7,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -23,18 +22,16 @@ public class VanishServiceImpl {
     private final SessionManagerImpl sessionManager;
     private final List<VanishStrategy> vanishStrategies;
     private final VanishConfiguration vanishConfiguration;
-    private final PermissionHandler permissionHandler;
 
     public VanishServiceImpl(Options options,
                              Messages messages,
                              SessionManagerImpl sessionManager,
-                             @IocMulti(VanishStrategy.class) List<VanishStrategy> vanishStrategies, PermissionHandler permissionHandler) {
+                             @IocMulti(VanishStrategy.class) List<VanishStrategy> vanishStrategies,
+                             VanishConfiguration vanishConfiguration) {
         this.sessionManager = sessionManager;
         this.vanishStrategies = vanishStrategies;
-
-        this.vanishConfiguration = options.vanishConfiguration;
-        this.permissionHandler = permissionHandler;
-        if (vanishConfiguration.isVanishMessageEnabled()) {
+        this.vanishConfiguration = vanishConfiguration;
+        if (this.vanishConfiguration.vanishMessageEnabled) {
             Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     PlayerSession playerSession = sessionManager.get(p.getUniqueId());
@@ -47,7 +44,7 @@ public class VanishServiceImpl {
     }
 
     public void addVanish(Player player, VanishType vanishType) {
-        if (!vanishConfiguration.isVanishEnabled()) {
+        if (!vanishConfiguration.vanishEnabled) {
             return;
         }
 
@@ -57,7 +54,7 @@ public class VanishServiceImpl {
     }
 
     public void removeVanish(Player player) {
-        if (!vanishConfiguration.isVanishEnabled()) {
+        if (!vanishConfiguration.vanishEnabled) {
             return;
         }
         PlayerSession session = sessionManager.get(player.getUniqueId());
@@ -73,7 +70,7 @@ public class VanishServiceImpl {
     }
 
     public void updateVanish(Player player) {
-        if (!vanishConfiguration.isVanishEnabled()) {
+        if (!vanishConfiguration.vanishEnabled) {
             return;
         }
         vanishStrategies.forEach(v -> v.updateVanish(player));

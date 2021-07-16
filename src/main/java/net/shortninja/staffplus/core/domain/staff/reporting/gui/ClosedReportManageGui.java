@@ -3,12 +3,12 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -19,7 +19,7 @@ public class ClosedReportManageGui extends AbstractGui {
 
     private final ManageReportService manageReportService = StaffPlus.get().getIocContainer().get(ManageReportService.class);
     private final PermissionHandler permission = StaffPlus.get().getIocContainer().get(PermissionHandler.class);
-    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
+    private final ManageReportConfiguration manageReportConfiguration = StaffPlus.get().getIocContainer().get(ManageReportConfiguration.class);
     private final ReportItemBuilder reportItemBuilder = StaffPlus.get().getIocContainer().get(ReportItemBuilder.class);
     private final Player player;
     private final Report report;
@@ -47,7 +47,7 @@ public class ClosedReportManageGui extends AbstractGui {
 
         setItem(13, reportItemBuilder.build(report), null);
 
-        if (permission.has(player, options.manageReportConfiguration.getPermissionDelete())) {
+        if (permission.has(player, manageReportConfiguration.permissionDelete)) {
             addDeleteItem(report, deleteAction, 31);
         }
     }

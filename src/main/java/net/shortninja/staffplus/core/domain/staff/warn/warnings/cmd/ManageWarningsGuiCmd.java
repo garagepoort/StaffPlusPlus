@@ -2,17 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
-import net.shortninja.staffplus.core.common.cmd.CommandService;
-import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
-import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.ManageWarningsGui;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -22,18 +21,24 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.OPTIONAL_BOTH;
+
+@Command(
+    command = "commands:commands.warnings.manage.gui",
+    permissions = "permissions:permissions.warnings.manage.view",
+    description = "Open the manage Warnings GUI.",
+    usage = "[player]",
+    playerRetrievalStrategy = OPTIONAL_BOTH
+)
 @IocBean(conditionalOnProperty = "warnings-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class ManageWarningsGuiCmd extends AbstractCmd {
 
     private final PlayerManager playerManager;
 
-    public ManageWarningsGuiCmd(Messages messages, PlayerManager playerManager, Options options, CommandService commandService) {
-        super(options.manageWarningsConfiguration.getCommandManageWarningsGui(), messages, options, commandService);
+    public ManageWarningsGuiCmd(Messages messages, PlayerManager playerManager, CommandService commandService, PermissionHandler permissionHandler) {
+        super(messages, permissionHandler, commandService);
         this.playerManager = playerManager;
-        setPermission(options.manageWarningsConfiguration.getPermissionView());
-        setDescription("Open the manage Warnings GUI.");
-        setUsage("[playername]");
     }
 
     @Override
@@ -49,11 +54,6 @@ public class ManageWarningsGuiCmd extends AbstractCmd {
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         return 0;
-    }
-
-    @Override
-    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        return PlayerRetrievalStrategy.OPTIONAL_BOTH;
     }
 
     @Override

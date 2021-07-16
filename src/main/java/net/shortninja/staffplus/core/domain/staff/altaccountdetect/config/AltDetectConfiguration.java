@@ -15,11 +15,5 @@ public class AltDetectConfiguration {
     public String bypassPermission;
     @ConfigProperty("permissions:permissions.alt-detect-whitelist")
     public String whitelistPermission;
-    @ConfigProperty("permissions:permissions.alt-detect-check")
-    public String checkPermission;
 
-    @ConfigProperty("commands:commands.alt-detect-whitelist")
-    public String commandWhitelist;
-    @ConfigProperty("commands:commands.alt-detect-check")
-    public String commandCheck;
 }
