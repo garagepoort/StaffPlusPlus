@@ -18,26 +18,26 @@ public class BanConfiguration {
     @ConfigProperty("ban-module.enabled")
     public boolean enabled;
 
-    @ConfigProperty("commands:commands.tempban")
+    @ConfigProperty("commands:tempban")
     public String commandTempBanPlayer;
-    @ConfigProperty("commands:commands.unban")
+    @ConfigProperty("commands:unban")
     public String commandUnbanPlayer;
-    @ConfigProperty("commands:commands.bans.manage.gui")
+    @ConfigProperty("commands:bans.manage.gui")
     public String commandManageBansGui;
 
-    @ConfigProperty("permissions:permissions.tempban")
+    @ConfigProperty("permissions:tempban")
     public String permissionTempbanPlayer;
-    @ConfigProperty("permissions:permissions.unban")
+    @ConfigProperty("permissions:unban")
     public String permissionUnbanPlayer;
-    @ConfigProperty("permissions:permissions.ban-bypass")
+    @ConfigProperty("permissions:ban-bypass")
     public String permissionBanByPass;
-    @ConfigProperty("permissions:permissions.ban-template-overwrite")
+    @ConfigProperty("permissions:ban-template-overwrite")
     public String permissionBanTemplateOverwrite;
-    @ConfigProperty("permissions:permissions.ban-view")
+    @ConfigProperty("permissions:ban-view")
     public String permissionBanView;
-    @ConfigProperty("permissions:permissions.ban-silent")
+    @ConfigProperty("permissions:ban-silent")
     public String permissionBanSilent;
-    @ConfigProperty("permissions:permissions.ban-notifications")
+    @ConfigProperty("permissions:ban-notifications")
     public String staffNotificationPermission;
 
     @ConfigProperty("ban-module.permban-template")

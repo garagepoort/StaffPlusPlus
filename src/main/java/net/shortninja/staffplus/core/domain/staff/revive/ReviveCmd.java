@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.*;
 
 @Command(
-    command = "commands:commands.revive",
-    permissions = "permissions:permissions.revive",
+    command = "commands:revive",
+    permissions = "permissions:revive",
     description = "Gives the player's previous inventory back.",
     usage = "[player]",
     playerRetrievalStrategy = PlayerRetrievalStrategy.ONLINE

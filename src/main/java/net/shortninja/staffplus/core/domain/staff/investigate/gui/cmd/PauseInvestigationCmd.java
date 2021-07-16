@@ -18,8 +18,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.investigations.manage.pause",
-    permissions = "permissions:permissions.investigations.manage.investigate",
+    command = "commands:investigations.manage.pause",
+    permissions = "permissions:investigations.manage.investigate",
     description = "Pause your investigation"
 )
 @IocBean(conditionalOnProperty = "investigations-module.enabled=true")

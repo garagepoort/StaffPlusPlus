@@ -27,8 +27,8 @@ import static net.shortninja.staffplus.core.common.time.TimeUnit.getDuration;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPlayer;
 
 @Command(
-    command = "commands:commands.ipban.tempban",
-    permissions = "permissions:permissions.ipban.tempban",
+    command = "commands:ipban.tempban",
+    permissions = "permissions:ipban.tempban",
     description = "Temporary ban an ip-address",
     usage = "[player/ip-address]"
 )

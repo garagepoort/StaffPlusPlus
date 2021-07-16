@@ -12,11 +12,11 @@ import java.util.Optional;
 @IocBean
 public class IpBanConfiguration {
 
-    @ConfigProperty("permissions:permissions.ipban.ban-silent")
+    @ConfigProperty("permissions:ipban.ban-silent")
     public String permissionBanSilent;
-    @ConfigProperty("permissions:permissions.ipban.ban-template-overwrite")
+    @ConfigProperty("permissions:ipban.ban-template-overwrite")
     public String permissionBanTemplateOverwrite;
-    @ConfigProperty("permissions:permissions.ipban.ban-notifications")
+    @ConfigProperty("permissions:ipban.ban-notifications")
     public String staffNotificationPermission;
 
     @ConfigProperty("ban-module.ipban.permban-template")

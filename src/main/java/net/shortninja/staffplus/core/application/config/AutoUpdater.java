@@ -28,7 +28,9 @@ public class AutoUpdater {
         new StaffModesMigrator(),
         new StaffChatChannelMigrator(),
         new StaffChatMessageFormatMigrator(),
-        new ReportMessagesMigrator());
+        new ReportMessagesMigrator(),
+        new PermissionsV2Migrator(),
+        new CommandsV2Migrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         try {

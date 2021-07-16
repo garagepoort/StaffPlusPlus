@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.reportPlayer",
-    permissions = "permissions:permissions.report",
+    command = "commands:reportPlayer",
+    permissions = "permissions:report",
     description = "Sends a report with the given player and reason.",
     usage = "[player] [reason]",
     playerRetrievalStrategy = BOTH

@@ -27,8 +27,8 @@ import java.util.stream.Stream;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.alerts",
-    permissions = {"permissions:permissions.mention", "permissions:permissions.name-change", "permissions:permissions.xray"},
+    command = "commands:alerts",
+    permissions = {"permissions:mention", "permissions:name-change", "permissions:xray"},
     description = "Enables or disables the alert type.",
     usage = "[namechange | mention | xray] {player} {enable | disable}",
     playerRetrievalStrategy = ONLINE

@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.report",
-    permissions = "permissions:permissions.report",
+    command = "commands:report",
+    permissions = "permissions:report",
     description = "Sends a report without a specific player.",
     usage = "[reason]"
 )

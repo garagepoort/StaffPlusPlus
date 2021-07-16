@@ -18,8 +18,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.chat",
-    permissions = {"permissions:permissions.chat-clear","permissions:permissions.chat-toggle","permissions:permissions.chat-slow"},
+    command = "commands:chat",
+    permissions = {"permissions:chat-clear","permissions:chat-toggle","permissions:chat-slow"},
     description = "Executes the given chat management action.",
     usage = "[clear | toggle | slow] {enable | disable | time}"
 )
@@ -30,11 +30,11 @@ public class ChatCmd extends AbstractCmd {
     private final ChatHandler chatHandler;
     private final PermissionHandler permissionHandler;
 
-    @ConfigProperty("permissions:permissions.chat-clear")
+    @ConfigProperty("permissions:chat-clear")
     private String permissionChatClear;
-    @ConfigProperty("permissions:permissions.chat-toggle")
+    @ConfigProperty("permissions:chat-toggle")
     private String permissionChatToggle;
-    @ConfigProperty("permissions:permissions.chat-slow")
+    @ConfigProperty("permissions:chat-slow")
     private String permissionChatSlow;
 
     public ChatCmd(PermissionHandler permissionHandler, Messages messages, ChatHandler chatHandler, CommandService commandService) {
