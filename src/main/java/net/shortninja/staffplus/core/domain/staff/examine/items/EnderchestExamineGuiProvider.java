@@ -4,14 +4,13 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.staff.chests.config.EnderchestsConfiguration;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.chests.EnderChestService;
+import net.shortninja.staffplus.core.domain.staff.chests.config.EnderchestsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -21,12 +20,10 @@ import org.bukkit.inventory.ItemStack;
 @IocMultiProvider(ExamineGuiItemProvider.class)
 public class EnderchestExamineGuiProvider implements ExamineGuiItemProvider {
 
-    private final Options options;
     private final PermissionHandler permissionHandler;
     private final EnderchestsConfiguration enderchestsConfiguration;
 
-    public EnderchestExamineGuiProvider(Options options, PermissionHandler permissionHandler, EnderchestsConfiguration enderchestsConfiguration) {
-        this.options = options;
+    public EnderchestExamineGuiProvider(PermissionHandler permissionHandler, EnderchestsConfiguration enderchestsConfiguration) {
         this.permissionHandler = permissionHandler;
         this.enderchestsConfiguration = enderchestsConfiguration;
     }

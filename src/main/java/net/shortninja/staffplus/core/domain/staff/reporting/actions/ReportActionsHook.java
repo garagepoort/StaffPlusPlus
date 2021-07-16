@@ -6,12 +6,20 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.reports.*;
+import net.shortninja.staffplusplus.reports.AcceptReportEvent;
+import net.shortninja.staffplusplus.reports.IReport;
+import net.shortninja.staffplusplus.reports.RejectReportEvent;
+import net.shortninja.staffplusplus.reports.ReopenReportEvent;
+import net.shortninja.staffplusplus.reports.ResolveReportEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @IocBean
 @IocListener

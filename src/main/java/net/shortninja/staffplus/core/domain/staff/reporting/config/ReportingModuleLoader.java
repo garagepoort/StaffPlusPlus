@@ -1,10 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
-
 import net.shortninja.staffplus.core.application.config.ConfigurationUtil;
+import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
 import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
@@ -12,7 +11,11 @@ import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;

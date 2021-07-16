@@ -2,16 +2,17 @@ package net.shortninja.staffplus.core.domain.staff.protect.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.*;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
+import net.shortninja.staffplus.core.common.cmd.Command;
+import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectService;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectedArea;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -40,7 +41,6 @@ public class ProtectAreaCmd extends AbstractCmd {
     private final ProtectService protectService;
 
     public ProtectAreaCmd(Messages messages,
-                          Options options,
                           ProtectService protectService,
                           CommandService commandService,
                           PermissionHandler permissionHandler) {

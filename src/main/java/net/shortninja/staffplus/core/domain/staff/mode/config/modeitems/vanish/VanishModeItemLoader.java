@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish;
 
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

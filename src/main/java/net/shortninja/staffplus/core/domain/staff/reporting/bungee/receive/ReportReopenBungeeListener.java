@@ -2,9 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.reporting.bungee.receive;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMessageListener;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportReopenedBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportReopenedBungeeEvent;
 import org.bukkit.Bukkit;

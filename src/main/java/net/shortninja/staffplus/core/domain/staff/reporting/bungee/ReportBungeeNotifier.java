@@ -6,13 +6,23 @@ import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportDeletedBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportReopenedBungeeDto;
-import net.shortninja.staffplusplus.reports.*;
+import net.shortninja.staffplusplus.reports.AcceptReportEvent;
+import net.shortninja.staffplusplus.reports.CreateReportEvent;
+import net.shortninja.staffplusplus.reports.DeleteReportEvent;
+import net.shortninja.staffplusplus.reports.IReport;
+import net.shortninja.staffplusplus.reports.RejectReportEvent;
+import net.shortninja.staffplusplus.reports.ReopenReportEvent;
+import net.shortninja.staffplusplus.reports.ResolveReportEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import static net.shortninja.staffplus.core.common.Constants.*;
+import static net.shortninja.staffplus.core.common.Constants.BUNGEE_REPORT_ACCEPTED_CHANNEL;
+import static net.shortninja.staffplus.core.common.Constants.BUNGEE_REPORT_CLOSED_CHANNEL;
+import static net.shortninja.staffplus.core.common.Constants.BUNGEE_REPORT_CREATED_CHANNEL;
+import static net.shortninja.staffplus.core.common.Constants.BUNGEE_REPORT_DELETED_CHANNEL;
+import static net.shortninja.staffplus.core.common.Constants.BUNGEE_REPORT_REOPEN_CHANNEL;
 
 @IocBean(conditionalOnProperty = "server-sync-module.report-sync=true")
 public class ReportBungeeNotifier implements Listener {

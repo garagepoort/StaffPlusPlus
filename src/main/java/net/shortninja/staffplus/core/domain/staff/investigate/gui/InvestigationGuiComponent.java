@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedSelector;
