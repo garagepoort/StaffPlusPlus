@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -38,7 +37,7 @@ public class WarnsCmd extends AbstractCmd {
     private final WarnService warnService;
     private final PlayerManager playerManager;
 
-    public WarnsCmd(Messages messages, Options options, WarnService warnService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
+    public WarnsCmd(Messages messages, WarnService warnService, CommandService commandService, PlayerManager playerManager, PermissionHandler permissionHandler) {
         super(messages, permissionHandler, commandService);
         this.warnService = warnService;
         this.playerManager = playerManager;

@@ -3,7 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.staffchat.config;
 import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatChannelConfiguration;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class StaffChatChannelConfigMapper implements IConfigTransformer<List<StaffChatChannelConfiguration>, List<LinkedHashMap<String, Object>>> {

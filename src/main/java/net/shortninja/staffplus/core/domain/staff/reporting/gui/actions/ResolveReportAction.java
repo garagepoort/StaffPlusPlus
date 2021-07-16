@@ -1,14 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui.actions;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.session.PlayerSession;
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

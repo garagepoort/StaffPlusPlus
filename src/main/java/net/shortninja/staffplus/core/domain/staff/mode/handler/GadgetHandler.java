@@ -1,30 +1,36 @@
 package net.shortninja.staffplus.core.domain.staff.mode.handler;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.common.IProtocolService;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
-import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplus.core.domain.player.gui.CounterGui;
-import net.shortninja.staffplus.core.domain.player.gui.hub.HubGui;
-import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
-import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
-import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.IProtocolService;
+import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.player.gui.CounterGui;
+import net.shortninja.staffplus.core.domain.player.gui.hub.HubGui;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
+import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
+import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
+import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @IocBean

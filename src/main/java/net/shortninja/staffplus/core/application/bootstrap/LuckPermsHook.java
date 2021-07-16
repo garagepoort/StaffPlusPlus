@@ -5,8 +5,8 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextManager;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeLuckPermsContextCalculator;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.domain.staff.mode.StaffModeLuckPermsContextCalculator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

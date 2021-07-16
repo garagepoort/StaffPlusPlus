@@ -3,7 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.config;
 import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class BanReasonConfigMapper implements IConfigTransformer<List<BanReasonConfiguration>, List<LinkedHashMap<String, Object>>> {

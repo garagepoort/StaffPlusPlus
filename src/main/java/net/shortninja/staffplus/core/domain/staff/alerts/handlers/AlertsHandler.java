@@ -2,10 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-
+import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import org.bukkit.entity.Player;
 

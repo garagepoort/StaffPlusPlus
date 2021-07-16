@@ -3,16 +3,27 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui.chat;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportDeletedBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportReopenedBungeeDto;
-import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.*;
-import net.shortninja.staffplusplus.reports.*;
+import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportAcceptedBungeeEvent;
+import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportClosedBungeeEvent;
+import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportCreatedBungeeEvent;
+import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportDeletedBungeeEvent;
+import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportReopenedBungeeEvent;
+import net.shortninja.staffplusplus.reports.AcceptReportEvent;
+import net.shortninja.staffplusplus.reports.CreateReportEvent;
+import net.shortninja.staffplusplus.reports.DeleteReportEvent;
+import net.shortninja.staffplusplus.reports.IReport;
+import net.shortninja.staffplusplus.reports.RejectReportEvent;
+import net.shortninja.staffplusplus.reports.ReopenReportEvent;
+import net.shortninja.staffplusplus.reports.ReportStatus;
+import net.shortninja.staffplusplus.reports.ResolveReportEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +32,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.core.domain.staff.reporting.gui.chat.ReportMessageUtil.replaceReportPlaceholders;
-import static net.shortninja.staffplusplus.reports.ReportStatus.*;
+import static net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS;
+import static net.shortninja.staffplusplus.reports.ReportStatus.REJECTED;
+import static net.shortninja.staffplusplus.reports.ReportStatus.RESOLVED;
 
 @IocBean
 @IocListener

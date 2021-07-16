@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.reporting.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -35,7 +34,6 @@ public class FindReportsCmd extends AbstractCmd {
     private final ReportFiltersMapper reportFiltersMapper;
 
     public FindReportsCmd(Messages messages,
-                          Options options,
                           ReportFiltersMapper reportFiltersMapper,
                           CommandService commandService,
                           PermissionHandler permissionHandler) {

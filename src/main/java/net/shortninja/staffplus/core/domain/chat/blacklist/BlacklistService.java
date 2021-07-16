@@ -2,9 +2,9 @@ package net.shortninja.staffplus.core.domain.chat.blacklist;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
-import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;

@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
-
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
 
 @IocBean
