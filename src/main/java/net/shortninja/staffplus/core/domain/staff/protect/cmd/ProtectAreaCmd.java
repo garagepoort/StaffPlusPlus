@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.protect-area",
-    permissions = "permissions:permissions.protect-area",
+    command = "commands:protect-area",
+    permissions = "permissions:protect-area",
     description = "Protect an area around you.",
     usage = "[radius] [area name]",
     playerRetrievalStrategy = ONLINE

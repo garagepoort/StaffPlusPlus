@@ -25,8 +25,8 @@ import java.util.stream.Stream;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 
 @Command(
-    command = "commands:commands.trace",
-    permissions = "permissions:permissions.trace",
+    command = "commands:trace",
+    permissions = "permissions:trace",
     description = "Used to start/stop tracing a player",
     usage = "[start | stop] [player]",
     playerRetrievalStrategy = ONLINE
@@ -37,7 +37,7 @@ public class TraceCmd extends AbstractCmd {
     private static final String START = "start";
     private static final String STOP = "stop";
 
-    @ConfigProperty("permissions:permissions.trace-bypass")
+    @ConfigProperty("permissions:trace-bypass")
     private String permissionTraceBypass;
 
     private final TraceService traceService;

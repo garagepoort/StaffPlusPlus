@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @Command(
-    command = "commands:commands.my-warnings",
-    permissions = "permissions:permissions.view-my-warnings",
+    command = "commands:my-warnings",
+    permissions = "permissions:view-my-warnings",
     description = "Open my warnings gui"
 )
 @IocBean(conditionalOnProperty = "warnings-module.enabled=true")

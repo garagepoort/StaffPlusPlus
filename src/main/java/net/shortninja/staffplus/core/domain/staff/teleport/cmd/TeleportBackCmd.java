@@ -24,8 +24,8 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HE
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
 @Command(
-    command = "commands:commands.teleport-back",
-    permissions = "permissions:permissions.teleport-to-location",
+    command = "commands:teleport-back",
+    permissions = "permissions:teleport-to-location",
     description = "Teleports the player to his last known location before teleportation happened",
     usage = "[player]",
     delayable = true,
@@ -38,7 +38,7 @@ public class TeleportBackCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final TeleportService teleportService;
 
-    @ConfigProperty("permissions:permissions.teleport-bypass")
+    @ConfigProperty("permissions:teleport-bypass")
     private String permissionTeleportBypass;
 
     public TeleportBackCmd(PermissionHandler permissionHandler, Messages messages, Options options, TeleportService teleportService, CommandService commandService) {

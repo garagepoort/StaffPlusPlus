@@ -21,8 +21,8 @@ import static net.shortninja.staffplus.core.common.JavaUtils.isValidCidrOrIp;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPlayer;
 
 @Command(
-    command = "commands:commands.ipban.ban",
-    permissions = "permissions:permissions.ipban.ban",
+    command = "commands:ipban.ban",
+    permissions = "permissions:ipban.ban",
     description = "Permanent ban an ip-address",
     usage = "[player/ip-address]"
 )

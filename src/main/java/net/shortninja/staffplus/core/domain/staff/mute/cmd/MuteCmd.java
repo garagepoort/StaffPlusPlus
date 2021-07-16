@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.mute",
-    permissions = "permissions:permissions.mute",
+    command = "commands:mute",
+    permissions = "permissions:mute",
     description = "Permanent mute a player",
     usage = "[player] [reason]",
     playerRetrievalStrategy = BOTH

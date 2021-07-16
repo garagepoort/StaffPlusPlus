@@ -23,8 +23,8 @@ import java.util.*;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:commands.reports.manage.cli",
-    permissions = "permissions:permissions.reports.manage.view",
+    command = "commands:reports.manage.cli",
+    permissions = "permissions:reports.manage.view",
     description = "Manage Reports.",
     usage = "[get|clear] [player]",
     playerRetrievalStrategy = BOTH
@@ -33,9 +33,9 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 @IocMultiProvider(SppCommand.class)
 public class ReportsCmd extends AbstractCmd {
 
-    @ConfigProperty("permissions:permissions.reports.manage.view")
+    @ConfigProperty("permissions:reports.manage.view")
     public String permissionView;
-    @ConfigProperty("permissions:permissions.reports.manage.view")
+    @ConfigProperty("permissions:reports.manage.view")
     public String permissionDelete;
 
     private final PermissionHandler permissionHandler;
