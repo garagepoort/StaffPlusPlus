@@ -2,11 +2,15 @@
 
 # V1.17.7 (NOT YET RELEASED)
 
-### bugfixes
+### Features
+  - Updated the Spanish translations (Thanks to KrazyxWolf)
 
+### bugfixes
+  - Relocate dependencies which caused other plugins to fail (Thanks to A248)
   - Fix Session Exception on EntityTargetLivingEntityEven
   - Fix duplicate ip entries
   - Fix reports lang migrator
+  - Fix performance issues with PlayerJoin and InventoryClose
 
 # V1.17.6
 
