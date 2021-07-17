@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatChannelConfiguration;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatServiceImpl;
@@ -55,6 +56,11 @@ public class StaffChatChannelCmd extends AbstractCmd {
             sessionManager.saveSession((Player) sender);
         }
         return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override
