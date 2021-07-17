@@ -174,4 +174,6 @@ ipban:
     bancheck: "ipban-check"
     ipbans: "ipbans"
 
+ips:
+    clear-ips: "clear-ips"
 choice-action: "choice-action"
