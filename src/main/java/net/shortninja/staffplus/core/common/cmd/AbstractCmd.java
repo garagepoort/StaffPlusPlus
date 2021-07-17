@@ -99,7 +99,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     private void validateCoolDown(CommandSender sender) {
         if (sender instanceof Player) {
             Optional<Long> cooldown = permissionHandler.getDurationInSeconds(sender, "staff." + getName() + ".cooldown");
-            if (cooldown.isPresent()) {
+            if (cooldown.isPresent() && lastUse.containsKey(((Player) sender).getUniqueId())) {
                 long last = lastUse.get(((Player) sender).getUniqueId());
                 long secondsOnCooldown = (System.currentTimeMillis() - last) / 1000;
 
