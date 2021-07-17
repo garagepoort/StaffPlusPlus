@@ -30,13 +30,10 @@ public class VanishServiceImpl {
         this.vanishStrategies = vanishStrategies;
         this.vanishConfiguration = vanishConfiguration;
         if (this.vanishConfiguration.vanishMessageEnabled) {
-            Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    PlayerSession playerSession = sessionManager.get(p.getUniqueId());
-                    if (playerSession.isVanished()) {
-                        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(messages.colorize(messages.vanishEnabled)));
-                    }
-                }
+            Bukkit.getScheduler().runTaskTimerAsynchronously(StaffPlus.get(), () -> {
+                sessionManager.getAll().stream().filter(PlayerSession::isVanished)
+                    .filter(session -> session.getPlayer().isPresent())
+                    .forEach(session -> session.getPlayer().get().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(messages.colorize(messages.vanishEnabled))));
             }, 20L, 20L);
         }
     }
