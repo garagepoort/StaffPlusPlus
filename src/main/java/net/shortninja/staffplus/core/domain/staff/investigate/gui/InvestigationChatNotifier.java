@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
@@ -16,6 +17,8 @@ import net.shortninja.staffplusplus.investigate.InvestigationPausedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -92,10 +95,13 @@ public class InvestigationChatNotifier implements Listener {
 
     @EventHandler
     public void notifyUnderInvestigationOnJoin(PlayerJoinEvent playerJoinEvent) {
-        PlayerSession playerSession = sessionManager.get(playerJoinEvent.getPlayer().getUniqueId());
-        if (playerSession.isUnderInvestigation() && StringUtils.isNotEmpty(messages.underInvestigationJoin)) {
-            messages.send(playerJoinEvent.getPlayer(), messages.underInvestigationJoin, messages.prefixInvestigations);
-        }
+        Player player = playerJoinEvent.getPlayer();
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+            if (playerSession.isUnderInvestigation() && StringUtils.isNotEmpty(messages.underInvestigationJoin)) {
+                messages.send(player, messages.underInvestigationJoin, messages.prefixInvestigations);
+            }
+        });
     }
 
     private void sendStaffNotifications(IInvestigation investigation, String messageToSend) {
