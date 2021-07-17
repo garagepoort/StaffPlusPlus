@@ -5,6 +5,7 @@
 ### Features
   - Updated the Spanish translations (Thanks to KrazyxWolf)
   - Add /clear-ips command to clear a players Ip history.
+  - Add cooldown for every command in staff++
 
 ### bugfixes
   - Relocate dependencies which caused other plugins to fail (Thanks to A248)

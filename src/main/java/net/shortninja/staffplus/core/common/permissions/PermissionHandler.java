@@ -24,7 +24,7 @@ public interface PermissionHandler {
     default Optional<Long> getDurationInSeconds(CommandSender player, String permission) {
         return getPermissions(player).stream()
             .filter(p -> p.startsWith(permission + "."))
-            .map(p -> TimeUnitShort.getDurationFromString(p.substring(p.lastIndexOf(".") + 1)) * 1000)
+            .map(p -> TimeUnitShort.getDurationFromString(p.substring(p.lastIndexOf(".") + 1)) / 1000)
             .max(Comparator.naturalOrder());
     }
 
