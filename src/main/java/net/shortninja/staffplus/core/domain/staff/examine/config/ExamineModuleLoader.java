@@ -8,12 +8,12 @@ public class ExamineModuleLoader extends AbstractConfigLoader<ExamineConfigurati
 
     @Override
     protected ExamineConfiguration load() {
-        String permissionExamine = permissionsConfig.getString("permissions.examine");
-        String permissionExamineInventoryInteraction = permissionsConfig.getString("permissions.examine-inventory-interaction.online");
-        String permissionExamineInventoryInteractionOffline = permissionsConfig.getString("permissions.examine-inventory-interaction.offline");
-        String permissionExamineViewInventory = permissionsConfig.getString("permissions.examine-view-inventory.online");
-        String permissionExamineViewInventoryOffline = permissionsConfig.getString("permissions.examine-view-inventory.offline");
-        String commandExamine = commandsConfig.getString("commands.examine");
+        String permissionExamine = permissionsConfig.getString("examine");
+        String permissionExamineInventoryInteraction = permissionsConfig.getString("examine-inventory-interaction.online");
+        String permissionExamineInventoryInteractionOffline = permissionsConfig.getString("examine-inventory-interaction.offline");
+        String permissionExamineViewInventory = permissionsConfig.getString("examine-view-inventory.online");
+        String permissionExamineViewInventoryOffline = permissionsConfig.getString("examine-view-inventory.offline");
+        String commandExamine = commandsConfig.getString("examine");
 
         return new ExamineConfiguration(permissionExamine, permissionExamineInventoryInteraction, permissionExamineInventoryInteractionOffline, permissionExamineViewInventory, permissionExamineViewInventoryOffline, commandExamine );
     }

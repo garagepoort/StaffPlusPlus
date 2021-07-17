@@ -23,20 +23,20 @@ public class AlertsModuleLoader extends AbstractConfigLoader<AlertsConfiguration
             .map(AltDetectTrustLevel::valueOf)
             .collect(Collectors.toList());
 
-        String permissionAlerts = permissionsConfig.getString("permissions.alerts");
-        String permissionMention = permissionsConfig.getString("permissions.mention");
-        String permissionNameChange = permissionsConfig.getString("permissions.name-change");
-        String permissionChatPhraseDetection = permissionsConfig.getString("permissions.alerts-chat-phrase-detection");
-        String permissionAlertsAltDetect = permissionsConfig.getString("permissions.alerts-alt-detect");
+        String permissionAlerts = permissionsConfig.getString("alerts");
+        String permissionMention = permissionsConfig.getString("mention");
+        String permissionNameChange = permissionsConfig.getString("name-change");
+        String permissionChatPhraseDetection = permissionsConfig.getString("alerts-chat-phrase-detection");
+        String permissionAlertsAltDetect = permissionsConfig.getString("alerts-alt-detect");
 
-        String permissionMentionBypass = permissionsConfig.getString("permissions.mention-bypass");
-        String permissionNameChangeBypass = permissionsConfig.getString("permissions.name-change-bypass");
-        String permissionChatPhraseDetectionBypass = permissionsConfig.getString("permissions.alerts-chat-phrase-detection-bypass");
+        String permissionMentionBypass = permissionsConfig.getString("mention-bypass");
+        String permissionNameChangeBypass = permissionsConfig.getString("name-change-bypass");
+        String permissionChatPhraseDetectionBypass = permissionsConfig.getString("alerts-chat-phrase-detection-bypass");
         Sounds alertsSound = stringToSound(sanitize(defaultConfig.getString("alerts-module.sound")));
-        String commandAlerts = commandsConfig.getString("commands.alerts");
+        String commandAlerts = commandsConfig.getString("alerts");
 
-        String permissionXray = permissionsConfig.getString("permissions.xray");
-        String permissionXrayBypass = permissionsConfig.getString("permissions.xray-bypass");
+        String permissionXray = permissionsConfig.getString("xray");
+        String permissionXrayBypass = permissionsConfig.getString("xray-bypass");
         List<XrayBlockConfig> alertsXrayBlocks = Arrays.stream(defaultConfig.getString("alerts-module.xray-alerts.blocks").split("\\s*,\\s*"))
             .map(XrayBlockConfig::new)
             .collect(Collectors.toList());
