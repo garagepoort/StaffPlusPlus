@@ -19,8 +19,8 @@ public class StaffChatChannelMigrator implements ConfigMigrator {
             String handle = config.getString("staff-chat-module.handle");
             config.set("staff-chat-module.handle", null);
 
-            String command = commandsConfig.getString("commands.staff-chat", "sc");
-            String permission = permissionsConfig.getString("permissions.staff-chat", "staff.staffchat");
+            String command = commandsConfig.getString("staff-chat", "sc");
+            String permission = permissionsConfig.getString("staff-chat", "staff.staffchat");
             migrateChannel(config, handle, command, permission);
         }
     }

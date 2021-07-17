@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
@@ -15,48 +16,51 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 @IocBean
+@IocListener
 public class InventoryClose implements Listener {
     private final Options options;
     private final SessionManagerImpl sessionManager;
     private final InventoryFactory inventoryFactory;
 
-    public InventoryClose(Options options, SessionManagerImpl sessionManager, InventoryFactory inventoryFactory) {
+    public InventoryClose(Options options,
+                          SessionManagerImpl sessionManager,
+                          InventoryFactory inventoryFactory) {
         this.options = options;
         this.sessionManager = sessionManager;
         this.inventoryFactory = inventoryFactory;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onClose(InventoryCloseEvent event) {
         final Player player = (Player) event.getPlayer();
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        // Do not run if session does not exists.
+        // Reason is that it can result in the session being initialized on the main thread.
+        if (sessionManager.has(player.getUniqueId())) {
+            PlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
-        if (playerSession.isFrozen() && options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezePrompt()) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    new FreezeGui(options.staffItemsConfiguration.getFreezeModeConfiguration().getModeFreezePromptTitle()).show(player);
-                }
-            }.runTaskLater(StaffPlus.get(), 1L);
-            return;
-        }
-
-        if (playerSession.getCurrentGui().isPresent() && (playerSession.getCurrentGui().get() instanceof ChestGUI)) {
-            ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
-            if (chestGUI.getChestGuiType() == ChestGuiType.ENDER_CHEST_EXAMINE && chestGUI.getTargetPlayer() != null && !chestGUI.getTargetPlayer().isOnline()) {
-                inventoryFactory.saveEnderchestOffline(chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
+            if (playerSession.isFrozen() && options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezePrompt()) {
+                Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> new FreezeGui(options.staffItemsConfiguration.getFreezeModeConfiguration().getModeFreezePromptTitle()).show(player), 1);
+                return;
             }
-            if (chestGUI.getChestGuiType() == ChestGuiType.PLAYER_INVENTORY_EXAMINE && chestGUI.getTargetPlayer() != null && !chestGUI.getTargetPlayer().isOnline()) {
-                inventoryFactory.saveInventoryOffline(chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
+
+            if (playerSession.getCurrentGui().isPresent() && (playerSession.getCurrentGui().get() instanceof ChestGUI)) {
+                ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
+                Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+                    if (chestGUI.getChestGuiType() == ChestGuiType.ENDER_CHEST_EXAMINE && chestGUI.getTargetPlayer() != null && !chestGUI.getTargetPlayer().isOnline()) {
+                        inventoryFactory.saveEnderchestOffline(chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
+                    }
+                    if (chestGUI.getChestGuiType() == ChestGuiType.PLAYER_INVENTORY_EXAMINE && chestGUI.getTargetPlayer() != null && !chestGUI.getTargetPlayer().isOnline()) {
+                        inventoryFactory.saveInventoryOffline(chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
+                    }
+                });
+            }
+
+            if (playerSession.getCurrentGui().isPresent()) {
+                playerSession.setCurrentGui(null);
             }
         }
 
-        if (playerSession.getCurrentGui().isPresent()) {
-            playerSession.setCurrentGui(null);
-        }
     }
 }
