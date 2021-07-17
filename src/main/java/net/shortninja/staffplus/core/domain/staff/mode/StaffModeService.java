@@ -7,14 +7,8 @@ import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.domain.actions.ActionFilter;
-import net.shortninja.staffplus.core.domain.actions.ActionService;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
-import net.shortninja.staffplus.core.domain.actions.PermissionActionFilter;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.SwitchStaffModeEvent;
@@ -23,9 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -41,11 +32,9 @@ public class StaffModeService {
     private final SessionManagerImpl sessionManager;
     private final VanishServiceImpl vanishServiceImpl;
     private final StaffModeItemsService staffModeItemsService;
-    private final ActionService actionService;
 
     private final ModeDataRepository modeDataRepository;
     private final Options options;
-    private final PlayerManager playerManager;
     private final ModeProvider modeProvider;
 
     public StaffModeService(Options options,
@@ -53,13 +42,12 @@ public class StaffModeService {
                             SessionManagerImpl sessionManager,
                             VanishServiceImpl vanishServiceImpl,
                             StaffModeItemsService staffModeItemsService,
-                            ActionService actionService, ModeDataRepository modeDataRepository, PlayerManager playerManager, ModeProvider modeProvider) {
+                            ModeDataRepository modeDataRepository,
+                            ModeProvider modeProvider) {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
         this.options = options;
-        this.actionService = actionService;
-        this.playerManager = playerManager;
         this.staffModeItemsService = staffModeItemsService;
         this.modeDataRepository = modeDataRepository;
         this.modeProvider = modeProvider;
@@ -100,8 +88,6 @@ public class StaffModeService {
             return;
         }
 
-        // Turn mode off.
-        runModeCommands(player, false, modeConfiguration);
         resetPlayer(player, existingModeData.get());
 
         staffModeItemsService.setStaffModeItems(player, modeConfiguration);
@@ -111,7 +97,6 @@ public class StaffModeService {
         }
 
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
-        runModeCommands(player, true, modeConfiguration);
 
         String fromMode = session.getModeConfiguration().get().getName();
         String toMode = modeConfiguration.getName();
@@ -139,11 +124,10 @@ public class StaffModeService {
         }
 
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
-        runModeCommands(player, true, modeConfiguration);
 
         session.setInStaffMode(true);
         session.setModeConfiguration(modeConfiguration);
-        sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
+        sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName, modeConfiguration.getName()));
         messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
 
@@ -169,6 +153,7 @@ public class StaffModeService {
         }
 
         Optional<GeneralModeConfiguration> modeConfiguration = session.getModeConfiguration();
+        String modeName = null;
         if (modeConfiguration.isPresent()) {
             ModeData modeData = existingModeData.get();
             if (modeConfiguration.get().isModeOriginalLocation()) {
@@ -176,17 +161,17 @@ public class StaffModeService {
                 messages.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
             }
 
-            runModeCommands(player, false, modeConfiguration.get());
             resetPlayer(player, modeData);
 
             vanishServiceImpl.removeVanish(player);
             modeDataRepository.deleteModeData(player);
+            modeName = modeConfiguration.get().getName();
         }
 
 
         session.setInStaffMode(false);
         session.setModeConfiguration(null);
-        sendEvent(new ExitStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName));
+        sendEvent(new ExitStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName, modeName));
         messages.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
@@ -198,15 +183,6 @@ public class StaffModeService {
         player.setAllowFlight(modeData.hasFlight());
         player.setGameMode(modeData.getGameMode());
         player.setFireTicks(modeData.getFireTicks());
-    }
-
-    private void runModeCommands(Player player, boolean isEnabled, GeneralModeConfiguration modeConfiguration) {
-        Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(player.getUniqueId());
-        if (target.isPresent()) {
-            List<ActionFilter> actionFilters = Collections.singletonList(new PermissionActionFilter());
-            List<ConfiguredAction> actions = isEnabled ? modeConfiguration.getModeEnableCommands() : modeConfiguration.getModeDisableCommands();
-            actionService.executeActions(configuredAction -> target, actions, actionFilters, new HashMap<>());
-        }
     }
 
     public static ItemStack[] getContents(Player p) {
