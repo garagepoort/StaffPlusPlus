@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
+import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatChannelConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -40,6 +41,11 @@ public class StaffChatMuteChannelCmd extends AbstractCmd {
 
         session.setStaffChatMuted(channelConfiguration.getName(), !session.isStaffChatMuted(channelConfiguration.getName()));
         return true;
+    }
+
+    @Override
+    protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
+        return PlayerRetrievalStrategy.NONE;
     }
 
     @Override

@@ -29,7 +29,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     protected final PermissionHandler permissionHandler;
     private final CommandService commandService;
     private boolean delayable;
-    private PlayerRetrievalStrategy playerRetrievalStrategy;
+    private PlayerRetrievalStrategy playerRetrievalStrategy = PlayerRetrievalStrategy.NONE;
     private Set<String> permissions = new HashSet<>();
     private static final Map<UUID, Long> lastUse = new HashMap<>();
 
