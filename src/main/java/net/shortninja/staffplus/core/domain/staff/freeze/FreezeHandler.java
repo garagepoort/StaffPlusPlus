@@ -39,13 +39,10 @@ public class FreezeHandler {
         freezeModeConfiguration = options.staffItemsConfiguration.getFreezeModeConfiguration();
 
         if (freezeModeConfiguration.isTitleMessageEnabled()) {
-            Bukkit.getScheduler().runTaskTimer(StaffPlus.get(), () -> {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    PlayerSession playerSession = sessionManager.get(p.getUniqueId());
-                    if (playerSession.isFrozen()) {
-                        p.sendTitle(messages.colorize(messages.freezeTitle), messages.colorize(messages.freezeSubtitle), 1, 25, 1);
-                    }
-                }
+            Bukkit.getScheduler().runTaskTimerAsynchronously(StaffPlus.get(), () -> {
+                sessionManager.getAll().stream().filter(PlayerSession::isFrozen)
+                    .filter(session -> session.getPlayer().isPresent())
+                    .forEach(session -> session.getPlayer().get().sendTitle(messages.colorize(messages.freezeTitle), messages.colorize(messages.freezeSubtitle), 1, 25, 1));
             }, 20L, 20L);
         }
     }

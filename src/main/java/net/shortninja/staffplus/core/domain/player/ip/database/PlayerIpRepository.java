@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.ip.database;
 
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
+import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +20,6 @@ public interface PlayerIpRepository {
     List<PlayerIpRecord> findInSubnet(long lower, long upper);
 
     List<PlayerIpRecord> findWithIp(long ip);
+
+    void deleteRecordsFor(SppPlayer player);
 }
