@@ -74,7 +74,7 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>2.1.9</version>
+                <version>2.2.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -315,10 +315,11 @@
                                     <pattern>org.apache</pattern>
                                     <shadedPattern>net.shortninja.staffplus.libs.org.apache</shadedPattern>
                                 </relocation>
-                                <relocation>
-                                    <pattern>com.google</pattern>
-                                    <shadedPattern>net.shortninja.staffplus.libs.com.google</shadedPattern>
-                                </relocation>
+<!--                                TODO: Relocating this result in an error, need to fix it-->
+<!--                                <relocation>-->
+<!--                                    <pattern>com.google</pattern>-->
+<!--                                    <shadedPattern>net.shortninja.staffplus.libs.com.google</shadedPattern>-->
+<!--                                </relocation>-->
                                 <relocation>
                                     <pattern>me.rayzr522</pattern>
                                     <shadedPattern>net.shortninja.staffplus.libs.me.rayzr522</shadedPattern>
