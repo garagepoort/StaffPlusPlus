@@ -217,6 +217,10 @@ unban: "staff.staffplus.unban"
 ban-bypass: "staff.staffplus.ban-bypass"
 ban-notifications: "staff.staffplus.ban-notifications"
 
+ips:
+    clear-ips: "staff.ips.clear-ips"
+    notifications: "staff.ips.notifications"
+
 ipban:
     ban: "staff.staffplus.ipban.ban"
     tempban: "staff.staffplus.ipban.tempban"

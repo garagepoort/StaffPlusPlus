@@ -356,6 +356,15 @@ public class Messages {
     @ConfigProperty("%lang%:investigation.staff-notification-note-deleted")
     public String investigationNoteDeleted;
 
+    @ConfigProperty("%lang%:ips.prefix")
+    public String ipsPrefix;
+    @ConfigProperty("%lang%:ips.issuer.history-cleared")
+    public String ipsHistoryCleared;
+    @ConfigProperty("%lang%:ips.staff-notifications.history-cleared")
+    public String ipsHistoryClearedNotification;
+
+
+
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
 

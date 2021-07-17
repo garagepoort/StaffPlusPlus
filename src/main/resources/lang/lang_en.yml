@@ -297,5 +297,12 @@ investigation.staff-notification-evidence-unlinked: "&4%investigator% &6has unli
 investigation.staff-notification-note-added: "&4%investigator% &6has added note to investigation (ID=%investigationId%)"
 investigation.staff-notification-note-deleted: "&4%investigator% &6has removed note from investigation (ID=%investigationId%)"
 
+ips:
+    prefix: "&dIPs &8»"
+    issuer:
+        history-cleared: "&7Ip history cleared for &6%player%"
+    staff-notifications:
+        history-cleared: "&4%issuer% &7cleared all ip history for &6%player%"
+
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
 lang-version: 6198
