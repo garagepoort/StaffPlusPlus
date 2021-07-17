@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.7 (NOT YET RELEASED)
+# V1.17.7
 
 ### Features
   - Updated the Spanish translations (Thanks to KrazyxWolf)
