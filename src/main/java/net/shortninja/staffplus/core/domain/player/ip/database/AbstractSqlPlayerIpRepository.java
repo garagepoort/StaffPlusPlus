@@ -4,6 +4,7 @@ import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -142,4 +143,14 @@ public abstract class AbstractSqlPlayerIpRepository implements PlayerIpRepositor
         return new PlayerIpRecord(rs.getString(1), playerUuid, rs.getString(3));
     }
 
+    @Override
+    public void deleteRecordsFor(SppPlayer player) {
+        try (Connection sql = getConnection();
+             PreparedStatement delete = sql.prepareStatement("DELETE FROM sp_player_ips WHERE player_uuid = ?;")) {
+            delete.setString(1, player.getId().toString());
+            delete.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
 }

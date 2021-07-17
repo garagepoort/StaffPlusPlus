@@ -4,13 +4,14 @@
 
 ### Features
   - Updated the Spanish translations (Thanks to KrazyxWolf)
+  - Add /clear-ips command to clear a players Ip history.
 
 ### bugfixes
   - Relocate dependencies which caused other plugins to fail (Thanks to A248)
   - Fix Session Exception on EntityTargetLivingEntityEven
   - Fix duplicate ip entries
   - Fix reports lang migrator
-  - Fix performance issues with PlayerJoin and InventoryClose
+  - Fix some major performance issues
 
 # V1.17.6
 

@@ -5,6 +5,9 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
+import net.shortninja.staffplusplus.ips.IpHistoryClearedEvent;
+import net.shortninja.staffplusplus.session.SppPlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -38,4 +41,8 @@ public class PlayerIpService {
         return playerIpRepository.findWithIp(convertIp(ipAddress));
     }
 
+    public void clearHistory(CommandSender sender, SppPlayer player) {
+        playerIpRepository.deleteRecordsFor(player);
+        BukkitUtils.sendEvent(new IpHistoryClearedEvent(sender, player));
+    }
 }
