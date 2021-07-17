@@ -187,6 +187,13 @@
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.ElgarL</groupId>
@@ -253,7 +260,7 @@
                             <minimizeJar>true</minimizeJar>
                             <artifactSet>
                                 <excludes>
-                                    <exclude>org.hamcrest:hamcrest-core:jar</exclude>
+                                    <exclude>org.hamcrest:*</exclude>
                                     <exclude>junit:junit</exclude>
                                     <exclude>io.netty:netty-all</exclude>
                                     <exclude>io.netty:netty-all</exclude>
@@ -271,12 +278,56 @@
                             </filters>
                             <relocations>
                                 <relocation>
+                                    <pattern>inet</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.inet</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>okio</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.okio</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>okhttp3</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.okhttp3</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>be.garagepoort.mcioc.</pattern>
                                     <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcioc.</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>de.tr7zw.nbtapi.</pattern>
-                                    <shadedPattern>net.shortninja.staffplus.core.de.tr7zw.nbtapi.</shadedPattern>
+                                    <pattern>de.tr7zw</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.de.tr7zw</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.zaxxer</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.com.zaxxer</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.slf4j</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.org.slf4j</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.org.apache</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.com.google</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>me.rayzr522</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.me.rayzr522</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.json</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.org.json</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>javassist</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.javassist</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>feign</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.feign</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>be.garagepoort.mcsqlmigrations.</pattern>
