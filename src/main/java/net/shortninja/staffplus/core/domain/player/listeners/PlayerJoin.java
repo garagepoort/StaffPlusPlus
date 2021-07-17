@@ -9,24 +9,19 @@ import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
-import net.shortninja.staffplus.core.domain.actions.ActionService;
-import net.shortninja.staffplus.core.domain.delayedactions.DelayedAction;
-import net.shortninja.staffplus.core.domain.delayedactions.Executor;
-import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
+import net.shortninja.staffplus.core.domain.delayedactions.DelayedActionService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplusplus.chat.NameChangeEvent;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,10 +34,18 @@ public class PlayerJoin implements Listener {
     private final StaffModeService staffModeService;
     private final VanishServiceImpl vanishServiceImpl;
     private final PlayerManager playerManager;
-    private final ActionService actionService;
     private final IProtocolService protocolService;
+    private final DelayedActionService delayedActionService;
 
-    public PlayerJoin(PermissionHandler permission, Options options, SessionManagerImpl sessionManager, SessionLoader sessionLoader, StaffModeService staffModeService, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, ActionService actionService, IProtocolService protocolService) {
+    public PlayerJoin(PermissionHandler permission,
+                      Options options,
+                      SessionManagerImpl sessionManager,
+                      SessionLoader sessionLoader,
+                      StaffModeService staffModeService,
+                      VanishServiceImpl vanishServiceImpl,
+                      PlayerManager playerManager,
+                      IProtocolService protocolService,
+                      DelayedActionService delayedActionService) {
         this.permission = permission;
         this.options = options;
         this.sessionManager = sessionManager;
@@ -50,8 +53,8 @@ public class PlayerJoin implements Listener {
         this.staffModeService = staffModeService;
         this.vanishServiceImpl = vanishServiceImpl;
         this.playerManager = playerManager;
-        this.actionService = actionService;
         this.protocolService = protocolService;
+        this.delayedActionService = delayedActionService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -61,25 +64,27 @@ public class PlayerJoin implements Listener {
         playerManager.syncPlayer(event.getPlayer());
 
         Player player = event.getPlayer();
-        manageUser(player);
 
-        PlayerSession session = sessionManager.get(player.getUniqueId());
-        Optional<GeneralModeConfiguration> defaultMode = staffModeService.getModeConfig(player);
-        Optional<GeneralModeConfiguration> modeConfiguration = session.getModeConfiguration().isPresent() ? session.getModeConfiguration() : defaultMode;
-        if (modeConfiguration.isPresent() && permission.has(player, options.permissionMode) && (session.isInStaffMode() || modeConfiguration.get().isModeEnableOnLogin())) {
-            staffModeService.turnStaffModeOn(player, modeConfiguration.get());
-        } else {
-            staffModeService.turnStaffModeOff(player);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            manageUser(player);
+            PlayerSession session = sessionManager.get(player.getUniqueId());
+            Optional<GeneralModeConfiguration> defaultMode = staffModeService.getModeConfig(player);
+            Optional<GeneralModeConfiguration> modeConfiguration = session.getModeConfiguration().isPresent() ? session.getModeConfiguration() : defaultMode;
+            if (modeConfiguration.isPresent() && permission.has(player, options.permissionMode) && (session.isInStaffMode() || modeConfiguration.get().isModeEnableOnLogin())) {
+                staffModeService.turnStaffModeOn(player, modeConfiguration.get());
+            } else {
+                staffModeService.turnStaffModeOff(player);
+            }
+            vanishServiceImpl.updateVanish(player);
 
-        vanishServiceImpl.updateVanish(player);
+            if (session.isVanished()) {
+                event.setJoinMessage("");
+            }
 
-        if (session.isVanished()) {
-            event.setJoinMessage("");
-        }
+            sessionLoader.saveSession(session);
+            delayedActions(player);
+        });
 
-        sessionLoader.saveSession(session);
-        delayedActions(player);
     }
 
     private void manageUser(Player player) {
@@ -87,29 +92,13 @@ public class PlayerJoin implements Listener {
         PlayerSession playerSession = sessionManager.get(uuid);
 
         if (!playerSession.getName().equals(player.getName())) {
-            BukkitUtils.sendEventAsync(new NameChangeEvent(options.serverName, player, playerSession.getName(), player.getName()));
+            BukkitUtils.sendEvent(new NameChangeEvent(options.serverName, player, playerSession.getName(), player.getName()));
             playerSession.setName(player.getName());
             sessionManager.saveSession(player);
         }
     }
 
     private void delayedActions(Player player) {
-        List<DelayedAction> delayedActions = StaffPlus.get().getIocContainer().get(DelayedActionsRepository.class).getDelayedActions(player.getUniqueId());
-        delayedActions.forEach(delayedAction -> {
-            CommandSender sender = delayedAction.getExecutor() == Executor.CONSOLE ? Bukkit.getConsoleSender() : player;
-            Bukkit.dispatchCommand(sender, delayedAction.getCommand().replace("%player%", player.getName()));
-            updateActionable(delayedAction);
-        });
-        StaffPlus.get().getIocContainer().get(DelayedActionsRepository.class).clearDelayedActions(player.getUniqueId());
-    }
-
-    private void updateActionable(DelayedAction delayedAction) {
-        if (delayedAction.getExecutableActionId().isPresent()) {
-            if (delayedAction.isRollback()) {
-                actionService.markRollbacked(delayedAction.getExecutableActionId().get());
-            } else {
-                actionService.markExecuted(delayedAction.getExecutableActionId().get());
-            }
-        }
+        delayedActionService.processDelayedAction(player);
     }
 }

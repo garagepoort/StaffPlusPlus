@@ -22,6 +22,10 @@ public class ModeProvider {
         this.permissionHandler = permissionHandler;
     }
 
+    public Optional<GeneralModeConfiguration> getConfiguration(String modeName) {
+        return Optional.ofNullable(modeConfigurations.get(modeName));
+    }
+
     public GeneralModeConfiguration getMode(Player player, String modeName) {
         if(!modeConfigurations.containsKey(modeName)) {
             throw new BusinessException("&CCan't turn on staff mode. Mode ["+modeName+"] does not exist");

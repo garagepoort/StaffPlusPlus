@@ -33,8 +33,8 @@ public class ReportingModuleLoader extends AbstractConfigLoader<ReportConfigurat
         boolean fixedReason = defaultConfig.getBoolean("reports-module.fixed-reason", false);
         boolean fixedReasonCulprit = defaultConfig.getBoolean("reports-module.fixed-reason-culprit", false);
         Sounds sound = stringToSound(sanitize(defaultConfig.getString("reports-module.sound", "NONE")));
-        String myReportsPermission = permissionsConfig.getString("permissions.view-my-reports");
-        String myReportsCmd = commandsConfig.getString("commands.my-reports");
+        String myReportsPermission = permissionsConfig.getString("view-my-reports");
+        String myReportsCmd = commandsConfig.getString("my-reports");
         List<ReportStatus> reporterNotifyStatuses = stream(defaultConfig.getString("reports-module.reporter-notifications.status-change-notifications", "").split(";"))
             .filter(s -> !s.isEmpty())
             .map(ReportStatus::valueOf)

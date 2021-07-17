@@ -209,19 +209,19 @@ public class Options {
         /*
          * Permissions
          */
-        permissionBlock = permissionsConfig.getString("permissions.block");
-        permissionReportBypass = permissionsConfig.getString("permissions.report-bypass");
-        permissionReportUpdateNotifications = permissionsConfig.getString("permissions.report-update-notifications");
-        permissionWarnBypass = permissionsConfig.getString("permissions.warn-bypass");
-        permissionChatToggle = permissionsConfig.getString("permissions.chat-toggle");
-        permissionChatSlow = permissionsConfig.getString("permissions.chat-slow");
-        permissionBlacklist = permissionsConfig.getString("permissions.blacklist");
-        permissionMode = permissionsConfig.getString("permissions.mode");
-        permissionFreeze = permissionsConfig.getString("permissions.freeze");
-        permissionFreezeBypass = permissionsConfig.getString("permissions.freeze-bypass");
-        permissionMember = permissionsConfig.getString("permissions.member");
-        ipHidePerm = permissionsConfig.getString("permissions.ipPerm");
-        permissionCounterGuiShowVanish = permissionsConfig.getString("permissions.counter-show-vanished");
+        permissionBlock = permissionsConfig.getString("block");
+        permissionReportBypass = permissionsConfig.getString("report-bypass");
+        permissionReportUpdateNotifications = permissionsConfig.getString("report-update-notifications");
+        permissionWarnBypass = permissionsConfig.getString("warn-bypass");
+        permissionChatToggle = permissionsConfig.getString("chat-toggle");
+        permissionChatSlow = permissionsConfig.getString("chat-slow");
+        permissionBlacklist = permissionsConfig.getString("blacklist");
+        permissionMode = permissionsConfig.getString("mode");
+        permissionFreeze = permissionsConfig.getString("freeze");
+        permissionFreezeBypass = permissionsConfig.getString("freeze-bypass");
+        permissionMember = permissionsConfig.getString("member");
+        ipHidePerm = permissionsConfig.getString("ipPerm");
+        permissionCounterGuiShowVanish = permissionsConfig.getString("counter-show-vanished");
 
         /*
          * Storage
