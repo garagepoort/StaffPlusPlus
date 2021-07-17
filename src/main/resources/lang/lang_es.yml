@@ -300,6 +300,12 @@ investigation.staff-notification-evidence-unlinked: "&4%investigator% &6ha retir
 investigation.staff-notification-note-added: "&4%investigator% &6agregó una nota a la investigación (ID=%investigationId%)"
 investigation.staff-notification-note-deleted: "&4%investigator% &6has removido la nota de la investigación (ID=%investigationId%)"
 
+ips:
+    prefix: "&dIPs &8»"
+    issuer:
+        history-cleared: "&7Ip history cleared for &6%player%"
+    staff-notifications:
+        history-cleared: "&4%issuer% &7cleared all ip history for &6%player%"
 
 # No cambies esto si no sabes que es!!!!!!
 lang-version: 6199
