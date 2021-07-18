@@ -46,7 +46,7 @@ public class ActionService {
         }
 
         List<ExecutableActionEntity> actions = getRollbackActions(actionable);
-        actions.forEach(action -> actionExecutioner.rollbackAction(action, target.get()));
+        actionExecutioner.rollbackActions(actions, target.get());
     }
 
     public List<ExecutableActionEntity> getRollbackActions(Actionable actionable) {
