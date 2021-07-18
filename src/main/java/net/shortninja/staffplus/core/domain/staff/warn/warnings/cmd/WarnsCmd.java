@@ -24,8 +24,8 @@ import java.util.stream.Stream;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
-    command = "commands:warn",
-    permissions = "permissions:warn",
+    command = "commands:warns",
+    permissions = "permissions:warnings.manage.view",
     description = "List all warnings of a player",
     usage = "[get] [player]",
     playerRetrievalStrategy = BOTH

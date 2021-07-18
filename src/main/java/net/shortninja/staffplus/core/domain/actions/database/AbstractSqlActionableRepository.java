@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractSqlActionableRepository implements ActionableRepository {
 
@@ -61,6 +62,25 @@ public abstract class AbstractSqlActionableRepository implements ActionableRepos
             insert.setLong(1, System.currentTimeMillis());
             insert.setInt(2, executableActionId);
             insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    @Override
+    public void markRollbacked(List<Integer> executableActionIds) {
+        List<String> questionMarks = executableActionIds.stream().map(p -> "?").collect(Collectors.toList());
+        String query = "UPDATE sp_actionable_actions set rollback_timestamp=? WHERE id IN (%s);";
+
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
+            ps.setLong(1, System.currentTimeMillis());
+            int index = 2;
+            for (Integer id : executableActionIds) {
+                ps.setInt(index, id);
+                index++;
+            }
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
