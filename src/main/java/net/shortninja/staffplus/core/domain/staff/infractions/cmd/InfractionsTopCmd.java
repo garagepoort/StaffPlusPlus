@@ -22,14 +22,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
-
 @Command(
     command = "commands:infractions-top-view",
     permissions = "permissions:infractions.view",
     description = "View the top list of players with the most infractions",
-    usage = "[infractionType?]",
-    playerRetrievalStrategy = BOTH
+    usage = "[infractionType?]"
 )
 @IocBean(conditionalOnProperty = "infractions-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
