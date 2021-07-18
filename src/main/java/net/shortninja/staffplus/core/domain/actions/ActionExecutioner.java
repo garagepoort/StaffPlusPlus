@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.domain.actions.ActionRunStrategy.ALWAYS;
 import static net.shortninja.staffplus.core.domain.actions.ActionRunStrategy.DELAY;
@@ -71,13 +72,14 @@ public class ActionExecutioner {
         }
     }
 
+    void rollbackActions(List<ExecutableActionEntity> actions, SppPlayer target) {
+        List<ExecutableActionEntity> actionsToRun = actions.stream().filter(a -> runActionNow(target, a.getRollbackRunStrategy())).collect(Collectors.toList());
+        actionsToRun.forEach(action -> Bukkit.getScheduler().runTask(StaffPlus.get(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getRollbackCommand().replace("%player%", target.getUsername()))));
+        actionableRepository.markRollbacked(actionsToRun.stream().map(ExecutableActionEntity::getId).collect(Collectors.toList()));
 
-    void rollbackAction(ExecutableActionEntity action, SppPlayer target) {
-        if (runActionNow(target, action.getRollbackRunStrategy())) {
-            Bukkit.getScheduler().runTask(StaffPlus.get(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getRollbackCommand().replace("%player%", target.getUsername())));
-            actionableRepository.markRollbacked(action.getId());
-        } else if (action.getRollbackRunStrategy() == DELAY && !target.isOnline()) {
-            delayedActionsRepository.saveDelayedAction(target.getId(), action.getRollbackCommand(), CONSOLE, action.getId(), true);
+        if (!target.isOnline()) {
+            List<ExecutableActionEntity> actionsToDelay = actions.stream().filter(a -> a.getRollbackRunStrategy() == DELAY).collect(Collectors.toList());
+            actionsToDelay.forEach(action -> delayedActionsRepository.saveDelayedAction(target.getId(), action.getRollbackCommand(), CONSOLE, action.getId(), true));
         }
     }
 

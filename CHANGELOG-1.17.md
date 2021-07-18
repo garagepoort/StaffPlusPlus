@@ -1,5 +1,12 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.8
+
+### Bug fixes
+  - Fix performance issue with vanish and investigation action bar
+  - Fix the warn command
+  - Fix the infractions-top command
+
 # V1.17.7
 
 ### Features
