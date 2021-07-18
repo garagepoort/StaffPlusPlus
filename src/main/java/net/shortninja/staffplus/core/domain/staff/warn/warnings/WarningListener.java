@@ -49,21 +49,25 @@ public class WarningListener implements Listener {
 
     @EventHandler
     public void executeRemovalActions(WarningRemovedEvent warningRemovedEvent) {
-        UUID targetUuid = warningRemovedEvent.getWarning().getTargetUuid();
-        Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
-        if (target.isPresent()) {
-            actionService.rollbackActionable(warningRemovedEvent.getWarning());
-        }
-        actionService.deleteActions(warningRemovedEvent.getWarning());
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            UUID targetUuid = warningRemovedEvent.getWarning().getTargetUuid();
+            Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
+            if (target.isPresent()) {
+                actionService.rollbackActionable(warningRemovedEvent.getWarning());
+            }
+            actionService.deleteActions(warningRemovedEvent.getWarning());
+        });
     }
 
     @EventHandler
     public void executeAppealedActions(WarningAppealApprovedEvent warningAppealApprovedEvent) {
-        UUID targetUuid = warningAppealApprovedEvent.getWarning().getTargetUuid();
-        Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
-        if (target.isPresent()) {
-            actionService.rollbackActionable(warningAppealApprovedEvent.getWarning());
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            UUID targetUuid = warningAppealApprovedEvent.getWarning().getTargetUuid();
+            Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
+            if (target.isPresent()) {
+                actionService.rollbackActionable(warningAppealApprovedEvent.getWarning());
+            }
+        });
     }
 
 }
