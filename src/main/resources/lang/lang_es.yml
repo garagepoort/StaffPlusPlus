@@ -143,7 +143,7 @@ blacklist-chat-format: "&7%player% &8» &7%message%"
 
 
 total-vanish: "&b¡Tu invisibilidad total ha sido &7%status%&b!"
-list-vanish: "&b¡Tu nvisibilidad en lista ha sido &7%status%&b!"
+list-vanish: "&b¡Tu invisibilidad en lista ha sido &7%status%&b!"
 player-vanish: "&b¡Tu invisibilidad a jugadores ha sido &7%status%&b!"
 vanish-enabled: "&2Invisibilidad activada"
 
@@ -287,7 +287,7 @@ appeal-open-notify: "¡Aquí hay %appealsCount% alertas de apelaciones inconclus
 # |                   INVESTIGATIONS                     | #
 # +------------------------------------------------------+ #
 ############################################################
-investigated.investigation-started: "&6Estás siendo investigado investigación"
+investigated.investigation-started: "&6Estás siendo investigado"
 investigated.investigation-paused: "&6La investigación ha sido pausada"
 investigated.investigation-concluded: "&6La investigación en tí ha terminado"
 investigated.under-investigation-title: "&cEstás bajo investigación"
@@ -303,9 +303,9 @@ investigation.staff-notification-note-deleted: "&4%investigator% &6has removido 
 ips:
     prefix: "&dIPs &8»"
     issuer:
-        history-cleared: "&7Ip history cleared for &6%player%"
+        history-cleared: "&7El historial de IPs perteneciente a &6%player% ha sido limpiado"
     staff-notifications:
-        history-cleared: "&4%issuer% &7cleared all ip history for &6%player%"
+        history-cleared: "&4%issuer% &7ha limpiado todo el historial de IPs perteneciente a &6%player%"
 
 # No cambies esto si no sabes que es!!!!!!
 lang-version: 6199
