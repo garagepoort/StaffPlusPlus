@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @IocBean
 public class SessionManagerImpl implements SessionManager {
-    private static Map<UUID, PlayerSession> playerSessions = new HashMap<>();
+    private static final Map<UUID, PlayerSession> playerSessions = new HashMap<>();
     private final SessionLoader sessionLoader;
     private final PermissionHandler permissionHandler;
     private final Options options;
