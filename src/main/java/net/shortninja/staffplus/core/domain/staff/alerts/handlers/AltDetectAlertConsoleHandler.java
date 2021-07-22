@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import net.shortninja.staffplusplus.altdetect.IAltDetectResult;
@@ -16,14 +15,14 @@ public class AltDetectAlertConsoleHandler implements Listener {
 
     private final AlertsConfiguration alertsConfiguration;
 
-    public AltDetectAlertConsoleHandler(Options options) {
-        this.alertsConfiguration = options.alertsConfiguration;
+    public AltDetectAlertConsoleHandler(AlertsConfiguration alertsConfiguration) {
+        this.alertsConfiguration = alertsConfiguration;
     }
 
     @EventHandler
     public void altDetect(AltDetectEvent altDetectEvent) {
         IAltDetectResult altDetectResult = altDetectEvent.getAltDetectResult();
-        if (!alertsConfiguration.getAlertsAltDetectTrustLevels().contains(altDetectResult.getAltDetectTrustLevel())) {
+        if (!alertsConfiguration.alertsAltDetectTrustLevels.contains(altDetectResult.getAltDetectTrustLevel())) {
             return;
         }
 

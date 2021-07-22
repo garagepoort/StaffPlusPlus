@@ -4,9 +4,9 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.alerts.config.XrayConfiguration;
 import net.shortninja.staffplusplus.xray.XrayEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,17 +17,17 @@ public class XrayAlertConsoleHandler implements Listener {
 
     private final Messages messages;
     private final PermissionHandler permission;
-    private final Options options;
+    private final XrayConfiguration xrayConfiguration;
 
-    public XrayAlertConsoleHandler(Messages messages, PermissionHandler permission, Options options) {
+    public XrayAlertConsoleHandler(Messages messages, PermissionHandler permission, XrayConfiguration xrayConfiguration) {
         this.messages = messages;
         this.permission = permission;
-        this.options = options;
+        this.xrayConfiguration = xrayConfiguration;
     }
 
     @EventHandler
     public void handle(XrayEvent event) {
-        if (permission.has(event.getPlayer(), options.alertsConfiguration.getXrayConfiguration().getPermissionXrayBypass())) {
+        if (permission.has(event.getPlayer(), xrayConfiguration.permissionXrayBypass)) {
             return;
         }
 

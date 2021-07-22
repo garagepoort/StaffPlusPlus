@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class XrayTrace {
 
-    private Material blockType;
+    private final Material blockType;
     private List<Long> timestamps;
 
     public XrayTrace(Material blockType) {
