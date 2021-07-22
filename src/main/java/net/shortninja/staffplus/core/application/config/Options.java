@@ -8,8 +8,6 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.Materials;
 import net.shortninja.staffplus.core.domain.chat.blacklist.BlackListConfiguration;
 import net.shortninja.staffplus.core.domain.chat.blacklist.BlackListConfigurationLoader;
-import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
-import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfigurationLoader;
 import net.shortninja.staffplus.core.domain.staff.examine.config.ExamineConfiguration;
@@ -77,7 +75,6 @@ public class Options {
     public ExamineConfiguration examineConfiguration;
     public Map<String, GeneralModeConfiguration> modeConfigurations;
     public ServerSyncConfiguration serverSyncConfiguration;
-    public AlertsConfiguration alertsConfiguration;
     public StaffItemsConfiguration staffItemsConfiguration;
 
     /*
@@ -122,7 +119,6 @@ public class Options {
     private final ExamineModuleLoader examineModuleLoader;
     private final StaffModesLoader staffModesLoader;
     private final ServerSyncModuleLoader serverSyncModuleLoader;
-    private final AlertsModuleLoader alertsModuleLoader;
     private final InvestigationModuleLoader investigationModuleLoader;
     private final StaffCustomItemsLoader staffCustomItemsLoader;
     private final StaffItemsLoader staffItemsLoader;
@@ -138,7 +134,6 @@ public class Options {
                    ExamineModuleLoader examineModuleLoader,
                    StaffModesLoader staffModesLoader,
                    ServerSyncModuleLoader serverSyncModuleLoader,
-                   AlertsModuleLoader alertsModuleLoader,
                    InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader,
@@ -155,7 +150,6 @@ public class Options {
         this.examineModuleLoader = examineModuleLoader;
         this.staffModesLoader = staffModesLoader;
         this.serverSyncModuleLoader = serverSyncModuleLoader;
-        this.alertsModuleLoader = alertsModuleLoader;
         this.investigationModuleLoader = investigationModuleLoader;
         this.staffCustomItemsLoader = staffCustomItemsLoader;
         this.staffItemsLoader = staffItemsLoader;
@@ -201,7 +195,6 @@ public class Options {
         examineConfiguration = this.examineModuleLoader.loadConfig();
         modeConfigurations = this.staffModesLoader.loadConfig();
         serverSyncConfiguration = this.serverSyncModuleLoader.loadConfig();
-        alertsConfiguration = this.alertsModuleLoader.loadConfig();
         investigationConfiguration = this.investigationModuleLoader.loadConfig();
         customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();
         staffItemsConfiguration = this.staffItemsLoader.loadConfig();
