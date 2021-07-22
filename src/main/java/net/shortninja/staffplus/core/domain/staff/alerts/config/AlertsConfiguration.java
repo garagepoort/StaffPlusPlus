@@ -1,155 +1,74 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import net.shortninja.staffplus.core.application.config.SoundsConfigTransformer;
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.altdetect.AltDetectTrustLevel;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
+@IocBean
 public class AlertsConfiguration {
-    private final boolean alertsNameNotify;
-    private final boolean alertsMentionNotify;
-    private final boolean alertsXrayEnabled;
-    private final boolean alertsAltDetectEnabled;
-    private final boolean alertsChatPhraseDetectionEnabled;
-    private final List<AltDetectTrustLevel> alertsAltDetectTrustLevels;
-    private final String permissionAlerts;
-    private final String permissionAlertsAltDetect;
-    private final String permissionMention;
-    private final String permissionMentionBypass;
-    private final String permissionNameChange;
-    private final String permissionNameChangeBypass;
-    private final String permissionChatPhraseDetection;
-    private final String permissionChatPhraseDetectionBypass;
-    private final String commandAlerts;
-    private final Sounds alertsSound;
+
+    @ConfigProperty("alerts-module.name-notify")
+    public boolean alertsNameNotify;
+    @ConfigProperty("alerts-module.mention-notify")
+    public boolean alertsMentionNotify;
+    @ConfigProperty("alerts-module.xray-alerts.enabled")
+    public boolean alertsXrayEnabled;
+    @ConfigProperty("alerts-module.alt-detect-notify.enabled")
+    public boolean alertsAltDetectEnabled;
+    @ConfigProperty("alerts-module.chat-phrase-detection")
+    public boolean alertsChatPhraseDetectionEnabled;
+    @ConfigProperty("alerts-module.alt-detect-notify.trust-levels")
+    @ConfigTransformer(AltDetectTrustLevelConfigTransformer.class)
+    public List<AltDetectTrustLevel> alertsAltDetectTrustLevels;
+
+    @ConfigProperty("permissions:alerts")
+    public String permissionAlerts;
+    @ConfigProperty("permissions:alerts-alt-detect")
+    public String permissionAlertsAltDetect;
+    @ConfigProperty("permissions:mention")
+    public String permissionMention;
+    @ConfigProperty("permissions:mention-bypass")
+    public String permissionMentionBypass;
+    @ConfigProperty("permissions:name-change")
+    public String permissionNameChange;
+    @ConfigProperty("permissions:name-change-bypass")
+    public String permissionNameChangeBypass;
+    @ConfigProperty("permissions:alerts-chat-phrase-detection")
+    public String permissionChatPhraseDetection;
+    @ConfigProperty("permissions:alerts-chat-phrase-detection-bypass")
+    public String permissionChatPhraseDetectionBypass;
+
+    @ConfigProperty("commands:alerts")
+    public String commandAlerts;
+    @ConfigProperty("alerts-module.sound")
+    @ConfigTransformer(SoundsConfigTransformer.class)
+    public Sounds alertsSound;
+
     private final XrayConfiguration xrayConfiguration;
 
-    public AlertsConfiguration(boolean alertsNameNotify,
-                               boolean alertsMentionNotify,
-                               boolean alertsXrayEnabled,
-                               boolean alertsAltDetectEnabled,
-                               boolean alertsChatPhraseDetectionEnabled,
-                               List<AltDetectTrustLevel> alertsAltDetectTrustLevels,
-                               String permissionAlerts,
-                               String permissionAlertsAltDetect,
-                               String permissionMention,
-                               String permissionMentionBypass,
-                               String permissionNameChange,
-                               String permissionNameChangeBypass,
-                               String permissionChatPhraseDetection,
-                               String permissionChatPhraseDetectionBypass, String commandAlerts,
-                               Sounds alertsSound,
-                               XrayConfiguration xrayConfiguration) {
-
-        this.alertsNameNotify = alertsNameNotify;
-        this.alertsMentionNotify = alertsMentionNotify;
-        this.alertsXrayEnabled = alertsXrayEnabled;
-        this.alertsAltDetectEnabled = alertsAltDetectEnabled;
-        this.alertsChatPhraseDetectionEnabled = alertsChatPhraseDetectionEnabled;
-        this.alertsAltDetectTrustLevels = alertsAltDetectTrustLevels;
-        this.permissionAlerts = permissionAlerts;
-        this.permissionAlertsAltDetect = permissionAlertsAltDetect;
-        this.permissionMention = permissionMention;
-        this.permissionMentionBypass = permissionMentionBypass;
-        this.permissionNameChange = permissionNameChange;
-        this.permissionNameChangeBypass = permissionNameChangeBypass;
-        this.permissionChatPhraseDetection = permissionChatPhraseDetection;
-        this.permissionChatPhraseDetectionBypass = permissionChatPhraseDetectionBypass;
-        this.commandAlerts = commandAlerts;
-        this.alertsSound = alertsSound;
+    public AlertsConfiguration(XrayConfiguration xrayConfiguration) {
         this.xrayConfiguration = xrayConfiguration;
-    }
-
-    public String getPermissionAlerts() {
-        return permissionAlerts;
-    }
-
-    public String getPermissionAltDetect() {
-        return permissionAlertsAltDetect;
-    }
-
-    public String getCommandAlerts() {
-        return commandAlerts;
-    }
-
-    public Optional<Sounds> getAlertsSound() {
-        return Optional.ofNullable(alertsSound);
-    }
-
-    public boolean isNameNotifyEnabled() {
-        return alertsNameNotify;
-    }
-
-    public boolean isAlertsChatPhraseDetectionEnabled() {
-        return alertsChatPhraseDetectionEnabled;
-    }
-
-    public boolean isMentionNotifyEnabled() {
-        return alertsMentionNotify;
-    }
-
-    public boolean isXrayEnabled() {
-        return alertsXrayEnabled;
-    }
-
-    public boolean isAltDetectEnabled() {
-        return alertsAltDetectEnabled;
-    }
-
-    public List<AltDetectTrustLevel> getAlertsAltDetectTrustLevels() {
-        return alertsAltDetectTrustLevels;
-    }
-
-    public XrayConfiguration getXrayConfiguration() {
-        return xrayConfiguration;
-    }
-
-    public String getPermissionMention() {
-        return permissionMention;
-    }
-
-    public String getPermissionMentionBypass() {
-        return permissionMentionBypass;
-    }
-
-    public String getPermissionChatPhraseDetectionBypass() {
-        return permissionChatPhraseDetectionBypass;
-    }
-
-    public String getPermissionNameChange() {
-        return permissionNameChange;
-    }
-
-    public String getPermissionNameChangeBypass() {
-        return permissionNameChangeBypass;
-    }
-
-    public String getPermissionChatPhraseDetection() {
-        return permissionChatPhraseDetection;
-    }
-
-    public Set<String> getAllAlertsPermissions() {
-        return new HashSet<>(Arrays.asList(getPermissionMention(), getPermissionNameChange(), getXrayConfiguration().getPermissionXray()));
     }
 
     public String getPermissionForType(AlertType alertType) {
         switch (alertType) {
             case XRAY:
-                return getXrayConfiguration().getPermissionXray();
+                return xrayConfiguration.permissionXray;
             case MENTION:
-                return getPermissionMention();
+                return permissionMention;
             case ALT_DETECT:
-                return getPermissionAltDetect();
+                return permissionAlertsAltDetect;
             case NAME_CHANGE:
-                return getPermissionNameChange();
+                return permissionNameChange;
             case CHAT_PHRASE_DETECTION:
-                return getPermissionChatPhraseDetection();
+                return permissionChatPhraseDetection;
             default:
                 throw new BusinessException("&CUnsupported alertType [" + alertType + "]");
         }
