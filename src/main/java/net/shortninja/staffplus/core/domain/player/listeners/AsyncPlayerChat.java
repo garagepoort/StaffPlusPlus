@@ -31,13 +31,15 @@ public class AsyncPlayerChat implements Listener {
     private final BlacklistService blacklistService;
     private final TraceService traceService;
     private final PlayerManager playerManager;
+    private final BukkitUtils bukkitUtils;
 
-    public AsyncPlayerChat(Options options, @IocMulti(ChatInterceptor.class) List<ChatInterceptor> chatInterceptors, BlacklistService blacklistService, TraceService traceService, PlayerManager playerManager) {
+    public AsyncPlayerChat(Options options, @IocMulti(ChatInterceptor.class) List<ChatInterceptor> chatInterceptors, BlacklistService blacklistService, TraceService traceService, PlayerManager playerManager, BukkitUtils bukkitUtils) {
         this.options = options;
         this.chatInterceptors = chatInterceptors.stream().sorted(Comparator.comparingInt(ChatInterceptor::getPriority)).collect(Collectors.toList());
         this.blacklistService = blacklistService;
         this.traceService = traceService;
         this.playerManager = playerManager;
+        this.bukkitUtils = bukkitUtils;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -60,7 +62,7 @@ public class AsyncPlayerChat implements Listener {
     }
 
     private void notifyMentioned(Player player, String message) {
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        bukkitUtils.runTaskAsync(() -> {
             getMentioned(message).stream()
                 .map(user -> new PlayerMentionedEvent(options.serverName, player, user, message))
                 .forEach(BukkitUtils::sendEvent);
