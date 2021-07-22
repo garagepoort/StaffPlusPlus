@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.alerts;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
@@ -13,6 +12,7 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
@@ -40,14 +40,14 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 @IocMultiProvider(SppCommand.class)
 public class AlertsCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
-    private final Options options;
+    private final AlertsConfiguration alertsConfiguration;
     private final SessionManagerImpl sessionManager;
 
-    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService) {
+    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, SessionManagerImpl sessionManager, CommandService commandService, AlertsConfiguration alertsConfiguration) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
-        this.options = options;
         this.sessionManager = sessionManager;
+        this.alertsConfiguration = alertsConfiguration;
     }
 
     @Override
@@ -135,7 +135,7 @@ public class AlertsCmd extends AbstractCmd {
 
     private boolean setAlertType(Player player, AlertType alertType, boolean isEnabled, boolean shouldCheckPermission) {
         PlayerSession session = sessionManager.get(player.getUniqueId());
-        if (this.permissionHandler.has(player, options.alertsConfiguration.getPermissionForType(alertType)) || !shouldCheckPermission) {
+        if (this.permissionHandler.has(player, alertsConfiguration.getPermissionForType(alertType)) || !shouldCheckPermission) {
             session.setAlertOption(alertType, isEnabled);
             return true;
         }
