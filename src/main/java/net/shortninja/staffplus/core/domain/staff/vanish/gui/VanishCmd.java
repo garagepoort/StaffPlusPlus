@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.vanish;
+package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -11,6 +11,8 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.command.CommandSender;

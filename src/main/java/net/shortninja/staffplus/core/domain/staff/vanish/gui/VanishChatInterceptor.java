@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.vanish;
+package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -7,6 +7,8 @@ import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.domain.chat.ChatAction;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 @IocBean

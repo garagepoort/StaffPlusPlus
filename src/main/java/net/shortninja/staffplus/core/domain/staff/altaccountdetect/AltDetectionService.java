@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -74,7 +73,7 @@ public class AltDetectionService {
     }
 
     public void detectAltAccount(SppPlayer player) {
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> getAltAccounts(player).forEach(a -> Bukkit.getPluginManager().callEvent(new AltDetectEvent(a))));
+        getAltAccounts(player).forEach(a -> Bukkit.getPluginManager().callEvent(new AltDetectEvent(a)));
     }
 
     public List<AltDetectResult> getAltAccounts(SppPlayer sppPlayer) {
