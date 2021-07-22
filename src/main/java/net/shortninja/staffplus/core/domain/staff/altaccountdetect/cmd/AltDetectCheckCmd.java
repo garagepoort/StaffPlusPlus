@@ -2,19 +2,18 @@ package net.shortninja.staffplus.core.domain.staff.altaccountdetect.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectResult;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.AltDetectionService;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,17 +38,19 @@ public class AltDetectCheckCmd extends AbstractCmd {
     private final AltDetectionService altDetectionService;
     private final PlayerManager playerManager;
     private final PlayerIpRepository playerIpRepository;
+    private final BukkitUtils bukkitUtils;
 
-    public AltDetectCheckCmd(Messages messages, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager, PlayerIpRepository playerIpRepository, PermissionHandler permissionHandler) {
+    public AltDetectCheckCmd(Messages messages, AltDetectionService altDetectionService, CommandService commandService, PlayerManager playerManager, PlayerIpRepository playerIpRepository, PermissionHandler permissionHandler, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.altDetectionService = altDetectionService;
         this.playerManager = playerManager;
         this.playerIpRepository = playerIpRepository;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        bukkitUtils.runTaskAsync(sender, () -> {
             messages.send(sender, "&fChecking alt accounts for player: &6%player%".replace("%player%", player.getUsername()), messages.prefixGeneral);
             messages.send(sender, "&fLast known IP: &6%ip%".replace("%ip%", playerIpRepository.getLastIp(player.getId()).orElse("Unknown")), messages.prefixGeneral);
             messages.send(sender, messages.LONG_LINE, messages.prefixGeneral);

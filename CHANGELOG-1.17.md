@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.9 (NOT YET RELEASED)
+
+### Bug fixes
+  - Fix mobs attacking vanished players.
+
 # V1.17.8
 
 ### Bug fixes
@@ -16,7 +21,7 @@
 
 ### bugfixes
   - Relocate dependencies which caused other plugins to fail (Thanks to A248)
-  - Fix Session Exception on EntityTargetLivingEntityEven
+  - Fix Session Exception on EntityTargetLivingEntityEvent
   - Fix duplicate ip entries
   - Fix reports lang migrator
   - Fix some major performance issues
