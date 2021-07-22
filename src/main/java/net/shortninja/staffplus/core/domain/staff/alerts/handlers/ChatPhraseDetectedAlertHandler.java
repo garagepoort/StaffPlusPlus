@@ -3,9 +3,9 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.chat.PhrasesDetectedEvent;
 import org.bukkit.Bukkit;
@@ -16,18 +16,18 @@ import org.bukkit.event.Listener;
 @IocBean
 public class ChatPhraseDetectedAlertHandler extends AlertsHandler implements Listener {
 
-    public ChatPhraseDetectedAlertHandler(Options options, SessionManagerImpl sessionManager, PermissionHandler permission, Messages messages) {
-        super(options, sessionManager, permission, messages);
+    public ChatPhraseDetectedAlertHandler(AlertsConfiguration alertsConfiguration, SessionManagerImpl sessionManager, PermissionHandler permission, Messages messages) {
+        super(alertsConfiguration, sessionManager, permission, messages);
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler
     public void handle(PhrasesDetectedEvent phrasesDetectedEvent) {
-        if (!alertsConfiguration.isAlertsChatPhraseDetectionEnabled()) {
+        if (!alertsConfiguration.alertsChatPhraseDetectionEnabled) {
             return;
         }
 
-        if (permission.has(phrasesDetectedEvent.getPlayer(), alertsConfiguration.getPermissionChatPhraseDetectionBypass())) {
+        if (permission.has(phrasesDetectedEvent.getPlayer(), alertsConfiguration.permissionChatPhraseDetectionBypass)) {
             return;
         }
 
@@ -46,6 +46,6 @@ public class ChatPhraseDetectedAlertHandler extends AlertsHandler implements Lis
 
     @Override
     protected String getPermission() {
-        return alertsConfiguration.getPermissionChatPhraseDetection();
+        return alertsConfiguration.permissionChatPhraseDetection;
     }
 }
