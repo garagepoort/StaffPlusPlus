@@ -40,6 +40,10 @@ public class BukkitUtils {
         });
     }
 
+    public void runTaskAsync(Runnable runnable) {
+        this.runTaskAsync(Bukkit.getConsoleSender(), runnable);
+    }
+
     public static int getInventorySize(int amountOfItems) {
         int division = amountOfItems / 9;
         int rest = amountOfItems % 9;

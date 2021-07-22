@@ -41,7 +41,6 @@ public class AppealNotifierListener implements Listener {
             return;
         }
 
-
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             int openAppeals = appealRepository.getCountOpenAppeals();
             if (openAppeals > 0) {
