@@ -44,8 +44,9 @@ public class MySQLConnectionProvider implements SqlConnectionProvider {
 
     public Connection getConnection() {
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             return getDatasource().getConnection();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new DatabaseException("Failed to connect to the database", e);
         }
     }
