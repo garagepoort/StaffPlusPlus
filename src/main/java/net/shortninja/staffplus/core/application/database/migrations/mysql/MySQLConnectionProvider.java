@@ -63,6 +63,7 @@ public class MySQLConnectionProvider implements SqlConnectionProvider {
             config.setMaximumPoolSize(5);
             config.setLeakDetectionThreshold(2000);
             config.setAutoCommit(true);
+            config.setDriverClassName("com.mysql.jdbc.Driver");
             config.addDataSourceProperty("cachePrepStmts", "true");
             config.addDataSourceProperty("prepStmtCacheSize", "250");
             config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
