@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcsqlmigrations.DatabaseType;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 
 import javax.sql.DataSource;
@@ -17,13 +17,21 @@ import java.util.List;
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class MySQLConnectionProvider implements SqlConnectionProvider {
 
-    private HikariDataSource datasource;
-    private final Options options;
+    @ConfigProperty("storage.mysql.host")
+    private String host;
+    @ConfigProperty("storage.mysql.user")
+    private String user;
+    @ConfigProperty("storage.mysql.database")
+    private String database;
+    @ConfigProperty("storage.mysql.password")
+    private String password;
+    @ConfigProperty("storage.mysql.port")
+    private int port;
 
-    public MySQLConnectionProvider(Options options) {
-        this.options = options;
-        getDataSource();
-    }
+    @ConfigProperty("storage.mysql.max-pool-size")
+    private int maxPoolSize;
+
+    private HikariDataSource datasource;
 
     public DataSource getDatasource() {
         if(datasource == null){
@@ -54,14 +62,11 @@ public class MySQLConnectionProvider implements SqlConnectionProvider {
     private void getDataSource() {
         if(datasource == null) {
             HikariConfig config = new HikariConfig();
-            String host = options.mySqlHost;
-            int port = options.mySqlPort;
-            String db = options.database;
-            config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + db + "?autoReconnect=true&useSSL=false&allowMultiQueries=true");
-            config.setUsername(options.mySqlUser);
-            config.setPassword(options.mySqlPassword);
-            config.setMaximumPoolSize(5);
-            config.setLeakDetectionThreshold(2000);
+            config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false&allowMultiQueries=true");
+            config.setUsername(user);
+            config.setPassword(password);
+            config.setMaximumPoolSize(maxPoolSize);
+            config.setLeakDetectionThreshold(5000);
             config.setAutoCommit(true);
             config.setDriverClassName("com.mysql.jdbc.Driver");
             config.addDataSourceProperty("cachePrepStmts", "true");
