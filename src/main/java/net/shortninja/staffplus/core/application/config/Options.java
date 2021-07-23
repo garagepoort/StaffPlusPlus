@@ -98,16 +98,6 @@ public class Options {
     public String ipHidePerm;
     public String permissionCounterGuiShowVanish;
 
-    /*
-     * Storage
-     */
-    public String storageType;
-    public String mySqlHost;
-    public String mySqlUser;
-    public String database;
-    public String mySqlPassword;
-    public int mySqlPort;
-
     private final AuthenticationConfigurationLoader authenticationConfigurationLoader;
     private final InfractionsModuleLoader infractionsModuleLoader;
     private final ReportingModuleLoader reportingModuleLoader;
@@ -215,16 +205,6 @@ public class Options {
         permissionMember = permissionsConfig.getString("member");
         ipHidePerm = permissionsConfig.getString("ipPerm");
         permissionCounterGuiShowVanish = permissionsConfig.getString("counter-show-vanished");
-
-        /*
-         * Storage
-         */
-        storageType = defaultConfig.getString("storage.type");
-        mySqlHost = defaultConfig.getString("storage.mysql.host");
-        mySqlUser = defaultConfig.getString("storage.mysql.user");
-        database = defaultConfig.getString("storage.mysql.database");
-        mySqlPassword = defaultConfig.getString("storage.mysql.password");
-        mySqlPort = defaultConfig.getInt("storage.mysql.port");
     }
 
 
