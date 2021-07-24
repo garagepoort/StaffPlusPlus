@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -21,15 +22,12 @@ import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,10 +38,10 @@ import static org.bukkit.Bukkit.getScheduler;
 @IocMultiProvider(InfractionProvider.class)
 public class ReportService implements InfractionProvider, net.shortninja.staffplusplus.reports.ReportService {
 
-    private static final Map<UUID, Long> lastUse = new HashMap<>();
+    @ConfigProperty("permissions:report-bypass")
+    private String permissionReportBypass;
 
     private final PermissionHandler permission;
-
     private final Options options;
     private final Messages messages;
     private final PlayerManager playerManager;
@@ -77,11 +75,10 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
     }
 
     public void sendReport(Player player, SppPlayer user, String reason, String type) {
-        validateCoolDown(player);
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
 
             // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
-            if (user.isOnline() && permission.has(user.getPlayer(), options.permissionReportBypass)) {
+            if (user.isOnline() && permission.has(user.getPlayer(), permissionReportBypass)) {
                 messages.send(player, messages.bypassed, messages.prefixGeneral);
                 return;
             }
@@ -100,8 +97,6 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
 
             int id = reportRepository.addReport(report);
             report.setId(id);
-
-            lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
         });
     }
@@ -111,7 +106,6 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
     }
 
     public void sendReport(Player player, String reason, String type) {
-        validateCoolDown(player);
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
             Report report = new Report(
                 null,
@@ -127,8 +121,6 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
 
             int id = reportRepository.addReport(report);
             report.setId(id);
-
-            lastUse.put(player.getUniqueId(), System.currentTimeMillis());
             sendEvent(new CreateReportEvent(report));
         });
     }
@@ -151,15 +143,6 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
 
     public List<Report> getMyReports(UUID reporterUuid) {
         return reportRepository.getMyReports(reporterUuid);
-    }
-
-    private void validateCoolDown(CommandSender sender) {
-        long last = sender instanceof Player ? (lastUse.containsKey(((Player) sender).getUniqueId()) ? lastUse.get(((Player) sender).getUniqueId()) : 0) : 0;
-        long remaining = (System.currentTimeMillis() - last) / 1000;
-
-        if (remaining < options.reportConfiguration.getCooldown()) {
-            throw new BusinessException(messages.commandOnCooldown.replace("%seconds%", Long.toString(options.reportConfiguration.getCooldown() - remaining)), messages.prefixGeneral);
-        }
     }
 
     private SppPlayer getUser(UUID playerUuid) {

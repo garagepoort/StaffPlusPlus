@@ -1,67 +1,50 @@
 package net.shortninja.staffplus.core.domain.player.gui;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.GuiAction;
+import be.garagepoort.mcioc.gui.GuiController;
+import be.garagepoort.mcioc.gui.GuiParam;
+import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.gui.IAction;
-import net.shortninja.staffplus.core.common.gui.PagedGui;
+import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder.Builder;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class CounterGui extends PagedGui {
-    private final Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
+@IocBean
+@GuiController
+public class CounterGuiController {
 
+    private final Options options;
 
-    public CounterGui(Player player, String title, int page) {
-        super(player, title, page);
+    public CounterGuiController(Options options) {
+        this.options = options;
     }
 
-    @Override
-    protected CounterGui getNextUi(Player player, SppPlayer target, String title, int page) {
-        return new CounterGui(player, title, page);
-    }
-
-    @Override
-    public IAction getAction() {
-        return new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                Player p = Bukkit.getPlayerExact(item.getItemMeta().getDisplayName().substring(2));
-
-                if (p != null) {
-                    player.teleport(p);
-                } else messages.send(player, messages.playerOffline, messages.prefixGeneral);
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return true;
-            }
-        };
-    }
-
-    @Override
-    public List<ItemStack> getItems(Player staffViewing, SppPlayer target, int offset, int amount) {
+    @GuiAction("counter/items")
+    public TubingGui getItems(Player staffViewing, @GuiParam("page") int page) {
+        int amount = 45;
         List<Player> players = options.staffItemsConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? getModePlayers() : JavaUtils.getOnlinePlayers();
-        List<Player> pageOfList = JavaUtils.getPageOfList(players, offset / amount, amount);
-        return pageOfList.stream()
+        List<Player> pageOfList = JavaUtils.getPageOfList(players, page, amount);
+        List<ItemStack> items = pageOfList.stream()
             .filter(p -> StaffPlus.get().getIocContainer().get(PermissionHandler.class).has(p, StaffPlus.get().getIocContainer().get(Options.class).permissionMember))
             .map(p -> modePlayerItem(staffViewing, p))
             .collect(Collectors.toList());
+        return new Builder(options.staffItemsConfiguration.getCounterModeConfiguration().getTitle())
+            .addPagedItems("counter/items", items, page, amount)
+            .build();
     }
 
     private List<Player> getModePlayers() {

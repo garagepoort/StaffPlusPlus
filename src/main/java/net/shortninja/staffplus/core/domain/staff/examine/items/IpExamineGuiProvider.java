@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.examine.items;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
@@ -18,6 +19,9 @@ import org.bukkit.inventory.ItemStack;
 @IocBean
 @IocMultiProvider(ExamineGuiItemProvider.class)
 public class IpExamineGuiProvider implements ExamineGuiItemProvider {
+
+    @ConfigProperty("permissions:ipPerm")
+    private String ipHidePerm;
 
     private final Messages messages;
     private final ExamineModeConfiguration examineModeConfiguration;
@@ -52,7 +56,7 @@ public class IpExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     private ItemStack ipItem(Player player) {
-        String ip = permissionHandler.has(player, options.ipHidePerm) ? "127.0.0.1" : player.getAddress().getAddress().getHostAddress().replace("/", "");
+        String ip = permissionHandler.has(player, ipHidePerm) ? "127.0.0.1" : player.getAddress().getAddress().getHostAddress().replace("/", "");
 
         ItemStack item = Items.builder()
             .setMaterial(Material.COMPASS).setAmount(1)
