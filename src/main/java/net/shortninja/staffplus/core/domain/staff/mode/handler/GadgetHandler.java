@@ -11,7 +11,6 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.gui.hub.HubGui;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
@@ -77,7 +76,7 @@ public class GadgetHandler {
         this.guiActionService = guiActionService;
     }
 
-    public GadgetType getGadgetType(ItemStack item, String value) {
+    public GadgetType getGadgetType(String value) {
         if (options.staffItemsConfiguration.getCompassModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.COMPASS;
         }
@@ -171,11 +170,11 @@ public class GadgetHandler {
     }
 
     public void onGuiHub(Player player) {
-        new HubGui(player, options.staffItemsConfiguration.getGuiModeConfiguration().getItem().getItemMeta().getDisplayName(), banConfiguration).show(player);
+        guiActionService.executeAction(player, "hub/view");
     }
 
     public void onCounter(Player player) {
-        guiActionService.executeAction(player, "counter/items?page=0");
+        guiActionService.executeAction(player, "membersGUI?page=0");
     }
 
     public void onCps(CommandSender sender, Player targetPlayer) {
@@ -252,7 +251,7 @@ public class GadgetHandler {
                     continue;
                 }
 
-                if (getGadgetType(item, protocolService.getVersionProtocol().getNbtString(item)) == GadgetType.COUNTER) {
+                if (getGadgetType(protocolService.getVersionProtocol().getNbtString(item)) == GadgetType.COUNTER) {
                     item.setAmount(options.staffItemsConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? modeUsers.size() : permission.getStaffCount());
                     break;
                 }

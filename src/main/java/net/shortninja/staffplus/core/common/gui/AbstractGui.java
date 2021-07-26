@@ -3,10 +3,8 @@ package net.shortninja.staffplus.core.common.gui;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.domain.player.gui.ColorGui;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -97,30 +95,6 @@ public abstract class AbstractGui implements IGui {
 
     protected int getBackButtonSlot() {
         return 49;
-    }
-
-    public void setGlass(PlayerSession user) {
-        ItemStack item = glassItem(user.getGlassColor());
-
-        IAction action = new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                new ColorGui(options.glassTitle).show(player);
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return false;
-            }
-
-        };
-
-        for (int i = 0; i < 3; i++) {
-            int slot = 9 * i;
-
-            setItem(slot, item, action);
-            setItem(slot + 8, item, action);
-        }
     }
 
     private ItemStack glassItem(Material data) {

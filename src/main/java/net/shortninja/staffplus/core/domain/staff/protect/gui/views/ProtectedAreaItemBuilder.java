@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.protect.cmd;
+package net.shortninja.staffplus.core.domain.staff.protect.gui.views;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;

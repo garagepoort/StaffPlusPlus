@@ -1,11 +1,12 @@
 package net.shortninja.staffplus.core.domain.player.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.TubingGui;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
@@ -25,30 +26,41 @@ import java.util.stream.Collectors;
 
 @IocBean
 @GuiController
-public class CounterGuiController {
+public class StaffMembersGuiController {
+
+    @ConfigProperty("permissions:member")
+    private String permissionMember;
 
     private final Options options;
+    private final StaffModeService staffModeService;
+    private final SessionManagerImpl sessionManager;
+    private final PermissionHandler permissionHandler;
+    private final Messages messages;
 
-    public CounterGuiController(Options options) {
+    public StaffMembersGuiController(Options options, StaffModeService staffModeService, SessionManagerImpl sessionManager, PermissionHandler permissionHandler, Messages messages) {
         this.options = options;
+        this.staffModeService = staffModeService;
+        this.sessionManager = sessionManager;
+        this.permissionHandler = permissionHandler;
+        this.messages = messages;
     }
 
-    @GuiAction("counter/items")
+    @GuiAction("membersGUI")
     public TubingGui getItems(Player staffViewing, @GuiParam("page") int page) {
         int amount = 45;
         List<Player> players = options.staffItemsConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? getModePlayers() : JavaUtils.getOnlinePlayers();
         List<Player> pageOfList = JavaUtils.getPageOfList(players, page, amount);
         List<ItemStack> items = pageOfList.stream()
-            .filter(p -> StaffPlus.get().getIocContainer().get(PermissionHandler.class).has(p, StaffPlus.get().getIocContainer().get(Options.class).permissionMember))
+            .filter(p -> permissionHandler.has(p, permissionMember))
             .map(p -> modePlayerItem(staffViewing, p))
             .collect(Collectors.toList());
-        return new Builder(options.staffItemsConfiguration.getCounterModeConfiguration().getTitle())
-            .addPagedItems("counter/items", items, page, amount)
+        return new Builder(messages.colorize(options.staffItemsConfiguration.getCounterModeConfiguration().getTitle()))
+            .addPagedItems("membersGUI", items, page, amount)
             .build();
     }
 
     private List<Player> getModePlayers() {
-        return StaffPlus.get().getIocContainer().get(StaffModeService.class).getModeUsers()
+        return staffModeService.getModeUsers()
             .stream()
             .map(Bukkit::getPlayer)
             .filter(Objects::nonNull)
@@ -57,13 +69,13 @@ public class CounterGuiController {
 
     private ItemStack modePlayerItem(Player staffViewing, Player player) {
         Location location = player.getLocation();
-        PlayerSession playerSession = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class).get(player.getUniqueId());
+        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
 
         Items.ItemStackBuilder itemStackBuilder = Items.editor(Items.createSkull(player.getName()))
             .setName("&b" + player.getName())
             .addLore("&7" + location.getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(location));
 
-        if (StaffPlus.get().getIocContainer().get(PermissionHandler.class).has(staffViewing, StaffPlus.get().getIocContainer().get(Options.class).permissionCounterGuiShowVanish)) {
+        if (permissionHandler.has(staffViewing, options.permissionCounterGuiShowVanish)) {
             itemStackBuilder.addLore("&7Vanished: " + playerSession.isVanished());
         }
 
