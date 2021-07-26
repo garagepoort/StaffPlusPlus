@@ -41,7 +41,7 @@ public class ManageBansGuiCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        guiActionService.executeAction((Player) sender, "manage-bans/view/overview?page=0");
+        guiActionService.executeAction((Player) sender, "manage-bans/view/overview");
         return true;
     }
 

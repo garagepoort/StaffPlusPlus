@@ -4,12 +4,15 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import static be.garagepoort.mcioc.gui.TubingGuiActions.NOOP;
 
 @IocBean
 public class ReportDetailViewBuilder {
@@ -18,18 +21,18 @@ public class ReportDetailViewBuilder {
     private final PermissionHandler permission;
     private final ReportItemBuilder reportItemBuilder;
     private final ManageReportConfiguration manageReportConfiguration;
+    private final InvestigationGuiComponent investigationGuiComponent;
 
-    public ReportDetailViewBuilder(PermissionHandler permission, ReportItemBuilder reportItemBuilder, ManageReportConfiguration manageReportConfiguration) {
+    public ReportDetailViewBuilder(PermissionHandler permission, ReportItemBuilder reportItemBuilder, ManageReportConfiguration manageReportConfiguration, InvestigationGuiComponent investigationGuiComponent) {
         this.permission = permission;
         this.reportItemBuilder = reportItemBuilder;
         this.manageReportConfiguration = manageReportConfiguration;
+        this.investigationGuiComponent = investigationGuiComponent;
     }
 
-    public TubingGui buildGui(Player player, Report report) {
-
+    public TubingGui buildGui(Player player, Report report, String backAction, String currentAction) {
         TubingGui.Builder builder = new TubingGui.Builder("Report by: " + report.getReporterName(), SIZE);
-
-        builder.addItem(null, 13, reportItemBuilder.build(report));
+        builder.addItem(NOOP, 13, reportItemBuilder.build(report));
 
         if (!report.getReportStatus().isClosed()) {
             if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionResolve)) {
@@ -61,11 +64,15 @@ public class ReportDetailViewBuilder {
             }
         }
 
+        investigationGuiComponent.addEvidenceButton(builder, 14, report, currentAction);
+
+        if (backAction != null) {
+            builder.addItem(backAction, 49, Items.createDoor("Back", "Go back"));
+        }
+
         if (permission.has(player, manageReportConfiguration.permissionTeleport)) {
             builder.addItem("manage-reports/teleport?reportId=" + report.getId(), 0, getTeleportItem());
         }
-        // TODO link evidenceButton
-//        investigationGuiComponent.addEvidenceButton(this, 14, report);
         return builder.build();
     }
 

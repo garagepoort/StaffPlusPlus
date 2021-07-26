@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
@@ -36,14 +37,14 @@ public class BanGuiController {
     }
 
     @GuiAction("manage-bans/view/overview")
-    public TubingGui getBannedPlayersOverview(Player player, @GuiParam("page") int page, @GuiParam("backAction") String backAction) {
+    public TubingGui getBannedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("backAction") String backAction) {
         return bannedPlayersViewBuilder.buildGui(page, backAction);
     }
 
     @GuiAction("manage-bans/view/detail")
-    public TubingGui getBanDetailView(Player player, @GuiParam("banId") int banId, @GuiParam("backAction") String backAction) {
+    public TubingGui getBanDetailView(@GuiParam("banId") int banId, @GuiParam("backAction") String backAction, @CurrentAction String currentAction) {
         Ban ban = banService.getById(banId);
-        return manageBannedPlayerViewBuilder.buildGui(ban, backAction);
+        return manageBannedPlayerViewBuilder.buildGui(ban, backAction, currentAction);
     }
 
     @GuiAction("manage-bans/unban")

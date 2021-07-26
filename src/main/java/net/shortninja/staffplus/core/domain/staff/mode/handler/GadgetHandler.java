@@ -174,7 +174,7 @@ public class GadgetHandler {
     }
 
     public void onCounter(Player player) {
-        guiActionService.executeAction(player, "membersGUI?page=0");
+        guiActionService.executeAction(player, "membersGUI");
     }
 
     public void onCps(CommandSender sender, Player targetPlayer) {

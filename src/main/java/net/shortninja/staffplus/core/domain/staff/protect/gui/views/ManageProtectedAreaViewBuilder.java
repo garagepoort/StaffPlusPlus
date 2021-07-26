@@ -17,18 +17,20 @@ public class ManageProtectedAreaViewBuilder {
         builder.addItem(TubingGuiActions.NOOP, 13, ProtectedAreaItemBuilder.build(protectedArea));
 
         ItemStack teleportItem = Items.createOrangeColoredGlass("Teleport", "Click to teleport yourself to this area");
-        builder.addItem("protected-areas/teleport?areaId=" + protectedArea.getId(), 34, teleportItem);
-        builder.addItem("protected-areas/teleport?areaId=" + protectedArea.getId(), 35, teleportItem);
-        builder.addItem("protected-areas/teleport?areaId=" + protectedArea.getId(), 43, teleportItem);
-        builder.addItem("protected-areas/teleport?areaId=" + protectedArea.getId(), 44, teleportItem);
+        String teleportAction = "protected-areas/teleport?areaId=" + protectedArea.getId();
+        builder.addItem(teleportAction, 34, teleportItem);
+        builder.addItem(teleportAction, 35, teleportItem);
+        builder.addItem(teleportAction, 43, teleportItem);
+        builder.addItem(teleportAction, 44, teleportItem);
 
         ItemStack deleteItem = Items.createRedColoredGlass("Delete protected area", "Click to delete the protected area");
-        builder.addItem("protected-areas/delete?areaId=" + protectedArea.getId(), 30, deleteItem);
-        builder.addItem("protected-areas/delete?areaId=" + protectedArea.getId(), 31, deleteItem);
-        builder.addItem("protected-areas/delete?areaId=" + protectedArea.getId(), 32, deleteItem);
-        builder.addItem("protected-areas/delete?areaId=" + protectedArea.getId(), 39, deleteItem);
-        builder.addItem("protected-areas/delete?areaId=" + protectedArea.getId(), 40, deleteItem);
-        builder.addItem("protected-areas/delete?areaId=" + protectedArea.getId(), 41, deleteItem);
+        String deleteAction = "protected-areas/delete?areaId=" + protectedArea.getId();
+        builder.addItem(deleteAction, 30, deleteItem);
+        builder.addItem(deleteAction, 31, deleteItem);
+        builder.addItem(deleteAction, 32, deleteItem);
+        builder.addItem(deleteAction, 39, deleteItem);
+        builder.addItem(deleteAction, 40, deleteItem);
+        builder.addItem(deleteAction, 41, deleteItem);
 
         if (backAction != null) {
             builder.addItem(backAction, 49, Items.createDoor("Back", "Go back"));

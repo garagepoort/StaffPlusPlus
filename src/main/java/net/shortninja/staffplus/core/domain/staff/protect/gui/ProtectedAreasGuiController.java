@@ -30,7 +30,7 @@ public class ProtectedAreasGuiController {
 
 
     @GuiAction("protected-areas/view")
-    public TubingGui getOverview(Player player, @GuiParam("page") int page, @GuiParam("backAction") String backAction) {
+    public TubingGui getOverview(Player player, @GuiParam(value = "page", defaultValue="0") int page, @GuiParam("backAction") String backAction) {
         return protectedAreasViewBuilder.buildGui(page, backAction);
     }
 

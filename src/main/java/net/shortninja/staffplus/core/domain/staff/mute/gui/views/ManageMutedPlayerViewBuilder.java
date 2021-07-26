@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.TubingGui;
 import be.garagepoort.mcioc.gui.TubingGuiActions;
 import net.shortninja.staffplus.core.common.Items;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import org.bukkit.inventory.ItemStack;
 
@@ -12,19 +13,19 @@ public class ManageMutedPlayerViewBuilder {
     private static final int SIZE = 54;
 
     private final MutedPlayerItemBuilder mutedPlayerItemBuilder;
+    private final InvestigationGuiComponent investigationGuiComponent;
 
-    public ManageMutedPlayerViewBuilder(MutedPlayerItemBuilder mutedPlayerItemBuilder) {
+    public ManageMutedPlayerViewBuilder(MutedPlayerItemBuilder mutedPlayerItemBuilder, InvestigationGuiComponent investigationGuiComponent) {
         this.mutedPlayerItemBuilder = mutedPlayerItemBuilder;
+        this.investigationGuiComponent = investigationGuiComponent;
     }
 
 
-    public TubingGui buildGui(Mute mute, String backAction) {
+    public TubingGui buildGui(Mute mute, String backAction, String currentAction) {
         TubingGui.Builder builder = new TubingGui.Builder("Player: " + mute.getTargetName(), SIZE);
 
         builder.addItem(TubingGuiActions.NOOP, 13, mutedPlayerItemBuilder.build(mute));
-
-        // TODO add evidence button
-        // investigationGuiComponent.addEvidenceButton(this, 14, mute);
+        investigationGuiComponent.addEvidenceButton(builder, 14, mute, currentAction);
 
         ItemStack unmuteItem = Items.createRedColoredGlass("Unmute player", "Click to unmute this player");
 

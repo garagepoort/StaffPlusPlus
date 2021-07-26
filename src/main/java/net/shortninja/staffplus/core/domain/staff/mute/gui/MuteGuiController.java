@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
@@ -35,14 +36,16 @@ public class MuteGuiController {
     }
 
     @GuiAction("manage-mutes/view/overview")
-    public TubingGui getMutedPlayersOverview(Player player, @GuiParam("page") int page, @GuiParam("backAction") String backAction) {
+    public TubingGui getMutedPlayersOverview(Player player, @GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("backAction") String backAction) {
         return mutedPlayersViewBuilder.buildGui(page, backAction);
     }
 
     @GuiAction("manage-mutes/view/detail")
-    public TubingGui getMuteDetailView(Player player, @GuiParam("muteId") int muteId, @GuiParam("backAction") String backAction) {
+    public TubingGui getMuteDetailView(@GuiParam("muteId") int muteId,
+                                       @GuiParam("backAction") String backAction,
+                                       @CurrentAction String currentAction) {
         Mute mute = muteService.getById(muteId);
-        return manageMutedPlayerViewBuilder.buildGui(mute, backAction);
+        return manageMutedPlayerViewBuilder.buildGui(mute, backAction, currentAction);
     }
 
     @GuiAction("manage-mutes/unmute")

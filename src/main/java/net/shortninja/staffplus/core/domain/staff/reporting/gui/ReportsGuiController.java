@@ -1,7 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.TubingGui;
@@ -155,45 +157,45 @@ public class ReportsGuiController {
     }
 
     @GuiAction("manage-reports/view/open")
-    public TubingGui openReportsGui(Player player, @GuiParam("page") int page, @GuiParam("backAction") String backAction) {
+    public TubingGui openReportsGui(Player player, @GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("backAction") String backAction) {
         Collection<Report> reports = reportService.getUnresolvedReports(PAGE_SIZE * page, PAGE_SIZE);
         return getReportsView(page, reports, "manage-reports/view/open", openReportsGui.getTitle(), r -> "manage-reports/accept?reportId=" + r.getId(), backAction);
     }
 
     @GuiAction("manage-reports/view/detail")
-    public TubingGui goToManageReportView(Player player, @GuiParam("reportId") int reportId) {
+    public TubingGui goToManageReportView(Player player, @GuiParam("reportId") int reportId, @GuiParam("backAction") String backAction, @CurrentAction String currentAction) {
         Report report = reportService.getReport(reportId);
-        return reportDetailViewBuilder.buildGui(player, report);
+        return reportDetailViewBuilder.buildGui(player, report, backAction, currentAction);
     }
 
 
     @GuiAction("manage-reports/view/assigned")
-    public TubingGui allAssignedReportsGui(Player player, @GuiParam("page") int page, @GuiParam("backAction") String backAction) {
+    public TubingGui allAssignedReportsGui(Player player, @GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("backAction") String backAction) {
         Collection<Report> reports = reportService.getAllAssignedReports(PAGE_SIZE * page, PAGE_SIZE);
         return getReportsView(page, reports, "manage-reports/view/assigned", assignedReportsGui.getTitle(), backAction);
     }
 
     @GuiAction("manage-reports/view/closed")
-    public TubingGui closedReportsGui(Player player, @GuiParam("page") int page, @GuiParam("backAction") String backAction) {
+    public TubingGui closedReportsGui(Player player, @GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("backAction") String backAction) {
         List<Report> reports = manageReportService.getClosedReports(PAGE_SIZE * page, PAGE_SIZE);
         return getReportsView(page, reports, "manage-reports/view/closed", closedReportsGui.getTitle(), backAction);
     }
 
 
     @GuiAction("manage-reports/view/my-assigned")
-    public TubingGui myAssignedReportsGui(Player player, @GuiParam("page") int page, @GuiParam("backAction") String backAction) {
+    public TubingGui myAssignedReportsGui(Player player, @GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("backAction") String backAction) {
         Collection<Report> reports = reportService.getAssignedReports(player.getUniqueId(), PAGE_SIZE * page, PAGE_SIZE);
         return getReportsView(page, reports, "manage-reports/view/my-assigned", myAssignedReportsGui.getTitle(), backAction);
     }
 
     @GuiAction("my-reports/view")
-    public TubingGui myReportsGui(Player player, @GuiParam("page") int page) {
+    public TubingGui myReportsGui(Player player, @GuiParam(value = "page", defaultValue = "0") int page) {
         Collection<Report> reports = reportService.getMyReports(player.getUniqueId(), PAGE_SIZE * page, PAGE_SIZE);
         return getReportsView(page, reports, "my-reports/view", "My Reports", r -> TubingGuiActions.NOOP, null);
     }
 
     private TubingGui getReportsView(int page, Collection<Report> assignedReports, String action, String title, String backAction) {
-        return getReportsView(page, assignedReports, action, title, r -> "manage-reports/view/detail?reportId=" + r.getId(), backAction);
+        return getReportsView(page, assignedReports, action, title, r -> getDetailAction(action, backAction, page, r), backAction);
     }
 
     private TubingGui getReportsView(int page, Collection<Report> assignedReports, String action, String title, Function<Report, String> clickAction, String backAction) {
@@ -203,4 +205,16 @@ public class ReportsGuiController {
             .build();
     }
 
+    private String getDetailAction(String action, String backAction, int page, Report report) {
+        String backToOverviewAction = GuiActionBuilder.builder().action(action)
+            .param("page", String.valueOf(page))
+            .param("backAction", backAction)
+            .build();
+
+        return GuiActionBuilder.builder()
+            .action("manage-reports/view/detail")
+            .param("reportId", String.valueOf(report.getId()))
+            .param("backAction", backToOverviewAction)
+            .build();
+    }
 }

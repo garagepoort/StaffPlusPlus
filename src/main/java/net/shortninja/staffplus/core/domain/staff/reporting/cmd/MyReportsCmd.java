@@ -39,7 +39,7 @@ public class MyReportsCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        guiActionService.executeAction((Player) sender, "my-reports/view?page=0");
+        guiActionService.executeAction((Player) sender, "my-reports/view");
         return true;
     }
 

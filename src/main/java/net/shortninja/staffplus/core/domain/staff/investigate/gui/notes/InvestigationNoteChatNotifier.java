@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence.notes;
+package net.shortninja.staffplus.core.domain.staff.investigate.gui.notes;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;

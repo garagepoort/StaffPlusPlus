@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import static be.garagepoort.mcioc.gui.TubingGuiActions.NOOP;
+
 public class PagedGuiBuilder {
     private static final int SIZE = 54;
 
@@ -23,7 +25,7 @@ public class PagedGuiBuilder {
         public Builder addPagedItems(String action, List<ItemStack> items, int currentPage, int amount) {
             int index = 0;
             for (ItemStack item : items) {
-                this.addItem(null, index, item);
+                this.addItem(NOOP, index, item);
                 index++;
             }
 
@@ -35,6 +37,19 @@ public class PagedGuiBuilder {
             int index = 0;
             for (T item : items) {
                 this.addItem(actionProvider.apply(item), index, itemStackProvider.apply(item));
+            }
+
+            addFooter(action, currentPage, pageSize);
+            return this;
+        }
+
+        public <T> Builder addPagedItems(String action, Collection<T> items,
+                                         Function<T, ItemStack> itemStackProvider,
+                                         Function<T, String> leftActionProvider,
+                                         Function<T, String> rightActionProvider, int currentPage, int pageSize) {
+            int index = 0;
+            for (T item : items) {
+                this.addItem(leftActionProvider.apply(item), rightActionProvider.apply(item), index, itemStackProvider.apply(item));
             }
 
             addFooter(action, currentPage, pageSize);

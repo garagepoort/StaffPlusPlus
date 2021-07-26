@@ -29,7 +29,7 @@ public class MinerGuiController {
     }
 
     @GuiAction("miners/view")
-    public TubingGui getMinersView(Player player, @GuiParam("page") int page, @GuiParam("backAction") String backAction) {
+    public TubingGui getMinersView(Player player, @GuiParam(value = "page", defaultValue="0") int page, @GuiParam("backAction") String backAction) {
         return minerViewBuilder.buildGui(page, "miners/view", backAction);
     }
 

@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
@@ -12,15 +14,12 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationEvidenceService;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation.InvestigationItemBuilder;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation.ManageInvestigationsGui;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.views.InvestigationItemBuilder;
 import net.shortninja.staffplusplus.investigate.evidence.Evidence;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @IocBean
@@ -45,7 +44,7 @@ public class InvestigationGuiComponent {
     }
 
     public void addEvidenceButton(AbstractGui abstractGui, int slot, Evidence evidence) {
-        if(!options.investigationConfiguration.isEnabled()) {
+        if (!options.investigationConfiguration.isEnabled()) {
             return;
         }
         ItemStack book = Items.createAnvil("Add this as evidence to investigation", "Click to link evidence to investigation");
@@ -74,15 +73,20 @@ public class InvestigationGuiComponent {
         });
     }
 
-    public void openManageInvestigationsGui(Player player, SppPlayer target) {
-        getManageInvestigationsGui(player, target, 0).show(player);
-    }
+    public void addEvidenceButton(TubingGui.Builder builder, int slot, Evidence evidence, String backAction) {
+        if (!options.investigationConfiguration.isEnabled()) {
+            return;
+        }
 
-    public ManageInvestigationsGui getManageInvestigationsGui(Player player, SppPlayer target, int page) {
-        return new ManageInvestigationsGui(player, "Manage Investigation", page, target, investigationService, investigationItemBuilder, playerManager, protocolService);
-    }
+        ItemStack book = Items.createAnvil("Add this as evidence to investigation", "Click to link evidence to investigation");
+        String action = GuiActionBuilder.builder()
+            .action("manage-investigation-evidence/view/investigation-link")
+            .param("backAction", backAction)
+            .param("evidenceId", String.valueOf(evidence.getId()))
+            .param("evidenceType", evidence.getEvidenceType())
+            .param("evidenceDescription", evidence.getDescription())
+            .build();
 
-    public void openManageInvestigationsGui(Player player, SppPlayer target, Supplier<AbstractGui> previousGui) {
-        new ManageInvestigationsGui(player, "Manage Investigation", 0, target, previousGui, investigationService, investigationItemBuilder, playerManager, protocolService).show(player);
+        builder.addItem(action, slot, book);
     }
 }
