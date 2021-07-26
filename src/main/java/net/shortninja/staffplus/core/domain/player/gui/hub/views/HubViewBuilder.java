@@ -21,6 +21,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import static org.bukkit.Material.PAPER;
+import static org.bukkit.Material.PLAYER_HEAD;
 import static org.bukkit.Material.SHIELD;
 
 @IocBean
@@ -82,10 +83,10 @@ public class HubViewBuilder {
         if (protectGuiItemConfig.isEnabled()) {
             builder.addItem(getAction("protected-areas/view"), 19, buildGuiItem(SHIELD, protectGuiItemConfig));
         }
-//
-//        if (banGuiItemConfig.isEnabled()) {
-//            setMenuItem(7, buildGuiItem(PLAYER_HEAD, banGuiItemConfig), p -> new BannedPlayersGui(player, banGuiItemConfig.getTitle(), 0, () -> new HubGui(player, getTitle(), banConfiguration)).show(p));
-//        }
+
+        if (banGuiItemConfig.isEnabled()) {
+            builder.addItem(getAction("manage-bans/view/overview"), 7, buildGuiItem(PLAYER_HEAD, banGuiItemConfig));
+        }
 //
 //        if (muteGuiItemConfig.isEnabled()) {
 //            setMenuItem(16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig), p -> new MutedPlayersGui(player, muteGuiItemConfig.getTitle(), 0, () -> new HubGui(player, getTitle(), banConfiguration)).show(p));

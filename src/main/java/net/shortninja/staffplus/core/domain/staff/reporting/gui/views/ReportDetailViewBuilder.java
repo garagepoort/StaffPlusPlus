@@ -31,32 +31,34 @@ public class ReportDetailViewBuilder {
 
         builder.addItem(null, 13, reportItemBuilder.build(report));
 
-        if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionResolve)) {
-            String resolveAction = "manage-reports/resolve?reportId=" + report.getId();
-            builder.addItem(resolveAction, 34, getResolveItem());
-            builder.addItem(resolveAction, 35, getResolveItem());
-            builder.addItem(resolveAction, 43, getResolveItem());
-            builder.addItem(resolveAction, 44, getResolveItem());
-        }
+        if (!report.getReportStatus().isClosed()) {
+            if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionResolve)) {
+                String resolveAction = "manage-reports/resolve?reportId=" + report.getId();
+                builder.addItem(resolveAction, 34, getResolveItem());
+                builder.addItem(resolveAction, 35, getResolveItem());
+                builder.addItem(resolveAction, 43, getResolveItem());
+                builder.addItem(resolveAction, 44, getResolveItem());
+            }
 
-        if (isAssignee(player, report) || permission.has(player, manageReportConfiguration.permissionReopenOther)) {
-            String reopenAction = "manage-reports/reopen?reportId=" + report.getId();
-            builder.addItem(reopenAction, 27, getReopenItem());
-            builder.addItem(reopenAction, 28, getReopenItem());
-            builder.addItem(reopenAction, 36, getReopenItem());
-            builder.addItem(reopenAction, 37, getReopenItem());
-        }
-        if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionReject)) {
-            String rejectAction = "manage-reports/reject?reportId=" + report.getId();
-            builder.addItem(rejectAction, 30, getRejectItem());
-            builder.addItem(rejectAction, 31, getRejectItem());
-            builder.addItem(rejectAction, 32, getRejectItem());
-            builder.addItem(rejectAction, 39, getRejectItem());
-            builder.addItem(rejectAction, 40, getRejectItem());
-            builder.addItem(rejectAction, 41, getRejectItem());
-        }
-        if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionDelete)) {
-            builder.addItem("manage-reports/delete?reportId=" + report.getId(), 8, getDeleteItem());
+            if (isAssignee(player, report) || permission.has(player, manageReportConfiguration.permissionReopenOther)) {
+                String reopenAction = "manage-reports/reopen?reportId=" + report.getId();
+                builder.addItem(reopenAction, 27, getReopenItem());
+                builder.addItem(reopenAction, 28, getReopenItem());
+                builder.addItem(reopenAction, 36, getReopenItem());
+                builder.addItem(reopenAction, 37, getReopenItem());
+            }
+            if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionReject)) {
+                String rejectAction = "manage-reports/reject?reportId=" + report.getId();
+                builder.addItem(rejectAction, 30, getRejectItem());
+                builder.addItem(rejectAction, 31, getRejectItem());
+                builder.addItem(rejectAction, 32, getRejectItem());
+                builder.addItem(rejectAction, 39, getRejectItem());
+                builder.addItem(rejectAction, 40, getRejectItem());
+                builder.addItem(rejectAction, 41, getRejectItem());
+            }
+            if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionDelete)) {
+                builder.addItem("manage-reports/delete?reportId=" + report.getId(), 8, getDeleteItem());
+            }
         }
 
         if (permission.has(player, manageReportConfiguration.permissionTeleport)) {
