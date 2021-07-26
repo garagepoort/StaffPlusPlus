@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import static org.bukkit.Material.PAPER;
 import static org.bukkit.Material.PLAYER_HEAD;
 import static org.bukkit.Material.SHIELD;
+import static org.bukkit.Material.SPRUCE_SIGN;
 
 @IocBean
 public class HubViewBuilder {
@@ -87,10 +88,10 @@ public class HubViewBuilder {
         if (banGuiItemConfig.isEnabled()) {
             builder.addItem(getAction("manage-bans/view/overview"), 7, buildGuiItem(PLAYER_HEAD, banGuiItemConfig));
         }
-//
-//        if (muteGuiItemConfig.isEnabled()) {
-//            setMenuItem(16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig), p -> new MutedPlayersGui(player, muteGuiItemConfig.getTitle(), 0, () -> new HubGui(player, getTitle(), banConfiguration)).show(p));
-//        }
+
+        if (muteGuiItemConfig.isEnabled()) {
+            builder.addItem(getAction("manage-mutes/view/overview"), 16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig));
+        }
 //
 //        if (investigationGuiItemConfig.isEnabled()) {
 //            setMenuItem(25, buildGuiItem(BOOK, investigationGuiItemConfig), p -> investigationGuiComponent.openManageInvestigationsGui(p, null, () -> new HubGui(player, getTitle(), banConfiguration)));

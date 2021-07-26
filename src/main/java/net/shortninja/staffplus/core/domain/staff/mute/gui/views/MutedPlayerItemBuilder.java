@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.mute.gui;
+package net.shortninja.staffplus.core.domain.staff.mute.gui.views;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
