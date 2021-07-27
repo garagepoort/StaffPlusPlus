@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.reporting.gui;
+package net.shortninja.staffplus.core.domain.staff.reporting.gui.views;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;

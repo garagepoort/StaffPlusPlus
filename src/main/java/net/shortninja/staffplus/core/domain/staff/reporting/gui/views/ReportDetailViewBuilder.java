@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
-import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportItemBuilder;
+import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +34,7 @@ public class ReportDetailViewBuilder {
         TubingGui.Builder builder = new TubingGui.Builder("Report by: " + report.getReporterName(), SIZE);
         builder.addItem(NOOP, 13, reportItemBuilder.build(report));
 
-        if (!report.getReportStatus().isClosed()) {
+        if (report.getReportStatus() == ReportStatus.IN_PROGRESS) {
             if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionResolve)) {
                 String resolveAction = "manage-reports/resolve?reportId=" + report.getId();
                 builder.addItem(resolveAction, 34, getResolveItem());
@@ -59,9 +59,10 @@ public class ReportDetailViewBuilder {
                 builder.addItem(rejectAction, 40, getRejectItem());
                 builder.addItem(rejectAction, 41, getRejectItem());
             }
-            if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionDelete)) {
-                builder.addItem("manage-reports/delete?reportId=" + report.getId(), 8, getDeleteItem());
-            }
+        }
+
+        if (isAssignee(player, report) && permission.has(player, manageReportConfiguration.permissionDelete)) {
+            builder.addItem("manage-reports/delete?reportId=" + report.getId(), 8, getDeleteItem());
         }
 
         investigationGuiComponent.addEvidenceButton(builder, 14, report, currentAction);
@@ -77,7 +78,7 @@ public class ReportDetailViewBuilder {
     }
 
     private boolean isAssignee(Player player, Report report) {
-        return player.getUniqueId().equals(report.getStaffUuid());
+        return player.getUniqueId().equals(report.getStaffUuid()) && report.getReportStatus() != ReportStatus.OPEN;
     }
 
     private ItemStack getResolveItem() {

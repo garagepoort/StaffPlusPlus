@@ -6,6 +6,7 @@ import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
+import be.garagepoort.mcioc.gui.GuiParams;
 import be.garagepoort.mcioc.gui.TubingGui;
 import be.garagepoort.mcioc.gui.TubingGuiActions;
 import net.shortninja.staffplus.core.application.config.Messages;
@@ -19,14 +20,19 @@ import net.shortninja.staffplus.core.domain.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
+import net.shortninja.staffplus.core.domain.staff.reporting.cmd.ReportFiltersMapper;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
+import net.shortninja.staffplus.core.domain.staff.reporting.gui.views.FindReportsViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.views.ManageReportsViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.views.ReportDetailViewBuilder;
+import net.shortninja.staffplus.core.domain.staff.reporting.gui.views.ReportItemBuilder;
+import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 @IocBean
@@ -45,7 +51,9 @@ public class ReportsGuiController {
     private final ManageReportService manageReportService;
     private final ReportDetailViewBuilder reportDetailViewBuilder;
     private final ManageReportsViewBuilder manageReportsViewBuilder;
+    private final FindReportsViewBuilder findReportsViewBuilder;
     private final SessionManagerImpl sessionManager;
+    private final ReportFiltersMapper reportFiltersMapper;
 
     private final GuiItemConfig closedReportsGui;
     private final GuiItemConfig myAssignedReportsGui;
@@ -61,7 +69,7 @@ public class ReportsGuiController {
                                 ManageReportService manageReportService,
                                 ReportDetailViewBuilder reportDetailViewBuilder,
                                 ManageReportsViewBuilder manageReportsViewBuilder,
-                                SessionManagerImpl sessionManager) {
+                                FindReportsViewBuilder findReportsViewBuilder, SessionManagerImpl sessionManager, ReportFiltersMapper reportFiltersMapper) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
         this.reportItemBuilder = reportItemBuilder;
@@ -77,13 +85,24 @@ public class ReportsGuiController {
 
         this.reportDetailViewBuilder = reportDetailViewBuilder;
         this.manageReportsViewBuilder = manageReportsViewBuilder;
+        this.findReportsViewBuilder = findReportsViewBuilder;
         this.sessionManager = sessionManager;
+        this.reportFiltersMapper = reportFiltersMapper;
     }
 
     @GuiAction("manage-reports/view/overview")
     public TubingGui manageReportsOverview(Player player) {
         permissionHandler.validate(player, manageReportConfiguration.permissionView);
         return manageReportsViewBuilder.buildGui();
+    }
+
+    @GuiAction("manage-reports/view/find-reports")
+    public TubingGui allAssignedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
+                                           @CurrentAction String currentAction,
+                                           @GuiParams Map<String, String> allParams) {
+        ReportFilters.ReportFiltersBuilder reportFiltersBuilder = new ReportFilters.ReportFiltersBuilder();
+        allParams.forEach((k, v) -> reportFiltersMapper.map(k, v, reportFiltersBuilder));
+        return findReportsViewBuilder.buildGui(reportFiltersBuilder.build(), currentAction, page);
     }
 
     @GuiAction("manage-reports/accept")
@@ -178,7 +197,6 @@ public class ReportsGuiController {
         Report report = reportService.getReport(reportId);
         return reportDetailViewBuilder.buildGui(player, report, backAction, currentAction);
     }
-
 
     @GuiAction("manage-reports/view/assigned")
     public TubingGui allAssignedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
