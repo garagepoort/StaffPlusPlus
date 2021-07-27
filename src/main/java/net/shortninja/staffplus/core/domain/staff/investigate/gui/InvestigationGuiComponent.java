@@ -10,7 +10,6 @@ import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PagedSelector;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationEvidenceService;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
@@ -28,16 +27,14 @@ public class InvestigationGuiComponent {
     private final InvestigationService investigationService;
     private final InvestigationEvidenceService investigationEvidenceService;
     private final InvestigationItemBuilder investigationItemBuilder;
-    private final PlayerManager playerManager;
     private final IProtocolService protocolService;
     private final Options options;
     private final PermissionHandler permissionHandler;
 
-    public InvestigationGuiComponent(InvestigationService investigationService, InvestigationEvidenceService investigationEvidenceService, InvestigationItemBuilder investigationItemBuilder, PlayerManager playerManager, IProtocolService protocolService, Options options, PermissionHandler permissionHandler) {
+    public InvestigationGuiComponent(InvestigationService investigationService, InvestigationEvidenceService investigationEvidenceService, InvestigationItemBuilder investigationItemBuilder, IProtocolService protocolService, Options options, PermissionHandler permissionHandler) {
         this.investigationService = investigationService;
         this.investigationEvidenceService = investigationEvidenceService;
         this.investigationItemBuilder = investigationItemBuilder;
-        this.playerManager = playerManager;
         this.protocolService = protocolService;
         this.options = options;
         this.permissionHandler = permissionHandler;

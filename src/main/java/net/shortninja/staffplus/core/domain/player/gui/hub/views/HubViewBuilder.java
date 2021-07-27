@@ -20,6 +20,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import static org.bukkit.Material.BOOK;
 import static org.bukkit.Material.PAPER;
 import static org.bukkit.Material.PLAYER_HEAD;
 import static org.bukkit.Material.SHIELD;
@@ -31,7 +32,6 @@ public class HubViewBuilder {
     @ConfigProperty("staffmode-modules:modules.gui-module.name")
     private String title;
 
-    private final BanConfiguration banConfiguration;
     private final PermissionHandler permissionHandler;
     private final GuiItemConfig protectGuiItemConfig;
     private final IGuiItemConfig banGuiItemConfig;
@@ -44,19 +44,16 @@ public class HubViewBuilder {
     private final GuiModeConfiguration guiModeConfiguration;
     private final ManageReportConfiguration manageReportConfiguration;
     private final SessionManagerImpl sessionManager;
-    private final Options options;
     private final Messages messages;
 
     public HubViewBuilder(BanConfiguration banConfiguration, PermissionHandler permissionHandler, MuteConfiguration muteConfiguration, ManageReportConfiguration manageReportConfiguration, Options options, SessionManagerImpl sessionManager, Messages messages) {
-        this.banConfiguration = banConfiguration;
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
         this.sessionManager = sessionManager;
-        this.options = options;
         this.messages = messages;
-        banGuiItemConfig = this.banConfiguration.banGuiItemConfig;
-        protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
+        banGuiItemConfig = banConfiguration.banGuiItemConfig;
         muteGuiItemConfig = muteConfiguration.guiItemConfig;
+        protectGuiItemConfig = options.protectConfiguration.getGuiItemConfig();
         investigationGuiItemConfig = options.investigationConfiguration.getGuiItemConfig();
         openReportsGui = options.reportConfiguration.getOpenReportsGui();
         closedReportsGui = options.reportConfiguration.getClosedReportsGui();
@@ -76,7 +73,6 @@ public class HubViewBuilder {
             builder.addItem(getAction("manage-reports/view/closed"), 4, buildGuiItem(PAPER, closedReportsGui));
         }
 
-        // TODO Use Tubing actions
         if (guiModeConfiguration.modeGuiMiner) {
             builder.addItem(getAction("miners/view"), 10, minerItem());
         }
@@ -92,10 +88,10 @@ public class HubViewBuilder {
         if (muteGuiItemConfig.isEnabled()) {
             builder.addItem(getAction("manage-mutes/view/overview"), 16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig));
         }
-//
-//        if (investigationGuiItemConfig.isEnabled()) {
-//            setMenuItem(25, buildGuiItem(BOOK, investigationGuiItemConfig), p -> investigationGuiComponent.openManageInvestigationsGui(p, null, () -> new HubGui(player, getTitle(), banConfiguration)));
-//        }
+
+        if (investigationGuiItemConfig.isEnabled()) {
+            builder.addItem(getAction("manage-investigations/view/overview"), 25, buildGuiItem(BOOK, investigationGuiItemConfig));
+        }
 
         PlayerSession playerSession = sessionManager.get(player.getUniqueId());
         setGlass(playerSession, builder);
@@ -104,7 +100,6 @@ public class HubViewBuilder {
 
     private String getAction(String basicAction) {
         return GuiActionBuilder.builder().action(basicAction)
-            .param("page", "0")
             .param("backAction", "hub/view")
             .build();
     }

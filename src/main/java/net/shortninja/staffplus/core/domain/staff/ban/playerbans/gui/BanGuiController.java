@@ -37,7 +37,8 @@ public class BanGuiController {
     }
 
     @GuiAction("manage-bans/view/overview")
-    public TubingGui getBannedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("backAction") String backAction) {
+    public TubingGui getBannedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
+                                              @GuiParam("backAction") String backAction) {
         return bannedPlayersViewBuilder.buildGui(page, backAction);
     }
 

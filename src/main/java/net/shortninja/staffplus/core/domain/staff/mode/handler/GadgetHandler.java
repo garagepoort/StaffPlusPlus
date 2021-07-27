@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.mode.handler;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -12,7 +13,6 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
-import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
@@ -190,7 +190,10 @@ public class GadgetHandler {
             return;
         }
 
-        new ExamineGui(player, targetPlayer, options.staffItemsConfiguration.getExamineModeConfiguration().getModeExamineTitle()).show(player);
+        guiActionService.executeAction(player, GuiActionBuilder.builder()
+            .action("examine/view")
+            .param("targetPlayerName", targetPlayer.getUsername())
+            .build());
     }
 
     public void onFollow(Player player, Player targetPlayer) {

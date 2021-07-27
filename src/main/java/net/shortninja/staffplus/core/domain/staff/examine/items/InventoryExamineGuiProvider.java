@@ -2,19 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.examine.items;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.common.utils.InventoryFactory;
-import net.shortninja.staffplus.core.domain.staff.chests.ChestGUI;
-import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiType;
-import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 @IocBean
@@ -23,12 +18,10 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Options options;
     private final PermissionHandler permissionHandler;
-    private final InventoryFactory inventoryFactory;
 
-    public InventoryExamineGuiProvider(Options options, PermissionHandler permissionHandler, InventoryFactory inventoryFactory) {
+    public InventoryExamineGuiProvider(Options options, PermissionHandler permissionHandler) {
         this.options = options;
         this.permissionHandler = permissionHandler;
-        this.inventoryFactory = inventoryFactory;
     }
 
     @Override
@@ -37,31 +30,11 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public IAction getClickAction(ExamineGui examineGui, Player staff, SppPlayer target) {
-        return new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                ChestGUI chestGUI;
-                if (target.isOnline()) {
-                    chestGUI = new ChestGUI(target, target.getPlayer().getPlayer().getInventory(), 45, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(player, options.examineConfiguration.getPermissionExamineInventoryInteraction()));
-                } else {
-                    chestGUI = new ChestGUI(target, inventoryFactory.loadInventoryOffline(staff, target), 45, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(player, options.examineConfiguration.getPermissionExamineInventoryInteractionOffline()));
-                }
-                fillEmptyPlaces(chestGUI);
-                chestGUI.show(staff);
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return false;
-            }
-        };
-    }
-
-    private void fillEmptyPlaces(ChestGUI chestGUI) {
-        for (int i = 41; i <= 44; i++) {
-            chestGUI.setItem(i, Items.createRedColoredGlass("Not a player slot", ""), null);
-        }
+    public String getClickAction(Player staff, SppPlayer target) {
+        return GuiActionBuilder.builder()
+            .action("manage-inventory/open")
+            .param("targetPlayerName", target.getUsername())
+            .build();
     }
 
     @Override
@@ -79,12 +52,10 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     private ItemStack locationItem() {
-        ItemStack item = Items.builder()
+        return Items.builder()
             .setMaterial(Material.CHEST).setAmount(1)
             .setName("&bPlayer's inventory")
             .addLore("View player's inventory")
             .build();
-
-        return item;
     }
 }

@@ -2,19 +2,17 @@ package net.shortninja.staffplus.core.domain.staff.examine.items;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.gui.IAction;
-import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 @IocBean
@@ -35,18 +33,11 @@ public class LocationExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public IAction getClickAction(ExamineGui examineGui, Player staff, SppPlayer target) {
-        return new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                staff.teleport(target.getPlayer());
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return true;
-            }
-        };
+    public String getClickAction(Player staff, SppPlayer target) {
+        return GuiActionBuilder.builder()
+            .action("teleport")
+            .param("targetPlayerName", target.getUsername())
+            .build();
     }
 
     @Override

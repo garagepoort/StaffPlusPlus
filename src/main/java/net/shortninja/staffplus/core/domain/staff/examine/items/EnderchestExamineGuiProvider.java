@@ -2,18 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.examine.items;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.staff.chests.EnderChestService;
 import net.shortninja.staffplus.core.domain.staff.chests.config.EnderchestsConfiguration;
-import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 @IocBean
@@ -34,18 +30,11 @@ public class EnderchestExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public IAction getClickAction(ExamineGui examineGui, Player staff, SppPlayer target) {
-        return new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                StaffPlus.get().getIocContainer().get(EnderChestService.class).openEnderChest(staff, target);
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return false;
-            }
-        };
+    public String getClickAction(Player staff, SppPlayer target) {
+        return GuiActionBuilder.builder()
+            .action("manage-enderchest/open")
+            .param("targetPlayerName", target.getUsername())
+            .build();
     }
 
     @Override
