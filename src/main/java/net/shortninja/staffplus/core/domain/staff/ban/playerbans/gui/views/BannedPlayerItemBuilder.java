@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionGuiProvider;
+import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

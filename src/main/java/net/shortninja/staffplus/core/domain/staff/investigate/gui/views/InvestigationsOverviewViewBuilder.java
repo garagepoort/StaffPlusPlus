@@ -23,9 +23,9 @@ public class InvestigationsOverviewViewBuilder {
         this.investigationItemBuilder = investigationItemBuilder;
     }
 
-    public TubingGui buildGui(SppPlayer target, int page, String backAction, String backToOverviewAction) {
+    public TubingGui buildGui(SppPlayer target, int page, String backAction, String currentAction) {
         return new PagedGuiBuilder.Builder("Manage Investigation")
-            .addPagedItems("manage-investigations/view/overview", getInvestigations(target, page * PAGE_SIZE, PAGE_SIZE), investigationItemBuilder::build, i -> getDetailAction(backToOverviewAction, i), page, PAGE_SIZE)
+            .addPagedItems(currentAction, getInvestigations(target, page * PAGE_SIZE, PAGE_SIZE), investigationItemBuilder::build, i -> getDetailAction(currentAction, i), page)
             .backAction(backAction)
             .build();
     }

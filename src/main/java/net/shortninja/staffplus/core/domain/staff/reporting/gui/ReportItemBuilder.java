@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionGuiProvider;
+import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.apache.commons.lang.StringUtils;

@@ -36,16 +36,18 @@ public class MuteGuiController {
     }
 
     @GuiAction("manage-mutes/view/overview")
-    public TubingGui getMutedPlayersOverview(Player player, @GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("backAction") String backAction) {
-        return mutedPlayersViewBuilder.buildGui(page, backAction);
+    public TubingGui getMutedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
+                                             @CurrentAction String currentAction,
+                                             @GuiParam("backAction") String backAction) {
+        return mutedPlayersViewBuilder.buildGui(page, currentAction, backAction);
     }
 
     @GuiAction("manage-mutes/view/detail")
     public TubingGui getMuteDetailView(@GuiParam("muteId") int muteId,
-                                       @GuiParam("backAction") String backAction,
-                                       @CurrentAction String currentAction) {
+                                       @CurrentAction String currentAction,
+                                       @GuiParam("backAction") String backAction) {
         Mute mute = muteService.getById(muteId);
-        return manageMutedPlayerViewBuilder.buildGui(mute, backAction, currentAction);
+        return manageMutedPlayerViewBuilder.buildGui(mute, currentAction, backAction);
     }
 
     @GuiAction("manage-mutes/unmute")

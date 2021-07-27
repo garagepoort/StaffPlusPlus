@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.protect.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
@@ -30,12 +31,14 @@ public class ProtectedAreasGuiController {
 
 
     @GuiAction("protected-areas/view")
-    public TubingGui getOverview(Player player, @GuiParam(value = "page", defaultValue="0") int page, @GuiParam("backAction") String backAction) {
-        return protectedAreasViewBuilder.buildGui(page, backAction);
+    public TubingGui getOverview(@GuiParam(value = "page", defaultValue = "0") int page,
+                                 @CurrentAction String currentAction,
+                                 @GuiParam("backAction") String backAction) {
+        return protectedAreasViewBuilder.buildGui(page, currentAction, backAction);
     }
 
     @GuiAction("protected-areas/view/detail")
-    public TubingGui getAreaDetail(Player player, @GuiParam("areaId") int areaId, @GuiParam("backAction") String backAction) {
+    public TubingGui getAreaDetail(@GuiParam("areaId") int areaId, @GuiParam("backAction") String backAction) {
         ProtectedArea protectedArea = protectService.getById(areaId);
         return manageProtectedAreaViewBuilder.buildGui(protectedArea, backAction);
     }

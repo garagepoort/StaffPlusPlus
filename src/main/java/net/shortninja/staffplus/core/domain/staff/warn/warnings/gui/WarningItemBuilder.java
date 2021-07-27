@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionGuiProvider;
+import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;

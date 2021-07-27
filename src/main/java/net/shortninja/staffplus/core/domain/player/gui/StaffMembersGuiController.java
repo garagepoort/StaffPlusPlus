@@ -55,7 +55,7 @@ public class StaffMembersGuiController {
             .map(p -> modePlayerItem(staffViewing, p))
             .collect(Collectors.toList());
         return new Builder(messages.colorize(options.staffItemsConfiguration.getCounterModeConfiguration().getTitle()))
-            .addPagedItems("membersGUI", items, page, amount)
+            .addPagedItems("membersGUI", items, page)
             .build();
     }
 

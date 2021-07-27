@@ -24,15 +24,11 @@ public class MutedPlayersViewBuilder {
         this.mutedPlayerItemBuilder = mutedPlayerItemBuilder;
     }
 
-    public TubingGui buildGui(int page, String backAction) {
+    public TubingGui buildGui(int page, String currentAction, String backAction) {
         List<Mute> allPaged = muteService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE);
-        String backToOverviewAction = GuiActionBuilder.builder().action("manage-mutes/view/overview")
-            .param("page", String.valueOf(page))
-            .param("backAction", backAction)
-            .build();
 
         return new PagedGuiBuilder.Builder(messages.colorize("Manage Mutes"))
-            .addPagedItems("manage-mutes/view/overview", allPaged, mutedPlayerItemBuilder::build, b -> getDetailAction(backToOverviewAction, b), page, PAGE_SIZE)
+            .addPagedItems(currentAction, allPaged, mutedPlayerItemBuilder::build, b -> getDetailAction(currentAction, b), page)
             .backAction(backAction)
             .build();
     }

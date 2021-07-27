@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.common.gui;
 
 
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.common.Items;
 import org.bukkit.inventory.ItemStack;
@@ -22,37 +23,37 @@ public class PagedGuiBuilder {
             super(title, SIZE);
         }
 
-        public Builder addPagedItems(String action, List<ItemStack> items, int currentPage, int amount) {
+        public Builder addPagedItems(String action, List<ItemStack> items, int currentPage) {
             int index = 0;
             for (ItemStack item : items) {
                 this.addItem(NOOP, index, item);
                 index++;
             }
 
-            addFooter(action, currentPage, amount);
+            addFooter(action, currentPage);
             return this;
         }
 
-        public <T> Builder addPagedItems(String action, Collection<T> items, Function<T, ItemStack> itemStackProvider, Function<T, String> actionProvider, int currentPage, int pageSize) {
+        public <T> Builder addPagedItems(String action, Collection<T> items, Function<T, ItemStack> itemStackProvider, Function<T, String> actionProvider, int currentPage) {
             int index = 0;
             for (T item : items) {
                 this.addItem(actionProvider.apply(item), index, itemStackProvider.apply(item));
             }
 
-            addFooter(action, currentPage, pageSize);
+            addFooter(action, currentPage);
             return this;
         }
 
         public <T> Builder addPagedItems(String action, Collection<T> items,
                                          Function<T, ItemStack> itemStackProvider,
                                          Function<T, String> leftActionProvider,
-                                         Function<T, String> rightActionProvider, int currentPage, int pageSize) {
+                                         Function<T, String> rightActionProvider, int currentPage) {
             int index = 0;
             for (T item : items) {
                 this.addItem(leftActionProvider.apply(item), rightActionProvider.apply(item), index, itemStackProvider.apply(item));
             }
 
-            addFooter(action, currentPage, pageSize);
+            addFooter(action, currentPage);
             return this;
         }
 
@@ -63,36 +64,42 @@ public class PagedGuiBuilder {
             return this;
         }
 
-        public Builder addPagedItems(String action, Consumer<Builder> itemProvider, int currentPage, int amount) {
+        public Builder addPagedItems(String action, Consumer<Builder> itemProvider, int currentPage) {
             itemProvider.accept(this);
-            addFooter(action, currentPage, amount);
+            addFooter(action, currentPage);
             return this;
         }
 
-        private void addFooter(String action, int currentPage, int pageSize) {
-            addNextPageItem(this, 53, action, currentPage, pageSize);
-            addNextPageItem(this, 52, action, currentPage, pageSize);
-            addNextPageItem(this, 51, action, currentPage, pageSize);
+        private void addFooter(String action, int currentPage) {
+            addNextPageItem(this, 53, action, currentPage);
+            addNextPageItem(this, 52, action, currentPage);
+            addNextPageItem(this, 51, action, currentPage);
 
             if (currentPage != 0) {
-                addPreviousPageItem(this, 45, action, currentPage, pageSize);
-                addPreviousPageItem(this, 46, action, currentPage, pageSize);
-                addPreviousPageItem(this, 47, action, currentPage, pageSize);
+                addPreviousPageItem(this, 45, action, currentPage);
+                addPreviousPageItem(this, 46, action, currentPage);
+                addPreviousPageItem(this, 47, action, currentPage);
             }
         }
 
-        private void addNextPageItem(Builder builder, int slot, String action, int currentPage, int amount) {
+        private void addNextPageItem(Builder builder, int slot, String action, int currentPage) {
             ItemStack item = Items.editor(Items.createGreenColoredGlass("Next Page", ""))
                 .setAmount(1)
                 .build();
-            builder.addItem(action + "?page=" + (currentPage + 1) + "&amount=" + amount, slot, item);
+            String actionQuery = GuiActionBuilder.fromAction(action)
+                .param("page", String.valueOf((currentPage + 1)))
+                .build();
+            builder.addItem(actionQuery, slot, item);
         }
 
-        private void addPreviousPageItem(Builder builder, int slot, String action, int currentPage, int amount) {
+        private void addPreviousPageItem(Builder builder, int slot, String action, int currentPage) {
             ItemStack item = Items.editor(Items.createRedColoredGlass("Previous Page", ""))
                 .setAmount(1)
                 .build();
-            builder.addItem(action + "?page=" + (currentPage - 1) + "&amount=" + amount, slot, item);
+            String actionQuery = GuiActionBuilder.fromAction(action)
+                .param("page", String.valueOf((currentPage - 1)))
+                .build();
+            builder.addItem(actionQuery, slot, item);
         }
 
     }

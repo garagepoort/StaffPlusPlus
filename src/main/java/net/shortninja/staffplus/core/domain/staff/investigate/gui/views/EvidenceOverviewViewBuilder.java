@@ -30,20 +30,14 @@ public class EvidenceOverviewViewBuilder {
         this.evidenceGuiClicks = evidenceGuiClicks;
     }
 
-    public TubingGui buildGui(Player player, Investigation investigation, int page, String backAction) {
-        String backToOverviewAction = GuiActionBuilder.builder().action("manage-investigation-evidence/view")
-            .param("investigationId", String.valueOf(investigation.getId()))
-            .param("page", String.valueOf(page))
-            .param("backAction", backAction)
-            .build();
-
-        return new PagedGuiBuilder.Builder("Investigation Evidence")
-            .addPagedItems("manage-investigation-evidence/view",
+    public TubingGui buildGui(Player player, Investigation investigation, int page, String currentAction, String backAction) {
+        return new PagedGuiBuilder.Builder(currentAction)
+            .addPagedItems(currentAction,
                 getItems(investigation, page * PAGE_SIZE, PAGE_SIZE),
                 investigationEvidenceItemBuilder::build,
-                getLeftAction(player, backToOverviewAction),
-                getDeleteAction(backToOverviewAction),
-                page, PAGE_SIZE)
+                getLeftAction(player, currentAction),
+                getDeleteAction(currentAction),
+                page)
             .backAction(backAction)
             .build();
     }

@@ -33,10 +33,10 @@ public class MinerViewBuilder {
         guiModeConfiguration = options.staffItemsConfiguration.getGuiModeConfiguration();
     }
 
-    public TubingGui buildGui(int page, String action, String backAction) {
+    public TubingGui buildGui(int page, String currentAction, String backAction) {
         List<? extends Player> players = getPlayers(page);
         return new PagedGuiBuilder.Builder(messages.colorize(guiModeConfiguration.modeGuiMinerTitle))
-            .addPagedItems(action, players, this::minerItem, p -> "miners/teleport?to=" + p.getUniqueId(), page, PAGE_SIZE)
+            .addPagedItems(currentAction, players, this::minerItem, p -> "miners/teleport?to=" + p.getUniqueId(), page)
             .backAction(backAction)
             .build();
     }

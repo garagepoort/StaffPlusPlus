@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.gui.hub;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
@@ -29,8 +30,10 @@ public class MinerGuiController {
     }
 
     @GuiAction("miners/view")
-    public TubingGui getMinersView(Player player, @GuiParam(value = "page", defaultValue="0") int page, @GuiParam("backAction") String backAction) {
-        return minerViewBuilder.buildGui(page, "miners/view", backAction);
+    public TubingGui getMinersView(@GuiParam(value = "page", defaultValue = "0") int page,
+                                   @CurrentAction String currentAction,
+                                   @GuiParam("backAction") String backAction) {
+        return minerViewBuilder.buildGui(page, currentAction, backAction);
     }
 
     @GuiAction("miners/teleport")

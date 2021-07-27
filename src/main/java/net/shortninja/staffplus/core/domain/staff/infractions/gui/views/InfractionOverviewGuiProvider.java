@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.infractions.gui;
+package net.shortninja.staffplus.core.domain.staff.infractions.gui.views;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.IProtocolService;

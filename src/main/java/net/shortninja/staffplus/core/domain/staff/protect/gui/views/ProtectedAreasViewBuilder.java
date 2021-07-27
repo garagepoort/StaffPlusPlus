@@ -27,15 +27,11 @@ public class ProtectedAreasViewBuilder {
         this.messages = messages;
     }
 
-    public TubingGui buildGui(int page, String backAction) {
+    public TubingGui buildGui(int page, String currentAction, String backAction) {
         List<ProtectedArea> areas = protectService.getAllProtectedAreasPaginated(page * PAGE_SIZE, PAGE_SIZE);
-        String backToOverviewAction = GuiActionBuilder.builder().action("protected-areas/view")
-            .param("page", String.valueOf(page))
-            .param("backAction", backAction)
-            .build();
 
         return new PagedGuiBuilder.Builder(messages.colorize(protectGuiItemConfig.getTitle()))
-            .addPagedItems("protected-areas/view", areas, ProtectedAreaItemBuilder::build, a -> getDetailAction(backToOverviewAction, a), page, PAGE_SIZE)
+            .addPagedItems(currentAction, areas, ProtectedAreaItemBuilder::build, a -> getDetailAction(currentAction, a), page)
             .backAction(backAction)
             .build();
     }

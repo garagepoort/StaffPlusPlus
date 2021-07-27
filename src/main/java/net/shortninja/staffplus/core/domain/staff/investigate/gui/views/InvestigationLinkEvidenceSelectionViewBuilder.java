@@ -23,15 +23,15 @@ public class InvestigationLinkEvidenceSelectionViewBuilder {
         this.investigationItemBuilder = investigationItemBuilder;
     }
 
-    public TubingGui buildGui(int page, String backAction, Evidence evidence) {
+    public TubingGui buildGui(int page, String currentAction, String backAction, Evidence evidence) {
         return new PagedGuiBuilder.Builder("Manage Investigation")
-            .addPagedItems("manage-investigations/view/overview", getInvestigations(page * PAGE_SIZE, PAGE_SIZE), investigationItemBuilder::build, i -> GuiActionBuilder.builder()
+            .addPagedItems(currentAction, getInvestigations(page * PAGE_SIZE, PAGE_SIZE), investigationItemBuilder::build, i -> GuiActionBuilder.builder()
                 .action("manage-investigation-evidence/link")
                 .param("investigationId", String.valueOf(i.getId()))
                 .param("evidenceId", String.valueOf(evidence.getId()))
                 .param("evidenceType", evidence.getEvidenceType())
                 .param("evidenceDescription", evidence.getDescription())
-                .build(), page, PAGE_SIZE)
+                .build(), page)
             .backAction(backAction)
             .build();
     }

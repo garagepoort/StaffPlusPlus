@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui.notes;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.GuiController;
@@ -39,9 +40,12 @@ public class InvestigationNotesGuiController {
     }
 
     @GuiAction("manage-investigation-notes/view")
-    public TubingGui getNotesOverview(@GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("investigationId") int investigationId, @GuiParam("backAction") String backAction) {
+    public TubingGui getNotesOverview(@GuiParam(value = "page", defaultValue = "0") int page,
+                                      @GuiParam("investigationId") int investigationId,
+                                      @CurrentAction String currentAction,
+                                      @GuiParam("backAction") String backAction) {
         Investigation investigation = investigationService.getInvestigation(investigationId);
-        return noteOverviewViewBuilder.buildGui(investigation, page, backAction);
+        return noteOverviewViewBuilder.buildGui(investigation, page, currentAction, backAction);
     }
 
     @GuiAction("manage-investigation-notes/view/delete")

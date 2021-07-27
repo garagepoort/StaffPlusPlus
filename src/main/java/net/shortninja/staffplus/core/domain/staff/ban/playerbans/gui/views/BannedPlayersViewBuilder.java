@@ -24,15 +24,11 @@ public class BannedPlayersViewBuilder {
         this.bannedPlayerItemBuilder = bannedPlayerItemBuilder;
     }
 
-    public TubingGui buildGui(int page, String backAction) {
+    public TubingGui buildGui(int page, String currentAction, String backAction) {
         List<Ban> allPaged = banService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE);
-        String backToOverviewAction = GuiActionBuilder.builder().action("manage-bans/view/overview")
-            .param("page", String.valueOf(page))
-            .param("backAction", backAction)
-            .build();
 
         return new PagedGuiBuilder.Builder(messages.colorize("Manage Bans"))
-            .addPagedItems("manage-bans/view/overview", allPaged, bannedPlayerItemBuilder::build, b -> getDetailAction(backToOverviewAction, b), page, PAGE_SIZE)
+            .addPagedItems(currentAction, allPaged, bannedPlayerItemBuilder::build, b -> getDetailAction(currentAction, b), page)
             .backAction(backAction)
             .build();
     }

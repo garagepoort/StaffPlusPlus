@@ -27,20 +27,15 @@ public class NoteOverviewViewBuilder {
     }
 
 
-    public TubingGui buildGui(Investigation investigation, int page, String backAction) {
-        String backToOverviewAction = GuiActionBuilder.builder().action("manage-investigation-notes/view")
-            .param("investigationId", String.valueOf(investigation.getId()))
-            .param("page", String.valueOf(page))
-            .param("backAction", backAction)
-            .build();
+    public TubingGui buildGui(Investigation investigation, int page, String currentAction, String backAction) {
 
         return new PagedGuiBuilder.Builder("Investigation Notes")
-            .addPagedItems("manage-investigation-notes/view",
+            .addPagedItems(currentAction,
                 getItems(investigation, page * PAGE_SIZE, PAGE_SIZE),
                 investigationEvidenceItemBuilder::build,
                 note -> TubingGuiActions.NOOP,
-                getDeleteAction(backToOverviewAction),
-                page, PAGE_SIZE)
+                getDeleteAction(currentAction),
+                page)
             .backAction(backAction)
             .addItem(getCreateAction(investigation), 50, Items.createBook("Add note", ""))
             .build();

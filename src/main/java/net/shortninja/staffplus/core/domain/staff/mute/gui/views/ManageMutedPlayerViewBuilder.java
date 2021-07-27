@@ -21,7 +21,7 @@ public class ManageMutedPlayerViewBuilder {
     }
 
 
-    public TubingGui buildGui(Mute mute, String backAction, String currentAction) {
+    public TubingGui buildGui(Mute mute, String currentAction, String backAction) {
         TubingGui.Builder builder = new TubingGui.Builder("Player: " + mute.getTargetName(), SIZE);
 
         builder.addItem(TubingGuiActions.NOOP, 13, mutedPlayerItemBuilder.build(mute));

@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.GuiController;
@@ -33,13 +34,19 @@ public class InvestigationEvidenceGuiController {
     }
 
     @GuiAction("manage-investigation-evidence/view")
-    public TubingGui getEvidenceOverview(Player player, @GuiParam(value = "page", defaultValue = "0") int page, @GuiParam("investigationId") int investigationId, @GuiParam("backAction") String backAction) {
+    public TubingGui getEvidenceOverview(Player player,
+                                         @GuiParam(value = "page", defaultValue = "0") int page,
+                                         @GuiParam("investigationId") int investigationId,
+                                         @CurrentAction String currentAction,
+                                         @GuiParam("backAction") String backAction) {
         Investigation investigation = investigationService.getInvestigation(investigationId);
-        return evidenceOverviewViewBuilder.buildGui(player, investigation, page, backAction);
+        return evidenceOverviewViewBuilder.buildGui(player, investigation, page, currentAction, backAction);
     }
 
     @GuiAction("manage-investigation-evidence/view/unlink")
-    public TubingGui goToUnlinkEvidenceView(Player player, @GuiParam("evidenceId") int evidenceId, @GuiParam("investigationId") int investigationId, @GuiParam("backAction") String backAction) {
+    public TubingGui goToUnlinkEvidenceView(@GuiParam("evidenceId") int evidenceId,
+                                            @GuiParam("investigationId") int investigationId,
+                                            @GuiParam("backAction") String backAction) {
         String confirmAction = GuiActionBuilder.builder()
             .action("manage-investigation-evidence/unlink")
             .param("evidenceId", String.valueOf(evidenceId))
@@ -55,7 +62,10 @@ public class InvestigationEvidenceGuiController {
     }
 
     @GuiAction("manage-investigation-evidence/unlink")
-    public String unlinkEvidence(Player player, @GuiParam("evidenceId") int evidenceId, @GuiParam("investigationId") int investigationId, @GuiParam("backAction") String backAction) {
+    public String unlinkEvidence(Player player,
+                                 @GuiParam("evidenceId") int evidenceId,
+                                 @GuiParam("investigationId") int investigationId,
+                                 @GuiParam("backAction") String backAction) {
         Investigation investigation = investigationService.getInvestigation(investigationId);
         investigationEvidenceService.unlinkEvidence(player, investigation, evidenceId);
         return backAction;
@@ -63,11 +73,12 @@ public class InvestigationEvidenceGuiController {
 
     @GuiAction("manage-investigation-evidence/view/investigation-link")
     public TubingGui getOverview(@GuiParam(value = "page", defaultValue = "0") int page,
+                                 @CurrentAction String currentAction,
                                  @GuiParam("backAction") String backAction,
                                  @GuiParam(value = "evidenceId") int evidenceId,
                                  @GuiParam(value = "evidenceType") String evidenceType,
                                  @GuiParam(value = "evidenceDescription") String evidenceDescription) {
-        return investigationLinkEvidenceSelectionViewBuilder.buildGui(page, backAction, new EvidenceDto(evidenceId, evidenceType, evidenceDescription));
+        return investigationLinkEvidenceSelectionViewBuilder.buildGui(page, currentAction, backAction, new EvidenceDto(evidenceId, evidenceType, evidenceDescription));
     }
 
     @GuiAction("manage-investigation-evidence/link")
