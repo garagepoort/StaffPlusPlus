@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.chat.blacklist;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
@@ -20,6 +21,9 @@ import java.util.stream.Collectors;
 @IocBean
 public class BlacklistService {
 
+    @ConfigProperty("permissions:blacklist")
+    private String permissionBlacklist;
+
     private final IProtocolService protocolService;
     private final Options options;
     private final PermissionHandler permission;
@@ -37,7 +41,7 @@ public class BlacklistService {
     }
 
     public void censorMessage(Player player, AsyncPlayerChatEvent event) {
-        if (permission.has(player, options.permissionBlacklist)) {
+        if (permission.has(player, permissionBlacklist)) {
             return;
         }
 
@@ -55,7 +59,7 @@ public class BlacklistService {
     private void setHoverableMessage(Player player, AsyncPlayerChatEvent event, String originalMessage, String censoredMessage) {
         if (options.blackListConfiguration.isHoverable()) {
             List<? extends Player> validPlayers = Bukkit.getOnlinePlayers().stream()
-                .filter(p -> permission.has(p, options.permissionBlacklist))
+                .filter(p -> permission.has(p, permissionBlacklist))
                 .collect(Collectors.toList());
 
             event.getRecipients().removeAll(validPlayers);

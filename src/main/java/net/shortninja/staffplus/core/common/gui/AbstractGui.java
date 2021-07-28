@@ -3,12 +3,9 @@ package net.shortninja.staffplus.core.common.gui;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.domain.player.gui.ColorGui;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryType;
@@ -24,10 +21,10 @@ public abstract class AbstractGui implements IGui {
     protected final SessionManagerImpl sessionManager = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class);
     protected final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
-    private String title;
+    private final String title;
     protected Supplier<AbstractGui> previousGuiSupplier;
-    private Inventory inventory;
-    private Map<Integer, IAction> actions = new HashMap<>();
+    private final Inventory inventory;
+    private final Map<Integer, IAction> actions = new HashMap<>();
 
     public AbstractGui(String title, InventoryType inventoryType) {
         this.title = title;
@@ -71,10 +68,6 @@ public abstract class AbstractGui implements IGui {
         sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
-    public Supplier<AbstractGui> getPreviousGuiSupplier() {
-        return previousGuiSupplier;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -97,37 +90,5 @@ public abstract class AbstractGui implements IGui {
 
     protected int getBackButtonSlot() {
         return 49;
-    }
-
-    public void setGlass(PlayerSession user) {
-        ItemStack item = glassItem(user.getGlassColor());
-
-        IAction action = new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                new ColorGui(options.glassTitle).show(player);
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return false;
-            }
-
-        };
-
-        for (int i = 0; i < 3; i++) {
-            int slot = 9 * i;
-
-            setItem(slot, item, action);
-            setItem(slot + 8, item, action);
-        }
-    }
-
-    private ItemStack glassItem(Material data) {
-        return Items.builder()
-            .setMaterial(data)
-            .setName("&bColor #" + data)
-            .addLore("&7Click to change your GUI color!")
-            .build();
     }
 }

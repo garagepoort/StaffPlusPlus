@@ -57,7 +57,6 @@ public class Options {
     public String mainWorld;
     public String timestampFormat;
     public int autoSave;
-    public long clock;
     public boolean offlinePlayersModeEnabled;
 
     public Map<String, Location> locations;
@@ -84,14 +83,6 @@ public class Options {
     /*
      * Permissions
      */
-    public String permissionBlock;
-    public String permissionReportBypass;
-    public String permissionReportUpdateNotifications;
-    public String permissionWarnBypass;
-    public String permissionChatToggle;
-    public String permissionChatSlow;
-    public String permissionBlacklist;
-    public String permissionMode;
     public String permissionFreeze;
     public String permissionFreezeBypass;
     public String permissionMember;
@@ -170,7 +161,6 @@ public class Options {
         mainWorld = defaultConfig.getString("main-world");
         timestampFormat = defaultConfig.getString("timestamp-format");
         autoSave = defaultConfig.getInt("auto-save");
-        clock = defaultConfig.getInt("clock") * 20;
         offlinePlayersModeEnabled = defaultConfig.getBoolean("offline-players-mode");
 
         locations = new LocationLoader().loadConfig();
@@ -192,14 +182,6 @@ public class Options {
         /*
          * Permissions
          */
-        permissionBlock = permissionsConfig.getString("block");
-        permissionReportBypass = permissionsConfig.getString("report-bypass");
-        permissionReportUpdateNotifications = permissionsConfig.getString("report-update-notifications");
-        permissionWarnBypass = permissionsConfig.getString("warn-bypass");
-        permissionChatToggle = permissionsConfig.getString("chat-toggle");
-        permissionChatSlow = permissionsConfig.getString("chat-slow");
-        permissionBlacklist = permissionsConfig.getString("blacklist");
-        permissionMode = permissionsConfig.getString("mode");
         permissionFreeze = permissionsConfig.getString("freeze");
         permissionFreezeBypass = permissionsConfig.getString("freeze-bypass");
         permissionMember = permissionsConfig.getString("member");

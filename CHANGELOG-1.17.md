@@ -4,6 +4,7 @@
 
 ### Bug fixes
   - Fix mobs attacking vanished players.
+  - Fix Staff list only showing first page.
 
 # V1.17.8
 

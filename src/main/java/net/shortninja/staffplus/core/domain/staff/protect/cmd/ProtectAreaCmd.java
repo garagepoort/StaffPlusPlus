@@ -22,14 +22,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
 
 @Command(
     command = "commands:protect-area",
     permissions = "permissions:protect-area",
     description = "Protect an area around you.",
     usage = "[radius] [area name]",
-    playerRetrievalStrategy = ONLINE
+    playerRetrievalStrategy = NONE
 )
 @IocBean(conditionalOnProperty = "protect-module.area-enabled=true")
 @IocMultiProvider(SppCommand.class)

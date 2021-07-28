@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
@@ -20,6 +21,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 @IocBean
 @IocListener
 public class PlayerQuit implements Listener {
+
+    @ConfigProperty("permissions:freeze")
+    private String permissionFreeze;
 
     private final Options options;
     private final Messages messages;
@@ -70,7 +74,7 @@ public class PlayerQuit implements Listener {
     private void manageUser(Player player) {
         PlayerSession session = sessionManager.get(player.getUniqueId());
         if (session.isFrozen()) {
-            messages.sendGroupMessage(messages.freezeLogout.replace("%player%", player.getName()), options.permissionFreeze, messages.prefixGeneral);
+            messages.sendGroupMessage(messages.freezeLogout.replace("%player%", player.getName()), permissionFreeze, messages.prefixGeneral);
         }
     }
 }
