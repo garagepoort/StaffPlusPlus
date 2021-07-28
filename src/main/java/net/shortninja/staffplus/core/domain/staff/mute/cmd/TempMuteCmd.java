@@ -31,7 +31,6 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 
 @Command(
     command = "commands:tempmute",
-    permissions = "permissions:tempmute",
     description = "Temporary mute a player",
     usage = "[player] [amount] [unit] [reason]",
     delayable = true,

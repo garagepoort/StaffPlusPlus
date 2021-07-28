@@ -232,8 +232,8 @@ public class ReportsGuiController {
         return getReportsView(page, reports, currentAction, "My Reports", r -> TubingGuiActions.NOOP, null);
     }
 
-    private TubingGui getReportsView(int page, Collection<Report> assignedReports, String action, String title, String backAction) {
-        return getReportsView(page, assignedReports, action, title, r -> getDetailAction(action, r), backAction);
+    private TubingGui getReportsView(int page, Collection<Report> reports, String action, String title, String backAction) {
+        return getReportsView(page, reports, action, title, r -> getDetailAction(action, r), backAction);
     }
 
     private TubingGui getReportsView(int page, Collection<Report> assignedReports, String action, String title, Function<Report, String> clickAction, String backAction) {

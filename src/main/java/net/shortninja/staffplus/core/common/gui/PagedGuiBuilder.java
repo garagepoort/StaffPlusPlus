@@ -38,6 +38,7 @@ public class PagedGuiBuilder {
             int index = 0;
             for (T item : items) {
                 this.addItem(actionProvider.apply(item), index, itemStackProvider.apply(item));
+                index++;
             }
 
             addFooter(action, currentPage);
@@ -51,6 +52,7 @@ public class PagedGuiBuilder {
             int index = 0;
             for (T item : items) {
                 this.addItem(leftActionProvider.apply(item), rightActionProvider.apply(item), index, itemStackProvider.apply(item));
+                index++;
             }
 
             addFooter(action, currentPage);
