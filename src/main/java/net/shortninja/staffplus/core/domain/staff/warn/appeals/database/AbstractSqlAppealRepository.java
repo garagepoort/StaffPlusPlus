@@ -31,7 +31,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     public AbstractSqlAppealRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.playerManager = playerManager;
-        this.warningSyncEnabled = options.serverSyncConfiguration.isWarningSyncEnabled();
+        this.warningSyncEnabled = options.serverSyncConfiguration.warningSyncEnabled;
     }
 
     public Connection getConnection() {
