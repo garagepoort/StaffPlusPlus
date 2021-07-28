@@ -29,7 +29,7 @@ public class ReportReopenBungeeListener implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if (options.serverSyncConfiguration.isReportSyncEnabled()) {
+        if (options.serverSyncConfiguration.reportSyncEnabled) {
             Optional<ReportReopenedBungeeDto> reopenedBungeeDto = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_REOPEN_CHANNEL, message, ReportReopenedBungeeDto.class);
             reopenedBungeeDto.ifPresent(b -> Bukkit.getPluginManager().callEvent(new ReportReopenedBungeeEvent(b)));
         }
