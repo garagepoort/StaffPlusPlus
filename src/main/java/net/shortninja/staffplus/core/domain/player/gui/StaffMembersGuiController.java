@@ -30,6 +30,8 @@ public class StaffMembersGuiController {
 
     @ConfigProperty("permissions:member")
     private String permissionMember;
+    @ConfigProperty("permissions:counter-show-vanished")
+    private String permissionCounterGuiShowVanish;
 
     private final Options options;
     private final StaffModeService staffModeService;
@@ -75,7 +77,7 @@ public class StaffMembersGuiController {
             .setName("&b" + player.getName())
             .addLore("&7" + location.getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(location));
 
-        if (permissionHandler.has(staffViewing, options.permissionCounterGuiShowVanish)) {
+        if (permissionHandler.has(staffViewing, permissionCounterGuiShowVanish)) {
             itemStackBuilder.addLore("&7Vanished: " + playerSession.isVanished());
         }
 
