@@ -76,12 +76,12 @@ public class ManageAppealViewBuilder {
             }
         }
 
-        ItemStack item = itemStackBuilder.build();
         String action = GuiActionBuilder.builder()
             .action("manage-warning-appeals/approve")
             .param("appealId", String.valueOf(appeal.getId()))
             .build();
-        builder.addItem("manage-warning-appeals/approve", slot, item);
+        ItemStack item = itemStackBuilder.build();
+        builder.addItem(action, slot, item);
     }
 
     private void addRejectItem(Appeal appeal, TubingGui.Builder builder, int slot) {

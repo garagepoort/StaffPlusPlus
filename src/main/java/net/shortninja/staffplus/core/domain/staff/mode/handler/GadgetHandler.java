@@ -12,7 +12,6 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
@@ -41,7 +40,6 @@ public class GadgetHandler {
     private String permissionMember;
 
     private final IProtocolService protocolService;
-    private final BanConfiguration banConfiguration;
     private final PermissionHandler permission;
 
     private final Options options;
@@ -54,7 +52,6 @@ public class GadgetHandler {
     private final GuiActionService guiActionService;
 
     public GadgetHandler(IProtocolService protocolService,
-                         BanConfiguration banConfiguration,
                          PermissionHandler permission,
                          Options options,
                          Messages messages,
@@ -64,7 +61,6 @@ public class GadgetHandler {
                          PlayerManager playerManager,
                          StaffModeService staffModeService, GuiActionService guiActionService) {
         this.protocolService = protocolService;
-        this.banConfiguration = banConfiguration;
         this.permission = permission;
         this.options = options;
         this.messages = messages;

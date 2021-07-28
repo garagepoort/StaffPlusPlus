@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 @IocBean
 public class MinerViewBuilder {
-    private static final int PAGE_SIZE = 45;
     private final Messages messages;
     private final Options options;
     private final PlayerManager playerManager;

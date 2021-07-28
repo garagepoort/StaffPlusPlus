@@ -12,7 +12,6 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.views.InvestigationDetailViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.views.InvestigationLinkEvidenceSelectionViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.views.InvestigationsOverviewViewBuilder;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
@@ -24,14 +23,14 @@ public class InvestigationGuiController {
 
     private final InvestigationsOverviewViewBuilder investigationsOverviewViewBuilder;
     private final InvestigationDetailViewBuilder investigationViewBuilder;
-    private final InvestigationLinkEvidenceSelectionViewBuilder investigationLinkEvidenceSelectionViewBuilder;
     private final PlayerManager playerManager;
     private final InvestigationService investigationService;
 
-    public InvestigationGuiController(InvestigationsOverviewViewBuilder investigationsOverviewViewBuilder, InvestigationDetailViewBuilder investigationViewBuilder, InvestigationLinkEvidenceSelectionViewBuilder investigationLinkEvidenceSelectionViewBuilder, PlayerManager playerManager, InvestigationService investigationService) {
+    public InvestigationGuiController(InvestigationsOverviewViewBuilder investigationsOverviewViewBuilder,
+                                      InvestigationDetailViewBuilder investigationViewBuilder,
+                                      PlayerManager playerManager, InvestigationService investigationService) {
         this.investigationsOverviewViewBuilder = investigationsOverviewViewBuilder;
         this.investigationViewBuilder = investigationViewBuilder;
-        this.investigationLinkEvidenceSelectionViewBuilder = investigationLinkEvidenceSelectionViewBuilder;
         this.playerManager = playerManager;
         this.investigationService = investigationService;
     }

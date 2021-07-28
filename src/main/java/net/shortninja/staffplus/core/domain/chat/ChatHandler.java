@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.chat;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;
 import org.bukkit.entity.Player;
@@ -20,20 +19,18 @@ public class ChatHandler {
     @ConfigProperty("permissions:chat-slow")
     private String permissionChatSlow;
 
-    private final static Map<UUID, Long> userChatTimes = new HashMap<UUID, Long>();
+    private final static Map<UUID, Long> userChatTimes = new HashMap<>();
     private final PermissionHandler permission;
     private final ChatConfiguration chatConfiguration;
 
-    private final Options options;
     private final Messages messages;
     private boolean isChatEnabled = true;
     private long chatSlowLength = 0;
     private long chatSlowStart = 0;
 
-    public ChatHandler(PermissionHandler permission, ChatConfiguration chatConfiguration, Options options, Messages messages) {
+    public ChatHandler(PermissionHandler permission, ChatConfiguration chatConfiguration, Messages messages) {
         this.permission = permission;
         this.chatConfiguration = chatConfiguration;
-        this.options = options;
         this.messages = messages;
     }
 
@@ -73,7 +70,7 @@ public class ChatHandler {
     }
 
     public void setChatSlow(String name, int time) {
-        chatSlowLength = time * 1000;
+        chatSlowLength = time * 1000L;
         chatSlowStart = System.currentTimeMillis();
         messages.sendGlobalMessage(messages.chatSlowed.replace("%seconds%", Integer.toString(time)).replace("%player%", name), messages.prefixGeneral);
     }

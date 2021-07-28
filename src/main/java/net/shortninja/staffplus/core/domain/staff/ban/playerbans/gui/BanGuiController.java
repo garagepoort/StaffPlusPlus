@@ -19,7 +19,6 @@ import org.bukkit.entity.Player;
 @GuiController
 public class BanGuiController {
 
-    private static final int PAGE_SIZE = 45;
     private static final String CANCEL = "cancel";
 
     private final BannedPlayersViewBuilder bannedPlayersViewBuilder;

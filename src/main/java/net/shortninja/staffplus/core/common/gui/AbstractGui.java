@@ -6,7 +6,6 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.Items;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryType;
@@ -22,10 +21,10 @@ public abstract class AbstractGui implements IGui {
     protected final SessionManagerImpl sessionManager = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class);
     protected final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
-    private String title;
+    private final String title;
     protected Supplier<AbstractGui> previousGuiSupplier;
-    private Inventory inventory;
-    private Map<Integer, IAction> actions = new HashMap<>();
+    private final Inventory inventory;
+    private final Map<Integer, IAction> actions = new HashMap<>();
 
     public AbstractGui(String title, InventoryType inventoryType) {
         this.title = title;
@@ -69,10 +68,6 @@ public abstract class AbstractGui implements IGui {
         sessionManager.get(player.getUniqueId()).setCurrentGui(this);
     }
 
-    public Supplier<AbstractGui> getPreviousGuiSupplier() {
-        return previousGuiSupplier;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -95,13 +90,5 @@ public abstract class AbstractGui implements IGui {
 
     protected int getBackButtonSlot() {
         return 49;
-    }
-
-    private ItemStack glassItem(Material data) {
-        return Items.builder()
-            .setMaterial(data)
-            .setName("&bColor #" + data)
-            .addLore("&7Click to change your GUI color!")
-            .build();
     }
 }
