@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
@@ -27,6 +28,11 @@ import java.util.UUID;
 
 @IocBean
 public class PlayerJoin implements Listener {
+
+
+    @ConfigProperty("permissions:mode")
+    private String permissionMode;
+
     private final PermissionHandler permission;
     private final Options options;
     private final SessionManagerImpl sessionManager;
@@ -70,7 +76,7 @@ public class PlayerJoin implements Listener {
             PlayerSession session = sessionManager.get(player.getUniqueId());
             Optional<GeneralModeConfiguration> defaultMode = staffModeService.getModeConfig(player);
             Optional<GeneralModeConfiguration> modeConfiguration = session.getModeConfiguration().isPresent() ? session.getModeConfiguration() : defaultMode;
-            if (modeConfiguration.isPresent() && permission.has(player, options.permissionMode) && (session.isInStaffMode() || modeConfiguration.get().isModeEnableOnLogin())) {
+            if (modeConfiguration.isPresent() && permission.has(player, permissionMode) && (session.isInStaffMode() || modeConfiguration.get().isModeEnableOnLogin())) {
                 staffModeService.turnStaffModeOn(player, modeConfiguration.get());
             } else {
                 staffModeService.turnStaffModeOff(player);

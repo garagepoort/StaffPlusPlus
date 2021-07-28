@@ -73,7 +73,7 @@ public class AppealService {
 
     public void approveAppeal(Player resolver, int appealId, String appealReason) {
         permission.validate(resolver, appealConfiguration.approveAppealPermission);
-        Appeal appeal = appealRepository.findAppeal(appealId).orElseThrow(() -> new BusinessException("No appeal found with id: [" + appealId + "]"));
+        Appeal appeal = getAppeal(appealId);
         Warning warning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found."));
 
         if (warning.getServerName() != null && !warning.getServerName().equals(options.serverName)) {
@@ -88,13 +88,17 @@ public class AppealService {
         sendEvent(new WarningAppealApprovedEvent(updatedWarning));
     }
 
+    public Appeal getAppeal(int appealId) {
+        return appealRepository.findAppeal(appealId).orElseThrow(() -> new BusinessException("No appeal found with id: [" + appealId + "]"));
+    }
+
     public void rejectAppeal(Player resolver, int appealId) {
         this.rejectAppeal(resolver, appealId, null);
     }
 
     public void rejectAppeal(Player resolver, int appealId, String appealReason) {
         permission.validate(resolver, appealConfiguration.rejectAppealPermission);
-        Appeal appeal = appealRepository.findAppeal(appealId).orElseThrow(() -> new BusinessException("No appeal found with id: [" + appealId + "]"));
+        Appeal appeal = getAppeal(appealId);
 
         appealRepository.updateAppealStatus(appealId, resolver.getUniqueId(), appealReason, AppealStatus.REJECTED);
         sendMessageToPlayer(appeal, messages.appealRejected);

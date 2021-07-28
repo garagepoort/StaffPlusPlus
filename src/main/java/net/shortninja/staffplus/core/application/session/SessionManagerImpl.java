@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.application.session;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.config.Options;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplusplus.session.SessionManager;
 import org.bukkit.Bukkit;
@@ -15,15 +15,17 @@ import java.util.stream.Collectors;
 
 @IocBean
 public class SessionManagerImpl implements SessionManager {
+
+    @ConfigProperty("permissions:member")
+    private String permissionMember;
+
     private static final Map<UUID, PlayerSession> playerSessions = new HashMap<>();
     private final SessionLoader sessionLoader;
     private final PermissionHandler permissionHandler;
-    private final Options options;
 
-    public SessionManagerImpl(SessionLoader sessionLoader, PermissionHandler permissionHandler, Options options) {
+    public SessionManagerImpl(SessionLoader sessionLoader, PermissionHandler permissionHandler) {
         this.sessionLoader = sessionLoader;
         this.permissionHandler = permissionHandler;
-        this.options = options;
         Bukkit.getOnlinePlayers().forEach(this::initialize);
     }
 
@@ -42,7 +44,7 @@ public class SessionManagerImpl implements SessionManager {
     public Collection<PlayerSession> getOnlineStaffMembers() {
         return playerSessions.values().stream()
             .filter(p -> p.getPlayer().isPresent())
-            .filter(p -> permissionHandler.has(p.getPlayer().get(), options.permissionMember))
+            .filter(p -> permissionHandler.has(p.getPlayer().get(), permissionMember))
             .collect(Collectors.toList());
     }
 
