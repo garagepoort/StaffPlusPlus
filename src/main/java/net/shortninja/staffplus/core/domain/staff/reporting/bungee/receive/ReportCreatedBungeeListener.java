@@ -30,7 +30,7 @@ public class ReportCreatedBungeeListener implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if(options.serverSyncConfiguration.isReportSyncEnabled()) {
+        if(options.serverSyncConfiguration.reportSyncEnabled) {
             Optional<ReportBungeeDto> reportCreatedBungee = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_CREATED_CHANNEL, message, ReportBungeeDto.class);
             reportCreatedBungee.ifPresent(b -> Bukkit.getPluginManager().callEvent(new ReportCreatedBungeeEvent(b)));
         }

@@ -37,7 +37,7 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
 
         List<String> lore = LoreBuilder.builder("&b", "&6")
             .addItem("Id", String.valueOf(ban.getId()))
-            .addItem("Server", ban.getServerName(), options.serverSyncConfiguration.isBanSyncEnabled())
+            .addItem("Server", ban.getServerName(), options.serverSyncConfiguration.banSyncEnabled)
             .addItem("Banned player", ban.getTargetName())
             .addItem("Issuer", ban.getIssuerName())
             .addItem("Issued on", time)

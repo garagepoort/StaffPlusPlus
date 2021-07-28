@@ -29,7 +29,7 @@ public class DefaultSessionEnhancer implements SessionEnhancer {
         VanishType vanishType = VanishType.valueOf(dataFileConfiguration.getString(playerSession.getUuid() + ".vanish-type", "NONE"));
 
         Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
-        if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
+        if (options.serverSyncConfiguration.vanishSyncEnabled) {
             playerSession.setVanishType(session.map(SessionEntity::getVanishType).orElse(vanishType));
         }
         playerSession.setMutedStaffChatChannels(session.map(SessionEntity::getMutedStaffChatChannels).orElse(new HashSet<>()));
