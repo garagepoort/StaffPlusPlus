@@ -3,6 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.kick.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
@@ -13,7 +15,6 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.kick.KickService;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickReasonConfiguration;
-import net.shortninja.staffplus.core.domain.staff.kick.gui.KickReasonSelectGui;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -43,16 +44,18 @@ public class KickCmd extends AbstractCmd {
     private final KickService kickService;
     private final List<KickReasonConfiguration> kickReasonConfigurations;
     private final Options options;
+    private final GuiActionService guiActionService;
 
     @ConfigProperty("permissions:kick-bypass")
     private String permissionKickByPass;
 
-    public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService, Options options1) {
+    public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService, Options options1, GuiActionService guiActionService) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.kickService = kickService;
         this.options = options1;
         this.kickReasonConfigurations = options.kickConfiguration.getKickReasons();
+        this.guiActionService = guiActionService;
     }
 
     @Override
@@ -77,7 +80,11 @@ public class KickCmd extends AbstractCmd {
         }
 
         validateIsPlayer(sender);
-        new KickReasonSelectGui((Player) sender, player, kickReasonConfigurations).show((Player) sender);
+
+        guiActionService.executeAction((Player) sender, GuiActionBuilder.builder()
+            .action("manage-kicks/view/kick/reason-select")
+            .param("targetPlayerName", player.getUsername())
+            .build());
         return true;
     }
 

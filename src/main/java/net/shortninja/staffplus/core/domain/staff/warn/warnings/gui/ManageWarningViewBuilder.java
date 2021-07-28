@@ -42,8 +42,7 @@ public class ManageWarningViewBuilder {
     }
 
     public TubingGui buildGui(Player player, Warning warning, String currentAction, String backAction) {
-        TubingGui.Builder builder = new TubingGui.Builder("Warning", 54);
-//        IAction deleteAction = new DeleteWarningAction(warning, previousGuiSupplier);
+        TubingGui.Builder builder = new TubingGui.Builder("Warning", SIZE);
         builder.addItem(TubingGuiActions.NOOP, 13, warningItemBuilder.build(warning));
         investigationGuiComponent.addEvidenceButton(builder, 14, warning, currentAction);
 
