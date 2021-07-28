@@ -1,6 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.mode.handler;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
@@ -9,10 +12,6 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.player.gui.CounterGui;
-import net.shortninja.staffplus.core.domain.player.gui.hub.HubGui;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
-import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
@@ -37,8 +36,10 @@ import java.util.stream.Collectors;
 public class GadgetHandler {
     private final static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
 
+    @ConfigProperty("permissions:member")
+    private String permissionMember;
+
     private final IProtocolService protocolService;
-    private final BanConfiguration banConfiguration;
     private final PermissionHandler permission;
 
     private final Options options;
@@ -48,10 +49,18 @@ public class GadgetHandler {
     private final VanishServiceImpl vanishServiceImpl;
     private final PlayerManager playerManager;
     private final StaffModeService staffModeService;
+    private final GuiActionService guiActionService;
 
-    public GadgetHandler(IProtocolService protocolService, BanConfiguration banConfiguration, PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, CpsHandler cpsHandler, VanishServiceImpl vanishServiceImpl, PlayerManager playerManager, StaffModeService staffModeService) {
+    public GadgetHandler(IProtocolService protocolService,
+                         PermissionHandler permission,
+                         Options options,
+                         Messages messages,
+                         SessionManagerImpl sessionManager,
+                         CpsHandler cpsHandler,
+                         VanishServiceImpl vanishServiceImpl,
+                         PlayerManager playerManager,
+                         StaffModeService staffModeService, GuiActionService guiActionService) {
         this.protocolService = protocolService;
-        this.banConfiguration = banConfiguration;
         this.permission = permission;
         this.options = options;
         this.messages = messages;
@@ -60,9 +69,10 @@ public class GadgetHandler {
         this.vanishServiceImpl = vanishServiceImpl;
         this.playerManager = playerManager;
         this.staffModeService = staffModeService;
+        this.guiActionService = guiActionService;
     }
 
-    public GadgetType getGadgetType(ItemStack item, String value) {
+    public GadgetType getGadgetType(String value) {
         if (options.staffItemsConfiguration.getCompassModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.COMPASS;
         }
@@ -112,7 +122,7 @@ public class GadgetHandler {
     public void onRandomTeleport(Player player) {
         List<Player> onlinePlayers = playerManager.getOnlinePlayers()
             .stream()
-            .filter(p -> !p.getUniqueId().equals(player.getUniqueId()) && !permission.has(p, options.permissionMember))
+            .filter(p -> !p.getUniqueId().equals(player.getUniqueId()) && !permission.has(p, permissionMember))
             .collect(Collectors.toList());
 
 
@@ -156,11 +166,11 @@ public class GadgetHandler {
     }
 
     public void onGuiHub(Player player) {
-        new HubGui(player, options.staffItemsConfiguration.getGuiModeConfiguration().getItem().getItemMeta().getDisplayName(), banConfiguration).show(player);
+        guiActionService.executeAction(player, "hub/view");
     }
 
     public void onCounter(Player player) {
-        new CounterGui(player, options.staffItemsConfiguration.getCounterModeConfiguration().getTitle(), 0).show(player);
+        guiActionService.executeAction(player, "membersGUI");
     }
 
     public void onCps(CommandSender sender, Player targetPlayer) {
@@ -176,7 +186,10 @@ public class GadgetHandler {
             return;
         }
 
-        new ExamineGui(player, targetPlayer, options.staffItemsConfiguration.getExamineModeConfiguration().getModeExamineTitle()).show(player);
+        guiActionService.executeAction(player, GuiActionBuilder.builder()
+            .action("examine/view")
+            .param("targetPlayerName", targetPlayer.getUsername())
+            .build());
     }
 
     public void onFollow(Player player, Player targetPlayer) {
@@ -237,7 +250,7 @@ public class GadgetHandler {
                     continue;
                 }
 
-                if (getGadgetType(item, protocolService.getVersionProtocol().getNbtString(item)) == GadgetType.COUNTER) {
+                if (getGadgetType(protocolService.getVersionProtocol().getNbtString(item)) == GadgetType.COUNTER) {
                     item.setAmount(options.staffItemsConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? modeUsers.size() : permission.getStaffCount());
                     break;
                 }

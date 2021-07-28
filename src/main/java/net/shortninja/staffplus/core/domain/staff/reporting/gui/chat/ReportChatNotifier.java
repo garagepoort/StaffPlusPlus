@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui.chat;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -40,6 +41,9 @@ import static net.shortninja.staffplusplus.reports.ReportStatus.RESOLVED;
 @IocListener
 public class ReportChatNotifier implements Listener {
 
+    @ConfigProperty("permissions:report-update-notifications")
+    private String permissionReportUpdateNotifications;
+
     private final Messages messages;
     private final Options options;
     private final PlayerManager playerManager;
@@ -63,7 +67,7 @@ public class ReportChatNotifier implements Listener {
 
         String notificationMessage = report.getCulpritUuid() == null ? messages.reportCreatedNotification : messages.reportCulpritCreatedNotification;
         sendStaffNotification(report, notificationMessage);
-        options.reportConfiguration.getSound().ifPresent(s -> s.playForGroup(options.permissionReportUpdateNotifications));
+        options.reportConfiguration.getSound().ifPresent(s -> s.playForGroup(permissionReportUpdateNotifications));
     }
 
     @EventHandler
@@ -72,7 +76,7 @@ public class ReportChatNotifier implements Listener {
 
         String notificationMessage = replaceReportPlaceholders(report.getCulpritUuid() == null ? messages.reportCreatedNotification : messages.reportCulpritCreatedNotification, report);
         sendStaffNotification(report, notificationMessage);
-        options.reportConfiguration.getSound().ifPresent(s -> s.playForGroup(options.permissionReportUpdateNotifications));
+        options.reportConfiguration.getSound().ifPresent(s -> s.playForGroup(permissionReportUpdateNotifications));
     }
 
     // DELETION
@@ -80,14 +84,14 @@ public class ReportChatNotifier implements Listener {
     public void handleReportDeletion(DeleteReportEvent event) {
         IReport report = event.getReport();
         String message = replaceReportPlaceholders(messages.reportDeletedNotification, event.getDeletedByName(), report);
-        messages.sendGroupMessage(message, options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(message, permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     @EventHandler
     public void handleReportDeletionBungee(ReportDeletedBungeeEvent event) {
         ReportDeletedBungeeDto report = event.getReportDeleted();
         String message = replaceReportPlaceholders(messages.reportDeletedNotification, report.getDeletedByName(), report);
-        messages.sendGroupMessage(message, options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(message, permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     // ACCEPT
@@ -136,22 +140,22 @@ public class ReportChatNotifier implements Listener {
     public void handleReportReopened(ReopenReportEvent event) {
         IReport report = event.getReport();
         String message = replaceReportPlaceholders(messages.reportReopenedNotification, event.getReopenedByName(), report);
-        messages.sendGroupMessage(message, options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(message, permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     @EventHandler
     public void handleReportReopenedBungee(ReportReopenedBungeeEvent event) {
         ReportReopenedBungeeDto report = event.getReopenedBungeeDto();
         String message = replaceReportPlaceholders(messages.reportReopenedNotification, report.getReopenByName(), report);
-        messages.sendGroupMessage(message, options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(message, permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     private void sendStaffNotification(IReport report, String reportClosedNotification) {
-        messages.sendGroupMessage(replaceReportPlaceholders(reportClosedNotification, report), options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(replaceReportPlaceholders(reportClosedNotification, report), permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     private void sendStaffNotification(ReportBungeeDto report, String reportClosedNotification) {
-        messages.sendGroupMessage(replaceReportPlaceholders(reportClosedNotification, report), options.permissionReportUpdateNotifications, messages.prefixReports);
+        messages.sendGroupMessage(replaceReportPlaceholders(reportClosedNotification, report), permissionReportUpdateNotifications, messages.prefixReports);
     }
 
     private void notifyReporter(UUID reporterUuid, String title, ReportStatus reportStatus) {

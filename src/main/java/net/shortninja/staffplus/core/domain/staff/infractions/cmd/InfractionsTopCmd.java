@@ -2,6 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.infractions.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
@@ -11,7 +13,6 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionsTopGui;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,8 +33,11 @@ import java.util.stream.Collectors;
 @IocMultiProvider(SppCommand.class)
 public class InfractionsTopCmd extends AbstractCmd {
 
-    public InfractionsTopCmd(Messages messages, CommandService commandService, PermissionHandler permissionHandler) {
+    private final GuiActionService guiActionService;
+
+    public InfractionsTopCmd(Messages messages, CommandService commandService, PermissionHandler permissionHandler, GuiActionService guiActionService) {
         super(messages, permissionHandler, commandService);
+        this.guiActionService = guiActionService;
     }
 
     @Override
@@ -44,13 +48,18 @@ public class InfractionsTopCmd extends AbstractCmd {
 
         Player p = (Player) sender;
         if (args.length == 1) {
-            if(!JavaUtils.isValidEnum(InfractionType.class, args[0])) {
+            if (!JavaUtils.isValidEnum(InfractionType.class, args[0])) {
                 throw new BusinessException("&CInvalid infraction type provided");
             }
-            InfractionType infractionType = InfractionType.valueOf(args[0]);
-            new InfractionsTopGui(p,"Top infractions", 0, Arrays.asList(infractionType)).show(p);
-        }else {
-            new InfractionsTopGui(p,"Top infractions", 0).show(p);
+
+            guiActionService.executeAction(p, GuiActionBuilder.builder()
+                .action("manage-infractions/view/top")
+                .param("infractionType", args[0])
+                .build());
+        } else {
+            guiActionService.executeAction(p, GuiActionBuilder.builder()
+                .action("manage-infractions/view/top")
+                .build());
         }
 
         return true;
