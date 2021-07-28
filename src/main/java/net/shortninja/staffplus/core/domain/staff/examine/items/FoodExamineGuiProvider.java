@@ -34,7 +34,7 @@ public class FoodExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public String getClickAction(Player staff, SppPlayer targetPlayer) {
+    public String getClickAction(Player staff, SppPlayer targetPlayer, String backAction) {
         return TubingGuiActions.NOOP;
     }
 

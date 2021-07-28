@@ -33,7 +33,7 @@ public class LocationExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public String getClickAction(Player staff, SppPlayer target) {
+    public String getClickAction(Player staff, SppPlayer target, String backAction) {
         return GuiActionBuilder.builder()
             .action("teleport")
             .param("targetPlayerName", target.getUsername())

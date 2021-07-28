@@ -36,7 +36,7 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public String getClickAction(Player staff, SppPlayer targetPlayer) {
+    public String getClickAction(Player staff, SppPlayer targetPlayer, String backAction) {
         return GuiActionBuilder.builder()
             .action("manage-frozen/freeze")
             .param("targetPlayerUuid", String.valueOf(targetPlayer.getId()))
