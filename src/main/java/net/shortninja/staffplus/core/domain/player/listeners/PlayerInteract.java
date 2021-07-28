@@ -146,7 +146,7 @@ public class PlayerInteract implements Listener {
             return false;
         }
 
-        GadgetHandler.GadgetType gadgetType = gadgetHandler.getGadgetType(item, protocolService.getVersionProtocol().getNbtString(item));
+        GadgetHandler.GadgetType gadgetType = gadgetHandler.getGadgetType(protocolService.getVersionProtocol().getNbtString(item));
         if (staffTimings.containsKey(player)) {
             if (System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
                 //Still cooling down but cancel the event if it is a staff item

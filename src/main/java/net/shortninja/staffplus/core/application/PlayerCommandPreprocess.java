@@ -38,6 +38,8 @@ public class PlayerCommandPreprocess implements Listener {
 
     @ConfigProperty("commands:login")
     private String commandLogin;
+    @ConfigProperty("permissions:block")
+    private String permissionBlock;
 
     public PlayerCommandPreprocess(PermissionHandler permission, Options options, Messages messages, FreezeHandler freezeHandler, CmdHandler cmdHandler, TraceService traceService, SessionManagerImpl sessionManager) {
         this.permission = permission;
@@ -64,7 +66,7 @@ public class PlayerCommandPreprocess implements Listener {
             return;
         }
 
-        if (options.blockedCommands.contains(command) && permission.hasOnly(player, options.permissionBlock)) {
+        if (options.blockedCommands.contains(command) && permission.hasOnly(player, permissionBlock)) {
             messages.send(player, messages.commandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
         } else if (sessionManager.get(uuid).isInStaffMode() && options.blockedModeCommands.contains(command)) {

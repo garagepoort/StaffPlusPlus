@@ -81,17 +81,15 @@ public class InvestigationNoteService {
     }
 
     public void deleteNote(Player player, Investigation investigation, int id) {
-        bukkitUtils.runTaskAsync(player, () -> {
-            permissionHandler.validate(player, options.investigationConfiguration.getDeleteNotePermission());
-            Optional<NoteEntity> noteEntity = investigationNotesRepository.find(id);
-            if(noteEntity.isPresent()) {
-                if(!noteEntity.get().getNotedByUuid().equals(player.getUniqueId())) {
-                    permissionHandler.validate(player, options.investigationConfiguration.getDeleteNoteOthersPermission());
-                }
-                investigationNotesRepository.removeNote(id);
-                sendEvent(new InvestigationNoteDeletedEvent(investigation, noteEntity.get()));
+        permissionHandler.validate(player, options.investigationConfiguration.getDeleteNotePermission());
+        Optional<NoteEntity> noteEntity = investigationNotesRepository.find(id);
+        if (noteEntity.isPresent()) {
+            if (!noteEntity.get().getNotedByUuid().equals(player.getUniqueId())) {
+                permissionHandler.validate(player, options.investigationConfiguration.getDeleteNoteOthersPermission());
             }
-        });
+            investigationNotesRepository.removeNote(id);
+            sendEvent(new InvestigationNoteDeletedEvent(investigation, noteEntity.get()));
+        }
     }
 
     public List<NoteEntity> getNotesForInvestigation(Investigation investigation) {

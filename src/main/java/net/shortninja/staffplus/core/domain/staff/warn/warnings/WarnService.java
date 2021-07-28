@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -36,8 +37,11 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 @IocBean
 @IocMultiProvider(InfractionProvider.class)
 public class WarnService implements InfractionProvider, WarningService {
-    private final PermissionHandler permission;
 
+    @ConfigProperty("permissions:warn-bypass")
+    private String permissionWarnBypass;
+
+    private final PermissionHandler permission;
     private final Options options;
     private final Messages messages;
     private final WarnRepository warnRepository;
@@ -80,7 +84,7 @@ public class WarnService implements InfractionProvider, WarningService {
 
     private void createWarning(SppPlayer user, Warning warning) {
         // Offline users cannot bypass being warned this way. Permissions are taken away upon logging out
-        if (user.isOnline() && permission.has(user.getPlayer(), options.permissionWarnBypass)) {
+        if (user.isOnline() && permission.has(user.getPlayer(), permissionWarnBypass)) {
             throw new BusinessException(messages.bypassed);
         }
 

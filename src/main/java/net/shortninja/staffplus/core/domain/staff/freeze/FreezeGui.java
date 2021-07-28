@@ -36,13 +36,11 @@ public class FreezeGui extends AbstractGui {
             lore = freezeMessage;
         }
 
-        ItemStack item = Items.builder()
+        return Items.builder()
                 .setMaterial(Material.PAPER).setAmount(1)
                 .setName(name)
                 .setLore(lore)
                 .build();
-
-        return item;
     }
 
 }
