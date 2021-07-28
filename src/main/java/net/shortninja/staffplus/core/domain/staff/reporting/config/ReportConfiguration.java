@@ -106,7 +106,7 @@ public class ReportConfiguration {
         return openReportsGui;
     }
 
-    public GuiItemConfig getMyReportsGui() {
+    public GuiItemConfig getMyAssignedReportsGui() {
         return myReportsGui;
     }
 

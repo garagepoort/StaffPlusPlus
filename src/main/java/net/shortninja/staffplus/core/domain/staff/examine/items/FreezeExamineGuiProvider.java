@@ -2,19 +2,16 @@ package net.shortninja.staffplus.core.domain.staff.examine.items;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.common.gui.IAction;
-import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGui;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
-import net.shortninja.staffplus.core.domain.staff.freeze.FreezeRequest;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -39,20 +36,11 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public IAction getClickAction(ExamineGui examineGui, Player staff, SppPlayer targetPlayer) {
-        return new IAction() {
-            @Override
-            public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                if (targetPlayer.getPlayer() != null) {
-                    freezeHandler.execute(new FreezeRequest(staff, targetPlayer.getPlayer(), !freezeHandler.isFrozen(targetPlayer.getId())));
-                }
-            }
-
-            @Override
-            public boolean shouldClose(Player player) {
-                return true;
-            }
-        };
+    public String getClickAction(Player staff, SppPlayer targetPlayer, String backAction) {
+        return GuiActionBuilder.builder()
+            .action("manage-frozen/freeze")
+            .param("targetPlayerUuid", String.valueOf(targetPlayer.getId()))
+            .build();
     }
 
     @Override
@@ -68,12 +56,10 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
     private ItemStack freezeItem(Player player) {
         String frozenStatus = freezeHandler.isFrozen(player.getUniqueId()) ? "" : "not ";
 
-        ItemStack item = Items.builder()
+        return Items.builder()
             .setMaterial(Material.BLAZE_ROD).setAmount(1)
             .setName("&bFreeze player")
             .setLore(Arrays.asList(messages.examineFreeze, "&7Currently " + frozenStatus + "frozen."))
             .build();
-
-        return item;
     }
 }

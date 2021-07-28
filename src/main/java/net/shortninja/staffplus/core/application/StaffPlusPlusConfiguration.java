@@ -39,7 +39,7 @@ public class StaffPlusPlusConfiguration {
         }
 
         StaffPlus.get().getLogger().info("Permissions handled by Bukkit");
-        return new DefaultPermissionHandler(options);
+        return new DefaultPermissionHandler();
     }
 
     @IocBeanProvider
