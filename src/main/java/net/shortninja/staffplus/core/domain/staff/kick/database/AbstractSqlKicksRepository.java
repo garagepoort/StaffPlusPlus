@@ -39,7 +39,7 @@ public abstract class AbstractSqlKicksRepository implements KicksRepository {
         this.playerManager = playerManager;
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.options = options;
-        serverNameFilter = !options.serverSyncConfiguration.isKickSyncEnabled() ? "AND (server_name is null OR server_name='" + options.serverName + "')" : "";
+        serverNameFilter = !options.serverSyncConfiguration.kickSyncEnabled ? "AND (server_name is null OR server_name='" + options.serverName + "')" : "";
     }
 
     protected Connection getConnection(){
@@ -67,7 +67,7 @@ public abstract class AbstractSqlKicksRepository implements KicksRepository {
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_kicked_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isKickSyncEnabled()) + " GROUP BY player_uuid ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_kicked_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.kickSyncEnabled) + " GROUP BY player_uuid ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString(PLAYER_UUID_COLUMN)), rs.getInt("count"));

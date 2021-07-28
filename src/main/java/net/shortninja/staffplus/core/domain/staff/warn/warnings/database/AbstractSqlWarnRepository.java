@@ -41,7 +41,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         this.appealRepository = appealRepository;
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.options = options;
-        serverNameFilter = !options.serverSyncConfiguration.isWarningSyncEnabled() ? "AND (server_name is null OR server_name='" + options.serverName + "')" : "";
+        serverNameFilter = !options.serverSyncConfiguration.warningSyncEnabled ? "AND (server_name is null OR server_name='" + options.serverName + "')" : "";
     }
 
     public Connection getConnection() {
@@ -125,7 +125,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     public List<Warning> getAllWarnings(int offset, int amount) {
         List<Warning> warnings = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings " + getServerNameFilterWithWhere(options.serverSyncConfiguration.isWarningSyncEnabled()) + " ORDER BY timestamp DESC LIMIT ?,?")
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warnings " + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncEnabled) + " ORDER BY timestamp DESC LIMIT ?,?")
         ) {
             ps.setInt(1, offset);
             ps.setInt(2, amount);
@@ -169,7 +169,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         List<Warning> warnings = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT sp_warnings.* FROM sp_warnings INNER JOIN sp_warning_appeals appeals on sp_warnings.id = appeals.warning_id AND appeals.status = 'OPEN' "
-                 + getServerNameFilterWithWhere(options.serverSyncConfiguration.isWarningSyncEnabled()) +
+                 + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncEnabled) +
                  " ORDER BY sp_warnings.timestamp DESC LIMIT ?,?")
         ) {
             ps.setInt(1, offset);
@@ -190,7 +190,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     public long getWarnCount(WarningFilters warningFilters) {
         String filterQuery = mapFilters(warningFilters, true);
 
-        String query = "SELECT count(*) as count FROM sp_warnings WHERE 1=1 " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.isWarningSyncEnabled());
+        String query = "SELECT count(*) as count FROM sp_warnings WHERE 1=1 " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncEnabled);
         try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
             insertFilterValues(warningFilters, ps, 1);
             try (ResultSet rs = ps.executeQuery()) {
@@ -204,7 +204,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
 
     @Override
     public List<Warning> getWarnings() {
-        String sqlStatement = options.serverSyncConfiguration.isWarningSyncEnabled() ? "SELECT * FROM sp_warnings WHERE (server_name is null OR server_name='" + options.serverName + "')" : "SELECT * FROM sp_warnings";
+        String sqlStatement = options.serverSyncConfiguration.warningSyncEnabled ? "SELECT * FROM sp_warnings WHERE (server_name is null OR server_name='" + options.serverName + "')" : "SELECT * FROM sp_warnings";
         List<Warning> warnings = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement(sqlStatement)
@@ -274,7 +274,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_warnings WHERE id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isWarningSyncEnabled()) + " GROUP BY Player_UUID ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_warnings WHERE id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncEnabled) + " GROUP BY Player_UUID ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("Player_UUID")), rs.getInt("count"));
