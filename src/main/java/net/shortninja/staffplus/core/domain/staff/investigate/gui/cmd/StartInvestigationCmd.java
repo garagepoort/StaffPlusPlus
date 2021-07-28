@@ -16,7 +16,7 @@ import net.shortninja.staffplus.core.domain.confirmation.ChoiceChatService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation.InvestigationItemBuilder;
+import net.shortninja.staffplus.core.domain.staff.investigate.gui.views.InvestigationItemBuilder;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

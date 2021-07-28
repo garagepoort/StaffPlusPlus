@@ -2,6 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.infractions.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -10,7 +12,6 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionsGui;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,10 +36,12 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 public class InfractionsCmd extends AbstractCmd {
 
     private final PlayerManager playerManager;
+    private final GuiActionService guiActionService;
 
-    public InfractionsCmd(Messages messages, PlayerManager playerManager, CommandService commandService, PermissionHandler permissionHandler) {
+    public InfractionsCmd(Messages messages, PlayerManager playerManager, CommandService commandService, PermissionHandler permissionHandler, GuiActionService guiActionService) {
         super(messages, permissionHandler, commandService);
         this.playerManager = playerManager;
+        this.guiActionService = guiActionService;
     }
 
     @Override
@@ -48,7 +51,10 @@ public class InfractionsCmd extends AbstractCmd {
         }
 
         Player p = (Player) sender;
-        new InfractionsGui(p, player, "Infractions " + player.getUsername(), 0).show(p);
+        guiActionService.executeAction(p, GuiActionBuilder.builder()
+            .action("manage-infractions/view/overview")
+            .param("targetPlayerName", player.getUsername())
+            .build());
         return true;
     }
 

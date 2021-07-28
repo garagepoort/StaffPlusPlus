@@ -73,6 +73,10 @@ public class ActionExecutioner {
     }
 
     void rollbackActions(List<ExecutableActionEntity> actions, SppPlayer target) {
+        if (actions.isEmpty()) {
+            return;
+        }
+
         List<ExecutableActionEntity> actionsToRun = actions.stream().filter(a -> runActionNow(target, a.getRollbackRunStrategy())).collect(Collectors.toList());
         actionsToRun.forEach(action -> Bukkit.getScheduler().runTask(StaffPlus.get(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), action.getRollbackCommand().replace("%player%", target.getUsername()))));
         actionableRepository.markRollbacked(actionsToRun.stream().map(ExecutableActionEntity::getId).collect(Collectors.toList()));

@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
@@ -17,7 +18,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class Tasks extends BukkitRunnable {
     private final PermissionHandler permission;
 
-    private final Options options;
+
+    @ConfigProperty("permissions:member")
+    private String permissionMember;
+    @ConfigProperty("clock")
+    private long clock;
+
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final FreezeHandler freezeHandler;
@@ -26,22 +32,19 @@ public class Tasks extends BukkitRunnable {
     private int saveInterval;
     private int freezeInterval;
     private long now;
-    private long later;
 
     public Tasks(PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler) {
         this.permission = permission;
-
-        this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.freezeHandler = freezeHandler;
         this.gadgetHandler = gadgetHandler;
 
-        freezeModeConfiguration = this.options.staffItemsConfiguration.getFreezeModeConfiguration();
+        freezeModeConfiguration = options.staffItemsConfiguration.getFreezeModeConfiguration();
         saveInterval = 0;
         freezeInterval = 0;
         now = System.currentTimeMillis();
-        runTaskTimerAsynchronously(StaffPlus.get(), this.options.clock, this.options.clock);
+        runTaskTimerAsynchronously(StaffPlus.get(), clock * 20, clock * 20);
     }
 
     @Override
@@ -52,7 +55,7 @@ public class Tasks extends BukkitRunnable {
     }
 
     private void decideAutosave() {
-        later = System.currentTimeMillis();
+        long later = System.currentTimeMillis();
 
         if ((later - now) >= 1000) {
             int addition = (int) ((later - now) / 1000);
@@ -64,7 +67,7 @@ public class Tasks extends BukkitRunnable {
         if (freezeInterval >= freezeModeConfiguration.getModeFreezeTimer() && freezeInterval > 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 PlayerSession user = sessionManager.get(player.getUniqueId());
-                if (user.isFrozen() && !permission.has(player, options.permissionMember)) {
+                if (user.isFrozen() && !permission.has(player, permissionMember)) {
                     freezeModeConfiguration.getModeFreezeSound().ifPresent(s->s.play(player));
 
                     if (!freezeModeConfiguration.isModeFreezePrompt()) {

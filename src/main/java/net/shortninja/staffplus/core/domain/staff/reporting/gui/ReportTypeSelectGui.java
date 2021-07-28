@@ -19,6 +19,7 @@ import java.util.List;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getInventorySize;
 
 public class ReportTypeSelectGui extends AbstractGui {
+
     private final Player staff;
     private final String reason;
     private final SppPlayer targetPlayer;
