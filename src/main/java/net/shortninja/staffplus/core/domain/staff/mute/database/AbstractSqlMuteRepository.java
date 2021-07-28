@@ -34,7 +34,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
         this.playerManager = playerManager;
         this.options = options;
         this.sqlConnectionProvider = sqlConnectionProvider;
-        serverNameFilter = !options.serverSyncConfiguration.isMuteSyncEnabled() ? "AND (server_name is null OR server_name='" + options.serverName + "')" : "";
+        serverNameFilter = !options.serverSyncConfiguration.muteSyncEnabled ? "AND (server_name is null OR server_name='" + options.serverName + "')" : "";
     }
 
     public Connection getConnection() {
@@ -143,7 +143,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     public List<UUID> getAllPermanentMutedPlayers() {
         List<UUID> result = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid FROM sp_muted_players WHERE end_timestamp IS NULL " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isMuteSyncEnabled()) + " GROUP BY player_uuid")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid FROM sp_muted_players WHERE end_timestamp IS NULL " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.muteSyncEnabled) + " GROUP BY player_uuid")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     result.add(UUID.fromString(rs.getString("player_uuid")));
@@ -159,7 +159,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_muted_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isMuteSyncEnabled()) + " GROUP BY player_uuid ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_muted_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.muteSyncEnabled) + " GROUP BY player_uuid ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("player_uuid")), rs.getInt("count"));
@@ -175,7 +175,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     public Map<UUID, Long> getMuteDurationByPlayer() {
         Map<UUID, Long> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_muted_players WHERE end_timestamp is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isMuteSyncEnabled()) + " GROUP BY player_uuid ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_muted_players WHERE end_timestamp is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.muteSyncEnabled) + " GROUP BY player_uuid ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("player_uuid")), rs.getLong("count"));
@@ -190,7 +190,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     @Override
     public long getTotalCount() {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT count(*) as count FROM sp_muted_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isMuteSyncEnabled()))) {
+             PreparedStatement ps = sql.prepareStatement("SELECT count(*) as count FROM sp_muted_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.muteSyncEnabled))) {
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {
@@ -207,7 +207,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     @Override
     public long getActiveCount() {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_muted_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.isMuteSyncEnabled()))) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_muted_players WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.muteSyncEnabled))) {
             ps.setLong(1, System.currentTimeMillis());
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
