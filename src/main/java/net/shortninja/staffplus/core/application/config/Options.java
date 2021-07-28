@@ -34,7 +34,6 @@ import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceModuleLoad
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
-import net.shortninja.staffplus.core.domain.synchronization.ServerSyncModuleLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -73,7 +72,7 @@ public class Options {
     public KickConfiguration kickConfiguration;
     public ExamineConfiguration examineConfiguration;
     public Map<String, GeneralModeConfiguration> modeConfigurations;
-    public ServerSyncConfiguration serverSyncConfiguration;
+    public final ServerSyncConfiguration serverSyncConfiguration;
     public StaffItemsConfiguration staffItemsConfiguration;
 
     /*
@@ -95,7 +94,6 @@ public class Options {
     private final KickModuleLoader kickModuleLoader;
     private final ExamineModuleLoader examineModuleLoader;
     private final StaffModesLoader staffModesLoader;
-    private final ServerSyncModuleLoader serverSyncModuleLoader;
     private final InvestigationModuleLoader investigationModuleLoader;
     private final StaffCustomItemsLoader staffCustomItemsLoader;
     private final StaffItemsLoader staffItemsLoader;
@@ -110,12 +108,12 @@ public class Options {
                    KickModuleLoader kickModuleLoader,
                    ExamineModuleLoader examineModuleLoader,
                    StaffModesLoader staffModesLoader,
-                   ServerSyncModuleLoader serverSyncModuleLoader,
                    InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader,
                    WarningConfiguration warningConfiguration,
-                   AppealConfiguration appealConfiguration) {
+                   AppealConfiguration appealConfiguration,
+                   ServerSyncConfiguration serverSyncConfiguration) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
         this.reportingModuleLoader = reportingModuleLoader;
@@ -126,12 +124,12 @@ public class Options {
         this.kickModuleLoader = kickModuleLoader;
         this.examineModuleLoader = examineModuleLoader;
         this.staffModesLoader = staffModesLoader;
-        this.serverSyncModuleLoader = serverSyncModuleLoader;
         this.investigationModuleLoader = investigationModuleLoader;
         this.staffCustomItemsLoader = staffCustomItemsLoader;
         this.staffItemsLoader = staffItemsLoader;
         this.warningConfiguration = warningConfiguration;
         this.appealConfiguration = appealConfiguration;
+        this.serverSyncConfiguration = serverSyncConfiguration;
         reload();
     }
 
@@ -170,7 +168,6 @@ public class Options {
         kickConfiguration = this.kickModuleLoader.loadConfig();
         examineConfiguration = this.examineModuleLoader.loadConfig();
         modeConfigurations = this.staffModesLoader.loadConfig();
-        serverSyncConfiguration = this.serverSyncModuleLoader.loadConfig();
         investigationConfiguration = this.investigationModuleLoader.loadConfig();
         customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();
         staffItemsConfiguration = this.staffItemsLoader.loadConfig();

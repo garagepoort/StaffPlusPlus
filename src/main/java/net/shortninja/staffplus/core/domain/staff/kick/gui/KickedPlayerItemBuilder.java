@@ -35,7 +35,7 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
 
         List<String> lore = LoreBuilder.builder("&b", "&6")
             .addItem("Id", String.valueOf(kick.getId()))
-            .addItem("Server", kick.getServerName(), options.serverSyncConfiguration.isKickSyncEnabled())
+            .addItem("Server", kick.getServerName(), options.serverSyncConfiguration.kickSyncEnabled)
             .addItem("Kicked player", kick.getTargetName())
             .addItem("Issuer", kick.getIssuerName())
             .addItem("Issued on", time)

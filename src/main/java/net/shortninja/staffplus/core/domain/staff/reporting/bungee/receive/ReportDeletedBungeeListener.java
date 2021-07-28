@@ -29,7 +29,7 @@ public class ReportDeletedBungeeListener implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if(options.serverSyncConfiguration.isReportSyncEnabled()) {
+        if(options.serverSyncConfiguration.reportSyncEnabled) {
             Optional<ReportDeletedBungeeDto> deletedBungee = bungeeClient.handleReceived(channel, Constants.BUNGEE_REPORT_DELETED_CHANNEL, message, ReportDeletedBungeeDto.class);
             deletedBungee.ifPresent(b -> Bukkit.getPluginManager().callEvent(new ReportDeletedBungeeEvent(b)));
         }

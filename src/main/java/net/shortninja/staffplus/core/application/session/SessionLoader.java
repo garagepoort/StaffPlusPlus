@@ -129,10 +129,10 @@ public class SessionLoader {
         Optional<SessionEntity> session = sessionsRepository.findSession(playerSession.getUuid());
         String staffModeName = playerSession.getModeConfiguration().map(GeneralModeConfiguration::getName).orElse(null);
         if (session.isPresent()) {
-            if (options.serverSyncConfiguration.isVanishSyncEnabled()) {
+            if (options.serverSyncConfiguration.vanishSyncEnabled) {
                 session.get().setVanishType(playerSession.getVanishType());
             }
-            if (options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
+            if (options.serverSyncConfiguration.staffModeSyncEnabled) {
                 session.get().setStaffMode(playerSession.isInStaffMode());
                 session.get().setStaffModeName(staffModeName);
             }

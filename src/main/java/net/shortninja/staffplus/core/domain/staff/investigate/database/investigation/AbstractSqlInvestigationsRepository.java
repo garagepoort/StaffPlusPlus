@@ -43,7 +43,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
         this.playerManager = playerManager;
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.options = options;
-        serverNameFilter = !options.serverSyncConfiguration.isInvestigationSyncEnabled() ? "AND (server_name='" + options.serverName + "')" : "";
+        serverNameFilter = !options.serverSyncConfiguration.investigationSyncEnabled ? "AND (server_name='" + options.serverName + "')" : "";
     }
 
     protected Connection getConnection() {
@@ -183,7 +183,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     public List<Investigation> getAllInvestigations(int offset, int amount) {
         List<Investigation> investigations = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.isInvestigationSyncEnabled()) + " ORDER BY creation_timestamp DESC LIMIT ?,?")
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.investigationSyncEnabled) + " ORDER BY creation_timestamp DESC LIMIT ?,?")
         ) {
             ps.setInt(1, offset);
             ps.setInt(2, amount);

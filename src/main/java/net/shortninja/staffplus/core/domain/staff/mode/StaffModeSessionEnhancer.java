@@ -34,7 +34,7 @@ public class StaffModeSessionEnhancer implements SessionEnhancer {
         String staffModeName = dataFileConfiguration.getString(playerSession.getUuid() + ".staff-mode-name", null);
         playerSession.setInStaffMode(staffMode);
 
-        if (options.serverSyncConfiguration.isStaffModeSyncEnabled()) {
+        if (options.serverSyncConfiguration.staffModeSyncEnabled) {
             Optional<SessionEntity> sessionEntity = sessionsRepository.findSession(playerSession.getUuid());
             if (sessionEntity.isPresent()) {
                 playerSession.setInStaffMode(sessionEntity.get().getStaffMode());

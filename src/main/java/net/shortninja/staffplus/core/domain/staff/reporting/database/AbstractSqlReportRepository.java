@@ -40,7 +40,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         this.playerManager = playerManager;
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.options = options;
-        serverNameFilter = !options.serverSyncConfiguration.isReportSyncEnabled() ? "AND (sp_reports.server_name is null OR sp_reports.server_name='" + options.serverName + "')" : "";
+        serverNameFilter = !options.serverSyncConfiguration.reportSyncEnabled ? "AND (sp_reports.server_name is null OR sp_reports.server_name='" + options.serverName + "')" : "";
     }
 
     public Connection getConnection() {
@@ -329,7 +329,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public Map<UUID, Integer> getReportedCount() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_reports WHERE Player_UUID is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.isKickSyncEnabled()) + " GROUP BY Player_UUID ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_reports WHERE Player_UUID is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.kickSyncEnabled) + " GROUP BY Player_UUID ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("Player_UUID")), rs.getInt("count"));

@@ -39,7 +39,7 @@ public class ReportItemBuilder implements InfractionGuiProvider<Report> {
         List<String> lore = new ArrayList<>();
 
         addLoreLine(lore, "Id", String.valueOf(report.getId()));
-        if (options.serverSyncConfiguration.isReportSyncEnabled()) {
+        if (options.serverSyncConfiguration.reportSyncEnabled) {
             addLoreLine(lore, "Server", report.getServerName());
         }
         report.getReportType().ifPresent(type -> addLoreLine(lore, "Type", type));
