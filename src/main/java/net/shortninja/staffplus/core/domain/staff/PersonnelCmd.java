@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
@@ -29,15 +29,17 @@ import java.util.Optional;
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class PersonnelCmd extends AbstractCmd {
+
+    @ConfigProperty("permissions:member")
+    private String permissionMember;
+
     private final PermissionHandler permissionHandler;
-    private final Options options;
     private final SessionManagerImpl sessionManager;
     private final VanishConfiguration vanishConfiguration;
 
-    public PersonnelCmd(PermissionHandler permissionHandler, Messages messages, Options options, SessionManagerImpl sessionManager, CommandService commandService, VanishConfiguration vanishConfiguration) {
+    public PersonnelCmd(PermissionHandler permissionHandler, Messages messages, SessionManagerImpl sessionManager, CommandService commandService, VanishConfiguration vanishConfiguration) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
-        this.options = options;
         this.sessionManager = sessionManager;
         this.vanishConfiguration = vanishConfiguration;
     }
@@ -85,7 +87,7 @@ public class PersonnelCmd extends AbstractCmd {
 
     private boolean hasStatus(PlayerSession session, String status, Player player) {
         VanishType vanishType = session.getVanishType();
-        if (!permissionHandler.has(player, options.permissionMember)) {
+        if (!permissionHandler.has(player, permissionMember)) {
             return false;
         }
 

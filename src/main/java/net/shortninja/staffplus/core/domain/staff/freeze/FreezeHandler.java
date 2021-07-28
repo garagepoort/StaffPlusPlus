@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -23,17 +24,17 @@ import java.util.UUID;
 @IocBean
 public class FreezeHandler {
     private final static Map<UUID, Location> lastFrozenLocations = new HashMap<>();
-    private final PermissionHandler permission;
 
-    private final Options options;
+    @ConfigProperty("permissions:freeze-bypass")
+    private String permissionFreezeBypass;
+
+    private final PermissionHandler permission;
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final FreezeModeConfiguration freezeModeConfiguration;
 
     public FreezeHandler(PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager) {
         this.permission = permission;
-
-        this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
         freezeModeConfiguration = options.staffItemsConfiguration.getFreezeModeConfiguration();
@@ -87,7 +88,7 @@ public class FreezeHandler {
         UUID uuid = player.getUniqueId();
         PlayerSession session = sessionManager.get(uuid);
 
-        if (permission.has(player, options.permissionFreezeBypass)) {
+        if (permission.has(player, permissionFreezeBypass)) {
             messages.send(sender, messages.bypassed, messages.prefixGeneral);
             return;
         }
@@ -106,7 +107,6 @@ public class FreezeHandler {
         player.removePotionEffect(PotionEffectType.JUMP);
         player.removePotionEffect(PotionEffectType.SLOW);
         player.removePotionEffect(PotionEffectType.BLINDNESS);
-
     }
 
     public void checkLocations() {
@@ -135,7 +135,7 @@ public class FreezeHandler {
     }
 
     public void validatePermissions(CommandSender commandSender, Player target) {
-        if (permission.has(target, options.permissionFreezeBypass)) {
+        if (permission.has(target, permissionFreezeBypass)) {
             throw new BusinessException(messages.bypassed, messages.prefixGeneral);
         }
     }

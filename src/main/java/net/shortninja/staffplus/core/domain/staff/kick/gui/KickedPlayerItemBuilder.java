@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.infractions.gui.InfractionGuiProvider;
+import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
 import net.shortninja.staffplus.core.domain.staff.kick.Kick;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -36,7 +36,7 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
         List<String> lore = LoreBuilder.builder("&b", "&6")
             .addItem("Id", String.valueOf(kick.getId()))
             .addItem("Server", kick.getServerName(), options.serverSyncConfiguration.isKickSyncEnabled())
-            .addItem("bKicked player", kick.getTargetName())
+            .addItem("Kicked player", kick.getTargetName())
             .addItem("Issuer", kick.getIssuerName())
             .addItem("Issued on", time)
             .addIndented("Reason", kick.getReason())

@@ -2,6 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -10,7 +12,6 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.ManageWarningsGui;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,19 +36,24 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 public class ManageWarningsGuiCmd extends AbstractCmd {
 
     private final PlayerManager playerManager;
+    private final GuiActionService guiActionService;
 
-    public ManageWarningsGuiCmd(Messages messages, PlayerManager playerManager, CommandService commandService, PermissionHandler permissionHandler) {
+    public ManageWarningsGuiCmd(Messages messages, PlayerManager playerManager, CommandService commandService, PermissionHandler permissionHandler, GuiActionService guiActionService) {
         super(messages, permissionHandler, commandService);
         this.playerManager = playerManager;
+        this.guiActionService = guiActionService;
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        new ManageWarningsGui((Player) sender, player, "Manage Warnings", 0).show((Player) sender);
+        guiActionService.executeAction((Player) sender, GuiActionBuilder.builder()
+            .action("manage-warnings/view/overview")
+            .param("targetPlayerName", player == null ? null : player.getUsername())
+            .build());
         return true;
     }
 
@@ -58,7 +64,7 @@ public class ManageWarningsGuiCmd extends AbstractCmd {
 
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
-        if(args.length == 0) {
+        if (args.length == 0) {
             return Optional.empty();
         }
         return Optional.ofNullable(args[0]);

@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
@@ -11,7 +12,6 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
-import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.MyWarningsGui;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -30,10 +30,12 @@ import java.util.Optional;
 public class MyWarningsCmd extends AbstractCmd {
 
     private final WarnService warnService;
+    private final GuiActionService guiActionService;
 
-    public MyWarningsCmd(Messages messages, WarnService warnService, CommandService commandService, PermissionHandler permissionHandler) {
+    public MyWarningsCmd(Messages messages, WarnService warnService, CommandService commandService, PermissionHandler permissionHandler, GuiActionService guiActionService) {
         super(messages, permissionHandler, commandService);
         this.warnService = warnService;
+        this.guiActionService = guiActionService;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class MyWarningsCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        new MyWarningsGui((Player) sender, "My Warnings", 0).show((Player) sender);
+        guiActionService.executeAction((Player) sender, "manage-warnings/view/my-warnings");
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), ()-> warnService.markWarningsRead(((Player) sender).getUniqueId()));
         return true;
     }
