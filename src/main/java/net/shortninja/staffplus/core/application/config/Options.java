@@ -83,11 +83,7 @@ public class Options {
     /*
      * Permissions
      */
-    public String permissionFreeze;
-    public String permissionFreezeBypass;
     public String permissionMember;
-    public String ipHidePerm;
-    public String permissionCounterGuiShowVanish;
 
     private final AuthenticationConfigurationLoader authenticationConfigurationLoader;
     private final InfractionsModuleLoader infractionsModuleLoader;
@@ -182,11 +178,7 @@ public class Options {
         /*
          * Permissions
          */
-        permissionFreeze = permissionsConfig.getString("freeze");
-        permissionFreezeBypass = permissionsConfig.getString("freeze-bypass");
         permissionMember = permissionsConfig.getString("member");
-        ipHidePerm = permissionsConfig.getString("ipPerm");
-        permissionCounterGuiShowVanish = permissionsConfig.getString("counter-show-vanished");
     }
 
 
