@@ -7,6 +7,8 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpService;
+import net.shortninja.staffplus.core.domain.staff.ban.ipbans.bungee.dto.IpBanBungeeDto;
+import net.shortninja.staffplus.core.domain.staff.ban.ipbans.bungee.events.IpBanBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
 import net.shortninja.staffplusplus.ban.IIpBan;
 import net.shortninja.staffplusplus.ban.IpBanEvent;
@@ -51,6 +53,27 @@ public class IpBanKickPlayerListener implements Listener {
 
                 BanType banType = ban.getEndTimestamp().isPresent() ? BanType.TEMP_BAN : BanType.PERM_BAN;
                 String template = ipBanTemplateResolver.resolveTemplate(ipBanEvent.getKickTemplate().orElse(null), banType);
+                String banMessage = replaceBanPlaceholders(template, ban);
+                sppPlayers.forEach(sppPlayer -> sppPlayer.getPlayer().kickPlayer(messages.colorize(banMessage)));
+            }, 1);
+        });
+
+    }
+
+    @EventHandler
+    public void kickBannedPlayer(IpBanBungeeEvent ipBanEvent) {
+        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+            IpBanBungeeDto ban = ipBanEvent.getBan();
+            List<PlayerIpRecord> playersToKick = ban.isSubnet() ? playerIpService.getMatchedBySubnet(ban.getIp()) : playerIpService.getMatchedByIp(ban.getIp());
+
+            getScheduler().runTaskLater(StaffPlus.get(), () -> {
+                List<SppPlayer> sppPlayers = playersToKick.stream().map(p -> playerManager.getOnlinePlayer(p.getPlayerUuid()))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList());
+
+                BanType banType = ban.getEndTimestamp() != null ? BanType.TEMP_BAN : BanType.PERM_BAN;
+                String template = ipBanTemplateResolver.resolveTemplate(ipBanEvent.getKickTemplate(), banType);
                 String banMessage = replaceBanPlaceholders(template, ban);
                 sppPlayers.forEach(sppPlayer -> sppPlayer.getPlayer().kickPlayer(messages.colorize(banMessage)));
             }, 1);

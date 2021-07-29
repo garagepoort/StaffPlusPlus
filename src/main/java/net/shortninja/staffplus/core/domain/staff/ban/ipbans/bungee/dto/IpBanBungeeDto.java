@@ -1,74 +1,62 @@
-package net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.dto;
+package net.shortninja.staffplus.core.domain.staff.ban.ipbans.bungee.dto;
 
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.bungee.BungeeMessage;
-import net.shortninja.staffplusplus.ban.IBan;
+import net.shortninja.staffplusplus.ban.IIpBan;
 
 import java.util.UUID;
 
-public class BanBungeeDto extends BungeeMessage {
+public class IpBanBungeeDto extends BungeeMessage {
 
-    private final int id;
-    private final String reason;
-    private final String targetName;
-    private final UUID targetUuid;
+    private final Long id;
+    private final String ip;
     private final String issuerName;
     private final UUID issuerUuid;
     private final String unbannedByName;
     private final UUID unbannedByUuid;
-    private final String unbanReason;
     private final boolean silentBan;
     private final boolean silentUnban;
+    private final Long creationDate;
     private final Long endTimestamp;
-    private String banMessage;
+    private final boolean isSubnet;
+    private String template;
 
-    public BanBungeeDto(IBan ban, String banMessage) {
+    public IpBanBungeeDto(IIpBan ban, String template) {
         super(ban.getServerName());
         this.id = ban.getId();
-        this.reason = ban.getReason();
-        this.targetName = ban.getTargetName();
-        this.targetUuid = ban.getTargetUuid();
+        this.ip = ban.getIp();
         this.issuerName = ban.getIssuerName();
         this.issuerUuid = ban.getIssuerUuid();
-        this.unbannedByName = ban.getUnbannedByName();
-        this.unbannedByUuid = ban.getUnbannedByUuid();
-        this.unbanReason = ban.getUnbanReason();
+        this.unbannedByName = ban.getUnbannedByName().orElse(null);
+        this.unbannedByUuid = ban.getUnbannedByUuid().orElse(null);
         this.silentBan = ban.isSilentBan();
         this.silentUnban = ban.isSilentUnban();
-        this.banMessage = banMessage;
-        this.endTimestamp = ban.getEndTimestamp();
+        this.creationDate = ban.getCreationDate();
+        this.endTimestamp = ban.getEndTimestamp().orElse(null);
+        this.isSubnet = ban.isSubnet();
+        this.template = template;
     }
-
-    public BanBungeeDto(IBan ban) {
+    public IpBanBungeeDto(IIpBan ban) {
         super(ban.getServerName());
         this.id = ban.getId();
-        this.reason = ban.getReason();
-        this.targetName = ban.getTargetName();
-        this.targetUuid = ban.getTargetUuid();
+        this.ip = ban.getIp();
         this.issuerName = ban.getIssuerName();
         this.issuerUuid = ban.getIssuerUuid();
-        this.unbannedByName = ban.getUnbannedByName();
-        this.unbannedByUuid = ban.getUnbannedByUuid();
-        this.unbanReason = ban.getUnbanReason();
+        this.unbannedByName = ban.getUnbannedByName().orElse(null);
+        this.unbannedByUuid = ban.getUnbannedByUuid().orElse(null);
         this.silentBan = ban.isSilentBan();
         this.silentUnban = ban.isSilentUnban();
-        this.endTimestamp = ban.getEndTimestamp();
+        this.creationDate = ban.getCreationDate();
+        this.endTimestamp = ban.getEndTimestamp().orElse(null);
+        this.isSubnet = ban.isSubnet();
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getReason() {
-        return reason;
-    }
-
-    public String getTargetName() {
-        return targetName;
-    }
-
-    public UUID getTargetUuid() {
-        return targetUuid;
+    public String getIp() {
+        return ip;
     }
 
     public String getIssuerName() {
@@ -87,10 +75,6 @@ public class BanBungeeDto extends BungeeMessage {
         return unbannedByUuid;
     }
 
-    public String getUnbanReason() {
-        return unbanReason;
-    }
-
     public boolean isSilentBan() {
         return silentBan;
     }
@@ -99,8 +83,8 @@ public class BanBungeeDto extends BungeeMessage {
         return silentUnban;
     }
 
-    public String getBanMessage() {
-        return banMessage;
+    public Long getCreationDate() {
+        return creationDate;
     }
 
     public Long getEndTimestamp() {
@@ -108,10 +92,18 @@ public class BanBungeeDto extends BungeeMessage {
     }
 
     public String getHumanReadableDuration() {
-        if(endTimestamp == null) {
+        if (endTimestamp == null) {
             return null;
         }
         long duration = JavaUtils.getDuration(endTimestamp);
         return JavaUtils.toHumanReadableDuration(duration);
+    }
+
+    public boolean isSubnet() {
+        return isSubnet;
+    }
+
+    public String getTemplate() {
+        return template;
     }
 }
