@@ -5,6 +5,9 @@ import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBanConfiguration;
+import net.shortninja.staffplus.core.domain.staff.ban.ipbans.bungee.dto.IpBanBungeeDto;
+import net.shortninja.staffplus.core.domain.staff.ban.ipbans.bungee.events.IpBanBungeeEvent;
+import net.shortninja.staffplus.core.domain.staff.ban.ipbans.bungee.events.IpUnbanBungeeEvent;
 import net.shortninja.staffplusplus.ban.IIpBan;
 import net.shortninja.staffplusplus.ban.IpBanEvent;
 import net.shortninja.staffplusplus.ban.IpUnbanEvent;
@@ -41,12 +44,37 @@ public class IpBanChatNotifier implements Listener {
     }
 
     @EventHandler
+    public void notifyIpBannedBungee(IpBanBungeeEvent event) {
+        IpBanBungeeDto ban = event.getBan();
+
+        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.send(p.getPlayer(), "&6Ban executed", messages.prefixBans));
+
+        if (!ban.isSilentBan()) {
+            String banMessage = ban.getEndTimestamp() != null ? messages.ipbanPermabanned : messages.ipbanTempbanned;
+            String message = replaceBanPlaceholders(banMessage, ban);
+            this.messages.sendGroupMessage(message, banConfiguration.staffNotificationPermission, messages.prefixBans);
+        }
+    }
+
+    @EventHandler
     public void notifyUnban(IpUnbanEvent event) {
         IIpBan ban = event.getBan();
 
         playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.send(p.getPlayer(), "&6Unban executed", messages.prefixBans));
 
         if (!ban.isSilentUnban()) {
+            String unbanMessage = replaceBanPlaceholders(messages.ipbanUnbanned, ban);
+            this.messages.sendGroupMessage(unbanMessage, banConfiguration.staffNotificationPermission, messages.prefixBans);
+        }
+    }
+
+    @EventHandler
+    public void notifyIpUnbannedBungee(IpUnbanBungeeEvent event) {
+        IpBanBungeeDto ban = event.getBan();
+
+        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> messages.send(p.getPlayer(), "&6Ban executed", messages.prefixBans));
+
+        if (!ban.isSilentBan()) {
             String unbanMessage = replaceBanPlaceholders(messages.ipbanUnbanned, ban);
             this.messages.sendGroupMessage(unbanMessage, banConfiguration.staffNotificationPermission, messages.prefixBans);
         }
