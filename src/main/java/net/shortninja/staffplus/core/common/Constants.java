@@ -18,6 +18,9 @@ public class Constants {
     public static final String BUNGEE_PLAYER_BANNED_CHANNEL = "staffplusplus.banned-player";
     public static final String BUNGEE_PLAYER_UNBANNED_CHANNEL = "staffplusplus.unbanned-player";
 
+    public static final String BUNGEE_IP_BANNED_CHANNEL = "staffplusplus.banned-ip";
+    public static final String BUNGEE_IP_UNBANNED_CHANNEL = "staffplusplus.unbanned-ip";
+
     public static final String BUNGEE_STAFFCHAT_CHANNEL = "StaffPlusPlusChat";
     public static final String BUNGEE_INVESTIGATION_STARTED_CHANNEL = "staffplusplus.investigation-started";
     public static final String BUNGEE_INVESTIGATION_PAUSED_CHANNEL = "staffplusplus.investigation-paused";
