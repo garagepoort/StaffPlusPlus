@@ -131,15 +131,8 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         Ban ban = new Ban(fullReason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId(), isSilent);
         ban.setId(bansRepository.addBan(ban));
 
-        kickPlayer(playerToBan, ban, templateMessage);
-        sendEvent(new BanEvent(ban));
-    }
-
-    private void kickPlayer(SppPlayer playerToBan, Ban ban, String templateMessage) {
-        if (playerToBan.isOnline()) {
-            String banMessage = replaceBanPlaceholders(templateMessage, ban);
-            playerToBan.getPlayer().kickPlayer(messages.colorize(banMessage));
-        }
+        String banMessage = replaceBanPlaceholders(templateMessage, ban);
+        sendEvent(new BanEvent(ban, banMessage));
     }
 
     private void unban(Ban ban) {
