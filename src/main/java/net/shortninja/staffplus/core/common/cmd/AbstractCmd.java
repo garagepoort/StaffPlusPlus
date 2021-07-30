@@ -228,6 +228,9 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     }
 
     protected void setPermissions(Set<String> permissions) {
+        if (!permissions.isEmpty()) {
+            super.setPermission(permissions.iterator().next());
+        }
         this.permissions = permissions;
     }
 
