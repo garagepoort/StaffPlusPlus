@@ -5,6 +5,7 @@
 ### Bug fixes
   - Fix mobs attacking vanished players.
   - Fix Staff list only showing first page.
+  - Fix command autocompletion
 
 # V1.17.8
 
