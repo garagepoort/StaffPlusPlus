@@ -10,9 +10,9 @@ public class ManageReportConfiguration {
     public String commandManageReportsGui;
     @ConfigProperty("permissions:reports.manage.view")
     public String permissionView;
-    @ConfigProperty("permissions:reports.manage.view")
-    public String permissionDelete;
     @ConfigProperty("permissions:reports.manage.delete")
+    public String permissionDelete;
+    @ConfigProperty("permissions:reports.manage.accept")
     public String permissionAccept;
     @ConfigProperty("permissions:reports.manage.resolve")
     public String permissionResolve;
