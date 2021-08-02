@@ -12,7 +12,7 @@
         <#if player.uniqueId == report.staffUuid && GuiUtils.hasPermission(player, .data_model["permissions:reports.manage.resolve"])>
             <#list [34,35,43,44] as slot>
                 <GuiItem slot="${slot}"
-                         material="GREEN_STAINED_GLASS_PANE"
+                         material="GREEN_GLAZED_TERRACOTTA"
                          name="Resolve report"
                          onLeftClick="manage-reports/resolve?reportId=${report.id}">
                     <Lore>
@@ -25,7 +25,7 @@
         <#if player.uniqueId == report.staffUuid || GuiUtils.hasPermission(player, .data_model["permissions:reports.manage.reopen-other"])>
             <#list [27,28,36,37] as slot>
                 <GuiItem slot="${slot}"
-                         material="WHITE_STAINED_GLASS_PANE"
+                         material="THIN_GLASS"
                          name="Unassign"
                          onLeftClick="manage-reports/reopen?reportId=${report.id}">
                     <Lore>
@@ -38,7 +38,7 @@
         <#if player.uniqueId == report.staffUuid && GuiUtils.hasPermission(player, .data_model["permissions:reports.manage.reject"])>
             <#list [30,31,32,39,40,41] as slot>
                 <GuiItem slot="${slot}"
-                         material="RED_STAINED_GLASS_PANE"
+                         material="RED_GLAZED_TERRACOTTA"
                          name="Reject report"
                          onLeftClick="manage-reports/reject?reportId=${report.id}">
                     <Lore>
@@ -65,7 +65,7 @@
 
     <#if GuiUtils.hasPermission(player, .data_model["permissions:reports.manage.teleport"])>
         <GuiItem slot="0"
-                 material="ORANGE_STAINED_GLASS_PANE"
+                 material="ORANGE_GLAZED_TERRACOTTA"
                  name="Teleport"
                  onLeftClick="manage-reports/teleport?reportId=${report.id}">
             <Lore>
