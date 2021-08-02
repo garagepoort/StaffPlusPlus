@@ -3,18 +3,15 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
-import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.GuiParams;
 import be.garagepoort.mcioc.gui.TubingGui;
-import be.garagepoort.mcioc.gui.TubingGuiActions;
+import be.garagepoort.mcioc.gui.templates.GuiTemplateResolver;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
-import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
-import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
@@ -22,18 +19,12 @@ import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.cmd.ReportFiltersMapper;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
-import net.shortninja.staffplus.core.domain.staff.reporting.gui.views.FindReportsViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.reporting.gui.views.ManageReportsViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.reporting.gui.views.ReportDetailViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.reporting.gui.views.ReportItemBuilder;
 import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @IocBean
 @GuiController
@@ -44,66 +35,135 @@ public class ReportsGuiController {
 
     private final PermissionHandler permissionHandler;
     private final ManageReportConfiguration manageReportConfiguration;
-    private final ReportItemBuilder reportItemBuilder;
     private final ReportService reportService;
     private final Options options;
     private final Messages messages;
     private final ManageReportService manageReportService;
-    private final ReportDetailViewBuilder reportDetailViewBuilder;
-    private final ManageReportsViewBuilder manageReportsViewBuilder;
-    private final FindReportsViewBuilder findReportsViewBuilder;
     private final SessionManagerImpl sessionManager;
     private final ReportFiltersMapper reportFiltersMapper;
-
-    private final GuiItemConfig closedReportsGui;
-    private final GuiItemConfig myAssignedReportsGui;
-    private final GuiItemConfig assignedReportsGui;
-    private final GuiItemConfig openReportsGui;
+    private final GuiTemplateResolver guiTemplateResolver;
 
     public ReportsGuiController(PermissionHandler permissionHandler,
                                 ManageReportConfiguration manageReportConfiguration,
-                                ReportItemBuilder reportItemBuilder,
                                 ReportService reportService,
                                 Options options,
                                 Messages messages,
                                 ManageReportService manageReportService,
-                                ReportDetailViewBuilder reportDetailViewBuilder,
-                                ManageReportsViewBuilder manageReportsViewBuilder,
-                                FindReportsViewBuilder findReportsViewBuilder, SessionManagerImpl sessionManager, ReportFiltersMapper reportFiltersMapper) {
+                                SessionManagerImpl sessionManager,
+                                ReportFiltersMapper reportFiltersMapper,
+                                GuiTemplateResolver guiTemplateResolver) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
-        this.reportItemBuilder = reportItemBuilder;
         this.reportService = reportService;
         this.options = options;
         this.messages = messages;
         this.manageReportService = manageReportService;
 
-        openReportsGui = options.reportConfiguration.getOpenReportsGui();
-        closedReportsGui = options.reportConfiguration.getClosedReportsGui();
-        myAssignedReportsGui = options.reportConfiguration.getMyAssignedReportsGui();
-        assignedReportsGui = options.reportConfiguration.getAssignedReportsGui();
-
-        this.reportDetailViewBuilder = reportDetailViewBuilder;
-        this.manageReportsViewBuilder = manageReportsViewBuilder;
-        this.findReportsViewBuilder = findReportsViewBuilder;
         this.sessionManager = sessionManager;
         this.reportFiltersMapper = reportFiltersMapper;
+        this.guiTemplateResolver = guiTemplateResolver;
     }
 
     @GuiAction("manage-reports/view/overview")
-    public TubingGui manageReportsOverview(Player player) {
+    public TubingGui manageReportsOverview(Player player, @CurrentAction String currentAction) {
         permissionHandler.validate(player, manageReportConfiguration.permissionView);
-        return manageReportsViewBuilder.buildGui();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("currentAction", currentAction);
+        return guiTemplateResolver.resolve("gui/reports/manage-reports.ftl", params);
     }
 
     @GuiAction("manage-reports/view/find-reports")
-    public TubingGui allAssignedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
+    public TubingGui viewFindReports(@GuiParam(value = "page", defaultValue = "0") int page,
                                            @CurrentAction String currentAction,
                                            @GuiParams Map<String, String> allParams) {
         ReportFilters.ReportFiltersBuilder reportFiltersBuilder = new ReportFilters.ReportFiltersBuilder();
         allParams.forEach((k, v) -> reportFiltersMapper.map(k, v, reportFiltersBuilder));
-        return findReportsViewBuilder.buildGui(reportFiltersBuilder.build(), currentAction, page);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("title", "Find reports");
+        params.put("reports", reportService.findReports(reportFiltersBuilder.build(), page * PAGE_SIZE, PAGE_SIZE));
+        addPageParams(page, currentAction, null, params);
+
+        return guiTemplateResolver.resolve("gui/reports/find-reports.ftl", params);
     }
+
+    @GuiAction("manage-reports/view/open")
+    public TubingGui openReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
+                                    @CurrentAction String currentAction,
+                                    @GuiParam("backAction") String backAction) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("title", "Open reports");
+        params.put("reports", reportService.getUnresolvedReports(PAGE_SIZE * page, PAGE_SIZE));
+        addPageParams(page, currentAction, backAction, params);
+
+        return guiTemplateResolver.resolve("gui/reports/open-reports.ftl", params);
+    }
+
+    @GuiAction("manage-reports/view/detail")
+    public TubingGui goToManageReportView(Player player,
+                                          @GuiParam("reportId") int reportId,
+                                          @GuiParam("backAction") String backAction,
+                                          @CurrentAction String currentAction) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("player", player);
+        params.put("report", reportService.getReport(reportId));
+        params.put("backAction", backAction);
+        params.put("currentAction", currentAction);
+
+        return guiTemplateResolver.resolve("gui/reports/report-detail.ftl", params);
+    }
+
+    @GuiAction("manage-reports/view/assigned")
+    public TubingGui allAssignedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
+                                           @CurrentAction String currentAction,
+                                           @GuiParam("backAction") String backAction) {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("title", "Reports in progress");
+        params.put("reports", reportService.getAllAssignedReports(PAGE_SIZE * page, PAGE_SIZE));
+        addPageParams(page, currentAction, backAction, params);
+
+        return guiTemplateResolver.resolve("gui/reports/reports.ftl", params);
+    }
+
+    @GuiAction("manage-reports/view/closed")
+    public TubingGui closedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
+                                      @CurrentAction String currentAction,
+                                      @GuiParam("backAction") String backAction) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("title", "Closed reports");
+        params.put("reports", manageReportService.getClosedReports(PAGE_SIZE * page, PAGE_SIZE));
+        addPageParams(page, currentAction, backAction, params);
+
+        return guiTemplateResolver.resolve("gui/reports/reports.ftl", params);
+    }
+
+
+    @GuiAction("manage-reports/view/my-assigned")
+    public TubingGui myAssignedReportsGui(Player player,
+                                          @GuiParam(value = "page", defaultValue = "0") int page,
+                                          @CurrentAction String currentAction,
+                                          @GuiParam("backAction") String backAction) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("title", "Reports assigned to you");
+        params.put("reports", reportService.getAssignedReports(player.getUniqueId(), PAGE_SIZE * page, PAGE_SIZE));
+        addPageParams(page, currentAction, backAction, params);
+
+        return guiTemplateResolver.resolve("gui/reports/reports.ftl", params);
+    }
+
+    @GuiAction("my-reports/view")
+    public TubingGui myReportsGui(Player player,
+                                  @GuiParam(value = "page", defaultValue = "0") int page,
+                                  @CurrentAction String currentAction) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("reports", reportService.getMyReports(player.getUniqueId(), PAGE_SIZE * page, PAGE_SIZE));
+        addPageParams(page, currentAction, null, params);
+
+        return guiTemplateResolver.resolve("gui/reports/my-reports.ftl", params);
+    }
+
 
     @GuiAction("manage-reports/accept")
     public void acceptReport(Player player,
@@ -125,6 +185,17 @@ public class ReportsGuiController {
         manageReportService.reopenReport(player, reportId);
     }
 
+    @GuiAction("manage-reports/teleport")
+    public void teleportToReport(Player player,
+                                 @GuiParam("reportId") int reportId) {
+        Report report = reportService.getReport(reportId);
+        if (report.getLocation().isPresent()) {
+            reportService.goToReportLocation(player, report.getId());
+        } else {
+            messages.send(player, "&cLocation not known for this report.", messages.prefixReports);
+        }
+    }
+
     @GuiAction("manage-reports/reject")
     public void rejectReport(Player player,
                              @GuiParam("reportId") int reportId) {
@@ -144,17 +215,6 @@ public class ReportsGuiController {
             });
         } else {
             manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
-        }
-    }
-
-    @GuiAction("manage-reports/teleport")
-    public void teleportToReport(Player player,
-                                 @GuiParam("reportId") int reportId) {
-        Report report = reportService.getReport(reportId);
-        if (report.getLocation().isPresent()) {
-            reportService.goToReportLocation(player, report.getId());
-        } else {
-            messages.send(player, "&cLocation not known for this report.", messages.prefixReports);
         }
     }
 
@@ -181,74 +241,11 @@ public class ReportsGuiController {
         }
     }
 
-    @GuiAction("manage-reports/view/open")
-    public TubingGui openReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
-                                    @CurrentAction String currentAction,
-                                    @GuiParam("backAction") String backAction) {
-        Collection<Report> reports = reportService.getUnresolvedReports(PAGE_SIZE * page, PAGE_SIZE);
-        return getReportsView(page, reports, currentAction, openReportsGui.getTitle(), r -> "manage-reports/accept?reportId=" + r.getId(), backAction);
+
+    private void addPageParams(int page, String currentAction, String backAction, Map<String, Object> params) {
+        params.put("page", page);
+        params.put("backAction", backAction);
+        params.put("currentAction", currentAction);
     }
 
-    @GuiAction("manage-reports/view/detail")
-    public TubingGui goToManageReportView(Player player,
-                                          @GuiParam("reportId") int reportId,
-                                          @GuiParam("backAction") String backAction,
-                                          @CurrentAction String currentAction) {
-        Report report = reportService.getReport(reportId);
-        return reportDetailViewBuilder.buildGui(player, report, backAction, currentAction);
-    }
-
-    @GuiAction("manage-reports/view/assigned")
-    public TubingGui allAssignedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
-                                           @CurrentAction String currentAction,
-                                           @GuiParam("backAction") String backAction) {
-        Collection<Report> reports = reportService.getAllAssignedReports(PAGE_SIZE * page, PAGE_SIZE);
-        return getReportsView(page, reports, currentAction, assignedReportsGui.getTitle(), backAction);
-    }
-
-    @GuiAction("manage-reports/view/closed")
-    public TubingGui closedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
-                                      @CurrentAction String currentAction,
-                                      @GuiParam("backAction") String backAction) {
-        List<Report> reports = manageReportService.getClosedReports(PAGE_SIZE * page, PAGE_SIZE);
-        return getReportsView(page, reports, currentAction, closedReportsGui.getTitle(), backAction);
-    }
-
-
-    @GuiAction("manage-reports/view/my-assigned")
-    public TubingGui myAssignedReportsGui(Player player,
-                                          @GuiParam(value = "page", defaultValue = "0") int page,
-                                          @CurrentAction String currentAction,
-                                          @GuiParam("backAction") String backAction) {
-        Collection<Report> reports = reportService.getAssignedReports(player.getUniqueId(), PAGE_SIZE * page, PAGE_SIZE);
-        return getReportsView(page, reports, currentAction, myAssignedReportsGui.getTitle(), backAction);
-    }
-
-    @GuiAction("my-reports/view")
-    public TubingGui myReportsGui(Player player,
-                                  @GuiParam(value = "page", defaultValue = "0") int page,
-                                  @CurrentAction String currentAction) {
-        Collection<Report> reports = reportService.getMyReports(player.getUniqueId(), PAGE_SIZE * page, PAGE_SIZE);
-        return getReportsView(page, reports, currentAction, "My Reports", r -> TubingGuiActions.NOOP, null);
-    }
-
-    private TubingGui getReportsView(int page, Collection<Report> reports, String action, String title, String backAction) {
-        return getReportsView(page, reports, action, title, r -> getDetailAction(action, r), backAction);
-    }
-
-    private TubingGui getReportsView(int page, Collection<Report> assignedReports, String action, String title, Function<Report, String> clickAction, String backAction) {
-        return new PagedGuiBuilder.Builder(messages.colorize(title))
-            .addPagedItems(action, assignedReports, reportItemBuilder::build, clickAction, page)
-            .backAction(backAction)
-            .build();
-    }
-
-    private String getDetailAction(String currentAction, Report report) {
-
-        return GuiActionBuilder.builder()
-            .action("manage-reports/view/detail")
-            .param("reportId", String.valueOf(report.getId()))
-            .param("backAction", currentAction)
-            .build();
-    }
 }

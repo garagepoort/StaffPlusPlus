@@ -4,27 +4,25 @@ import net.shortninja.staffplus.core.domain.confirmation.ConfirmationConfig;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfiguration;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CustomModuleConfiguration extends ModeItemConfiguration {
-    private ModuleType moduleType;
-    private String action;
+    private final ModuleType moduleType;
+    private final List<String> actions;
+    private final String enchantment;
+    private final int level;
+    private final ConfirmationConfig confirmationConfig;
+    private final boolean requireInput;
+    private final String inputPrompt;
 
-    private String enchantment;
-    private int level;
-
-    private ConfirmationConfig confirmationConfig;
-
-    private boolean requireInput;
-    private String inputPrompt;
-
-    public CustomModuleConfiguration(boolean enabled, String identifier, ModuleType moduleType, ItemStack item, String action, ConfirmationConfig confirmationConfig, boolean requireInput, String inputPrompt) {
+    public CustomModuleConfiguration(boolean enabled, String identifier, ModuleType moduleType, ItemStack item, List<String> actions, ConfirmationConfig confirmationConfig, boolean requireInput, String inputPrompt) {
         super(identifier);
         this.confirmationConfig = confirmationConfig;
         this.requireInput = requireInput;
         this.inputPrompt = inputPrompt;
         this.moduleType = moduleType;
-        this.action = action;
+        this.actions = actions;
         this.enchantment = "";
         this.level = 0;
         setEnabled(enabled);
@@ -35,8 +33,8 @@ public class CustomModuleConfiguration extends ModeItemConfiguration {
         return moduleType;
     }
 
-    public String getAction() {
-        return action;
+    public List<String> getActions() {
+        return actions;
     }
 
     public String getEnchantment() {
