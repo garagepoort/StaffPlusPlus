@@ -206,32 +206,34 @@ public class GadgetHandler {
     }
 
     public void executeModule(Player player, Player targetPlayer, CustomModuleConfiguration customModuleConfiguration, Map<String, String> placeholders) {
-        String command = customModuleConfiguration.getAction()
-            .replace("%clicker%", player.getName());
-        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
-            command = command.replace(entry.getKey(), entry.getValue());
-        }
-        if (targetPlayer != null) {
-            command = command.replace("%clicked%", targetPlayer.getName());
-        }
+        List<String> commands = customModuleConfiguration.getActions();
+        for (String action : commands) {
+            String command = action.replace("%clicker%", player.getName());
+            for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+                command = command.replace(entry.getKey(), entry.getValue());
+            }
+            if (targetPlayer != null) {
+                command = command.replace("%clicked%", targetPlayer.getName());
+            }
 
-        switch (customModuleConfiguration.getType()) {
-            case COMMAND_STATIC:
-                Bukkit.dispatchCommand(player, command);
-                break;
-            case COMMAND_DYNAMIC:
-                if (targetPlayer != null) {
+            switch (customModuleConfiguration.getType()) {
+                case COMMAND_STATIC:
                     Bukkit.dispatchCommand(player, command);
-                }
-                break;
-            case COMMAND_CONSOLE:
-                if (targetPlayer != null) {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-                } else
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-                break;
-            default:
-                break;
+                    break;
+                case COMMAND_DYNAMIC:
+                    if (targetPlayer != null) {
+                        Bukkit.dispatchCommand(player, command);
+                    }
+                    break;
+                case COMMAND_CONSOLE:
+                    if (targetPlayer != null) {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                    } else
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
