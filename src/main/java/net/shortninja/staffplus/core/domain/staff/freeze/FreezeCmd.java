@@ -32,7 +32,7 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TE
     command = "commands:freeze",
     permissions = "permissions:freeze",
     description = "Freezes or unfreezes the player",
-    usage = "[player] [enable | disable]",
+    usage = "[enabled | disabled] [player]",
     delayable = true,
     playerRetrievalStrategy = ONLINE
 )

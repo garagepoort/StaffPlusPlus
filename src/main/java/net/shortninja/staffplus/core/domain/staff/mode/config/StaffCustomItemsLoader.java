@@ -62,7 +62,7 @@ public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModu
 
             List<String> lore = new ArrayList<>(Arrays.asList(commas.split("\\s*,\\s*")));
             ItemStack item = Items.builder().setMaterial(type).setData(data).setName(name).setLore(lore).build();
-            String action = "";
+            List<String> actions = new ArrayList<>();
 
 
             if (!config.getString(CUSTOM_MODULES + identifier + ".enchantment", "").equalsIgnoreCase("")) {
@@ -79,13 +79,13 @@ public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModu
 
 
             if (moduleType != CustomModuleConfiguration.ModuleType.ITEM) {
-                action = config.getString(CUSTOM_MODULES + identifier + ".command");
+                actions = (List<String>) config.getList(CUSTOM_MODULES + identifier + ".commands");
             }
 
             boolean requireInput = config.getBoolean(CUSTOM_MODULES + identifier + ".require-input", false);
             String inputPrompt = config.getString(CUSTOM_MODULES + identifier + ".input-prompt", null);
             item = protocolService.getVersionProtocol().addNbtString(item, identifier);
-            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, item, action, confirmationConfig, requireInput, inputPrompt));
+            customModuleConfigurations.add(new CustomModuleConfiguration(true, identifier, moduleType, item, actions, confirmationConfig, requireInput, inputPrompt));
         }
         return customModuleConfigurations;
     }
