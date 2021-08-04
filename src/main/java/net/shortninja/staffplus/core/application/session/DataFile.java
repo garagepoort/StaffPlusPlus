@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 @IocBean
 public class DataFile {
     private static final String DATA_YML = "data.yml";
-    private YamlConfiguration configuration;
+
+    private final YamlConfiguration configuration;
 
     public DataFile(){
         File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
@@ -52,7 +53,7 @@ public class DataFile {
         }
     }
 
-    private void updateSessionInfo(PlayerSession session) {
+    private synchronized  void updateSessionInfo(PlayerSession session) {
         configuration.set(session.getUuid() + ".name", session.getName());
         configuration.set(session.getUuid() + ".glass-color", session.getGlassColor() != null ? session.getGlassColor().name() : Material.STAINED_GLASS_PANE);
         configuration.set(session.getUuid() + ".notes", new ArrayList<>(session.getPlayerNotes()));
