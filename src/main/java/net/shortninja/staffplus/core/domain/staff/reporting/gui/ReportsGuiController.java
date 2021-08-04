@@ -1,13 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.GuiParams;
-import be.garagepoort.mcioc.gui.TubingGui;
-import be.garagepoort.mcioc.gui.templates.GuiTemplateResolver;
+import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
@@ -26,6 +24,8 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
+
 @IocBean
 @GuiController
 public class ReportsGuiController {
@@ -41,7 +41,6 @@ public class ReportsGuiController {
     private final ManageReportService manageReportService;
     private final SessionManagerImpl sessionManager;
     private final ReportFiltersMapper reportFiltersMapper;
-    private final GuiTemplateResolver guiTemplateResolver;
 
     public ReportsGuiController(PermissionHandler permissionHandler,
                                 ManageReportConfiguration manageReportConfiguration,
@@ -50,8 +49,7 @@ public class ReportsGuiController {
                                 Messages messages,
                                 ManageReportService manageReportService,
                                 SessionManagerImpl sessionManager,
-                                ReportFiltersMapper reportFiltersMapper,
-                                GuiTemplateResolver guiTemplateResolver) {
+                                ReportFiltersMapper reportFiltersMapper) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
         this.reportService = reportService;
@@ -61,113 +59,86 @@ public class ReportsGuiController {
 
         this.sessionManager = sessionManager;
         this.reportFiltersMapper = reportFiltersMapper;
-        this.guiTemplateResolver = guiTemplateResolver;
     }
 
     @GuiAction("manage-reports/view/overview")
-    public TubingGui manageReportsOverview(Player player, @CurrentAction String currentAction) {
+    public GuiTemplate manageReportsOverview(Player player) {
         permissionHandler.validate(player, manageReportConfiguration.permissionView);
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("currentAction", currentAction);
-        return guiTemplateResolver.resolve("gui/reports/manage-reports.ftl", params);
+        return template("gui/reports/manage-reports.ftl", new HashMap<>());
     }
 
     @GuiAction("manage-reports/view/find-reports")
-    public TubingGui viewFindReports(@GuiParam(value = "page", defaultValue = "0") int page,
-                                           @CurrentAction String currentAction,
-                                           @GuiParams Map<String, String> allParams) {
+    public GuiTemplate viewFindReports(@GuiParam(value = "page", defaultValue = "0") int page,
+                                            @GuiParams Map<String, String> allParams) {
         ReportFilters.ReportFiltersBuilder reportFiltersBuilder = new ReportFilters.ReportFiltersBuilder();
         allParams.forEach((k, v) -> reportFiltersMapper.map(k, v, reportFiltersBuilder));
 
         Map<String, Object> params = new HashMap<>();
         params.put("title", "Find reports");
         params.put("reports", reportService.findReports(reportFiltersBuilder.build(), page * PAGE_SIZE, PAGE_SIZE));
-        addPageParams(page, currentAction, null, params);
 
-        return guiTemplateResolver.resolve("gui/reports/find-reports.ftl", params);
+        return template("gui/reports/find-reports.ftl", params);
     }
 
     @GuiAction("manage-reports/view/open")
-    public TubingGui openReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
-                                    @CurrentAction String currentAction,
-                                    @GuiParam("backAction") String backAction) {
+    public GuiTemplate openReportsGui(@GuiParam(value = "page", defaultValue = "0") int page) {
         Map<String, Object> params = new HashMap<>();
         params.put("title", "Open reports");
         params.put("reports", reportService.getUnresolvedReports(PAGE_SIZE * page, PAGE_SIZE));
-        addPageParams(page, currentAction, backAction, params);
 
-        return guiTemplateResolver.resolve("gui/reports/open-reports.ftl", params);
+        return template("gui/reports/open-reports.ftl", params);
     }
 
     @GuiAction("manage-reports/view/detail")
-    public TubingGui goToManageReportView(Player player,
-                                          @GuiParam("reportId") int reportId,
-                                          @GuiParam("backAction") String backAction,
-                                          @CurrentAction String currentAction) {
+    public GuiTemplate goToManageReportView(Player player, @GuiParam("reportId") int reportId) {
         Map<String, Object> params = new HashMap<>();
         params.put("player", player);
         params.put("report", reportService.getReport(reportId));
-        params.put("backAction", backAction);
-        params.put("currentAction", currentAction);
 
-        return guiTemplateResolver.resolve("gui/reports/report-detail.ftl", params);
+        return template("gui/reports/report-detail.ftl", params);
     }
 
     @GuiAction("manage-reports/view/assigned")
-    public TubingGui allAssignedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
-                                           @CurrentAction String currentAction,
-                                           @GuiParam("backAction") String backAction) {
+    public GuiTemplate allAssignedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page) {
 
         Map<String, Object> params = new HashMap<>();
         params.put("title", "Reports in progress");
         params.put("reports", reportService.getAllAssignedReports(PAGE_SIZE * page, PAGE_SIZE));
-        addPageParams(page, currentAction, backAction, params);
 
-        return guiTemplateResolver.resolve("gui/reports/reports.ftl", params);
+        return template("gui/reports/reports.ftl", params);
     }
 
     @GuiAction("manage-reports/view/closed")
-    public TubingGui closedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page,
-                                      @CurrentAction String currentAction,
-                                      @GuiParam("backAction") String backAction) {
+    public GuiTemplate closedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page) {
         Map<String, Object> params = new HashMap<>();
         params.put("title", "Closed reports");
         params.put("reports", manageReportService.getClosedReports(PAGE_SIZE * page, PAGE_SIZE));
-        addPageParams(page, currentAction, backAction, params);
 
-        return guiTemplateResolver.resolve("gui/reports/reports.ftl", params);
+        return template("gui/reports/reports.ftl", params);
     }
 
 
     @GuiAction("manage-reports/view/my-assigned")
-    public TubingGui myAssignedReportsGui(Player player,
-                                          @GuiParam(value = "page", defaultValue = "0") int page,
-                                          @CurrentAction String currentAction,
-                                          @GuiParam("backAction") String backAction) {
+    public GuiTemplate myAssignedReportsGui(Player player,
+                                                 @GuiParam(value = "page", defaultValue = "0") int page) {
         Map<String, Object> params = new HashMap<>();
         params.put("title", "Reports assigned to you");
         params.put("reports", reportService.getAssignedReports(player.getUniqueId(), PAGE_SIZE * page, PAGE_SIZE));
-        addPageParams(page, currentAction, backAction, params);
 
-        return guiTemplateResolver.resolve("gui/reports/reports.ftl", params);
+        return template("gui/reports/reports.ftl", params);
     }
 
     @GuiAction("my-reports/view")
-    public TubingGui myReportsGui(Player player,
-                                  @GuiParam(value = "page", defaultValue = "0") int page,
-                                  @CurrentAction String currentAction) {
+    public GuiTemplate myReportsGui(Player player, @GuiParam(value = "page", defaultValue = "0") int page) {
         Map<String, Object> params = new HashMap<>();
         params.put("reports", reportService.getMyReports(player.getUniqueId(), PAGE_SIZE * page, PAGE_SIZE));
-        addPageParams(page, currentAction, null, params);
 
-        return guiTemplateResolver.resolve("gui/reports/my-reports.ftl", params);
+        return template("gui/reports/my-reports.ftl", params);
     }
 
 
     @GuiAction("manage-reports/accept")
-    public void acceptReport(Player player,
-                             @GuiParam("reportId") int reportId) {
+    public void acceptReport(Player player, @GuiParam("reportId") int reportId) {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
         manageReportService.acceptReport(player, reportId);
     }
@@ -239,13 +210,6 @@ public class ReportsGuiController {
         } else {
             manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
         }
-    }
-
-
-    private void addPageParams(int page, String currentAction, String backAction, Map<String, Object> params) {
-        params.put("page", page);
-        params.put("backAction", backAction);
-        params.put("currentAction", currentAction);
     }
 
 }
