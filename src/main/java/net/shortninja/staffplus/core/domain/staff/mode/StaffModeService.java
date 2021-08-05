@@ -102,6 +102,7 @@ public class StaffModeService {
         String toMode = modeConfiguration.getName();
 
         session.setModeConfiguration(modeConfiguration);
+        sessionManager.saveSession(player);
         sendEvent(new SwitchStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName, fromMode, toMode));
 
         messages.send(player, "&eYou switched to staff mode &6" + modeConfiguration.getName(), messages.prefixGeneral);
@@ -124,9 +125,10 @@ public class StaffModeService {
         }
 
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
-
         session.setInStaffMode(true);
         session.setModeConfiguration(modeConfiguration);
+        sessionManager.saveSession(player);
+
         sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName, modeConfiguration.getName()));
         messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
@@ -171,6 +173,8 @@ public class StaffModeService {
 
         session.setInStaffMode(false);
         session.setModeConfiguration(null);
+        sessionManager.saveSession(player);
+
         sendEvent(new ExitStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName, modeName));
         messages.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }

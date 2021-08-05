@@ -13,6 +13,7 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -47,6 +48,7 @@ public class ModeCmd extends AbstractCmd {
     private final StaffModeService staffModeService;
     private final SessionManagerImpl sessionManager;
     private final PlayerManager playerManager;
+    private final BukkitUtils bukkitUtils;
 
     @ConfigProperty("permissions:mode-specific")
     private String permissionModeSpecific;
@@ -57,56 +59,53 @@ public class ModeCmd extends AbstractCmd {
                    StaffModeService staffModeService,
                    SessionManagerImpl sessionManager,
                    CommandService commandService,
-                   PlayerManager playerManager) {
+                   PlayerManager playerManager, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.options = options;
         this.staffModeService = staffModeService;
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
+        bukkitUtils.runTaskAsync(sender, () -> {
+            if (args.length == 0) {
+                validateIsPlayer(sender);
+                toggleMode((Player) sender);
+                return;
+            }
 
-        if (args.length == 0) {
-            validateIsPlayer(sender);
-            toggleMode((Player) sender);
-            sessionManager.saveSession(targetPlayer.getPlayer());
-            return true;
-        }
-
-        if (args.length == 1) {
-            if (args[0].startsWith(MODE_TYPE)) {
+            if (args.length == 1) {
+                if (args[0].startsWith(MODE_TYPE)) {
+                    turnOnSpecificStaffMode(sender, args[0]);
+                } else {
+                    permissionHandler.validateOp(sender);
+                    toggleMode(targetPlayer.getPlayer());
+                }
+                return;
+            }
+            permissionHandler.validateOp(sender);
+            String option = args[1];
+            if (option.startsWith(MODE_TYPE)) {
                 turnOnSpecificStaffMode(sender, args[0]);
             } else {
-                permissionHandler.validateOp(sender);
-                toggleMode(targetPlayer.getPlayer());
+                switch (option) {
+                    case ENABLE:
+                        staffModeService.turnStaffModeOn(targetPlayer.getPlayer());
+                        break;
+                    case DISABLE:
+                        staffModeService.turnStaffModeOff(targetPlayer.getPlayer());
+                        break;
+                    default:
+                        throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
+                }
             }
-            sessionManager.saveSession(targetPlayer.getPlayer());
-            return true;
-        }
+        });
 
-        permissionHandler.validateOp(sender);
-        String option = args[1];
-        if (option.startsWith(MODE_TYPE)) {
-            turnOnSpecificStaffMode(sender, args[0]);
-        } else {
-            switch (option) {
-                case ENABLE:
-                    staffModeService.turnStaffModeOn(targetPlayer.getPlayer());
-                    sessionManager.saveSession(targetPlayer.getPlayer());
-                    return true;
-                case DISABLE:
-                    staffModeService.turnStaffModeOff(targetPlayer.getPlayer());
-                    sessionManager.saveSession(targetPlayer.getPlayer());
-                    return true;
-                default:
-                    throw new BusinessException(messages.invalidArguments.replace("%usage%", getName() + " &7" + getUsage()), messages.prefixGeneral);
-            }
-        }
 
-        sessionManager.saveSession(targetPlayer.getPlayer());
         return true;
     }
 
@@ -133,6 +132,23 @@ public class ModeCmd extends AbstractCmd {
             return Optional.of(sender.getName());
         }
         return Optional.of(args[0]);
+    }
+
+    private void toggleMode(Player player) {
+        PlayerSession session = sessionManager.get(player.getUniqueId());
+        if (session.isInStaffMode()) {
+            staffModeService.turnStaffModeOff(player);
+        } else {
+            staffModeService.turnStaffModeOn(player);
+        }
+    }
+
+    private String getModeName(String arg) {
+        String[] templateParams = arg.split("=");
+        if (templateParams.length != 2) {
+            throw new BusinessException("&CInvalid mode name provided");
+        }
+        return templateParams[1];
     }
 
     @Override
@@ -164,22 +180,5 @@ public class ModeCmd extends AbstractCmd {
         }
 
         return Collections.emptyList();
-    }
-
-    private void toggleMode(Player player) {
-        PlayerSession session = sessionManager.get(player.getUniqueId());
-        if (session.isInStaffMode()) {
-            staffModeService.turnStaffModeOff(player);
-        } else {
-            staffModeService.turnStaffModeOn(player);
-        }
-    }
-
-    private String getModeName(String arg) {
-        String[] templateParams = arg.split("=");
-        if (templateParams.length != 2) {
-            throw new BusinessException("&CInvalid mode name provided");
-        }
-        return templateParams[1];
     }
 }
