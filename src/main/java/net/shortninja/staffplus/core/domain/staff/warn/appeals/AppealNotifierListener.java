@@ -3,10 +3,10 @@ package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWarningsConfiguration;
@@ -14,8 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import static org.bukkit.Bukkit.getScheduler;
 
 @IocBean(conditionalOnProperty = "warnings-module.appeals.enabled=true")
 @IocListener
@@ -26,13 +24,15 @@ public class AppealNotifierListener implements Listener {
     private final AppealConfiguration appealConfiguration;
     private final PermissionHandler permission;
     private final Messages messages;
+    private final BukkitUtils bukkitUtils;
 
-    public AppealNotifierListener(AppealRepository appealRepository, ManageWarningsConfiguration manageWarningsConfiguration, AppealConfiguration appealConfiguration, PermissionHandler permission, Messages messages) {
+    public AppealNotifierListener(AppealRepository appealRepository, ManageWarningsConfiguration manageWarningsConfiguration, AppealConfiguration appealConfiguration, PermissionHandler permission, Messages messages, BukkitUtils bukkitUtils) {
         this.appealRepository = appealRepository;
         this.manageWarningsConfiguration = manageWarningsConfiguration;
         this.appealConfiguration = appealConfiguration;
         this.permission = permission;
         this.messages = messages;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -41,7 +41,7 @@ public class AppealNotifierListener implements Listener {
             return;
         }
 
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        bukkitUtils.runTaskAsync(() -> {
             int openAppeals = appealRepository.getCountOpenAppeals();
             if (openAppeals > 0) {
                 sendMessage(event, openAppeals);

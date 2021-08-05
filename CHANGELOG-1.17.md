@@ -2,10 +2,13 @@
 
 # V1.17.9 (NOT YET RELEASED)
 
+
+
 ### Bug fixes
   - Fix mobs attacking vanished players.
   - Fix Staff list only showing first page.
   - Fix command autocompletion
+  - Fix database issues with ipv6 ips
 
 # V1.17.8
 
