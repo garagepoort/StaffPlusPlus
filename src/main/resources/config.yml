@@ -359,6 +359,19 @@ kick-module:
 mute-module:
   # Whether or not the plugin will use "/mute player" features.
   enabled: true
+############################################################
+# +------------------------------------------------------+ #
+# |                      MUTING                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+joinmessages-module:
+  # Whether or not the plugin will use "/mute player" features.
+  enabled: true
+  messages:
+      - permission: 'staff.joinmessages.staff'
+        message: '&6[Staff] &4%player% &7joined the server'
+        weight: 1
 
 ############################################################
 # +------------------------------------------------------+ #
