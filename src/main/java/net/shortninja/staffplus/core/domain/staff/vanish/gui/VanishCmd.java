@@ -10,6 +10,7 @@ import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
@@ -38,19 +39,21 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 @IocBean(conditionalOnProperty = "vanish-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class VanishCmd extends AbstractCmd {
-    private final SessionManagerImpl sessionManager;
     private final VanishServiceImpl vanishServiceImpl;
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
     private final VanishConfiguration vanishConfiguration;
+    private final SessionManagerImpl sessionManager;
+    private final BukkitUtils bukkitUtils;
 
-    public VanishCmd(Messages messages, SessionManagerImpl sessionManager, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler, PlayerManager playerManager, VanishConfiguration vanishConfiguration) {
+    public VanishCmd(Messages messages, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler, PlayerManager playerManager, VanishConfiguration vanishConfiguration, SessionManagerImpl sessionManager, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
-        this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
         this.vanishConfiguration = vanishConfiguration;
+        this.sessionManager = sessionManager;
+        this.bukkitUtils = bukkitUtils;
     }
 
 
@@ -60,33 +63,29 @@ public class VanishCmd extends AbstractCmd {
         VanishType vanishType = VanishType.valueOf(args[0].toUpperCase());
 
         if (args.length >= 3 && permissionHandler.isOp(sender)) {
-            String option = args[2];
-
-            if (option.equalsIgnoreCase("enable")) {
-                handleVanishArgument(vanishType, targetPlayer.getPlayer(), false);
-            } else {
-                vanishServiceImpl.removeVanish(targetPlayer.getPlayer());
-            }
-
-            sessionManager.saveSession(targetPlayer.getPlayer());
+            bukkitUtils.runTaskAsync(sender, () -> {
+                String option = args[2];
+                if (option.equalsIgnoreCase("enable")) {
+                    handleVanishArgument(vanishType, targetPlayer.getPlayer(), false);
+                } else {
+                    vanishServiceImpl.removeVanish(targetPlayer.getPlayer());
+                }
+            });
             return true;
         }
 
         if (args.length == 2 && permissionHandler.isOp(sender)) {
-            handleVanishArgument(vanishType, targetPlayer.getPlayer(), false);
-            sessionManager.saveSession(targetPlayer.getPlayer());
+            bukkitUtils.runTaskAsync(sender, () -> handleVanishArgument(vanishType, targetPlayer.getPlayer(), false));
             return true;
         }
 
         if (args.length == 1) {
             validateIsPlayer(sender);
-            handleVanishArgument(vanishType, (Player) sender, true);
-            sessionManager.saveSession(targetPlayer.getPlayer());
+            bukkitUtils.runTaskAsync(sender, () -> handleVanishArgument(vanishType, (Player) sender, true));
             return true;
         }
 
         sendHelp(sender);
-        sessionManager.saveSession(targetPlayer.getPlayer());
         return true;
     }
 

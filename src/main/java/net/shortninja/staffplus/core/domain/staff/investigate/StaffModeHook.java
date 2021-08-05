@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.investigate;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
@@ -22,14 +21,12 @@ public class StaffModeHook implements Listener {
     private final PlayerManager playerManager;
     private final Options options;
     private final InvestigationService investigationService;
-    private final SessionManagerImpl sessionManager;
 
-    public StaffModeHook(StaffModeService staffModeService, PlayerManager playerManager, Options options, InvestigationService investigationService, SessionManagerImpl sessionManager) {
+    public StaffModeHook(StaffModeService staffModeService, PlayerManager playerManager, Options options, InvestigationService investigationService) {
         this.staffModeService = staffModeService;
         this.playerManager = playerManager;
         this.options = options;
         this.investigationService = investigationService;
-        this.sessionManager = sessionManager;
     }
 
     @EventHandler
@@ -42,7 +39,6 @@ public class StaffModeHook implements Listener {
                     } else {
                         staffModeService.turnStaffModeOn(p.getPlayer());
                     }
-                    sessionManager.saveSession(p.getPlayer());
                 });
         }
     }
