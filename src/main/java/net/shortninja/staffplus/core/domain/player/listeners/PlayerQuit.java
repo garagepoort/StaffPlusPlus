@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.IProtocolService;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
@@ -32,8 +33,9 @@ public class PlayerQuit implements Listener {
     private final TraceService traceService;
     private final XrayService xrayService;
     private final IProtocolService protocolService;
+    private final BukkitUtils bukkitUtils;
 
-    public PlayerQuit(Options options, Messages messages, SessionManagerImpl sessionManager, StaffModeService staffModeService, TraceService traceService, XrayService xrayService, IProtocolService protocolService) {
+    public PlayerQuit(Options options, Messages messages, SessionManagerImpl sessionManager, StaffModeService staffModeService, TraceService traceService, XrayService xrayService, IProtocolService protocolService, BukkitUtils bukkitUtils) {
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -41,21 +43,18 @@ public class PlayerQuit implements Listener {
         this.traceService = traceService;
         this.xrayService = xrayService;
         this.protocolService = protocolService;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onQuit(PlayerQuitEvent event) {
-        protocolService.getVersionProtocol().uninject(event.getPlayer());
 
+        protocolService.getVersionProtocol().uninject(event.getPlayer());
         Player player = event.getPlayer();
         PlayerSession session = sessionManager.get(player.getUniqueId());
 
-        if(session.isVanished()) {
+        if (session.isVanished()) {
             event.setQuitMessage("");
-        }
-
-        if(session.isInStaffMode() && session.getModeConfiguration().get().isModeDisableOnLogout()) {
-            staffModeService.turnStaffModeOff(player);
         }
 
         if (session.isFrozen()) {
@@ -69,6 +68,12 @@ public class PlayerQuit implements Listener {
         traceService.stopAllTracesForPlayer(player.getUniqueId());
         xrayService.clearTrace(player);
         manageUser(player);
+
+        bukkitUtils.runTaskAsync(() -> {
+            if (session.isInStaffMode() && session.getModeConfiguration().get().isModeDisableOnLogout()) {
+                staffModeService.turnStaffModeOff(player);
+            }
+        });
     }
 
     private void manageUser(Player player) {

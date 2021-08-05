@@ -11,6 +11,7 @@ import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
@@ -50,6 +51,7 @@ public class GadgetHandler {
     private final PlayerManager playerManager;
     private final StaffModeService staffModeService;
     private final GuiActionService guiActionService;
+    private final BukkitUtils bukkitUtils;
 
     public GadgetHandler(IProtocolService protocolService,
                          PermissionHandler permission,
@@ -59,7 +61,7 @@ public class GadgetHandler {
                          CpsHandler cpsHandler,
                          VanishServiceImpl vanishServiceImpl,
                          PlayerManager playerManager,
-                         StaffModeService staffModeService, GuiActionService guiActionService) {
+                         StaffModeService staffModeService, GuiActionService guiActionService, BukkitUtils bukkitUtils) {
         this.protocolService = protocolService;
         this.permission = permission;
         this.options = options;
@@ -70,6 +72,7 @@ public class GadgetHandler {
         this.playerManager = playerManager;
         this.staffModeService = staffModeService;
         this.guiActionService = guiActionService;
+        this.bukkitUtils = bukkitUtils;
     }
 
     public GadgetType getGadgetType(String value) {
@@ -151,18 +154,21 @@ public class GadgetHandler {
         ItemStack item = player.getItemInHand();
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
+
         PlayerSession session = sessionManager.get(player.getUniqueId());
         GeneralModeConfiguration modeConfiguration = session.getModeConfiguration().get();
-        if (session.getVanishType() == modeConfiguration.getModeVanish()) {
-            vanishServiceImpl.removeVanish(player);
-        } else {
-            vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
-        }
-
         if (shouldUpdateItem && item != null) {
             player.getInventory().remove(item);
             player.getInventory().setItem(slot, options.staffItemsConfiguration.getVanishModeConfiguration().getModeVanishItem(session, modeConfiguration.getModeVanish()));
         }
+
+        bukkitUtils.runTaskAsync(() -> {
+            if (session.getVanishType() == modeConfiguration.getModeVanish()) {
+                vanishServiceImpl.removeVanish(player);
+            } else {
+                vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
+            }
+        });
     }
 
     public void onGuiHub(Player player) {

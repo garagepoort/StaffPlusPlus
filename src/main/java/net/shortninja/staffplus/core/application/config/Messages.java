@@ -367,7 +367,6 @@ public class Messages {
     public String ipsHistoryClearedNotification;
 
 
-
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
 
@@ -387,6 +386,10 @@ public class Messages {
         message = message.replace("&&", "<ampersand>");
         message = ChatColor.translateAlternateColorCodes('&', message);
         return message.replace("<ampersand>", "&");
+    }
+
+    public String parse(Player player, String message) {
+        return colorize(placeholderService.setPlaceholders(player, message));
     }
 
     public void send(Player player, String message, String prefix, String permission) {
