@@ -12,6 +12,7 @@ import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.SeverityLevelSelectViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
@@ -38,13 +39,14 @@ public class WarningsGuiController {
     private final SessionManagerImpl sessionManager;
     private final Options options;
     private final Messages messages;
+    private final BukkitUtils bukkitUtils;
 
     public WarningsGuiController(ManageWarningsViewBuilder manageWarningsViewBuilder,
                                  ManageWarningViewBuilder manageWarningViewBuilder,
                                  MyWarningsViewBuilder myWarningsViewBuilder,
                                  ManageAppealedWarningsViewBuilder manageAppealedWarningsViewBuilder,
                                  SeverityLevelSelectViewBuilder severityLevelSelectViewBuilder, PlayerManager playerManager,
-                                 WarnService warnService, SessionManagerImpl sessionManager, Options options, Messages messages) {
+                                 WarnService warnService, SessionManagerImpl sessionManager, Options options, Messages messages, BukkitUtils bukkitUtils) {
         this.manageWarningsViewBuilder = manageWarningsViewBuilder;
         this.manageWarningViewBuilder = manageWarningViewBuilder;
         this.myWarningsViewBuilder = myWarningsViewBuilder;
@@ -55,6 +57,7 @@ public class WarningsGuiController {
         this.sessionManager = sessionManager;
         this.options = options;
         this.messages = messages;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @GuiAction("manage-warnings/view/overview")
@@ -102,6 +105,11 @@ public class WarningsGuiController {
                                 @GuiParam("backAction") String backAction) {
         warnService.removeWarning(warningId);
         return backAction;
+    }
+
+    @GuiAction("manage-warnings/expire")
+    public void expireWarning(Player player, @GuiParam("warningId") int warningId) {
+        bukkitUtils.runTaskAsync(player, () -> warnService.expireWarning(warningId));
     }
 
     @GuiAction("manage-warnings/warn")

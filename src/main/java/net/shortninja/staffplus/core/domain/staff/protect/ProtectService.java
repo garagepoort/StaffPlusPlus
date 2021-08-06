@@ -1,15 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.protect;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.protect.database.ProtectedAreaRepository;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class ProtectService {
         return protectedArea;
     }
 
-    public void createProtectedArea(int size, String name, Player player) {
+    public void createProtectedArea(int size, String name, Player player, World world, Location location) {
         Optional<ProtectedArea> existingArea = protectedAreaRepository.findByName(name);
         if (existingArea.isPresent()) {
             throw new BusinessException("&bA protected area with this name already exists. Please delete the existing area or choose another name.", messages.prefixProtect);
@@ -58,14 +57,12 @@ public class ProtectService {
 
         int half = size / 2;
         int correction = size % 2 == 0 ? 1 : 0;
-        Location location1 = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() + half, player.getLocation().getBlockY(), player.getLocation().getBlockZ() + half);
-        Location location2 = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() - half + correction, player.getLocation().getBlockY(), player.getLocation().getBlockZ() - half + correction);
+        Location location1 = new Location(world, location.getBlockX() + half, location.getBlockY(), location.getBlockZ() + half);
+        Location location2 = new Location(world, location.getBlockX() - half + correction, location.getBlockY(), location.getBlockZ() - half + correction);
 
         ProtectedArea protectedArea = new ProtectedArea(name, location1, location2, player.getUniqueId());
         getAllProtectedAreas().add(protectedArea);
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            protectedAreaRepository.addProtectedArea(player, protectedArea);
-        });
+        protectedAreaRepository.addProtectedArea(player, protectedArea);
         messages.send(player, "&bProtected Area added", messages.prefixProtect);
     }
 

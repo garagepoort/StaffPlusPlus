@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.infractions.gui.views;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.TubingGui;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionOverview;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
@@ -15,6 +14,12 @@ import java.util.List;
 public class InfractionsTopViewBuilder {
 
     private static final int PAGE_SIZE = 45;
+
+    private final InfractionsService infractionsService;
+
+    public InfractionsTopViewBuilder(InfractionsService infractionsService) {
+        this.infractionsService = infractionsService;
+    }
 
     public TubingGui buildGui(int page, List<InfractionType> infractionFilters, String currentAction) {
         return new PagedGuiBuilder.Builder("Infractions top")
@@ -32,7 +37,6 @@ public class InfractionsTopViewBuilder {
     }
 
     public List<InfractionOverview> getItems(int page, List<InfractionType> infractionFilters) {
-        return StaffPlus.get().getIocContainer().get(InfractionsService.class)
-            .getTopInfractions(page, PAGE_SIZE, infractionFilters);
+        return infractionsService.getTopInfractions(page, PAGE_SIZE, infractionFilters);
     }
 }

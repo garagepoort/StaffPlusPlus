@@ -1,8 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -14,7 +12,7 @@ import java.util.UUID;
 public class ModeDataRepository {
 
     private static final Map<UUID, ModeData> cache = new HashMap<>();
-    private ModeDataSerializer modeDataSerializer = new ModeDataSerializer();
+    private final ModeDataSerializer modeDataSerializer = new ModeDataSerializer();
 
     public Optional<ModeData> retrieveModeData(UUID uuid) {
         if (cache.containsKey(uuid)) {
@@ -26,12 +24,10 @@ public class ModeDataRepository {
     }
 
     public void saveModeData(ModeData modeData) {
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            if (cache.containsKey(modeData.getUuid())) {
-                cache.put(modeData.getUuid(), modeData);
-            }
-            modeDataSerializer.save(modeData);
-        });
+        if (cache.containsKey(modeData.getUuid())) {
+            cache.put(modeData.getUuid(), modeData);
+        }
+        modeDataSerializer.save(modeData);
     }
 
     public void deleteModeData(Player player) {

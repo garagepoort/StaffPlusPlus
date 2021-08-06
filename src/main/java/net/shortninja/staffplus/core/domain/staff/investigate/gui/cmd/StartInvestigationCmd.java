@@ -12,6 +12,7 @@ import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.gui.PagedSelector;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.confirmation.ChoiceChatService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
@@ -42,6 +43,7 @@ public class StartInvestigationCmd extends AbstractCmd {
     private final InvestigationItemBuilder investigationItemBuilder;
     private final ChoiceChatService choiceChatService;
     private final Options options;
+    private final BukkitUtils bukkitUtils;
 
     public StartInvestigationCmd(Messages messages,
                                  CommandService commandService,
@@ -50,7 +52,7 @@ public class StartInvestigationCmd extends AbstractCmd {
                                  PlayerManager playerManager,
                                  IProtocolService protocolService,
                                  InvestigationItemBuilder investigationItemBuilder,
-                                 ChoiceChatService choiceChatService, Options options) {
+                                 ChoiceChatService choiceChatService, Options options, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.investigationService = investigationService;
         this.playerManager = playerManager;
@@ -58,27 +60,30 @@ public class StartInvestigationCmd extends AbstractCmd {
         this.investigationItemBuilder = investigationItemBuilder;
         this.choiceChatService = choiceChatService;
         this.options = options;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         validateIsPlayer(sender);
 
-        if (args.length == 1) {
-            Optional<Investigation> pausedInvestigation = investigationService.getPausedInvestigation((Player) sender, player);
-            if (pausedInvestigation.isPresent()) {
-                investigationService.resumeInvestigation((Player) sender, player);
-                return true;
-            }
-            investigationService.startInvestigation((Player) sender, player);
-        } else {
-            List<Investigation> pausedInvestigations = investigationService.getPausedInvestigations((Player) sender);
-            if (!pausedInvestigations.isEmpty()) {
-                sendChoiceMessage((Player) sender);
+        bukkitUtils.runTaskAsync(sender, () -> {
+            if (args.length == 1) {
+                Optional<Investigation> pausedInvestigation = investigationService.getPausedInvestigation((Player) sender, player);
+                if (pausedInvestigation.isPresent()) {
+                    investigationService.resumeInvestigation((Player) sender, player);
+                } else {
+                    investigationService.startInvestigation((Player) sender, player);
+                }
             } else {
-                investigationService.startInvestigation((Player) sender);
+                List<Investigation> pausedInvestigations = investigationService.getPausedInvestigations((Player) sender);
+                if (!pausedInvestigations.isEmpty()) {
+                    sendChoiceMessage((Player) sender);
+                } else {
+                    investigationService.startInvestigation((Player) sender);
+                }
             }
-        }
+        });
 
         return true;
     }
