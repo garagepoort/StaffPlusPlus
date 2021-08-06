@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
@@ -14,6 +15,8 @@ import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.core.domain.staff.mute.gui.views.ManageMutedPlayerViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.mute.gui.views.MutedPlayersViewBuilder;
 import org.bukkit.entity.Player;
+
+import static be.garagepoort.mcioc.gui.AsyncGui.async;
 
 @IocBean
 @GuiController
@@ -36,18 +39,20 @@ public class MuteGuiController {
     }
 
     @GuiAction("manage-mutes/view/overview")
-    public TubingGui getMutedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
-                                             @CurrentAction String currentAction,
-                                             @GuiParam("backAction") String backAction) {
-        return mutedPlayersViewBuilder.buildGui(page, currentAction, backAction);
+    public AsyncGui<TubingGui> getMutedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
+                                                       @CurrentAction String currentAction,
+                                                       @GuiParam("backAction") String backAction) {
+        return async(() -> mutedPlayersViewBuilder.buildGui(page, currentAction, backAction));
     }
 
     @GuiAction("manage-mutes/view/detail")
-    public TubingGui getMuteDetailView(@GuiParam("muteId") int muteId,
-                                       @CurrentAction String currentAction,
-                                       @GuiParam("backAction") String backAction) {
-        Mute mute = muteService.getById(muteId);
-        return manageMutedPlayerViewBuilder.buildGui(mute, currentAction, backAction);
+    public AsyncGui<TubingGui> getMuteDetailView(@GuiParam("muteId") int muteId,
+                                                 @CurrentAction String currentAction,
+                                                 @GuiParam("backAction") String backAction) {
+        return async(() -> {
+            Mute mute = muteService.getById(muteId);
+            return manageMutedPlayerViewBuilder.buildGui(mute, currentAction, backAction);
+        });
     }
 
     @GuiAction("manage-mutes/unmute")
