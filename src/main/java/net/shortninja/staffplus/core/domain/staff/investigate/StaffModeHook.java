@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.investigate;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
@@ -21,12 +22,14 @@ public class StaffModeHook implements Listener {
     private final PlayerManager playerManager;
     private final Options options;
     private final InvestigationService investigationService;
+    private final BukkitUtils bukkitUtils;
 
-    public StaffModeHook(StaffModeService staffModeService, PlayerManager playerManager, Options options, InvestigationService investigationService) {
+    public StaffModeHook(StaffModeService staffModeService, PlayerManager playerManager, Options options, InvestigationService investigationService, BukkitUtils bukkitUtils) {
         this.staffModeService = staffModeService;
         this.playerManager = playerManager;
         this.options = options;
         this.investigationService = investigationService;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @EventHandler
@@ -34,11 +37,13 @@ public class StaffModeHook implements Listener {
         if (options.investigationConfiguration.isEnforceStaffMode()) {
             playerManager.getOnlinePlayer(investigationStartedEvent.getInvestigation().getInvestigatorUuid())
                 .ifPresent(p -> {
-                    if (options.investigationConfiguration.getStaffMode().isPresent()) {
-                        staffModeService.turnStaffModeOn(p.getPlayer(), options.investigationConfiguration.getStaffMode().get());
-                    } else {
-                        staffModeService.turnStaffModeOn(p.getPlayer());
-                    }
+                    bukkitUtils.runTaskAsync(() -> {
+                        if (options.investigationConfiguration.getStaffMode().isPresent()) {
+                            staffModeService.turnStaffModeOn(p.getPlayer(), options.investigationConfiguration.getStaffMode().get());
+                        } else {
+                            staffModeService.turnStaffModeOn(p.getPlayer());
+                        }
+                    });
                 });
         }
     }

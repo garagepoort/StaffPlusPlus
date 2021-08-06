@@ -32,35 +32,31 @@ public class InvestigationEvidenceService {
     }
 
     public void linkEvidence(Player linker, Investigation investigation, Evidence evidence) {
-        bukkitUtils.runTaskAsync(linker, () -> {
-            permissionHandler.validate(linker, options.investigationConfiguration.getLinkEvidencePermission());
-            Optional<EvidenceEntity> linkedEvidence = investigationEvidenceRepository.findLinkedEvidence(investigation, evidence);
-            if(linkedEvidence.isPresent()) {
-                throw new BusinessException("&CCannot link evidence. This evidence piece is already linked to this investigation");
-            }
+        permissionHandler.validate(linker, options.investigationConfiguration.getLinkEvidencePermission());
+        Optional<EvidenceEntity> linkedEvidence = investigationEvidenceRepository.findLinkedEvidence(investigation, evidence);
+        if (linkedEvidence.isPresent()) {
+            throw new BusinessException("&CCannot link evidence. This evidence piece is already linked to this investigation");
+        }
 
-            EvidenceEntity evidenceEntity = new EvidenceEntity(
-                investigation.getId(),
-                evidence.getId(),
-                evidence.getEvidenceType(),
-                linker.getUniqueId(),
-                linker.getName(),
-                evidence.getDescription());
+        EvidenceEntity evidenceEntity = new EvidenceEntity(
+            investigation.getId(),
+            evidence.getId(),
+            evidence.getEvidenceType(),
+            linker.getUniqueId(),
+            linker.getName(),
+            evidence.getDescription());
 
-            investigationEvidenceRepository.addEvidence(evidenceEntity);
-            sendEvent(new InvestigationEvidenceLinkedEvent(investigation, evidenceEntity));
-        });
+        investigationEvidenceRepository.addEvidence(evidenceEntity);
+        sendEvent(new InvestigationEvidenceLinkedEvent(investigation, evidenceEntity));
     }
 
     public void unlinkEvidence(Player unlinker, Investigation investigation, int id) {
-        bukkitUtils.runTaskAsync(unlinker, () -> {
-            permissionHandler.validate(unlinker, options.investigationConfiguration.getLinkEvidencePermission());
-            Optional<EvidenceEntity> evidenceEntity = investigationEvidenceRepository.find(id);
-            if(evidenceEntity.isPresent()) {
-                investigationEvidenceRepository.removeEvidence(id);
-                sendEvent(new InvestigationEvidenceUnlinkedEvent(investigation, evidenceEntity.get()));
-            }
-        });
+        permissionHandler.validate(unlinker, options.investigationConfiguration.getLinkEvidencePermission());
+        Optional<EvidenceEntity> evidenceEntity = investigationEvidenceRepository.find(id);
+        if (evidenceEntity.isPresent()) {
+            investigationEvidenceRepository.removeEvidence(id);
+            sendEvent(new InvestigationEvidenceUnlinkedEvent(investigation, evidenceEntity.get()));
+        }
     }
 
     public List<EvidenceEntity> getEvidenceForInvestigation(Investigation investigation) {

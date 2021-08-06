@@ -41,36 +41,32 @@ public class InvestigationNoteService {
 
 
     public void addNote(Player noteTaker, String note) {
-        bukkitUtils.runTaskAsync(noteTaker, () -> {
-            validateNoteCreation(noteTaker, note);
+        validateNoteCreation(noteTaker, note);
 
-            Investigation investigation = investigationsRepository.getInvestigationForInvestigator(noteTaker.getUniqueId(), Collections.singletonList(OPEN))
-                .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running.", messages.prefixInvestigations));
+        Investigation investigation = investigationsRepository.getInvestigationForInvestigator(noteTaker.getUniqueId(), Collections.singletonList(OPEN))
+            .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running.", messages.prefixInvestigations));
 
-            NoteEntity noteEntity = new NoteEntity(
-                investigation.getId(),
-                note,
-                noteTaker.getUniqueId(),
-                noteTaker.getName());
+        NoteEntity noteEntity = new NoteEntity(
+            investigation.getId(),
+            note,
+            noteTaker.getUniqueId(),
+            noteTaker.getName());
 
-            investigationNotesRepository.addNote(noteEntity);
-            sendEvent(new InvestigationNoteCreatedEvent(investigation, noteEntity));
-        });
+        investigationNotesRepository.addNote(noteEntity);
+        sendEvent(new InvestigationNoteCreatedEvent(investigation, noteEntity));
     }
 
     public void addNote(Player noteTaker, Investigation investigation, String note) {
-        bukkitUtils.runTaskAsync(noteTaker, () -> {
-            validateNoteCreation(noteTaker, note);
+        validateNoteCreation(noteTaker, note);
 
-            NoteEntity noteEntity = new NoteEntity(
-                investigation.getId(),
-                note,
-                noteTaker.getUniqueId(),
-                noteTaker.getName());
+        NoteEntity noteEntity = new NoteEntity(
+            investigation.getId(),
+            note,
+            noteTaker.getUniqueId(),
+            noteTaker.getName());
 
-            investigationNotesRepository.addNote(noteEntity);
-            sendEvent(new InvestigationNoteCreatedEvent(investigation, noteEntity));
-        });
+        investigationNotesRepository.addNote(noteEntity);
+        sendEvent(new InvestigationNoteCreatedEvent(investigation, noteEntity));
     }
 
     private void validateNoteCreation(Player noteTaker, String note) {
