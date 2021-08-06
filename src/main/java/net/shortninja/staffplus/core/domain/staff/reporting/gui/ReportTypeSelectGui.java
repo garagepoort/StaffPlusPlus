@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.SimpleItemBuilder;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportReasonConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportTypeConfiguration;
@@ -26,6 +27,7 @@ public class ReportTypeSelectGui extends AbstractGui {
     private final List<ReportTypeConfiguration> reportTypeConfigurations;
     private final List<ReportReasonConfiguration> reportReasonConfigurations;
     private final ReportService reportService = StaffPlus.get().getIocContainer().get(ReportService.class);
+    private final BukkitUtils bukkitUtils = StaffPlus.get().getIocContainer().get(BukkitUtils.class);
 
     public ReportTypeSelectGui(Player staff, String reason, SppPlayer targetPlayer, List<ReportTypeConfiguration> reportTypeConfigurations, List<ReportReasonConfiguration> reportReasonConfigurations) {
         super(getInventorySize(reportTypeConfigurations.size()), "Select the type of report");
@@ -64,9 +66,9 @@ public class ReportTypeSelectGui extends AbstractGui {
                     new ReportReasonSelectGui(staff, targetPlayer, reportType, reportReasonConfigurations).show(staff);
                 } else {
                     if (targetPlayer == null) {
-                        reportService.sendReport(staff, reason, reportType);
+                        bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(staff, reason, reportType));
                     } else {
-                        reportService.sendReport(staff, targetPlayer, reason, reportType);
+                        bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(staff, targetPlayer, reason, reportType));
                     }
                 }
             }

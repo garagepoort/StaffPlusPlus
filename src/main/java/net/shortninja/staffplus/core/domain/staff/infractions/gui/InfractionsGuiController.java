@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.infractions.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+import static be.garagepoort.mcioc.gui.AsyncGui.async;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -35,20 +37,21 @@ public class InfractionsGuiController {
     }
 
     @GuiAction("manage-infractions/view/overview")
-    public TubingGui getOverview(Player player,
-                                 @GuiParam("targetPlayerName") String targetPlayerName,
-                                 @GuiParam(value = "page", defaultValue = "0") int page,
-                                 @CurrentAction String currentAction) {
+    public AsyncGui<TubingGui> getOverview(Player player,
+                                           @GuiParam("targetPlayerName") String targetPlayerName,
+                                           @GuiParam(value = "page", defaultValue = "0") int page,
+                                           @CurrentAction String currentAction) {
         SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
-        return infractionsOverviewViewBuilder.buildGui(player, sppPlayer, page, currentAction);
+        return async(() -> infractionsOverviewViewBuilder.buildGui(player, sppPlayer, page, currentAction));
     }
 
     @GuiAction("manage-infractions/view/top")
-    public TubingGui getTop(@GuiParam("infractionType") String type,
-                            @GuiParam(value = "page", defaultValue = "0") int page,
-                            @CurrentAction String currentAction) {
-
-        List<InfractionType> infractionTypes = StringUtils.isBlank(type) ? emptyList() : singletonList(InfractionType.valueOf(type));
-        return infractionsTopViewBuilder.buildGui(page, infractionTypes, currentAction);
+    public AsyncGui<TubingGui> getTop(@GuiParam("infractionType") String type,
+                                      @GuiParam(value = "page", defaultValue = "0") int page,
+                                      @CurrentAction String currentAction) {
+        return async(() -> {
+            List<InfractionType> infractionTypes = StringUtils.isBlank(type) ? emptyList() : singletonList(InfractionType.valueOf(type));
+            return infractionsTopViewBuilder.buildGui(page, infractionTypes, currentAction);
+        });
     }
 }
