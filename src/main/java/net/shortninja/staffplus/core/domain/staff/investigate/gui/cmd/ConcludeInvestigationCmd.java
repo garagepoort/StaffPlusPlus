@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -27,13 +28,15 @@ import java.util.Optional;
 public class ConcludeInvestigationCmd extends AbstractCmd {
 
     private final InvestigationService investigationService;
+    private final BukkitUtils bukkitUtils;
 
     public ConcludeInvestigationCmd(Messages messages,
                                     CommandService commandService,
                                     InvestigationService investigationService,
-                                    PermissionHandler permissionHandler) {
+                                    PermissionHandler permissionHandler, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.investigationService = investigationService;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @Override
@@ -42,7 +45,8 @@ public class ConcludeInvestigationCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        investigationService.concludeInvestigation((Player) sender);
+        bukkitUtils.runTaskAsync(sender, () -> investigationService.concludeInvestigation((Player) sender));
+
         return true;
     }
 
