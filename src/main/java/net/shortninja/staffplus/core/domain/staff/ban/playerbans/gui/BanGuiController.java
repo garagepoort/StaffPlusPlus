@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
@@ -14,6 +15,8 @@ import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.views.BannedPlayersViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.views.ManageBannedPlayerViewBuilder;
 import org.bukkit.entity.Player;
+
+import static be.garagepoort.mcioc.gui.AsyncGui.async;
 
 @IocBean
 @GuiController
@@ -36,16 +39,18 @@ public class BanGuiController {
     }
 
     @GuiAction("manage-bans/view/overview")
-    public TubingGui getBannedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
-                                              @CurrentAction String currentAction,
-                                              @GuiParam("backAction") String backAction) {
-        return bannedPlayersViewBuilder.buildGui(page, currentAction, backAction);
+    public AsyncGui<TubingGui> getBannedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
+                                                        @CurrentAction String currentAction,
+                                                        @GuiParam("backAction") String backAction) {
+        return async(() -> bannedPlayersViewBuilder.buildGui(page, currentAction, backAction));
     }
 
     @GuiAction("manage-bans/view/detail")
-    public TubingGui getBanDetailView(@GuiParam("banId") int banId, @GuiParam("backAction") String backAction, @CurrentAction String currentAction) {
-        Ban ban = banService.getById(banId);
-        return manageBannedPlayerViewBuilder.buildGui(ban, backAction, currentAction);
+    public AsyncGui<TubingGui> getBanDetailView(@GuiParam("banId") int banId, @GuiParam("backAction") String backAction, @CurrentAction String currentAction) {
+        return async(() -> {
+            Ban ban = banService.getById(banId);
+            return manageBannedPlayerViewBuilder.buildGui(ban, backAction, currentAction);
+        });
     }
 
     @GuiAction("manage-bans/unban")

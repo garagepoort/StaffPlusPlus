@@ -11,7 +11,7 @@
             <LoreLine>Show all reports assigned to me</LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="2" material="PAPER" name="Open reports" onLeftClick="manage-reports/view/assigned?backAction=${URLEncoder.encode(currentAction)}">
+    <GuiItem slot="2" material="PAPER" name="Reports in progress" onLeftClick="manage-reports/view/assigned?backAction=${URLEncoder.encode(currentAction)}">
         <Lore>
             <LoreLine>Show all assigned</LoreLine>
         </Lore>

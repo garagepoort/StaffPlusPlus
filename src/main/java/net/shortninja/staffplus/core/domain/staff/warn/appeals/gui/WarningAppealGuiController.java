@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
@@ -9,11 +10,14 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.AppealService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import org.bukkit.entity.Player;
+
+import static be.garagepoort.mcioc.gui.AsyncGui.async;
 
 @IocBean
 @GuiController
@@ -28,8 +32,9 @@ public class WarningAppealGuiController {
     private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final Options options;
+    private final BukkitUtils bukkitUtils;
 
-    public WarningAppealGuiController(AppealReasonSelectViewBuilder appealReasonSelectViewBuilder, ManageAppealViewBuilder manageAppealViewBuilder, AppealService appealService, WarnService warnService, Messages messages, SessionManagerImpl sessionManager, Options options) {
+    public WarningAppealGuiController(AppealReasonSelectViewBuilder appealReasonSelectViewBuilder, ManageAppealViewBuilder manageAppealViewBuilder, AppealService appealService, WarnService warnService, Messages messages, SessionManagerImpl sessionManager, Options options, BukkitUtils bukkitUtils) {
         this.appealReasonSelectViewBuilder = appealReasonSelectViewBuilder;
         this.manageAppealViewBuilder = manageAppealViewBuilder;
         this.appealService = appealService;
@@ -37,15 +42,18 @@ public class WarningAppealGuiController {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.options = options;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @GuiAction("manage-warning-appeals/view/detail")
-    public TubingGui getAppealDetail(Player player,
-                                     @GuiParam("appealId") int appealId,
-                                     @GuiParam("backAction") String backAction) {
-        Appeal appeal = appealService.getAppeal(appealId);
-        Warning warning = warnService.getWarning(appeal.getAppealableId());
-        return manageAppealViewBuilder.buildGui(player, appeal, warning, backAction);
+    public AsyncGui<TubingGui> getAppealDetail(Player player,
+                                               @GuiParam("appealId") int appealId,
+                                               @GuiParam("backAction") String backAction) {
+        return async(() -> {
+            Appeal appeal = appealService.getAppeal(appealId);
+            Warning warning = warnService.getWarning(appeal.getAppealableId());
+            return manageAppealViewBuilder.buildGui(player, appeal, warning, backAction);
+        });
     }
 
     @GuiAction("manage-warning-appeals/view/create/reason-select")
@@ -69,14 +77,16 @@ public class WarningAppealGuiController {
                 return;
             }
 
-            appealService.addAppeal(player, warning, input);
+            bukkitUtils.runTaskAsync(player, () -> appealService.addAppeal(player, warning, input));
         });
     }
 
     @GuiAction("manage-warning-appeals/create")
     public void createAppeal(Player player, @GuiParam("warningId") int warningId, @GuiParam("reason") String reason) {
-        Warning warning = warnService.getWarning(warningId);
-        appealService.addAppeal(player, warning, reason);
+        bukkitUtils.runTaskAsync(player, () -> {
+            Warning warning = warnService.getWarning(warningId);
+            appealService.addAppeal(player, warning, reason);
+        });
     }
 
     @GuiAction("manage-warning-appeals/approve")
@@ -93,10 +103,10 @@ public class WarningAppealGuiController {
                     messages.send(player, "&CYou have cancelled approving this appeal", messages.prefixWarnings);
                     return;
                 }
-                appealService.approveAppeal(player, appealId, message);
+                bukkitUtils.runTaskAsync(player, () -> appealService.approveAppeal(player, appealId, message));
             });
         } else {
-            appealService.approveAppeal(player, appealId);
+            bukkitUtils.runTaskAsync(player, () -> appealService.approveAppeal(player, appealId));
         }
     }
 
@@ -114,10 +124,10 @@ public class WarningAppealGuiController {
                     messages.send(player, "&CYou have cancelled rejecting this appeal", messages.prefixWarnings);
                     return;
                 }
-                appealService.rejectAppeal(player, appealId, message);
+                bukkitUtils.runTaskAsync(player, () -> appealService.rejectAppeal(player, appealId, message));
             });
         } else {
-            appealService.rejectAppeal(player, appealId);
+            bukkitUtils.runTaskAsync(player, () -> appealService.rejectAppeal(player, appealId));
         }
     }
 

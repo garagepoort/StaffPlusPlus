@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.reporting;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.bungee.ServerSwitcher;
@@ -32,7 +31,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
-import static org.bukkit.Bukkit.getScheduler;
 
 @IocBean
 @IocMultiProvider(InfractionProvider.class)
@@ -75,30 +73,27 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
     }
 
     public void sendReport(Player player, SppPlayer user, String reason, String type) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
+        if (user.isOnline() && permission.has(user.getPlayer(), permissionReportBypass)) {
+            messages.send(player, messages.bypassed, messages.prefixGeneral);
+            return;
+        }
 
-            // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
-            if (user.isOnline() && permission.has(user.getPlayer(), permissionReportBypass)) {
-                messages.send(player, messages.bypassed, messages.prefixGeneral);
-                return;
-            }
+        Report report = new Report(
+            user.getId(),
+            user.getUsername(),
+            reason,
+            player.getName(),
+            player.getUniqueId(),
+            ReportStatus.OPEN,
+            ZonedDateTime.now(),
+            player.getLocation(),
+            type,
+            options.serverName);
 
-            Report report = new Report(
-                user.getId(),
-                user.getUsername(),
-                reason,
-                player.getName(),
-                player.getUniqueId(),
-                ReportStatus.OPEN,
-                ZonedDateTime.now(),
-                player.getLocation(),
-                type,
-                options.serverName);
-
-            int id = reportRepository.addReport(report);
-            report.setId(id);
-            sendEvent(new CreateReportEvent(report));
-        });
+        int id = reportRepository.addReport(report);
+        report.setId(id);
+        sendEvent(new CreateReportEvent(report));
     }
 
     public void sendReport(Player player, String reason) {
@@ -106,23 +101,21 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
     }
 
     public void sendReport(Player player, String reason, String type) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            Report report = new Report(
-                null,
-                null,
-                reason,
-                player.getName(),
-                player.getUniqueId(),
-                ReportStatus.OPEN,
-                ZonedDateTime.now(),
-                player.getLocation(),
-                type,
-                options.serverName);
+        Report report = new Report(
+            null,
+            null,
+            reason,
+            player.getName(),
+            player.getUniqueId(),
+            ReportStatus.OPEN,
+            ZonedDateTime.now(),
+            player.getLocation(),
+            type,
+            options.serverName);
 
-            int id = reportRepository.addReport(report);
-            report.setId(id);
-            sendEvent(new CreateReportEvent(report));
-        });
+        int id = reportRepository.addReport(report);
+        report.setId(id);
+        sendEvent(new CreateReportEvent(report));
     }
 
     public Collection<Report> getUnresolvedReports(int offset, int amount) {

@@ -11,6 +11,7 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.CulpritFilterPredicate;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportReasonConfiguration;
@@ -40,17 +41,19 @@ public class ReportCmd extends AbstractCmd {
     private final ReportService reportService;
     private final List<ReportTypeConfiguration> reportTypeConfigurations;
     private final List<ReportReasonConfiguration> reportReasonConfigurations;
+    private final BukkitUtils bukkitUtils;
 
     public ReportCmd(Messages messages,
                      Options options,
                      ReportService reportService,
                      CommandService commandService,
-                     PermissionHandler permissionHandler) {
+                     PermissionHandler permissionHandler, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.options = options;
         this.reportService = reportService;
         reportTypeConfigurations = options.reportConfiguration.getReportTypeConfigurations(culpritFilterPredicate);
         reportReasonConfigurations = options.reportConfiguration.getReportReasonConfigurations(culpritFilterPredicate);
+        this.bukkitUtils = bukkitUtils;
     }
 
 
@@ -63,7 +66,7 @@ public class ReportCmd extends AbstractCmd {
         String reason = options.reportConfiguration.isFixedReason() ? null : JavaUtils.compileWords(args, 0);
 
         if (reportTypeConfigurations.isEmpty() && reportReasonConfigurations.isEmpty()) {
-            reportService.sendReport((Player) sender, reason);
+            bukkitUtils.runTaskAsync(sender, () -> reportService.sendReport((Player) sender, reason));
             return true;
         }
 

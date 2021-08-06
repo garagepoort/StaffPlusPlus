@@ -20,7 +20,7 @@ public class UpdateIpListener implements Listener {
         this.playerIpService = playerIpService;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void updateIp(PlayerJoinEvent playerJoinEvent) {
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> playerIpService.savePlayerIp(playerJoinEvent.getPlayer()));
     }

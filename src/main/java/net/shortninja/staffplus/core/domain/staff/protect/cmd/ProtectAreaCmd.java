@@ -50,22 +50,23 @@ public class ProtectAreaCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             throw new BusinessException(messages.onlyPlayers);
         }
 
         String action = args[0];
 
-        if(action.equalsIgnoreCase(CREATE)) {
+        Player executingPlayer = (Player) sender;
+        if (action.equalsIgnoreCase(CREATE)) {
             int radius = Integer.parseInt(args[1]);
             String name = JavaUtils.compileWords(args, 2);
-            protectService.createProtectedArea(radius, name, (Player) sender);
+            protectService.createProtectedArea(radius, name, executingPlayer, executingPlayer.getLocation().getWorld(), executingPlayer.getLocation());
             return true;
         }
 
-        if(action.equalsIgnoreCase(DELETE)) {
+        if (action.equalsIgnoreCase(DELETE)) {
             String name = JavaUtils.compileWords(args, 1);
-            protectService.deleteProtectedArea((Player) sender, name);
+            protectService.deleteProtectedArea(executingPlayer, name);
             return true;
         }
 
@@ -74,14 +75,14 @@ public class ProtectAreaCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        if(args.length == 0) {
+        if (args.length == 0) {
             return 3;
         }
         String action = args[0];
-        if(action.equalsIgnoreCase(CREATE)) {
+        if (action.equalsIgnoreCase(CREATE)) {
             return 3;
         }
-        if(action.equalsIgnoreCase(DELETE)) {
+        if (action.equalsIgnoreCase(DELETE)) {
             return 2;
         }
         return 3;
@@ -104,12 +105,12 @@ public class ProtectAreaCmd extends AbstractCmd {
         }
         if (args.length == 2) {
             String action = args[0];
-            if(action.equalsIgnoreCase(CREATE)) {
+            if (action.equalsIgnoreCase(CREATE)) {
                 suggestions.add("5");
                 suggestions.add("10");
                 suggestions.add("20");
             }
-            if(action.equalsIgnoreCase(DELETE)) {
+            if (action.equalsIgnoreCase(DELETE)) {
                 suggestions.addAll(protectService.getAllProtectedAreas().stream().map(ProtectedArea::getName).collect(Collectors.toList()));
             }
             return suggestions.stream()
