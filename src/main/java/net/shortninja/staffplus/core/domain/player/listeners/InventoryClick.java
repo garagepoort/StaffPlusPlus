@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.cmd.CommandUtil;
@@ -20,11 +19,9 @@ import java.util.UUID;
 @IocBean
 @IocListener
 public class InventoryClick implements Listener {
-    private final Options options;
     private final SessionManagerImpl sessionManager;
 
-    public InventoryClick(Options options, SessionManagerImpl sessionManager) {
-        this.options = options;
+    public InventoryClick(SessionManagerImpl sessionManager) {
         this.sessionManager = sessionManager;
     }
 

@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
@@ -20,7 +19,6 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
-import static org.bukkit.Bukkit.getScheduler;
 
 @IocBean
 public class ManageReportService {
@@ -47,17 +45,14 @@ public class ManageReportService {
     public void acceptReport(Player player, int reportId) {
         permission.validate(player, manageReportConfiguration.permissionReject);
 
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            Report report = reportRepository.findOpenReport(reportId)
-                .orElseThrow(() -> new BusinessException("&CReport with id [" + reportId + "] not found", messages.prefixReports));
+        Report report = reportRepository.findOpenReport(reportId)
+            .orElseThrow(() -> new BusinessException("&CReport with id [" + reportId + "] not found", messages.prefixReports));
 
-            report.setReportStatus(net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS);
-            report.setStaffUuid(player.getUniqueId());
-            report.setStaffName(player.getName());
-            reportRepository.updateReport(report);
-            sendEvent(new AcceptReportEvent(report));
-        });
-
+        report.setReportStatus(net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS);
+        report.setStaffUuid(player.getUniqueId());
+        report.setStaffName(player.getName());
+        reportRepository.updateReport(report);
+        sendEvent(new AcceptReportEvent(report));
     }
 
     public void reopenReport(Player player, int reportId) {
@@ -65,22 +60,18 @@ public class ManageReportService {
         if (!report.getStaffUuid().equals(player.getUniqueId()) && !permission.has(player, manageReportConfiguration.permissionReopenOther)) {
             throw new BusinessException("&CYou cannot change the status of a report you are not assigned to", messages.prefixReports);
         }
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
 
-            report.setStaffUuid(null);
-            report.setStaffName(null);
-            report.setReportStatus(ReportStatus.OPEN);
-            reportRepository.updateReport(report);
-            sendEvent(new ReopenReportEvent(report, player.getName()));
-        });
+        report.setStaffUuid(null);
+        report.setStaffName(null);
+        report.setReportStatus(ReportStatus.OPEN);
+        reportRepository.updateReport(report);
+        sendEvent(new ReopenReportEvent(report, player.getName()));
     }
 
     public void closeReport(Player player, CloseReportRequest closeReportRequest) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            Report report = reportService.getReport(closeReportRequest.getReportId());
-            closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
-            sendEvent(closeReportRequest.getStatus() == ReportStatus.REJECTED ? new RejectReportEvent(report) : new ResolveReportEvent(report));
-        });
+        Report report = reportService.getReport(closeReportRequest.getReportId());
+        closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
+        sendEvent(closeReportRequest.getStatus() == ReportStatus.REJECTED ? new RejectReportEvent(report) : new ResolveReportEvent(report));
     }
 
     private void closedReport(Player player, Report report, ReportStatus status, String closeReason) {
