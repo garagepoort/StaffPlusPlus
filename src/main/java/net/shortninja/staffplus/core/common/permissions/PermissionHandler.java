@@ -22,6 +22,10 @@ public interface PermissionHandler {
     }
 
     default Optional<Long> getDurationInSeconds(CommandSender player, String permission) {
+        return getDurationInMillis(player, permission).map(d -> d / 1000);
+    }
+
+    default Optional<Long> getDurationInMillis(CommandSender player, String permission) {
         return getPermissions(player).stream()
             .filter(p -> p.startsWith(permission + "."))
             .map(p -> TimeUnitShort.getDurationFromString(p.substring(p.lastIndexOf(".") + 1)) / 1000)
@@ -52,6 +56,22 @@ public interface PermissionHandler {
 
     default void validateOp(CommandSender sender) {
         if (!sender.isOp()) {
+            throw new NoPermissionException();
+        }
+    }
+
+    default void validateDuration(CommandSender player, String permission, long durationInMillis) {
+        if (!(player instanceof Player) || this.isOp(player)) {
+            return;
+        }
+
+        List<String> permissions = this.getPermissions(player);
+        if (permissions.stream().noneMatch(p -> p.startsWith(permission))) {
+            throw new NoPermissionException();
+        }
+        Optional<Long> duration = this.getDurationInMillis(player, permission);
+
+        if (duration.isPresent() && duration.get() < durationInMillis) {
             throw new NoPermissionException();
         }
     }
