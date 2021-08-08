@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.9 (NOT YET RELEASED)
+# V1.17.9
 
 
 
