@@ -30,4 +30,6 @@ public interface BansRepository {
     Map<UUID, Long> getBanDurationByPlayer();
 
     long getTotalCount();
+
+    void setBanDuration(int banId, long duration);
 }
