@@ -138,6 +138,9 @@ ban: "ban"
 # The command to temporarily ban a player
 tempban: "tempban"
 
+extendban: "ban-extend"
+reduceban: "ban-reduce"
+
 # The command to unban a player
 unban: "unban"
 

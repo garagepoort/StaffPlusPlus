@@ -228,6 +228,8 @@ strip: "&7L'armatura del giocatore %player% è stata rimossa!"
 ban-permabanned: "&6%target% has been permanently banned from the server by %issuer%"
 ban-tempbanned: "&6%target% has been banned from the server by %issuer% for %duration%"
 ban-unbanned: "&6%target% has been unbanned from the server by %issuer%"
+ban-extended: "&7You have extended &6%target%&7's ban by %extensionDuration%"
+ban-reduced: "&7You have reduced &6%target%&7's ban by %reductionDuration%"
 
 ban-tempbanned-kick: "[Banned] You have been temporarily banned from this server. Ban ends in: %duration%"
 ban-permabanned-kick: "[Banned] You have been permanently banned from this server"

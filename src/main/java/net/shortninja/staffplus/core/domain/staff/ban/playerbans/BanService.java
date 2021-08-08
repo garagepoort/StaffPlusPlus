@@ -2,13 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.common.time.TimeUnitShort;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.database.BansRepository;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
@@ -16,6 +13,8 @@ import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplusplus.ban.BanEvent;
+import net.shortninja.staffplusplus.ban.BanExtensionEvent;
+import net.shortninja.staffplusplus.ban.BanReductionEvent;
 import net.shortninja.staffplusplus.ban.UnbanEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -23,7 +22,6 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,6 +38,7 @@ import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType.
 @IocMultiProvider(InfractionProvider.class)
 public class BanService implements InfractionProvider, net.shortninja.staffplusplus.ban.BanService {
 
+    private static final String LIMIT = ".limit";
     private final PermissionHandler permission;
     private final BansRepository bansRepository;
     private final Options options;
@@ -47,14 +46,11 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     private final BanReasonResolver banReasonResolver;
     private final BanTemplateResolver banTemplateResolver;
 
-    private final Messages messages;
-
-    public BanService(PermissionHandler permission, BansRepository bansRepository, BanConfiguration banConfiguration, Options options, Messages messages, BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver) {
-
+    public BanService(PermissionHandler permission, BansRepository bansRepository, BanConfiguration banConfiguration, Options options,
+                      BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver) {
         this.permission = permission;
         this.bansRepository = bansRepository;
         this.options = options;
-        this.messages = messages;
         this.banConfiguration = banConfiguration;
         this.banReasonResolver = banReasonResolver;
         this.banTemplateResolver = banTemplateResolver;
@@ -69,13 +65,42 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     }
 
     public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason, String template, boolean isSilent) {
-        this.checkDurationPermission(issuer, durationInMillis);
+        permission.validateDuration(issuer, banConfiguration.permissionTempbanPlayer + LIMIT, durationInMillis);
         ban(issuer, playerToBan, reason, template, durationInMillis, TEMP_BAN, isSilent);
     }
 
     public void tempBan(CommandSender issuer, SppPlayer playerToBan, Long durationInMillis, String reason, boolean isSilent) {
-        this.checkDurationPermission(issuer, durationInMillis);
+        permission.validateDuration(issuer, banConfiguration.permissionTempbanPlayer + LIMIT, durationInMillis);
         ban(issuer, playerToBan, reason, null, durationInMillis, TEMP_BAN, isSilent);
+    }
+
+    public void extendBan(CommandSender sender, SppPlayer player, long duration) {
+        Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
+        if(ban.getEndDate() == null) {
+            throw new BusinessException("The player is permanently banned. Cannot extend ban");
+        }
+
+        long newDuration = (ban.getEndTimestamp() - System.currentTimeMillis()) + duration;
+        permission.validateDuration(sender, banConfiguration.permissionTempbanPlayer + LIMIT, newDuration);
+        permission.validateDuration(sender, banConfiguration.permissionExtendBanPlayer + LIMIT, newDuration);
+
+        bansRepository.setBanDuration(ban.getId(), ban.getEndTimestamp() + duration);
+        Ban updatedBan = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
+        sendEvent(new BanExtensionEvent(updatedBan, duration));
+    }
+
+    public void reduceBan(CommandSender sender, SppPlayer player, long duration) {
+        Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
+        if(ban.getEndDate() == null) {
+            throw new BusinessException("The player is permanently banned. Cannot extend ban");
+        }
+
+        long newDuration = (ban.getEndTimestamp() - System.currentTimeMillis()) - duration;
+        permission.validateDuration(sender, banConfiguration.permissionReduceBanPlayer + LIMIT, newDuration);
+
+        bansRepository.setBanDuration(ban.getId(), ban.getEndTimestamp() - duration);
+        Ban updatedBan = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
+        sendEvent(new BanReductionEvent(updatedBan, duration));
     }
 
     public Optional<Ban> getBanByBannedUuid(UUID playerUuid) {
@@ -179,22 +204,4 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         return bansRepository.getActiveCount();
     }
 
-    private void checkDurationPermission(CommandSender player, long durationProvided) {
-        if(!(player instanceof Player) || permission.isOp(player)) {
-            return;
-        }
-
-        List<String> permissions = permission.getPermissions(player);
-        if(permissions.stream().noneMatch(p -> p.startsWith(banConfiguration.permissionTempbanPlayer))) {
-            throw new NoPermissionException();
-        }
-        Optional<Long> duration = permissions.stream()
-            .filter(p -> p.startsWith(banConfiguration.permissionTempbanPlayer + "."))
-            .map(p -> TimeUnitShort.getDurationFromString(p.substring(p.lastIndexOf(".") + 1)))
-            .max(Comparator.naturalOrder());
-
-        if(duration.isPresent() && duration.get() < durationProvided) {
-            throw new NoPermissionException();
-        }
-    }
 }

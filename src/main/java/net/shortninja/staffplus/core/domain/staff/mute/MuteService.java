@@ -5,7 +5,6 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
@@ -35,6 +34,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 @IocMultiProvider(InfractionProvider.class)
 public class MuteService implements InfractionProvider, net.shortninja.staffplusplus.mute.MuteService {
 
+    private static final String LIMIT = ".limit";
     private final PermissionHandler permission;
     private final MuteRepository muteRepository;
     private final Options options;
@@ -161,19 +161,6 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     }
 
     private void checkDurationPermission(CommandSender player, long durationProvided) {
-        if(!(player instanceof Player) || permission.isOp(player)) {
-            return;
-        }
-
-        List<String> permissions = permission.getPermissions(player);
-        if(permissions.stream().noneMatch(p -> p.startsWith(muteConfiguration.permissionTempmutePlayer))) {
-            throw new NoPermissionException();
-        }
-
-        Optional<Long> duration = permission.getDurationInSeconds(player, muteConfiguration.permissionTempmutePlayer);
-
-        if(duration.isPresent() && duration.get() < durationProvided) {
-            throw new NoPermissionException();
-        }
+        permission.validateDuration(player, muteConfiguration.permissionTempmutePlayer + LIMIT, durationProvided);
     }
 }
