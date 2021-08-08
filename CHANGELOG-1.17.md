@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.9 (NOT YET RELEASED)
+# V1.17.9
 
 ### Breaking change
   - temp Ban and temp mute permissions must now be limited by a separate permission. Check the wiki to see the permission needed.
