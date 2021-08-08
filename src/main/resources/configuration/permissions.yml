@@ -210,6 +210,8 @@ protect-area: "staff.staffplus.protect-area"
 # ban permissions
 ban: "staff.staffplus.ban"
 tempban: "staff.staffplus.tempban"
+extendban: "staff.staffplus.extendban"
+reduceban: "staff.staffplus.reduceban"
 ban-silent: "staff.staffplus.ban-silent"
 ban-view: "staff.staffplus.ban-view"
 ban-template-overwrite: "staff.staffplus.ban-template-overwrite"
