@@ -142,6 +142,18 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
         return 0;
     }
 
+    @Override
+    public void setBanDuration(int banId, long newDuration) {
+        try (Connection sql = getConnection();
+             PreparedStatement update = sql.prepareStatement("UPDATE sp_banned_players set end_timestamp=? WHERE id=? " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncEnabled))) {
+            update.setLong(1, newDuration);
+            update.setInt(2, banId);
+            update.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
 
     @Override
     public long getActiveCount() {
