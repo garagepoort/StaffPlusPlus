@@ -2,13 +2,20 @@
 
 # V1.17.9 (NOT YET RELEASED)
 
+### Breaking change
+  - temp Ban and temp mute permissions must now be limited by a separate permission. Check the wiki to see the permission needed.
 
+### Features
+  - Add staff join messages
+  - Add ban reduce/extend commands
+  - Ban messages are now send across the bungee network
 
 ### Bug fixes
   - Fix mobs attacking vanished players.
   - Fix Staff list only showing first page.
   - Fix command autocompletion
   - Fix database issues with ipv6 ips
+  - Fix cooldown commands interfering with eachother
 
 # V1.17.8
 
