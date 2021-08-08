@@ -27,6 +27,10 @@ public class BanConfiguration {
 
     @ConfigProperty("permissions:tempban")
     public String permissionTempbanPlayer;
+    @ConfigProperty("permissions:extendban")
+    public String permissionExtendBanPlayer;
+    @ConfigProperty("permissions:reduceban")
+    public String permissionReduceBanPlayer;
     @ConfigProperty("permissions:unban")
     public String permissionUnbanPlayer;
     @ConfigProperty("permissions:ban-bypass")

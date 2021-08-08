@@ -31,7 +31,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     private boolean delayable;
     private PlayerRetrievalStrategy playerRetrievalStrategy = PlayerRetrievalStrategy.NONE;
     private Set<String> permissions = new HashSet<>();
-    private static final Map<UUID, Long> lastUse = new HashMap<>();
+    private final Map<UUID, Long> lastUse = new HashMap<>();
 
     protected AbstractCmd(String name, Messages messages, PermissionHandler permissionHandler, CommandService commandService) {
         super(name);

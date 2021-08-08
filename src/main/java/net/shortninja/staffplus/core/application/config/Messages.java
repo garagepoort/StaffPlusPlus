@@ -287,6 +287,11 @@ public class Messages {
 
     @ConfigProperty("%lang%:ban-unbanned")
     public String unbanned;
+
+    @ConfigProperty("%lang%:ban-extended")
+    public String banExtended;
+    @ConfigProperty("%lang%:ban-reduced")
+    public String banReduced;
     @ConfigProperty("%lang%:ban-permabanned")
     public String permanentBanned;
     @ConfigProperty("%lang%:ban-tempbanned")
