@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
@@ -21,6 +20,7 @@ import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
+import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithWhere;
 
 public abstract class AbstractSqlBansRepository implements BansRepository {
 
@@ -114,7 +114,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_banned_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.banSyncEnabled) + " GROUP BY player_uuid ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_banned_players " + getServerNameFilterWithWhere(options.serverSyncConfiguration.banSyncEnabled) + " GROUP BY player_uuid ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("player_uuid")), rs.getInt("count"));
@@ -129,7 +129,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     @Override
     public long getTotalCount() {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT count(*) as count FROM sp_banned_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.banSyncEnabled))) {
+             PreparedStatement ps = sql.prepareStatement("SELECT count(*) as count FROM sp_banned_players " + getServerNameFilterWithWhere(options.serverSyncConfiguration.banSyncEnabled))) {
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {
@@ -145,7 +145,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     @Override
     public void setBanDuration(int banId, long newDuration) {
         try (Connection sql = getConnection();
-             PreparedStatement update = sql.prepareStatement("UPDATE sp_banned_players set end_timestamp=? WHERE id=? " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncEnabled))) {
+             PreparedStatement update = sql.prepareStatement("UPDATE sp_banned_players set end_timestamp=? WHERE id=? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncEnabled))) {
             update.setLong(1, newDuration);
             update.setInt(2, banId);
             update.executeUpdate();
@@ -176,7 +176,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     public Map<UUID, Long> getBanDurationByPlayer() {
         Map<UUID, Long> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_banned_players WHERE end_timestamp is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncEnabled) + " GROUP BY player_uuid ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_banned_players WHERE end_timestamp is not null " + getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncEnabled) + " GROUP BY player_uuid ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("player_uuid")), rs.getLong("count"));
@@ -192,7 +192,7 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
     public List<UUID> getAllPermanentBannedPlayers() {
         List<UUID> result = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid FROM sp_banned_players WHERE end_timestamp IS NULL " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncEnabled) + " GROUP BY player_uuid")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid FROM sp_banned_players WHERE end_timestamp IS NULL " + getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncEnabled) + " GROUP BY player_uuid")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     result.add(UUID.fromString(rs.getString("player_uuid")));

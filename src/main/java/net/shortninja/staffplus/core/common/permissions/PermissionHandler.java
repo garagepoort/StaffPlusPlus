@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.common.permissions;
 
+import net.shortninja.staffplus.core.common.exceptions.NoDurationPermissionException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.time.TimeUnitShort;
 import org.bukkit.OfflinePlayer;
@@ -28,7 +29,7 @@ public interface PermissionHandler {
     default Optional<Long> getDurationInMillis(CommandSender player, String permission) {
         return getPermissions(player).stream()
             .filter(p -> p.startsWith(permission + "."))
-            .map(p -> TimeUnitShort.getDurationFromString(p.substring(p.lastIndexOf(".") + 1)) / 1000)
+            .map(p -> TimeUnitShort.getDurationFromString(p.substring(p.lastIndexOf(".") + 1)))
             .max(Comparator.naturalOrder());
     }
 
@@ -67,12 +68,12 @@ public interface PermissionHandler {
 
         List<String> permissions = this.getPermissions(player);
         if (permissions.stream().noneMatch(p -> p.startsWith(permission))) {
-            throw new NoPermissionException();
+            return;
         }
         Optional<Long> duration = this.getDurationInMillis(player, permission);
 
         if (duration.isPresent() && duration.get() < durationInMillis) {
-            throw new NoPermissionException();
+            throw new NoDurationPermissionException();
         }
     }
 }
