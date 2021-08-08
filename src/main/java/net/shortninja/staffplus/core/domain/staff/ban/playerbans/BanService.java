@@ -82,25 +82,25 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
         long newDuration = (ban.getEndTimestamp() - System.currentTimeMillis()) + duration;
         permission.validateDuration(sender, banConfiguration.permissionTempbanPlayer + LIMIT, newDuration);
-        permission.validateDuration(sender, banConfiguration.permissionExtendBanPlayer + LIMIT, newDuration);
+        permission.validateDuration(sender, banConfiguration.permissionExtendBanPlayer + LIMIT, duration);
 
         bansRepository.setBanDuration(ban.getId(), ban.getEndTimestamp() + duration);
-        Ban updatedBan = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
-        sendEvent(new BanExtensionEvent(updatedBan, duration));
+        Ban updatedBan = getById(ban.getId());
+        sendEvent(new BanExtensionEvent(updatedBan, duration, sender));
     }
 
     public void reduceBan(CommandSender sender, SppPlayer player, long duration) {
         Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
         if(ban.getEndDate() == null) {
-            throw new BusinessException("The player is permanently banned. Cannot extend ban");
+            throw new BusinessException("The player is permanently banned. Cannot reduce ban");
         }
 
         long newDuration = (ban.getEndTimestamp() - System.currentTimeMillis()) - duration;
-        permission.validateDuration(sender, banConfiguration.permissionReduceBanPlayer + LIMIT, newDuration);
+        permission.validateDuration(sender, banConfiguration.permissionReduceBanPlayer + LIMIT, duration);
 
         bansRepository.setBanDuration(ban.getId(), ban.getEndTimestamp() - duration);
-        Ban updatedBan = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
-        sendEvent(new BanReductionEvent(updatedBan, duration));
+        Ban updatedBan = getById(ban.getId());
+        sendEvent(new BanReductionEvent(updatedBan, duration, sender));
     }
 
     public Optional<Ban> getBanByBannedUuid(UUID playerUuid) {
