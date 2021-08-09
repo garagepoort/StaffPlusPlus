@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
+import net.shortninja.staffplusplus.staffmode.IModeData;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -8,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
-public class ModeData {
+public class ModeData implements IModeData {
     private UUID uuid;
     private ItemStack[] playerInventory;
     private Location previousLocation;
