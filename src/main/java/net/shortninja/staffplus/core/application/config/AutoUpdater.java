@@ -10,6 +10,7 @@ import net.shortninja.staffplus.core.application.config.migrators.PermissionsV2M
 import net.shortninja.staffplus.core.application.config.migrators.ReportMessagesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatChannelMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatMessageFormatMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffCustomModulesCommandMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeCommandMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeModulesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModesMigrator;
@@ -46,7 +47,8 @@ public class AutoUpdater {
         new ReportMessagesMigrator(),
         new PermissionsV2Migrator(),
         new CommandsV2Migrator(),
-        new CustomStaffModeModuleCommandMigrator());
+        new CustomStaffModeModuleCommandMigrator(),
+        new StaffCustomModulesCommandMigrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         try {
