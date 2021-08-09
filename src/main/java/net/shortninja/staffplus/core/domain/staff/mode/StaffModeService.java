@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
@@ -12,7 +11,6 @@ import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.SwitchStaffModeEvent;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,27 +26,21 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 public class StaffModeService {
 
 
-    private final Messages messages;
     private final SessionManagerImpl sessionManager;
     private final VanishServiceImpl vanishServiceImpl;
-    private final StaffModeItemsService staffModeItemsService;
 
     private final ModeDataRepository modeDataRepository;
     private final Options options;
     private final ModeProvider modeProvider;
 
     public StaffModeService(Options options,
-                            Messages messages,
                             SessionManagerImpl sessionManager,
                             VanishServiceImpl vanishServiceImpl,
-                            StaffModeItemsService staffModeItemsService,
                             ModeDataRepository modeDataRepository,
                             ModeProvider modeProvider) {
-        this.messages = messages;
         this.sessionManager = sessionManager;
         this.vanishServiceImpl = vanishServiceImpl;
         this.options = options;
-        this.staffModeItemsService = staffModeItemsService;
         this.modeDataRepository = modeDataRepository;
         this.modeProvider = modeProvider;
     }
@@ -88,24 +80,16 @@ public class StaffModeService {
             return;
         }
 
-        resetPlayer(player, existingModeData.get());
-
-        staffModeItemsService.setStaffModeItems(player, modeConfiguration);
-        player.setAllowFlight(modeConfiguration.isModeFlight());
-        if (modeConfiguration.isModeCreative()) {
-            player.setGameMode(GameMode.CREATIVE);
-        }
-
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
-
-        String fromMode = session.getModeConfiguration().get().getName();
-        String toMode = modeConfiguration.getName();
-
         session.setModeConfiguration(modeConfiguration);
         sessionManager.saveSession(player);
-        sendEvent(new SwitchStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName, fromMode, toMode));
-
-        messages.send(player, "&eYou switched to staff mode &6" + modeConfiguration.getName(), messages.prefixGeneral);
+        sendEvent(new SwitchStaffModeEvent(player.getName(),
+            player.getUniqueId(),
+            player.getLocation(),
+            options.serverName,
+            session.getModeConfiguration().get().getName(),
+            modeConfiguration.getName(),
+            existingModeData.get()));
     }
 
     public void turnStaffModeOn(Player player, GeneralModeConfiguration modeConfiguration) {
@@ -117,12 +101,6 @@ public class StaffModeService {
             ModeData modeData = new ModeData(player, session.getVanishType());
             modeDataRepository.saveModeData(modeData);
         }
-        staffModeItemsService.setStaffModeItems(player, modeConfiguration);
-
-        player.setAllowFlight(modeConfiguration.isModeFlight());
-        if (modeConfiguration.isModeCreative()) {
-            player.setGameMode(GameMode.CREATIVE);
-        }
 
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
         session.setInStaffMode(true);
@@ -130,7 +108,6 @@ public class StaffModeService {
         sessionManager.saveSession(player);
 
         sendEvent(new EnterStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName, modeConfiguration.getName()));
-        messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
 
     public void toggleStaffFly(Player player) {
@@ -155,28 +132,23 @@ public class StaffModeService {
         }
 
         Optional<GeneralModeConfiguration> modeConfiguration = session.getModeConfiguration();
-        String modeName = null;
         if (modeConfiguration.isPresent()) {
             ModeData modeData = existingModeData.get();
-            if (modeConfiguration.get().isModeOriginalLocation()) {
-                player.teleport(modeData.getPreviousLocation().setDirection(player.getLocation().getDirection()));
-                messages.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
-            }
-
-            resetPlayer(player, modeData);
-
             vanishServiceImpl.removeVanish(player);
             modeDataRepository.deleteModeData(player);
-            modeName = modeConfiguration.get().getName();
+            String modeName = modeConfiguration.get().getName();
+            sendEvent(new ExitStaffModeEvent(player.getName(),
+                player.getUniqueId(),
+                player.getLocation(),
+                options.serverName,
+                modeName,
+                modeData));
         }
 
 
         session.setInStaffMode(false);
         session.setModeConfiguration(null);
         sessionManager.saveSession(player);
-
-        sendEvent(new ExitStaffModeEvent(player.getName(), player.getUniqueId(), player.getLocation(), options.serverName, modeName));
-        messages.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 
     private void resetPlayer(Player player, ModeData modeData) {
