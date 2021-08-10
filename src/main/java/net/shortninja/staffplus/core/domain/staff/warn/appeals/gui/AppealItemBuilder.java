@@ -27,7 +27,7 @@ public class AppealItemBuilder {
             .addItem("Appealer", appeal.getAppealerName())
             .addItem("Timestamp", time)
             .addIndented("Reason", appeal.getReason())
-            .addItem("Resolved by", appeal.getResolverName(), appeal.getStatus() == OPEN)
+            .addItem("Resolved by", appeal.getResolverName(), appeal.getStatus() != OPEN)
             .addIndented("Resolve reason", () -> appeal.getResolveReason().get(), appeal.getResolveReason().isPresent())
             .build();
 

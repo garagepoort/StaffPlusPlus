@@ -1,9 +1,13 @@
-<#macro reportitem slot report action="$NOOP">
+<#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
+<#macro reportitem slot report onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
     <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
     <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
-    <GuiItem slot="${slot}" onLeftClick="${action}" material="PAPER" name="&5Report">
+    <GuiItem slot="${slot}" onLeftClick="${onLeftClick}" onRightClick="${onRightClick}" onMiddleClick="${onMiddleClick}"
+             material="PAPER" name="&5Report">
         <Lore>
             <LoreLine>&bId: &7${report.id}</LoreLine>
+
+            <LoreLine>&bStatus: &7${report.reportStatus.name()}</LoreLine>
 
             <#if .data_model["server-sync-module.report-sync"] == true >
                 <LoreLine>&bServer: &7${report.serverName}</LoreLine>
@@ -22,7 +26,8 @@
                 <LoreLine>&bCulprit: &7Unknown</LoreLine>
             </#if>
 
-            <LoreLine>&bTimestamp: &7${report.creationDate.format(DateTimeFormatter.ofPattern(.data_model["timestamp-format"]))}</LoreLine>
+            <LoreLine>&bTimestamp:
+                &7${report.creationDate.format(DateTimeFormatter.ofPattern(.data_model["timestamp-format"]))}</LoreLine>
 
             <#if .data_model["reports-module.show-reporter"] == true >
                 <LoreLine>&bReporter: &7${report.reporterName}</LoreLine>
@@ -44,9 +49,17 @@
 
             <LoreLine></LoreLine>
             <#if report.sppLocation.isPresent() == true >
-                <LoreLine>&bLocation: &7${report.sppLocation.get().worldName} &8 | &7${JavaUtils.serializeLocation(report.sppLocation.get())}</LoreLine>
+                <LoreLine>&bLocation: &7${report.sppLocation.get().worldName} &8 |
+                    &7${JavaUtils.serializeLocation(report.sppLocation.get())}</LoreLine>
             <#else >
                 <LoreLine>&bLocation: &7Unknown</LoreLine>
+            </#if>
+
+            <#if actions?has_content >
+                <LoreLine></LoreLine>
+                <#list actions as actionLine>
+                    <LoreLine>${actionLine}</LoreLine>
+                </#list>
             </#if>
         </Lore>
     </GuiItem>

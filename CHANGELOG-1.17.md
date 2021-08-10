@@ -1,6 +1,14 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.9
+# V1.17.12
+
+### Features
+  - Rework report guis to have quick actions
+
+### Bug fixes
+  - Report detail was not showing the status
+
+# V1.17.11
 
 ### Breaking change
   - temp Ban and temp mute permissions must now be limited by a separate permission. Check the wiki to see the permission needed.
