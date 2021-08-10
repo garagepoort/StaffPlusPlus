@@ -95,7 +95,6 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
             throw new BusinessException("The player is permanently banned. Cannot reduce ban");
         }
 
-        long newDuration = (ban.getEndTimestamp() - System.currentTimeMillis()) - duration;
         permission.validateDuration(sender, banConfiguration.permissionReduceBanPlayer + LIMIT, duration);
 
         bansRepository.setBanDuration(ban.getId(), ban.getEndTimestamp() - duration);

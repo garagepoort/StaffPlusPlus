@@ -41,9 +41,8 @@ public class ManageReportService {
         reportRepository.removeReports(player.getId());
     }
 
-
     public void acceptReport(Player player, int reportId) {
-        permission.validate(player, manageReportConfiguration.permissionReject);
+        permission.validate(player, manageReportConfiguration.permissionAccept);
 
         Report report = reportRepository.findOpenReport(reportId)
             .orElseThrow(() -> new BusinessException("&CReport with id [" + reportId + "] not found", messages.prefixReports));
@@ -70,6 +69,20 @@ public class ManageReportService {
 
     public void closeReport(Player player, CloseReportRequest closeReportRequest) {
         Report report = reportService.getReport(closeReportRequest.getReportId());
+        closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
+        sendEvent(closeReportRequest.getStatus() == ReportStatus.REJECTED ? new RejectReportEvent(report) : new ResolveReportEvent(report));
+    }
+
+    public void acceptAndClose(Player player, CloseReportRequest closeReportRequest) {
+        permission.validate(player, manageReportConfiguration.permissionAccept);
+        permission.validate(player, manageReportConfiguration.permissionResolve);
+
+        Report report = reportRepository.findOpenReport(closeReportRequest.getReportId())
+            .orElseThrow(() -> new BusinessException("&CReport with id [" + closeReportRequest.getReportId() + "] not found", messages.prefixReports));
+
+        report.setReportStatus(net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS);
+        report.setStaffUuid(player.getUniqueId());
+        report.setStaffName(player.getName());
         closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
         sendEvent(closeReportRequest.getStatus() == ReportStatus.REJECTED ? new RejectReportEvent(report) : new ResolveReportEvent(report));
     }
