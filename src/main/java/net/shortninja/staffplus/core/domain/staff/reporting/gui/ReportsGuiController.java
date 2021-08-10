@@ -25,6 +25,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
 import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
@@ -113,10 +114,9 @@ public class ReportsGuiController {
     public AsyncGui<GuiTemplate> allAssignedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page) {
         return async(() -> {
             Map<String, Object> params = new HashMap<>();
-            params.put("title", "Reports in progress");
             params.put("reports", reportService.getAllAssignedReports(PAGE_SIZE * page, PAGE_SIZE));
 
-            return template("gui/reports/reports.ftl", params);
+            return template("gui/reports/assigned-reports.ftl", params);
         });
     }
 
@@ -131,16 +131,14 @@ public class ReportsGuiController {
         });
     }
 
-
     @GuiAction("manage-reports/view/my-assigned")
     public AsyncGui<GuiTemplate> myAssignedReportsGui(Player player,
                                                       @GuiParam(value = "page", defaultValue = "0") int page) {
         return async(() -> {
             Map<String, Object> params = new HashMap<>();
-            params.put("title", "Reports assigned to you");
             params.put("reports", reportService.getAssignedReports(player.getUniqueId(), PAGE_SIZE * page, PAGE_SIZE));
 
-            return template("gui/reports/reports.ftl", params);
+            return template("gui/reports/my-assigned-reports.ftl", params);
         });
     }
 
@@ -156,9 +154,12 @@ public class ReportsGuiController {
 
 
     @GuiAction("manage-reports/accept")
-    public void acceptReport(Player player, @GuiParam("reportId") int reportId) {
+    public AsyncGui<String> acceptReport(Player player, @GuiParam("reportId") int reportId, @GuiParam("backAction") String backAction) {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
-        bukkitUtils.runTaskAsync(player, () -> manageReportService.acceptReport(player, reportId));
+        return async(() -> {
+            manageReportService.acceptReport(player, reportId);
+            return backAction;
+        });
     }
 
     @GuiAction("manage-reports/delete")
@@ -186,48 +187,97 @@ public class ReportsGuiController {
     }
 
     @GuiAction("manage-reports/reject")
-    public void rejectReport(Player player,
-                             @GuiParam("reportId") int reportId) {
-        if (options.reportConfiguration.isClosingReasonEnabled()) {
-            messages.send(player, "&1==================================================", messages.prefixReports);
-            messages.send(player, "&6        You have chosen to reject this report", messages.prefixReports);
-            messages.send(player, "&6Type your closing reason in chat to reject the report", messages.prefixReports);
-            messages.send(player, "&6        Type \"cancel\" to cancel closing the report ", messages.prefixReports);
-            messages.send(player, "&1==================================================", messages.prefixReports);
-            PlayerSession playerSession = sessionManager.get(player.getUniqueId());
-            playerSession.setChatAction((player1, message) -> {
-                if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled rejecting this report", messages.prefixReports);
-                    return;
-                }
-                bukkitUtils.runTaskAsync(player, () -> manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)));
-            });
-        } else {
-            bukkitUtils.runTaskAsync(player, () -> manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, null)));
-        }
+    public AsyncGui<String> rejectReport(Player player,
+                             @GuiParam("reportId") int reportId,
+                             @GuiParam("backAction") String backAction) {
+        permissionHandler.validate(player, manageReportConfiguration.permissionReject);
+        return async(() -> {
+            if (options.reportConfiguration.isClosingReasonEnabled()) {
+                showRejectReasonGui(player, (message) -> manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)));
+                return null;
+            }
+            manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
+            return backAction;
+        });
+    }
+
+    @GuiAction("manage-reports/accept-and-reject")
+    public AsyncGui<String> acceptAndReject(Player player,
+                                             @GuiParam("reportId") int reportId,
+                                             @GuiParam("backAction") String backAction) {
+        permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
+        permissionHandler.validate(player, manageReportConfiguration.permissionReject);
+        return async(() -> {
+            if (options.reportConfiguration.isClosingReasonEnabled()) {
+                showRejectReasonGui(player, (message) -> manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)));
+                return null;
+            }
+
+            manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
+            return backAction;
+        });
     }
 
     @GuiAction("manage-reports/resolve")
-    public void resolveReport(Player player,
-                              @GuiParam("reportId") int reportId) {
+    public AsyncGui<String> resolveReport(Player player, @GuiParam("reportId") int reportId, @GuiParam("backAction") String backAction) {
         permissionHandler.validate(player, manageReportConfiguration.permissionResolve);
-        if (options.reportConfiguration.isClosingReasonEnabled()) {
-            messages.send(player, "&1===================================================", messages.prefixReports);
-            messages.send(player, "&6       You have chosen to resolve this report", messages.prefixReports);
-            messages.send(player, "&6Type your closing reason in chat to resolve the report", messages.prefixReports);
-            messages.send(player, "&6      Type \"cancel\" to cancel closing the report ", messages.prefixReports);
-            messages.send(player, "&1===================================================", messages.prefixReports);
-            PlayerSession playerSession = sessionManager.get(player.getUniqueId());
-            playerSession.setChatAction((player1, message) -> {
-                if (message.equalsIgnoreCase(CANCEL)) {
-                    messages.send(player, "&CYou have cancelled rejecting this report", messages.prefixReports);
-                    return;
-                }
-                bukkitUtils.runTaskAsync(player, () -> manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)));
-            });
-        } else {
-            bukkitUtils.runTaskAsync(player, () -> manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null)));
-        }
+        return async(() -> {
+            if (options.reportConfiguration.isClosingReasonEnabled()) {
+                showResolveReasonGui(player, (message) -> manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)));
+                return null;
+            }
+
+            manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
+            return backAction;
+        });
     }
 
+    @GuiAction("manage-reports/accept-and-resolve")
+    public AsyncGui<String> acceptAndResolve(Player player,
+                                             @GuiParam("reportId") int reportId,
+                                             @GuiParam("backAction") String backAction) {
+        permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
+        permissionHandler.validate(player, manageReportConfiguration.permissionResolve);
+        return async(() -> {
+            if (options.reportConfiguration.isClosingReasonEnabled()) {
+                showResolveReasonGui(player, (message) -> manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)));
+                return null;
+            }
+
+            manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
+            return backAction;
+        });
+    }
+
+    private void showResolveReasonGui(Player player, Consumer<String> onClose) {
+        messages.send(player, "&1===================================================", messages.prefixReports);
+        messages.send(player, "&6       You have chosen to resolve this report", messages.prefixReports);
+        messages.send(player, "&6Type your closing reason in chat to resolve the report", messages.prefixReports);
+        messages.send(player, "&6      Type \"cancel\" to cancel closing the report ", messages.prefixReports);
+        messages.send(player, "&1===================================================", messages.prefixReports);
+        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        playerSession.setChatAction((player1, message) -> {
+            if (message.equalsIgnoreCase(CANCEL)) {
+                messages.send(player, "&CYou have cancelled resolving this report", messages.prefixReports);
+                return;
+            }
+            bukkitUtils.runTaskAsync(player, () -> onClose.accept(message));
+        });
+    }
+
+    private void showRejectReasonGui(Player player, Consumer<String> onClose) {
+        messages.send(player, "&1==================================================", messages.prefixReports);
+        messages.send(player, "&6        You have chosen to reject this report", messages.prefixReports);
+        messages.send(player, "&6Type your closing reason in chat to reject the report", messages.prefixReports);
+        messages.send(player, "&6        Type \"cancel\" to cancel closing the report ", messages.prefixReports);
+        messages.send(player, "&1==================================================", messages.prefixReports);
+        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        playerSession.setChatAction((player1, message) -> {
+            if (message.equalsIgnoreCase(CANCEL)) {
+                messages.send(player, "&CYou have cancelled rejecting this report", messages.prefixReports);
+                return;
+            }
+            bukkitUtils.runTaskAsync(player, () -> onClose.accept(message));
+        });
+    }
 }
