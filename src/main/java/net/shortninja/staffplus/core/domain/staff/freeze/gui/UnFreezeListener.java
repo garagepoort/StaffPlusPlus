@@ -40,10 +40,8 @@ public class UnFreezeListener implements Listener {
         player.removePotionEffect(PotionEffectType.BLINDNESS);
 
         OnlinePlayerSession session = onlineSessionsManager.get(player);
-        if (freezeModeConfiguration.isModeFreezePrompt() && session.getCurrentGui().isPresent()) {
-            if (session.getCurrentGui().get() instanceof FreezeGui) {
-                player.closeInventory();
-            }
+        if (freezeModeConfiguration.isModeFreezePrompt() && session.getCurrentGui().isPresent() && session.getCurrentGui().get() instanceof FreezeGui) {
+            player.closeInventory();
         }
     }
 }
