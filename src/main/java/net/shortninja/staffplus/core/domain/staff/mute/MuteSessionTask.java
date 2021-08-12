@@ -3,11 +3,15 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,15 +21,17 @@ public class MuteSessionTask extends BukkitRunnable {
     public static final int DELAY = 10 * 20;
 
     private final Messages messages;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager onlineSessionsManager;
     private final MuteService muteService;
     private final MuteConfiguration muteConfiguration;
+    private final PlayerManager playerManager;
 
-    public MuteSessionTask(Messages messages, SessionManagerImpl sessionManager, MuteService muteService, MuteConfiguration muteConfiguration) {
+    public MuteSessionTask(Messages messages, OnlineSessionsManager onlineSessionsManager, MuteService muteService, MuteConfiguration muteConfiguration, PlayerManager playerManager) {
         this.messages = messages;
-        this.sessionManager = sessionManager;
+        this.onlineSessionsManager = onlineSessionsManager;
         this.muteService = muteService;
         this.muteConfiguration = muteConfiguration;
+        this.playerManager = playerManager;
         runTaskTimerAsynchronously(StaffPlus.get(), DELAY, DELAY);
     }
 
@@ -34,22 +40,28 @@ public class MuteSessionTask extends BukkitRunnable {
         if(!muteConfiguration.muteEnabled) {
             return;
         }
-        List<Player> players = sessionManager.getAll().stream()
-            .filter(p -> p.getPlayer().isPresent())
-            .map(p -> p.getPlayer().get())
+
+        ArrayList<Player> onlinePlayers = new ArrayList<>(playerManager.getOnlinePlayers());
+        List<Mute> activeMutes = muteService.getAllActiveMutes(onlinePlayers);
+        List<OnlinePlayerSession> mutedSessions = onlineSessionsManager.getAll()
+            .stream()
+            .filter(OnlinePlayerSession::isMuted)
             .collect(Collectors.toList());
 
-        List<Mute> activeMutes = muteService.getAllActiveMutes(players);
-
-        sessionManager.getAll().forEach(playerSession -> {
-            Optional<Player> player = playerSession.getPlayer();
-            if (playerSession.isMuted() && player.isPresent()) {
-                boolean playerIsMuted = activeMutes.stream().anyMatch(mute -> mute.getTargetUuid().equals(player.get().getUniqueId()));
-                playerSession.setMuted(playerIsMuted);
+        for (OnlinePlayerSession mutedSession : mutedSessions) {
+            Optional<Player> onlinePlayer = getPlayer(onlinePlayers, mutedSession);
+            if(onlinePlayer.isPresent()) {
+                boolean playerIsMuted = activeMutes.stream().anyMatch(mute -> mute.getTargetUuid().equals(onlinePlayer.get().getUniqueId()));
+                mutedSession.setMuted(playerIsMuted);
                 if (!playerIsMuted) {
-                    messages.send(player.get(), messages.muteExpired, messages.prefixGeneral);
+                    messages.send(onlinePlayer.get().getPlayer(), messages.muteExpired, messages.prefixGeneral);
                 }
             }
-        });
+        }
+    }
+
+    @NotNull
+    private Optional<Player> getPlayer(ArrayList<Player> onlinePlayers, OnlinePlayerSession mutedSession) {
+        return onlinePlayers.stream().filter(p -> p.getUniqueId() == mutedSession.getUuid()).findFirst();
     }
 }

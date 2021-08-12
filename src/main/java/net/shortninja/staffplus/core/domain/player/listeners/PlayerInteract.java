@@ -4,9 +4,8 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -57,8 +56,7 @@ public class PlayerInteract implements Listener {
     private final GadgetHandler gadgetHandler;
     private final FreezeHandler freezeHandler;
     private final PlayerManager playerManager;
-    private final Options options;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final List<CustomModulePreProcessor> customModulePreProcessors;
     private final Messages messages;
 
@@ -66,7 +64,8 @@ public class PlayerInteract implements Listener {
     public PlayerInteract(IProtocolService protocolService, CpsHandler cpsHandler,
                           GadgetHandler gadgetHandler,
                           FreezeHandler freezeHandler,
-                          PlayerManager playerManager, Options options, SessionManagerImpl sessionManager,
+                          PlayerManager playerManager,
+                          OnlineSessionsManager sessionManager,
                           @IocMulti(CustomModulePreProcessor.class) List<CustomModulePreProcessor> customModulePreProcessors,
                           Messages messages) {
         this.protocolService = protocolService;
@@ -74,7 +73,6 @@ public class PlayerInteract implements Listener {
         this.gadgetHandler = gadgetHandler;
         this.freezeHandler = freezeHandler;
         this.playerManager = playerManager;
-        this.options = options;
         this.sessionManager = sessionManager;
         this.customModulePreProcessors = customModulePreProcessors;
         this.messages = messages;
@@ -94,13 +92,13 @@ public class PlayerInteract implements Listener {
             cpsHandler.updateCount(uuid);
         }
 
-        PlayerSession playerSession = sessionManager.get(uuid);
+        OnlinePlayerSession playerSession = sessionManager.get(player);
         boolean inStaffMode = playerSession.isInStaffMode();
 
         if (!inStaffMode || item == null) {
             return;
         }
-        GeneralModeConfiguration modeConfiguration = playerSession.getModeConfiguration().get();
+        GeneralModeConfiguration modeConfiguration = playerSession.getModeConfig().get();
 
         if (staffCheckingChest(event, player)) {
             event.setCancelled(true);
@@ -136,7 +134,7 @@ public class PlayerInteract implements Listener {
 
     private boolean staffCheckingChest(PlayerInteractEvent event, Player player) {
         return event.getClickedBlock() != null && event.getClickedBlock().getState() instanceof Container
-            && sessionManager.get(player.getUniqueId()).isInStaffMode()
+            && sessionManager.get(player).isInStaffMode()
             && !player.isSneaking();
     }
 
@@ -173,8 +171,9 @@ public class PlayerInteract implements Listener {
             case FREEZE:
                 playerAction(player, () -> {
                     Player targetPlayer = JavaUtils.getTargetPlayer(player);
+                    OnlinePlayerSession session = sessionManager.get(targetPlayer);
                     if (targetPlayer != null) {
-                        freezeHandler.execute(new FreezeRequest(player, targetPlayer, !freezeHandler.isFrozen(targetPlayer.getUniqueId())));
+                        freezeHandler.execute(new FreezeRequest(player, targetPlayer, !session.isFrozen()));
                     }
                 });
                 break;
@@ -215,7 +214,7 @@ public class PlayerInteract implements Listener {
             placeholders.put("%clicked%", targetPlayer.getName());
         }
 
-        if(customModuleConfiguration.get().getType() == COMMAND_DYNAMIC && targetPlayer == null) {
+        if (customModuleConfiguration.get().getType() == COMMAND_DYNAMIC && targetPlayer == null) {
             messages.send(player, "No target in range", messages.prefixGeneral);
             return true;
         }

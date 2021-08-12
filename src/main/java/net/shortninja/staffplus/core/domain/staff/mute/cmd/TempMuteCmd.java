@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.mute.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -12,6 +11,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.time.TimeUnit;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
@@ -42,24 +42,23 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 public class TempMuteCmd extends AbstractCmd {
 
     private final MuteService muteService;
-    private final SessionManagerImpl sessionManager;
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
     private final MuteConfiguration muteConfiguration;
+    private final BukkitUtils bukkitUtils;
 
     public TempMuteCmd(PermissionHandler permissionHandler,
                        Messages messages,
                        MuteService muteService,
-                       SessionManagerImpl sessionManager,
                        CommandService commandService,
                        PlayerManager playerManager,
-                       MuteConfiguration muteConfiguration) {
+                       MuteConfiguration muteConfiguration, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.muteService = muteService;
-        this.sessionManager = sessionManager;
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
         this.muteConfiguration = muteConfiguration;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @Override
@@ -72,10 +71,7 @@ public class TempMuteCmd extends AbstractCmd {
         String timeUnit = args[2];
         String reason = JavaUtils.compileWords(args, 3);
 
-        muteService.tempMute(sender, player, TimeUnit.getDuration(timeUnit, amount), reason);
-        if (player.isOnline()) {
-            sessionManager.get(player.getId()).setMuted(true);
-        }
+        bukkitUtils.runTaskAsync(sender, () -> muteService.tempMute(sender, player, TimeUnit.getDuration(timeUnit, amount), reason));
         return true;
     }
 

@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.protect;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.protect.database.ProtectedAreaRepository;
 import org.bukkit.Location;
@@ -24,18 +24,17 @@ public class ProtectService {
     private final ProtectedAreaRepository protectedAreaRepository;
 
     private final Messages messages;
-    private final SessionManagerImpl sessionManager;
+    private final PlayerSettingsRepository playerSettingsRepository;
 
-    public ProtectService(ProtectedAreaRepository protectedAreaRepository, Messages messages, Options options, SessionManagerImpl sessionManager) {
+    public ProtectService(ProtectedAreaRepository protectedAreaRepository, Messages messages, Options options, PlayerSettingsRepository playerSettingsRepository) {
         this.protectedAreaRepository = protectedAreaRepository;
-
         this.messages = messages;
         this.protectConfiguration = options.protectConfiguration;
-        this.sessionManager = sessionManager;
+        this.playerSettingsRepository = playerSettingsRepository;
     }
 
     public boolean isLocationProtect(Player player, Location location) {
-        if (sessionManager.get(player.getUniqueId()).isInStaffMode()) {
+        if (playerSettingsRepository.get(player).isInStaffMode()) {
             return false;
         }
 

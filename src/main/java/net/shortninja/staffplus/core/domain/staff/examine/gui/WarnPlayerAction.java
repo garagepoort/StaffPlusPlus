@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.examine.gui;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.PlayerOfflineException;
@@ -22,7 +22,7 @@ public class WarnPlayerAction implements IAction {
     private static final String NONE = "none";
     private final Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
 
-    private final SessionManagerImpl sessionManager = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class);
+    private final OnlineSessionsManager sessionManager = StaffPlus.get().getIocContainer().get(OnlineSessionsManager.class);
     private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
     private final PlayerManager playerManager = StaffPlus.get().getIocContainer().get(PlayerManager.class);
     private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
@@ -36,7 +36,7 @@ public class WarnPlayerAction implements IAction {
     @Override
     public void click(Player player, ItemStack item, int slot, ClickType clickType) {
         String severityLevel = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item);
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession playerSession = sessionManager.get(player);
 
         WarningSeverityConfiguration severityConfiguration = options.warningConfiguration.getSeverityConfiguration(severityLevel)
             .orElseThrow(() -> new BusinessException("&CNo severity configuration found for level [" + severityLevel + "]"));
@@ -51,7 +51,7 @@ public class WarnPlayerAction implements IAction {
 
     }
 
-    private void promptReasonInput(Player player, PlayerSession playerSession, SppPlayer onOrOfflinePlayer, WarningSeverityConfiguration severityConfiguration) {
+    private void promptReasonInput(Player player, OnlinePlayerSession playerSession, SppPlayer onOrOfflinePlayer, WarningSeverityConfiguration severityConfiguration) {
         boolean defaultReasonSettable = severityConfiguration.getReason().isPresent() && severityConfiguration.isReasonOverwriteEnabled();
 
         messages.send(player, "&1=====================================================", messages.prefixGeneral);

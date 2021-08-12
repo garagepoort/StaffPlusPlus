@@ -9,16 +9,16 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 @IocBean
 @IocListener
-public class SessionSaveOnPlayerQuit implements Listener {
+public class SessionCleanupOnPlayerQuit implements Listener {
 
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
-    public SessionSaveOnPlayerQuit(SessionManagerImpl sessionManager) {
+    public SessionCleanupOnPlayerQuit(OnlineSessionsManager sessionManager) {
         this.sessionManager = sessionManager;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void playerQuit(PlayerQuitEvent playerQuitEvent) {
-        sessionManager.unload(playerQuitEvent.getPlayer().getUniqueId());
+        sessionManager.remove(playerQuitEvent.getPlayer());
     }
 }
