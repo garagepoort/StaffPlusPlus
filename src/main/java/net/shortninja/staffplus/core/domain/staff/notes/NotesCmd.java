@@ -72,10 +72,8 @@ public class NotesCmd extends AbstractCmd {
 
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
-        if (args.length == 2) {
-            if ((args[0].equalsIgnoreCase(GET) || args[0].equalsIgnoreCase(CLEAR))) {
-                return Optional.of(args[1]);
-            }
+        if (args.length == 2 && (args[0].equalsIgnoreCase(GET) || args[0].equalsIgnoreCase(CLEAR))) {
+            return Optional.of(args[1]);
         }
         return Optional.of(args[0]);
     }
