@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -43,10 +43,10 @@ public class VanishCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
     private final VanishConfiguration vanishConfiguration;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final BukkitUtils bukkitUtils;
 
-    public VanishCmd(Messages messages, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler, PlayerManager playerManager, VanishConfiguration vanishConfiguration, SessionManagerImpl sessionManager, BukkitUtils bukkitUtils) {
+    public VanishCmd(Messages messages, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler, PlayerManager playerManager, VanishConfiguration vanishConfiguration, OnlineSessionsManager sessionManager, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.vanishServiceImpl = vanishServiceImpl;
         this.permissionHandler = permissionHandler;
@@ -153,7 +153,7 @@ public class VanishCmd extends AbstractCmd {
     }
 
     private void setVanish(VanishType vanishType, Player player, boolean shouldCheckPermission, String permissionVanishTotal) {
-        PlayerSession session = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession session = sessionManager.get(player);
         if (shouldCheckPermission && !permissionHandler.has(player, permissionVanishTotal)) {
             messages.send(player, messages.noPermission, messages.prefixGeneral);
             return;

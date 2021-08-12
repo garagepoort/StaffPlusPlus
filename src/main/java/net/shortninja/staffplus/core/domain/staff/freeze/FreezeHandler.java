@@ -5,21 +5,26 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
+import net.shortninja.staffplusplus.freeze.PlayerFrozenEvent;
+import net.shortninja.staffplusplus.freeze.PlayerUnFrozenEvent;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Stream;
+
+import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
 public class FreezeHandler {
@@ -30,83 +35,44 @@ public class FreezeHandler {
 
     private final PermissionHandler permission;
     private final Messages messages;
-    private final SessionManagerImpl sessionManager;
-    private final FreezeModeConfiguration freezeModeConfiguration;
 
-    public FreezeHandler(PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager) {
+    public FreezeHandler(PermissionHandler permission,
+                         Options options,
+                         Messages messages,
+                         OnlineSessionsManager sessionManager,
+                         PlayerManager playerManager) {
         this.permission = permission;
         this.messages = messages;
-        this.sessionManager = sessionManager;
-        freezeModeConfiguration = options.staffItemsConfiguration.getFreezeModeConfiguration();
+        FreezeModeConfiguration freezeModeConfiguration = options.staffItemsConfiguration.getFreezeModeConfiguration();
 
         if (freezeModeConfiguration.isTitleMessageEnabled()) {
             Bukkit.getScheduler().runTaskTimerAsynchronously(StaffPlus.get(), () -> {
-                sessionManager.getAll().stream().filter(PlayerSession::isFrozen)
-                    .filter(session -> session.getPlayer().isPresent())
-                    .forEach(session -> session.getPlayer().get().sendTitle(messages.colorize(messages.freezeTitle), messages.colorize(messages.freezeSubtitle), 1, 25, 1));
+                sessionManager.getAll().stream().filter(OnlinePlayerSession::isFrozen)
+                    .map(s -> playerManager.getOnlinePlayer(s.getUuid()))
+                    .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty))
+                    .map(SppPlayer::getPlayer)
+                    .forEach(player -> player.sendTitle(messages.colorize(messages.freezeTitle), messages.colorize(messages.freezeSubtitle), 1, 25, 1));
             }, 20L, 20L);
         }
     }
 
     public void execute(FreezeRequest freezeRequest) {
-        validatePermissions(freezeRequest.getCommandSender(), freezeRequest.getPlayer());
         if (freezeRequest.isEnableFreeze()) {
+            validatePermissions(freezeRequest.getPlayer());
             addFreeze(freezeRequest.getCommandSender(), freezeRequest.getPlayer());
         } else {
             removeFreeze(freezeRequest.getCommandSender(), freezeRequest.getPlayer());
         }
     }
 
-    public boolean isFrozen(UUID uuid) {
-        PlayerSession user = sessionManager.get(uuid);
-        if (user == null)
-            return false;
-        return lastFrozenLocations.containsKey(uuid) || user.isFrozen();
-    }
-
-
     private void addFreeze(CommandSender sender, Player player) {
-        UUID uuid = player.getUniqueId();
-        if (freezeModeConfiguration.isModeFreezePrompt()) {
-            new FreezeGui(freezeModeConfiguration.getModeFreezePromptTitle()).show(player);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
-        } else {
-            messages.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
-        }
-
-        messages.send(sender, messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);
-
-        sessionManager.get(player.getUniqueId()).setFrozen(true);
-        lastFrozenLocations.put(uuid, player.getLocation());
-        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
-        freezeModeConfiguration.getModeFreezeSound().ifPresent(s -> s.play(player));
-
+        lastFrozenLocations.put(player.getUniqueId(), player.getLocation());
+        sendEvent(new PlayerFrozenEvent(sender, player));
     }
 
     public void removeFreeze(CommandSender sender, Player player) {
-        UUID uuid = player.getUniqueId();
-        PlayerSession session = sessionManager.get(uuid);
-
-        if (permission.has(player, permissionFreezeBypass)) {
-            messages.send(sender, messages.bypassed, messages.prefixGeneral);
-            return;
-        }
-
-        if (freezeModeConfiguration.isModeFreezePrompt() && session.getCurrentGui().isPresent()) {
-            if (session.getCurrentGui().get() instanceof FreezeGui) {
-                player.closeInventory();
-            }
-        }
-
-        messages.send(sender, messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
-        messages.sendCollectedMessage(player, messages.unfrozen, messages.prefixGeneral);
-
-        session.setFrozen(false);
-        lastFrozenLocations.remove(uuid);
-        player.removePotionEffect(PotionEffectType.JUMP);
-        player.removePotionEffect(PotionEffectType.SLOW);
-        player.removePotionEffect(PotionEffectType.BLINDNESS);
+        lastFrozenLocations.remove(player.getUniqueId());
+        sendEvent(new PlayerUnFrozenEvent(sender, player));
     }
 
     public void checkLocations() {
@@ -134,7 +100,7 @@ public class FreezeHandler {
         return previous.getBlockX() == current.getBlockX() && previous.getBlockY() == current.getBlockY() && previous.getBlockZ() == current.getBlockZ();
     }
 
-    public void validatePermissions(CommandSender commandSender, Player target) {
+    public void validatePermissions(Player target) {
         if (permission.has(target, permissionFreezeBypass)) {
             throw new BusinessException(messages.bypassed, messages.prefixGeneral);
         }

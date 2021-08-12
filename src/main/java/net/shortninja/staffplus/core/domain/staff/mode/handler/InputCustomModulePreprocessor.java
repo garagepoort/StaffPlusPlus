@@ -4,8 +4,8 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
 import org.bukkit.Bukkit;
 
@@ -18,9 +18,11 @@ public class InputCustomModulePreprocessor implements CustomModulePreProcessor {
     private static final String CANCEL = "cancel";
 
     private final Messages messages;
+    private final OnlineSessionsManager sessionsManager;
 
-    public InputCustomModulePreprocessor(Messages messages) {
+    public InputCustomModulePreprocessor(Messages messages, OnlineSessionsManager sessionsManager) {
         this.messages = messages;
+        this.sessionsManager = sessionsManager;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class InputCustomModulePreprocessor implements CustomModulePreProcessor {
                 inputPrompt = inputPrompt.replace(entry.getKey(), entry.getValue());
             }
 
-            PlayerSession playerSession = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class).get(player.getUniqueId());
+            OnlinePlayerSession playerSession = sessionsManager.get(player);
             messages.send(player, "&7------", messages.prefixGeneral);
             messages.send(player, "&6" + inputPrompt, messages.prefixGeneral);
             messages.send(player, "&6 or \"cancel\" to cancel the action", messages.prefixGeneral);

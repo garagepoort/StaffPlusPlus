@@ -4,21 +4,19 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.staffchat.bungee.StaffChatBungeeMessage;
 import net.shortninja.staffplus.core.domain.staff.staffchat.bungee.StaffChatReceivedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatConfiguration;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatEvent;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
@@ -32,17 +30,16 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     private final PermissionHandler permissionHandler;
     private final StaffChatMessageFormatter staffChatMessageFormatter;
     private final StaffChatConfiguration staffChatConfiguration;
+    private final PlayerSettingsRepository playerSettingsRepository;
 
-    private final SessionManagerImpl sessionManager;
 
-    public StaffChatServiceImpl(Messages messages, Options options, PermissionHandler permissionHandler, StaffChatMessageFormatter staffChatMessageFormatter, StaffChatConfiguration staffChatConfiguration, SessionManagerImpl sessionManager) {
+    public StaffChatServiceImpl(Messages messages, Options options, PermissionHandler permissionHandler, StaffChatMessageFormatter staffChatMessageFormatter, StaffChatConfiguration staffChatConfiguration, PlayerSettingsRepository playerSettingsRepository) {
         this.messages = messages;
         this.options = options;
         this.permissionHandler = permissionHandler;
         this.staffChatMessageFormatter = staffChatMessageFormatter;
         this.staffChatConfiguration = staffChatConfiguration;
-
-        this.sessionManager = sessionManager;
+        this.playerSettingsRepository = playerSettingsRepository;
     }
 
     @EventHandler
@@ -92,12 +89,10 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     }
 
     private void sendMessageToStaff(StaffChatChannelConfiguration channel, String formattedMessage) {
-        sessionManager.getAll().stream()
-            .filter(playerSession -> !playerSession.isStaffChatMuted(channel.getName()))
-            .map(PlayerSession::getPlayer)
-            .filter(Optional::isPresent)
-            .filter(player -> player.get().isOnline() && permissionHandler.has(player.get(), channel.getPermission().orElse(null)))
-            .forEach(player -> messages.send(player.get(), formattedMessage, channel.getPrefix()));
+        Bukkit.getOnlinePlayers().stream()
+            .filter(p -> !playerSettingsRepository.get(p).isStaffChatMuted(channel.getName()))
+            .filter(player -> permissionHandler.has(player, channel.getPermission().orElse(null)))
+            .forEach(player -> messages.send(player, formattedMessage, channel.getPrefix()));
     }
 
 }
