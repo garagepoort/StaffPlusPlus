@@ -40,7 +40,7 @@ public class MinerGuiController {
     public void changeGlass(Player player, @GuiParam("to") String toPlayerUuid) {
         Optional<SppPlayer> p = playerManager.getOnlinePlayer(UUID.fromString(toPlayerUuid));
         if (p.isPresent()) {
-            p.get().getPlayer().teleport(player);
+            player.teleport(p.get().getPlayer());
         } else {
             messages.send(player, messages.playerOffline, messages.prefixGeneral);
         }

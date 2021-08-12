@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat;
 
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatConfiguration;
@@ -10,11 +10,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class StaffChatChatInterceptor implements ChatInterceptor {
     private final StaffChatServiceImpl staffChatService;
     private final PermissionHandler permission;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final StaffChatChannelConfiguration channelConfiguration;
     private final StaffChatConfiguration staffChatConfiguration;
 
-    public StaffChatChatInterceptor(StaffChatServiceImpl staffChatService, PermissionHandler permission, SessionManagerImpl sessionManager, StaffChatChannelConfiguration channelConfiguration, StaffChatConfiguration staffChatConfiguration) {
+    public StaffChatChatInterceptor(StaffChatServiceImpl staffChatService, PermissionHandler permission, OnlineSessionsManager sessionManager, StaffChatChannelConfiguration channelConfiguration, StaffChatConfiguration staffChatConfiguration) {
         this.staffChatService = staffChatService;
         this.permission = permission;
         this.sessionManager = sessionManager;
@@ -28,7 +28,7 @@ public class StaffChatChatInterceptor implements ChatInterceptor {
             return false;
         }
 
-        PlayerSession session = sessionManager.get(event.getPlayer().getUniqueId());
+        OnlinePlayerSession session = sessionManager.get(event.getPlayer());
 
         if (session.getActiveStaffChatChannel().isPresent() && session.getActiveStaffChatChannel().get().equalsIgnoreCase(channelConfiguration.getName())) {
             staffChatService.sendMessage(event.getPlayer(), session.getActiveStaffChatChannel().get(), event.getMessage());

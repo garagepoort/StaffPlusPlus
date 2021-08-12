@@ -5,7 +5,7 @@ import net.shortninja.staffplusplus.vanish.VanishType;
 import java.util.Set;
 import java.util.UUID;
 
-public class SessionEntity {
+public class PlayerSettingsEntity {
 
     private int id;
     private UUID playerUuid;
@@ -14,10 +14,10 @@ public class SessionEntity {
     private Set<String> mutedStaffChatChannels;
     private String staffModeName;
 
-    public SessionEntity() {
+    public PlayerSettingsEntity() {
     }
 
-    public SessionEntity(int id, UUID playerUuid, VanishType vanishType, boolean staffMode, Set<String> mutedStaffChatChannels, String staffModeName) {
+    public PlayerSettingsEntity(int id, UUID playerUuid, VanishType vanishType, boolean staffMode, Set<String> mutedStaffChatChannels, String staffModeName) {
         this.id = id;
         this.playerUuid = playerUuid;
         this.vanishType = vanishType;
@@ -26,7 +26,7 @@ public class SessionEntity {
         this.staffModeName = staffModeName;
     }
 
-    public SessionEntity(UUID playerUuid, VanishType vanishType, boolean staffMode, Set<String> mutedStaffChatChannels, String staffModeName) {
+    public PlayerSettingsEntity(UUID playerUuid, VanishType vanishType, boolean staffMode, Set<String> mutedStaffChatChannels, String staffModeName) {
         this.playerUuid = playerUuid;
         this.vanishType = vanishType;
         this.staffMode = staffMode;

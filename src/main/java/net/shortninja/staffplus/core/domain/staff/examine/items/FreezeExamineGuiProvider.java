@@ -5,9 +5,10 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
-import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Material;
@@ -22,12 +23,12 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
 
     private final Messages messages;
     private final ExamineModeConfiguration examineModeConfiguration;
-    private final FreezeHandler freezeHandler;
+    private final OnlineSessionsManager onlineSessionsManager;
 
-    public FreezeExamineGuiProvider(Messages messages, Options options, FreezeHandler freezeHandler) {
+    public FreezeExamineGuiProvider(Messages messages, Options options, OnlineSessionsManager onlineSessionsManager) {
         this.messages = messages;
-        this.freezeHandler = freezeHandler;
         examineModeConfiguration = options.staffItemsConfiguration.getExamineModeConfiguration();
+        this.onlineSessionsManager = onlineSessionsManager;
     }
 
     @Override
@@ -54,7 +55,8 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     private ItemStack freezeItem(Player player) {
-        String frozenStatus = freezeHandler.isFrozen(player.getUniqueId()) ? "" : "not ";
+        OnlinePlayerSession session = onlineSessionsManager.get(player);
+        String frozenStatus = session.isFrozen() ? "" : "not ";
 
         return Items.builder()
             .setMaterial(Material.BLAZE_ROD).setAmount(1)

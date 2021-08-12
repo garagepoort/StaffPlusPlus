@@ -4,6 +4,8 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -46,15 +48,17 @@ public class FreezeCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final FreezeHandler freezeHandler;
     private final PlayerManager playerManager;
+    private final OnlineSessionsManager onlineSessionsManager;
 
     @ConfigProperty("permissions:freeze-bypass")
     private String permissionFreezeBypass;
 
-    public FreezeCmd(PermissionHandler permissionHandler, Messages messages, FreezeHandler freezeHandler, CommandService commandService, PlayerManager playerManager) {
+    public FreezeCmd(PermissionHandler permissionHandler, Messages messages, FreezeHandler freezeHandler, CommandService commandService, PlayerManager playerManager, OnlineSessionsManager onlineSessionsManager) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.freezeHandler = freezeHandler;
         this.playerManager = playerManager;
+        this.onlineSessionsManager = onlineSessionsManager;
     }
 
     @Override
@@ -92,7 +96,8 @@ public class FreezeCmd extends AbstractCmd {
     }
 
     private FreezeRequest buildFreezeRequest(CommandSender sender, String[] args, Player targetPlayer) {
-        boolean freeze = !freezeHandler.isFrozen(targetPlayer.getUniqueId());
+        OnlinePlayerSession session = onlineSessionsManager.get(targetPlayer);
+        boolean freeze = !session.isFrozen();
 
         if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
             freeze = args[0].equalsIgnoreCase(ENABLED);

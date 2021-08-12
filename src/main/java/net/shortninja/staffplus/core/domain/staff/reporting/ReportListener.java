@@ -1,16 +1,16 @@
 package net.shortninja.staffplus.core.domain.staff.reporting;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocListener;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import static org.bukkit.Bukkit.getScheduler;
 
 @IocBean
+@IocListener
 public class ReportListener implements Listener {
 
     private final ReportService reportService;
@@ -28,11 +29,10 @@ public class ReportListener implements Listener {
         this.reportService = reportService;
         this.options = options;
         this.permission = permission;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void notifyReports(PlayerJoinEvent event) {
+    public void notifyReports(StaffPlusPlusJoinedEvent event) {
         if (!options.reportConfiguration.isNotifyReporterOnJoin()) {
             return;
         }

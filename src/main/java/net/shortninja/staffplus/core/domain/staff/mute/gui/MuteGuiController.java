@@ -8,8 +8,9 @@ import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.core.domain.staff.mute.gui.views.ManageMutedPlayerViewBuilder;
@@ -28,14 +29,16 @@ public class MuteGuiController {
     private final ManageMutedPlayerViewBuilder manageMutedPlayerViewBuilder;
     private final Messages messages;
     private final MuteService muteService;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
+    private final BukkitUtils bukkitUtils;
 
-    public MuteGuiController(MutedPlayersViewBuilder mutedPlayersViewBuilder, ManageMutedPlayerViewBuilder manageMutedPlayerViewBuilder, Messages messages, MuteService muteService, SessionManagerImpl sessionManager) {
+    public MuteGuiController(MutedPlayersViewBuilder mutedPlayersViewBuilder, ManageMutedPlayerViewBuilder manageMutedPlayerViewBuilder, Messages messages, MuteService muteService, OnlineSessionsManager sessionManager, BukkitUtils bukkitUtils) {
         this.mutedPlayersViewBuilder = mutedPlayersViewBuilder;
         this.manageMutedPlayerViewBuilder = manageMutedPlayerViewBuilder;
         this.messages = messages;
         this.muteService = muteService;
         this.sessionManager = sessionManager;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @GuiAction("manage-mutes/view/overview")
@@ -63,14 +66,13 @@ public class MuteGuiController {
         messages.send(player, "&6        Type \"cancel\" to cancel the unmute ", messages.prefixGeneral);
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
 
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
                 messages.send(player, "&CYou have cancelled unmuting this player", messages.prefixReports);
                 return;
             }
-            muteService.unmute(player, muteId, message);
-            sessionManager.get(player.getUniqueId()).setMuted(false);
+            bukkitUtils.runTaskAsync(player1, () -> muteService.unmute(player, muteId, message));
         });
     }
 

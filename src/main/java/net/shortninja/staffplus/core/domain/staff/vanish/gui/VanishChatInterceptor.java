@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.chat.ChatAction;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
@@ -19,9 +19,9 @@ public class VanishChatInterceptor implements ChatInterceptor {
     private final VanishConfiguration vanishConfiguration;
 
     private final Messages messages;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
-    public VanishChatInterceptor(VanishServiceImpl vanishServiceImpl, VanishConfiguration vanishConfiguration, Messages messages, SessionManagerImpl sessionManager) {
+    public VanishChatInterceptor(VanishServiceImpl vanishServiceImpl, VanishConfiguration vanishConfiguration, Messages messages, OnlineSessionsManager sessionManager) {
         this.vanishServiceImpl = vanishServiceImpl;
         this.vanishConfiguration = vanishConfiguration;
         this.messages = messages;
@@ -30,7 +30,7 @@ public class VanishChatInterceptor implements ChatInterceptor {
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
-        PlayerSession session = sessionManager.get(event.getPlayer().getUniqueId());
+        OnlinePlayerSession session = sessionManager.get(event.getPlayer());
         ChatAction chatAction = session.getChatAction();
 
         if (chatAction != null) {

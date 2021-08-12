@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -22,11 +23,15 @@ public class ExitStaffModeListener implements Listener {
     private final PlayerManager playerManager;
     private final Messages messages;
     private final ModeProvider modeProvider;
+    private final ModeDataRepository modeDataRepository;
+    private final BukkitUtils bukkitUtils;
 
-    public ExitStaffModeListener(PlayerManager playerManager, Messages messages, ModeProvider modeProvider) {
+    public ExitStaffModeListener(PlayerManager playerManager, Messages messages, ModeProvider modeProvider, ModeDataRepository modeDataRepository, BukkitUtils bukkitUtils) {
         this.playerManager = playerManager;
         this.messages = messages;
         this.modeProvider = modeProvider;
+        this.modeDataRepository = modeDataRepository;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @EventHandler
@@ -45,6 +50,7 @@ public class ExitStaffModeListener implements Listener {
         }
 
         resetPlayer(player, event.getModeData());
+        bukkitUtils.runTaskAsync(player, () -> modeDataRepository.deleteModeData(player));
         messages.send(player, messages.modeStatus.replace("%status%", messages.disabled), messages.prefixGeneral);
     }
 

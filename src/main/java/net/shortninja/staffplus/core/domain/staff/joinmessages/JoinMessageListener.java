@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.util.Comparator;
 import java.util.Optional;
 
-@IocBean
+@IocBean(conditionalOnProperty = "joinmessages-module.enabled=true")
 @IocListener
 public class JoinMessageListener implements Listener {
 

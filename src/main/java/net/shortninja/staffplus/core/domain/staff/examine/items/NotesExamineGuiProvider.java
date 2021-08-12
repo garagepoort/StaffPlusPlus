@@ -5,9 +5,9 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.Items;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -25,18 +25,18 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
     private final Messages messages;
 
     private final ExamineModeConfiguration examineModeConfiguration;
-    private final SessionManagerImpl sessionManager;
+    private final PlayerSettingsRepository playerSettingsRepository;
 
-    public NotesExamineGuiProvider(Messages messages, Options options, SessionManagerImpl sessionManager) {
+    public NotesExamineGuiProvider(Messages messages, Options options, PlayerSettingsRepository playerSettingsRepository) {
         this.messages = messages;
 
-        this.sessionManager = sessionManager;
+        this.playerSettingsRepository = playerSettingsRepository;
         examineModeConfiguration = options.staffItemsConfiguration.getExamineModeConfiguration();
     }
 
     @Override
     public ItemStack getItem(SppPlayer player) {
-        return notesItem(sessionManager.get(player.getId()));
+        return notesItem(playerSettingsRepository.get(player.getPlayer()));
     }
 
     @Override
@@ -57,8 +57,8 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
         return examineModeConfiguration.getModeExamineNotes() - 1;
     }
 
-    private ItemStack notesItem(PlayerSession playerSession) {
-        List<String> notes = playerSession.getPlayerNotes().isEmpty() ? Arrays.asList("&7No notes found") : playerSession.getPlayerNotes();
+    private ItemStack notesItem(PlayerSettings playerSettings) {
+        List<String> notes = playerSettings.getPlayerNotes().isEmpty() ? Arrays.asList("&7No notes found") : playerSettings.getPlayerNotes();
 
         ItemStack item = Items.builder()
             .setMaterial(Material.MAP).setAmount(1)
