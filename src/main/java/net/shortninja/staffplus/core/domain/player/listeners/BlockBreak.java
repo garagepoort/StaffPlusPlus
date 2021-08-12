@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
@@ -16,8 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import java.util.UUID;
-
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.BLOCK_BREAK;
 
 @IocBean
@@ -26,9 +24,9 @@ public class BlockBreak implements Listener {
     private final FreezeHandler freezeHandler;
     private final XrayService xrayService;
     private final TraceService traceService;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
-    public BlockBreak(Options options, FreezeHandler freezeHandler, XrayService xrayService, TraceService traceService, SessionManagerImpl sessionManager) {
+    public BlockBreak(Options options, FreezeHandler freezeHandler, XrayService xrayService, TraceService traceService, OnlineSessionsManager sessionManager) {
         this.options = options;
         this.freezeHandler = freezeHandler;
         this.xrayService = xrayService;
@@ -40,15 +38,14 @@ public class BlockBreak implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        PlayerSession session = sessionManager.get(player.getUniqueId());
-        UUID uuid = player.getUniqueId();
+        OnlinePlayerSession session = sessionManager.get(player);
 
-        if (freezeHandler.isFrozen(uuid)) {
+        if (session.isFrozen()) {
             event.setCancelled(true);
             return;
         }
 
-        if (!session.isInStaffMode() || session.getModeConfiguration().get().isModeBlockManipulation()) {
+        if (!session.isInStaffMode() || session.getModeConfig().get().isModeBlockManipulation()) {
             Block block = event.getBlock();
             xrayService.handleBlockBreak(block, player);
             traceService.sendTraceMessage(BLOCK_BREAK, event.getPlayer().getUniqueId(),

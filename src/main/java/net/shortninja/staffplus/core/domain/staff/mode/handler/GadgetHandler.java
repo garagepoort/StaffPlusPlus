@@ -6,14 +6,16 @@ import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
+import net.shortninja.staffplus.core.domain.staff.mode.ModeProvider;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
@@ -32,6 +34,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @IocBean
 public class GadgetHandler {
@@ -45,34 +48,36 @@ public class GadgetHandler {
 
     private final Options options;
     private final Messages messages;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
+    private final PlayerSettingsRepository playerSettingsRepository;
     private final CpsHandler cpsHandler;
     private final VanishServiceImpl vanishServiceImpl;
     private final PlayerManager playerManager;
-    private final StaffModeService staffModeService;
     private final GuiActionService guiActionService;
     private final BukkitUtils bukkitUtils;
+    private final ModeProvider modeProvider;
 
     public GadgetHandler(IProtocolService protocolService,
                          PermissionHandler permission,
                          Options options,
                          Messages messages,
-                         SessionManagerImpl sessionManager,
-                         CpsHandler cpsHandler,
+                         OnlineSessionsManager sessionManager,
+                         PlayerSettingsRepository playerSettingsRepository, CpsHandler cpsHandler,
                          VanishServiceImpl vanishServiceImpl,
                          PlayerManager playerManager,
-                         StaffModeService staffModeService, GuiActionService guiActionService, BukkitUtils bukkitUtils) {
+                         GuiActionService guiActionService, BukkitUtils bukkitUtils, ModeProvider modeProvider) {
         this.protocolService = protocolService;
         this.permission = permission;
         this.options = options;
         this.messages = messages;
         this.sessionManager = sessionManager;
+        this.playerSettingsRepository = playerSettingsRepository;
         this.cpsHandler = cpsHandler;
         this.vanishServiceImpl = vanishServiceImpl;
         this.playerManager = playerManager;
-        this.staffModeService = staffModeService;
         this.guiActionService = guiActionService;
         this.bukkitUtils = bukkitUtils;
+        this.modeProvider = modeProvider;
     }
 
     public GadgetType getGadgetType(String value) {
@@ -155,15 +160,16 @@ public class GadgetHandler {
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
 
-        PlayerSession session = sessionManager.get(player.getUniqueId());
-        GeneralModeConfiguration modeConfiguration = session.getModeConfiguration().get();
+        OnlinePlayerSession session = sessionManager.get(player);
+        PlayerSettings settings = playerSettingsRepository.get(player);
+        GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, settings.getModeName().get());
         if (shouldUpdateItem && item != null) {
             player.getInventory().remove(item);
-            player.getInventory().setItem(slot, options.staffItemsConfiguration.getVanishModeConfiguration().getModeVanishItem(session, modeConfiguration.getModeVanish()));
+            player.getInventory().setItem(slot, options.staffItemsConfiguration.getVanishModeConfiguration().getModeVanishItem(settings, modeConfiguration.getModeVanish()));
         }
 
         bukkitUtils.runTaskAsync(() -> {
-            if (session.getVanishType() == modeConfiguration.getModeVanish()) {
+            if (settings.getVanishType() == modeConfiguration.getModeVanish()) {
                 vanishServiceImpl.removeVanish(player);
             } else {
                 vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
@@ -244,16 +250,10 @@ public class GadgetHandler {
     }
 
     public void updateGadgets() {
-        Set<UUID> modeUsers = staffModeService.getModeUsers();
+        Set<Player> modeUsers = getModeUsers();
 
-        for (UUID uuid : modeUsers) {
-            Optional<Player> player = sessionManager.get(uuid).getPlayer();
-
-            if (!player.isPresent()) {
-                continue;
-            }
-
-            for (ItemStack item : player.get().getInventory().getContents()) {
+        for (Player player : modeUsers) {
+            for (ItemStack item : player.getInventory().getContents()) {
                 if (item == null) {
                     continue;
                 }
@@ -269,5 +269,14 @@ public class GadgetHandler {
     public enum GadgetType {
         COMPASS, RANDOM_TELEPORT, VANISH, GUI_HUB, COUNTER, FREEZE, CPS, EXAMINE,
         FOLLOW, CUSTOM, NO_GADGET;
+    }
+
+    private Set<Player> getModeUsers() {
+        return sessionManager.getAll().stream()
+            .filter(OnlinePlayerSession::isInStaffMode)
+            .map(s -> playerManager.getOnlinePlayer(s.getUuid()))
+            .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty))
+            .map(SppPlayer::getPlayer)
+            .collect(Collectors.toSet());
     }
 }

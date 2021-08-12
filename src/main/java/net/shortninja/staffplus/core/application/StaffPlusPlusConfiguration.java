@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.LuckPermsHook;
 import net.shortninja.staffplus.core.application.bootstrap.VaultHook;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.DefaultPermissionHandler;
 import net.shortninja.staffplus.core.common.permissions.GroupManagerPermissionHandler;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -43,7 +43,7 @@ public class StaffPlusPlusConfiguration {
     }
 
     @IocBeanProvider
-    public static LuckPermsHook instantiateLuckperms(SessionManagerImpl sessionManager) {
+    public static LuckPermsHook instantiateLuckperms(OnlineSessionsManager sessionManager) {
         if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
             return new LuckPermsHook(sessionManager);
         }

@@ -2,9 +2,8 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
-import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceType;
 import org.bukkit.Bukkit;
@@ -17,12 +16,10 @@ import java.util.UUID;
 
 @IocBean
 public class BlockPlace implements Listener {
-    private final FreezeHandler freezeHandler;
     private final TraceService traceService;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
-    public BlockPlace(FreezeHandler freezeHandler, TraceService traceService, SessionManagerImpl sessionManager) {
-        this.freezeHandler = freezeHandler;
+    public BlockPlace(TraceService traceService, OnlineSessionsManager sessionManager) {
         this.traceService = traceService;
         this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -31,9 +28,9 @@ public class BlockPlace implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPlace(BlockPlaceEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
-        PlayerSession session = sessionManager.get(uuid);
+        OnlinePlayerSession session = sessionManager.get(event.getPlayer());
 
-        if ((!session.isInStaffMode() || session.getModeConfiguration().get().isModeBlockManipulation()) && !freezeHandler.isFrozen(uuid)) {
+        if ((!session.isInStaffMode() || session.getModeConfig().get().isModeBlockManipulation()) && !session.isFrozen()) {
             traceService.sendTraceMessage(TraceType.BLOCK_PLACE, uuid, "Blocked [" + event.getBlock().getType() + "] placed");
             return;
         }

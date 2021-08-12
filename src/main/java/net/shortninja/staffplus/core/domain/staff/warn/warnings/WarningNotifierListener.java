@@ -5,13 +5,13 @@ import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +35,7 @@ public class WarningNotifierListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void notifyWarnings(PlayerJoinEvent event) {
+    public void notifyWarnings(StaffPlusPlusJoinedEvent event) {
         if (!options.warningConfiguration.isNotifyUser()) {
             return;
         }
@@ -55,7 +55,7 @@ public class WarningNotifierListener implements Listener {
         });
     }
 
-    private void sendMessage(PlayerJoinEvent event, List<Warning> unreadWarnings) {
+    private void sendMessage(StaffPlusPlusJoinedEvent event, List<Warning> unreadWarnings) {
         String notifyMessage = messages.warningsNotify.replace("%warningsCount%", String.valueOf(unreadWarnings.size()));
         JSONMessage message = JavaUtils.buildClickableMessage(
             notifyMessage,

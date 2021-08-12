@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.mute.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -35,12 +35,12 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 public class UnmuteCmd extends AbstractCmd {
 
     private final MuteService muteService;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final PlayerManager playerManager;
 
     public UnmuteCmd(Messages messages,
                      MuteService muteService,
-                     SessionManagerImpl sessionManager,
+                     OnlineSessionsManager sessionManager,
                      CommandService commandService,
                      PlayerManager playerManager,
                      PermissionHandler permissionHandler) {
@@ -55,9 +55,6 @@ public class UnmuteCmd extends AbstractCmd {
         String reason = JavaUtils.compileWords(args, 1);
 
         muteService.unmute(sender, player, reason);
-        if (player.isOnline()) {
-            sessionManager.get(player.getId()).setMuted(false);
-        }
         return true;
     }
 

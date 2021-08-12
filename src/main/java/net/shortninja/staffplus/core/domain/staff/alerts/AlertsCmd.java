@@ -3,8 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.alerts;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -12,6 +11,9 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -41,30 +43,35 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 public class AlertsCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final AlertsConfiguration alertsConfiguration;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
+    private final PlayerSettingsRepository playerSettingsRepository;
+    private final BukkitUtils bukkitUtils;
 
-    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, SessionManagerImpl sessionManager, CommandService commandService, AlertsConfiguration alertsConfiguration) {
+    public AlertsCmd(PermissionHandler permissionHandler, Messages messages, OnlineSessionsManager sessionManager, CommandService commandService, AlertsConfiguration alertsConfiguration, PlayerSettingsRepository playerSettingsRepository, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.sessionManager = sessionManager;
         this.alertsConfiguration = alertsConfiguration;
+        this.playerSettingsRepository = playerSettingsRepository;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        String alertType = args[0];
-        if (args.length >= 3) {
-            String option = args[2];
-            handleAlertsArgument(sender, alertType, player.getPlayer(), false, option);
-        } else if (args.length == 2) {
-            handleAlertsArgument(sender, alertType, player.getPlayer(), false, "");
-        } else {
-            if ((!(sender instanceof Player))) {
-                throw new BusinessException(messages.onlyPlayers);
+        bukkitUtils.runTaskAsync(sender, () -> {
+            String alertType = args[0];
+            if (args.length >= 3) {
+                String option = args[2];
+                handleAlertsArgument(sender, alertType, player.getPlayer(), false, option);
+            } else if (args.length == 2) {
+                handleAlertsArgument(sender, alertType, player.getPlayer(), false, "");
+            } else {
+                if ((!(sender instanceof Player))) {
+                    throw new BusinessException(messages.onlyPlayers);
+                }
+                handleAlertsArgument(sender, alertType, (Player) sender, true, "");
             }
-            handleAlertsArgument(sender, alertType, (Player) sender, true, "");
-        }
-
+        });
         return true;
     }
 
@@ -117,26 +124,25 @@ public class AlertsCmd extends AbstractCmd {
         alertTypeName = alertTypeName.substring(0, 1).toUpperCase() + alertTypeName.substring(1);
 
         boolean isValid = JavaUtils.isValidEnum(AlertType.class, alertTypeName.toUpperCase());
-        PlayerSession session = sessionManager.get(player.getUniqueId());
+        PlayerSettings settings = playerSettingsRepository.get(player);
 
         if (!isValid) {
             sendHelp(sender);
             return;
         }
-
         AlertType alertType = AlertType.valueOf(alertTypeName.toUpperCase());
-        boolean isEnabled = option.isEmpty() ? !session.shouldNotify(alertType) : option.equalsIgnoreCase("enable");
+        boolean isEnabled = option.isEmpty() ? !settings.getAlertOptions().contains(alertType) : option.equalsIgnoreCase("enable");
         boolean wasChanged = setAlertType(player, alertType, isEnabled, shouldCheckPermission);
         if (wasChanged && shouldCheckPermission) {
             messages.send(player, messages.alertChanged.replace("%alerttype%", alertTypeName.replace("_", " ")).replace("%status%", isEnabled ? "enabled" : "disabled"), messages.prefixGeneral);
         }
-        sessionManager.saveSession(player);
     }
 
     private boolean setAlertType(Player player, AlertType alertType, boolean isEnabled, boolean shouldCheckPermission) {
-        PlayerSession session = sessionManager.get(player.getUniqueId());
+        PlayerSettings session = playerSettingsRepository.get(player);
         if (this.permissionHandler.has(player, alertsConfiguration.getPermissionForType(alertType)) || !shouldCheckPermission) {
             session.setAlertOption(alertType, isEnabled);
+            playerSettingsRepository.save(session);
             return true;
         }
 

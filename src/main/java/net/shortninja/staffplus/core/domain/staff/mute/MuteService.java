@@ -111,7 +111,6 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
         Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
         Mute mute = new Mute(reason, endDate, issuerName, issuerUuid, playerToMute.getUsername(), playerToMute.getId());
         mute.setId(muteRepository.addMute(mute));
-
         sendEvent(new MuteEvent(mute));
     }
 

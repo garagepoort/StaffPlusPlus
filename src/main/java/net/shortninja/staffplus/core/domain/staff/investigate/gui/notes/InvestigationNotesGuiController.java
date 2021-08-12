@@ -9,8 +9,8 @@ import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.confirmation.ConfirmationViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
@@ -32,10 +32,10 @@ public class InvestigationNotesGuiController {
     private final InvestigationService investigationService;
     private final InvestigationNoteService investigationNoteService;
     private final Messages messages;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final BukkitUtils bukkitUtils;
 
-    public InvestigationNotesGuiController(NoteOverviewViewBuilder noteOverviewViewBuilder, ConfirmationViewBuilder confirmationViewBuilder, InvestigationService investigationService, InvestigationNoteService investigationNoteService, Messages messages, SessionManagerImpl sessionManager, BukkitUtils bukkitUtils) {
+    public InvestigationNotesGuiController(NoteOverviewViewBuilder noteOverviewViewBuilder, ConfirmationViewBuilder confirmationViewBuilder, InvestigationService investigationService, InvestigationNoteService investigationNoteService, Messages messages, OnlineSessionsManager sessionManager, BukkitUtils bukkitUtils) {
         this.noteOverviewViewBuilder = noteOverviewViewBuilder;
         this.confirmationViewBuilder = confirmationViewBuilder;
         this.investigationService = investigationService;
@@ -90,7 +90,7 @@ public class InvestigationNotesGuiController {
             messages.send(player, "&6Type your note in chat", messages.prefixInvestigations);
             messages.send(player, "&6      Type \"cancel\" to cancel adding a note ", messages.prefixInvestigations);
             messages.send(player, "&1===================================================", messages.prefixInvestigations);
-            PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+            OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
                     messages.send(player, "&CYou have cancelled your note", messages.prefixInvestigations);
