@@ -8,8 +8,8 @@ import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -36,7 +36,7 @@ public class WarningsGuiController {
     private final SeverityLevelSelectViewBuilder severityLevelSelectViewBuilder;
     private final PlayerManager playerManager;
     private final WarnService warnService;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final Options options;
     private final Messages messages;
     private final BukkitUtils bukkitUtils;
@@ -46,7 +46,7 @@ public class WarningsGuiController {
                                  MyWarningsViewBuilder myWarningsViewBuilder,
                                  ManageAppealedWarningsViewBuilder manageAppealedWarningsViewBuilder,
                                  SeverityLevelSelectViewBuilder severityLevelSelectViewBuilder, PlayerManager playerManager,
-                                 WarnService warnService, SessionManagerImpl sessionManager, Options options, Messages messages, BukkitUtils bukkitUtils) {
+                                 WarnService warnService, OnlineSessionsManager sessionManager, Options options, Messages messages, BukkitUtils bukkitUtils) {
         this.manageWarningsViewBuilder = manageWarningsViewBuilder;
         this.manageWarningViewBuilder = manageWarningViewBuilder;
         this.myWarningsViewBuilder = myWarningsViewBuilder;
@@ -116,7 +116,7 @@ public class WarningsGuiController {
     public void warnPlayer(Player player,
                            @GuiParam("severity") String severityLevel,
                            @GuiParam("targetPlayerName") String targetPlayerName) {
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession playerSession = sessionManager.get(player);
 
         WarningSeverityConfiguration severityConfiguration = options.warningConfiguration.getSeverityConfiguration(severityLevel)
             .orElseThrow(() -> new BusinessException("&CNo severity configuration found for level [" + severityLevel + "]"));
@@ -131,7 +131,7 @@ public class WarningsGuiController {
 
     }
 
-    private void promptReasonInput(Player player, PlayerSession playerSession, SppPlayer onOrOfflinePlayer, WarningSeverityConfiguration severityConfiguration) {
+    private void promptReasonInput(Player player, OnlinePlayerSession playerSession, SppPlayer onOrOfflinePlayer, WarningSeverityConfiguration severityConfiguration) {
         boolean defaultReasonSettable = severityConfiguration.getReason().isPresent() && severityConfiguration.isReasonOverwriteEnabled();
 
         messages.send(player, "&1=====================================================", messages.prefixGeneral);

@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui;
+package net.shortninja.staffplus.core.application.session.synchronizers;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -14,7 +14,6 @@ import java.util.List;
 @IocBean
 @IocMultiProvider(SessionEnhancer.class)
 public class InvestigationSessionEnhancer implements SessionEnhancer {
-
     private final InvestigationsRepository investigationsRepository;
 
     public InvestigationSessionEnhancer(InvestigationsRepository investigationsRepository) {

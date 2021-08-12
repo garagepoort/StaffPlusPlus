@@ -10,14 +10,14 @@ import org.bukkit.inventory.ItemStack;
 import java.util.UUID;
 
 public class ModeData implements IModeData {
-    private UUID uuid;
-    private ItemStack[] playerInventory;
-    private Location previousLocation;
-    private boolean hasFlight;
-    private GameMode gameMode;
-    private VanishType vanishType;
-    private float xp;
-    private int fireTicks;
+    private final UUID uuid;
+    private final ItemStack[] playerInventory;
+    private final Location previousLocation;
+    private final boolean hasFlight;
+    private final GameMode gameMode;
+    private final VanishType vanishType;
+    private final float xp;
+    private final int fireTicks;
 
     public ModeData(Player player, net.shortninja.staffplusplus.vanish.VanishType vanishType) {
         this.uuid = player.getUniqueId();

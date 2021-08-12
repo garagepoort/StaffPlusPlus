@@ -5,7 +5,7 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextManager;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeLuckPermsContextCalculator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,11 +18,11 @@ import java.util.function.Supplier;
 public class LuckPermsHook implements PluginDisable {
 
     private ContextManager contextManager;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final List<ContextCalculator<Player>> registeredCalculators = new ArrayList<>();
     private boolean luckPermsEnabled;
 
-    public LuckPermsHook(SessionManagerImpl sessionManager) {
+    public LuckPermsHook(OnlineSessionsManager sessionManager) {
         this.sessionManager = sessionManager;
         luckPermsEnabled = Bukkit.getPluginManager().getPlugin("LuckPerms") != null;
         if (luckPermsEnabled) {

@@ -4,8 +4,8 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -34,10 +34,10 @@ public class PersonnelCmd extends AbstractCmd {
     private String permissionMember;
 
     private final PermissionHandler permissionHandler;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final VanishConfiguration vanishConfiguration;
 
-    public PersonnelCmd(PermissionHandler permissionHandler, Messages messages, SessionManagerImpl sessionManager, CommandService commandService, VanishConfiguration vanishConfiguration) {
+    public PersonnelCmd(PermissionHandler permissionHandler, Messages messages, OnlineSessionsManager sessionManager, CommandService commandService, VanishConfiguration vanishConfiguration) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.sessionManager = sessionManager;
@@ -57,7 +57,7 @@ public class PersonnelCmd extends AbstractCmd {
         }
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            PlayerSession session = sessionManager.get(player.getUniqueId());
+            OnlinePlayerSession session = sessionManager.get(player);
             if (hasStatus(session, status, player)) {
                 messages.send(sender, messages.staffListMember.replace("%player%", player.getName()).replace("%statuscolor%", getStatusColor(session, player)), messages.prefixGeneral);
             }
@@ -85,7 +85,7 @@ public class PersonnelCmd extends AbstractCmd {
         return Optional.empty();
     }
 
-    private boolean hasStatus(PlayerSession session, String status, Player player) {
+    private boolean hasStatus(OnlinePlayerSession session, String status, Player player) {
         VanishType vanishType = session.getVanishType();
         if (!permissionHandler.has(player, permissionMember)) {
             return false;
@@ -102,7 +102,7 @@ public class PersonnelCmd extends AbstractCmd {
         return true;
     }
 
-    private String getStatusColor(PlayerSession user, Player player) {
+    private String getStatusColor(OnlinePlayerSession user, Player player) {
         String statusColor = "4";
 
         if (hasStatus(user, "online", player)) {

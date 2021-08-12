@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.protect.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -30,16 +30,16 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 @IocMultiProvider(SppCommand.class)
 public class ProtectPlayerCmd extends AbstractCmd {
 
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
-    public ProtectPlayerCmd(Messages messages, SessionManagerImpl sessionManager, CommandService commandService, PermissionHandler permissionHandler) {
+    public ProtectPlayerCmd(Messages messages, OnlineSessionsManager sessionManager, CommandService commandService, PermissionHandler permissionHandler) {
         super(messages, permissionHandler, commandService);
         this.sessionManager = sessionManager;
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        PlayerSession playerSession = sessionManager.get(player.getId());
+        OnlinePlayerSession playerSession = sessionManager.get(player.getPlayer());
         playerSession.setProtected(!playerSession.isProtected());
 
         if (playerSession.isProtected()) {

@@ -4,8 +4,8 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
@@ -25,7 +25,7 @@ public class Tasks extends BukkitRunnable {
     private long clock;
 
     private final Messages messages;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final FreezeHandler freezeHandler;
     private final GadgetHandler gadgetHandler;
     private final FreezeModeConfiguration freezeModeConfiguration;
@@ -33,7 +33,7 @@ public class Tasks extends BukkitRunnable {
     private int freezeInterval;
     private long now;
 
-    public Tasks(PermissionHandler permission, Options options, Messages messages, SessionManagerImpl sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler) {
+    public Tasks(PermissionHandler permission, Options options, Messages messages, OnlineSessionsManager sessionManager, FreezeHandler freezeHandler, GadgetHandler gadgetHandler) {
         this.permission = permission;
         this.messages = messages;
         this.sessionManager = sessionManager;
@@ -66,9 +66,9 @@ public class Tasks extends BukkitRunnable {
 
         if (freezeInterval >= freezeModeConfiguration.getModeFreezeTimer() && freezeInterval > 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                PlayerSession user = sessionManager.get(player.getUniqueId());
-                if (user.isFrozen() && !permission.has(player, permissionMember)) {
-                    freezeModeConfiguration.getModeFreezeSound().ifPresent(s->s.play(player));
+                OnlinePlayerSession session = sessionManager.get(player);
+                if (session.isFrozen() && !permission.has(player, permissionMember)) {
+                    freezeModeConfiguration.getModeFreezeSound().ifPresent(s -> s.play(player));
 
                     if (!freezeModeConfiguration.isModeFreezePrompt()) {
                         messages.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);

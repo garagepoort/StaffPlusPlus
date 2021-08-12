@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.chests;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,16 +17,16 @@ import org.bukkit.inventory.ItemStack;
 @IocBean
 @IocListener
 public class ChestGuiMove implements Listener {
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
-    public ChestGuiMove(SessionManagerImpl sessionManager) {
+    public ChestGuiMove(OnlineSessionsManager sessionManager) {
         this.sessionManager = sessionManager;
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession playerSession = sessionManager.get(player);
         if (!playerSession.getCurrentGui().isPresent() || !(playerSession.getCurrentGui().get() instanceof ChestGUI)) {
             return;
         }
@@ -60,7 +60,7 @@ public class ChestGuiMove implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void dragItem(InventoryDragEvent event) {
         Player player = (Player) event.getWhoClicked();
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession playerSession = sessionManager.get(player);
         if (!playerSession.getCurrentGui().isPresent() || !(playerSession.getCurrentGui().get() instanceof ChestGUI)) {
             return;
         }
