@@ -5,8 +5,8 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -46,7 +46,7 @@ public class ModeCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final Options options;
     private final StaffModeService staffModeService;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final PlayerManager playerManager;
     private final BukkitUtils bukkitUtils;
 
@@ -57,7 +57,7 @@ public class ModeCmd extends AbstractCmd {
                    Messages messages,
                    Options options,
                    StaffModeService staffModeService,
-                   SessionManagerImpl sessionManager,
+                   OnlineSessionsManager sessionManager,
                    CommandService commandService,
                    PlayerManager playerManager, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
@@ -135,7 +135,7 @@ public class ModeCmd extends AbstractCmd {
     }
 
     private void toggleMode(Player player) {
-        PlayerSession session = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession session = sessionManager.get(player);
         if (session.isInStaffMode()) {
             staffModeService.turnStaffModeOff(player);
         } else {

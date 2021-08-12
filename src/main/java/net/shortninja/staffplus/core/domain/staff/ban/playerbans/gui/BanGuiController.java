@@ -8,8 +8,8 @@ import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.views.BannedPlayersViewBuilder;
@@ -28,9 +28,9 @@ public class BanGuiController {
     private final ManageBannedPlayerViewBuilder manageBannedPlayerViewBuilder;
     private final Messages messages;
     private final BanService banService;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
-    public BanGuiController(BannedPlayersViewBuilder bannedPlayersViewBuilder, ManageBannedPlayerViewBuilder manageBannedPlayerViewBuilder, Messages messages, BanService banService, SessionManagerImpl sessionManager) {
+    public BanGuiController(BannedPlayersViewBuilder bannedPlayersViewBuilder, ManageBannedPlayerViewBuilder manageBannedPlayerViewBuilder, Messages messages, BanService banService, OnlineSessionsManager sessionManager) {
         this.bannedPlayersViewBuilder = bannedPlayersViewBuilder;
         this.manageBannedPlayerViewBuilder = manageBannedPlayerViewBuilder;
         this.messages = messages;
@@ -61,7 +61,7 @@ public class BanGuiController {
         messages.send(player, "&6        Type \"cancel\" to cancel the unban ", messages.prefixGeneral);
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
 
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
                 messages.send(player, "&CYou have cancelled unbanning this player", messages.prefixReports);

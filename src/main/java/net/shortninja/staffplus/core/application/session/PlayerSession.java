@@ -3,65 +3,30 @@ package net.shortninja.staffplus.core.application.session;
 import net.shortninja.staffplus.core.common.gui.IGui;
 import net.shortninja.staffplus.core.domain.chat.ChatAction;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
-import net.shortninja.staffplusplus.alerts.AlertType;
-import net.shortninja.staffplusplus.session.IPlayerSession;
 import net.shortninja.staffplusplus.vanish.VanishType;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
-public class PlayerSession implements IPlayerSession {
+public class PlayerSession implements OnlinePlayerSession {
 
     private final UUID uuid;
     private String name;
-    private Material glassColor;
-    private VanishType vanishType = VanishType.NONE;
     private IGui currentGui = null;
     private ChatAction chatAction = null;
-    private Map<AlertType, Boolean> alertOptions = new HashMap<>();
-    private List<String> playerNotes = new ArrayList<>();
 
     private String activeStaffChatChannel = null;
     private boolean isFrozen = false;
     private boolean underInvestigation = false;
     private boolean isProtected = false;
     private boolean muted = false;
-    private boolean inStaffMode = false;
-    private Set<String> mutedStaffChatChannels = new HashSet<>();
-    private GeneralModeConfiguration modeConfiguration = null;
+    private boolean isInStaffMode = false;
+    private GeneralModeConfiguration modeConfig;
+    private VanishType vanishType = VanishType.NONE;
 
-    public PlayerSession(UUID uuid, String name, boolean muted) {
-        this.uuid = uuid;
-        this.muted = muted;
-        this.glassColor = Material.STAINED_GLASS_PANE;
-        this.name = name;
-
-        for (AlertType alertType : AlertType.values()) {
-            setAlertOption(alertType, true);
-        }
-    }
-
-    public PlayerSession(UUID uuid, String name, Material glassColor, List<String> playerNotes, Map<AlertType, Boolean> alertOptions, boolean muted, VanishType vanishType) {
+    public PlayerSession(UUID uuid, String name) {
         this.uuid = uuid;
         this.name = name;
-        this.glassColor = glassColor;
-        this.playerNotes = playerNotes;
-        this.alertOptions = alertOptions;
-        this.muted = muted;
-        this.vanishType = vanishType;
-    }
-
-    public Optional<Player> getPlayer() {
-        return Optional.ofNullable(Bukkit.getPlayer(uuid));
     }
 
     @Override
@@ -74,47 +39,7 @@ public class PlayerSession implements IPlayerSession {
         return name;
     }
 
-    public Material getGlassColor() {
-        return glassColor;
-    }
-
-    public void setGlassColor(Material glassColor) {
-        this.glassColor = glassColor;
-    }
-
-    public List<String> getPlayerNotes() {
-        return playerNotes;
-    }
-
-    public VanishType getVanishType() {
-        return vanishType;
-    }
-
-    /**
-     * This method should NOT be used if you want to update the user's vanish
-     * type! Use the vanish handler!
-     */
-    public void setVanishType(VanishType vanishType) {
-        this.vanishType = vanishType;
-    }
-
-    public void setInStaffMode(boolean inStaffMode) {
-        this.inStaffMode = inStaffMode;
-    }
-
-    public void setModeConfiguration(GeneralModeConfiguration generalModeConfiguration) {
-        this.modeConfiguration = generalModeConfiguration;
-    }
-
-    public Optional<GeneralModeConfiguration> getModeConfiguration() {
-        return Optional.ofNullable(modeConfiguration);
-    }
-
     @Override
-    public boolean isInStaffMode() {
-        return inStaffMode;
-    }
-
     public Optional<IGui> getCurrentGui() {
         return Optional.ofNullable(currentGui);
     }
@@ -123,22 +48,42 @@ public class PlayerSession implements IPlayerSession {
         this.currentGui = currentGui;
     }
 
+    @Override
     public ChatAction getChatAction() {
         return chatAction;
     }
 
+    @Override
     public void setChatAction(ChatAction chatAction) {
         this.chatAction = chatAction;
     }
 
-    public boolean shouldNotify(AlertType alertType) {
-        return alertOptions.get(alertType) != null && alertOptions.get(alertType);
+    @Override
+    public boolean isInStaffMode() {
+        return isInStaffMode;
     }
 
+    @Override
+    public void setInStaffMode(boolean inStaffMode) {
+        isInStaffMode = inStaffMode;
+    }
+
+    @Override
+    public Optional<GeneralModeConfiguration> getModeConfig() {
+        return Optional.ofNullable(modeConfig);
+    }
+
+    @Override
+    public void setModeConfig(GeneralModeConfiguration modeConfig) {
+        this.modeConfig = modeConfig;
+    }
+
+    @Override
     public Optional<String> getActiveStaffChatChannel() {
         return Optional.ofNullable(activeStaffChatChannel);
     }
 
+    @Override
     public void setActiveStaffChatChannel(String activeStaffChatChannel) {
         this.activeStaffChatChannel = activeStaffChatChannel;
     }
@@ -148,73 +93,57 @@ public class PlayerSession implements IPlayerSession {
         return isFrozen;
     }
 
+    @Override
     public void setProtected(boolean aProtected) {
         isProtected = aProtected;
     }
 
+    @Override
     public boolean isProtected() {
         return isProtected;
     }
 
+    @Override
     public void setFrozen(boolean isFrozen) {
         this.isFrozen = isFrozen;
     }
 
-    public void setAlertOption(AlertType alertType, boolean isEnabled) {
-        if (alertOptions.containsKey(alertType)) {
-            alertOptions.replace(alertType, isEnabled);
-        } else {
-            alertOptions.put(alertType, isEnabled);
-        }
-    }
-
-    public void addPlayerNote(String note) {
-        playerNotes.add(note);
+    @Override
+    public VanishType getVanishType() {
+        return vanishType;
     }
 
     @Override
+    public void setVanishType(VanishType vanishType) {
+        this.vanishType = vanishType;
+    }
+
+
     public boolean isVanished() {
-        return this.getVanishType() == VanishType.TOTAL;
+        return vanishType == VanishType.TOTAL || vanishType == VanishType.PLAYER;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setMuted(boolean muted) {
+        this.muted = muted;
+    }
+
+    @Override
+    public void setUnderInvestigation(boolean underInvestigation) {
+        this.underInvestigation = underInvestigation;
+    }
+
+    @Override
+    public boolean isUnderInvestigation() {
+        return underInvestigation;
     }
 
     @Override
     public boolean isMuted() {
         return muted;
-    }
-
-    public void setMuted(boolean muted) {
-        this.muted = muted;
-    }
-
-    public boolean isStaffChatMuted(String channel) {
-        return mutedStaffChatChannels.stream().anyMatch(s -> s.equalsIgnoreCase(channel));
-    }
-
-    public void setStaffChatMuted(String channelName, boolean staffChatMuted) {
-        if (staffChatMuted) {
-            mutedStaffChatChannels.add(channelName);
-        } else {
-            mutedStaffChatChannels.removeIf(c -> c.equalsIgnoreCase(channelName));
-        }
-    }
-
-    public Set<String> getMutedStaffChatChannels() {
-        return mutedStaffChatChannels;
-    }
-
-    public void setMutedStaffChatChannels(Set<String> mutedStaffChatChannels) {
-        this.mutedStaffChatChannels = mutedStaffChatChannels;
-    }
-
-    public boolean isUnderInvestigation() {
-        return underInvestigation;
-    }
-
-    public void setUnderInvestigation(boolean underInvestigation) {
-        this.underInvestigation = underInvestigation;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.cmd.CommandUtil;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.gui.PassThroughClickAction;
@@ -14,27 +14,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.UUID;
-
 @IocBean
 @IocListener
 public class InventoryClick implements Listener {
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
-    public InventoryClick(SessionManagerImpl sessionManager) {
+    public InventoryClick(OnlineSessionsManager sessionManager) {
         this.sessionManager = sessionManager;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        UUID uuid = player.getUniqueId();
-        PlayerSession playerSession = sessionManager.get(uuid);
+        OnlinePlayerSession playerSession = sessionManager.get(player);
         ItemStack item = event.getCurrentItem();
         int slot = event.getSlot();
 
         if (!playerSession.getCurrentGui().isPresent() || item == null) {
-            if (playerSession.isInStaffMode() && !playerSession.getModeConfiguration().get().isModeInventoryInteraction()) {
+            if (playerSession.isInStaffMode() && !playerSession.getModeConfig().get().isModeInventoryInteraction()) {
                 event.setCancelled(true);
             }
             return;

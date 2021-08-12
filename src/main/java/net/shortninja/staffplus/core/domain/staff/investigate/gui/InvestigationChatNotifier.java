@@ -5,8 +5,7 @@ import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationConcludedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationPausedBungeeEvent;
@@ -21,7 +20,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.Optional;
 
@@ -35,13 +33,11 @@ public class InvestigationChatNotifier implements Listener {
 
     private final PlayerManager playerManager;
     private final Messages messages;
-    private final SessionManagerImpl sessionManager;
     private final Options options;
 
-    public InvestigationChatNotifier(PlayerManager playerManager, Messages messages, SessionManagerImpl sessionManager, Options options) {
+    public InvestigationChatNotifier(PlayerManager playerManager, Messages messages, Options options) {
         this.playerManager = playerManager;
         this.messages = messages;
-        this.sessionManager = sessionManager;
         this.options = options;
     }
 
@@ -94,11 +90,10 @@ public class InvestigationChatNotifier implements Listener {
     }
 
     @EventHandler
-    public void notifyUnderInvestigationOnJoin(PlayerJoinEvent playerJoinEvent) {
-        Player player = playerJoinEvent.getPlayer();
+    public void notifyUnderInvestigationOnJoin(StaffPlusPlusJoinedEvent event) {
+        Player player = event.getPlayer();
         Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
-            PlayerSession playerSession = sessionManager.get(player.getUniqueId());
-            if (playerSession.isUnderInvestigation() && StringUtils.isNotEmpty(messages.underInvestigationJoin)) {
+            if (event.getPlayerSession().isUnderInvestigation() && StringUtils.isNotEmpty(messages.underInvestigationJoin)) {
                 messages.send(player, messages.underInvestigationJoin, messages.prefixInvestigations);
             }
         });

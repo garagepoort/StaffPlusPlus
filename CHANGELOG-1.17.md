@@ -7,6 +7,8 @@
 
 ### Bug fixes
   - Report detail was not showing the status
+  - Disable staff mode on logout was broken  
+  - MinerGui teleports player to you instead of you to the player
 
 # V1.17.11
 

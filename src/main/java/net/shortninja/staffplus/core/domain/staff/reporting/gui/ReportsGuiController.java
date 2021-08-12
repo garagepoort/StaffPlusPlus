@@ -9,8 +9,8 @@ import be.garagepoort.mcioc.gui.GuiParams;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.reporting.CloseReportRequest;
@@ -44,7 +44,7 @@ public class ReportsGuiController {
     private final BukkitUtils bukkitUtils;
     private final Messages messages;
     private final ManageReportService manageReportService;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final ReportFiltersMapper reportFiltersMapper;
 
     public ReportsGuiController(PermissionHandler permissionHandler,
@@ -53,7 +53,7 @@ public class ReportsGuiController {
                                 Options options,
                                 BukkitUtils bukkitUtils, Messages messages,
                                 ManageReportService manageReportService,
-                                SessionManagerImpl sessionManager,
+                                OnlineSessionsManager sessionManager,
                                 ReportFiltersMapper reportFiltersMapper) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
@@ -255,7 +255,7 @@ public class ReportsGuiController {
         messages.send(player, "&6Type your closing reason in chat to resolve the report", messages.prefixReports);
         messages.send(player, "&6      Type \"cancel\" to cancel closing the report ", messages.prefixReports);
         messages.send(player, "&1===================================================", messages.prefixReports);
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
                 messages.send(player, "&CYou have cancelled resolving this report", messages.prefixReports);
@@ -271,7 +271,7 @@ public class ReportsGuiController {
         messages.send(player, "&6Type your closing reason in chat to reject the report", messages.prefixReports);
         messages.send(player, "&6        Type \"cancel\" to cancel closing the report ", messages.prefixReports);
         messages.send(player, "&1==================================================", messages.prefixReports);
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
                 messages.send(player, "&CYou have cancelled rejecting this report", messages.prefixReports);

@@ -3,9 +3,9 @@ package net.shortninja.staffplus.core.domain.staff.mode;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
@@ -26,11 +26,11 @@ public class StaffModeItemsService {
     private final List<ModeItemConfiguration> MODE_ITEMS;
 
     private final Options options;
-    private final SessionManagerImpl sessionManager;
+    private final PlayerSettingsRepository playerSettingsRepository;
 
-    public StaffModeItemsService(Options options, SessionManagerImpl sessionManager) {
+    public StaffModeItemsService(Options options, PlayerSettingsRepository playerSettingsRepository) {
         this.options = options;
-        this.sessionManager = sessionManager;
+        this.playerSettingsRepository = playerSettingsRepository;
 
         MODE_ITEMS = Arrays.asList(
             options.staffItemsConfiguration.getCompassModeConfiguration(),
@@ -46,7 +46,7 @@ public class StaffModeItemsService {
     }
 
     public void setStaffModeItems(Player player, GeneralModeConfiguration modeConfiguration) {
-        PlayerSession session = sessionManager.get(player.getUniqueId());
+        PlayerSettings session = playerSettingsRepository.get(player);
         JavaUtils.clearInventory(player);
 
         modeConfiguration.getItemSlots().forEach((moduleName, slot) -> {
@@ -59,7 +59,7 @@ public class StaffModeItemsService {
         });
     }
 
-    private void addModeItem(Player player, PlayerSession session, ModeItemConfiguration modeItem, int slot, GeneralModeConfiguration modeConfiguration) {
+    private void addModeItem(Player player, PlayerSettings session, ModeItemConfiguration modeItem, int slot, GeneralModeConfiguration modeConfiguration) {
         if (!modeItem.isEnabled()) {
             return;
         }

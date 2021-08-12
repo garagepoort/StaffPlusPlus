@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -13,14 +13,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import java.util.UUID;
-
 @IocBean
 public class EntityDamage implements Listener {
     private final Options options;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
-    public EntityDamage(Options options, SessionManagerImpl sessionManager) {
+    public EntityDamage(Options options, OnlineSessionsManager sessionManager) {
         this.options = options;
         this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
@@ -34,10 +32,21 @@ public class EntityDamage implements Listener {
             return;
         }
 
-        UUID uuid = entity.getUniqueId();
-        PlayerSession session = sessionManager.get(uuid);
-        if ((session.isInStaffMode() && session.getModeConfiguration().get().isModeInvincible() || (!options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezeDamage() && session.isFrozen()) || session.isProtected())) {
+        if(!sessionManager.has(entity.getUniqueId())) {
             event.setCancelled(true);
         }
+
+        OnlinePlayerSession session = sessionManager.get((Player) entity);
+        if ((inStaffMode(session) || isFrozen(session) || session.isProtected())) {
+            event.setCancelled(true);
+        }
+    }
+
+    private boolean inStaffMode(OnlinePlayerSession session) {
+        return session.isInStaffMode() && session.getModeConfig().get().isModeInvincible();
+    }
+
+    private boolean isFrozen(OnlinePlayerSession session) {
+        return !options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezeDamage() && session.isFrozen();
     }
 }

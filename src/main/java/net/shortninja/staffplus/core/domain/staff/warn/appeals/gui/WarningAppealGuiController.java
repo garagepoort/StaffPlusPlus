@@ -8,8 +8,8 @@ import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.AppealService;
@@ -30,11 +30,11 @@ public class WarningAppealGuiController {
     private final AppealService appealService;
     private final WarnService warnService;
     private final Messages messages;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final Options options;
     private final BukkitUtils bukkitUtils;
 
-    public WarningAppealGuiController(AppealReasonSelectViewBuilder appealReasonSelectViewBuilder, ManageAppealViewBuilder manageAppealViewBuilder, AppealService appealService, WarnService warnService, Messages messages, SessionManagerImpl sessionManager, Options options, BukkitUtils bukkitUtils) {
+    public WarningAppealGuiController(AppealReasonSelectViewBuilder appealReasonSelectViewBuilder, ManageAppealViewBuilder manageAppealViewBuilder, AppealService appealService, WarnService warnService, Messages messages, OnlineSessionsManager sessionManager, Options options, BukkitUtils bukkitUtils) {
         this.appealReasonSelectViewBuilder = appealReasonSelectViewBuilder;
         this.manageAppealViewBuilder = manageAppealViewBuilder;
         this.appealService = appealService;
@@ -70,7 +70,7 @@ public class WarningAppealGuiController {
         messages.send(player, "&6         Type \"cancel\" to cancel appealing ", messages.prefixGeneral);
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
 
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, input) -> {
             if (input.equalsIgnoreCase(CANCEL)) {
                 messages.send(player, "&CYou have cancelled your appeal", messages.prefixWarnings);
@@ -97,7 +97,7 @@ public class WarningAppealGuiController {
             messages.send(player, "&6Type your closing reason in chat to approve the appeal", messages.prefixWarnings);
             messages.send(player, "&6      Type \"cancel\" to cancel approving the appeal ", messages.prefixWarnings);
             messages.send(player, "&1===================================================", messages.prefixWarnings);
-            PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+            OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
                     messages.send(player, "&CYou have cancelled approving this appeal", messages.prefixWarnings);
@@ -118,7 +118,7 @@ public class WarningAppealGuiController {
             messages.send(player, "&6Type your closing reason in chat to reject the appeal", messages.prefixWarnings);
             messages.send(player, "&6        Type \"cancel\" to cancel closing the appeal ", messages.prefixWarnings);
             messages.send(player, "&1==================================================", messages.prefixWarnings);
-            PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+            OnlinePlayerSession playerSession = sessionManager.get(player);
             playerSession.setChatAction((player1, message) -> {
                 if (message.equalsIgnoreCase(CANCEL)) {
                     messages.send(player, "&CYou have cancelled rejecting this appeal", messages.prefixWarnings);

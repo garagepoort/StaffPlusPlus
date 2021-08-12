@@ -5,11 +5,11 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.cmd.BaseCmd;
 import net.shortninja.staffplus.core.common.cmd.CmdHandler;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -31,22 +31,20 @@ public class PlayerCommandPreprocess implements Listener {
 
     private final Options options;
     private final Messages messages;
-    private final FreezeHandler freezeHandler;
     private final CmdHandler cmdHandler;
     private final TraceService traceService;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
 
     @ConfigProperty("commands:login")
     private String commandLogin;
     @ConfigProperty("permissions:block")
     private String permissionBlock;
 
-    public PlayerCommandPreprocess(PermissionHandler permission, Options options, Messages messages, FreezeHandler freezeHandler, CmdHandler cmdHandler, TraceService traceService, SessionManagerImpl sessionManager) {
+    public PlayerCommandPreprocess(PermissionHandler permission, Options options, Messages messages, CmdHandler cmdHandler, TraceService traceService, OnlineSessionsManager sessionManager) {
         this.permission = permission;
 
         this.options = options;
         this.messages = messages;
-        this.freezeHandler = freezeHandler;
         this.cmdHandler = cmdHandler;
         this.traceService = traceService;
         this.sessionManager = sessionManager;
@@ -66,13 +64,14 @@ public class PlayerCommandPreprocess implements Listener {
             return;
         }
 
+        OnlinePlayerSession session = sessionManager.get(player);
         if (options.blockedCommands.contains(command) && permission.hasOnly(player, permissionBlock)) {
             messages.send(player, messages.commandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
-        } else if (sessionManager.get(uuid).isInStaffMode() && options.blockedModeCommands.contains(command)) {
+        } else if (session.isInStaffMode() && options.blockedModeCommands.contains(command)) {
             messages.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
-        } else if (freezeHandler.isFrozen(uuid) && (!options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezeChat() && !command.startsWith("/" + commandLogin))) {
+        } else if (session.isFrozen() && (!options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezeChat() && !command.startsWith("/" + commandLogin))) {
             messages.send(player, messages.chatPrevented, messages.prefixGeneral);
             event.setCancelled(true);
         }

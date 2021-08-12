@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.common.gui;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 public abstract class AbstractGui implements IGui {
     protected final Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
-    protected final SessionManagerImpl sessionManager = StaffPlus.get().getIocContainer().get(SessionManagerImpl.class);
+    protected final OnlineSessionsManager sessionManager = StaffPlus.get().getIocContainer().get(OnlineSessionsManager.class);
     protected final Options options = StaffPlus.get().getIocContainer().get(Options.class);
 
     private final String title;
@@ -65,7 +65,7 @@ public abstract class AbstractGui implements IGui {
 
         player.closeInventory();
         player.openInventory(getInventory());
-        sessionManager.get(player.getUniqueId()).setCurrentGui(this);
+        sessionManager.get(player).setCurrentGui(this);
     }
 
     public String getTitle() {

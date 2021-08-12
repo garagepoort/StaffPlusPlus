@@ -1,8 +1,8 @@
-package net.shortninja.staffplus.core.domain.staff.investigate.gui;
+package net.shortninja.staffplus.core.application.session.synchronizers;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationConcludedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationPausedBungeeEvent;
@@ -17,41 +17,47 @@ import org.bukkit.event.Listener;
 @IocListener
 public class InvestigationSessionSynchronizer implements Listener {
 
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final PlayerManager playerManager;
 
-    public InvestigationSessionSynchronizer(SessionManagerImpl sessionManager, PlayerManager playerManager) {
+    public InvestigationSessionSynchronizer(OnlineSessionsManager sessionManager, PlayerManager playerManager) {
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
     }
 
     @EventHandler
     public void onInvestigationStarted(InvestigationStartedEvent event) {
-        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(true));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer)
+            .ifPresent(s -> sessionManager.get(s.getPlayer()).setUnderInvestigation(true));
     }
 
     @EventHandler
     public void onInvestigationStarted(InvestigationStartedBungeeEvent event) {
-        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(true));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer)
+            .ifPresent(s -> sessionManager.get(s.getPlayer()).setUnderInvestigation(true));
     }
 
     @EventHandler
     public void onInvestigationConcluded(InvestigationConcludedEvent event) {
-        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer)
+            .ifPresent(s -> sessionManager.get(s.getPlayer()).setUnderInvestigation(false));
     }
 
     @EventHandler
     public void onInvestigationConcluded(InvestigationConcludedBungeeEvent event) {
-        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer)
+            .ifPresent(s -> sessionManager.get(s.getPlayer()).setUnderInvestigation(false));
     }
 
     @EventHandler
     public void onInvestigationPaused(InvestigationPausedEvent event) {
-        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer)
+            .ifPresent(s -> sessionManager.get(s.getPlayer()).setUnderInvestigation(false));
     }
 
     @EventHandler
     public void onInvestigationPaused(InvestigationPausedBungeeEvent event) {
-        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer).ifPresent(s -> sessionManager.get(s.getId()).setUnderInvestigation(false));
+        event.getInvestigation().getInvestigatedUuid().flatMap(playerManager::getOnlinePlayer)
+            .ifPresent(s -> sessionManager.get(s.getPlayer()).setUnderInvestigation(false));
     }
 }

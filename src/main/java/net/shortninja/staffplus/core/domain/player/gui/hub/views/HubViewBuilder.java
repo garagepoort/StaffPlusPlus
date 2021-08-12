@@ -6,12 +6,12 @@ import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.TubingGui;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.common.gui.IGuiItemConfig;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
@@ -44,13 +44,19 @@ public class HubViewBuilder {
     private final IGuiItemConfig openReportsGui;
     private final GuiModeConfiguration guiModeConfiguration;
     private final ManageReportConfiguration manageReportConfiguration;
-    private final SessionManagerImpl sessionManager;
+    private final PlayerSettingsRepository playerSettingsRepository;
     private final Messages messages;
 
-    public HubViewBuilder(BanConfiguration banConfiguration, PermissionHandler permissionHandler, MuteConfiguration muteConfiguration, ManageReportConfiguration manageReportConfiguration, Options options, SessionManagerImpl sessionManager, Messages messages) {
+    public HubViewBuilder(BanConfiguration banConfiguration,
+                          PermissionHandler permissionHandler,
+                          MuteConfiguration muteConfiguration,
+                          ManageReportConfiguration manageReportConfiguration,
+                          Options options,
+                          PlayerSettingsRepository playerSettingsRepository,
+                          Messages messages) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
-        this.sessionManager = sessionManager;
+        this.playerSettingsRepository = playerSettingsRepository;
         this.messages = messages;
         banGuiItemConfig = banConfiguration.banGuiItemConfig;
         muteGuiItemConfig = muteConfiguration.guiItemConfig;
@@ -94,7 +100,7 @@ public class HubViewBuilder {
             builder.addItem(getAction("manage-investigations/view/overview"), 25, buildGuiItem(BOOK, investigationGuiItemConfig));
         }
 
-        PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+        PlayerSettings playerSession = playerSettingsRepository.get(player);
         setGlass(playerSession, builder);
         return builder.build();
     }
@@ -105,7 +111,7 @@ public class HubViewBuilder {
             .build();
     }
 
-    public void setGlass(PlayerSession user, TubingGui.Builder builder) {
+    public void setGlass(PlayerSettings user, TubingGui.Builder builder) {
         ItemStack item = glassItem(user.getGlassColor());
 
         for (int i = 0; i < 3; i++) {

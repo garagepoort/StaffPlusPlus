@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -13,7 +14,6 @@ import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWar
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 @IocBean(conditionalOnProperty = "warnings-module.appeals.enabled=true")
 @IocListener
@@ -36,7 +36,7 @@ public class AppealNotifierListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void notifyAppeals(PlayerJoinEvent event) {
+    public void notifyAppeals(StaffPlusPlusJoinedEvent event) {
         if (!permission.has(event.getPlayer(), appealConfiguration.permissionNotifications)) {
             return;
         }
@@ -49,7 +49,7 @@ public class AppealNotifierListener implements Listener {
         });
     }
 
-    private void sendMessage(PlayerJoinEvent event, int appealsCount) {
+    private void sendMessage(StaffPlusPlusJoinedEvent event, int appealsCount) {
         JSONMessage message = JavaUtils.buildClickableMessage(
             messages.openAppealsNotify.replace("%appealsCount%", String.valueOf(appealsCount)),
             "View unresolved appeals!",
@@ -59,7 +59,7 @@ public class AppealNotifierListener implements Listener {
         message.send(event.getPlayer());
     }
 
-    private boolean canManageAppeal(PlayerJoinEvent event) {
+    private boolean canManageAppeal(StaffPlusPlusJoinedEvent event) {
         return permission.has(event.getPlayer(), appealConfiguration.approveAppealPermission)
             || permission.has(event.getPlayer(), appealConfiguration.rejectAppealPermission);
     }
