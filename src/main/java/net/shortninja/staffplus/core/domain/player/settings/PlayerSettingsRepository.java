@@ -50,7 +50,7 @@ public class PlayerSettingsRepository {
 
     public synchronized PlayerSettings createSession(OfflinePlayer player) {
         if (dataFileConfiguration.contains(player.getUniqueId().toString())) {
-            throw new RuntimeException("A session for this player already exists. Cannot create new one.");
+            throw new PlayerSettingCreationException("A session for this player already exists. Cannot create new one.");
         }
         PlayerSettings playerSettings = new PlayerSettings(player.getUniqueId(),
             player.getName(),
@@ -90,11 +90,9 @@ public class PlayerSettingsRepository {
 
         boolean staffMode = dataFileConfiguration.getBoolean(uuid + ".staff-mode", false);
         String staffModeName = dataFileConfiguration.getString(uuid + ".staff-mode-name", null);
-        if (options.serverSyncConfiguration.staffModeSyncEnabled) {
-            if (settingsEntity.isPresent()) {
-                staffMode = settingsEntity.get().getStaffMode();
-                staffModeName = settingsEntity.get().getStaffModeName();
-            }
+        if (options.serverSyncConfiguration.staffModeSyncEnabled && settingsEntity.isPresent()) {
+            staffMode = settingsEntity.get().getStaffMode();
+            staffModeName = settingsEntity.get().getStaffModeName();
         }
 
         return new PlayerSettings(uuid, name, glassMaterial, alertOptions, vanishType, playerNotes, staffMode, staffModeName, mutedChannels);
