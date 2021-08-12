@@ -4,8 +4,8 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.application.session.PlayerSession;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.utils.InventoryFactory;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGUI;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiType;
@@ -21,11 +21,11 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 @IocListener
 public class InventoryClose implements Listener {
     private final Options options;
-    private final SessionManagerImpl sessionManager;
+    private final OnlineSessionsManager sessionManager;
     private final InventoryFactory inventoryFactory;
 
     public InventoryClose(Options options,
-                          SessionManagerImpl sessionManager,
+                          OnlineSessionsManager sessionManager,
                           InventoryFactory inventoryFactory) {
         this.options = options;
         this.sessionManager = sessionManager;
@@ -38,7 +38,7 @@ public class InventoryClose implements Listener {
         // Do not run if session does not exists.
         // Reason is that it can result in the session being initialized on the main thread.
         if (sessionManager.has(player.getUniqueId())) {
-            PlayerSession playerSession = sessionManager.get(player.getUniqueId());
+            OnlinePlayerSession playerSession = sessionManager.get(player);
 
             if (playerSession.isFrozen() && options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezePrompt()) {
                 Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> new FreezeGui(options.staffItemsConfiguration.getFreezeModeConfiguration().getModeFreezePromptTitle()).show(player), 1);

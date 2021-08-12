@@ -1,24 +1,30 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.SessionManagerImpl;
+import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.chat.PhrasesDetectedEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 @IocBean
+@IocListener
 public class ChatPhraseDetectedAlertHandler extends AlertsHandler implements Listener {
 
-    public ChatPhraseDetectedAlertHandler(AlertsConfiguration alertsConfiguration, SessionManagerImpl sessionManager, PermissionHandler permission, Messages messages) {
-        super(alertsConfiguration, sessionManager, permission, messages);
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
+    public ChatPhraseDetectedAlertHandler(AlertsConfiguration alertsConfiguration,
+                                          OnlineSessionsManager sessionManager,
+                                          PlayerSettingsRepository playerSettingsRepository,
+                                          PermissionHandler permission,
+                                          Messages messages,
+                                          PlayerManager playerManager) {
+        super(alertsConfiguration, playerSettingsRepository, sessionManager, permission, messages, playerManager);
     }
 
     @EventHandler
