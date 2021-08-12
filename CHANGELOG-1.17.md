@@ -4,6 +4,7 @@
 
 ### Features
   - Rework report guis to have quick actions
+  - Add %server% placeholder for staffchat
 
 ### Bug fixes
   - Report detail was not showing the status
