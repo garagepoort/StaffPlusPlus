@@ -19,14 +19,12 @@ import java.util.Map;
 import java.util.Optional;
 
 public class StaffChatMuteChannelCmd extends AbstractCmd {
-    private final OnlineSessionsManager sessionManager;
     private final PlayerSettingsRepository playerSettingsRepository;
     private final StaffChatChannelConfiguration channelConfiguration;
     private final BukkitUtils bukkitUtils;
 
     public StaffChatMuteChannelCmd(Messages messages, OnlineSessionsManager sessionManager, CommandService commandService, PlayerSettingsRepository playerSettingsRepository, StaffChatChannelConfiguration channelConfiguration, PermissionHandler permissionHandler, BukkitUtils bukkitUtils) {
         super(channelConfiguration.getCommand() + "-mute", messages, permissionHandler, commandService);
-        this.sessionManager = sessionManager;
         this.playerSettingsRepository = playerSettingsRepository;
         this.channelConfiguration = channelConfiguration;
         this.bukkitUtils = bukkitUtils;

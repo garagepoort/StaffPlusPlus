@@ -160,7 +160,6 @@ public class GadgetHandler {
         int slot = JavaUtils.getItemSlot(player.getInventory(), item);
 
 
-        OnlinePlayerSession session = sessionManager.get(player);
         PlayerSettings settings = playerSettingsRepository.get(player);
         GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, settings.getModeName().get());
         if (shouldUpdateItem && item != null) {
