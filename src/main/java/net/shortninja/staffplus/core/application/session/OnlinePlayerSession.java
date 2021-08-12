@@ -18,8 +18,6 @@ public interface OnlinePlayerSession extends IPlayerSession {
 
     void setChatAction(ChatAction chatAction);
 
-    boolean isInStaffMode();
-
     void setInStaffMode(boolean inStaffMode);
 
     Optional<GeneralModeConfiguration> getModeConfig();
@@ -27,8 +25,6 @@ public interface OnlinePlayerSession extends IPlayerSession {
     void setModeConfig(GeneralModeConfiguration modeConfig);
 
     void setFrozen(boolean frozen);
-
-    VanishType getVanishType();
 
     void setVanishType(VanishType vanishType);
 
