@@ -68,6 +68,14 @@ public class PlayerManager {
         return Optional.of(new SppPlayer(player.getUniqueId(), player.getName(), player));
     }
 
+    public Optional<SppPlayer> getOnlinePlayer(String playerName) {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player == null) {
+            return Optional.empty();
+        }
+        return Optional.of(new SppPlayer(player.getUniqueId(), player.getName(), player));
+    }
+
     public Set<String> getAllPlayerNames() {
         return new HashSet<>(cachedPlayerNames);
     }

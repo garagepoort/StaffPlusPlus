@@ -12,6 +12,8 @@ wild-card: "staff.*"
 # Permission for blocking listed commands at "blocked-commands" and "blocked-mode-commands".
 block: "staff.block"
 
+players: "staff.players"
+
 # Permission for reporting players.
 report: "staff.report"
 reports:

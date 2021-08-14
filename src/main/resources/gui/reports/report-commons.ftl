@@ -9,16 +9,9 @@
 
             <LoreLine>&bStatus: &7${report.reportStatus.name()}</LoreLine>
 
-            <#if .data_model["server-sync-module.report-sync"] == true >
-                <LoreLine>&bServer: &7${report.serverName}</LoreLine>
-            </#if>
-
-            <#if report.reportType.isPresent() == true >
-                <LoreLine>&bType: &7${report.reportType.get()}</LoreLine>
-            </#if>
-            <#if report.reportStatus.name() != "OPEN" >
-                <LoreLine>&bAssignee: &7${report.staffName}</LoreLine>
-            </#if>
+            <LoreLine if="${.data_model["server-sync-module.report-sync"]?c}">&bServer: &7${report.serverName}</LoreLine>
+            <LoreLine if="${report.reportType.isPresent()?c}">&bType: &7${report.reportType.get()}</LoreLine>
+            <LoreLine if="${(report.reportStatus.name() != "OPEN")?c}">&bAssignee: &7${report.staffName}</LoreLine>
 
             <#if report.culpritName?? >
                 <LoreLine>&bCulprit: &7${report.culpritName}</LoreLine>
@@ -29,9 +22,7 @@
             <LoreLine>&bTimestamp:
                 &7${report.creationDate.format(DateTimeFormatter.ofPattern(.data_model["timestamp-format"]))}</LoreLine>
 
-            <#if .data_model["reports-module.show-reporter"] == true >
-                <LoreLine>&bReporter: &7${report.reporterName}</LoreLine>
-            </#if>
+            <LoreLine if="${.data_model["reports-module.show-reporter"]?c}">&bReporter: &7${report.reporterName}</LoreLine>
 
             <LoreLine>&bReason:</LoreLine>
             <#list JavaUtils.formatLines(report.reason, 30) as reasonLine>
