@@ -8,7 +8,7 @@
             &bId: &6${ban.id}
         </LoreLine>
 
-        <LoreLine if="${.data_model["server-sync-module.ban-sync"]?c}">
+        <LoreLine if="${$config.get("server-sync-module.ban-sync")?c}">
             &bServer: &6${ban.serverName}
         </LoreLine>
 
@@ -21,7 +21,7 @@
         </LoreLine>
 
         <LoreLine>
-            &bIssued on: &6${GuiUtils.parseTimestamp(ban.creationTimestamp, .data_model["timestamp-format"])}
+            &bIssued on: &6${GuiUtils.parseTimestamp(ban.creationTimestamp, $config.get("timestamp-format"))}
         </LoreLine>
 
         <LoreLine>
@@ -37,4 +37,29 @@
             <#if ban.endTimestamp??>&6TEMPORARY<#else>&CPERMANENT</#if>
         </LoreLine>
     </Lore>
+</#macro>
+
+<#macro ipbanlorelines ipban>
+    <LoreLine if="${$config.get("server-sync-module.ban-sync")?c}">
+        &bServer: &6${ipban.serverName}
+    </LoreLine>
+
+    <LoreLine>
+        &bIp rule: &6${ipban.ip}
+    </LoreLine>
+
+    <LoreLine>
+        &bIssuer: &6${ipban.issuerName}
+    </LoreLine>
+
+    <LoreLine>
+        &bIssued on: &6${GuiUtils.parseTimestamp(ipban.creationDate, $config.get("timestamp-format"))}
+    </LoreLine>
+
+    <#if ipban.endTimestamp.isPresent()>
+        <LoreLine>&bTime Left: &6${ipban.humanReadableDuration}</LoreLine>
+    </#if>
+    <LoreLine>
+        <#if ipban.endTimestamp.isPresent()>&6TEMPORARY<#else>&CPERMANENT</#if>
+    </LoreLine>
 </#macro>

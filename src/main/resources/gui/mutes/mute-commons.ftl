@@ -2,13 +2,12 @@
 <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
 <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
 
-<#macro mutelore mute actions=[]>
-    <Lore>
+<#macro mutelorelines mute actions=[]>
         <LoreLine>
             &bId: &6${mute.id}
         </LoreLine>
 
-        <LoreLine if="${.data_model["server-sync-module.mute-sync"]?c}">
+        <LoreLine if="${$config.get("server-sync-module.mute-sync")?c}">
             &bServer: &6${mute.serverName}
         </LoreLine>
 
@@ -21,7 +20,7 @@
         </LoreLine>
 
         <LoreLine>
-            &bIssued on: &6${GuiUtils.parseTimestamp(mute.creationTimestamp, .data_model["timestamp-format"])}
+            &bIssued on: &6${GuiUtils.parseTimestamp(mute.creationTimestamp, $config.get("timestamp-format"))}
         </LoreLine>
 
         <LoreLine>
@@ -36,5 +35,4 @@
         <LoreLine>
             <#if mute.endTimestamp??>&6TEMPORARY<#else>&CPERMANENT</#if>
         </LoreLine>
-    </Lore>
 </#macro>

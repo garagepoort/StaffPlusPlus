@@ -11,14 +11,14 @@ import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import java.util.List;
 
 @IocBean
-public class MutedPlayersViewBuilder {
+public class ActiveMutedPlayersViewBuilder {
     private static final int PAGE_SIZE = 45;
 
     private final MuteService muteService;
     private final Messages messages;
     private final MutedPlayerItemBuilder mutedPlayerItemBuilder;
 
-    public MutedPlayersViewBuilder(MuteService muteService, Messages messages, MutedPlayerItemBuilder mutedPlayerItemBuilder) {
+    public ActiveMutedPlayersViewBuilder(MuteService muteService, Messages messages, MutedPlayerItemBuilder mutedPlayerItemBuilder) {
         this.muteService = muteService;
         this.messages = messages;
         this.mutedPlayerItemBuilder = mutedPlayerItemBuilder;

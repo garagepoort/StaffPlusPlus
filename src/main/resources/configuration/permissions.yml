@@ -243,17 +243,10 @@ kick-bypass: "staff.staffplus.kick-bypass"
 
 # Permission to mute players
 mute: "staff.staffplus.mute"
-
-# Permission to tempmute players
+mute-view: "staff.staffplus.mute-view"
 tempmute: "staff.staffplus.tempmute"
-
-# Permission to unmute players
 unmute: "staff.staffplus.unmute"
-
-# Permission to bypass being muted
 mute-bypass: "staff.staffplus.mute-bypass"
-
-# Permission to receive notifications when someone is muted/unmuted
 mute-notifications: "staff.staffplus.mute-notifications"
 
 # Permission to add/remove players from the alt detection whitelist

@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.common.permissions;
 
+import be.garagepoort.mcioc.permissions.TubingPermissionService;
 import net.shortninja.staffplus.core.common.exceptions.NoDurationPermissionException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.time.TimeUnitShort;
@@ -14,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public interface PermissionHandler {
+public interface PermissionHandler extends TubingPermissionService {
 
     default List<String> getPermissions(CommandSender player) {
         return player.getEffectivePermissions().stream()
@@ -75,5 +76,10 @@ public interface PermissionHandler {
         if (duration.isPresent() && duration.get() < durationInMillis) {
             throw new NoDurationPermissionException();
         }
+    }
+
+    @Override
+    default boolean hasPermission(Player player, String permission) {
+        return has(player, permission);
     }
 }
