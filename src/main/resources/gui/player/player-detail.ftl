@@ -12,7 +12,7 @@
              name="Reports"
              onLeftClick="manage-reports/view/find-reports?reporter=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
              onRightClick="manage-reports/view/find-reports?culprit=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
-             material="FLOWER_BANNER_PATTERN">
+             material="BLUE_BANNER">
         <Lore>
             <LoreLine>&7(&2${model.reports?size}&7) reports created</LoreLine>
             <LoreLine>&7(&C${model.reported?size}&7) time reported)</LoreLine>
@@ -23,7 +23,7 @@
     </GuiItem>
 
     <GuiItem slot="3"
-             material="FLOWER_BANNER_PATTERN"
+             material="BLUE_BANNER"
              name="warnings"
              if="config|warnings-module.enabled"
              onLeftClick="manage-warnings/view/overview?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
