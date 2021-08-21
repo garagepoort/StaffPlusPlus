@@ -57,7 +57,7 @@ public class InfractionsExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     private ItemStack infractionsItem(SppPlayer player) {
-        List<Report> reports = reportService.getReports(player.getId(), 0, 40);
+        List<Report> reports = reportService.getReported(player.getId(), 0, 40);
 
         List<String> lore = new ArrayList<>();
         IReport latestReport = reports.size() >= 1 ? reports.get(reports.size() - 1) : null;
