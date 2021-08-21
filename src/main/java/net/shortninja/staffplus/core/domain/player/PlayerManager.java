@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -51,6 +50,11 @@ public class PlayerManager {
         return new HashSet<>(cachedSppPlayers);
     }
 
+    public List<SppPlayer> getOfflinePlayers() {
+        return cachedSppPlayers.stream()
+            .filter(p -> !p.isOnline())
+            .collect(Collectors.toList());
+    }
 
     public Optional<SppPlayer> getOnOrOfflinePlayer(UUID playerUuid) {
         Player player = Bukkit.getPlayer(playerUuid);
@@ -62,6 +66,14 @@ public class PlayerManager {
 
     public Optional<SppPlayer> getOnlinePlayer(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
+        if (player == null) {
+            return Optional.empty();
+        }
+        return Optional.of(new SppPlayer(player.getUniqueId(), player.getName(), player));
+    }
+
+    public Optional<SppPlayer> getOnlinePlayer(String playerName) {
+        Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
             return Optional.empty();
         }
@@ -84,7 +96,7 @@ public class PlayerManager {
         return Bukkit.getOnlinePlayers();
     }
 
-    public Collection<OfflinePlayer> getAllPLayers() {
-        return Arrays.asList(Bukkit.getOfflinePlayers());
+    public List<SppPlayer> getOnlineSppPlayers() {
+        return Bukkit.getOnlinePlayers().stream().map(p -> new SppPlayer(p.getUniqueId(), p.getName(), p)).collect(Collectors.toList());
     }
 }

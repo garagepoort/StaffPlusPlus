@@ -26,3 +26,6 @@
                  material="SPRUCE_DOOR"/>
     </#if>
 </#macro>
+<#macro line>
+    <LoreLine>&7---------------</LoreLine>
+</#macro>

@@ -55,7 +55,7 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
         this.delayedActionsRepository = delayedActionsRepository;
     }
 
-    public List<Report> getReports(SppPlayer player, int offset, int amount) {
+    public List<Report> getReported(SppPlayer player, int offset, int amount) {
         return reportRepository.getReports(player.getId(), offset, amount);
     }
 
@@ -63,7 +63,7 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
         return reportRepository.findReports(reportFilters, offset, amount);
     }
 
-    public List<Report> getReports(UUID playerUuid, int offset, int amount) {
+    public List<Report> getReported(UUID playerUuid, int offset, int amount) {
         SppPlayer user = getUser(playerUuid);
         return reportRepository.getReports(user.getId(), offset, amount);
     }
