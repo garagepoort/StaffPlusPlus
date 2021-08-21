@@ -75,6 +75,7 @@ public class ReportsGuiController {
 
     @GuiAction("manage-reports/view/find-reports")
     public AsyncGui<GuiTemplate> viewFindReports(@GuiParam(value = "page", defaultValue = "0") int page,
+                                                 @GuiParam(value = "backAction") String backAction,
                                                  @GuiParams Map<String, String> allParams) {
         return async(() -> {
             ReportFilters.ReportFiltersBuilder reportFiltersBuilder = new ReportFilters.ReportFiltersBuilder();
@@ -82,6 +83,7 @@ public class ReportsGuiController {
 
             Map<String, Object> params = new HashMap<>();
             params.put("title", "Find reports");
+            params.put("backAction", backAction);
             params.put("reports", reportService.findReports(reportFiltersBuilder.build(), page * PAGE_SIZE, PAGE_SIZE));
 
             return template("gui/reports/find-reports.ftl", params);
@@ -188,8 +190,8 @@ public class ReportsGuiController {
 
     @GuiAction("manage-reports/reject")
     public AsyncGui<String> rejectReport(Player player,
-                             @GuiParam("reportId") int reportId,
-                             @GuiParam("backAction") String backAction) {
+                                         @GuiParam("reportId") int reportId,
+                                         @GuiParam("backAction") String backAction) {
         permissionHandler.validate(player, manageReportConfiguration.permissionReject);
         return async(() -> {
             if (options.reportConfiguration.isClosingReasonEnabled()) {
@@ -203,8 +205,8 @@ public class ReportsGuiController {
 
     @GuiAction("manage-reports/accept-and-reject")
     public AsyncGui<String> acceptAndReject(Player player,
-                                             @GuiParam("reportId") int reportId,
-                                             @GuiParam("backAction") String backAction) {
+                                            @GuiParam("reportId") int reportId,
+                                            @GuiParam("backAction") String backAction) {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
         permissionHandler.validate(player, manageReportConfiguration.permissionReject);
         return async(() -> {
@@ -213,7 +215,7 @@ public class ReportsGuiController {
                 return null;
             }
 
-            manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
+            manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
             return backAction;
         });
     }

@@ -40,7 +40,7 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
     public String getClickAction(Player staff, SppPlayer targetPlayer, String backAction) {
         return GuiActionBuilder.builder()
             .action("manage-frozen/freeze")
-            .param("targetPlayerUuid", String.valueOf(targetPlayer.getId()))
+            .param("targetPlayerName", targetPlayer.getUsername())
             .build();
     }
 

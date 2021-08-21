@@ -50,6 +50,7 @@ public class Mute implements IMute, Infraction, Evidence {
         this.targetUuid = playerUuid;
         this.issuerUuid = issuerUuid;
     }
+
     public Mute(String reason, String issuerName, UUID issuerUuid, String targetName, UUID playerUuid) {
         this.reason = reason;
         this.targetName = targetName;
@@ -106,7 +107,7 @@ public class Mute implements IMute, Infraction, Evidence {
 
     @Override
     public ZonedDateTime getEndDate() {
-        if(endDate == null) {
+        if (endDate == null) {
             return null;
         }
         return ZonedDateTime.ofInstant(Instant.ofEpochMilli(endDate), ZoneId.systemDefault());
@@ -139,7 +140,7 @@ public class Mute implements IMute, Infraction, Evidence {
 
     @Override
     public String getHumanReadableDuration() {
-        if(endDate == null) {
+        if (endDate == null) {
             return null;
         }
         long duration = JavaUtils.getDuration(endDate);
@@ -170,5 +171,9 @@ public class Mute implements IMute, Infraction, Evidence {
     @Override
     public String getServerName() {
         return serverName;
+    }
+
+    public boolean hasEnded() {
+        return endDate != null && endDate <= System.currentTimeMillis();
     }
 }

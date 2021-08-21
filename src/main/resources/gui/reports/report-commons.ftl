@@ -9,7 +9,7 @@
 
             <LoreLine>&bStatus: &7${report.reportStatus.name()}</LoreLine>
 
-            <#if .data_model["server-sync-module.report-sync"] == true >
+            <#if $config.get("server-sync-module.report-sync") >
                 <LoreLine>&bServer: &7${report.serverName}</LoreLine>
             </#if>
 
@@ -27,9 +27,9 @@
             </#if>
 
             <LoreLine>&bTimestamp:
-                &7${report.creationDate.format(DateTimeFormatter.ofPattern(.data_model["timestamp-format"]))}</LoreLine>
+                &7${report.creationDate.format(DateTimeFormatter.ofPattern($config.get("timestamp-format")))}</LoreLine>
 
-            <#if .data_model["reports-module.show-reporter"] == true >
+            <#if $config.get("reports-module.show-reporter") >
                 <LoreLine>&bReporter: &7${report.reporterName}</LoreLine>
             </#if>
 

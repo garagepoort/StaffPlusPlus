@@ -46,6 +46,13 @@ public class LoreBuilder {
         return this;
     }
 
+    public LoreBuilder addItem(String label, Supplier<String> value, boolean shouldAdd) {
+        if (shouldAdd) {
+            lore.add(labelColor + label + ": " + valueColor + value.get());
+        }
+        return this;
+    }
+
     public LoreBuilder addIndented(String label, String value) {
         addIndented(label, value, true);
         return this;
