@@ -27,6 +27,8 @@ public interface MuteRepository {
 
     Map<UUID, Integer> getCountByPlayer();
 
+    List<Mute> getMutesForPlayerPaged(UUID playerUuid, int offset, int amount);
+
     List<UUID> getAllPermanentMutedPlayers();
 
     long getTotalCount();

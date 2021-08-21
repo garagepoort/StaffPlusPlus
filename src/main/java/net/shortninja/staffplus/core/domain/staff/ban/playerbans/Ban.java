@@ -55,6 +55,7 @@ public class Ban implements IBan, Infraction, Evidence {
         this.targetUuid = targetUuid;
         this.issuerUuid = issuerUuid;
     }
+
     public Ban(String reason, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan) {
         this.reason = reason;
         this.targetName = targetName;
@@ -112,7 +113,7 @@ public class Ban implements IBan, Infraction, Evidence {
 
     @Override
     public ZonedDateTime getEndDate() {
-        if(endDate == null) {
+        if (endDate == null) {
             return null;
         }
         return ZonedDateTime.ofInstant(Instant.ofEpochMilli(endDate), ZoneId.systemDefault());
@@ -145,7 +146,7 @@ public class Ban implements IBan, Infraction, Evidence {
 
     @Override
     public String getHumanReadableDuration() {
-        if(endDate == null) {
+        if (endDate == null) {
             return null;
         }
         long duration = JavaUtils.getDuration(endDate);
@@ -190,5 +191,9 @@ public class Ban implements IBan, Infraction, Evidence {
 
     public void setSilentUnban(boolean silentUnban) {
         this.silentUnban = silentUnban;
+    }
+
+    public boolean hasEnded() {
+        return endDate != null && endDate <= System.currentTimeMillis();
     }
 }

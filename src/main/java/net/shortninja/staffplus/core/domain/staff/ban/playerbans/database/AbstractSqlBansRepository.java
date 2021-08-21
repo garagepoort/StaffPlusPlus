@@ -109,7 +109,24 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
         }
         return bans;
     }
-
+    @Override
+    public List<Ban> getBansForPlayerPaged(UUID playerUuid, int offset, int amount) {
+        List<Ban> bans = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE player_uuid = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncEnabled) + " ORDER BY creation_timestamp DESC LIMIT ?,?")) {
+            ps.setString(1, playerUuid.toString());
+            ps.setInt(2, offset);
+            ps.setInt(3, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    bans.add(buildBan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return bans;
+    }
     @Override
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();

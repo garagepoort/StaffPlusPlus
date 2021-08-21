@@ -1,12 +1,15 @@
 package net.shortninja.staffplus.core.application;
 
+import be.garagepoort.mcioc.AfterIocLoad;
 import be.garagepoort.mcioc.IocBeanProvider;
 import be.garagepoort.mcioc.TubingConfiguration;
+import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.LuckPermsHook;
 import net.shortninja.staffplus.core.application.bootstrap.VaultHook;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.DefaultPermissionHandler;
 import net.shortninja.staffplus.core.common.permissions.GroupManagerPermissionHandler;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -16,8 +19,15 @@ import org.bukkit.plugin.PluginManager;
 
 import java.util.Optional;
 
+import static org.bukkit.ChatColor.translateAlternateColorCodes;
+
 @TubingConfiguration
 public class StaffPlusPlusConfiguration {
+
+    @AfterIocLoad
+    public static void initGuiExceptionHandler(GuiActionService guiActionService) {
+        guiActionService.registerExceptionHandler(BusinessException.class, (p, e) -> p.sendMessage(translateAlternateColorCodes('&', e.getMessage())));
+    }
 
     @IocBeanProvider
     public static PermissionHandler instantiatePermissionHandler(Options options, VaultHook vaultHook) {

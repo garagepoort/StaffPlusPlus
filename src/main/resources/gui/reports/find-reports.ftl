@@ -8,5 +8,5 @@
         <@reportcommon.reportitem slot="${report?index}" report=report onLeftClick="manage-reports/view/detail?reportId=${report.id}&backAction=${URLEncoder.encode(currentAction)}" />
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}" backAction=backAction page=page />
 </TubingGUi>
