@@ -43,6 +43,8 @@ my-reports: "my-reports"
 # The command for reporting and managing reports.
 report: "report"
 
+players: "players"
+
 # The command for reporting and managing reports specifically targeting a player.
 reportPlayer: "reportPlayer"
 

@@ -53,7 +53,9 @@ public class StaffMembersGuiController {
     }
 
     @GuiAction("membersGUI")
-    public TubingGui getItems(Player staffViewing, @GuiParam(value = "page", defaultValue="0") int page) {
+    public TubingGui getItems(Player staffViewing,
+                              @GuiParam(value = "page", defaultValue="0") int page,
+                              @GuiParam("backAction") String backAction) {
         int amount = 45;
         List<Player> players = options.staffItemsConfiguration.getCounterModeConfiguration().isModeCounterShowStaffMode() ? getModePlayers() : JavaUtils.getOnlinePlayers();
         List<Player> pageOfList = JavaUtils.getPageOfList(players, page, amount);
@@ -63,6 +65,7 @@ public class StaffMembersGuiController {
             .collect(Collectors.toList());
         return new Builder(messages.colorize(options.staffItemsConfiguration.getCounterModeConfiguration().getTitle()))
             .addPagedItems("membersGUI", items, page)
+            .backAction(backAction)
             .build();
     }
 

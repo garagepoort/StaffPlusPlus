@@ -12,6 +12,8 @@ wild-card: "staff.*"
 # Permission for blocking listed commands at "blocked-commands" and "blocked-mode-commands".
 block: "staff.block"
 
+players: "staff.players"
+
 # Permission for reporting players.
 report: "staff.report"
 reports:
@@ -185,6 +187,9 @@ staffplus: "staff.staffplus"
 
 # Use this for players who's ip should not be shown in examine mode
 ipPerm: "staff.staffplus.hideip"
+ipView: "staff.staffplus.viewip"
+
+
 
 # Permission for using the clear inventory config
 invClear: "staff.staffplus.clearinv"
@@ -241,17 +246,10 @@ kick-bypass: "staff.staffplus.kick-bypass"
 
 # Permission to mute players
 mute: "staff.staffplus.mute"
-
-# Permission to tempmute players
+mute-view: "staff.staffplus.mute-view"
 tempmute: "staff.staffplus.tempmute"
-
-# Permission to unmute players
 unmute: "staff.staffplus.unmute"
-
-# Permission to bypass being muted
 mute-bypass: "staff.staffplus.mute-bypass"
-
-# Permission to receive notifications when someone is muted/unmuted
 mute-notifications: "staff.staffplus.mute-notifications"
 
 # Permission to add/remove players from the alt detection whitelist
