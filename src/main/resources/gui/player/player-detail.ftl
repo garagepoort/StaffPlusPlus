@@ -4,7 +4,7 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <TubingGui size="27">
-    <GuiItem slot="0" name="${target.username}" material="PLAYER_HEAD"/>
+    <GuiItem slot="0" name="${target.username}" material="SKULL_ITEM"/>
 
     <GuiItem slot="2"
              if="config|reports-module.enabled"
@@ -12,7 +12,7 @@
              name="Reports"
              onLeftClick="manage-reports/view/find-reports?reporter=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
              onRightClick="manage-reports/view/find-reports?culprit=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
-             material="FLOWER_BANNER_PATTERN">
+             material="BANNER">
         <Lore>
             <LoreLine>&7(&2${model.reports?size}&7) reports created</LoreLine>
             <LoreLine>&7(&C${model.reported?size}&7) time reported)</LoreLine>
@@ -23,7 +23,7 @@
     </GuiItem>
 
     <GuiItem slot="3"
-             material="FLOWER_BANNER_PATTERN"
+             material="BANNER"
              name="warnings"
              if="config|warnings-module.enabled"
              onLeftClick="manage-warnings/view/overview?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
@@ -67,7 +67,7 @@
              permission="config|permissions:ban-view"
              name="<#if model.ban.isPresent()>&CBanned<#else>&2Not banned</#if>"
              onLeftClick="manage-bans/view/history?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
-             material="<#if model.ban.isPresent()>BARRIER<#else>INFESTED_STONE</#if>">
+             material="<#if model.ban.isPresent()>BARRIER<#else>STONE</#if>">
         <Lore>
             <#if model.ban.isPresent()>
                 <LoreLine>&6Current ban:</LoreLine>
@@ -83,7 +83,7 @@
              if="config|ban-module.ipban.enabled"
              permission="config|permissions:ipban.ban-view"
              name="<#if model.ipbans?has_content>&CIp Banned<#else>&2Not Ip banned</#if>"
-             material="<#if model.ipbans?has_content>TARGET<#else>CHISELED_STONE_BRICKS</#if>">
+             material="<#if model.ipbans?has_content>TARGET<#else>COBBLESTONE</#if>">
         <#if model.ipbans?has_content>
             <Lore>
                 <LoreLine>&6Banned by following rule(s):</LoreLine>
@@ -102,7 +102,7 @@
              slot="18"
              name="Follow"
              onLeftClick="staff-mode/follow?targetPlayerName=${target.username}"
-             material="LEAD"/>
+             material="LEASH"/>
 
     <GuiItem if="${target.online?c}"
              permission="config|permissions:freeze"
@@ -115,7 +115,7 @@
              slot="20"
              name="Cps"
              onLeftClick="staff-mode/cps?targetPlayerName=${target.username}"
-             material="CLOCK"/>
+             material="WATCH"/>
 
     <GuiItem if="${target.online?c}"
              slot="21"

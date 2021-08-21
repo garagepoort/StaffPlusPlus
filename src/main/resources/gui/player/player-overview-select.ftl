@@ -2,7 +2,7 @@
 <TubingGUi size="27">
     <title>Select player overview</title>
     <GuiItem slot="10"
-             material="PLAYER_HEAD"
+             material="SKULL_ITEM"
              name="Online players"
              onLeftClick="players/view/overview/online?backAction=${URLEncoder.encode(currentAction)}">
         <Lore>
@@ -10,7 +10,7 @@
         </Lore>
     </GuiItem>
     <GuiItem slot="11"
-             material="SKELETON_SKULL"
+             material="SKULL_ITEM"
              name="Offline players"
              onLeftClick="players/view/overview/offline?backAction=${URLEncoder.encode(currentAction)}">
         <Lore>
@@ -18,7 +18,7 @@
         </Lore>
     </GuiItem>
     <GuiItem slot="12"
-             material="TOTEM_OF_UNDYING"
+             material="TOTEM"
              name="Online staff members"
              onLeftClick="membersGUI?backAction=${URLEncoder.encode(currentAction)}">
         <Lore>

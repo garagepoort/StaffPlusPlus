@@ -6,7 +6,7 @@
     <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
     <#assign session=GuiUtils.getSession(sppPlayer)/>
     <GuiItem slot="${slot}" onLeftClick="${onLeftClick}" onRightClick="${onRightClick}" onMiddleClick="${onMiddleClick}"
-             material="PLAYER_HEAD" name="&5${sppPlayer.username}">
+             material="SKULL_ITEM" name="&5${sppPlayer.username}">
         <Lore>
 
             <#if sppPlayer.online>

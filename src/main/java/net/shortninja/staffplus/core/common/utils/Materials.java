@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 
 public enum Materials {
     SPAWNER("MOB_SPAWNER", "SPAWNER"),
-    HEAD("SKULL_ITEM", "PLAYER_HEAD"),
+    HEAD("SKULL_ITEM", "SKULL_ITEM"),
     ENDEREYE("EYE_OF_ENDER", "ENDER_EYE"),
     CLOCK("WATCH", "CLOCK"),
     LEAD("LEASH", "LEAD"),
