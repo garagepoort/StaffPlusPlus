@@ -215,7 +215,7 @@ public class ReportsGuiController {
                 return null;
             }
 
-            manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
+            manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
             return backAction;
         });
     }

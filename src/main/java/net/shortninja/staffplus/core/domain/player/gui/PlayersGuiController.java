@@ -6,6 +6,7 @@ import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
+import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.gui.model.PlayerOverviewModel;
@@ -24,7 +25,6 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.warnings.IWarning;
 import net.shortninja.staffplusplus.warnings.WarningFilters;
 import net.shortninja.staffplusplus.warnings.WarningService;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +77,7 @@ public class PlayersGuiController {
     }
 
     @GuiAction("players/view/detail")
-    public GuiTemplate getItems(Player staff, @GuiParam(value = "targetPlayerName") String playerName) {
+    public GuiTemplate getItems(@GuiParam(value = "targetPlayerName") String playerName) {
         SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(playerName).orElseThrow(() -> new PlayerNotFoundException(playerName));
         HashMap<String, Object> params = new HashMap<>();
 
@@ -91,6 +91,34 @@ public class PlayersGuiController {
             reportsEnabled ? getReported(sppPlayer) : emptyList(),
             warningConfiguration.isEnabled() ? getWarnings(sppPlayer) : emptyList()));
         return GuiTemplate.template("gui/player/player-detail.ftl", params);
+    }
+
+    @GuiAction("players/view/select-overview-type")
+    public GuiTemplate getOverviewSelectionView() {
+        HashMap<String, Object> params = new HashMap<>();
+        return GuiTemplate.template("gui/player/player-overview-select.ftl", params);
+    }
+
+    @GuiAction("players/view/overview/online")
+    public GuiTemplate getOverviewOnlinePlayers(@GuiParam(value = "page", defaultValue = "0") int page) {
+        List<SppPlayer> onlineSppPlayers = playerManager.getOnlineSppPlayers();
+        List<SppPlayer> pagedPlayers = JavaUtils.getPageOfList(onlineSppPlayers, page, 45);
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("title", "Online players");
+        params.put("players", pagedPlayers);
+        return GuiTemplate.template("gui/player/player-overview.ftl", params);
+    }
+
+    @GuiAction("players/view/overview/offline")
+    public GuiTemplate getOverviewOfflinePlayers(@GuiParam(value = "page", defaultValue = "0") int page) {
+        List<SppPlayer> onlineSppPlayers = playerManager.getOfflinePlayers();
+        List<SppPlayer> pagedPlayers = JavaUtils.getPageOfList(onlineSppPlayers, page, 45);
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("title", "Offline players");
+        params.put("players", pagedPlayers);
+        return GuiTemplate.template("gui/player/player-overview.ftl", params);
     }
 
     private List<? extends IWarning> getWarnings(SppPlayer sppPlayer) {

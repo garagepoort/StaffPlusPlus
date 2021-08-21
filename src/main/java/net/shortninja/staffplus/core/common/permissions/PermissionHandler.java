@@ -34,6 +34,7 @@ public interface PermissionHandler extends TubingPermissionService {
             .max(Comparator.naturalOrder());
     }
 
+    @Override
     boolean has(Player player, String permission);
 
     boolean has(OfflinePlayer player, String permission);
@@ -78,8 +79,4 @@ public interface PermissionHandler extends TubingPermissionService {
         }
     }
 
-    @Override
-    default boolean hasPermission(Player player, String permission) {
-        return has(player, permission);
-    }
 }

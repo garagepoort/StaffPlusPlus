@@ -1,7 +1,6 @@
 <#import "report-commons.ftl" as reportcommon/>
 <#import "/gui/commons/commons.ftl" as commons/>
 <#import "/gui/evidence/evidence-commons.ftl" as evidenceCommons/>
-<#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 
 <TubingGui size="54">
     <title>Report by: ${report.reporterName}</title>
@@ -9,7 +8,7 @@
     <@reportcommon.reportitem slot=13 report=report/>
 
     <#if report.reportStatus.name() == 'IN_PROGRESS'>
-        <#if player.uniqueId == report.staffUuid && GuiUtils.hasPermission(player, $config.get("permissions:reports.manage.resolve"))>
+        <#if player.uniqueId == report.staffUuid && $permissions.has(player, $config.get("permissions:reports.manage.resolve"))>
             <#list [34,35,43,44] as slot>
                 <GuiItem slot="${slot}"
                          material="GREEN_STAINED_GLASS_PANE"
@@ -22,7 +21,7 @@
             </#list>
         </#if>
 
-        <#if player.uniqueId == report.staffUuid || GuiUtils.hasPermission(player, $config.get("permissions:reports.manage.reopen-other"))>
+        <#if player.uniqueId == report.staffUuid || $permissions.has(player, $config.get("permissions:reports.manage.reopen-other"))>
             <#list [27,28,36,37] as slot>
                 <GuiItem slot="${slot}"
                          material="WHITE_STAINED_GLASS_PANE"
@@ -35,7 +34,7 @@
             </#list>
         </#if>
 
-        <#if player.uniqueId == report.staffUuid && GuiUtils.hasPermission(player, $config.get("permissions:reports.manage.reject"))>
+        <#if player.uniqueId == report.staffUuid && $permissions.has(player, $config.get("permissions:reports.manage.reject"))>
             <#list [30,31,32,39,40,41] as slot>
                 <GuiItem slot="${slot}"
                          material="RED_STAINED_GLASS_PANE"
@@ -49,7 +48,7 @@
         </#if>
     </#if>
 
-    <#if GuiUtils.hasPermission(player, $config.get("permissions:reports.manage.delete"))>
+    <#if $permissions.has(player, $config.get("permissions:reports.manage.delete"))>
         <GuiItem slot="8"
                  material="REDSTONE_BLOCK"
                  name="Delete"

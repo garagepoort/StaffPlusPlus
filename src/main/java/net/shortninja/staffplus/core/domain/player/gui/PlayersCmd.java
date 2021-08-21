@@ -44,17 +44,24 @@ public class PlayersCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         validateIsPlayer(sender);
+        if(args.length == 0) {
+            guiActionService.executeAction((Player) sender, "players/view/select-overview-type");
+            return true;
+        }
         guiActionService.executeAction((Player) sender, "players/view/detail?targetPlayerName=" + player.getUsername());
         return true;
     }
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        return 1;
+        return 0;
     }
 
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
+        if (args.length == 0) {
+            return Optional.empty();
+        }
         return Optional.of(args[0]);
     }
 

@@ -22,7 +22,11 @@
         <LoreLine>
             &bIssued on: &6${GuiUtils.parseTimestamp(mute.creationTimestamp, $config.get("timestamp-format"))}
         </LoreLine>
-
+        <#if mute.hasEnded()>
+            <LoreLine>
+                &bEnded on: &6${GuiUtils.parseTimestamp(mute.endTimestamp, $config.get("timestamp-format"))}
+            </LoreLine>
+        </#if>
         <LoreLine>
             &bReason: &6${mute.reason}
         </LoreLine>

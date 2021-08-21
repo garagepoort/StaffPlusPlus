@@ -66,10 +66,17 @@
              if="config|ban-module.enabled"
              permission="config|permissions:ban-view"
              name="<#if model.ban.isPresent()>&CBanned<#else>&2Not banned</#if>"
+             onLeftClick="manage-bans/view/history?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
              material="<#if model.ban.isPresent()>BARRIER<#else>INFESTED_STONE</#if>">
-        <#if model.ban.isPresent()>
-            <@bancommons.banlore ban=model.ban.get()/>
-        </#if>
+        <Lore>
+            <#if model.ban.isPresent()>
+                <LoreLine>&6Current ban:</LoreLine>
+                <@bancommons.banlorelines ban=model.ban.get()/>
+            </#if>
+            <LoreLine></LoreLine>
+            <LoreLine>&7---------------</LoreLine>
+            <LoreLine>&7Left click to &6view ban history</LoreLine>
+        </Lore>
     </GuiItem>
 
     <GuiItem slot="8"
