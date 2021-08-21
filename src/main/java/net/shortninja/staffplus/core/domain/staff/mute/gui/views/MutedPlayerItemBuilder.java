@@ -11,9 +11,11 @@ import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.Infracti
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -31,8 +33,7 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
     }
 
     public ItemStack build(Mute mute) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(mute.getCreationDate().toInstant(), ZoneOffset.UTC);
-        String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(options.timestampFormat));
+        String time = getTimeString(mute.getCreationDate());
 
         List<String> lore = LoreBuilder.builder("&b", "&6")
             .addItem("Id", String.valueOf(mute.getId()))
@@ -40,6 +41,7 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
             .addItem("Muted player", mute.getTargetName())
             .addItem("Issuer", mute.getIssuerName())
             .addItem("Issued on", time)
+            .addItem("Ended on", () -> getTimeString(mute.getEndDate()), mute.hasEnded())
             .addIndented("Reason", mute.getReason())
             .addDuration("Time Left", mute.getHumanReadableDuration(), mute.getEndTimestamp() != null)
             .addItem("Permanent mute", mute.getEndTimestamp() == null)
@@ -53,7 +55,11 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
 
         return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(mute.getId()));
     }
-
+    @NotNull
+    private String getTimeString(ZonedDateTime date) {
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC);
+        return localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(options.timestampFormat));
+    }
     @Override
     public InfractionType getType() {
         return InfractionType.MUTE;

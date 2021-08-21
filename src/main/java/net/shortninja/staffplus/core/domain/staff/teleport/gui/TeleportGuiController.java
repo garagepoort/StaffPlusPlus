@@ -31,4 +31,13 @@ public class TeleportGuiController {
         }
         teleportService.teleportToPlayer(player, sppPlayer.getPlayer());
     }
+
+    @GuiAction("teleport-here")
+    public void teleportHere(Player player, @GuiParam("targetPlayerName") String targetPlayerName) {
+        SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
+        if (!sppPlayer.isOnline()) {
+            throw new PlayerOfflineException();
+        }
+        teleportService.teleportToPlayer(sppPlayer.getPlayer(), player);
+    }
 }

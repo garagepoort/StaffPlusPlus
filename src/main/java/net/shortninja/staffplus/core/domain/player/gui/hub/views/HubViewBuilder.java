@@ -92,7 +92,7 @@ public class HubViewBuilder {
         }
 
         if (muteGuiItemConfig.isEnabled()) {
-            builder.addItem(getAction("manage-mutes/view/overview"), 16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig));
+            builder.addItem(getAction("manage-mutes/view/all-active"), 16, buildGuiItem(SPRUCE_SIGN, muteGuiItemConfig));
         }
 
         if (investigationGuiItemConfig.isEnabled()) {

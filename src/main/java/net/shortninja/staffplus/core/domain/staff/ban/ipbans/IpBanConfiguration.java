@@ -12,6 +12,8 @@ import java.util.Optional;
 @IocBean
 public class IpBanConfiguration {
 
+    @ConfigProperty("ban-module.ipban.enabled")
+    public boolean enabled;
     @ConfigProperty("permissions:ipban.ban-silent")
     public String permissionBanSilent;
     @ConfigProperty("permissions:ipban.ban-template-overwrite")
