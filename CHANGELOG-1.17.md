@@ -1,5 +1,13 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.13 (NOT YET RELEASED)
+
+### Features
+  - New Players overview guis implemented
+
+### Bug fixes
+  - Report reject quick action changed status to resolved when no resolve-reason mandatory
+
 # V1.17.12
 
 ### Features

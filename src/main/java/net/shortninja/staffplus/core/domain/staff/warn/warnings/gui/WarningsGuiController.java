@@ -62,13 +62,14 @@ public class WarningsGuiController {
 
     @GuiAction("manage-warnings/view/overview")
     public TubingGui warningsOverview(@GuiParam("targetPlayerName") String targetPlayerName,
+                                      @GuiParam("backAction") String backAction,
                                       @CurrentAction String currentAction,
                                       @GuiParam(value = "page", defaultValue = "0") int page) {
         if (StringUtils.isNotBlank(targetPlayerName)) {
             SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow((() -> new PlayerNotFoundException(targetPlayerName)));
-            return manageWarningsViewBuilder.buildGui(target, currentAction, page);
+            return manageWarningsViewBuilder.buildGui(target, currentAction, page, backAction);
         }
-        return manageWarningsViewBuilder.buildGui(null, currentAction, page);
+        return manageWarningsViewBuilder.buildGui(null, currentAction, page, backAction);
     }
 
     @GuiAction("manage-warnings/view/my-warnings")

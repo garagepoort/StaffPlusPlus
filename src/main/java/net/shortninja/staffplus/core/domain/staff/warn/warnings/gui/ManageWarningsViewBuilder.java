@@ -22,9 +22,10 @@ public class ManageWarningsViewBuilder {
         this.warningItemBuilder = warningItemBuilder;
     }
 
-    public TubingGui buildGui(SppPlayer target, String currentAction, int page) {
+    public TubingGui buildGui(SppPlayer target, String currentAction, int page, String backAction) {
         return new PagedGuiBuilder.Builder("Manage warnings")
             .addPagedItems(currentAction, getItems(target, page), warningItemBuilder::build, w -> getDetailAction(currentAction, w), page)
+            .backAction(backAction)
             .build();
     }
 

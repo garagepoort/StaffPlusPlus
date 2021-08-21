@@ -14,8 +14,6 @@ import net.shortninja.staffplus.core.domain.staff.freeze.FreezeRequest;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 @IocBean
 @GuiController
 public class FreezeGuiController {
@@ -31,8 +29,8 @@ public class FreezeGuiController {
     }
 
     @GuiAction("manage-frozen/freeze")
-    public GuiActionReturnType freezePlayer(Player player, @GuiParam("targetPlayerUuid") String targetPlayerName, @GuiParam("enable") Boolean enable) {
-        SppPlayer sppPlayer = playerManager.getOnlinePlayer(UUID.fromString(targetPlayerName)).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
+    public GuiActionReturnType freezePlayer(Player player, @GuiParam("targetPlayerName") String targetPlayerName, @GuiParam("enable") Boolean enable) {
+        SppPlayer sppPlayer = playerManager.getOnlinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
         OnlinePlayerSession session = onlineSessionsManager.get(sppPlayer.getPlayer());
         freezeHandler.execute(new FreezeRequest(player, sppPlayer.getPlayer(), enable == null ? !session.isFrozen() : enable));
         return GuiActionReturnType.KEEP_OPEN;

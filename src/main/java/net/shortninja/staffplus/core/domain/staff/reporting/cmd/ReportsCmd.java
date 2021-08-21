@@ -91,7 +91,7 @@ public class ReportsCmd extends AbstractCmd {
     }
 
     private void listReports(CommandSender sender, SppPlayer player) {
-        List<Report> reports = reportService.getReports(player, 0, 40);
+        List<Report> reports = reportService.getReported(player, 0, 40);
 
         for (String message : messages.reportsListStart) {
             this.messages.send(sender, message.replace("%longline%", this.messages.LONG_LINE).replace("%target%", player.getUsername()).replace("%reports%", Integer.toString(reports.size())), message.contains("%longline%") ? "" : messages.prefixReports);
