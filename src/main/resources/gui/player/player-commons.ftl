@@ -11,22 +11,28 @@
 
             <#if sppPlayer.online>
                 <@commons.line />
-                <LoreLine permission="config|permissions:ipView">&bIp: &6${BukkitUtils.getIpFromPlayer(sppPlayer.player)}</LoreLine>
-                <LoreLine>&bGamemode: &6${sppPlayer.player.gameMode}</LoreLine>
-                <LoreLine>&bFood: &6${sppPlayer.player.foodLevel}</LoreLine>
-                <LoreLine>&bLocation: &6${GuiUtils.parseLocation(sppPlayer.player.location)}</LoreLine>
+                <LoreLine permission="config|permissions:playerView.detail.ip">&bIp: &6${BukkitUtils.getIpFromPlayer(sppPlayer.player)}</LoreLine>
+                <LoreLine permission="config|permissions:playerView.detail.gamemode">&bGamemode: &6${sppPlayer.player.gameMode}</LoreLine>
+                <LoreLine permission="config|permissions:playerView.detail.food">&bFood: &6${sppPlayer.player.foodLevel}</LoreLine>
+                <LoreLine permission="config|permissions:playerView.detail.location">&bLocation: &6${GuiUtils.parseLocation(sppPlayer.player.location)}</LoreLine>
             </#if>
 
             <#if session.isPresent()>
                 <@commons.line />
-                <LoreLine if="${session.get().frozen?c}">&bFrozen</LoreLine>
-                <LoreLine if="${session.get().protected?c}">&2Protected</LoreLine>
+                <LoreLine if="${session.get().frozen?c}"
+                          permission="config|permissions:playerView.detail.frozen">
+                    &bFrozen
+                </LoreLine>
+                <LoreLine if="${session.get().protected?c}"
+                          permission="config|permissions:playerView.detail.protected">
+                    &2Protected
+                </LoreLine>
                 <LoreLine if="${session.get().underInvestigation?c}"
-                          permission="config|permissions:investigations.manage.view">
+                          permission="config|permissions:playerView.detail.investigation">
                     &6Under investigation
                 </LoreLine>
                 <LoreLine if="${session.get().muted?c}"
-                          permission="config|permissions:mute-view">
+                          permission="config|permissions:playerView.detail.muted">
                     &CMuted
                 </LoreLine>
             </#if>

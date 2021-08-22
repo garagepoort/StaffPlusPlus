@@ -171,8 +171,8 @@ public class PlayerInteract implements Listener {
             case FREEZE:
                 playerAction(player, () -> {
                     Player targetPlayer = JavaUtils.getTargetPlayer(player);
-                    OnlinePlayerSession session = sessionManager.get(targetPlayer);
                     if (targetPlayer != null) {
+                        OnlinePlayerSession session = sessionManager.get(targetPlayer);
                         freezeHandler.execute(new FreezeRequest(player, targetPlayer, !session.isFrozen()));
                     }
                 });
