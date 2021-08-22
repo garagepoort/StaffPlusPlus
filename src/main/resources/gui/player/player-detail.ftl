@@ -1,9 +1,11 @@
 <#import "/gui/bans/ban-commons.ftl" as bancommons/>
 <#import "/gui/mutes/mute-commons.ftl" as mutecommons/>
 <#import "/gui/warnings/warning-commons.ftl" as warningcommons/>
+<#import "/gui/commons/commons.ftl" as commons/>
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <TubingGui size="27">
+    <title>${target.username}</title>
     <GuiItem slot="0" name="${target.username}" material="PLAYER_HEAD"/>
 
     <GuiItem slot="2"
@@ -141,4 +143,6 @@
     <GuiItem slot="24" name="Enderchest View"
              onLeftClick="manage-enderchest/open?targetPlayerName=${target.username}"
              material="ENDER_CHEST"/>
+
+    <@commons.backButton action=backAction backSlot=26/>
 </TubingGui>

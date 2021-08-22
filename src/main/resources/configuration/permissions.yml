@@ -290,3 +290,20 @@ enderchests:
 
 webui:
     register: "staff.webui.register"
+
+playerView:
+    detail:
+        food: "staff.player-view.detail.food"
+        ip: "staff.player-view.detail.ip"
+        gamemode: "staff.player-view.detail.gamemode"
+        location: "staff.player-view.detail.location"
+        frozen: "staff.player-view.detail.frozen"
+        protected: "staff.player-view.detail.protected"
+        investigation: "staff.player-view.detail.investigation"
+        muted: "staff.player-view.detail.muted"
+    overview:
+        online-players: "staff.player-view.overview.onlineplayers"
+        offline-players: "staff.player-view.overview.offlineplayers"
+        staff-members: "staff.player-view.overview.staff"
+        miners: "staff.player-view.overview.miners"
+        protected: "staff.player-view.overview.protected"
