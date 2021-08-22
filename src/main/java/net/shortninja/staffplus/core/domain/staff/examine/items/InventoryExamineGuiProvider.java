@@ -34,6 +34,7 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
         return GuiActionBuilder.builder()
             .action("manage-inventory/open")
             .param("targetPlayerName", target.getUsername())
+            .param("backAction", backAction)
             .build();
     }
 
