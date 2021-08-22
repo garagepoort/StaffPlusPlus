@@ -7,6 +7,7 @@
 
 ### Bug fixes
   - Report reject quick action changed status to resolved when no resolve-reason mandatory
+  - Fix nullpointer on freeze mode item
 
 # V1.17.12
 
