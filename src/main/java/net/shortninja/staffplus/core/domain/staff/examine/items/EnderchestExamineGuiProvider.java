@@ -34,6 +34,7 @@ public class EnderchestExamineGuiProvider implements ExamineGuiItemProvider {
         return GuiActionBuilder.builder()
             .action("manage-enderchest/open")
             .param("targetPlayerName", target.getUsername())
+            .param("backAction", backAction)
             .build();
     }
 
