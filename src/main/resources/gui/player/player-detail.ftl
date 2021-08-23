@@ -144,5 +144,7 @@
              onLeftClick="manage-enderchest/open?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
              material="ENDER_CHEST"/>
 
-    <@commons.backButton action=backAction backSlot=26/>
+    <#if backAction??>
+        <@commons.backButton action=backAction backSlot=26/>
+    </#if>
 </TubingGui>
