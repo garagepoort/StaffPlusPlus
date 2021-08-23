@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.application.session.synchronizers;
+package net.shortninja.staffplus.core.application.session.enhancers;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;

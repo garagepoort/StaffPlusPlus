@@ -1,9 +1,11 @@
-package net.shortninja.staffplus.core.domain.player.settings;
+package net.shortninja.staffplus.core.application.session.enhancers;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
 import net.shortninja.staffplus.core.application.session.SessionEnhancer;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.mode.ModeProvider;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import org.bukkit.Bukkit;
