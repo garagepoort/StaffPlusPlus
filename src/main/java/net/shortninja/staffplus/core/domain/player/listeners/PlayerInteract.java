@@ -160,7 +160,7 @@ public class PlayerInteract implements Listener {
                 gadgetHandler.onRandomTeleport(player);
                 break;
             case VANISH:
-                gadgetHandler.onVanish(player, true);
+                gadgetHandler.onVanish(player);
                 break;
             case GUI_HUB:
                 gadgetHandler.onGuiHub(player);
