@@ -54,12 +54,12 @@ public class StaffModeItemsService {
             if (!module.isPresent()) {
                 logger.warning("No module found with name [" + moduleName + "]. Skipping...");
             } else {
-                addModeItem(player, session, module.get(), slot, modeConfiguration);
+                setModeItem(player, session, module.get(), slot, modeConfiguration);
             }
         });
     }
 
-    private void addModeItem(Player player, PlayerSettings session, ModeItemConfiguration modeItem, int slot, GeneralModeConfiguration modeConfiguration) {
+    public void setModeItem(Player player, PlayerSettings session, ModeItemConfiguration modeItem, int slot, GeneralModeConfiguration modeConfiguration) {
         if (!modeItem.isEnabled()) {
             return;
         }
