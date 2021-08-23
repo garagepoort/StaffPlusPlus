@@ -4,6 +4,7 @@
 
 ### Features
   - New Players overview guis implemented
+  - Add blocked commands for muted players
 
 ### Bug fixes
   - Report reject quick action changed status to resolved when no resolve-reason mandatory
