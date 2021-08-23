@@ -62,20 +62,20 @@ public class StaffModeService {
     }
 
     private void switchStaffMode(Player player, GeneralModeConfiguration modeConfiguration) {
-        PlayerSettings session = playerSettingsRepository.get(player);
+        PlayerSettings playerSettings = playerSettingsRepository.get(player);
         Optional<ModeData> existingModeData = modeDataRepository.retrieveModeData(player.getUniqueId());
         if (!existingModeData.isPresent()) {
             return;
         }
 
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
-        session.setModeConfiguration(modeConfiguration);
-        playerSettingsRepository.save(session);
+        playerSettings.setModeConfiguration(modeConfiguration);
+        playerSettingsRepository.save(playerSettings);
         sendEvent(new SwitchStaffModeEvent(player.getName(),
             player.getUniqueId(),
             player.getLocation(),
             options.serverName,
-            session.getName(),
+            playerSettings.getName(),
             modeConfiguration.getName(),
             existingModeData.get()));
     }
