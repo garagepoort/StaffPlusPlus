@@ -359,6 +359,11 @@ kick-module:
 mute-module:
   # Whether or not the plugin will use "/mute player" features.
   enabled: true
+  # Commands that get blocked when a player is muted
+  blocked-commands:
+      - msg
+      - whisper
+      - tell
 ############################################################
 # +------------------------------------------------------+ #
 # |                      MUTING                       | #
