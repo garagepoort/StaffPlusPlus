@@ -155,17 +155,9 @@ public class GadgetHandler {
         player.teleport(currentPlayer);
     }
 
-    public void onVanish(Player player, boolean shouldUpdateItem) {
-        ItemStack item = player.getItemInHand();
-        int slot = JavaUtils.getItemSlot(player.getInventory(), item);
-
-
+    public void onVanish(Player player) {
         PlayerSettings settings = playerSettingsRepository.get(player);
         GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, settings.getModeName().get());
-        if (shouldUpdateItem && item != null) {
-            player.getInventory().remove(item);
-            player.getInventory().setItem(slot, options.staffItemsConfiguration.getVanishModeConfiguration().getModeVanishItem(settings, modeConfiguration.getModeVanish()));
-        }
 
         bukkitUtils.runTaskAsync(() -> {
             if (settings.getVanishType() == modeConfiguration.getModeVanish()) {
