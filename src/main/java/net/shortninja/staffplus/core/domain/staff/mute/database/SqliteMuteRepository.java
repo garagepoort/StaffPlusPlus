@@ -24,8 +24,8 @@ public class SqliteMuteRepository extends AbstractSqlMuteRepository {
     @Override
     public int addMute(Mute mute) {
         try (Connection connection = getConnection();
-             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_muted_players(reason, player_uuid, player_name, issuer_uuid, issuer_name, end_timestamp, creation_timestamp, server_name) " +
-                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?);")) {
+             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_muted_players(reason, player_uuid, player_name, issuer_uuid, issuer_name, end_timestamp, creation_timestamp, server_name, soft_mute) " +
+                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);")) {
             connection.setAutoCommit(false);
             insert.setString(1, mute.getReason());
             insert.setString(2, mute.getTargetUuid().toString());
@@ -39,6 +39,7 @@ public class SqliteMuteRepository extends AbstractSqlMuteRepository {
             }
             insert.setLong(7, mute.getCreationTimestamp());
             insert.setString(8, options.serverName);
+            insert.setBoolean(9, mute.isSoftMute());
             insert.executeUpdate();
 
             Statement statement = connection.createStatement();
