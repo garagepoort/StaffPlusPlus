@@ -359,6 +359,8 @@ kick-module:
 mute-module:
   # Whether or not the plugin will use "/mute player" features.
   enabled: true
+  # Will the player know he is muted.
+  default-soft-mutes: false
   # Commands that get blocked when a player is muted
   blocked-commands:
       - msg

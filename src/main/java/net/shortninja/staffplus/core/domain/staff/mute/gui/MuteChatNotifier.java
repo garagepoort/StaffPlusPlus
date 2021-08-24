@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplusplus.mute.IMute;
 import net.shortninja.staffplusplus.mute.MuteEvent;
 import net.shortninja.staffplusplus.mute.UnmuteEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -25,7 +26,7 @@ public class MuteChatNotifier implements Listener {
     }
 
     @EventHandler
-    public void notifyPlayerMuted(MuteEvent event) {
+    public void onMuteEvent(MuteEvent event) {
         IMute mute = event.getMute();
         if (mute.getEndTimestamp() == null) {
             String message = replaceMutePlaceholders(messages.permanentMuted, mute);
@@ -43,4 +44,10 @@ public class MuteChatNotifier implements Listener {
         messages.sendGroupMessage(unmuteMessage, muteConfiguration.staffNotificationPermission, messages.prefixGeneral);
     }
 
+    public void notifyPlayerMuted(IMute mute, Player player) {
+        if (!mute.isSoftMute()) {
+            String message = replaceMutePlaceholders(messages.muted, mute);
+            this.messages.send(player, message, messages.prefixGeneral);
+        }
+    }
 }

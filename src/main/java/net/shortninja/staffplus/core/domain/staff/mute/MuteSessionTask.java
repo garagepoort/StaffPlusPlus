@@ -37,7 +37,7 @@ public class MuteSessionTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if(!muteConfiguration.muteEnabled) {
+        if (!muteConfiguration.muteEnabled) {
             return;
         }
 
@@ -48,16 +48,18 @@ public class MuteSessionTask extends BukkitRunnable {
             .filter(OnlinePlayerSession::isMuted)
             .collect(Collectors.toList());
 
-        for (OnlinePlayerSession mutedSession : mutedSessions) {
+        mutedSessions.forEach(mutedSession -> {
             Optional<Player> onlinePlayer = getPlayer(onlinePlayers, mutedSession);
-            if(onlinePlayer.isPresent()) {
-                boolean playerIsMuted = activeMutes.stream().anyMatch(mute -> mute.getTargetUuid().equals(onlinePlayer.get().getUniqueId()));
-                mutedSession.setMuted(playerIsMuted);
-                if (!playerIsMuted) {
-                    messages.send(onlinePlayer.get().getPlayer(), messages.muteExpired, messages.prefixGeneral);
+            if (onlinePlayer.isPresent()) {
+                Optional<Mute> activeMute = activeMutes.stream().filter(mute -> mute.getTargetUuid().equals(onlinePlayer.get().getUniqueId())).findFirst();
+                mutedSession.setMuted(activeMute.isPresent());
+                if (!activeMute.isPresent()) {
+                    muteService.getLastMute(onlinePlayer.get().getUniqueId())
+                        .filter(m -> !m.isSoftMute())
+                        .ifPresent(mute -> messages.send(onlinePlayer.get().getPlayer(), messages.muteExpired, messages.prefixGeneral));
                 }
             }
-        }
+        });
     }
 
     @NotNull
