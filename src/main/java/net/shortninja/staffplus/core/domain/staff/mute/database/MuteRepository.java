@@ -34,4 +34,6 @@ public interface MuteRepository {
     long getTotalCount();
 
     long getActiveCount();
+
+    Optional<Mute> getLastMute(UUID playerUuid);
 }

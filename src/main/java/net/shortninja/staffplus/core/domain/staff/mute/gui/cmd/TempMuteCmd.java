@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
@@ -32,19 +31,15 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 @Command(
     command = "commands:tempmute",
     description = "Temporary mute a player",
-    usage = "[player] [amount] [unit] [reason]",
+    usage = "[player] [amount] [unit] [reason] [-soft]",
     delayable = true,
     playerRetrievalStrategy = BOTH,
     permissions = "permissions:tempmute"
 )
 @IocBean(conditionalOnProperty = "mute-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
-public class TempMuteCmd extends AbstractCmd {
+public class TempMuteCmd extends AbstractMuteCmd {
 
-    private final MuteService muteService;
-    private final PermissionHandler permissionHandler;
-    private final PlayerManager playerManager;
-    private final MuteConfiguration muteConfiguration;
     private final BukkitUtils bukkitUtils;
 
     public TempMuteCmd(PermissionHandler permissionHandler,
@@ -53,11 +48,7 @@ public class TempMuteCmd extends AbstractCmd {
                        CommandService commandService,
                        PlayerManager playerManager,
                        MuteConfiguration muteConfiguration, BukkitUtils bukkitUtils) {
-        super(messages, permissionHandler, commandService);
-        this.muteService = muteService;
-        this.permissionHandler = permissionHandler;
-        this.playerManager = playerManager;
-        this.muteConfiguration = muteConfiguration;
+        super(permissionHandler, messages, muteService, commandService, playerManager, muteConfiguration);
         this.bukkitUtils = bukkitUtils;
     }
 
@@ -71,7 +62,7 @@ public class TempMuteCmd extends AbstractCmd {
         String timeUnit = args[2];
         String reason = JavaUtils.compileWords(args, 3);
 
-        bukkitUtils.runTaskAsync(sender, () -> muteService.tempMute(sender, player, TimeUnit.getDuration(timeUnit, amount), reason));
+        bukkitUtils.runTaskAsync(sender, () -> muteService.tempMute(sender, player, TimeUnit.getDuration(timeUnit, amount), reason, isSoftMute(optionalParameters)));
         return true;
     }
 
