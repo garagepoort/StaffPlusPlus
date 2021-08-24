@@ -40,6 +40,20 @@ public class BukkitUtils {
         });
     }
 
+    public void runTaskLater(CommandSender sender, Runnable runnable) {
+        getScheduler().runTaskLater(StaffPlus.get(), () -> {
+            try {
+                runnable.run();
+            } catch (BusinessException e) {
+                messages.send(sender, e.getMessage(), e.getPrefix());
+            }
+        }, 1);
+    }
+
+    public void runTaskLater(Runnable runnable) {
+        this.runTaskLater(Bukkit.getConsoleSender(), runnable);
+    }
+
     public void runTaskAsync(Runnable runnable) {
         this.runTaskAsync(Bukkit.getConsoleSender(), runnable);
     }
