@@ -25,8 +25,9 @@ public class Mute implements IMute, Infraction, Evidence {
     private UUID unmutedByUuid;
     private String unmuteReason;
     private String serverName;
+    private boolean softMute;
 
-    public Mute(int id, String reason, Long creationDate, Long endDate, String targetName, UUID playerUuid, String issuerName, UUID issuerUuid, String unmutedByName, UUID unmutedByUuid, String unmuteReason, String serverName) {
+    public Mute(int id, String reason, Long creationDate, Long endDate, String targetName, UUID playerUuid, String issuerName, UUID issuerUuid, String unmutedByName, UUID unmutedByUuid, String unmuteReason, String serverName, boolean softMute) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
@@ -39,22 +40,25 @@ public class Mute implements IMute, Infraction, Evidence {
         this.unmutedByUuid = unmutedByUuid;
         this.unmuteReason = unmuteReason;
         this.serverName = serverName;
+        this.softMute = softMute;
     }
 
-    public Mute(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID playerUuid) {
+    public Mute(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID playerUuid, boolean softMute) {
         this.reason = reason;
         this.targetName = targetName;
         this.issuerName = issuerName;
+        this.softMute = softMute;
         this.creationDate = System.currentTimeMillis();
         this.endDate = endDate;
         this.targetUuid = playerUuid;
         this.issuerUuid = issuerUuid;
     }
 
-    public Mute(String reason, String issuerName, UUID issuerUuid, String targetName, UUID playerUuid) {
+    public Mute(String reason, String issuerName, UUID issuerUuid, String targetName, UUID playerUuid, boolean softMute) {
         this.reason = reason;
         this.targetName = targetName;
         this.issuerName = issuerName;
+        this.softMute = softMute;
         this.creationDate = System.currentTimeMillis();
         this.targetUuid = playerUuid;
         this.issuerUuid = issuerUuid;
@@ -175,5 +179,10 @@ public class Mute implements IMute, Infraction, Evidence {
 
     public boolean hasEnded() {
         return endDate != null && endDate <= System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean isSoftMute() {
+        return softMute;
     }
 }

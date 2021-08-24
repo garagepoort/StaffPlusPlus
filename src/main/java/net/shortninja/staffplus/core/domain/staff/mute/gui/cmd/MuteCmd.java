@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
@@ -33,12 +32,7 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.B
 )
 @IocBean(conditionalOnProperty = "mute-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
-public class MuteCmd extends AbstractCmd {
-
-    private final PermissionHandler permissionHandler;
-    private final MuteService muteService;
-    private final PlayerManager playerManager;
-    private final MuteConfiguration muteConfiguration;
+public class MuteCmd extends AbstractMuteCmd {
 
     public MuteCmd(PermissionHandler permissionHandler,
                    Messages messages,
@@ -46,18 +40,14 @@ public class MuteCmd extends AbstractCmd {
                    CommandService commandService,
                    PlayerManager playerManager,
                    MuteConfiguration muteConfiguration) {
-        super(messages, permissionHandler, commandService);
-        this.permissionHandler = permissionHandler;
-        this.muteService = muteService;
-        this.playerManager = playerManager;
-        this.muteConfiguration = muteConfiguration;
+        super(permissionHandler, messages, muteService, commandService, playerManager, muteConfiguration);
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         String reason = JavaUtils.compileWords(args, 1);
 
-        muteService.permMute(sender, player, reason);
+        muteService.permMute(sender, player, reason, isSoftMute(optionalParameters));
         return true;
     }
 

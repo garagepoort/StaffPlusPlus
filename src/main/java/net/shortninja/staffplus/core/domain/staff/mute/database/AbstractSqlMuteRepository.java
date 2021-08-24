@@ -175,6 +175,23 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     }
 
     @Override
+    public Optional<Mute> getLastMute(UUID playerUuid) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_muted_players WHERE player_uuid = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
+            ps.setString(1, playerUuid.toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildMute(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
@@ -284,7 +301,8 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
             unmutedByName,
             unmutedByUUID,
             rs.getString("unmute_reason"),
-            serverName);
+            serverName,
+            rs.getBoolean("soft_mute"));
     }
 
     private String getPlayerName(UUID uuid) {

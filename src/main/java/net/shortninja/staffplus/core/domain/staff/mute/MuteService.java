@@ -47,13 +47,13 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
         this.muteConfiguration = muteConfiguration;
     }
 
-    public void permMute(CommandSender issuer, SppPlayer playerToMute, String reason) {
-        mute(issuer, playerToMute, reason, null);
+    public void permMute(CommandSender issuer, SppPlayer playerToMute, String reason, boolean softMute) {
+        mute(issuer, playerToMute, reason, null, softMute);
     }
 
-    public void tempMute(CommandSender issuer, SppPlayer playerToMute, Long durationInMillis, String reason) {
+    public void tempMute(CommandSender issuer, SppPlayer playerToMute, Long durationInMillis, String reason, boolean softMute) {
         this.checkDurationPermission(issuer, durationInMillis);
-        mute(issuer, playerToMute, reason, durationInMillis);
+        mute(issuer, playerToMute, reason, durationInMillis, softMute);
     }
 
     public Optional<Mute> getMuteByMutedUuid(UUID playerUuid) {
@@ -95,7 +95,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
         unmute(mute);
     }
 
-    private void mute(CommandSender issuer, SppPlayer playerToMute, String reason, Long durationInMillis) {
+    private void mute(CommandSender issuer, SppPlayer playerToMute, String reason, Long durationInMillis, boolean softMute) {
         if (playerToMute.isOnline() && permission.has(playerToMute.getPlayer(), muteConfiguration.permissionMuteByPass)) {
             throw new BusinessException("&CThis player bypasses being muted");
         }
@@ -109,7 +109,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID;
 
         Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
-        Mute mute = new Mute(reason, endDate, issuerName, issuerUuid, playerToMute.getUsername(), playerToMute.getId());
+        Mute mute = new Mute(reason, endDate, issuerName, issuerUuid, playerToMute.getUsername(), playerToMute.getId(), softMute);
         mute.setId(muteRepository.addMute(mute));
         sendEvent(new MuteEvent(mute));
     }
@@ -161,5 +161,9 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
 
     private void checkDurationPermission(CommandSender player, long durationProvided) {
         permission.validateDuration(player, muteConfiguration.permissionTempmutePlayer + LIMIT, durationProvided);
+    }
+
+    public Optional<Mute> getLastMute(UUID playerUuid) {
+        return muteRepository.getLastMute(playerUuid);
     }
 }
