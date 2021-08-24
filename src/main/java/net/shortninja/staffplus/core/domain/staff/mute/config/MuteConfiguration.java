@@ -10,6 +10,8 @@ public class MuteConfiguration {
 
     @ConfigProperty("mute-module.enabled")
     public boolean muteEnabled;
+    @ConfigProperty("mute-module.default-soft-mutes")
+    public boolean defaultSoftMutes;
     @ConfigProperty("mute-module.blocked-commands")
     public List<String> blockedCommands;
 
