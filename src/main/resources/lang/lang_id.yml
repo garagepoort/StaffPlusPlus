@@ -1,0 +1,310 @@
+# Language: Indonesia
+# Status: COMPLETE
+# Contributor(s): https://www.instagram.com/omprw/
+# 
+# Biarkan kosong jika kamu tidak ingin menggunakannya!
+# Pengganti hanya tersedia pada pesan bawaan.
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Prefixes                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# The prefix for all messages that are not related to any specific module.
+general-prefix: '&dStaff++ &8»'
+
+# The prefix for all messages related to warnings.
+warnings-prefix: '&dPeringatan &8»'
+
+# The prefix for all ticket messages
+tickets-prefix: '&dTiket &8»'
+trace-prefix: '&dMelacak &8»'
+protect-prefix: '&dDilindungi &8»'
+investigations-prefix: '&dInvestigasi &8»'
+############################################################
+# +------------------------------------------------------+ #
+# |                       General                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+# This is the color that will be used for things like commas in message lists.
+separator-color: '&b'
+
+# Lines are separated by commas
+staff-list-start: '&7%longline%'
+staff-list-member: '&b%player% &%statuscolor%•'
+# Lines are separated by commas
+staff-list-end: '&7%longline%'
+
+lockdown: '&bServer sedang dikunci untuk tujuan keamanan . Info lebih lanjut @ &7shortninja.net&b!'
+
+revived-staff: '&bTas &7%target%''s &btelah dikembalikan ke keadaan sebelumnya!'
+revived-user: '&bTas Anda telah dikembalikan ke keadaan sebelumnya!'
+
+command-blocked: '&bPerintah itu dikunci oleh staf!'
+mode-command-blocked: '&bPerintah itu dikunci saat menjadi staff!'
+on-cooldown: '&bAnda tidak bisa menggunakan itu selama &7%seconds% &bseconds.'
+
+note-added: '&bCatatan ditambahkan untuk &7%target%&b.'
+note-cleared: '&bCatatan dibersihkan untuk &7%target%&b.'
+note-list-start: '&7%longline%'
+note-list-entry: '&b%count% &7%note%'
+# Lines are separated by commas
+note-list-end: '&7%longline%'
+player-not-registered: Pemain ini tidak tersedia
+
+login-register: '&bSetelah Anda menjadi staf, Anda harus mendaftarkan kata sandi Anda agar akun Anda tidak dicuri. Gunakan &7/register &buntuk mendaftar.'
+login-registered: '&bKata sandi diterima! Anda akan dimintai kata sandi setiap Anda login.'
+login-waiting: '&bAnda dibekukan! Harap masukan kata sandi staf.'
+login-accepted: '&bMasuk.'
+passwords-dont-match: '&bKata sandi salah'
+
+no-permission: '&cAnda tidak memiliki izin untuk melakukan itu!'
+bypassed: '&cPemain itu melewati perintah tersebut!'
+player-offline: '&cPemain tersebut sedang luring!'
+unknown-command: '&cPerintah tidak diketahui.'
+invalid-arguments: '&cArgumen salah! (%usage%)'
+only-players: '&bHanya pemain yang boleh menggunakan perintah tersebut!'
+no-found: '&bTIDAK DITEMUKAN!'
+type-input: '&bMasukkan masukan Anda di obrolan!'
+input-accepted: '&bMasukan diterima dan dikirimkan.'
+enabled: aktif
+disabled: nonaktif
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Infractions                     | #
+# +------------------------------------------------------+ #
+############################################################
+reports:
+    # The prefix for all messages related to reports.
+    prefix: '&dLaporan &8»'
+    reporter.report-created: '&bLaporan &7%culprit% &bkarena &7%reason%&b.'
+    reporter.report-player-created: '&bLaporan &7%culprit% &bkarena &7%reason%&b.'
+    reporter.report-rejected: '&7Laporanmu ditolak oleh &6%staff%&7.'
+    reporter.report-resolved: '&7Laporanmu diselesaikan oleh &6%staff%&7.'
+    reporter.report-accepted: '&7Laporanmu diterima oleh &6%staff%&7.'
+    reporter.view-reports-button: '&9Lihat laporanmu!'
+    reporter.view-reports-button-tooltip: "Tekan untuk melihat laporanmu"
+
+    report-created-notification: '&7%reporter% &btelah membuat laporan karna &7%reason%&b.'
+    report-player-created-notification: '&7%reporter% &btelah melaporkan %culprit% karna &7%reason%&b.'
+    report-reopened-notification: '&b%staff% &7membuka kembali laporan dari &6%reporter%'
+    report-deleted-notification: '&b%staff% &7menghapus laporan dari &6%reporter%'
+    report-accepted-notification: '&b%staff% &7telah menerima laporan dari &6%reporter%'
+    report-closed-notification: '&6%staff% &fmengganti status menjadi &6%status% &fPelapor: &6%reporter%'
+    reports-cleared: '&bLaporan dibersihkan untuk &7%culprit%&b!'
+
+    # Lines are separated by commas.
+    reports-list-start: '&7%longline%, &7%target% &bmemiliki &7%reports% &blaporan.'
+    reports-list-entry: '&b%count%: &7%reason% (%reporter%)'
+    # Lines are separated by commas.
+    reports-list-end: '&7%longline%'
+
+warned: '&bDiperingati &7%target% &bkarena &7%reason%&b.'
+warn: '&bKamu diperingati karena &7%reason%&b.'
+warnings-cleared: '&bPeringatan dihapus untuk &7%target%&b!'
+# Lines are separated by commas.
+warnings-list-start: '&7%longline%, &7%target% &boleh &7%warnings% &bperingatan.'
+warnings-list-entry: '&b%count%: &7%reason% (%issuer%)'
+# Lines are separated by commas.
+warnings-list-end: '&7%longline%'
+warnings-notify: kamu telah %warningsCount% peringatan baru!
+warned-announcement: '&7%issuer% &btelah memperingati &7%target% &bkarena &7%reason%&b.'
+
+# Lines are separated by commas.
+infraction-item: '&bPeringatan: &7%warnings%, &bLaporan: &7%reports%, &bDilaporkan karena: &7%reason%'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Chat                          | #
+# +------------------------------------------------------+ #
+############################################################
+
+staff-chat-status: '&bObrolan staf &7%status%&b.'
+staff-chat-muted: '&bObrolan staf &7dibisukan&b.'
+staff-chat-unmuted: '&bObrolan staf &7tidak dibisukan&b.'
+
+chat-clear-line: ''
+chat-cleared: '&bObrolan telah dibersihkan oleh &7%player%&b.'
+chat-toggled: '&bObrolan telah &7%status% &boleh &7%player%&b.'
+chat-prevented: '&bKamu tidak diperbolehkan menggirimkan obrolan!'
+chat-slowed: '&bObrolan diperlambat &7%seconds% detik &boleh &7%player%&b.'
+chatting-fast: '&bKamu mengirimkan obrolan terlalu cepat!'
+
+blacklist-hover: '&bPesan ini disensor: &7%censoredlist%&b.'
+blacklist-censor-color: ''
+blacklist-chat-format: '&7%player% &8» &7%message%'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                        Vanish                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+total-vanish: '&bAnda benar benar menghilang &7%status%&b!'
+list-vanish: '&bAnda menghilang dari list &7%status%&b!'
+player-vanish: '&bPemain Anda benar benar menghilang &7%status%&b!'
+vanish-enabled: '&2Menghilang diaktifkan'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Tickets                        | #
+# +------------------------------------------------------+ #
+############################################################
+
+ticket-submitted: '&bTiket Anda terkirim! &7(#%ticket%)'
+ticket-opened: '&bTiket &7#%ticket% &btelah dibuka oleh Anda!'
+ticket-removed: '&bTiket &7#%ticket% &btelah diselesaikan! (%reason%)'
+ticket-response-staff: '&b#%ticket% - Staf: &7%player% &8» &7%message%'
+ticket-response-user: '&b#%ticket% - Pengguna: &7%player% &8» &7%message%'
+ticket: '&b#%ticket%: &7%player% &8» &7%message%'
+ticket-not-found: '&bTiket itu tidak ditemukan atau sudah ditutup!'
+# Lines are separated by commas.
+ticket-list-start: '&7%longline%, &7%tickets% &bmembuka tiket'
+ticket-list-entry: '&b#%ticket% - %target%: &7%message%'
+# Lines are separated by commas.
+ticket-list-end: '&7%longline%'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                       Alerts                         | #
+# +------------------------------------------------------+ #
+############################################################
+
+alert-changed: '&7%alerttype% &7%status%&b.'
+alerts-name: '&7%old% &bmengganti nama Dia menjadi &7%new%&b!'
+alerts-chat-phrase-detected: '&7%target% &bmengirimkan pesan dengan kata (&7%detectedPhrases%&b)'
+alerts-mention: '&7%target% &bmenandai Anda!'
+alerts-xray: '&7%target% &btelah menambang &7%count% %itemtype%&b! &7(%lightlevel%&7)'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Staff Mode                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+mode-status: '&bMode staf sekarang adalah &7%status%&b.'
+mode-original-location: '&bAnda telah berpindah ke posisi awal!'
+mode-random-teleport: '&bKamu berpindah ke tempat acak!'
+mode-not-enough-players: '&bTidak cukup pemain untuk berpindah acak!'
+
+gui-reports: '&bLaporan'
+gui-mine: '&bPenambang'
+gui-miner: '&b%player% @ &7%locationy%'
+gui-counted: '&b%player%'
+
+# Lines are separated by commas.
+freeze: '&4&lKamu telah dibekukan! Jangan keluar dari game!, &4&lSilahkan bergabung ke @ shortninja.net'
+# Lines are separated by commas.
+unfrozen: '&bAnda sudah tidak dibekukan.'
+staff-froze: '&bAnda membekukan &7%target%&b.'
+staff-unfroze: '&bAnda tidak membekukan &7%target%&b.'
+freeze-logout: '&7%player% &bkeluar saat dibekukan!'
+freeze-title: '&6Anda telah dibekukan'
+freeze-subtitle: Jangan keluar saat dibekukan!
+
+cps-start: '&bMelakukan tes CPS &7%target% &bselama &7%seconds% &bseconds...'
+cps-finish-normal: '&7%player% &bsekitar &7%cps% &bCPS. &7(mungkin tidak berbahaya)'
+cps-finish-max: '&7%player% &bsekitar &7%cps% &bCPS. &7(kemungkinan autoclick)'
+
+# Lines are separated by commas
+examine-food: '&bNyawa: &7%health%, &bLapar: &7%hunger%'
+examine-ip: '&bAlamat IP: &7%ipaddress%'
+examine-gamemode: '&bGamemode: &7%gamemode%'
+examine-location: '&bLokasi: &7%location%'
+examine-warn: '&bMemperingati pemain ini'
+examine-freeze: '&bMembekukan pemain ini'
+examine-notes: '&bCatatan Pemain:'
+# All notes are separated on new lines.
+examine-notes-note: '&b%player%: &7%note%'
+
+follow: '&bAnda sekarang &7%status% %target%&b.'
+strip: '&7%player%''s Anda ditelanjangi!'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Banning                          | #
+# +------------------------------------------------------+ #
+############################################################
+ban-permabanned: '&6%target% telah dibanned permanen oleh %issuer%'
+ban-tempbanned: '&6%target% telah dibanned oleh %issuer% selama %duration%'
+ban-unbanned: '&6%target% telah unbanned permanen oleh %issuer%'
+ban-extended: '&7Banned Anda telah diperpanjang &6%target%&7''s selama %extensionDuration%'
+ban-reduced: '&7Banned Anda telah diperpendek &6%target%&7''s selama %reductionDuration%'
+
+ban-tempbanned-kick: '[Banned] Anda dibanned sementara. Ban ends in: %duration%'
+ban-permabanned-kick: '[Banned] Anda dibanned permanen'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Ip-banning                          | #
+# +------------------------------------------------------+ #
+############################################################
+ipbans:
+    prefix: '&dBans &8»'
+    permabanned: '&6%issuer% telah dibanned alamat ip %ip% dari server'
+    tempbanned: '&6%issuer% telah dibanned alamat ip %ip% dari server selama %duration%'
+    unbanned: '&6%issuer% telah dibanned alamat ip %ip%  dari server'
+    tempbanned-kick: '[Banned] Alamat ipmu dibanned sementara dari server'
+    permabanned-kick: '[Banned] Alamat ipmu dibanned selamanya dari server'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     KICKING                          | #
+# +------------------------------------------------------+ #
+############################################################
+kick-notifyplayers: '&6%target% telah ditendang dari server %issuer%'
+kick-kickmessage: '&6Anda telah ditendang dari server oleh %issuer%. Alasan: %reason%'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Muting                          | #
+# +------------------------------------------------------+ #
+############################################################
+mute-expired: '&6Masa bisu Anda telah selesai. Anda dapat mengobrol kembali.'
+mute-permamuted: '&6%target% telah dibisukan oleh %issuer%'
+mute-unmuted: '&6%target% sudah tidak dibisukan oleh %issuer%'
+mute-tempmuted: '&6%target% dibisukan oleh %issuer% selama %duration%'
+mute-muted: '&6Anda dibisukan. Tidak diperbolehkan mengirim pesan.'
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     APPEALS                          | #
+# +------------------------------------------------------+ #
+############################################################
+appeal-created: '&6Permohonan telah dikirim.'
+appeal-approved: '&6Permohonan telah &2diterima&6.'
+appeal-rejected: '&6Permohonan telah &4ditolak&6.'
+appeal-approve: '&6Permohonan diterima'
+appeal-reject: '&6Permohonan ditolak'
+appeal-open-notify: Ada %appealsCount% permohonan yang belum selesai!
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   INVESTIGATIONS                     | #
+# +------------------------------------------------------+ #
+############################################################
+investigated.investigation-started: '&6Anda memulai investigasi'
+investigated.investigation-paused: '&6Investigasi dihentikan sementara'
+investigated.investigation-concluded: '&6Investigasi telah disimpulkan'
+investigated.under-investigation-title: '&CAnda dalam proses Investigasi'
+investigated.under-investigation-join: '&6Anda sekarang sedang diinvestigasi'
+investigation.staff-notification-started: '&4%investigator% &6telah mulai menginvestigasi &4%investigated%'
+investigation.staff-notification-concluded: '&4%investigator% &6telah memberikan kesimpulan ke investigasi di &4%investigated%'
+investigation.staff-notification-paused: '&4%investigator% &6telah menghentikan sementara investigasi &4%investigated%'
+investigation.staff-notification-evidence-linked: '&4%investigator% &6berhubungan dengan bukti %evidenceType% (ID=%evidenceId%) untuk menginvestigasi (ID=%investigationId%)'
+investigation.staff-notification-evidence-unlinked: '&4%investigator% &6tidak berubungan dengan bukti %evidenceType% (ID=%evidenceId%) dari investigasi (ID=%investigationId%)'
+investigation.staff-notification-note-added: '&4%investigator% &6menambahkan catatan investigasi (ID=%investigationId%)'
+investigation.staff-notification-note-deleted: '&4%investigator% &6menghapus catatan investigasi (ID=%investigationId%)'
+
+ips:
+    prefix: '&dIPs &8»'
+    issuer:
+        history-cleared: '&7Jejak Alamat IP telah dihapus &6%player%'
+    staff-notifications:
+        history-cleared: '&4%issuer% &7 telah menghapus Jejak Alamat IP &6%player%'
+
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU'RE DOING!
+lang-version: 6198
