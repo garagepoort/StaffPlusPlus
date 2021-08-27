@@ -8,10 +8,10 @@ import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplusplus.alerts.AlertType;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public abstract class AlertsHandler {
@@ -33,12 +33,14 @@ public abstract class AlertsHandler {
     }
 
     public List<Player> getPlayersToNotify() {
-        return Bukkit.getOnlinePlayers().stream()
-            .filter(s -> shouldNotify(playerSettingsRepository.get(s), getType()))
+        return sessionManager.getAll().stream()
+            .map(s -> playerManager.getOnlinePlayer(s.getUuid()))
+            .filter(Optional::isPresent)
+            .map(p -> p.get().getPlayer())
+            .filter(p -> shouldNotify(playerSettingsRepository.get(p), getType()))
             .filter(p -> permission.has(p.getPlayer(), getPermission()))
             .collect(Collectors.toList());
     }
-
 
     public boolean shouldNotify(PlayerSettings s, AlertType alertType) {
         return s.getAlertOptions().contains(alertType);
