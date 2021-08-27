@@ -6,6 +6,7 @@
   - New Players overview guis implemented
   - Add blocked commands for muted players
   - Soft mute implemented (Mute players without them knowing)
+  - Add Indonesion language (Thanks to: Whoosh)
 
 ### Bug fixes
   - Report reject quick action changed status to resolved when no resolve-reason mandatory
