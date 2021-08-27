@@ -98,6 +98,7 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
             .filter(p -> !playerSettingsRepository.get(p).isStaffChatMuted(channel.getName()))
             .filter(player -> permissionHandler.has(player, channel.getPermission().orElse(null)))
             .forEach(player -> messages.send(player, formattedMessage, channel.getPrefix()));
+        messages.send(Bukkit.getConsoleSender(), formattedMessage, channel.getPrefix());
     }
 
 }
