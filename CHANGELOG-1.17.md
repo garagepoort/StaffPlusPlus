@@ -11,6 +11,7 @@
   - Report reject quick action changed status to resolved when no resolve-reason mandatory
   - Fix nullpointer on freeze mode item
   - Fix on/off vanish indicator item in staff mode
+  - Vanish action notification was failing
 
 # V1.17.12
 
