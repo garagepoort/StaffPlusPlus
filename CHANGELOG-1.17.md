@@ -7,6 +7,7 @@
   - Add blocked commands for muted players
   - Soft mute implemented (Mute players without them knowing)
   - Add Indonesion language (Thanks to: Whoosh)
+  - Staffchat is now forwarded to console as well
 
 ### Bug fixes
   - Report reject quick action changed status to resolved when no resolve-reason mandatory
