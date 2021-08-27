@@ -25,7 +25,7 @@ public class ProtectListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
-        if (protectService.isLocationProtect(event.getPlayer(), event.getBlockClicked().getLocation())) {
+        if (protectService.isLocationProtected(event.getPlayer(), event.getBlockClicked().getLocation())) {
             event.setCancelled(true);
         }
     }
@@ -34,7 +34,7 @@ public class ProtectListener implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (event.getClickedBlock() != null) {
-            if ((event.getClickedBlock().getState() instanceof Container || event.getClickedBlock().getBlockData() instanceof Powerable) && protectService.isLocationProtect(player, event.getClickedBlock().getLocation())) {
+            if ((event.getClickedBlock().getState() instanceof Container || event.getClickedBlock().getBlockData() instanceof Powerable) && protectService.isLocationProtected(player, event.getClickedBlock().getLocation())) {
                 event.setCancelled(true);
             }
         }
@@ -43,14 +43,14 @@ public class ProtectListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (protectService.isLocationProtect(player, event.getBlock().getLocation())) {
+        if (protectService.isLocationProtected(player, event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent event) {
-        if (protectService.isLocationProtect(event.getPlayer(), event.getBlock().getLocation())) {
+        if (protectService.isLocationProtected(event.getPlayer(), event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
     }

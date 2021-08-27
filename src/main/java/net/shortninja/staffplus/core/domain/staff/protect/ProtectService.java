@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class ProtectService {
         this.playerSettingsRepository = playerSettingsRepository;
     }
 
-    public boolean isLocationProtect(Player player, Location location) {
+    public boolean isLocationProtected(Player player, Location location) {
         if (playerSettingsRepository.get(player).isInStaffMode()) {
             return false;
         }
@@ -93,7 +94,7 @@ public class ProtectService {
 
     public List<ProtectedArea> getAllProtectedAreas() {
         if (protectedAreas == null) {
-            this.protectedAreas = protectedAreaRepository.getProtectedAreas();
+            this.protectedAreas = Collections.synchronizedList(protectedAreaRepository.getProtectedAreas());
         }
         return protectedAreas;
     }

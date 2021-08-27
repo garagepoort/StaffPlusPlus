@@ -44,7 +44,8 @@ public class VanishPlayersBukkitService implements Listener {
         vanishStrategies.stream()
             .filter(v -> v.getVanishType() == vanishType)
             .findFirst()
-            .orElseThrow(() -> new BusinessException("&CNo Suitable vanish strategy found for type [" + vanishType + "]")).vanish(player);
+            .orElseThrow(() -> new BusinessException("&CNo Suitable vanish strategy found for type [" + vanishType + "]"))
+            .vanish(player);
     }
 
     public void updateVanish(Player player) {
