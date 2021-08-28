@@ -71,6 +71,7 @@ public class StaffModeService {
         vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
         playerSettings.setModeConfiguration(modeConfiguration);
         playerSettingsRepository.save(playerSettings);
+
         sendEvent(new SwitchStaffModeEvent(player.getName(),
             player.getUniqueId(),
             player.getLocation(),

@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.follow.FollowModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.playerdetails.PlayerDetailsModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport.RandomTeleportModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
 
@@ -21,6 +22,7 @@ public class StaffItemsConfiguration {
     private final GuiModeConfiguration guiModeConfiguration;
     private final RandomTeleportModeConfiguration randomTeleportModeConfiguration;
     private final VanishModeConfiguration vanishModeConfiguration;
+    private final PlayerDetailsModeConfiguration playerDetailsModeConfiguration;
 
     public StaffItemsConfiguration(CompassModeConfiguration compassModeConfiguration,
                                    CounterModeConfiguration counterModeConfiguration,
@@ -30,7 +32,7 @@ public class StaffItemsConfiguration {
                                    FreezeModeConfiguration freezeModeConfiguration,
                                    GuiModeConfiguration guiModeConfiguration,
                                    RandomTeleportModeConfiguration randomTeleportModeConfiguration,
-                                   VanishModeConfiguration vanishModeConfiguration) {
+                                   VanishModeConfiguration vanishModeConfiguration, PlayerDetailsModeConfiguration playerDetailsModeConfiguration) {
         this.compassModeConfiguration = compassModeConfiguration;
         this.counterModeConfiguration = counterModeConfiguration;
         this.cpsModeConfiguration = cpsModeConfiguration;
@@ -41,6 +43,7 @@ public class StaffItemsConfiguration {
         this.randomTeleportModeConfiguration = randomTeleportModeConfiguration;
         this.vanishModeConfiguration = vanishModeConfiguration;
 
+        this.playerDetailsModeConfiguration = playerDetailsModeConfiguration;
     }
 
     public CompassModeConfiguration getCompassModeConfiguration() {
@@ -77,5 +80,9 @@ public class StaffItemsConfiguration {
 
     public GuiModeConfiguration getGuiModeConfiguration() {
         return guiModeConfiguration;
+    }
+
+    public PlayerDetailsModeConfiguration getPlayerDetailsModeConfiguration() {
+        return playerDetailsModeConfiguration;
     }
 }

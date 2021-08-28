@@ -41,7 +41,8 @@ public class StaffModeItemsService {
             options.staffItemsConfiguration.getFreezeModeConfiguration(),
             options.staffItemsConfiguration.getCpsModeConfiguration(),
             options.staffItemsConfiguration.getExamineModeConfiguration(),
-            options.staffItemsConfiguration.getFollowModeConfiguration()
+            options.staffItemsConfiguration.getFollowModeConfiguration(),
+            options.staffItemsConfiguration.getPlayerDetailsModeConfiguration()
         );
     }
 
