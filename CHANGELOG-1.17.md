@@ -4,6 +4,7 @@
 
 ### Features
   - New Players overview guis implemented
+  - New staff mode item: "Player details" stick
   - Add blocked commands for muted players
   - Soft mute implemented (Mute players without them knowing)
   - Add Indonesion language (Thanks to: Whoosh)
@@ -14,6 +15,7 @@
   - Fix nullpointer on freeze mode item
   - Fix on/off vanish indicator item in staff mode
   - Vanish action notification was failing
+  - Switching staff modes was broken
 
 # V1.17.12
 
