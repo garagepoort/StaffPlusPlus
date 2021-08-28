@@ -2,6 +2,9 @@
 
 # V1.17.13 (NOT YET RELEASED)
 
+### Breaking
+  - permission "staff.counter-show-vanished" has been replaced with "staff.player-view.detail.vanished"
+
 ### Features
   - New Players overview guis implemented
   - New staff mode item: "Player details" stick
