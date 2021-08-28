@@ -16,6 +16,8 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.F
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.playerdetails.PlayerDetailsModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.playerdetails.PlayerDetailsModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport.RandomTeleportModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport.RandomTeleportModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish.VanishModeConfiguration;
@@ -33,6 +35,7 @@ public class StaffItemsLoader extends AbstractConfigLoader<StaffItemsConfigurati
     private final GuiModeItemLoader guiModeItemLoader;
     private final RandomTeleportModeItemLoader randomTeleportModeItemLoader;
     private final VanishModeItemLoader vanishModeItemLoader;
+    private final PlayerDetailsModeItemLoader playerDetailsModeItemLoader;
 
     public StaffItemsLoader(CompassModeItemLoader compassModeItemLoader,
                             CounterModeItemLoader counterModeItemLoader,
@@ -42,7 +45,8 @@ public class StaffItemsLoader extends AbstractConfigLoader<StaffItemsConfigurati
                             FreezeModeItemLoader freezeModeItemLoader,
                             GuiModeItemLoader guiModeItemLoader,
                             RandomTeleportModeItemLoader randomTeleportModeItemLoader,
-                            VanishModeItemLoader vanishModeItemLoader) {
+                            VanishModeItemLoader vanishModeItemLoader,
+                            PlayerDetailsModeItemLoader playerDetailsModeItemLoader) {
         this.compassModeItemLoader = compassModeItemLoader;
         this.counterModeItemLoader = counterModeItemLoader;
         this.cpsModeItemLoader = cpsModeItemLoader;
@@ -52,6 +56,7 @@ public class StaffItemsLoader extends AbstractConfigLoader<StaffItemsConfigurati
         this.guiModeItemLoader = guiModeItemLoader;
         this.randomTeleportModeItemLoader = randomTeleportModeItemLoader;
         this.vanishModeItemLoader = vanishModeItemLoader;
+        this.playerDetailsModeItemLoader = playerDetailsModeItemLoader;
     }
 
     @Override
@@ -65,6 +70,7 @@ public class StaffItemsLoader extends AbstractConfigLoader<StaffItemsConfigurati
         GuiModeConfiguration guiModeConfiguration = guiModeItemLoader.loadConfig();
         RandomTeleportModeConfiguration randomTeleportModeConfiguration = randomTeleportModeItemLoader.loadConfig();
         VanishModeConfiguration vanishModeConfiguration = vanishModeItemLoader.loadConfig();
+        PlayerDetailsModeConfiguration playerDetailsModeConfiguration = playerDetailsModeItemLoader.loadConfig();
 
         return new StaffItemsConfiguration(
             compassModeConfiguration,
@@ -75,6 +81,7 @@ public class StaffItemsLoader extends AbstractConfigLoader<StaffItemsConfigurati
             freezeModeConfiguration,
             guiModeConfiguration,
             randomTeleportModeConfiguration,
-            vanishModeConfiguration);
+            vanishModeConfiguration,
+            playerDetailsModeConfiguration);
     }
 }

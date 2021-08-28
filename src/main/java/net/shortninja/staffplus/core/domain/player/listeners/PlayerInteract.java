@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
+import be.garagepoort.mcioc.gui.GuiActionService;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
@@ -18,6 +19,7 @@ import net.shortninja.staffplus.core.domain.staff.mode.handler.CpsHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.CustomModuleExecutor;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.CustomModulePreProcessor;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
+import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetType;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
@@ -35,6 +37,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +62,7 @@ public class PlayerInteract implements Listener {
     private final OnlineSessionsManager sessionManager;
     private final List<CustomModulePreProcessor> customModulePreProcessors;
     private final Messages messages;
+    private final GuiActionService guiActionService;
 
 
     public PlayerInteract(IProtocolService protocolService, CpsHandler cpsHandler,
@@ -67,7 +71,7 @@ public class PlayerInteract implements Listener {
                           PlayerManager playerManager,
                           OnlineSessionsManager sessionManager,
                           @IocMulti(CustomModulePreProcessor.class) List<CustomModulePreProcessor> customModulePreProcessors,
-                          Messages messages) {
+                          Messages messages, GuiActionService guiActionService) {
         this.protocolService = protocolService;
         this.cpsHandler = cpsHandler;
         this.gadgetHandler = gadgetHandler;
@@ -76,6 +80,7 @@ public class PlayerInteract implements Listener {
         this.sessionManager = sessionManager;
         this.customModulePreProcessors = customModulePreProcessors;
         this.messages = messages;
+        this.guiActionService = guiActionService;
 
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
@@ -93,43 +98,49 @@ public class PlayerInteract implements Listener {
         }
 
         OnlinePlayerSession playerSession = sessionManager.get(player);
-        boolean inStaffMode = playerSession.isInStaffMode();
-
-        if (!inStaffMode || item == null) {
+        if (!playerSession.isInStaffMode() || item == null) {
             return;
         }
+
         GeneralModeConfiguration modeConfiguration = playerSession.getModeConfig().get();
-
         if (staffCheckingChest(event, player)) {
+            ChestGUI chestGUI = getStaffChestGui(event, modeConfiguration);
             event.setCancelled(true);
-            Container container = (Container) event.getClickedBlock().getState();
-
-            if (container instanceof Furnace) {
-                new ChestGUI(container.getInventory(), InventoryType.FURNACE, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
-            } else if (container instanceof BrewingStand) {
-                new ChestGUI(container.getInventory(), InventoryType.BREWING, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
-            } else if (container instanceof Dispenser || container instanceof Dropper) {
-                new ChestGUI(container.getInventory(), InventoryType.DISPENSER, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
-            } else if (container instanceof Hopper) {
-                new ChestGUI(container.getInventory(), InventoryType.HOPPER, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
-            } else {
-                // Either Chest, Chest-like or new block.
-                // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
-                int containerSize = container.getInventory().getSize();
-                if (containerSize % 9 != 0) {
-                    Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
-                    containerSize += (9 - containerSize % 9);
-                }
-                new ChestGUI(container.getInventory(), containerSize, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction()).show(player);
-            }
+            chestGUI.show(player);
             return;
         }
 
-        if (inStaffMode && !playerSession.getCurrentGui().isPresent()) {
+        if (!playerSession.getCurrentGui().isPresent()) {
             if (handleInteraction(player, item, action)) {
                 event.setCancelled(true);
             }
         }
+    }
+
+    @NotNull
+    private ChestGUI getStaffChestGui(PlayerInteractEvent event, GeneralModeConfiguration modeConfiguration) {
+        Container container = (Container) event.getClickedBlock().getState();
+
+        ChestGUI chestGUI;
+        if (container instanceof Furnace) {
+            chestGUI = new ChestGUI(container.getInventory(), InventoryType.FURNACE, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction());
+        } else if (container instanceof BrewingStand) {
+            chestGUI = new ChestGUI(container.getInventory(), InventoryType.BREWING, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction());
+        } else if (container instanceof Dispenser || container instanceof Dropper) {
+            chestGUI = new ChestGUI(container.getInventory(), InventoryType.DISPENSER, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction());
+        } else if (container instanceof Hopper) {
+            chestGUI = new ChestGUI(container.getInventory(), InventoryType.HOPPER, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction());
+        } else {
+            // Either Chest, Chest-like or new block.
+            // If it's a non-standard size for some reason, make it work with chests naively and show it. - Will produce errors with onClose() tho.
+            int containerSize = container.getInventory().getSize();
+            if (containerSize % 9 != 0) {
+                Bukkit.getLogger().warning("Non-standard container, expecting an exception below.");
+                containerSize += (9 - containerSize % 9);
+            }
+            chestGUI = new ChestGUI(container.getInventory(), containerSize, ChestGuiType.CONTAINER, modeConfiguration.isModeSilentChestInteraction());
+        }
+        return chestGUI;
     }
 
     private boolean staffCheckingChest(PlayerInteractEvent event, Player player) {
@@ -144,11 +155,11 @@ public class PlayerInteract implements Listener {
             return false;
         }
 
-        GadgetHandler.GadgetType gadgetType = gadgetHandler.getGadgetType(protocolService.getVersionProtocol().getNbtString(item));
+        GadgetType gadgetType = gadgetHandler.getGadgetType(protocolService.getVersionProtocol().getNbtString(item));
         if (staffTimings.containsKey(player)) {
             if (System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
                 //Still cooling down but cancel the event if it is a staff item
-                return gadgetType != GadgetHandler.GadgetType.CUSTOM;
+                return gadgetType != GadgetType.CUSTOM;
             }
         }
 
@@ -191,6 +202,14 @@ public class PlayerInteract implements Listener {
                 break;
             case FOLLOW:
                 gadgetHandler.onFollow(player, JavaUtils.getTargetPlayer(player));
+                break;
+            case PLAYER_DETAILS:
+                playerAction(player, () -> {
+                    Player t = JavaUtils.getTargetPlayer(player);
+                    if (t != null) {
+                        guiActionService.executeAction(player, "players/view/detail?targetPlayerName=" + t.getName());
+                    }
+                });
                 break;
             case CUSTOM:
                 isHandled = handleCustomModule(player, item);
