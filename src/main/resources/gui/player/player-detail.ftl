@@ -1,13 +1,13 @@
 <#import "/gui/bans/ban-commons.ftl" as bancommons/>
 <#import "/gui/mutes/mute-commons.ftl" as mutecommons/>
 <#import "/gui/warnings/warning-commons.ftl" as warningcommons/>
+<#import "/gui/player/player-commons.ftl" as playercommons/>
 <#import "/gui/commons/commons.ftl" as commons/>
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <TubingGui size="27">
     <title>${target.username}</title>
-    <GuiItem slot="0" name="${target.username}" material="SKULL_ITEM"/>
-
+    <@playercommons.playerhead slot=0 sppPlayer=target />
     <GuiItem slot="2"
              if="config|reports-module.enabled"
              permission="config|permissions:reports.manage.view"

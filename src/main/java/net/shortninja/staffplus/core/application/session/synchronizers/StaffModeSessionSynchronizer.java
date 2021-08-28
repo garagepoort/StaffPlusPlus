@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mode.ModeProvider;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
+import net.shortninja.staffplusplus.staffmode.SwitchStaffModeEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -32,6 +33,16 @@ public class StaffModeSessionSynchronizer implements Listener {
                 OnlinePlayerSession onlinePlayerSession = onlineSessionsManager.get(p.getPlayer());
                 onlinePlayerSession.setInStaffMode(true);
                 onlinePlayerSession.setModeConfig(modeProvider.getConfiguration(event.getMode()).orElse(null));
+            });
+    }
+
+    @EventHandler
+    public void onModeSwitch(SwitchStaffModeEvent event) {
+        playerManager.getOnlinePlayer(event.getPlayerUuid())
+            .ifPresent(p -> {
+                OnlinePlayerSession onlinePlayerSession = onlineSessionsManager.get(p.getPlayer());
+                onlinePlayerSession.setInStaffMode(true);
+                onlinePlayerSession.setModeConfig(modeProvider.getConfiguration(event.getToMode()).orElse(null));
             });
     }
 
