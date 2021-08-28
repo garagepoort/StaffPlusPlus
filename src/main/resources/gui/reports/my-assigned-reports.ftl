@@ -14,5 +14,5 @@
         />
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
 </TubingGUi>
