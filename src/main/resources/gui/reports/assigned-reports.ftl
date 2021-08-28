@@ -10,5 +10,5 @@
         onLeftClick="manage-reports/view/detail?reportId=${report.id}&backAction=${URLEncoder.encode(currentAction)}"/>
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
 </TubingGUi>
