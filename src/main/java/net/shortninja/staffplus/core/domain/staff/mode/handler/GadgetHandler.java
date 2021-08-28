@@ -108,6 +108,9 @@ public class GadgetHandler {
         if (options.staffItemsConfiguration.getFollowModeConfiguration().getIdentifier().equals(value)) {
             return GadgetType.FOLLOW;
         }
+        if (options.staffItemsConfiguration.getPlayerDetailsModeConfiguration().getIdentifier().equals(value)) {
+            return GadgetType.PLAYER_DETAILS;
+        }
 
         return GadgetType.CUSTOM;
     }
@@ -255,11 +258,6 @@ public class GadgetHandler {
                 }
             }
         }
-    }
-
-    public enum GadgetType {
-        COMPASS, RANDOM_TELEPORT, VANISH, GUI_HUB, COUNTER, FREEZE, CPS, EXAMINE,
-        FOLLOW, CUSTOM, NO_GADGET;
     }
 
     private Set<Player> getModeUsers() {

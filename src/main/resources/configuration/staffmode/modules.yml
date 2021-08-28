@@ -129,3 +129,9 @@ modules:
         item: LEAD
         name: "&9Follow"
         lore: "&7Mounts the player that was clicked."
+
+    players-module:
+        enabled: true
+        item: STICK
+        name: "&9Details stick"
+        lore: "&7Show all player details."
