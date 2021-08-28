@@ -8,5 +8,5 @@
         <@playercommons.playerhead slot="${p?index}" sppPlayer=p onLeftClick="players/view/detail?targetPlayerName=${p.username}&backAction=${URLEncoder.encode(currentAction)}" />
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
 </TubingGUi>
