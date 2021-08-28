@@ -35,6 +35,10 @@
                           permission="config|permissions:playerView.detail.muted">
                     &CMuted
                 </LoreLine>
+                <LoreLine if="${session.get().vanished?c}"
+                          permission="config|permissions:playerView.detail.vanished">
+                    &9Vanished
+                </LoreLine>
             </#if>
 
             <@commons.line />

@@ -12,8 +12,6 @@ wild-card: "staff.*"
 # Permission for blocking listed commands at "blocked-commands" and "blocked-mode-commands".
 block: "staff.block"
 
-players: "staff.players"
-
 # Permission for reporting players.
 report: "staff.report"
 reports:
@@ -291,6 +289,8 @@ enderchests:
 webui:
     register: "staff.webui.register"
 
+
+players: "staff.players"
 playerView:
     detail:
         food: "staff.player-view.detail.food"
@@ -301,6 +301,7 @@ playerView:
         protected: "staff.player-view.detail.protected"
         investigation: "staff.player-view.detail.investigation"
         muted: "staff.player-view.detail.muted"
+        vanished: "staff.player-view.detail.vanished"
     overview:
         online-players: "staff.player-view.overview.onlineplayers"
         offline-players: "staff.player-view.overview.offlineplayers"

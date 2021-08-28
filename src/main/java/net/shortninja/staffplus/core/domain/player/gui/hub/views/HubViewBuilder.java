@@ -69,7 +69,6 @@ public class HubViewBuilder {
         guiModeConfiguration = options.staffItemsConfiguration.getGuiModeConfiguration();
     }
 
-
     public TubingGui buildGui(Player player) {
         TubingGui.Builder builder = new TubingGui.Builder(messages.colorize(title), 27);
 
