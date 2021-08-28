@@ -43,9 +43,14 @@ public class PlayerSettingsRepository {
             return settingsMap.get(player.getUniqueId());
         }
         if (!dataFileConfiguration.contains(player.getUniqueId().toString())) {
-            return createSession(player);
+            PlayerSettings settings = createSession(player);
+            settingsMap.put(player.getUniqueId(), settings);
+            return settings;
         }
-        return retrieveSettings(player.getUniqueId());
+
+        PlayerSettings playerSettings = retrieveSettings(player.getUniqueId());
+        settingsMap.put(player.getUniqueId(), playerSettings);
+        return playerSettings;
     }
 
     public synchronized PlayerSettings createSession(OfflinePlayer player) {
