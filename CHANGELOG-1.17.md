@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.13 (NOT YET RELEASED)
+# V1.17.13
 
 ### Breaking
   - permission "staff.counter-show-vanished" has been replaced with "staff.player-view.detail.vanished"
@@ -19,6 +19,7 @@
   - Fix on/off vanish indicator item in staff mode
   - Vanish action notification was failing
   - Switching staff modes was broken
+  - Fix performance issues with retrieving player settings.
   - Fix broadcast command not getting disabled when module disabled
 
 # V1.17.12
