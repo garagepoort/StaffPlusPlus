@@ -233,7 +233,9 @@ strip: "&7La armadura de %player% ¡ha sido removida!"
 ############################################################
 ban-permabanned: "&6%target% ha sido baneado permanentemente del servidor por %issuer%"
 ban-tempbanned: "&6%target% ha sido baneado del servidor por %issuer%. Tiempo: %duration%"
-ban-unbanned: "&6%target% ha sido desbaneado por %issuer%"
+ban-unbanned: "&6%target% ha sido desbaneado por %issuer%" 
+ban-extended: "&7Extendiste la duración del baneo a &6%target%&7 en %extensionDuration%"
+ban-reduced: "&7Redijiste la duración del baneo a &6%target%&7 en %reductionDuration%"
 
 ban-tempbanned-kick: "[Baneado] Fuiste baneado temporalmente en este servidor. El baneo terminará en: %duration%"
 ban-permabanned-kick: "[Baneado] Fuiste baneado permanentemente en este servidor"
@@ -280,7 +282,7 @@ appeal-approved: "&6Tu apelación ha sido &2aprovada&6."
 appeal-rejected: "&6Tu apelación ha sido &4rechazada&6."
 appeal-approve: "&6Apelación aprobado"
 appeal-reject: "&6Apelación rechazada"
-appeal-open-notify: "¡Aquí hay %appealsCount% alertas de apelaciones inconclusas!"
+appeal-open-notify: "¡Existen %appealsCount% alertas de apelaciones inconclusas!"
 
 ############################################################
 # +------------------------------------------------------+ #
