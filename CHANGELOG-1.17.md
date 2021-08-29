@@ -19,6 +19,7 @@
   - Fix on/off vanish indicator item in staff mode
   - Vanish action notification was failing
   - Switching staff modes was broken
+  - Fix broadcast command not getting disabled when module disabled
 
 # V1.17.12
 
