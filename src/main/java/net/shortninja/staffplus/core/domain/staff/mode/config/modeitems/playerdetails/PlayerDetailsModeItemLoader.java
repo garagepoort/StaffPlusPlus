@@ -12,7 +12,7 @@ public class PlayerDetailsModeItemLoader extends ModeItemLoader<PlayerDetailsMod
 
     @Override
     protected String getModuleName() {
-        return "players-module";
+        return "player-details-module";
     }
 
     @Override
