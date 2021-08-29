@@ -53,7 +53,7 @@ public class GuiUtils {
     }
 
     public static String getTimePlayed(Player p) {
-        int secondsPlayed = p.getPlayer().getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
+        int secondsPlayed = p.getPlayer().getStatistic(Statistic.PLAY_ONE_TICK) / 20;
         return JavaUtils.toHumanReadableDuration(secondsPlayed * 1000L);
     }
 }
