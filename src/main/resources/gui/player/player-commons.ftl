@@ -15,6 +15,7 @@
                 <LoreLine permission="config|permissions:playerView.detail.gamemode">&bGamemode: &6${sppPlayer.player.gameMode}</LoreLine>
                 <LoreLine permission="config|permissions:playerView.detail.food">&bFood: &6${sppPlayer.player.foodLevel}</LoreLine>
                 <LoreLine permission="config|permissions:playerView.detail.location">&bLocation: &6${GuiUtils.parseLocation(sppPlayer.player.location)}</LoreLine>
+                <LoreLine permission="config|permissions:playerView.detail.timeplayed">&bTime played: &6${GuiUtils.getTimePlayed(sppPlayer.player)}</LoreLine>
             </#if>
 
             <#if session.isPresent()>

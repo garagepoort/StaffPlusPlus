@@ -36,7 +36,7 @@ public class MuteSessionSynchronizer implements Listener {
         playerManager.getOnlinePlayer(muteEvent.getMute().getTargetUuid())
             .ifPresent(p -> {
                 OnlinePlayerSession onlinePlayerSession = onlineSessionsManager.get(p.getPlayer());
-                onlinePlayerSession.setMuted(true);
+                onlinePlayerSession.setMuted(false);
             });
     }
 }
