@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
     description = "Broadcast messages to all players (over all servers)",
     usage = "[server] [message]"
 )
-@IocBean
+@IocBean(conditionalOnProperty = "broadcast-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class BroadcastCmd extends AbstractCmd {
 
