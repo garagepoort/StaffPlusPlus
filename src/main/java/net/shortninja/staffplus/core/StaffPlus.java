@@ -89,7 +89,8 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
             new ConfigurationFile("lang/lang_no.yml"),
             new ConfigurationFile("lang/lang_pt.yml"),
             new ConfigurationFile("lang/lang_sv.yml"),
-            new ConfigurationFile("lang/lang_zh.yml")
+            new ConfigurationFile("lang/lang_zh.yml"),
+            new ConfigurationFile("lang/lang_id.yml")
         );
 
         AutoUpdater.runMigrations(configurationFiles);
