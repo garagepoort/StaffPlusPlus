@@ -7,6 +7,8 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplusplus.session.IPlayerSession;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Location;
+import org.bukkit.Statistic;
+import org.bukkit.entity.Player;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -48,5 +50,10 @@ public class GuiUtils {
 
     public static String parseLocation(Location location) {
         return location.getWorld().getName() + " &8 | &7" + JavaUtils.serializeLocation(location);
+    }
+
+    public static String getTimePlayed(Player p) {
+        int secondsPlayed = p.getPlayer().getStatistic(Statistic.PLAY_ONE_MINUTE) / 20;
+        return JavaUtils.toHumanReadableDuration(secondsPlayed * 1000L);
     }
 }

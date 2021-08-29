@@ -30,8 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 public class JavaUtils {
 
-    private static final List<TimeUnit> timeUnits = Arrays.asList(TimeUnit.DAYS, TimeUnit.HOURS, TimeUnit.MINUTES,
-        TimeUnit.SECONDS);
+    private static final List<TimeUnit> timeUnits = Arrays.asList(TimeUnit.DAYS, TimeUnit.HOURS, TimeUnit.MINUTES, TimeUnit.SECONDS);
     private static final String DEFAULT_MESSAGE_COLOR = "&6";
     private static final String DEFAULT_CLICK_MESSAGE_COLOR = "&9";
 
@@ -41,11 +40,17 @@ public class JavaUtils {
         }
         final StringBuilder builder = new StringBuilder();
         long acc = millis;
+        int count = 0;
         for (final TimeUnit timeUnit : timeUnits) {
             final long convert = timeUnit.convert(acc, TimeUnit.MILLISECONDS);
             if (convert > 0) {
                 builder.append(convert).append(' ').append(WordUtils.capitalizeFully(timeUnit.name())).append(", ");
                 acc -= TimeUnit.MILLISECONDS.convert(convert, timeUnit);
+                count++;
+            }
+            if(count >= 2) {
+                // only show 2 time sections
+                break;
             }
         }
         if (builder.length() == 0) {
@@ -400,7 +405,7 @@ public class JavaUtils {
         IPAddress addr = string.getAddress();
         IPAddress lower = addr.getLower();
         IPAddress upper = addr.getUpper();
-        return new String[] {lower.toString(), upper.toString()};
+        return new String[]{lower.toString(), upper.toString()};
     }
 
     public static boolean isValidCidrOrIp(String cidrIp) {
