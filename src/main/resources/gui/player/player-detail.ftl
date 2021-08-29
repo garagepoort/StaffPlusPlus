@@ -132,7 +132,7 @@
              name="Teleport here"
              onLeftClick="teleport-here?targetPlayerName=${target.username}" material="NETHER_STAR"/>
 
-    <GuiItem slot="23" name="Examine"
+    <GuiItem slot="23" name="View inventory"
              onLeftClick="manage-inventory/open?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
             <#if target.online>
                 permission="config|permissions:examine-inventory-interaction.online"
@@ -140,7 +140,7 @@
                 permission="config|permissions:examine-inventory-interaction.offline"
             </#if>
              material="CHEST"/>
-    <GuiItem slot="24" name="Enderchest View"
+    <GuiItem slot="24" name="View Enderchest"
              onLeftClick="manage-enderchest/open?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
              material="ENDER_CHEST"/>
 
