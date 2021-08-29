@@ -130,7 +130,7 @@ modules:
         name: "&9Follow"
         lore: "&7Mounts the player that was clicked."
 
-    players-module:
+    player-details-module:
         enabled: true
         item: STICK
         name: "&9Details stick"
