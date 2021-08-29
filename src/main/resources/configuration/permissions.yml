@@ -248,6 +248,7 @@ mute-view: "staff.staffplus.mute-view"
 tempmute: "staff.staffplus.tempmute"
 unmute: "staff.staffplus.unmute"
 mute-bypass: "staff.staffplus.mute-bypass"
+mute-override-softhard: "staff.staffplus.mute-override-softhard"
 mute-notifications: "staff.staffplus.mute-notifications"
 
 # Permission to add/remove players from the alt detection whitelist
