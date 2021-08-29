@@ -297,6 +297,7 @@ playerView:
         ip: "staff.player-view.detail.ip"
         gamemode: "staff.player-view.detail.gamemode"
         location: "staff.player-view.detail.location"
+        timeplayed: "staff.player-view.detail.timeplayed"
         frozen: "staff.player-view.detail.frozen"
         protected: "staff.player-view.detail.protected"
         investigation: "staff.player-view.detail.investigation"
