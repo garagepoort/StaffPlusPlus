@@ -29,7 +29,7 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
     usage = "[player]",
     playerRetrievalStrategy = OPTIONAL_BOTH
 )
-@IocBean(conditionalOnProperty = "warnings-module.enabled=true")
+@IocBean
 @IocMultiProvider(SppCommand.class)
 public class PlayersCmd extends AbstractCmd {
 
