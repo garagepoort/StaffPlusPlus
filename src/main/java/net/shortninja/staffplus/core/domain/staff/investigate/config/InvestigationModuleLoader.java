@@ -41,9 +41,7 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
 
         boolean modeGuiInvestigation = staffModeModulesConfig.getBoolean("modules.gui-module.investigation-gui");
         String modeGuiInvestigationTitle = staffModeModulesConfig.getString("modules.gui-module.investigation-title");
-        String modeGuiInvestigationName = staffModeModulesConfig.getString("modules.gui-module.investigation-name");
-        String modeGuiInvestigationLore = staffModeModulesConfig.getString("modules.gui-module.investigation-lore");
-        GuiItemConfig guiItemConfig = new GuiItemConfig(modeGuiInvestigation, modeGuiInvestigationTitle, modeGuiInvestigationName, modeGuiInvestigationLore);
+        GuiItemConfig guiItemConfig = new GuiItemConfig(modeGuiInvestigation, modeGuiInvestigationTitle);
 
         return new InvestigationConfiguration(enabled,
             allowOfflineInvestigation,

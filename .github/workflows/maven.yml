@@ -42,7 +42,7 @@ jobs:
                 shell: bash
                 env:
                     COMMIT_HASH: ${{ steps.vars.outputs.sha_short }}
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                    GITHUB_TOKEN: ${{ secrets.PAT_STAFF }}
                 run: |
                     set -e
                     declare -a VERSIONS=(
