@@ -1,0 +1,41 @@
+<tubinggui size="54">
+    <title>Online players</title>
+    <guiitem slot="0" onleftclick="players/view/detail?targetPlayerName=player1&amp;backAction=players%2Fview%2Foverview%2Fonline%3FbackAction%3DgoBack%2Fview" onrightclick="$NOOP" onmiddleclick="$NOOP" material="PLAYER_HEAD" name="&amp;5player1">
+        <lore>
+            <loreline>
+                &amp;7---------------
+            </loreline>
+            <loreline if="false">
+                &amp;2ONLINE
+            </loreline>
+            <loreline if="true">
+                &amp;COFFLINE
+            </loreline>
+            <loreline></loreline>
+            <loreline>
+                &amp;7Left click to &amp;6view players details
+            </loreline>
+        </lore>
+    </guiitem>
+    <guiitem slot="1" onleftclick="players/view/detail?targetPlayerName=player2&amp;backAction=players%2Fview%2Foverview%2Fonline%3FbackAction%3DgoBack%2Fview" onrightclick="$NOOP" onmiddleclick="$NOOP" material="PLAYER_HEAD" name="&amp;5player2">
+        <lore>
+            <loreline>
+                &amp;7---------------
+            </loreline>
+            <loreline if="false">
+                &amp;2ONLINE
+            </loreline>
+            <loreline if="true">
+                &amp;COFFLINE
+            </loreline>
+            <loreline></loreline>
+            <loreline>
+                &amp;7Left click to &amp;6view players details
+            </loreline>
+        </lore>
+    </guiitem>
+    <guiitem slot="51" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <guiitem slot="52" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <guiitem slot="53" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <guiitem slot="49" onleftclick="goBack/view" name="Back" material="SPRUCE_DOOR" />
+</tubinggui>

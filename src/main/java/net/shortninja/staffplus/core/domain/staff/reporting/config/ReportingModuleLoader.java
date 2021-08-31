@@ -42,19 +42,14 @@ public class ReportingModuleLoader extends AbstractConfigLoader<ReportConfigurat
 
         boolean modeGuiReports = staffModeModulesConfig.getBoolean("modules.gui-module.reports-gui");
         String modeGuiReportsTitle = staffModeModulesConfig.getString("modules.gui-module.reports-title");
-        String modeGuiReportsName = staffModeModulesConfig.getString("modules.gui-module.reports-name");
-        String modeGuiReportsLore = staffModeModulesConfig.getString("modules.gui-module.reports-lore");
         String modeGuiMyReportsTitle = staffModeModulesConfig.getString("modules.gui-module.my-reports-title");
-        String modeGuiMyReportsLore = staffModeModulesConfig.getString("modules.gui-module.my-reports-lore");
         String modeGuiAssignedReportsTitle = staffModeModulesConfig.getString("modules.gui-module.assigned-reports-title");
-        String modeGuiAssignedReportsLore = staffModeModulesConfig.getString("modules.gui-module.assigned-reports-lore");
         String modeGuiClosedReportsTitle = staffModeModulesConfig.getString("modules.gui-module.closed-reports-title");
-        String modeGuiClosedReportsLore = staffModeModulesConfig.getString("modules.gui-module.closed-reports-lore");
 
-        GuiItemConfig openReportsGui = new GuiItemConfig(modeGuiReports, modeGuiReportsTitle, modeGuiReportsName, modeGuiReportsLore);
-        GuiItemConfig myReportsGui = new GuiItemConfig(modeGuiReports, modeGuiMyReportsTitle, modeGuiMyReportsTitle, modeGuiMyReportsLore);
-        GuiItemConfig assignedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiAssignedReportsTitle, modeGuiAssignedReportsTitle, modeGuiAssignedReportsLore);
-        GuiItemConfig closedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiClosedReportsTitle, modeGuiClosedReportsTitle, modeGuiClosedReportsLore);
+        GuiItemConfig openReportsGui = new GuiItemConfig(modeGuiReports, modeGuiReportsTitle);
+        GuiItemConfig myReportsGui = new GuiItemConfig(modeGuiReports, modeGuiMyReportsTitle);
+        GuiItemConfig assignedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiAssignedReportsTitle);
+        GuiItemConfig closedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiClosedReportsTitle);
 
         List<ConfiguredAction> acceptReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.accept-commands", new ArrayList<>()));
         List<ConfiguredAction> rejectReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.reject-commands", new ArrayList<>()));
