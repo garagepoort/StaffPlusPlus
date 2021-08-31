@@ -3,14 +3,10 @@ package net.shortninja.staffplus.core.common.gui;
 public class GuiItemConfig implements IGuiItemConfig{
     private final boolean enabled;
     private final String title;
-    private final String itemName;
-    private final String itemLore;
 
-    public GuiItemConfig(boolean enabled, String title, String itemName, String itemLore) {
+    public GuiItemConfig(boolean enabled, String title) {
         this.enabled = enabled;
         this.title = title;
-        this.itemName = itemName;
-        this.itemLore = itemLore;
     }
 
     public boolean isEnabled() {
@@ -21,11 +17,4 @@ public class GuiItemConfig implements IGuiItemConfig{
         return title;
     }
 
-    public String getItemName() {
-        return itemName;
-    }
-
-    public String getItemLore() {
-        return itemLore;
-    }
 }

@@ -10,10 +10,6 @@ public class MuteGuiItemConfig implements IGuiItemConfig {
     private boolean enabled;
     @ConfigProperty("staffmode-modules:modules.gui-module.mute-title")
     private String title;
-    @ConfigProperty("staffmode-modules:modules.gui-module.mute-name")
-    private String itemName;
-    @ConfigProperty("staffmode-modules:modules.gui-module.mute-lore")
-    private String itemLore;
 
     @Override
     public boolean isEnabled() {
@@ -25,13 +21,4 @@ public class MuteGuiItemConfig implements IGuiItemConfig {
         return title;
     }
 
-    @Override
-    public String getItemName() {
-        return itemName;
-    }
-
-    @Override
-    public String getItemLore() {
-        return itemLore;
-    }
 }
