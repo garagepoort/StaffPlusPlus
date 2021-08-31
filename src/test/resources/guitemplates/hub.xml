@@ -1,0 +1,108 @@
+<tubinggui size="27">
+ <title>&amp;eGUI Hub</title> 
+ <guiitem slot="0" material="BLUE_STAINED_GLASS_PANE" name="&amp;bColor #BLUE_STAINED_GLASS_PANE" onleftclick="hub/view/color-select"> 
+  <lore> 
+   <loreline>
+    &amp;7Click to change your GUI color!
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="8" material="BLUE_STAINED_GLASS_PANE" name="&amp;bColor #BLUE_STAINED_GLASS_PANE" onleftclick="hub/view/color-select"> 
+  <lore> 
+   <loreline>
+    &amp;7Click to change your GUI color!
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="9" material="BLUE_STAINED_GLASS_PANE" name="&amp;bColor #BLUE_STAINED_GLASS_PANE" onleftclick="hub/view/color-select"> 
+  <lore> 
+   <loreline>
+    &amp;7Click to change your GUI color!
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="17" material="BLUE_STAINED_GLASS_PANE" name="&amp;bColor #BLUE_STAINED_GLASS_PANE" onleftclick="hub/view/color-select"> 
+  <lore> 
+   <loreline>
+    &amp;7Click to change your GUI color!
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="18" material="BLUE_STAINED_GLASS_PANE" name="&amp;bColor #BLUE_STAINED_GLASS_PANE" onleftclick="hub/view/color-select"> 
+  <lore> 
+   <loreline>
+    &amp;7Click to change your GUI color!
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="26" material="BLUE_STAINED_GLASS_PANE" name="&amp;bColor #BLUE_STAINED_GLASS_PANE" onleftclick="hub/view/color-select"> 
+  <lore> 
+   <loreline>
+    &amp;7Click to change your GUI color!
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="1" material="PAPER" name="&amp;bUnresolved reports" onleftclick="manage-reports/view/open?backAction=hub%2Fview"> 
+  <lore> 
+   <loreline>
+    &amp;7Shows all open reports.
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="2" material="PAPER" name="&amp;bReports assigned to you" onleftclick="manage-reports/view/my-assigned?backAction=hub%2Fview"> 
+  <lore> 
+   <loreline>
+    &amp;7Shows reports currently assigned to you.
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="3" material="PAPER" name="&amp;bReports In Progress" onleftclick="manage-reports/view/assigned?backAction=hub%2Fview"> 
+  <lore> 
+   <loreline>
+    &amp;7Shows reports that are currently being worked on.
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="4" material="PAPER" name="&amp;bClosed reports" onleftclick="manage-reports/view/closed?backAction=hub%2Fview"> 
+  <lore> 
+   <loreline>
+    &amp;7History of all closed reports.
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="10" if="true" material="STONE_PICKAXE" name="&amp;bMiner GUI" onleftclick="miners/view?backAction=hub%2Fview"> 
+  <lore> 
+   <loreline>
+    &amp;7Shows all players under the set Y value.
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="19" if="true" material="SHIELD" name="&amp;bProtected Areas GUI" onleftclick="protected-areas/view?backAction=hub%2Fview"> 
+  <lore> 
+   <loreline>
+    &amp;7Shows all currently set protected areas.
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="7" if="true" material="PLAYER_HEAD" name="&amp;bBanned players GUI" onleftclick="manage-bans/view/overview?backAction=hub%2Fview"> 
+  <lore> 
+   <loreline>
+    &amp;7Shows all currently banned players.
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="16" if="true" material="SIGN" name="&amp;bMuted players GUI" onleftclick="manage-mutes/view/all-active?backAction=hub%2Fview">
+  <lore> 
+   <loreline>
+    &amp;7Shows all currently muted players.
+   </loreline> 
+  </lore> 
+ </guiitem> 
+ <guiitem slot="25" if="true" material="BOOK" name="&amp;bInvestigations GUI" onleftclick="manage-investigations/view/overview?backAction=hub%2Fview"> 
+  <lore> 
+   <loreline>
+    &amp;7Shows all investigations.
+   </loreline> 
+  </lore> 
+ </guiitem> 
+</tubinggui>

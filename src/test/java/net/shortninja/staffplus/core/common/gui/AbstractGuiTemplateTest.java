@@ -8,6 +8,7 @@ import be.garagepoort.mcioc.gui.actionquery.ActionQueryParser;
 import be.garagepoort.mcioc.gui.templates.ChatTemplateResolver;
 import be.garagepoort.mcioc.gui.templates.GuiTemplateResolver;
 import be.garagepoort.mcioc.gui.templates.TemplateConfigResolver;
+import be.garagepoort.mcioc.gui.templates.TubingGuiTemplateParser;
 import be.garagepoort.mcioc.gui.templates.xml.TubingGuiXmlParser;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.TubingBukkitUtilStub;
@@ -24,6 +25,10 @@ import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -60,7 +65,7 @@ public abstract class AbstractGuiTemplateTest {
         doReturn(guiController).when(iocContainer).get(guiController.getClass());
         when(tubingGuiXmlParser.parseHtml(eq(player), any())).thenReturn(tubingGui);
 
-        GuiTemplateResolver guiTemplateResolver = new GuiTemplateResolver(tubingPluginProvider, templateConfigResolver, permissionHandler, tubingGuiXmlParser);
+        GuiTemplateResolver guiTemplateResolver = new GuiTemplateResolver(tubingPluginProvider, templateConfigResolver, permissionHandler, tubingGuiXmlParser, new TubingGuiTemplateParser(templateConfigResolver));
         guiActionService = new GuiActionService(tubingPluginProvider, guiTemplateResolver, chatTemplateResolver, new ActionQueryParser(), new TubingBukkitUtilStub());
         guiActionService.loadGuiController(guiController.getClass());
     }
@@ -76,4 +81,10 @@ public abstract class AbstractGuiTemplateTest {
         }
     }
 
+    public void validateXml(String xml, String pathToXml) throws URISyntaxException, IOException {
+        java.net.URL url = AbstractGuiTemplateTest.class.getResource(pathToXml);
+        java.nio.file.Path resPath = java.nio.file.Paths.get(url.toURI());
+        String templateXml = new String(java.nio.file.Files.readAllBytes(resPath), "UTF8");
+        assertThat(xml).isEqualToNormalizingWhitespace(templateXml);
+    }
 }
