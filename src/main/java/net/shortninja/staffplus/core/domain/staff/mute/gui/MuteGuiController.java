@@ -2,11 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.AsyncGui;
-import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.TubingGui;
+import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -15,11 +14,13 @@ import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
-import net.shortninja.staffplus.core.domain.staff.mute.gui.views.ManageMutedPlayerViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.mute.gui.views.ActiveMutedPlayersViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.mute.gui.views.PlayerMuteHistoryViewBuilder;
+import net.shortninja.staffplus.core.domain.staff.mute.database.MuteRepository;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
 
@@ -28,57 +29,58 @@ import static be.garagepoort.mcioc.gui.AsyncGui.async;
 public class MuteGuiController {
 
     private static final String CANCEL = "cancel";
+    private static final int PAGE_SIZE = 45;
 
-    private final PlayerMuteHistoryViewBuilder playerMuteHistoryViewBuilder;
-    private final ActiveMutedPlayersViewBuilder activeMutedPlayersViewBuilder;
-    private final ManageMutedPlayerViewBuilder manageMutedPlayerViewBuilder;
     private final Messages messages;
     private final MuteService muteService;
     private final OnlineSessionsManager sessionManager;
     private final BukkitUtils bukkitUtils;
     private final PlayerManager playerManager;
+    private final MuteRepository muteRepository;
 
-    public MuteGuiController(PlayerMuteHistoryViewBuilder playerMuteHistoryViewBuilder,
-                             ActiveMutedPlayersViewBuilder activeMutedPlayersViewBuilder,
-                             ManageMutedPlayerViewBuilder manageMutedPlayerViewBuilder,
-                             Messages messages,
+    public MuteGuiController(Messages messages,
                              MuteService muteService,
                              OnlineSessionsManager sessionManager,
                              BukkitUtils bukkitUtils,
-                             PlayerManager playerManager) {
-        this.playerMuteHistoryViewBuilder = playerMuteHistoryViewBuilder;
-        this.activeMutedPlayersViewBuilder = activeMutedPlayersViewBuilder;
-        this.manageMutedPlayerViewBuilder = manageMutedPlayerViewBuilder;
+                             PlayerManager playerManager, MuteRepository muteRepository) {
         this.messages = messages;
         this.muteService = muteService;
         this.sessionManager = sessionManager;
         this.bukkitUtils = bukkitUtils;
         this.playerManager = playerManager;
+        this.muteRepository = muteRepository;
     }
 
     @GuiAction("manage-mutes/view/all-active")
-    public AsyncGui<TubingGui> getMutedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
-                                                       @CurrentAction String currentAction,
-                                                       @GuiParam("backAction") String backAction) {
-        return async(() -> activeMutedPlayersViewBuilder.buildGui(page, currentAction, backAction));
+    public AsyncGui<GuiTemplate> getMutedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            List<Mute> allPaged = muteService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE);
+            Map<String, Object> params = new HashMap<>();
+            params.put("title", "&bActive mutes");
+            params.put("mutes", allPaged);
+            return GuiTemplate.template("gui/mutes/mute-overview.ftl", params);
+        });
     }
 
     @GuiAction("manage-mutes/view/history")
-    public AsyncGui<TubingGui> getMutedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
-                                                       @CurrentAction String currentAction,
-                                                       @GuiParam("targetPlayerName") String targetPlayerName,
-                                                       @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiTemplate> getMutedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
+                                                         @GuiParam("targetPlayerName") String targetPlayerName) {
         SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
-        return async(() -> playerMuteHistoryViewBuilder.buildGui(target, page, currentAction, backAction));
+        return async(() -> {
+            List<Mute> allPaged = muteRepository.getMutesForPlayerPaged(target.getId(), page * PAGE_SIZE, PAGE_SIZE);
+            Map<String, Object> params = new HashMap<>();
+            params.put("title", "Mute History for: &C" + target.getUsername());
+            params.put("mutes", allPaged);
+            return GuiTemplate.template("gui/mutes/mute-overview.ftl", params);
+        });
     }
 
     @GuiAction("manage-mutes/view/detail")
-    public AsyncGui<TubingGui> getMuteDetailView(@GuiParam("muteId") int muteId,
-                                                 @CurrentAction String currentAction,
-                                                 @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiTemplate> getMuteDetailView(@GuiParam("muteId") int muteId) {
         return async(() -> {
-            Mute mute = muteService.getById(muteId);
-            return manageMutedPlayerViewBuilder.buildGui(mute, currentAction, backAction);
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("mute", muteService.getById(muteId));
+            return GuiTemplate.template("gui/mutes/manage-mute.ftl", params);
         });
     }
 
