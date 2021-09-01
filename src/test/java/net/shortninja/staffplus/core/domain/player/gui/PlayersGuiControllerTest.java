@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.warnings.WarningService;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,6 +78,11 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
         guiUtilsMockedStatic = mockStatic(GuiUtils.class);
         guiUtilsMockedStatic.when(() -> GuiUtils.getNextPage(anyString(), anyInt())).thenReturn("goNext");
         guiUtilsMockedStatic.when(() -> GuiUtils.getPreviousPage(anyString(), anyInt())).thenReturn("goPrevious");
+    }
+
+    @AfterAll
+    public static void close() {
+        guiUtilsMockedStatic.close();
     }
 
     @Override
