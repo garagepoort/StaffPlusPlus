@@ -1,0 +1,32 @@
+<tubinggui size="54">
+    <title>Mute History for: &amp;CtargetName</title>
+    <guiitem slot="0" name="&amp;3Mute" onleftclick="manage-mutes/view/detail?muteId=12&amp;backAction=manage-mutes%2Fview%2Fhistory%3FtargetPlayerName%3DtargetName" material="PLAYER_HEAD">
+        <lore>
+            <loreline>
+                &amp;bId: &amp;612
+            </loreline>
+            <loreline if="true">
+                &amp;bServer: &amp;6ServerName
+            </loreline>
+            <loreline>
+                &amp;bMuted player: &amp;6player
+            </loreline>
+            <loreline>
+                &amp;bIssuer: &amp;6issuer
+            </loreline>
+            <loreline>
+                &amp;bIssued on: &amp;601/09/2021-01:11:15
+            </loreline>
+            <loreline>
+                &amp;bReason: &amp;6Mute reason
+            </loreline>
+            <loreline></loreline>
+            <loreline>
+                &amp;CPERMANENT
+            </loreline>
+        </lore>
+    </guiitem>
+    <guiitem slot="51" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <guiitem slot="52" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <guiitem slot="53" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+</tubinggui>

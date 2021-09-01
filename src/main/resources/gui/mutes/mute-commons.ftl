@@ -2,7 +2,7 @@
 <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
 <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
 
-<#macro mutelorelines mute actions=[]>
+<#macro mutelorelines mute>
         <LoreLine>
             &bId: &6${mute.id}
         </LoreLine>
