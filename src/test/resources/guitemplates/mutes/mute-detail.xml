@@ -1,0 +1,76 @@
+<tubinggui size="54">
+    <title>Player: player</title>
+    <guiitem slot="13" name="&amp;3Mute" onleftclick="$NOOP" material="PLAYER_HEAD">
+        <loreline>
+            &amp;bId: &amp;612
+        </loreline>
+        <loreline if="true">
+            &amp;bServer: &amp;6ServerName
+        </loreline>
+        <loreline>
+            &amp;bMuted player: &amp;6player
+        </loreline>
+        <loreline>
+            &amp;bIssuer: &amp;6issuer
+        </loreline>
+        <loreline>
+            &amp;bIssued on: &amp;601/09/2021-01:11:15
+        </loreline>
+        <loreline>
+            &amp;bReason: &amp;6Mute reason
+        </loreline>
+        <loreline></loreline>
+        <loreline>
+            &amp;CPERMANENT
+        </loreline>
+    </guiitem>
+    <guiitem slot="14" onleftclick="manage-investigation-evidence/view/investigation-link?backAction=manage-mutes%2Fview%2Fdetail%3FmuteId%3D12&amp;evidenceId=12&amp;evidenceType=MUTE&amp;evidenceDescription=Mute reason" name="Add this as evidence to investigation" material="ANVIL">
+        <lore>
+            <loreline>
+                Click to link evidence to investigation
+            </loreline>
+        </lore>
+    </guiitem>
+    <guiitem slot="30" name="Unmute player" onleftclick="manage-mutes/unmute?muteId=12" material="RED_STAINED_GLASS_PANE">
+        <lore>
+            <loreline>
+                "Click to unmute this player"
+            </loreline>
+        </lore>
+    </guiitem>
+    <guiitem slot="31" name="Unmute player" onleftclick="manage-mutes/unmute?muteId=12" material="RED_STAINED_GLASS_PANE">
+        <lore>
+            <loreline>
+                "Click to unmute this player"
+            </loreline>
+        </lore>
+    </guiitem>
+    <guiitem slot="32" name="Unmute player" onleftclick="manage-mutes/unmute?muteId=12" material="RED_STAINED_GLASS_PANE">
+        <lore>
+            <loreline>
+                "Click to unmute this player"
+            </loreline>
+        </lore>
+    </guiitem>
+    <guiitem slot="39" name="Unmute player" onleftclick="manage-mutes/unmute?muteId=12" material="RED_STAINED_GLASS_PANE">
+        <lore>
+            <loreline>
+                "Click to unmute this player"
+            </loreline>
+        </lore>
+    </guiitem>
+    <guiitem slot="40" name="Unmute player" onleftclick="manage-mutes/unmute?muteId=12" material="RED_STAINED_GLASS_PANE">
+        <lore>
+            <loreline>
+                "Click to unmute this player"
+            </loreline>
+        </lore>
+    </guiitem>
+    <guiitem slot="41" name="Unmute player" onleftclick="manage-mutes/unmute?muteId=12" material="RED_STAINED_GLASS_PANE">
+        <lore>
+            <loreline>
+                "Click to unmute this player"
+            </loreline>
+        </lore>
+    </guiitem>
+</tubinggui>
