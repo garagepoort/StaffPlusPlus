@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.playernotes.database.PlayerNoteRepository;
 import net.shortninja.staffplusplus.playernotes.PlayerNoteCreatedEvent;
 import net.shortninja.staffplusplus.playernotes.PlayerNoteDeletedEvent;
+import net.shortninja.staffplusplus.playernotes.PlayerNoteFilters;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
@@ -60,11 +61,22 @@ public class PlayerNoteService {
         return playerNoteRepository.getPlayerNotesForTarget(senderUuid, targetUuid, offset, amount);
     }
 
-    public void deleteNote(CommandSender staff, int noteId) {
-        permissionHandler.validate(staff, permissionDelete);
+    public List<PlayerNote> findPlayerNotes(CommandSender sender, PlayerNoteFilters playerNoteFilters, int offset, int amount) {
+        UUID senderUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : Constants.CONSOLE_UUID;
+        return playerNoteRepository.findPlayerNotes(senderUuid, playerNoteFilters, offset, amount);
+    }
 
+    public void deleteNote(CommandSender staff, int noteId) {
         PlayerNote playerNote = playerNoteRepository.findNote(noteId).orElseThrow(() -> new BusinessException("&CNo note with id [" + noteId + "] found"));
         UUID senderUuid = staff instanceof Player ? ((Player) staff).getUniqueId() : Constants.CONSOLE_UUID;
+
+        if (playerNote.isPrivateNote() && playerNote.getNotedByUuid().equals(senderUuid)) {
+            playerNoteRepository.deleteNote(noteId);
+            sendEvent(new PlayerNoteDeletedEvent(playerNote, staff));
+            return;
+        }
+
+        permissionHandler.validate(staff, permissionDelete);
         if (!playerNote.getNotedByUuid().equals(senderUuid)) {
             permissionHandler.validate(staff, permissionDeleteOther);
         }

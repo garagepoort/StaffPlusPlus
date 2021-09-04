@@ -29,5 +29,5 @@
         </#list>
 
         <LoreLine></LoreLine>
-        <LoreLine if="${note.privateNote?c}">&CPrivate Note</LoreLine>
+        <LoreLine if="${note.privateNote?c}">&ePrivate Note</LoreLine>
 </#macro>
