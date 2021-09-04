@@ -1,19 +1,19 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.database.notes;
 
-import net.shortninja.staffplus.core.domain.staff.investigate.NoteEntity;
+import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationNoteEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface InvestigationNotesRepository {
 
-    void addNote(NoteEntity noteEntity);
+    void addNote(InvestigationNoteEntity investigationNoteEntity);
 
-    List<NoteEntity> getAllNotes(int investigationId);
+    List<InvestigationNoteEntity> getAllNotes(int investigationId);
 
-    List<NoteEntity> getAllNotes(int investigationId, int offset, int amount);
+    List<InvestigationNoteEntity> getAllNotes(int investigationId, int offset, int amount);
 
     void removeNote(int id);
 
-    Optional<NoteEntity> find(int id);
+    Optional<InvestigationNoteEntity> find(int id);
 }
