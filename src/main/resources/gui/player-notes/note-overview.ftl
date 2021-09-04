@@ -5,7 +5,11 @@
     <title>${title}</title>
 
     <#list notes as note>
-        <#assign canDelete=note.privateNote || $permissions.has(player, $config.get("permissions:player-notes.delete-other")) || ($permissions.has(player, $config.get("permissions:player-notes.delete")) && note.notedByUuid == player.uniqueId)/>
+        <#assign isCreator=note.notedByUuid == player.uniqueId/>
+        <#assign canDelete=
+        (note.privateNote && isCreator)
+        || $permissions.has(player, $config.get("permissions:player-notes.delete-other"))
+        || ($permissions.has(player, $config.get("permissions:player-notes.delete")) && isCreator)/>
 
         <GuiItem slot="${note?index}"
                  name="&3Note"
@@ -18,7 +22,7 @@
                 <@noteCommons.notelorelines note=note />
                 <#if canDelete>
                     <LoreLine></LoreLine>
-                    <LoreLine>&7Right click to &6delete note</LoreLine>
+                    <LoreLine>&7Right click to &Cdelete note</LoreLine>
                 </#if>
             </Lore>
         </GuiItem>

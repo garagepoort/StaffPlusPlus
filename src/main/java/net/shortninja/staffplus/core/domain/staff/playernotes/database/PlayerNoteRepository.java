@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.playernotes.database;
 
 import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNote;
+import net.shortninja.staffplusplus.playernotes.PlayerNoteFilters;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +16,6 @@ public interface PlayerNoteRepository {
     Optional<PlayerNote> findNote(int noteId);
 
     void deleteNote(int noteId);
+
+    List<PlayerNote> findPlayerNotes(UUID notedByUuid, PlayerNoteFilters playerNoteFilters, int offset, int amount);
 }
