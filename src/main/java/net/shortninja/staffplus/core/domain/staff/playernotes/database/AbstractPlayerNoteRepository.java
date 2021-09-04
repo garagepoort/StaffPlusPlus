@@ -4,6 +4,7 @@ import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNote;
+import net.shortninja.staffplusplus.playernotes.PlayerNoteFilters;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.insertFilterValues;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.mapFilters;
 
 public abstract class AbstractPlayerNoteRepository implements PlayerNoteRepository {
 
@@ -79,6 +82,30 @@ public abstract class AbstractPlayerNoteRepository implements PlayerNoteReposito
         }
     }
 
+    @Override
+    public List<PlayerNote> findPlayerNotes(UUID notedByUuid, PlayerNoteFilters playerNoteFilters, int offset, int amount) {
+        List<PlayerNote> notes = new ArrayList<>();
+        String filterQuery = mapFilters(playerNoteFilters, true);
+
+        String query = "SELECT * FROM sp_player_notes WHERE (is_private_note = ? OR noted_by_uuid = ?)" + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.notesSyncEnabled) + " ORDER BY creation_timestamp DESC LIMIT ?,?";
+        try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
+            ps.setBoolean(1, false);
+            ps.setString(2, notedByUuid.toString());
+
+            int index = insertFilterValues(playerNoteFilters, ps, 3);
+            ps.setInt(index, offset);
+            ps.setInt(index + 1, amount);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    notes.add(buildNote(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return notes;
+    }
     private PlayerNote buildNote(ResultSet rs) throws SQLException {
         return new PlayerNote(rs.getLong("ID"),
             rs.getString("note"),
