@@ -28,7 +28,7 @@ public class ExamineGuiViewBuilder {
         TubingGui.Builder builder = new TubingGui.Builder(messages.colorize(options.staffItemsConfiguration.getExamineModeConfiguration().getModeExamineTitle()), SIZE);
         for (ExamineGuiItemProvider guiItemProvider : guiItemProviders) {
             if (guiItemProvider.enabled(player, targetPlayer)) {
-                builder.addItem(guiItemProvider.getClickAction(player, targetPlayer, currentAction), guiItemProvider.getSlot(), guiItemProvider.getItem(targetPlayer));
+                builder.addItem(guiItemProvider.getClickAction(player, targetPlayer, currentAction), guiItemProvider.getSlot(), guiItemProvider.getItem(player, targetPlayer));
             }
         }
         return builder.build();

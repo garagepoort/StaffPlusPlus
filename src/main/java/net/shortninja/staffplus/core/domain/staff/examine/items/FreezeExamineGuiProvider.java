@@ -32,7 +32,7 @@ public class FreezeExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public ItemStack getItem(SppPlayer player) {
+    public ItemStack getItem(Player player1, SppPlayer player) {
         return freezeItem(player.getPlayer());
     }
 

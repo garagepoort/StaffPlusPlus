@@ -62,8 +62,7 @@ public class PlayerSettingsRepository {
             Material.WHITE_STAINED_GLASS_PANE,
             new HashSet<>(),
             VanishType.NONE,
-            new ArrayList<>(),
-            false,
+                false,
             null,
             new HashSet<>());
 
@@ -100,7 +99,7 @@ public class PlayerSettingsRepository {
             staffModeName = settingsEntity.get().getStaffModeName();
         }
 
-        return new PlayerSettings(uuid, name, glassMaterial, alertOptions, vanishType, playerNotes, staffMode, staffModeName, mutedChannels);
+        return new PlayerSettings(uuid, name, glassMaterial, alertOptions, vanishType, staffMode, staffModeName, mutedChannels);
     }
 
     @NotNull

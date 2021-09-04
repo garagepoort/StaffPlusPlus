@@ -260,11 +260,19 @@ public class Messages {
     public String noteAdded;
     @ConfigProperty("%lang%:note-cleared")
     public String noteCleared;
+    @ConfigProperty("%lang%:note-deleted")
+    public String noteDeleted;
+    @ConfigProperty("%lang%:notes.staff-notification-created")
+    public String noteCreatedNotification;
+    @ConfigProperty("%lang%:notes.prefix")
+    public String prefixPlayerNotes;
     @ConfigProperty("%lang%:note-list-start")
     @ConfigTransformer(MessageMultiLineTransformer.class)
     public List<String> noteListStart;
     @ConfigProperty("%lang%:note-list-entry")
     public String noteListEntry;
+    @ConfigProperty("%lang%:note-list-entry-private")
+    public String noteListEntryPrivate;
     @ConfigProperty("%lang%:note-list-end")
     @ConfigTransformer(MessageMultiLineTransformer.class)
     public List<String> noteListEnd;

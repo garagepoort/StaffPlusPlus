@@ -5,7 +5,6 @@ import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Material;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -17,18 +16,16 @@ public class PlayerSettings {
     private Material glassColor;
     private Set<AlertType> alertOptions;
     private VanishType vanishType;
-    private List<String> playerNotes;
     private boolean inStaffMode;
     private String modeName;
     private Set<String> mutedStaffChatChannels;
 
-    public PlayerSettings(UUID uuid, String name, Material glassColor, Set<AlertType> alertOptions, VanishType vanishType, List<String> playerNotes, boolean inStaffMode, String modeName, Set<String> mutedStaffChatChannels) {
+    public PlayerSettings(UUID uuid, String name, Material glassColor, Set<AlertType> alertOptions, VanishType vanishType, boolean inStaffMode, String modeName, Set<String> mutedStaffChatChannels) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
         this.alertOptions = alertOptions;
         this.vanishType = vanishType;
-        this.playerNotes = playerNotes;
         this.inStaffMode = inStaffMode;
         this.modeName = modeName;
         this.mutedStaffChatChannels = mutedStaffChatChannels;
@@ -54,10 +51,6 @@ public class PlayerSettings {
         return vanishType;
     }
 
-    public List<String> getPlayerNotes() {
-        return playerNotes;
-    }
-
     public boolean isInStaffMode() {
         return inStaffMode;
     }
@@ -80,10 +73,6 @@ public class PlayerSettings {
 
     public void setVanishType(VanishType vanishType) {
         this.vanishType = vanishType;
-    }
-
-    public void addPlayerNote(String note) {
-        this.playerNotes.add(note);
     }
 
     public void setGlassColor(Material glassColor) {
