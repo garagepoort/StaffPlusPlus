@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 public interface ExamineGuiItemProvider {
 
-    ItemStack getItem(SppPlayer player);
+    ItemStack getItem(Player player1, SppPlayer player);
 
     String getClickAction(Player staff, SppPlayer targetPlayer, String backAction);
 

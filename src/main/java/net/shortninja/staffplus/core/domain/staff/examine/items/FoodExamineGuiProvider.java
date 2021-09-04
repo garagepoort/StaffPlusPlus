@@ -29,7 +29,7 @@ public class FoodExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public ItemStack getItem(SppPlayer player) {
+    public ItemStack getItem(Player player1, SppPlayer player) {
         return foodItem(player.getPlayer());
     }
 

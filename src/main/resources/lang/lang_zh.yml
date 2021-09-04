@@ -49,10 +49,14 @@ on-cooldown: "&b你需要等待冷却 &7%seconds% &b秒."
 
 note-added: "&b备注已添加至 &7%target%&b."
 note-cleared: "&b已清除 &7%target%&b 的备注."
+note-deleted: "&bYou deleted note for &7%target%&b with id &6%noteId%&b."
 note-list-start: "&7%longline%"
 note-list-entry: "&b%count% &7%note%"
+note-list-entry-private: "&b%count% &1[&CP&1] &7%note%"
 # 行通过逗号分隔
 note-list-end: "&7%longline%"
+notes.staff-notification-created: "&4%notedBy% &6has created a note for player &4%target%&6: [&7%note%&6]"
+notes.prefix: "&dNotes &8»"
 player-not-registered: "This player does not exist"
 
 login-register: "&b作为管理人员, 你有必要注册密码以保护你的账号以防盗用. 使用&7/register &b开始注册."

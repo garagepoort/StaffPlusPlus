@@ -22,6 +22,8 @@ public class ServerSyncConfiguration {
     public boolean kickSyncEnabled;
     @ConfigProperty("server-sync-module.investigation-sync")
     public boolean investigationSyncEnabled;
+    @ConfigProperty("server-sync-module.notes-sync")
+    public boolean notesSyncEnabled;
 
     public boolean sessionSyncEnabled() {
         return vanishSyncEnabled || staffModeSyncEnabled;

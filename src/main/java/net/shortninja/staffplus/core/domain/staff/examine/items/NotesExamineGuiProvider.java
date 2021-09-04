@@ -6,10 +6,10 @@ import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
-import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNote;
+import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNoteService;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @IocBean
 @IocMultiProvider(ExamineGuiItemProvider.class)
@@ -25,31 +26,30 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
     private final Messages messages;
 
     private final ExamineModeConfiguration examineModeConfiguration;
-    private final PlayerSettingsRepository playerSettingsRepository;
+    private final PlayerNoteService playerNoteService;
 
-    public NotesExamineGuiProvider(Messages messages, Options options, PlayerSettingsRepository playerSettingsRepository) {
+    public NotesExamineGuiProvider(Messages messages, Options options, PlayerNoteService playerNoteService) {
         this.messages = messages;
-
-        this.playerSettingsRepository = playerSettingsRepository;
         examineModeConfiguration = options.staffItemsConfiguration.getExamineModeConfiguration();
+        this.playerNoteService = playerNoteService;
     }
 
     @Override
-    public ItemStack getItem(SppPlayer player) {
-        return notesItem(playerSettingsRepository.get(player.getPlayer()));
+    public ItemStack getItem(Player staff, SppPlayer player) {
+        return notesItem(staff, player);
     }
 
     @Override
     public String getClickAction(Player staff, SppPlayer targetPlayer, String backAction) {
         return GuiActionBuilder.builder()
-            .action("manage-notes/create")
+            .action("player-notes/create")
             .param("targetPlayerName", targetPlayer.getUsername())
             .build();
     }
 
     @Override
     public boolean enabled(Player staff, SppPlayer player) {
-        return examineModeConfiguration.getModeExamineNotes() >= 0 && player.isOnline();
+        return examineModeConfiguration.getModeExamineNotes() >= 0;
     }
 
     @Override
@@ -57,8 +57,9 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
         return examineModeConfiguration.getModeExamineNotes() - 1;
     }
 
-    private ItemStack notesItem(PlayerSettings playerSettings) {
-        List<String> notes = playerSettings.getPlayerNotes().isEmpty() ? Arrays.asList("&7No notes found") : playerSettings.getPlayerNotes();
+    private ItemStack notesItem(Player staff, SppPlayer target) {
+        List<PlayerNote> allPlayerNotes = playerNoteService.getAllPlayerNotes(staff, target.getId(), 0, 10);
+        List<String> notes = allPlayerNotes.isEmpty() ? Arrays.asList("&7No notes found") : allPlayerNotes.stream().map(PlayerNote::getNote).collect(Collectors.toList());
 
         ItemStack item = Items.builder()
             .setMaterial(Material.MAP).setAmount(1)
