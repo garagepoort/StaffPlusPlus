@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
@@ -89,7 +90,11 @@ public class NoteCmd extends AbstractCmd {
                 .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
                 .collect(Collectors.toList());
         }
-
+        if (currentArg.startsWith("-") && sender.hasPermission(privateNotePermission)) {
+            return Stream.of("-private")
+                .filter(s -> s.contains(currentArg))
+                .collect(Collectors.toList());
+        }
         return Collections.emptyList();
     }
 

@@ -5,6 +5,7 @@ import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
+import be.garagepoort.mcioc.gui.GuiParams;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
@@ -14,6 +15,8 @@ import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNote;
 import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNoteService;
+import net.shortninja.staffplus.core.domain.staff.playernotes.gui.cmd.PlayerNoteFiltersMapper;
+import net.shortninja.staffplusplus.playernotes.PlayerNoteFilters;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
@@ -35,26 +38,29 @@ public class PlayerNotesGuiController {
     private final Messages messages;
     private final OnlineSessionsManager sessionManager;
     private final BukkitUtils bukkitUtils;
+    private final PlayerNoteFiltersMapper playerNoteFiltersMapper;
 
-    public PlayerNotesGuiController(PlayerManager playerManager, PlayerNoteService playerNoteService, Messages messages, OnlineSessionsManager sessionManager, BukkitUtils bukkitUtils) {
+    public PlayerNotesGuiController(PlayerManager playerManager, PlayerNoteService playerNoteService, Messages messages, OnlineSessionsManager sessionManager, BukkitUtils bukkitUtils, PlayerNoteFiltersMapper playerNoteFiltersMapper) {
         this.playerManager = playerManager;
         this.playerNoteService = playerNoteService;
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.bukkitUtils = bukkitUtils;
+        this.playerNoteFiltersMapper = playerNoteFiltersMapper;
     }
 
     @GuiAction("player-notes/view/overview")
     public AsyncGui<GuiTemplate> getNoteOverview(Player player,
-                                                 @GuiParam("targetPlayerName") String targetPlayerName,
-                                                 @GuiParam(value = "page", defaultValue = "0") int page) {
+                                                 @GuiParam(value = "page", defaultValue = "0") int page,
+                                                 @GuiParams Map<String, String> allParams) {
         return async(() -> {
-            SppPlayer targetPlayer = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
+            PlayerNoteFilters.PlayerNoteFiltersBuilder playerNoteFiltersBuilder = new PlayerNoteFilters.PlayerNoteFiltersBuilder();
+            allParams.forEach((k, v) -> playerNoteFiltersMapper.map(k, v, playerNoteFiltersBuilder));
 
-            List<PlayerNote> allPlayerNotes = playerNoteService.getAllPlayerNotes(player, targetPlayer.getId(), PAGE_SIZE * page, PAGE_SIZE);
+            List<PlayerNote> allPlayerNotes = playerNoteService.findPlayerNotes(player, playerNoteFiltersBuilder.build(), PAGE_SIZE * page, PAGE_SIZE);
 
             Map<String, Object> params = new HashMap<>();
-            params.put("title", "&bNote overview: &C" + targetPlayerName);
+            params.put("title", "&bNote overview");
             params.put("notes", allPlayerNotes);
             return template("gui/player-notes/note-overview.ftl", params);
         });
