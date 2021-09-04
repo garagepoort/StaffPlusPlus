@@ -7,16 +7,16 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public class NoteEntity implements IInvestigationNote {
+public class InvestigationNoteEntity implements IInvestigationNote {
 
     private int id;
-    private int investigationId;
-    private String note;
-    private UUID notedByUuid;
-    private String notedByName;
-    private long timestamp;
+    private final int investigationId;
+    private final String note;
+    private final UUID notedByUuid;
+    private final String notedByName;
+    private final long timestamp;
 
-    public NoteEntity(int investigationId, String note, UUID notedByUuid, String notedByName) {
+    public InvestigationNoteEntity(int investigationId, String note, UUID notedByUuid, String notedByName) {
         this.investigationId = investigationId;
         this.note = note;
         this.notedByUuid = notedByUuid;
@@ -24,7 +24,7 @@ public class NoteEntity implements IInvestigationNote {
         this.timestamp = System.currentTimeMillis();
     }
 
-    public NoteEntity(int id, int investigationId, String note, UUID notedByUuid, String notedByName, long timestamp) {
+    public InvestigationNoteEntity(int id, int investigationId, String note, UUID notedByUuid, String notedByName, long timestamp) {
         this.id = id;
         this.investigationId = investigationId;
         this.note = note;

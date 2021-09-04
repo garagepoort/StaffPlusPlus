@@ -63,7 +63,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
             String[] optionalParamaters = Arrays.stream(args).filter(a -> getOptionalParameters().stream().anyMatch(a::startsWith)).toArray(String[]::new);
             String[] filteredArgs = Arrays.stream(args).filter(a -> getOptionalParameters().stream().noneMatch(a::startsWith)).toArray(String[]::new);
             String[] sppArgs = Arrays.stream(filteredArgs).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).anyMatch(a::startsWith)).toArray(String[]::new);
-            filteredArgs = Arrays.stream(args).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).noneMatch(a::startsWith)).toArray(String[]::new);
+            filteredArgs = Arrays.stream(filteredArgs).filter(a -> getSppArguments().stream().map(ArgumentType::getPrefix).noneMatch(a::startsWith)).toArray(String[]::new);
 
             validateMinimumArguments(sender, filteredArgs);
 

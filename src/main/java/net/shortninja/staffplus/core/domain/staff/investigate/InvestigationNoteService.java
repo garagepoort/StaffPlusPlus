@@ -46,27 +46,27 @@ public class InvestigationNoteService {
         Investigation investigation = investigationsRepository.getInvestigationForInvestigator(noteTaker.getUniqueId(), Collections.singletonList(OPEN))
             .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running.", messages.prefixInvestigations));
 
-        NoteEntity noteEntity = new NoteEntity(
+        InvestigationNoteEntity investigationNoteEntity = new InvestigationNoteEntity(
             investigation.getId(),
             note,
             noteTaker.getUniqueId(),
             noteTaker.getName());
 
-        investigationNotesRepository.addNote(noteEntity);
-        sendEvent(new InvestigationNoteCreatedEvent(investigation, noteEntity));
+        investigationNotesRepository.addNote(investigationNoteEntity);
+        sendEvent(new InvestigationNoteCreatedEvent(investigation, investigationNoteEntity));
     }
 
     public void addNote(Player noteTaker, Investigation investigation, String note) {
         validateNoteCreation(noteTaker, note);
 
-        NoteEntity noteEntity = new NoteEntity(
+        InvestigationNoteEntity investigationNoteEntity = new InvestigationNoteEntity(
             investigation.getId(),
             note,
             noteTaker.getUniqueId(),
             noteTaker.getName());
 
-        investigationNotesRepository.addNote(noteEntity);
-        sendEvent(new InvestigationNoteCreatedEvent(investigation, noteEntity));
+        investigationNotesRepository.addNote(investigationNoteEntity);
+        sendEvent(new InvestigationNoteCreatedEvent(investigation, investigationNoteEntity));
     }
 
     private void validateNoteCreation(Player noteTaker, String note) {
@@ -78,7 +78,7 @@ public class InvestigationNoteService {
 
     public void deleteNote(Player player, Investigation investigation, int id) {
         permissionHandler.validate(player, options.investigationConfiguration.getDeleteNotePermission());
-        Optional<NoteEntity> noteEntity = investigationNotesRepository.find(id);
+        Optional<InvestigationNoteEntity> noteEntity = investigationNotesRepository.find(id);
         if (noteEntity.isPresent()) {
             if (!noteEntity.get().getNotedByUuid().equals(player.getUniqueId())) {
                 permissionHandler.validate(player, options.investigationConfiguration.getDeleteNoteOthersPermission());
@@ -88,11 +88,11 @@ public class InvestigationNoteService {
         }
     }
 
-    public List<NoteEntity> getNotesForInvestigation(Investigation investigation) {
+    public List<InvestigationNoteEntity> getNotesForInvestigation(Investigation investigation) {
         return investigationNotesRepository.getAllNotes(investigation.getId());
     }
 
-    public List<NoteEntity> getNotesForInvestigation(Investigation investigation, int offset, int amount) {
+    public List<InvestigationNoteEntity> getNotesForInvestigation(Investigation investigation, int offset, int amount) {
         return investigationNotesRepository.getAllNotes(investigation.getId(), offset, amount);
     }
 

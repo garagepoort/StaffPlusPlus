@@ -9,7 +9,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +50,6 @@ public class PlayerSettingsDataFile {
     private synchronized void updateSettings(PlayerSettings settings) {
         configuration.set(settings.getUuid() + ".name", settings.getName());
         configuration.set(settings.getUuid() + ".glass-color", settings.getGlassColor() != null ? settings.getGlassColor().name() : Material.STAINED_GLASS_PANE);
-        configuration.set(settings.getUuid() + ".notes", new ArrayList<>(settings.getPlayerNotes()));
         configuration.set(settings.getUuid() + ".alert-options", alertOptions(settings));
         configuration.set(settings.getUuid() + ".vanish-type", settings.getVanishType() != null ? settings.getVanishType().name() : VanishType.NONE.name());
         configuration.set(settings.getUuid() + ".staff-mode", settings.isInStaffMode());

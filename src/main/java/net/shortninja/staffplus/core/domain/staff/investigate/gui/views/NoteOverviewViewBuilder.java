@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationNoteService;
-import net.shortninja.staffplus.core.domain.staff.investigate.NoteEntity;
+import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationNoteEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class NoteOverviewViewBuilder {
     }
 
     @NotNull
-    private Function<NoteEntity, String> getDeleteAction(String backToOverviewAction) {
+    private Function<InvestigationNoteEntity, String> getDeleteAction(String backToOverviewAction) {
         return note -> GuiActionBuilder.builder()
             .action("manage-investigation-notes/view/delete")
             .param("noteId", String.valueOf(note.getId()))
@@ -56,7 +56,7 @@ public class NoteOverviewViewBuilder {
         return "manage-investigation-notes/create?investigationId=" + investigation.getId();
     }
 
-    public List<NoteEntity> getItems(Investigation investigation, int offset, int amount) {
+    public List<InvestigationNoteEntity> getItems(Investigation investigation, int offset, int amount) {
         return investigationNoteService.getNotesForInvestigation(investigation, offset, amount);
     }
 

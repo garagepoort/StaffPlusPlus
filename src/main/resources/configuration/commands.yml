@@ -31,8 +31,11 @@ teleport-here: "teleportHere"
 # The command for examining players' inventory
 examine: "examine"
 
-# The command for managing notes for players.
+# The command for reading notes.
 notes: "notes"
+# The command for creating player notes
+note: "note"
+private-note: "pnote"
 
 # The command for running a clicks per second test on a player
 cps: "cps"

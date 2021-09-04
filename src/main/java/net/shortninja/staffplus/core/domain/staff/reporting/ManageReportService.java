@@ -75,7 +75,6 @@ public class ManageReportService {
 
     public void acceptAndClose(Player player, CloseReportRequest closeReportRequest) {
         permission.validate(player, manageReportConfiguration.permissionAccept);
-        permission.validate(player, manageReportConfiguration.permissionResolve);
 
         Report report = reportRepository.findOpenReport(closeReportRequest.getReportId())
             .orElseThrow(() -> new BusinessException("&CReport with id [" + closeReportRequest.getReportId() + "] not found", messages.prefixReports));
