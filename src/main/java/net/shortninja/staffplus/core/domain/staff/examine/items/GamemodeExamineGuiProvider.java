@@ -26,7 +26,7 @@ public class GamemodeExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public ItemStack getItem(SppPlayer player) {
+    public ItemStack getItem(Player player1, SppPlayer player) {
         return gameModeItem(player.getPlayer());
     }
 

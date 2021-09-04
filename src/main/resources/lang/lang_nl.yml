@@ -48,10 +48,14 @@ on-cooldown: "&bJe kan dit niet gebruiken voor &7%seconds% &bseconden."
 
 note-added: "&bAantekening toegevoegd aan &7%target%&b."
 note-cleared: "&bAantekeningen ontruimd voor &7%target%&b."
+note-deleted: "&bYou deleted note for &7%target%&b with id &6%noteId%&b."
 note-list-start: "&7%longline%"
 note-list-entry: "&b%count% &7%note%"
+note-list-entry-private: "&b%count% &1[&CP&1] &7%note%"
 # Lines are separated by commas
 note-list-end: "&7%longline%"
+notes.staff-notification-created: "&4%notedBy% &6has created a note for player &4%target%&6: [&7%note%&6]"
+notes.prefix: "&dNotes &8»"
 player-not-registered: "This player does not exist"
 
 login-register: "&bAangezien u personeel, moet u een wachtwoord om uw account te beschermen tegen gekaapt te registreren. Gebruik & 7/register &ben BTO register."
