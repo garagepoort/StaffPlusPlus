@@ -50,10 +50,14 @@ on-cooldown: "&bNo puedes volver a usar eso hasta &7%seconds% &bsegundos."
 
 note-added: "&bNota agregada para &7%target%&b."
 note-cleared: "&bNotas limpiadas para &7%target%&b."
+note-deleted: "&bYou deleted note for &7%target%&b with id &6%noteId%&b."
 note-list-start: "&7%longline%"
 note-list-entry: "&b%count% &7%note%"
+note-list-entry-private: "&b%count% &1[&CP&1] &7%note%"
 # Lines are separated by commas
-note-list-end: "&7%longline%" 
+note-list-end: "&7%longline%"
+notes.staff-notification-created: "&4%notedBy% &6has created a note for player &4%target%&6: [&7%note%&6]"
+notes.prefix: "&dNotes &8»"
 player-not-registered: "Este jugador no existe"
 
 login-register: "&bDado que usted es staff, debe registrar una contraseña para proteger su cuenta de ser secuestrada. Utilizar y &7/register &bpara registrar."

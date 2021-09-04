@@ -48,6 +48,7 @@ on-cooldown: '&bAnda tidak bisa menggunakan itu selama &7%seconds% &bseconds.'
 
 note-added: '&bCatatan ditambahkan untuk &7%target%&b.'
 note-cleared: '&bCatatan dibersihkan untuk &7%target%&b.'
+note-deleted: "&bYou deleted note for &7%target%&b with id &6%noteId%&b."
 note-list-start: '&7%longline%'
 note-list-entry: '&b%count% &7%note%'
 # Lines are separated by commas

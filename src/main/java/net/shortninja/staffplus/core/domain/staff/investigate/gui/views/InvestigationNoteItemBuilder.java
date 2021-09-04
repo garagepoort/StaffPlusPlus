@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
-import net.shortninja.staffplus.core.domain.staff.investigate.NoteEntity;
+import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationNoteEntity;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,17 +28,17 @@ public class InvestigationNoteItemBuilder {
     }
 
 
-    public ItemStack build(NoteEntity noteEntity) {
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(noteEntity.getCreationDate().toInstant(), ZoneOffset.UTC);
+    public ItemStack build(InvestigationNoteEntity investigationNoteEntity) {
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(investigationNoteEntity.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(options.timestampFormat));
 
         List<String> lore = new ArrayList<>();
 
-        lore.add("&bId: " + noteEntity.getId());
-        lore.add("&bNoted by: " + noteEntity.getNotedByName());
+        lore.add("&bId: " + investigationNoteEntity.getId());
+        lore.add("&bNoted by: " + investigationNoteEntity.getNotedByName());
         lore.add("&bNoted on: " + time);
         lore.add("&bNote:");
-        for (String line : formatLines(noteEntity.getNote(), 30)) {
+        for (String line : formatLines(investigationNoteEntity.getNote(), 30)) {
             lore.add("  &b" + line);
         }
 
@@ -46,10 +46,10 @@ public class InvestigationNoteItemBuilder {
         lore.add("&CRight click to delete note");
         ItemStack item = Items.builder()
             .setMaterial(Material.PAPER)
-            .setName("&cNOTE: " + noteEntity.getId())
+            .setName("&cNOTE: " + investigationNoteEntity.getId())
             .addLore(lore)
             .build();
 
-        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(noteEntity.getId()));
+        return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(investigationNoteEntity.getId()));
     }
 }
