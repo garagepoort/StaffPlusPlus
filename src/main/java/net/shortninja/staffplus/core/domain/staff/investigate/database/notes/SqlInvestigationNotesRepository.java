@@ -5,7 +5,7 @@ import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.investigate.NoteEntity;
+import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationNoteEntity;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.sql.Connection;
@@ -44,7 +44,7 @@ public class SqlInvestigationNotesRepository implements InvestigationNotesReposi
 
 
     @Override
-    public Optional<NoteEntity> find(int id) {
+    public Optional<InvestigationNoteEntity> find(int id) {
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigation_notes WHERE ID = ?")) {
             ps.setInt(1, id);
@@ -61,14 +61,14 @@ public class SqlInvestigationNotesRepository implements InvestigationNotesReposi
     }
 
     @Override
-    public void addNote(NoteEntity noteEntity) {
+    public void addNote(InvestigationNoteEntity investigationNoteEntity) {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_investigation_notes(investigation_id, noted_by_uuid, note, timestamp) " +
                  "VALUES(?, ?, ?, ?);")) {
-            insert.setInt(1, noteEntity.getInvestigationId());
-            insert.setString(2, noteEntity.getNotedByUuid().toString());
-            insert.setString(3, noteEntity.getNote());
-            insert.setLong(4, noteEntity.getCreationTimestamp());
+            insert.setInt(1, investigationNoteEntity.getInvestigationId());
+            insert.setString(2, investigationNoteEntity.getNotedByUuid().toString());
+            insert.setString(3, investigationNoteEntity.getNote());
+            insert.setLong(4, investigationNoteEntity.getCreationTimestamp());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -76,8 +76,8 @@ public class SqlInvestigationNotesRepository implements InvestigationNotesReposi
     }
 
     @Override
-    public List<NoteEntity> getAllNotes(int investigationId) {
-        List<NoteEntity> evidences = new ArrayList<>();
+    public List<InvestigationNoteEntity> getAllNotes(int investigationId) {
+        List<InvestigationNoteEntity> evidences = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigation_notes WHERE investigation_id = ? ORDER BY timestamp DESC")) {
             ps.setInt(1, investigationId);
@@ -94,8 +94,8 @@ public class SqlInvestigationNotesRepository implements InvestigationNotesReposi
     }
 
     @Override
-    public List<NoteEntity> getAllNotes(int investigationId, int offset, int amount) {
-        List<NoteEntity> evidences = new ArrayList<>();
+    public List<InvestigationNoteEntity> getAllNotes(int investigationId, int offset, int amount) {
+        List<InvestigationNoteEntity> evidences = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigation_notes WHERE investigation_id = ? ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setInt(1, investigationId);
@@ -123,13 +123,13 @@ public class SqlInvestigationNotesRepository implements InvestigationNotesReposi
         }
     }
 
-    private NoteEntity buildNote(ResultSet rs) throws SQLException {
+    private InvestigationNoteEntity buildNote(ResultSet rs) throws SQLException {
         int id = rs.getInt(ID_COLUMN);
         UUID linkedByUuid = UUID.fromString(rs.getString(NOTED_BY_UUID_COLUMN));
         int investigationId = rs.getInt(INVESTIGATION_ID_COLUMN);
         String note = rs.getString(NOTE_COLUMN);
 
-        return new NoteEntity(
+        return new InvestigationNoteEntity(
             id,
             investigationId,
             note,
