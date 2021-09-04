@@ -1,5 +1,17 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.14
+
+### Breaking
+  - Creation of notes now need a different permission. See the notes section on the wiki
+
+### Features
+  - Rework notes functionality
+  - Added the ability to create private notes.
+
+### Bug fixes
+  - Players command was not working when warnings module disabled
+
 # V1.17.13
 
 ### Breaking
