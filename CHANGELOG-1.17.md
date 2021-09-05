@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.15 (NOT YET RELEASE)
+
+### Features
+  - Added UUID to the player overview GUI
+
 # V1.17.14
 
 ### Breaking
