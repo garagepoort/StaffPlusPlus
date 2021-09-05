@@ -8,7 +8,9 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -19,12 +21,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
 public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
+    private static final String SPACE_REPLACER = "%space%";
     protected final Messages messages;
     protected final PermissionHandler permissionHandler;
     private final CommandService commandService;
@@ -56,6 +61,10 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
         try {
+            if(args.length > 0) {
+                args = replaceDoubleQoutes(args);
+            }
+
             commandService.validateAuthentication(isAuthenticationRequired(), sender);
             commandService.validatePermissions(sender, permissions);
             validateCoolDown(sender);
@@ -96,6 +105,17 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         }
     }
 
+    @NotNull
+    private String[] replaceDoubleQoutes(String[] args) {
+        String joined = String.join(" ", args);
+        List<String> allMatches = getAllMatches(joined, "(\"(?:[^\"\\\\\n]|\\\\.)*\")");
+        for (String match : allMatches) {
+            joined = joined.replace(match, match.replaceAll("\\s+", SPACE_REPLACER));
+        }
+        args = joined.split(" ");
+        return args;
+    }
+
     private void validateCoolDown(CommandSender sender) {
         if (sender instanceof Player) {
             Optional<Long> cooldown = permissionHandler.getDurationInSeconds(sender, "staff." + getName() + ".cooldown");
@@ -117,7 +137,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
             if (templateParams.length != 2) {
                 result.put(templateParams[0], null);
             } else {
-                result.put(templateParams[0], templateParams[1]);
+                result.put(templateParams[0], templateParams[1].replaceAll("^\"|\"$", "").replace(SPACE_REPLACER, " "));
             }
         }
         return result;
@@ -254,5 +274,14 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     protected List<String> autoComplete(CommandSender sender, String[] args, String[] sppArgs) throws IllegalArgumentException {
         return Collections.emptyList();
+    }
+
+    private List<String> getAllMatches(String text, String regex) {
+        List<String> matches = new ArrayList<>();
+        Matcher m = Pattern.compile("(?=(" + regex + "))").matcher(text);
+        while(m.find()) {
+            matches.add(m.group(1));
+        }
+        return matches;
     }
 }
