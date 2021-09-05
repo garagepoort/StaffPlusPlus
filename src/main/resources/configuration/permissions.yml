@@ -296,6 +296,7 @@ playerView:
     detail:
         food: "staff.player-view.detail.food"
         ip: "staff.player-view.detail.ip"
+        uuid: "staff.player-view.detail.uuid"
         gamemode: "staff.player-view.detail.gamemode"
         location: "staff.player-view.detail.location"
         timeplayed: "staff.player-view.detail.timeplayed"
