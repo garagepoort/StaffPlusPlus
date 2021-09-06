@@ -51,7 +51,7 @@ public class V69_MigrateNotesToSqlMigration implements Migration {
             "INSERT INTO sp_player_notes " +
                 "(note, target_name, target_uuid, noted_by_name, noted_by_uuid, creation_timestamp, server_name) " +
                 "VALUES ('%s', '%s', '%s', '%s', '%s', %s, '%s');",
-            note, targetName, key, "Console", Constants.CONSOLE_UUID.toString(), System.currentTimeMillis(), serverName);
+            note.replace("'", "''"), targetName, key, "Console", Constants.CONSOLE_UUID.toString(), System.currentTimeMillis(), serverName.replace("'", "''"));
     }
 
     public Optional<String> getPlayerName(UUID uuid) {
