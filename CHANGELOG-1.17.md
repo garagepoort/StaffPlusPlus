@@ -5,6 +5,9 @@
 ### Features
   - Added UUID to the player overview GUI
 
+### Bug fixes
+  - Fix notes migration not working for all notes.
+
 # V1.17.14
 
 ### Breaking
