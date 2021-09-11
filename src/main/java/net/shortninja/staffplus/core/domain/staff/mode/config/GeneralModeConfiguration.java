@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.actions.ConfiguredCommand;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.World;
 
@@ -17,8 +17,8 @@ public class GeneralModeConfiguration {
     private boolean modeItemDrop;
     private boolean modeDamage;
     private boolean modeHungerLoss;
-    private List<ConfiguredAction> modeEnableCommands;
-    private List<ConfiguredAction> modeDisableCommands;
+    private List<ConfiguredCommand> modeEnableCommands;
+    private List<ConfiguredCommand> modeDisableCommands;
     private boolean disableOnWorldChange;
     private boolean modeBlockManipulation;
     private boolean modeInventoryInteraction;
@@ -73,11 +73,11 @@ public class GeneralModeConfiguration {
         return modeHungerLoss;
     }
 
-    public List<ConfiguredAction> getModeEnableCommands() {
+    public List<ConfiguredCommand> getModeEnableCommands() {
         return modeEnableCommands;
     }
 
-    public List<ConfiguredAction> getModeDisableCommands() {
+    public List<ConfiguredCommand> getModeDisableCommands() {
         return modeDisableCommands;
     }
 
@@ -181,11 +181,11 @@ public class GeneralModeConfiguration {
         this.modeDisableOnLogout = modeDisableOnLogout;
     }
 
-    public void setModeEnableCommands(List<ConfiguredAction> modeEnableCommands) {
+    public void setModeEnableCommands(List<ConfiguredCommand> modeEnableCommands) {
         this.modeEnableCommands = modeEnableCommands;
     }
 
-    public void setModeDisableCommands(List<ConfiguredAction> modeDisableCommands) {
+    public void setModeDisableCommands(List<ConfiguredCommand> modeDisableCommands) {
         this.modeDisableCommands = modeDisableCommands;
     }
 

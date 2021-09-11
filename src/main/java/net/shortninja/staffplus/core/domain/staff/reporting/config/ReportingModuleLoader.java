@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.application.config.ConfigurationUtil;
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.actions.ConfiguredCommand;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -51,10 +51,10 @@ public class ReportingModuleLoader extends AbstractConfigLoader<ReportConfigurat
         GuiItemConfig assignedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiAssignedReportsTitle);
         GuiItemConfig closedReportsGui = new GuiItemConfig(modeGuiReports, modeGuiClosedReportsTitle);
 
-        List<ConfiguredAction> acceptReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.accept-commands", new ArrayList<>()));
-        List<ConfiguredAction> rejectReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.reject-commands", new ArrayList<>()));
-        List<ConfiguredAction> reopenReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.reopen-commands", new ArrayList<>()));
-        List<ConfiguredAction> resolveReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.resolve-commands", new ArrayList<>()));
+        List<ConfiguredCommand> acceptReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.accept-commands", new ArrayList<>()));
+        List<ConfiguredCommand> rejectReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.reject-commands", new ArrayList<>()));
+        List<ConfiguredCommand> reopenReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.reopen-commands", new ArrayList<>()));
+        List<ConfiguredCommand> resolveReportActions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("reports-module.resolve-commands", new ArrayList<>()));
 
         return new ReportConfiguration(enabled,
             cooldown,

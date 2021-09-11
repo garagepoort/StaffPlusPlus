@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface ActionTargetProvider {
 
-    Optional<SppPlayer> getTarget(ConfiguredAction configuredAction);
+    Optional<SppPlayer> getTarget(ConfiguredCommand configuredCommand);
 }

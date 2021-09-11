@@ -8,7 +8,6 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
-import net.shortninja.staffplus.core.domain.actions.ExecutableActionEntity;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.InvestigationGuiComponent;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.gui.AppealItemBuilder;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
@@ -77,8 +76,9 @@ public class ManageWarningViewBuilder {
     }
 
     private void addDeleteItem(TubingGui.Builder builder, Warning warning, String backAction) {
-        List<String> rollbackCommands = actionService.getRollbackActions(warning).stream()
-            .map(ExecutableActionEntity::getRollbackCommand)
+        List<String> rollbackCommands = actionService.getActions(warning).stream()
+            .filter(s -> s.isExecuted() && s.isRollbackable() && !s.isRollbacked())
+            .map(s -> s.getRollbackCommand().get().getCommand())
             .collect(Collectors.toList());
 
         Items.ItemStackBuilder itemStackBuilder = Items.builder()

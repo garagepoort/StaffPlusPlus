@@ -25,7 +25,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
+import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.DELAY;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TELEPORT;
@@ -36,7 +37,7 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TE
     description = "Freezes or unfreezes the player",
     usage = "[enabled | disabled] [player]",
     delayable = true,
-    playerRetrievalStrategy = ONLINE
+    playerRetrievalStrategy = BOTH
 )
 @IocBean
 @IocMultiProvider(SppCommand.class)
@@ -69,7 +70,7 @@ public class FreezeCmd extends AbstractCmd {
 
     @Override
     protected List<ArgumentType> getPreExecutionSppArguments() {
-        return Arrays.asList(TELEPORT, STRIP, HEALTH);
+        return Arrays.asList(TELEPORT, STRIP, HEALTH, DELAY);
     }
 
     @Override
