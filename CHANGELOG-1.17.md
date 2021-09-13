@@ -7,6 +7,7 @@
 
 ### Bug fixes
   - Infractions menu fails to open
+  - Warnings gui sometimes not opening when no appeal found
 
 # V1.17.15
 
