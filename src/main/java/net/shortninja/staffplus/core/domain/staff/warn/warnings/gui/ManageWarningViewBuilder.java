@@ -56,7 +56,7 @@ public class ManageWarningViewBuilder {
         if (options.appealConfiguration.enabled) {
             if (!warning.getAppeal().isPresent() && canAddAppeal(player, warning)) {
                 addCreateAppealItem(builder, warning);
-            } else {
+            } else if (warning.getAppeal().isPresent()) {
                 addAppealInfoItem(player, builder, warning, currentAction);
             }
         }
@@ -123,18 +123,20 @@ public class ManageWarningViewBuilder {
     }
 
     private void addAppealInfoItem(Player player, TubingGui.Builder builder, Warning warning, String backAction) {
-        ItemStack item = AppealItemBuilder.build(warning.getAppeal().get());
+        if (warning.getAppeal().isPresent()) {
+            ItemStack item = AppealItemBuilder.build(warning.getAppeal().get());
 
-        String action = TubingGuiActions.NOOP;
-        if (canManageAppeals(player) && warning.getAppeal().get().getStatus() == AppealStatus.OPEN) {
-            action = GuiActionBuilder.builder()
-                .action("manage-warning-appeals/view/detail")
-                .param("appealId", String.valueOf(warning.getAppeal().get().getId()))
-                .param("backAction", backAction)
-                .build();
+            String action = TubingGuiActions.NOOP;
+            if (canManageAppeals(player) && warning.getAppeal().get().getStatus() == AppealStatus.OPEN) {
+                action = GuiActionBuilder.builder()
+                    .action("manage-warning-appeals/view/detail")
+                    .param("appealId", String.valueOf(warning.getAppeal().get().getId()))
+                    .param("backAction", backAction)
+                    .build();
+            }
+
+            builder.addItem(action, 31, item);
         }
-
-        builder.addItem(action, 31, item);
     }
 
     private boolean canManageAppeals(Player player) {
