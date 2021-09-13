@@ -1,6 +1,14 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.15 (NOT YET RELEASE)
+# V1.17.16 (NOT YET RELEASED)
+
+### Features
+  - UUID on player overview is now visible even if player is offline
+
+### Bug fixes
+  - Infractions menu fails to open
+
+# V1.17.15
 
 ### Features
   - Added UUID to the player overview GUI
