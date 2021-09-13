@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.actions;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.domain.delayedactions.database.StoredCommandRepository;
+import net.shortninja.staffplus.core.domain.actions.database.StoredCommandRepository;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.Actionable;
 import net.shortninja.staffplusplus.session.SppPlayer;

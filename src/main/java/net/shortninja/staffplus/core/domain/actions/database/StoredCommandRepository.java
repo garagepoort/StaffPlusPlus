@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.delayedactions.database;
+package net.shortninja.staffplus.core.domain.actions.database;
 
 import net.shortninja.staffplus.core.domain.actions.StoredCommandEntity;
 import net.shortninja.staffplusplus.Actionable;
@@ -21,4 +21,8 @@ public interface StoredCommandRepository {
     void markDelayed(int id);
 
     void markRollbacked(int id);
+
+    void deleteExecutedCommands();
+
+    void deleteAllFromActionable(int actionable_id);
 }

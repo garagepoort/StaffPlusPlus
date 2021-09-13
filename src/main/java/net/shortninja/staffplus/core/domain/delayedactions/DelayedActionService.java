@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.delayedactions;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.StoredCommandEntity;
-import net.shortninja.staffplus.core.domain.delayedactions.database.StoredCommandRepository;
+import net.shortninja.staffplus.core.domain.actions.database.StoredCommandRepository;
 import org.bukkit.entity.Player;
 
 import java.util.List;

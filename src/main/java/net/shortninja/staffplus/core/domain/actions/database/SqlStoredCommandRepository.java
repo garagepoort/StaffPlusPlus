@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.delayedactions.database;
+package net.shortninja.staffplus.core.domain.actions.database;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
@@ -7,7 +7,6 @@ import net.shortninja.staffplus.core.application.database.SqlRepository;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
 import net.shortninja.staffplus.core.domain.actions.StoredCommandEntity;
-import net.shortninja.staffplus.core.domain.actions.database.StoredCommandSqlMapper;
 import net.shortninja.staffplusplus.Actionable;
 
 import java.sql.Connection;
@@ -162,6 +161,7 @@ public class SqlStoredCommandRepository extends SqlRepository implements StoredC
             throw new DatabaseException(e);
         }
     }
+
     @Override
     public void markDelayed(int executableActionId) {
         try (Connection sql = getConnection();
@@ -181,6 +181,36 @@ public class SqlStoredCommandRepository extends SqlRepository implements StoredC
             insert.setLong(1, System.currentTimeMillis());
             insert.setInt(2, id);
             insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    @Override
+    public void deleteExecutedCommands() {
+        try (Connection sql = getConnection();
+             PreparedStatement delete = sql.prepareStatement("DELETE FROM sp_commands WHERE " +
+                 "execution_timestamp IS NOT NULL " +
+                 "AND (rollback_command_id IS NULL OR rollback_timestamp IS NOT NULL) " +
+                 "AND actionable_id IS NOT NULL;")) {
+            delete.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    @Override
+    public void deleteAllFromActionable(int actionable_id) {
+        try (Connection sql = getConnection()) {
+            sql.setAutoCommit(false);
+            PreparedStatement deleteRollbackCommands = sql.prepareStatement("DELETE FROM sp_commands WHERE id in (SELECT rollback_command_id from sp_commands where actionable_id = ?);");
+            deleteRollbackCommands.setInt(1, actionable_id);
+            deleteRollbackCommands.executeUpdate();
+
+            PreparedStatement delete = sql.prepareStatement("DELETE FROM sp_commands WHERE actionable_id = ?;");
+            delete.setInt(1, actionable_id);
+            delete.executeUpdate();
+            sql.setAutoCommit(true);
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }

@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.actions.config;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.domain.actions.ActionFilter;
@@ -15,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.domain.actions.CreateStoredCommandRequest.CreateStoredCommandRequestBuilder.commandBuilder;
 
 @IocBean
@@ -38,25 +38,37 @@ public class ConfiguredCommandMapper {
     }
 
     public CreateStoredCommandRequest toCreateRequest(Map<String, String> placeholders, Map<String, OfflinePlayer> targets, ConfiguredCommand c) {
+
+        OfflinePlayer target = getTarget(c, targets);
+        UUID executionerUuid;
+        if (c.getExecutioner().equalsIgnoreCase("console")) {
+            executionerUuid = CONSOLE_UUID;
+            placeholders.put("%executioner%", "console");
+        } else {
+            OfflinePlayer executionerPlayer = getExecutioner(c, targets);
+            executionerUuid = executionerPlayer.getUniqueId();
+            placeholders.put("%executioner%", executionerPlayer.getName());
+        }
+
+        if (target != null) {
+            placeholders.put("%target%", target.getName());
+        }
         return commandBuilder()
             .command(JavaUtils.replacePlaceholders(c.getCommand(), placeholders))
-            .executioner(getExecutioner(c, targets))
+            .executioner(executionerUuid)
             .executionerRunStrategy(c.getExecutionerRunStrategy())
-            .target(getTarget(c, targets))
+            .target(target)
             .targetRunStrategy(c.getTargetRunStrategy().orElse(null))
             .serverName(options.serverName)
             .build();
     }
 
-    private UUID getExecutioner(ConfiguredCommand configuredCommand, Map<String, OfflinePlayer> targets) {
+    private OfflinePlayer getExecutioner(ConfiguredCommand configuredCommand, Map<String, OfflinePlayer> targets) {
         String key = configuredCommand.getExecutioner();
-        if (key.equalsIgnoreCase("console")) {
-            return Constants.CONSOLE_UUID;
-        }
         if (!targets.containsKey(key)) {
             throw new ConfigurationException("No executioner [" + key + "] know for this command configuration");
         }
-        return targets.get(key).getUniqueId();
+        return targets.get(key);
     }
 
     private OfflinePlayer getTarget(ConfiguredCommand configuredCommand, Map<String, OfflinePlayer> targets) {

@@ -1,8 +1,7 @@
-package net.shortninja.staffplus.core.domain.delayedactions;
+package net.shortninja.staffplus.core.domain.actions;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.domain.actions.CommandExecutedEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
