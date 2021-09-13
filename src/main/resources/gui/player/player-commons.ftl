@@ -9,9 +9,13 @@
              material="SKULL_ITEM" name="&5${sppPlayer.username}">
         <Lore>
 
-            <LoreLine permission="config|permissions:playerView.detail.uuid">&bUUID: &6${sppPlayer.id}</LoreLine>
-            <#if sppPlayer.online>
+            <#if sppPlayer.online || $permissions.has(player, $config.get("permissions:playerView.detail.uuid"))>
                 <@commons.line />
+            </#if>
+
+            <LoreLine permission="config|permissions:playerView.detail.uuid">&bUUID: &6${sppPlayer.id}</LoreLine>
+
+            <#if sppPlayer.online>
                 <LoreLine permission="config|permissions:playerView.detail.ip">&bIp: &6${BukkitUtils.getIpFromPlayer(sppPlayer.player)}</LoreLine>
                 <LoreLine permission="config|permissions:playerView.detail.gamemode">&bGamemode: &6${sppPlayer.player.gameMode}</LoreLine>
                 <LoreLine permission="config|permissions:playerView.detail.food">&bFood: &6${sppPlayer.player.foodLevel}</LoreLine>

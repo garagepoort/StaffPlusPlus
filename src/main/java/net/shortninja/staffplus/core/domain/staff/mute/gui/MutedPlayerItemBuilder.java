@@ -48,7 +48,7 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
             .build();
 
         ItemStack item = Items.builder()
-            .setMaterial(Material.PLAYER_HEAD)
+            .setMaterial(Material.SKULL_ITEM)
             .setName("&3Mute")
             .addLore(lore)
             .build();
