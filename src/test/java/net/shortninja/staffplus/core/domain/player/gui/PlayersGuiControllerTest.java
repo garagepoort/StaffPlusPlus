@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -39,6 +40,9 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
+
+    private static final UUID UUID_PLAYER_1 = java.util.UUID.fromString("a8525382-49ed-4c9c-9c50-c00a0e570159");
+    private static final UUID UUID_PLAYER_2 = java.util.UUID.fromString("98095f6e-f1f8-4884-93e9-6cc0c7d9cad1");
 
     @Mock
     private PlayerManager playerManager;
@@ -120,8 +124,11 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
         when(playerManager.getOnlineSppPlayers()).thenReturn(Arrays.asList(sppPlayer1, sppPlayer2));
         when(sppPlayer1.getUsername()).thenReturn("player1");
         when(sppPlayer2.getUsername()).thenReturn("player2");
+        when(sppPlayer1.getId()).thenReturn(UUID_PLAYER_1);
+        when(sppPlayer2.getId()).thenReturn(UUID_PLAYER_2);
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer1)).thenReturn(Optional.empty());
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer2)).thenReturn(Optional.empty());
+        when(templateConfigResolver.get("permissions:playerView.detail.uuid")).thenReturn("playerview-detail-uuid");
 
         guiActionService.executeAction(player, "players/view/overview/online?backAction=goBack/view");
 
@@ -135,8 +142,11 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
         when(playerManager.getOfflinePlayers()).thenReturn(Arrays.asList(sppPlayer1, sppPlayer2));
         when(sppPlayer1.getUsername()).thenReturn("player1");
         when(sppPlayer2.getUsername()).thenReturn("player2");
+        when(sppPlayer1.getId()).thenReturn(UUID_PLAYER_1);
+        when(sppPlayer2.getId()).thenReturn(UUID_PLAYER_2);
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer1)).thenReturn(Optional.empty());
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer2)).thenReturn(Optional.empty());
+        when(templateConfigResolver.get("permissions:playerView.detail.uuid")).thenReturn("playerview-detail-uuid");
 
         guiActionService.executeAction(player, "players/view/overview/offline?backAction=goBack/view");
 
@@ -158,6 +168,7 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
         when(templateConfigResolver.get("permissions:ban-view")).thenReturn("ban-view");
         when(templateConfigResolver.get("permissions:ipban.ban-view")).thenReturn("ipban.ban-view");
         when(templateConfigResolver.get("permissions:follow")).thenReturn("follow");
+        when(templateConfigResolver.get("permissions:playerView.detail.uuid")).thenReturn("playerview-detail-uuid");
         when(templateConfigResolver.get("permissions:freeze")).thenReturn("freeze");
         when(templateConfigResolver.get("permissions:teleport-to-player")).thenReturn("teleport-to-player");
         when(templateConfigResolver.get("permissions:teleport-here")).thenReturn("teleport-here");
