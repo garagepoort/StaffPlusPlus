@@ -61,7 +61,7 @@ public class SqlStoredCommandRepository extends SqlRepository implements StoredC
         insert.setString(5, commandEntity.getCommand());
         insert.setLong(6, System.currentTimeMillis());
         insertIfPresent(insert, 7, commandEntity.getExecutionTimestamp(), Types.BIGINT);
-        insert.setString(8, commandEntity.getServerName());
+        insertIfPresent(insert, 8, commandEntity.getServerName(), Types.VARCHAR);
         insert.setBoolean(9, commandEntity.isDelayed());
 
         if (commandEntity.getRollbackCommand().isPresent()) {

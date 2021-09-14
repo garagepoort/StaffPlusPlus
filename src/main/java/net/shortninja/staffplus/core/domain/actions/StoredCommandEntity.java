@@ -130,8 +130,8 @@ public class StoredCommandEntity {
         return executionTimestamp != null;
     }
 
-    public String getServerName() {
-        return serverName;
+    public Optional<String> getServerName() {
+        return Optional.ofNullable(serverName);
     }
 
     public void setId(int id) {

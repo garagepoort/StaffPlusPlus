@@ -26,10 +26,10 @@ public class ConfiguredCommandMapper {
         this.options = options;
     }
 
-    public List<CreateStoredCommandRequest> toCreateRequests(Map<String, String> placeholders, Map<String, OfflinePlayer> targets, List<ConfiguredCommand> configuredCommands, List<ActionFilter> actionFilters) {
+    public List<CreateStoredCommandRequest> toCreateRequests(List<ConfiguredCommand> configuredCommands, Map<String, String> placeholders, Map<String, OfflinePlayer> targets, List<ActionFilter> actionFilters) {
         List<CreateStoredCommandRequest> list = new ArrayList<>();
         for (ConfiguredCommand c : configuredCommands) {
-            CreateStoredCommandRequest createStoredCommandRequest = toCreateRequest(placeholders, targets, c);
+            CreateStoredCommandRequest createStoredCommandRequest = toCreateRequest(c, placeholders, targets);
             if (actionFilters.stream().allMatch(a -> a.isValidAction(createStoredCommandRequest, c.getFilters()))) {
                 list.add(createStoredCommandRequest);
             }
@@ -37,7 +37,7 @@ public class ConfiguredCommandMapper {
         return list;
     }
 
-    public CreateStoredCommandRequest toCreateRequest(Map<String, String> placeholders, Map<String, OfflinePlayer> targets, ConfiguredCommand c) {
+    public CreateStoredCommandRequest toCreateRequest(ConfiguredCommand c, Map<String, String> placeholders, Map<String, OfflinePlayer> targets) {
 
         OfflinePlayer target = getTarget(c, targets);
         UUID executionerUuid;

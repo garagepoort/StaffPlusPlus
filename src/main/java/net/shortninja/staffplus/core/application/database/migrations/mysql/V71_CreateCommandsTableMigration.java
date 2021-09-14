@@ -20,7 +20,7 @@ public class V71_CreateCommandsTableMigration implements Migration {
             "target_run_strategy VARCHAR(255) NULL,  " +
             "creation_timestamp BIGINT NOT NULL, " +
             "execution_timestamp BIGINT NULL, " +
-            "server_name VARCHAR(255) NOT NULL, " +
+            "server_name VARCHAR(255) NULL, " +
 
             "is_delayed BOOLEAN default 0, " +
             "PRIMARY KEY (ID)) ENGINE = InnoDB;";

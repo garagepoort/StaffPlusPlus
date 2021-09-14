@@ -118,7 +118,7 @@ public class ActionService {
     }
 
     private boolean canExecute(StoredCommandEntity storedCommandEntity) {
-        if (!storedCommandEntity.getServerName().equals(options.serverName)) {
+        if (storedCommandEntity.getServerName().isPresent() && !storedCommandEntity.getServerName().get().equals(options.serverName)) {
             return false;
         }
         boolean executionerOnline = storedCommandEntity.getExecutionerUuid().equals(CONSOLE_UUID) || playerManager.getOnlinePlayer(storedCommandEntity.getExecutionerUuid()).isPresent();

@@ -77,7 +77,7 @@ public class ReportActionsHook implements Listener {
         assigned.ifPresent(sppPlayer -> targets.put("assigned", sppPlayer.getOfflinePlayer()));
         culprit.ifPresent(sppPlayer -> targets.put("culprit", sppPlayer.getOfflinePlayer()));
 
-        actionService.createCommands(configuredCommandMapper.toCreateRequests(placeholders, targets, commands, Arrays.asList(new ReportTypeActionFilter(report), new ReportCulpritActionFilter(report))));
+        actionService.createCommands(configuredCommandMapper.toCreateRequests(commands, placeholders, targets, Arrays.asList(new ReportTypeActionFilter(report), new ReportCulpritActionFilter(report))));
 
     }
 

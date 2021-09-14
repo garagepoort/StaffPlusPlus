@@ -66,7 +66,7 @@ public class InvestigationActionsHook implements Listener {
             investigator.ifPresent(sppPlayer -> targets.put("investigator", sppPlayer.getOfflinePlayer()));
             investigated.ifPresent(sppPlayer -> targets.put("investigated", sppPlayer.getOfflinePlayer()));
 
-            actionService.createCommands(configuredCommandMapper.toCreateRequests(placeholders, targets, concludeInvestigationCommands, Collections.emptyList()));
+            actionService.createCommands(configuredCommandMapper.toCreateRequests(concludeInvestigationCommands, placeholders, targets, Collections.emptyList()));
         }
     }
 

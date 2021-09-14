@@ -83,7 +83,7 @@ public class StaffModeActionListener implements Listener {
         Map<String, OfflinePlayer> targets = new HashMap<>();
         targets.put("staff", staff.getOfflinePlayer());
 
-        List<CreateStoredCommandRequest> commandCreateRequest = configuredCommandMapper.toCreateRequests(placeholders, targets, modeCommands, singletonList(permissionActionFilter));
+        List<CreateStoredCommandRequest> commandCreateRequest = configuredCommandMapper.toCreateRequests(modeCommands, placeholders, targets, singletonList(permissionActionFilter));
         actionService.createCommands(commandCreateRequest);
     }
 

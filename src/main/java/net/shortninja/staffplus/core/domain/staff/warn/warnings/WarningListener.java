@@ -46,15 +46,17 @@ public class WarningListener implements Listener {
     @EventHandler
     public void executeCreateActions(WarningCreatedEvent warningCreatedEvent) {
         UUID targetUuid = warningCreatedEvent.getWarning().getTargetUuid();
-        Optional<SppPlayer> culprit = playerManager.getOnOrOfflinePlayer(targetUuid);
+        Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
 
         Map<String, String> placeholders = new HashMap<>();
-        culprit.ifPresent(sppPlayer -> placeholders.put("%culprit%", sppPlayer.getUsername()));
         Map<String, OfflinePlayer> targets = new HashMap<>();
-        culprit.ifPresent(sppPlayer -> targets.put("culprit", sppPlayer.getOfflinePlayer()));
+        target.ifPresent(sppPlayer -> {
+            placeholders.put("%target%", sppPlayer.getUsername());
+            targets.put("target", sppPlayer.getOfflinePlayer());
+        });
 
-        actionService.createCommands(configuredCommandMapper.toCreateRequests(placeholders, targets, options.warningConfiguration.getActions(), Collections.singletonList(new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT))));
-        culprit.ifPresent(sppPlayer -> thresholdService.handleThresholds(warningCreatedEvent.getWarning(), sppPlayer));
+        actionService.createCommands(configuredCommandMapper.toCreateRequests(options.warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT))));
+        target.ifPresent(sppPlayer -> thresholdService.handleThresholds(warningCreatedEvent.getWarning(), sppPlayer));
     }
 
     @EventHandler
