@@ -6,7 +6,9 @@ import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.domain.actions.ActionFilter;
 import net.shortninja.staffplus.core.domain.actions.CreateStoredCommandRequest;
+import net.shortninja.staffplus.core.domain.actions.CreateStoredCommandRequest.CreateStoredCommandRequestBuilder;
 import net.shortninja.staffplus.core.domain.actions.PermissionActionFilter;
+import net.shortninja.staffplusplus.Actionable;
 import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
@@ -29,12 +31,16 @@ public class ConfiguredCommandMapper {
     }
 
     public List<CreateStoredCommandRequest> toCreateRequests(List<ConfiguredCommand> configuredCommands, Map<String, String> placeholders, Map<String, OfflinePlayer> targets, List<ActionFilter> actionFilters) {
+        return toCreateRequests(null, configuredCommands, placeholders, targets, actionFilters);
+    }
+
+    public List<CreateStoredCommandRequest> toCreateRequests(Actionable actionable, List<ConfiguredCommand> configuredCommands, Map<String, String> placeholders, Map<String, OfflinePlayer> targets, List<ActionFilter> actionFilters) {
         List<ActionFilter> filters = new ArrayList<>(actionFilters);
         filters.add(permissionActionFilter);
 
         List<CreateStoredCommandRequest> list = new ArrayList<>();
         for (ConfiguredCommand c : configuredCommands) {
-            CreateStoredCommandRequest createStoredCommandRequest = toCreateRequest(c, placeholders, targets);
+            CreateStoredCommandRequest createStoredCommandRequest = toCreateRequest(actionable, c, placeholders, targets);
             if (filters.stream().allMatch(a -> a.isValidAction(createStoredCommandRequest, c.getFilters()))) {
                 list.add(createStoredCommandRequest);
             }
@@ -43,6 +49,10 @@ public class ConfiguredCommandMapper {
     }
 
     public CreateStoredCommandRequest toCreateRequest(ConfiguredCommand c, Map<String, String> placeholders, Map<String, OfflinePlayer> targets) {
+        return toCreateRequest(null, c, placeholders, targets);
+    }
+
+    public CreateStoredCommandRequest toCreateRequest(Actionable actionable, ConfiguredCommand c, Map<String, String> placeholders, Map<String, OfflinePlayer> targets) {
 
         OfflinePlayer target = getTarget(c, targets);
         UUID executorUuid;
@@ -58,14 +68,26 @@ public class ConfiguredCommandMapper {
         if (target != null) {
             placeholders.put("%target%", target.getName());
         }
-        return commandBuilder()
+
+        CreateStoredCommandRequestBuilder builder = commandBuilder()
             .command(JavaUtils.replacePlaceholders(c.getCommand(), placeholders))
             .executor(executorUuid)
             .executorRunStrategy(c.getExecutorRunStrategy())
             .target(target)
             .targetRunStrategy(c.getTargetRunStrategy().orElse(null))
-            .serverName(options.serverName)
-            .build();
+            .serverName(options.serverName);
+
+        if (actionable != null) {
+            builder
+                .actionableId(actionable.getId())
+                .actionableType(actionable.getActionableType());
+        }
+
+        if (c.getRollbackCommand().isPresent()) {
+            builder.rollbackCommand(toCreateRequest(actionable, c.getRollbackCommand().get(), placeholders, targets));
+        }
+
+        return builder.build();
     }
 
     private OfflinePlayer getExecutor(ConfiguredCommand configuredCommand, Map<String, OfflinePlayer> targets) {

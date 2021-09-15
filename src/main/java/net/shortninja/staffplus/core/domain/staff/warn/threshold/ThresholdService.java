@@ -57,9 +57,11 @@ public class ThresholdService {
         Optional<SppPlayer> culprit = playerManager.getOnOrOfflinePlayer(warning.getTargetUuid());
 
         List<CreateStoredCommandRequest> commands = configuredCommandMapper.toCreateRequests(
-                threshold.get().getActions(), getPlaceholders(culprit),
+            warning,
+            threshold.get().getActions(),
+            getPlaceholders(culprit),
             getTargets(culprit),
-                Collections.emptyList());
+            Collections.emptyList());
 
         List<String> executedCommands = actionService.createCommands(commands)
             .stream()

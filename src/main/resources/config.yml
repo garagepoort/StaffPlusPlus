@@ -159,8 +159,8 @@ warnings-module:
   thresholds:
     - score: 6
       actions:
-        - command: "ban %player% &4Warning threshold has been met"
-          run-strategy: ALWAYS
+        - command: "ban %target% &4Warning threshold has been met"
+
   appeals:
       enabled: true
       resolve-reason-enabled: false

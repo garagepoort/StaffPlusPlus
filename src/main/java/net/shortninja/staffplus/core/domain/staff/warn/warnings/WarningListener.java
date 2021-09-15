@@ -55,7 +55,7 @@ public class WarningListener implements Listener {
             targets.put("target", sppPlayer.getOfflinePlayer());
         });
 
-        actionService.createCommands(configuredCommandMapper.toCreateRequests(options.warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT))));
+        actionService.createCommands(configuredCommandMapper.toCreateRequests(warningCreatedEvent.getWarning(), options.warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT))));
         target.ifPresent(sppPlayer -> thresholdService.handleThresholds(warningCreatedEvent.getWarning(), sppPlayer));
     }
 
