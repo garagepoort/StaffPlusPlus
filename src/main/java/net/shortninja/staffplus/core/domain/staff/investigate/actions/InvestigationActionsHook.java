@@ -16,11 +16,12 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static java.util.Collections.singletonList;
 
 @IocBean
 @IocListener
@@ -66,7 +67,8 @@ public class InvestigationActionsHook implements Listener {
             investigator.ifPresent(sppPlayer -> targets.put("investigator", sppPlayer.getOfflinePlayer()));
             investigated.ifPresent(sppPlayer -> targets.put("investigated", sppPlayer.getOfflinePlayer()));
 
-            actionService.createCommands(configuredCommandMapper.toCreateRequests(concludeInvestigationCommands, placeholders, targets, Collections.emptyList()));
+            InvestigationInvestigatedActionFilter filter = new InvestigationInvestigatedActionFilter(investigation);
+            actionService.createCommands(configuredCommandMapper.toCreateRequests(concludeInvestigationCommands, placeholders, targets, singletonList(filter)));
         }
     }
 

@@ -27,14 +27,14 @@ import static java.util.Collections.emptyList;
 
 @IocBean
 @IocListener
-public class StaffModeActionListener implements Listener {
+public class StaffModeActionHook implements Listener {
 
     private final PlayerManager playerManager;
     private final ModeProvider modeProvider;
     private final ActionService actionService;
     private final ConfiguredCommandMapper configuredCommandMapper;
 
-    public StaffModeActionListener(PlayerManager playerManager, ModeProvider modeProvider, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper) {
+    public StaffModeActionHook(PlayerManager playerManager, ModeProvider modeProvider, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper) {
         this.playerManager = playerManager;
         this.modeProvider = modeProvider;
         this.actionService = actionService;
