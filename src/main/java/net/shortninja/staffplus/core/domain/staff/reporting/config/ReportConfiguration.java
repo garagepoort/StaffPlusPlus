@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredCommand;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 
 import java.util.List;

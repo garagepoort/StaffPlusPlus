@@ -2,14 +2,14 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 
 import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredCommand;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.domain.actions.ActionConfigLoader.loadActions;
+import static net.shortninja.staffplus.core.domain.actions.config.ActionConfigLoader.loadActions;
 
 public class ThresholdConfigTransformer implements IConfigTransformer<List<WarningThresholdConfiguration>, List<LinkedHashMap<String, Object>>> {
 

@@ -1,4 +1,6 @@
-package net.shortninja.staffplus.core.domain.actions;
+package net.shortninja.staffplus.core.domain.actions.config;
+
+import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
 
 import java.util.HashMap;
 import java.util.Map;

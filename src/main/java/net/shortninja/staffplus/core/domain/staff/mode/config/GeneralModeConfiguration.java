@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
-import net.shortninja.staffplus.core.domain.actions.ConfiguredCommand;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.World;
 

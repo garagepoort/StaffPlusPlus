@@ -1,8 +1,9 @@
-package net.shortninja.staffplus.core.domain.actions;
+package net.shortninja.staffplus.core.domain.actions.config;
 
 import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import net.shortninja.staffplus.core.application.config.ConfigurationUtil;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
+import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedHashMap;

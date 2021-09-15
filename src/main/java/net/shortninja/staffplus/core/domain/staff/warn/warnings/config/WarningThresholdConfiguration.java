@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 
-import net.shortninja.staffplus.core.domain.actions.ConfiguredCommand;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 
 import java.util.List;
 

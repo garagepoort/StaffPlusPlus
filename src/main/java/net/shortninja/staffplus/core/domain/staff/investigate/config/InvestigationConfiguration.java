@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.config;
 
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredCommand;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 
 import java.util.List;
 import java.util.Optional;
