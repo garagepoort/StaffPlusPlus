@@ -14,9 +14,9 @@ public class V71_CreateCommandsTableMigration implements Migration {
             "rollback_command_id INT NULL, " +
 
             "command VARCHAR(255) NOT NULL,  " +
-            "executioner_uuid VARCHAR(36) NOT NULL, " +
+            "executor_uuid VARCHAR(36) NOT NULL, " +
             "target_uuid VARCHAR(36) NULL, " +
-            "executioner_run_strategy VARCHAR(255) NOT NULL,  " +
+            "executor_run_strategy VARCHAR(255) NOT NULL,  " +
             "target_run_strategy VARCHAR(255) NULL,  " +
             "creation_timestamp BIGINT NOT NULL, " +
             "execution_timestamp BIGINT NULL, " +

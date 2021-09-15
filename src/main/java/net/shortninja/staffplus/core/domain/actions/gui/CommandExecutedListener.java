@@ -13,7 +13,7 @@ public class CommandExecutedListener implements Listener {
 
     @EventHandler
     public void handleDelayedActions(CommandExecutedEvent event) {
-        Bukkit.dispatchCommand(event.getExecutioner(), event.getCommand());
+        Bukkit.dispatchCommand(event.getExecutor(), event.getCommand());
     }
 
 }

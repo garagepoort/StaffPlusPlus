@@ -9,17 +9,17 @@ import java.util.Optional;
 public class ConfiguredCommand {
 
     private final String command;
-    private final String executioner;
-    private final ActionRunStrategy executionerRunStrategy;
+    private final String executor;
+    private final ActionRunStrategy executorRunStrategy;
     private final String target;
     private final ActionRunStrategy targetRunStrategy;
     private final Map<String, String> filters;
     private final ConfiguredCommand rollbackCommand;
 
-    public ConfiguredCommand(String command, String executioner, ActionRunStrategy executionerRunStrategy, String target, ActionRunStrategy targetRunStrategy, Map<String, String> filters, ConfiguredCommand rollbackCommand) {
+    public ConfiguredCommand(String command, String executor, ActionRunStrategy executorRunStrategy, String target, ActionRunStrategy targetRunStrategy, Map<String, String> filters, ConfiguredCommand rollbackCommand) {
         this.command = command;
-        this.executioner = executioner;
-        this.executionerRunStrategy = executionerRunStrategy;
+        this.executor = executor;
+        this.executorRunStrategy = executorRunStrategy;
         this.target = target;
         this.targetRunStrategy = targetRunStrategy;
         this.rollbackCommand = rollbackCommand;
@@ -31,12 +31,12 @@ public class ConfiguredCommand {
         return command;
     }
 
-    public String getExecutioner() {
-        return executioner;
+    public String getExecutor() {
+        return executor;
     }
 
-    public ActionRunStrategy getExecutionerRunStrategy() {
-        return executionerRunStrategy;
+    public ActionRunStrategy getExecutorRunStrategy() {
+        return executorRunStrategy;
     }
 
     public Optional<String> getTarget() {

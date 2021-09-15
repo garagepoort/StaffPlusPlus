@@ -25,11 +25,11 @@ public class PermissionActionFilter implements ActionFilter {
     @Override
     public boolean isValidAction(CreateStoredCommandRequest createStoredCommandRequest, Map<String, String> filters) {
         if (filters.containsKey(PERMISSION)) {
-            if (createStoredCommandRequest.getExecutioner().equals(Constants.CONSOLE_UUID)) {
+            if (createStoredCommandRequest.getExecutor().equals(Constants.CONSOLE_UUID)) {
                 return true;
             }
 
-            Optional<SppPlayer> onlinePlayer = playerManager.getOnlinePlayer(createStoredCommandRequest.getExecutioner());
+            Optional<SppPlayer> onlinePlayer = playerManager.getOnlinePlayer(createStoredCommandRequest.getExecutor());
             if (onlinePlayer.isPresent()) {
                 String permission = filters.get(PERMISSION);
                 return permissionHandler.has(onlinePlayer.get().getPlayer(), permission);

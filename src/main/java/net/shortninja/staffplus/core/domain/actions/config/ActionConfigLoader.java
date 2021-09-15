@@ -34,14 +34,14 @@ public class ActionConfigLoader implements IConfigTransformer<List<ConfiguredCom
         }
         String command = (String) map.get("command");
         ConfiguredCommand rollbackCommand = map.containsKey("rollback-command") ? mapCommand((LinkedHashMap<String, Object>) map.get("rollback-command")) : null;
-        String executioner = map.containsKey("executioner") ? (String) map.get("executioner") : "console";
+        String executor = map.containsKey("executor") ? (String) map.get("executor") : "console";
         String target = (String) map.get("target");
-        ActionRunStrategy executionerRunStrategy = map.containsKey("executioner-run-strategy") ? ActionRunStrategy.valueOf((String) map.get("executioner-run-strategy")) : ActionRunStrategy.ONLINE;
+        ActionRunStrategy executorRunStrategy = map.containsKey("executor-run-strategy") ? ActionRunStrategy.valueOf((String) map.get("executor-run-strategy")) : ActionRunStrategy.ONLINE;
         ActionRunStrategy targetRunStrategy = map.containsKey("target-run-strategy") ? ActionRunStrategy.valueOf((String) map.get("target-run-strategy")) : null;
         String filtersString = map.containsKey("filters") ? (String) map.get("filters") : null;
 
         Map<String, String> filterMap = ConfigurationUtil.loadFilters(filtersString);
 
-        return new ConfiguredCommand(command, executioner, executionerRunStrategy, target, targetRunStrategy, filterMap, rollbackCommand);
+        return new ConfiguredCommand(command, executor, executorRunStrategy, target, targetRunStrategy, filterMap, rollbackCommand);
     }
 }

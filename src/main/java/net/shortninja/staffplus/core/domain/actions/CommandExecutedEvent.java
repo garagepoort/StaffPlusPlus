@@ -7,16 +7,16 @@ import org.bukkit.event.HandlerList;
 public class CommandExecutedEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
 
-    private final CommandSender executioner;
+    private final CommandSender executor;
     private final String command;
 
-    public CommandExecutedEvent(CommandSender executioner, String command) {
-        this.executioner = executioner;
+    public CommandExecutedEvent(CommandSender executor, String command) {
+        this.executor = executor;
         this.command = command;
     }
 
-    public CommandSender getExecutioner() {
-        return executioner;
+    public CommandSender getExecutor() {
+        return executor;
     }
 
     public String getCommand() {

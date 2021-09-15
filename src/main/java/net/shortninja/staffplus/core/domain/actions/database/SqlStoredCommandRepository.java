@@ -51,10 +51,10 @@ public class SqlStoredCommandRepository extends SqlRepository implements StoredC
     }
 
     private int save(StoredCommandEntity commandEntity, Connection sql) throws SQLException {
-        PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_commands(executioner_uuid, executioner_run_strategy, target_uuid, target_run_strategy, command, creation_timestamp, execution_timestamp, server_name, is_delayed, rollback_command_id) " +
+        PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_commands(executor_uuid, executor_run_strategy, target_uuid, target_run_strategy, command, creation_timestamp, execution_timestamp, server_name, is_delayed, rollback_command_id) " +
             " VALUES(? ,?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
         sql.setAutoCommit(false);
-        insert.setString(1, commandEntity.getExecutionerUuid().toString());
+        insert.setString(1, commandEntity.getExecutorUuid().toString());
         insert.setString(2, ActionRunStrategy.ALWAYS.toString());
         insertIfPresent(insert, 3, commandEntity.getTargetUuid().map(UUID::toString), Types.VARCHAR);
         insertIfPresent(insert, 4, commandEntity.getTargetRunStrategy().map(Enum::name), Types.VARCHAR);
@@ -128,7 +128,7 @@ public class SqlStoredCommandRepository extends SqlRepository implements StoredC
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_commands " +
                  "LEFT OUTER JOIN sp_commands rollbackcommand on sp_commands.rollback_command_id = rollbackcommand.id " +
-                 "WHERE ((sp_commands.executioner_uuid = ? AND sp_commands.executioner_run_strategy = ?) " +
+                 "WHERE ((sp_commands.executor_uuid = ? AND sp_commands.executor_run_strategy = ?) " +
                  "OR (sp_commands.target_uuid = ? AND sp_commands.target_run_strategy = ?)) " +
                  "AND sp_commands.execution_timestamp IS NULL " +
                  "AND sp_commands.is_delayed = ? " + serverNameFilter + " " +

@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public class CreateStoredCommandRequest {
 
-    private final UUID executioner;
-    private final ActionRunStrategy executionerRunStrategy;
+    private final UUID executor;
+    private final ActionRunStrategy executorRunStrategy;
     private final OfflinePlayer target;
     private final ActionRunStrategy targetRunStrategy;
     private final String command;
@@ -19,8 +19,8 @@ public class CreateStoredCommandRequest {
     private final String actionableType;
     private final String serverName;
 
-    public CreateStoredCommandRequest(UUID executioner,
-                                      ActionRunStrategy executionerRunStrategy,
+    public CreateStoredCommandRequest(UUID executor,
+                                      ActionRunStrategy executorRunStrategy,
                                       OfflinePlayer target,
                                       ActionRunStrategy targetRunStrategy,
                                       String command,
@@ -28,8 +28,8 @@ public class CreateStoredCommandRequest {
                                       Integer actionableId,
                                       String actionableType,
                                       String serverName) {
-        this.executioner = executioner;
-        this.executionerRunStrategy = executionerRunStrategy;
+        this.executor = executor;
+        this.executorRunStrategy = executorRunStrategy;
         this.target = target;
         this.targetRunStrategy = targetRunStrategy;
         this.command = command;
@@ -39,12 +39,12 @@ public class CreateStoredCommandRequest {
         this.serverName = serverName;
     }
 
-    public UUID getExecutioner() {
-        return executioner;
+    public UUID getExecutor() {
+        return executor;
     }
 
-    public ActionRunStrategy getExecutionerRunStrategy() {
-        return executionerRunStrategy;
+    public ActionRunStrategy getExecutorRunStrategy() {
+        return executorRunStrategy;
     }
 
     public Optional<OfflinePlayer> getTarget() {
@@ -76,11 +76,11 @@ public class CreateStoredCommandRequest {
     }
 
     public void validate() {
-        if (executioner == null) {
-            throw new BusinessException("Executioner is mandatory");
+        if (executor == null) {
+            throw new BusinessException("Executor is mandatory");
         }
-        if (executionerRunStrategy == null) {
-            throw new BusinessException("executionerRunStrategy is mandatory");
+        if (executorRunStrategy == null) {
+            throw new BusinessException("executorRunStrategy is mandatory");
         }
         if (target != null && targetRunStrategy == null) {
             throw new BusinessException("targetRunStrategy is mandatory when target filled in");
@@ -97,8 +97,8 @@ public class CreateStoredCommandRequest {
     }
 
     public static class CreateStoredCommandRequestBuilder {
-        private UUID executioner;
-        private ActionRunStrategy executionerRunStrategy;
+        private UUID executor;
+        private ActionRunStrategy executorRunStrategy;
         private OfflinePlayer target;
         private ActionRunStrategy targetRunStrategy;
         private String command;
@@ -111,13 +111,13 @@ public class CreateStoredCommandRequest {
             return new CreateStoredCommandRequestBuilder();
         }
 
-        public CreateStoredCommandRequestBuilder executioner(UUID executioner) {
-            this.executioner = executioner;
+        public CreateStoredCommandRequestBuilder executor(UUID executor) {
+            this.executor = executor;
             return this;
         }
 
-        public CreateStoredCommandRequestBuilder executionerRunStrategy(ActionRunStrategy executionerRunStrategy) {
-            this.executionerRunStrategy = executionerRunStrategy;
+        public CreateStoredCommandRequestBuilder executorRunStrategy(ActionRunStrategy executorRunStrategy) {
+            this.executorRunStrategy = executorRunStrategy;
             return this;
         }
 
@@ -157,7 +157,7 @@ public class CreateStoredCommandRequest {
         }
 
         public CreateStoredCommandRequest build() {
-            return new CreateStoredCommandRequest(executioner, executionerRunStrategy, target, targetRunStrategy, command, rollbackCommand, actionableId, actionableType, serverName);
+            return new CreateStoredCommandRequest(executor, executorRunStrategy, target, targetRunStrategy, command, rollbackCommand, actionableId, actionableType, serverName);
         }
     }
 }

@@ -45,14 +45,14 @@ public class ConfiguredCommandMapper {
     public CreateStoredCommandRequest toCreateRequest(ConfiguredCommand c, Map<String, String> placeholders, Map<String, OfflinePlayer> targets) {
 
         OfflinePlayer target = getTarget(c, targets);
-        UUID executionerUuid;
-        if (c.getExecutioner().equalsIgnoreCase("console")) {
-            executionerUuid = CONSOLE_UUID;
-            placeholders.put("%executioner%", "console");
+        UUID executorUuid;
+        if (c.getExecutor().equalsIgnoreCase("console")) {
+            executorUuid = CONSOLE_UUID;
+            placeholders.put("%executor%", "console");
         } else {
-            OfflinePlayer executionerPlayer = getExecutioner(c, targets);
-            executionerUuid = executionerPlayer.getUniqueId();
-            placeholders.put("%executioner%", executionerPlayer.getName());
+            OfflinePlayer executorPlayer = getExecutor(c, targets);
+            executorUuid = executorPlayer.getUniqueId();
+            placeholders.put("%executor%", executorPlayer.getName());
         }
 
         if (target != null) {
@@ -60,18 +60,18 @@ public class ConfiguredCommandMapper {
         }
         return commandBuilder()
             .command(JavaUtils.replacePlaceholders(c.getCommand(), placeholders))
-            .executioner(executionerUuid)
-            .executionerRunStrategy(c.getExecutionerRunStrategy())
+            .executor(executorUuid)
+            .executorRunStrategy(c.getExecutorRunStrategy())
             .target(target)
             .targetRunStrategy(c.getTargetRunStrategy().orElse(null))
             .serverName(options.serverName)
             .build();
     }
 
-    private OfflinePlayer getExecutioner(ConfiguredCommand configuredCommand, Map<String, OfflinePlayer> targets) {
-        String key = configuredCommand.getExecutioner();
+    private OfflinePlayer getExecutor(ConfiguredCommand configuredCommand, Map<String, OfflinePlayer> targets) {
+        String key = configuredCommand.getExecutor();
         if (!targets.containsKey(key)) {
-            throw new ConfigurationException("No executioner [" + key + "] know for this command configuration");
+            throw new ConfigurationException("No executor [" + key + "] know for this command configuration");
         }
         return targets.get(key);
     }

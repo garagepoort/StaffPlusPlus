@@ -9,9 +9,9 @@ public class StoredCommandEntity {
 
     private Integer id;
     private final String command;
-    private final UUID executionerUuid;
+    private final UUID executorUuid;
     private final UUID targetUuid;
-    private final ActionRunStrategy executionerRunStrategy;
+    private final ActionRunStrategy executorRunStrategy;
     private final ActionRunStrategy targetRunStrategy;
 
     private final Long creationTimestamp;
@@ -27,9 +27,9 @@ public class StoredCommandEntity {
 
     public StoredCommandEntity(Integer id,
                                String command,
-                               UUID executionerUuid,
+                               UUID executorUuid,
                                UUID targetUuid,
-                               ActionRunStrategy executionerRunStrategy,
+                               ActionRunStrategy executorRunStrategy,
                                ActionRunStrategy targetRunStrategy,
                                Long creationTimestamp,
                                Long executionTimestamp,
@@ -38,9 +38,9 @@ public class StoredCommandEntity {
                                String serverName, StoredCommandEntity rollbackCommand, boolean delayed) {
         this.id = id;
         this.command = command;
-        this.executionerUuid = executionerUuid;
+        this.executorUuid = executorUuid;
         this.targetUuid = targetUuid;
-        this.executionerRunStrategy = executionerRunStrategy;
+        this.executorRunStrategy = executorRunStrategy;
         this.targetRunStrategy = targetRunStrategy;
         this.creationTimestamp = creationTimestamp;
         this.executionTimestamp = executionTimestamp;
@@ -54,8 +54,8 @@ public class StoredCommandEntity {
 
     public StoredCommandEntity(CreateStoredCommandRequest request, boolean isDelayed) {
         this.command = request.getCommand();
-        this.executionerUuid = request.getExecutioner();
-        this.executionerRunStrategy = request.getExecutionerRunStrategy();
+        this.executorUuid = request.getExecutor();
+        this.executorRunStrategy = request.getExecutorRunStrategy();
         this.targetUuid = request.getTarget().map(OfflinePlayer::getUniqueId).orElse(null);
         this.targetRunStrategy = request.getTargetRunStrategy().orElse(null);
         this.creationTimestamp = System.currentTimeMillis();
@@ -75,16 +75,16 @@ public class StoredCommandEntity {
         return command;
     }
 
-    public UUID getExecutionerUuid() {
-        return executionerUuid;
+    public UUID getExecutorUuid() {
+        return executorUuid;
     }
 
     public Optional<UUID> getTargetUuid() {
         return Optional.ofNullable(targetUuid);
     }
 
-    public ActionRunStrategy getExecutionerRunStrategy() {
-        return executionerRunStrategy;
+    public ActionRunStrategy getExecutorRunStrategy() {
+        return executorRunStrategy;
     }
 
     public Optional<ActionRunStrategy> getTargetRunStrategy() {

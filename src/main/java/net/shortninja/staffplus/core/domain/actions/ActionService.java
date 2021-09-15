@@ -99,31 +99,31 @@ public class ActionService {
     }
 
     private void executeCommand(StoredCommandEntity storedCommandEntity, Integer id) {
-        CommandSender executioner = storedCommandEntity.getExecutionerUuid().equals(CONSOLE_UUID) ? Bukkit.getConsoleSender() : playerManager.getOnlinePlayer(storedCommandEntity.getExecutionerUuid()).get().getPlayer();
+        CommandSender executor = storedCommandEntity.getExecutorUuid().equals(CONSOLE_UUID) ? Bukkit.getConsoleSender() : playerManager.getOnlinePlayer(storedCommandEntity.getExecutorUuid()).get().getPlayer();
         storedCommandRepository.markExecuted(id);
         storedCommandEntity.setExecutionTimestamp(System.currentTimeMillis());
-        sendEvent(new CommandExecutedEvent(executioner, storedCommandEntity.getCommand()));
+        sendEvent(new CommandExecutedEvent(executor, storedCommandEntity.getCommand()));
     }
 
     private boolean isDelayed(CreateStoredCommandRequest storedCommandEntity) {
-        boolean executionerDelayed = !storedCommandEntity.getExecutioner().equals(CONSOLE_UUID) && storedCommandEntity.getExecutionerRunStrategy() == ActionRunStrategy.DELAY && !playerManager.getOnlinePlayer((storedCommandEntity.getExecutioner())).isPresent();
+        boolean executorDelayed = !storedCommandEntity.getExecutor().equals(CONSOLE_UUID) && storedCommandEntity.getExecutorRunStrategy() == ActionRunStrategy.DELAY && !playerManager.getOnlinePlayer((storedCommandEntity.getExecutor())).isPresent();
         boolean targetDelayed = storedCommandEntity.getTarget().isPresent() && storedCommandEntity.getTargetRunStrategy().orElse(null) == ActionRunStrategy.DELAY && !playerManager.getOnlinePlayer(storedCommandEntity.getTarget().get().getUniqueId()).isPresent();
-        return executionerDelayed || targetDelayed;
+        return executorDelayed || targetDelayed;
     }
 
     private boolean isDelayed(StoredCommandEntity storedCommandEntity) {
-        boolean executionerDelayed = !storedCommandEntity.getExecutionerUuid().equals(CONSOLE_UUID) && storedCommandEntity.getExecutionerRunStrategy() == ActionRunStrategy.DELAY && !playerManager.getOnlinePlayer((storedCommandEntity.getExecutionerUuid())).isPresent();
+        boolean executorDelayed = !storedCommandEntity.getExecutorUuid().equals(CONSOLE_UUID) && storedCommandEntity.getExecutorRunStrategy() == ActionRunStrategy.DELAY && !playerManager.getOnlinePlayer((storedCommandEntity.getExecutorUuid())).isPresent();
         boolean targetDelayed = storedCommandEntity.getTargetUuid().isPresent() && storedCommandEntity.getTargetRunStrategy().orElse(null) == ActionRunStrategy.DELAY && !playerManager.getOnlinePlayer(storedCommandEntity.getTargetUuid().get()).isPresent();
-        return executionerDelayed || targetDelayed;
+        return executorDelayed || targetDelayed;
     }
 
     private boolean canExecute(StoredCommandEntity storedCommandEntity) {
         if (storedCommandEntity.getServerName().isPresent() && !storedCommandEntity.getServerName().get().equals(options.serverName)) {
             return false;
         }
-        boolean executionerOnline = storedCommandEntity.getExecutionerUuid().equals(CONSOLE_UUID) || playerManager.getOnlinePlayer(storedCommandEntity.getExecutionerUuid()).isPresent();
+        boolean executorOnline = storedCommandEntity.getExecutorUuid().equals(CONSOLE_UUID) || playerManager.getOnlinePlayer(storedCommandEntity.getExecutorUuid()).isPresent();
         boolean targetNotPresentOrOnline = !storedCommandEntity.getTargetUuid().isPresent() || playerManager.getOnlinePlayer(storedCommandEntity.getTargetUuid().get()).isPresent();
-        return executionerOnline && (targetNotPresentOrOnline || storedCommandEntity.getTargetRunStrategy().get() == ActionRunStrategy.ALWAYS);
+        return executorOnline && (targetNotPresentOrOnline || storedCommandEntity.getTargetRunStrategy().get() == ActionRunStrategy.ALWAYS);
     }
 
     public void markRollbacked(int executableActionId) {

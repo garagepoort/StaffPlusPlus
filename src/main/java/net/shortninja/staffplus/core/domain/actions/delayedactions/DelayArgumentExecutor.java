@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.delayedactions;
+package net.shortninja.staffplus.core.domain.actions.delayedactions;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
@@ -44,8 +44,8 @@ public class DelayArgumentExecutor {
         StaffPlus.get().getIocContainer().get(ActionService.class).createCommand(
             commandBuilder()
                 .serverName(options.serverName)
-                .executioner(CONSOLE_UUID)
-                .executionerRunStrategy(ONLINE)
+                .executor(CONSOLE_UUID)
+                .executorRunStrategy(ONLINE)
                 .target(player.get().getOfflinePlayer())
                 .targetRunStrategy(DELAY)
                 .command(command)

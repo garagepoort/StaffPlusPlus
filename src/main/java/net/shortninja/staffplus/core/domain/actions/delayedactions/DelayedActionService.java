@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.delayedactions;
+package net.shortninja.staffplus.core.domain.actions.delayedactions;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
