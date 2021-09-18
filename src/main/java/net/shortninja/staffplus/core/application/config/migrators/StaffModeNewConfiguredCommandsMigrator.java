@@ -21,13 +21,13 @@ public class StaffModeNewConfiguredCommandsMigrator implements ConfigMigrator {
 
                 if (enableCommands != null) {
                     for (LinkedHashMap<String, Object> enableCommand : enableCommands) {
-                        String command = ((String) enableCommand.get("command")).replace("%player%", "%target%");
+                        String command = ((String) enableCommand.get("command")).replace("%player%", "%staff%");
                         enableCommand.put("command", command);
                     }
                 }
                 if (disableCommands != null) {
                     for (LinkedHashMap<String, Object> disableCommand : disableCommands) {
-                        String command = ((String) disableCommand.get("command")).replace("%player%", "%target%");
+                        String command = ((String) disableCommand.get("command")).replace("%player%", "%staff%");
                         disableCommand.put("command", command);
                     }
                 }
