@@ -19,20 +19,28 @@ public class IpBanTemplateResolver {
     }
 
     public String resolveTemplate(String providedTemplate, BanType banType) {
-        if (providedTemplate != null) {
-            return getTemplate(providedTemplate);
-        }
-
-        Optional<String> defaultTemplate = banConfiguration.getDefaultBanTemplate(banType);
-        if (defaultTemplate.isPresent()) {
-            return getTemplate(defaultTemplate.get());
+        Optional<String> template = getTemplate(providedTemplate, banType);
+        if (template.isPresent()) {
+            return getTemplate(template.get());
         }
 
         return banType == BanType.PERM_BAN ? messages.ipbanPermabannedKick : messages.ipbanTempbannedKick;
     }
 
+    public Optional<String> getTemplate(String providedTemplate, BanType banType) {
+        if (providedTemplate != null) {
+            return Optional.of(providedTemplate);
+        }
+
+        return banConfiguration.getDefaultBanTemplate(banType);
+    }
+
     private String getTemplate(String providedTemplate) {
         return banConfiguration.getTemplate(providedTemplate)
             .orElseThrow(() -> new BusinessException("&CCannot find ban template with name [" + providedTemplate + "]"));
+    }
+
+    public boolean hasTemplate(String s) {
+        return banConfiguration.getTemplate(s).isPresent();
     }
 }
