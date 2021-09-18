@@ -2,9 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.reporting.actions;
 
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.domain.actions.ActionFilter;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.actions.CreateStoredCommandRequest;
 import net.shortninja.staffplusplus.reports.IReport;
-import net.shortninja.staffplusplus.session.SppPlayer;
+
+import java.util.Map;
 
 public class ReportCulpritActionFilter implements ActionFilter {
 
@@ -16,12 +17,12 @@ public class ReportCulpritActionFilter implements ActionFilter {
     }
 
     @Override
-    public boolean isValidAction(SppPlayer target, ConfiguredAction configuredAction) {
-        if (!configuredAction.getFilters().containsKey(HAS_CULPRIT)) {
+    public boolean isValidAction(CreateStoredCommandRequest createStoredCommandRequest, Map<String, String> filters) {
+        if (!filters.containsKey(HAS_CULPRIT)) {
             return true;
         }
 
-        String value = configuredAction.getFilters().get(ReportCulpritActionFilter.HAS_CULPRIT);
+        String value = filters.get(ReportCulpritActionFilter.HAS_CULPRIT);
         if (value.equalsIgnoreCase("true")) {
             return report.getCulpritUuid() != null;
         }

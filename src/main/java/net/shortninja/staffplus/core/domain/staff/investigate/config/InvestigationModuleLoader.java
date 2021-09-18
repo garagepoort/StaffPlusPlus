@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.investigate.config;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
-import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.actions.config.ActionConfigLoader;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -35,9 +35,9 @@ public class InvestigationModuleLoader extends AbstractConfigLoader<Investigatio
         String addNoteCmd = commandsConfig.getString("investigations.manage.add-note");
         String commandManageInvestigationsGui = commandsConfig.getString("investigations.manage.gui");
         String staffNotificationPermission = permissionsConfig.getString("investigations.manage.notifications");
-        List<ConfiguredAction> startInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("investigations-module.start-investigation-commands", new ArrayList<>()));
-        List<ConfiguredAction> concludeInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("investigations-module.conclude-investigation-commands", new ArrayList<>()));
-        List<ConfiguredAction> pauseInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("investigations-module.pause-investigation-commands", new ArrayList<>()));
+        List<ConfiguredCommand> startInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("investigations-module.start-investigation-commands", new ArrayList<>()));
+        List<ConfiguredCommand> concludeInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("investigations-module.conclude-investigation-commands", new ArrayList<>()));
+        List<ConfiguredCommand> pauseInvestigationCommands = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) defaultConfig.getList("investigations-module.pause-investigation-commands", new ArrayList<>()));
 
         boolean modeGuiInvestigation = staffModeModulesConfig.getBoolean("modules.gui-module.investigation-gui");
         String modeGuiInvestigationTitle = staffModeModulesConfig.getString("modules.gui-module.investigation-title");
