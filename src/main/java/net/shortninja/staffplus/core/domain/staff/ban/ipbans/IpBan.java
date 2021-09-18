@@ -12,19 +12,21 @@ import java.util.UUID;
 public class IpBan implements IIpBan {
 
     private Long id;
-    private String ip;
-    private String issuerName;
-    private UUID issuerUuid;
+    private final String ip;
+    private final String issuerName;
+    private final UUID issuerUuid;
+    private final boolean silentBan;
+    private final Long creationDate;
+    private final String serverName;
+    private final String template;
+
     private String unbannedByName;
     private UUID unbannedByUuid;
-    private boolean silentBan;
     private boolean silentUnban;
-    private Long creationDate;
     private Long endDate;
-    private String serverName;
 
     public IpBan(Long id, String ip, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid,
-                 boolean silentBan, boolean silentUnban, Long creationDate, Long endDate, String serverName) {
+                 boolean silentBan, boolean silentUnban, Long creationDate, Long endDate, String serverName, String template) {
         this.id = id;
         this.ip = ip;
         this.issuerName = issuerName;
@@ -36,22 +38,25 @@ public class IpBan implements IIpBan {
         this.creationDate = creationDate;
         this.endDate = endDate;
         this.serverName = serverName;
+        this.template = template;
     }
 
-    public IpBan(String ip, Long endDate, String issuerName, UUID issuerUuid, String serverName, boolean silentBan) {
+    public IpBan(String ip, Long endDate, String issuerName, UUID issuerUuid, String serverName, boolean silentBan, String template) {
         this.ip = ip;
         this.issuerName = issuerName;
         this.serverName = serverName;
         this.silentBan = silentBan;
+        this.template = template;
         this.creationDate = System.currentTimeMillis();
         this.endDate = endDate;
         this.issuerUuid = issuerUuid;
     }
 
-    public IpBan(String ip, String issuerName, UUID issuerUuid, String serverName, boolean silentBan) {
+    public IpBan(String ip, String issuerName, UUID issuerUuid, String serverName, boolean silentBan, String template) {
         this.ip = ip;
         this.issuerName = issuerName;
         this.silentBan = silentBan;
+        this.template = template;
         this.creationDate = System.currentTimeMillis();
         this.issuerUuid = issuerUuid;
         this.serverName = serverName;
@@ -127,6 +132,11 @@ public class IpBan implements IIpBan {
 
     public void setSilentUnban(boolean silentUnban) {
         this.silentUnban = silentUnban;
+    }
+
+
+    public Optional<String> getTemplate() {
+        return Optional.ofNullable(template);
     }
 
     @Override
