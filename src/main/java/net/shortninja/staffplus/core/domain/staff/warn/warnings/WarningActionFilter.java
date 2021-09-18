@@ -1,18 +1,18 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import net.shortninja.staffplus.core.domain.actions.ActionFilter;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
-import net.shortninja.staffplusplus.session.SppPlayer;
+import net.shortninja.staffplus.core.domain.actions.CreateStoredCommandRequest;
 import net.shortninja.staffplusplus.warnings.IWarning;
 
 import java.util.Arrays;
+import java.util.Map;
 
 public class WarningActionFilter implements ActionFilter {
 
     private static final String SEVERITY = "severity";
     private static final String CONTEXT = "context";
     private final String context;
-    private IWarning warning;
+    private final IWarning warning;
 
     public WarningActionFilter(IWarning warning, String context) {
         this.warning = warning;
@@ -20,13 +20,13 @@ public class WarningActionFilter implements ActionFilter {
     }
 
     @Override
-    public boolean isValidAction(SppPlayer target, ConfiguredAction configuredAction) {
-        return checkFilter(configuredAction, SEVERITY, warning.getSeverity()) && checkFilter(configuredAction, CONTEXT, context);
+    public boolean isValidAction(CreateStoredCommandRequest createStoredCommandRequest, Map<String, String> filters) {
+        return checkFilter(filters, SEVERITY, warning.getSeverity()) && checkFilter(filters, CONTEXT, context);
     }
 
-    private boolean checkFilter(ConfiguredAction configuredAction, String filter, String value) {
-        if (configuredAction.getFilters().containsKey(filter)) {
-            return Arrays.asList(configuredAction.getFilters().get(filter).split(",")).contains(value.toLowerCase());
+    private boolean checkFilter(Map<String, String> filters, String filter, String value) {
+        if (filters.containsKey(filter)) {
+            return Arrays.asList(filters.get(filter).split(",")).contains(value.toLowerCase());
         }
         return true;
     }

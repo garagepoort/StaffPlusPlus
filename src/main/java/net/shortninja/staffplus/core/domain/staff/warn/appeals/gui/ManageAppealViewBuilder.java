@@ -8,7 +8,6 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
-import net.shortninja.staffplus.core.domain.actions.ExecutableActionEntity;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import org.bukkit.entity.Player;
@@ -37,14 +36,15 @@ public class ManageAppealViewBuilder {
 
 
         if (permission.has(player, options.appealConfiguration.approveAppealPermission)) {
-            List<String> actions = actionService.getRollbackActions(warning).stream()
-                .map(ExecutableActionEntity::getRollbackCommand)
+            List<String> rollbackCommands = actionService.getActions(warning).stream()
+                .filter(s -> s.isExecuted() && s.isRollbackable() && !s.isRollbacked())
+                .map(s -> s.getRollbackCommand().get().getCommand())
                 .collect(Collectors.toList());
 
-            addApproveItem(appeal, builder, 34, actions);
-            addApproveItem(appeal, builder, 35, actions);
-            addApproveItem(appeal, builder, 43, actions);
-            addApproveItem(appeal, builder, 44, actions);
+            addApproveItem(appeal, builder, 34, rollbackCommands);
+            addApproveItem(appeal, builder, 35, rollbackCommands);
+            addApproveItem(appeal, builder, 43, rollbackCommands);
+            addApproveItem(appeal, builder, 44, rollbackCommands);
         }
 
 

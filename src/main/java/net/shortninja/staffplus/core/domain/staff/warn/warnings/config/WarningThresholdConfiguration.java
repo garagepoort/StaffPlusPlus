@@ -1,15 +1,15 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 
 import java.util.List;
 
 public class WarningThresholdConfiguration {
 
     private final int score;
-    private final List<ConfiguredAction> actions;
+    private final List<ConfiguredCommand> actions;
 
-    public WarningThresholdConfiguration(int score, List<ConfiguredAction> actions, List<ConfiguredAction> rollbackActions) {
+    public WarningThresholdConfiguration(int score, List<ConfiguredCommand> actions, List<ConfiguredCommand> rollbackActions) {
         this.score = score;
         this.actions = actions;
     }
@@ -18,7 +18,7 @@ public class WarningThresholdConfiguration {
         return score;
     }
 
-    public List<ConfiguredAction> getActions() {
+    public List<ConfiguredCommand> getActions() {
         return actions;
     }
 

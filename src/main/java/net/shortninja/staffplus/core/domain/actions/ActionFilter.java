@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.actions;
 
-import net.shortninja.staffplusplus.session.SppPlayer;
+import java.util.Map;
 
 public interface ActionFilter {
 
-    boolean isValidAction(SppPlayer target, ConfiguredAction configuredAction);
+    boolean isValidAction(CreateStoredCommandRequest createStoredCommandRequest, Map<String, String> filters);
 }
