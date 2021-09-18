@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -44,7 +43,6 @@ public class UnbanCmd extends AbstractCmd {
 
     public UnbanCmd(Messages messages,
                     BanConfiguration banConfiguration,
-                    Options options,
                     BanService banService,
                     CommandService commandService,
                     PlayerManager playerManager,

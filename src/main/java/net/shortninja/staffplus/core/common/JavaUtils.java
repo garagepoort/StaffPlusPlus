@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -416,5 +417,13 @@ public class JavaUtils {
             isValid = false;
         }
         return InetAddressValidator.getInstance().isValid(cidrIp) || isValid;
+    }
+
+    public static String replacePlaceholders(String message, Map<String, String> placeholders) {
+        String result = message;
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+            result = result.replace(entry.getKey(), entry.getValue());
+        }
+        return result;
     }
 }
