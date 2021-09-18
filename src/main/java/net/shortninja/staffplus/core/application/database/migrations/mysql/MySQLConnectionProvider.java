@@ -27,6 +27,8 @@ public class MySQLConnectionProvider implements SqlConnectionProvider {
     private String password;
     @ConfigProperty("storage.mysql.port")
     private int port;
+    @ConfigProperty("storage.mysql.ssl-enabled")
+    private boolean sslEnabled;
 
     @ConfigProperty("storage.mysql.max-pool-size")
     private int maxPoolSize;
@@ -34,7 +36,7 @@ public class MySQLConnectionProvider implements SqlConnectionProvider {
     private HikariDataSource datasource;
 
     public DataSource getDatasource() {
-        if(datasource == null){
+        if (datasource == null) {
             getDataSource();
         }
         return datasource;
@@ -60,9 +62,9 @@ public class MySQLConnectionProvider implements SqlConnectionProvider {
     }
 
     private void getDataSource() {
-        if(datasource == null) {
+        if (datasource == null) {
             HikariConfig config = new HikariConfig();
-            config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&useSSL=false&allowMultiQueries=true");
+            config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&useSSL=" + sslEnabled + "&allowMultiQueries=true&allowPublicKeyRetrieval=true");
             config.setUsername(user);
             config.setPassword(password);
             config.setMaximumPoolSize(maxPoolSize);
