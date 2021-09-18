@@ -9,9 +9,7 @@ import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
@@ -24,8 +22,8 @@ public class SqliteBansRepository extends AbstractSqlBansRepository {
     @Override
     public int addBan(Ban ban) {
         try (Connection connection = getConnection();
-             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_banned_players(reason, player_uuid, player_name, issuer_uuid, issuer_name, end_timestamp, creation_timestamp, server_name, silent_ban) " +
-                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);")) {
+             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_banned_players(reason, player_uuid, player_name, issuer_uuid, issuer_name, end_timestamp, creation_timestamp, server_name, silent_ban, template) " +
+                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);")) {
             connection.setAutoCommit(false);
             insert.setString(1, ban.getReason());
             insert.setString(2, ban.getTargetUuid().toString());
@@ -40,17 +38,12 @@ public class SqliteBansRepository extends AbstractSqlBansRepository {
             insert.setLong(7, ban.getCreationTimestamp());
             insert.setString(8, options.serverName);
             insert.setBoolean(9, ban.isSilentBan());
+            insertIfPresent(insert, 10, ban.getTemplate(), Types.VARCHAR);
             insert.executeUpdate();
 
-            Statement statement = connection.createStatement();
-            ResultSet generatedKeys = statement.executeQuery("SELECT last_insert_rowid()");
-            int generatedKey = -1;
-            if (generatedKeys.next()) {
-                generatedKey = generatedKeys.getInt(1);
-            }
-            connection.commit(); // Commits transaction.
-
-            return generatedKey;
+            Integer generatedId = getGeneratedId(insert);
+            connection.commit();
+            return generatedId;
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }

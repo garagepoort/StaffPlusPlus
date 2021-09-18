@@ -9,9 +9,7 @@ import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBan;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
@@ -25,8 +23,8 @@ public class SqliteIpBansRepository extends AbstractIpBanRepository {
     @Override
     public Long saveBan(IpBan ipBan) {
         try (Connection connection = getConnection();
-             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_banned_ips(ip, issuer_uuid, issuer_name, end_timestamp, creation_timestamp, server_name, silent_ban) " +
-                 "VALUES(?, ?, ?, ?, ?, ?, ?);")) {
+             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_banned_ips(ip, issuer_uuid, issuer_name, end_timestamp, creation_timestamp, server_name, silent_ban, template) " +
+                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?);")) {
             connection.setAutoCommit(false);
             insert.setString(1, ipBan.getIp());
             insert.setString(2, ipBan.getIssuerUuid().toString());
@@ -39,17 +37,13 @@ public class SqliteIpBansRepository extends AbstractIpBanRepository {
             insert.setLong(5, ipBan.getCreationDate());
             insert.setString(6, options.serverName);
             insert.setBoolean(7, ipBan.isSilentBan());
+            insertIfPresent(insert, 8, ipBan.getTemplate(), Types.VARCHAR);
             insert.executeUpdate();
 
-            Statement statement = connection.createStatement();
-            ResultSet generatedKeys = statement.executeQuery("SELECT last_insert_rowid()");
-            long generatedKey = -1;
-            if (generatedKeys.next()) {
-                generatedKey = generatedKeys.getInt(1);
-            }
+            Integer generatedId = getGeneratedId(insert);
             connection.commit(); // Commits transaction.
 
-            return generatedKey;
+            return Long.valueOf(generatedId);
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
