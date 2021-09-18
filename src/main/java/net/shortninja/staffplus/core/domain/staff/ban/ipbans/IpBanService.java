@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.database.IpBanRepository;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
 import net.shortninja.staffplusplus.ban.IpBanEvent;
 import net.shortninja.staffplusplus.ban.IpUnbanEvent;
 import org.apache.commons.net.util.SubnetUtils;
@@ -26,11 +27,13 @@ public class IpBanService {
     private final IpBanRepository ipBanRepository;
     private final Options options;
     private final Messages messages;
+    private final IpBanTemplateResolver ipBanTemplateResolver;
 
-    public IpBanService(IpBanRepository ipBanRepository, Options options, Messages messages) {
+    public IpBanService(IpBanRepository ipBanRepository, Options options, Messages messages, IpBanTemplateResolver ipBanTemplateResolver) {
         this.ipBanRepository = ipBanRepository;
         this.options = options;
         this.messages = messages;
+        this.ipBanTemplateResolver = ipBanTemplateResolver;
     }
 
     public void banIp(CommandSender issuer, String ipAddress, String template, boolean isSilent) {
@@ -49,9 +52,10 @@ public class IpBanService {
 
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID;
-
         Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
-        IpBan ipBan = new IpBan(ipAddress, endDate, issuerName, issuerUuid, options.serverName, isSilent);
+        String templateName = ipBanTemplateResolver.getTemplate(template, endDate == null ? BanType.PERM_BAN : BanType.TEMP_BAN).orElse(null);
+
+        IpBan ipBan = new IpBan(ipAddress, endDate, issuerName, issuerUuid, options.serverName, isSilent, templateName);
         ipBan.setId(ipBanRepository.saveBan(ipBan));
         sendEvent(new IpBanEvent(ipBan, template));
     }

@@ -20,21 +20,29 @@ public class BanTemplateResolver {
     }
 
     public String resolveTemplate(String reason, String providedTemplate, BanType banType) {
+        Optional<String> templateName = getTemplateName(reason, providedTemplate, banType);
+        if (templateName.isPresent()) {
+            return getTemplate(templateName.get());
+        }
+
+        return banType == BanType.PERM_BAN ? messages.permanentBannedKick : messages.tempBannedKick;
+    }
+
+    public Optional<String> getTemplateName(String reason, String providedTemplate, BanType banType) {
         if (providedTemplate != null) {
-            return getTemplate(providedTemplate);
+            return Optional.of(providedTemplate);
         }
 
         Optional<BanReasonConfiguration> banReasonConfig = banConfiguration.getBanReason(reason, banType);
         if (banReasonConfig.isPresent() && banReasonConfig.get().getTemplate().isPresent()) {
-            return getTemplate(banReasonConfig.get().getTemplate().get());
+            return Optional.of(banReasonConfig.get().getTemplate().get());
         }
 
-        Optional<String> defaultTemplate = banConfiguration.getDefaultBanTemplate(banType);
-        if (defaultTemplate.isPresent()) {
-            return getTemplate(defaultTemplate.get());
-        }
+        return banConfiguration.getDefaultBanTemplate(banType);
+    }
 
-        return banType == BanType.PERM_BAN ? messages.permanentBannedKick : messages.tempBannedKick;
+    public boolean hasTemplate(String providedTemplate) {
+        return banConfiguration.getTemplate(providedTemplate).isPresent();
     }
 
     private String getTemplate(String providedTemplate) {
