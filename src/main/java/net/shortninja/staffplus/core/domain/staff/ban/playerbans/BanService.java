@@ -76,7 +76,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
     public void extendBan(CommandSender sender, SppPlayer player, long duration) {
         Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
-        if(ban.getEndDate() == null) {
+        if (ban.getEndDate() == null) {
             throw new BusinessException("The player is permanently banned. Cannot extend ban");
         }
 
@@ -91,7 +91,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
     public void reduceBan(CommandSender sender, SppPlayer player, long duration) {
         Ban ban = getBanByBannedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't banned"));
-        if(ban.getEndDate() == null) {
+        if (ban.getEndDate() == null) {
             throw new BusinessException("The player is permanently banned. Cannot reduce ban");
         }
 
@@ -137,8 +137,6 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
     private void ban(CommandSender issuer, SppPlayer playerToBan, final String reason, final String providedTemplateName, Long durationInMillis, BanType banType, boolean isSilent) {
         if (providedTemplateName != null) permission.validate(issuer, banConfiguration.permissionBanTemplateOverwrite);
-        String fullReason = banReasonResolver.resolveBanReason(reason, banType);
-        String templateMessage = banTemplateResolver.resolveTemplate(reason, providedTemplateName, banType);
 
         if (playerToBan.isOnline() && permission.has(playerToBan.getPlayer(), banConfiguration.permissionBanByPass)) {
             throw new BusinessException("&CThis player bypasses being banned");
@@ -148,11 +146,14 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
             throw new BusinessException("&CCannot ban this player, the player is already banned");
         });
 
+        String fullReason = banReasonResolver.resolveBanReason(reason, banType);
+        String templateMessage = banTemplateResolver.resolveTemplate(reason, providedTemplateName, banType);
+        String templateName = banTemplateResolver.getTemplateName(reason, providedTemplateName, banType).orElse(null);
         String issuerName = issuer instanceof Player ? issuer.getName() : "Console";
         UUID issuerUuid = issuer instanceof Player ? ((Player) issuer).getUniqueId() : CONSOLE_UUID;
-
         Long endDate = durationInMillis == null ? null : System.currentTimeMillis() + durationInMillis;
-        Ban ban = new Ban(fullReason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId(), isSilent);
+
+        Ban ban = new Ban(fullReason, endDate, issuerName, issuerUuid, playerToBan.getUsername(), playerToBan.getId(), isSilent, templateName);
         ban.setId(bansRepository.addBan(ban));
 
         String banMessage = replaceBanPlaceholders(templateMessage, ban);
