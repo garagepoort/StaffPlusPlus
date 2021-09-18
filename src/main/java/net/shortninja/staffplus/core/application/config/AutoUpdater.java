@@ -12,8 +12,10 @@ import net.shortninja.staffplus.core.application.config.migrators.StaffChatChann
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatMessageFormatMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffCustomModulesCommandMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeCommandMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffModeNewConfiguredCommandsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeModulesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModesMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.WarningCommandsMigrator;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -48,7 +50,9 @@ public class AutoUpdater {
         new PermissionsV2Migrator(),
         new CommandsV2Migrator(),
         new CustomStaffModeModuleCommandMigrator(),
-        new StaffCustomModulesCommandMigrator());
+        new StaffCustomModulesCommandMigrator(),
+        new WarningCommandsMigrator(),
+        new StaffModeNewConfiguredCommandsMigrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         try {
