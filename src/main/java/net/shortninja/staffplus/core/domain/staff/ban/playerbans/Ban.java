@@ -9,26 +9,29 @@ import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Ban implements IBan, Infraction, Evidence {
 
     private int id;
-    private String reason;
+    private final String reason;
+    private final Long creationDate;
+    private final String targetName;
+    private final UUID targetUuid;
+    private final String issuerName;
+    private final UUID issuerUuid;
+    private final boolean silentBan;
+    private final String template;
+
     private Long endDate;
-    private Long creationDate;
-    private String targetName;
-    private UUID targetUuid;
-    private String issuerName;
-    private UUID issuerUuid;
+    private boolean silentUnban;
     private String unbannedByName;
     private UUID unbannedByUuid;
     private String unbanReason;
     private String serverName;
-    private boolean silentBan;
-    private boolean silentUnban;
 
-    public Ban(int id, String reason, Long creationDate, Long endDate, String targetName, UUID targetUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName, boolean silentBan, boolean silentUnban) {
+    public Ban(int id, String reason, Long creationDate, Long endDate, String targetName, UUID targetUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName, boolean silentBan, boolean silentUnban, String template) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
@@ -43,24 +46,27 @@ public class Ban implements IBan, Infraction, Evidence {
         this.serverName = serverName;
         this.silentBan = silentBan;
         this.silentUnban = silentUnban;
+        this.template = template;
     }
 
-    public Ban(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan) {
+    public Ban(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan, String template) {
         this.reason = reason;
         this.targetName = targetName;
         this.issuerName = issuerName;
         this.silentBan = silentBan;
+        this.template = template;
         this.creationDate = System.currentTimeMillis();
         this.endDate = endDate;
         this.targetUuid = targetUuid;
         this.issuerUuid = issuerUuid;
     }
 
-    public Ban(String reason, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan) {
+    public Ban(String reason, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan, String template) {
         this.reason = reason;
         this.targetName = targetName;
         this.issuerName = issuerName;
         this.silentBan = silentBan;
+        this.template = template;
         this.creationDate = System.currentTimeMillis();
         this.targetUuid = targetUuid;
         this.issuerUuid = issuerUuid;
@@ -187,6 +193,10 @@ public class Ban implements IBan, Infraction, Evidence {
     @Override
     public boolean isSilentUnban() {
         return silentUnban;
+    }
+
+    public Optional<String> getTemplate() {
+        return Optional.ofNullable(template);
     }
 
     public void setSilentUnban(boolean silentUnban) {

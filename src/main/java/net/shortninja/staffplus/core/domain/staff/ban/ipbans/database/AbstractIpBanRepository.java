@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.ban.ipbans.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.database.SqlRepository;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBan;
@@ -19,7 +20,7 @@ import java.util.UUID;
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 
-public abstract class AbstractIpBanRepository implements IpBanRepository {
+public abstract class AbstractIpBanRepository extends SqlRepository implements IpBanRepository {
 
     protected final SqlConnectionProvider sqlConnectionProvider;
     protected final Options options;
@@ -111,7 +112,8 @@ public abstract class AbstractIpBanRepository implements IpBanRepository {
             silentUnban,
             rs.getLong("creation_timestamp"),
             endTimestamp,
-            serverName);
+            serverName,
+            rs.getString("template"));
     }
 
 

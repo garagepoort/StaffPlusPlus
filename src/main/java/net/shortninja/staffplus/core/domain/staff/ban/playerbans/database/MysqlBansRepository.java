@@ -9,7 +9,6 @@ import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
@@ -24,8 +23,8 @@ public class MysqlBansRepository extends AbstractSqlBansRepository {
     @Override
     public int addBan(Ban ban) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_banned_players(reason, player_uuid, player_name, issuer_uuid,issuer_name, end_timestamp, creation_timestamp, server_name, silent_ban) " +
-                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_banned_players(reason, player_uuid, player_name, issuer_uuid,issuer_name, end_timestamp, creation_timestamp, server_name, silent_ban, template) " +
+                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             insert.setString(1, ban.getReason());
             insert.setString(2, ban.getTargetUuid().toString());
             insert.setString(3, ban.getTargetName());
@@ -39,15 +38,10 @@ public class MysqlBansRepository extends AbstractSqlBansRepository {
             insert.setLong(7, ban.getCreationTimestamp());
             insert.setString(8, options.serverName);
             insert.setBoolean(9, ban.isSilentBan());
+            insertIfPresent(insert, 10, ban.getTemplate(), Types.VARCHAR);
             insert.executeUpdate();
 
-            ResultSet generatedKeys = insert.getGeneratedKeys();
-            int generatedKey = -1;
-            if (generatedKeys.next()) {
-                generatedKey = generatedKeys.getInt(1);
-            }
-
-            return generatedKey;
+            return getGeneratedId(insert);
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }

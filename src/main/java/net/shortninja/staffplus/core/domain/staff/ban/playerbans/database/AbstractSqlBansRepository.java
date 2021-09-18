@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.database.SqlRepository;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
@@ -22,7 +23,7 @@ import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithWhere;
 
-public abstract class AbstractSqlBansRepository implements BansRepository {
+public abstract class AbstractSqlBansRepository extends SqlRepository implements BansRepository {
 
     private final PlayerManager playerManager;
     private final SqlConnectionProvider sqlConnectionProvider;
@@ -268,7 +269,8 @@ public abstract class AbstractSqlBansRepository implements BansRepository {
             unbannedByName,
             unbannedByUUID,
             rs.getString("unban_reason"),
-            serverName, silentBan, silentUnban);
+            serverName, silentBan, silentUnban,
+            rs.getString("template"));
     }
 
     private String getPlayerName(UUID uuid) {
