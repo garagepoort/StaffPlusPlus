@@ -8,8 +8,8 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.bungee.ServerSwitcher;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.delayedactions.Executor;
-import net.shortninja.staffplus.core.domain.delayedactions.database.DelayedActionsRepository;
+import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
+import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
+import static net.shortninja.staffplus.core.domain.actions.CreateStoredCommandRequest.CreateStoredCommandRequestBuilder.commandBuilder;
 
 @IocBean
 @IocMultiProvider(InfractionProvider.class)
@@ -44,15 +45,20 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
     private final Messages messages;
     private final PlayerManager playerManager;
     private final ReportRepository reportRepository;
-    private final DelayedActionsRepository delayedActionsRepository;
+    private final ActionService actionService;
 
-    public ReportService(PermissionHandler permission, Options options, ReportRepository reportRepository, Messages messages, PlayerManager playerManager, DelayedActionsRepository delayedActionsRepository) {
+    public ReportService(PermissionHandler permission,
+                         Options options,
+                         ReportRepository reportRepository,
+                         Messages messages,
+                         PlayerManager playerManager,
+                         ActionService actionService) {
         this.permission = permission;
         this.options = options;
         this.reportRepository = reportRepository;
         this.messages = messages;
         this.playerManager = playerManager;
-        this.delayedActionsRepository = delayedActionsRepository;
+        this.actionService = actionService;
     }
 
     public List<Report> getReported(SppPlayer player, int offset, int amount) {
@@ -157,8 +163,13 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
             player.teleport(location);
             messages.send(player, "You have been teleported to the location where this report was created", messages.prefixReports);
         } else {
-            String command = "staffplus:teleport-to-report " + reportId;
-            delayedActionsRepository.saveDelayedAction(player.getUniqueId(), command, Executor.PLAYER, report.getServerName());
+            actionService.createCommand(
+                commandBuilder()
+                    .command("staffplus:teleport-to-report " + reportId)
+                    .executor(player.getUniqueId())
+                    .executorRunStrategy(ActionRunStrategy.DELAY)
+                    .serverName(report.getServerName())
+                    .build());
             ServerSwitcher.switchServer(player, report.getServerName());
         }
     }

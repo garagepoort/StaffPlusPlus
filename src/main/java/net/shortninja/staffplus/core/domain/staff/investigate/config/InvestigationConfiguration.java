@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.config;
 
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +22,9 @@ public class InvestigationConfiguration {
     private final boolean investigatedTitleMessageEnabled;
     private final boolean investigatedChatMessageEnabled;
     private String staffNotificationPermission;
-    private final List<ConfiguredAction> startInvestigationCommands;
-    private final List<ConfiguredAction> concludeInvestigationCommands;
-    private final List<ConfiguredAction> pauseInvestigationCommands;
+    private final List<ConfiguredCommand> startInvestigationCommands;
+    private final List<ConfiguredCommand> concludeInvestigationCommands;
+    private final List<ConfiguredCommand> pauseInvestigationCommands;
     private final String commandManageInvestigationsGui;
     private final String permissionView;
     private final String linkEvidencePermission;
@@ -46,9 +46,9 @@ public class InvestigationConfiguration {
                                       String addNoteCmd, boolean investigatedTitleMessageEnabled,
                                       boolean investigatedChatMessageEnabled,
                                       String staffNotificationPermission,
-                                      List<ConfiguredAction> startInvestigationCommands,
-                                      List<ConfiguredAction> concludeInvestigationCommands,
-                                      List<ConfiguredAction> pauseInvestigationCommands,
+                                      List<ConfiguredCommand> startInvestigationCommands,
+                                      List<ConfiguredCommand> concludeInvestigationCommands,
+                                      List<ConfiguredCommand> pauseInvestigationCommands,
                                       String commandManageInvestigationsGui,
                                       String permissionView,
                                       String linkEvidencePermission,
@@ -131,15 +131,15 @@ public class InvestigationConfiguration {
         return staffNotificationPermission;
     }
 
-    public List<ConfiguredAction> getStartInvestigationActions() {
+    public List<ConfiguredCommand> getStartInvestigationActions() {
         return startInvestigationCommands;
     }
 
-    public List<ConfiguredAction> getConcludeInvestigationCommands() {
+    public List<ConfiguredCommand> getConcludeInvestigationCommands() {
         return concludeInvestigationCommands;
     }
 
-    public List<ConfiguredAction> getPauseInvestigationCommands() {
+    public List<ConfiguredCommand> getPauseInvestigationCommands() {
         return pauseInvestigationCommands;
     }
 
