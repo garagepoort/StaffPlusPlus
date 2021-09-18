@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandMapp
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.threshold.ThresholdService;
 import net.shortninja.staffplusplus.session.SppPlayer;
+import net.shortninja.staffplusplus.warnings.IWarning;
 import net.shortninja.staffplusplus.warnings.WarningAppealApprovedEvent;
 import net.shortninja.staffplusplus.warnings.WarningCreatedEvent;
 import net.shortninja.staffplusplus.warnings.WarningRemovedEvent;
@@ -45,18 +46,24 @@ public class WarningListener implements Listener {
 
     @EventHandler
     public void executeCreateActions(WarningCreatedEvent warningCreatedEvent) {
-        UUID targetUuid = warningCreatedEvent.getWarning().getTargetUuid();
+        IWarning warning = warningCreatedEvent.getWarning();
+        UUID targetUuid = warning.getTargetUuid();
         Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
+        Optional<SppPlayer> issuer = playerManager.getOnOrOfflinePlayer(warning.getIssuerUuid());
 
         Map<String, String> placeholders = new HashMap<>();
-        Map<String, OfflinePlayer> targets = new HashMap<>();
-        target.ifPresent(sppPlayer -> {
-            placeholders.put("%target%", sppPlayer.getUsername());
-            targets.put("target", sppPlayer.getOfflinePlayer());
-        });
+        placeholders.put("%issuer%", warning.getIssuerName());
+        placeholders.put("%target%", warning.getTargetName());
+        placeholders.put("%severity%", warning.getSeverity());
+        placeholders.put("%score%", String.valueOf(warning.getScore()));
+        placeholders.put("%reason%", String.valueOf(warning.getReason()));
 
-        actionService.createCommands(configuredCommandMapper.toCreateRequests(warningCreatedEvent.getWarning(), options.warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warningCreatedEvent.getWarning(), CREATION_CONTEXT))));
-        target.ifPresent(sppPlayer -> thresholdService.handleThresholds(warningCreatedEvent.getWarning(), sppPlayer));
+        Map<String, OfflinePlayer> targets = new HashMap<>();
+        target.ifPresent(sppPlayer -> targets.put("target", sppPlayer.getOfflinePlayer()));
+        issuer.ifPresent(sppPlayer -> targets.put("issuer", sppPlayer.getOfflinePlayer()));
+
+        actionService.createCommands(configuredCommandMapper.toCreateRequests(warning, options.warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warning, CREATION_CONTEXT))));
+        target.ifPresent(sppPlayer -> thresholdService.handleThresholds(warning, sppPlayer));
     }
 
     @EventHandler

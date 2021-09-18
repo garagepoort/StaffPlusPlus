@@ -15,11 +15,11 @@ modes:
         enable-on-login: false
         disable-on-logout: false
         enable-commands:
-            -   command: 'example1 %player%'
-            -   command: 'example2 %player%'
+            -   command: 'example1 %staff%'
+            -   command: 'example2 %staff%'
         disable-commands:
-            -   command: 'example1 %player%'
-            -   command: 'example2 %player%'
+            -   command: 'example1 %staff%'
+            -   command: 'example2 %staff%'
         disable-on-world-change: false
         gui:
             - compass-module:1
