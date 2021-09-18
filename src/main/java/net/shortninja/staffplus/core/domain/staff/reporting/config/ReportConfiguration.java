@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 
 import java.util.List;
@@ -30,10 +30,10 @@ public class ReportConfiguration {
     private final boolean fixedReason;
     private final boolean fixedReasonCulprit;
     private final List<ReportReasonConfiguration> reportReasonConfigurations;
-    private final List<ConfiguredAction> acceptReportActions;
-    private final List<ConfiguredAction> rejectReportActions;
-    private final List<ConfiguredAction> reopenReportActions;
-    private final List<ConfiguredAction> resolveReportActions;
+    private final List<ConfiguredCommand> acceptReportActions;
+    private final List<ConfiguredCommand> rejectReportActions;
+    private final List<ConfiguredCommand> reopenReportActions;
+    private final List<ConfiguredCommand> resolveReportActions;
 
 
     public ReportConfiguration(boolean enabled,
@@ -47,10 +47,10 @@ public class ReportConfiguration {
                                String myReportsPermission, String myReportsCmd, boolean notifyReporterOnJoin,
                                List<ReportStatus> reporterNotifyStatuses,
                                List<ReportTypeConfiguration> reportTypeConfigurations,
-                               boolean fixedReason, boolean fixedReasonCulprit, List<ReportReasonConfiguration> reportReasonConfigurations, List<ConfiguredAction> acceptReportActions,
-                               List<ConfiguredAction> rejectReportActions,
-                               List<ConfiguredAction> reopenReportActions,
-                               List<ConfiguredAction> resolveReportActions) {
+                               boolean fixedReason, boolean fixedReasonCulprit, List<ReportReasonConfiguration> reportReasonConfigurations, List<ConfiguredCommand> acceptReportActions,
+                               List<ConfiguredCommand> rejectReportActions,
+                               List<ConfiguredCommand> reopenReportActions,
+                               List<ConfiguredCommand> resolveReportActions) {
         this.enabled = enabled;
         this.cooldown = cooldown;
         this.showReporter = showReporter;
@@ -144,19 +144,19 @@ public class ReportConfiguration {
         return reportReasonConfigurations.stream().filter(c ->c.filterMatches(filterPredicates)).collect(Collectors.toList());
     }
 
-    public List<ConfiguredAction> getAcceptReportActions() {
+    public List<ConfiguredCommand> getAcceptReportActions() {
         return acceptReportActions;
     }
 
-    public List<ConfiguredAction> getRejectReportActions() {
+    public List<ConfiguredCommand> getRejectReportActions() {
         return rejectReportActions;
     }
 
-    public List<ConfiguredAction> getReopenReportActions() {
+    public List<ConfiguredCommand> getReopenReportActions() {
         return reopenReportActions;
     }
 
-    public List<ConfiguredAction> getResolveReportActions() {
+    public List<ConfiguredCommand> getResolveReportActions() {
         return resolveReportActions;
     }
 }

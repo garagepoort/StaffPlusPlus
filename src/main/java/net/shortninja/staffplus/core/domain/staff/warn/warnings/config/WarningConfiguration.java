@@ -5,8 +5,8 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.application.config.SoundsConfigTransformer;
 import net.shortninja.staffplus.core.common.Sounds;
-import net.shortninja.staffplus.core.domain.actions.ActionConfigLoader;
-import net.shortninja.staffplus.core.domain.actions.ConfiguredAction;
+import net.shortninja.staffplus.core.domain.actions.config.ActionConfigLoader;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class WarningConfiguration {
     private List<WarningSeverityConfiguration> severityLevels = new ArrayList<>();
     @ConfigProperty("warnings-module.actions")
     @ConfigTransformer(ActionConfigLoader.class)
-    private List<ConfiguredAction> actions = new ArrayList<>();
+    private List<ConfiguredCommand> actions = new ArrayList<>();
 
     @ConfigProperty("commands:my-warnings")
     private String myWarningsCmd;
@@ -79,7 +79,7 @@ public class WarningConfiguration {
         return myWarningsCmd;
     }
 
-    public List<ConfiguredAction> getActions() {
+    public List<ConfiguredCommand> getActions() {
         return actions;
     }
 
