@@ -172,7 +172,6 @@ public abstract class AbstractSqlBansRepository extends SqlRepository implements
         }
     }
 
-
     @Override
     public long getActiveCount() {
         try (Connection sql = getConnection();

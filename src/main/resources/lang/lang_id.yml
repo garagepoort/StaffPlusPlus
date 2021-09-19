@@ -269,6 +269,8 @@ mute-permamuted: '&6%target% telah dibisukan oleh %issuer%'
 mute-unmuted: '&6%target% sudah tidak dibisukan oleh %issuer%'
 mute-tempmuted: '&6%target% dibisukan oleh %issuer% selama %duration%'
 mute-muted: '&6Anda dibisukan. Tidak diperbolehkan mengirim pesan.'
+mute-extended: "&7You have extended &6%target%&7's mute by %extensionDuration%"
+mute-reduced: "&7You have reduced &6%target%&7's mute by %reductionDuration%"
 
 ############################################################
 # +------------------------------------------------------+ #
