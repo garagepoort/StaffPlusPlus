@@ -1,6 +1,6 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.16 (NOT YET RELEASED)
+# V1.17.17
 
 ### Features
   - Command hooks configuration has changed and improved
