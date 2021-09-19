@@ -191,6 +191,8 @@ mode-status: "&bSzemélyzeti mód &7%status%&b."
 mode-original-location: "&bElteleportált az eredeti helyre!"
 mode-random-teleport: "&bVéletlenszerűen teleportált!"
 mode-not-enough-players: "&bNem elég játékos van online a véletlenszerű teleportáláshoz!"
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&bJelentések"
 gui-mine: "&bBányászok"
