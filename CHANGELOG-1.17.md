@@ -5,6 +5,7 @@
 ### Features
   - UUID on player overview is now visible even if player is offline
   - ipban and ban templates are now also displayed whenever a banned player tries to rejoin
+  - Add mute reduce/extend commands
 
 ### Bug fixes
   - Infractions menu fails to open

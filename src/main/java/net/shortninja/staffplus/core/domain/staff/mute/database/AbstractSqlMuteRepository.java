@@ -192,6 +192,18 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     }
 
     @Override
+    public void setMuteDuration(int muteId, long newDuration) {
+        try (Connection sql = getConnection();
+             PreparedStatement update = sql.prepareStatement("UPDATE sp_muted_players set end_timestamp=? WHERE id=? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.muteSyncEnabled))) {
+            update.setLong(1, newDuration);
+            update.setInt(2, muteId);
+            update.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    @Override
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
