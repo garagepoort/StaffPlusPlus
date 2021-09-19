@@ -39,7 +39,7 @@ public class MysqlIpBansRepository extends AbstractIpBanRepository {
             insertIfPresent(insert, 8, ipBan.getTemplate(), Types.VARCHAR);
             insert.executeUpdate();
 
-            return Long.valueOf(getGeneratedId(insert));
+            return Long.valueOf(getGeneratedId(sql, insert));
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
