@@ -4,10 +4,12 @@
 
 ### Features
   - UUID on player overview is now visible even if player is offline
+  - ipban and ban templates are now also displayed whenever a banned player tries to rejoin
 
 ### Bug fixes
   - Infractions menu fails to open
   - Warnings gui sometimes not opening when no appeal found
+  - Setting an op player permission explicitly to false was not working
 
 # V1.17.15
 
