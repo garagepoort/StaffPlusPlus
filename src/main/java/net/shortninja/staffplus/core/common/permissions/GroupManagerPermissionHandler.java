@@ -33,7 +33,7 @@ public class GroupManagerPermissionHandler implements PermissionHandler {
         boolean hasPermission = false;
         if (player != null) {
             AnjoPermissionsHandler worldPermissions = gMplugin.getWorldsHolder().getWorldPermissions(player);
-            hasPermission = worldPermissions.has(player, permission) || isOp(player);
+            hasPermission = worldPermissions.has(player, permission);
         }
 
         return hasPermission;
@@ -82,7 +82,7 @@ public class GroupManagerPermissionHandler implements PermissionHandler {
         boolean hasPermission = false;
         if (player != null) {
             AnjoPermissionsHandler worldPermissions = gMplugin.getWorldsHolder().getWorldPermissions(player);
-            hasPermission = worldPermissions.has(player, permission) && !player.isOp();
+            hasPermission = worldPermissions.has(player, permission);
         }
 
         return hasPermission;
@@ -94,7 +94,7 @@ public class GroupManagerPermissionHandler implements PermissionHandler {
         }
 
         AnjoPermissionsHandler worldPermissions = gMplugin.getWorldsHolder().getWorldPermissions((Player) sender);
-        return worldPermissions.has((Player) sender, permission) || isOp(sender);
+        return worldPermissions.has((Player) sender, permission);
     }
 
     @Override
