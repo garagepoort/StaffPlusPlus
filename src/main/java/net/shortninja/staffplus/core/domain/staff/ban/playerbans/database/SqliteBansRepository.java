@@ -41,7 +41,7 @@ public class SqliteBansRepository extends AbstractSqlBansRepository {
             insertIfPresent(insert, 10, ban.getTemplate(), Types.VARCHAR);
             insert.executeUpdate();
 
-            Integer generatedId = getGeneratedId(insert);
+            Integer generatedId = getGeneratedId(connection, insert);
             connection.commit();
             return generatedId;
         } catch (SQLException e) {
