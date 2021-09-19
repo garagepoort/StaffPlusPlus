@@ -35,7 +35,7 @@ public class VaultPermissionHandler implements PermissionHandler {
 
         boolean hasPermission = false;
         if (player != null) {
-            hasPermission = perms.has(player, permission) || isOp(player);
+            hasPermission = perms.has(player, permission);
         }
 
         return hasPermission;
@@ -83,7 +83,7 @@ public class VaultPermissionHandler implements PermissionHandler {
 
         boolean hasPermission = false;
         if (player != null) {
-            hasPermission = perms.has(player, permission) && !player.isOp();
+            hasPermission = perms.has(player, permission);
         }
 
         return hasPermission;
@@ -93,7 +93,7 @@ public class VaultPermissionHandler implements PermissionHandler {
         if (permission == null) {
             return true;
         }
-        return perms.has(sender, permission) || isOp(sender);
+        return perms.has(sender, permission);
     }
 
     @Override
