@@ -190,6 +190,8 @@ mode-status: "&bStaff mode har varit &7%status%&b."
 mode-original-location: "&bDu har varit teleported tillbaka till din originalplats!"
 mode-random-teleport: "&bDu har varit slumpvis teleported!"
 mode-not-enough-players: "&bInte tillräckligt spelare är uppkopplad för slumpvis teleport!"
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&bRapporter"
 gui-mine: "&bGruvarbetare"

@@ -212,6 +212,10 @@ public class Messages {
     public String modeRandomTeleport;
     @ConfigProperty("%lang%:mode-not-enough-players")
     public String modeNotEnoughPlayers;
+    @ConfigProperty("%lang%:mode-fly-enabled")
+    public String modeFlightEnabled;
+    @ConfigProperty("%lang%:mode-fly-disabled")
+    public String modeFlightDisabled;
 
     @ConfigProperty("%lang%:freeze")
     @ConfigTransformer(MessageMultiLineTransformer.class)

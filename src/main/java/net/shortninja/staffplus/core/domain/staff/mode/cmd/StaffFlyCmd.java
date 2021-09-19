@@ -39,8 +39,8 @@ public class StaffFlyCmd extends AbstractCmd {
         }
         Player player = (Player) sender;
         staffModeService.toggleStaffFly(player);
-        String onOff = player.getAllowFlight() ? "on" : "off";
-        messages.send(player, "&3Flight is now &6" + onOff, messages.prefixGeneral);
+        String message = player.getAllowFlight() ? messages.modeFlightEnabled : messages.modeFlightDisabled;
+        messages.send(player, message, messages.prefixGeneral);
         return true;
     }
 

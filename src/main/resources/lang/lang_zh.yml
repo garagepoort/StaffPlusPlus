@@ -191,6 +191,8 @@ mode-status: "&bStaff模式已被设为&7%status%&b."
 mode-original-location: "&b你已传送回原始位置!"
 mode-random-teleport: "&b你已随机传送!"
 mode-not-enough-players: "&b无法随机传送, 在线玩家不足!"
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&b举报"
 gui-mine: "&b矿工"
