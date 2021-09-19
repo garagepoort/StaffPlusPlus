@@ -189,6 +189,8 @@ mode-status: "&bModo staff foi &7%status%&b."
 mode-original-location: "&bVocê foi teletransportado para sua localização!"
 mode-random-teleport: "&bVocê foi teletransportado aleatoriamente!"
 mode-not-enough-players: "&bNão tem jogadores onlines para teletransportar!"
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&bReports"
 gui-mine: "&bMineradores"
