@@ -190,6 +190,8 @@ mode-status: "&bLa staff mode è stata &7%status%&b."
 mode-original-location: "&bSei stato teletrasportato alla tua posizione originale!"
 mode-random-teleport: "&bSei stato teletrasportato randomicamente!"
 mode-not-enough-players: "&bNon ci sono abbastanza giocatori online per poterti teletrasportare randomicamente!"
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&bSegnalazioni"
 gui-mine: "&bScavatori"
