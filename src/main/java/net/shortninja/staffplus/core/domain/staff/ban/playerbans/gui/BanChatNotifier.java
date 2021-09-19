@@ -82,20 +82,15 @@ public class BanChatNotifier implements Listener {
     @EventHandler
     public void notifyBanExtension(BanExtensionEvent event) {
         IBan ban = event.getBan();
-        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> {
-            String message = replaceBanPlaceholders(messages.banExtended, ban).replace("%extensionDuration%", JavaUtils.toHumanReadableDuration(event.getExtensionDuration()));
-            messages.send(event.getExecutor(), message, messages.prefixGeneral);
-        });
-
+        String message = replaceBanPlaceholders(messages.banExtended, ban).replace("%extensionDuration%", JavaUtils.toHumanReadableDuration(event.getExtensionDuration()));
+        messages.send(event.getExecutor(), message, messages.prefixGeneral);
     }
 
     @EventHandler
     public void notifyBanReduction(BanReductionEvent event) {
         IBan ban = event.getBan();
-        playerManager.getOnlinePlayer(ban.getIssuerUuid()).ifPresent(p -> {
-            String message = replaceBanPlaceholders(messages.banReduced, ban).replace("%reductionDuration%", JavaUtils.toHumanReadableDuration(event.getReductionDuration()));
-            messages.send(event.getExecutor(), message, messages.prefixGeneral);
-        });
+        String message = replaceBanPlaceholders(messages.banReduced, ban).replace("%reductionDuration%", JavaUtils.toHumanReadableDuration(event.getReductionDuration()));
+        messages.send(event.getExecutor(), message, messages.prefixGeneral);
     }
 
 }

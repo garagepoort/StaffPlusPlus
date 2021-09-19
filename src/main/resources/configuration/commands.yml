@@ -157,6 +157,8 @@ mute: "mute"
 
 # The command to temporarily mute a player
 tempmute: "tempmute"
+extendmute: "mute-extend"
+reducemute: "mute-reduce"
 
 # The command to unmute a player
 unmute: "unmute"
