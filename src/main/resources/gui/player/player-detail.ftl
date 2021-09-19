@@ -26,7 +26,7 @@
 
     <GuiItem slot="3"
              material="BANNER"
-             name="warnings"
+             name="Warnings"
              if="config|warnings-module.enabled"
              onLeftClick="manage-warnings/view/overview?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
              permission="config|permissions:warnings.manage.view">
