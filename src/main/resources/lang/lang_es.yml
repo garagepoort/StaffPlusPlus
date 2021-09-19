@@ -275,6 +275,8 @@ mute-permamuted: "&6%target% fue silenciado por %issuer%"
 mute-unmuted: "&6%target% ha desmuteado a %issuer%"
 mute-tempmuted: "&6%target% ha silenciado a %issuer% por %duration%"
 mute-muted: "&6Te encuentran silenciado. No puedes escribir."
+mute-extended: "&7You have extended &6%target%&7's mute by %extensionDuration%"
+mute-reduced: "&7You have reduced &6%target%&7's mute by %reductionDuration%"
 
 ############################################################
 # +------------------------------------------------------+ #

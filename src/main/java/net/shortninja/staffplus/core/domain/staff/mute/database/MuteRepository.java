@@ -36,4 +36,6 @@ public interface MuteRepository {
     long getActiveCount();
 
     Optional<Mute> getLastMute(UUID playerUuid);
+
+    void setMuteDuration(int muteId, long duration);
 }
