@@ -2,9 +2,11 @@ package net.shortninja.staffplus.core.application.database;
 
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 public abstract class SqlRepository {
@@ -12,12 +14,16 @@ public abstract class SqlRepository {
     @ConfigProperty("storage.type")
     private String storageType;
 
-    protected Integer getGeneratedId(PreparedStatement insert) throws SQLException {
+    protected SqlRepository() {
+    }
+
+    protected Integer getGeneratedId(Connection connection, PreparedStatement insert) throws SQLException {
         ResultSet generatedKeys;
         if (storageType.equalsIgnoreCase("mysql")) {
             generatedKeys = insert.getGeneratedKeys();
         } else {
-            generatedKeys = insert.executeQuery("SELECT last_insert_rowid()");
+            Statement statement = connection.createStatement();
+            generatedKeys = statement.executeQuery("SELECT last_insert_rowid()");
         }
         int generatedKey = -1;
         if (generatedKeys.next()) {
