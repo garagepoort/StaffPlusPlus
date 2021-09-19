@@ -3,6 +3,7 @@
 # V1.17.16 (NOT YET RELEASED)
 
 ### Features
+  - Command hooks configuration has changed and improved
   - UUID on player overview is now visible even if player is offline
   - ipban and ban templates are now also displayed whenever a banned player tries to rejoin
   - Add mute reduce/extend commands
