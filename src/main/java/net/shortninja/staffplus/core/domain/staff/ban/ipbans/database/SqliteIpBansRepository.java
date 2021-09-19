@@ -40,7 +40,7 @@ public class SqliteIpBansRepository extends AbstractIpBanRepository {
             insertIfPresent(insert, 8, ipBan.getTemplate(), Types.VARCHAR);
             insert.executeUpdate();
 
-            Integer generatedId = getGeneratedId(insert);
+            Integer generatedId = getGeneratedId(connection, insert);
             connection.commit(); // Commits transaction.
 
             return Long.valueOf(generatedId);

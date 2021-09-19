@@ -73,7 +73,7 @@ public class SqlStoredCommandRepository extends SqlRepository implements StoredC
         insertIfPresent(insert, 11, commandEntity.getActionableId(), Types.INTEGER);
         insertIfPresent(insert, 12, commandEntity.getActionableType(), Types.VARCHAR);
         insert.executeUpdate();
-        return getGeneratedId(insert);
+        return getGeneratedId(sql, insert);
     }
 
 
