@@ -191,6 +191,8 @@ mode-status: "&bMode staff &7%status%&b."
 mode-original-location: "&bVous avez été retéléporté a votre localisation d'origine"
 mode-random-teleport: "&bVous avez été aléatoirement téléporté"
 mode-not-enough-players: "&bNombre de joueurs insuffisants pour se téléporter aléatoirement!"
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&bReports"
 gui-mine: "&bMineurs"
