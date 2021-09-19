@@ -41,7 +41,7 @@ public class MysqlBansRepository extends AbstractSqlBansRepository {
             insertIfPresent(insert, 10, ban.getTemplate(), Types.VARCHAR);
             insert.executeUpdate();
 
-            return getGeneratedId(insert);
+            return getGeneratedId(sql, insert);
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
