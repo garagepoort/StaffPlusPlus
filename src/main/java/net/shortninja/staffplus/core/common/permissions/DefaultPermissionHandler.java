@@ -22,7 +22,7 @@ public class DefaultPermissionHandler implements PermissionHandler {
 
         boolean hasPermission = false;
         if (player != null) {
-            hasPermission = player.hasPermission(permission) || isOp(player);
+            hasPermission = player.hasPermission(permission);
         }
 
         return hasPermission;
@@ -59,7 +59,7 @@ public class DefaultPermissionHandler implements PermissionHandler {
 
         boolean hasPermission = false;
         if (player != null) {
-            hasPermission = player.hasPermission(permission) && !player.isOp();
+            hasPermission = player.hasPermission(permission);
         }
 
         return hasPermission;
@@ -69,7 +69,7 @@ public class DefaultPermissionHandler implements PermissionHandler {
         if (permission == null) {
             return true;
         }
-        return sender.hasPermission(permission) || isOp(sender);
+        return sender.hasPermission(permission);
     }
 
     public int getStaffCount() {

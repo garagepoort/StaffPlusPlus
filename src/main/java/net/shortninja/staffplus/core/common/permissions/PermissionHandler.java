@@ -51,10 +51,6 @@ public interface PermissionHandler extends TubingPermissionService {
 
     boolean has(CommandSender sender, String permission);
 
-    default boolean isOp(CommandSender sender) {
-        return sender.isOp();
-    }
-
     int getStaffCount();
 
     default void validateOp(CommandSender sender) {
@@ -64,7 +60,7 @@ public interface PermissionHandler extends TubingPermissionService {
     }
 
     default void validateDuration(CommandSender player, String permission, long durationInMillis) {
-        if (!(player instanceof Player) || this.isOp(player)) {
+        if (!(player instanceof Player)) {
             return;
         }
 

@@ -62,7 +62,7 @@ public class VanishCmd extends AbstractCmd {
 
         VanishType vanishType = VanishType.valueOf(args[0].toUpperCase());
 
-        if (args.length >= 3 && permissionHandler.isOp(sender)) {
+        if (args.length >= 3 && sender.isOp()) {
             bukkitUtils.runTaskAsync(sender, () -> {
                 String option = args[2];
                 if (option.equalsIgnoreCase("enable")) {
@@ -74,7 +74,7 @@ public class VanishCmd extends AbstractCmd {
             return true;
         }
 
-        if (args.length == 2 && permissionHandler.isOp(sender)) {
+        if (args.length == 2 && sender.isOp()) {
             bukkitUtils.runTaskAsync(sender, () -> handleVanishArgument(vanishType, targetPlayer.getPlayer(), false));
             return true;
         }

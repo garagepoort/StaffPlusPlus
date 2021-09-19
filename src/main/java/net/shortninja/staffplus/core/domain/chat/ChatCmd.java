@@ -45,7 +45,7 @@ public class ChatCmd extends AbstractCmd {
 
     @Override
     public boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
-        if (args.length >= 2 && permissionHandler.isOp(sender)) {
+        if (args.length >= 2 && sender.isOp()) {
             handleChatArgument(sender, args[0], args[1], false);
         } else if (args.length == 1) {
             handleChatArgument(sender, args[0], "", true);
