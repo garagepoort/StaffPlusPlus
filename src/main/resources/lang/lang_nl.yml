@@ -190,6 +190,8 @@ mode-status: "&bPersoneel modus is &7%status%&b."
 mode-original-location: "&bJe bent terug geteleporteerd naar je oorspronkelijke locatie!"
 mode-random-teleport: "&bJe bent willekeurig geteleporteerd!"
 mode-not-enough-players: "&bEr zijn niet genoeg spelers online om willekeurig te teleporteren!"
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&bAangiftes"
 gui-mine: "&bMiners"

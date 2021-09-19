@@ -191,6 +191,8 @@ mode-status: "&bStaff-Modus wurde &7%status%&b."
 mode-original-location: "&bDu wurdest zurück zum alten Ort teleportiert."
 mode-random-teleport: "&bDu wurdest zufällig zu einem Spieler teleportiert!"
 mode-not-enough-players: "&bEs sind nicht genug Spieler online um dich zu einem zufälligen Spieler zu teleportieren."
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&bReports"
 gui-mine: "&bMiners"
