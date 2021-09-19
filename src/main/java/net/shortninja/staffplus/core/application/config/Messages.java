@@ -330,6 +330,10 @@ public class Messages {
     public String tempMuted;
     @ConfigProperty("%lang%:mute-muted")
     public String muted;
+    @ConfigProperty("%lang%:mute-extended")
+    public String muteExtended;
+    @ConfigProperty("%lang%:mute-reduced")
+    public String muteReduced;
 
     @ConfigProperty("%lang%:appeal-created")
     public String appealCreated;

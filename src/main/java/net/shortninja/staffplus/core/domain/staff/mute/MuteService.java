@@ -13,6 +13,8 @@ import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.database.MuteRepository;
 import net.shortninja.staffplusplus.mute.MuteEvent;
+import net.shortninja.staffplusplus.mute.MuteExtensionEvent;
+import net.shortninja.staffplusplus.mute.MuteReductionEvent;
 import net.shortninja.staffplusplus.mute.UnmuteEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -73,6 +75,34 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
             return Collections.emptyList();
         }
         return muteRepository.getAllActiveMutes(players.stream().map(p -> p.getUniqueId().toString()).collect(Collectors.toList()));
+    }
+
+    public void extendMute(CommandSender sender, SppPlayer player, long duration) {
+        Mute mute = getMuteByMutedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't muted"));
+        if (mute.getEndDate() == null) {
+            throw new BusinessException("The player is permanently muted. Cannot extend mute");
+        }
+
+        long newDuration = (mute.getEndTimestamp() - System.currentTimeMillis()) + duration;
+        permission.validateDuration(sender, muteConfiguration.permissionTempmutePlayer + LIMIT, newDuration);
+        permission.validateDuration(sender, muteConfiguration.permissionExtendMutePlayer + LIMIT, duration);
+
+        muteRepository.setMuteDuration(mute.getId(), mute.getEndTimestamp() + duration);
+        Mute updatedMute = getById(mute.getId());
+        sendEvent(new MuteExtensionEvent(updatedMute, duration, sender));
+    }
+
+    public void reduceMute(CommandSender sender, SppPlayer player, long duration) {
+        Mute mute = getMuteByMutedUuid(player.getId()).orElseThrow(() -> new BusinessException("&CThis player isn't muted"));
+        if (mute.getEndDate() == null) {
+            throw new BusinessException("The player is permanently muted. Cannot reduce mute");
+        }
+
+        permission.validateDuration(sender, muteConfiguration.permissionReduceMutePlayer + LIMIT, duration);
+
+        muteRepository.setMuteDuration(mute.getId(), mute.getEndTimestamp() - duration);
+        Mute updatedMute = getById(mute.getId());
+        sendEvent(new MuteReductionEvent(updatedMute, duration, sender));
     }
 
     public void unmute(CommandSender issuer, SppPlayer playerToUnmute, String reason) {
