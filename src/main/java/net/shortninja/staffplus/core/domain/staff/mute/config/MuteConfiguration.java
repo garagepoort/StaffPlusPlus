@@ -17,6 +17,10 @@ public class MuteConfiguration {
 
     @ConfigProperty("permissions:tempmute")
     public String permissionTempmutePlayer;
+    @ConfigProperty("permissions:extendmute")
+    public String permissionExtendMutePlayer;
+    @ConfigProperty("permissions:reducemute")
+    public String permissionReduceMutePlayer;
     @ConfigProperty("permissions:mute-bypass")
     public String permissionMuteByPass;
     @ConfigProperty("permissions:mute-notifications")
