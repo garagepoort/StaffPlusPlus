@@ -190,6 +190,8 @@ mode-status: '&bMode staf sekarang adalah &7%status%&b.'
 mode-original-location: '&bAnda telah berpindah ke posisi awal!'
 mode-random-teleport: '&bKamu berpindah ke tempat acak!'
 mode-not-enough-players: '&bTidak cukup pemain untuk berpindah acak!'
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: '&bLaporan'
 gui-mine: '&bPenambang'

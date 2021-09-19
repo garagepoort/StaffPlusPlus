@@ -190,6 +190,8 @@ mode-status: "&bStaff mode se &7%status%&b."
 mode-original-location: "&bVratio si se na početni položaj!"
 mode-random-teleport: "&bRandom si se teleporto!"
 mode-not-enough-players: "&bNema dovoljno igrača!"
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&bPrijave"
 gui-mine: "&bKopači"

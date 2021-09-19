@@ -194,6 +194,8 @@ mode-status: "&bTu servicio como staff fue &7%status%&b."
 mode-original-location: "&b¡Has sido transportado a tu ubicacion original!"
 mode-random-teleport: "&b¡Has sido transportado a una ubicacion aleatoria!"
 mode-not-enough-players: "&b¡No hay suficientes jugadores conectados para poder transportarse aleatoriamente!"
+mode-fly-enabled: "&3Flight is now &6on"
+mode-fly-disabled: "&3Flight is now &6off"
 
 gui-reports: "&bReportes"
 gui-mine: "&bMineros"
