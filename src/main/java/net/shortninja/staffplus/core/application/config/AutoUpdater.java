@@ -15,6 +15,7 @@ import net.shortninja.staffplus.core.application.config.migrators.StaffModeComma
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeNewConfiguredCommandsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeModulesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModesMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.ThresholdCommandsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.WarningCommandsMigrator;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.bukkit.configuration.ConfigurationSection;
@@ -52,7 +53,8 @@ public class AutoUpdater {
         new CustomStaffModeModuleCommandMigrator(),
         new StaffCustomModulesCommandMigrator(),
         new WarningCommandsMigrator(),
-        new StaffModeNewConfiguredCommandsMigrator());
+        new StaffModeNewConfiguredCommandsMigrator(),
+        new ThresholdCommandsMigrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         try {
