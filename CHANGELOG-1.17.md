@@ -1,5 +1,10 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.18
+
+### Bug fixes
+  - Fix migrator for warning thresholds
+
 # V1.17.17
 
 ### Features
