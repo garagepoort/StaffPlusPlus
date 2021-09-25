@@ -50,7 +50,8 @@ public class SqlStoredCommandRepository extends SqlRepository implements StoredC
         }
     }
 
-    private int save(StoredCommandEntity commandEntity, Connection sql) throws SQLException {
+    @Override
+    public int save(StoredCommandEntity commandEntity, Connection sql) throws SQLException {
         PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_commands(executor_uuid, executor_run_strategy, target_uuid, target_run_strategy, command, creation_timestamp, execution_timestamp, server_name, is_delayed, rollback_command_id, actionable_id, actionable_type) " +
             " VALUES(? ,?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
         sql.setAutoCommit(false);

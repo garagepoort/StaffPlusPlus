@@ -3,10 +3,14 @@ package net.shortninja.staffplus.core.domain.actions.database;
 import net.shortninja.staffplus.core.domain.actions.StoredCommandEntity;
 import net.shortninja.staffplusplus.Actionable;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 public interface StoredCommandRepository {
+
+    int save(StoredCommandEntity commandEntity, Connection sql) throws SQLException;
 
     List<StoredCommandEntity> getCommandsFor(Actionable actionable);
 
