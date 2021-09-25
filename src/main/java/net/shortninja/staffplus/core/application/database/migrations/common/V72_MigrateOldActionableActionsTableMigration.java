@@ -45,7 +45,7 @@ public class V72_MigrateOldActionableActionsTableMigration implements Migration 
                         rollbackCommandEntity = getRollbackCommandEntity(rollbackCommand, rollbackTimestamp);
                     }
                     StoredCommandEntity storedCommandEntity = getStoredCommandEntity(actionableId, actionableType, command, executionTimestamp, rollbackTimestamp, rollbackCommandEntity);
-                    storedCommandRepository.saveCommand(storedCommandEntity);
+                    storedCommandRepository.save(storedCommandEntity, sql);
                 }
             }
         } catch (SQLException e) {
