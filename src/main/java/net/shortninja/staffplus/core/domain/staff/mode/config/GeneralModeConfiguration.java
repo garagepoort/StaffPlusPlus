@@ -29,6 +29,7 @@ public class GeneralModeConfiguration {
     private boolean modeOriginalLocation;
     private boolean modeEnableOnLogin;
     private boolean modeDisableOnLogout;
+    private boolean nightVision;
     private Map<String, Integer> itemSlots;
 
     private List<String> validWorlds;
@@ -189,6 +190,14 @@ public class GeneralModeConfiguration {
         this.modeDisableCommands = modeDisableCommands;
     }
 
+    public boolean isNightVision() {
+        return nightVision;
+    }
+
+    public void setNightVision(boolean nightVision) {
+        this.nightVision = nightVision;
+    }
+
     public Map<String, Integer> getItemSlots() {
         return itemSlots;
     }
@@ -215,4 +224,5 @@ public class GeneralModeConfiguration {
     public void setName(String name) {
         this.name = name;
     }
+
 }
