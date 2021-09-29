@@ -93,6 +93,9 @@ public class StaffModesLoader extends AbstractConfigLoader<Map<String, GeneralMo
         if (configurationSection.contains("enable-on-login")) {
             modeConfig.setModeEnableOnLogin(configurationSection.getBoolean("enable-on-login"));
         }
+        if (configurationSection.contains("night-vision")) {
+            modeConfig.setNightVision(configurationSection.getBoolean("night-vision"));
+        }
         if (configurationSection.contains("disable-on-logout")) {
             modeConfig.setModeDisableOnLogout(configurationSection.getBoolean("disable-on-logout"));
         }

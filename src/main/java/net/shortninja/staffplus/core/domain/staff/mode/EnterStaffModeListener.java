@@ -14,6 +14,8 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Optional;
 
@@ -42,12 +44,7 @@ public class EnterStaffModeListener implements Listener {
 
         Player player = playerOptional.get().getPlayer();
         GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, event.getMode());
-
-        staffModeItemsService.setStaffModeItems(player, modeConfiguration);
-        player.setAllowFlight(modeConfiguration.isModeFlight());
-        if (modeConfiguration.isModeCreative()) {
-            player.setGameMode(GameMode.CREATIVE);
-        }
+        setPlayerStaffState(player, modeConfiguration);
 
         messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
@@ -62,14 +59,21 @@ public class EnterStaffModeListener implements Listener {
         Player player = playerOptional.get().getPlayer();
         GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, event.getToMode());
         resetPlayer(player, event.getModeData());
+        setPlayerStaffState(player, modeConfiguration);
 
+        messages.send(player, "&eYou switched to staff mode &6" + modeConfiguration.getName(), messages.prefixGeneral);
+    }
+
+    private void setPlayerStaffState(Player player, GeneralModeConfiguration modeConfiguration) {
         staffModeItemsService.setStaffModeItems(player, modeConfiguration);
         player.setAllowFlight(modeConfiguration.isModeFlight());
         if (modeConfiguration.isModeCreative()) {
             player.setGameMode(GameMode.CREATIVE);
         }
-
-        messages.send(player, "&eYou switched to staff mode &6" + modeConfiguration.getName(), messages.prefixGeneral);
+        player.getActivePotionEffects().stream().map(PotionEffect::getType).forEach(player::removePotionEffect);
+        if (modeConfiguration.isNightVision()) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 128, false, false));
+        }
     }
 
     private void resetPlayer(Player player, IModeData modeData) {
@@ -80,6 +84,8 @@ public class EnterStaffModeListener implements Listener {
         player.setAllowFlight(modeData.hasFlight());
         player.setGameMode(modeData.getGameMode());
         player.setFireTicks(modeData.getFireTicks());
+        player.getActivePotionEffects().stream().map(PotionEffect::getType).forEach(player::removePotionEffect);
+        modeData.getPotionEffects().forEach(player::addPotionEffect);
     }
 
 }
