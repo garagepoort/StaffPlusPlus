@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 @IocMultiProvider(SppCommand.class)
 public class IpBansViewCmd extends AbstractCmd {
 
+    private static final String PLAYERS = "-players";
     private final IpBanService banService;
     private final BukkitUtils bukkitUtils;
     private final PlayerIpService playerIpService;
@@ -45,7 +46,7 @@ public class IpBansViewCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         bukkitUtils.runTaskAsync(sender, () -> {
-            if (optionalParameters.containsKey("-players")) {
+            if (optionalParameters.containsKey(PLAYERS)) {
                 listBannedPlayers(sender);
             } else {
                 listIps(sender);
@@ -80,7 +81,7 @@ public class IpBansViewCmd extends AbstractCmd {
 
     @Override
     protected List<String> getOptionalParameters() {
-        return Collections.singletonList("-players");
+        return Collections.singletonList(PLAYERS);
     }
 
     @Override
@@ -91,5 +92,13 @@ public class IpBansViewCmd extends AbstractCmd {
     @Override
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.empty();
+    }
+
+    @Override
+    protected List<String> autoComplete(CommandSender sender, String[] args, String[] sppArgs) throws IllegalArgumentException {
+        if(args.length == 1) {
+            return Collections.singletonList(PLAYERS);
+        }
+        return Collections.emptyList();
     }
 }
