@@ -8,6 +8,8 @@ import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import net.shortninja.staffplus.core.domain.chat.blacklist.BlacklistService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.mute.Mute;
+import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import net.shortninja.staffplusplus.chat.PlayerMentionedEvent;
 import org.bukkit.Bukkit;
@@ -20,6 +22,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.CHAT;
@@ -32,14 +35,22 @@ public class AsyncPlayerChat implements Listener {
     private final TraceService traceService;
     private final PlayerManager playerManager;
     private final BukkitUtils bukkitUtils;
+    private final MuteService muteService;
 
-    public AsyncPlayerChat(Options options, @IocMulti(ChatInterceptor.class) List<ChatInterceptor> chatInterceptors, BlacklistService blacklistService, TraceService traceService, PlayerManager playerManager, BukkitUtils bukkitUtils) {
+    public AsyncPlayerChat(Options options,
+                           @IocMulti(ChatInterceptor.class) List<ChatInterceptor> chatInterceptors,
+                           BlacklistService blacklistService,
+                           TraceService traceService,
+                           PlayerManager playerManager,
+                           BukkitUtils bukkitUtils,
+                           MuteService muteService) {
         this.options = options;
         this.chatInterceptors = chatInterceptors.stream().sorted(Comparator.comparingInt(ChatInterceptor::getPriority)).collect(Collectors.toList());
         this.blacklistService = blacklistService;
         this.traceService = traceService;
         this.playerManager = playerManager;
         this.bukkitUtils = bukkitUtils;
+        this.muteService = muteService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -63,9 +74,12 @@ public class AsyncPlayerChat implements Listener {
 
     private void notifyMentioned(Player player, String message) {
         bukkitUtils.runTaskAsync(() -> {
-            getMentioned(message).stream()
-                .map(user -> new PlayerMentionedEvent(options.serverName, player, user, message))
-                .forEach(BukkitUtils::sendEvent);
+            Optional<Mute> muteByMutedUuid = muteService.getMuteByMutedUuid(player.getUniqueId());
+            if (!muteByMutedUuid.isPresent()) {
+                getMentioned(message).stream()
+                    .map(user -> new PlayerMentionedEvent(options.serverName, player, user, message))
+                    .forEach(BukkitUtils::sendEvent);
+            }
         });
     }
 
