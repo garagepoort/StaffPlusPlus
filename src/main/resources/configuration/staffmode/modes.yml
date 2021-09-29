@@ -11,6 +11,7 @@ modes:
         hunger-loss: false
         flight: true
         creative: false
+        night-vision: false
         original-location: false
         enable-on-login: false
         disable-on-logout: false

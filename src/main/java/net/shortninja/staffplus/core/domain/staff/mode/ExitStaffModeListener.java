@@ -13,6 +13,7 @@ import net.shortninja.staffplusplus.staffmode.IModeData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.Optional;
 
@@ -62,6 +63,12 @@ public class ExitStaffModeListener implements Listener {
         player.setAllowFlight(modeData.hasFlight());
         player.setGameMode(modeData.getGameMode());
         player.setFireTicks(modeData.getFireTicks());
+        for (PotionEffect activePotionEffect : player.getActivePotionEffects()) {
+            player.removePotionEffect(activePotionEffect.getType());
+        }
+        for (PotionEffect potionEffect : modeData.getPotionEffects()) {
+            player.addPotionEffect(potionEffect);
+        }
     }
 
 }
