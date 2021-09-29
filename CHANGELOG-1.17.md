@@ -1,5 +1,16 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.19
+
+### Features
+  - Night vision for staff mode
+  - Staff mode now turns off potion effects on enter and restores potion effects on exit
+  - The /ipbans command now takes an optional "-players" parameter which list all players banned by ip.
+
+### Bug fixes
+  - Upgrading to the newest staff++ version was not working in some cases for sqlite users
+  - Soft muted players were still triggering mentions
+
 # V1.17.18
 
 ### Bug fixes
