@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.dto.BanBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.events.BanBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.events.UnbanBungeeEvent;
@@ -25,12 +24,10 @@ public class BanChatNotifier implements Listener {
 
     private final Messages messages;
     private final BanConfiguration banConfiguration;
-    private final PlayerManager playerManager;
 
-    public BanChatNotifier(Messages messages, BanConfiguration banConfiguration, PlayerManager playerManager) {
+    public BanChatNotifier(Messages messages, BanConfiguration banConfiguration) {
         this.messages = messages;
         this.banConfiguration = banConfiguration;
-        this.playerManager = playerManager;
     }
 
     @EventHandler
