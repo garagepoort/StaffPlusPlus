@@ -1,5 +1,15 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.20 (NOT YET RELEASE)
+
+### Features
+  - Rework freeze-module, move config and add command hooks for freeze/unfreeze
+  - Freeze now has an allowed-commands config which whitelists commands that can be executed while frozen  
+  - Add kick-notifications permission
+
+### Bugfixes
+  - Performance issues fix
+
 # V1.17.19
 
 ### Features

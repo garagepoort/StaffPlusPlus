@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.DELAY;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
@@ -37,9 +37,9 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.TE
     description = "Freezes or unfreezes the player",
     usage = "[enabled | disabled] [player]",
     delayable = true,
-    playerRetrievalStrategy = BOTH
+    playerRetrievalStrategy = ONLINE
 )
-@IocBean
+@IocBean(conditionalOnProperty = "freeze-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class FreezeCmd extends AbstractCmd {
 
