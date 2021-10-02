@@ -2,9 +2,9 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,11 +15,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 @IocBean
 public class EntityDamage implements Listener {
-    private final Options options;
+    private final FreezeConfiguration freezeConfiguration;
     private final OnlineSessionsManager sessionManager;
 
-    public EntityDamage(Options options, OnlineSessionsManager sessionManager) {
-        this.options = options;
+    public EntityDamage(FreezeConfiguration freezeConfiguration, OnlineSessionsManager sessionManager) {
+        this.freezeConfiguration = freezeConfiguration;
         this.sessionManager = sessionManager;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
@@ -47,6 +47,6 @@ public class EntityDamage implements Listener {
     }
 
     private boolean isFrozen(OnlinePlayerSession session) {
-        return !options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezeDamage() && session.isFrozen();
+        return !freezeConfiguration.damage && session.isFrozen();
     }
 }

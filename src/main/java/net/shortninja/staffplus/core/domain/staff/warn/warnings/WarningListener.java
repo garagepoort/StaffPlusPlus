@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandMapper;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -33,13 +34,15 @@ public class WarningListener implements Listener {
     private final Options options;
     private final ThresholdService thresholdService;
     private final ConfiguredCommandMapper configuredCommandMapper;
+    private final BukkitUtils bukkitUtils;
 
-    public WarningListener(ActionService actionService, PlayerManager playerManager, Options options, ThresholdService thresholdService, ConfiguredCommandMapper configuredCommandMapper) {
+    public WarningListener(ActionService actionService, PlayerManager playerManager, Options options, ThresholdService thresholdService, ConfiguredCommandMapper configuredCommandMapper, BukkitUtils bukkitUtils) {
         this.actionService = actionService;
         this.playerManager = playerManager;
         this.options = options;
         this.thresholdService = thresholdService;
         this.configuredCommandMapper = configuredCommandMapper;
+        this.bukkitUtils = bukkitUtils;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -62,8 +65,10 @@ public class WarningListener implements Listener {
         target.ifPresent(sppPlayer -> targets.put("target", sppPlayer.getOfflinePlayer()));
         issuer.ifPresent(sppPlayer -> targets.put("issuer", sppPlayer.getOfflinePlayer()));
 
-        actionService.createCommands(configuredCommandMapper.toCreateRequests(warning, options.warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warning, CREATION_CONTEXT))));
-        target.ifPresent(sppPlayer -> thresholdService.handleThresholds(warning, sppPlayer));
+        bukkitUtils.runTaskAsync(() -> {
+            actionService.createCommands(configuredCommandMapper.toCreateRequests(warning, options.warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warning, CREATION_CONTEXT))));
+            target.ifPresent(sppPlayer -> thresholdService.handleThresholds(warning, sppPlayer));
+        });
     }
 
     @EventHandler
