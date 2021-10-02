@@ -30,11 +30,18 @@ public class ConfiguredCommandMapper {
         this.permissionActionFilter = permissionActionFilter;
     }
 
-    public List<CreateStoredCommandRequest> toCreateRequests(List<ConfiguredCommand> configuredCommands, Map<String, String> placeholders, Map<String, OfflinePlayer> targets, List<ActionFilter> actionFilters) {
+    public List<CreateStoredCommandRequest> toCreateRequests(List<ConfiguredCommand> configuredCommands,
+                                                             Map<String, String> placeholders,
+                                                             Map<String, OfflinePlayer> targets,
+                                                             List<ActionFilter> actionFilters) {
         return toCreateRequests(null, configuredCommands, placeholders, targets, actionFilters);
     }
 
-    public List<CreateStoredCommandRequest> toCreateRequests(Actionable actionable, List<ConfiguredCommand> configuredCommands, Map<String, String> placeholders, Map<String, OfflinePlayer> targets, List<ActionFilter> actionFilters) {
+    public List<CreateStoredCommandRequest> toCreateRequests(Actionable actionable,
+                                                             List<ConfiguredCommand> configuredCommands,
+                                                             Map<String, String> placeholders,
+                                                             Map<String, OfflinePlayer> targets,
+                                                             List<ActionFilter> actionFilters) {
         List<ActionFilter> filters = new ArrayList<>(actionFilters);
         filters.add(permissionActionFilter);
 

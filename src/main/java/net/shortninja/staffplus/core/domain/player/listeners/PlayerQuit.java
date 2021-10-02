@@ -4,11 +4,11 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
+import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import org.bukkit.Bukkit;
@@ -25,28 +25,27 @@ public class PlayerQuit implements Listener {
     @ConfigProperty("permissions:freeze")
     private String permissionFreeze;
 
-    private final Options options;
     private final Messages messages;
     private final OnlineSessionsManager sessionManager;
     private final StaffModeService staffModeService;
     private final TraceService traceService;
     private final XrayService xrayService;
     private final IProtocolService protocolService;
+    private final FreezeConfiguration freezeConfiguration;
 
-    public PlayerQuit(Options options,
-                      Messages messages,
+    public PlayerQuit(Messages messages,
                       OnlineSessionsManager sessionManager,
                       StaffModeService staffModeService,
                       TraceService traceService,
                       XrayService xrayService,
-                      IProtocolService protocolService) {
-        this.options = options;
+                      IProtocolService protocolService, FreezeConfiguration freezeConfiguration) {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.staffModeService = staffModeService;
         this.traceService = traceService;
         this.xrayService = xrayService;
         this.protocolService = protocolService;
+        this.freezeConfiguration = freezeConfiguration;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -61,7 +60,7 @@ public class PlayerQuit implements Listener {
         }
 
         if (session.isFrozen()) {
-            for (String command : options.staffItemsConfiguration.getFreezeModeConfiguration().getLogoutCommands()) {
+            for (String command : freezeConfiguration.logoutCommands) {
                 command = command.replace("%player%", player.getName());
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
             }

@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.application.config.migrators.CommandsMigrat
 import net.shortninja.staffplus.core.application.config.migrators.CommandsV2Migrator;
 import net.shortninja.staffplus.core.application.config.migrators.ConfigMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.CustomStaffModeModuleCommandMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.FreezeModuleMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.PermissionsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.PermissionsV2Migrator;
 import net.shortninja.staffplus.core.application.config.migrators.ReportMessagesMigrator;
@@ -54,7 +55,8 @@ public class AutoUpdater {
         new StaffCustomModulesCommandMigrator(),
         new WarningCommandsMigrator(),
         new StaffModeNewConfiguredCommandsMigrator(),
-        new ThresholdCommandsMigrator());
+        new ThresholdCommandsMigrator(),
+        new FreezeModuleMigrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         try {
