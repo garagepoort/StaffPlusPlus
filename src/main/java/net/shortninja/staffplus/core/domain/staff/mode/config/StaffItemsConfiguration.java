@@ -5,7 +5,7 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.counter.
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.cps.CpsModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.follow.FollowModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeStaffModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.playerdetails.PlayerDetailsModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.randomteleport.RandomTeleportModeConfiguration;
@@ -18,7 +18,7 @@ public class StaffItemsConfiguration {
     private final CpsModeConfiguration cpsModeConfiguration;
     private final ExamineModeConfiguration examineModeConfiguration;
     private final FollowModeConfiguration followModeConfiguration;
-    private final FreezeModeConfiguration freezeModeConfiguration;
+    private final FreezeModeStaffModuleConfiguration freezeModeStaffModuleConfiguration;
     private final GuiModeConfiguration guiModeConfiguration;
     private final RandomTeleportModeConfiguration randomTeleportModeConfiguration;
     private final VanishModeConfiguration vanishModeConfiguration;
@@ -29,7 +29,7 @@ public class StaffItemsConfiguration {
                                    CpsModeConfiguration cpsModeConfiguration,
                                    ExamineModeConfiguration examineModeConfiguration,
                                    FollowModeConfiguration followModeConfiguration,
-                                   FreezeModeConfiguration freezeModeConfiguration,
+                                   FreezeModeStaffModuleConfiguration freezeModeStaffModuleConfiguration,
                                    GuiModeConfiguration guiModeConfiguration,
                                    RandomTeleportModeConfiguration randomTeleportModeConfiguration,
                                    VanishModeConfiguration vanishModeConfiguration, PlayerDetailsModeConfiguration playerDetailsModeConfiguration) {
@@ -38,7 +38,7 @@ public class StaffItemsConfiguration {
         this.cpsModeConfiguration = cpsModeConfiguration;
         this.examineModeConfiguration = examineModeConfiguration;
         this.followModeConfiguration = followModeConfiguration;
-        this.freezeModeConfiguration = freezeModeConfiguration;
+        this.freezeModeStaffModuleConfiguration = freezeModeStaffModuleConfiguration;
         this.guiModeConfiguration = guiModeConfiguration;
         this.randomTeleportModeConfiguration = randomTeleportModeConfiguration;
         this.vanishModeConfiguration = vanishModeConfiguration;
@@ -74,8 +74,8 @@ public class StaffItemsConfiguration {
         return followModeConfiguration;
     }
 
-    public FreezeModeConfiguration getFreezeModeConfiguration() {
-        return freezeModeConfiguration;
+    public FreezeModeStaffModuleConfiguration getFreezeModeConfiguration() {
+        return freezeModeStaffModuleConfiguration;
     }
 
     public GuiModeConfiguration getGuiModeConfiguration() {

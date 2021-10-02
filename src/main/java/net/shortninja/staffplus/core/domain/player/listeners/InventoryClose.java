@@ -3,13 +3,13 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.utils.InventoryFactory;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGUI;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiType;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeGui;
+import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,16 +20,16 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 @IocBean
 @IocListener
 public class InventoryClose implements Listener {
-    private final Options options;
     private final OnlineSessionsManager sessionManager;
     private final InventoryFactory inventoryFactory;
+    private final FreezeConfiguration freezeConfiguration;
 
-    public InventoryClose(Options options,
-                          OnlineSessionsManager sessionManager,
-                          InventoryFactory inventoryFactory) {
-        this.options = options;
+    public InventoryClose(OnlineSessionsManager sessionManager,
+                          InventoryFactory inventoryFactory,
+                          FreezeConfiguration freezeConfiguration) {
         this.sessionManager = sessionManager;
         this.inventoryFactory = inventoryFactory;
+        this.freezeConfiguration = freezeConfiguration;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -40,8 +40,8 @@ public class InventoryClose implements Listener {
         if (sessionManager.has(player.getUniqueId())) {
             OnlinePlayerSession playerSession = sessionManager.get(player);
 
-            if (playerSession.isFrozen() && options.staffItemsConfiguration.getFreezeModeConfiguration().isModeFreezePrompt()) {
-                Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> new FreezeGui(options.staffItemsConfiguration.getFreezeModeConfiguration().getModeFreezePromptTitle()).show(player), 1);
+            if (playerSession.isFrozen() && freezeConfiguration.prompt) {
+                Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> new FreezeGui(freezeConfiguration.promptTitle).show(player), 1);
                 return;
             }
 

@@ -3,11 +3,10 @@ package net.shortninja.staffplus.core.domain.staff.freeze.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeGui;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
 import net.shortninja.staffplusplus.freeze.PlayerUnFrozenEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,12 +17,12 @@ import org.bukkit.potion.PotionEffectType;
 @IocListener
 public class UnFreezeListener implements Listener {
 
-    private final FreezeModeConfiguration freezeModeConfiguration;
+    private final FreezeConfiguration freezeConfiguration;
     private final Messages messages;
     private final OnlineSessionsManager onlineSessionsManager;
 
-    public UnFreezeListener(Options options, Messages messages, OnlineSessionsManager onlineSessionsManager) {
-        this.freezeModeConfiguration = options.staffItemsConfiguration.getFreezeModeConfiguration();
+    public UnFreezeListener(FreezeConfiguration freezeConfiguration, Messages messages, OnlineSessionsManager onlineSessionsManager) {
+        this.freezeConfiguration = freezeConfiguration;
         this.messages = messages;
         this.onlineSessionsManager = onlineSessionsManager;
     }
@@ -40,7 +39,7 @@ public class UnFreezeListener implements Listener {
         player.removePotionEffect(PotionEffectType.BLINDNESS);
 
         OnlinePlayerSession session = onlineSessionsManager.get(player);
-        if (freezeModeConfiguration.isModeFreezePrompt() && session.getCurrentGui().isPresent() && session.getCurrentGui().get() instanceof FreezeGui) {
+        if (freezeConfiguration.prompt && session.getCurrentGui().isPresent() && session.getCurrentGui().get() instanceof FreezeGui) {
             player.closeInventory();
         }
     }

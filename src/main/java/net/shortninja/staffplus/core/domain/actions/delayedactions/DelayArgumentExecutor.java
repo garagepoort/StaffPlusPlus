@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.core.domain.actions.delayedactions;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -26,12 +26,16 @@ public class DelayArgumentExecutor {
     private final Messages messages;
     private final PlayerManager playerManager;
     private final Options options;
+    private final BukkitUtils bukkitUtils;
+    private final ActionService actionService;
 
 
-    public DelayArgumentExecutor(Messages messages, PlayerManager playerManager, Options options) {
+    public DelayArgumentExecutor(Messages messages, PlayerManager playerManager, Options options, BukkitUtils bukkitUtils, ActionService actionService) {
         this.messages = messages;
         this.playerManager = playerManager;
         this.options = options;
+        this.bukkitUtils = bukkitUtils;
+        this.actionService = actionService;
     }
 
     public boolean execute(CommandSender commandSender, String playerName, String command) {
@@ -41,7 +45,7 @@ public class DelayArgumentExecutor {
             throw new BusinessException("&CCannot delay the command. No user found on this server with name: [" + playerName + "]", messages.prefixGeneral);
         }
 
-        StaffPlus.get().getIocContainer().get(ActionService.class).createCommand(
+        bukkitUtils.runTaskAsync(() -> actionService.createCommand(
             commandBuilder()
                 .serverName(options.serverName)
                 .executor(CONSOLE_UUID)
@@ -49,7 +53,7 @@ public class DelayArgumentExecutor {
                 .target(player.get().getOfflinePlayer())
                 .targetRunStrategy(DELAY)
                 .command(command)
-                .build());
+                .build()));
         messages.send(commandSender, "Your command has been delayed and will be executed next time [" + playerName + "] joins the server", messages.prefixGeneral);
         return true;
     }
