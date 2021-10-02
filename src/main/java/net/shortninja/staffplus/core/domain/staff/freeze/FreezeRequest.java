@@ -5,9 +5,9 @@ import org.bukkit.entity.Player;
 
 public class FreezeRequest {
 
-    private CommandSender commandSender;
-    private Player player;
-    private boolean enableFreeze;
+    private final CommandSender commandSender;
+    private final Player player;
+    private final boolean enableFreeze;
 
     public FreezeRequest(CommandSender commandSender, Player player, boolean enableFreeze) {
         this.commandSender = commandSender;

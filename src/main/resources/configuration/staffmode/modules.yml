@@ -87,14 +87,6 @@ modules:
         item: BLAZE_ROD
         name: "&2Freeze"
         lore: "&7Toggles freeze for the clicked player."
-        chat: true
-        damage: false
-        timer: 5
-        sound: ORB_PICKUP
-        prompt: false
-        prompt-title: "&bFrozen"
-        logout-commands: "ban %player%"
-        title-message-enabled: true
 
     cps-module:
         enabled: true
