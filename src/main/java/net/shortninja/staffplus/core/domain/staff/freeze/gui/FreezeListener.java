@@ -3,9 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.freeze.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeGui;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeConfiguration;
+import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
 import net.shortninja.staffplusplus.freeze.PlayerFrozenEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,19 +16,19 @@ import org.bukkit.potion.PotionEffectType;
 @IocListener
 public class FreezeListener implements Listener {
 
-    private final FreezeModeConfiguration freezeModeConfiguration;
+    private final FreezeConfiguration freezeConfiguration;
     private final Messages messages;
 
-    public FreezeListener(Options options, Messages messages) {
-        this.freezeModeConfiguration = options.staffItemsConfiguration.getFreezeModeConfiguration();
+    public FreezeListener(FreezeConfiguration freezeConfiguration, Messages messages) {
+        this.freezeConfiguration = freezeConfiguration;
         this.messages = messages;
     }
 
     @EventHandler
     public void onFreeze(PlayerFrozenEvent event) {
         Player player = event.getTarget();
-        if (freezeModeConfiguration.isModeFreezePrompt()) {
-            new FreezeGui(freezeModeConfiguration.getModeFreezePromptTitle()).show(player);
+        if (freezeConfiguration.prompt) {
+            new FreezeGui(freezeConfiguration.promptTitle).show(player);
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
         } else {
             messages.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
@@ -39,6 +38,8 @@ public class FreezeListener implements Listener {
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 128));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 128));
-        freezeModeConfiguration.getModeFreezeSound().ifPresent(s -> s.play(player));
+        if (freezeConfiguration.sound != null) {
+            freezeConfiguration.sound.play(player);
+        }
     }
 }

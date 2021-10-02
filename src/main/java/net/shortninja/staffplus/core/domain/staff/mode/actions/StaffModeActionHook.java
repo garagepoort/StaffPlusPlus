@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.mode.actions;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.CreateStoredCommandRequest;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
@@ -33,12 +34,14 @@ public class StaffModeActionHook implements Listener {
     private final ModeProvider modeProvider;
     private final ActionService actionService;
     private final ConfiguredCommandMapper configuredCommandMapper;
+    private final BukkitUtils bukkitUtils;
 
-    public StaffModeActionHook(PlayerManager playerManager, ModeProvider modeProvider, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper) {
+    public StaffModeActionHook(PlayerManager playerManager, ModeProvider modeProvider, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper, BukkitUtils bukkitUtils) {
         this.playerManager = playerManager;
         this.modeProvider = modeProvider;
         this.actionService = actionService;
         this.configuredCommandMapper = configuredCommandMapper;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @EventHandler
@@ -74,14 +77,16 @@ public class StaffModeActionHook implements Listener {
     }
 
     private void executeCommands(SppPlayer staff, List<ConfiguredCommand> modeCommands) {
-        Map<String, String> placeholders = new HashMap<>();
-        placeholders.put("%staff%", staff.getUsername());
+        bukkitUtils.runTaskAsync(() -> {
+            Map<String, String> placeholders = new HashMap<>();
+            placeholders.put("%staff%", staff.getUsername());
 
-        Map<String, OfflinePlayer> targets = new HashMap<>();
-        targets.put("staff", staff.getOfflinePlayer());
+            Map<String, OfflinePlayer> targets = new HashMap<>();
+            targets.put("staff", staff.getOfflinePlayer());
 
-        List<CreateStoredCommandRequest> commandCreateRequest = configuredCommandMapper.toCreateRequests(modeCommands, placeholders, targets, emptyList());
-        actionService.createCommands(commandCreateRequest);
+            List<CreateStoredCommandRequest> commandCreateRequest = configuredCommandMapper.toCreateRequests(modeCommands, placeholders, targets, emptyList());
+            actionService.createCommands(commandCreateRequest);
+        });
     }
 
 }
