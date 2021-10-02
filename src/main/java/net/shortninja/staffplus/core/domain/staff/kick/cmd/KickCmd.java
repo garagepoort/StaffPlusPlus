@@ -13,6 +13,7 @@ import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.kick.KickService;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickReasonConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -45,17 +46,19 @@ public class KickCmd extends AbstractCmd {
     private final List<KickReasonConfiguration> kickReasonConfigurations;
     private final Options options;
     private final GuiActionService guiActionService;
+    private final BukkitUtils bukkitUtils;
 
     @ConfigProperty("permissions:kick-bypass")
     private String permissionKickByPass;
 
-    public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService, Options options1, GuiActionService guiActionService) {
+    public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService, Options options1, GuiActionService guiActionService, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.kickService = kickService;
         this.options = options1;
         this.kickReasonConfigurations = options.kickConfiguration.getKickReasons();
         this.guiActionService = guiActionService;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @Override
@@ -63,19 +66,19 @@ public class KickCmd extends AbstractCmd {
 
         if (kickReasonConfigurations.isEmpty() || (!options.kickConfiguration.isFixedReason() && args.length == 2)) {
             String reason = JavaUtils.compileWords(args, 1);
-            kickService.kick(sender, player, reason);
+            bukkitUtils.runTaskAsync(sender, () -> kickService.kick(sender, player, reason));
             return true;
         }
 
         if (kickReasonConfigurations.size() == 1) {
-            kickService.kick(sender, player, kickReasonConfigurations.get(0).getReason());
+            bukkitUtils.runTaskAsync(sender, () -> kickService.kick(sender, player, kickReasonConfigurations.get(0).getReason()));
             return true;
         }
 
         if (args.length == 2) {
             String reason = JavaUtils.compileWords(args, 1);
             if (kickReasonConfigurations.stream().anyMatch(k -> k.getReason().equalsIgnoreCase(reason))) {
-                kickService.kick(sender, player, reason);
+                bukkitUtils.runTaskAsync(sender, () -> kickService.kick(sender, player, reason));
             }
         }
 
