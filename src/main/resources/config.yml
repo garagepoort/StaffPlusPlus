@@ -493,6 +493,28 @@ investigations-module:
     conclude-investigation-commands: []
     pause-investigation-commands: []
 
+
+############################################################
+# +------------------------------------------------------+ #
+# |                      Freezing                        | #
+# +------------------------------------------------------+ #
+############################################################
+freeze-module:
+    enabled: true
+    chat: false
+    damage: false
+    timer: 5
+    sound: ORB_PICKUP
+    prompt: false
+    prompt-title: '&bFrozen'
+    logout-commands: ban %player%
+    title-message-enabled: true
+    # Commands that are allowed when a player is frozen
+    allowed-commands: []
+    # command hooks for freeze/unfreeze
+    freeze-commands: []
+    unfreeze-commands: []
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                   WEBUI                     | #
