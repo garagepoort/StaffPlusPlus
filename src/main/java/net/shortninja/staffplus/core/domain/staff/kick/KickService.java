@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.kick;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -31,13 +30,11 @@ public class KickService implements InfractionProvider {
     private final PermissionHandler permission;
     private final KicksRepository kicksRepository;
     private final Options options;
-    private Messages messages;
 
-    public KickService(PermissionHandler permission, KicksRepository kicksRepository, Options options, Messages messages) {
+    public KickService(PermissionHandler permission, KicksRepository kicksRepository, Options options) {
         this.permission = permission;
         this.kicksRepository = kicksRepository;
         this.options = options;
-        this.messages = messages;
     }
 
     public void kick(CommandSender issuer, SppPlayer playerToKick, String reason) {
@@ -54,25 +51,7 @@ public class KickService implements InfractionProvider {
         Kick kick = new Kick(reason, issuerName, issuerUuid, playerToKick.getUsername(), playerToKick.getId());
         kick.setId(kicksRepository.addKick(kick));
 
-        notifyPlayers(playerToKick, issuerName, reason);
-        kickPlayer(playerToKick, issuerName, reason);
         sendEvent(new KickEvent(kick));
-    }
-
-    private void kickPlayer(SppPlayer playerToKick, String issuerName, String reason) {
-        String message = messages.kickMessage
-            .replace("%target%", playerToKick.getUsername())
-            .replace("%issuer%", issuerName)
-            .replace("%reason%", reason);
-        playerToKick.getPlayer().kickPlayer(this.messages.colorize(message));
-    }
-
-    private void notifyPlayers(SppPlayer playerToKick, String issuerName, String reason) {
-        String message = messages.kickedNotify
-            .replace("%target%", playerToKick.getUsername())
-            .replace("%issuer%", issuerName)
-            .replace("%reason%", reason);
-        this.messages.sendGlobalMessage(message, messages.prefixGeneral);
     }
 
     @Override
