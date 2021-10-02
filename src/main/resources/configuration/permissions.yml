@@ -238,6 +238,7 @@ ipban:
 
 # Permission to kick players
 kick: "staff.staffplus.kick"
+kick-notifications: "staff.staffplus.kick-notifications"
 
 # Permission to bypass being kicked
 kick-bypass: "staff.staffplus.kick-bypass"
