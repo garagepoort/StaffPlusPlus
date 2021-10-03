@@ -1,6 +1,7 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.20 (NOT YET RELEASE)
+# V1.17.20
+
 
 ### Features
   - Rework freeze-module, move config and add command hooks for freeze/unfreeze
