@@ -24,18 +24,21 @@ public class SqliteInvestigationsRepository extends AbstractSqlInvestigationsRep
     @Override
     public int addInvestigation(Investigation investigation) {
         try (Connection connection = getConnection();
-             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_investigations(investigator_uuid, investigated_uuid, status, creation_timestamp, server_name) " +
-                 "VALUES(?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_investigations(investigator_uuid, investigator_name, investigated_uuid, investigated_name, status, creation_timestamp, server_name) " +
+                 "VALUES(?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
             insert.setString(1, investigation.getInvestigatorUuid().toString());
+            insert.setString(2, investigation.getInvestigatorName());
             if (investigation.getInvestigatedUuid().isPresent()) {
-                insert.setString(2, investigation.getInvestigatedUuid().get().toString());
+                insert.setString(3, investigation.getInvestigatedUuid().get().toString());
+                insert.setString(4, investigation.getInvestigatedName().get());
             } else {
-                insert.setNull(2, Types.VARCHAR);
+                insert.setNull(3, Types.VARCHAR);
+                insert.setNull(4, Types.VARCHAR);
             }
-            insert.setString(3, investigation.getStatus().name());
-            insert.setLong(4, investigation.getCreationTimestamp());
-            insert.setString(5, options.serverName);
+            insert.setString(5, investigation.getStatus().name());
+            insert.setLong(6, investigation.getCreationTimestamp());
+            insert.setString(7, options.serverName);
             insert.executeUpdate();
 
             Statement statement = connection.createStatement();

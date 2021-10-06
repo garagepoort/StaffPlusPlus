@@ -177,7 +177,7 @@ ticket-list-end: "&7%longline%"
 # +------------------------------------------------------+ #
 ############################################################
 
-
+alert-changed: "&7%alerttype% &balerts &7%status%&b."
 alerts-name: "&b&7%old% &b¡ha cambiado su nombre a &7%new%&b!"
 alerts-chat-phrase-detected: "&7%target% &bcolocó una palabra en el chat que contenía (&7%detectedPhrases%&b)"
 alerts-mention: "&7%target% &b¡ha mencionado tu nombre en el chat!"
