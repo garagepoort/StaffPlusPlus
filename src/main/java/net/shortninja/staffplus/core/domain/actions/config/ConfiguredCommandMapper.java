@@ -55,10 +55,6 @@ public class ConfiguredCommandMapper {
         return list;
     }
 
-    public CreateStoredCommandRequest toCreateRequest(ConfiguredCommand c, Map<String, String> placeholders, Map<String, OfflinePlayer> targets) {
-        return toCreateRequest(null, c, placeholders, targets);
-    }
-
     public CreateStoredCommandRequest toCreateRequest(Actionable actionable, ConfiguredCommand c, Map<String, String> placeholders, Map<String, OfflinePlayer> targets) {
 
         OfflinePlayer target = getTarget(c, targets);
