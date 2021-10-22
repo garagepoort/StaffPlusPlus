@@ -55,12 +55,13 @@ public class ThresholdService {
         }
 
         Optional<SppPlayer> culprit = playerManager.getOnOrOfflinePlayer(warning.getTargetUuid());
+        Optional<SppPlayer> issuer = playerManager.getOnOrOfflinePlayer(warning.getIssuerUuid());
 
         List<CreateStoredCommandRequest> commands = configuredCommandMapper.toCreateRequests(
             warning,
             threshold.get().getActions(),
-            getPlaceholders(culprit),
-            getTargets(culprit),
+            getPlaceholders(warning),
+            getTargets(issuer, culprit),
             Collections.emptyList());
 
         List<String> executedCommands = actionService.createCommands(commands)
@@ -72,16 +73,23 @@ public class ThresholdService {
     }
 
     @NotNull
-    private Map<String, String> getPlaceholders(Optional<SppPlayer> culprit) {
+    private Map<String, String> getPlaceholders(IWarning warning) {
         Map<String, String> placeholders = new HashMap<>();
-        culprit.ifPresent(sppPlayer -> placeholders.put("%culprit%", sppPlayer.getUsername()));
+        placeholders.put("%issuer%", warning.getIssuerName());
+        placeholders.put("%target%", warning.getTargetName());
+        placeholders.put("%culprit%", warning.getTargetName());
+        placeholders.put("%severity%", warning.getSeverity());
+        placeholders.put("%score%", String.valueOf(warning.getScore()));
+        placeholders.put("%reason%", String.valueOf(warning.getReason()));
         return placeholders;
     }
 
     @NotNull
-    private Map<String, OfflinePlayer> getTargets(Optional<SppPlayer> culprit) {
+    private Map<String, OfflinePlayer> getTargets(Optional<SppPlayer> issuer, Optional<SppPlayer> target) {
         Map<String, OfflinePlayer> targets = new HashMap<>();
-        culprit.ifPresent(sppPlayer -> targets.put("culprit", sppPlayer.getOfflinePlayer()));
+        target.ifPresent(sppPlayer -> targets.put("culprit", sppPlayer.getOfflinePlayer()));
+        target.ifPresent(sppPlayer -> targets.put("target", sppPlayer.getOfflinePlayer()));
+        issuer.ifPresent(sppPlayer -> targets.put("issuer", sppPlayer.getOfflinePlayer()));
         return targets;
     }
 }
