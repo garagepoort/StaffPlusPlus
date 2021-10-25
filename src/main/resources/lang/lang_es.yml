@@ -32,10 +32,10 @@ investigations-prefix: "&dInvestigaciones &8»"
 # Este es el color que sera usado para cosas como comas en listas de mensaje.
 separator-color: "&b"
 
-# Lineas están separadas por comas.
+# Lines are separated by commas
 staff-list-start: "&7%longline%"
-staff-list-entry: "&b%player% &%statuscolor%•"
-# Lineas están separadas por comas.
+staff-list-member: "&b%player% &%statuscolor%•"
+# Lines are separated by commas
 staff-list-end: "&7%longline%"
 
 
