@@ -34,14 +34,14 @@
             <LoreLine>&7(&C${model.warnings?size}&7) times warned</LoreLine>
             <#if model.warnings?has_content>
                 <#assign lastWarning = model.warnings[0]>
-                <LoreLine>&7---------------</LoreLine>
+                <@commons.line />
                 <LoreLine>&6Last warning:</LoreLine>
                 <LoreLine></LoreLine>
                 <@warningcommons.warninglorelines warning=lastWarning/>
             </#if>
 
             <LoreLine></LoreLine>
-            <LoreLine>&7---------------</LoreLine>
+            <@commons.line />
             <LoreLine>&7Left click to &6view warning history</LoreLine>
         </Lore>
     </GuiItem>
@@ -59,7 +59,7 @@
             </#if>
 
             <LoreLine></LoreLine>
-            <LoreLine>&7---------------</LoreLine>
+            <@commons.line />
             <LoreLine>&7Left click to &6view mute history</LoreLine>
         </Lore>
     </GuiItem>
@@ -76,7 +76,7 @@
                 <@bancommons.banlorelines ban=model.ban.get()/>
             </#if>
             <LoreLine></LoreLine>
-            <LoreLine>&7---------------</LoreLine>
+            <@commons.line />
             <LoreLine>&7Left click to &6view ban history</LoreLine>
         </Lore>
     </GuiItem>

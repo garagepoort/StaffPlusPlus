@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.TimeZone;
 
@@ -34,6 +35,11 @@ public class GuiUtils {
     public static String parseTimestamp(long timestamp, String format) {
         LocalDateTime localDateTime = getLocalDateTime(timestamp);
         return localDateTime.format(DateTimeFormatter.ofPattern(format));
+    }
+
+    public static String parseTimestampSeconds(long timestamp, String format) {
+        LocalDateTime localDateTime = getLocalDateTime(timestamp);
+        return localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(format));
     }
 
     public static LocalDateTime getLocalDateTime(long timestamp) {
