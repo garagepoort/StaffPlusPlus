@@ -40,3 +40,32 @@
             <LoreLine>&cExpired</LoreLine>
         </#if>
 </#macro>
+
+<#macro appealinfoitem appeal action>
+    <GuiItem slot="31"
+             name="Appeal &6${appeal.status.name()}"
+             material="WRITABLE_BOOK"
+             onLeftClick="${action}">
+        <Lore>
+            <LoreLine>
+                &bAppealer: &6${appeal.appealerName}
+            </LoreLine>
+            <LoreLine>
+                &bTimestamp: &6${GuiUtils.parseTimestampSeconds(appeal.creationTimestamp, $config.get("timestamp-format"))}
+            </LoreLine>
+            <LoreLine>
+                &bReason: &6${appeal.reason}
+            </LoreLine>
+            <#if appeal.status.name() != "OPEN">
+                <LoreLine>
+                    &bResolved by: &6${appeal.resolverName}
+                </LoreLine>
+            </#if>
+            <#if appeal.resolveReason.isPresent()>
+                <LoreLine>
+                    &bResolve Reason: &6${appeal.resolveReason.get()}
+                </LoreLine>
+            </#if>
+        </Lore>
+    </GuiItem>
+</#macro>
