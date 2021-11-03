@@ -29,8 +29,8 @@ public class SqliteReportRepository extends AbstractSqlReportRepository {
     public int addReport(Report report) {
         int locationId = locationRepository.addLocation(report.getLocation().get());
         try (Connection connection = getConnection();
-             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, reporter_name, Player_UUID, player_name, status, timestamp, server_name, location_id, type) " +
-                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement insert = connection.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, reporter_name, Player_UUID, player_name, status, timestamp, server_name, location_id, type, deleted) " +
+                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
             insert.setString(1, report.getReason());
             insert.setString(2, report.getReporterUuid().toString());
@@ -46,6 +46,9 @@ public class SqliteReportRepository extends AbstractSqlReportRepository {
             } else {
                 insert.setNull(10, Types.VARCHAR);
             }
+            // need to set this explicitly in older version because the deleted reports column has a wrong default "false" value.
+            // This fix is easier than actually migrating the table.
+            insert.setBoolean(11, false);
             insert.executeUpdate();
 
             Statement statement = connection.createStatement();
