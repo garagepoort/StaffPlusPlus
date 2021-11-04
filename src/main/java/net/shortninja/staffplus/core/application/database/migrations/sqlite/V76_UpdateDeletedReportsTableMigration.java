@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class V76_UpdateDeletedReportsTableMigration implements Migration {
     @Override
     public List<String> getStatements() {
-        return Arrays.asList("UPDATE sp_reports set deleted=0 WHERE deleted=false;","UPDATE sp_reports set deleted=1 WHERE deleted=true;");
+        return Arrays.asList("UPDATE sp_reports set deleted=0 WHERE deleted='false';","UPDATE sp_reports set deleted=1 WHERE deleted='true';");
     }
 
     @Override
