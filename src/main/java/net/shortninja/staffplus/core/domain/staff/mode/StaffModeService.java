@@ -10,6 +10,7 @@ import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.SwitchStaffModeEvent;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -111,7 +112,7 @@ public class StaffModeService {
         player.setAllowFlight(!player.getAllowFlight());
     }
 
-    public void turnStaffModeOff(Player player) {
+    public void turnStaffModeOffAndTeleport(Player player, Location location) {
         PlayerSettings session = playerSettingsRepository.get(player);
 
         Optional<ModeData> existingModeData = modeDataRepository.retrieveModeData(player.getUniqueId());
@@ -131,7 +132,12 @@ public class StaffModeService {
             player.getLocation(),
             options.serverName,
             modeConfiguration.map(GeneralModeConfiguration::getName).orElse("default"),
-            existingModeData.get()));
+            existingModeData.get(),
+            location));
+    }
+
+    public void turnStaffModeOff(Player player) {
+        turnStaffModeOffAndTeleport(player, null);
     }
 
     public static ItemStack[] getContents(Player p) {
