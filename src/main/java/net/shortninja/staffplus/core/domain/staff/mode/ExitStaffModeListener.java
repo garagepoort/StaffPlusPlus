@@ -49,6 +49,7 @@ public class ExitStaffModeListener implements Listener {
             player.teleport(event.getModeData().getPreviousLocation().setDirection(player.getLocation().getDirection()));
             messages.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
         }
+        event.getTeleportToLocation().ifPresent(player::teleport);
 
         resetPlayer(player, event.getModeData());
         bukkitUtils.runTaskAsync(player, () -> modeDataRepository.deleteModeData(player));

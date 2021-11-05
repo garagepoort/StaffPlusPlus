@@ -20,7 +20,7 @@ public class LuckPermsHook implements PluginDisable {
     private ContextManager contextManager;
     private final OnlineSessionsManager sessionManager;
     private final List<ContextCalculator<Player>> registeredCalculators = new ArrayList<>();
-    private boolean luckPermsEnabled;
+    private final boolean luckPermsEnabled;
 
     public LuckPermsHook(OnlineSessionsManager sessionManager) {
         this.sessionManager = sessionManager;
