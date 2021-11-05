@@ -1,7 +1,14 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.20
+# V1.17.21
 
+### Bugfixes
+  - Spanish translation was missing a few keys
+  - On 1.12 reports were not showing up if sqlite was used
+  - Fixed the disableStaffMode on world change functionality
+  - Added authme to softdepends, this was making startup fail in some cases
+
+# V1.17.20
 
 ### Features
   - Rework freeze-module, move config and add command hooks for freeze/unfreeze
