@@ -29,7 +29,7 @@ public class FreezeConfiguration {
     public boolean prompt;
     @ConfigProperty("freeze-module.prompt-title")
     public String promptTitle;
-    @ConfigProperty("freeze-module.logoutCommands")
+    @ConfigProperty("freeze-module.logout-commands")
     @ConfigTransformer(CommaSplitTransformer.class)
     public List<String> logoutCommands;
     @ConfigProperty("freeze-module.title-message-enabled")
