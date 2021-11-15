@@ -1,7 +1,7 @@
 <#import "/gui/player/player-commons.ftl" as playercommons/>
 <#import "/gui/commons/commons.ftl" as commons/>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
-<TubingGUi size="54">
+<TubingGui size="54">
     <title>Protected players</title>
 
     <#list players as p>
@@ -9,4 +9,4 @@
     </#list>
 
     <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
-</TubingGUi>
+</TubingGui>

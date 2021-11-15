@@ -2,7 +2,7 @@
 <#import "/gui/commons/commons.ftl" as commons/>
 <#import "/gui/evidence/evidence-commons.ftl" as evidenceCommons/>
 
-<TubingGui size="54">
+<TubingGui size="54" id="reportdetail">
     <title>Report by: ${report.reporterName}</title>
 
     <@reportcommon.reportitem slot=13 report=report/>
@@ -11,6 +11,7 @@
         <#if player.uniqueId == report.staffUuid && $permissions.has(player, $config.get("permissions:reports.manage.resolve"))>
             <#list [34,35,43,44] as slot>
                 <GuiItem slot="${slot}"
+                         id="resolve-${slot?index}"
                          material="GREEN_STAINED_GLASS_PANE"
                          name="Resolve report"
                          onLeftClick="manage-reports/resolve?reportId=${report.id}">
@@ -24,6 +25,7 @@
         <#if player.uniqueId == report.staffUuid || $permissions.has(player, $config.get("permissions:reports.manage.reopen-other"))>
             <#list [27,28,36,37] as slot>
                 <GuiItem slot="${slot}"
+                         id="unassign-${slot?index}"
                          material="WHITE_STAINED_GLASS_PANE"
                          name="Unassign"
                          onLeftClick="manage-reports/reopen?reportId=${report.id}">
@@ -37,6 +39,7 @@
         <#if player.uniqueId == report.staffUuid && $permissions.has(player, $config.get("permissions:reports.manage.reject"))>
             <#list [30,31,32,39,40,41] as slot>
                 <GuiItem slot="${slot}"
+                         id="reject-${slot?index}"
                          material="RED_STAINED_GLASS_PANE"
                          name="Reject report"
                          onLeftClick="manage-reports/reject?reportId=${report.id}">
@@ -50,6 +53,7 @@
 
     <#if $permissions.has(player, $config.get("permissions:reports.manage.delete"))>
         <GuiItem slot="8"
+                 id="delete"
                  material="REDSTONE_BLOCK"
                  name="Delete"
                  onLeftClick="manage-reports/delete?reportId=${report.id}">
@@ -60,6 +64,7 @@
     </#if>
 
     <GuiItem slot="0"
+             id="teleport"
              permission="config|permissions:reports.manage.teleport"
              material="ORANGE_STAINED_GLASS_PANE"
              name="Teleport"

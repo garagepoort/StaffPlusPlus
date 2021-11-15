@@ -5,12 +5,14 @@
             <GuiItem slot="${slot}"
                      onLeftClick="${GuiUtils.getPreviousPage(currentAction, page)}"
                      name="Previous Page"
+                     class="previous-page"
                      material="RED_STAINED_GLASS_PANE"/>
         </#list>
     </#if>
     <#list nextSlots as slot>
         <GuiItem slot="${slot}"
                  onLeftClick="${GuiUtils.getNextPage(currentAction, page)}"
+                 class="next-page"
                  name="Next Page"
                  material="GREEN_STAINED_GLASS_PANE"/>
     </#list>
@@ -21,11 +23,14 @@
 <#macro backButton action backSlot=49>
     <#if action?has_content>
         <GuiItem slot="${backSlot}"
+                 class="back-button"
                  onLeftClick="${action}"
                  name="Back"
                  material="SPRUCE_DOOR"/>
     </#if>
 </#macro>
 <#macro line>
-    <LoreLine>&7---------------</LoreLine>
+    <LoreLine>
+        <t color="&7" class="line-separator">---------------</t>
+    </LoreLine>
 </#macro>

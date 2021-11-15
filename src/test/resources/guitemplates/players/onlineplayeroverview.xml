@@ -1,47 +1,31 @@
-<tubinggui size="54">
+<TubingGui size="54">
     <title>Online players</title>
-    <guiitem slot="0" onleftclick="players/view/detail?targetPlayerName=player1&amp;backAction=players%2Fview%2Foverview%2Fonline%3FbackAction%3DgoBack%2Fview" onrightclick="$NOOP" onmiddleclick="$NOOP" material="PLAYER_HEAD" name="&amp;5player1">
-        <lore>
-            <loreline permission="playerview-detail-uuid">
-                &amp;bUUID: &amp;6a8525382-49ed-4c9c-9c50-c00a0e570159
-            </loreline>
-            <loreline>
-                &amp;7---------------
-            </loreline>
-            <loreline if="false">
-                &amp;2ONLINE
-            </loreline>
-            <loreline if="true">
-                &amp;COFFLINE
-            </loreline>
-            <loreline></loreline>
-            <loreline>
-                &amp;7Left click to &amp;6view players details
-            </loreline>
-        </lore>
-    </guiitem>
-    <guiitem slot="1" onleftclick="players/view/detail?targetPlayerName=player2&amp;backAction=players%2Fview%2Foverview%2Fonline%3FbackAction%3DgoBack%2Fview" onrightclick="$NOOP" onmiddleclick="$NOOP" material="PLAYER_HEAD" name="&amp;5player2">
-        <lore>
-            <loreline permission="playerview-detail-uuid">
-                &amp;bUUID: &amp;698095f6e-f1f8-4884-93e9-6cc0c7d9cad1
-            </loreline>
-            <loreline>
-                &amp;7---------------
-            </loreline>
-            <loreline if="false">
-                &amp;2ONLINE
-            </loreline>
-            <loreline if="true">
-                &amp;COFFLINE
-            </loreline>
-            <loreline></loreline>
-            <loreline>
-                &amp;7Left click to &amp;6view players details
-            </loreline>
-        </lore>
-    </guiitem>
-    <guiitem slot="51" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
-    <guiitem slot="52" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
-    <guiitem slot="53" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
-    <guiitem slot="49" onleftclick="goBack/view" name="Back" material="SPRUCE_DOOR" />
-</tubinggui>
+    <GuiItem slot="0" onLeftClick="players/view/detail?targetPlayerName=player1&amp;backAction=players%2Fview%2Foverview%2Fonline%3FbackAction%3DgoBack%2Fview" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PLAYER_HEAD" name="&amp;5player1">
+        <Lore>
+            <LoreLine permission="playerview-detail-uuid">&amp;bUUID: &amp;6a8525382-49ed-4c9c-9c50-c00a0e570159</LoreLine>
+            <LoreLine>
+                <t color="&amp;7" class="line-separator">---------------</t>
+            </LoreLine>
+            <LoreLine if="false">&amp;2ONLINE</LoreLine>
+            <LoreLine if="true">&amp;COFFLINE</LoreLine>
+            <LoreLine></LoreLine>
+            <LoreLine>&amp;7Left click to &amp;6view players details</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="1" onLeftClick="players/view/detail?targetPlayerName=player2&amp;backAction=players%2Fview%2Foverview%2Fonline%3FbackAction%3DgoBack%2Fview" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PLAYER_HEAD" name="&amp;5player2">
+        <Lore>
+            <LoreLine permission="playerview-detail-uuid">&amp;bUUID: &amp;698095f6e-f1f8-4884-93e9-6cc0c7d9cad1</LoreLine>
+            <LoreLine>
+                <t color="&amp;7" class="line-separator">---------------</t>
+            </LoreLine>
+            <LoreLine if="false">&amp;2ONLINE</LoreLine>
+            <LoreLine if="true">&amp;COFFLINE</LoreLine>
+            <LoreLine></LoreLine>
+            <LoreLine>&amp;7Left click to &amp;6view players details</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="51" onLeftClick="goNext" class="next-page" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <GuiItem slot="52" onLeftClick="goNext" class="next-page" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <GuiItem slot="53" onLeftClick="goNext" class="next-page" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <GuiItem slot="49" class="back-button" onLeftClick="goBack/view" name="Back" material="SPRUCE_DOOR" />
+</TubingGui>

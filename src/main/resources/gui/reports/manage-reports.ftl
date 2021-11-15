@@ -1,5 +1,5 @@
 <#assign URLEncoder=statics['java.net.URLEncoder']>
-<TubingGUi size="9">
+<TubingGui size="9">
     <title>Manage reports</title>
     <GuiItem slot="0" material="PAPER" name="Open reports" onLeftClick="manage-reports/view/open?backAction=${URLEncoder.encode(currentAction)}">
         <Lore>
@@ -21,4 +21,4 @@
             <LoreLine>Show all closed reports</LoreLine>
         </Lore>
     </GuiItem>
-</TubingGUi>
+</TubingGui>

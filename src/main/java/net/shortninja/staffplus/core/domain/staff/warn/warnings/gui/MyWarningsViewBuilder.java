@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
-import be.garagepoort.mcioc.gui.TubingGui;
+import be.garagepoort.mcioc.gui.model.TubingGui;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static be.garagepoort.mcioc.gui.TubingGuiActions.NOOP;
+import static be.garagepoort.mcioc.gui.model.TubingGuiActions.NOOP;
 
 @IocBean
 public class MyWarningsViewBuilder {

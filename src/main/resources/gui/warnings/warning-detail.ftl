@@ -15,10 +15,11 @@
     </GuiItem>
 </#macro>
 
-<TubingGui size="54">
+<TubingGui size="54" id="warning-detail">
     <title>Warning for: ${warning.targetName}</title>
 
     <GuiItem slot="13"
+             id="info"
              material="PLAYER_HEAD"
              name="Warning">
         <Lore>
@@ -30,6 +31,7 @@
              permission="config|permissions:warnings.manage.delete"
              material="REDSTONE_BLOCK"
              name="Delete"
+             id="delete"
              onLeftClick="manage-warnings/delete?warningId=${warning.id}">
         <Lore>
             <LoreLine>Click to delete this warning</LoreLine>
@@ -45,6 +47,7 @@
 
     <#if !warning.expired && !warning.hasApprovedAppeal()>
         <GuiItem slot="17"
+                 id="expire"
                  permission="config|permissions:warnings.manage.expire"
                  material="ORANGE_STAINED_GLASS_PANE"
                  name="Expire"

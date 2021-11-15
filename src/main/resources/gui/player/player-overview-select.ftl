@@ -1,5 +1,5 @@
 <#assign URLEncoder=statics['java.net.URLEncoder']>
-<TubingGUi size="27">
+<TubingGui size="27">
     <title>Select player overview</title>
     <GuiItem slot="10"
              material="PLAYER_HEAD"
@@ -47,4 +47,4 @@
             <LoreLine>Show players protected by Staff++</LoreLine>
         </Lore>
     </GuiItem>
-</TubingGUi>
+</TubingGui>

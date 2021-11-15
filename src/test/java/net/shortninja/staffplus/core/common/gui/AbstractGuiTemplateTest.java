@@ -1,15 +1,19 @@
 package net.shortninja.staffplus.core.common.gui;
 
 import be.garagepoort.mcioc.IocContainer;
+import be.garagepoort.mcioc.TubingPlugin;
 import be.garagepoort.mcioc.common.TubingPluginProvider;
 import be.garagepoort.mcioc.gui.GuiActionService;
-import be.garagepoort.mcioc.gui.TubingGui;
+import be.garagepoort.mcioc.gui.model.InventoryMapper;
+import be.garagepoort.mcioc.gui.model.TubingGui;
 import be.garagepoort.mcioc.gui.actionquery.ActionQueryParser;
 import be.garagepoort.mcioc.gui.templates.ChatTemplateResolver;
 import be.garagepoort.mcioc.gui.templates.GuiTemplateResolver;
 import be.garagepoort.mcioc.gui.templates.TemplateConfigResolver;
 import be.garagepoort.mcioc.gui.templates.TubingGuiTemplateParser;
 import be.garagepoort.mcioc.gui.templates.xml.TubingGuiXmlParser;
+import be.garagepoort.mcioc.gui.templates.xml.style.TubingGuiStyleParser;
+import be.garagepoort.mcioc.permissions.TubingPermissionService;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.TubingBukkitUtilStub;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -19,10 +23,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
@@ -30,8 +37,12 @@ import java.net.URISyntaxException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,11 +62,32 @@ public abstract class AbstractGuiTemplateTest {
     @Mock
     protected TubingGuiXmlParser tubingGuiXmlParser;
     @Mock
+    protected TubingGuiStyleParser tubingGuiStyleParser;
+    @Mock
+    protected InventoryMapper inventoryMapper;
+    @Mock
+    protected TubingPermissionService tubingPermissionService;
+    @Mock
     protected StaffPlus staffPlus;
     @Mock
     protected IocContainer iocContainer;
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private TubingGui tubingGui;
+    private static MockedStatic<TubingPlugin> tubingPluginMockedStatic;
+
+    @BeforeAll
+    public static void allSetUp() {
+        TubingPlugin tubingPlugin = mock(TubingPlugin.class);
+        when(tubingPlugin.getName()).thenReturn("staffplus");
+
+        tubingPluginMockedStatic = mockStatic(TubingPlugin.class);
+        tubingPluginMockedStatic.when(TubingPlugin::getPlugin).thenReturn(tubingPlugin);
+    }
+
+    @AfterAll
+    public static void closeMocks() {
+        tubingPluginMockedStatic.close();
+    }
 
     @BeforeEach
     public void setUp() {
@@ -65,8 +97,8 @@ public abstract class AbstractGuiTemplateTest {
         doReturn(guiController).when(iocContainer).get(guiController.getClass());
         when(tubingGuiXmlParser.parseHtml(eq(player), any())).thenReturn(tubingGui);
 
-        GuiTemplateResolver guiTemplateResolver = new GuiTemplateResolver(tubingPluginProvider, templateConfigResolver, permissionHandler, tubingGuiXmlParser, new TubingGuiTemplateParser(templateConfigResolver));
-        guiActionService = new GuiActionService(tubingPluginProvider, guiTemplateResolver, chatTemplateResolver, new ActionQueryParser(), new TubingBukkitUtilStub());
+        GuiTemplateResolver guiTemplateResolver = new GuiTemplateResolver(tubingPluginProvider, templateConfigResolver, permissionHandler, tubingGuiXmlParser, new TubingGuiTemplateParser(templateConfigResolver), tubingGuiStyleParser);
+        guiActionService = new GuiActionService(tubingPluginProvider, guiTemplateResolver, chatTemplateResolver, new ActionQueryParser(), new TubingBukkitUtilStub(), inventoryMapper, tubingPermissionService);
         guiActionService.loadGuiController(guiController.getClass());
     }
 

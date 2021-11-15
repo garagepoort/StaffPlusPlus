@@ -1,7 +1,7 @@
 <#import "report-commons.ftl" as reportcommon/>
 <#import "/gui/commons/commons.ftl" as commons/>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
-<TubingGUi size="54">
+<TubingGui size="54">
     <title>Reports in progress</title>
 
     <#list reports as report>
@@ -11,4 +11,4 @@
     </#list>
 
     <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
-</TubingGUi>
+</TubingGui>

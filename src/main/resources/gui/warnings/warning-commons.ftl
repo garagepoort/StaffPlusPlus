@@ -2,43 +2,50 @@
 
 <#macro warninglorelines warning>
     <#assign appealApproved=$config.get("warnings-module.appeals.enabled") && warning.appeal.isPresent() && warning.appeal.get().status.name() == 'APPROVED'/>
+    <LoreLine>
+        <t color="&b" class="detail-label">Id: </t>
+        <t color="&6" class="detail-value">${warning.id}</t>
+    </LoreLine>
+
+    <LoreLine if="config|server-sync-module.warning-sync">
+        &bServer: &6${warning.serverName}
+    </LoreLine>
+
+    <LoreLine>
+        <t color="&b" id="severity-label" class="detail-label">Severity: </t>
+        <t color="&6" id="severity-value" class="detail-value">${warning.severity}</t>
+    </LoreLine>
+
+    <LoreLine>
+        &bIssuer: &6${warning.issuerName}
+    </LoreLine>
+
+    <LoreLine>
+        &bCulprit: &6${warning.targetName}
+    </LoreLine>
+
+    <LoreLine>
+        &bIssued on: &6${GuiUtils.parseTimestamp(warning.creationTimestamp, $config.get("timestamp-format"))}
+    </LoreLine>
+
+    <LoreLine>
+        &bReason: &6${warning.reason}
+    </LoreLine>
+
+    <LoreLine></LoreLine>
+
+    <#if appealApproved>
         <LoreLine>
-            &bId: &6${warning.id}
+            <t id="appeal-approved-label" class="detail-label">Appeal </t>
+            <t id="appeal-approved-value" color="&2">approved</t>
         </LoreLine>
+    </#if>
 
-        <LoreLine if="config|server-sync-module.warning-sync">
-            &bServer: &6${warning.serverName}
-        </LoreLine>
-
+    <#if warning.expired && !appealApproved>
         <LoreLine>
-            &bSeverity: &6${warning.severity}
+            <t id="expired" color="&C">Expired</t>
         </LoreLine>
-
-        <LoreLine>
-            &bIssuer: &6${warning.issuerName}
-        </LoreLine>
-
-        <LoreLine>
-            &bCulprit: &6${warning.targetName}
-        </LoreLine>
-
-        <LoreLine>
-            &bIssued on: &6${GuiUtils.parseTimestamp(warning.creationTimestamp, $config.get("timestamp-format"))}
-        </LoreLine>
-
-        <LoreLine>
-            &bReason: &6${warning.reason}
-        </LoreLine>
-
-        <LoreLine></LoreLine>
-
-        <#if appealApproved>
-            <LoreLine>Appeal &2approved</LoreLine>
-        </#if>
-
-        <#if warning.expired && !appealApproved>
-            <LoreLine>&cExpired</LoreLine>
-        </#if>
+    </#if>
 </#macro>
 
 <#macro appealinfoitem appeal action>
@@ -51,7 +58,8 @@
                 &bAppealer: &6${appeal.appealerName}
             </LoreLine>
             <LoreLine>
-                &bTimestamp: &6${GuiUtils.parseTimestampSeconds(appeal.creationTimestamp, $config.get("timestamp-format"))}
+                &bTimestamp:
+                &6${GuiUtils.parseTimestampSeconds(appeal.creationTimestamp, $config.get("timestamp-format"))}
             </LoreLine>
             <LoreLine>
                 &bReason: &6${appeal.reason}

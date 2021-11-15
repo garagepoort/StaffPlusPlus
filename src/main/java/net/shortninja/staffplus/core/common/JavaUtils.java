@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.common;
+    package net.shortninja.staffplus.core.common;
 
 import inet.ipaddr.IPAddress;
 import inet.ipaddr.IPAddressString;

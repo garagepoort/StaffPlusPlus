@@ -1,32 +1,32 @@
-<tubinggui size="54">
+<TubingGui size="54">
     <title>Mute History for: &amp;CtargetName</title>
-    <guiitem slot="0" name="&amp;3Mute" onleftclick="manage-mutes/view/detail?muteId=12&amp;backAction=manage-mutes%2Fview%2Fhistory%3FtargetPlayerName%3DtargetName" material="PLAYER_HEAD">
-        <lore>
-            <loreline>
+    <GuiItem slot="0" name="&amp;3Mute" onLeftClick="manage-mutes/view/detail?muteId=12&amp;backAction=manage-mutes%2Fview%2Fhistory%3FtargetPlayerName%3DtargetName" material="PLAYER_HEAD">
+        <Lore>
+            <LoreLine>
                 &amp;bId: &amp;612
-            </loreline>
-            <loreline if="true">
+            </LoreLine>
+            <LoreLine if="true">
                 &amp;bServer: &amp;6ServerName
-            </loreline>
-            <loreline>
+            </LoreLine>
+            <LoreLine>
                 &amp;bMuted player: &amp;6player
-            </loreline>
-            <loreline>
+            </LoreLine>
+            <LoreLine>
                 &amp;bIssuer: &amp;6issuer
-            </loreline>
-            <loreline>
+            </LoreLine>
+            <LoreLine>
                 &amp;bIssued on: &amp;601/09/2021-01:11:15
-            </loreline>
-            <loreline>
+            </LoreLine>
+            <LoreLine>
                 &amp;bReason: &amp;6Mute reason
-            </loreline>
-            <loreline></loreline>
-            <loreline>
+            </LoreLine>
+            <LoreLine></LoreLine>
+            <LoreLine>
                 &amp;CPERMANENT
-            </loreline>
-        </lore>
-    </guiitem>
-    <guiitem slot="51" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
-    <guiitem slot="52" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
-    <guiitem slot="53" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
-</tubinggui>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="51" onLeftClick="goNext" class="next-page" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <GuiItem slot="52" onLeftClick="goNext" class="next-page" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+    <GuiItem slot="53" onLeftClick="goNext" class="next-page" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
+</TubingGui>
