@@ -187,3 +187,5 @@ ipban:
 ips:
     clear-ips: "clear-ips"
 choice-action: "choice-action"
+
+show-style-info: "show-style-info"

@@ -322,3 +322,6 @@ player-notes:
     delete: "staff.player-notes.delete"
     delete-other: "staff.player-notes.delete-other"
     notifications: "staff.player-notes.notifications"
+
+
+show-style-info: "staff.show-style-info"

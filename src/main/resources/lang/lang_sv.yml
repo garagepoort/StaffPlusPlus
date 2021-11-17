@@ -95,6 +95,8 @@ reports:
     report-player-created-notification: "&7%reporter% &bhas reported %culprit% for &7%reason%&b."
     report-reopened-notification: "&b%staff% &7reopened report from &6%reporter%"
     report-deleted-notification: "&b%staff% &7deleted report from &6%reporter%"
+    report-accepted-notification: "&b%staff% &7has accepted report from &6%reporter%"
+    report-closed-notification: "&6%staff% &fchanged report status to &6%status% &fReporter: &6%reporter%"
     reports-cleared: "&bRapporter tömde till &7%culprit%&b!"
     # Linjer är separerat genom komman.
     reports-list-start: "&7%longline%, &7%target% &bhar &7%reports% &brapporter."

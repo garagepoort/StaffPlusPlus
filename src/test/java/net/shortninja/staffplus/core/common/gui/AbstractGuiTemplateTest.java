@@ -7,13 +7,13 @@ import be.garagepoort.mcioc.gui.GuiActionService;
 import be.garagepoort.mcioc.gui.model.InventoryMapper;
 import be.garagepoort.mcioc.gui.model.TubingGui;
 import be.garagepoort.mcioc.gui.actionquery.ActionQueryParser;
+import be.garagepoort.mcioc.gui.style.TubingGuiStyleIdViewProvider;
 import be.garagepoort.mcioc.gui.templates.ChatTemplateResolver;
 import be.garagepoort.mcioc.gui.templates.GuiTemplateResolver;
 import be.garagepoort.mcioc.gui.templates.TemplateConfigResolver;
 import be.garagepoort.mcioc.gui.templates.TubingGuiTemplateParser;
 import be.garagepoort.mcioc.gui.templates.xml.TubingGuiXmlParser;
 import be.garagepoort.mcioc.gui.templates.xml.style.TubingGuiStyleParser;
-import be.garagepoort.mcioc.permissions.TubingPermissionService;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.TubingBukkitUtilStub;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -37,8 +37,6 @@ import java.net.URISyntaxException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -66,7 +64,7 @@ public abstract class AbstractGuiTemplateTest {
     @Mock
     protected InventoryMapper inventoryMapper;
     @Mock
-    protected TubingPermissionService tubingPermissionService;
+    protected TubingGuiStyleIdViewProvider tubingGuiStyleIdViewProvider;
     @Mock
     protected StaffPlus staffPlus;
     @Mock
@@ -98,7 +96,7 @@ public abstract class AbstractGuiTemplateTest {
         when(tubingGuiXmlParser.parseHtml(eq(player), any())).thenReturn(tubingGui);
 
         GuiTemplateResolver guiTemplateResolver = new GuiTemplateResolver(tubingPluginProvider, templateConfigResolver, permissionHandler, tubingGuiXmlParser, new TubingGuiTemplateParser(templateConfigResolver), tubingGuiStyleParser);
-        guiActionService = new GuiActionService(tubingPluginProvider, guiTemplateResolver, chatTemplateResolver, new ActionQueryParser(), new TubingBukkitUtilStub(), inventoryMapper, tubingPermissionService);
+        guiActionService = new GuiActionService(tubingPluginProvider, guiTemplateResolver, chatTemplateResolver, new ActionQueryParser(), new TubingBukkitUtilStub(), inventoryMapper, tubingGuiStyleIdViewProvider);
         guiActionService.loadGuiController(guiController.getClass());
     }
 

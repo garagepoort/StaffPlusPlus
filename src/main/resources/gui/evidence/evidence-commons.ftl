@@ -3,11 +3,15 @@
 <#macro evidenceButton slot evidence backAction>
     <#if $config.get("investigations-module.enabled")>
         <GuiItem slot="${slot}"
+                 id="add-evidence-item"
+                 class="add-evidence-item"
                  onLeftClick="manage-investigation-evidence/view/investigation-link?backAction=${URLEncoder.encode(backAction)}&evidenceId=${evidence.id}&evidenceType=${evidence.evidenceType}&evidenceDescription=${evidence.description}"
-                 name="Add this as evidence to investigation"
                  material="ANVIL">
+            <name class="item-name">Add this as evidence to investigation</name>
             <Lore>
-                <LoreLine>Click to link evidence to investigation</LoreLine>
+                <LoreLine>
+                    <t class="link-evidence-label">Click to link evidence to investigation</t>
+                </LoreLine>
             </Lore>
         </GuiItem>
     </#if>

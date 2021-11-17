@@ -1,15 +1,16 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
-<#macro reportitem slot report onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
+<#macro reportitem slot report itemId="report-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
     <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
     <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
     <GuiItem
-        id="info"
+        id="${itemId}"
+        class="report-info"
         slot="${slot}"
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
         onMiddleClick="${onMiddleClick}"
         material="PAPER">
-        <name id="name" color="&5">
+        <name class="item-name" color="&5">
             Report
         </name>
         <Lore>
@@ -91,8 +92,8 @@
             <#if report.sppLocation.isPresent() == true >
                 <LoreLine>
                     <t color="&b" id="location-label" class="detail-label">Location: </t>
-                    <t color="&7" id="location-world-value" class="detail-value">${report.sppLocation.get().worldName}</t>
-                    <t color="&8" id="location-separator" class="detail-value"> &8 | </t>
+                    <t color="&7" id="location-world-value" class="detail-value">${report.sppLocation.get().worldName} </t>
+                    <t color="&8" id="location-separator" class="detail-value">| </t>
                     <t color="&7" id="location-block-value" class="detail-value">${JavaUtils.serializeLocation(report.sppLocation.get())}</t>
                 </LoreLine>
             <#else >

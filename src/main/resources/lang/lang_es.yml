@@ -73,7 +73,9 @@ player-offline: "&c¡Ese jugador está desconectado!"
 unknown-command: "&cComando desconocido."
 invalid-arguments: "&c¡Argumentos inválidos! (%usage%)"
 only-players: "&b¡Solo jugadores pueden ejecutar este comando!"
-
+no-found: "&bNO FOUND!"
+type-input: "&bEnter your input in chat!"
+input-accepted: "&bInput accepted and submitted."
 enabled: "habilitado"
 disabled: "deshabilitado"
 ############################################################
@@ -95,6 +97,8 @@ reports:
     report-player-created-notification: "&7%reporter% &breportó a %culprit% por &7%reason%&b."
     report-reopened-notification: "&b%staff% &7reabrió el reporte de &6%reporter%"
     report-deleted-notification: "&b%staff% &7eliminó el reporte de &6%reporter%"
+    report-accepted-notification: "&b%staff% &7has accepted report from &6%reporter%"
+    report-closed-notification: "&6%staff% &fchanged report status to &6%status% &fReporter: &6%reporter%"
     reports-cleared: "&b¡Los reportes de &7%culprit%&b han sido limpiados!"
     # Lineas están separadas por comas.
     reports-list-start: "&7%longline%, &7%target% &btiene &7%reports% &breportes."

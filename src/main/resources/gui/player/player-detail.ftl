@@ -6,8 +6,8 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <TubingGui size="27" id="player-detail">
-    <title>${target.username}</title>
-    <@playercommons.playerhead slot=0 sppPlayer=target />
+    <title class="gui-title">${target.username}</title>
+    <@playercommons.playerhead itemId="player-info" slot=0 sppPlayer=target />
     <GuiItem
              id="reports-summary"
              slot="2"
