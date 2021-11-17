@@ -5,39 +5,48 @@
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 
 <#macro appealbutton action>
-    <GuiItem slot="31"
+    <GuiItem id="add-appeal"
+             slot="31"
              material="BOOK"
-             name="Add appeal"
              onLeftClick="${action}">
+        <name class="item-name">Add appeal</name>
         <Lore>
-            <LoreLine>Click to expire this warning</LoreLine>
+            <LoreLine>
+                <t id="add-appeal-label">Click to expire this warning</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
 </#macro>
 
-<TubingGui size="54">
-    <title>Warning for: ${warning.targetName}</title>
+<TubingGui size="54" id="warning-detail">
+    <title class="gui-title">Warning for: ${warning.targetName}</title>
 
     <GuiItem slot="13"
-             material="PLAYER_HEAD"
-             name="Warning">
+             id="info"
+             material="PLAYER_HEAD">
+        <name class="item-name">Warning</name>
         <Lore>
             <@warningcommons.warninglorelines warning=warning/>
         </Lore>
     </GuiItem>
 
     <GuiItem slot="8"
+             id="delete"
              permission="config|permissions:warnings.manage.delete"
              material="REDSTONE_BLOCK"
-             name="Delete"
              onLeftClick="manage-warnings/delete?warningId=${warning.id}">
+        <name class="item-name">Delete</name>
         <Lore>
-            <LoreLine>Click to delete this warning</LoreLine>
+            <LoreLine>
+                <t id="delete-action-label">Click to delete this warning</t>
+            </LoreLine>
             <#if rollbackCommands?size != 0>
                 <@commons.line />
-                <LoreLine>&6Rollback actions:</LoreLine>
+                <LoreLine>
+                    <t id="rollback-actions-label" color="&6">Rollback actions:</t>
+                </LoreLine>
                 <#list rollbackCommands as command>
-                    <LoreLine> - ${command}</LoreLine>
+                    <LoreLine><t id="command-label"> - ${command}</t></LoreLine>
                 </#list>
             </#if>
         </Lore>
@@ -45,12 +54,15 @@
 
     <#if !warning.expired && !warning.hasApprovedAppeal()>
         <GuiItem slot="17"
+                 id="expire"
                  permission="config|permissions:warnings.manage.expire"
                  material="ORANGE_STAINED_GLASS_PANE"
-                 name="Expire"
                  onLeftClick="manage-warnings/expire?warningId=${warning.id}">
+            <name class="item-name">Expire</name>
             <Lore>
-                <LoreLine>Click to expire this warning</LoreLine>
+                <LoreLine>
+                    <t id="expire-action-label">Click to expire this warning</t>
+                </LoreLine>
             </Lore>
         </GuiItem>
     </#if>
