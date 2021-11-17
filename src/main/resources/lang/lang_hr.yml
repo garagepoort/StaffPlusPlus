@@ -96,6 +96,8 @@ reports:
     report-reopened-notification: "&b%staff% &7reopened report from &6%reporter%"
     report-deleted-notification: "&b%staff% &7deleted report from &6%reporter%"
     reports-cleared: "&bPrijave obrisane za &7%culprit%&b!"
+    report-accepted-notification: "&b%staff% &7has accepted report from &6%reporter%"
+    report-closed-notification: "&6%staff% &fchanged report status to &6%status% &fReporter: &6%reporter%"
     # Linije su odvojene sa zarezima.
     reports-list-start: "&7%longline%, &7%target% &bima &7%reports% &bprijave."
     reports-list-entry: "&b%count%: &7%reason% (%reporter%)"

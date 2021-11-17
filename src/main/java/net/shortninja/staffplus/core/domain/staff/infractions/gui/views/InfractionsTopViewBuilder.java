@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.infractions.gui.views;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
-import be.garagepoort.mcioc.gui.TubingGui;
+import be.garagepoort.mcioc.gui.model.TubingGui;
 import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionOverview;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;

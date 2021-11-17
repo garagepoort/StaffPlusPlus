@@ -1,64 +1,112 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
-<#macro reportitem slot report onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
+<#macro reportitem slot report itemId="report-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
     <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
     <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
-    <GuiItem slot="${slot}" onLeftClick="${onLeftClick}" onRightClick="${onRightClick}" onMiddleClick="${onMiddleClick}"
-             material="PAPER" name="&5Report">
+    <GuiItem
+        id="${itemId}"
+        class="report-info"
+        slot="${slot}"
+        onLeftClick="${onLeftClick}"
+        onRightClick="${onRightClick}"
+        onMiddleClick="${onMiddleClick}"
+        material="PAPER">
+        <name class="item-name" color="&5">
+            Report
+        </name>
         <Lore>
-            <LoreLine>&bId: &7${report.id}</LoreLine>
+            <LoreLine>
+                <t color="&b" id="id-label" class="detail-label">Id: </t>
+                <t color="&7" id="id-value" class="detail-value">${report.id}</t>
+            </LoreLine>
 
-            <LoreLine>&bStatus: &7${report.reportStatus.name()}</LoreLine>
+            <LoreLine>
+                <t color="&b" id="status-label" class="detail-label">Status: </t>
+                <t color="&7" id="status-value" class="detail-value">${report.reportStatus.name()}</t>
+            </LoreLine>
 
             <#if $config.get("server-sync-module.report-sync") >
-                <LoreLine>&bServer: &7${report.serverName}</LoreLine>
+                <LoreLine>
+                    <t color="&b" id="server-label" class="detail-label">Server: </t>
+                    <t color="&7" id="server-value" class="detail-value">${report.serverName}</t>
+                </LoreLine>
             </#if>
 
             <#if report.reportType.isPresent() == true >
-                <LoreLine>&bType: &7${report.reportType.get()}</LoreLine>
+                <LoreLine>
+                    <t color="&b" id="type-label" class="detail-label">Type: </t>
+                    <t color="&7" id="type-value" class="detail-value">${report.reportType.get()}</t>
+                </LoreLine>
             </#if>
             <#if report.reportStatus.name() != "OPEN" >
-                <LoreLine>&bAssignee: &7${report.staffName}</LoreLine>
+                <LoreLine>
+                    <t color="&b" id="assignee-label" class="detail-label">Assignee: </t>
+                    <t color="&7" id="assignee-value" class="detail-value">${report.staffName}</t>
+                </LoreLine>
             </#if>
 
+            <LoreLine>
             <#if report.culpritName?? >
-                <LoreLine>&bCulprit: &7${report.culpritName}</LoreLine>
+                <t color="&b" id="culprit-label" class="detail-label">Culprit: </t>
+                <t color="&7" id="culprit-value" class="detail-value">${report.culpritName}</t>
             <#else >
-                <LoreLine>&bCulprit: &7Unknown</LoreLine>
+                <t color="&b" id="culprit-label" class="detail-label">Culprit: </t>
+                <t color="&7" id="culprit-value" class="detail-value">Unknown</t>
             </#if>
+            </LoreLine>
 
-            <LoreLine>&bTimestamp:
-                &7${report.creationDate.format(DateTimeFormatter.ofPattern($config.get("timestamp-format")))}</LoreLine>
+            <LoreLine>
+                <t color="&b" id="timestamp-label" class="detail-label">Timestamp: </t>
+                <t color="&7" id="timestamp-value" class="detail-value">${report.creationDate.format(DateTimeFormatter.ofPattern($config.get("timestamp-format")))}</t>
+            </LoreLine>
 
             <#if $config.get("reports-module.show-reporter") >
-                <LoreLine>&bReporter: &7${report.reporterName}</LoreLine>
+                <LoreLine>
+                    <t color="&b" id="reporter-label" class="detail-label">Reporter: </t>
+                    <t color="&7" id="reporter-value" class="detail-value">${report.reporterName}</t>
+                </LoreLine>
             </#if>
 
-            <LoreLine>&bReason:</LoreLine>
+            <LoreLine>
+                <t color="&b" id="reason-label" class="detail-label">Reason:</t>
+            </LoreLine>
             <#list JavaUtils.formatLines(report.reason, 30) as reasonLine>
-                <LoreLine>${"&7   " + reasonLine}</LoreLine>
+                <LoreLine>
+                    <t color="&7" id="reason-value" class="detail-value">   ${reasonLine}</t>
+                </LoreLine>
             </#list>
 
-            <LoreLine></LoreLine>
+            <LoreLine><t></t></LoreLine>
 
             <#if report.closeReason?has_content >
-                <LoreLine>&bClose Reason:</LoreLine>
+                <LoreLine>
+                    <t color="&b" id="close-reason-label" class="detail-label">Close Reason:</t>
+                </LoreLine>
                 <#list JavaUtils.formatLines(report.closeReason, 30) as reasonLine>
-                    <LoreLine>${"&7   " + reasonLine}</LoreLine>
+                    <LoreLine>
+                        <t color="&7" id="close-reason-value" class="detail-value">   ${reasonLine}</t>
+                    </LoreLine>
                 </#list>
             </#if>
 
-            <LoreLine></LoreLine>
+            <LoreLine><t></t></LoreLine>
             <#if report.sppLocation.isPresent() == true >
-                <LoreLine>&bLocation: &7${report.sppLocation.get().worldName} &8 |
-                    &7${JavaUtils.serializeLocation(report.sppLocation.get())}</LoreLine>
+                <LoreLine>
+                    <t color="&b" id="location-label" class="detail-label">Location: </t>
+                    <t color="&7" id="location-world-value" class="detail-value">${report.sppLocation.get().worldName} </t>
+                    <t color="&8" id="location-separator" class="detail-value">| </t>
+                    <t color="&7" id="location-block-value" class="detail-value">${JavaUtils.serializeLocation(report.sppLocation.get())}</t>
+                </LoreLine>
             <#else >
-                <LoreLine>&bLocation: &7Unknown</LoreLine>
+                <LoreLine>
+                    <t color="&b" id="location-label" class="detail-label">Location: </t>
+                    <t color="&7" id="location-block-value" class="detail-value">Unknown</t>
+                </LoreLine>
             </#if>
 
             <#if actions?has_content >
-                <LoreLine></LoreLine>
+                <LoreLine><t></t></LoreLine>
                 <#list actions as actionLine>
-                    <LoreLine>${actionLine}</LoreLine>
+                    <LoreLine><t>${actionLine}</t></LoreLine>
                 </#list>
             </#if>
         </Lore>

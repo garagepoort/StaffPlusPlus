@@ -1,32 +1,45 @@
-<tubinggui size="54">
-    <title>&amp;bActive mutes</title>
-    <guiitem slot="0" name="&amp;3Mute" onleftclick="manage-mutes/view/detail?muteId=12&amp;backAction=manage-mutes%2Fview%2Fall-active" material="PLAYER_HEAD">
-        <lore>
-            <loreline>
-                &amp;bId: &amp;612
-            </loreline>
-            <loreline if="true">
-                &amp;bServer: &amp;6ServerName
-            </loreline>
-            <loreline>
-                &amp;bMuted player: &amp;6player
-            </loreline>
-            <loreline>
-                &amp;bIssuer: &amp;6issuer
-            </loreline>
-            <loreline>
-                &amp;bIssued on: &amp;601/09/2021-01:11:15
-            </loreline>
-            <loreline>
-                &amp;bReason: &amp;6Mute reason
-            </loreline>
-            <loreline></loreline>
-            <loreline>
-                &amp;CPERMANENT
-            </loreline>
-        </lore>
-    </guiitem>
-    <guiitem slot="51" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
-    <guiitem slot="52" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
-    <guiitem slot="53" onleftclick="goNext" name="Next Page" material="GREEN_STAINED_GLASS_PANE" />
-</tubinggui>
+<TubingGui size="54" id="active-mutes-overview">
+    <title class="gui-title">&amp;bActive mutes</title>
+    <GuiItem id="mute-info-0" class="mute-info" slot="0" onLeftClick="manage-mutes/view/detail?muteId=12&amp;backAction=manage-mutes%2Fview%2Fall-active" material="PLAYER_HEAD">
+        <name class="item-name" color="&amp;3">Mute</name>
+        <Lore>
+            <LoreLine>
+                <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
+                <t color="&amp;6" id="id-value" class="detail-value">12</t>
+            </LoreLine>
+            <LoreLine if="true">
+                <t color="&amp;b" id="server-label" class="detail-label">Server: </t>
+                <t color="&amp;6" id="server-value" class="detail-value">ServerName</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="muted-player-label" class="detail-label">Muted player: </t>
+                <t color="&amp;6" id="muted-player-value" class="detail-value">player</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="issuer-label" class="detail-label">Issuer: </t>
+                <t color="&amp;6" id="issuer-value" class="detail-value">issuer</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="issued-on-label" class="detail-label">Issued on: </t>
+                <t color="&amp;6" id="issued-on-value" class="detail-value">01/09/2021-01:11:15</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="reason-label" class="detail-label">Reason: </t>
+                <t color="&amp;6" id="reason-value" class="detail-value">Mute reason</t>
+            </LoreLine>
+            <LoreLine></LoreLine>
+            <LoreLine>
+                <t color="&amp;C" id="permanent-value">PERMANENT</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+    <GuiItem slot="52" id="next-page-1" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+    <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+</TubingGui>
