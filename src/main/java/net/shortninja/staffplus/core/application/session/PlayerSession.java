@@ -21,6 +21,7 @@ public class PlayerSession implements OnlinePlayerSession {
     private boolean isProtected = false;
     private boolean muted = false;
     private boolean isInStaffMode = false;
+    private boolean canViewStyleIds = false;
     private GeneralModeConfiguration modeConfig;
     private VanishType vanishType = VanishType.NONE;
 
@@ -145,5 +146,15 @@ public class PlayerSession implements OnlinePlayerSession {
     @Override
     public boolean isMuted() {
         return muted;
+    }
+
+    @Override
+    public boolean isCanViewStyleIds() {
+        return canViewStyleIds;
+    }
+
+    @Override
+    public void setCanViewStyleIds(boolean canViewStyleIds) {
+        this.canViewStyleIds = canViewStyleIds;
     }
 }

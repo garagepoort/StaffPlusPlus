@@ -5,7 +5,7 @@ import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.TubingGui;
+import be.garagepoort.mcioc.gui.model.TubingGui;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.domain.player.gui.hub.views.ColorViewBuilder;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
