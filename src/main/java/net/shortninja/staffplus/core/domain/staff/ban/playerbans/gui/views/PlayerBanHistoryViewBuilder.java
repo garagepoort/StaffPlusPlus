@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.views;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
-import be.garagepoort.mcioc.gui.TubingGui;
+import be.garagepoort.mcioc.gui.model.TubingGui;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;

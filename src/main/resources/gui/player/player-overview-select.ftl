@@ -1,50 +1,65 @@
 <#assign URLEncoder=statics['java.net.URLEncoder']>
-<TubingGUi size="27">
-    <title>Select player overview</title>
-    <GuiItem slot="10"
+<TubingGui size="27" id="players-overview-select">
+    <title class="gui-title">Select player overview</title>
+    <GuiItem id="online-players"
+             slot="10"
              material="SKULL_ITEM"
-             name="Online players"
              permission="config|permissions:playerView.overview.online-players"
              onLeftClick="players/view/overview/online?backAction=${URLEncoder.encode(currentAction)}">
+        <name class="item-name">Online players</name>
         <Lore>
-            <LoreLine>Show all online players</LoreLine>
+            <LoreLine>
+                <t id="label">Show all online players</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="11"
+    <GuiItem id="offline-players"
+             slot="11"
              material="SKULL_ITEM"
-             name="Offline players"
              permission="config|permissions:playerView.overview.offline-players"
              onLeftClick="players/view/overview/offline?backAction=${URLEncoder.encode(currentAction)}">
+        <name class="item-name">Offline players</name>
         <Lore>
-            <LoreLine>Show all offline players</LoreLine>
+            <LoreLine>
+                <t id="label">Show all offline players</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="12"
+    <GuiItem id="online-staff"
+             slot="12"
              permission="config|permissions:playerView.overview.staff-members"
              material="TOTEM"
-             name="Online staff members"
              onLeftClick="membersGUI?backAction=${URLEncoder.encode(currentAction)}">
+        <name class="item-name">Online staff members</name>
         <Lore>
-            <LoreLine>Show all online staff members</LoreLine>
+            <LoreLine>
+                <t id="label">Show all offline staff members</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="13"
+    <GuiItem id="miners"
+             slot="13"
              material="DIAMOND_PICKAXE"
              permission="config|permissions:playerView.overview.miners"
-             name="Miners"
              onLeftClick="miners/view?backAction=${URLEncoder.encode(currentAction)}">
+        <name class="item-name">Miners</name>
         <Lore>
-            <LoreLine>Show all miners</LoreLine>
+            <LoreLine>
+                <t id="label">Show all miners</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="14"
+    <GuiItem id="protected-players"
+             slot="14"
              if="config|protect-module.player-enabled"
              material="SHIELD"
              permission="config|permissions:playerView.overview.protected"
-             name="Protected Players"
              onLeftClick="protected-players/view?backAction=${URLEncoder.encode(currentAction)}">
+        <name class="item-name">Protected Players</name>
         <Lore>
-            <LoreLine>Show players protected by Staff++</LoreLine>
+            <LoreLine>
+                <t id="label">Show players protected by Staff++</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
-</TubingGUi>
+</TubingGui>

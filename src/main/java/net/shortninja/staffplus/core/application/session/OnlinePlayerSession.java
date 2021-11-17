@@ -29,4 +29,6 @@ public interface OnlinePlayerSession extends IPlayerSession {
     void setVanishType(VanishType vanishType);
 
     void setName(String name);
+
+    boolean isCanViewStyleIds();
 }
