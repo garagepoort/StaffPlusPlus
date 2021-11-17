@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.common.gui;
 
 
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
-import be.garagepoort.mcioc.gui.TubingGui;
+import be.garagepoort.mcioc.gui.model.TubingGui;
 import net.shortninja.staffplus.core.common.Items;
 import org.bukkit.inventory.ItemStack;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static be.garagepoort.mcioc.gui.TubingGuiActions.NOOP;
+import static be.garagepoort.mcioc.gui.model.TubingGuiActions.NOOP;
 
 public class PagedGuiBuilder {
     private static final int SIZE = 54;
