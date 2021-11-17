@@ -1,24 +1,36 @@
 <#assign URLEncoder=statics['java.net.URLEncoder']>
-<TubingGUi size="9">
-    <title>Manage reports</title>
-    <GuiItem slot="0" material="PAPER" name="Open reports" onLeftClick="manage-reports/view/open?backAction=${URLEncoder.encode(currentAction)}">
+<TubingGui size="9" id="manage-reports-overview">
+    <title class="gui-title">Manage reports</title>
+    <GuiItem id="unresolved-reports" slot="0" material="PAPER" onLeftClick="manage-reports/view/open?backAction=${URLEncoder.encode(currentAction)}">
+        <name class="item-name">Open reports</name>
         <Lore>
-            <LoreLine>Show all unresolved reports</LoreLine>
+            <LoreLine>
+                <t id="unresolve-reports-label">Show all unresolved reports</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="1" material="PAPER" name="Reports assigned to me" onLeftClick="manage-reports/view/my-assigned?backAction=${URLEncoder.encode(currentAction)}">
+    <GuiItem id="my-reports" slot="1" material="PAPER" onLeftClick="manage-reports/view/my-assigned?backAction=${URLEncoder.encode(currentAction)}">
+        <name class="item-name">Reports assigned to me</name>
         <Lore>
-            <LoreLine>Show all reports assigned to me</LoreLine>
+            <LoreLine>
+                <t id="assigned-to-me-label">Show all reports assigned to me</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="2" material="PAPER" name="Reports in progress" onLeftClick="manage-reports/view/assigned?backAction=${URLEncoder.encode(currentAction)}">
+    <GuiItem id="assigned-reports" slot="2" material="PAPER" onLeftClick="manage-reports/view/assigned?backAction=${URLEncoder.encode(currentAction)}">
+        <name class="item-name">Reports in progress</name>
         <Lore>
-            <LoreLine>Show all assigned</LoreLine>
+            <LoreLine>
+                <t id="assigned-label">Show all assigned</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="3" material="PAPER" name="Closed reports" onLeftClick="manage-reports/view/closed?backAction=${URLEncoder.encode(currentAction)}">
+    <GuiItem id="closed-reports" slot="3" material="PAPER" onLeftClick="manage-reports/view/closed?backAction=${URLEncoder.encode(currentAction)}">
+        <name class="item-name">Closed reports</name>
         <Lore>
-            <LoreLine>Show all closed reports</LoreLine>
+            <LoreLine>
+                <t id="closed-reports-label">Show all closed reports</t>
+            </LoreLine>
         </Lore>
     </GuiItem>
-</TubingGUi>
+</TubingGui>

@@ -3,16 +3,22 @@
     <#if page gt 0 >
         <#list previousSlots as slot>
             <GuiItem slot="${slot}"
+                     id="previous-page-${slot?index}"
                      onLeftClick="${GuiUtils.getPreviousPage(currentAction, page)}"
-                     name="Previous Page"
-                     material="RED_STAINED_GLASS_PANE"/>
+                     class="previous-page"
+                     material="RED_STAINED_GLASS_PANE">
+                <name class="item-name">Previous Page</name>
+            </GuiItem>
         </#list>
     </#if>
     <#list nextSlots as slot>
         <GuiItem slot="${slot}"
+                 id="next-page-${slot?index}"
                  onLeftClick="${GuiUtils.getNextPage(currentAction, page)}"
-                 name="Next Page"
-                 material="GREEN_STAINED_GLASS_PANE"/>
+                 class="next-page"
+                 material="GREEN_STAINED_GLASS_PANE">
+            <name class="item-name">Next Page</name>
+        </GuiItem>
     </#list>
 
     <@backButton action=backAction backSlot=backSlot/>
@@ -21,11 +27,16 @@
 <#macro backButton action backSlot=49>
     <#if action?has_content>
         <GuiItem slot="${backSlot}"
+                 id="back-button"
+                 class="back-button"
                  onLeftClick="${action}"
-                 name="Back"
-                 material="SPRUCE_DOOR"/>
+                 material="SPRUCE_DOOR">
+            <name class="item-name">Back</name>
+        </GuiItem>
     </#if>
 </#macro>
 <#macro line>
-    <LoreLine>&7---------------</LoreLine>
+    <LoreLine>
+        <t color="&7" class="line-separator">---------------</t>
+    </LoreLine>
 </#macro>

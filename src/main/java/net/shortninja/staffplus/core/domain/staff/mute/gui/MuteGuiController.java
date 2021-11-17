@@ -58,6 +58,7 @@ public class MuteGuiController {
             Map<String, Object> params = new HashMap<>();
             params.put("title", "&bActive mutes");
             params.put("mutes", allPaged);
+            params.put("guiId", "active-mutes-overview");
             return GuiTemplate.template("gui/mutes/mute-overview.ftl", params);
         });
     }
@@ -71,6 +72,7 @@ public class MuteGuiController {
             Map<String, Object> params = new HashMap<>();
             params.put("title", "Mute History for: &C" + target.getUsername());
             params.put("mutes", allPaged);
+            params.put("guiId", "history-mutes-overview");
             return GuiTemplate.template("gui/mutes/mute-overview.ftl", params);
         });
     }
