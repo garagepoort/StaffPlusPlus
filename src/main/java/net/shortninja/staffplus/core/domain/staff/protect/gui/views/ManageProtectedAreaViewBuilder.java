@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.protect.gui.views;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.TubingGui;
-import be.garagepoort.mcioc.gui.TubingGuiActions;
+import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.gui.model.TubingGuiActions;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectedArea;
 import org.bukkit.inventory.ItemStack;

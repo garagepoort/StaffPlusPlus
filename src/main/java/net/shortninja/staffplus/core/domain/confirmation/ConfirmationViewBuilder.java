@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.confirmation;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.TubingGui;
-import be.garagepoort.mcioc.gui.TubingGuiActions;
+import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.gui.model.TubingGuiActions;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.Items;
 import org.bukkit.inventory.ItemStack;

@@ -4,66 +4,92 @@
 
 <#macro banlorelines ban actions=[]>
     <LoreLine>
-        &bId: &6${ban.id}
+        <t color="&b" id="id-label" class="detail-label">Id: </t>
+        <t color="&6" id="id-value" class="detail-value">${ban.id}</t>
     </LoreLine>
 
     <LoreLine if="${$config.get("server-sync-module.ban-sync")?c}">
-        &bServer: &6${ban.serverName}
+        <t color="&b" id="server-label" class="detail-label">Server: </t>
+        <t color="&6" id="server-value" class="detail-value">${ban.serverName}</t>
     </LoreLine>
 
     <LoreLine>
-        &bBanned player: &6${ban.targetName}
+        <t color="&b" id="banned-label" class="detail-label">Banned player: </t>
+        <t color="&6" id="banned-value" class="detail-value">${ban.targetName}</t>
     </LoreLine>
 
     <LoreLine>
-        &bIssuer: &6${ban.issuerName}
+        <t color="&b" id="issuer-label" class="detail-label">Issuer: </t>
+        <t color="&6" id="issuer-value" class="detail-value">${ban.issuerName}</t>
     </LoreLine>
 
     <LoreLine>
-        &bIssued on: &6${GuiUtils.parseTimestamp(ban.creationTimestamp, $config.get("timestamp-format"))}
+        <t color="&b" id="issued-on-label" class="detail-label">Issued on: </t>
+        <t color="&6" id="issued-on-value" class="detail-value">${GuiUtils.parseTimestamp(ban.creationTimestamp, $config.get("timestamp-format"))}</t>
     </LoreLine>
 
     <#if ban.hasEnded()>
         <LoreLine>
-            &bEnded on: &6${GuiUtils.parseTimestamp(ban.endTimestamp, $config.get("timestamp-format"))}
+            <t color="&b" id="ended-on-label" class="detail-label">Ended on: </t>
+            <t color="&6" id="ended-on-value" class="detail-value">${GuiUtils.parseTimestamp(ban.endTimestamp, $config.get("timestamp-format"))}</t>
         </LoreLine>
     </#if>
 
     <LoreLine>
-        &bReason: &6${ban.reason}
+        <t color="&b" id="reason-label" class="detail-label">Reason: </t>
+        <t color="&6" id="reason-value" class="detail-value">${ban.reason}</t>
     </LoreLine>
 
     <#if ban.endTimestamp??>
-        <LoreLine>&bTime Left: &6${ban.humanReadableDuration}</LoreLine>
+        <LoreLine>
+            <t color="&b" id="time-left-label" class="detail-label">Time left: </t>
+            <t color="&6" id="time-left-value" class="detail-value">${ban.humanReadableDuration}</t>
+        </LoreLine>
     </#if>
 
     <LoreLine></LoreLine>
     <LoreLine>
-        <#if ban.endTimestamp??>&6TEMPORARY<#else>&CPERMANENT</#if>
+        <#if ban.endTimestamp??>
+            <t color="&6" id="temporary-value">TEMPORARY</t>
+        <#else>
+            <t color="&C" id="permanent-value">PERMANENT</t>
+        </#if>
     </LoreLine>
 </#macro>
 
 <#macro ipbanlorelines ipban>
     <LoreLine if="${$config.get("server-sync-module.ban-sync")?c}">
         &bServer: &6${ipban.serverName}
+        <t color="&b" id="server-label" class="detail-label">Server: </t>
+        <t color="&6" id="server-value" class="detail-value">${ipban.serverName}</t>
     </LoreLine>
 
     <LoreLine>
-        &bIp rule: &6${ipban.ip}
+        <t color="&b" id="ip-rule-label" class="detail-label">Ip rule: </t>
+        <t color="&6" id="ip-rule-value" class="detail-value">${ipban.ip}</t>
     </LoreLine>
 
     <LoreLine>
-        &bIssuer: &6${ipban.issuerName}
+        <t color="&b" id="issuer-label" class="detail-label">Issuer: </t>
+        <t color="&6" id="issuer-value" class="detail-value">${ipban.issuerName}</t>
     </LoreLine>
 
     <LoreLine>
-        &bIssued on: &6${GuiUtils.parseTimestamp(ipban.creationDate, $config.get("timestamp-format"))}
+        <t color="&b" id="issued-on-label" class="detail-label">Issued on: </t>
+        <t color="&6" id="issued-on-value" class="detail-value">${GuiUtils.parseTimestamp(ipban.creationDate, $config.get("timestamp-format"))}</t>
     </LoreLine>
 
     <#if ipban.endTimestamp.isPresent()>
-        <LoreLine>&bTime Left: &6${ipban.humanReadableDuration}</LoreLine>
+        <LoreLine>
+            <t color="&b" id="time-left-label" class="detail-label">Time left: </t>
+            <t color="&6" id="time-left-value" class="detail-value">${ipban.humanReadableDuration}</t>
+        </LoreLine>
     </#if>
     <LoreLine>
-        <#if ipban.endTimestamp.isPresent()>&6TEMPORARY<#else>&CPERMANENT</#if>
+        <#if ipban.endTimestamp.isPresent()>
+            <t color="&6" id="temporary-value">TEMPORARY</t>
+        <#else>
+            <t color="&C" id="permanent-value">PERMANENT</t>
+        </#if>
     </LoreLine>
 </#macro>

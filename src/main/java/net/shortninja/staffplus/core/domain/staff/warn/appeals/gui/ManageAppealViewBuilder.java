@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
-import be.garagepoort.mcioc.gui.TubingGui;
-import be.garagepoort.mcioc.gui.TubingGuiActions;
+import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.gui.model.TubingGuiActions;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
