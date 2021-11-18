@@ -1,7 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.investigation.gui;
 
-import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -9,15 +7,12 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation.InvestigationGuiController;
-import net.shortninja.staffplus.core.domain.staff.mute.database.MuteRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Answers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -31,7 +26,6 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.UUID;
 
-import static java.util.Optional.of;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -73,7 +67,6 @@ class InvestigationGuiControllerTest extends AbstractGuiTemplateTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        when(templateConfigResolver.get("server-sync-module.mute-sync")).thenReturn(true);
         when(templateConfigResolver.get("timestamp-format")).thenReturn(TIMESTAMP_FORMAT);
     }
 
