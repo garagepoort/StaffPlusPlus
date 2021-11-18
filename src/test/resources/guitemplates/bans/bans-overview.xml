@@ -1,7 +1,7 @@
 <TubingGui size="54" id="bans-overview">
     <title class="gui-title">Bans</title>
 
-    <GuiItem id="ban-info-0" class="ban-info" slot="0" onLeftClick="manage-bans/view/detail?banId=12&amp;backAction=manage-bans%2Fview%2Foverview" onRightClick="$NOOP" onMiddleClick="$NOOP" material="SKULL_ITEM">
+    <GuiItem id="ban-info-0" class="ban-info" slot="0" onLeftClick="manage-bans/view/detail?banId=12&amp;backAction=manage-bans%2Fview%2Foverview" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PLAYER_HEAD">
         <name class="item-name" color="&amp;C">Ban</name>
         <Lore>
             <LoreLine>
@@ -43,13 +43,13 @@
         </Lore>
     </GuiItem>
 
-    <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_GLAZED_TERRACOTTA">
+    <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
         <name class="item-name">Next Page</name>
     </GuiItem>
-    <GuiItem slot="52" id="next-page-1" onLeftClick="goNext" class="next-page" material="GREEN_GLAZED_TERRACOTTA">
+    <GuiItem slot="52" id="next-page-1" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
         <name class="item-name">Next Page</name>
     </GuiItem>
-    <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_GLAZED_TERRACOTTA">
+    <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
         <name class="item-name">Next Page</name>
     </GuiItem>
 
