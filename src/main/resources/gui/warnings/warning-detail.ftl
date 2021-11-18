@@ -23,7 +23,7 @@
 
     <GuiItem slot="13"
              id="info"
-             material="PLAYER_HEAD">
+             material="SKULL_ITEM">
         <name class="item-name">Warning</name>
         <Lore>
             <@warningcommons.warninglorelines warning=warning/>

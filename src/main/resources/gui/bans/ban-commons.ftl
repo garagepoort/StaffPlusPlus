@@ -11,7 +11,7 @@
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
         onMiddleClick="${onMiddleClick}"
-        material="PLAYER_HEAD">
+        material="SKULL_ITEM">
         <name class="item-name" color="&C">Ban</name>
         <Lore>
             <@banlorelines ban=ban/>
