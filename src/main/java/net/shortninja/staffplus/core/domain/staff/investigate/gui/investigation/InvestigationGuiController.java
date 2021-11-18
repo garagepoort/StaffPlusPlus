@@ -2,64 +2,72 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.AsyncGui;
-import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.views.InvestigationDetailViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.investigate.gui.views.InvestigationsOverviewViewBuilder;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
 @GuiController
 public class InvestigationGuiController {
 
-    private final InvestigationsOverviewViewBuilder investigationsOverviewViewBuilder;
-    private final InvestigationDetailViewBuilder investigationViewBuilder;
+    private static final int PAGE_SIZE = 45;
     private final PlayerManager playerManager;
     private final InvestigationService investigationService;
     private final BukkitUtils bukkitUtils;
 
-    public InvestigationGuiController(InvestigationsOverviewViewBuilder investigationsOverviewViewBuilder,
-                                      InvestigationDetailViewBuilder investigationViewBuilder,
-                                      PlayerManager playerManager, InvestigationService investigationService, BukkitUtils bukkitUtils) {
-        this.investigationsOverviewViewBuilder = investigationsOverviewViewBuilder;
-        this.investigationViewBuilder = investigationViewBuilder;
+    public InvestigationGuiController(PlayerManager playerManager, InvestigationService investigationService, BukkitUtils bukkitUtils) {
         this.playerManager = playerManager;
         this.investigationService = investigationService;
         this.bukkitUtils = bukkitUtils;
     }
 
     @GuiAction("manage-investigations/view/overview")
-    public AsyncGui<TubingGui> getOverview(@GuiParam(value = "page", defaultValue = "0") int page,
-                                           @GuiParam("targetPlayer") String targetPlayer,
-                                           @GuiParam("backAction") String backAction,
-                                           @CurrentAction String currentAction) {
-        if (StringUtils.isNotBlank(targetPlayer)) {
-            SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(targetPlayer).orElseThrow(() -> new PlayerNotFoundException("Player not found for name: [" + targetPlayer + "]"));
-            return async(() -> investigationsOverviewViewBuilder.buildGui(sppPlayer, page, backAction, currentAction));
+    public AsyncGui<GuiTemplate> getOverview(@GuiParam(value = "page", defaultValue = "0") int page,
+                                             @GuiParam("targetPlayer") String targetPlayer) {
+        return async(() -> {
+            SppPlayer target = null;
+            if (StringUtils.isNotBlank(targetPlayer)) {
+                target = playerManager.getOnOrOfflinePlayer(targetPlayer).orElseThrow(() -> new PlayerNotFoundException("Player not found for name: [" + targetPlayer + "]"));
+            }
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("investigations", getInvestigations(target, page * PAGE_SIZE, PAGE_SIZE));
+
+            return template("gui/investigations/investigations-overview.ftl", params);
+        });
+    }
+
+    private List<Investigation> getInvestigations(SppPlayer target, int offset, int amount) {
+        if (target == null) {
+            return investigationService.getAllInvestigations(offset, amount);
         }
-        return async(() -> investigationsOverviewViewBuilder.buildGui(null, page, backAction, currentAction));
+        return investigationService.getInvestigationsForInvestigated(target, offset, amount);
     }
 
     @GuiAction("manage-investigations/view/detail")
-    public AsyncGui<TubingGui> getDetail(@GuiParam("investigationId") int investigationId,
-                                         @GuiParam("backAction") String backAction,
-                                         @CurrentAction String currentAction) {
+    public AsyncGui<GuiTemplate> getDetail(@GuiParam("investigationId") int investigationId) {
         return async(() -> {
-            Investigation investigation = investigationService.getInvestigation(investigationId);
-            return investigationViewBuilder.buildGui(investigation, currentAction, backAction);
+            Map<String, Object> params = new HashMap<>();
+            params.put("investigation", investigationService.getInvestigation(investigationId));
+
+            return template("gui/investigations/investigation-detail.ftl", params);
         });
     }
 
