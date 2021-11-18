@@ -2,78 +2,78 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.AsyncGui;
-import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.views.BannedPlayersViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.views.ManageBannedPlayerViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui.views.PlayerBanHistoryViewBuilder;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.database.BansRepository;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
 @GuiController
 public class BanGuiController {
 
     private static final String CANCEL = "cancel";
+    private static final int PAGE_SIZE = 45;
 
-    private final BannedPlayersViewBuilder bannedPlayersViewBuilder;
-    private final ManageBannedPlayerViewBuilder manageBannedPlayerViewBuilder;
-    private final PlayerBanHistoryViewBuilder playerBanHistoryViewBuilder;
     private final Messages messages;
     private final BanService banService;
+    private final BansRepository bansRepository;
     private final OnlineSessionsManager sessionManager;
     private final PlayerManager playerManager;
 
-    public BanGuiController(BannedPlayersViewBuilder bannedPlayersViewBuilder,
-                            ManageBannedPlayerViewBuilder manageBannedPlayerViewBuilder,
-                            PlayerBanHistoryViewBuilder playerBanHistoryViewBuilder,
-                            Messages messages,
+    public BanGuiController(Messages messages,
                             BanService banService,
-                            OnlineSessionsManager sessionManager,
+                            BansRepository bansRepository, OnlineSessionsManager sessionManager,
                             PlayerManager playerManager) {
-        this.bannedPlayersViewBuilder = bannedPlayersViewBuilder;
-        this.manageBannedPlayerViewBuilder = manageBannedPlayerViewBuilder;
-        this.playerBanHistoryViewBuilder = playerBanHistoryViewBuilder;
         this.messages = messages;
         this.banService = banService;
+        this.bansRepository = bansRepository;
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
     }
 
     @GuiAction("manage-bans/view/overview")
-    public AsyncGui<TubingGui> getBannedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page,
-                                                        @CurrentAction String currentAction,
-                                                        @GuiParam("backAction") String backAction) {
-        return async(() -> bannedPlayersViewBuilder.buildGui(page, currentAction, backAction));
+    public AsyncGui<GuiTemplate> getBannedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            Map<String, Object> params = new HashMap<>();
+            params.put("bans", banService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE));
+            return template("gui/bans/bans-overview.ftl", params);
+        });
     }
 
     @GuiAction("manage-bans/view/detail")
-    public AsyncGui<TubingGui> getBanDetailView(@GuiParam("banId") int banId, @GuiParam("backAction") String backAction, @CurrentAction String currentAction) {
+    public AsyncGui<GuiTemplate> getBanDetailView(@GuiParam("banId") int banId) {
         return async(() -> {
-            Ban ban = banService.getById(banId);
-            return manageBannedPlayerViewBuilder.buildGui(ban, backAction, currentAction);
+            Map<String, Object> params = new HashMap<>();
+            params.put("ban", banService.getById(banId));
+            return template("gui/bans/ban-detail.ftl", params);
         });
     }
 
     @GuiAction("manage-bans/view/history")
-    public AsyncGui<TubingGui> getBansPlayersHistory(@GuiParam(value = "page", defaultValue = "0") int page,
-                                                     @CurrentAction String currentAction,
-                                                     @GuiParam("targetPlayerName") String targetPlayerName,
-                                                     @GuiParam("backAction") String backAction) {
-        SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
-        return async(() -> playerBanHistoryViewBuilder.buildGui(target, page, currentAction, backAction));
+    public AsyncGui<GuiTemplate> getBansPlayersHistory(@GuiParam(value = "page", defaultValue = "0") int page,
+                                                       @GuiParam("targetPlayerName") String targetPlayerName) {
+        return async(() -> {
+            SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
+            Map<String, Object> params = new HashMap<>();
+            params.put("bans", bansRepository.getBansForPlayerPaged(target.getId(), page * PAGE_SIZE, PAGE_SIZE));
+            params.put("target", target);
+            return template("gui/bans/bans-history-overview.ftl", params);
+        });
     }
 
 
