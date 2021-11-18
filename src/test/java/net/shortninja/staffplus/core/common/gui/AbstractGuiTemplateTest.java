@@ -34,6 +34,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,6 +46,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public abstract class AbstractGuiTemplateTest {
+    protected static final UUID PLAYER_UUID = UUID.fromString("3723136f-40dd-4f27-8505-8fa880f14e95");
     protected GuiActionService guiActionService;
 
     @Mock
@@ -94,6 +96,7 @@ public abstract class AbstractGuiTemplateTest {
         when(staffPlus.getIocContainer()).thenReturn(iocContainer);
         doReturn(guiController).when(iocContainer).get(guiController.getClass());
         when(tubingGuiXmlParser.parseHtml(eq(player), any())).thenReturn(tubingGui);
+        when(player.getUniqueId()).thenReturn(PLAYER_UUID);
 
         GuiTemplateResolver guiTemplateResolver = new GuiTemplateResolver(tubingPluginProvider, templateConfigResolver, permissionHandler, tubingGuiXmlParser, new TubingGuiTemplateParser(templateConfigResolver), tubingGuiStyleParser);
         guiActionService = new GuiActionService(tubingPluginProvider, guiTemplateResolver, chatTemplateResolver, new ActionQueryParser(), new TubingBukkitUtilStub(), inventoryMapper, tubingGuiStyleIdViewProvider);
