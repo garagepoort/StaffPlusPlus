@@ -1,6 +1,23 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
 <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
+<#macro banitem slot ban itemId="ban-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
+    <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
+    <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
+    <GuiItem
+        id="${itemId}"
+        class="ban-info"
+        slot="${slot}"
+        onLeftClick="${onLeftClick}"
+        onRightClick="${onRightClick}"
+        onMiddleClick="${onMiddleClick}"
+        material="PLAYER_HEAD">
+        <name class="item-name" color="&C">Ban</name>
+        <Lore>
+            <@banlorelines ban=ban/>
+        </Lore>
+    </GuiItem>
+</#macro>
 
 <#macro banlorelines ban actions=[]>
     <LoreLine>
