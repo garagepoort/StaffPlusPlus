@@ -11,7 +11,7 @@
     <#list [30,31,32,39,40,41] as slot>
         <GuiItem slot="${slot}"
                  id="unban-${slot?index}"
-                 material="RED_STAINED_GLASS_PANE"
+                 material="RED_GLAZED_TERRACOTTA"
                  onLeftClick="manage-bans/unban?banId=${ban.id}">
             <name class="item-name">Unban player</name>
             <Lore>
