@@ -1,0 +1,98 @@
+<TubingGui size="54" id="investigation-detail">
+    <title class="gui-title">Player: target</title>
+
+    <GuiItem id="ban-info" class="ban-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PLAYER_HEAD">
+        <name class="item-name" color="&amp;C">Ban</name>
+        <Lore>
+            <LoreLine>
+                <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
+                <t color="&amp;6" id="id-value" class="detail-value">12</t>
+            </LoreLine>
+
+            <LoreLine if="true">
+                <t color="&amp;b" id="server-label" class="detail-label">Server: </t>
+                <t color="&amp;6" id="server-value" class="detail-value">ServerName</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="banned-label" class="detail-label">Banned player: </t>
+                <t color="&amp;6" id="banned-value" class="detail-value">target</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="issuer-label" class="detail-label">Issuer: </t>
+                <t color="&amp;6" id="issuer-value" class="detail-value">issuer</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="issued-on-label" class="detail-label">Issued on: </t>
+                <t color="&amp;6" id="issued-on-value" class="detail-value">01/09/2021-01:11:15</t>
+            </LoreLine>
+
+
+            <LoreLine>
+                <t color="&amp;b" id="reason-label" class="detail-label">Reason: </t>
+                <t color="&amp;6" id="reason-value" class="detail-value">reason</t>
+            </LoreLine>
+
+
+            <LoreLine></LoreLine>
+            <LoreLine>
+                <t color="&amp;C" id="permanent-value">PERMANENT</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="30" id="unban-0" material="RED_STAINED_GLASS_PANE" onLeftClick="manage-bans/unban?banId=12">
+        <name class="item-name">Unban player</name>
+        <Lore>
+            <LoreLine>
+                <t id="unban-action-label">Click to unban this player</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="31" id="unban-1" material="RED_STAINED_GLASS_PANE" onLeftClick="manage-bans/unban?banId=12">
+        <name class="item-name">Unban player</name>
+        <Lore>
+            <LoreLine>
+                <t id="unban-action-label">Click to unban this player</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="32" id="unban-2" material="RED_STAINED_GLASS_PANE" onLeftClick="manage-bans/unban?banId=12">
+        <name class="item-name">Unban player</name>
+        <Lore>
+            <LoreLine>
+                <t id="unban-action-label">Click to unban this player</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="39" id="unban-3" material="RED_STAINED_GLASS_PANE" onLeftClick="manage-bans/unban?banId=12">
+        <name class="item-name">Unban player</name>
+        <Lore>
+            <LoreLine>
+                <t id="unban-action-label">Click to unban this player</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="40" id="unban-4" material="RED_STAINED_GLASS_PANE" onLeftClick="manage-bans/unban?banId=12">
+        <name class="item-name">Unban player</name>
+        <Lore>
+            <LoreLine>
+                <t id="unban-action-label">Click to unban this player</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="41" id="unban-5" material="RED_STAINED_GLASS_PANE" onLeftClick="manage-bans/unban?banId=12">
+        <name class="item-name">Unban player</name>
+        <Lore>
+            <LoreLine>
+                <t id="unban-action-label">Click to unban this player</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="SPRUCE_DOOR">
+        <name class="item-name">Back</name>
+    </GuiItem>
+</TubingGui>
