@@ -30,7 +30,7 @@
 
             <LoreLine>
                 <t color="&b" id="starttime-label" class="detail-label">Start time: </t>
-                <t color="&6" id="starttime-value" class="detail-value">${investigation.creationDate.format(DateTimeFormatter.ofPattern($config.get("timestamp-format")))}</t>
+                <t color="&6" id="starttime-value" class="detail-value">${GuiUtils.parseTimestamp(investigation.creationTimestamp, $config.get("timestamp-format"))}</t>
             </LoreLine>
 
             <#if investigation.investigatedName.isPresent() == true >
