@@ -1,0 +1,46 @@
+<TubingGui size="54" id="investigations-overview">
+    <title class="gui-title">Investigations</title>
+
+    <GuiItem id="investigation-info-0" class="investigation-info" slot="0" onLeftClick="manage-investigations/view/detail?investigationId=12&amp;backAction=manage-investigations%2Fview%2Foverview" onRightClick="$NOOP" onMiddleClick="$NOOP" material="BOOK">
+        <name class="item-name" color="&amp;7">
+            Investigation
+        </name>
+        <Lore>
+            <LoreLine>
+                <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
+                <t color="&amp;6" id="id-value" class="detail-value">12</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="investigator-label" class="detail-label">Investigator: </t>
+                <t color="&amp;6" id="investigator-value" class="detail-value">investigator</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="status-label" class="detail-label">Status: </t>
+                <t color="&amp;6" id="status-value" class="detail-value">OPEN</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="starttime-label" class="detail-label">Start time: </t>
+                <t color="&amp;6" id="starttime-value" class="detail-value">02/09/2021-01:03:49</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="investigated-label" class="detail-label">Investigated: </t>
+                <t color="&amp;6" id="investigated-value" class="detail-value">investigated</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+    <GuiItem slot="52" id="next-page-1" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+    <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+
+</TubingGui>
