@@ -1,0 +1,60 @@
+<TubingGui size="54" id="investigation-detail">
+    <title class="gui-title">Manage Investigation</title>
+
+    <GuiItem id="investigation-info" class="investigation-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="BOOK">
+        <name class="item-name" color="&amp;7">
+            Investigation
+        </name>
+        <Lore>
+            <LoreLine>
+                <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
+                <t color="&amp;6" id="id-value" class="detail-value">12</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="investigator-label" class="detail-label">Investigator: </t>
+                <t color="&amp;6" id="investigator-value" class="detail-value">investigator</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="status-label" class="detail-label">Status: </t>
+                <t color="&amp;6" id="status-value" class="detail-value">OPEN</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="starttime-label" class="detail-label">Start time: </t>
+                <t color="&amp;6" id="starttime-value" class="detail-value">02/09/2021-01:03:49</t>
+            </LoreLine>
+
+            <LoreLine>
+                <t color="&amp;b" id="investigated-label" class="detail-label">Investigated: </t>
+                <t color="&amp;6" id="investigated-value" class="detail-value">investigated</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="11" id="notes-overview" material="PAPER" onLeftClick="manage-investigation-notes/view?investigationId=12&amp;backAction=manage-investigations%2Fview%2Fdetail%3FinvestigationId%3D12%26backAction%3DgoBack%2Fview">
+        <name class="item-name">Notes</name>
+        <Lore>
+            <LoreLine>
+                <t id="notes-overview-label">Go to notes overview</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="15" id="evidence-overview" material="ANVIL" onLeftClick="manage-investigation-evidence/view?investigationId=12&amp;backAction=manage-investigations%2Fview%2Fdetail%3FinvestigationId%3D12%26backAction%3DgoBack%2Fview">
+        <name class="item-name">Evidence</name>
+        <Lore>
+            <LoreLine>
+                <t id="evidence-overview-label">Go to evidence overview</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+
+
+
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="SPRUCE_DOOR">
+        <name class="item-name">Back</name>
+    </GuiItem>
+</TubingGui>

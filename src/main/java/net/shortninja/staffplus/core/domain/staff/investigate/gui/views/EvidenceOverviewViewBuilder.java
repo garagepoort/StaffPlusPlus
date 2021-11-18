@@ -31,7 +31,7 @@ public class EvidenceOverviewViewBuilder {
     }
 
     public TubingGui buildGui(Player player, Investigation investigation, int page, String currentAction, String backAction) {
-        return new PagedGuiBuilder.Builder(currentAction)
+        return new PagedGuiBuilder.Builder("Evidence")
             .addPagedItems(currentAction,
                 getItems(investigation, page * PAGE_SIZE, PAGE_SIZE),
                 investigationEvidenceItemBuilder::build,
