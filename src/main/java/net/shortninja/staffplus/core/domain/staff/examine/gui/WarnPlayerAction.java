@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.examine.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
@@ -11,6 +10,7 @@ import net.shortninja.staffplus.core.common.exceptions.PlayerOfflineException;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
+import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
@@ -25,7 +25,7 @@ public class WarnPlayerAction implements IAction {
     private final OnlineSessionsManager sessionManager = StaffPlus.get().getIocContainer().get(OnlineSessionsManager.class);
     private final WarnService warnService = StaffPlus.get().getIocContainer().get(WarnService.class);
     private final PlayerManager playerManager = StaffPlus.get().getIocContainer().get(PlayerManager.class);
-    private final Options options = StaffPlus.get().getIocContainer().get(Options.class);
+    private final WarningConfiguration warningConfiguration = StaffPlus.get().getIocContainer().get(WarningConfiguration.class);
 
     private final SppPlayer targetPlayer;
 
@@ -38,7 +38,7 @@ public class WarnPlayerAction implements IAction {
         String severityLevel = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().getNbtString(item);
         OnlinePlayerSession playerSession = sessionManager.get(player);
 
-        WarningSeverityConfiguration severityConfiguration = options.warningConfiguration.getSeverityConfiguration(severityLevel)
+        WarningSeverityConfiguration severityConfiguration = warningConfiguration.getSeverityConfiguration(severityLevel)
             .orElseThrow(() -> new BusinessException("&CNo severity configuration found for level [" + severityLevel + "]"));
 
         SppPlayer onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayer.getId()).orElseThrow(PlayerOfflineException::new);
