@@ -1,6 +1,5 @@
 <TubingGui size="54" id="warning-severity-select">
     <title class="gui-title">Select severity</title>
-
     <GuiItem id="severity-level-0" class="severity-level severity-MINOR" slot="0" material="PAPER" onLeftClick="manage-warnings/warn?severity=MINOR&amp;targetPlayerName=player2&amp;backAction=manage-warnings%2Fview%2Fselect-severity%3FtargetPlayerName%3Dplayer2%26backAction%3DgoBack%2Fview">
         <name class="item-name">MINOR</name>
         <Lore>
@@ -19,8 +18,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-
-    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="SPRUCE_DOOR">
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="IRON_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>

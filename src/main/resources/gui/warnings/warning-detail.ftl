@@ -57,7 +57,7 @@
         <GuiItem slot="17"
                  id="expire"
                  permission="config|permissions:warnings.manage.expire"
-                 material="ORANGE_STAINED_GLASS_PANE"
+                 material="ORANGE_GLAZED_TERRACOTTA"
                  onLeftClick="manage-warnings/expire?warningId=${warning.id}">
             <name class="item-name">Expire</name>
             <Lore>
