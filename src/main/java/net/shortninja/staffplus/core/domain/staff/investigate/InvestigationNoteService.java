@@ -5,7 +5,6 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.investigation.InvestigationsRepository;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.notes.InvestigationNotesRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationNoteCreatedEvent;
@@ -25,15 +24,16 @@ public class InvestigationNoteService {
 
     private final InvestigationsRepository investigationsRepository;
     private final InvestigationNotesRepository investigationNotesRepository;
-    private final BukkitUtils bukkitUtils;
     private final PermissionHandler permissionHandler;
     private final Options options;
     private final Messages messages;
 
-    public InvestigationNoteService(InvestigationsRepository investigationsRepository, InvestigationNotesRepository investigationNotesRepository, BukkitUtils bukkitUtils, PermissionHandler permissionHandler, Options options, Messages messages) {
+    public InvestigationNoteService(InvestigationsRepository investigationsRepository,
+                                    InvestigationNotesRepository investigationNotesRepository,
+                                    PermissionHandler permissionHandler,
+                                    Options options, Messages messages) {
         this.investigationsRepository = investigationsRepository;
         this.investigationNotesRepository = investigationNotesRepository;
-        this.bukkitUtils = bukkitUtils;
         this.permissionHandler = permissionHandler;
         this.options = options;
         this.messages = messages;

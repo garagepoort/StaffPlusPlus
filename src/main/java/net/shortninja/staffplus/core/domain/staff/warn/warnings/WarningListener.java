@@ -2,12 +2,12 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandMapper;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.threshold.ThresholdService;
+import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.warnings.IWarning;
 import net.shortninja.staffplusplus.warnings.WarningAppealApprovedEvent;
@@ -31,18 +31,23 @@ public class WarningListener implements Listener {
 
     private final ActionService actionService;
     private final PlayerManager playerManager;
-    private final Options options;
     private final ThresholdService thresholdService;
     private final ConfiguredCommandMapper configuredCommandMapper;
     private final BukkitUtils bukkitUtils;
+    private final WarningConfiguration warningConfiguration;
 
-    public WarningListener(ActionService actionService, PlayerManager playerManager, Options options, ThresholdService thresholdService, ConfiguredCommandMapper configuredCommandMapper, BukkitUtils bukkitUtils) {
+    public WarningListener(ActionService actionService,
+                           PlayerManager playerManager,
+                           ThresholdService thresholdService,
+                           ConfiguredCommandMapper configuredCommandMapper,
+                           BukkitUtils bukkitUtils,
+                           WarningConfiguration warningConfiguration) {
         this.actionService = actionService;
         this.playerManager = playerManager;
-        this.options = options;
         this.thresholdService = thresholdService;
         this.configuredCommandMapper = configuredCommandMapper;
         this.bukkitUtils = bukkitUtils;
+        this.warningConfiguration = warningConfiguration;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -66,7 +71,7 @@ public class WarningListener implements Listener {
         issuer.ifPresent(sppPlayer -> targets.put("issuer", sppPlayer.getOfflinePlayer()));
 
         bukkitUtils.runTaskAsync(() -> {
-            actionService.createCommands(configuredCommandMapper.toCreateRequests(warning, options.warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warning, CREATION_CONTEXT))));
+            actionService.createCommands(configuredCommandMapper.toCreateRequests(warning, warningConfiguration.getActions(), placeholders, targets, Collections.singletonList(new WarningActionFilter(warning, CREATION_CONTEXT))));
             target.ifPresent(sppPlayer -> thresholdService.handleThresholds(warning, sppPlayer));
         });
     }

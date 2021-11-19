@@ -12,6 +12,7 @@ import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
+import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -46,17 +47,20 @@ public class WarnService implements InfractionProvider, WarningService {
     private final Messages messages;
     private final WarnRepository warnRepository;
     private final AppealRepository appealRepository;
+    private final WarningConfiguration warningConfiguration;
 
     public WarnService(PermissionHandler permission,
                        Options options,
                        Messages messages,
                        WarnRepository warnRepository,
-                       AppealRepository appealRepository) {
+                       AppealRepository appealRepository,
+                       WarningConfiguration warningConfiguration) {
         this.permission = permission;
         this.options = options;
         this.messages = messages;
         this.warnRepository = warnRepository;
         this.appealRepository = appealRepository;
+        this.warningConfiguration = warningConfiguration;
     }
 
     public void sendWarning(CommandSender sender, SppPlayer culprit, String reason, WarningSeverityConfiguration severityConfig) {
@@ -162,7 +166,7 @@ public class WarnService implements InfractionProvider, WarningService {
 
     public void expireWarnings() {
         long now = System.currentTimeMillis();
-        options.warningConfiguration.getSeverityLevels().stream()
+        warningConfiguration.getSeverityLevels().stream()
             .filter(s -> s.getExpirationDuration() > 0)
             .forEach(s -> warnRepository.expireWarnings(s.getName(), now - s.getExpirationDuration()));
     }
