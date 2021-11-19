@@ -12,7 +12,7 @@
         <name class="item-name">Add appeal</name>
         <Lore>
             <LoreLine>
-                <t id="add-appeal-label">Click to expire this warning</t>
+                <t id="add-appeal-label">Click to appeal this warning</t>
             </LoreLine>
         </Lore>
     </GuiItem>
@@ -22,7 +22,8 @@
     <title class="gui-title">Warning for: ${warning.targetName}</title>
 
     <GuiItem slot="13"
-             id="info"
+             id="warning-info"
+             class="warning-info"
              material="SKULL_ITEM">
         <name class="item-name">Warning</name>
         <Lore>
@@ -68,9 +69,9 @@
     </#if>
 
     <#if $config.get("warnings-module.appeals.enabled")>
-        <#assign canAppeal=!warning.appeal.isPresent()
-        && ($permissions.has(player, $config.get("permissions:warnings.appeals.create-others"))
-        || ($permissions.has(player, $config.get("permissions:warnings.appeals.create")) && warning.targetUuid == player.uniqueId))/>
+        <#assign hasAppealPermission=$permissions.has(player, $config.get("permissions:warnings.appeals.create"))/>
+        <#assign hasOtherAppealPermission=$permissions.has(player, $config.get("permissions:warnings.appeals.create-others"))/>
+        <#assign canAppeal=(warning.appeal.isPresent() == false) && ((warning.targetUuid == player.uniqueId && hasAppealPermission) || hasOtherAppealPermission)/>
 
         <#if canAppeal>
             <#if $config.get("warnings-module.appeals.fixed-reason")>

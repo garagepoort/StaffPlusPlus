@@ -8,14 +8,16 @@ import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
-import net.shortninja.staffplus.core.domain.confirmation.ConfirmationViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationEvidenceService;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.views.EvidenceOverviewViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.investigate.gui.views.InvestigationLinkEvidenceSelectionViewBuilder;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
 
@@ -24,15 +26,17 @@ import static be.garagepoort.mcioc.gui.AsyncGui.async;
 public class InvestigationEvidenceGuiController {
 
     private final EvidenceOverviewViewBuilder evidenceOverviewViewBuilder;
-    private final ConfirmationViewBuilder confirmationViewBuilder;
     private final InvestigationService investigationService;
     private final InvestigationEvidenceService investigationEvidenceService;
     private final InvestigationLinkEvidenceSelectionViewBuilder investigationLinkEvidenceSelectionViewBuilder;
     private final BukkitUtils bukkitUtils;
 
-    public InvestigationEvidenceGuiController(EvidenceOverviewViewBuilder evidenceOverviewViewBuilder, ConfirmationViewBuilder confirmationViewBuilder, InvestigationService investigationService, InvestigationEvidenceService investigationEvidenceService, InvestigationLinkEvidenceSelectionViewBuilder investigationLinkEvidenceSelectionViewBuilder, BukkitUtils bukkitUtils) {
+    public InvestigationEvidenceGuiController(EvidenceOverviewViewBuilder evidenceOverviewViewBuilder,
+                                              InvestigationService investigationService,
+                                              InvestigationEvidenceService investigationEvidenceService,
+                                              InvestigationLinkEvidenceSelectionViewBuilder investigationLinkEvidenceSelectionViewBuilder,
+                                              BukkitUtils bukkitUtils) {
         this.evidenceOverviewViewBuilder = evidenceOverviewViewBuilder;
-        this.confirmationViewBuilder = confirmationViewBuilder;
         this.investigationService = investigationService;
         this.investigationEvidenceService = investigationEvidenceService;
         this.investigationLinkEvidenceSelectionViewBuilder = investigationLinkEvidenceSelectionViewBuilder;
@@ -52,9 +56,9 @@ public class InvestigationEvidenceGuiController {
     }
 
     @GuiAction("manage-investigation-evidence/view/unlink")
-    public TubingGui goToUnlinkEvidenceView(@GuiParam("evidenceId") int evidenceId,
-                                            @GuiParam("investigationId") int investigationId,
-                                            @GuiParam("backAction") String backAction) {
+    public GuiTemplate goToUnlinkEvidenceView(@GuiParam("evidenceId") int evidenceId,
+                                              @GuiParam("investigationId") int investigationId,
+                                              @GuiParam("backAction") String backAction) {
         String confirmAction = GuiActionBuilder.builder()
             .action("manage-investigation-evidence/unlink")
             .param("evidenceId", String.valueOf(evidenceId))
@@ -62,11 +66,12 @@ public class InvestigationEvidenceGuiController {
             .param("backAction", backAction)
             .build();
 
-        return confirmationViewBuilder.buildGui("Unlink evidence?",
-            "Are you sure you want to unlink evidence: (ID=" + evidenceId + ")",
-            confirmAction,
-            backAction
-        );
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("confirmationMessage", "Are you sure you want to unlink evidence: (ID=" + evidenceId + ")");
+        params.put("title", "Unlink evidence?");
+        params.put("confirmAction", confirmAction);
+        params.put("cancelAction", backAction);
+        return GuiTemplate.template("gui/commons/confirmation.ftl", params);
     }
 
     @GuiAction("manage-investigation-evidence/unlink")
