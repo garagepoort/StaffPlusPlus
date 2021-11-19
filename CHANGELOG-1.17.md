@@ -1,6 +1,11 @@
 # Changelog Staff++ | v1.17
 
-# V1.17.21
+# V1.17.23
+
+### Features
+  - First version of GUI styling
+
+# V1.17.22
 
 ### Bugfixes
   - Spanish translation was missing a few keys
