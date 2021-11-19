@@ -1,0 +1,26 @@
+<TubingGui size="54" id="warning-severity-select">
+    <title class="gui-title">Select severity</title>
+
+    <GuiItem id="severity-level-0" class="severity-level severity-MINOR" slot="0" material="PAPER" onLeftClick="manage-warnings/warn?severity=MINOR&amp;targetPlayerName=player2&amp;backAction=manage-warnings%2Fview%2Fselect-severity%3FtargetPlayerName%3Dplayer2%26backAction%3DgoBack%2Fview">
+        <name class="item-name">MINOR</name>
+        <Lore>
+            <LoreLine>
+                <t id="severity-label" color="&amp;b" class="detail-label">Score: </t>
+                <t id="severity-value" color="&amp;6" class="detail-value">1</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem id="severity-level-1" class="severity-level severity-MAJOR" slot="1" material="PAPER" onLeftClick="manage-warnings/warn?severity=MAJOR&amp;targetPlayerName=player2&amp;backAction=manage-warnings%2Fview%2Fselect-severity%3FtargetPlayerName%3Dplayer2%26backAction%3DgoBack%2Fview">
+        <name class="item-name">MAJOR</name>
+        <Lore>
+            <LoreLine>
+                <t id="severity-label" color="&amp;b" class="detail-label">Score: </t>
+                <t id="severity-value" color="&amp;6" class="detail-value">2</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="SPRUCE_DOOR">
+        <name class="item-name">Back</name>
+    </GuiItem>
+</TubingGui>
