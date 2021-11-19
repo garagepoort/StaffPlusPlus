@@ -32,7 +32,6 @@ import net.shortninja.staffplus.core.domain.staff.teleport.config.LocationLoader
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
-import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -63,7 +62,6 @@ public class Options {
     public InfractionsConfiguration infractionsConfiguration;
     public InvestigationConfiguration investigationConfiguration;
     public ReportConfiguration reportConfiguration;
-    public WarningConfiguration warningConfiguration;
     public AppealConfiguration appealConfiguration;
     public BlackListConfiguration blackListConfiguration;
     public TraceConfiguration traceConfiguration;
@@ -111,7 +109,6 @@ public class Options {
                    InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader,
-                   WarningConfiguration warningConfiguration,
                    AppealConfiguration appealConfiguration,
                    ServerSyncConfiguration serverSyncConfiguration) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
@@ -127,7 +124,6 @@ public class Options {
         this.investigationModuleLoader = investigationModuleLoader;
         this.staffCustomItemsLoader = staffCustomItemsLoader;
         this.staffItemsLoader = staffItemsLoader;
-        this.warningConfiguration = warningConfiguration;
         this.appealConfiguration = appealConfiguration;
         this.serverSyncConfiguration = serverSyncConfiguration;
         reload();
