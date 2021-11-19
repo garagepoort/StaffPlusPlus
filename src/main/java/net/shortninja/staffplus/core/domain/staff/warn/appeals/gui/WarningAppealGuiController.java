@@ -58,7 +58,7 @@ public class WarningAppealGuiController {
 
     @GuiAction("manage-warning-appeals/view/create/reason-select")
     public TubingGui getCreateAppealReasonSelectView(@GuiParam("warningId") int warningId) {
-        return appealReasonSelectViewBuilder.buildGui(warningId);
+        return appealReasonSelectViewBuilder. buildGui(warningId);
     }
 
     @GuiAction("manage-warning-appeals/view/create/reason-chat")

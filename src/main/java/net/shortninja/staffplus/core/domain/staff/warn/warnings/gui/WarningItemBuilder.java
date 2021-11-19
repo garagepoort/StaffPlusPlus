@@ -33,11 +33,11 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
     private final WarningConfiguration warningConfiguration;
     private final IProtocolService protocolService;
 
-    public WarningItemBuilder(Options options, IProtocolService protocolService) {
+    public WarningItemBuilder(Options options, WarningConfiguration warningConfiguration, IProtocolService protocolService) {
         this.options = options;
         this.protocolService = protocolService;
         appealConfiguration = options.appealConfiguration;
-        warningConfiguration = options.warningConfiguration;
+        this.warningConfiguration = warningConfiguration;
     }
 
 

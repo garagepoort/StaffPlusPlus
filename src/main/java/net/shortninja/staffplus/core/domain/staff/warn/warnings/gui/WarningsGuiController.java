@@ -13,15 +13,16 @@ import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.examine.gui.SeverityLevelSelectViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
+import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,61 +35,79 @@ public class WarningsGuiController {
 
     private static final String CANCEL = "cancel";
     private static final String NONE = "none";
+    private static final int PAGE_SIZE = 45;
 
-    private final ManageWarningsViewBuilder manageWarningsViewBuilder;
-    private final MyWarningsViewBuilder myWarningsViewBuilder;
     private final ManageAppealedWarningsViewBuilder manageAppealedWarningsViewBuilder;
-    private final SeverityLevelSelectViewBuilder severityLevelSelectViewBuilder;
     private final PlayerManager playerManager;
     private final WarnService warnService;
     private final OnlineSessionsManager sessionManager;
     private final Options options;
+    private final WarningConfiguration warningConfiguration;
     private final Messages messages;
     private final BukkitUtils bukkitUtils;
     private final ActionService actionService;
 
-    public WarningsGuiController(ManageWarningsViewBuilder manageWarningsViewBuilder,
-                                 MyWarningsViewBuilder myWarningsViewBuilder,
-                                 ManageAppealedWarningsViewBuilder manageAppealedWarningsViewBuilder,
-                                 SeverityLevelSelectViewBuilder severityLevelSelectViewBuilder, PlayerManager playerManager,
-                                 WarnService warnService, OnlineSessionsManager sessionManager, Options options, Messages messages, BukkitUtils bukkitUtils, ActionService actionService) {
-        this.manageWarningsViewBuilder = manageWarningsViewBuilder;
-        this.myWarningsViewBuilder = myWarningsViewBuilder;
+    public WarningsGuiController(ManageAppealedWarningsViewBuilder manageAppealedWarningsViewBuilder,
+                                 PlayerManager playerManager,
+                                 WarnService warnService,
+                                 OnlineSessionsManager sessionManager,
+                                 Options options,
+                                 WarningConfiguration warningConfiguration,
+                                 Messages messages,
+                                 BukkitUtils bukkitUtils,
+                                 ActionService actionService) {
         this.manageAppealedWarningsViewBuilder = manageAppealedWarningsViewBuilder;
-        this.severityLevelSelectViewBuilder = severityLevelSelectViewBuilder;
         this.playerManager = playerManager;
         this.warnService = warnService;
         this.sessionManager = sessionManager;
         this.options = options;
+        this.warningConfiguration = warningConfiguration;
         this.messages = messages;
         this.bukkitUtils = bukkitUtils;
         this.actionService = actionService;
     }
 
     @GuiAction("manage-warnings/view/overview")
-    public TubingGui warningsOverview(@GuiParam("targetPlayerName") String targetPlayerName,
-                                      @GuiParam("backAction") String backAction,
-                                      @CurrentAction String currentAction,
-                                      @GuiParam(value = "page", defaultValue = "0") int page) {
+    public AsyncGui<GuiTemplate> warningsOverview(@GuiParam("targetPlayerName") String targetPlayerName,
+                                                  @GuiParam(value = "page", defaultValue = "0") int page) {
+        SppPlayer target = null;
         if (StringUtils.isNotBlank(targetPlayerName)) {
-            SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow((() -> new PlayerNotFoundException(targetPlayerName)));
-            return manageWarningsViewBuilder.buildGui(target, currentAction, page, backAction);
+            target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow((() -> new PlayerNotFoundException(targetPlayerName)));
         }
-        return manageWarningsViewBuilder.buildGui(null, currentAction, page, backAction);
+        SppPlayer finalTarget = target;
+        return async(() -> {
+            Map<String, Object> params = new HashMap<>();
+            params.put("warnings", getWarnings(finalTarget, page));
+            return GuiTemplate.template("gui/warnings/warnings-overview.ftl", params);
+        });
+    }
+
+    private List<Warning> getWarnings(SppPlayer target, int page) {
+        if (target == null) {
+            return warnService.getAllWarnings(page * PAGE_SIZE, PAGE_SIZE, true);
+        }
+        return warnService.getWarnings(target.getId(), page * PAGE_SIZE, PAGE_SIZE, true);
     }
 
     @GuiAction("manage-warnings/view/my-warnings")
-    public TubingGui myWarningsOverview(Player player,
-                                        @CurrentAction String currentAction,
-                                        @GuiParam(value = "page", defaultValue = "0") int page) {
-        return myWarningsViewBuilder.buildGui(player, currentAction, page);
+    public AsyncGui<GuiTemplate> myWarningsOverview(Player player,
+                                                    @GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            List<Warning> warnings = warnService.getWarnings(player.getUniqueId(), page * PAGE_SIZE, PAGE_SIZE, false);
+            Map<String, Object> params = new HashMap<>();
+            params.put("warnings", warnings);
+            return GuiTemplate.template("gui/warnings/my-warnings-overview.ftl", params);
+        });
     }
 
     @GuiAction("manage-warnings/view/select-severity")
-    public TubingGui selectSeverity(@GuiParam("targetPlayerName") String targetPlayerName,
-                                    @GuiParam("backAction") String backAction) {
+    public GuiTemplate selectSeverity(@GuiParam("targetPlayerName") String targetPlayerName) {
         SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow((() -> new PlayerNotFoundException(targetPlayerName)));
-        return severityLevelSelectViewBuilder.buildGui(target, backAction);
+        Map<String, Object> params = new HashMap<>();
+        params.put("target", target);
+        params.put("severityLevels", warningConfiguration.getSeverityLevels());
+
+        return template("gui/warnings/severity-selection.ftl", params);
     }
 
     @GuiAction("manage-warnings/view/appealed-warnings")
@@ -130,7 +149,7 @@ public class WarningsGuiController {
                            @GuiParam("targetPlayerName") String targetPlayerName) {
         OnlinePlayerSession playerSession = sessionManager.get(player);
 
-        WarningSeverityConfiguration severityConfiguration = options.warningConfiguration.getSeverityConfiguration(severityLevel)
+        WarningSeverityConfiguration severityConfiguration = warningConfiguration.getSeverityConfiguration(severityLevel)
             .orElseThrow(() -> new BusinessException("&CNo severity configuration found for level [" + severityLevel + "]"));
 
         SppPlayer onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));

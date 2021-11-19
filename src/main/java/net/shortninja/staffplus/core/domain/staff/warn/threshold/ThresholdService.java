@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.warn.threshold;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.CreateStoredCommandRequest;
 import net.shortninja.staffplus.core.domain.actions.StoredCommandEntity;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandMapper;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningThresholdConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -29,22 +29,26 @@ public class ThresholdService {
 
 
     private final WarnRepository warnRepository;
-    private final Options options;
     private final ActionService actionService;
     private final ConfiguredCommandMapper configuredCommandMapper;
     private final PlayerManager playerManager;
+    private final WarningConfiguration warningConfiguration;
 
-    public ThresholdService(WarnRepository warnRepository, Options options, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper, PlayerManager playerManager) {
+    public ThresholdService(WarnRepository warnRepository,
+                            ActionService actionService,
+                            ConfiguredCommandMapper configuredCommandMapper,
+                            PlayerManager playerManager,
+                            WarningConfiguration warningConfiguration) {
         this.warnRepository = warnRepository;
-        this.options = options;
         this.actionService = actionService;
         this.configuredCommandMapper = configuredCommandMapper;
         this.playerManager = playerManager;
+        this.warningConfiguration = warningConfiguration;
     }
 
     public void handleThresholds(IWarning warning, SppPlayer user) {
         int totalScore = warnRepository.getTotalScore(user.getId());
-        List<WarningThresholdConfiguration> thresholds = options.warningConfiguration.getThresholds();
+        List<WarningThresholdConfiguration> thresholds = warningConfiguration.getThresholds();
 
         Optional<WarningThresholdConfiguration> threshold = thresholds.stream()
             .sorted((o1, o2) -> o2.getScore() - o1.getScore())
