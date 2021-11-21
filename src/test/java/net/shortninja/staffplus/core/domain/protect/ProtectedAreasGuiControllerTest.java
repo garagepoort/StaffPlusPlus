@@ -106,7 +106,7 @@ class ProtectedAreasGuiControllerTest extends AbstractGuiTemplateTest {
 
         verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
-        validateXml(xmlCaptor.getValue(), "/guitemplates/protect/areas-overview.xml");
+        validateXml(xmlCaptor.getValue(), "/guitemplates/protect/area-detail.xml");
     }
 
     private ProtectedArea buildArea() {
