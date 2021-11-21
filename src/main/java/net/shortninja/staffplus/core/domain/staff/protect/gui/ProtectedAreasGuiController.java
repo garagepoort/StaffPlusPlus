@@ -2,18 +2,18 @@ package net.shortninja.staffplus.core.domain.staff.protect.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.AsyncGui;
-import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectService;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectedArea;
-import net.shortninja.staffplus.core.domain.staff.protect.gui.views.ManageProtectedAreaViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.protect.gui.views.ProtectedAreasViewBuilder;
+import net.shortninja.staffplus.core.domain.staff.protect.config.ProtectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
 
@@ -21,33 +21,40 @@ import static be.garagepoort.mcioc.gui.AsyncGui.async;
 @GuiController
 public class ProtectedAreasGuiController {
 
-    private final ProtectedAreasViewBuilder protectedAreasViewBuilder;
+    private static final int PAGE_SIZE = 45;
+
     private final ProtectService protectService;
-    private final ManageProtectedAreaViewBuilder manageProtectedAreaViewBuilder;
     private final TeleportService teleportService;
     private final BukkitUtils bukkitUtils;
+    private final ProtectConfiguration protectConfiguration;
 
-    public ProtectedAreasGuiController(ProtectedAreasViewBuilder protectedAreasViewBuilder, ProtectService protectService, ManageProtectedAreaViewBuilder manageProtectedAreaViewBuilder, TeleportService teleportService, BukkitUtils bukkitUtils) {
-        this.protectedAreasViewBuilder = protectedAreasViewBuilder;
+    public ProtectedAreasGuiController(ProtectService protectService,
+                                       TeleportService teleportService,
+                                       BukkitUtils bukkitUtils,
+                                       ProtectConfiguration protectConfiguration) {
         this.protectService = protectService;
-        this.manageProtectedAreaViewBuilder = manageProtectedAreaViewBuilder;
         this.teleportService = teleportService;
         this.bukkitUtils = bukkitUtils;
+        this.protectConfiguration = protectConfiguration;
     }
 
 
     @GuiAction("protected-areas/view")
-    public AsyncGui<TubingGui> getOverview(@GuiParam(value = "page", defaultValue = "0") int page,
-                                           @CurrentAction String currentAction,
-                                           @GuiParam("backAction") String backAction) {
-        return async(() -> protectedAreasViewBuilder.buildGui(page, currentAction, backAction));
+    public AsyncGui<GuiTemplate> getOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("title", protectConfiguration.modeGuiProtectedAreasTitle);
+            params.put("areas", protectService.getAllProtectedAreasPaginated(page * PAGE_SIZE, PAGE_SIZE));
+            return GuiTemplate.template("gui/protect/area-overview.ftl", params);
+        });
     }
 
     @GuiAction("protected-areas/view/detail")
-    public AsyncGui<TubingGui> getAreaDetail(@GuiParam("areaId") int areaId, @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiTemplate> getAreaDetail(@GuiParam("areaId") int areaId) {
         return async(() -> {
-            ProtectedArea protectedArea = protectService.getById(areaId);
-            return manageProtectedAreaViewBuilder.buildGui(protectedArea, backAction);
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("area", protectService.getById(areaId));
+            return GuiTemplate.template("gui/protect/area-detail.ftl", params);
         });
     }
 
