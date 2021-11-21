@@ -24,8 +24,6 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsConfigur
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffModesLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
-import net.shortninja.staffplus.core.domain.staff.protect.config.ProtectConfiguration;
-import net.shortninja.staffplus.core.domain.staff.protect.config.ProtectModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportingModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.teleport.config.LocationLoader;
@@ -66,7 +64,6 @@ public class Options {
     public BlackListConfiguration blackListConfiguration;
     public TraceConfiguration traceConfiguration;
     public BroadcastConfiguration broadcastConfiguration;
-    public ProtectConfiguration protectConfiguration;
     public KickConfiguration kickConfiguration;
     public ExamineConfiguration examineConfiguration;
     public Map<String, GeneralModeConfiguration> modeConfigurations;
@@ -88,7 +85,6 @@ public class Options {
     private final BlackListConfigurationLoader blackListConfigurationLoader;
     private final TraceModuleLoader traceModuleLoader;
     private final BroadcastConfigurationLoader broadcastConfigurationLoader;
-    private final ProtectModuleLoader protectModuleLoader;
     private final KickModuleLoader kickModuleLoader;
     private final ExamineModuleLoader examineModuleLoader;
     private final StaffModesLoader staffModesLoader;
@@ -102,7 +98,6 @@ public class Options {
                    BlackListConfigurationLoader blackListConfigurationLoader,
                    TraceModuleLoader traceModuleLoader,
                    BroadcastConfigurationLoader broadcastConfigurationLoader,
-                   ProtectModuleLoader protectModuleLoader,
                    KickModuleLoader kickModuleLoader,
                    ExamineModuleLoader examineModuleLoader,
                    StaffModesLoader staffModesLoader,
@@ -117,7 +112,6 @@ public class Options {
         this.blackListConfigurationLoader = blackListConfigurationLoader;
         this.traceModuleLoader = traceModuleLoader;
         this.broadcastConfigurationLoader = broadcastConfigurationLoader;
-        this.protectModuleLoader = protectModuleLoader;
         this.kickModuleLoader = kickModuleLoader;
         this.examineModuleLoader = examineModuleLoader;
         this.staffModesLoader = staffModesLoader;
@@ -160,7 +154,6 @@ public class Options {
         blackListConfiguration = this.blackListConfigurationLoader.loadConfig();
         traceConfiguration = this.traceModuleLoader.loadConfig();
         broadcastConfiguration = this.broadcastConfigurationLoader.loadConfig();
-        protectConfiguration = this.protectModuleLoader.loadConfig();
         kickConfiguration = this.kickModuleLoader.loadConfig();
         examineConfiguration = this.examineModuleLoader.loadConfig();
         modeConfigurations = this.staffModesLoader.loadConfig();

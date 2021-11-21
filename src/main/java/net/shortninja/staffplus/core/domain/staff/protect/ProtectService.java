@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.protect;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.protect.config.ProtectConfiguration;
@@ -27,10 +26,13 @@ public class ProtectService {
     private final Messages messages;
     private final PlayerSettingsRepository playerSettingsRepository;
 
-    public ProtectService(ProtectedAreaRepository protectedAreaRepository, Messages messages, Options options, PlayerSettingsRepository playerSettingsRepository) {
+    public ProtectService(ProtectedAreaRepository protectedAreaRepository,
+                          Messages messages,
+                          ProtectConfiguration protectConfiguration,
+                          PlayerSettingsRepository playerSettingsRepository) {
         this.protectedAreaRepository = protectedAreaRepository;
         this.messages = messages;
-        this.protectConfiguration = options.protectConfiguration;
+        this.protectConfiguration = protectConfiguration;
         this.playerSettingsRepository = playerSettingsRepository;
     }
 
@@ -51,8 +53,8 @@ public class ProtectService {
         if (existingArea.isPresent()) {
             throw new BusinessException("&bA protected area with this name already exists. Please delete the existing area or choose another name.", messages.prefixProtect);
         }
-        if (size > protectConfiguration.getAreaMaxSize()) {
-            throw new BusinessException("&bCannot create area, size is too big. Max size [" + protectConfiguration.getAreaMaxSize() + "]", messages.prefixProtect);
+        if (size > protectConfiguration.areaMaxSize) {
+            throw new BusinessException("&bCannot create area, size is too big. Max size [" + protectConfiguration.areaMaxSize + "]", messages.prefixProtect);
         }
 
         int half = size / 2;
