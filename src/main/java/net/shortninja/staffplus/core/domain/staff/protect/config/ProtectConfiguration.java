@@ -1,66 +1,28 @@
 package net.shortninja.staffplus.core.domain.staff.protect.config;
 
-import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 
+@IocBean
 public class ProtectConfiguration {
 
-    private final boolean playerProtectEnabled;
-    private final boolean areaProtectEnabled;
-    private final int areaMaxSize;
+    @ConfigProperty("protect-module.player-enabled")
+    public boolean playerProtectEnabled;
+    @ConfigProperty("protect-module.area-enabled")
+    public boolean areaProtectEnabled;
 
-    private final String commandProtectPlayer;
-    private final String commandProtectArea;
-    private final String permissionProtectPlayer;
-    private final String permissionProtectArea;
-    private final GuiItemConfig guiItemConfig;
-
-    public ProtectConfiguration(boolean playerProtectEnabled,
-                                boolean areaProtectEnabled,
-                                int areaMaxSize,
-                                String commandProtectPlayer,
-                                String commandProtectArea,
-                                String permissionProtectPlayer,
-                                String permissionProtectArea,
-                                GuiItemConfig guiItemConfig) {
-        this.playerProtectEnabled = playerProtectEnabled;
-        this.areaProtectEnabled = areaProtectEnabled;
-        this.areaMaxSize = areaMaxSize;
-        this.commandProtectPlayer = commandProtectPlayer;
-        this.commandProtectArea = commandProtectArea;
-        this.permissionProtectPlayer = permissionProtectPlayer;
-        this.permissionProtectArea = permissionProtectArea;
-        this.guiItemConfig = guiItemConfig;
-    }
-
-    public boolean isPlayerProtectEnabled() {
-        return playerProtectEnabled;
-    }
-
-    public boolean isAreaProtectEnabled() {
-        return areaProtectEnabled;
-    }
-
-    public int getAreaMaxSize() {
-        return areaMaxSize;
-    }
-
-    public GuiItemConfig getGuiItemConfig() {
-        return guiItemConfig;
-    }
-
-    public String getCommandProtectPlayer() {
-        return commandProtectPlayer;
-    }
-
-    public String getCommandProtectArea() {
-        return commandProtectArea;
-    }
-
-    public String getPermissionProtectPlayer() {
-        return permissionProtectPlayer;
-    }
-
-    public String getPermissionProtectArea() {
-        return permissionProtectArea;
-    }
+    @ConfigProperty("protect-module.area-max-size")
+    public int areaMaxSize;
+    @ConfigProperty("staffmode-modules:modules.gui-module.protected-areas-gui")
+    public boolean modeGuiProtectedAreas;
+    @ConfigProperty("staffmode-modules:modules.gui-module.protected-areas-title")
+    public String modeGuiProtectedAreasTitle;
+    @ConfigProperty("commands:protect-player")
+    public String commandProtectPlayer;
+    @ConfigProperty("commands:protect-area")
+    public String commandProtectArea;
+    @ConfigProperty("permissions:protect-player")
+    public String permissionProtectPlayer;
+    @ConfigProperty("permissions:protect-area")
+    public String permissionProtectArea;
 }

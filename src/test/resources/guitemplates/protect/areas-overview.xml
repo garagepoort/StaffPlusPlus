@@ -1,0 +1,37 @@
+<TubingGui size="54" id="protected-areas-overview">
+    <title class="gui-title">Protected areas</title>
+    <GuiItem id="protected-area-info-0" class="protected-area-info" slot="0" onLeftClick="protected-areas/view/detail?areaId=12&amp;backAction=protected-areas%2Fview" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PAPER">
+        <name class="item-name" color="&amp;3">area</name>
+        <Lore>
+            <LoreLine>
+                <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
+                <t color="&amp;6" id="id-value" class="detail-value">12</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="name-label" class="detail-label">Name: </t>
+                <t color="&amp;6" id="name-value" class="detail-value">area</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="world-label" class="detail-label">World: </t>
+                <t color="&amp;6" id="world-value" class="detail-value">world</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="cornerpoint1-label" class="detail-label">Corner point 1: </t>
+                <t color="&amp;6" id="cornerpoint1-value" class="detail-value">X: 1 Y: 2 Z: 3</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="cornerpoint2-label" class="detail-label">Corner point 2: </t>
+                <t color="&amp;6" id="cornerpoint2-value" class="detail-value">X: 4 Y: 5 Z: 6</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+    <GuiItem slot="52" id="next-page-1" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+    <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+</TubingGui>
