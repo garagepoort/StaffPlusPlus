@@ -1,0 +1,92 @@
+<TubingGui size="54" id="area-detail">
+    <title class="gui-title">Protected area: area</title>
+
+    <GuiItem id="protected-area-info" class="protected-area-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PAPER">
+        <name class="item-name" color="&amp;3">area</name>
+        <Lore>
+            <LoreLine>
+                <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
+                <t color="&amp;6" id="id-value" class="detail-value">12</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="name-label" class="detail-label">Name: </t>
+                <t color="&amp;6" id="name-value" class="detail-value">area</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="world-label" class="detail-label">World: </t>
+                <t color="&amp;6" id="world-value" class="detail-value">world</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="cornerpoint1-label" class="detail-label">Corner point 1: </t>
+                <t color="&amp;6" id="cornerpoint1-value" class="detail-value">X: 1 Y: 2 Z: 3</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="cornerpoint2-label" class="detail-label">Corner point 2: </t>
+                <t color="&amp;6" id="cornerpoint2-value" class="detail-value">X: 4 Y: 5 Z: 6</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="30" id="delete-30" class="protected-area-delete" material="RED_STAINED_GLASS_PANE" onLeftClick="protected-areas/delete?areaId=12">
+        <name class="item-name">Delete protected area</name>
+        <Lore>
+            <LoreLine>Click to delete this area</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="31" id="delete-31" class="protected-area-delete" material="RED_STAINED_GLASS_PANE" onLeftClick="protected-areas/delete?areaId=12">
+        <name class="item-name">Delete protected area</name>
+        <Lore>
+            <LoreLine>Click to delete this area</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="32" id="delete-32" class="protected-area-delete" material="RED_STAINED_GLASS_PANE" onLeftClick="protected-areas/delete?areaId=12">
+        <name class="item-name">Delete protected area</name>
+        <Lore>
+            <LoreLine>Click to delete this area</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="39" id="delete-39" class="protected-area-delete" material="RED_STAINED_GLASS_PANE" onLeftClick="protected-areas/delete?areaId=12">
+        <name class="item-name">Delete protected area</name>
+        <Lore>
+            <LoreLine>Click to delete this area</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="40" id="delete-40" class="protected-area-delete" material="RED_STAINED_GLASS_PANE" onLeftClick="protected-areas/delete?areaId=12">
+        <name class="item-name">Delete protected area</name>
+        <Lore>
+            <LoreLine>Click to delete this area</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="41" id="delete-41" class="protected-area-delete" material="RED_STAINED_GLASS_PANE" onLeftClick="protected-areas/delete?areaId=12">
+        <name class="item-name">Delete protected area</name>
+        <Lore>
+            <LoreLine>Click to delete this area</LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="34" id="teleport-34" class="protected-area-teleport" material="ORANGE_STAINED_GLASS_PANE" onLeftClick="protected-areas/teleport?areaId=12">
+        <name class="item-name">Teleport</name>
+        <Lore>
+            <LoreLine>Click to teleport to where this area was created</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="35" id="teleport-35" class="protected-area-teleport" material="ORANGE_STAINED_GLASS_PANE" onLeftClick="protected-areas/teleport?areaId=12">
+        <name class="item-name">Teleport</name>
+        <Lore>
+            <LoreLine>Click to teleport to where this area was created</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="43" id="teleport-43" class="protected-area-teleport" material="ORANGE_STAINED_GLASS_PANE" onLeftClick="protected-areas/teleport?areaId=12">
+        <name class="item-name">Teleport</name>
+        <Lore>
+            <LoreLine>Click to teleport to where this area was created</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="44" id="teleport-44" class="protected-area-teleport" material="ORANGE_STAINED_GLASS_PANE" onLeftClick="protected-areas/teleport?areaId=12">
+        <name class="item-name">Teleport</name>
+        <Lore>
+            <LoreLine>Click to teleport to where this area was created</LoreLine>
+        </Lore>
+    </GuiItem>
+
+</TubingGui>

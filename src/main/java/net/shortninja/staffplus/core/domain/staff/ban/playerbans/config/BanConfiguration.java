@@ -18,13 +18,6 @@ public class BanConfiguration {
     @ConfigProperty("ban-module.enabled")
     public boolean enabled;
 
-    @ConfigProperty("commands:tempban")
-    public String commandTempBanPlayer;
-    @ConfigProperty("commands:unban")
-    public String commandUnbanPlayer;
-    @ConfigProperty("commands:bans.manage.gui")
-    public String commandManageBansGui;
-
     @ConfigProperty("permissions:tempban")
     public String permissionTempbanPlayer;
     @ConfigProperty("permissions:extendban")
