@@ -12,6 +12,7 @@
             <#list [34,35,43,44] as slot>
                 <GuiItem slot="${slot}"
                          id="resolve-${slot?index}"
+                         class="report-resolve"
                          material="GREEN_STAINED_GLASS_PANE"
                          onLeftClick="manage-reports/resolve?reportId=${report.id}">
                     <name class="item-name">Resolve report</name>
@@ -26,6 +27,7 @@
             <#list [27,28,36,37] as slot>
                 <GuiItem slot="${slot}"
                          id="unassign-${slot?index}"
+                         class="report-unassign"
                          material="WHITE_STAINED_GLASS_PANE"
                          onLeftClick="manage-reports/reopen?reportId=${report.id}">
                     <name class="item-name">Unassign</name>
@@ -41,6 +43,7 @@
                 <GuiItem slot="${slot}"
                          id="reject-${slot?index}"
                          material="RED_STAINED_GLASS_PANE"
+                         class="report-reject"
                          onLeftClick="manage-reports/reject?reportId=${report.id}">
                     <name class="item-name">Reject report</name>
                     <Lore>
@@ -54,6 +57,7 @@
     <#if $permissions.has(player, $config.get("permissions:reports.manage.delete"))>
         <GuiItem slot="8"
                  id="delete"
+                 class="report-delete"
                  material="REDSTONE_BLOCK"
                  onLeftClick="manage-reports/delete?reportId=${report.id}">
             <name class="item-name">Delete</name>
@@ -67,6 +71,7 @@
              id="teleport"
              permission="config|permissions:reports.manage.teleport"
              material="ORANGE_STAINED_GLASS_PANE"
+             class="report-teleport"
              onLeftClick="manage-reports/teleport?reportId=${report.id}">
         <name class="item-name">Teleport</name>
         <Lore>
