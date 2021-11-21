@@ -72,7 +72,7 @@
         <#list [34,35,43,44] as slot>
             <GuiItem slot="${slot}"
                      id="resume-${slot?index}"
-                     material="RED_STAINED_GLASS_PANE"
+                     material="RED_GLAZED_TERRACOTTA"
                      onLeftClick="manage-investigations/conclude?investigationId=${investigation.id}">
                 <name class="item-name">Conclude</name>
                 <Lore>

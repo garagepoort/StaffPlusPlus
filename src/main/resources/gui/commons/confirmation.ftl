@@ -14,7 +14,7 @@
     <#list [9,10,18,19] as slot>
         <GuiItem id="cancel-${slot?index}"
                  slot="${slot}"
-                 material="RED_STAINED_GLASS_PANE"
+                 material="RED_GLAZED_TERRACOTTA"
                  onLeftClick="${cancelAction}">
             <name class="item-name" color="&C">Cancel</name>
         </GuiItem>
