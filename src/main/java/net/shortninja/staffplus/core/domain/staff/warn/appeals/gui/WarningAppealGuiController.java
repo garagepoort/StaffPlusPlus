@@ -6,6 +6,7 @@ import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
@@ -13,9 +14,12 @@ import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.AppealService;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
 
@@ -25,7 +29,6 @@ public class WarningAppealGuiController {
 
     private static final String CANCEL = "cancel";
 
-    private final AppealReasonSelectViewBuilder appealReasonSelectViewBuilder;
     private final ManageAppealViewBuilder manageAppealViewBuilder;
     private final AppealService appealService;
     private final WarnService warnService;
@@ -33,9 +36,16 @@ public class WarningAppealGuiController {
     private final OnlineSessionsManager sessionManager;
     private final Options options;
     private final BukkitUtils bukkitUtils;
+    private final AppealConfiguration appealConfiguration;
 
-    public WarningAppealGuiController(AppealReasonSelectViewBuilder appealReasonSelectViewBuilder, ManageAppealViewBuilder manageAppealViewBuilder, AppealService appealService, WarnService warnService, Messages messages, OnlineSessionsManager sessionManager, Options options, BukkitUtils bukkitUtils) {
-        this.appealReasonSelectViewBuilder = appealReasonSelectViewBuilder;
+    public WarningAppealGuiController(ManageAppealViewBuilder manageAppealViewBuilder,
+                                      AppealService appealService,
+                                      WarnService warnService,
+                                      Messages messages,
+                                      OnlineSessionsManager sessionManager,
+                                      Options options,
+                                      BukkitUtils bukkitUtils,
+                                      AppealConfiguration appealConfiguration) {
         this.manageAppealViewBuilder = manageAppealViewBuilder;
         this.appealService = appealService;
         this.warnService = warnService;
@@ -43,6 +53,7 @@ public class WarningAppealGuiController {
         this.sessionManager = sessionManager;
         this.options = options;
         this.bukkitUtils = bukkitUtils;
+        this.appealConfiguration = appealConfiguration;
     }
 
     @GuiAction("manage-warning-appeals/view/detail")
@@ -57,8 +68,11 @@ public class WarningAppealGuiController {
     }
 
     @GuiAction("manage-warning-appeals/view/create/reason-select")
-    public TubingGui getCreateAppealReasonSelectView(@GuiParam("warningId") int warningId) {
-        return appealReasonSelectViewBuilder. buildGui(warningId);
+    public GuiTemplate getCreateAppealReasonSelectView(@GuiParam("warningId") int warningId) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("warningId", warningId);
+        params.put("reasons", appealConfiguration.appealReasons);
+        return GuiTemplate.template("gui/warnings/appeal-reason-select.ftl", params);
     }
 
     @GuiAction("manage-warning-appeals/view/create/reason-chat")
