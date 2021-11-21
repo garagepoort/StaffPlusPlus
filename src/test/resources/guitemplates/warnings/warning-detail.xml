@@ -50,7 +50,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="add-appeal" slot="31" material="BOOK" onLeftClick="manage-warning-appeals/view/create/reason-chat?warningId=12">
+    <GuiItem id="add-appeal" slot="31" material="BOOK" onLeftClick="manage-warning-appeals/view/create/reason-chat?warningId=12&amp;backAction=manage-warnings%2Fview%2Fdetail%3FwarningId%3D12%26backAction%3DgoBack%2Fview">
         <name class="item-name">Add appeal</name>
         <Lore>
             <LoreLine>

@@ -75,9 +75,9 @@
 
         <#if canAppeal>
             <#if $config.get("warnings-module.appeals.fixed-reason")>
-                <@appealbutton action="manage-warning-appeals/view/create/reason-select?warningId=${warning.id}" />
+                <@appealbutton action="manage-warning-appeals/view/create/reason-select?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}" />
             <#else>
-                <@appealbutton action="manage-warning-appeals/view/create/reason-chat?warningId=${warning.id}" />
+                <@appealbutton action="manage-warning-appeals/view/create/reason-chat?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}" />
             </#if>
         <#elseif warning.appeal.isPresent()>
             <#if ($permissions.has(player, $config.get("permissions:warnings.appeals.approve"))
