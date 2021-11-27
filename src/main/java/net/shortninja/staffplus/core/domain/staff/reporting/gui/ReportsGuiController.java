@@ -11,8 +11,10 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
@@ -21,6 +23,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.cmd.ReportFiltersMap
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -46,6 +49,7 @@ public class ReportsGuiController {
     private final ManageReportService manageReportService;
     private final OnlineSessionsManager sessionManager;
     private final ReportFiltersMapper reportFiltersMapper;
+    private final PlayerManager playerManager;
 
     public ReportsGuiController(PermissionHandler permissionHandler,
                                 ManageReportConfiguration manageReportConfiguration,
@@ -54,7 +58,7 @@ public class ReportsGuiController {
                                 BukkitUtils bukkitUtils, Messages messages,
                                 ManageReportService manageReportService,
                                 OnlineSessionsManager sessionManager,
-                                ReportFiltersMapper reportFiltersMapper) {
+                                ReportFiltersMapper reportFiltersMapper, PlayerManager playerManager) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
         this.reportService = reportService;
@@ -65,6 +69,7 @@ public class ReportsGuiController {
 
         this.sessionManager = sessionManager;
         this.reportFiltersMapper = reportFiltersMapper;
+        this.playerManager = playerManager;
     }
 
     @GuiAction("manage-reports/view/overview")
@@ -159,7 +164,9 @@ public class ReportsGuiController {
     public AsyncGui<String> acceptReport(Player player, @GuiParam("reportId") int reportId, @GuiParam("backAction") String backAction) {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
         return async(() -> {
-            manageReportService.acceptReport(player, reportId);
+            SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+                .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+            manageReportService.acceptReport(sppPlayer, reportId);
             return backAction;
         });
     }
@@ -168,7 +175,9 @@ public class ReportsGuiController {
     public void deleteReport(Player player,
                              @GuiParam("reportId") int reportId) {
         permissionHandler.validate(player, manageReportConfiguration.permissionDelete);
-        bukkitUtils.runTaskAsync(player, () -> manageReportService.deleteReport(player, reportId));
+        SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+            .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+        bukkitUtils.runTaskAsync(player, () -> manageReportService.deleteReport(sppPlayer, reportId));
     }
 
     @GuiAction("manage-reports/reopen")
@@ -194,11 +203,14 @@ public class ReportsGuiController {
                                          @GuiParam("backAction") String backAction) {
         permissionHandler.validate(player, manageReportConfiguration.permissionReject);
         return async(() -> {
+            SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+                .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showRejectReasonGui(player, (message) -> manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)));
+                showRejectReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)));
                 return null;
             }
-            manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
+            manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
             return backAction;
         });
     }
@@ -210,12 +222,15 @@ public class ReportsGuiController {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
         permissionHandler.validate(player, manageReportConfiguration.permissionReject);
         return async(() -> {
+            SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+                .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showRejectReasonGui(player, (message) -> manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)));
+                showRejectReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)));
                 return null;
             }
 
-            manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
+            manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
             return backAction;
         });
     }
@@ -224,12 +239,15 @@ public class ReportsGuiController {
     public AsyncGui<String> resolveReport(Player player, @GuiParam("reportId") int reportId, @GuiParam("backAction") String backAction) {
         permissionHandler.validate(player, manageReportConfiguration.permissionResolve);
         return async(() -> {
+            SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+                .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showResolveReasonGui(player, (message) -> manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)));
+                showResolveReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)));
                 return null;
             }
 
-            manageReportService.closeReport(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
+            manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
             return backAction;
         });
     }
@@ -241,12 +259,15 @@ public class ReportsGuiController {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
         permissionHandler.validate(player, manageReportConfiguration.permissionResolve);
         return async(() -> {
+            SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+                .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showResolveReasonGui(player, (message) -> manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)));
+                showResolveReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)));
                 return null;
             }
 
-            manageReportService.acceptAndClose(player, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
+            manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
             return backAction;
         });
     }

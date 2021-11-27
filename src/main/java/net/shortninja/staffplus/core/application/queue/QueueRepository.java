@@ -25,6 +25,18 @@ public class QueueRepository extends SqlRepository {
         return sqlConnectionProvider.getConnection();
     }
 
+    public void updateStatus(int id, QueueStatus status, String statusMessage) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_queue set status=?, status_message=? WHERE id=?;")) {
+            insert.setString(1, status.name());
+            insert.setString(2, statusMessage);
+            insert.setInt(3, id);
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
     public Optional<QueueMessage> findNextQueueMessage() {
         UUID processId = UUID.randomUUID();
         try (Connection sql = getConnection();

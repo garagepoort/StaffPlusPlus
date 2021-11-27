@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.reporting;
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
-import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.database.ReportRepository;
@@ -41,15 +40,13 @@ public class ManageReportService {
         reportRepository.removeReports(player.getId());
     }
 
-    public void acceptReport(Player player, int reportId) {
-        permission.validate(player, manageReportConfiguration.permissionAccept);
-
+    public void acceptReport(SppPlayer player, int reportId) {
         Report report = reportRepository.findOpenReport(reportId)
             .orElseThrow(() -> new BusinessException("&CReport with id [" + reportId + "] not found", messages.prefixReports));
 
         report.setReportStatus(net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS);
-        report.setStaffUuid(player.getUniqueId());
-        report.setStaffName(player.getName());
+        report.setStaffUuid(player.getId());
+        report.setStaffName(player.getUsername());
         reportRepository.updateReport(report);
         sendEvent(new AcceptReportEvent(report));
     }
@@ -67,35 +64,26 @@ public class ManageReportService {
         sendEvent(new ReopenReportEvent(report, player.getName()));
     }
 
-    public void closeReport(Player player, CloseReportRequest closeReportRequest) {
+    public void closeReport(SppPlayer player, CloseReportRequest closeReportRequest) {
         Report report = reportService.getReport(closeReportRequest.getReportId());
-        closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
+        closeReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
         sendEvent(closeReportRequest.getStatus() == ReportStatus.REJECTED ? new RejectReportEvent(report) : new ResolveReportEvent(report));
     }
 
-    public void acceptAndClose(Player player, CloseReportRequest closeReportRequest) {
-        permission.validate(player, manageReportConfiguration.permissionAccept);
-
+    public void acceptAndClose(SppPlayer player, CloseReportRequest closeReportRequest) {
         Report report = reportRepository.findOpenReport(closeReportRequest.getReportId())
             .orElseThrow(() -> new BusinessException("&CReport with id [" + closeReportRequest.getReportId() + "] not found", messages.prefixReports));
 
         report.setReportStatus(net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS);
-        report.setStaffUuid(player.getUniqueId());
-        report.setStaffName(player.getName());
-        closedReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
+        report.setStaffUuid(player.getId());
+        report.setStaffName(player.getUsername());
+        closeReport(player, report, closeReportRequest.getStatus(), closeReportRequest.getCloseReason());
         sendEvent(closeReportRequest.getStatus() == ReportStatus.REJECTED ? new RejectReportEvent(report) : new ResolveReportEvent(report));
     }
 
-    private void closedReport(Player player, Report report, ReportStatus status, String closeReason) {
-        if (!report.getStaffUuid().equals(player.getUniqueId())) {
+    private void closeReport(SppPlayer player, Report report, ReportStatus status, String closeReason) {
+        if (!report.getStaffUuid().equals(player.getId())) {
             throw new BusinessException("&CYou cannot change the status of a report you are not assigned to", messages.prefixReports);
-        }
-
-        if (status == ReportStatus.REJECTED && !permission.has(player, manageReportConfiguration.permissionReject)) {
-            throw new NoPermissionException();
-        }
-        if (status == ReportStatus.RESOLVED && !permission.has(player, manageReportConfiguration.permissionResolve)) {
-            throw new NoPermissionException();
         }
         report.setReportStatus(status);
         report.setCloseReason(closeReason);
@@ -106,12 +94,9 @@ public class ManageReportService {
         return reportRepository.getClosedReports(offset, amount);
     }
 
-    public void deleteReport(Player player, int reportId) {
-        if (!permission.has(player, manageReportConfiguration.permissionDelete)) {
-            throw new NoPermissionException();
-        }
+    public void deleteReport(SppPlayer player, int reportId) {
         Report report = reportService.getReport(reportId);
         reportRepository.markReportDeleted(report);
-        sendEvent(new DeleteReportEvent(report, player.getName()));
+        sendEvent(new DeleteReportEvent(report, player.getUsername()));
     }
 }

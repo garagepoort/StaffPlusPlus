@@ -35,14 +35,14 @@ public class QueueMessageProcessor extends BukkitRunnable {
         Optional<QueueMessage> queueMessage = queueRepository.findNextQueueMessage();
         queueMessage.ifPresent(message -> {
             try {
-
                 if (!listeners.containsKey(message.getType())) {
                     StaffPlus.getPlugin().getLogger().warning("No QueueMessageListener for type [" + message.getType() + "]");
                 }
                 QueueMessageListener listener = listeners.get(message.getType());
-                listener.handleMessage(gsonParser.fromJson(message.getData(), listener.getMessageClass()));
+                String resultMessage = listener.handleMessage(gsonParser.fromJson(message.getData(), listener.getMessageClass()));
+                queueRepository.updateStatus(message.getId(), QueueStatus.PROCESSED, resultMessage);
             } catch (Exception e) {
-
+                queueRepository.updateStatus(message.getId(), QueueStatus.FAILED, e.getMessage());
             }
         });
     }

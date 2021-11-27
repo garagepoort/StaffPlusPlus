@@ -37,8 +37,6 @@ staff-list-member: "&b%player% &%statuscolor%•"
 # Lijnen zijn gescheiden door kommas.
 staff-list-end: "&7%longline%"
 
-lockdown: "&bDe server is momenteel geblokkeerd voor veiligheidsredenen. Updates @ &7shortninja.net&b!"
-
 revived-staff: "&bJe hebt &7%target%'s &binventaris gereset naar een vorige versie!"
 revived-user: "&bJe inventaris is naar een vorige versie gezet!"
 
