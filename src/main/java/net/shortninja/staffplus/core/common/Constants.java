@@ -1,7 +1,5 @@
 package net.shortninja.staffplus.core.common;
 
-import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 
 import java.util.UUID;
@@ -35,10 +33,6 @@ public class Constants {
         if(!tableName.isEmpty()) {
             tableName = tableName + ".";
         }
-
-        if (serverSyncConfig.isDisabled()) {
-            return " AND (" + tableName + "server_name is null OR " + tableName + "server_name='" + StaffPlus.get().getIocContainer().get(Options.class).serverName + "') ";
-        }
         if (serverSyncConfig.isMatchesAll()) {
             return "";
         }
@@ -46,10 +40,6 @@ public class Constants {
     }
 
     public static String getServerNameFilterWithWhere(ServerSyncConfig serverSyncConfig) {
-
-        if (serverSyncConfig.isDisabled()) {
-            return " WHERE (server_name is null OR server_name='" + StaffPlus.get().getIocContainer().get(Options.class).serverName + "') ";
-        }
         if (serverSyncConfig.isMatchesAll()) {
             return "";
         }

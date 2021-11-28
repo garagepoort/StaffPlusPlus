@@ -10,12 +10,8 @@ public class ServerSyncConfig {
 
     public ServerSyncConfig(List<String> servers) {
         this.servers = servers;
-        this.disabled = servers.isEmpty();
+        this.disabled = servers.size() <= 1;
         this.matchesAll = servers.contains("[ALL]");
-    }
-
-    public boolean isDisabled() {
-        return disabled;
     }
 
     public boolean isEnabled() {

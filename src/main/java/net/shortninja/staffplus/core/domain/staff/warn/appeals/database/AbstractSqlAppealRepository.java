@@ -134,10 +134,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     @Override
     public int getCountOpenAppeals() {
         int count;
-        String query = "SELECT count(*) as count FROM sp_warning_appeals WHERE status='OPEN'";
-        if (warningSyncEnabled.isDisabled()) {
-            query += " AND warning_id in (SELECT id from sp_warnings " + Constants.getServerNameFilterWithWhere(warningSyncEnabled) + ")";
-        }
+        String query = "SELECT count(*) as count FROM sp_warning_appeals WHERE status='OPEN' AND warning_id in (SELECT id from sp_warnings " + Constants.getServerNameFilterWithWhere(warningSyncEnabled) + ")";
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
