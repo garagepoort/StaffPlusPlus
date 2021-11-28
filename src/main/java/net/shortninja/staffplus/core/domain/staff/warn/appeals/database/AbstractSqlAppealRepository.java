@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.warnings.AppealStatus;
 import org.apache.commons.lang.StringUtils;
@@ -26,12 +27,12 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
 
     private final PlayerManager playerManager;
     private final SqlConnectionProvider sqlConnectionProvider;
-    private final boolean warningSyncEnabled;
+    private final ServerSyncConfig warningSyncEnabled;
 
     public AbstractSqlAppealRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.playerManager = playerManager;
-        this.warningSyncEnabled = options.serverSyncConfiguration.warningSyncEnabled;
+        this.warningSyncEnabled = options.serverSyncConfiguration.warningSyncServers;
     }
 
     public Connection getConnection() {
@@ -134,7 +135,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     public int getCountOpenAppeals() {
         int count;
         String query = "SELECT count(*) as count FROM sp_warning_appeals WHERE status='OPEN'";
-        if (!warningSyncEnabled) {
+        if (warningSyncEnabled.isDisabled()) {
             query += " AND warning_id in (SELECT id from sp_warnings " + Constants.getServerNameFilterWithWhere(warningSyncEnabled) + ")";
         }
         try (Connection sql = getConnection();

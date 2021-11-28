@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean(conditionalOnProperty = "server-sync-module.investigation-sync=true")
+@IocBean
 @IocListener
 public class InvestigationBungeeSender implements Listener {
 

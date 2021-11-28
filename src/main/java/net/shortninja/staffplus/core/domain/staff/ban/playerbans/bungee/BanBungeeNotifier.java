@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_PLAYER_BANNED_CHANNEL;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_PLAYER_UNBANNED_CHANNEL;
 
-@IocBean(conditionalOnProperty = "server-sync-module.ban-sync=true")
+@IocBean
 @IocListener
 public class BanBungeeNotifier implements Listener {
 

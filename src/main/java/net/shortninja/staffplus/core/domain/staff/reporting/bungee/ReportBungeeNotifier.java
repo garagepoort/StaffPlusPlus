@@ -24,7 +24,7 @@ import static net.shortninja.staffplus.core.common.Constants.BUNGEE_REPORT_CREAT
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_REPORT_DELETED_CHANNEL;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_REPORT_REOPEN_CHANNEL;
 
-@IocBean(conditionalOnProperty = "server-sync-module.report-sync=true")
+@IocBean
 public class ReportBungeeNotifier implements Listener {
 
     private final BungeeClient bungeeClient;
