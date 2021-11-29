@@ -163,7 +163,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     public List<UUID> getAllPermanentMutedPlayers() {
         List<UUID> result = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid FROM sp_muted_players WHERE end_timestamp IS NULL " + Constants.getServerNameFilterWithAnd(muteSyncServers) + " GROUP BY player_uuid")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid FROM sp_muted_players WHERE end_timestamp IS NULL " + getServerNameFilterWithAnd(muteSyncServers) + " GROUP BY player_uuid")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     result.add(UUID.fromString(rs.getString("player_uuid")));
@@ -224,7 +224,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     public Map<UUID, Long> getMuteDurationByPlayer() {
         Map<UUID, Long> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_muted_players WHERE end_timestamp is not null " + Constants.getServerNameFilterWithAnd(muteSyncServers) + " GROUP BY player_uuid ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, sum(end_timestamp - creation_timestamp) as count FROM sp_muted_players WHERE end_timestamp is not null " + getServerNameFilterWithAnd(muteSyncServers) + " GROUP BY player_uuid ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("player_uuid")), rs.getLong("count"));

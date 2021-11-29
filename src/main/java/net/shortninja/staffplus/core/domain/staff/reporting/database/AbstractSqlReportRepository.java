@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.reporting.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.SppLocation;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -331,7 +330,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public Map<UUID, Integer> getReportedCount() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_reports WHERE Player_UUID is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.kickSyncServers) + " GROUP BY Player_UUID ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_reports WHERE Player_UUID is not null " + getServerNameFilterWithAnd(options.serverSyncConfiguration.kickSyncServers) + " GROUP BY Player_UUID ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("Player_UUID")), rs.getInt("count"));

@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
@@ -275,7 +274,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_warnings WHERE id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncServers) + " GROUP BY Player_UUID ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_warnings WHERE id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncServers) + " GROUP BY Player_UUID ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("Player_UUID")), rs.getInt("count"));

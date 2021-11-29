@@ -30,13 +30,11 @@ public class Constants {
     }
 
     public static String getServerNameFilterWithAnd(String tableName, ServerSyncConfig serverSyncConfig) {
-        if(!tableName.isEmpty()) {
-            tableName = tableName + ".";
-        }
+        String tableString = !tableName.isEmpty() ? tableName + "." : "";
         if (serverSyncConfig.isMatchesAll()) {
             return "";
         }
-        return " AND (" + tableName + "server_name is null OR " + tableName + "server_name IN (" + String.join(",", serverSyncConfig.getServers()) + ") ";
+        return " AND (" + tableString + "server_name is null OR " + tableString + "server_name IN (" + String.join(",", serverSyncConfig.getServers()) + ") ";
     }
 
     public static String getServerNameFilterWithWhere(ServerSyncConfig serverSyncConfig) {
