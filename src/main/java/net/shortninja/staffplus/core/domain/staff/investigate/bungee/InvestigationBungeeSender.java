@@ -23,12 +23,18 @@ public class InvestigationBungeeSender implements Listener {
 
     @EventHandler
     public void onInvestigationStarted(InvestigationStartedEvent investigationStartedEvent) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, Constants.BUNGEE_INVESTIGATION_STARTED_CHANNEL, new InvestigationBungee(investigationStartedEvent.getInvestigation()));
     }
 
     @EventHandler
     public void onInvestigationConcluded(InvestigationConcludedEvent investigationConcludedEvent) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, Constants.BUNGEE_INVESTIGATION_CONCLUDED_CHANNEL, new InvestigationBungee(investigationConcludedEvent.getInvestigation()));
     }

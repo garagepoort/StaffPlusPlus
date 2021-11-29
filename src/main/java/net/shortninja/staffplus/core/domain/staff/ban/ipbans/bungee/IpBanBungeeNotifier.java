@@ -26,12 +26,18 @@ public class IpBanBungeeNotifier implements Listener {
 
     @EventHandler
     public void onBan(IpBanEvent event) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, BUNGEE_IP_BANNED_CHANNEL, new IpBanBungeeDto(event.getBan(), event.getKickTemplate().orElse(null)));
     }
 
     @EventHandler
     public void onUnban(IpUnbanEvent event) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, BUNGEE_IP_UNBANNED_CHANNEL, new IpBanBungeeDto(event.getBan()));
     }

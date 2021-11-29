@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.reporting.queue;
+package net.shortninja.staffplus.core.domain.staff.reporting.queue.dto;
 
 import net.shortninja.staffplus.core.domain.staff.reporting.CloseReportRequest;
 

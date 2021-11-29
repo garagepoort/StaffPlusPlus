@@ -41,6 +41,9 @@ public class ReportBungeeNotifier implements Listener {
 
     @EventHandler
     public void onDelete(DeleteReportEvent event) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, BUNGEE_REPORT_DELETED_CHANNEL, new ReportDeletedBungeeDto(event.getReport(), event.getDeletedByName()));
     }
@@ -62,11 +65,17 @@ public class ReportBungeeNotifier implements Listener {
 
     @EventHandler
     public void onReopen(ReopenReportEvent event) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, BUNGEE_REPORT_REOPEN_CHANNEL, new ReportReopenedBungeeDto(event.getReport(), event.getReopenedByName()));
     }
 
     private void sendBungeeNotification(IReport report, String channel) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, channel, new ReportBungeeDto(report));
     }

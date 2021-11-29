@@ -26,12 +26,18 @@ public class BanBungeeNotifier implements Listener {
 
     @EventHandler
     public void onBan(BanEvent event) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, BUNGEE_PLAYER_BANNED_CHANNEL, new BanBungeeDto(event.getBan(), event.getBanMessage()));
     }
 
     @EventHandler
     public void onUnban(UnbanEvent event) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, BUNGEE_PLAYER_UNBANNED_CHANNEL, new BanBungeeDto(event.getBan()));
     }

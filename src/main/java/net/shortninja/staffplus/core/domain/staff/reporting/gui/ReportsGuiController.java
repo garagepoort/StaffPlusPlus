@@ -183,7 +183,10 @@ public class ReportsGuiController {
     @GuiAction("manage-reports/reopen")
     public void reopenReport(Player player,
                              @GuiParam("reportId") int reportId) {
-        bukkitUtils.runTaskAsync(player, () -> manageReportService.reopenReport(player, reportId));
+        permissionHandler.validate(player, manageReportConfiguration.permissionReopenOther);
+        SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+            .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+        bukkitUtils.runTaskAsync(player, () -> manageReportService.reopenReport(sppPlayer, reportId));
     }
 
     @GuiAction("manage-reports/teleport")
