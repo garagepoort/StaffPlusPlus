@@ -37,8 +37,6 @@ staff-list-member: "&b%player% &%statuscolor%•"
 # Linjer er separert med komma
 staff-list-end: "&7%longline%"
 
-lockdown: "&bServeren er for øyeblikket låst av sikkerhetshensyn . Oppdateringer @ &7shortninja.net&b!"
-
 revived-staff: "Du har resat &7%target%'s &binventory til sin tidligere tilstand!"
 revived-user: "&bDin invetory er satt til sin tidligere tilstand!"
 

@@ -40,7 +40,7 @@ public abstract class AbstractIpBanRepository extends SqlRepository implements I
     public List<IpBan> getBannedIps() {
         List<IpBan> bans = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_ips WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncEnabled))) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_ips WHERE (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers))) {
             ps.setLong(1, System.currentTimeMillis());
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -57,7 +57,7 @@ public abstract class AbstractIpBanRepository extends SqlRepository implements I
     @Override
     public Optional<IpBan> getActiveBannedRule(String ipAddress) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_ips WHERE ip = ? AND (end_timestamp IS NULL OR end_timestamp > ?)" + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncEnabled))) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_ips WHERE ip = ? AND (end_timestamp IS NULL OR end_timestamp > ?)" + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers))) {
             ps.setString(1, ipAddress);
             ps.setLong(2, System.currentTimeMillis());
             try (ResultSet rs = ps.executeQuery()) {
@@ -75,7 +75,7 @@ public abstract class AbstractIpBanRepository extends SqlRepository implements I
     @Override
     public void deleteBan(IpBan ipBan) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_banned_ips WHERE id = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncEnabled));) {
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_banned_ips WHERE id = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers));) {
             insert.setLong(1, ipBan.getId());
             insert.executeUpdate();
         } catch (SQLException e) {

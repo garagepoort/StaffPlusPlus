@@ -7,7 +7,7 @@
             <t color="&6" id="id-value" class="detail-value">${note.id}</t>
         </LoreLine>
 
-        <LoreLine if="${$config.get("server-sync-module.notes-sync")?c}">
+        <LoreLine if="${$config.get("server-sync-module.notes-sync")?has_content?c}">
             <t color="&b" id="server-label" class="detail-label">Server: </t>
             <t color="&6" id="server-value" class="detail-value">${note.serverName}</t>
         </LoreLine>

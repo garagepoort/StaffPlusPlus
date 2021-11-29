@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
+import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +25,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
+import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 
 public abstract class AbstractSqlInvestigationsRepository implements InvestigationsRepository {
 
@@ -37,13 +39,13 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     private final PlayerManager playerManager;
     private final SqlConnectionProvider sqlConnectionProvider;
     protected final Options options;
-    private final String serverNameFilter;
+    private final ServerSyncConfig investigationSyncServers;
 
     public AbstractSqlInvestigationsRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
         this.playerManager = playerManager;
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.options = options;
-        serverNameFilter = !options.serverSyncConfiguration.investigationSyncEnabled ? "AND (server_name='" + options.serverName + "')" : "";
+        investigationSyncServers = options.serverSyncConfiguration.investigationSyncServers;
     }
 
     protected Connection getConnection() {
@@ -53,7 +55,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     @Override
     public void updateInvestigation(Investigation investigation) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_investigations set status=?, conclusion_timestamp=?, investigator_uuid=? WHERE ID=? " + serverNameFilter + ";")) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_investigations set status=?, conclusion_timestamp=?, investigator_uuid=? WHERE ID=? " + getServerNameFilterWithAnd(investigationSyncServers) + ";")) {
             insert.setString(1, investigation.getStatus().name());
             if (investigation.getConclusionDate().isPresent()) {
                 insert.setLong(2, investigation.getConclusionTimestamp().get());
@@ -84,7 +86,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     @Override
     public Optional<Investigation> findInvestigation(int id) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE id = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE id = ? " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC")) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
@@ -105,7 +107,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
         }
 
         List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
-        String query = "SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND investigated_uuid = ? AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
+        String query = "SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND investigated_uuid = ? AND status in (%s) " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC";
 
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
@@ -151,7 +153,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
         }
 
         List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
-        String query = "SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
+        String query = "SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND status in (%s) " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC";
 
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
@@ -183,7 +185,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     public List<Investigation> getAllInvestigations(int offset, int amount) {
         List<Investigation> investigations = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.investigationSyncEnabled) + " ORDER BY creation_timestamp DESC LIMIT ?,?")
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.investigationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?")
         ) {
             ps.setInt(1, offset);
             ps.setInt(2, amount);
@@ -202,7 +204,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     public List<Investigation> getInvestigationsForInvestigated(UUID investigatedUuid, int offset, int amount) {
         List<Investigation> investigations = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigated_uuid = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigated_uuid = ? " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?")) {
             ps.setString(1, investigatedUuid.toString());
             ps.setInt(2, offset);
             ps.setInt(3, amount);
@@ -225,7 +227,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
 
         List<Investigation> investigations = new ArrayList<>();
         List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
-        String query = s + " AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC";
+        String query = s + " AND status in (%s) " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC";
 
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
@@ -255,7 +257,7 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
 
         List<Investigation> investigations = new ArrayList<>();
         List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
-        String query = s + " AND status in (%s) " + serverNameFilter + " ORDER BY creation_timestamp DESC LIMIT ?,?";
+        String query = s + " AND status in (%s) " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?";
 
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
