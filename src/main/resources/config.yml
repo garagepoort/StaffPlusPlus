@@ -55,13 +55,13 @@ offline-players-mode: true
 server-sync-module:
     vanish-sync: false
     staffmode-sync: false
-    ban-sync: false
-    report-sync: false
-    warning-sync: false
-    mute-sync: false
-    kick-sync: false
-    investigation-sync: false
-    notes-sync: false
+    ban-sync: ''
+    report-sync: ''
+    warning-sync: ''
+    mute-sync: ''
+    kick-sync: ''
+    investigation-sync: ''
+    notes-sync: ''
 
 ############################################################
 # +------------------------------------------------------+ #

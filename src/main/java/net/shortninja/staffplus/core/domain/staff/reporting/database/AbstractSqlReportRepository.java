@@ -2,11 +2,11 @@ package net.shortninja.staffplus.core.domain.staff.reporting.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.SppLocation;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
+import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
+import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.insertFilterValues;
 import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.mapFilters;
 
@@ -34,13 +35,13 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     private final PlayerManager playerManager;
     private final SqlConnectionProvider sqlConnectionProvider;
     protected final Options options;
-    private final String serverNameFilter;
+    private final ServerSyncConfig reportSyncServers;
 
     public AbstractSqlReportRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
         this.playerManager = playerManager;
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.options = options;
-        serverNameFilter = !options.serverSyncConfiguration.reportSyncEnabled ? "AND (sp_reports.server_name is null OR sp_reports.server_name='" + options.serverName + "')" : "";
+        reportSyncServers = options.serverSyncConfiguration.reportSyncServers;
     }
 
     public Connection getConnection() {
@@ -51,7 +52,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getReports(UUID uuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE Player_UUID = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE Player_UUID = ? AND deleted=? " + getServerNameFilterWithAnd("sp_reports", reportSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, uuid.toString());
             ps.setBoolean(2, false);
             ps.setInt(3, offset);
@@ -72,7 +73,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
         List<Report> reports = new ArrayList<>();
         String filterQuery = mapFilters(reportFilters, true);
 
-        String query = "SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE deleted=? " + filterQuery + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?";
+        String query = "SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE deleted=? " + filterQuery + getServerNameFilterWithAnd("sp_reports", reportSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?";
         try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
             ps.setBoolean(1, false);
             int index = 2;
@@ -95,7 +96,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getReportsByOffender(UUID uuid) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE Player_UUID = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE Player_UUID = ? AND deleted=? " + getServerNameFilterWithAnd("sp_reports", reportSyncServers) + " ORDER BY timestamp DESC")) {
             ps.setString(1, uuid.toString());
             ps.setBoolean(2, false);
             try (ResultSet rs = ps.executeQuery()) {
@@ -113,7 +114,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getUnresolvedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE status = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE status = ? AND deleted=? " + getServerNameFilterWithAnd("sp_reports", reportSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, ReportStatus.OPEN.toString());
             ps.setBoolean(2, false);
             ps.setInt(3, offset);
@@ -133,7 +134,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getClosedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE status IN (?,?,?) AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE status IN (?,?,?) AND deleted=? " + getServerNameFilterWithAnd("sp_reports", reportSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, ReportStatus.REJECTED.toString());
             ps.setString(2, ReportStatus.RESOLVED.toString());
             ps.setString(3, ReportStatus.EXPIRED.toString());
@@ -155,7 +156,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public long getReportCount(ReportFilters reportFilters) {
         String filterQuery = mapFilters(reportFilters, true);
 
-        String query = "SELECT count(*) as count FROM sp_reports WHERE deleted=? " + filterQuery + serverNameFilter;
+        String query = "SELECT count(*) as count FROM sp_reports WHERE deleted=? " + filterQuery + getServerNameFilterWithAnd("sp_reports", reportSyncServers);
         try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
             ps.setBoolean(1, false);
             int index = 2;
@@ -238,7 +239,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getAssignedReports(UUID staffUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE staff_uuid = ? AND status = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE staff_uuid = ? AND status = ? AND deleted=? " + getServerNameFilterWithAnd("sp_reports", reportSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, staffUuid.toString());
             ps.setString(2, ReportStatus.IN_PROGRESS.toString());
             ps.setBoolean(3, false);
@@ -259,7 +260,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getAssignedReports(int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE status = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE status = ? AND deleted=? " + getServerNameFilterWithAnd("sp_reports", reportSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, ReportStatus.IN_PROGRESS.toString());
             ps.setBoolean(2, false);
             ps.setInt(3, offset);
@@ -279,7 +280,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getMyReports(UUID reporterUuid, int offset, int amount) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE Reporter_UUID = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE Reporter_UUID = ? AND deleted=? " + getServerNameFilterWithAnd("sp_reports", reportSyncServers) + " ORDER BY timestamp DESC LIMIT ?,?")) {
             ps.setString(1, reporterUuid.toString());
             ps.setBoolean(2, false);
             ps.setInt(3, offset);
@@ -299,7 +300,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public List<Report> getMyReports(UUID reporterUuid) {
         List<Report> reports = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE Reporter_UUID = ? AND deleted=? " + serverNameFilter + " ORDER BY timestamp")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_reports LEFT OUTER JOIN sp_locations l on sp_reports.location_id = l.id WHERE Reporter_UUID = ? AND deleted=? " + getServerNameFilterWithAnd("sp_reports", reportSyncServers) + " ORDER BY timestamp")) {
             ps.setString(1, reporterUuid.toString());
             ps.setBoolean(2, false);
             try (ResultSet rs = ps.executeQuery()) {
@@ -316,7 +317,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     @Override
     public void removeReports(UUID playerUuid) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE Player_UUID = ? AND deleted=? " + serverNameFilter);) {
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_reports WHERE Player_UUID = ? AND deleted=? " + getServerNameFilterWithAnd("sp_reports", reportSyncServers));) {
             insert.setString(1, playerUuid.toString());
             insert.setBoolean(2, false);
             insert.executeUpdate();
@@ -329,7 +330,7 @@ public abstract class AbstractSqlReportRepository implements ReportRepository {
     public Map<UUID, Integer> getReportedCount() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_reports WHERE Player_UUID is not null " + Constants.getServerNameFilterWithAnd(options.serverSyncConfiguration.kickSyncEnabled) + " GROUP BY Player_UUID ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_reports WHERE Player_UUID is not null " + getServerNameFilterWithAnd(options.serverSyncConfiguration.kickSyncServers) + " GROUP BY Player_UUID ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("Player_UUID")), rs.getInt("count"));

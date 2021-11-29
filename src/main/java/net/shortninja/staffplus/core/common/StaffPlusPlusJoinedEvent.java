@@ -7,6 +7,10 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+/**
+ * Event send after the player has joined and Staff++ has initialized the player session.
+ * This event should be used in almost all cases.
+ */
 public class StaffPlusPlusJoinedEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
