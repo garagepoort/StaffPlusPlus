@@ -13,6 +13,7 @@ public class V77_CreateQueueTableMigration implements Migration {
             "process_id VARCHAR(36) NULL, " +
             "status VARCHAR(28) NOT NULL,  " +
             "status_message VARCHAR(255) NULL,  " +
+            "executor_id VARCHAR(255) NOT NULL,  " +
             "server_name VARCHAR(255) NULL, " +
             "PRIMARY KEY (ID)) ENGINE = InnoDB;";
     }

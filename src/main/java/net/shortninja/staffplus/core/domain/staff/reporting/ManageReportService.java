@@ -34,8 +34,12 @@ public class ManageReportService {
     }
 
     public void acceptReport(SppPlayer player, int reportId) {
-        Report report = reportRepository.findOpenReport(reportId)
+        Report report = reportRepository.findReport(reportId)
             .orElseThrow(() -> new BusinessException("&CReport with id [" + reportId + "] not found", messages.prefixReports));
+
+        if(report.getReportStatus() != ReportStatus.OPEN) {
+            throw new BusinessException("Cannot accept the report. This report is picked up by someone else.");
+        }
 
         report.setReportStatus(net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS);
         report.setStaffUuid(player.getId());
@@ -49,7 +53,9 @@ public class ManageReportService {
         if (report.getStaffUuid() == null || !report.getStaffUuid().equals(player.getId())) {
             throw new BusinessException("&CYou cannot change the status of a report you are not assigned to", messages.prefixReports);
         }
-
+        if(report.getReportStatus() != ReportStatus.IN_PROGRESS) {
+            throw new BusinessException("You can't unassign yourself from the report. This report is currently not in progress.");
+        }
         report.setStaffUuid(null);
         report.setStaffName(null);
         report.setReportStatus(ReportStatus.OPEN);
@@ -77,6 +83,9 @@ public class ManageReportService {
     private void closeReport(SppPlayer player, Report report, ReportStatus status, String closeReason) {
         if (report.getStaffUuid() == null || !report.getStaffUuid().equals(player.getId())) {
             throw new BusinessException("&CYou cannot change the status of a report you are not assigned to", messages.prefixReports);
+        }
+        if(report.getReportStatus() != ReportStatus.IN_PROGRESS) {
+            throw new BusinessException("Can't close the report. It is currently not in progress.");
         }
         report.setReportStatus(status);
         report.setCloseReason(closeReason);
