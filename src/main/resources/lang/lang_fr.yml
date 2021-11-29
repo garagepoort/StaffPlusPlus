@@ -37,8 +37,6 @@ staff-list-member: "&b%player% &%statuscolor%•"
 # Lignes séparées par des virgules
 staff-list-end: "&7%longline%"
 
-lockdown: "&bLe serveur est fermé pour des raisons de sécurité pour le moment. Updates @ &7shortninja.net&b!"
-
 revived-staff: "&bVous avez remis l'inventaire de &7%target%'s &bà son état précdent"
 revived-user: "&bVotre inventaire a été remis à son état précedent"
 

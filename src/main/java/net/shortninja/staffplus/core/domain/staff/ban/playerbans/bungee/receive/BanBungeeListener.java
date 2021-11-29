@@ -2,11 +2,11 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.receive
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMessageListener;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.dto.BanBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.events.BanBungeeEvent;
+import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -15,24 +15,25 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocBean(conditionalOnProperty = "server-sync-module.ban-sync=true")
+@IocBean(conditionalOnProperty = "isNotEmpty(server-sync-module.ban-sync)")
 @IocMessageListener(channel = BUNGEE_CORD_CHANNEL)
 public class BanBungeeListener implements PluginMessageListener {
 
     private final BungeeClient bungeeClient;
-    private final Options options;
+    private final ServerSyncConfiguration serverSyncConfiguration;
 
-    public BanBungeeListener(BungeeClient bungeeClient, Options options) {
+    public BanBungeeListener(BungeeClient bungeeClient, ServerSyncConfiguration serverSyncConfiguration) {
         this.bungeeClient = bungeeClient;
-        this.options = options;
+        this.serverSyncConfiguration = serverSyncConfiguration;
     }
 
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if(options.serverSyncConfiguration.banSyncEnabled) {
-            Optional<BanBungeeDto> banBungeeDto = bungeeClient.handleReceived(channel, Constants.BUNGEE_PLAYER_BANNED_CHANNEL, message, BanBungeeDto.class);
-            banBungeeDto.ifPresent(b -> Bukkit.getPluginManager().callEvent(new BanBungeeEvent(b)));
+        Optional<BanBungeeDto> banBungeeDto = bungeeClient.handleReceived(channel, Constants.BUNGEE_PLAYER_BANNED_CHANNEL, message, BanBungeeDto.class);
+
+        if (banBungeeDto.isPresent() && serverSyncConfiguration.banSyncServers.matchesServer(banBungeeDto.get().getServerName())) {
+            Bukkit.getPluginManager().callEvent(new BanBungeeEvent(banBungeeDto.get()));
         }
     }
 }

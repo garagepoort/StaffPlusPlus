@@ -37,7 +37,7 @@ public abstract class AbstractPlayerNoteRepository implements PlayerNoteReposito
     public List<PlayerNote> getPlayerNotesForTarget(UUID notedByUuid, UUID targetUuid, int offset, int amount) {
         List<PlayerNote> playerNotes = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_player_notes WHERE (is_private_note = ? OR noted_by_uuid = ?) AND target_uuid = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.notesSyncEnabled) + " ORDER BY creation_timestamp DESC LIMIT ?,?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_player_notes WHERE (is_private_note = ? OR noted_by_uuid = ?) AND target_uuid = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.notesSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?")) {
             ps.setBoolean(1, false);
             ps.setString(2, notedByUuid.toString());
             ps.setString(3, targetUuid.toString());
@@ -57,7 +57,7 @@ public abstract class AbstractPlayerNoteRepository implements PlayerNoteReposito
     @Override
     public Optional<PlayerNote> findNote(int noteId) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_player_notes WHERE ID = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.notesSyncEnabled))) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_player_notes WHERE ID = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.notesSyncServers))) {
             ps.setInt(1, noteId);
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
@@ -87,7 +87,7 @@ public abstract class AbstractPlayerNoteRepository implements PlayerNoteReposito
         List<PlayerNote> notes = new ArrayList<>();
         String filterQuery = mapFilters(playerNoteFilters, true);
 
-        String query = "SELECT * FROM sp_player_notes WHERE (is_private_note = ? OR noted_by_uuid = ?)" + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.notesSyncEnabled) + " ORDER BY creation_timestamp DESC LIMIT ?,?";
+        String query = "SELECT * FROM sp_player_notes WHERE (is_private_note = ? OR noted_by_uuid = ?)" + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.notesSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?";
         try (Connection sql = getConnection(); PreparedStatement ps = sql.prepareStatement(query)) {
             ps.setBoolean(1, false);
             ps.setString(2, notedByUuid.toString());

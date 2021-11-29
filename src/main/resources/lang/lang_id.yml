@@ -37,8 +37,6 @@ staff-list-member: '&b%player% &%statuscolor%•'
 # Lines are separated by commas
 staff-list-end: '&7%longline%'
 
-lockdown: '&bServer sedang dikunci untuk tujuan keamanan . Info lebih lanjut @ &7shortninja.net&b!'
-
 revived-staff: '&bTas &7%target%''s &btelah dikembalikan ke keadaan sebelumnya!'
 revived-user: '&bTas Anda telah dikembalikan ke keadaan sebelumnya!'
 

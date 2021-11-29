@@ -37,7 +37,7 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
 
         List<String> lore = LoreBuilder.builder("&b", "&6")
             .addItem("Id", String.valueOf(mute.getId()))
-            .addItem("Server", mute.getServerName(), options.serverSyncConfiguration.muteSyncEnabled)
+            .addItem("Server", mute.getServerName(), options.serverSyncConfiguration.muteSyncServers.isEnabled())
             .addItem("Muted player", mute.getTargetName())
             .addItem("Issuer", mute.getIssuerName())
             .addItem("Issued on", time)

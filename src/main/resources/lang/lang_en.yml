@@ -37,8 +37,6 @@ staff-list-member: "&b%player% &%statuscolor%•"
 # Lines are separated by commas
 staff-list-end: "&7%longline%"
 
-lockdown: "&bThe server is currently locked for security purposes. Updates @ &7shortninja.net&b!"
-
 revived-staff: "&bYou have reset &7%target%'s &binventory to its previous state!"
 revived-user: "&bYour inventory has been set to its previous state!"
 

@@ -62,8 +62,6 @@ public class Messages {
 
     @ConfigProperty("%lang%:staff-list-member")
     public String staffListMember;
-    @ConfigProperty("%lang%:lockdown")
-    public String lockdown;
     @ConfigProperty("%lang%:revived-staff")
     public String revivedStaff;
     @ConfigProperty("%lang%:revived-user")
