@@ -7,7 +7,7 @@
         <t color="&6" id="id-value" class="detail-value">${warning.id}</t>
     </LoreLine>
 
-    <LoreLine if="${$config.get("server-sync-module.warning-sync")?has_content}">
+    <LoreLine if="${$config.get("server-sync-module.warning-sync")?has_content?c}">
         <t color="&b" id="server-label" class="detail-label">Server: </t>
         <t color="&6" id="server-value" class="detail-value">${warning.serverName}</t>
     </LoreLine>

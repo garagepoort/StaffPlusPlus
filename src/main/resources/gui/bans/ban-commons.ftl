@@ -25,7 +25,7 @@
         <t color="&6" id="id-value" class="detail-value">${ban.id}</t>
     </LoreLine>
 
-    <LoreLine if="${$config.get("server-sync-module.ban-sync")?has_content}">
+    <LoreLine if="${$config.get("server-sync-module.ban-sync")?has_content?c}">
         <t color="&b" id="server-label" class="detail-label">Server: </t>
         <t color="&6" id="server-value" class="detail-value">${ban.serverName}</t>
     </LoreLine>
@@ -75,7 +75,7 @@
 </#macro>
 
 <#macro ipbanlorelines ipban>
-    <LoreLine if="${$config.get("server-sync-module.ban-sync")?has_content}">
+    <LoreLine if="${$config.get("server-sync-module.ban-sync")?has_content?c}">
         &bServer: &6${ipban.serverName}
         <t color="&b" id="server-label" class="detail-label">Server: </t>
         <t color="&6" id="server-value" class="detail-value">${ipban.serverName}</t>
