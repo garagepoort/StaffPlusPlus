@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.common;
 
-import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 
 import java.util.UUID;
 
@@ -26,15 +25,22 @@ public class Constants {
     public static final String BUNGEE_INVESTIGATION_PAUSED_CHANNEL = "staffplusplus.investigation-paused";
     public static final String BUNGEE_INVESTIGATION_CONCLUDED_CHANNEL = "staffplusplus.investigation-concluded";
 
-    public static String getServerNameFilterWithAnd(boolean enabled) {
-        return !enabled ? " AND (server_name is null OR server_name='" + StaffPlus.get().getIocContainer().get(Options.class).serverName + "') " : "";
+    public static String getServerNameFilterWithAnd(ServerSyncConfig serverSyncConfig) {
+        return getServerNameFilterWithAnd("", serverSyncConfig);
     }
 
-    public static String getServerNameFilter(boolean enabled) {
-        return !enabled ? " (server_name is null OR server_name='" + StaffPlus.get().getIocContainer().get(Options.class).serverName + "') " : "";
+    public static String getServerNameFilterWithAnd(String tableName, ServerSyncConfig serverSyncConfig) {
+        String tableString = !tableName.isEmpty() ? tableName + "." : "";
+        if (serverSyncConfig.isMatchesAll()) {
+            return "";
+        }
+        return " AND (" + tableString + "server_name is null OR " + tableString + "server_name IN (" + String.join(",", serverSyncConfig.getServers()) + ") ";
     }
 
-    public static String getServerNameFilterWithWhere(boolean enabled) {
-        return !enabled ? " WHERE (server_name is null OR server_name='" + StaffPlus.get().getIocContainer().get(Options.class).serverName + "') " : "";
+    public static String getServerNameFilterWithWhere(ServerSyncConfig serverSyncConfig) {
+        if (serverSyncConfig.isMatchesAll()) {
+            return "";
+        }
+        return " WHERE (server_name is null OR server_name IN (" + String.join(",", serverSyncConfig.getServers()) + ") ";
     }
 }

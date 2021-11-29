@@ -24,7 +24,7 @@
                 <t color="&7" id="status-value" class="detail-value">${report.reportStatus.name()}</t>
             </LoreLine>
 
-            <#if $config.get("server-sync-module.report-sync") >
+            <#if $config.get("server-sync-module.report-sync")?has_content?c >
                 <LoreLine>
                     <t color="&b" id="server-label" class="detail-label">Server: </t>
                     <t color="&7" id="server-value" class="detail-value">${report.serverName}</t>

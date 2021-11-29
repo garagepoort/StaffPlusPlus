@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -22,9 +21,6 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
 public class PlayerJoin implements Listener {
-
-    @ConfigProperty("permissions:mode")
-    private String permissionMode;
 
     private final PlayerSettingsRepository playerSettingsRepository;
     private final OnlineSessionsManager sessionManager;

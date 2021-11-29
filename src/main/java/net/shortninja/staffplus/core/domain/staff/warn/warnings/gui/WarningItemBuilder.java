@@ -48,7 +48,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
 
         LoreBuilder loreBuilder = LoreBuilder.builder("&b", "&6")
             .addItem("Id", String.valueOf(warning.getId()))
-            .addItem("Server", warning.getServerName(), options.serverSyncConfiguration.warningSyncEnabled)
+            .addItem("Server", warning.getServerName(), options.serverSyncConfiguration.warningSyncServers.isEnabled())
             .addItem("Severity", warning.getSeverity())
             .addItem("Issuer", warning.getIssuerName(), warningConfiguration.isShowIssuer())
             .addItem("Culprit", warning.getTargetName())

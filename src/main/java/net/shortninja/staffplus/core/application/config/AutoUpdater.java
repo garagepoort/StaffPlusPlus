@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.application.config.migrators.FreezeModuleMi
 import net.shortninja.staffplus.core.application.config.migrators.PermissionsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.PermissionsV2Migrator;
 import net.shortninja.staffplus.core.application.config.migrators.ReportMessagesMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.ServerSyncBooleanMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatChannelMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatMessageFormatMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffCustomModulesCommandMigrator;
@@ -56,7 +57,8 @@ public class AutoUpdater {
         new WarningCommandsMigrator(),
         new StaffModeNewConfiguredCommandsMigrator(),
         new ThresholdCommandsMigrator(),
-        new FreezeModuleMigrator());
+        new FreezeModuleMigrator(),
+        new ServerSyncBooleanMigrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         try {
