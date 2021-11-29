@@ -37,8 +37,6 @@ staff-list-member: "&b%player% &%statuscolor%•"
 # Lines are separated by commas
 staff-list-end: "&7%longline%"
 
-lockdown: "&bA szerver jelenleg biztonsági okokból zárva van. Frissítés @ &7shortninja.net&b!"
-
 revived-staff: "&bVisszaállítottad &7%target% &beszköztárát a korábbi állapotába!"
 revived-user: "&bAz eszköztárad a korábbi állapotára lett beállítva!"
 

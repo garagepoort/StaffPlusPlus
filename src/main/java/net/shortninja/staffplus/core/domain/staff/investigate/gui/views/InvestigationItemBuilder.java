@@ -27,7 +27,7 @@ public class InvestigationItemBuilder {
         List<String> lore = new ArrayList<>();
 
         lore.add("&bId: &6" + investigation.getId());
-        if (options.serverSyncConfiguration.investigationSyncEnabled) {
+        if (options.serverSyncConfiguration.investigationSyncServers.isEnabled()) {
             lore.add("&bServer: &6" + investigation.getServerName());
         }
         lore.add("&bInvestigator: &6" + investigation.getInvestigatorName());
