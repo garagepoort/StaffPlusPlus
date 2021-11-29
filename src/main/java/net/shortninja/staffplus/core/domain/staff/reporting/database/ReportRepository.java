@@ -28,8 +28,8 @@ public interface ReportRepository {
 
     void updateReport(Report report);
 
-    void markReportDeleted(Report report);
 
+    void markReportDeleted(Report report);
     List<Report> getAssignedReports(UUID staffUuid, int offset, int amount);
 
     List<Report> getAssignedReports(int offset, int amount);

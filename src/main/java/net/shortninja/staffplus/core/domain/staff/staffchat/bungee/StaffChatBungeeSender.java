@@ -22,6 +22,9 @@ public class StaffChatBungeeSender implements Listener {
 
     @EventHandler
     public void onChat(StaffChatEvent staffChatEvent) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, Constants.BUNGEE_STAFFCHAT_CHANNEL, new StaffChatBungeeMessage(staffChatEvent.getServerName(), staffChatEvent.getChannel(), staffChatEvent.getMessage(), staffChatEvent.getPlayer().getName()));
     }

@@ -116,12 +116,6 @@ clearInv: "clear"
 # The command to start/stop tracing a player
 trace: "trace"
 
-# The command for resetting a users password
-resetPass: "resetPassword"
-
-# The command to change your own password
-changePass: "changepassword"
-
 # The command to view a players ender chest
 echest_view: "eview"
 

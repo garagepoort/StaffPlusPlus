@@ -38,9 +38,6 @@ staff-list-member: "&b%player% &%statuscolor%•"
 # Lines are separated by commas
 staff-list-end: "&7%longline%"
 
-
-lockdown: "&bEste servidor esta cerrado para fines de seguridad."
-
 revived-staff: "&bReestableciste el inventario de &7%target%'s &ba su estado anterior!"
 revived-user: "&b¡Tu inventario ha sido reestablecido a su estado anterior!"
 

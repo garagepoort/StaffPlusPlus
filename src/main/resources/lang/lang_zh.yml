@@ -38,8 +38,6 @@ staff-list-member: "&b%player% &%statuscolor%•"
 # 行通过逗号分隔
 staff-list-end: "&7%longline%"
 
-lockdown: "&b出于安全因素, 服务器目前锁定中. 更新请前往 @ &7shortninja.net&b!"
-
 revived-staff: "&b已将 &7%target% 的&b背包重置为前一次状态!"
 revived-user: "&b你的背包已被恢复到前一次的状态!"
 
