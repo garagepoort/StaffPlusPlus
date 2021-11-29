@@ -37,8 +37,6 @@ staff-list-member: "&b%player% &%statuscolor%•"
 # Linije su odvojene sa zarezima
 staff-list-end: "&7%longline%"
 
-lockdown: "&bServer je upravo dolje zbog sigurnosnig razoga. Updajtovi @ &7shortninja.net&b!"
-
 revived-staff: "&bResetirao si &7%target%'s &binventory na njegovo prijašnje stanje!"
 revived-user: "&bTvoj inventory se promjenio na prijašnje stanje!"
 

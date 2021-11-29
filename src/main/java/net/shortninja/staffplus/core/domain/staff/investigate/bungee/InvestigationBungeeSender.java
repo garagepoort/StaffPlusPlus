@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean(conditionalOnProperty = "server-sync-module.investigation-sync=true")
+@IocBean
 @IocListener
 public class InvestigationBungeeSender implements Listener {
 
@@ -23,12 +23,18 @@ public class InvestigationBungeeSender implements Listener {
 
     @EventHandler
     public void onInvestigationStarted(InvestigationStartedEvent investigationStartedEvent) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, Constants.BUNGEE_INVESTIGATION_STARTED_CHANNEL, new InvestigationBungee(investigationStartedEvent.getInvestigation()));
     }
 
     @EventHandler
     public void onInvestigationConcluded(InvestigationConcludedEvent investigationConcludedEvent) {
+        if(Bukkit.getOnlinePlayers().isEmpty()) {
+            return;
+        }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
         bungeeClient.sendMessage(player, Constants.BUNGEE_INVESTIGATION_CONCLUDED_CHANNEL, new InvestigationBungee(investigationConcludedEvent.getInvestigation()));
     }

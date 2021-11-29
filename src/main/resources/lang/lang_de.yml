@@ -38,8 +38,6 @@ staff-list-member: "&b%player% &%statuscolor%•"
 # Linien werden durch Kommas getrennt
 staff-list-end: "&7%longline%"
 
-lockdown-message: "&bDieser Server ist momentan aus Sicherheitsgründen gesperrt. Updates auf &7shortninja.net&b!"
-
 revived-staff: "&bDu hast &7%target%'s &bInventar auf den vorherigen Stand zurückgesetzt."
 revived-user: "&bDein Inventar wurde auf den vorherigen Stand zurückgesetzt!"
 
