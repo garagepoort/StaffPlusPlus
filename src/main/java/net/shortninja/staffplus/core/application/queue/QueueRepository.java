@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.application.queue;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.database.SqlRepository;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
@@ -42,6 +43,7 @@ public class QueueRepository extends SqlRepository {
 
     public Optional<QueueMessage> findNextQueueMessage(String processingGroup, ServerSyncConfig serverSyncConfig) {
         UUID processId = UUID.randomUUID();
+        StaffPlus.get().getLogger().info("QUERY: " + "UPDATE sp_queue SET process_id = ? WHERE process_id IS NULL AND `type` LIKE ? "+ getServerNameFilterWithAnd(serverSyncConfig) + " ORDER BY timestamp ASC LIMIT 1");
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("UPDATE sp_queue SET process_id = ? WHERE process_id IS NULL AND `type` LIKE ? "+ getServerNameFilterWithAnd(serverSyncConfig) + " ORDER BY timestamp ASC LIMIT 1")) {
             ps.setString(1, processId.toString());
