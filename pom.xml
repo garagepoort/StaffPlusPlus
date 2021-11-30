@@ -190,7 +190,7 @@
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>tubing</artifactId>
-            <version>4.0.1</version>
+            <version>4.0.2</version>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
