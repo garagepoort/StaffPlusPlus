@@ -9,6 +9,7 @@ The main reason for this is so that we can start implementing new features easil
 ## Builds
 
 ![master](https://github.com/garagepoort/StaffPlusPlus/workflows/MasterBuild/badge.svg)
+![release1.18.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.18.0/badge.svg)
 ![release1.17.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.17.0/badge.svg)
 ![release1.16.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.16.0/badge.svg)
 ![release1.15.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.15.0/badge.svg)
@@ -27,6 +28,7 @@ For every spigot version we will create a new release. This means that you must 
 - Server on Spigot 1.15.x -> StaffPlusPlus 1.15.x
 - Server on Spigot 1.16.x -> StaffPlusPlus 1.16.x
 - Server on Spigot 1.17.x -> StaffPlusPlus 1.17.x
+- Server on Spigot 1.18.x -> StaffPlusPlus 1.18.x
 
 ## Support 
 - New features will be added to all versions >= 1.12

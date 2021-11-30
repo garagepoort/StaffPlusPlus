@@ -25,10 +25,27 @@ jobs:
                 const releaseVersion = process.env.GITHUB_REF_SLUG.substring(process.env.GITHUB_REF_SLUG.indexOf("-") + 1, process.env.GITHUB_REF_SLUG.lastIndexOf("."));
                 core.setOutput('releaseVersion', releaseVersion)
 
+      - name: Set up JDK 1.17
+        uses: actions/setup-java@v1
+        if: ${{ steps.get-release-version.outputs.releaseVersion == '1.18' }}
+        with:
+          java-version: 1.17
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      - name: Set up JDK 1.16
+        uses: actions/setup-java@v1
+        if: ${{ steps.get-release-version.outputs.releaseVersion == '1.17' }}
+        with:
+          java-version: 1.16
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
+        if: ${{ steps.get-release-version.outputs.releaseVersion != '1.17' && steps.get-release-version.outputs.releaseVersion != '1.18' }}
         with:
-          java-version: ${{ steps.get-release-version.outputs.releaseVersion == '1.17' && '1.16' || '1.8' }}
+          java-version: 1.8
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
