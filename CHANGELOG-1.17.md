@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.17
 
+# V1.17.24
+
+### Features
+  - In a multi server setup, report/bans/mute/warning/notes data can now be configured in server groups
+  - Accept/delete/resolve/reject Reports through the web platform
+
 # V1.17.23
 
 ### Features
