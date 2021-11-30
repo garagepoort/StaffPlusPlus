@@ -2,7 +2,9 @@ package net.shortninja.staffplus.core.common;
 
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class Constants {
 
@@ -34,13 +36,17 @@ public class Constants {
         if (serverSyncConfig.isMatchesAll()) {
             return "";
         }
-        return " AND (" + tableString + "server_name is null OR " + tableString + "server_name IN (" + String.join(",", serverSyncConfig.getServers()) + ") ";
+        List<String> servers = serverSyncConfig.getServers();
+        String serverQueryString = servers.stream().map(s -> "'" + s + "'").collect(Collectors.joining(","));
+        return " AND (" + tableString + "server_name is null OR " + tableString + "server_name IN (" + serverQueryString + ")) ";
     }
 
     public static String getServerNameFilterWithWhere(ServerSyncConfig serverSyncConfig) {
         if (serverSyncConfig.isMatchesAll()) {
             return "";
         }
-        return " WHERE (server_name is null OR server_name IN (" + String.join(",", serverSyncConfig.getServers()) + ") ";
+        List<String> servers = serverSyncConfig.getServers();
+        String serverQueryString = servers.stream().map(s -> "'" + s + "'").collect(Collectors.joining(","));
+        return " WHERE (server_name is null OR server_name IN (" + serverQueryString + ")) ";
     }
 }
