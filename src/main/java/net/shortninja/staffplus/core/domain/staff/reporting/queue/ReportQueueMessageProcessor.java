@@ -13,7 +13,7 @@ import java.util.List;
 
 // Only run when the webui is enabled.
 //  Only the web interface will communicate through the queue for now
-@IocBean(conditionalOnProperty = "webui-module.enabled=true")
+@IocBean(conditionalOnProperty = "webui-module.enabled=true && storage.type=mysql")
 public class ReportQueueMessageProcessor extends QueueMessageProcessor {
     private static final String PROCESSING_GROUP = "report/";
 
