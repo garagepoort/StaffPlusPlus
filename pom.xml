@@ -19,52 +19,8 @@
 
     <repositories>
         <repository>
-            <id>Maven repository</id>
-            <url>https://repo.maven.apache.org/maven2/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>spigot-repo-public</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
-        </repository>
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-        </repository>
-        <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>repsy</id>
-            <name>Spigot-server-deps</name>
-            <url>https://repo.repsy.io/mvn/garagepoort/spigot</url>
-        </repository>
-        <repository>
-            <id>repsy-staffplusplus</id>
-            <name>staffplusplus-deps</name>
-            <url>https://repo.repsy.io/mvn/garagepoort/staffplusplus</url>
-        </repository>
-        <repository>
-            <id>github-rjenkinsjr</id>
-            <url>https://raw.github.com/rjenkinsjr/maven2/repo</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>luck-repo</id>
-            <url>https://repo.lucko.me/</url>
+            <id>staffplusplus-repo</id>
+            <url>https://staffplusplus.jfrog.io/artifactory/default-maven-virtual/</url>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -78,7 +34,7 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>4.3.0</version>
+                <version>4.3.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -106,9 +62,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>me.rayzr522</groupId>
+            <groupId>be.garagepoort</groupId>
             <artifactId>jsonmessage</artifactId>
-            <version>1.2.1_1.18</version>
+            <version>1.18</version>
             <classifier>remapped-spigot</classifier>
         </dependency>
         <dependency>
