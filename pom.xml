@@ -20,7 +20,7 @@
     <repositories>
         <repository>
             <id>staffplusplus-repo</id>
-            <url>https://staffplusplus.jfrog.io/artifactory/default-maven-virtual/</url>
+            <url>https://nexus.staffplusplus.org/repository/staffplusplus/</url>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -34,7 +34,7 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>4.3.1</version>
+                <version>4.3.3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -75,7 +75,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitCommon</artifactId>
-            <version>1.0.10</version>
+            <version>1.18</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -108,7 +108,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitAPI</artifactId>
-            <version>1.0.10</version>
+            <version>1.18</version>
         </dependency>
         <dependency>
             <groupId>net.luckperms</groupId>
@@ -148,12 +148,12 @@
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>tubing</artifactId>
-            <version>4.0.2</version>
+            <version>4.0.3</version>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
             <artifactId>mc-sql-migrations</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
@@ -381,9 +381,9 @@
 
     <distributionManagement>
         <repository>
-            <id>repsy-staffplusplus</id>
-            <name>Staff++ Repsy Repo</name>
-            <url>https://repo.repsy.io/mvn/garagepoort/staffplusplus</url>
+            <id>staffplusplus-repo</id>
+            <name>Central Repository StaffPlusPlus</name>
+            <url>https://nexus.staffplusplus.org/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 </project>
