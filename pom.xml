@@ -19,61 +19,22 @@
 
     <repositories>
         <repository>
-            <id>Maven repository</id>
-            <url>https://repo.maven.apache.org/maven2/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>spigot-repo-public</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
-        </repository>
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-        </repository>
-        <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public/</url>
-        </repository>
-        <repository>
-            <id>repsy</id>
-            <name>Spigot-server-deps</name>
-            <url>https://repo.repsy.io/mvn/garagepoort/spigot</url>
-        </repository>
-        <repository>
-            <id>repsy-staffplusplus</id>
-            <name>staffplusplus-deps</name>
-            <url>https://repo.repsy.io/mvn/garagepoort/staffplusplus</url>
-        </repository>
-        <repository>
-            <id>github-rjenkinsjr</id>
-            <url>https://raw.github.com/rjenkinsjr/maven2/repo</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>luck-repo</id>
-            <url>https://repo.lucko.me/</url>
+            <id>staffplusplus-repo</id>
+            <url>https://nexus.staffplusplus.org/repository/staffplusplus/</url>
         </repository>
     </repositories>
-
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>4.3.0</version>
+                <version>4.3.3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -113,7 +74,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitCommon</artifactId>
-            <version>1.0.7</version>
+            <version>1.16</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -146,7 +107,7 @@
         <dependency>
             <groupId>net.shortninja.staffplus</groupId>
             <artifactId>StaffPlusPlusCraftbukkitAPI</artifactId>
-            <version>1.0.7</version>
+            <version>1.16</version>
         </dependency>
         <dependency>
             <groupId>net.luckperms</groupId>
@@ -186,12 +147,12 @@
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>tubing</artifactId>
-            <version>4.0.2</version>
+            <version>4.0.3</version>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
             <artifactId>mc-sql-migrations</artifactId>
-            <version>1.1.0</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
@@ -419,9 +380,9 @@
 
     <distributionManagement>
         <repository>
-            <id>repsy-staffplusplus</id>
-            <name>Staff++ Repsy Repo</name>
-            <url>https://repo.repsy.io/mvn/garagepoort/staffplusplus</url>
+            <id>staffplusplus-repo</id>
+            <name>Central Repository StaffPlusPlus</name>
+            <url>https://nexus.staffplusplus.org/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 </project>
