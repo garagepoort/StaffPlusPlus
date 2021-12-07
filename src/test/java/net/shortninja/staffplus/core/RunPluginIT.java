@@ -44,7 +44,7 @@ public class RunPluginIT {
                         .cmd("java", "-jar", "spigot-" + mcVersion + ".jar", "nogui")
                         .build()))
             .waitingFor(Wait.forLogMessage(".*Done.*", 1))
-            .withStartupTimeout(Duration.ofSeconds(60));
+            .withStartupTimeout(Duration.ofSeconds(360));
         container.start();
     }
 
