@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.application.database;
 
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,8 +14,14 @@ public abstract class SqlRepository {
 
     @ConfigProperty("storage.type")
     private String storageType;
+    private final SqlConnectionProvider sqlConnectionProvider;
 
-    protected SqlRepository() {
+    public SqlRepository(SqlConnectionProvider sqlConnectionProvider) {
+        this.sqlConnectionProvider = sqlConnectionProvider;
+    }
+
+    public Connection getConnection() {
+        return sqlConnectionProvider.getConnection();
     }
 
     protected Integer getGeneratedId(Connection connection, PreparedStatement insert) throws SQLException {

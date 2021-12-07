@@ -22,18 +22,13 @@ import static net.shortninja.staffplus.core.common.Constants.getServerNameFilter
 
 public abstract class AbstractIpBanRepository extends SqlRepository implements IpBanRepository {
 
-    protected final SqlConnectionProvider sqlConnectionProvider;
     protected final Options options;
     private final PlayerManager playerManager;
 
     public AbstractIpBanRepository(SqlConnectionProvider sqlConnectionProvider, Options options, PlayerManager playerManager) {
-        this.sqlConnectionProvider = sqlConnectionProvider;
+        super(sqlConnectionProvider);
         this.options = options;
         this.playerManager = playerManager;
-    }
-
-    public Connection getConnection() {
-        return sqlConnectionProvider.getConnection();
     }
 
     @Override
