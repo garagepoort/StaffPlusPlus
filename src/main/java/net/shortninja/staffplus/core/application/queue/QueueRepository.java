@@ -18,14 +18,8 @@ import static net.shortninja.staffplus.core.common.Constants.getServerNameFilter
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class QueueRepository extends SqlRepository {
 
-    private final SqlConnectionProvider sqlConnectionProvider;
-
     public QueueRepository(SqlConnectionProvider sqlConnectionProvider) {
-        this.sqlConnectionProvider = sqlConnectionProvider;
-    }
-
-    public Connection getConnection() {
-        return sqlConnectionProvider.getConnection();
+        super(sqlConnectionProvider);
     }
 
     public void updateStatus(int id, QueueStatus status, String statusMessage) {
