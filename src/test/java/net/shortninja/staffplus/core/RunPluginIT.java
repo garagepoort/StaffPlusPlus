@@ -34,7 +34,7 @@ public class RunPluginIT {
                 .withFileFromClasspath("server.properties", "/docker/server.properties")
                 .withDockerfileFromBuilder(builder ->
                     builder
-                        .from("openjdk:" + javaVersion)
+                        .from("openjdk:8")
                         .copy("spigot-" + mcVersion + ".jar", ".")
                         .copy("eula.txt", ".")
                         .copy("server.properties", ".")
