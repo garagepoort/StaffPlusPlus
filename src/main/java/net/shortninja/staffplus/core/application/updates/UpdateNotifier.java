@@ -38,7 +38,7 @@ public class UpdateNotifier extends BukkitRunnable {
             JSONObject versions = spigetClient.getVersions();
             String currentVersion = StaffPlus.get().getDescription().getVersion();
 
-            String jar = (String) versions.get("1.16");
+            String jar = (String) versions.get("1.18");
             if(jar == null) {
                 return;
             }
