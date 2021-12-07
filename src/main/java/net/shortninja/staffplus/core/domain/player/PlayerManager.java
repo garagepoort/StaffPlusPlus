@@ -1,6 +1,10 @@
 package net.shortninja.staffplus.core.domain.player;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import com.google.common.collect.Sets;
+import net.shortninja.staffplus.core.domain.player.database.PlayerRepository;
+import net.shortninja.staffplus.core.domain.player.database.StoredPlayer;
 import net.shortninja.staffplus.core.domain.player.providers.OfflinePlayerProvider;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
@@ -19,12 +23,17 @@ import java.util.stream.Collectors;
 @IocBean
 public class PlayerManager {
 
+    @ConfigProperty("server-name")
+    private String serverName;
+
     private final OfflinePlayerProvider offlinePlayerProvider;
     private final Set<String> cachedPlayerNames;
     private final Set<SppPlayer> cachedSppPlayers;
+    private final PlayerRepository playerRepository;
 
-    public PlayerManager(OfflinePlayerProvider offlinePlayerProvider) {
+    public PlayerManager(OfflinePlayerProvider offlinePlayerProvider, PlayerRepository playerRepository) {
         this.offlinePlayerProvider = offlinePlayerProvider;
+        this.playerRepository = playerRepository;
         Set<String> playerNames = new HashSet<>();
         Set<SppPlayer> sppPlayers = new HashSet<>();
         for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
@@ -90,6 +99,18 @@ public class PlayerManager {
         List<SppPlayer> existingCache = cachedSppPlayers.stream().filter(p -> p.getId().equals(player.getUniqueId())).collect(Collectors.toList());
         cachedSppPlayers.removeAll(existingCache);
         cachedSppPlayers.add(new SppPlayer(player.getUniqueId(), player.getName(), player));
+    }
+
+    public void storePlayer(Player player) {
+        Optional<StoredPlayer> storedPlayer = playerRepository.findPlayer(player.getUniqueId());
+        if (storedPlayer.isPresent()) {
+            if (!storedPlayer.get().getServers().contains(serverName)) {
+                storedPlayer.get().addServer(serverName);
+                playerRepository.update(storedPlayer.get());
+            }
+        } else {
+            playerRepository.save(new StoredPlayer(player.getUniqueId(), player.getName(), Sets.newHashSet(serverName)));
+        }
     }
 
     public Collection<? extends Player> getOnlinePlayers() {
