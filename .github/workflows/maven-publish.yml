@@ -68,7 +68,7 @@ jobs:
 
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B verify --file pom.xml
 
       - name: copy file via ssh password
         uses: appleboy/scp-action@master
