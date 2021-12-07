@@ -28,6 +28,7 @@ public class SqlStoredCommandRepository extends SqlRepository implements StoredC
     private final StoredCommandSqlMapper storedCommandSqlMapper;
 
     public SqlStoredCommandRepository(Options options, SqlConnectionProvider sqlConnectionProvider, StoredCommandSqlMapper storedCommandSqlMapper) {
+        super(sqlConnectionProvider);
         serverNameFilter = "AND (sp_commands.server_name is null OR sp_commands.server_name='" + options.serverName + "')";
         this.options = options;
         this.sqlConnectionProvider = sqlConnectionProvider;
