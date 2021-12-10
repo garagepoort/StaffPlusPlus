@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.playernotes;
 
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplusplus.playernotes.IPlayerNote;
+import net.shortninja.staffplusplus.session.SppInteractor;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,6 +25,17 @@ public class PlayerNote implements IPlayerNote {
         this.note = note;
         this.notedByUuid = (staff instanceof Player) ? ((Player) staff).getUniqueId() : Constants.CONSOLE_UUID;
         this.notedByName = (staff instanceof Player) ? staff.getName() : "Console";
+        this.targetUuid = target.getId();
+        this.targetName = target.getUsername();
+        this.privateNote = privateNote;
+        this.serverName = serverName;
+        this.creationTimestamp = System.currentTimeMillis();
+    }
+
+    public PlayerNote(String note, SppInteractor staff, SppPlayer target, boolean privateNote, String serverName) {
+        this.note = note;
+        this.notedByUuid = staff.getId();
+        this.notedByName = staff.getUsername();
         this.targetUuid = target.getId();
         this.targetName = target.getUsername();
         this.privateNote = privateNote;

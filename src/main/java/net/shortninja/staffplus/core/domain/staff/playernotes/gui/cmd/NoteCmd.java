@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -13,13 +14,16 @@ import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNoteService;
+import net.shortninja.staffplusplus.session.SppInteractor;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -38,6 +42,8 @@ public class NoteCmd extends AbstractCmd {
 
     @ConfigProperty("permissions:player-notes.create-private")
     private String privateNotePermission;
+    @ConfigProperty("permissions:player-notes.create")
+    private String createNotePermission;
 
     private final PlayerNoteService playerNoteService;
     private final BukkitUtils bukkitUtils;
@@ -58,10 +64,12 @@ public class NoteCmd extends AbstractCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
         bukkitUtils.runTaskAsync(sender, () -> {
             boolean isPrivateNote = optionalParameters.containsKey("-private");
-            if (isPrivateNote) {
-                permissionHandler.validate(sender, privateNotePermission);
-            }
-            playerNoteService.createNote(sender, JavaUtils.compileWords(args, 1), targetPlayer, isPrivateNote);
+            permissionHandler.validate(sender, isPrivateNote ? privateNotePermission : createNotePermission);
+
+            UUID senderUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : Constants.CONSOLE_UUID;
+            String senderName = sender instanceof Player ? sender.getName() : "Console";
+
+            playerNoteService.createNote(new SppInteractor(senderUuid, senderName, sender), JavaUtils.compileWords(args, 1), targetPlayer, isPrivateNote);
         });
         return true;
     }
