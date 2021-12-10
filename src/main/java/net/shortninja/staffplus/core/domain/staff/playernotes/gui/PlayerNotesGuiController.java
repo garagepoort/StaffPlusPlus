@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.playernotes.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
@@ -11,6 +12,7 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.playernotes.PlayerNote;
@@ -31,6 +33,15 @@ import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 @GuiController
 public class PlayerNotesGuiController {
 
+    @ConfigProperty("permissions:player-notes.create")
+    private String permissionCreateNote;
+    @ConfigProperty("permissions:player-notes.create-private")
+    private String permissionCreatePrivateNote;
+    @ConfigProperty("permissions:player-notes.delete")
+    private String permissionDelete;
+    @ConfigProperty("permissions:player-notes.delete-other")
+    private String permissionDeleteOther;
+
     private static final int PAGE_SIZE = 45;
 
     private final PlayerManager playerManager;
@@ -39,14 +50,22 @@ public class PlayerNotesGuiController {
     private final OnlineSessionsManager sessionManager;
     private final BukkitUtils bukkitUtils;
     private final PlayerNoteFiltersMapper playerNoteFiltersMapper;
+    private final PermissionHandler permissionHandler;
 
-    public PlayerNotesGuiController(PlayerManager playerManager, PlayerNoteService playerNoteService, Messages messages, OnlineSessionsManager sessionManager, BukkitUtils bukkitUtils, PlayerNoteFiltersMapper playerNoteFiltersMapper) {
+    public PlayerNotesGuiController(PlayerManager playerManager,
+                                    PlayerNoteService playerNoteService,
+                                    Messages messages,
+                                    OnlineSessionsManager sessionManager,
+                                    BukkitUtils bukkitUtils,
+                                    PlayerNoteFiltersMapper playerNoteFiltersMapper,
+                                    PermissionHandler permissionHandler) {
         this.playerManager = playerManager;
         this.playerNoteService = playerNoteService;
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.bukkitUtils = bukkitUtils;
         this.playerNoteFiltersMapper = playerNoteFiltersMapper;
+        this.permissionHandler = permissionHandler;
     }
 
     @GuiAction("player-notes/view/overview")
@@ -68,14 +87,15 @@ public class PlayerNotesGuiController {
 
     @GuiAction("player-notes/create")
     public void createNote(Player staff, @GuiParam("targetPlayerName") String targetPlayerName) {
+        SppPlayer sppStaff = playerManager.getOnlinePlayer(staff.getUniqueId()).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
         SppPlayer targetPlayer = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
-        OnlinePlayerSession playerSession = sessionManager.get(staff);
 
+        OnlinePlayerSession playerSession = sessionManager.get(staff);
         messages.send(staff, messages.typeInput, messages.prefixGeneral);
 
         playerSession.setChatAction((player, input) ->
             bukkitUtils.runTaskAsync(player, () -> {
-                playerNoteService.createNote(staff, input, targetPlayer, false);
+                playerNoteService.createNote(sppStaff, input, targetPlayer, false);
                 messages.send(player, messages.inputAccepted, messages.prefixGeneral);
             }));
     }
@@ -83,7 +103,15 @@ public class PlayerNotesGuiController {
     @GuiAction("player-notes/delete")
     public AsyncGui<String> createNote(Player staff, @GuiParam("noteId") int noteId, @GuiParam("backAction") String backAction) {
         return async(() -> {
-            playerNoteService.deleteNote(staff, noteId);
+            SppPlayer sppPlayer = playerManager.getOnlinePlayer(staff.getUniqueId()).orElseThrow(() -> new PlayerNotFoundException(staff.getName()));
+            PlayerNote note = playerNoteService.getNote(noteId);
+
+            permissionHandler.validate(staff, permissionDelete);
+            if (!note.getNotedByUuid().equals(staff.getUniqueId())) {
+                permissionHandler.validate(staff, permissionDeleteOther);
+            }
+
+            playerNoteService.deleteNote(sppPlayer, noteId);
             return backAction;
         });
     }
