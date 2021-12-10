@@ -6,14 +6,13 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.handler.GadgetHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-@IocBean
+@IocBean(conditionalOnProperty = "freeze-module.enabled=true")
 public class Tasks extends BukkitRunnable {
 
     @ConfigProperty("permissions:member")
@@ -24,7 +23,6 @@ public class Tasks extends BukkitRunnable {
     private final PermissionHandler permission;
     private final Messages messages;
     private final OnlineSessionsManager sessionManager;
-    private final FreezeHandler freezeHandler;
     private final GadgetHandler gadgetHandler;
     private final FreezeConfiguration freezeConfiguration;
     private int freezeInterval;
@@ -33,13 +31,11 @@ public class Tasks extends BukkitRunnable {
     public Tasks(PermissionHandler permission,
                  Messages messages,
                  OnlineSessionsManager sessionManager,
-                 FreezeHandler freezeHandler,
                  GadgetHandler gadgetHandler,
                  FreezeConfiguration freezeConfiguration) {
         this.permission = permission;
         this.messages = messages;
         this.sessionManager = sessionManager;
-        this.freezeHandler = freezeHandler;
         this.gadgetHandler = gadgetHandler;
         this.freezeConfiguration = freezeConfiguration;
         freezeInterval = 0;
