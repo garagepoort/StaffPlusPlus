@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 @IocListener
 public class PlayerNoteChatNotifier implements Listener {
 
-
     @ConfigProperty("permissions:player-notes.notifications")
     private String permissionNoteNotifications;
 
@@ -27,7 +26,9 @@ public class PlayerNoteChatNotifier implements Listener {
 
     @EventHandler
     public void onNoteCreated(PlayerNoteCreatedEvent event) {
-        messages.send(event.getSender(), replaceNotePlaceholders(event.getPlayerNote(), messages.noteAdded), messages.prefixGeneral);
+        event.getSender().getCommandSender().ifPresent(s -> {
+            messages.send(s, replaceNotePlaceholders(event.getPlayerNote(), messages.noteAdded), messages.prefixGeneral);
+        });
 
         if (!event.getPlayerNote().isPrivateNote()) {
             messages.sendGroupMessage(replaceNotePlaceholders(event.getPlayerNote(), messages.noteCreatedNotification), permissionNoteNotifications, messages.prefixPlayerNotes);
@@ -36,9 +37,11 @@ public class PlayerNoteChatNotifier implements Listener {
 
     @EventHandler
     public void onNoteDeleted(PlayerNoteDeletedEvent event) {
-        messages.send(event.getSender(),
-            replaceNotePlaceholders(event.getPlayerNote(), messages.noteDeleted),
-            messages.prefixGeneral);
+        if (event.getSender().isOnline()) {
+            messages.send(event.getSender().getPlayer(),
+                replaceNotePlaceholders(event.getPlayerNote(), messages.noteDeleted),
+                messages.prefixGeneral);
+        }
     }
 
     @NotNull
