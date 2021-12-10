@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocBean(conditionalOnProperty = "freeze-module.enabled=true")
+@IocBean
 public class FreezeHandler {
     @ConfigProperty("permissions:freeze-bypass")
     private String permissionFreezeBypass;

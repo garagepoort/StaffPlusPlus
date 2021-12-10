@@ -1,8 +1,17 @@
-# Changelog Staff++ | v1.17
+# Changelog Staff++ | v1.18
 
-# V1.17.24
+# V1.18.1
 
 ### Features
+  - Player Notes can now be viewed, created and deleted through the web platform
+
+### Bugs
+  - Disabling the freeze module was not working
+
+# V1.18.0
+
+### Features
+  - 1.18 support
   - In a multi server setup, report/bans/mute/warning/notes data can now be configured in server groups
   - Accept/delete/resolve/reject Reports through the web platform
 
