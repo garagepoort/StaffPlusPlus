@@ -7,6 +7,7 @@
 
 ### Bugs
   - Disabling the freeze module was not working
+  - Examine GUIs were not working on 1.18
 
 # V1.18.0
 
