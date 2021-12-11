@@ -48,7 +48,12 @@ public abstract class QueueMessageProcessor extends BukkitRunnable {
                     StaffPlus.getPlugin().getLogger().warning("No QueueMessageListener for type [" + message.getType() + "]");
                 }
                 QueueMessageListener listener = listeners.get(message.getType());
-                String resultMessage = listener.handleMessage(gsonParser.fromJson(message.getData(), listener.getMessageClass()));
+
+                Object payload = null;
+                if (listener.getMessageClass() != Void.class) {
+                    payload = gsonParser.fromJson(message.getData(), listener.getMessageClass());
+                }
+                String resultMessage = listener.handleMessage(payload);
                 queueRepository.updateStatus(message.getId(), QueueStatus.PROCESSED, resultMessage);
             } catch (Exception e) {
                 queueRepository.updateStatus(message.getId(), QueueStatus.FAILED, e.getMessage());

@@ -101,7 +101,7 @@ public class PlayerManager {
         cachedSppPlayers.add(new SppPlayer(player.getUniqueId(), player.getName(), player));
     }
 
-    public void storePlayer(Player player) {
+    public void storePlayer(OfflinePlayer player) {
         Optional<StoredPlayer> storedPlayer = playerRepository.findPlayer(player.getUniqueId());
         if (storedPlayer.isPresent()) {
             if (!storedPlayer.get().getServers().contains(serverName)) {
