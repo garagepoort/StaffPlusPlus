@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
@@ -32,13 +33,14 @@ public class PlayerQuit implements Listener {
     private final XrayService xrayService;
     private final IProtocolService protocolService;
     private final FreezeConfiguration freezeConfiguration;
+    private final PlayerSettingsRepository playerSettingsRepository;
 
     public PlayerQuit(Messages messages,
                       OnlineSessionsManager sessionManager,
                       StaffModeService staffModeService,
                       TraceService traceService,
                       XrayService xrayService,
-                      IProtocolService protocolService, FreezeConfiguration freezeConfiguration) {
+                      IProtocolService protocolService, FreezeConfiguration freezeConfiguration, PlayerSettingsRepository playerSettingsRepository) {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.staffModeService = staffModeService;
@@ -46,6 +48,7 @@ public class PlayerQuit implements Listener {
         this.xrayService = xrayService;
         this.protocolService = protocolService;
         this.freezeConfiguration = freezeConfiguration;
+        this.playerSettingsRepository = playerSettingsRepository;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -78,6 +81,6 @@ public class PlayerQuit implements Listener {
             staffModeService.turnStaffModeOff(player);
         }
 
+        playerSettingsRepository.clearSettings(player);
     }
-
 }
