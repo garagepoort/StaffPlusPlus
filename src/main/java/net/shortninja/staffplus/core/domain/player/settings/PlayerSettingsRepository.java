@@ -11,9 +11,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -53,6 +51,10 @@ public class PlayerSettingsRepository {
         return playerSettings;
     }
 
+    public void clearSettings(OfflinePlayer offlinePlayer) {
+        this.settingsMap.remove(offlinePlayer.getUniqueId());
+    }
+
     public synchronized PlayerSettings createSession(OfflinePlayer player) {
         if (dataFileConfiguration.contains(player.getUniqueId().toString())) {
             throw new PlayerSettingCreationException("A session for this player already exists. Cannot create new one.");
@@ -84,7 +86,6 @@ public class PlayerSettingsRepository {
             glassMaterial = Material.valueOf(glassColor);
         }
 
-        List<String> playerNotes = loadPlayerNotes(uuid);
         Set<AlertType> alertOptions = loadAlertOptions(uuid);
 
 
@@ -124,20 +125,6 @@ public class PlayerSettingsRepository {
         }
 
         return alertOptions;
-    }
-
-    private List<String> loadPlayerNotes(UUID uuid) {
-        List<String> playerNotes = new ArrayList<>();
-
-        for (String string : dataFileConfiguration.getStringList(uuid + ".notes")) {
-            if (string.contains("&7")) {
-                continue;
-            }
-
-            playerNotes.add("&7" + string);
-        }
-
-        return playerNotes;
     }
 
     public synchronized void save(PlayerSettings playerSession) {
