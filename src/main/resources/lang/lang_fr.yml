@@ -312,5 +312,33 @@ ips:
     staff-notifications:
         history-cleared: "&4%issuer% &7cleared all ip history for &6%player%"
 
-# NE PAS CHANGER A MOINS QUE VOUS SAVEZ CE QUE VOUS FAITES!
-lang-version: 6198
+gui:
+    id: "Id"
+    status: "Status"
+    server: "Server"
+    type: "Type"
+    reason: "Reason"
+    close-reason: "Close reason"
+    timestamp: "Timestamp"
+    unknown: "Unknown"
+    location: "Location"
+    reports:
+        assignee: "Assignee"
+        culprit: "Culprit"
+        reporter: "Reporter"
+        manage-reports:
+            title: "Manage reports"
+            show-unresolved:
+                title: "Open reports"
+                lore: "Show all unresolved reports"
+            assigned-to-me:
+                title: "Reports assigned to me"
+                lore: "Show all reports assigned to me"
+            in-progress:
+                title: "Reports in progress"
+                lore: "Show all assigned"
+            closed:
+                title: "Closed reports"
+                lore: "Show all closed reports"
+        assigned-reports:
+            title: "Reports in progress"
