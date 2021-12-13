@@ -1,0 +1,1 @@
+<#macro translate key>${$config.get("%lang%:" + key)}</#macro>
