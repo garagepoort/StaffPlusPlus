@@ -14,8 +14,8 @@ import net.shortninja.staffplus.core.application.config.migrators.StaffChatChann
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatMessageFormatMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffCustomModulesCommandMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeCommandMigrator;
-import net.shortninja.staffplus.core.application.config.migrators.StaffModeNewConfiguredCommandsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModeModulesMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.StaffModeNewConfiguredCommandsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffModesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.ThresholdCommandsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.WarningCommandsMigrator;
@@ -33,7 +33,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,18 +65,29 @@ public class AutoUpdater {
             validateConfigFile(configurationFile.getPath());
 
             FileConfiguration config = configurationFile.getFileConfiguration();
+            FileConfiguration newConfig = new YamlConfiguration();
+
             AtomicInteger counter = new AtomicInteger();
             Map<String, Object> defaultConfigMap = loadConfig(configurationFile.getPath());
 
             defaultConfigMap.forEach((k, v) -> {
                 if (!config.contains(k, true) && !(v instanceof ConfigurationSection)) {
-                    config.set(k, v);
+                    newConfig.set(k, v);
                     counter.getAndIncrement();
+                } else {
+                    newConfig.set(k, config.get(k));
+                }
+            });
+
+            config.getKeys(true).forEach((k) -> {
+                Object value = config.get(k);
+                if (!newConfig.contains(k, true) && !(value instanceof ConfigurationSection)) {
+                    config.set(k, value);
                 }
             });
 
             File file = new File(StaffPlus.get().getDataFolder() + File.separator + configurationFile.getPath());
-            config.save(file);
+            newConfig.save(file);
             if (counter.get() > 0) {
                 StaffPlus.get().getLogger().info("Configuration file Fixed. [" + counter.get() + "] properties were added. Should StaffPlusPlus still have problems starting up, please compare your config with the default configuration: https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
             }
@@ -102,7 +113,7 @@ public class AutoUpdater {
     }
 
     private static Map<String, Object> loadConfig(String filename) {
-        Map<String, Object> configurations = new HashMap<>();
+        Map<String, Object> configurations = new LinkedHashMap<>();
         InputStream defConfigStream = getResource(filename);
         if (defConfigStream != null) {
             YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, StandardCharsets.UTF_8));
@@ -112,6 +123,10 @@ public class AutoUpdater {
         return configurations;
     }
 
+    private static void validateConfigFile(String filename) throws IOException, InvalidConfigurationException {
+        validateConfigFile(StaffPlus.get().getDataFolder(), filename);
+    }
+
     private static void validateConfigFile(File folder, String filename) throws IOException, InvalidConfigurationException {
         File file = new File(folder, filename);
         if (!file.exists()) {
@@ -119,10 +134,6 @@ public class AutoUpdater {
         }
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         yamlConfiguration.load(file);
-    }
-
-    private static void validateConfigFile(String filename) throws IOException, InvalidConfigurationException {
-        validateConfigFile(StaffPlus.get().getDataFolder(), filename);
     }
 
     private static InputStream getResource(String filename) {
