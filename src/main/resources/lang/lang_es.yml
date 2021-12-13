@@ -329,6 +329,7 @@ gui:
     unknown: "Unknown"
     location: "Location"
     reports:
+        report: "Report"
         assignee: "Assignee"
         culprit: "Culprit"
         reporter: "Reporter"
@@ -348,3 +349,36 @@ gui:
                 lore: "Show all closed reports"
         assigned-reports:
             title: "Reports in progress"
+        my-assigned-reports:
+            title: "Reports assigned to you"
+            left-click-to-detail: "&7Left click to &6view detail"
+            right-click-to-resolve: "&7Right click to &2resolve"
+            middle-click-to-reject: "&7Middle click to &Creject"
+        my-reports:
+            title: "My reports"
+        open-reports:
+            title: "Open reports"
+            left-click-to-accept: "&7Left click to &6accept"
+            right-click-to-resolve: "&7Right click to &2resolve"
+            middle-click-to-reject: "&7Middle click to &Creject"
+        closed-reports:
+            title: "Closed reports"
+        find-reports:
+            title: "Find reports"
+        detail:
+            title: "Report by: "
+            resolve:
+                title: "Resolve report"
+                lore: "Click to resolve report"
+            unassign:
+                title: "Unassign"
+                lore: "Click to unassign yourself from this report"
+            reject:
+                title: "Reject report"
+                lore: "Click to mark this report as rejected"
+            delete:
+                title: "Delete"
+                lore: "Click to delete this report"
+            teleport:
+                title: "Teleport"
+                lore: "Click to teleport to where this report was created"
