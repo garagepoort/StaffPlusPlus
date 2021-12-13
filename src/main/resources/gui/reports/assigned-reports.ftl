@@ -3,7 +3,7 @@
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <#include "/gui/commons/translate.ftl"/>
 <TubingGui size="54" id="assigned-reports-overview">
-    <title class="gui-title"><@translate key="reports.gui.assigned-reports.title"/></title>
+    <title class="gui-title"><@translate key="gui.reports.assigned-reports.title"/></title>
 
     <#list reports as report>
         <@reportcommon.reportitem slot="${report?index}"
