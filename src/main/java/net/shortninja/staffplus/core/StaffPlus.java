@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.TubingPlugin;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.application.config.AutoUpdater;
 import net.shortninja.staffplus.core.application.config.ConfigurationFile;
-import net.shortninja.staffplus.server.compatibility.v1_1x.Protocol_v1_17_R0;
 import net.shortninja.staffplusplus.IStaffPlus;
 import net.shortninja.staffplusplus.ban.BanService;
 import net.shortninja.staffplusplus.mute.MuteService;
@@ -34,7 +33,6 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
     protected void enable() {
         try {
             plugin = this;
-            new Protocol_v1_17_R0();
             if (!loadConfig()) {
                 Bukkit.getPluginManager().disablePlugin(this);
                 return;
