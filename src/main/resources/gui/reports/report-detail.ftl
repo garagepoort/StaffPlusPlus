@@ -1,9 +1,10 @@
 <#import "report-commons.ftl" as reportcommon/>
 <#import "/gui/commons/commons.ftl" as commons/>
 <#import "/gui/evidence/evidence-commons.ftl" as evidenceCommons/>
+<#include "/gui/commons/translate.ftl"/>
 
 <TubingGui size="54" id="report-detail">
-    <title class="gui-title">Report by: ${report.reporterName}</title>
+    <title class="gui-title"><@translate key="gui.reports.detail.title"/>${report.reporterName}</title>
 
     <@reportcommon.reportitem  itemId="report-info" slot=13 report=report/>
 
@@ -15,9 +16,9 @@
                          class="report-resolve"
                          material="GREEN_GLAZED_TERRACOTTA"
                          onLeftClick="manage-reports/resolve?reportId=${report.id}">
-                    <name class="item-name">Resolve report</name>
+                    <name class="item-name"><@translate key="gui.reports.detail.resolve.title"/></name>
                     <Lore>
-                        <LoreLine>Click to mark this report as resolved</LoreLine>
+                        <LoreLine><@translate key="gui.reports.detail.resolve.lore"/></LoreLine>
                     </Lore>
                 </GuiItem>
             </#list>
@@ -30,9 +31,9 @@
                          class="report-unassign"
                          material="THIN_GLASS"
                          onLeftClick="manage-reports/reopen?reportId=${report.id}">
-                    <name class="item-name">Unassign</name>
+                    <name class="item-name"><@translate key="gui.reports.detail.unassign.title"/></name>
                     <Lore>
-                        <LoreLine>Click to unassign yourself from this report</LoreLine>
+                        <LoreLine><@translate key="gui.reports.detail.unassign.lore"/></LoreLine>
                     </Lore>
                 </GuiItem>
             </#list>
@@ -45,9 +46,9 @@
                          material="RED_GLAZED_TERRACOTTA"
                          class="report-reject"
                          onLeftClick="manage-reports/reject?reportId=${report.id}">
-                    <name class="item-name">Reject report</name>
+                    <name class="item-name"><@translate key="gui.reports.detail.reject.title"/></name>
                     <Lore>
-                        <LoreLine>Click to mark this report as rejected</LoreLine>
+                        <LoreLine><@translate key="gui.reports.detail.reject.lore"/></LoreLine>
                     </Lore>
                 </GuiItem>
             </#list>
@@ -60,9 +61,9 @@
                  class="report-delete"
                  material="REDSTONE_BLOCK"
                  onLeftClick="manage-reports/delete?reportId=${report.id}">
-            <name class="item-name">Delete</name>
+            <name class="item-name"><@translate key="gui.reports.detail.delete.title"/></name>
             <Lore>
-                <LoreLine>Click to delete this report</LoreLine>
+                <LoreLine><@translate key="gui.reports.detail.delete.lore"/></LoreLine>
             </Lore>
         </GuiItem>
     </#if>
@@ -73,9 +74,9 @@
              material="ORANGE_GLAZED_TERRACOTTA"
              class="report-teleport"
              onLeftClick="manage-reports/teleport?reportId=${report.id}">
-        <name class="item-name">Teleport</name>
+        <name class="item-name"><@translate key="gui.reports.detail.teleport.title"/></name>
         <Lore>
-            <LoreLine>Click to teleport to where this report was created</LoreLine>
+            <LoreLine><@translate key="gui.reports.detail.teleport.lore"/></LoreLine>
         </Lore>
     </GuiItem>
 

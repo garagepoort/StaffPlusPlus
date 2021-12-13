@@ -1,8 +1,9 @@
 <#import "report-commons.ftl" as reportcommon/>
 <#import "/gui/commons/commons.ftl" as commons/>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
+<#include "/gui/commons/translate.ftl"/>
 <TubingGui size="54" id="find-reports-overview">
-    <title class="gui-title">${title}</title>
+    <title class="gui-title"><@translate key="gui.reports.find-reports.title"/></title>
 
     <#list reports as report>
         <@reportcommon.reportitem
