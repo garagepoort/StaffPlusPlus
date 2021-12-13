@@ -12,7 +12,7 @@
         onMiddleClick="${onMiddleClick}"
         material="PAPER">
         <name class="item-name" color="&5">
-            Report
+            <@translate key="gui.reports.report"/>
         </name>
         <Lore>
             <LoreLine>
@@ -107,7 +107,7 @@
             <#if actions?has_content >
                 <LoreLine><t></t></LoreLine>
                 <#list actions as actionLine>
-                    <LoreLine><t>${actionLine}</t></LoreLine>
+                    <LoreLine><t><@translate key=actionLine /></t></LoreLine>
                 </#list>
             </#if>
         </Lore>

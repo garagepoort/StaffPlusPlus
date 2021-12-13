@@ -87,7 +87,6 @@ public class ReportsGuiController {
             allParams.forEach((k, v) -> reportFiltersMapper.map(k, v, reportFiltersBuilder));
 
             Map<String, Object> params = new HashMap<>();
-            params.put("title", "Find reports");
             params.put("backAction", backAction);
             params.put("reports", reportService.findReports(reportFiltersBuilder.build(), page * PAGE_SIZE, PAGE_SIZE));
 
@@ -99,7 +98,6 @@ public class ReportsGuiController {
     public AsyncGui<GuiTemplate> openReportsGui(@GuiParam(value = "page", defaultValue = "0") int page) {
         return async(() -> {
             Map<String, Object> params = new HashMap<>();
-            params.put("title", "Open reports");
             params.put("reports", reportService.getUnresolvedReports(PAGE_SIZE * page, PAGE_SIZE));
 
             return template("gui/reports/open-reports.ftl", params);
@@ -131,10 +129,9 @@ public class ReportsGuiController {
     public AsyncGui<GuiTemplate> closedReportsGui(@GuiParam(value = "page", defaultValue = "0") int page) {
         return async(() -> {
             Map<String, Object> params = new HashMap<>();
-            params.put("title", "Closed reports");
             params.put("reports", manageReportService.getClosedReports(PAGE_SIZE * page, PAGE_SIZE));
 
-            return template("gui/reports/reports.ftl", params);
+            return template("gui/reports/closed-reports.ftl", params);
         });
     }
 
