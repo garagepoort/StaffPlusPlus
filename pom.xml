@@ -147,7 +147,7 @@
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>tubing</artifactId>
-            <version>4.0.3</version>
+            <version>4.0.4</version>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
@@ -376,6 +376,11 @@
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>ftl</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
