@@ -1,4 +1,5 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
+<#include "/gui/commons/translate.ftl"/>
 <#macro pageFooter currentAction page backAction="" backSlot=49 previousSlots=[45,46,47] nextSlots=[51,52,53]>
     <#if page gt 0 >
         <#list previousSlots as slot>
@@ -7,7 +8,7 @@
                      onLeftClick="${GuiUtils.getPreviousPage(currentAction, page)}"
                      class="previous-page"
                      material="RED_GLAZED_TERRACOTTA">
-                <name class="item-name">Previous Page</name>
+                <name class="item-name"><@translate key="gui.previous-page"/></name>
             </GuiItem>
         </#list>
     </#if>
@@ -17,7 +18,7 @@
                  onLeftClick="${GuiUtils.getNextPage(currentAction, page)}"
                  class="next-page"
                  material="GREEN_GLAZED_TERRACOTTA">
-            <name class="item-name">Next Page</name>
+            <name class="item-name"><@translate key="gui.next-page"/></name>
         </GuiItem>
     </#list>
 
@@ -31,7 +32,7 @@
                  class="back-button"
                  onLeftClick="${action}"
                  material="IRON_DOOR">
-            <name class="item-name">Back</name>
+            <name class="item-name"><@translate key="gui.back"/></name>
         </GuiItem>
     </#if>
 </#macro>
