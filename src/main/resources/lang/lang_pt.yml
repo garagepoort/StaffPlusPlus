@@ -320,6 +320,12 @@ gui:
     timestamp: "Timestamp"
     unknown: "Unknown"
     location: "Location"
+    back: "Back"
+    previous-page: "Previous Page"
+    next-page: "Next Page"
+    confirmation:
+        confirm: Confirm
+        cancel: Cancel
     reports:
         report: "Report"
         assignee: "Assignee"
