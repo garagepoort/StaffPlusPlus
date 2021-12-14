@@ -4,6 +4,7 @@
 
 ### Features
   - Player Notes can now be viewed, created and deleted through the web platform
+  - Add translation keys for the reports GUIs
 
 ### Bugs
   - Disabling the freeze module was not working
