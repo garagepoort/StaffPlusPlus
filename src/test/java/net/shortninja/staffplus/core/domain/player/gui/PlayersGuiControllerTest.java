@@ -106,13 +106,6 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
 
     @Test
     public void selectOverviewType() {
-        when(templateConfigResolver.get("permissions:playerView.overview.online-players")).thenReturn("staff.overview.online");
-        when(templateConfigResolver.get("permissions:playerView.overview.offline-players")).thenReturn("staff.overview.offline");
-        when(templateConfigResolver.get("permissions:playerView.overview.staff-members")).thenReturn("staff.overview.members");
-        when(templateConfigResolver.get("permissions:playerView.overview.miners")).thenReturn("staff.overview.miners");
-        when(templateConfigResolver.get("protect-module.player-enabled")).thenReturn(true);
-        when(templateConfigResolver.get("permissions:playerView.overview.protected")).thenReturn("playerviewProtected");
-
         guiActionService.executeAction(player, "players/view/select-overview-type");
 
         verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
@@ -128,7 +121,6 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
         when(sppPlayer2.getId()).thenReturn(UUID_PLAYER_2);
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer1)).thenReturn(Optional.empty());
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer2)).thenReturn(Optional.empty());
-        when(templateConfigResolver.get("permissions:playerView.detail.uuid")).thenReturn("playerview-detail-uuid");
 
         guiActionService.executeAction(player, "players/view/overview/online?backAction=goBack/view");
 
@@ -146,7 +138,6 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
         when(sppPlayer2.getId()).thenReturn(UUID_PLAYER_2);
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer1)).thenReturn(Optional.empty());
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer2)).thenReturn(Optional.empty());
-        when(templateConfigResolver.get("permissions:playerView.detail.uuid")).thenReturn("playerview-detail-uuid");
 
         guiActionService.executeAction(player, "players/view/overview/offline?backAction=goBack/view");
 
@@ -157,23 +148,6 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
 
     @Test
     public void playerDetail() {
-        when(templateConfigResolver.get("reports-module.enabled")).thenReturn(true);
-        when(templateConfigResolver.get("warnings-module.enabled")).thenReturn(true);
-        when(templateConfigResolver.get("mute-module.enabled")).thenReturn(true);
-        when(templateConfigResolver.get("ban-module.enabled")).thenReturn(true);
-        when(templateConfigResolver.get("ban-module.ipban.enabled")).thenReturn(true);
-        when(templateConfigResolver.get("permissions:reports.manage.view")).thenReturn("reports.manage.view");
-        when(templateConfigResolver.get("permissions:warnings.manage.view")).thenReturn("warnings.manage.view");
-        when(templateConfigResolver.get("permissions:mute-view")).thenReturn("mute-view");
-        when(templateConfigResolver.get("permissions:ban-view")).thenReturn("ban-view");
-        when(templateConfigResolver.get("permissions:ipban.ban-view")).thenReturn("ipban.ban-view");
-        when(templateConfigResolver.get("permissions:follow")).thenReturn("follow");
-        when(templateConfigResolver.get("permissions:playerView.detail.uuid")).thenReturn("playerview-detail-uuid");
-        when(templateConfigResolver.get("permissions:freeze")).thenReturn("freeze");
-        when(templateConfigResolver.get("permissions:teleport-to-player")).thenReturn("teleport-to-player");
-        when(templateConfigResolver.get("permissions:teleport-here")).thenReturn("teleport-here");
-        when(templateConfigResolver.get("permissions:examine-inventory-interaction.offline")).thenReturn("examine-inventory-interaction.offline");
-
         when(playerManager.getOnOrOfflinePlayer("garagepoort")).thenReturn(Optional.of(sppPlayer1));
         when(sppPlayer1.getUsername()).thenReturn("garagepoort");
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer1)).thenReturn(Optional.empty());
