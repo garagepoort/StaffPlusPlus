@@ -22,6 +22,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -32,11 +34,13 @@ import static java.util.Optional.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class MuteGuiControllerTest extends AbstractGuiTemplateTest {
 
     private static final long CREATION_DATE = 1630537429182L;
@@ -78,8 +82,7 @@ class MuteGuiControllerTest extends AbstractGuiTemplateTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        when(templateConfigResolver.get("server-sync-module.mute-sync")).thenReturn(true);
-        when(templateConfigResolver.get("timestamp-format")).thenReturn(TIMESTAMP_FORMAT);
+        doReturn(true).when(templateConfigResolverSpy).get("server-sync-module.mute-sync");
     }
 
     @Override
@@ -94,8 +97,6 @@ class MuteGuiControllerTest extends AbstractGuiTemplateTest {
 
     @Test
     public void viewAllActiveMutes() throws URISyntaxException, IOException {
-        when(templateConfigResolver.get("server-sync-module.mute-sync")).thenReturn(true);
-        when(templateConfigResolver.get("timestamp-format")).thenReturn(TIMESTAMP_FORMAT);
         when(muteService.getAllPaged(0, 45)).thenReturn(Collections.singletonList(buildMute()));
 
         guiActionService.executeAction(player, "manage-mutes/view/all-active");
@@ -122,7 +123,7 @@ class MuteGuiControllerTest extends AbstractGuiTemplateTest {
 
     @Test
     public void viewMuteDetail() throws URISyntaxException, IOException {
-        when(templateConfigResolver.get("investigations-module.enabled")).thenReturn(true);
+        doReturn(true).when(templateConfigResolverSpy).get("investigations-module.enabled");
         when(muteService.getById(12)).thenReturn(buildMute());
 
         guiActionService.executeAction(player, "manage-mutes/view/detail?muteId=12");

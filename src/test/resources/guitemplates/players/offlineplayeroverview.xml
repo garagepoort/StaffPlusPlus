@@ -1,12 +1,17 @@
 <TubingGui size="54" id="players-overview">
     <title class="gui-title">Offline players</title>
+
     <GuiItem id="player-info-0" class="player-info" slot="0" onLeftClick="players/view/detail?targetPlayerName=player1&amp;backAction=players%2Fview%2Foverview%2Foffline%3FbackAction%3DgoBack%2Fview" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PLAYER_HEAD">
         <name class="item-name" color="&amp;5">player1</name>
         <Lore>
-            <LoreLine permission="playerview-detail-uuid">
+
+            <LoreLine permission="staff.player-view.detail.uuid">
                 <t id="uuid-label" class="detail-label" color="&amp;b">UUID: </t>
                 <t id="uuid-value" class="detail-value" color="&amp;6">a8525382-49ed-4c9c-9c50-c00a0e570159</t>
             </LoreLine>
+
+
+
             <LoreLine>
                 <t color="&amp;7" class="line-separator">---------------</t>
             </LoreLine>
@@ -23,10 +28,14 @@
     <GuiItem id="player-info-1" class="player-info" slot="1" onLeftClick="players/view/detail?targetPlayerName=player2&amp;backAction=players%2Fview%2Foverview%2Foffline%3FbackAction%3DgoBack%2Fview" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PLAYER_HEAD">
         <name class="item-name" color="&amp;5">player2</name>
         <Lore>
-            <LoreLine permission="playerview-detail-uuid">
+
+            <LoreLine permission="staff.player-view.detail.uuid">
                 <t id="uuid-label" class="detail-label" color="&amp;b">UUID: </t>
                 <t id="uuid-value" class="detail-value" color="&amp;6">98095f6e-f1f8-4884-93e9-6cc0c7d9cad1</t>
             </LoreLine>
+
+
+
             <LoreLine>
                 <t color="&amp;7" class="line-separator">---------------</t>
             </LoreLine>
@@ -40,6 +49,7 @@
             <LoreLine>&amp;7Left click to &amp;6view players details</LoreLine>
         </Lore>
     </GuiItem>
+
     <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
         <name class="item-name">Next Page</name>
     </GuiItem>
@@ -49,6 +59,7 @@
     <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
         <name class="item-name">Next Page</name>
     </GuiItem>
+
     <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="SPRUCE_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
