@@ -10,7 +10,6 @@ import net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation.
 import net.shortninja.staffplusplus.investigate.InvestigationStatus;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -62,12 +61,6 @@ class InvestigationGuiControllerTest extends AbstractGuiTemplateTest {
     @AfterAll
     public static void close() {
         guiUtilsMockedStatic.close();
-    }
-
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-        when(templateConfigResolver.get("timestamp-format")).thenReturn(TIMESTAMP_FORMAT);
     }
 
     @Override
