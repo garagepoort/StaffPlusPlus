@@ -31,6 +31,7 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,8 +74,7 @@ class ProtectedAreasGuiControllerTest extends AbstractGuiTemplateTest {
     public void setUp() {
         super.setUp();
         when(world.getName()).thenReturn("world");
-        when(templateConfigResolver.get("server-sync-module.ban-sync")).thenReturn(true);
-        when(templateConfigResolver.get("timestamp-format")).thenReturn(TIMESTAMP_FORMAT);
+        doReturn(true).when(templateConfigResolverSpy).get("server-sync-module.ban-sync");
         protectConfiguration.modeGuiProtectedAreasTitle = "Protected areas";
     }
 

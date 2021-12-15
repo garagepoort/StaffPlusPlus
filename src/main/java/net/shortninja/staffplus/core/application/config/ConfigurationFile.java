@@ -15,6 +15,12 @@ public class ConfigurationFile {
         this.fileConfiguration = ConfigurationUtil.loadConfiguration(path);
     }
 
+    public ConfigurationFile(String path, FileConfiguration fileConfiguration) {
+        this.identifier = getConfigId(path);
+        this.path = path;
+        this.fileConfiguration = fileConfiguration;
+    }
+
     public String getIdentifier() {
         return identifier;
     }
