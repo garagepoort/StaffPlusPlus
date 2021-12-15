@@ -78,17 +78,6 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        when(templateConfigResolver.get("warnings-module.appeals.enabled")).thenReturn(true);
-        when(templateConfigResolver.get("warnings-module.appeals.fixed-reason")).thenReturn(false);
-        when(templateConfigResolver.get("server-sync-module.warning-sync")).thenReturn(true);
-        when(templateConfigResolver.get("investigations-module.enabled")).thenReturn(true);
-        when(templateConfigResolver.get("permissions:warnings.manage.delete")).thenReturn("warning.delete");
-        when(templateConfigResolver.get("permissions:warnings.manage.expire")).thenReturn("warning.expire");
-        when(templateConfigResolver.get("permissions:warnings.appeals.create-others")).thenReturn("warning.appeals.create-other");
-        when(templateConfigResolver.get("permissions:warnings.appeals.approve")).thenReturn("warning.appeals.approve");
-        when(templateConfigResolver.get("permissions:warnings.appeals.reject")).thenReturn("warning.appeals.reject");
-        when(templateConfigResolver.get("permissions:warnings.appeals.fixed-reason")).thenReturn("warning.appeals.fixed-reason");
-        when(templateConfigResolver.get("timestamp-format")).thenReturn(TIMESTAMP_FORMAT);
         when(permissionHandler.has(eq(player), anyString())).thenReturn(true);
     }
 

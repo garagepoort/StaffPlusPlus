@@ -1,5 +1,6 @@
 <TubingGui size="54" id="warning-detail">
     <title class="gui-title">Warning for: target</title>
+
     <GuiItem slot="13" id="warning-info" class="warning-info" material="PLAYER_HEAD">
         <name class="item-name">Warning</name>
         <Lore>
@@ -7,34 +8,44 @@
                 <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
                 <t color="&amp;6" id="id-value" class="detail-value">12</t>
             </LoreLine>
+
             <LoreLine if="true">
                 <t color="&amp;b" id="server-label" class="detail-label">Server: </t>
                 <t color="&amp;6" id="server-value" class="detail-value">ServerName</t>
             </LoreLine>
+
             <LoreLine>
                 <t color="&amp;b" id="severity-label" class="detail-label">Severity: </t>
                 <t color="&amp;6" id="severity-value" class="detail-value">MINOR</t>
             </LoreLine>
+
             <LoreLine>
                 <t color="&amp;b" id="issuer-label" class="detail-label">Issuer: </t>
                 <t color="&amp;6" id="issuer-value" class="detail-value">issuer</t>
             </LoreLine>
+
             <LoreLine>
                 <t color="&amp;b" id="culprit-label" class="detail-label">Culprit: </t>
                 <t color="&amp;6" id="culprit-value" class="detail-value">target</t>
             </LoreLine>
+
             <LoreLine>
                 <t color="&amp;b" id="issued-on-label" class="detail-label">Issued on: </t>
                 <t color="&amp;6" id="issued-on-value" class="detail-value">01/09/2021-01:11:15</t>
             </LoreLine>
+
             <LoreLine>
                 <t color="&amp;b" id="reason-label" class="detail-label">Reason: </t>
                 <t color="&amp;6" id="reason-value" class="detail-value">reason</t>
             </LoreLine>
+
             <LoreLine></LoreLine>
+
+
         </Lore>
     </GuiItem>
-    <GuiItem slot="8" id="delete" permission="warning.delete" material="REDSTONE_BLOCK" onLeftClick="manage-warnings/delete?warningId=12">
+
+    <GuiItem slot="8" id="delete" permission="staff.warnings.manage.delete" material="REDSTONE_BLOCK" onLeftClick="manage-warnings/delete?warningId=12">
         <name class="item-name">Delete</name>
         <Lore>
             <LoreLine>
@@ -42,7 +53,8 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="17" id="expire" permission="warning.expire" material="ORANGE_STAINED_GLASS_PANE" onLeftClick="manage-warnings/expire?warningId=12">
+
+    <GuiItem slot="17" id="expire" permission="staff.warnings.manage.expire" material="ORANGE_STAINED_GLASS_PANE" onLeftClick="manage-warnings/expire?warningId=12">
         <name class="item-name">Expire</name>
         <Lore>
             <LoreLine>
@@ -50,6 +62,8 @@
             </LoreLine>
         </Lore>
     </GuiItem>
+
+
     <GuiItem id="add-appeal" slot="31" material="BOOK" onLeftClick="manage-warning-appeals/view/create/reason-chat?warningId=12&amp;backAction=manage-warnings%2Fview%2Fdetail%3FwarningId%3D12%26backAction%3DgoBack%2Fview">
         <name class="item-name">Add appeal</name>
         <Lore>
@@ -58,6 +72,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
+
     <GuiItem slot="14" id="add-evidence-item" class="add-evidence-item" onLeftClick="manage-investigation-evidence/view/investigation-link?backAction=manage-warnings%2Fview%2Fdetail%3FwarningId%3D12%26backAction%3DgoBack%2Fview&amp;evidenceId=12&amp;evidenceType=WARNING&amp;evidenceDescription=MINOR reason" material="ANVIL">
         <name class="item-name">Add this as evidence to investigation</name>
         <Lore>
