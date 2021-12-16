@@ -56,7 +56,7 @@
 <#macro appealinfoitem appeal action>
     <GuiItem slot="31"
              id="appeal-info"
-             material="WRITABLE_BOOK"
+             material="BOOK"
              onLeftClick="${action}">
         <name class="item-name">
             <t id="appeal-status-label">Appeal </t>
