@@ -1,13 +1,14 @@
 package net.shortninja.staffplus.core.application.updates;
 
-import feign.Headers;
-import feign.RequestLine;
-import org.json.simple.JSONObject;
+import com.google.gson.JsonObject;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
 
 public interface SpigetClient {
 
-    @RequestLine("GET /latest_versions.json")
+    @GET("latest_versions.json")
     @Headers("Content-Type: application/json")
-    JSONObject getVersions();
+    Call<JsonObject> getVersions();
 
 }
