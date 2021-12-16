@@ -1,6 +1,15 @@
 # Changelog Staff++ | v1.18
 
-# V1.18.1
+# V1.18.3
+
+### Features
+  - reduce jar size
+
+### Bugs
+  - Unresolved reports GUI could not be opened
+  - Appeal GUI in 1.12 could not be opened
+
+# V1.18.2
 
 ### Features
   - Player Notes can now be viewed, created and deleted through the web platform
