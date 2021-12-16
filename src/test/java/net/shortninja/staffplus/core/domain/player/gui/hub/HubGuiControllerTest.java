@@ -14,8 +14,6 @@ import static org.mockito.Mockito.when;
 
 class HubGuiControllerTest extends AbstractGuiTemplateTest {
 
-    private static final String VIEW_REPORTS_PERMISSION = "staff.managereports";
-
     @Captor
     private ArgumentCaptor<String> xmlCaptor;
 
