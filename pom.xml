@@ -113,7 +113,7 @@
         <dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
-            <version>5.2</version>
+            <version>5.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -121,34 +121,15 @@
             <artifactId>staffplusplus-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-okhttp</artifactId>
-            <version>10.2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-gson</artifactId>
-            <version>10.2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-slf4j</artifactId>
-            <version>10.2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign.form</groupId>
-            <artifactId>feign-form</artifactId>
-            <version>3.8.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.30</version>
-        </dependency>
-        <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>tubing</artifactId>
-            <version>4.1.0</version>
+            <version>4.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
@@ -187,6 +168,16 @@
             <groupId>com.github.seancfoley</groupId>
             <artifactId>ipaddress</artifactId>
             <version>5.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>retrofit</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>converter-gson</artifactId>
+            <version>2.9.0</version>
         </dependency>
 
 <!--        TEST-->
@@ -341,11 +332,6 @@
                                     <pattern>org.apache</pattern>
                                     <shadedPattern>net.shortninja.staffplus.libs.org.apache</shadedPattern>
                                 </relocation>
-<!--                                TODO: Relocating this result in an error, need to fix it-->
-<!--                                <relocation>-->
-<!--                                    <pattern>com.google</pattern>-->
-<!--                                    <shadedPattern>net.shortninja.staffplus.libs.com.google</shadedPattern>-->
-<!--                                </relocation>-->
                                 <relocation>
                                     <pattern>me.rayzr522</pattern>
                                     <shadedPattern>net.shortninja.staffplus.libs.me.rayzr522</shadedPattern>
@@ -359,16 +345,16 @@
                                     <shadedPattern>net.shortninja.staffplus.libs.javassist</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>feign</pattern>
-                                    <shadedPattern>net.shortninja.staffplus.libs.feign</shadedPattern>
+                                    <pattern>retrofit2</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.retrofit2</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.gson</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.com.google.gson</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>be.garagepoort.mcsqlmigrations.</pattern>
                                     <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcsqlmigrations.</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>io.github.openfeign.</pattern>
-                                    <shadedPattern>net.shortninja.staffplus.core.io.github.openfeign.</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
