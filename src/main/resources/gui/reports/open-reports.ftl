@@ -1,4 +1,4 @@
-<#import "report-commons.ftl" as reportcommon/>
+<#import "report-comm   ons.ftl" as reportcommon/>
 <#import "/gui/commons/commons.ftl" as commons/>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <#include "/gui/commons/translate.ftl"/>
