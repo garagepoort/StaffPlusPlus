@@ -123,17 +123,17 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
-            <version>10.2.3</version>
+            <version>11.7</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-gson</artifactId>
-            <version>10.2.3</version>
+            <version>11.7</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-slf4j</artifactId>
-            <version>10.2.3</version>
+            <version>11.7</version>
         </dependency>
         <dependency>
             <groupId>io.github.openfeign.form</groupId>
@@ -143,12 +143,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.30</version>
+            <version>1.7.32</version>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>tubing</artifactId>
-            <version>4.1.0</version>
+            <version>4.1.1</version>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
@@ -359,12 +359,12 @@
                                     <shadedPattern>net.shortninja.staffplus.libs.javassist</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>feign</pattern>
-                                    <shadedPattern>net.shortninja.staffplus.libs.feign</shadedPattern>
-                                </relocation>
-                                <relocation>
                                     <pattern>be.garagepoort.mcsqlmigrations.</pattern>
                                     <shadedPattern>net.shortninja.staffplus.core.be.garagepoort.mcsqlmigrations.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>feign</pattern>
+                                    <shadedPattern>net.shortninja.staffplus.libs.feign</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>io.github.openfeign.</pattern>
