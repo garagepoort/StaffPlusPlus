@@ -14,8 +14,6 @@ public interface StoredCommandRepository {
 
     List<StoredCommandEntity> getCommandsFor(Actionable actionable);
 
-    List<StoredCommandEntity> getCommandsFor(Actionable actionable, String group);
-
     int saveCommand(StoredCommandEntity storedCommandEntity);
 
     List<StoredCommandEntity> getDelayedActions(UUID uuid);

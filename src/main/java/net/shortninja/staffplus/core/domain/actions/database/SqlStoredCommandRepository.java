@@ -101,30 +101,6 @@ public class SqlStoredCommandRepository extends SqlRepository implements StoredC
         return actions;
     }
 
-
-    @Override
-    public List<StoredCommandEntity> getCommandsFor(Actionable actionable, String group) {
-        List<StoredCommandEntity> actions = new ArrayList<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_commands " +
-                 "LEFT OUTER JOIN sp_commands rollbackcommand on sp_commands.rollback_command_id = rollbackcommand.id " +
-                 "WHERE sp_commands.actionable_id = ? AND sp_commands.actionable_type = ? AND sp_commands.group = ? " + serverNameFilter + " " +
-                 "ORDER BY sp_commands.creation_timestamp ASC")
-        ) {
-            ps.setInt(1, actionable.getId());
-            ps.setString(2, actionable.getActionableType());
-            ps.setString(3, group);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    actions.add(storedCommandSqlMapper.map(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return actions;
-    }
-
     @Override
     public List<StoredCommandEntity> getDelayedActions(UUID uuid) {
         List<StoredCommandEntity> actions = new ArrayList<>();
