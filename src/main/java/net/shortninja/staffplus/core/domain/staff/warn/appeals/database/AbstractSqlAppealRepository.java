@@ -43,7 +43,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     public List<Appeal> getAppeals(int warningId) {
         List<Appeal> appeals = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warning_appeals WHERE warning_id = ? ORDER BY timestamp DESC")
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_appeals WHERE appealable_id = ? ORDER BY timestamp DESC")
         ) {
             ps.setInt(1, warningId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -62,7 +62,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     public List<Appeal> getAppeals(int warningId, int offset, int amount) {
         List<Appeal> appeals = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warning_appeals WHERE warning_id = ? ORDER BY timestamp DESC LIMIT ?,?")
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_appeals WHERE appealable_id = ? ORDER BY timestamp DESC LIMIT ?,?")
         ) {
             ps.setInt(1, warningId);
             ps.setInt(2, offset);
@@ -82,7 +82,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     @Override
     public void addAppeal(Appeal appeal) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_warning_appeals(warning_id, reason, status, appealer_uuid, timestamp) " +
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_appeals(appealable_id, reason, status, appealer_uuid, timestamp) " +
                  "VALUES(? ,?, ?, ?, ?);")) {
             insert.setInt(1, appeal.getAppealableId());
             insert.setString(2, appeal.getReason());
@@ -99,7 +99,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     @Override
     public void updateAppealStatus(int appealId, UUID resolverUuid, String resolveReason, AppealStatus status) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_warning_appeals set status=?, resolve_reason=?, resolver_uuid=? WHERE id=?;")) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_appeals set status=?, resolve_reason=?, resolver_uuid=? WHERE id=?;")) {
             insert.setString(1, status.name());
             if (resolveReason == null) {
                 insert.setNull(2, Types.VARCHAR);
@@ -117,7 +117,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     @Override
     public Optional<Appeal> findAppeal(int appealId) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_warning_appeals WHERE id = ?")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_appeals WHERE id = ?")) {
             ps.setInt(1, appealId);
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
@@ -134,7 +134,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     @Override
     public int getCountOpenAppeals() {
         int count;
-        String query = "SELECT count(*) as count FROM sp_warning_appeals WHERE status='OPEN' AND warning_id in (SELECT id from sp_warnings " + Constants.getServerNameFilterWithWhere(warningSyncEnabled) + ")";
+        String query = "SELECT count(*) as count FROM sp_appeals WHERE status='OPEN' AND appealable_id in (SELECT id from sp_warnings " + Constants.getServerNameFilterWithWhere(warningSyncEnabled) + ")";
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement(query)) {
             try (ResultSet rs = ps.executeQuery()) {
@@ -150,7 +150,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     @Override
     public void deleteAppealsForWarning(int warningId) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_warning_appeals WHERE warning_id = ? ");) {
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_appeals WHERE appealable_id = ? ");) {
             insert.setInt(1, warningId);
             insert.executeUpdate();
         } catch (SQLException e) {
@@ -174,7 +174,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
         }
 
         int id = rs.getInt("ID");
-        int warningId = rs.getInt("warning_id");
+        int warningId = rs.getInt("appealable_id");
         AppealStatus status = AppealStatus.valueOf(rs.getString("status"));
 
         return new Appeal(
