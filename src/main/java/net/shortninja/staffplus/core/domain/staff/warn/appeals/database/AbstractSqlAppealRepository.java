@@ -7,8 +7,9 @@ import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
+import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.Connection;
@@ -40,12 +41,12 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     }
 
     @Override
-    public List<Appeal> getAppeals(int warningId) {
+    public List<Appeal> getAppeals(int appealableId) {
         List<Appeal> appeals = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_appeals WHERE appealable_id = ? ORDER BY timestamp DESC")
         ) {
-            ps.setInt(1, warningId);
+            ps.setInt(1, appealableId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Appeal appeal = buildAppeal(rs);
@@ -148,10 +149,10 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     }
 
     @Override
-    public void deleteAppealsForWarning(int warningId) {
+    public void deleteAppeals(int appealableId, AppealableType appealableType) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_appeals WHERE appealable_id = ? ");) {
-            insert.setInt(1, warningId);
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_appeals WHERE appealable_id = ? and ");) {
+            insert.setInt(1, appealableId);
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);

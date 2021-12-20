@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import static net.shortninja.staffplusplus.warnings.AppealStatus.OPEN;
+import static net.shortninja.staffplusplus.appeals.AppealStatus.OPEN;
 
 public class AppealItemBuilder {
 

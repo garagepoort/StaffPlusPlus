@@ -3,8 +3,12 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
+import net.shortninja.staffplusplus.appeals.AppealableType;
+import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.ban.IBan;
 import net.shortninja.staffplusplus.investigate.evidence.Evidence;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -30,8 +34,9 @@ public class Ban implements IBan, Infraction, Evidence {
     private UUID unbannedByUuid;
     private String unbanReason;
     private String serverName;
+    private IAppeal appeal;
 
-    public Ban(int id, String reason, Long creationDate, Long endDate, String targetName, UUID targetUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName, boolean silentBan, boolean silentUnban, String template) {
+    public Ban(int id, String reason, Long creationDate, Long endDate, String targetName, UUID targetUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName, boolean silentBan, boolean silentUnban, String template, IAppeal appeal) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
@@ -47,6 +52,7 @@ public class Ban implements IBan, Infraction, Evidence {
         this.silentBan = silentBan;
         this.silentUnban = silentUnban;
         this.template = template;
+        this.appeal = appeal;
     }
 
     public Ban(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan, String template) {
@@ -205,5 +211,27 @@ public class Ban implements IBan, Infraction, Evidence {
 
     public boolean hasEnded() {
         return endDate != null && endDate <= System.currentTimeMillis();
+    }
+
+    public Optional<IAppeal> getAppeal() {
+        return Optional.ofNullable(appeal);
+    }
+
+    @Override
+    public void setAppeal(IAppeal appeal) {
+        this.appeal = appeal;
+    }
+
+    @Override
+    public AppealableType getType() {
+        return null;
+    }
+
+    public void setAppeal(Appeal appeal) {
+        this.appeal = appeal;
+    }
+
+    public boolean hasApprovedAppeal() {
+        return getAppeal().map(a -> a.getStatus() == AppealStatus.APPROVED).orElse(false);
     }
 }

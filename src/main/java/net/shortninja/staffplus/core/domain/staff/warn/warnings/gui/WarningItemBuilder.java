@@ -8,12 +8,12 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
-import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.appeals.IAppeal;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import org.bukkit.inventory.ItemStack;
 
 import java.time.LocalDateTime;
@@ -44,7 +44,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
     public ItemStack build(Warning warning) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(warning.getCreationDate().toInstant(), ZoneOffset.UTC);
         String time = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(options.timestampFormat));
-        Optional<Appeal> appeal = warning.getAppeal();
+        Optional<IAppeal> appeal = warning.getAppeal();
 
         LoreBuilder loreBuilder = LoreBuilder.builder("&b", "&6")
             .addItem("Id", String.valueOf(warning.getId()))
@@ -69,7 +69,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
         return protocolService.getVersionProtocol().addNbtString(item, String.valueOf(warning.getId()));
     }
 
-    private boolean appealApproved(Optional<Appeal> appeal) {
+    private boolean appealApproved(Optional<IAppeal> appeal) {
         return appealConfiguration.enabled && appeal.isPresent() && appeal.get().getStatus() == AppealStatus.APPROVED;
     }
 

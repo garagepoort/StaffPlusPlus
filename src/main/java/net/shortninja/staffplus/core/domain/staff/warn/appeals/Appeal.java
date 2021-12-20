@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
 import net.shortninja.staffplusplus.appeals.IAppeal;
-import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 
 import java.time.Instant;
 import java.time.ZoneId;

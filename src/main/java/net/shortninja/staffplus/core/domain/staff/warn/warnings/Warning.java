@@ -4,8 +4,10 @@ import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
+import net.shortninja.staffplusplus.appeals.AppealableType;
+import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.investigate.evidence.Evidence;
-import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.warnings.IWarning;
 
 import java.time.Instant;
@@ -26,7 +28,7 @@ public class Warning implements IWarning, Infraction, Evidence {
     private String severity;
     private boolean read;
     private String serverName;
-    private Appeal appeal;
+    private IAppeal appeal;
     private boolean expired;
 
     public Warning(UUID targetUuid, String targetName, String reason, String issuerName, UUID issuerUuid, long time, WarningSeverityConfiguration warningSeverityConfiguration) {
@@ -146,7 +148,7 @@ public class Warning implements IWarning, Infraction, Evidence {
         return serverName;
     }
 
-    public Optional<Appeal> getAppeal() {
+    public Optional<IAppeal> getAppeal() {
         return Optional.ofNullable(appeal);
     }
 
@@ -154,8 +156,13 @@ public class Warning implements IWarning, Infraction, Evidence {
         this.id = id;
     }
 
-    public void setAppeal(Appeal appeal) {
+    public void setAppeal(IAppeal appeal) {
         this.appeal = appeal;
+    }
+
+    @Override
+    public AppealableType getType() {
+        return AppealableType.WARNING;
     }
 
     public boolean isExpired() {

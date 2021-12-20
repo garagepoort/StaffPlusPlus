@@ -16,7 +16,7 @@ import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningCo
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.warnings.WarningCreatedEvent;
 import net.shortninja.staffplusplus.warnings.WarningExpiredEvent;
 import net.shortninja.staffplusplus.warnings.WarningFilters;
@@ -118,7 +118,7 @@ public class WarnService implements InfractionProvider, WarningService {
             throw new BusinessException("For consistency reasons a warning must be removed on the same server it was created. Please try removing the warning while connected to server " + warning.getServerName());
         }
 
-        appealRepository.deleteAppealsForWarning(id);
+        appealRepository.deleteAppeals(id);
         warnRepository.removeWarning(id);
         sendEvent(new WarningRemovedEvent(warning));
     }

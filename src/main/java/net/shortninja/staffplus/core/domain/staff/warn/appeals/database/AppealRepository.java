@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals.database;
 
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
-import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
+import net.shortninja.staffplusplus.appeals.AppealableType;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +18,9 @@ public interface AppealRepository {
 
     void addAppeal(Appeal appeal);
 
-    List<Appeal> getAppeals(int warningId);
+    List<Appeal> getAppeals(int appealableId, AppealableType appealableType);
 
     int getCountOpenAppeals();
 
-    void deleteAppealsForWarning(int id);
+    void deleteAppeals(int appealableId, AppealableType appealableType);
 }

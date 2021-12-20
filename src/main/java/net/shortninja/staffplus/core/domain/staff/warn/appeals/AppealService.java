@@ -1,23 +1,21 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
 import be.garagepoort.mcioc.IocBean;
-import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
-import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWarningsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
+import net.shortninja.staffplusplus.appeals.AppealApprovedEvent;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
+import net.shortninja.staffplusplus.appeals.Appealable;
+import net.shortninja.staffplusplus.appeals.AppealedEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplusplus.warnings.AppealStatus;
-import net.shortninja.staffplusplus.warnings.WarningAppealApprovedEvent;
 import net.shortninja.staffplusplus.warnings.WarningAppealRejectedEvent;
-import net.shortninja.staffplusplus.warnings.WarningAppealedEvent;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -36,10 +34,9 @@ public class AppealService {
     private final PermissionHandler permission;
     private final Options options;
     private final AppealConfiguration appealConfiguration;
-    private final ManageWarningsConfiguration manageWarningsConfiguration;
 
     public AppealService(PlayerManager playerManager, AppealRepository appealRepository, WarnRepository warnRepository,
-                         Messages messages, PermissionHandler permission, Options options, ManageWarningsConfiguration manageWarningsConfiguration) {
+                         Messages messages, PermissionHandler permission, Options options) {
         this.playerManager = playerManager;
         this.appealRepository = appealRepository;
         this.warnRepository = warnRepository;
@@ -48,23 +45,18 @@ public class AppealService {
         this.permission = permission;
         this.options = options;
         this.appealConfiguration = options.appealConfiguration;
-        this.manageWarningsConfiguration = manageWarningsConfiguration;
     }
 
-    public void addAppeal(Player appealer, Warning warning, String reason) {
+    public void addAppeal(Player appealer, Appealable appealable, String reason) {
         validator(appealer)
             .validateAnyPermission(appealConfiguration.createAppealPermission)
             .validateNotEmpty(reason, "Reason for appeal can not be empty");
 
-        Appeal appeal = new Appeal(warning.getId(), appealer.getUniqueId(), appealer.getName(), reason);
+        Appeal appeal = new Appeal(appealable.getId(), appealer.getUniqueId(), appealer.getName(), reason);
         appealRepository.addAppeal(appeal);
 
-        String message = messages.appealCreated.replace("%reason%", reason);
-        this.messages.send(appealer, message, messages.prefixWarnings);
-
-        warning.setAppeal(appeal);
-        sendAppealedMessageToStaff(warning, appealer);
-        sendEvent(new WarningAppealedEvent(warning));
+        appealable.setAppeal(appeal);
+        sendEvent(new AppealedEvent(appealable));
     }
 
     public void approveAppeal(Player resolver, int appealId) {
@@ -85,7 +77,7 @@ public class AppealService {
         this.messages.send(resolver, messages.appealApprove, messages.prefixWarnings);
 
         Warning updatedWarning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found."));
-        sendEvent(new WarningAppealApprovedEvent(updatedWarning));
+        sendEvent(new AppealApprovedEvent(updatedWarning));
     }
 
     public Appeal getAppeal(int appealId) {
@@ -106,15 +98,6 @@ public class AppealService {
 
         Warning updatedWarning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found"));
         sendEvent(new WarningAppealRejectedEvent(updatedWarning));
-    }
-
-    private void sendAppealedMessageToStaff(Warning warning, Player appealer) {
-        String manageWarningsCommand = manageWarningsConfiguration.commandManageWarningsGui + " " + warning.getTargetName();
-        JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed a warning",
-            "View warnings!",
-            "Click to open the warnings view",
-            manageWarningsCommand, true);
-        this.messages.sendGroupMessage(jsonMessage, appealConfiguration.permissionNotifications);
     }
 
     private void sendMessageToPlayer(Appeal appeal, String message) {
