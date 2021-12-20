@@ -60,17 +60,6 @@ public class ActionService {
             .forEach(this::rollbackCommand);
     }
 
-    public void rollbackActionable(Actionable actionable, String group) {
-        Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(actionable.getTargetUuid());
-        if (!target.isPresent()) {
-            return;
-        }
-
-        storedCommandRepository.getCommandsFor(actionable, group)
-            .stream().filter(a -> a.isExecuted() && a.isRollbackable() && !a.isRollbacked())
-            .forEach(this::rollbackCommand);
-    }
-
     public void rollbackCommand(StoredCommandEntity storedCommandEntity) {
         if (!storedCommandEntity.isRollbackable()) {
             throw new BusinessException("This command is not rollbackable");
