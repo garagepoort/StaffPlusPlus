@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
+import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.sql.Connection;
@@ -255,7 +256,7 @@ public abstract class AbstractSqlBansRepository extends SqlRepository implements
         endTimestamp = rs.wasNull() ? null : endTimestamp;
         String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
 
-        List<Appeal> appeals = appealRepository.getAppeals(id);
+        List<Appeal> appeals = appealRepository.getAppeals(id, AppealableType.BAN);
 
         return new Ban(
             id,

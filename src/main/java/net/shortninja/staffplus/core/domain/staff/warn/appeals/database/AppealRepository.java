@@ -12,11 +12,11 @@ public interface AppealRepository {
 
     List<Appeal> getAppeals(int warningId, int offset, int amount);
 
-    void updateAppealStatus(int appealId, UUID resolverUuid, String resolveReason, AppealStatus status);
+    void updateAppealStatus(int appealId, UUID resolverUuid, String resolveReason, AppealStatus status, AppealableType appealableType);
 
     Optional<Appeal> findAppeal(int appealId);
 
-    void addAppeal(Appeal appeal);
+    void addAppeal(Appeal appeal, AppealableType appealableType);
 
     List<Appeal> getAppeals(int appealableId, AppealableType appealableType);
 

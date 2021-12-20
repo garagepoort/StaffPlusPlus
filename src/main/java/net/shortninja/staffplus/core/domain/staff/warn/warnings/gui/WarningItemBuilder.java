@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.WarningAppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
@@ -29,14 +29,14 @@ import static net.shortninja.staffplus.core.common.JavaUtils.toHumanReadableDura
 public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
 
     private final Options options;
-    private final AppealConfiguration appealConfiguration;
+    private final WarningAppealConfiguration warningAppealConfiguration;
     private final WarningConfiguration warningConfiguration;
     private final IProtocolService protocolService;
 
     public WarningItemBuilder(Options options, WarningConfiguration warningConfiguration, IProtocolService protocolService) {
         this.options = options;
         this.protocolService = protocolService;
-        appealConfiguration = options.appealConfiguration;
+        warningAppealConfiguration = options.warningAppealConfiguration;
         this.warningConfiguration = warningConfiguration;
     }
 
@@ -70,7 +70,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
     }
 
     private boolean appealApproved(Optional<IAppeal> appeal) {
-        return appealConfiguration.enabled && appeal.isPresent() && appeal.get().getStatus() == AppealStatus.APPROVED;
+        return warningAppealConfiguration.enabled && appeal.isPresent() && appeal.get().getStatus() == AppealStatus.APPROVED;
     }
 
     private void addExpiresAt(Warning warning, LoreBuilder lore) {

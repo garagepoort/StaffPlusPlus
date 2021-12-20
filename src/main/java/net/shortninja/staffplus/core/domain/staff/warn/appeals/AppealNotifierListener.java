@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.WarningAppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWarningsConfiguration;
 import org.bukkit.event.EventHandler;
@@ -21,15 +21,15 @@ public class AppealNotifierListener implements Listener {
 
     private final AppealRepository appealRepository;
     private final ManageWarningsConfiguration manageWarningsConfiguration;
-    private final AppealConfiguration appealConfiguration;
+    private final WarningAppealConfiguration warningAppealConfiguration;
     private final PermissionHandler permission;
     private final Messages messages;
     private final BukkitUtils bukkitUtils;
 
-    public AppealNotifierListener(AppealRepository appealRepository, ManageWarningsConfiguration manageWarningsConfiguration, AppealConfiguration appealConfiguration, PermissionHandler permission, Messages messages, BukkitUtils bukkitUtils) {
+    public AppealNotifierListener(AppealRepository appealRepository, ManageWarningsConfiguration manageWarningsConfiguration, WarningAppealConfiguration warningAppealConfiguration, PermissionHandler permission, Messages messages, BukkitUtils bukkitUtils) {
         this.appealRepository = appealRepository;
         this.manageWarningsConfiguration = manageWarningsConfiguration;
-        this.appealConfiguration = appealConfiguration;
+        this.warningAppealConfiguration = warningAppealConfiguration;
         this.permission = permission;
         this.messages = messages;
         this.bukkitUtils = bukkitUtils;
@@ -37,7 +37,7 @@ public class AppealNotifierListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void notifyAppeals(StaffPlusPlusJoinedEvent event) {
-        if (!permission.has(event.getPlayer(), appealConfiguration.permissionNotifications)) {
+        if (!permission.has(event.getPlayer(), warningAppealConfiguration.permissionNotifications)) {
             return;
         }
 
@@ -60,7 +60,7 @@ public class AppealNotifierListener implements Listener {
     }
 
     private boolean canManageAppeal(StaffPlusPlusJoinedEvent event) {
-        return permission.has(event.getPlayer(), appealConfiguration.approveAppealPermission)
-            || permission.has(event.getPlayer(), appealConfiguration.rejectAppealPermission);
+        return permission.has(event.getPlayer(), warningAppealConfiguration.approveAppealPermission)
+            || permission.has(event.getPlayer(), warningAppealConfiguration.rejectAppealPermission);
     }
 }

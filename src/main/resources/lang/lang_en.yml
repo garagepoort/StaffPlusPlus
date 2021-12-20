@@ -329,6 +329,14 @@ gui:
     confirmation:
         confirm: Confirm
         cancel: Cancel
+    warnings:
+        appeal-detail:
+            approve:
+                title: "Approve Appeal"
+                lore: "Click to approve this appeal"
+            reject:
+                title: "Reject Appeal"
+                lore: "Click to reject this appeal"
     reports:
         report: "Report"
         assignee: "Assignee"

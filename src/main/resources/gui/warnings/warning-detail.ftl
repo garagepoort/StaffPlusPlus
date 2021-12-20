@@ -1,22 +1,9 @@
 <#import "warning-commons.ftl" as warningcommons/>
+<#import "/gui/appeals/appeal-commons.ftl" as appealcommons/>
 <#import "/gui/commons/commons.ftl" as commons/>
 <#import "/gui/evidence/evidence-commons.ftl" as evidenceCommons/>
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
-
-<#macro appealbutton action>
-    <GuiItem id="add-appeal"
-             slot="31"
-             material="BOOK"
-             onLeftClick="${action}">
-        <name class="item-name">Add appeal</name>
-        <Lore>
-            <LoreLine>
-                <t id="add-appeal-label">Click to appeal this warning</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-</#macro>
 
 <TubingGui size="54" id="warning-detail">
     <title class="gui-title">Warning for: ${warning.targetName}</title>
@@ -75,19 +62,19 @@
 
         <#if canAppeal>
             <#if $config.get("warnings-module.appeals.fixed-reason")>
-                <@appealbutton action="manage-warning-appeals/view/create/reason-select?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}" />
+                <@appealcommons.appealbutton action="manage-warning-appeals/view/create/reason-select?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}" />
             <#else>
-                <@appealbutton action="manage-warning-appeals/view/create/reason-chat?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}" />
+                <@appealcommons.appealbutton action="manage-warning-appeals/view/create/reason-chat?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}" />
             </#if>
         <#elseif warning.appeal.isPresent()>
             <#if ($permissions.has(player, $config.get("permissions:warnings.appeals.approve"))
                 || $permission.has(player, $config.get("permissions:warnings.appeals.reject")))
                 && warning.appeal.get().status.name() == "OPEN">
-                <@warningcommons.appealinfoitem
+                <@appealcommons.appealinfoitem
                 appeal=warning.appeal.get()
                 action="manage-warning-appeals/view/detail?appealId=${warning.appeal.get().id}&backAction=${URLEncoder.encode(currentAction)}"/>
             <#else>
-                <@warningcommons.appealinfoitem appeal=warning.appeal.get() action="$NOOP"/>
+                <@appealcommons.appealinfoitem appeal=warning.appeal.get() action="$NOOP"/>
             </#if>
         </#if>
     </#if>

@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
-import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.appeals.AppealStatus;
+import net.shortninja.staffplusplus.appeals.AppealableType;
+import net.shortninja.staffplusplus.appeals.IAppeal;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -21,8 +22,9 @@ public class Appeal implements IAppeal {
     private String resolveReason;
     private AppealStatus status;
     private Long timestamp;
+    private AppealableType type;
 
-    public Appeal(int id, int appealableId, UUID appealerUuid, String appealerName, UUID resolverUuid, String resolverName, String reason, String resolveReason, AppealStatus status, Long timestamp) {
+    public Appeal(int id, int appealableId, UUID appealerUuid, String appealerName, UUID resolverUuid, String resolverName, String reason, String resolveReason, AppealStatus status, Long timestamp, AppealableType type) {
         this.id = id;
         this.appealableId = appealableId;
         this.appealerUuid = appealerUuid;
@@ -33,13 +35,15 @@ public class Appeal implements IAppeal {
         this.resolveReason = resolveReason;
         this.status = status;
         this.timestamp = timestamp;
+        this.type = type;
     }
 
-    public Appeal(int appealableId, UUID appealerUuid, String appealerName, String reason) {
+    public Appeal(int appealableId, UUID appealerUuid, String appealerName, String reason, AppealableType type) {
         this.appealableId = appealableId;
         this.appealerUuid = appealerUuid;
         this.appealerName = appealerName;
         this.reason = reason;
+        this.type = type;
         this.status = AppealStatus.OPEN;
         this.timestamp = System.currentTimeMillis();
     }
@@ -48,6 +52,7 @@ public class Appeal implements IAppeal {
         return id;
     }
 
+    @Override
     public int getAppealableId() {
         return appealableId;
     }
@@ -92,5 +97,10 @@ public class Appeal implements IAppeal {
     @Override
     public ZonedDateTime getCreationDate() {
         return ZonedDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault());
+    }
+
+    @Override
+    public AppealableType getType() {
+        return type;
     }
 }

@@ -41,12 +41,13 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     }
 
     @Override
-    public List<Appeal> getAppeals(int appealableId) {
+    public List<Appeal> getAppeals(int appealableId, AppealableType appealableType) {
         List<Appeal> appeals = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_appeals WHERE appealable_id = ? ORDER BY timestamp DESC")
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_appeals WHERE appealable_id = ? AND type = ? ORDER BY timestamp DESC")
         ) {
             ps.setInt(1, appealableId);
+            ps.setString(2, appealableType.name());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Appeal appeal = buildAppeal(rs);
@@ -81,15 +82,16 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     }
 
     @Override
-    public void addAppeal(Appeal appeal) {
+    public void addAppeal(Appeal appeal, AppealableType appealableType) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_appeals(appealable_id, reason, status, appealer_uuid, timestamp) " +
-                 "VALUES(? ,?, ?, ?, ?);")) {
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_appeals(appealable_id, reason, status, appealer_uuid, timestamp, type) " +
+                 "VALUES(? ,?, ?, ?, ?, ?);")) {
             insert.setInt(1, appeal.getAppealableId());
             insert.setString(2, appeal.getReason());
             insert.setString(3, appeal.getStatus().name());
             insert.setString(4, appeal.getAppealerUuid().toString());
             insert.setLong(5, appeal.getCreationTimestamp());
+            insert.setString(6, appealableType.name());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -98,9 +100,9 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
 
 
     @Override
-    public void updateAppealStatus(int appealId, UUID resolverUuid, String resolveReason, AppealStatus status) {
+    public void updateAppealStatus(int appealId, UUID resolverUuid, String resolveReason, AppealStatus status, AppealableType appealableType) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_appeals set status=?, resolve_reason=?, resolver_uuid=? WHERE id=?;")) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_appeals set status=?, resolve_reason=?, resolver_uuid=?, type=? WHERE id=?;")) {
             insert.setString(1, status.name());
             if (resolveReason == null) {
                 insert.setNull(2, Types.VARCHAR);
@@ -108,7 +110,8 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
                 insert.setString(2, resolveReason);
             }
             insert.setString(3, resolverUuid.toString());
-            insert.setInt(4, appealId);
+            insert.setString(4, appealableType.name());
+            insert.setInt(5, appealId);
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -151,8 +154,9 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     @Override
     public void deleteAppeals(int appealableId, AppealableType appealableType) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_appeals WHERE appealable_id = ? and ");) {
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_appeals WHERE appealable_id = ? and type = ?");) {
             insert.setInt(1, appealableId);
+            insert.setString(2, appealableType.name());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -175,19 +179,21 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
         }
 
         int id = rs.getInt("ID");
-        int warningId = rs.getInt("appealable_id");
+        int appealableId = rs.getInt("appealable_id");
         AppealStatus status = AppealStatus.valueOf(rs.getString("status"));
+        AppealableType type = AppealableType.valueOf(rs.getString("type"));
 
         return new Appeal(
             id,
-            warningId,
+            appealableId,
             appealerUuid,
             appealerName,
             resolverUuid,
             resolverName,
             rs.getString("reason"),
             resolveReason, status,
-            rs.getLong("timestamp"));
+            rs.getLong("timestamp"),
+            type);
     }
 
 }
