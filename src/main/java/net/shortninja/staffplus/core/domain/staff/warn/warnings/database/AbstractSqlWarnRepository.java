@@ -51,7 +51,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     @Override
     public int getTotalScore(UUID uuid) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE Player_UUID = ? AND is_expired=? AND id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + getServerNameFilterWithAnd(warningSyncServers))
+             PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE Player_UUID = ? AND is_expired=? AND id not in (select appealable_id from sp_appeals where status = 'APPROVED') " + getServerNameFilterWithAnd(warningSyncServers))
         ) {
             ps.setString(1, uuid.toString());
             ps.setBoolean(2, false);
@@ -67,7 +67,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     @Override
     public int getTotalScore(String name) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE player_name = ? AND is_expired=? AND id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + getServerNameFilterWithAnd(warningSyncServers))
+             PreparedStatement ps = sql.prepareStatement("SELECT ifnull(sum(score), 0) sum FROM sp_warnings WHERE player_name = ? AND is_expired=? AND id not in (select appealable_id from sp_appeals where status = 'APPROVED') " + getServerNameFilterWithAnd(warningSyncServers))
         ) {
             ps.setString(1, name);
             ps.setBoolean(2, false);
@@ -168,7 +168,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     public List<Warning> getAppealedWarnings(int offset, int amount) {
         List<Warning> warnings = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT sp_warnings.* FROM sp_warnings INNER JOIN sp_warning_appeals appeals on sp_warnings.id = appeals.warning_id AND appeals.status = 'OPEN' "
+             PreparedStatement ps = sql.prepareStatement("SELECT sp_warnings.* FROM sp_warnings INNER JOIN sp_appeals appeals on sp_warnings.id = appeals.appealable_id AND appeals.status = 'OPEN' "
                  + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncServers) +
                  " ORDER BY sp_warnings.timestamp DESC LIMIT ?,?")
         ) {
@@ -274,7 +274,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_warnings WHERE id not in (select warning_id from sp_warning_appeals where status = 'APPROVED') " + getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncServers) + " GROUP BY Player_UUID ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT Player_UUID, count(*) as count FROM sp_warnings WHERE id not in (select appealable_id from sp_appeals where status = 'APPROVED') " + getServerNameFilterWithAnd(options.serverSyncConfiguration.warningSyncServers) + " GROUP BY Player_UUID ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("Player_UUID")), rs.getInt("count"));
