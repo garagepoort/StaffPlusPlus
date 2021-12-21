@@ -38,4 +38,8 @@ public interface MuteRepository {
     Optional<Mute> getLastMute(UUID playerUuid);
 
     void setMuteDuration(int muteId, long duration);
+
+    Optional<Mute> getMute(int muteId);
+
+    List<Mute> getAppealedMutes(int offset, int amount);
 }
