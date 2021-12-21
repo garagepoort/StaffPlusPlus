@@ -5,7 +5,10 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.database.SqlRepository;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
+import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.sql.Connection;
@@ -27,11 +30,13 @@ public abstract class AbstractSqlBansRepository extends SqlRepository implements
 
     private final PlayerManager playerManager;
     protected final Options options;
+    private final AppealRepository appealRepository;
 
-    public AbstractSqlBansRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
+    public AbstractSqlBansRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options, AppealRepository appealRepository) {
         super(sqlConnectionProvider);
         this.playerManager = playerManager;
         this.options = options;
+        this.appealRepository = appealRepository;
     }
 
     @Override
@@ -59,6 +64,23 @@ public abstract class AbstractSqlBansRepository extends SqlRepository implements
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE id = ? AND (end_timestamp IS NULL OR end_timestamp > ?) " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers))) {
             ps.setInt(1, banId);
             ps.setLong(2, System.currentTimeMillis());
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildBan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Ban> getBan(int banId) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE id = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers))) {
+            ps.setInt(1, banId);
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {
@@ -185,6 +207,27 @@ public abstract class AbstractSqlBansRepository extends SqlRepository implements
     }
 
     @Override
+    public List<Ban> getAppealedBans(int offset, int amount) {
+        List<Ban> bans = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT sp_banned_players.* FROM sp_banned_players INNER JOIN sp_appeals appeals on sp_banned_players.id = appeals.appealable_id AND appeals.status = 'OPEN' "
+                 + getServerNameFilterWithWhere(options.serverSyncConfiguration.banSyncServers) +
+                 " ORDER BY sp_banned_players.creation_timestamp DESC LIMIT ?,?")
+        ) {
+            ps.setInt(1, offset);
+            ps.setInt(2, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    bans.add(buildBan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return bans;
+    }
+
+    @Override
     public Map<UUID, Long> getBanDurationByPlayer() {
         Map<UUID, Long> count = new HashMap<>();
         try (Connection sql = getConnection();
@@ -251,6 +294,8 @@ public abstract class AbstractSqlBansRepository extends SqlRepository implements
         endTimestamp = rs.wasNull() ? null : endTimestamp;
         String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
 
+        List<Appeal> appeals = appealRepository.getAppeals(id, AppealableType.BAN);
+
         return new Ban(
             id,
             rs.getString("reason"),
@@ -264,7 +309,8 @@ public abstract class AbstractSqlBansRepository extends SqlRepository implements
             unbannedByUUID,
             rs.getString("unban_reason"),
             serverName, silentBan, silentUnban,
-            rs.getString("template"));
+            rs.getString("template"),
+            appeals.size() > 0 ? appeals.get(0) : null);
     }
 
     private String getPlayerName(UUID uuid) {

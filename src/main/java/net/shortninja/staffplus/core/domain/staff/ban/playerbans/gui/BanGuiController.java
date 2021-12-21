@@ -11,12 +11,15 @@ import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.database.BansRepository;
 import net.shortninja.staffplusplus.session.SppPlayer;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
@@ -47,12 +50,27 @@ public class BanGuiController {
     }
 
     @GuiAction("manage-bans/view/overview")
-    public AsyncGui<GuiTemplate> getBannedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
+    public AsyncGui<GuiTemplate> getBannedPlayersOverview(
+        @GuiParam("targetPlayerName") String targetPlayerName,
+        @GuiParam(value = "page", defaultValue = "0") int page) {
+
+        SppPlayer target = null;
+        if (StringUtils.isNotBlank(targetPlayerName)) {
+            target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow((() -> new PlayerNotFoundException(targetPlayerName)));
+        }
+        SppPlayer finalTarget = target;
         return async(() -> {
             Map<String, Object> params = new HashMap<>();
-            params.put("bans", banService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE));
+            params.put("bans", getBans(finalTarget, page));
             return template("gui/bans/bans-overview.ftl", params);
         });
+    }
+
+    private List<Ban> getBans(SppPlayer target, int page) {
+        if (target == null) {
+            return banService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE);
+        }
+        return bansRepository.getBansForPlayerPaged(target.getId(), page * PAGE_SIZE, PAGE_SIZE);
     }
 
     @GuiAction("manage-bans/view/detail")

@@ -11,7 +11,7 @@ public class V79_ReworkAppealsTableColumnMigration implements Migration {
     public List<String> getStatements() {
         return Arrays.asList(
             createNewTable(),
-            "INSERT INTO sp_appeals SELECT ID, warning_id, appealer_uuid, resolver_uuid, reason, resolve_reason, status, timestamp FROM sp_warning_appeals;",
+            "INSERT INTO sp_appeals SELECT ID, warning_id, appealer_uuid, resolver_uuid, reason, resolve_reason, status, timestamp, 'WARNING' FROM sp_warning_appeals;",
             "DROP TABLE sp_warning_appeals;");
     }
 
@@ -26,6 +26,7 @@ public class V79_ReworkAppealsTableColumnMigration implements Migration {
             "resolve_reason TEXT NULL,  " +
             "status VARCHAR(36) NOT NULL DEFAULT 'OPEN',  " +
             "timestamp BIGINT NOT NULL, " +
+            "type VARCHAR(36) NOT NULL, " +
             "PRIMARY KEY (ID)) ENGINE = InnoDB;";
     }
 
