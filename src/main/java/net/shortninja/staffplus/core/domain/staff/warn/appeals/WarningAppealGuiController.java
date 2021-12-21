@@ -10,13 +10,16 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -41,6 +44,7 @@ public class WarningAppealGuiController {
     private final WarningAppealConfiguration warningAppealConfiguration;
     private final ActionService actionService;
     private final PermissionHandler permission;
+    private final PlayerManager playerManager;
 
     public WarningAppealGuiController(AppealService appealService,
                                       WarnService warnService,
@@ -48,7 +52,7 @@ public class WarningAppealGuiController {
                                       OnlineSessionsManager sessionManager,
                                       Options options,
                                       BukkitUtils bukkitUtils,
-                                      WarningAppealConfiguration warningAppealConfiguration, ActionService actionService, PermissionHandler permission) {
+                                      WarningAppealConfiguration warningAppealConfiguration, ActionService actionService, PermissionHandler permission, PlayerManager playerManager) {
         this.appealService = appealService;
         this.warnService = warnService;
         this.messages = messages;
@@ -58,6 +62,7 @@ public class WarningAppealGuiController {
         this.warningAppealConfiguration = warningAppealConfiguration;
         this.actionService = actionService;
         this.permission = permission;
+        this.playerManager = playerManager;
     }
 
     @GuiAction("manage-warning-appeals/view/detail")
@@ -87,6 +92,8 @@ public class WarningAppealGuiController {
 
     @GuiAction("manage-warning-appeals/view/create/reason-chat")
     public void getCreateAppealReasonChatView(Player player, @GuiParam("warningId") int warningId) {
+        SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
+            .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
 
         Warning warning = warnService.getWarning(warningId);
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
@@ -106,7 +113,7 @@ public class WarningAppealGuiController {
                 .validateAnyPermission(warningAppealConfiguration.createAppealPermission)
                 .validateNotEmpty(input, "Reason for appeal can not be empty");
 
-            bukkitUtils.runTaskAsync(player, () -> appealService.addAppeal(player, warning, input));
+            bukkitUtils.runTaskAsync(player, () -> appealService.addAppeal(sppPlayer, warning, input));
         });
     }
 
@@ -115,15 +122,21 @@ public class WarningAppealGuiController {
         validator(player)
             .validateAnyPermission(warningAppealConfiguration.createAppealPermission)
             .validateNotEmpty(reason, "Reason for appeal can not be empty");
+
+        SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
+            .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
+
         bukkitUtils.runTaskAsync(player, () -> {
             Warning warning = warnService.getWarning(warningId);
-            appealService.addAppeal(player, warning, reason);
+            appealService.addAppeal(sppPlayer, warning, reason);
         });
     }
 
     @GuiAction("manage-warning-appeals/approve")
     public void approveAppeal(Player player, @GuiParam("appealId") int appealId) {
         permission.validate(player, warningAppealConfiguration.approveAppealPermission);
+        SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
+            .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
         if (options.warningAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1===================================================", messages.prefixWarnings);
             messages.send(player, "&6       You have chosen to approve this appeal", messages.prefixWarnings);
@@ -136,16 +149,18 @@ public class WarningAppealGuiController {
                     messages.send(player, "&CYou have cancelled approving this appeal", messages.prefixWarnings);
                     return;
                 }
-                bukkitUtils.runTaskAsync(player, () -> warnService.approveAppeal(player, appealId, message));
+                bukkitUtils.runTaskAsync(player, () -> warnService.approveAppeal(sppPlayer, appealId, message));
             });
         } else {
-            bukkitUtils.runTaskAsync(player, () -> warnService.approveAppeal(player, appealId));
+            bukkitUtils.runTaskAsync(player, () -> warnService.approveAppeal(sppPlayer, appealId));
         }
     }
 
     @GuiAction("manage-warning-appeals/reject")
     public void rejectAppeal(Player player, @GuiParam("appealId") int appealId) {
         permission.validate(player, warningAppealConfiguration.rejectAppealPermission);
+        SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
+            .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
         if (options.warningAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1==================================================", messages.prefixWarnings);
             messages.send(player, "&6        You have chosen to reject this appeal", messages.prefixWarnings);
@@ -158,10 +173,10 @@ public class WarningAppealGuiController {
                     messages.send(player, "&CYou have cancelled rejecting this appeal", messages.prefixWarnings);
                     return;
                 }
-                bukkitUtils.runTaskAsync(player, () -> warnService.rejectAppeal(player, appealId, message));
+                bukkitUtils.runTaskAsync(player, () -> warnService.rejectAppeal(sppPlayer, appealId, message));
             });
         } else {
-            bukkitUtils.runTaskAsync(player, () -> warnService.rejectAppeal(player, appealId));
+            bukkitUtils.runTaskAsync(player, () -> warnService.rejectAppeal(sppPlayer, appealId));
         }
     }
 }

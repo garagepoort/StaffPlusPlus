@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealGuiController;
@@ -57,6 +58,8 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
     private BukkitUtils bukkitUtils;
     @Mock
     private ActionService actionService;
+    @Mock
+    private PlayerManager playerManager;
 
     @Captor
     private ArgumentCaptor<String> xmlCaptor;
@@ -93,7 +96,8 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
             bukkitUtils,
             warningAppealConfiguration,
             actionService,
-            permissionHandler);
+            permissionHandler,
+            playerManager);
     }
 
     @Test

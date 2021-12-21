@@ -128,11 +128,11 @@ public class WarnService implements InfractionProvider, WarningService {
         sendEvent(new WarningRemovedEvent(warning));
     }
 
-    public void approveAppeal(Player resolver, int appealId) {
+    public void approveAppeal(SppPlayer resolver, int appealId) {
         this.approveAppeal(resolver, appealId, null);
     }
 
-    public void approveAppeal(Player resolver, int appealId, String appealReason) {
+    public void approveAppeal(SppPlayer resolver, int appealId, String appealReason) {
         Appeal appeal = appealService.getAppeal(appealId);
         Warning warning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found."));
 
@@ -213,10 +213,10 @@ public class WarnService implements InfractionProvider, WarningService {
         return InfractionType.WARNING;
     }
 
-    public void rejectAppeal(Player player, int appealId) {
+    public void rejectAppeal(SppPlayer player, int appealId) {
         appealService.rejectAppeal(player, appealId, AppealableType.WARNING);
     }
-    public void rejectAppeal(Player player, int appealId, String reason) {
+    public void rejectAppeal(SppPlayer player, int appealId, String reason) {
         appealService.rejectAppeal(player, appealId, reason, AppealableType.WARNING);
     }
 }

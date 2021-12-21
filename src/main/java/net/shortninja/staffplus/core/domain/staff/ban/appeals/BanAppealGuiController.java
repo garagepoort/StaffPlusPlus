@@ -9,13 +9,16 @@ import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
 import net.shortninja.staffplusplus.appeals.AppealableType;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -40,13 +43,14 @@ public class BanAppealGuiController {
     private final BukkitUtils bukkitUtils;
     private final BanAppealConfiguration banAppealConfiguration;
     private final PermissionHandler permissionHandler;
+    private final PlayerManager playerManager;
 
     public BanAppealGuiController(AppealService appealService,
                                   BanService banService,
                                   Messages messages,
                                   OnlineSessionsManager sessionManager,
                                   BukkitUtils bukkitUtils,
-                                  BanAppealConfiguration banAppealConfiguration, PermissionHandler permissionHandler) {
+                                  BanAppealConfiguration banAppealConfiguration, PermissionHandler permissionHandler, PlayerManager playerManager) {
         this.appealService = appealService;
         this.banService = banService;
         this.messages = messages;
@@ -54,6 +58,7 @@ public class BanAppealGuiController {
         this.bukkitUtils = bukkitUtils;
         this.banAppealConfiguration = banAppealConfiguration;
         this.permissionHandler = permissionHandler;
+        this.playerManager = playerManager;
     }
 
     @GuiAction("manage-ban-appeals/view/detail")
@@ -91,11 +96,14 @@ public class BanAppealGuiController {
                 return;
             }
 
+            SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
+                .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
+
             validator(player)
                 .validateAnyPermission(banAppealConfiguration.createAppealPermission)
                 .validateNotEmpty(input, "Reason for appeal can not be empty");
 
-            bukkitUtils.runTaskAsync(player, () -> appealService.addAppeal(player, ban, input));
+            bukkitUtils.runTaskAsync(player, () -> appealService.addAppeal(sppPlayer, ban, input));
         });
     }
 
@@ -104,9 +112,13 @@ public class BanAppealGuiController {
         validator(player)
             .validateAnyPermission(banAppealConfiguration.createAppealPermission)
             .validateNotEmpty(reason, "Reason for appeal can not be empty");
+
+        SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
+            .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
+
         bukkitUtils.runTaskAsync(player, () -> {
             Ban ban = banService.getById(banId);
-            appealService.addAppeal(player, ban, reason);
+            appealService.addAppeal(sppPlayer, ban, reason);
         });
     }
 
@@ -123,6 +135,8 @@ public class BanAppealGuiController {
     @GuiAction("manage-ban-appeals/approve")
     public void approveAppeal(Player player, @GuiParam("appealId") int appealId) {
         permissionHandler.validate(player, banAppealConfiguration.approveAppealPermission);
+        SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
+            .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
         if (banAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1===================================================", messages.prefixBans);
             messages.send(player, "&6       You have chosen to approve this appeal", messages.prefixBans);
@@ -135,16 +149,18 @@ public class BanAppealGuiController {
                     messages.send(player, "&CYou have cancelled approving this appeal", messages.prefixBans);
                     return;
                 }
-                bukkitUtils.runTaskAsync(player, () -> appealService.approveAppeal(player, appealId, message, AppealableType.BAN));
+                bukkitUtils.runTaskAsync(player, () -> appealService.approveAppeal(sppPlayer, appealId, message, AppealableType.BAN));
             });
         } else {
-            bukkitUtils.runTaskAsync(player, () -> appealService.approveAppeal(player, appealId, AppealableType.BAN));
+            bukkitUtils.runTaskAsync(player, () -> appealService.approveAppeal(sppPlayer, appealId, AppealableType.BAN));
         }
     }
 
     @GuiAction("manage-ban-appeals/reject")
     public void rejectAppeal(Player player, @GuiParam("appealId") int appealId) {
         permissionHandler.validate(player, banAppealConfiguration.rejectAppealPermission);
+        SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
+            .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
         if (banAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1==================================================", messages.prefixBans);
             messages.send(player, "&6        You have chosen to reject this appeal", messages.prefixBans);
@@ -157,10 +173,10 @@ public class BanAppealGuiController {
                     messages.send(player, "&CYou have cancelled rejecting this appeal", messages.prefixBans);
                     return;
                 }
-                bukkitUtils.runTaskAsync(player, () -> appealService.rejectAppeal(player, appealId, message, AppealableType.BAN));
+                bukkitUtils.runTaskAsync(player, () -> appealService.rejectAppeal(sppPlayer, appealId, message, AppealableType.BAN));
             });
         } else {
-            bukkitUtils.runTaskAsync(player, () -> appealService.rejectAppeal(player, appealId, AppealableType.BAN));
+            bukkitUtils.runTaskAsync(player, () -> appealService.rejectAppeal(sppPlayer, appealId, AppealableType.BAN));
         }
     }
 }

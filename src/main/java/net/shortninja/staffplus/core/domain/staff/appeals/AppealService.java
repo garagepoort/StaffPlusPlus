@@ -9,7 +9,7 @@ import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.Appealable;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.appeals.AppealedEvent;
-import org.bukkit.entity.Player;
+import net.shortninja.staffplusplus.session.SppPlayer;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
@@ -22,20 +22,20 @@ public class AppealService {
         this.appealRepository = appealRepository;
     }
 
-    public void addAppeal(Player appealer, Appealable appealable, String reason) {
-        Appeal appeal = new Appeal(appealable.getId(), appealer.getUniqueId(), appealer.getName(), reason, appealable.getType());
+    public void addAppeal(SppPlayer appealer, Appealable appealable, String reason) {
+        Appeal appeal = new Appeal(appealable.getId(), appealer.getId(), appealer.getUsername(), reason, appealable.getType());
         appealRepository.addAppeal(appeal, appealable.getType());
 
         appealable.setAppeal(appeal);
         sendEvent(new AppealedEvent(appealable));
     }
 
-    public void approveAppeal(Player resolver, int appealId, AppealableType appealableType) {
+    public void approveAppeal(SppPlayer resolver, int appealId, AppealableType appealableType) {
         this.approveAppeal(resolver, appealId, null, appealableType);
     }
 
-    public void approveAppeal(Player resolver, int appealId, String appealReason, AppealableType appealableType) {
-        appealRepository.updateAppealStatus(appealId, resolver.getUniqueId(), appealReason, AppealStatus.APPROVED, appealableType);
+    public void approveAppeal(SppPlayer resolver, int appealId, String appealReason, AppealableType appealableType) {
+        appealRepository.updateAppealStatus(appealId, resolver.getId(), appealReason, AppealStatus.APPROVED, appealableType);
         Appeal appeal = getAppeal(appealId);
 
         sendEvent(new AppealApprovedEvent(appeal));
@@ -45,12 +45,12 @@ public class AppealService {
         return appealRepository.findAppeal(appealId).orElseThrow(() -> new BusinessException("No appeal found with id: [" + appealId + "]"));
     }
 
-    public void rejectAppeal(Player resolver, int appealId, AppealableType appealableType) {
+    public void rejectAppeal(SppPlayer resolver, int appealId, AppealableType appealableType) {
         this.rejectAppeal(resolver, appealId, null, appealableType);
     }
 
-    public void rejectAppeal(Player resolver, int appealId, String appealReason, AppealableType appealableType) {
-        appealRepository.updateAppealStatus(appealId, resolver.getUniqueId(), appealReason, AppealStatus.REJECTED, appealableType);
+    public void rejectAppeal(SppPlayer resolver, int appealId, String appealReason, AppealableType appealableType) {
+        appealRepository.updateAppealStatus(appealId, resolver.getId(), appealReason, AppealStatus.REJECTED, appealableType);
         Appeal appeal = getAppeal(appealId);
         sendEvent(new AppealRejectedEvent(appeal));
     }
