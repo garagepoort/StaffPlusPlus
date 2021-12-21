@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
@@ -35,6 +36,7 @@ import static net.shortninja.staffplus.core.common.utils.Validator.validator;
 public class WarningAppealGuiController {
 
     private static final String CANCEL = "cancel";
+    private static final int PAGE_SIZE = 45;
 
     private final AppealService appealService;
     private final WarnService warnService;
@@ -80,6 +82,16 @@ public class WarningAppealGuiController {
             params.put("appeal", appeal);
             params.put("rollbackCommands", rollbackCommands);
             return template("gui/warnings/appeal-detail.ftl", params);
+        });
+    }
+
+    @GuiAction("manage-warnings/view/appealed-warnings")
+    public AsyncGui<GuiTemplate> appealedWarningsOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            List<Warning> warnings = warnService.getAppealedWarnings(page * PAGE_SIZE, PAGE_SIZE);
+            Map<String, Object> params = new HashMap<>();
+            params.put("warnings", warnings);
+            return template("gui/warnings/appealed-warnings-overview.ftl", params);
         });
     }
 

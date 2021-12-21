@@ -277,7 +277,14 @@ reducemute: "staff.mutes.reducemute"
 mute-bypass: "staff.mutes.mute-bypass"
 mute-override-softhard: "staff.mutes.mute-override-softhard"
 mute-notifications: "staff.mutes.mute-notifications"
-
+mutes:
+    appeals:
+        view: "staff.mutes.appeals.view"
+        create: "staff.mutes.appeals.create"
+        create-others: "staff.mutes.appeals.create.others"
+        approve: "staff.mutes.appeals.approve"
+        reject: "staff.mutes.appeals.reject"
+        notifications: "staff.mutes.appeals.notifications"
 ########################
 # ALT DETECT
 # GROUP: staff.altdetects

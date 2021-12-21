@@ -373,6 +373,12 @@ mute-module:
       - msg
       - whisper
       - tell
+  appeals:
+      enabled: true
+      resolve-reason-enabled: false
+      fixed-reason: false
+      reasons:
+          - ''
 ############################################################
 # +------------------------------------------------------+ #
 # |                      MUTING                       | #

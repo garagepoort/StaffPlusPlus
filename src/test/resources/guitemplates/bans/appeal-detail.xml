@@ -1,0 +1,89 @@
+<TubingGui size="54" id="ban-appeal-detail">
+    <title class="gui-title">Manage appeal</title>
+
+    <GuiItem slot="13" id="appeal-info" material="WRITABLE_BOOK" onLeftClick="$NOOP">
+        <name class="item-name">
+            <t id="appeal-status-label">Appeal </t>
+            <t id="appeal-status-value" color="&amp;6">OPEN</t>
+        </name>
+        <Lore>
+            <LoreLine>
+                <t color="&amp;b" id="appealer-label" class="detail-label">Appealer: </t>
+                <t color="&amp;6" id="appealer-value" class="detail-value">appealer</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="timestamp-label" class="detail-label">Timestamp: </t>
+                <t color="&amp;6" id="timestamp-value" class="detail-value">01/09/2021-01:11:15</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="reason-label" class="detail-label">Reason: </t>
+                <t color="&amp;6" id="reason-value" class="detail-value">reason</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="34" id="ban-appeal-approve-0" material="GREEN_STAINED_GLASS_PANE" class="ban-appeal-approve appeal-approve" onLeftClick="manage-ban-appeals/approve?appealId=1">
+        <name class="item-name">Approve Appeal</name>
+        <Lore>
+            <LoreLine>Click to approve this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="35" id="ban-appeal-approve-1" material="GREEN_STAINED_GLASS_PANE" class="ban-appeal-approve appeal-approve" onLeftClick="manage-ban-appeals/approve?appealId=1">
+        <name class="item-name">Approve Appeal</name>
+        <Lore>
+            <LoreLine>Click to approve this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="43" id="ban-appeal-approve-2" material="GREEN_STAINED_GLASS_PANE" class="ban-appeal-approve appeal-approve" onLeftClick="manage-ban-appeals/approve?appealId=1">
+        <name class="item-name">Approve Appeal</name>
+        <Lore>
+            <LoreLine>Click to approve this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="44" id="ban-appeal-approve-3" material="GREEN_STAINED_GLASS_PANE" class="ban-appeal-approve appeal-approve" onLeftClick="manage-ban-appeals/approve?appealId=1">
+        <name class="item-name">Approve Appeal</name>
+        <Lore>
+            <LoreLine>Click to approve this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="30" id="ban-appeal-reject-0" material="RED_STAINED_GLASS_PANE" class="ban-appeal-reject appeal-reject" onLeftClick="manage-ban-appeals/reject?appealId=1">
+        <name class="item-name">Reject Appeal</name>
+        <Lore>
+            <LoreLine>Click to reject this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="31" id="ban-appeal-reject-1" material="RED_STAINED_GLASS_PANE" class="ban-appeal-reject appeal-reject" onLeftClick="manage-ban-appeals/reject?appealId=1">
+        <name class="item-name">Reject Appeal</name>
+        <Lore>
+            <LoreLine>Click to reject this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="32" id="ban-appeal-reject-2" material="RED_STAINED_GLASS_PANE" class="ban-appeal-reject appeal-reject" onLeftClick="manage-ban-appeals/reject?appealId=1">
+        <name class="item-name">Reject Appeal</name>
+        <Lore>
+            <LoreLine>Click to reject this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="39" id="ban-appeal-reject-3" material="RED_STAINED_GLASS_PANE" class="ban-appeal-reject appeal-reject" onLeftClick="manage-ban-appeals/reject?appealId=1">
+        <name class="item-name">Reject Appeal</name>
+        <Lore>
+            <LoreLine>Click to reject this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="40" id="ban-appeal-reject-4" material="RED_STAINED_GLASS_PANE" class="ban-appeal-reject appeal-reject" onLeftClick="manage-ban-appeals/reject?appealId=1">
+        <name class="item-name">Reject Appeal</name>
+        <Lore>
+            <LoreLine>Click to reject this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+    <GuiItem slot="41" id="ban-appeal-reject-5" material="RED_STAINED_GLASS_PANE" class="ban-appeal-reject appeal-reject" onLeftClick="manage-ban-appeals/reject?appealId=1">
+        <name class="item-name">Reject Appeal</name>
+        <Lore>
+            <LoreLine>Click to reject this appeal</LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="SPRUCE_DOOR">
+        <name class="item-name">Back</name>
+    </GuiItem>
+</TubingGui>

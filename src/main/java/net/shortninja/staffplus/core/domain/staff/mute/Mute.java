@@ -3,31 +3,48 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplusplus.appeals.AppealableType;
+import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.investigate.evidence.Evidence;
 import net.shortninja.staffplusplus.mute.IMute;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Mute implements IMute, Infraction, Evidence {
 
     private int id;
-    private String reason;
+    private final String reason;
     private Long endDate;
-    private Long creationDate;
-    private String targetName;
-    private UUID targetUuid;
-    private String issuerName;
-    private UUID issuerUuid;
+    private final Long creationDate;
+    private final String targetName;
+    private final UUID targetUuid;
+    private final String issuerName;
+    private final UUID issuerUuid;
     private String unmutedByName;
     private UUID unmutedByUuid;
     private String unmuteReason;
     private String serverName;
-    private boolean softMute;
+    private final boolean softMute;
+    private IAppeal appeal;
 
-    public Mute(int id, String reason, Long creationDate, Long endDate, String targetName, UUID playerUuid, String issuerName, UUID issuerUuid, String unmutedByName, UUID unmutedByUuid, String unmuteReason, String serverName, boolean softMute) {
+    public Mute(int id,
+                String reason,
+                Long creationDate,
+                Long endDate,
+                String targetName,
+                UUID playerUuid,
+                String issuerName,
+                UUID issuerUuid,
+                String unmutedByName,
+                UUID unmutedByUuid,
+                String unmuteReason,
+                String serverName,
+                boolean softMute,
+                IAppeal appeal) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;
@@ -41,6 +58,7 @@ public class Mute implements IMute, Infraction, Evidence {
         this.unmuteReason = unmuteReason;
         this.serverName = serverName;
         this.softMute = softMute;
+        this.appeal = appeal;
     }
 
     public Mute(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID playerUuid, boolean softMute) {
@@ -77,6 +95,21 @@ public class Mute implements IMute, Infraction, Evidence {
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public Optional<? extends IAppeal> getAppeal() {
+        return Optional.ofNullable(appeal);
+    }
+
+    @Override
+    public void setAppeal(IAppeal appeal) {
+        this.appeal = appeal;
+    }
+
+    @Override
+    public AppealableType getType() {
+        return AppealableType.MUTE;
     }
 
     @Override

@@ -2,6 +2,24 @@
 <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
 <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
 
+<#macro muteitem slot mute itemId="mute-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
+    <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
+    <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
+    <GuiItem
+        id="${itemId}"
+        class="mute-info"
+        slot="${slot}"
+        onLeftClick="${onLeftClick}"
+        onRightClick="${onRightClick}"
+        onMiddleClick="${onMiddleClick}"
+        material="PLAYER_HEAD">
+        <name class="item-name" color="&3">Mute</name>
+        <Lore>
+            <@mutelorelines mute=mute/>
+        </Lore>
+    </GuiItem>
+</#macro>
+
 <#macro mutelorelines mute>
         <LoreLine>
             <t color="&b" id="id-label" class="detail-label">Id: </t>

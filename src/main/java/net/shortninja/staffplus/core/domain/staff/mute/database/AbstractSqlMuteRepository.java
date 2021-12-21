@@ -5,8 +5,11 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
+import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.sql.Connection;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
+import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithWhere;
 
 public abstract class AbstractSqlMuteRepository implements MuteRepository {
 
@@ -30,12 +34,14 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     protected final Options options;
     protected final SqlConnectionProvider sqlConnectionProvider;
     private final ServerSyncConfig muteSyncServers;
+    private final AppealRepository appealRepository;
 
-    public AbstractSqlMuteRepository(PlayerManager playerManager, Options options, SqlConnectionProvider sqlConnectionProvider) {
+    public AbstractSqlMuteRepository(PlayerManager playerManager, Options options, SqlConnectionProvider sqlConnectionProvider, AppealRepository appealRepository) {
         this.playerManager = playerManager;
         this.options = options;
         this.sqlConnectionProvider = sqlConnectionProvider;
         muteSyncServers = options.serverSyncConfiguration.muteSyncServers;
+        this.appealRepository = appealRepository;
     }
 
     public Connection getConnection() {
@@ -120,6 +126,45 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
             throw new DatabaseException(e);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<Mute> getMute(int muteId) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_muted_players WHERE id = ? " + getServerNameFilterWithAnd(muteSyncServers))) {
+            ps.setInt(1, muteId);
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildMute(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Mute> getAppealedMutes(int offset, int amount) {
+        List<Mute> mutes = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT sp_muted_players.* FROM sp_muted_players INNER JOIN sp_appeals appeals on sp_muted_players.id = appeals.appealable_id AND appeals.status = 'OPEN' AND appeals.type = ? "
+                 + getServerNameFilterWithWhere(options.serverSyncConfiguration.muteSyncServers) +
+                 " ORDER BY sp_muted_players.creation_timestamp DESC LIMIT ?,?")
+        ) {
+            ps.setString(1, AppealableType.MUTE.name());
+            ps.setInt(2, offset);
+            ps.setInt(3, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    mutes.add(buildMute(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return mutes;
     }
 
     @Override
@@ -302,6 +347,8 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
         endTimestamp = rs.wasNull() ? null : endTimestamp;
         String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
 
+        List<Appeal> appeals = appealRepository.getAppeals(id, AppealableType.MUTE);
+
         return new Mute(
             id,
             rs.getString("reason"),
@@ -315,7 +362,8 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
             unmutedByUUID,
             rs.getString("unmute_reason"),
             serverName,
-            rs.getBoolean("soft_mute"));
+            rs.getBoolean("soft_mute"),
+            appeals.size() > 0 ? appeals.get(0) : null);
     }
 
     private String getPlayerName(UUID uuid) {
