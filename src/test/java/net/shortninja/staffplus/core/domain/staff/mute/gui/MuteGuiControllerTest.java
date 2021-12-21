@@ -123,6 +123,8 @@ class MuteGuiControllerTest extends AbstractGuiTemplateTest {
 
     @Test
     public void viewMuteDetail() throws URISyntaxException, IOException {
+        when(permissionHandler.has(eq(player), eq("staff.mutes.appeals.create.others"))).thenReturn(false);
+        when(permissionHandler.has(eq(player), eq("staff.mutes.appeals.create"))).thenReturn(false);
         doReturn(true).when(templateConfigResolverSpy).get("investigations-module.enabled");
         when(muteService.getById(12)).thenReturn(buildMute());
 
@@ -131,6 +133,19 @@ class MuteGuiControllerTest extends AbstractGuiTemplateTest {
         verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/mutes/mute-detail.xml");
+    }
+
+    @Test
+    public void viewMuteDetailWithAppeal() throws URISyntaxException, IOException {
+        when(permissionHandler.has(eq(player), eq("staff.mutes.appeals.create.others"))).thenReturn(true);
+        doReturn(true).when(templateConfigResolverSpy).get("investigations-module.enabled");
+        when(muteService.getById(12)).thenReturn(buildMute());
+
+        guiActionService.executeAction(player, "manage-mutes/view/detail?muteId=12&backAction=goBack/view");
+
+        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        validateMaterials(xmlCaptor.getValue());
+        validateXml(xmlCaptor.getValue(), "/guitemplates/mutes/mute-detail-with-appeal.xml");
     }
 
     @NotNull
@@ -147,7 +162,8 @@ class MuteGuiControllerTest extends AbstractGuiTemplateTest {
             null,
             null,
             "ServerName",
-            false
+            false,
+            null
         );
     }
 }

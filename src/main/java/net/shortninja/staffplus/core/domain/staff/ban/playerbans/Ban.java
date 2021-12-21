@@ -36,7 +36,22 @@ public class Ban implements IBan, Infraction, Evidence {
     private String serverName;
     private IAppeal appeal;
 
-    public Ban(int id, String reason, Long creationDate, Long endDate, String targetName, UUID targetUuid, String issuerName, UUID issuerUuid, String unbannedByName, UUID unbannedByUuid, String unbanReason, String serverName, boolean silentBan, boolean silentUnban, String template, IAppeal appeal) {
+    public Ban(int id,
+               String reason,
+               Long creationDate,
+               Long endDate,
+               String targetName,
+               UUID targetUuid,
+               String issuerName,
+               UUID issuerUuid,
+               String unbannedByName,
+               UUID unbannedByUuid,
+               String unbanReason,
+               String serverName,
+               boolean silentBan,
+               boolean silentUnban,
+               String template,
+               IAppeal appeal) {
         this.id = id;
         this.reason = reason;
         this.creationDate = creationDate;

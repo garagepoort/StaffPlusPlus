@@ -5,6 +5,7 @@ import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 
 import java.sql.Connection;
@@ -17,8 +18,8 @@ import java.sql.Types;
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class MysqlMuteRepository extends AbstractSqlMuteRepository {
 
-    public MysqlMuteRepository(PlayerManager playerManager, Options options, SqlConnectionProvider sqlConnectionProvider) {
-        super(playerManager, options, sqlConnectionProvider);
+    public MysqlMuteRepository(PlayerManager playerManager, Options options, SqlConnectionProvider sqlConnectionProvider, AppealRepository appealRepository) {
+        super(playerManager, options, sqlConnectionProvider, appealRepository);
     }
 
     @Override
