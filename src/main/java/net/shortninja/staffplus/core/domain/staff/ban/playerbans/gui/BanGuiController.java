@@ -68,7 +68,7 @@ public class BanGuiController {
 
     private List<Ban> getBans(SppPlayer target, int page) {
         if (target == null) {
-            return bansRepository.getActiveBans(page * PAGE_SIZE, PAGE_SIZE);
+            return banService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE);
         }
         return bansRepository.getBansForPlayerPaged(target.getId(), page * PAGE_SIZE, PAGE_SIZE);
     }
