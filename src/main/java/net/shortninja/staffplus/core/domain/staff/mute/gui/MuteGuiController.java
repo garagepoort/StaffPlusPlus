@@ -16,6 +16,7 @@ import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplus.core.domain.staff.mute.database.MuteRepository;
 import net.shortninja.staffplusplus.session.SppPlayer;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -53,15 +54,30 @@ public class MuteGuiController {
     }
 
     @GuiAction("manage-mutes/view/all-active")
-    public AsyncGui<GuiTemplate> getMutedPlayersOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
+    public AsyncGui<GuiTemplate> getMutedPlayersOverview(
+        @GuiParam("targetPlayerName") String targetPlayerName,
+        @GuiParam(value = "page", defaultValue = "0") int page) {
+        SppPlayer target = null;
+        if (StringUtils.isNotBlank(targetPlayerName)) {
+            target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow((() -> new PlayerNotFoundException(targetPlayerName)));
+        }
+        SppPlayer finalTarget = target;
+
         return async(() -> {
-            List<Mute> allPaged = muteService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE);
+            List<Mute> allPaged = getMutes(finalTarget, page);
             Map<String, Object> params = new HashMap<>();
             params.put("title", "&bActive mutes");
             params.put("mutes", allPaged);
             params.put("guiId", "active-mutes-overview");
             return template("gui/mutes/mute-overview.ftl", params);
         });
+    }
+
+    private List<Mute> getMutes(SppPlayer target, int page) {
+        if (target == null) {
+            return muteService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE);
+        }
+        return muteRepository.getMutesForPlayerPaged(target.getId(), page * PAGE_SIZE, PAGE_SIZE);
     }
 
     @GuiAction("manage-mutes/view/history")

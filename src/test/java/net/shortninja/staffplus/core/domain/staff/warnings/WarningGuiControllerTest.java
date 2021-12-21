@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warnings;
 
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
@@ -12,7 +11,6 @@ import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
-import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.ManageAppealedWarningsViewBuilder;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.WarningsGuiController;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.junit.jupiter.api.AfterAll;
@@ -61,11 +59,7 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
     @Mock
     private ActionService actionService;
     @Mock
-    private Options options;
-    @Mock
     private WarningConfiguration warningConfiguration;
-    @Mock
-    private ManageAppealedWarningsViewBuilder manageAppealedWarningsViewBuilder;
     @Mock
     private Messages messages;
     @Mock
@@ -98,7 +92,6 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
     @Override
     public Object getGuiController() {
         return new WarningsGuiController(
-            manageAppealedWarningsViewBuilder,
             playerManager,
             warnService,
             onlineSessionsManager,

@@ -73,6 +73,7 @@ class BanGuiControllerTest extends AbstractGuiTemplateTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
+        when(permissionHandler.has(eq(player), anyString())).thenReturn(true);
         doReturn(true).when(templateConfigResolverSpy).get("server-sync-module.ban-sync");
     }
 
@@ -98,7 +99,9 @@ class BanGuiControllerTest extends AbstractGuiTemplateTest {
     }
 
     @Test
-    public void viewInvestigationDetail() throws URISyntaxException, IOException {
+    public void viewBanDetail() throws URISyntaxException, IOException {
+        when(permissionHandler.has(eq(player), eq("staff.bans.appeals.create.others"))).thenReturn(false);
+        when(permissionHandler.has(eq(player), eq("staff.bans.appeals.create"))).thenReturn(false);
         when(banService.getById(12)).thenReturn(buildBan());
 
         guiActionService.executeAction(player, "manage-bans/view/detail?banId=12&backAction=goBack/view");
@@ -106,6 +109,18 @@ class BanGuiControllerTest extends AbstractGuiTemplateTest {
         verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/bans/ban-detail.xml");
+    }
+
+    @Test
+    public void viewBanDetailWithAppeal() throws URISyntaxException, IOException {
+        when(permissionHandler.has(eq(player), eq("staff.bans.appeals.create.others"))).thenReturn(true);
+        when(banService.getById(12)).thenReturn(buildBan());
+
+        guiActionService.executeAction(player, "manage-bans/view/detail?banId=12&backAction=goBack/view");
+
+        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        validateMaterials(xmlCaptor.getValue());
+        validateXml(xmlCaptor.getValue(), "/guitemplates/bans/ban-detail-with-appeal.xml");
     }
 
     private Ban buildBan() {
