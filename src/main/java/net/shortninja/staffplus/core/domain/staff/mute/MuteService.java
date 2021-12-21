@@ -125,6 +125,10 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
         unmute(mute);
     }
 
+    public List<Mute> getAppealedMutes(int offset, int amount) {
+        return muteRepository.getAppealedMutes(offset, amount);
+    }
+
     private void mute(CommandSender issuer, SppPlayer playerToMute, String reason, Long durationInMillis, boolean softMute) {
         if (playerToMute.isOnline() && permission.has(playerToMute.getPlayer(), muteConfiguration.permissionMuteByPass)) {
             throw new BusinessException("&CThis player bypasses being muted");

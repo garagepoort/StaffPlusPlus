@@ -326,6 +326,8 @@ public class Messages {
     public String ipbanPermabannedKick;
     @ConfigProperty("%lang%:ban-appeal-open-notify")
     public String banOpenAppealsNotify;
+    @ConfigProperty("%lang%:mute-appeal-open-notify")
+    public String muteOpenAppealsNotify;
 
     @ConfigProperty("%lang%:mute-expired")
     public String muteExpired;

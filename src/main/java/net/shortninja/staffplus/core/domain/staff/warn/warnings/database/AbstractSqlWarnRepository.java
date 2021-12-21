@@ -169,12 +169,13 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
     public List<Warning> getAppealedWarnings(int offset, int amount) {
         List<Warning> warnings = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT sp_warnings.* FROM sp_warnings INNER JOIN sp_appeals appeals on sp_warnings.id = appeals.appealable_id AND appeals.status = 'OPEN' "
+             PreparedStatement ps = sql.prepareStatement("SELECT sp_warnings.* FROM sp_warnings INNER JOIN sp_appeals appeals on sp_warnings.id = appeals.appealable_id AND appeals.status = 'OPEN' AND appeals.type = ?"
                  + getServerNameFilterWithWhere(options.serverSyncConfiguration.warningSyncServers) +
                  " ORDER BY sp_warnings.timestamp DESC LIMIT ?,?")
         ) {
-            ps.setInt(1, offset);
-            ps.setInt(2, amount);
+            ps.setString(1, AppealableType.WARNING.name());
+            ps.setInt(2, offset);
+            ps.setInt(3, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Warning warning = buildWarning(rs);
