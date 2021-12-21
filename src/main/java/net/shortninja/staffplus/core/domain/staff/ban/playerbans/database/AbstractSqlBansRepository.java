@@ -210,12 +210,13 @@ public abstract class AbstractSqlBansRepository extends SqlRepository implements
     public List<Ban> getAppealedBans(int offset, int amount) {
         List<Ban> bans = new ArrayList<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT sp_banned_players.* FROM sp_banned_players INNER JOIN sp_appeals appeals on sp_banned_players.id = appeals.appealable_id AND appeals.status = 'OPEN' "
+             PreparedStatement ps = sql.prepareStatement("SELECT sp_banned_players.* FROM sp_banned_players INNER JOIN sp_appeals appeals on sp_banned_players.id = appeals.appealable_id AND appeals.status = 'OPEN' AND appeals.type = ? "
                  + getServerNameFilterWithWhere(options.serverSyncConfiguration.banSyncServers) +
                  " ORDER BY sp_banned_players.creation_timestamp DESC LIMIT ?,?")
         ) {
-            ps.setInt(1, offset);
-            ps.setInt(2, amount);
+            ps.setString(1, AppealableType.BAN.name());
+            ps.setInt(2, offset);
+            ps.setInt(3, amount);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     bans.add(buildBan(rs));

@@ -38,7 +38,6 @@ public class WarningsGuiController {
     private static final String NONE = "none";
     private static final int PAGE_SIZE = 45;
 
-    private final ManageAppealedWarningsViewBuilder manageAppealedWarningsViewBuilder;
     private final PlayerManager playerManager;
     private final WarnService warnService;
     private final OnlineSessionsManager sessionManager;
@@ -47,15 +46,13 @@ public class WarningsGuiController {
     private final BukkitUtils bukkitUtils;
     private final ActionService actionService;
 
-    public WarningsGuiController(ManageAppealedWarningsViewBuilder manageAppealedWarningsViewBuilder,
-                                 PlayerManager playerManager,
+    public WarningsGuiController(PlayerManager playerManager,
                                  WarnService warnService,
                                  OnlineSessionsManager sessionManager,
                                  WarningConfiguration warningConfiguration,
                                  Messages messages,
                                  BukkitUtils bukkitUtils,
                                  ActionService actionService) {
-        this.manageAppealedWarningsViewBuilder = manageAppealedWarningsViewBuilder;
         this.playerManager = playerManager;
         this.warnService = warnService;
         this.sessionManager = sessionManager;
@@ -106,16 +103,6 @@ public class WarningsGuiController {
         params.put("severityLevels", warningConfiguration.getSeverityLevels());
 
         return template("gui/warnings/severity-selection.ftl", params);
-    }
-
-    @GuiAction("manage-warnings/view/appealed-warnings")
-    public AsyncGui<GuiTemplate> appealedWarningsOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
-        return async(() -> {
-            List<Warning> warnings = warnService.getAppealedWarnings(page * PAGE_SIZE, PAGE_SIZE);
-            Map<String, Object> params = new HashMap<>();
-            params.put("warnings", warnings);
-            return template("gui/warnings/appealed-warnings-overview.ftl", params);
-        });
     }
 
     @GuiAction("manage-warnings/view/detail")

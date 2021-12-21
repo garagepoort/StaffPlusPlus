@@ -1,0 +1,15 @@
+<TubingGui size="54" id="appeal-reason-select">
+    <title class="gui-title">Select appeal reason</title>
+    <GuiItem id="appeal-reason-0" class="appeal-reason appeal-reason-Reason 1" slot="0" material="PAPER" onLeftClick="manage-mute-appeals/create?muteId=12&amp;reason=Reason 1">
+        <name class="item-name">Reason 1</name>
+    </GuiItem>
+    <GuiItem id="appeal-reason-1" class="appeal-reason appeal-reason-Reason 2" slot="1" material="PAPER" onLeftClick="manage-mute-appeals/create?muteId=12&amp;reason=Reason 2">
+        <name class="item-name">Reason 2</name>
+    </GuiItem>
+    <GuiItem id="appeal-reason-2" class="appeal-reason appeal-reason-Reason 3" slot="2" material="PAPER" onLeftClick="manage-mute-appeals/create?muteId=12&amp;reason=Reason 3">
+        <name class="item-name">Reason 3</name>
+    </GuiItem>
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="SPRUCE_DOOR">
+        <name class="item-name">Back</name>
+    </GuiItem>
+</TubingGui>
