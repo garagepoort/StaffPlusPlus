@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
+
 @IocBean
 @GuiController
 public class StaffMembersGuiController {
@@ -49,7 +51,7 @@ public class StaffMembersGuiController {
         HashMap<String, Object> params = new HashMap<>();
         params.put("title", options.staffItemsConfiguration.getCounterModeConfiguration().getTitle());
         params.put("players", pageOfList);
-        return GuiTemplate.template("gui/player/player-overview.ftl", params);
+        return template("gui/player/player-overview.ftl", params);
     }
 
     private List<SppPlayer> getModePlayers() {
