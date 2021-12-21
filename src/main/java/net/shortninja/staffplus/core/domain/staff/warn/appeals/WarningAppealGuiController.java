@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 import static net.shortninja.staffplus.core.common.utils.Validator.validator;
 
 @IocBean
@@ -78,7 +79,7 @@ public class WarningAppealGuiController {
             HashMap<String, Object> params = new HashMap<>();
             params.put("appeal", appeal);
             params.put("rollbackCommands", rollbackCommands);
-            return GuiTemplate.template("gui/warnings/appeal-detail.ftl", params);
+            return template("gui/warnings/appeal-detail.ftl", params);
         });
     }
 
@@ -87,7 +88,7 @@ public class WarningAppealGuiController {
         HashMap<String, Object> params = new HashMap<>();
         params.put("action", "manage-warning-appeals/create?warningId=" + warningId);
         params.put("reasons", warningAppealConfiguration.appealReasons);
-        return GuiTemplate.template("gui/appeals/appeal-reason-select.ftl", params);
+        return template("gui/appeals/appeal-reason-select.ftl", params);
     }
 
     @GuiAction("manage-warning-appeals/view/create/reason-chat")

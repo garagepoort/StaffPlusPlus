@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
 @GuiController
@@ -59,7 +60,7 @@ public class MuteGuiController {
             params.put("title", "&bActive mutes");
             params.put("mutes", allPaged);
             params.put("guiId", "active-mutes-overview");
-            return GuiTemplate.template("gui/mutes/mute-overview.ftl", params);
+            return template("gui/mutes/mute-overview.ftl", params);
         });
     }
 
@@ -73,7 +74,7 @@ public class MuteGuiController {
             params.put("title", "Mute History for: &C" + target.getUsername());
             params.put("mutes", allPaged);
             params.put("guiId", "history-mutes-overview");
-            return GuiTemplate.template("gui/mutes/mute-overview.ftl", params);
+            return template("gui/mutes/mute-overview.ftl", params);
         });
     }
 
@@ -82,7 +83,7 @@ public class MuteGuiController {
         return async(() -> {
             HashMap<String, Object> params = new HashMap<>();
             params.put("mute", muteService.getById(muteId));
-            return GuiTemplate.template("gui/mutes/manage-mute.ftl", params);
+            return template("gui/mutes/manage-mute.ftl", params);
         });
     }
 

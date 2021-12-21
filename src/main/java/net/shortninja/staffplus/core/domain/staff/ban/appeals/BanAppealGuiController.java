@@ -68,7 +68,7 @@ public class BanAppealGuiController {
 
             HashMap<String, Object> params = new HashMap<>();
             params.put("appeal", appeal);
-            return GuiTemplate.template("gui/bans/appeal-detail.ftl", params);
+            return template("gui/bans/appeal-detail.ftl", params);
         });
     }
 
@@ -77,7 +77,7 @@ public class BanAppealGuiController {
         HashMap<String, Object> params = new HashMap<>();
         params.put("action", "manage-ban-appeals/create?banId=" + banId);
         params.put("reasons", banAppealConfiguration.appealReasons);
-        return GuiTemplate.template("gui/appeals/appeal-reason-select.ftl", params);
+        return template("gui/appeals/appeal-reason-select.ftl", params);
     }
 
     @GuiAction("manage-ban-appeals/view/create/reason-chat")

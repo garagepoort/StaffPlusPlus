@@ -76,7 +76,7 @@ public class WarningsGuiController {
         return async(() -> {
             Map<String, Object> params = new HashMap<>();
             params.put("warnings", getWarnings(finalTarget, page));
-            return GuiTemplate.template("gui/warnings/warnings-overview.ftl", params);
+            return template("gui/warnings/warnings-overview.ftl", params);
         });
     }
 
@@ -94,7 +94,7 @@ public class WarningsGuiController {
             List<Warning> warnings = warnService.getWarnings(player.getUniqueId(), page * PAGE_SIZE, PAGE_SIZE, false);
             Map<String, Object> params = new HashMap<>();
             params.put("warnings", warnings);
-            return GuiTemplate.template("gui/warnings/my-warnings-overview.ftl", params);
+            return template("gui/warnings/my-warnings-overview.ftl", params);
         });
     }
 
