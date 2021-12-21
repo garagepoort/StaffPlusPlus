@@ -9,23 +9,29 @@ import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.AppealService;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
+import static net.shortninja.staffplus.core.common.utils.Validator.validator;
 
 @IocBean
 @GuiController
 public class BanAppealGuiController {
 
     private static final String CANCEL = "cancel";
+    private static final int PAGE_SIZE = 45;
 
     private final AppealService appealService;
     private final BanService banService;
@@ -33,26 +39,27 @@ public class BanAppealGuiController {
     private final OnlineSessionsManager sessionManager;
     private final BukkitUtils bukkitUtils;
     private final BanAppealConfiguration banAppealConfiguration;
+    private final PermissionHandler permissionHandler;
 
     public BanAppealGuiController(AppealService appealService,
                                   BanService banService,
                                   Messages messages,
                                   OnlineSessionsManager sessionManager,
                                   BukkitUtils bukkitUtils,
-                                  BanAppealConfiguration banAppealConfiguration) {
+                                  BanAppealConfiguration banAppealConfiguration, PermissionHandler permissionHandler) {
         this.appealService = appealService;
         this.banService = banService;
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.bukkitUtils = bukkitUtils;
         this.banAppealConfiguration = banAppealConfiguration;
+        this.permissionHandler = permissionHandler;
     }
 
     @GuiAction("manage-ban-appeals/view/detail")
     public AsyncGui<GuiTemplate> getAppealDetail(@GuiParam("appealId") int appealId) {
         return async(() -> {
             Appeal appeal = appealService.getAppeal(appealId);
-            Ban ban = banService.getById(appealId);
 
             HashMap<String, Object> params = new HashMap<>();
             params.put("appeal", appeal);
@@ -84,20 +91,38 @@ public class BanAppealGuiController {
                 return;
             }
 
+            validator(player)
+                .validateAnyPermission(banAppealConfiguration.createAppealPermission)
+                .validateNotEmpty(input, "Reason for appeal can not be empty");
+
             bukkitUtils.runTaskAsync(player, () -> appealService.addAppeal(player, ban, input));
         });
     }
 
     @GuiAction("manage-ban-appeals/create")
     public void createAppeal(Player player, @GuiParam("banId") int banId, @GuiParam("reason") String reason) {
+        validator(player)
+            .validateAnyPermission(banAppealConfiguration.createAppealPermission)
+            .validateNotEmpty(reason, "Reason for appeal can not be empty");
         bukkitUtils.runTaskAsync(player, () -> {
             Ban ban = banService.getById(banId);
             appealService.addAppeal(player, ban, reason);
         });
     }
 
+    @GuiAction("manage-bans/view/appealed-bans")
+    public AsyncGui<GuiTemplate> appealedBansOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            List<Ban> bans = banService.getAppealedBans(page * PAGE_SIZE, PAGE_SIZE);
+            Map<String, Object> params = new HashMap<>();
+            params.put("bans", bans);
+            return template("gui/bans/appealed-bans-overview.ftl", params);
+        });
+    }
+
     @GuiAction("manage-ban-appeals/approve")
     public void approveAppeal(Player player, @GuiParam("appealId") int appealId) {
+        permissionHandler.validate(player, banAppealConfiguration.approveAppealPermission);
         if (banAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1===================================================", messages.prefixBans);
             messages.send(player, "&6       You have chosen to approve this appeal", messages.prefixBans);
@@ -119,6 +144,7 @@ public class BanAppealGuiController {
 
     @GuiAction("manage-ban-appeals/reject")
     public void rejectAppeal(Player player, @GuiParam("appealId") int appealId) {
+        permissionHandler.validate(player, banAppealConfiguration.rejectAppealPermission);
         if (banAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1==================================================", messages.prefixBans);
             messages.send(player, "&6        You have chosen to reject this appeal", messages.prefixBans);

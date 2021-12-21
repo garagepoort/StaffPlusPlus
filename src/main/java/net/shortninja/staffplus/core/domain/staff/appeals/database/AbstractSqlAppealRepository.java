@@ -1,15 +1,14 @@
-package net.shortninja.staffplus.core.domain.staff.warn.appeals.database;
+package net.shortninja.staffplus.core.domain.staff.appeals.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplusplus.appeals.AppealStatus;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.Connection;
@@ -28,12 +27,10 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
 
     private final PlayerManager playerManager;
     private final SqlConnectionProvider sqlConnectionProvider;
-    private final ServerSyncConfig warningSyncEnabled;
 
-    public AbstractSqlAppealRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
+    public AbstractSqlAppealRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider) {
         this.sqlConnectionProvider = sqlConnectionProvider;
         this.playerManager = playerManager;
-        this.warningSyncEnabled = options.serverSyncConfiguration.warningSyncServers;
     }
 
     public Connection getConnection() {
@@ -61,12 +58,12 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     }
 
     @Override
-    public List<Appeal> getAppeals(int warningId, int offset, int amount) {
+    public List<Appeal> getAppeals(int appealableId, int offset, int amount) {
         List<Appeal> appeals = new ArrayList<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_appeals WHERE appealable_id = ? ORDER BY timestamp DESC LIMIT ?,?")
         ) {
-            ps.setInt(1, warningId);
+            ps.setInt(1, appealableId);
             ps.setInt(2, offset);
             ps.setInt(3, amount);
             try (ResultSet rs = ps.executeQuery()) {
@@ -97,7 +94,6 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
             throw new DatabaseException(e);
         }
     }
-
 
     @Override
     public void updateAppealStatus(int appealId, UUID resolverUuid, String resolveReason, AppealStatus status, AppealableType appealableType) {
@@ -136,11 +132,12 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     }
 
     @Override
-    public int getCountOpenAppeals() {
+    public int getCountOpenAppeals(AppealableType appealableType, String syncTable, ServerSyncConfig syncConfig) {
         int count;
-        String query = "SELECT count(*) as count FROM sp_appeals WHERE status='OPEN' AND appealable_id in (SELECT id from sp_warnings " + Constants.getServerNameFilterWithWhere(warningSyncEnabled) + ")";
+        String query = "SELECT count(*) as count FROM sp_appeals WHERE status='OPEN' AND type = ? AND appealable_id in (SELECT id from " + syncTable + " " + Constants.getServerNameFilterWithWhere(syncConfig) + ")";
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement(query)) {
+            ps.setString(1, appealableType.name());
             try (ResultSet rs = ps.executeQuery()) {
                 rs.next();
                 count = rs.getInt("count");
@@ -195,5 +192,4 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
             rs.getLong("timestamp"),
             type);
     }
-
 }

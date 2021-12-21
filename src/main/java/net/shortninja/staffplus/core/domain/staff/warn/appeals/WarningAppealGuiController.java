@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.warn.appeals.gui;
+package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.AsyncGui;
@@ -10,11 +10,11 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.AppealService;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.WarningAppealConfiguration;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import org.bukkit.entity.Player;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static net.shortninja.staffplus.core.common.utils.Validator.validator;
 
 @IocBean
 @GuiController
@@ -39,6 +40,7 @@ public class WarningAppealGuiController {
     private final BukkitUtils bukkitUtils;
     private final WarningAppealConfiguration warningAppealConfiguration;
     private final ActionService actionService;
+    private final PermissionHandler permission;
 
     public WarningAppealGuiController(AppealService appealService,
                                       WarnService warnService,
@@ -46,7 +48,7 @@ public class WarningAppealGuiController {
                                       OnlineSessionsManager sessionManager,
                                       Options options,
                                       BukkitUtils bukkitUtils,
-                                      WarningAppealConfiguration warningAppealConfiguration, ActionService actionService) {
+                                      WarningAppealConfiguration warningAppealConfiguration, ActionService actionService, PermissionHandler permission) {
         this.appealService = appealService;
         this.warnService = warnService;
         this.messages = messages;
@@ -55,6 +57,7 @@ public class WarningAppealGuiController {
         this.bukkitUtils = bukkitUtils;
         this.warningAppealConfiguration = warningAppealConfiguration;
         this.actionService = actionService;
+        this.permission = permission;
     }
 
     @GuiAction("manage-warning-appeals/view/detail")
@@ -84,6 +87,7 @@ public class WarningAppealGuiController {
 
     @GuiAction("manage-warning-appeals/view/create/reason-chat")
     public void getCreateAppealReasonChatView(Player player, @GuiParam("warningId") int warningId) {
+
         Warning warning = warnService.getWarning(warningId);
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
         messages.send(player, "&6         You have chosen to appeal this warning", messages.prefixGeneral);
@@ -98,12 +102,19 @@ public class WarningAppealGuiController {
                 return;
             }
 
+            validator(player)
+                .validateAnyPermission(warningAppealConfiguration.createAppealPermission)
+                .validateNotEmpty(input, "Reason for appeal can not be empty");
+
             bukkitUtils.runTaskAsync(player, () -> appealService.addAppeal(player, warning, input));
         });
     }
 
     @GuiAction("manage-warning-appeals/create")
     public void createAppeal(Player player, @GuiParam("warningId") int warningId, @GuiParam("reason") String reason) {
+        validator(player)
+            .validateAnyPermission(warningAppealConfiguration.createAppealPermission)
+            .validateNotEmpty(reason, "Reason for appeal can not be empty");
         bukkitUtils.runTaskAsync(player, () -> {
             Warning warning = warnService.getWarning(warningId);
             appealService.addAppeal(player, warning, reason);
@@ -112,6 +123,7 @@ public class WarningAppealGuiController {
 
     @GuiAction("manage-warning-appeals/approve")
     public void approveAppeal(Player player, @GuiParam("appealId") int appealId) {
+        permission.validate(player, warningAppealConfiguration.approveAppealPermission);
         if (options.warningAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1===================================================", messages.prefixWarnings);
             messages.send(player, "&6       You have chosen to approve this appeal", messages.prefixWarnings);
@@ -133,6 +145,7 @@ public class WarningAppealGuiController {
 
     @GuiAction("manage-warning-appeals/reject")
     public void rejectAppeal(Player player, @GuiParam("appealId") int appealId) {
+        permission.validate(player, warningAppealConfiguration.rejectAppealPermission);
         if (options.warningAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1==================================================", messages.prefixWarnings);
             messages.send(player, "&6        You have chosen to reject this appeal", messages.prefixWarnings);
@@ -151,6 +164,4 @@ public class WarningAppealGuiController {
             bukkitUtils.runTaskAsync(player, () -> warnService.rejectAppeal(player, appealId));
         }
     }
-
-
 }

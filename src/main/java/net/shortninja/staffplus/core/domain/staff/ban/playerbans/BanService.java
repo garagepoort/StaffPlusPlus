@@ -165,6 +165,10 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         sendEvent(new UnbanEvent(ban));
     }
 
+    public List<Ban> getAppealedBans(int offset, int amount) {
+        return bansRepository.getAppealedBans(offset, amount);
+    }
+
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
         if (!options.infractionsConfiguration.isShowBans()) {

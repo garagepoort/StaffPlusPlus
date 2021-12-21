@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.appeals.IAppeal;

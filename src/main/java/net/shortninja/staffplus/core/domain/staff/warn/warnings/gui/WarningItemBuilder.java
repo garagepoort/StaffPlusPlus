@@ -8,7 +8,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.WarningAppealConfiguration;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;

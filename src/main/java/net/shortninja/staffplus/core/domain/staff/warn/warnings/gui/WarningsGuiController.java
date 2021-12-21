@@ -2,11 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.AsyncGui;
-import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.model.TubingGui;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
@@ -111,9 +109,13 @@ public class WarningsGuiController {
     }
 
     @GuiAction("manage-warnings/view/appealed-warnings")
-    public TubingGui appealedWarningsOverview(@CurrentAction String currentAction,
-                                              @GuiParam(value = "page", defaultValue = "0") int page) {
-        return manageAppealedWarningsViewBuilder.buildGui(currentAction, page);
+    public AsyncGui<GuiTemplate> appealedWarningsOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            List<Warning> warnings = warnService.getAppealedWarnings(page * PAGE_SIZE, PAGE_SIZE);
+            Map<String, Object> params = new HashMap<>();
+            params.put("warnings", warnings);
+            return template("gui/warnings/appealed-warnings-overview.ftl", params);
+        });
     }
 
     @GuiAction("manage-warnings/view/detail")

@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.ban.playerbans;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.ban.IBan;
@@ -224,7 +224,7 @@ public class Ban implements IBan, Infraction, Evidence {
 
     @Override
     public AppealableType getType() {
-        return null;
+        return AppealableType.BAN;
     }
 
     public void setAppeal(Appeal appeal) {

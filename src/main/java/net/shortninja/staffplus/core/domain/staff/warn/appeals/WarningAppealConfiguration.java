@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.warn.appeals.config;
+package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;

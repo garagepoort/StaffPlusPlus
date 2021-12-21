@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.warn.warnings;
+package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.WarningAppealConfiguration;
+import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.ManageWarningsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
 import net.shortninja.staffplusplus.appeals.AppealApprovedEvent;

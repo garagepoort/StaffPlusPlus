@@ -7,9 +7,9 @@ import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.AppealService;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.WarningAppealConfiguration;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.gui.WarningAppealGuiController;
+import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealGuiController;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -92,7 +92,8 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
             options,
             bukkitUtils,
             warningAppealConfiguration,
-            actionService);
+            actionService,
+            permissionHandler);
     }
 
     @Test

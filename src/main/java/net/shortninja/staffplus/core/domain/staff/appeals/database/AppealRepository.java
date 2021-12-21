@@ -1,6 +1,7 @@
-package net.shortninja.staffplus.core.domain.staff.warn.appeals.database;
+package net.shortninja.staffplus.core.domain.staff.appeals.database;
 
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 public interface AppealRepository {
 
-    List<Appeal> getAppeals(int warningId, int offset, int amount);
+    List<Appeal> getAppeals(int appealableId, int offset, int amount);
 
     void updateAppealStatus(int appealId, UUID resolverUuid, String resolveReason, AppealStatus status, AppealableType appealableType);
 
@@ -20,7 +21,7 @@ public interface AppealRepository {
 
     List<Appeal> getAppeals(int appealableId, AppealableType appealableType);
 
-    int getCountOpenAppeals();
+    int getCountOpenAppeals(AppealableType appealableType, String syncTable, ServerSyncConfig syncConfig);
 
     void deleteAppeals(int appealableId, AppealableType appealableType);
 }

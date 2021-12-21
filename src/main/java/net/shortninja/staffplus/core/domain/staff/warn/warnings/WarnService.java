@@ -11,9 +11,9 @@ import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.AppealService;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
+import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
@@ -83,7 +83,7 @@ public class WarnService implements InfractionProvider, WarningService {
     }
 
     @Deprecated
-    // This is only used when severity levels are empty, it the new system this is not recommended and it will be removed.
+    // This is only used when severity levels are empty, in the new system this is not recommended and it will be removed.
     public void sendWarning(CommandSender sender, SppPlayer user, String reason) {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : CONSOLE_UUID;

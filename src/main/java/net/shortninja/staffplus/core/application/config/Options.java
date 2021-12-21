@@ -29,7 +29,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportingModu
 import net.shortninja.staffplus.core.domain.staff.teleport.config.LocationLoader;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.WarningAppealConfiguration;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

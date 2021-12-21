@@ -130,6 +130,7 @@ protect-area: "protectArea"
 
 bans.manage:
     gui: "manage-bans"
+    appealed-gui: "manage-appealed-bans"
 
 # The command to permanently ban a player
 ban: "ban"

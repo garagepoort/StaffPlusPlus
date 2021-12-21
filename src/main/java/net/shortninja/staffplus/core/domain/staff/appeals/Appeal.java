@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.warn.appeals;
+package net.shortninja.staffplus.core.domain.staff.appeals;
 
 import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.AppealableType;
