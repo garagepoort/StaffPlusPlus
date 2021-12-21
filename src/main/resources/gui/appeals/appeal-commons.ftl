@@ -2,9 +2,9 @@
 <#include "/gui/commons/translate.ftl"/>
 <#import "/gui/commons/commons.ftl" as commons/>
 
-<#macro appealbutton action>
+<#macro appealbutton action slot="31">
     <GuiItem id="add-appeal"
-             slot="31"
+             slot="${slot}"
              material="BOOK"
              onLeftClick="${action}">
         <name class="item-name">Add appeal</name>
