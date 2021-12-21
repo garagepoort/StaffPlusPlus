@@ -19,6 +19,8 @@ public interface BansRepository {
 
     Optional<Ban> findActiveBan(int id);
 
+    Optional<Ban> getBan(int id);
+
     List<Ban> getBansForPlayer(UUID playerUUID);
 
     List<Ban> getBansForPlayerPaged(UUID playerUUID, int offset, int amount);
@@ -34,4 +36,6 @@ public interface BansRepository {
     long getTotalCount();
 
     void setBanDuration(int banId, long duration);
+
+    List<Ban> getAppealedBans(int offset, int amount);
 }

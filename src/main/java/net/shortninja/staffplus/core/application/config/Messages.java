@@ -324,6 +324,8 @@ public class Messages {
     public String ipbanTempbannedKick;
     @ConfigProperty("%lang%:ipbans.permabanned-kick")
     public String ipbanPermabannedKick;
+    @ConfigProperty("%lang%:ban-appeal-open-notify")
+    public String banOpenAppealsNotify;
 
     @ConfigProperty("%lang%:mute-expired")
     public String muteExpired;
@@ -351,7 +353,7 @@ public class Messages {
     @ConfigProperty("%lang%:appeal-reject")
     public String appealReject;
     @ConfigProperty("%lang%:appeal-open-notify")
-    public String openAppealsNotify;
+    public String warningOpenAppealsNotify;
 
     // Investigations
     @ConfigProperty("%lang%:investigated.investigation-started")
