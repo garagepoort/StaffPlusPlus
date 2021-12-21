@@ -281,6 +281,7 @@ mute-tempmuted: "&6%target% ha silenciado a %issuer% por %duration%"
 mute-muted: "&6Te encuentran silenciado. No puedes escribir."
 mute-extended: "&7You have extended &6%target%&7's mute by %extensionDuration%"
 mute-reduced: "&7You have reduced &6%target%&7's mute by %reductionDuration%"
+mute-appeal-open-notify: "There are %appealsCount% unresolved appealed mutes!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -335,6 +336,30 @@ gui:
     confirmation:
         confirm: Confirm
         cancel: Cancel
+    bans:
+        appeal-detail:
+            approve:
+                title: "Approve Appeal"
+                lore: "Click to approve this appeal"
+            reject:
+                title: "Reject Appeal"
+                lore: "Click to reject this appeal"
+    mutes:
+        appeal-detail:
+            approve:
+                title: "Approve Appeal"
+                lore: "Click to approve this appeal"
+            reject:
+                title: "Reject Appeal"
+                lore: "Click to reject this appeal"
+    warnings:
+        appeal-detail:
+            approve:
+                title: "Approve Appeal"
+                lore: "Click to approve this appeal"
+            reject:
+                title: "Reject Appeal"
+                lore: "Click to reject this appeal"
     reports:
         report: "Report"
         assignee: "Assignee"
