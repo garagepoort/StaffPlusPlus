@@ -4,10 +4,11 @@ import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.Appeal;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
+import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.warnings.WarningFilters;
 
@@ -320,7 +321,7 @@ public abstract class AbstractSqlWarnRepository implements WarnRepository {
         String name = player.map(SppPlayer::getUsername).orElse("Unknown user");
         String serverName = rs.getString("server_name") == null ? "[Unknown]" : rs.getString("server_name");
 
-        List<Appeal> appeals = appealRepository.getAppeals(id);
+        List<Appeal> appeals = appealRepository.getAppeals(id, AppealableType.WARNING);
 
         return new Warning(playerUUID,
             name,

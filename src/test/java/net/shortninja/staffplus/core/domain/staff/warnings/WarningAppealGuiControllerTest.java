@@ -6,10 +6,11 @@ import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.AppealService;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.gui.ManageAppealViewBuilder;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.gui.WarningAppealGuiController;
+import net.shortninja.staffplus.core.domain.actions.ActionService;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealGuiController;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,7 +43,7 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
     private static final long CREATION_DATE = 1630537429182L;
     private static final String TIMESTAMP_FORMAT = "dd/MM/yyyy-HH:mm:ss";
 
-    private AppealConfiguration appealConfiguration;
+    private WarningAppealConfiguration warningAppealConfiguration;
     @Mock
     private AppealService appealService;
     @Mock
@@ -52,11 +53,13 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
     @Mock
     private Options options;
     @Mock
-    private ManageAppealViewBuilder manageAppealViewBuilder;
-    @Mock
     private Messages messages;
     @Mock
     private BukkitUtils bukkitUtils;
+    @Mock
+    private ActionService actionService;
+    @Mock
+    private PlayerManager playerManager;
 
     @Captor
     private ArgumentCaptor<String> xmlCaptor;
@@ -83,20 +86,23 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
 
     @Override
     public Object getGuiController() {
-        appealConfiguration = new AppealConfiguration();
-        return new WarningAppealGuiController(manageAppealViewBuilder,
+        warningAppealConfiguration = new WarningAppealConfiguration();
+        return new WarningAppealGuiController(
             appealService,
             warnService,
             messages,
             onlineSessionsManager,
             options,
             bukkitUtils,
-            appealConfiguration);
+            warningAppealConfiguration,
+            actionService,
+            permissionHandler,
+            playerManager);
     }
 
     @Test
     public void appealReasonSelect() throws URISyntaxException, IOException {
-        appealConfiguration.appealReasons = Arrays.asList("Reason 1", "Reason 2", "Reason 3");
+        warningAppealConfiguration.appealReasons = Arrays.asList("Reason 1", "Reason 2", "Reason 3");
 
         guiActionService.executeAction(player, "manage-warning-appeals/view/create/reason-select?warningId=12&backAction=goBack/view");
 

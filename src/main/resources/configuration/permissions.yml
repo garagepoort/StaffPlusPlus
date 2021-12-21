@@ -222,6 +222,14 @@ ban-template-overwrite: "staff.bans.ban-template-overwrite"
 unban: "staff.bans.unban"
 ban-bypass: "staff.bans.ban-bypass"
 ban-notifications: "staff.bans.ban-notifications"
+bans:
+    appeals:
+        view: "staff.bans.appeals.view"
+        create: "staff.bans.appeals.create"
+        create-others: "staff.bans.appeals.create.others"
+        approve: "staff.bans.appeals.approve"
+        reject: "staff.bans.appeals.reject"
+        notifications: "staff.bans.appeals.notifications"
 
 ########################
 # IP BANS

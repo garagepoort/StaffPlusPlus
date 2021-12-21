@@ -8,7 +8,7 @@
                  class="appeal-reason appeal-reason-${reason}"
                  slot="${reason?index}"
                  material="PAPER"
-                 onLeftClick="manage-warning-appeals/create?warningId=${warningId}&reason=${reason}">
+                 onLeftClick="${action}&reason=${reason}">
             <name class="item-name">${reason}</name>
         </GuiItem>
     </#list>
