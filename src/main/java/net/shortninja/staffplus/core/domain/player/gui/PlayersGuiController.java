@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 import static java.util.Collections.emptyList;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPlayer;
 
@@ -90,13 +91,13 @@ public class PlayersGuiController {
             reportsEnabled ? getReports(sppPlayer) : emptyList(),
             reportsEnabled ? getReported(sppPlayer) : emptyList(),
             warningConfiguration.isEnabled() ? getWarnings(sppPlayer) : emptyList()));
-        return GuiTemplate.template("gui/player/player-detail.ftl", params);
+        return template("gui/player/player-detail.ftl", params);
     }
 
     @GuiAction("players/view/select-overview-type")
     public GuiTemplate getOverviewSelectionView() {
         HashMap<String, Object> params = new HashMap<>();
-        return GuiTemplate.template("gui/player/player-overview-select.ftl", params);
+        return template("gui/player/player-overview-select.ftl", params);
     }
 
     @GuiAction("players/view/overview/online")
@@ -107,7 +108,7 @@ public class PlayersGuiController {
         HashMap<String, Object> params = new HashMap<>();
         params.put("title", "Online players");
         params.put("players", pagedPlayers);
-        return GuiTemplate.template("gui/player/player-overview.ftl", params);
+        return template("gui/player/player-overview.ftl", params);
     }
 
     @GuiAction("players/view/overview/offline")
@@ -118,7 +119,7 @@ public class PlayersGuiController {
         HashMap<String, Object> params = new HashMap<>();
         params.put("title", "Offline players");
         params.put("players", pagedPlayers);
-        return GuiTemplate.template("gui/player/player-overview.ftl", params);
+        return template("gui/player/player-overview.ftl", params);
     }
 
     private List<? extends IWarning> getWarnings(SppPlayer sppPlayer) {

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
 @GuiController
@@ -55,7 +56,7 @@ public class InvestigationNotesGuiController {
             List<InvestigationNoteEntity> notes = investigationNoteService.getNotesForInvestigation(investigation, page * PAGE_SIZE, PAGE_SIZE);
             HashMap<String, Object> params = new HashMap<>();
             params.put("notes", notes);
-            return GuiTemplate.template("gui/investigations/notes-overview.ftl", params);
+            return template("gui/investigations/notes-overview.ftl", params);
         });
     }
 
@@ -73,7 +74,7 @@ public class InvestigationNotesGuiController {
         params.put("title", "Delete note?");
         params.put("confirmAction", confirmAction);
         params.put("cancelAction", backAction);
-        return GuiTemplate.template("gui/commons/confirmation.ftl", params);
+        return template("gui/commons/confirmation.ftl", params);
     }
 
     @GuiAction("manage-investigation-notes/delete")

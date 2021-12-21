@@ -88,6 +88,7 @@ public class AutoUpdater {
 
             File file = new File(StaffPlus.get().getDataFolder() + File.separator + configurationFile.getPath());
             newConfig.save(file);
+            configurationFile.setFileConfiguration(newConfig);
             if (counter.get() > 0) {
                 StaffPlus.get().getLogger().info("Configuration file Fixed. [" + counter.get() + "] properties were added. Should StaffPlusPlus still have problems starting up, please compare your config with the default configuration: https://github.com/garagepoort/StaffPlusPlus/blob/master/StaffPlusCore/src/main/resources/config.yml");
             }

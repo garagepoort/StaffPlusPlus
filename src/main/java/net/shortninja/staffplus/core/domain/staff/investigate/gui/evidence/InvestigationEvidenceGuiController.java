@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
 @GuiController
@@ -71,7 +72,7 @@ public class InvestigationEvidenceGuiController {
         params.put("title", "Unlink evidence?");
         params.put("confirmAction", confirmAction);
         params.put("cancelAction", backAction);
-        return GuiTemplate.template("gui/commons/confirmation.ftl", params);
+        return template("gui/commons/confirmation.ftl", params);
     }
 
     @GuiAction("manage-investigation-evidence/unlink")

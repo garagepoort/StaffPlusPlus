@@ -1,11 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.*;
-import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.gui.AsyncGui;
+import be.garagepoort.mcioc.gui.GuiAction;
+import be.garagepoort.mcioc.gui.GuiController;
+import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -41,7 +42,6 @@ public class WarningsGuiController {
     private final PlayerManager playerManager;
     private final WarnService warnService;
     private final OnlineSessionsManager sessionManager;
-    private final Options options;
     private final WarningConfiguration warningConfiguration;
     private final Messages messages;
     private final BukkitUtils bukkitUtils;
@@ -51,7 +51,6 @@ public class WarningsGuiController {
                                  PlayerManager playerManager,
                                  WarnService warnService,
                                  OnlineSessionsManager sessionManager,
-                                 Options options,
                                  WarningConfiguration warningConfiguration,
                                  Messages messages,
                                  BukkitUtils bukkitUtils,
@@ -60,7 +59,6 @@ public class WarningsGuiController {
         this.playerManager = playerManager;
         this.warnService = warnService;
         this.sessionManager = sessionManager;
-        this.options = options;
         this.warningConfiguration = warningConfiguration;
         this.messages = messages;
         this.bukkitUtils = bukkitUtils;
@@ -78,7 +76,7 @@ public class WarningsGuiController {
         return async(() -> {
             Map<String, Object> params = new HashMap<>();
             params.put("warnings", getWarnings(finalTarget, page));
-            return GuiTemplate.template("gui/warnings/warnings-overview.ftl", params);
+            return template("gui/warnings/warnings-overview.ftl", params);
         });
     }
 
@@ -96,7 +94,7 @@ public class WarningsGuiController {
             List<Warning> warnings = warnService.getWarnings(player.getUniqueId(), page * PAGE_SIZE, PAGE_SIZE, false);
             Map<String, Object> params = new HashMap<>();
             params.put("warnings", warnings);
-            return GuiTemplate.template("gui/warnings/my-warnings-overview.ftl", params);
+            return template("gui/warnings/my-warnings-overview.ftl", params);
         });
     }
 
@@ -111,9 +109,13 @@ public class WarningsGuiController {
     }
 
     @GuiAction("manage-warnings/view/appealed-warnings")
-    public TubingGui appealedWarningsOverview(@CurrentAction String currentAction,
-                                              @GuiParam(value = "page", defaultValue = "0") int page) {
-        return manageAppealedWarningsViewBuilder.buildGui(currentAction, page);
+    public AsyncGui<GuiTemplate> appealedWarningsOverview(@GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            List<Warning> warnings = warnService.getAppealedWarnings(page * PAGE_SIZE, PAGE_SIZE);
+            Map<String, Object> params = new HashMap<>();
+            params.put("warnings", warnings);
+            return template("gui/warnings/appealed-warnings-overview.ftl", params);
+        });
     }
 
     @GuiAction("manage-warnings/view/detail")

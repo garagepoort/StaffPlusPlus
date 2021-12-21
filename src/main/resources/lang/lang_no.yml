@@ -239,6 +239,7 @@ ban-reduced: "&7You have reduced &6%target%&7's ban by %reductionDuration%"
 
 ban-tempbanned-kick: "[Banned] You have been temporarily banned from this server. Ban ends in: %duration%"
 ban-permabanned-kick: "[Banned] You have been permanently banned from this server"
+ban-appeal-open-notify: "There are %appealsCount% unresolved appealed bans!"
 
 ############################################################
 # +------------------------------------------------------+ #
