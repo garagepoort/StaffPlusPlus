@@ -39,7 +39,7 @@ public class MyWarningsViewBuilder {
 
     @NotNull
     private String getDetailAction(Player player, Warning w, String currentAction) {
-        if (options.appealConfiguration.enabled && permission.has(player, options.appealConfiguration.createAppealPermission)) {
+        if (options.warningAppealConfiguration.enabled && permission.has(player, options.warningAppealConfiguration.createAppealPermission)) {
             return GuiActionBuilder.builder()
                 .action("manage-warnings/view/detail")
                 .param("warningId", String.valueOf(w.getId()))

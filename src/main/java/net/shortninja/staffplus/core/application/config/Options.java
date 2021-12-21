@@ -29,7 +29,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportingModu
 import net.shortninja.staffplus.core.domain.staff.teleport.config.LocationLoader;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.config.AppealConfiguration;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -60,7 +60,7 @@ public class Options {
     public InfractionsConfiguration infractionsConfiguration;
     public InvestigationConfiguration investigationConfiguration;
     public ReportConfiguration reportConfiguration;
-    public AppealConfiguration appealConfiguration;
+    public WarningAppealConfiguration warningAppealConfiguration;
     public BlackListConfiguration blackListConfiguration;
     public TraceConfiguration traceConfiguration;
     public BroadcastConfiguration broadcastConfiguration;
@@ -104,7 +104,7 @@ public class Options {
                    InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader,
-                   AppealConfiguration appealConfiguration,
+                   WarningAppealConfiguration warningAppealConfiguration,
                    ServerSyncConfiguration serverSyncConfiguration) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
@@ -118,7 +118,7 @@ public class Options {
         this.investigationModuleLoader = investigationModuleLoader;
         this.staffCustomItemsLoader = staffCustomItemsLoader;
         this.staffItemsLoader = staffItemsLoader;
-        this.appealConfiguration = appealConfiguration;
+        this.warningAppealConfiguration = warningAppealConfiguration;
         this.serverSyncConfiguration = serverSyncConfiguration;
         reload();
     }

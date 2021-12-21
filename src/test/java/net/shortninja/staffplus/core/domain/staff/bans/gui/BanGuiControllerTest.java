@@ -123,6 +123,7 @@ class BanGuiControllerTest extends AbstractGuiTemplateTest {
             "ServerName",
             false,
             false,
+            null,
             null
         );
     }
