@@ -246,6 +246,7 @@ ban-reduced: "&7Redijiste la duración del baneo a &6%target%&7 en %reductionDur
 
 ban-tempbanned-kick: "[Baneado] Fuiste baneado temporalmente en este servidor. El baneo terminará en: %duration%"
 ban-permabanned-kick: "[Baneado] Fuiste baneado permanentemente en este servidor"
+ban-appeal-open-notify: "There are %appealsCount% unresolved appealed bans!"
 
 ############################################################
 # +------------------------------------------------------+ #

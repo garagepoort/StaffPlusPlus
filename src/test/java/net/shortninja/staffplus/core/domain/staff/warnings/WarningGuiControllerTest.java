@@ -102,7 +102,6 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
             playerManager,
             warnService,
             onlineSessionsManager,
-            options,
             warningConfiguration,
             messages,
             bukkitUtils,

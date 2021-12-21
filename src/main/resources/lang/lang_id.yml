@@ -237,6 +237,7 @@ ban-reduced: '&7Banned Anda telah diperpendek &6%target%&7''s selama %reductionD
 
 ban-tempbanned-kick: '[Banned] Anda dibanned sementara. Ban ends in: %duration%'
 ban-permabanned-kick: '[Banned] Anda dibanned permanen'
+ban-appeal-open-notify: "There are %appealsCount% unresolved appealed bans!"
 
 ############################################################
 # +------------------------------------------------------+ #

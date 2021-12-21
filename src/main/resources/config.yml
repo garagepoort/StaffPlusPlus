@@ -335,6 +335,12 @@ ban-module:
   enabled: true
   permban-template: ''
   tempban-template: ''
+  appeals:
+      enabled: true
+      resolve-reason-enabled: false
+      fixed-reason: false
+      reasons:
+          - ''
   ipban:
       enabled: true
       permban-template: ''

@@ -29,6 +29,10 @@ public class ConfigurationFile {
         return path;
     }
 
+    public void setFileConfiguration(FileConfiguration fileConfiguration) {
+        this.fileConfiguration = fileConfiguration;
+    }
+
     public FileConfiguration getFileConfiguration() {
         return fileConfiguration;
     }

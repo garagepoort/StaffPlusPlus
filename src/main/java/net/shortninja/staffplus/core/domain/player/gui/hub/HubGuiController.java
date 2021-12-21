@@ -9,6 +9,7 @@ import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import java.util.HashMap;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
 @GuiController
@@ -16,7 +17,7 @@ public class HubGuiController {
 
     @GuiAction("hub/view")
     public AsyncGui<GuiTemplate> getHubView() {
-        return async(() -> GuiTemplate.template("gui/hub/hub.ftl", new HashMap<>()));
+        return async(() -> template("gui/hub/hub.ftl", new HashMap<>()));
     }
 
 }

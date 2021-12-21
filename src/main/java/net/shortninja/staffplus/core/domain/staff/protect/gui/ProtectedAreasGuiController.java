@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
 @GuiController
@@ -45,7 +46,7 @@ public class ProtectedAreasGuiController {
             HashMap<String, Object> params = new HashMap<>();
             params.put("title", protectConfiguration.modeGuiProtectedAreasTitle);
             params.put("areas", protectService.getAllProtectedAreasPaginated(page * PAGE_SIZE, PAGE_SIZE));
-            return GuiTemplate.template("gui/protect/area-overview.ftl", params);
+            return template("gui/protect/area-overview.ftl", params);
         });
     }
 
@@ -54,7 +55,7 @@ public class ProtectedAreasGuiController {
         return async(() -> {
             HashMap<String, Object> params = new HashMap<>();
             params.put("area", protectService.getById(areaId));
-            return GuiTemplate.template("gui/protect/area-detail.ftl", params);
+            return template("gui/protect/area-detail.ftl", params);
         });
     }
 
