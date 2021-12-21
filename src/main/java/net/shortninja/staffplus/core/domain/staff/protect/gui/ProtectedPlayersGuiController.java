@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
 @GuiController
@@ -45,7 +46,7 @@ public class ProtectedPlayersGuiController {
 
             HashMap<String, Object> params = new HashMap<>();
             params.put("players", pagedPlayers);
-            return GuiTemplate.template("gui/protect/player-overview.ftl", params);
+            return template("gui/protect/player-overview.ftl", params);
         });
     }
 

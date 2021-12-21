@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
+import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,8 +16,8 @@ import java.sql.Types;
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
 public class SqliteBansRepository extends AbstractSqlBansRepository {
 
-    public SqliteBansRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
-        super(playerManager, sqlConnectionProvider, options);
+    public SqliteBansRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options, AppealRepository appealRepository) {
+        super(playerManager, sqlConnectionProvider, options, appealRepository);
     }
 
     @Override

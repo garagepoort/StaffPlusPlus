@@ -17,7 +17,7 @@ public class MetricsService {
         Metrics metrics = new Metrics(StaffPlus.get(), PLUGIN_ID);
 
         boolean warningConfigurationEnabled = warningConfiguration.isEnabled();
-        boolean appealConfigurationEnabled = options.appealConfiguration.enabled;
+        boolean appealConfigurationEnabled = options.warningAppealConfiguration.enabled;
         boolean reportConfigurationEnabled = options.reportConfiguration.isEnabled();
         boolean banConfigurationEnabled = banConfiguration.enabled;
         boolean muteConfigurationEnabled = muteConfiguration.muteEnabled;

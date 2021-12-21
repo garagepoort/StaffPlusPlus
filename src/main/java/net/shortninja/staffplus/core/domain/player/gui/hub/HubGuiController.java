@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
 @GuiController
@@ -34,7 +35,7 @@ public class HubGuiController {
         return async(() -> {
             HashMap<String, Object> params = new HashMap<>();
             params.put("settings", playerSettingsRepository.get(player));
-            return GuiTemplate.template("gui/hub/hub.ftl", params);
+            return template("gui/hub/hub.ftl", params);
         });
     }
 

@@ -11,12 +11,15 @@ import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.warn.appeals.database.AppealRepository;
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
+import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
+import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
+import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import net.shortninja.staffplusplus.warnings.AppealStatus;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.warnings.WarningCreatedEvent;
 import net.shortninja.staffplusplus.warnings.WarningExpiredEvent;
 import net.shortninja.staffplusplus.warnings.WarningFilters;
@@ -48,19 +51,21 @@ public class WarnService implements InfractionProvider, WarningService {
     private final WarnRepository warnRepository;
     private final AppealRepository appealRepository;
     private final WarningConfiguration warningConfiguration;
+    private final AppealService appealService;
 
     public WarnService(PermissionHandler permission,
                        Options options,
                        Messages messages,
                        WarnRepository warnRepository,
                        AppealRepository appealRepository,
-                       WarningConfiguration warningConfiguration) {
+                       WarningConfiguration warningConfiguration, AppealService appealService) {
         this.permission = permission;
         this.options = options;
         this.messages = messages;
         this.warnRepository = warnRepository;
         this.appealRepository = appealRepository;
         this.warningConfiguration = warningConfiguration;
+        this.appealService = appealService;
     }
 
     public void sendWarning(CommandSender sender, SppPlayer culprit, String reason, WarningSeverityConfiguration severityConfig) {
@@ -78,7 +83,7 @@ public class WarnService implements InfractionProvider, WarningService {
     }
 
     @Deprecated
-    // This is only used when severity levels are empty, it the new system this is not recommended and it will be removed.
+    // This is only used when severity levels are empty, in the new system this is not recommended and it will be removed.
     public void sendWarning(CommandSender sender, SppPlayer user, String reason) {
         String issuerName = sender instanceof Player ? sender.getName() : "Console";
         UUID issuerUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : CONSOLE_UUID;
@@ -118,9 +123,23 @@ public class WarnService implements InfractionProvider, WarningService {
             throw new BusinessException("For consistency reasons a warning must be removed on the same server it was created. Please try removing the warning while connected to server " + warning.getServerName());
         }
 
-        appealRepository.deleteAppealsForWarning(id);
+        appealRepository.deleteAppeals(id, AppealableType.WARNING);
         warnRepository.removeWarning(id);
         sendEvent(new WarningRemovedEvent(warning));
+    }
+
+    public void approveAppeal(SppPlayer resolver, int appealId) {
+        this.approveAppeal(resolver, appealId, null);
+    }
+
+    public void approveAppeal(SppPlayer resolver, int appealId, String appealReason) {
+        Appeal appeal = appealService.getAppeal(appealId);
+        Warning warning = warnRepository.findWarning(appeal.getAppealableId()).orElseThrow(() -> new BusinessException("No warning found."));
+
+        if (warning.getServerName() != null && !warning.getServerName().equals(options.serverName)) {
+            throw new BusinessException("For consistency reasons an appeal must accepted on the same server the warning was created. Please try accepting the appeal while connected to server " + warning.getServerName());
+        }
+        appealService.approveAppeal(resolver, appealId, appealReason, AppealableType.WARNING);
     }
 
     public void expireWarning(int id) {
@@ -194,4 +213,10 @@ public class WarnService implements InfractionProvider, WarningService {
         return InfractionType.WARNING;
     }
 
+    public void rejectAppeal(SppPlayer player, int appealId) {
+        appealService.rejectAppeal(player, appealId, AppealableType.WARNING);
+    }
+    public void rejectAppeal(SppPlayer player, int appealId, String reason) {
+        appealService.rejectAppeal(player, appealId, reason, AppealableType.WARNING);
+    }
 }
