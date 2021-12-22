@@ -11,7 +11,7 @@
         <#list [34,35,43,44] as slot>
             <GuiItem slot="${slot}"
                      id="mute-appeal-approve-${slot?index}"
-                     material="GREEN_STAINED_GLASS_PANE"
+                     material="GREEN_GLAZED_TERRACOTTA"
                      class="mute-appeal-approve appeal-approve"
                      onLeftClick="manage-mute-appeals/approve?appealId=${appeal.id}">
                 <name class="item-name"><@translate key="gui.mutes.appeal-detail.approve.title"/></name>
@@ -25,7 +25,7 @@
         <#list [30,31,32,39,40,41] as slot>
             <GuiItem slot="${slot}"
                      id="mute-appeal-reject-${slot?index}"
-                     material="RED_STAINED_GLASS_PANE"
+                     material="RED_GLAZED_TERRACOTTA"
                      class="mute-appeal-reject appeal-reject"
                      onLeftClick="manage-mute-appeals/reject?appealId=${appeal.id}">
                 <name class="item-name"><@translate key="gui.mutes.appeal-detail.reject.title"/></name>

@@ -9,7 +9,7 @@
     <GuiItem id="appeal-reason-2" class="appeal-reason appeal-reason-Reason 3" slot="2" material="PAPER" onLeftClick="manage-mute-appeals/create?muteId=12&amp;reason=Reason 3">
         <name class="item-name">Reason 3</name>
     </GuiItem>
-    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="SPRUCE_DOOR">
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="IRON_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>

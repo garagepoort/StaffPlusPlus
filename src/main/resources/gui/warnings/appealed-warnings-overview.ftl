@@ -9,7 +9,7 @@
                  class="warning-info"
                  slot="${warning?index}"
                  onLeftClick="manage-warnings/view/detail?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}"
-                 material="PLAYER_HEAD"
+                 material="SKULL_ITEM"
         >
             <name class="item-name" color="&3">Warning</name>
             <Lore>

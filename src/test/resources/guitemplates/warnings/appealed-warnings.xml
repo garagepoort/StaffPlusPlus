@@ -1,6 +1,6 @@
 <TubingGui size="54" id="appealed-warnings-overview">
     <title class="gui-title">Appealed Warnings</title>
-    <GuiItem id="warning-info-0" class="warning-info" slot="0" onLeftClick="manage-warnings/view/detail?warningId=12&amp;backAction=manage-warnings%2Fview%2Fappealed-warnings" material="PLAYER_HEAD">
+    <GuiItem id="warning-info-0" class="warning-info" slot="0" onLeftClick="manage-warnings/view/detail?warningId=12&amp;backAction=manage-warnings%2Fview%2Fappealed-warnings" material="SKULL_ITEM">
         <name class="item-name" color="&amp;3">Warning</name>
         <Lore>
             <LoreLine>
@@ -34,13 +34,13 @@
             <LoreLine></LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+    <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_GLAZED_TERRACOTTA">
         <name class="item-name">Next Page</name>
     </GuiItem>
-    <GuiItem slot="52" id="next-page-1" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+    <GuiItem slot="52" id="next-page-1" onLeftClick="goNext" class="next-page" material="GREEN_GLAZED_TERRACOTTA">
         <name class="item-name">Next Page</name>
     </GuiItem>
-    <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+    <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_GLAZED_TERRACOTTA">
         <name class="item-name">Next Page</name>
     </GuiItem>
 </TubingGui>

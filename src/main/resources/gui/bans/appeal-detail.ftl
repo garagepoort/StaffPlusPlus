@@ -11,7 +11,7 @@
         <#list [34,35,43,44] as slot>
             <GuiItem slot="${slot}"
                      id="ban-appeal-approve-${slot?index}"
-                     material="GREEN_STAINED_GLASS_PANE"
+                     material="GREEN_GLAZED_TERRACOTTA"
                      class="ban-appeal-approve appeal-approve"
                      onLeftClick="manage-ban-appeals/approve?appealId=${appeal.id}">
                 <name class="item-name"><@translate key="gui.bans.appeal-detail.approve.title"/></name>
@@ -25,7 +25,7 @@
         <#list [30,31,32,39,40,41] as slot>
             <GuiItem slot="${slot}"
                      id="ban-appeal-reject-${slot?index}"
-                     material="RED_STAINED_GLASS_PANE"
+                     material="RED_GLAZED_TERRACOTTA"
                      class="ban-appeal-reject appeal-reject"
                      onLeftClick="manage-ban-appeals/reject?appealId=${appeal.id}">
                 <name class="item-name"><@translate key="gui.bans.appeal-detail.reject.title"/></name>

@@ -12,7 +12,7 @@
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
         onMiddleClick="${onMiddleClick}"
-        material="PLAYER_HEAD">
+        material="SKULL_ITEM">
         <name class="item-name" color="&3">Mute</name>
         <Lore>
             <@mutelorelines mute=mute/>

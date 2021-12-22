@@ -11,7 +11,7 @@
         <#list [34,35,43,44] as slot>
             <GuiItem slot="${slot}"
                      id="warning-appeal-approve-${slot?index}"
-                     material="GREEN_STAINED_GLASS_PANE"
+                     material="GREEN_GLAZED_TERRACOTTA"
                      class="warning-appeal-approve appeal-approve"
                      onLeftClick="manage-warning-appeals/approve?appealId=${appeal.id}">
                 <name class="item-name"><@translate key="gui.warnings.appeal-detail.approve.title"/></name>
@@ -34,7 +34,7 @@
         <#list [30,31,32,39,40,41] as slot>
             <GuiItem slot="${slot}"
                      id="warning-appeal-reject-${slot?index}"
-                     material="RED_STAINED_GLASS_PANE"
+                     material="RED_GLAZED_TERRACOTTA"
                      class="warning-appeal-reject appeal-reject"
                      onLeftClick="manage-warning-appeals/reject?appealId=${appeal.id}">
                 <name class="item-name"><@translate key="gui.warnings.appeal-detail.reject.title"/></name>

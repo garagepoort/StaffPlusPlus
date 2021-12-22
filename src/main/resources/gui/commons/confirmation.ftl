@@ -23,7 +23,7 @@
     <#list [16,17,25,26] as slot>
         <GuiItem id="confirm-${slot?index}"
                  slot="${slot}"
-                 material="GREEN_STAINED_GLASS_PANE"
+                 material="GREEN_GLAZED_TERRACOTTA"
                  onLeftClick="${confirmAction}">
             <name class="item-name" color="&2"><@translate key="gui.confirmation.confirm"/></name>
         </GuiItem>
