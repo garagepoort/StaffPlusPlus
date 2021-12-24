@@ -24,8 +24,11 @@ public class AppealService {
 
     public void addAppeal(SppPlayer appealer, Appealable appealable, String reason) {
         Appeal appeal = new Appeal(appealable.getId(), appealer.getId(), appealer.getUsername(), reason, appealable.getType());
-        appealRepository.addAppeal(appeal, appealable.getType());
+        appealRepository.findAppeal(appealable.getId(), appealable.getType()).ifPresent(a -> {
+            throw new BusinessException("Appeal already exists for this " + appealable.getType());
+        });
 
+        appealRepository.addAppeal(appeal, appealable.getType());
         appealable.setAppeal(appeal);
         sendEvent(new AppealedEvent(appealable));
     }
