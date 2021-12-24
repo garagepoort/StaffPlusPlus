@@ -21,6 +21,8 @@ public interface AppealRepository {
 
     List<Appeal> getAppeals(int appealableId, AppealableType appealableType);
 
+    Optional<Appeal> findAppeal(int appealableId, AppealableType type);
+
     int getCountOpenAppeals(AppealableType appealableType, String syncTable, ServerSyncConfig syncConfig);
 
     void deleteAppeals(int appealableId, AppealableType appealableType);
