@@ -132,6 +132,24 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
     }
 
     @Override
+    public Optional<Appeal> findAppeal(int appealableId, AppealableType type) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_appeals WHERE appealable_id = ? AND type = ?")) {
+            ps.setInt(1, appealableId);
+            ps.setString(2, type.name());
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildAppeal(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public int getCountOpenAppeals(AppealableType appealableType, String syncTable, ServerSyncConfig syncConfig) {
         int count;
         String query = "SELECT count(*) as count FROM sp_appeals WHERE status='OPEN' AND type = ? AND appealable_id in (SELECT id from " + syncTable + " " + Constants.getServerNameFilterWithWhere(syncConfig) + ")";
