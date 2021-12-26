@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @Command(
     command = "commands:staff-list",
+    permissions = "permissions:staff-list.view",
     description = "Lists all registered staff members.",
     usage = "{all | online | away | offline}"
 )
