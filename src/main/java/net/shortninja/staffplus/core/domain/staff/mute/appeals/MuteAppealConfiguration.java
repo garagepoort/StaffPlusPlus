@@ -2,6 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.mute.appeals;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandsConfigTransformer;
 
 import java.util.List;
 
@@ -12,6 +15,8 @@ public class MuteAppealConfiguration {
     public boolean enabled;
     @ConfigProperty("mute-module.appeals.resolve-reason-enabled")
     public boolean resolveReasonEnabled;
+    @ConfigProperty("mute-module.appeals.unmute-on-approve")
+    public boolean unmuteOnApprove;
 
     @ConfigProperty("permissions:mutes.appeals.approve")
     public String approveAppealPermission;
@@ -28,5 +33,12 @@ public class MuteAppealConfiguration {
     public boolean fixedAppealReason;
     @ConfigProperty("mute-module.appeals.reasons")
     public List<String> appealReasons;
+
+    @ConfigProperty("mute-module.on-approved-commands")
+    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
+    public List<ConfiguredCommand> onApprovedCommands;
+    @ConfigProperty("mute-module.on-rejected-commands")
+    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
+    public List<ConfiguredCommand> onRejectedCommands;
 
 }
