@@ -102,6 +102,12 @@ reports:
     # Linije su odvojene sa zarezima.
     reports-list-end: "&7%longline%"
 
+    status:
+        RESOLVED: "RESOLVED"
+        REJECTED: "REJECTED"
+        OPEN: "OPEN"
+        IN_PROGRESS: "IN_PROGRESS"
+
 warned: "&bUpozorio &7%target% &bzbog &7%reason%&b."
 warn: "&bBio si upozoren za &7%reason%&b."
 warnings-cleared: "&bUpozorenja obrisana za &7%target%&b!"
