@@ -375,10 +375,13 @@ mute-module:
       - tell
   appeals:
       enabled: true
+      unmute-on-approve: true
       resolve-reason-enabled: false
       fixed-reason: false
       reasons:
           - ''
+      on-approved-commands: []
+      on-rejected-commands: []
 ############################################################
 # +------------------------------------------------------+ #
 # |                      MUTING                       | #
