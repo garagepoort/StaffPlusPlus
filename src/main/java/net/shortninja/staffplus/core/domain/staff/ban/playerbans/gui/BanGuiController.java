@@ -103,13 +103,15 @@ public class BanGuiController {
         messages.send(player, "&6        Type \"cancel\" to cancel the unban ", messages.prefixGeneral);
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
 
+        SppPlayer target = playerManager.getOnlinePlayer(player.getUniqueId()).orElseThrow(() -> new PlayerNotFoundException(player.getName()));
+
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
                 messages.send(player, "&CYou have cancelled unbanning this player", messages.prefixReports);
                 return;
             }
-            banService.unban(player, banId, message);
+            banService.unban(target, banId, message);
         });
     }
 
