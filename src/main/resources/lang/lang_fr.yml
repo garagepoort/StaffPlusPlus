@@ -103,6 +103,12 @@ reports:
     # Lignes séparées par des virgules
     reports-list-end: "&7%longline%"
 
+    status:
+        RESOLVED: "RESOLVED"
+        REJECTED: "REJECTED"
+        OPEN: "OPEN"
+        IN_PROGRESS: "IN_PROGRESS"
+
 warned: "&bLe joueur &7%target% a recu un avertissement &bpour &7%reason%&b."
 warn: "&bVous avez recu un avertissement pour &7%reason%&b."
 warnings-cleared: "&bAvertissements supprimés du joueur &7%target%&b!"

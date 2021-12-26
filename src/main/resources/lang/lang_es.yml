@@ -103,6 +103,12 @@ reports:
     # Lineas están separadas por comas.
     reports-list-end: "&7%longline%"
 
+    status:
+        RESOLVED: "RESOLVED"
+        REJECTED: "REJECTED"
+        OPEN: "OPEN"
+        IN_PROGRESS: "IN_PROGRESS"
+
 warned: "&bHas advertido a &7%target% &bRazón: &7%reason%&b."
 warn: "&bHas sido advertido por la razón: &7%reason%&b."
 warnings-cleared: "&bLas advertencias de &7%target%&b han sido limpiadas!"

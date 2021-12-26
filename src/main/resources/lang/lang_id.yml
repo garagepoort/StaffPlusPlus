@@ -99,7 +99,14 @@ reports:
     reports-list-start: '&7%longline%, &7%target% &bmemiliki &7%reports% &blaporan.'
     reports-list-entry: '&b%count%: &7%reason% (%reporter%)'
     # Lines are separated by commas.
-    reports-list-end: '&7%longline%'
+    reports-list-end: "&7%longline%"
+
+    status:
+        RESOLVED: "RESOLVED"
+        REJECTED: "REJECTED"
+        OPEN: "OPEN"
+        IN_PROGRESS: "IN_PROGRESS"
+
 
 warned: '&bDiperingati &7%target% &bkarena &7%reason%&b.'
 warn: '&bKamu diperingati karena &7%reason%&b.'
