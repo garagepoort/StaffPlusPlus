@@ -42,7 +42,7 @@
             </#if>
         <#elseif mute.appeal.isPresent()>
             <#if ($permissions.has(player, $config.get("permissions:mutes.appeals.approve"))
-            || $permission.has(player, $config.get("permissions:mutes.appeals.reject")))
+            || $permissions.has(player, $config.get("permissions:mutes.appeals.reject")))
             && mute.appeal.get().status.name() == "OPEN">
                 <@appealcommons.appealinfoitem
                 slot="22"
