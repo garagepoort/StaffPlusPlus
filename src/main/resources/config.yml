@@ -337,6 +337,7 @@ ban-module:
   tempban-template: ''
   appeals:
       enabled: true
+      unban-on-approve: true
       resolve-reason-enabled: false
       fixed-reason: false
       reasons:
