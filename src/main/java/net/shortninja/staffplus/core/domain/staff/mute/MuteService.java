@@ -115,12 +115,12 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
         unmute(mute);
     }
 
-    public void unmute(Player issuer, int muteId, String reason) {
+    public void unmute(SppPlayer issuer, int muteId, String reason) {
         Mute mute = muteRepository.findActiveMute(muteId)
             .orElseThrow(() -> new BusinessException("&CCannot unmute, this user is not muted"));
 
-        mute.setUnmutedByName(issuer.getName());
-        mute.setUnmutedByUuid(issuer.getUniqueId());
+        mute.setUnmutedByName(issuer.getUsername());
+        mute.setUnmutedByUuid(issuer.getId());
         mute.setUnmuteReason(reason);
         unmute(mute);
     }
