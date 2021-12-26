@@ -102,6 +102,12 @@ reports:
     # Lijnen zijn gescheiden door kommas.
     reports-list-end: "&7%longline%"
 
+    status:
+        RESOLVED: "RESOLVED"
+        REJECTED: "REJECTED"
+        OPEN: "OPEN"
+        IN_PROGRESS: "IN_PROGRESS"
+
 warned: "&bJe hebt &7%target% &bgewaarschuwd voor &7%reason%&b."
 warn: "&bJe bent gewaarschuwd voor &7%reason%&b."
 warnings-cleared: "&bWaarschuwingen van &7%target% &bverwijderd!"

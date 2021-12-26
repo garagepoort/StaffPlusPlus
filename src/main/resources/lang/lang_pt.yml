@@ -101,6 +101,12 @@ reports:
     # As linhas são separadas por vírgulas
     reports-list-end: "&7%longline%"
 
+    status:
+        RESOLVED: "RESOLVED"
+        REJECTED: "REJECTED"
+        OPEN: "OPEN"
+        IN_PROGRESS: "IN_PROGRESS"
+
 warned: "&bAvisou &7%target% &bpor &7%reason%&b."
 warn: "&bVocê recebeu um aviso por &7%reason%&b."
 warnings-cleared: "&bAvisos limpos por &7%target%&b!"
