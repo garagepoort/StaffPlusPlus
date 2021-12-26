@@ -1,5 +1,19 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.4
+
+### Breaking change
+  - The personnel command now requires the `staff.personnel.view` permission
+
+### Features
+  - Translation keys added for report statuses
+  - Mutes can now be appealed in-game and on the web platform
+  - Bans can now be appealed in-game and on the web platform
+
+### Bugs
+  - Delayed/appeal commands not working in an SQLITE database
+  - Players cannot see warning detail when appeal approved
+
 # V1.18.3
 
 ### Features

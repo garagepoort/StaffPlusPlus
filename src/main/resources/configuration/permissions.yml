@@ -34,6 +34,7 @@ examine: "staff.examine"
 infractions:
     view: "staff.infractions.view"
 
+staff-list.view: "staff.personnel.view"
 ########################
 # REPORTS
 # GROUP: staff.reports
