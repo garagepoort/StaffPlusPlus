@@ -36,7 +36,7 @@
             </#if>
         <#elseif ban.appeal.isPresent()>
             <#if ($permissions.has(player, $config.get("permissions:bans.appeals.approve"))
-            || $permission.has(player, $config.get("permissions:bans.appeals.reject")))
+            || $permissions.has(player, $config.get("permissions:bans.appeals.reject")))
             && ban.appeal.get().status.name() == "OPEN">
                 <@appealcommons.appealinfoitem
                 slot="22"

@@ -68,7 +68,7 @@
             </#if>
         <#elseif warning.appeal.isPresent()>
             <#if ($permissions.has(player, $config.get("permissions:warnings.appeals.approve"))
-                || $permission.has(player, $config.get("permissions:warnings.appeals.reject")))
+                || $permissions.has(player, $config.get("permissions:warnings.appeals.reject")))
                 && warning.appeal.get().status.name() == "OPEN">
                 <@appealcommons.appealinfoitem
                 appeal=warning.appeal.get()
