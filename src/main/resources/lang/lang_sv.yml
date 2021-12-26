@@ -102,6 +102,12 @@ reports:
     # Linjer är separerat genom komman.
     reports-list-end: "&7%longline%"
 
+    status:
+        RESOLVED: "RESOLVED"
+        REJECTED: "REJECTED"
+        OPEN: "OPEN"
+        IN_PROGRESS: "IN_PROGRESS"
+
 warned: "&bVarnade &7%target% &bför &7%reason%&b."
 warn: "&bDu har blivit varnat för &7%reason%&b."
 warnings-cleared: "&bVarningar tömde till &7%target%&b!"
