@@ -128,6 +128,14 @@ public class Messages {
     public String reportsCleared;
     @ConfigProperty("%lang%:reports.reports-list-entry")
     public String reportsListEntry;
+    @ConfigProperty("%lang%:reports.status.REJECTED")
+    public String reportRejectedStatus;
+    @ConfigProperty("%lang%:reports.status.APPROVED")
+    public String reportResolvedStatus;
+    @ConfigProperty("%lang%:reports.status.OPEN")
+    public String reportOpenStatus;
+    @ConfigProperty("%lang%:reports.status.IN_PROGRESS")
+    public String reportInProgressStatus;
 
     @ConfigProperty("%lang%:reports.reports-list-start")
     @ConfigTransformer(MessageMultiLineTransformer.class)

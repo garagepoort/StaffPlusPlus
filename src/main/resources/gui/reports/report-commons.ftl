@@ -22,7 +22,7 @@
 
             <LoreLine>
                 <t color="&b" id="status-label" class="detail-label"><@translate key="gui.status"/>: </t>
-                <t color="&7" id="status-value" class="detail-value">${report.reportStatus.name()}</t>
+                <t color="&7" id="status-value" class="detail-value"><@translate key="reports.status.${report.reportStatus.name()}"/></t>
             </LoreLine>
 
             <#if $config.get("server-sync-module.report-sync")?has_content >
