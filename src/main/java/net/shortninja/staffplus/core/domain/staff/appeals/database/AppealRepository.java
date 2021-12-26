@@ -13,7 +13,7 @@ public interface AppealRepository {
 
     List<Appeal> getAppeals(int appealableId, int offset, int amount);
 
-    void updateAppealStatus(int appealId, UUID resolverUuid, String resolveReason, AppealStatus status, AppealableType appealableType);
+    void updateAppealStatus(int appealId, UUID resolverUuid, String resolverName, String resolveReason, AppealStatus status, AppealableType appealableType);
 
     Optional<Appeal> findAppeal(int appealId);
 

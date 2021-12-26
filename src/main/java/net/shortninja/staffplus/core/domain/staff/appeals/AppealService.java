@@ -38,7 +38,11 @@ public class AppealService {
     }
 
     public void approveAppeal(SppPlayer resolver, int appealId, String appealReason, AppealableType appealableType) {
-        appealRepository.updateAppealStatus(appealId, resolver.getId(), appealReason, AppealStatus.APPROVED, appealableType);
+        Appeal existingAppeal = appealRepository.findAppeal(appealId).orElseThrow(() -> new BusinessException("No appeal found with id: " + appealId));
+        if(existingAppeal.getStatus() != AppealStatus.OPEN) {
+            throw new BusinessException("Can not approve appeal. This appeal has already been resolved");
+        }
+        appealRepository.updateAppealStatus(appealId, resolver.getId(), resolver.getUsername(), appealReason, AppealStatus.APPROVED, appealableType);
         Appeal appeal = getAppeal(appealId);
 
         sendEvent(new AppealApprovedEvent(appeal));
@@ -53,7 +57,11 @@ public class AppealService {
     }
 
     public void rejectAppeal(SppPlayer resolver, int appealId, String appealReason, AppealableType appealableType) {
-        appealRepository.updateAppealStatus(appealId, resolver.getId(), appealReason, AppealStatus.REJECTED, appealableType);
+        Appeal existingAppeal = appealRepository.findAppeal(appealId).orElseThrow(() -> new BusinessException("No appeal found with id: " + appealId));
+        if(existingAppeal.getStatus() != AppealStatus.OPEN) {
+            throw new BusinessException("Can not reject appeal. This appeal has already been resolved");
+        }
+        appealRepository.updateAppealStatus(appealId, resolver.getId(), resolver.getUsername(), appealReason, AppealStatus.REJECTED, appealableType);
         Appeal appeal = getAppeal(appealId);
         sendEvent(new AppealRejectedEvent(appeal));
     }
