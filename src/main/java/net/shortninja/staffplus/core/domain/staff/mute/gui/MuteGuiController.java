@@ -111,13 +111,14 @@ public class MuteGuiController {
         messages.send(player, "&6        Type \"cancel\" to cancel the unmute ", messages.prefixGeneral);
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
 
+        SppPlayer target = playerManager.getOnlinePlayer(player.getUniqueId()).orElseThrow(() -> new PlayerNotFoundException(player.getName()));
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
                 messages.send(player, "&CYou have cancelled unmuting this player", messages.prefixReports);
                 return;
             }
-            bukkitUtils.runTaskAsync(player1, () -> muteService.unmute(player, muteId, message));
+            bukkitUtils.runTaskAsync(player1, () -> muteService.unmute(target, muteId, message));
         });
     }
 
