@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.staff.ban.appeals;
+package net.shortninja.staffplus.core.domain.staff.ban.appeals.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
@@ -10,6 +10,7 @@ import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
+import net.shortninja.staffplus.core.domain.staff.ban.appeals.BanAppealConfiguration;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import org.bukkit.event.EventHandler;
@@ -18,7 +19,7 @@ import org.bukkit.event.Listener;
 
 @IocBean(conditionalOnProperty = "ban-module.appeals.enabled=true")
 @IocListener
-public class BanAppealNotifierListener implements Listener {
+public class BanUnresolvedAppealsNotifier implements Listener {
 
     @ConfigProperty("commands:bans.manage.appealed-gui")
     public String commandManageAppealedBansGui;
@@ -30,12 +31,12 @@ public class BanAppealNotifierListener implements Listener {
     private final BukkitUtils bukkitUtils;
     private final ServerSyncConfiguration serverSyncConfiguration;
 
-    public BanAppealNotifierListener(AppealRepository appealRepository,
-                                     BanAppealConfiguration banAppealConfiguration,
-                                     PermissionHandler permission,
-                                     Messages messages,
-                                     BukkitUtils bukkitUtils,
-                                     ServerSyncConfiguration serverSyncConfiguration) {
+    public BanUnresolvedAppealsNotifier(AppealRepository appealRepository,
+                                        BanAppealConfiguration banAppealConfiguration,
+                                        PermissionHandler permission,
+                                        Messages messages,
+                                        BukkitUtils bukkitUtils,
+                                        ServerSyncConfiguration serverSyncConfiguration) {
         this.appealRepository = appealRepository;
         this.banAppealConfiguration = banAppealConfiguration;
         this.permission = permission;
