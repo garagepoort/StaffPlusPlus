@@ -125,12 +125,12 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         unban(ban);
     }
 
-    public void unban(Player issuer, int banId, String reason) {
+    public void unban(SppPlayer issuer, int banId, String reason) {
         Ban ban = bansRepository.findActiveBan(banId)
             .orElseThrow(() -> new BusinessException("&CCannot unban, this user is not banned"));
 
-        ban.setUnbannedByName(issuer.getName());
-        ban.setUnbannedByUuid(issuer.getUniqueId());
+        ban.setUnbannedByName(issuer.getUsername());
+        ban.setUnbannedByUuid(issuer.getId());
         ban.setUnbanReason(reason);
         unban(ban);
     }

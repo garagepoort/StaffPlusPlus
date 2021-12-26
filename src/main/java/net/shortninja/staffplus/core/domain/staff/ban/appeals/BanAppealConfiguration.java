@@ -24,6 +24,8 @@ public class BanAppealConfiguration {
     @ConfigProperty("permissions:bans.appeals.notifications")
     public String permissionNotifications;
 
+    @ConfigProperty("ban-module.appeals.unban-on-approve")
+    public boolean unbanOnApprove;
     @ConfigProperty("ban-module.appeals.fixed-reason")
     public boolean fixedAppealReason;
     @ConfigProperty("ban-module.appeals.reasons")
