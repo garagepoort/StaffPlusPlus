@@ -103,6 +103,12 @@ reports:
     # 行通过逗号分隔.
     reports-list-end: "&7%longline%"
 
+    status:
+        RESOLVED: "RESOLVED"
+        REJECTED: "REJECTED"
+        OPEN: "OPEN"
+        IN_PROGRESS: "IN_PROGRESS"
+
 warned: "&b警告 &7%target% &b原因 &7%reason%&b."
 warn: "&b你被警告了, 原因是 &7%reason%&b."
 warnings-cleared: "&b已清空 &7%target%&b 的警告!"
