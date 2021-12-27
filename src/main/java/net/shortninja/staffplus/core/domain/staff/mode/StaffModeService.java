@@ -69,7 +69,9 @@ public class StaffModeService {
             return;
         }
 
-        vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
+        if(modeConfiguration.isVanishOnEnter()) {
+            vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
+        }
         playerSettings.setModeConfiguration(modeConfiguration);
         playerSettingsRepository.save(playerSettings);
 
@@ -91,7 +93,9 @@ public class StaffModeService {
             modeDataRepository.saveModeData(modeData);
         }
 
-        vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
+        if(modeConfiguration.isVanishOnEnter()) {
+            vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
+        }
         settings.setInStaffMode(true);
         settings.setModeConfiguration(modeConfiguration);
         playerSettingsRepository.save(settings);
