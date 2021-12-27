@@ -31,9 +31,8 @@ public class GeneralModeConfiguration {
     private boolean modeDisableOnLogout;
     private boolean nightVision;
     private Map<String, Integer> itemSlots;
-
     private List<String> validWorlds;
-
+    private boolean vanishOnEnter;
 
     public GeneralModeConfiguration() {
     }
@@ -225,4 +224,11 @@ public class GeneralModeConfiguration {
         this.name = name;
     }
 
+    public void setVanishOnEnter(boolean vanishOnEnter) {
+        this.vanishOnEnter = vanishOnEnter;
+    }
+
+    public boolean isVanishOnEnter() {
+        return vanishOnEnter;
+    }
 }
