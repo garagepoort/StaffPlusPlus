@@ -48,6 +48,9 @@ public class StaffModesLoader extends AbstractConfigLoader<Map<String, GeneralMo
         if (configurationSection.contains("vanish-type")) {
             modeConfig.setModeVanish(stringToVanishType(configurationSection.getString("vanish-type")));
         }
+        if (configurationSection.contains("vanish-on-enter")) {
+            modeConfig.setVanishOnEnter(configurationSection.getBoolean("vanish-on-enter"));
+        }
         if (configurationSection.contains("item-drop")) {
             modeConfig.setModeItemDrop(configurationSection.getBoolean("item-drop"));
         }
