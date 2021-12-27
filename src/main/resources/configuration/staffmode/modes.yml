@@ -6,6 +6,7 @@ modes:
         item-drop: false
         item-pickup: false
         vanish-type: TOTAL
+        vanish-on-enter: true
         invincible: true
         damage: false
         hunger-loss: false
