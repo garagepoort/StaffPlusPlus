@@ -9,6 +9,7 @@
   - Translation keys added for report statuses
   - Mutes can now be appealed in-game and on the web platform
   - Bans can now be appealed in-game and on the web platform
+  - vanish-on-enter option added for staff mode
 
 ### Bugs
   - Delayed/appeal commands not working in an SQLITE database
