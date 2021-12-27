@@ -130,7 +130,7 @@ public class Messages {
     public String reportsListEntry;
     @ConfigProperty("%lang%:reports.status.REJECTED")
     public String reportRejectedStatus;
-    @ConfigProperty("%lang%:reports.status.APPROVED")
+    @ConfigProperty("%lang%:reports.status.RESOLVED")
     public String reportResolvedStatus;
     @ConfigProperty("%lang%:reports.status.OPEN")
     public String reportOpenStatus;
@@ -426,6 +426,10 @@ public class Messages {
     public void send(CommandSender sender, String message, String prefix) {
         message = placeholderService.setPlaceholders(sender, message);
         sender.sendMessage(buildMessage(prefix, message));
+    }
+
+    public void send(CommandSender sender, List<String> messageLines, String prefix) {
+        messageLines.forEach(message -> this.send(sender, message, prefix));
     }
 
     public void sendGlobalMessage(String message, String prefix) {
