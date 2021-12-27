@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiController;
@@ -27,6 +28,7 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -36,6 +38,15 @@ import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 @IocBean
 @GuiController
 public class ReportsGuiController {
+
+    @ConfigProperty("%lang%:reports.resolve-confirmation-question")
+    private List<String> resolveConfirmationLines;
+    @ConfigProperty("%lang%:reports.resolve-cancelled")
+    private String resolveCancelled;
+    @ConfigProperty("%lang%:reports.reject-confirmation-question")
+    private List<String> rejectConfirmationLines;
+    @ConfigProperty("%lang%:reports.reject-cancelled")
+    private String rejectCancelled;
 
     private static final int PAGE_SIZE = 45;
     private static final String CANCEL = "cancel";
@@ -156,7 +167,6 @@ public class ReportsGuiController {
         });
     }
 
-
     @GuiAction("manage-reports/accept")
     public AsyncGui<String> acceptReport(Player player, @GuiParam("reportId") int reportId, @GuiParam("backAction") String backAction) {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
@@ -207,7 +217,7 @@ public class ReportsGuiController {
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showRejectReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)));
+                showCloseReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)), rejectCancelled);
                 return null;
             }
             manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
@@ -226,7 +236,7 @@ public class ReportsGuiController {
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showRejectReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)));
+                showCloseReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)), rejectCancelled);
                 return null;
             }
 
@@ -243,7 +253,7 @@ public class ReportsGuiController {
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showResolveReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)));
+                showCloseReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)), resolveCancelled);
                 return null;
             }
 
@@ -263,7 +273,7 @@ public class ReportsGuiController {
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showResolveReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)));
+                showCloseReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)), resolveCancelled);
                 return null;
             }
 
@@ -272,32 +282,12 @@ public class ReportsGuiController {
         });
     }
 
-    private void showResolveReasonGui(Player player, Consumer<String> onClose) {
-        messages.send(player, "&1===================================================", messages.prefixReports);
-        messages.send(player, "&6       You have chosen to resolve this report", messages.prefixReports);
-        messages.send(player, "&6Type your closing reason in chat to resolve the report", messages.prefixReports);
-        messages.send(player, "&6      Type \"cancel\" to cancel closing the report ", messages.prefixReports);
-        messages.send(player, "&1===================================================", messages.prefixReports);
+    private void showCloseReasonGui(Player player, Consumer<String> onClose, String rejectCancelled) {
+        messages.send(player, resolveConfirmationLines, messages.prefixReports);
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
-                messages.send(player, "&CYou have cancelled resolving this report", messages.prefixReports);
-                return;
-            }
-            bukkitUtils.runTaskAsync(player, () -> onClose.accept(message));
-        });
-    }
-
-    private void showRejectReasonGui(Player player, Consumer<String> onClose) {
-        messages.send(player, "&1==================================================", messages.prefixReports);
-        messages.send(player, "&6        You have chosen to reject this report", messages.prefixReports);
-        messages.send(player, "&6Type your closing reason in chat to reject the report", messages.prefixReports);
-        messages.send(player, "&6        Type \"cancel\" to cancel closing the report ", messages.prefixReports);
-        messages.send(player, "&1==================================================", messages.prefixReports);
-        OnlinePlayerSession playerSession = sessionManager.get(player);
-        playerSession.setChatAction((player1, message) -> {
-            if (message.equalsIgnoreCase(CANCEL)) {
-                messages.send(player, "&CYou have cancelled rejecting this report", messages.prefixReports);
+                messages.send(player, rejectCancelled, messages.prefixReports);
                 return;
             }
             bukkitUtils.runTaskAsync(player, () -> onClose.accept(message));
