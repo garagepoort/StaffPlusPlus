@@ -103,6 +103,21 @@ reports:
     # Lineas están separadas por comas.
     reports-list-end: "&7%longline%"
 
+    resolve-confirmation-question:
+        - "&1==================================================="
+        - "&6       You have chosen to resolve this report"
+        - "&6Type your closing reason in chat to resolve the report"
+        - "&6      Type \"cancel\" to cancel closing the report "
+        - "&1==================================================="
+    resolve-cancelled: "&CYou have cancelled resolving this report"
+    reject-confirmation-question:
+        - "&1=================================================="
+        - "&6        You have chosen to reject this report"
+        - "&6Type your closing reason in chat to reject the report"
+        - "&6        Type \"cancel\" to cancel closing the report "
+        - "&1=================================================="
+    reject-cancelled: "&CYou have cancelled rejecting this report"
+
     status:
         RESOLVED: "RESOLVED"
         REJECTED: "REJECTED"
