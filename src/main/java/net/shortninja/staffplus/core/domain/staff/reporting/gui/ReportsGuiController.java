@@ -217,7 +217,7 @@ public class ReportsGuiController {
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showCloseReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)), rejectCancelled);
+                showCloseReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)), rejectCancelled, rejectConfirmationLines);
                 return null;
             }
             manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
@@ -236,7 +236,7 @@ public class ReportsGuiController {
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showCloseReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)), rejectCancelled);
+                showCloseReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)), rejectCancelled, rejectConfirmationLines);
                 return null;
             }
 
@@ -253,7 +253,7 @@ public class ReportsGuiController {
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showCloseReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)), resolveCancelled);
+                showCloseReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)), resolveCancelled, resolveConfirmationLines);
                 return null;
             }
 
@@ -273,7 +273,7 @@ public class ReportsGuiController {
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             if (options.reportConfiguration.isClosingReasonEnabled()) {
-                showCloseReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)), resolveCancelled);
+                showCloseReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)), resolveCancelled, resolveConfirmationLines);
                 return null;
             }
 
@@ -282,8 +282,8 @@ public class ReportsGuiController {
         });
     }
 
-    private void showCloseReasonGui(Player player, Consumer<String> onClose, String rejectCancelled) {
-        messages.send(player, resolveConfirmationLines, messages.prefixReports);
+    private void showCloseReasonGui(Player player, Consumer<String> onClose, String rejectCancelled, List<String> messageLines) {
+        messages.send(player, messageLines, messages.prefixReports);
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
