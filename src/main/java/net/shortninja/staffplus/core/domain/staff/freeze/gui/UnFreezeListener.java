@@ -32,7 +32,7 @@ public class UnFreezeListener implements Listener {
         Player player = event.getTarget();
 
         messages.send(event.getIssuer(), messages.staffUnfroze.replace("%target%", player.getName()), messages.prefixGeneral);
-        messages.sendCollectedMessage(player, messages.unfrozen, messages.prefixGeneral);
+        messages.send(player, messages.unfrozen, messages.prefixGeneral);
 
         player.removePotionEffect(PotionEffectType.JUMP);
         player.removePotionEffect(PotionEffectType.SLOW);
