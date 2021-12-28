@@ -31,7 +31,7 @@ public class FreezeListener implements Listener {
             new FreezeGui(freezeConfiguration.promptTitle).show(player);
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
         } else {
-            messages.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
+            messages.send(player, messages.freeze, messages.prefixGeneral);
         }
 
         messages.send(event.getIssuer(), messages.staffFroze.replace("%target%", player.getName()), messages.prefixGeneral);

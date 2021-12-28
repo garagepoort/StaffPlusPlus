@@ -67,7 +67,7 @@ public class Tasks extends BukkitRunnable {
                     }
 
                     if (!freezeConfiguration.prompt) {
-                        messages.sendCollectedMessage(player, messages.freeze, messages.prefixGeneral);
+                        messages.send(player, messages.freeze, messages.prefixGeneral);
                     }
                 }
             }
