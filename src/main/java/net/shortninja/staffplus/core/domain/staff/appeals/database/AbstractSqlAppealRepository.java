@@ -8,7 +8,6 @@ import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.AppealableType;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.Connection;
@@ -20,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 
 public abstract class AbstractSqlAppealRepository implements AppealRepository {
 
@@ -182,8 +179,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
 
     private Appeal buildAppeal(ResultSet rs) throws SQLException {
         UUID appealerUuid = UUID.fromString(rs.getString("appealer_uuid"));
-        Optional<SppPlayer> appealer = playerManager.getOnOrOfflinePlayer(appealerUuid);
-        String appealerName = appealerUuid.equals(CONSOLE_UUID) ? "Console" : appealer.map(SppPlayer::getUsername).orElse("Unknown user");
+        String appealerName = rs.getString("appealer_name");
 
         String resolveReason = rs.getString("resolve_reason");
         String resolverStringUuid = rs.getString("resolver_uuid");
@@ -191,8 +187,7 @@ public abstract class AbstractSqlAppealRepository implements AppealRepository {
         String resolverName = null;
         if (StringUtils.isNotEmpty(resolverStringUuid)) {
             resolverUuid = UUID.fromString(resolverStringUuid);
-            Optional<SppPlayer> resolver = playerManager.getOnOrOfflinePlayer(resolverUuid);
-            resolverName = resolverUuid.equals(CONSOLE_UUID) ? "Console" : resolver.map(SppPlayer::getUsername).orElse("Unknown user");
+            resolverName = rs.getString("resolver_name");
         }
 
         int id = rs.getInt("ID");
