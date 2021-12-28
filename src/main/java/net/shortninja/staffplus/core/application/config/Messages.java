@@ -14,7 +14,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 @IocBean
@@ -414,18 +413,19 @@ public class Messages {
         return colorize(placeholderService.setPlaceholders(player, message));
     }
 
+    public void send(CommandSender sender, String message, String prefix) {
+        message = placeholderService.setPlaceholders(sender, message);
+        for (String s : message.split("\\n")) {
+            sender.sendMessage(buildMessage(prefix, s));
+        }
+    }
+
     public void send(Player player, String message, String prefix, String permission) {
         if (!this.permission.has(player, permission)) {
             return;
         }
 
-        message = placeholderService.setPlaceholders(player, message);
-        player.sendMessage(buildMessage(prefix, message));
-    }
-
-    public void send(CommandSender sender, String message, String prefix) {
-        message = placeholderService.setPlaceholders(sender, message);
-        sender.sendMessage(buildMessage(prefix, message));
+        send(player, message, prefix);
     }
 
     public void send(CommandSender sender, List<String> messageLines, String prefix) {
@@ -440,23 +440,14 @@ public class Messages {
         if (message == null) {
             return;
         }
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            message = placeholderService.setPlaceholders(player, message);
-            send(player, message, prefix, permission);
-        }
+        Bukkit.getOnlinePlayers()
+            .forEach(player -> send(player, message, prefix, permission));
     }
 
     public void sendGroupMessage(JSONMessage jsonMessage, String permission) {
         Bukkit.getOnlinePlayers().stream()
             .filter(p -> this.permission.has(p, permission))
             .forEach(jsonMessage::send);
-    }
-
-    public void sendCollectedMessage(Player player, Collection<String> messages, String prefix) {
-        for (String message : messages) {
-            message = placeholderService.setPlaceholders(player, message);
-            send(player, message, prefix);
-        }
     }
 
     private String buildMessage(String prefix, String message) {
