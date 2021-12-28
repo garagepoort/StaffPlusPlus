@@ -28,7 +28,6 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -40,11 +39,11 @@ import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 public class ReportsGuiController {
 
     @ConfigProperty("%lang%:reports.resolve-confirmation-question")
-    private List<String> resolveConfirmationLines;
+    private String resolveConfirmationLines;
     @ConfigProperty("%lang%:reports.resolve-cancelled")
     private String resolveCancelled;
     @ConfigProperty("%lang%:reports.reject-confirmation-question")
-    private List<String> rejectConfirmationLines;
+    private String rejectConfirmationLines;
     @ConfigProperty("%lang%:reports.reject-cancelled")
     private String rejectCancelled;
 
@@ -282,7 +281,7 @@ public class ReportsGuiController {
         });
     }
 
-    private void showCloseReasonGui(Player player, Consumer<String> onClose, String rejectCancelled, List<String> messageLines) {
+    private void showCloseReasonGui(Player player, Consumer<String> onClose, String rejectCancelled, String messageLines) {
         messages.send(player, messageLines, messages.prefixReports);
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
