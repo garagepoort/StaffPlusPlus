@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -14,6 +15,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 @IocBean
 @IocMultiProvider(ChatInterceptor.class)
 public class VanishChatInterceptor implements ChatInterceptor {
+
+    @ConfigProperty("%lang%:vanish-chat-prevented")
+    private String chatPrevented;
 
     private final VanishServiceImpl vanishServiceImpl;
     private final VanishConfiguration vanishConfiguration;
@@ -37,7 +41,7 @@ public class VanishChatInterceptor implements ChatInterceptor {
             return false;
         }
         if (vanishConfiguration.vanishEnabled && !vanishConfiguration.vanishChatEnabled && vanishServiceImpl.isVanished(event.getPlayer())) {
-            this.messages.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
+            this.messages.send(event.getPlayer(), chatPrevented, messages.prefixGeneral);
             return true;
         }
         return false;
