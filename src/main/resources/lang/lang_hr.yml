@@ -169,6 +169,7 @@ total-vanish: "&bVas totalni vanish je &7%status%&b!"
 list-vanish: "&bVas totalni list vanish je &7%status%&b!"
 player-vanish: "&bYour player vanish has been &7%status%&b!"
 vanish-enabled: "&2Vanish enabled"
+vanish-chat-prevented: "&bYou are not allowed to chat right now!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -228,6 +229,7 @@ staff-unfroze: "&bOdmrznuo si &7%target%&b."
 freeze-logout: "&7%player% &bodjavljen dok zamrznut!"
 freeze-title: "&6You have been frozen."
 freeze-subtitle: "Do not log out!"
+freeze-chat-prevented: "&bYou are not allowed to chat right now!"
 
 cps-start: "&bIde CPS test na &7%target% &bza &7%seconds% &bsekundi..."
 cps-finish-normal: "&7%player% &bima oko &7%cps% &bCPS. &7(nije opasan)"
