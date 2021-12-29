@@ -11,6 +11,7 @@
   - Bans can now be appealed in-game and on the web platform
   - vanish-on-enter option added for staff mode
   - Support using "\n" for newlines in translation files
+  - Added separate chat prevented translation keys for freeze and vanish
 
 ### Bugs
   - Delayed/appeal commands not working in an SQLITE database

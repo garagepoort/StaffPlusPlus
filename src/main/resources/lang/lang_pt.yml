@@ -168,6 +168,7 @@ total-vanish: "&bInvisibilidade foi &7%status%&b!"
 list-vanish: "&bLista de invisibilidade foi &7%status%&b!"
 player-vanish: "&bYour player vanish has been &7%status%&b!"
 vanish-enabled: "&2Vanish enabled"
+vanish-chat-prevented: "&bYou are not allowed to chat right now!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -227,6 +228,7 @@ staff-unfroze: "&bVocê descongelou &7%target%&b."
 freeze-logout: "&7%player% &bsaiu enquanto estava congelado!"
 freeze-title: "&6You have been frozen."
 freeze-subtitle: "Do not log out!"
+freeze-chat-prevented: "&bYou are not allowed to chat right now!"
 
 cps-start: "&bTestando CPS de &7%target% &bpor &7%seconds% &bsegundos..."
 cps-finish-normal: "&7%player% &bfez &7%cps% &bCPS. &7(provavelmente normal)"
