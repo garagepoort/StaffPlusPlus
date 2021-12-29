@@ -171,6 +171,7 @@ total-vanish: "&bYour total vanish has been &7%status%&b!"
 list-vanish: "&bYour list vanish has been &7%status%&b!"
 player-vanish: "&bYour player vanish has been &7%status%&b!"
 vanish-enabled: "&2Vanish enabled"
+vanish-chat-prevented: "&bYou are not allowed to chat right now!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -230,6 +231,7 @@ staff-unfroze: "&bYou unfroze &7%target%&b."
 freeze-logout: "&7%player% &blogged out while frozen!"
 freeze-title: "&6You have been frozen."
 freeze-subtitle: "Do not log out!"
+freeze-chat-prevented: "&bYou are not allowed to chat right now!"
 
 cps-start: "&bRunning CPS test on &7%target% &bfor &7%seconds% &bseconds..."
 cps-finish-normal: "&7%player% &bhas about &7%cps% &bCPS. &7(probably not dangerous)"

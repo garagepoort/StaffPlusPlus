@@ -49,7 +49,10 @@ note-cleared: '&bCatatan dibersihkan untuk &7%target%&b.'
 note-deleted: "&bYou deleted note for &7%target%&b with id &6%noteId%&b."
 note-list-start: '&7%longline%'
 note-list-entry: '&b%count% &7%note%'
+note-list-entry-private: "&b%count% &1[&CP&1] &7%note%"
 # Lines are separated by commas
+notes.staff-notification-created: "&4%notedBy% &6has created a note for player &4%target%&6: [&7%note%&6]"
+notes.prefix: "&dNotes &8»"
 note-list-end: '&7%longline%'
 player-not-registered: Pemain ini tidak tersedia
 
@@ -168,6 +171,7 @@ total-vanish: '&bAnda benar benar menghilang &7%status%&b!'
 list-vanish: '&bAnda menghilang dari list &7%status%&b!'
 player-vanish: '&bPemain Anda benar benar menghilang &7%status%&b!'
 vanish-enabled: '&2Menghilang diaktifkan'
+vanish-chat-prevented: "&bYou are not allowed to chat right now!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -227,6 +231,7 @@ staff-unfroze: '&bAnda tidak membekukan &7%target%&b.'
 freeze-logout: '&7%player% &bkeluar saat dibekukan!'
 freeze-title: '&6Anda telah dibekukan'
 freeze-subtitle: Jangan keluar saat dibekukan!
+freeze-chat-prevented: "&bYou are not allowed to chat right now!"
 
 cps-start: '&bMelakukan tes CPS &7%target% &bselama &7%seconds% &bseconds...'
 cps-finish-normal: '&7%player% &bsekitar &7%cps% &bCPS. &7(mungkin tidak berbahaya)'
