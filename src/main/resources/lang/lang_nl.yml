@@ -169,6 +169,7 @@ total-vanish: "&bJe totale verdwijning is &7%status%&b!"
 list-vanish: "&bJe verdwijning van de spelerlijst is &7%status%&b!"
 player-vanish: "&bYour player vanish has been &7%status%&b!"
 vanish-enabled: "&2Vanish enabled"
+vanish-chat-prevented: "&bYou are not allowed to chat right now!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -228,6 +229,7 @@ staff-unfroze: "Je hebt %target% ontdooit"
 freeze-logout: "&7%player% &buitgelogd terwijl bevroren!"
 freeze-title: "&6You have been frozen."
 freeze-subtitle: "Do not log out!"
+freeze-chat-prevented: "&bYou are not allowed to chat right now!"
 
 cps-start: "&bCPS test gestart op &7%target% &bvoor &7%seconds%&b..."
 cps-finish-normal: "&7%player% &bheeft ongeveer &7%cps% &bCPS. &7(waarschijnlijk niet gevaarlijk)"
