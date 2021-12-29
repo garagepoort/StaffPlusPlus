@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.freeze;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
@@ -12,6 +13,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 @IocBean(conditionalOnProperty = "freeze-module.enabled=true")
 @IocMultiProvider(ChatInterceptor.class)
 public class FreezeChatInterceptor implements ChatInterceptor {
+
+    @ConfigProperty("%lang%:freeze-chat-prevented")
+    private String chatPrevented;
 
     private final Messages messages;
     private final OnlineSessionsManager onlineSessionsManager;
@@ -27,7 +31,7 @@ public class FreezeChatInterceptor implements ChatInterceptor {
     public boolean intercept(AsyncPlayerChatEvent event) {
         IPlayerSession session = onlineSessionsManager.get(event.getPlayer().getUniqueId());
         if (session.isFrozen() && !freezeConfiguration.chat) {
-            this.messages.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
+            this.messages.send(event.getPlayer(), chatPrevented, messages.prefixGeneral);
             return true;
         }
         return false;
