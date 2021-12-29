@@ -170,6 +170,7 @@ total-vanish: "&bA teljes eltűnt &7%status%&b!"
 list-vanish: "&bA listája eltűnt &7%status%&b!"
 player-vanish: "&bYour player vanish has been &7%status%&b!"
 vanish-enabled: "&2Vanish enabled"
+vanish-chat-prevented: "&bYou are not allowed to chat right now!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -229,6 +230,7 @@ staff-unfroze: "&7%target%&b visszafagyasztva."
 freeze-logout: "&7%player% &bnaplózott, fagyasztva!"
 freeze-title: "&6You have been frozen."
 freeze-subtitle: "Do not log out!"
+freeze-chat-prevented: "&bYou are not allowed to chat right now!"
 
 cps-start: "&bA CPS teszt futása &7%target% &7%seconds% &bmásodperc múlva..."
 cps-finish-normal: "&7%player% &bvan körülbelül &7%cps% &bCPS. &7(valószínűleg nem veszélyes)"

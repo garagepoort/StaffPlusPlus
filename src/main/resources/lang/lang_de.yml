@@ -170,6 +170,7 @@ total-vanish: "&bTotal Vanish wurde &7%status%&b."
 list-vanish: "&bTablist Vanish wurde &7%status%&b."
 player-vanish: "&bYour player vanish has been &7%status%&b!"
 vanish-enabled: "&2Vanish enabled"
+vanish-chat-prevented: "&bYou are not allowed to chat right now!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -229,6 +230,7 @@ staff-unfroze: "&bDu aufgetaut &7%target%&b."
 freeze-logout: "&7%player% &babgemeldet und war eingefroren!"
 freeze-title: "&6You have been frozen."
 freeze-subtitle: "Do not log out!"
+freeze-chat-prevented: "&bYou are not allowed to chat right now!"
 
 cps-start: "&bStarte CPS-Check für &7%target% &bfür &7%seconds%&b..."
 cps-finish-normal: "&7%player% &bhat ungefähr &7%cps% &bCPS. &7(Wahrscheinlich benutzt er kein Autoclicker!)"

@@ -21,7 +21,6 @@ tickets-prefix: "&dbilletter &8»"
 trace-prefix: "&dTrace &8»"
 protect-prefix: "&dProtected &8»"
 investigations-prefix: "&dInvestigations &8»"
-bans-prefix: "&dBans &8»"
 ############################################################
 # +------------------------------------------------------+ #
 # |                       Generell                       | #
@@ -169,6 +168,7 @@ total-vanish: "&bDin totale Vanish har blitt &7%status%&b!"
 list-vanish: "&bDin list Vanish har blitt &7%status%&b!"
 player-vanish: "&bYour player vanish has been &7%status%&b!"
 vanish-enabled: "&2Vanish enabled"
+vanish-chat-prevented: "&bYou are not allowed to chat right now!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -228,6 +228,7 @@ staff-unfroze: "&bDu ufryste &7%target%&b."
 freeze-logout: "&7%player% &blogget ut mens fryst!"
 freeze-title: "&6You have been frozen."
 freeze-subtitle: "Do not log out!"
+freeze-chat-prevented: "&bYou are not allowed to chat right now!"
 
 cps-start: "&bKjører CPS test på &7%target% &bfor &7%seconds% &bsekunder..."
 cps-finish-normal: "&7%player% &bhar rundt &7%cps% &bCPS. &7(sannsynligvis ikke farlig)"
