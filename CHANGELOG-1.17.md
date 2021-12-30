@@ -1,5 +1,11 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.5
+
+### Features
+  - Added my-mutes command
+  - Added notification to inform a player that he is muted.
+
 # V1.18.4
 
 ### Breaking change

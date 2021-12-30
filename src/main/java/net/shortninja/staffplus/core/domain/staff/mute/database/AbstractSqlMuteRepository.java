@@ -185,6 +185,26 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     }
 
     @Override
+    public List<Mute> getMyMutes(UUID playerUuid, int offset, int amount) {
+        List<Mute> mutes = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_muted_players WHERE player_uuid = ? AND soft_mute = ?" + getServerNameFilterWithAnd(muteSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?")) {
+            ps.setString(1, playerUuid.toString());
+            ps.setBoolean(2, false);
+            ps.setInt(3, offset);
+            ps.setInt(4, amount);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    mutes.add(buildMute(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return mutes;
+    }
+
+    @Override
     public List<Mute> getMutesForPlayerPaged(UUID playerUuid, int offset, int amount) {
         List<Mute> mutes = new ArrayList<>();
         try (Connection sql = getConnection();
