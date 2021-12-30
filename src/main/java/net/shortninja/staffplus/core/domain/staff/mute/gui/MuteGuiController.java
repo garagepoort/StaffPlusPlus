@@ -73,6 +73,19 @@ public class MuteGuiController {
         });
     }
 
+    @GuiAction("manage-mutes/view/my-mutes")
+    public AsyncGui<GuiTemplate> myMutesOverview(Player player,
+                                                    @GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            List<Mute> allPaged = muteRepository.getMyMutes(player.getUniqueId(), page * PAGE_SIZE, PAGE_SIZE);
+            Map<String, Object> params = new HashMap<>();
+            params.put("title", "&bMy mutes");
+            params.put("mutes", allPaged);
+            params.put("guiId", "my-mutes-overview");
+            return template("gui/mutes/mute-overview.ftl", params);
+        });
+    }
+
     private List<Mute> getMutes(SppPlayer target, int page) {
         if (target == null) {
             return muteService.getAllPaged(page * PAGE_SIZE, PAGE_SIZE);
