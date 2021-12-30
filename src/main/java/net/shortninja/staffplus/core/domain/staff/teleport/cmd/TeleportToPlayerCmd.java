@@ -10,11 +10,10 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -24,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.ONLINE;
+import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.HEALTH;
 import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.STRIP;
 
@@ -33,17 +32,19 @@ import static net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType.ST
     permissions = "permissions:teleport-to-player",
     description = "Teleport yourself to a specific player",
     usage = "[player]",
-    playerRetrievalStrategy = ONLINE
+    playerRetrievalStrategy = BOTH
 )
 @IocBean
 @IocMultiProvider(SppCommand.class)
 public class TeleportToPlayerCmd extends AbstractCmd {
 
     private final TeleportService teleportService;
+    private final PlayerManager playerManager;
 
-    public TeleportToPlayerCmd(Messages messages, TeleportService teleportService, CommandService commandService, PermissionHandler permissionHandler) {
+    public TeleportToPlayerCmd(Messages messages, TeleportService teleportService, CommandService commandService, PermissionHandler permissionHandler, PlayerManager playerManager) {
         super(messages, permissionHandler, commandService);
         this.teleportService = teleportService;
+        this.playerManager = playerManager;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class TeleportToPlayerCmd extends AbstractCmd {
             throw new BusinessException(messages.onlyPlayers);
         }
 
-        teleportService.teleportToPlayer((Player) sender, targetPlayer.getPlayer());
+        teleportService.teleportToPlayer((Player) sender, targetPlayer);
         return true;
     }
 
@@ -74,8 +75,7 @@ public class TeleportToPlayerCmd extends AbstractCmd {
     @Override
     public List<String> autoComplete(CommandSender sender, String[] args, String[] sppArgs) throws IllegalArgumentException {
         if (args.length == 1) {
-            List<String> onlinePlayers = Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-            return onlinePlayers.stream()
+            return playerManager.getAllPlayerNames().stream()
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());
         }
