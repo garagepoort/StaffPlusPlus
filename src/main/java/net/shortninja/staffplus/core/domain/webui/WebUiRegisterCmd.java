@@ -16,6 +16,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class WebUiRegisterCmd extends AbstractCmd {
         String applicationKey = webUiConfiguration.applicationKey;
         webUiRegistrationRepository.addRegistrationRequest(sender.getName(), ((Player) sender).getUniqueId(), authenticationKey, webUiConfiguration.role);
 
-        String registrationLink = String.format(webUiConfiguration.host + "/register?applicationKey=%s&&uuid=%s&&authenticationKey=%s&&serverName=%s", applicationKey, uuid, authenticationKey, serverName);
+        String registrationLink = String.format(webUiConfiguration.host + "/register?applicationKey=%s&&uuid=%s&&authenticationKey=%s&&serverName=%s", applicationKey, uuid, authenticationKey, URLEncoder.encode(serverName));
         messages.send(sender, "&bRegistration link: &6" + registrationLink, messages.prefixGeneral);
         return true;
     }
