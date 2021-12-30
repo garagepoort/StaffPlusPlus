@@ -300,6 +300,7 @@ mute-muted: "&6You are currently muted. You are not allowed to chat."
 mute-extended: "&7You have extended &6%target%&7's mute by %extensionDuration%"
 mute-reduced: "&7You have reduced &6%target%&7's mute by %reductionDuration%"
 mute-appeal-open-notify: "There are %appealsCount% unresolved appealed mutes!"
+mute-notify: "You are currently muted!"
 ############################################################
 # +------------------------------------------------------+ #
 # |                     APPEALS                          | #
