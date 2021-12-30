@@ -1,5 +1,13 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.6
+
+### Features
+  - Teleport to player can now teleport to offline players
+
+### Bugs
+  - Fix web registration not working if servername contains spaces
+
 # V1.18.5
 
 ### Features
