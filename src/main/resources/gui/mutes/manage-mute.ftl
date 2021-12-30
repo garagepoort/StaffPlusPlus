@@ -11,12 +11,15 @@
              material="PLAYER_HEAD"
     >
         <name class="item-name" color="&3">Mute</name>
-        <@muteCommons.mutelorelines mute=mute />
+        <Lore>
+            <@muteCommons.mutelorelines mute=mute />
+        </Lore>
     </GuiItem>
     <@evidenceCommons.evidenceButton slot=14 evidence=mute backAction=currentAction />
     <#list [30,31,32,39,40,41] as slot>
         <GuiItem id="unmute-${slot?index}"
                  slot="${slot}"
+                 permission="config|permissions:unmute"
                  onLeftClick="manage-mutes/unmute?muteId=${mute.id}"
                  material="RED_STAINED_GLASS_PANE">
             <name class="item-name">Unmute player</name>
