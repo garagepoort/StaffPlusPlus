@@ -152,6 +152,8 @@ mute: "mute"
 mutes.manage:
     gui: "manage-mutes"
     appealed-gui: "manage-appealed-mutes"
+# The command for opening the my mutes gui
+my-mutes: "my-mutes"
 
 # The command to temporarily mute a player
 tempmute: "tempmute"

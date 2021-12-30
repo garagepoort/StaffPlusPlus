@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
-import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.evidence.InvestigationEvidenceRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceLinkedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceUnlinkedEvent;
@@ -20,13 +19,11 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 public class InvestigationEvidenceService {
 
     private final InvestigationEvidenceRepository investigationEvidenceRepository;
-    private final BukkitUtils bukkitUtils;
     private final PermissionHandler permissionHandler;
     private final Options options;
 
-    public InvestigationEvidenceService(InvestigationEvidenceRepository investigationEvidenceRepository, BukkitUtils bukkitUtils, PermissionHandler permissionHandler, Options options) {
+    public InvestigationEvidenceService(InvestigationEvidenceRepository investigationEvidenceRepository, PermissionHandler permissionHandler, Options options) {
         this.investigationEvidenceRepository = investigationEvidenceRepository;
-        this.bukkitUtils = bukkitUtils;
         this.permissionHandler = permissionHandler;
         this.options = options;
     }

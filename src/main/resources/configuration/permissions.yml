@@ -278,6 +278,7 @@ reducemute: "staff.mutes.reducemute"
 mute-bypass: "staff.mutes.mute-bypass"
 mute-override-softhard: "staff.mutes.mute-override-softhard"
 mute-notifications: "staff.mutes.mute-notifications"
+view-my-mutes: "staff.mutes.view-my-mutes"
 mutes:
     appeals:
         view: "staff.mutes.appeals.view"
