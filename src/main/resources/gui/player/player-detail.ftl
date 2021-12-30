@@ -159,7 +159,6 @@
     </GuiItem>
 
     <GuiItem id="teleport-to-player"
-             if="${target.online?c}"
              slot="21"
              permission="config|permissions:teleport-to-player"
              onLeftClick="teleport?targetPlayerName=${target.username}"
