@@ -1,7 +1,7 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <#macro evidenceButton slot evidence backAction>
-    <#if $config.get("investigations-module.enabled")>
+    <#if $config.get("investigations-module.enabled") && $permissions.has(player, $config.get("permissions:investigations.manage.link-evidence"))>
         <GuiItem slot="${slot}"
                  id="add-evidence-item"
                  class="add-evidence-item"
