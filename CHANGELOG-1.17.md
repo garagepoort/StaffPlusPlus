@@ -1,5 +1,8 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.7
+  - Added frozen luckperms context
+
 # V1.18.6
 
 ### Features
