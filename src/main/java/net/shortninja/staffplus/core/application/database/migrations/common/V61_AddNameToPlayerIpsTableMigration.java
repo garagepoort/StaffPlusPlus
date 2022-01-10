@@ -1,13 +1,12 @@
 package net.shortninja.staffplus.core.application.database.migrations.common;
 
 import be.garagepoort.mcsqlmigrations.Migration;
-import org.bukkit.Bukkit;
+import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class V61_AddNameToPlayerIpsTableMigration implements Migration {
     @Override
@@ -16,10 +15,9 @@ public class V61_AddNameToPlayerIpsTableMigration implements Migration {
         List<String> statements = new ArrayList<>();
         statements.add(addPlayerNameColumn);
 
-        List<String> updates = Arrays.stream(Bukkit.getOfflinePlayers()).flatMap(p -> Stream.of(
-            String.format("UPDATE sp_player_ips set player_name='%s' WHERE player_uuid='%s';", p.getName(), p.getUniqueId())))
-            .collect(Collectors.toList());
-        statements.addAll(updates);
+
+        PlayerManager playerManager = StaffPlus.get().getIocContainer().get(PlayerManager.class);
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, "sp_player_ips", "player_name","player_uuid"));
         return statements;
     }
 

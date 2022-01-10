@@ -1,13 +1,12 @@
 package net.shortninja.staffplus.core.application.database.migrations.common;
 
 import be.garagepoort.mcsqlmigrations.Migration;
-import org.bukkit.Bukkit;
+import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class V54_AddNamesToWarningsTableMigration implements Migration {
     @Override
@@ -18,11 +17,9 @@ public class V54_AddNamesToWarningsTableMigration implements Migration {
         statements.add(addPlayerNameColumn);
         statements.add(addIssuerNameColumn);
 
-        List<String> updates = Arrays.stream(Bukkit.getOfflinePlayers()).flatMap(p -> Stream.of(
-            String.format("UPDATE sp_warnings set player_name='%s' WHERE Player_UUID='%s';", p.getName(), p.getUniqueId()),
-            String.format("UPDATE sp_warnings set warner_name='%s' WHERE Warner_UUID='%s';", p.getName(), p.getUniqueId())))
-            .collect(Collectors.toList());
-        statements.addAll(updates);
+        PlayerManager playerManager = StaffPlus.get().getIocContainer().get(PlayerManager.class);
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, "sp_warnings", "player_name","Player_UUID"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, "sp_warnings", "warner_name","Warner_UUID"));
         return statements;
     }
 
