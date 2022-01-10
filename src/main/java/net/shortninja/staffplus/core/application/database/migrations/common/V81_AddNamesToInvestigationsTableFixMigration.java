@@ -11,14 +11,9 @@ import java.util.List;
 public class V81_AddNamesToInvestigationsTableFixMigration implements Migration {
     @Override
     public List<String> getStatements() {
-        String dropInvestigatorName = "ALTER TABLE sp_investigations DROP COLUMN investigator_name;";
-        String dropInvestigatedName = "ALTER TABLE sp_investigations DROP COLUMN investigated_name;";
         String addInvestigatorName = "ALTER TABLE sp_investigations ADD COLUMN investigator_name VARCHAR(32) NOT NULL DEFAULT 'Unknown';";
         String addInvestigatedName = "ALTER TABLE sp_investigations ADD COLUMN investigated_name VARCHAR(32) NULL;";
         List<String> statements = new ArrayList<>();
-        statements.add(dropInvestigatedName);
-        statements.add(dropInvestigatorName);
-
         statements.add(addInvestigatedName);
         statements.add(addInvestigatorName);
 
