@@ -1,13 +1,12 @@
 package net.shortninja.staffplus.core.application.database.migrations.common;
 
 import be.garagepoort.mcsqlmigrations.Migration;
-import org.bukkit.Bukkit;
+import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class V52_AddNamesToBanTableMigration implements Migration {
     @Override
@@ -18,11 +17,9 @@ public class V52_AddNamesToBanTableMigration implements Migration {
         statements.add(addPlayerNameColumn);
         statements.add(addIssuerNameColumn);
 
-        List<String> updates = Arrays.stream(Bukkit.getOfflinePlayers()).flatMap(p -> Stream.of(
-            String.format("UPDATE sp_banned_players set player_name='%s' WHERE player_uuid='%s';", p.getName(), p.getUniqueId()),
-            String.format("UPDATE sp_banned_players set issuer_name='%s' WHERE issuer_uuid='%s';", p.getName(), p.getUniqueId())))
-            .collect(Collectors.toList());
-        statements.addAll(updates);
+        PlayerManager playerManager = StaffPlus.get().getIocContainer().get(PlayerManager.class);
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, "sp_banned_players", "player_name","player_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, "sp_banned_players", "issuer_name","issuer_uuid"));
         return statements;
     }
 
