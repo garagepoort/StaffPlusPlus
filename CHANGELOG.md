@@ -1,7 +1,12 @@
 # Changelog Staff++ | v1.18
 
 # V1.18.7
+
+### Features
   - Added frozen luckperms context
+
+### Bugs
+  - Custom staff modules config was getting cleared automatically.
 
 # V1.18.6
 
