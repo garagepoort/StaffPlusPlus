@@ -41,6 +41,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AutoUpdater {
 
+    private static final List<String> EXCLUDED_CONFIG_FOR_UPDATES = Arrays.asList("staffmode-custom-modules");
+
     private static final List<ConfigMigrator> MIGRATORS = Arrays.asList(
         new StaffModeCommandMigrator(),
         new StaffModeModulesMigrator(),
@@ -61,6 +63,10 @@ public class AutoUpdater {
         new ServerSyncBooleanMigrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
+        if(EXCLUDED_CONFIG_FOR_UPDATES.contains(configurationFile.getIdentifier())) {
+            return true;
+        }
+
         try {
             validateConfigFile(configurationFile.getPath());
 
