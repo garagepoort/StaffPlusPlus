@@ -42,6 +42,7 @@ staff-list.view: "staff.personnel.view"
 # Permission for reporting players.
 report: "staff.reports.report"
 reports:
+    chat: "staff.reports.chat"
     # All permission for managing reports
     manage:
         view: "staff.reports.manage.view"

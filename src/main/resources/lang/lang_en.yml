@@ -83,6 +83,8 @@ disabled: "disabled"
 reports:
     # The prefix for all messages related to reports.
     prefix: "&dReports &8»"
+    chatchannel.prefix: "&4&L[&C&LReport channel %channelId%&4&L]"
+    chatchannel.chatline: "&7%sender% &7> &f%message%"
     reporter.report-created: "&bReported &7%culprit% &bfor &7%reason%&b."
     reporter.report-player-created: "&bReported &7%culprit% &bfor &7%reason%&b."
     reporter.report-rejected: "&7Your report has been rejected by &6%staff%&7."
