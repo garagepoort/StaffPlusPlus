@@ -52,7 +52,7 @@ players: "players"
 reportPlayer: "reportPlayer"
 
 reports:
-    chat: "report-chat"
+    chat: "rc"
     manage:
         #Command to open the manage reports gui
         gui: "manage-reports"
