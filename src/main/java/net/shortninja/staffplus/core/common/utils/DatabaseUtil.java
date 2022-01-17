@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.common.SqlFilter;
 import net.shortninja.staffplusplus.common.SqlFilters;
+import org.apache.commons.lang.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DatabaseUtil {
@@ -53,23 +56,26 @@ public class DatabaseUtil {
 
     public static List<String> createMigrateNameStatements(PlayerManager playerManager, String tableName, String nameColumn, String uuid_column) {
         List<String> statements = new ArrayList<>();
-        List<String> playerUuids = DatabaseUtil.getUuids(tableName, uuid_column);
-        playerUuids
+        DatabaseUtil.getUuids(tableName, uuid_column).stream()
+            .filter(Objects::nonNull)
             .forEach(playerUuid -> playerManager.getOnOrOfflinePlayer(playerUuid)
             .ifPresent(p -> statements.add(String.format("UPDATE " + tableName + " set " + nameColumn + "='%s' WHERE " + uuid_column + "='%s';", p.getUsername(), p.getId()))));
         return statements;
     }
 
-    public static List<String> getUuids(String table, String column) {
+    public static List<UUID> getUuids(String table, String column) {
 
         SqlConnectionProvider sqlConnectionProvider = StaffPlus.get().getIocContainer().get(SqlConnectionProvider.class);
 
-        List<String> uuids = new ArrayList<>();
+        List<UUID> uuids = new ArrayList<>();
         try (Connection sql = sqlConnectionProvider.getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT distinct " + column + " FROM " + table)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    uuids.add(rs.getString(1));
+                    String uuid = rs.getString(1);
+                    if(StringUtils.isNotEmpty(uuid)) {
+                        uuids.add(UUID.fromString(uuid));
+                    }
                 }
             }
         } catch (SQLException e) {
