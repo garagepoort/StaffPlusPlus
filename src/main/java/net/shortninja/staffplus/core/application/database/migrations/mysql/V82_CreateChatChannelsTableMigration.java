@@ -10,6 +10,9 @@ public class V82_CreateChatChannelsTableMigration implements Migration {
     public List<String> getStatements() {
         String chatChannels = "CREATE TABLE IF NOT EXISTS sp_chat_channels (  " +
             "ID INT NOT NULL AUTO_INCREMENT,  " +
+            "chat_prefix VARCHAR(255) NOT NULL, " +
+            "chat_line VARCHAR(255) NOT NULL, " +
+            "channel_name VARCHAR(255) NOT NULL, " +
             "channel_id VARCHAR(36) NOT NULL, " +
             "type VARCHAR(36) NOT NULL, " +
             "server_name VARCHAR(255) NOT NULL, " +

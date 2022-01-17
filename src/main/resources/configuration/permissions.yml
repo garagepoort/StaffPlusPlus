@@ -35,6 +35,14 @@ infractions:
     view: "staff.infractions.view"
 
 staff-list.view: "staff.personnel.view"
+
+########################
+# REPORTS
+# GROUP: staff.chatchannels
+########################
+
+chatchannels:
+    join: "staff.chatchannels.join"
 ########################
 # REPORTS
 # GROUP: staff.reports

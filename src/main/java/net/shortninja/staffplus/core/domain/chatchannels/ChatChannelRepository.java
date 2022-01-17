@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
+import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,8 +15,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @IocBean
@@ -42,8 +45,8 @@ public class ChatChannelRepository extends SqlRepository {
         return Optional.empty();
     }
 
-    public List<UUID> findChatChannelMembers(int channelId) {
-        List<UUID> members = new ArrayList<>();
+    public Set<UUID> findChatChannelMembers(int channelId) {
+        Set<UUID> members = new HashSet<>();
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_chat_channel_members WHERE channel_id = ?")) {
             ps.setInt(1, channelId);
@@ -61,12 +64,15 @@ public class ChatChannelRepository extends SqlRepository {
     public int save(ChatChannel channel) {
         try (Connection sql = getConnection()) {
             sql.setAutoCommit(false);
-            PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_chat_channels(channel_id, type, server_name) " +
-                " VALUES(? ,?, ?);", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_chat_channels(chat_prefix, chat_line, channel_name, channel_id, type, server_name) " +
+                " VALUES(?, ?, ?, ? ,?, ?);", Statement.RETURN_GENERATED_KEYS);
             sql.setAutoCommit(false);
-            insert.setString(1, channel.getChannelId());
-            insert.setString(2, channel.getType().name());
-            insert.setString(3, channel.getServerName());
+            insert.setString(1, channel.getPrefix());
+            insert.setString(2, channel.getLine());
+            insert.setString(3, channel.getName());
+            insert.setString(4, channel.getChannelId());
+            insert.setString(5, channel.getType().name());
+            insert.setString(6, channel.getServerName());
             insert.executeUpdate();
             int id = getGeneratedId(sql, insert);
 
@@ -87,12 +93,18 @@ public class ChatChannelRepository extends SqlRepository {
 
     private ChatChannel buildChatChannel(ResultSet rs) throws SQLException {
         int id = rs.getInt("ID");
+        String chatPrefix = rs.getString("chat_prefix");
+        String chatLine = rs.getString("chat_line");
         String channelId = rs.getString("channel_id");
+        String channelName = rs.getString("channel_name");
         String serverName = rs.getString("server_name");
         ChatChannelType type = ChatChannelType.valueOf(rs.getString("type"));
-        List<UUID> members = findChatChannelMembers(id);
+        Set<UUID> members = findChatChannelMembers(id);
         return new ChatChannel(
             id,
+            chatPrefix,
+            chatLine,
+            channelName,
             channelId,
             members,
             type,
@@ -110,6 +122,32 @@ public class ChatChannelRepository extends SqlRepository {
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_chat_channel_members WHERE channel_id = ?");) {
             insert.setInt(1, id);
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    public List<String> getAllChannelNames() {
+        List<String> names = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT channel_name FROM sp_chat_channels")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    names.add(rs.getString("channel_name"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return names;
+    }
+
+    public void addMember(ChatChannel chatChannel, Player player) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_chat_channel_members(channel_id, player_uuid) VALUES(? ,?);")) {
+            insert.setInt(1, chatChannel.getId());
+            insert.setString(2, player.getUniqueId().toString());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);

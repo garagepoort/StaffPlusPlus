@@ -3,33 +3,42 @@ package net.shortninja.staffplus.core.domain.chatchannels;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.chatchannels.IChatChannel;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class ChatChannel implements IChatChannel {
 
     private int id;
+    private final String prefix;
+    private final String line;
+    private final String name;
     private final String channelId;
-    private final List<UUID> members;
+    private final Set<UUID> members;
     private final ChatChannelType type;
     private final String serverName;
 
-    public ChatChannel(int id, String channelId, List<UUID> members, ChatChannelType type, String serverName) {
+    public ChatChannel(int id, String prefix, String line, String name, String channelId, Set<UUID> members, ChatChannelType type, String serverName) {
         this.id = id;
+        this.prefix = prefix;
+        this.line = line;
+        this.name = name;
         this.channelId = channelId;
         this.members = members;
         this.type = type;
         this.serverName = serverName;
     }
 
-    public ChatChannel(String channelId, List<UUID> members, ChatChannelType type, String serverName) {
+    public ChatChannel(String prefix, String line, String channelId, Set<UUID> members, ChatChannelType type, String serverName) {
+        this.prefix = prefix;
+        this.line = line;
+        this.name = type.name() + "_" + channelId;
         this.channelId = channelId;
         this.members = members;
         this.type = type;
         this.serverName = serverName;
     }
 
-    public List<UUID> getMembers() {
+    public Set<UUID> getMembers() {
         return members;
     }
 
@@ -47,5 +56,21 @@ public class ChatChannel implements IChatChannel {
 
     public ChatChannelType getType() {
         return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public String getLine() {
+        return line;
+    }
+
+    public void addMember(UUID uniqueId) {
+        members.add(uniqueId);
     }
 }

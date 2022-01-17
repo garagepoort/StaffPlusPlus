@@ -14,8 +14,8 @@ import net.shortninja.staffplusplus.reports.ResolveReportEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @IocBean
@@ -24,6 +24,8 @@ public class ReportChatChannelListener implements Listener {
 
     @ConfigProperty("%lang%:reports.chatchannel.prefix")
     public String chatChannelPrefix;
+    @ConfigProperty("%lang%:reports.chatchannel.chatline")
+    public String chatChannelLine;
     @ConfigProperty("%lang%:reports.chatchannel.openingmessage")
     public String chatChannelOpeningMessage;
 
@@ -43,11 +45,14 @@ public class ReportChatChannelListener implements Listener {
     public void onReportAccepted(AcceptReportEvent reportEvent) {
         bukkitUtils.runTaskAsync(() -> {
             IReport report = reportEvent.getReport();
-            List<UUID> members = Arrays.asList(report.getReporterUuid(), report.getStaffUuid());
+            Set<UUID> members = new HashSet<>();
+            members.add(report.getReporterUuid());
+            members.add(report.getStaffUuid());
 
             chatChannelService.create(
                 String.valueOf(report.getId()),
                 chatChannelPrefix,
+                chatChannelLine,
                 chatChannelOpeningMessage,
                 members,
                 ChatChannelType.REPORT);
@@ -58,7 +63,6 @@ public class ReportChatChannelListener implements Listener {
     public void onReportClosed(ResolveReportEvent reportEvent) {
         bukkitUtils.runTaskAsync(() -> chatChannelService.closeChannel(
             String.valueOf(reportEvent.getReport().getId()),
-            chatChannelPrefix,
             ChatChannelType.REPORT,
             serverSyncConfiguration.reportSyncServers));
     }
@@ -67,7 +71,6 @@ public class ReportChatChannelListener implements Listener {
     public void onReportClosed(RejectReportEvent reportEvent) {
         bukkitUtils.runTaskAsync(() -> chatChannelService.closeChannel(
             String.valueOf(reportEvent.getReport().getId()),
-            chatChannelPrefix,
             ChatChannelType.REPORT,
             serverSyncConfiguration.reportSyncServers));
     }
