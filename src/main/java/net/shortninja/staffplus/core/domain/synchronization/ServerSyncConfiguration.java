@@ -3,6 +3,9 @@ package net.shortninja.staffplus.core.domain.synchronization;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
+
+import java.util.Collections;
 
 @IocBean
 public class ServerSyncConfiguration {
@@ -41,8 +44,20 @@ public class ServerSyncConfiguration {
     @ConfigTransformer(ServerSyncConfigTransformer.class)
     public ServerSyncConfig notesSyncServers;
 
+    @ConfigProperty("server-name")
+    private String serverName;
+
     public boolean sessionSyncEnabled() {
         return vanishSyncEnabled || staffModeSyncEnabled;
+    }
+
+    public ServerSyncConfig getForChatChannelType(ChatChannelType chatChannelType) {
+        switch (chatChannelType) {
+            case REPORT:
+                return reportSyncServers;
+            default:
+                return new ServerSyncConfig(Collections.singletonList(serverName));
+        }
     }
 
 }
