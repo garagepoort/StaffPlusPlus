@@ -74,6 +74,11 @@ input-accepted: '&bMasukan diterima dan dikirimkan.'
 enabled: aktif
 disabled: nonaktif
 
+chatchannels:
+    joined: "&C%player% &6joined the channel"
+    closed: "&6This chat channel has been closed"
+    left: "&C%player% &6left the channel"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                      Infractions                     | #
@@ -82,6 +87,12 @@ disabled: nonaktif
 reports:
     # The prefix for all messages related to reports.
     prefix: '&dLaporan &8»'
+    chatchannel.prefix: "&4&L[&C&LReport %channelId%&4&L]"
+    chatchannel.chatline: "&7%sender% &7> &f%message%"
+    chatchannel.openingmessage: |
+        &6Report chat channel opened
+        &6You are in direct contact with a staffmember
+        &6Type "/rc %channelId% <message>" to send messages on this channel
     reporter.report-created: '&bLaporan &7%culprit% &bkarena &7%reason%&b.'
     reporter.report-player-created: '&bLaporan &7%culprit% &bkarena &7%reason%&b.'
     reporter.report-rejected: '&7Laporanmu ditolak oleh &6%staff%&7.'
