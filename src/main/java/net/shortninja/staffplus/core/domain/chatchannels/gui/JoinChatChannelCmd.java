@@ -1,9 +1,9 @@
-package net.shortninja.staffplus.core.domain.staff.reporting.chatchannels;
+package net.shortninja.staffplus.core.domain.chatchannels.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -11,11 +11,11 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chatchannels.ChatChannelService;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,48 +26,53 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
 
 @Command(
-    command = "commands:reports.chat",
-    permissions = "permissions:reports.chat",
-    description = "Send a message on your chat channel",
-    usage = "[channelId] [message]",
+    command = "commands:chatchannels.join",
+    description = "Join an existing chat channel",
+    usage = "[channelName]",
     playerRetrievalStrategy = NONE
 )
-@IocBean(conditionalOnProperty = "reports-module.chatchannels.enabled=true")
+@IocBean
 @IocMultiProvider(SppCommand.class)
-public class ReportChatChannelCmd extends AbstractCmd {
+public class JoinChatChannelCmd extends AbstractCmd {
+
+    @ConfigProperty("permissions:chatchannels.join")
+    private String joinPermission;
 
     private final ChatChannelService chatChannelService;
     private final BukkitUtils bukkitUtils;
     private final ServerSyncConfiguration serverSyncConfiguration;
+    private final PlayerManager playerManager;
 
-    public ReportChatChannelCmd(PermissionHandler permissionHandler,
-                                Messages messages,
-                                CommandService commandService,
-                                ChatChannelService chatChannelService, BukkitUtils bukkitUtils,
-                                ServerSyncConfiguration serverSyncConfiguration) {
+    public JoinChatChannelCmd(PermissionHandler permissionHandler,
+                              Messages messages,
+                              CommandService commandService,
+                              ChatChannelService chatChannelService,
+                              BukkitUtils bukkitUtils,
+                              ServerSyncConfiguration serverSyncConfiguration, PlayerManager playerManager) {
         super(messages, permissionHandler, commandService);
         this.chatChannelService = chatChannelService;
         this.bukkitUtils = bukkitUtils;
         this.serverSyncConfiguration = serverSyncConfiguration;
+        this.playerManager = playerManager;
     }
 
     @Override
-    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
-        String channelId = args[0];
-        String message = JavaUtils.compileWords(args, 1);
-        bukkitUtils.runTaskAsync(sender, () -> {
-            chatChannelService.sendOnChannel(sender,
-                channelId,
-                message,
-                ChatChannelType.REPORT,
-                serverSyncConfiguration.reportSyncServers);
-        });
+    protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
+        String[] split = args[0].split("_");
+        ChatChannelType chatChannelType = ChatChannelType.valueOf(split[0]);
+        String chatChannelId = split[1];
+
+        permissionHandler.validate(sender, joinPermission + "." + chatChannelType.name().toLowerCase());
+        validateIsPlayer(sender);
+
+        Optional<SppPlayer> onlinePlayer = playerManager.getOnlinePlayer(sender.getName());
+        bukkitUtils.runTaskAsync(sender, () -> chatChannelService.joinChannel(onlinePlayer.get(), chatChannelId, chatChannelType, serverSyncConfiguration.getForChatChannelType(chatChannelType)));
         return true;
     }
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -80,15 +85,9 @@ public class ReportChatChannelCmd extends AbstractCmd {
         String currentArg = args.length > 0 ? args[args.length - 1] : "";
 
         if (args.length == 1) {
-            if (sender instanceof Player) {
-                return chatChannelService.getMyChannelIds((Player) sender, ChatChannelType.REPORT).stream()
-                    .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
-                    .collect(Collectors.toList());
-            } else {
-                return chatChannelService.getAllChannelIds(ChatChannelType.REPORT).stream()
-                    .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
-                    .collect(Collectors.toList());
-            }
+            return chatChannelService.getAllChannelNames().stream()
+                .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
+                .collect(Collectors.toList());
         }
 
         return Collections.emptyList();

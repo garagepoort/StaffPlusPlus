@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.chatchannels;
+package net.shortninja.staffplus.core.domain.chatchannels.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
@@ -10,11 +10,11 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.chatchannels.ChatChannelService;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,28 +25,28 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
 
 @Command(
-    command = "commands:chatchannels.join",
-    description = "Join an existing chat channel",
+    command = "commands:chatchannels.close",
+    description = "Close an existing chat channel",
     usage = "[channelName]",
     playerRetrievalStrategy = NONE
 )
 @IocBean
 @IocMultiProvider(SppCommand.class)
-public class JoinChatChannelCmd extends AbstractCmd {
+public class CloseChatChannelCmd extends AbstractCmd {
 
-    @ConfigProperty("permissions:chatchannels.join")
-    private String joinPermission;
+    @ConfigProperty("permissions:chatchannels.close")
+    private String closePermission;
 
     private final ChatChannelService chatChannelService;
     private final BukkitUtils bukkitUtils;
     private final ServerSyncConfiguration serverSyncConfiguration;
 
-    public JoinChatChannelCmd(PermissionHandler permissionHandler,
-                              Messages messages,
-                              CommandService commandService,
-                              ChatChannelService chatChannelService,
-                              BukkitUtils bukkitUtils,
-                              ServerSyncConfiguration serverSyncConfiguration) {
+    public CloseChatChannelCmd(PermissionHandler permissionHandler,
+                               Messages messages,
+                               CommandService commandService,
+                               ChatChannelService chatChannelService,
+                               BukkitUtils bukkitUtils,
+                               ServerSyncConfiguration serverSyncConfiguration) {
         super(messages, permissionHandler, commandService);
         this.chatChannelService = chatChannelService;
         this.bukkitUtils = bukkitUtils;
@@ -58,11 +58,8 @@ public class JoinChatChannelCmd extends AbstractCmd {
         String[] split = args[0].split("_");
         ChatChannelType chatChannelType = ChatChannelType.valueOf(split[0]);
         String chatChannelId = split[1];
-
-        permissionHandler.validate(sender, joinPermission + "." + chatChannelType.name().toLowerCase());
-        validateIsPlayer(sender);
-
-        bukkitUtils.runTaskAsync(() -> chatChannelService.joinChannel((Player) sender, chatChannelId, chatChannelType, serverSyncConfiguration.getForChatChannelType(chatChannelType)));
+        permissionHandler.validate(sender, closePermission + "." + chatChannelType.name().toLowerCase());
+        bukkitUtils.runTaskAsync(sender, () -> chatChannelService.closeChannel(chatChannelId, chatChannelType, serverSyncConfiguration.getForChatChannelType(chatChannelType)));
         return true;
     }
 

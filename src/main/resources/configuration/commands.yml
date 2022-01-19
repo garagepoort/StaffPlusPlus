@@ -194,3 +194,5 @@ show-style-info: "show-style-info"
 
 chatchannels:
     join: "join-channel"
+    leave: "leave-channel"
+    close: "close-channel"

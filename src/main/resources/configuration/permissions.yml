@@ -43,6 +43,8 @@ staff-list.view: "staff.personnel.view"
 
 chatchannels:
     join: "staff.chatchannels.join"
+    leave: "staff.chatchannels.leave"
+    close: "staff.chatchannels.close"
 ########################
 # REPORTS
 # GROUP: staff.reports

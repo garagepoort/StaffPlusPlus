@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.chatchannels.ChatChannel;
 import net.shortninja.staffplus.core.domain.chatchannels.ChatChannelService;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
@@ -15,10 +16,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-@IocBean
+@IocBean(conditionalOnProperty = "reports-module.chatchannels.enabled=true")
 @IocListener
 public class ReportChatChannelListener implements Listener {
 
@@ -49,13 +51,16 @@ public class ReportChatChannelListener implements Listener {
             members.add(report.getReporterUuid());
             members.add(report.getStaffUuid());
 
-            chatChannelService.create(
-                String.valueOf(report.getId()),
-                chatChannelPrefix,
-                chatChannelLine,
-                chatChannelOpeningMessage,
-                members,
-                ChatChannelType.REPORT);
+            Optional<ChatChannel> channel = chatChannelService.findChannel(String.valueOf(report.getId()), ChatChannelType.REPORT);
+            if (!channel.isPresent()) {
+                chatChannelService.create(
+                    String.valueOf(report.getId()),
+                    chatChannelPrefix,
+                    chatChannelLine,
+                    chatChannelOpeningMessage,
+                    members,
+                    ChatChannelType.REPORT);
+            }
         });
     }
 

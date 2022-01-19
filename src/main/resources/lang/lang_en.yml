@@ -78,6 +78,7 @@ disabled: "disabled"
 chatchannels:
     joined: "&C%player% &6joined the channel"
     closed: "&6This chat channel has been closed"
+    left: "&C%player% &6left the channel"
 
 ############################################################
 # +------------------------------------------------------+ #

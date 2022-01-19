@@ -74,6 +74,12 @@ input-accepted: "&bAanvaard en ingediende"
 
 enabled: "ingeschakeld"
 disabled: "uitgeschakeld"
+
+chatchannels:
+    joined: "&C%player% &6joined the channel"
+    closed: "&6This chat channel has been closed"
+    left: "&C%player% &6left the channel"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                     Overtredingen                    | #
@@ -82,6 +88,12 @@ disabled: "uitgeschakeld"
 reports:
     # Het voorvoegsel voor alle berichten die verwant zijn met aangiftes.
     prefix: "&dAangiftes &8»"
+    chatchannel.prefix: "&4&L[&C&LReport %channelId%&4&L]"
+    chatchannel.chatline: "&7%sender% &7> &f%message%"
+    chatchannel.openingmessage: |
+        &6Report chat channel opened
+        &6You are in direct contact with a staffmember
+        &6Type "/rc %channelId% <message>" to send messages on this channel
     reporter.report-created: "&bJe hebt &7%culprit% &bgerapporteerd voor &7%reason%&b."
     reporter.report-player-created: "&bJe hebt &7%culprit% &bgerapporteerd voor &7%reason%&b."
     reporter.report-rejected: "&7Your report has been rejected by &6%staff%&7."

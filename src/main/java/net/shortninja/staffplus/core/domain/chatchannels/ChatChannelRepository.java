@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
-import org.bukkit.entity.Player;
+import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,6 +31,22 @@ public class ChatChannelRepository extends SqlRepository {
     public Optional<ChatChannel> findChatChannel(String channelId, ChatChannelType type, ServerSyncConfig serverSyncConfig) {
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_chat_channels WHERE channel_id = ? AND type = ? " + Constants.getServerNameFilterWithAnd(serverSyncConfig))) {
+            ps.setString(1, channelId);
+            ps.setString(2, type.name());
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildChatChannel(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return Optional.empty();
+    }
+    public Optional<ChatChannel> findChatChannel(String channelId, ChatChannelType type) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_chat_channels WHERE channel_id = ? AND type = ?")) {
             ps.setString(1, channelId);
             ps.setString(2, type.name());
             try (ResultSet rs = ps.executeQuery()) {
@@ -128,29 +144,39 @@ public class ChatChannelRepository extends SqlRepository {
         }
     }
 
-    public List<String> getAllChannelNames() {
-        List<String> names = new ArrayList<>();
+    public void addMember(ChatChannel chatChannel, SppPlayer player) {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT channel_name FROM sp_chat_channels")) {
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_chat_channel_members(channel_id, player_uuid) VALUES(? ,?);")) {
+            insert.setInt(1, chatChannel.getId());
+            insert.setString(2, player.getId().toString());
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+    public void removeMember(ChatChannel chatChannel, SppPlayer player) {
+        try (Connection sql = getConnection();
+             PreparedStatement insert = sql.prepareStatement("DELETE FROM sp_chat_channel_members WHERE channel_id=? AND player_uuid=?;")) {
+            insert.setInt(1, chatChannel.getId());
+            insert.setString(2, player.getId().toString());
+            insert.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    public List<ChatChannel> findAll() {
+        List<ChatChannel> names = new ArrayList<>();
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_chat_channels")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    names.add(rs.getString("channel_name"));
+                    names.add(buildChatChannel(rs));
                 }
             }
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
         return names;
-    }
-
-    public void addMember(ChatChannel chatChannel, Player player) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_chat_channel_members(channel_id, player_uuid) VALUES(? ,?);")) {
-            insert.setInt(1, chatChannel.getId());
-            insert.setString(2, player.getUniqueId().toString());
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
     }
 }
