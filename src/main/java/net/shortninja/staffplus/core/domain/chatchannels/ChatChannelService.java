@@ -11,8 +11,8 @@ import net.shortninja.staffplusplus.chatchannels.ChatChannelMessageSendEvent;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelPlayerJoinedEvent;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelPlayerLeftEvent;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
+import net.shortninja.staffplusplus.session.SppInteractor;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -36,8 +36,11 @@ public class ChatChannelService {
         bukkitUtils.runTaskAsync(() -> CHAT_CHANNELS_CACHE = chatChannelRepository.findAll());
     }
 
-    public void sendOnChannel(CommandSender sender, String channelId, String message, ChatChannelType type, ServerSyncConfig serverSyncConfig) {
+    public void sendOnChannel(SppInteractor sender, String channelId, String message, ChatChannelType type, ServerSyncConfig serverSyncConfig) {
         ChatChannel channel = chatChannelRepository.findChatChannel(channelId, type, serverSyncConfig).orElseThrow(() -> new BusinessException("Chat channel not found"));
+        if(!channel.hasMember(sender)) {
+            throw new BusinessException("You are not a member of this channel");
+        }
         sendEvent(new ChatChannelMessageSendEvent(sender, message, channel));
     }
 

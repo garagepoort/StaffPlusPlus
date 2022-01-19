@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.chatchannels;
 
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.chatchannels.IChatChannel;
-import net.shortninja.staffplusplus.session.SppPlayer;
+import net.shortninja.staffplusplus.session.SppInteractor;
 
 import java.util.Set;
 import java.util.UUID;
@@ -79,7 +79,7 @@ public class ChatChannel implements IChatChannel {
         members.remove(uniqueId);
     }
 
-    public boolean hasMember(SppPlayer player) {
-        return members.contains(player.getId());
+    public boolean hasMember(SppInteractor player) {
+        return !player.isPlayer() || members.contains(player.getId());
     }
 }

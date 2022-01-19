@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.chatchannels;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -13,6 +14,7 @@ import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chatchannels.ChatChannelService;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
+import net.shortninja.staffplusplus.session.SppInteractor;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
@@ -55,8 +58,13 @@ public class ReportChatChannelCmd extends AbstractCmd {
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
         String channelId = args[0];
         String message = JavaUtils.compileWords(args, 1);
+
+        UUID senderUuid = sender instanceof Player ? ((Player) sender).getUniqueId() : Constants.CONSOLE_UUID;
+        String senderName = sender instanceof Player ? sender.getName() : "Console";
+        SppInteractor sppInteractor = new SppInteractor(senderUuid, senderName, sender);
+
         bukkitUtils.runTaskAsync(sender, () -> {
-            chatChannelService.sendOnChannel(sender,
+            chatChannelService.sendOnChannel(sppInteractor,
                 channelId,
                 message,
                 ChatChannelType.REPORT,

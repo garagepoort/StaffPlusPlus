@@ -44,7 +44,7 @@ public class ChatChannelChatNotifier implements Listener {
 
         String chatChannelLine = channel.getLine()
             .replace("%message%", event.getMessage())
-            .replace("%sender%", event.getSender().getName())
+            .replace("%sender%", event.getSender().getUsername())
             .replace("%channelId%", channel.getChannelId());
 
         sendToAllMembers(chatChannelLine, channel);
