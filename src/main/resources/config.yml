@@ -85,6 +85,9 @@ locations:
 
 # No permission required for regular users, requires "permissions.report" permission for moderator commands.
 reports-module:
+  chatchannels:
+      enabled: false
+
   # Whether or not the plugin will use "/report" features.
   enabled: true
 
