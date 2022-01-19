@@ -430,6 +430,10 @@ public class Messages {
         }
     }
 
+    public void send(List<Player> receivers, String message, String prefix) {
+        receivers.forEach(receiver -> send(receiver, message, prefix));
+    }
+
     public void send(Player player, String message, String prefix, String permission) {
         if (!this.permission.has(player, permission)) {
             return;

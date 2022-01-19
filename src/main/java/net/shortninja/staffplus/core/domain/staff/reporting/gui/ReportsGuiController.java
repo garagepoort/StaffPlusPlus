@@ -20,7 +20,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
-import net.shortninja.staffplus.core.domain.staff.reporting.cmd.ReportFiltersMapper;
+import net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd.ReportFiltersMapper;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;

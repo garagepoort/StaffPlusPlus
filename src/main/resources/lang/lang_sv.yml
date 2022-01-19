@@ -74,6 +74,12 @@ input-accepted: "&bInmatning har blivit accepterat och överlämnat!"
 
 enabled: "aktiverad"
 disabled: "inaktiverad"
+
+chatchannels:
+    joined: "&C%player% &6joined the channel"
+    closed: "&6This chat channel has been closed"
+    left: "&C%player% &6left the channel"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                     Overträdelser                    | #
@@ -82,6 +88,12 @@ disabled: "inaktiverad"
 reports:
     # Prefixet för alla meddelanden relaterat till rapporter.
     prefix: "&dRapporter &8»"
+    chatchannel.prefix: "&4&L[&C&LReport %channelId%&4&L]"
+    chatchannel.chatline: "&7%sender% &7> &f%message%"
+    chatchannel.openingmessage: |
+        &6Report chat channel opened
+        &6You are in direct contact with a staffmember
+        &6Type "/rc %channelId% <message>" to send messages on this channel
     reporter.report-created: "&bDu rapporterade &7%culprit% &bför &7%reason%&b."
     reporter.report-player-created: "&bDu rapporterade &7%culprit% &bför &7%reason%&b."
     reporter.report-rejected: "&7Your report has been rejected by &6%staff%&7."
