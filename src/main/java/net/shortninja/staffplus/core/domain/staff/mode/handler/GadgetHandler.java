@@ -162,7 +162,7 @@ public class GadgetHandler {
         PlayerSettings settings = playerSettingsRepository.get(player);
         GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, settings.getModeName().get());
 
-        bukkitUtils.runTaskAsync(() -> {
+        bukkitUtils.runTaskAsync(player, () -> {
             if (settings.getVanishType() == modeConfiguration.getModeVanish()) {
                 vanishServiceImpl.removeVanish(player);
             } else {

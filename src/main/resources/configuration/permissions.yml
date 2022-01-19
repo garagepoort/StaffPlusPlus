@@ -35,6 +35,16 @@ infractions:
     view: "staff.infractions.view"
 
 staff-list.view: "staff.personnel.view"
+
+########################
+# REPORTS
+# GROUP: staff.chatchannels
+########################
+
+chatchannels:
+    join: "staff.chatchannels.join"
+    leave: "staff.chatchannels.leave"
+    close: "staff.chatchannels.close"
 ########################
 # REPORTS
 # GROUP: staff.reports
@@ -42,6 +52,7 @@ staff-list.view: "staff.personnel.view"
 # Permission for reporting players.
 report: "staff.reports.report"
 reports:
+    chat: "staff.reports.chat"
     # All permission for managing reports
     manage:
         view: "staff.reports.manage.view"
