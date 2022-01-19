@@ -74,6 +74,12 @@ input-accepted: "&b输入信息已接收并提交."
 
 enabled: "启用"
 disabled: "痡"
+
+chatchannels:
+    joined: "&C%player% &6joined the channel"
+    closed: "&6This chat channel has been closed"
+    left: "&C%player% &6left the channel"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                        违规行为                       | #
@@ -82,6 +88,12 @@ disabled: "痡"
 reports:
     # 所有举报相关信息的前缀.
     prefix: "&d举报 &8»"
+    chatchannel.prefix: "&4&L[&C&LReport %channelId%&4&L]"
+    chatchannel.chatline: "&7%sender% &7> &f%message%"
+    chatchannel.openingmessage: |
+        &6Report chat channel opened
+        &6You are in direct contact with a staffmember
+        &6Type "/rc %channelId% <message>" to send messages on this channel
     reporter.report-created: "&b举报 &7%culprit% &b原因 &7%reason%&b."
     reporter.report-player-created: "&b举报 &7%culprit% &b原因 &7%reason%&b."
     reporter.report-rejected: "&7Your report has been rejected by &6%staff%&7."

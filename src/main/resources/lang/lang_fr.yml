@@ -75,6 +75,11 @@ input-accepted: "&bInput accépté et soumis à révision."
 enabled: "activé"
 disabled: "désactivé"
 
+chatchannels:
+    joined: "&C%player% &6joined the channel"
+    closed: "&6This chat channel has been closed"
+    left: "&C%player% &6left the channel"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                     Infractions                      | #
@@ -83,6 +88,12 @@ disabled: "désactivé"
 reports:
     # Le préfix de tous les messages qui ont un rapport avec les reports.
     prefix: "&dReports &8»"
+    chatchannel.prefix: "&4&L[&C&LReport %channelId%&4&L]"
+    chatchannel.chatline: "&7%sender% &7> &f%message%"
+    chatchannel.openingmessage: |
+        &6Report chat channel opened
+        &6You are in direct contact with a staffmember
+        &6Type "/rc %channelId% <message>" to send messages on this channel
     reporter.report-created: "&bVous avez report &7%culprit% &bpour &7%reason%&b."
     reporter.report-player-created: "&bVous avez report &7%culprit% &bpour &7%reason%&b."
     reporter.report-rejected: "&7Your report has been rejected by &6%staff%&7."
