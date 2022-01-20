@@ -157,7 +157,9 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         ban.setId(bansRepository.addBan(ban));
 
         String banMessage = replaceBanPlaceholders(templateMessage, ban);
-        sendEvent(new BanEvent(ban, banMessage));
+        if(endDate == null || endDate > System.currentTimeMillis()) {
+            sendEvent(new BanEvent(ban, banMessage));
+        }
     }
 
     private void unban(Ban ban) {
