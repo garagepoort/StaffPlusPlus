@@ -29,6 +29,8 @@ public class FreezeConfiguration {
     public boolean prompt;
     @ConfigProperty("freeze-module.prompt-title")
     public String promptTitle;
+    @ConfigProperty("freeze-module.chat-message-enabled")
+    public boolean chatMessageEnabled;
     @ConfigProperty("freeze-module.logout-commands")
     @ConfigTransformer(CommaSplitTransformer.class)
     public List<String> logoutCommands;

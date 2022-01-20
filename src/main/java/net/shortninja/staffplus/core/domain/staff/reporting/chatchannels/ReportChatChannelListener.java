@@ -6,7 +6,6 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chatchannels.ChatChannel;
 import net.shortninja.staffplus.core.domain.chatchannels.ChatChannelService;
-import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.reports.AcceptReportEvent;
 import net.shortninja.staffplusplus.reports.IReport;
@@ -32,14 +31,11 @@ public class ReportChatChannelListener implements Listener {
     public String chatChannelOpeningMessage;
 
     private final ChatChannelService chatChannelService;
-    private final ServerSyncConfiguration serverSyncConfiguration;
     private final BukkitUtils bukkitUtils;
 
     public ReportChatChannelListener(ChatChannelService chatChannelService,
-                                     ServerSyncConfiguration serverSyncConfiguration,
                                      BukkitUtils bukkitUtils) {
         this.chatChannelService = chatChannelService;
-        this.serverSyncConfiguration = serverSyncConfiguration;
         this.bukkitUtils = bukkitUtils;
     }
 
@@ -68,15 +64,13 @@ public class ReportChatChannelListener implements Listener {
     public void onReportClosed(ResolveReportEvent reportEvent) {
         bukkitUtils.runTaskAsync(() -> chatChannelService.closeChannel(
             String.valueOf(reportEvent.getReport().getId()),
-            ChatChannelType.REPORT,
-            serverSyncConfiguration.reportSyncServers));
+            ChatChannelType.REPORT));
     }
 
     @EventHandler
     public void onReportClosed(RejectReportEvent reportEvent) {
         bukkitUtils.runTaskAsync(() -> chatChannelService.closeChannel(
             String.valueOf(reportEvent.getReport().getId()),
-            ChatChannelType.REPORT,
-            serverSyncConfiguration.reportSyncServers));
+            ChatChannelType.REPORT));
     }
 }
