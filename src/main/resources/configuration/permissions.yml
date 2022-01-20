@@ -236,6 +236,7 @@ unban: "staff.bans.unban"
 ban-bypass: "staff.bans.ban-bypass"
 ban-notifications: "staff.bans.ban-notifications"
 bans:
+    sync: "staff.bans.sync"
     appeals:
         view: "staff.bans.appeals.view"
         create: "staff.bans.appeals.create"
