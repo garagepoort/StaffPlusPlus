@@ -244,9 +244,11 @@ chat-module:
   # Whenever one of these words/phrases is detected in a chat message, an alert will be triggered
   # These can either notify the staff members through the alerts-system of discord.
   detection:
-    phrases:
-      - admin
-      - mod
+    phrase-groups:
+      - phrases:
+            - admin
+            - mod
+        commands: []
 
   # All word blacklist options.
   # Leave any of the lists below blank to disable them!
