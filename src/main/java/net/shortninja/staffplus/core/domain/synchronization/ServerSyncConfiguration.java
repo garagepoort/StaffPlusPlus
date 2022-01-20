@@ -55,6 +55,7 @@ public class ServerSyncConfiguration {
         switch (chatChannelType) {
             case REPORT:
                 return reportSyncServers;
+            case FREEZE:
             default:
                 return new ServerSyncConfig(Collections.singletonList(serverName));
         }

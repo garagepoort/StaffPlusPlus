@@ -12,7 +12,6 @@ import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chatchannels.ChatChannelService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -40,7 +39,6 @@ public class LeaveChatChannelCmd extends AbstractCmd {
 
     private final ChatChannelService chatChannelService;
     private final BukkitUtils bukkitUtils;
-    private final ServerSyncConfiguration serverSyncConfiguration;
     private final PlayerManager playerManager;
 
     public LeaveChatChannelCmd(PermissionHandler permissionHandler,
@@ -48,11 +46,10 @@ public class LeaveChatChannelCmd extends AbstractCmd {
                                CommandService commandService,
                                ChatChannelService chatChannelService,
                                BukkitUtils bukkitUtils,
-                               ServerSyncConfiguration serverSyncConfiguration, PlayerManager playerManager) {
+                               PlayerManager playerManager) {
         super(messages, permissionHandler, commandService);
         this.chatChannelService = chatChannelService;
         this.bukkitUtils = bukkitUtils;
-        this.serverSyncConfiguration = serverSyncConfiguration;
         this.playerManager = playerManager;
     }
 
@@ -66,7 +63,7 @@ public class LeaveChatChannelCmd extends AbstractCmd {
         validateIsPlayer(sender);
 
         Optional<SppPlayer> onlinePlayer = playerManager.getOnlinePlayer(sender.getName());
-        bukkitUtils.runTaskAsync(sender, () -> chatChannelService.leaveChannel(onlinePlayer.get(), chatChannelId, chatChannelType, serverSyncConfiguration.getForChatChannelType(chatChannelType)));
+        bukkitUtils.runTaskAsync(sender, () -> chatChannelService.leaveChannel(onlinePlayer.get(), chatChannelId, chatChannelType));
         return true;
     }
 

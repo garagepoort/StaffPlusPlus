@@ -66,7 +66,7 @@ public class Tasks extends BukkitRunnable {
                         freezeConfiguration.sound.play(player);
                     }
 
-                    if (!freezeConfiguration.prompt) {
+                    if (freezeConfiguration.chatMessageEnabled) {
                         messages.send(player, messages.freeze, messages.prefixGeneral);
                     }
                 }

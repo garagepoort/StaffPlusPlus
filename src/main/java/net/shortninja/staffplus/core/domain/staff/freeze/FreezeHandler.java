@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import java.util.stream.Stream;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
+import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEventOnThisTick;
 
 @IocBean
 public class FreezeHandler {
@@ -62,7 +63,7 @@ public class FreezeHandler {
     }
 
     public void removeFreeze(CommandSender sender, Player player) {
-        sendEvent(new PlayerUnFrozenEvent(sender, player));
+        sendEventOnThisTick(new PlayerUnFrozenEvent(sender, player));
     }
 
     public void validatePermissions(Player target) {
