@@ -44,22 +44,6 @@ public class ChatChannelRepository extends SqlRepository {
         }
         return Optional.empty();
     }
-    public Optional<ChatChannel> findChatChannel(String channelId, ChatChannelType type) {
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_chat_channels WHERE channel_id = ? AND type = ?")) {
-            ps.setString(1, channelId);
-            ps.setString(2, type.name());
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean first = rs.next();
-                if (first) {
-                    return Optional.of(buildChatChannel(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return Optional.empty();
-    }
 
     public Set<UUID> findChatChannelMembers(int channelId) {
         Set<UUID> members = new HashSet<>();

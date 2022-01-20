@@ -77,7 +77,7 @@ disabled: "onemogućeno"
 
 chatchannels:
     joined: "&C%player% &6joined the channel"
-    closed: "&6This chat channel has been closed"
+    closed: "&6This channel has been closed"
     left: "&C%player% &6left the channel"
 
 ############################################################
@@ -91,7 +91,6 @@ reports:
     chatchannel.prefix: "&4&L[&C&LReport %channelId%&4&L]"
     chatchannel.chatline: "&7%sender% &7> &f%message%"
     chatchannel.openingmessage: |
-        &6Report chat channel opened
         &6You are in direct contact with a staffmember
         &6Type "/rc %channelId% <message>" to send messages on this channel
     reporter.report-created: "&bReportan &7%culprit% &bfor &7%reason%&b."
@@ -242,6 +241,12 @@ freeze-logout: "&7%player% &bodjavljen dok zamrznut!"
 freeze-title: "&6You have been frozen."
 freeze-subtitle: "Do not log out!"
 freeze-chat-prevented: "&bYou are not allowed to chat right now!"
+freeze-chatchannel:
+    prefix: "&4&L[&b&LFrozen chat&4&L]"
+    chatline: "&7%sender% &7> &f%message%"
+    openingmessage: |
+        &6You are in direct contact with a staffmember
+        &6Type "/fc <message>" to send messages on this channel
 
 cps-start: "&bIde CPS test na &7%target% &bza &7%seconds% &bsekundi..."
 cps-finish-normal: "&7%player% &bima oko &7%cps% &bCPS. &7(nije opasan)"
