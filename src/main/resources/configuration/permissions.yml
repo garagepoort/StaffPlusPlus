@@ -187,6 +187,7 @@ follow: "staff.mode.follow"
 freeze: "staff.freeze.freeze"
 # Permission for bypassing freeze.
 freeze-bypass: "staff.freeze.freeze-bypass"
+freeze-chat: "staff.freeze.chat"
 
 ########################
 # TELEPORT
