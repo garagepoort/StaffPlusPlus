@@ -11,7 +11,6 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chatchannels.ChatChannelService;
-import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
@@ -39,18 +38,15 @@ public class CloseChatChannelCmd extends AbstractCmd {
 
     private final ChatChannelService chatChannelService;
     private final BukkitUtils bukkitUtils;
-    private final ServerSyncConfiguration serverSyncConfiguration;
 
     public CloseChatChannelCmd(PermissionHandler permissionHandler,
                                Messages messages,
                                CommandService commandService,
                                ChatChannelService chatChannelService,
-                               BukkitUtils bukkitUtils,
-                               ServerSyncConfiguration serverSyncConfiguration) {
+                               BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.chatChannelService = chatChannelService;
         this.bukkitUtils = bukkitUtils;
-        this.serverSyncConfiguration = serverSyncConfiguration;
     }
 
     @Override
@@ -59,7 +55,7 @@ public class CloseChatChannelCmd extends AbstractCmd {
         ChatChannelType chatChannelType = ChatChannelType.valueOf(split[0]);
         String chatChannelId = split[1];
         permissionHandler.validate(sender, closePermission + "." + chatChannelType.name().toLowerCase());
-        bukkitUtils.runTaskAsync(sender, () -> chatChannelService.closeChannel(chatChannelId, chatChannelType, serverSyncConfiguration.getForChatChannelType(chatChannelType)));
+        bukkitUtils.runTaskAsync(sender, () -> chatChannelService.closeChannel(chatChannelId, chatChannelType));
         return true;
     }
 

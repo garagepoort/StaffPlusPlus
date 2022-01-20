@@ -10,6 +10,7 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -115,6 +116,10 @@ public class PlayerManager {
 
     public Collection<? extends Player> getOnlinePlayers() {
         return Bukkit.getOnlinePlayers();
+    }
+
+    public List<String> getOnlinePlayerNames() {
+        return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
     }
 
     public List<SppPlayer> getOnlineSppPlayers() {

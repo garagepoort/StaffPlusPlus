@@ -1,5 +1,14 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.8
+
+### Features
+  - Add chat channels for reports
+  - Add chat channels for frozen players
+
+### Bugs
+  - Fix potion effects not wearing off if a frozen player logs out.
+
 # V1.18.7
 
 ### Features

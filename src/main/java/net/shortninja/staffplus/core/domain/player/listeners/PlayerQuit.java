@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
+import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
 import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
@@ -34,13 +35,14 @@ public class PlayerQuit implements Listener {
     private final IProtocolService protocolService;
     private final FreezeConfiguration freezeConfiguration;
     private final PlayerSettingsRepository playerSettingsRepository;
+    private final FreezeHandler freezeHandler;
 
     public PlayerQuit(Messages messages,
                       OnlineSessionsManager sessionManager,
                       StaffModeService staffModeService,
                       TraceService traceService,
                       XrayService xrayService,
-                      IProtocolService protocolService, FreezeConfiguration freezeConfiguration, PlayerSettingsRepository playerSettingsRepository) {
+                      IProtocolService protocolService, FreezeConfiguration freezeConfiguration, PlayerSettingsRepository playerSettingsRepository, FreezeHandler freezeHandler) {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.staffModeService = staffModeService;
@@ -49,6 +51,7 @@ public class PlayerQuit implements Listener {
         this.protocolService = protocolService;
         this.freezeConfiguration = freezeConfiguration;
         this.playerSettingsRepository = playerSettingsRepository;
+        this.freezeHandler = freezeHandler;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -67,6 +70,7 @@ public class PlayerQuit implements Listener {
                 command = command.replace("%player%", player.getName());
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
             }
+            freezeHandler.removeFreeze(Bukkit.getConsoleSender(), player);
         }
 
         traceService.sendTraceMessage(player.getUniqueId(), "Left the game");

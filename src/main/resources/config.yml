@@ -520,6 +520,8 @@ investigations-module:
 ############################################################
 freeze-module:
     enabled: true
+    chatchannels:
+        enabled: false
     chat: false
     damage: false
     timer: 5
@@ -528,6 +530,7 @@ freeze-module:
     prompt-title: '&bFrozen'
     logout-commands: ban %player%
     title-message-enabled: true
+    chat-message-enabled: true
     # Commands that are allowed when a player is frozen
     allowed-commands: []
     # command hooks for freeze/unfreeze
