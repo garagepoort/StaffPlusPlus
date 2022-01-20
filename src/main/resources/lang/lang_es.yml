@@ -78,7 +78,7 @@ disabled: "deshabilitado"
 
 chatchannels:
     joined: "&C%player% &6joined the channel"
-    closed: "&6This chat channel has been closed"
+    closed: "&6This channel has been closed"
     left: "&C%player% &6left the channel"
 
 ############################################################
@@ -92,7 +92,6 @@ reports:
     chatchannel.prefix: "&4&L[&C&LReport %channelId%&4&L]"
     chatchannel.chatline: "&7%sender% &7> &f%message%"
     chatchannel.openingmessage: |
-        &6Report chat channel opened
         &6You are in direct contact with a staffmember
         &6Type "/rc %channelId% <message>" to send messages on this channel
     reporter.report-created: "&bHas reportado a &7%culprit%. &bRazón: &7%reason%&b."
@@ -248,6 +247,12 @@ freeze-logout: "&7%player% &b¡se ha desconectado mientras estaba congelado!"
 freeze-title: "&6Has sido congelado."
 freeze-subtitle: "¡No te desconectes!"
 freeze-chat-prevented: "&bYou are not allowed to chat right now!"
+freeze-chatchannel:
+    prefix: "&4&L[&b&LFrozen chat&4&L]"
+    chatline: "&7%sender% &7> &f%message%"
+    openingmessage: |
+        &6You are in direct contact with a staffmember
+        &6Type "/fc <message>" to send messages on this channel
 
 cps-start: "&bEjecutando un test de CPS en &7%target% &bdurante &7%seconds% &bsegundos..."
 cps-finish-normal: "&7%player% &btiene cerca de &7%cps% &bCPS. &7(probablemente no peligroso)"
