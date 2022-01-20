@@ -30,7 +30,7 @@ public class FreezeListener implements Listener {
         if (freezeConfiguration.prompt) {
             new FreezeGui(freezeConfiguration.promptTitle).show(player);
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128));
-        } else {
+        } else if(freezeConfiguration.chatMessageEnabled) {
             messages.send(player, messages.freeze, messages.prefixGeneral);
         }
 
