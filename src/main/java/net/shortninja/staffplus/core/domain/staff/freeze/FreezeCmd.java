@@ -116,7 +116,7 @@ public class FreezeCmd extends AbstractCmd {
                 suggestions.add(ENABLED);
                 suggestions.add(DISABLED);
             }
-            suggestions.addAll(playerManager.getAllPlayerNames());
+            suggestions.addAll(playerManager.getOnlinePlayerNames());
             return suggestions.stream()
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());
@@ -124,7 +124,7 @@ public class FreezeCmd extends AbstractCmd {
 
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase(ENABLED) || args[0].equalsIgnoreCase(DISABLED)) {
-                return playerManager.getAllPlayerNames().stream()
+                return playerManager.getOnlinePlayerNames().stream()
                     .filter(s -> args[1].isEmpty() || s.contains(args[1]))
                     .collect(Collectors.toList());
             }
