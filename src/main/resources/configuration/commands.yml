@@ -138,6 +138,7 @@ bans.manage:
 
 # The command to permanently ban a player
 ban: "ban"
+bans-sync: "bans-sync"
 
 # The command to temporarily ban a player
 tempban: "tempban"
