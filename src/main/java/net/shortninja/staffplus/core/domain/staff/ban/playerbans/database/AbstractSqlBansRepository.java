@@ -77,6 +77,24 @@ public abstract class AbstractSqlBansRepository extends SqlRepository implements
     }
 
     @Override
+    public Optional<Ban> findBan(String targetName, long creationTimestamp) {
+        try (Connection sql = getConnection();
+             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE player_name = ? AND creation_timestamp = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers))) {
+            ps.setString(1, targetName);
+            ps.setLong(2, creationTimestamp);
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean first = rs.next();
+                if (first) {
+                    return Optional.of(buildBan(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public Optional<Ban> getBan(int banId) {
         try (Connection sql = getConnection();
              PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_banned_players WHERE id = ? " + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers))) {

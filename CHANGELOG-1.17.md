@@ -5,6 +5,8 @@
 ### Features
   - Add chat channels for reports
   - Add chat channels for frozen players
+  - Add ipbans-migrate command (migrate default bukkit bans to staff++)
+  - Add bans-migrate command (migrate default bukkit ipbans to staff++)
 
 ### Bugs
   - Fix potion effects not wearing off if a frozen player logs out.
