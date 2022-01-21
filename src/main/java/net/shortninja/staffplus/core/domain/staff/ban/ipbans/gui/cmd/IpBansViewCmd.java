@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
     permissions = "permissions:ipban.ban-view",
     description = "List all ip banning rules"
 )
-@IocBean(conditionalOnProperty = "ban-module.ipban.enabled=true")
+@IocBean(conditionalOnProperty = "ban-module.enabled=true && ban-module.ipban.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class IpBansViewCmd extends AbstractCmd {
 

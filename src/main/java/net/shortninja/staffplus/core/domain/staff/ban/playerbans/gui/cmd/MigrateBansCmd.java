@@ -22,27 +22,28 @@ import org.bukkit.command.CommandSender;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.NONE;
 
 @Command(
-    command = "commands:bans-sync",
-    permissions = "permissions:bans.sync",
-    description = "Synchronizes default bans to staff++ bans",
+    command = "commands:bans-migrate",
+    permissions = "permissions:bans.migrate",
+    description = "Migrates default bans to staff++ bans",
     playerRetrievalStrategy = NONE
 )
 @IocBean(conditionalOnProperty = "ban-module.enabled=true")
 @IocMultiProvider(SppCommand.class)
-public class SyncBansCmd extends AbstractCmd {
+public class MigrateBansCmd extends AbstractCmd {
 
     private final BukkitUtils bukkitUtils;
     private final BansRepository bansRepository;
     private final PlayerManager playerManager;
 
-    public SyncBansCmd(PermissionHandler permissionHandler,
-                       Messages messages,
-                       BukkitUtils bukkitUtils,
-                       CommandService commandService, BansRepository bansRepository, PlayerManager playerManager) {
+    public MigrateBansCmd(PermissionHandler permissionHandler,
+                          Messages messages,
+                          BukkitUtils bukkitUtils,
+                          CommandService commandService, BansRepository bansRepository, PlayerManager playerManager) {
         super(messages, permissionHandler, commandService);
         this.bukkitUtils = bukkitUtils;
         this.bansRepository = bansRepository;
@@ -55,16 +56,25 @@ public class SyncBansCmd extends AbstractCmd {
 
         Set<BanEntry> banEntries = banList.getBanEntries();
         bukkitUtils.runTaskAsync(sender, () -> {
+            AtomicInteger count = new AtomicInteger();
             for (BanEntry banEntry : banEntries) {
-                Long duration = banEntry.getExpiration() == null ? null : banEntry.getExpiration().getTime() - banEntry.getCreated().getTime();
-                Long endDate = duration == null ? null : System.currentTimeMillis() + duration;
+                Long endDate = banEntry.getExpiration() == null ? null : banEntry.getExpiration().getTime();
 
                 Optional<SppPlayer> onOrOfflinePlayer = playerManager.getOnOrOfflinePlayer(banEntry.getTarget());
                 onOrOfflinePlayer.ifPresent(p -> {
-                    Ban ban = new Ban(banEntry.getReason(), endDate, "Console", Constants.CONSOLE_UUID, banEntry.getTarget(), p.getId(), false, null);
+                    Ban ban = new Ban(banEntry.getReason(), banEntry.getCreated().getTime(), endDate, "Console", Constants.CONSOLE_UUID, banEntry.getTarget(), p.getId(), false, null);
                     bansRepository.addBan(ban);
+                    count.getAndIncrement();
                 });
             }
+
+            bukkitUtils.runTaskLater(() -> {
+                for (BanEntry banEntry : banEntries) {
+                    banList.pardon(banEntry.getTarget());
+                }
+            });
+
+            messages.send(sender, "&C" + count.get() + " &6bans have been migrated", messages.prefixBans);
         });
         return true;
     }

@@ -32,7 +32,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPl
     usage = "[player]",
     playerRetrievalStrategy = BOTH
 )
-@IocBean(conditionalOnProperty = "ban-module.ipban.enabled=true")
+@IocBean(conditionalOnProperty = "ban-module.enabled=true && ban-module.ipban.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class IpBanCheckCmd extends AbstractCmd {
 
