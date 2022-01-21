@@ -52,6 +52,17 @@ public class IpBan implements IIpBan {
         this.issuerUuid = issuerUuid;
     }
 
+    public IpBan(String ip, long creationDate, Long endDate, String issuerName, UUID issuerUuid, String serverName, boolean silentBan, String template) {
+        this.ip = ip;
+        this.issuerName = issuerName;
+        this.serverName = serverName;
+        this.silentBan = silentBan;
+        this.template = template;
+        this.creationDate = creationDate;
+        this.endDate = endDate;
+        this.issuerUuid = issuerUuid;
+    }
+
     public IpBan(String ip, String issuerName, UUID issuerUuid, String serverName, boolean silentBan, String template) {
         this.ip = ip;
         this.issuerName = issuerName;

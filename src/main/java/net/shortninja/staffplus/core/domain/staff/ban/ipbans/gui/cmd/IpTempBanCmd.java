@@ -36,7 +36,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPl
     description = "Temporary ban an ip-address",
     usage = "[player/ip-address]"
 )
-@IocBean(conditionalOnProperty = "ban-module.ipban.enabled=true")
+@IocBean(conditionalOnProperty = "ban-module.enabled=true && ban-module.ipban.enabled=true")
 @IocMultiProvider(SppCommand.class)
 public class IpTempBanCmd extends AbstractCmd {
 
