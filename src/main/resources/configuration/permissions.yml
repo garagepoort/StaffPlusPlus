@@ -236,7 +236,7 @@ unban: "staff.bans.unban"
 ban-bypass: "staff.bans.ban-bypass"
 ban-notifications: "staff.bans.ban-notifications"
 bans:
-    sync: "staff.bans.sync"
+    migrate: "staff.bans.migrate"
     appeals:
         view: "staff.bans.appeals.view"
         create: "staff.bans.appeals.create"
@@ -258,6 +258,7 @@ ipban:
     ban-silent: "staff.ipban.ban-silent"
     ban-template-overwrite: "staff.ipban.ban-template-overwrite"
     ban-notifications: "staff.ipban.ban-notifications"
+    migrate: "staff.ipban.migrate"
 
 ########################
 # IP

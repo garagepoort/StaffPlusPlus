@@ -70,6 +70,18 @@ public class Ban implements IBan, Infraction, Evidence {
         this.appeal = appeal;
     }
 
+    public Ban(String reason, Long creationDate, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan, String template) {
+        this.reason = reason;
+        this.targetName = targetName;
+        this.issuerName = issuerName;
+        this.silentBan = silentBan;
+        this.template = template;
+        this.creationDate = creationDate;
+        this.endDate = endDate;
+        this.targetUuid = targetUuid;
+        this.issuerUuid = issuerUuid;
+    }
+
     public Ban(String reason, Long endDate, String issuerName, UUID issuerUuid, String targetName, UUID targetUuid, boolean silentBan, String template) {
         this.reason = reason;
         this.targetName = targetName;
