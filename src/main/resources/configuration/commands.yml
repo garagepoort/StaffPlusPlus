@@ -138,7 +138,7 @@ bans.manage:
 
 # The command to permanently ban a player
 ban: "ban"
-bans-sync: "bans-sync"
+bans-migrate: "bans-migrate"
 
 # The command to temporarily ban a player
 tempban: "tempban"
@@ -188,6 +188,7 @@ ipban:
     unban: "ipunban"
     bancheck: "ipban-check"
     ipbans: "ipbans"
+    migrate: "ipbans-migrate"
 
 ips:
     clear-ips: "clear-ips"
