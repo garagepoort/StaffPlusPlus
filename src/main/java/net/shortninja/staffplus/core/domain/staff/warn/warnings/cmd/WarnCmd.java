@@ -11,6 +11,7 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
@@ -46,18 +47,20 @@ public class WarnCmd extends AbstractCmd {
     private final WarnService warnService;
     private final PlayerManager playerManager;
     private final PermissionHandler permissionHandler;
+    private final BukkitUtils bukkitUtils;
 
     public WarnCmd(Messages messages,
                    WarningConfiguration warningConfiguration,
                    WarnService warnService,
                    CommandService commandService,
                    PlayerManager playerManager,
-                   PermissionHandler permissionHandler) {
+                   PermissionHandler permissionHandler, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.warningConfiguration = warningConfiguration;
         this.warnService = warnService;
         this.playerManager = playerManager;
         this.permissionHandler = permissionHandler;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @Override
@@ -73,10 +76,12 @@ public class WarnCmd extends AbstractCmd {
         String severityLevel = args[0];
         String reason = JavaUtils.compileWords(args, 2);
 
-        WarningSeverityConfiguration severity = warningConfiguration.getSeverityConfiguration(severityLevel)
-            .orElseThrow(() -> new BusinessException("&CCannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
+        bukkitUtils.runTaskAsync(sender, () -> {
+            WarningSeverityConfiguration severity = warningConfiguration.getSeverityConfiguration(severityLevel)
+                .orElseThrow(() -> new BusinessException("&CCannot find severity level: [" + severityLevel + "]", messages.prefixWarnings));
 
-        warnService.sendWarning(sender, player, reason, severity);
+            warnService.sendWarning(sender, player, reason, severity);
+        });
         return true;
     }
 
@@ -92,7 +97,7 @@ public class WarnCmd extends AbstractCmd {
             return 2;
         }
 
-        if(args.length == 0) {
+        if (args.length == 0) {
             return 3;
         }
 
