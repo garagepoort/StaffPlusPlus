@@ -5,10 +5,10 @@ import java.util.Optional;
 public class StaffChatChannelConfiguration {
 
     private final String name;
-    private String command;
-    private String permission;
-    private String handle;
-    private String prefix;
+    private final String command;
+    private final String permission;
+    private final String handle;
+    private final String prefix;
     private final String messageFormat;
 
     public StaffChatChannelConfiguration(String name, String command, String permission, String handle, String prefix, String messageFormat) {
