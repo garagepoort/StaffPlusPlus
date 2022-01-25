@@ -11,5 +11,9 @@
         onLeftClick="manage-bans/view/detail?banId=${ban.id}&backAction=${URLEncoder.encode(currentAction)}"/>
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" page=page />
+    <#if backAction??>
+        <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction}" page=page />
+    <#else>
+        <@commons.pageFooter currentAction="${currentAction}" page=page />
+    </#if>
 </TubingGui>
