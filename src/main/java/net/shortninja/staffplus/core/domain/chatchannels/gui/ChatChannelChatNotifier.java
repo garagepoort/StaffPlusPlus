@@ -4,6 +4,8 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.ChatChannelMessageBungee;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.ChatChannelMessageReceivedBungeeEvent;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelClosedEvent;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelCreatedEvent;
@@ -17,6 +19,8 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @IocBean
@@ -47,7 +51,19 @@ public class ChatChannelChatNotifier implements Listener {
             .replace("%sender%", event.getSender().getUsername())
             .replace("%channelId%", channel.getChannelId());
 
-        sendToAllMembers(chatChannelLine, channel);
+        sendToAllMembers(chatChannelLine, channel.getMembers(), channel.getPrefix(), channel.getChannelId());
+    }
+
+    @EventHandler
+    public void notifyMessageSendOnChannelBungee(ChatChannelMessageReceivedBungeeEvent event) {
+        ChatChannelMessageBungee channel = event.getChatChannelMessageBungee();
+
+        String chatChannelLine = channel.getLine()
+            .replace("%message%", channel.getMessage())
+            .replace("%sender%", channel.getSenderName())
+            .replace("%channelId%", channel.getChannelId());
+
+        sendToAllMembers(chatChannelLine, channel.getMembers(), channel.getPrefix(), channel.getChannelId());
     }
 
     @EventHandler
@@ -55,17 +71,17 @@ public class ChatChannelChatNotifier implements Listener {
         String openingMessage = event.getOpeningMessage()
             .replace("%channelId%", event.getChannel().getChannelId());
 
-        sendToAllMembers(openingMessage, event.getChannel());
+        sendToAllMembers(openingMessage, event.getChannel().getMembers(), event.getChannel().getPrefix(), event.getChannel().getChannelId());
     }
 
     @EventHandler
     public void notifyPlayerClosedChannel(ChatChannelClosedEvent event) {
-        sendToAllMembers(chatChannelClosed, event.getChannel());
+        sendToAllMembers(chatChannelClosed, event.getChannel().getMembers(), event.getChannel().getPrefix(), event.getChannel().getChannelId());
     }
 
     @EventHandler
     public void notifyPlayerJoinedChannel(ChatChannelPlayerJoinedEvent event) {
-        sendToAllMembers(chatChannelJoined.replace("%player%", event.getPlayer().getUsername()), event.getChannel());
+        sendToAllMembers(chatChannelJoined.replace("%player%", event.getPlayer().getUsername()), event.getChannel().getMembers(), event.getChannel().getPrefix(), event.getChannel().getChannelId());
     }
 
     @EventHandler
@@ -77,16 +93,16 @@ public class ChatChannelChatNotifier implements Listener {
                 .replace("%channelId%", channel.getChannelId());
             messages.send(event.getPlayer().getPlayer(), chatChannelLeft.replace("%player%", event.getPlayer().getUsername()), chatChannelPrefix);
         }
-        sendToAllMembers(chatChannelLeft.replace("%player%", event.getPlayer().getUsername()), channel);
+        sendToAllMembers(chatChannelLeft.replace("%player%", event.getPlayer().getUsername()), channel.getMembers(), channel.getPrefix(), channel.getChannelId());
     }
 
-    private void sendToAllMembers(String message, IChatChannel channel) {
-        List<Player> players = channel.getMembers().stream().map(playerManager::getOnlinePlayer)
+    private void sendToAllMembers(String message, Set<UUID> members, String prefix, String channelId) {
+        List<Player> players = members.stream().map(playerManager::getOnlinePlayer)
             .filter(Optional::isPresent)
             .map(p -> p.get().getPlayer())
             .collect(Collectors.toList());
-        String chatChannelPrefix = channel.getPrefix()
-            .replace("%channelId%", channel.getChannelId());
+        String chatChannelPrefix = prefix
+            .replace("%channelId%", channelId);
         messages.send(players, message, chatChannelPrefix);
     }
 }
