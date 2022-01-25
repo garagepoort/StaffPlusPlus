@@ -10,6 +10,8 @@
 
 ### Bugs
   - Fix potion effects not wearing off if a frozen player logs out.
+  - Fix no back button on the ban overview when coming from the hub GUI
+  - Fix performance issue warn command
 
 # V1.18.7
 
