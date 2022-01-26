@@ -526,6 +526,7 @@ freeze-module:
         enabled: false
     chat: false
     damage: false
+    blindness: false
     timer: 5
     sound: ORB_PICKUP
     prompt: false
