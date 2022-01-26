@@ -20,6 +20,8 @@ public class FreezeConfiguration {
     public boolean chat;
     @ConfigProperty("freeze-module.damage")
     public boolean damage;
+    @ConfigProperty("freeze-module.blindness")
+    public boolean blindness;
     @ConfigProperty("freeze-module.timer")
     public int timer;
     @ConfigProperty("freeze-module.sound")
