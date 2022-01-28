@@ -211,6 +211,7 @@ ticket-list-end: '&7%longline%'
 alert-changed: '&7%alerttype% &7%status%&b.'
 alerts-name: '&7%old% &bmengganti nama Dia menjadi &7%new%&b!'
 alerts-chat-phrase-detected: '&7%target% &bmengirimkan pesan dengan kata (&7%detectedPhrases%&b)'
+alerts-command-detected: "&7%target% &bhas tried executing the command (&7%command%&b)"
 alerts-mention: '&7%target% &bmenandai Anda!'
 alerts-xray: '&7%target% &btelah menambang &7%count% %itemtype%&b! &7(%lightlevel%&7)'
 

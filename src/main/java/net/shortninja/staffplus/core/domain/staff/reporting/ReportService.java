@@ -19,6 +19,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.database.ReportRepos
 import net.shortninja.staffplusplus.reports.CreateReportEvent;
 import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
+import net.shortninja.staffplusplus.session.SppInteractor;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -74,14 +75,14 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
         return reportRepository.getReports(user.getId(), offset, amount);
     }
 
-    public void sendReport(Player player, SppPlayer user, String reason) {
+    public void sendReport(SppInteractor player, SppPlayer user, String reason) {
         sendReport(player, user, reason, null);
     }
 
-    public void sendReport(Player player, SppPlayer user, String reason, String type) {
+    public void sendReport(SppInteractor sppInteractor, SppPlayer user, String reason, String type) {
         // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
         if (user.isOnline() && permission.has(user.getPlayer(), permissionReportBypass)) {
-            messages.send(player, messages.bypassed, messages.prefixGeneral);
+            messages.send(sppInteractor, messages.bypassed, messages.prefixGeneral);
             return;
         }
 
@@ -89,11 +90,11 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
             user.getId(),
             user.getUsername(),
             reason,
-            player.getName(),
-            player.getUniqueId(),
+            sppInteractor.getUsername(),
+            sppInteractor.getId(),
             ReportStatus.OPEN,
             ZonedDateTime.now(),
-            player.getLocation(),
+            sppInteractor.isPlayer() ? ((Player)sppInteractor.getCommandSender().get()).getLocation() : null,
             type,
             options.serverName);
 
@@ -102,20 +103,20 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
         sendEvent(new CreateReportEvent(report));
     }
 
-    public void sendReport(Player player, String reason) {
+    public void sendReport(SppInteractor player, String reason) {
         sendReport(player, reason, null);
     }
 
-    public void sendReport(Player player, String reason, String type) {
+    public void sendReport(SppInteractor sppInteractor, String reason, String type) {
         Report report = new Report(
             null,
             null,
             reason,
-            player.getName(),
-            player.getUniqueId(),
+            sppInteractor.getUsername(),
+            sppInteractor.getId(),
             ReportStatus.OPEN,
             ZonedDateTime.now(),
-            player.getLocation(),
+            sppInteractor.isPlayer() ? ((Player)sppInteractor.getCommandSender().get()).getLocation() : null,
             type,
             options.serverName);
 

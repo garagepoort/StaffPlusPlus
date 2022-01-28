@@ -19,6 +19,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
+
 @IocBean(conditionalOnProperty = "reports-module.chatchannels.enabled=true")
 @IocListener
 public class ReportChatChannelListener implements Listener {
@@ -43,6 +45,10 @@ public class ReportChatChannelListener implements Listener {
     public void onReportAccepted(AcceptReportEvent reportEvent) {
         bukkitUtils.runTaskAsync(() -> {
             IReport report = reportEvent.getReport();
+            if (report.getReporterUuid().equals(CONSOLE_UUID)) {
+                return;
+            }
+
             Set<UUID> members = new HashSet<>();
             members.add(report.getReporterUuid());
             members.add(report.getStaffUuid());
@@ -62,6 +68,9 @@ public class ReportChatChannelListener implements Listener {
 
     @EventHandler
     public void onReportClosed(ResolveReportEvent reportEvent) {
+        if (reportEvent.getReport().getReporterUuid().equals(CONSOLE_UUID)) {
+            return;
+        }
         bukkitUtils.runTaskAsync(() -> chatChannelService.closeChannel(
             String.valueOf(reportEvent.getReport().getId()),
             ChatChannelType.REPORT));
@@ -69,6 +78,9 @@ public class ReportChatChannelListener implements Listener {
 
     @EventHandler
     public void onReportClosed(RejectReportEvent reportEvent) {
+        if (reportEvent.getReport().getReporterUuid().equals(CONSOLE_UUID)) {
+            return;
+        }
         bukkitUtils.runTaskAsync(() -> chatChannelService.closeChannel(
             String.valueOf(reportEvent.getReport().getId()),
             ChatChannelType.REPORT));
