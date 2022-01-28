@@ -51,7 +51,7 @@ public class PhraseDetectionChatInterceptor implements ChatInterceptor {
                 .collect(Collectors.toList());
 
             if (!phrases.isEmpty()) {
-                executeActions(event.getPlayer(), detectionPhrase.commands);
+                executeActions(event.getPlayer(), detectionPhrase.actions, phrases);
             }
 
             detectedPhrases.addAll(phrases);
@@ -63,10 +63,11 @@ public class PhraseDetectionChatInterceptor implements ChatInterceptor {
         return false;
     }
 
-    private void executeActions(Player player, List<ConfiguredCommand> commands) {
+    private void executeActions(Player player, List<ConfiguredCommand> commands, List<String> detectedPhrases) {
         bukkitUtils.runTaskAsync(() -> {
             Map<String, String> placeholders = new HashMap<>();
             placeholders.put("%player%", player.getName());
+            placeholders.put("%phrases%", String.join(",", detectedPhrases));
 
             Map<String, OfflinePlayer> targets = new HashMap<>();
             targets.put("player", player);
