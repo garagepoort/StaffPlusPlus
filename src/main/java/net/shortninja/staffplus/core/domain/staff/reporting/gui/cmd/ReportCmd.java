@@ -9,7 +9,6 @@ import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
@@ -26,6 +25,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static net.shortninja.staffplus.core.application.SppInteractorBuilder.fromSender;
 
 @Command(
     command = "commands:report",
@@ -59,14 +60,10 @@ public class ReportCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        if (!(sender instanceof Player)) {
-            throw new BusinessException(messages.onlyPlayers);
-        }
-
         String reason = options.reportConfiguration.isFixedReason() ? null : JavaUtils.compileWords(args, 0);
 
         if (reportTypeConfigurations.isEmpty() && reportReasonConfigurations.isEmpty()) {
-            bukkitUtils.runTaskAsync(sender, () -> reportService.sendReport((Player) sender, reason));
+            bukkitUtils.runTaskAsync(sender, () -> reportService.sendReport(fromSender(sender), reason));
             return true;
         }
 

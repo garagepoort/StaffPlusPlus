@@ -7,6 +7,7 @@ import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.Strings;
+import net.shortninja.staffplusplus.session.SppInteractor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -205,6 +206,8 @@ public class Messages {
     public String alertsName;
     @ConfigProperty("%lang%:alerts-chat-phrase-detected")
     public String alertsChatPhraseDetected;
+    @ConfigProperty("%lang%:alerts-command-detected")
+    public String alertsCommandDetected;
     @ConfigProperty("%lang%:alerts-mention")
     public String alertsMention;
     @ConfigProperty("%lang%:alerts-xray")
@@ -421,6 +424,10 @@ public class Messages {
 
     public String parse(Player player, String message) {
         return colorize(placeholderService.setPlaceholders(player, message));
+    }
+
+    public void send(SppInteractor sppInteractor, String message, String prefix) {
+        sppInteractor.getCommandSender().ifPresent(s -> send(s, message, prefix));
     }
 
     public void send(CommandSender sender, String message, String prefix) {
