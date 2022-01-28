@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import static net.shortninja.staffplus.core.application.SppInteractorBuilder.fromSender;
+
 public class SelectReportReasonAction implements IAction {
     private final ReportReasonConfiguration reportReasonConfiguration;
     private final Player staff;
@@ -29,9 +31,9 @@ public class SelectReportReasonAction implements IAction {
     @Override
     public void click(Player player, ItemStack item, int slot, ClickType clickType) {
         if (targetPlayer == null) {
-            bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(staff, reportReasonConfiguration.getReason(), reportType));
+            bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(fromSender(staff), reportReasonConfiguration.getReason(), reportType));
         } else {
-            bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(staff, targetPlayer, reportReasonConfiguration.getReason(), reportType));
+            bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(fromSender(staff), targetPlayer, reportReasonConfiguration.getReason(), reportType));
         }
     }
 

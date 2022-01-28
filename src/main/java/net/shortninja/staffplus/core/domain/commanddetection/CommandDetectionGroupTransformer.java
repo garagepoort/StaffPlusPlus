@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.chat.configuration;
+package net.shortninja.staffplus.core.domain.commanddetection;
 
 import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import net.shortninja.staffplus.core.domain.actions.config.ActionConfigLoader;
@@ -8,17 +8,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ChatPhraseDetectionGroupTransformer implements IConfigTransformer<List<PhraseDetectionGroupConfiguration>, List<LinkedHashMap<String, Object>>> {
+public class CommandDetectionGroupTransformer implements IConfigTransformer<List<CommandDetectionGroupConfiguration>, List<LinkedHashMap<String, Object>>> {
 
     public String permission;
     public String message;
 
     @Override
-    public List<PhraseDetectionGroupConfiguration> mapConfig(List<LinkedHashMap<String, Object>> list) {
+    public List<CommandDetectionGroupConfiguration> mapConfig(List<LinkedHashMap<String, Object>> list) {
         return list.stream().map(map -> {
-            List<String> phrases = (List<String>) map.get("phrases");
+            List<String> phrases = (List<String>) map.get("commands");
             List<ConfiguredCommand> actions = ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) map.get("actions"));
-            return new PhraseDetectionGroupConfiguration(phrases, actions);
+            return new CommandDetectionGroupConfiguration(phrases, actions);
         }).collect(Collectors.toList());
     }
 }
