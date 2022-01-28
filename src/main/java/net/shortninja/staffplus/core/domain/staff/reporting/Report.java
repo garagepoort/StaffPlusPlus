@@ -70,7 +70,9 @@ public class Report implements IReport, Infraction, Evidence {
         this.location = location;
         this.type = type;
         this.serverName = serverName;
-        this.sppLocation = new SppLocation(location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), serverName);
+        if (location != null) {
+            this.sppLocation = new SppLocation(location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), serverName);
+        }
     }
 
     public void setId(int id) {
@@ -130,7 +132,6 @@ public class Report implements IReport, Infraction, Evidence {
     public void setReportStatus(ReportStatus reportStatus) {
         this.reportStatus = reportStatus;
     }
-
 
     public UUID getStaffUuid() {
         return staffUuid;
