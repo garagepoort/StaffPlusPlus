@@ -155,6 +155,10 @@ alerts-alt-detect: "staff.alerts.alt-detects"
 alerts-chat-phrase-detection: "staff.alerts.chat-phrase-detection"
 # Permission for bypassing chat word mentions alerts.
 alerts-chat-phrase-detection-bypass: "staff.alerts.chat-phrase-detection.bypass"
+# Permission for receiving chat word mentions alerts.
+alerts-command-detection: "staff.alerts.command-detection"
+# Permission for bypassing chat word mentions alerts.
+alerts-command-detection-bypass: "staff.alerts.command-detection.bypass"
 
 ########################
 # MODE

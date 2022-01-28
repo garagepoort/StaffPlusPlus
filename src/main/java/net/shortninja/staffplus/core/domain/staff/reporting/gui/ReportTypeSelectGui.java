@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+import static net.shortninja.staffplus.core.application.SppInteractorBuilder.fromSender;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getInventorySize;
 
 public class ReportTypeSelectGui extends AbstractGui {
@@ -66,9 +67,9 @@ public class ReportTypeSelectGui extends AbstractGui {
                     new ReportReasonSelectGui(staff, targetPlayer, reportType, reportReasonConfigurations).show(staff);
                 } else {
                     if (targetPlayer == null) {
-                        bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(staff, reason, reportType));
+                        bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(fromSender(staff), reason, reportType));
                     } else {
-                        bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(staff, targetPlayer, reason, reportType));
+                        bukkitUtils.runTaskAsync(player, () -> reportService.sendReport(fromSender(staff), targetPlayer, reason, reportType));
                     }
                 }
             }
