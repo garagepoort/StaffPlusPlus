@@ -27,7 +27,7 @@ public class MysqlReportRepository extends AbstractSqlReportRepository {
 
     @Override
     public int addReport(Report report) {
-        int locationId = locationRepository.addLocation(report.getLocation().get());
+        Integer locationId = report.getLocation().isPresent() ? locationRepository.addLocation(report.getLocation().get()) : null;
         try (Connection sql = getConnection();
              PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_reports(Reason, Reporter_UUID, reporter_name, Player_UUID, player_name, status, timestamp, server_name, location_id, type) " +
                  "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
@@ -39,7 +39,11 @@ public class MysqlReportRepository extends AbstractSqlReportRepository {
             insert.setString(6, report.getReportStatus().toString());
             insert.setLong(7, report.getCreationDate().toInstant().toEpochMilli());
             insert.setString(8, options.serverName);
-            insert.setInt(9, locationId);
+            if (locationId != null) {
+                insert.setInt(9, locationId);
+            } else {
+                insert.setNull(9, Types.INTEGER);
+            }
             if (report.getReportType().isPresent()) {
                 insert.setString(10, report.getReportType().get());
             } else {

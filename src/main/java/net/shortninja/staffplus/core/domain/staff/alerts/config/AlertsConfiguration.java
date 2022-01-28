@@ -24,6 +24,8 @@ public class AlertsConfiguration {
     public boolean alertsAltDetectEnabled;
     @ConfigProperty("alerts-module.chat-phrase-detection")
     public boolean alertsChatPhraseDetectionEnabled;
+    @ConfigProperty("alerts-module.command-detection")
+    public boolean alertsCommandDetectionEnabled;
     @ConfigProperty("alerts-module.alt-detect-notify.trust-levels")
     @ConfigTransformer(AltDetectTrustLevelConfigTransformer.class)
     public List<AltDetectTrustLevel> alertsAltDetectTrustLevels;
@@ -44,9 +46,11 @@ public class AlertsConfiguration {
     public String permissionChatPhraseDetection;
     @ConfigProperty("permissions:alerts-chat-phrase-detection-bypass")
     public String permissionChatPhraseDetectionBypass;
+    @ConfigProperty("permissions:alerts-command-detection")
+    public String permissionCommandDetection;
+    @ConfigProperty("permissions:alerts-command-detection-bypass")
+    public String permissionCommandDetectionBypass;
 
-    @ConfigProperty("commands:alerts")
-    public String commandAlerts;
     @ConfigProperty("alerts-module.sound")
     @ConfigTransformer(SoundsConfigTransformer.class)
     public Sounds alertsSound;
@@ -69,6 +73,8 @@ public class AlertsConfiguration {
                 return permissionNameChange;
             case CHAT_PHRASE_DETECTION:
                 return permissionChatPhraseDetection;
+            case COMMAND_DETECTION:
+                return permissionCommandDetection;
             default:
                 throw new BusinessException("&CUnsupported alertType [" + alertType + "]");
         }
