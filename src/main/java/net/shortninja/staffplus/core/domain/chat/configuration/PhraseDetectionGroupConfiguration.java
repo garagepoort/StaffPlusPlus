@@ -7,10 +7,10 @@ import java.util.List;
 public class PhraseDetectionGroupConfiguration {
 
     public final List<String> phrases;
-    public final List<ConfiguredCommand> commands;
+    public final List<ConfiguredCommand> actions;
 
-    public PhraseDetectionGroupConfiguration(List<String> phrases, List<ConfiguredCommand> commands) {
+    public PhraseDetectionGroupConfiguration(List<String> phrases, List<ConfiguredCommand> actions) {
         this.phrases = phrases;
-        this.commands = commands;
+        this.actions = actions;
     }
 }

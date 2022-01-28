@@ -248,7 +248,7 @@ chat-module:
       - phrases:
             - admin
             - mod
-        commands: []
+        actions: []
 
   # All word blacklist options.
   # Leave any of the lists below blank to disable them!
@@ -311,7 +311,7 @@ broadcast-module:
 
 ############################################################
 # +------------------------------------------------------+ #
-# |                      BANNING                       | #
+# |                     INFRACTIONS                      | #
 # +------------------------------------------------------+ #
 ############################################################
 
@@ -446,6 +446,10 @@ alerts-module:
   chat-phrase-detection: true
   chat-phrase-detection-console: false
 
+  # Whether or not staff will be notified when the command-detection gets triggered.
+  command-detection: true
+  command-detection-console: false
+
   # The sound that is played to staff when notified.
   sound: ORB_PICKUP
 
@@ -464,6 +468,14 @@ alerts-module:
       # POSITIVE;FAIRLY_POSITIVE;POSSIBLE;NOT_LIKELY
       trust-levels: FAIRLY_POSITIVE;POSITIVE
 
+command-detection:
+    enabled: true
+    command-groups:
+        - commands:
+            - op
+            - deop
+            - lp
+          actions: []
 ############################################################
 # +------------------------------------------------------+ #
 # |                       TRACE                          | #
