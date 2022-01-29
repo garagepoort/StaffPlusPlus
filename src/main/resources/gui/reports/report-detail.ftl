@@ -80,6 +80,28 @@
         </Lore>
     </GuiItem>
 
+    <#if channelPresent && report.reportStatus.name() == 'IN_PROGRESS' && $permissions.has(player, $config.get("permissions:chatchannels.join") + ".report")>
+        <GuiItem slot="1"
+                 id="join-chatchannel-report"
+                 material="WRITTEN_BOOK"
+                 onLeftClick="manage-reports/join-chatchannel?reportId=${report.id}">
+            <name class="item-name"><@translate key="gui.reports.detail.join-chatchannel.title"/></name>
+            <Lore>
+                <LoreLine><@translate key="gui.reports.detail.join-chatchannel.lore"/></LoreLine>
+            </Lore>
+        </GuiItem>
+    </#if>
+    <#if channelPresent && report.reportStatus.name() == 'IN_PROGRESS' && $permissions.has(player, $config.get("permissions:chatchannels.leave") + ".report")>
+        <GuiItem slot="1"
+                 id="leave-chatchannel-report"
+                 material="BOOK"
+                 onLeftClick="manage-reports/leave-chatchannel?reportId=${report.id}">
+            <name class="item-name"><@translate key="gui.reports.detail.leave-chatchannel.title"/></name>
+            <Lore>
+                <LoreLine><@translate key="gui.reports.detail.leave-chatchannel.lore"/></LoreLine>
+            </Lore>
+        </GuiItem>
+    </#if>
     <@evidenceCommons.evidenceButton slot=14 evidence=report backAction=currentAction />
     <@commons.backButton action=backAction/>
 </TubingGui>

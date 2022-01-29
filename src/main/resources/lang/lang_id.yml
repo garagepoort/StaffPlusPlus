@@ -450,3 +450,9 @@ gui:
             teleport:
                 title: "Teleport"
                 lore: "Click to teleport to where this report was created"
+            join-chatchannel:
+                title: "Join chat channel"
+                lore: "Join the chat channel of this report"
+            leave-chatchannel:
+                title: "Leave chat channel"
+                lore: "Leave the chat channel of this report"

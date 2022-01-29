@@ -27,7 +27,6 @@ public class SelectReportReasonAction implements IAction {
         this.reportType = reportType == null ? reportReasonConfiguration.getReportType().orElse(null) : reportType;
     }
 
-
     @Override
     public void click(Player player, ItemStack item, int slot, ClickType clickType) {
         if (targetPlayer == null) {
