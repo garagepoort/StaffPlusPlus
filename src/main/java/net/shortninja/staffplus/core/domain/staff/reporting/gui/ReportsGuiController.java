@@ -15,13 +15,16 @@ import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.chatchannels.ChatChannel;
+import net.shortninja.staffplus.core.domain.chatchannels.ChatChannelService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
-import net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd.ReportFiltersMapper;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
+import net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd.ReportFiltersMapper;
+import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -29,6 +32,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
@@ -60,6 +64,7 @@ public class ReportsGuiController {
     private final OnlineSessionsManager sessionManager;
     private final ReportFiltersMapper reportFiltersMapper;
     private final PlayerManager playerManager;
+    private final ChatChannelService chatChannelService;
 
     public ReportsGuiController(PermissionHandler permissionHandler,
                                 ManageReportConfiguration manageReportConfiguration,
@@ -68,7 +73,7 @@ public class ReportsGuiController {
                                 BukkitUtils bukkitUtils, Messages messages,
                                 ManageReportService manageReportService,
                                 OnlineSessionsManager sessionManager,
-                                ReportFiltersMapper reportFiltersMapper, PlayerManager playerManager) {
+                                ReportFiltersMapper reportFiltersMapper, PlayerManager playerManager, ChatChannelService chatChannelService) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
         this.reportService = reportService;
@@ -80,6 +85,7 @@ public class ReportsGuiController {
         this.sessionManager = sessionManager;
         this.reportFiltersMapper = reportFiltersMapper;
         this.playerManager = playerManager;
+        this.chatChannelService = chatChannelService;
     }
 
     @GuiAction("manage-reports/view/overview")
@@ -120,6 +126,9 @@ public class ReportsGuiController {
             Map<String, Object> params = new HashMap<>();
             params.put("player", player);
             params.put("report", reportService.getReport(reportId));
+            Optional<ChatChannel> channel = chatChannelService.findChannel(String.valueOf(reportId), ChatChannelType.REPORT);
+            params.put("channelPresent", channel.isPresent());
+            params.put("isMemberOfChannel", channel.isPresent() && channel.get().getMembers().contains(player.getUniqueId()));
 
             return template("gui/reports/report-detail.ftl", params);
         });
@@ -204,6 +213,17 @@ public class ReportsGuiController {
         } else {
             messages.send(player, "&cLocation not known for this report.", messages.prefixReports);
         }
+    }
+
+    @GuiAction("manage-reports/join-chatchannel")
+    public void joinChatChannel(Player player,
+                                 @GuiParam("reportId") int reportId) {
+        bukkitUtils.runTaskAsync(player, () -> {
+            SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+                .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+
+            chatChannelService.joinChannel(sppPlayer, String.valueOf(reportId), ChatChannelType.REPORT);
+        });
     }
 
     @GuiAction("manage-reports/reject")
