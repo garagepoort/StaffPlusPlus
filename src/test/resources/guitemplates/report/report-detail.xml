@@ -1,6 +1,5 @@
 <TubingGui size="54" id="report-detail">
     <title class="gui-title">Report by: reporterName</title>
-
     <GuiItem id="report-info" class="report-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PAPER">
         <name class="item-name" color="&amp;5">
             Report        </name>
@@ -9,17 +8,14 @@
                 <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
                 <t color="&amp;7" id="id-value" class="detail-value">12</t>
             </LoreLine>
-
             <LoreLine>
                 <t color="&amp;b" id="status-label" class="detail-label">Status: </t>
                 <t color="&amp;7" id="status-value" class="detail-value">IN_PROGRESS</t>
             </LoreLine>
-
             <LoreLine>
                 <t color="&amp;b" id="server-label" class="detail-label">Server: </t>
                 <t color="&amp;7" id="server-value" class="detail-value">server</t>
             </LoreLine>
-
             <LoreLine>
                 <t color="&amp;b" id="type-label" class="detail-label">Type: </t>
                 <t color="&amp;7" id="type-value" class="detail-value">type</t>
@@ -28,32 +24,25 @@
                 <t color="&amp;b" id="assignee-label" class="detail-label">Assignee: </t>
                 <t color="&amp;7" id="assignee-value" class="detail-value">staffName</t>
             </LoreLine>
-
             <LoreLine>
                 <t color="&amp;b" id="culprit-label" class="detail-label">Culprit: </t>
                 <t color="&amp;7" id="culprit-value" class="detail-value">culpritName</t>
             </LoreLine>
-
             <LoreLine>
                 <t color="&amp;b" id="timestamp-label" class="detail-label">Timestamp: </t>
-                <t color="&amp;7" id="timestamp-value" class="detail-value">01/01/1970-00:20:34</t>
+                <t color="&amp;7" id="timestamp-value" class="detail-value">01/01/1970-01:20:34</t>
             </LoreLine>
-
             <LoreLine>
                 <t color="&amp;b" id="reporter-label" class="detail-label">Reporter: </t>
                 <t color="&amp;7" id="reporter-value" class="detail-value">reporterName</t>
             </LoreLine>
-
             <LoreLine>
                 <t color="&amp;b" id="reason-label" class="detail-label">Reason:</t>
             </LoreLine>
             <LoreLine>
                 <t color="&amp;7" id="reason-value" class="detail-value">   reason</t>
             </LoreLine>
-
             <LoreLine><t></t></LoreLine>
-
-
             <LoreLine><t></t></LoreLine>
             <LoreLine>
                 <t color="&amp;b" id="location-label" class="detail-label">Location: </t>
@@ -61,28 +50,21 @@
                 <t color="&amp;8" id="location-separator" class="detail-value">| </t>
                 <t color="&amp;7" id="location-block-value" class="detail-value">4.0, 5.0, 6.0</t>
             </LoreLine>
-
         </Lore>
     </GuiItem>
-
-
-
-
-
-    <GuiItem slot="0" id="teleport" permission="staff.reports.manage.teleport" material="ORANGE_STAINED_GLASS_PANE" class="report-teleport" onLeftClick="manage-reports/teleport?reportId=12">
+    <GuiItem slot="0" id="teleport" permission="staff.reports.manage.teleport" material="ORANGE_GLAZED_TERRACOTTA" class="report-teleport" onLeftClick="manage-reports/teleport?reportId=12">
         <name class="item-name">Teleport</name>
         <Lore>
             <LoreLine>Click to teleport to where this report was created</LoreLine>
         </Lore>
     </GuiItem>
-
     <GuiItem slot="1" id="join-chatchannel-report" material="WRITTEN_BOOK" onLeftClick="manage-reports/join-chatchannel?reportId=12">
         <name class="item-name">Join chat channel</name>
         <Lore>
             <LoreLine>Join the chat channel of this report</LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="back" material="SPRUCE_DOOR">
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="back" material="IRON_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>
