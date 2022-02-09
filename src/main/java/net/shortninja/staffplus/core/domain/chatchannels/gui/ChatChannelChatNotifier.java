@@ -4,8 +4,15 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.domain.chatchannels.bungee.ChatChannelMessageBungee;
-import net.shortninja.staffplus.core.domain.chatchannels.bungee.ChatChannelMessageReceivedBungeeEvent;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.dto.ChatChannelCreatedBungeeDto;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.dto.ChatChannelMessageBungeeDto;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.dto.ChatChannelPlayerJoinedBungeeDto;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.dto.ChatChannelPlayerLeftBungeeDto;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.events.ChatChannelClosedBungeeEvent;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.events.ChatChannelCreatedBungeeEvent;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.events.ChatChannelMessageReceivedBungeeEvent;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.events.ChatChannelPlayerJoinedBungeeEvent;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.events.ChatChannelPlayerLeftBungeeEvent;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelClosedEvent;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelCreatedEvent;
@@ -56,7 +63,7 @@ public class ChatChannelChatNotifier implements Listener {
 
     @EventHandler
     public void notifyMessageSendOnChannelBungee(ChatChannelMessageReceivedBungeeEvent event) {
-        ChatChannelMessageBungee channel = event.getChatChannelMessageBungee();
+        ChatChannelMessageBungeeDto channel = event.getChatChannelMessageBungee();
 
         String chatChannelLine = channel.getLine()
             .replace("%message%", channel.getMessage())
@@ -75,13 +82,41 @@ public class ChatChannelChatNotifier implements Listener {
     }
 
     @EventHandler
+    public void notifyPlayerCreatedChannelBungee(ChatChannelCreatedBungeeEvent event) {
+        ChatChannelCreatedBungeeDto channelDto = event.getChatChannelCreatedBungeeDto();
+
+        String openingMessage = channelDto.getOpeningMessage()
+            .replace("%channelId%", channelDto.getChannelId());
+
+        sendToAllMembers(openingMessage, channelDto.getMembers(), channelDto.getPrefix(), channelDto.getChannelId());
+    }
+
+    @EventHandler
     public void notifyPlayerClosedChannel(ChatChannelClosedEvent event) {
         sendToAllMembers(chatChannelClosed, event.getChannel().getMembers(), event.getChannel().getPrefix(), event.getChannel().getChannelId());
     }
 
     @EventHandler
+    public void notifyPlayerClosedChannelBungee(ChatChannelClosedBungeeEvent event) {
+        sendToAllMembers(chatChannelClosed, event.getChannel().getMembers(), event.getChannel().getPrefix(), event.getChannel().getChannelId());
+    }
+
+    @EventHandler
     public void notifyPlayerJoinedChannel(ChatChannelPlayerJoinedEvent event) {
-        sendToAllMembers(chatChannelJoined.replace("%player%", event.getPlayer().getUsername()), event.getChannel().getMembers(), event.getChannel().getPrefix(), event.getChannel().getChannelId());
+        sendToAllMembers(chatChannelJoined.replace("%player%", event.getPlayer().getUsername()),
+            event.getChannel().getMembers(),
+            event.getChannel().getPrefix(),
+            event.getChannel().getChannelId());
+    }
+
+    @EventHandler
+    public void notifyPlayerJoinedChannelBungee(ChatChannelPlayerJoinedBungeeEvent event) {
+        ChatChannelPlayerJoinedBungeeDto chatChannelPlayerJoinedBungeeDto = event.getChatChannelPlayerJoinedBungeeDto();
+
+        sendToAllMembers(chatChannelJoined.replace("%player%", chatChannelPlayerJoinedBungeeDto.getPlayerName()),
+            chatChannelPlayerJoinedBungeeDto.getMembers(),
+            chatChannelPlayerJoinedBungeeDto.getPrefix(),
+            chatChannelPlayerJoinedBungeeDto.getChannelId());
     }
 
     @EventHandler
@@ -94,6 +129,12 @@ public class ChatChannelChatNotifier implements Listener {
             messages.send(event.getPlayer().getPlayer(), chatChannelLeft.replace("%player%", event.getPlayer().getUsername()), chatChannelPrefix);
         }
         sendToAllMembers(chatChannelLeft.replace("%player%", event.getPlayer().getUsername()), channel.getMembers(), channel.getPrefix(), channel.getChannelId());
+    }
+
+    @EventHandler
+    public void notifyPlayerLeftChannelBungee(ChatChannelPlayerLeftBungeeEvent event) {
+        ChatChannelPlayerLeftBungeeDto channel = event.getChatChannelPlayerLeftBungeeDto();
+        sendToAllMembers(chatChannelLeft.replace("%player%", channel.getPlayerName()), channel.getMembers(), channel.getPrefix(), channel.getChannelId());
     }
 
     private void sendToAllMembers(String message, Set<UUID> members, String prefix, String channelId) {
