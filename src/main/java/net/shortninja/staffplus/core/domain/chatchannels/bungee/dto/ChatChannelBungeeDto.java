@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.chatchannels.bungee;
+package net.shortninja.staffplus.core.domain.chatchannels.bungee.dto;
 
 import net.shortninja.staffplus.core.common.bungee.BungeeMessage;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;

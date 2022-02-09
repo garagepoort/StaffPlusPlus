@@ -13,6 +13,7 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
+import net.shortninja.staffplus.core.domain.staff.reporting.chatchannels.ReportChatChannelService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportsGuiController;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd.ReportFiltersMapper;
@@ -35,6 +36,8 @@ import org.mockito.quality.Strictness;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -72,6 +75,8 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
     private PlayerManager playerManager;
     @Mock
     private ChatChannelService chatChannelService;
+    @Mock
+    private ReportChatChannelService reportChatChannelService;
     @Mock
     private World world;
     @Mock
@@ -115,8 +120,8 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
             onlineSessionsManager,
             reportFiltersMapper,
             playerManager,
-            chatChannelService
-        );
+            chatChannelService,
+            reportChatChannelService);
     }
 
     @Test
@@ -132,7 +137,7 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
     }
 
     private Report buildReport() {
-        return new Report(
+        Report report = new Report(
             UUID.fromString("8fc39a71-63ba-4a4b-99e8-66f5791dd377"),
             "culpritName",
             12,
@@ -146,8 +151,10 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
             null,
             "server",
             new Location(world, 4, 5, 6),
-            new SppLocation("world",4,5,6, "server"),
+            new SppLocation("world", 4, 5, 6, "server"),
             "type"
         );
+        report.setTimestamp(ZonedDateTime.of(2022, 2, 25, 14, 30, 0, 0, ZoneOffset.UTC));
+        return report;
     }
 }

@@ -8,6 +8,7 @@ import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.GuiParams;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
+import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
@@ -22,6 +23,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.CloseReportRequest;
 import net.shortninja.staffplus.core.domain.staff.reporting.ManageReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
+import net.shortninja.staffplus.core.domain.staff.reporting.chatchannels.ReportChatChannelService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd.ReportFiltersMapper;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
@@ -65,6 +67,7 @@ public class ReportsGuiController {
     private final ReportFiltersMapper reportFiltersMapper;
     private final PlayerManager playerManager;
     private final ChatChannelService chatChannelService;
+    private final ReportChatChannelService reportChatChannelService;
 
     public ReportsGuiController(PermissionHandler permissionHandler,
                                 ManageReportConfiguration manageReportConfiguration,
@@ -73,7 +76,7 @@ public class ReportsGuiController {
                                 BukkitUtils bukkitUtils, Messages messages,
                                 ManageReportService manageReportService,
                                 OnlineSessionsManager sessionManager,
-                                ReportFiltersMapper reportFiltersMapper, PlayerManager playerManager, ChatChannelService chatChannelService) {
+                                ReportFiltersMapper reportFiltersMapper, PlayerManager playerManager, ChatChannelService chatChannelService, ReportChatChannelService reportChatChannelService) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
         this.reportService = reportService;
@@ -86,6 +89,7 @@ public class ReportsGuiController {
         this.reportFiltersMapper = reportFiltersMapper;
         this.playerManager = playerManager;
         this.chatChannelService = chatChannelService;
+        this.reportChatChannelService = reportChatChannelService;
     }
 
     @GuiAction("manage-reports/view/overview")
@@ -126,6 +130,7 @@ public class ReportsGuiController {
             Map<String, Object> params = new HashMap<>();
             params.put("player", player);
             params.put("report", reportService.getReport(reportId));
+
             Optional<ChatChannel> channel = chatChannelService.findChannel(String.valueOf(reportId), ChatChannelType.REPORT);
             params.put("channelPresent", channel.isPresent());
             params.put("isMemberOfChannel", channel.isPresent() && channel.get().getMembers().contains(player.getUniqueId()));
@@ -217,12 +222,48 @@ public class ReportsGuiController {
 
     @GuiAction("manage-reports/join-chatchannel")
     public void joinChatChannel(Player player,
-                                 @GuiParam("reportId") int reportId) {
+                                @GuiParam("reportId") int reportId,
+                                @GuiParam("backAction") String backAction) {
         bukkitUtils.runTaskAsync(player, () -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             chatChannelService.joinChannel(sppPlayer, String.valueOf(reportId), ChatChannelType.REPORT);
+            StaffPlus.get().getLogger().info("Backaction: " + backAction);
+        });
+    }
+
+    @GuiAction("manage-reports/leave-chatchannel")
+    public void leaveChatChannel(Player player,
+                                 @GuiParam("reportId") int reportId,
+                                 @GuiParam("backAction") String backAction) {
+        bukkitUtils.runTaskAsync(player, () -> {
+            SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+                .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+
+            chatChannelService.leaveChannel(sppPlayer, String.valueOf(reportId), ChatChannelType.REPORT);
+            StaffPlus.get().getLogger().info("Backaction: " + backAction);
+        });
+    }
+
+    @GuiAction("manage-reports/open-chatchannel")
+    public void openChatChannel(Player player,
+                                @GuiParam("reportId") int reportId,
+                                @GuiParam("backAction") String backAction) {
+        bukkitUtils.runTaskAsync(player, () -> {
+            SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
+                .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
+
+            Report report = reportService.getReport(reportId);
+            reportChatChannelService.openChannel(sppPlayer, report);
+        });
+    }
+
+    @GuiAction("manage-reports/close-chatchannel")
+    public void closeChatChannel(Player player,
+                                 @GuiParam("reportId") int reportId) {
+        bukkitUtils.runTaskAsync(player, () -> {
+            chatChannelService.closeChannel(String.valueOf(reportId), ChatChannelType.REPORT);
         });
     }
 
