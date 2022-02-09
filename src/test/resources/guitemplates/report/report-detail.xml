@@ -36,7 +36,7 @@
 
             <LoreLine>
                 <t color="&amp;b" id="timestamp-label" class="detail-label">Timestamp: </t>
-                <t color="&amp;7" id="timestamp-value" class="detail-value">01/01/1970-00:20:34</t>
+                <t color="&amp;7" id="timestamp-value" class="detail-value">25/02/2022-14:30:00</t>
             </LoreLine>
 
             <LoreLine>
@@ -76,12 +76,6 @@
         </Lore>
     </GuiItem>
 
-    <GuiItem slot="1" id="join-chatchannel-report" material="WRITTEN_BOOK" onLeftClick="manage-reports/join-chatchannel?reportId=12">
-        <name class="item-name">Join chat channel</name>
-        <Lore>
-            <LoreLine>Join the chat channel of this report</LoreLine>
-        </Lore>
-    </GuiItem>
     <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="back" material="SPRUCE_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
