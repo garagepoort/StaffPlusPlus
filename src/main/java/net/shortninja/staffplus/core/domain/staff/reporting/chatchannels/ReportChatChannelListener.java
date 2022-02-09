@@ -14,10 +14,7 @@ import net.shortninja.staffplusplus.reports.ResolveReportEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 
@@ -33,11 +30,13 @@ public class ReportChatChannelListener implements Listener {
     public String chatChannelOpeningMessage;
 
     private final ChatChannelService chatChannelService;
+    private final ReportChatChannelService reportChatChannelService;
     private final BukkitUtils bukkitUtils;
 
     public ReportChatChannelListener(ChatChannelService chatChannelService,
-                                     BukkitUtils bukkitUtils) {
+                                     ReportChatChannelService reportChatChannelService, BukkitUtils bukkitUtils) {
         this.chatChannelService = chatChannelService;
+        this.reportChatChannelService = reportChatChannelService;
         this.bukkitUtils = bukkitUtils;
     }
 
@@ -49,19 +48,9 @@ public class ReportChatChannelListener implements Listener {
                 return;
             }
 
-            Set<UUID> members = new HashSet<>();
-            members.add(report.getReporterUuid());
-            members.add(report.getStaffUuid());
-
             Optional<ChatChannel> channel = chatChannelService.findChannel(String.valueOf(report.getId()), ChatChannelType.REPORT);
             if (!channel.isPresent()) {
-                chatChannelService.create(
-                    String.valueOf(report.getId()),
-                    chatChannelPrefix,
-                    chatChannelLine,
-                    chatChannelOpeningMessage,
-                    members,
-                    ChatChannelType.REPORT);
+                reportChatChannelService.openChannel(report);
             }
         });
     }
