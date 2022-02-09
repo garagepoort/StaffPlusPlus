@@ -462,3 +462,9 @@ gui:
             leave-chatchannel:
                 title: "Leave chat channel"
                 lore: "Leave the chat channel of this report"
+            open-chatchannel:
+                title: "Open chat channel"
+                lore: "Open a chat channel for this report"
+            close-chatchannel:
+                title: "Close chat channel"
+                lore: "Close the chat channel for this report"

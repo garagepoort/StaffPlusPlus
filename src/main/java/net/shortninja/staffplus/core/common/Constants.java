@@ -24,6 +24,11 @@ public class Constants {
 
     public static final String BUNGEE_STAFFCHAT_CHANNEL = "StaffPlusPlusChat";
     public static final String BUNGEE_CHATCHANNELS_MESSAGE_SEND_CHANNEL = "staffplusplus.chatchannels.message-send";
+    public static final String BUNGEE_CHATCHANNELS_CLOSED_CHANNEL = "staffplusplus.chatchannels.closed";
+    public static final String BUNGEE_CHATCHANNELS_CREATED_CHANNEL = "staffplusplus.chatchannels.created";
+    public static final String BUNGEE_CHATCHANNELS_PLAYER_JOINED_CHANNEL = "staffplusplus.chatchannels.player-joined";
+    public static final String BUNGEE_CHATCHANNELS_PLAYER_LEFT_CHANNEL = "staffplusplus.chatchannels.player-left";
+
     public static final String BUNGEE_INVESTIGATION_STARTED_CHANNEL = "staffplusplus.investigation-started";
     public static final String BUNGEE_INVESTIGATION_PAUSED_CHANNEL = "staffplusplus.investigation-paused";
     public static final String BUNGEE_INVESTIGATION_CONCLUDED_CHANNEL = "staffplusplus.investigation-concluded";
