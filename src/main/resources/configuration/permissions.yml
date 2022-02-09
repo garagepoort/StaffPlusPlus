@@ -39,11 +39,14 @@ staff-list.view: "staff.personnel.view"
 ########################
 # REPORTS
 # GROUP: staff.chatchannels
+# permissions should be suffixed with the chatchannel type
+# Example: staff.chatchannels.leave.report
 ########################
 
 chatchannels:
     join: "staff.chatchannels.join"
     leave: "staff.chatchannels.leave"
+    open: "staff.chatchannels.open"
     close: "staff.chatchannels.close"
 ########################
 # REPORTS

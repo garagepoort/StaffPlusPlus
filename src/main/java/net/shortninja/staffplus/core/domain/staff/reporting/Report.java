@@ -20,7 +20,7 @@ public class Report implements IReport, Infraction, Evidence {
     private final UUID culpritUuid;
     private final String culpritName;
     private final String reason;
-    private final ZonedDateTime timestamp;
+    private ZonedDateTime timestamp;
     private final UUID reporterUuid;
     private String reporterName;
     private String staffName;
@@ -28,10 +28,10 @@ public class Report implements IReport, Infraction, Evidence {
     private ReportStatus reportStatus;
     private int id;
     private String closeReason;
-    private String serverName;
-    private transient Location location;
+    private final String serverName;
+    private final transient Location location;
     private SppLocation sppLocation;
-    private String type;
+    private final String type;
 
     public Report(UUID culpritUuid, String culpritName, int id, String reason, String reporterName, UUID reporterUuid, long time,
                   ReportStatus reportStatus,
@@ -191,5 +191,9 @@ public class Report implements IReport, Infraction, Evidence {
     @Override
     public Optional<String> getReportType() {
         return Optional.ofNullable(type);
+    }
+
+    public void setTimestamp(ZonedDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }
