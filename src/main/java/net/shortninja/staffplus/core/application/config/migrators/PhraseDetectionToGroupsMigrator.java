@@ -18,7 +18,7 @@ public class PhraseDetectionToGroupsMigrator implements ConfigMigrator {
 
             LinkedHashMap<String, Object> linkedHashMap = new LinkedHashMap<>();
             linkedHashMap.put("phrases", phrases);
-            linkedHashMap.put("commands", new ArrayList<>());
+            linkedHashMap.put("actions", new ArrayList<>());
 
             List<LinkedHashMap<String, Object>> groups =new ArrayList<>();
             groups.add(linkedHashMap);
