@@ -1,9 +1,11 @@
-package net.shortninja.staffplus.core.domain.chatchannels.bungee;
+package net.shortninja.staffplus.core.domain.chatchannels.bungee.receive;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMessageListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.dto.ChatChannelBungeeDto;
+import net.shortninja.staffplus.core.domain.chatchannels.bungee.events.ChatChannelClosedBungeeEvent;
 import net.shortninja.staffplus.core.domain.chatchannels.config.ChatChannelConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -13,21 +15,21 @@ import java.util.Optional;
 
 @IocBean
 @IocMessageListener(channel = Constants.BUNGEE_CORD_CHANNEL)
-public class ChatChannelBungeeReceiver implements PluginMessageListener {
+public class ChatChannelClosedBungeeListener implements PluginMessageListener {
 
     private final BungeeClient bungeeClient;
     private final ChatChannelConfiguration chatChannelConfiguration;
 
-    public ChatChannelBungeeReceiver(BungeeClient bungeeClient, ChatChannelConfiguration chatChannelConfiguration) {
+    public ChatChannelClosedBungeeListener(BungeeClient bungeeClient, ChatChannelConfiguration chatChannelConfiguration) {
         this.bungeeClient = bungeeClient;
         this.chatChannelConfiguration = chatChannelConfiguration;
     }
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        Optional<ChatChannelMessageBungee> bungeeMessage = bungeeClient.handleReceived(channel, Constants.BUNGEE_CHATCHANNELS_MESSAGE_SEND_CHANNEL, message, ChatChannelMessageBungee.class);
+        Optional<ChatChannelBungeeDto> bungeeMessage = bungeeClient.handleReceived(channel, Constants.BUNGEE_CHATCHANNELS_CLOSED_CHANNEL, message, ChatChannelBungeeDto.class);
         bungeeMessage
             .filter(b -> chatChannelConfiguration.enabledChannels.contains(bungeeMessage.get().getType()))
-            .ifPresent(b -> Bukkit.getPluginManager().callEvent(new ChatChannelMessageReceivedBungeeEvent(b)));
+            .ifPresent(b -> Bukkit.getPluginManager().callEvent(new ChatChannelClosedBungeeEvent(b)));
     }
 }
