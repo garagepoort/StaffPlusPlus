@@ -9,7 +9,6 @@ import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandMapper;
 import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;
 import net.shortninja.staffplus.core.domain.chat.configuration.PhraseDetectionGroupConfiguration;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.chat.PhrasesDetectedEvent;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -30,7 +29,6 @@ public class PhraseDetectionChatInterceptor implements ChatInterceptor {
     private final BukkitUtils bukkitUtils;
     private final ActionService actionService;
     private final ConfiguredCommandMapper configuredCommandMapper;
-    private PlayerManager playerManager;
 
     public PhraseDetectionChatInterceptor(Options options, ChatConfiguration chatConfiguration, BukkitUtils bukkitUtils, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper) {
         this.options = options;
