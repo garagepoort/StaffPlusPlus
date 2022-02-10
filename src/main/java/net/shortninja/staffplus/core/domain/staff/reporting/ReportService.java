@@ -94,7 +94,7 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
             sppInteractor.getId(),
             ReportStatus.OPEN,
             ZonedDateTime.now(),
-            sppInteractor.isPlayer() ? ((Player)sppInteractor.getCommandSender().get()).getLocation() : null,
+            sppInteractor.isBukkitPlayer() ? ((Player)sppInteractor.getCommandSender().get()).getLocation() : null,
             type,
             options.serverName);
 
@@ -116,7 +116,7 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
             sppInteractor.getId(),
             ReportStatus.OPEN,
             ZonedDateTime.now(),
-            sppInteractor.isPlayer() ? ((Player)sppInteractor.getCommandSender().get()).getLocation() : null,
+            sppInteractor.isBukkitPlayer() ? ((Player)sppInteractor.getCommandSender().get()).getLocation() : null,
             type,
             options.serverName);
 
