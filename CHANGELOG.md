@@ -14,6 +14,7 @@
   - Fix potion effects not wearing off if a frozen player logs out.
   - Fix no back button on the ban overview when coming from the hub GUI
   - Fix performance issue warn command
+  - Fix list vanish not working on players joining the server
 
 # V1.18.7
 
