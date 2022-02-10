@@ -27,12 +27,6 @@ import java.util.Optional;
 @IocListener
 public class ReportChatChannelListener implements Listener {
 
-    @ConfigProperty("%lang%:reports.chatchannel.prefix")
-    public String chatChannelPrefix;
-    @ConfigProperty("%lang%:reports.chatchannel.chatline")
-    public String chatChannelLine;
-    @ConfigProperty("%lang%:reports.chatchannel.openingmessage")
-    public String chatChannelOpeningMessage;
     @ConfigProperty("reports-module.chatchannels.open-on")
     @ConfigTransformer(ReportStatusesConfigTransformer.class)
     private List<ReportStatus> chatchannelsOpenStatuses;
