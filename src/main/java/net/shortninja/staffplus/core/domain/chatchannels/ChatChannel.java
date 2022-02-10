@@ -80,6 +80,6 @@ public class ChatChannel implements IChatChannel {
     }
 
     public boolean hasMember(SppInteractor player) {
-        return !player.isPlayer() || members.contains(player.getId());
+        return !player.isBukkitPlayer() || members.contains(player.getId());
     }
 }
