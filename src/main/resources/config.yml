@@ -88,7 +88,7 @@ reports-module:
   chatchannels:
       enabled: false
       open-on: IN_PROGRESS
-      close-on: REJECTED;RESOLVED
+      close-on: REJECTED;RESOLVED;DELETED
 
   # Whether or not the plugin will use "/report" features.
   enabled: true
