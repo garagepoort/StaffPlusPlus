@@ -56,8 +56,7 @@ public class IpBanKickPlayerListener implements Listener {
 
                 BanType banType = ban.getEndTimestamp().isPresent() ? BanType.TEMP_BAN : BanType.PERM_BAN;
                 String template = ipBanTemplateResolver.resolveTemplate(ipBanEvent.getKickTemplate().orElse(null), banType);
-                String banMessage = replaceBanPlaceholders(template, ban);
-                sppPlayers.forEach(sppPlayer -> sppPlayer.getPlayer().kickPlayer(messages.colorize(banMessage)));
+                kickPlayers(sppPlayers, replaceBanPlaceholders(template, ban));
             }, 1);
         });
     }
@@ -77,12 +76,16 @@ public class IpBanKickPlayerListener implements Listener {
                 BanType banType = ban.getEndTimestamp() != null ? BanType.TEMP_BAN : BanType.PERM_BAN;
                 String template = ipBanTemplateResolver.resolveTemplate(ipBanEvent.getKickTemplate(), banType);
 
-                sppPlayers.forEach(sppPlayer -> {
-                    String banMessage;
-                    banMessage = placeholderService.setPlaceholders(sppPlayer.getOfflinePlayer(), replaceBanPlaceholders(template, ban));
-                    sppPlayer.getPlayer().kickPlayer(messages.colorize(banMessage));
-                });
+                kickPlayers(sppPlayers, replaceBanPlaceholders(template, ban));
             }, 1);
+        });
+    }
+
+    private void kickPlayers(List<SppPlayer> sppPlayers, String s) {
+        sppPlayers.forEach(sppPlayer -> {
+            String banMessage;
+            banMessage = placeholderService.setPlaceholders(sppPlayer.getOfflinePlayer(), s);
+            sppPlayer.getPlayer().kickPlayer(messages.colorize(banMessage));
         });
     }
 }
