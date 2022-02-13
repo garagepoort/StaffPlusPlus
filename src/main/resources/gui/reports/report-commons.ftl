@@ -67,14 +67,16 @@
                 </LoreLine>
             </#if>
 
-            <LoreLine>
-                <t color="&b" id="reason-label" class="detail-label"><@translate key="gui.reason"/>:</t>
-            </LoreLine>
-            <#list JavaUtils.formatLines(report.reason, 30) as reasonLine>
+            <#if report.reason?has_content>
                 <LoreLine>
-                    <t color="&7" id="reason-value" class="detail-value">   ${reasonLine}</t>
+                    <t color="&b" id="reason-label" class="detail-label"><@translate key="gui.reason"/>:</t>
                 </LoreLine>
-            </#list>
+                <#list JavaUtils.formatLines(report.reason, 30) as reasonLine>
+                    <LoreLine>
+                        <t color="&7" id="reason-value" class="detail-value">   ${reasonLine}</t>
+                    </LoreLine>
+                </#list>
+            </#if>
 
             <LoreLine><t></t></LoreLine>
 
