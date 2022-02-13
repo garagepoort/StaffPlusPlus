@@ -28,4 +28,18 @@ public class PlaceholderService {
         }
         return PlaceholderAPI.setPlaceholders((OfflinePlayer) sender, message);
     }
+
+    public String setPlaceholders(Player sender, String message) {
+        if (!usesPlaceholderAPI || sender == null) {
+            return message;
+        }
+        return PlaceholderAPI.setPlaceholders(sender, message);
+    }
+
+    public String setPlaceholders(OfflinePlayer sender, String message) {
+        if (!usesPlaceholderAPI) {
+            return message;
+        }
+        return PlaceholderAPI.setPlaceholders(sender, message);
+    }
 }

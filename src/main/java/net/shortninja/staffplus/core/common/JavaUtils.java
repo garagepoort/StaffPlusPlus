@@ -303,6 +303,10 @@ public class JavaUtils {
      * @return An arraylist containing the different lines
      */
     public static List<String> formatLines(String target, int maxLength) {
+        if(target == null) {
+            return Collections.emptyList();
+        }
+
         if (target.length() <= maxLength) {
             return Collections.singletonList(target);
         }
