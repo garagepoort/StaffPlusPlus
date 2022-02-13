@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpService;
@@ -31,12 +32,14 @@ public class IpBanKickPlayerListener implements Listener {
     private final PlayerManager playerManager;
     private final IpBanTemplateResolver ipBanTemplateResolver;
     private final Messages messages;
+    private final PlaceholderService placeholderService;
 
-    public IpBanKickPlayerListener(PlayerIpService playerIpService, PlayerManager playerManager, IpBanTemplateResolver ipBanTemplateResolver, Messages messages) {
+    public IpBanKickPlayerListener(PlayerIpService playerIpService, PlayerManager playerManager, IpBanTemplateResolver ipBanTemplateResolver, Messages messages, PlaceholderService placeholderService) {
         this.playerIpService = playerIpService;
         this.playerManager = playerManager;
         this.ipBanTemplateResolver = ipBanTemplateResolver;
         this.messages = messages;
+        this.placeholderService = placeholderService;
     }
 
     @EventHandler
@@ -57,7 +60,6 @@ public class IpBanKickPlayerListener implements Listener {
                 sppPlayers.forEach(sppPlayer -> sppPlayer.getPlayer().kickPlayer(messages.colorize(banMessage)));
             }, 1);
         });
-
     }
 
     @EventHandler
@@ -74,10 +76,13 @@ public class IpBanKickPlayerListener implements Listener {
 
                 BanType banType = ban.getEndTimestamp() != null ? BanType.TEMP_BAN : BanType.PERM_BAN;
                 String template = ipBanTemplateResolver.resolveTemplate(ipBanEvent.getKickTemplate(), banType);
-                String banMessage = replaceBanPlaceholders(template, ban);
-                sppPlayers.forEach(sppPlayer -> sppPlayer.getPlayer().kickPlayer(messages.colorize(banMessage)));
+
+                sppPlayers.forEach(sppPlayer -> {
+                    String banMessage;
+                    banMessage = placeholderService.setPlaceholders(sppPlayer.getOfflinePlayer(), replaceBanPlaceholders(template, ban));
+                    sppPlayer.getPlayer().kickPlayer(messages.colorize(banMessage));
+                });
             }, 1);
         });
-
     }
 }
