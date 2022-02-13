@@ -5,8 +5,10 @@ import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.dto.BanBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.events.BanBungeeEvent;
 import net.shortninja.staffplusplus.ban.BanEvent;
+import net.shortninja.staffplusplus.ban.IBan;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanMessageStringUtil.replaceBanPlaceholders;
 
@@ -39,7 +42,7 @@ public class BanKickListener implements Listener {
     public void kickBannedPlayer(BanEvent banEvent) {
         playerManager.getOnlinePlayer(banEvent.getBan().getTargetUuid()).ifPresent(p -> {
             if (p.isOnline()) {
-                String banMessage = replaceBanPlaceholders(banEvent.getBanMessage(), banEvent.getBan());
+                String banMessage = getBanMessage(banEvent.getBan().getTargetUuid(), banEvent.getBan(), banEvent.getBanMessage());
                 p.getPlayer().kickPlayer(messages.colorize(banMessage));
             }
         });
@@ -49,7 +52,7 @@ public class BanKickListener implements Listener {
     public void kickBannedPlayerBungee(BanBungeeEvent banEvent) {
         playerManager.getOnlinePlayer(banEvent.getBan().getTargetUuid()).ifPresent(p -> {
             if (p.isOnline()) {
-                String banMessage = replaceBanPlaceholders(banEvent.getBan().getBanMessage(), banEvent.getBan());
+                String banMessage = getBanMessage(banEvent.getBan().getTargetUuid(), banEvent.getBan(), banEvent.getBan().getBanMessage());
                 p.getPlayer().kickPlayer(messages.colorize(banMessage));
             }
         });
@@ -69,15 +72,22 @@ public class BanKickListener implements Listener {
                 templateMessage = banTemplateResolver.resolveTemplate(ban.getReason(), null, banType);
             }
 
-            Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(event.getUniqueId());
-
-            String banMessage;
-            if (player.isPresent()) {
-                banMessage = placeholderService.setPlaceholders(player.get().getOfflinePlayer(), replaceBanPlaceholders(templateMessage, ban));
-            }else {
-                banMessage = replaceBanPlaceholders(templateMessage, ban);
-            }
+            String banMessage = getBanMessage(event.getUniqueId(), ban, templateMessage);
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, messages.colorize(banMessage));
         }
+    }
+
+    private String getBanMessage(UUID playerUuid, IBan ban, String templateMessage) {
+        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUuid);
+        return player.isPresent() ?
+            placeholderService.setPlaceholders(player.get().getOfflinePlayer(), replaceBanPlaceholders(templateMessage, ban)) :
+            replaceBanPlaceholders(templateMessage, ban);
+    }
+
+    private String getBanMessage(UUID playerUuid, BanBungeeDto ban, String templateMessage) {
+        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(playerUuid);
+        return player.isPresent() ?
+            placeholderService.setPlaceholders(player.get().getOfflinePlayer(), replaceBanPlaceholders(templateMessage, ban)) :
+            replaceBanPlaceholders(templateMessage, ban);
     }
 }
