@@ -35,7 +35,8 @@ public class Messages {
         "lang_pt",
         "lang_sv",
         "lang_zh",
-        "lang_id"
+        "lang_id",
+        "lang_ru"
     );
     public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
 
