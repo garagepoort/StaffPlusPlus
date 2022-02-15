@@ -35,7 +35,8 @@ public class LangFileTest {
             new ConfigurationFile("lang/lang_pt.yml", loadConfig("/lang/lang_pt.yml")),
             new ConfigurationFile("lang/lang_sv.yml", loadConfig("/lang/lang_sv.yml")),
             new ConfigurationFile("lang/lang_zh.yml", loadConfig("/lang/lang_zh.yml")),
-            new ConfigurationFile("lang/lang_id.yml", loadConfig("/lang/lang_id.yml"))
+            new ConfigurationFile("lang/lang_id.yml", loadConfig("/lang/lang_id.yml")),
+            new ConfigurationFile("lang/lang_ru.yml", loadConfig("/lang/lang_ru.yml"))
         );
         Map<String, FileConfiguration> collect = configurationFiles.stream()
             .collect(Collectors.toMap(ConfigurationFile::getIdentifier, ConfigurationFile::getFileConfiguration, (a, b) -> a));
