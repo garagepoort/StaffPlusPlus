@@ -21,6 +21,7 @@ import net.shortninja.staffplusplus.reports.ReportFilters;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 import net.shortninja.staffplusplus.session.SppInteractor;
 import net.shortninja.staffplusplus.session.SppPlayer;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -80,6 +81,9 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
     }
 
     public void sendReport(SppInteractor sppInteractor, SppPlayer user, String reason, String type) {
+        if(StringUtils.isEmpty(reason)) {
+            throw new BusinessException("Report cannot be created with the reason");
+        }
         // Offline users cannot bypass being reported this way. Permissions are taken away upon logging out
         if (user.isOnline() && permission.has(user.getPlayer(), permissionReportBypass)) {
             messages.send(sppInteractor, messages.bypassed, messages.prefixGeneral);
