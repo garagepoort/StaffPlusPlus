@@ -1,0 +1,359 @@
+general-prefix: '&dStaff++ &8»'
+warnings-prefix: '&dПредупреждения &8»'
+tickets-prefix: '&dТикеты &8»'
+trace-prefix: '&dСлежка &8»'
+protect-prefix: '&dПод защитой &8»'
+investigations-prefix: '&dСледствия &8»'
+separator-color: '&b'
+staff-list-start: '&7%longline%'
+staff-list-member: '&b%player% &%statuscolor%•'
+staff-list-end: '&7%longline%'
+revived-staff: '&bВы сбросили инвентарь &7%target% &bк предыдущему состоянию!'
+revived-user: '&bВаш инвентарь был установлен в прежнее состояние!'
+command-blocked: '&bЭта команда заблокирована для поддержки!'
+mode-command-blocked: '&bЭта команда заблокирована в режиме поддержки!'
+on-cooldown: '&bВы не можете использовать это &7%seconds% &bсек.'
+note-added: '&bЗаметка добавлена для &7%target%&b.'
+note-cleared: '&bЗаметки очищены для &7%target%&b.'
+note-deleted: '&bВы удалили заметку для &7%target%&b с ID &6%noteId%&b.'
+note-list-start: '&7%longline%'
+note-list-entry: '&b%count% &7%note%'
+note-list-entry-private: '&b%count% &1[&CP&1] &7%note%'
+note-list-end: '&7%longline%'
+notes:
+  staff-notification-created: '&4%notedBy% &6создал заметку для игрока &4%target%&6:
+    [&7%note%&6]'
+  prefix: '&dЗаметки &8»'
+player-not-registered: This player does not exist
+login-register: '&bПоскольку вы являетесь сотрудником, вы должны зарегистрировать
+  пароль, чтобы защитить свою учетную запись от взлома. Используй &7/register &bдля
+  авторизации.'
+login-registered: '&bПароль принят! Вам будет предложено использовать этот пароль
+  при каждом входе в систему.'
+login-waiting: '&bВы были заморожены! Пожалуйста, введите ваш пароль поддержки, чтобы
+  продолжить.'
+login-accepted: '&bАвторизовано.'
+passwords-dont-match: '&bПароли не совпадают'
+no-permission: '&cУ вас нет разрешения на использование этого!'
+bypassed: '&cИгрок имеет защиту от этой команды!'
+player-offline: '&cЭтот игрок не в сети!'
+unknown-command: '&cНеизвестная команда.'
+invalid-arguments: '&cНедопустимые аргументы!&7 (%usage%)'
+only-players: '&bТолько игрокам разрешено выполнять эту команду!'
+no-found: '&bНЕ НАЙДЕНО!'
+type-input: '&bВведите данные в чат!'
+input-accepted: '&bМатериалы приняты и отправлены.'
+enabled: включён
+disabled: выключен
+
+chatchannels:
+    joined: "&C%player% &6joined the channel"
+    closed: "&6This channel has been closed"
+    left: "&C%player% &6left the channel"
+
+reports:
+  # Префикс для всех сообщений, связанных с жалобами.
+  prefix: '&dЖалобы &8»'
+  chatchannel.prefix: "&4&L[&C&LReport %channelId%&4&L]"
+  chatchannel.chatline: "&7%sender% &7> &f%message%"
+  chatchannel.openingmessage: |
+      &6You are in direct contact with a staffmember
+      &6Type "/rc %channelId% <message>" to send messages on this channel
+  reporter:
+    report-created: '&bОбращение к &7%culprit% &bотправлено. Текст обращения: &7%reason%&b.'
+    report-player-created: '&bЖалоба на &7%culprit% &bотправлена. Текст обращения:
+      &7%reason%&b.'
+    report-rejected: '&6%staff%&7 отклонил вашу жалобу.'
+    report-resolved: '&6%staff%&7 закрыл вашу жалобу.'
+    report-accepted: '&6%staff%&7 принял вашу жалобу.'
+    view-reports-button: '&9Посмотреть свои отчёты!'
+    view-reports-button-tooltip: Нажмите, чтобы просмотреть свои отчеты
+  
+  report-created-notification: '&7%reporter% &bсоздал жалобу с причиной &7%reason%&b.'
+  report-player-created-notification: '&7%reporter% &bсоздал жалобу на %culprit%.
+    Текст обращения: &7%reason%&b.'
+  report-reopened-notification: '&b%staff% &7возобновил отчёт от &6%reporter%'
+  report-deleted-notification: '&b%staff% &7удалил отчёт от &6%reporter%'
+  report-accepted-notification: '&b%staff% &7принял отчёт от &6%reporter%'
+  report-closed-notification: '&6%staff% &fизменил статус отчета на &6%status% &fОтчёт
+    от: &6%reporter%'
+  reports-cleared: '&bОтчеты очищены для &7%culprit%&b!'
+  
+  # Строки разделены запятыми.
+  reports-list-start: '&7%longline%, &bУ &7%target% &bесть &7%reports% &bотчётов.'
+  reports-list-entry: '&b%count%: &7%reason% (%reporter%)'
+  # Строки разделены запятыми.
+  reports-list-end: '&7%longline%'
+  
+  resolve-confirmation-question: |
+    &1===================================================
+    &6       Вы согласились закрыть этот отчет"
+    &6Введите причину закрытия в чате, чтобы решить вопрос с отчетом
+    &6      Введите "cancel", чтобы отменить закрытие отчета
+    &1===================================================
+  resolve-cancelled: '&CВы отменили закрытие этого отчета'
+  reject-confirmation-question: |
+    &1==================================================
+    &6        Вы решили отклонить этот отчет
+    &6Введите причину закрытия в чате, чтобы отклонить отчет
+    &6      Введите "cancel", чтобы отменить закрытие отчета
+    &1==================================================
+  reject-cancelled: '&CВы отменили отклонение этого отчета'
+  
+  status:
+    RESOLVED: ЗАКРЫТ
+    REJECTED: ОТКЛОНЁН
+    OPEN: ОТКРЫТ
+    IN_PROGRESS: ОБРАБАТЫВАЕТСЯ
+warned: '&7%target% &bпредупреждён по причине: &7%reason%&b.'
+warn: '&bВы были предупреждены за &7%reason%&b.'
+warnings-cleared: '&bПредупреждения, были сняты для &7%target%&b!'
+warnings-list-start: '&7%longline%, &bУ &7%target% &bесть &7%warnings% &bпредупреждений.'
+warnings-list-entry: '&b%count%: &7%reason% (%issuer%)'
+warnings-list-end: '&7%longline%'
+warnings-notify: У вас есть %warningsCount% новых предупреждений!
+warned-announcement: '&7%issuer% &bвыдал предупреждение &7%target%&b. Причина: &7%reason%&b.'
+infraction-item: '&bПредупреждения: &7%warnings%, &bЖалобы: &7%reports%, &bПричина:
+  &7%reason%'
+staff-chat-status: '&bЧат поддержки  &d%status%&b.'
+staff-chat-muted: '&bЧат поддержки был &dзаглушен&b.'
+staff-chat-unmuted: '&bЧат поддержки снова &dдоступен&b.'
+chat-clear-line: ''
+chat-cleared: '&bЧат был очищен &7%player%&b.'
+chat-toggled: '&bЧат был &7%status%&b. &c(&7%player%&c)&b.'
+chat-prevented: '&bВы сейчас не можете писать в чат!'
+chat-slowed: '&bЧат был замедлен на &7%seconds% секунд&b. &c(&7%player%&c)'
+chatting-fast: '&bВы пишете слишком быстро!'
+blacklist-hover: '&bЭто сообщение было подвергнуто цензуре за &7%censoredlist%&b.'
+blacklist-censor-color: ''
+blacklist-chat-format: '&7%player% &8» &7%message%'
+total-vanish: '&bРежим полной скрытности &7%status%&b!'
+list-vanish: '&bРежим скрытности в табе &7%status%&b!'
+player-vanish: '&bРежим скрытности &7%status%&b!'
+vanish-enabled: '&2Вас не видно'
+vanish-chat-prevented: '&bВы не можете писать в чат из-за режима скрытности!'
+ticket-submitted: '&bВаш тикет был подан! &7(#%ticket%)'
+ticket-opened: '&bТикет &7#%ticket% &bбыл отмечен как открытый!'
+ticket-removed: '&bТикет &7#%ticket% &bбыл помечен как закрытый! (%reason%)'
+ticket-response-staff: '&b#%ticket% - Поддержка: &7%player% &8» &7%message%'
+ticket-response-user: '&b#%ticket% - Клиент: &7%player% &8» &7%message%'
+ticket: '&b#%ticket%: &7%player% &8» &7%message%'
+ticket-not-found: '&bЭтот билет не существует или закрыт!'
+ticket-list-start: '&7%longline%, &7%tickets% &bтикетов открыто'
+ticket-list-entry: '&b#%ticket% - %target%: &7%message%'
+ticket-list-end: '&7%longline%'
+alert-changed: '&7%alerttype% &balerts &7%status%&b.'
+alerts-name: '&7%old% &bизменила свое имя на &7%new%&b!'
+alerts-chat-phrase-detected: '&7%target% &bразместил в чате сообщение, содержащее
+  слова (&7%detectedPhrases%&b)'
+alerts-command-detected: "&7%target% &bhas tried executing the command (&7%command%&b)"
+alerts-mention: '&7%target% &bупомянул вас в чате!'
+alerts-xray: '&7%target% &bдобыл &7%count% %itemtype%&b! &7(%lightlevel%&7)'
+mode-status: '&bРежим персонала был &7%status%&b.'
+mode-original-location: '&bВы были телепортированы обратно в свое первоначальное местоположение!'
+mode-random-teleport: '&bВы были телепортированы к случайному игроку!'
+mode-not-enough-players: '&bНедостаточное количество игроков в сети для телепортации!'
+mode-fly-enabled: '&3Полет теперь &6включен'
+mode-fly-disabled: '&3Полет теперь &6выключен'
+gui-reports: '&bЖалобы'
+gui-mine: '&bШахтёры'
+gui-miner: '&b%player% @ &7%locationy%'
+gui-counted: '&b%player%'
+freeze: '&4&lВы были заморожены смотрящим. НЕ ВЫХОДИТЕ из сервера!, &4&lПрисоединитесь
+  к TeamSpeak @ shortninja.net'
+unfrozen: '&bВы были разморожены.'
+staff-froze: '&bВы заморозили &7%target%&b.'
+staff-unfroze: '&bВы разморозили &7%target%&b.'
+freeze-logout: '&7%player% &bвышел из сервера во время заморозки!'
+freeze-title: '&6Вы были заморожены.'
+freeze-subtitle: Не выходите из сервера!
+freeze-chat-prevented: '&bВы сейчас не можете писать в чат!'
+freeze-chatchannel:
+    prefix: "&4&L[&b&LFrozen chat&4&L]"
+    chatline: "&7%sender% &7> &f%message%"
+    openingmessage: |
+        &6You are in direct contact with a staffmember
+        &6Type "/fc <message>" to send messages on this channel
+cps-start: '&bЗапуск теста CPS для &7%target% &bна &7%seconds% &bсекунд...'
+cps-finish-normal: '&bУ &7%player% &bоколо &7%cps% &bCPS. &7(наверняка безопасно)'
+cps-finish-max: '&bУ &7%player% &bоколо &7%cps% &bCPS. &7(вероятно автокликер)'
+examine-food: '&bЗдоровье: &7%health%, &bГолод: &7%hunger%'
+examine-ip: '&bIP-адрес: &7%ipaddress%'
+examine-gamemode: '&bИгровой режим: &7%gamemode%'
+examine-location: '&bМестоположение: &7%location%'
+examine-warn: '&bВыдать предупреждение игроку'
+examine-freeze: '&bЗаморозить этого игрока'
+examine-notes: '&bЗаметки игрока:'
+examine-notes-note: '&b%player%: &7%note%'
+follow: '&bТеперь вы &7%status% %target%&b.'
+strip: '&7Броня была снята с %player%!'
+ban-permabanned: '&6%target% был навсегда заблокирован на сервере по решению %issuer%'
+ban-tempbanned: '&6%target% был заблокирован на сервере %issuer% на %duration%'
+ban-unbanned: '&6%target% был разблокирован на сервере по решению %issuer%'
+ban-extended: '&7Вы продлили бан &6%target%&7 на %extensionDuration%'
+ban-reduced: '&7Вы сократили бан &6%target%&7 на %reductionDuration%'
+ban-tempbanned-kick: '[БАН] Вы были временно заблокированы на этом сервере. Ban ends
+  in: %duration%'
+ban-permabanned-kick: '[БАН] Вы были забанены на этом сервере НАВЕСГДА'
+ban-appeal-open-notify: Есть %appealsCount% нерешенных обжалованных банов!
+ipbans:
+  prefix: '&dБан &8»'
+  permabanned: '&6%issuer% заблокировал ip-адрес %ip%'
+  tempbanned: '&6%issuer% запретил ip-адрес %ip% на %duration%'
+  unbanned: '&6%issuer% разблокировал ip-адрес %ip%'
+  tempbanned-kick: '[БАН] Ваш ip-адрес был временно заблокирован на этом сервере'
+  permabanned-kick: '[БАН] Ваш ip-адрес был навсегда заблокирован на этом сервере'
+kick-notifyplayers: '&6%target% был кикнут с сервера по решению %issuer%'
+kick-kickmessage: '&6Вы были кикнуты с сервера %issuer%. Причина: %reason%'
+mute-expired: '&6Срок действия вашего мута истек. Теперь вы можете вновь общаться
+  в чате.'
+mute-permamuted: '&6%target% был заглушен по решению %issuer%'
+mute-unmuted: '&6%target% снова может говорить по решению %issuer%'
+mute-tempmuted: '&6%target% был заглушен по решению %issuer% на %duration%'
+mute-muted: '&6В настоящее время вы заглушены. Вам запрещено общаться в чате.'
+mute-extended: '&7Вы продлили мут &6%target%&7 на %extensionDuration%'
+mute-reduced: '&7Вы сократили мут &6%target%&7 на %reductionDuration%'
+mute-appeal-open-notify: Имеется %appealsCount% нерешенных обжалованных мутов!
+mute-notify: В настоящее время вы заглушены!
+appeal-created: '&6Обращение подано.'
+appeal-approved: '&6Ваше обращение было &2одобрено&6.'
+appeal-rejected: '&6Ваше обращение было &4отклонено&6.'
+appeal-approve: '&6Обращение одобрено'
+appeal-reject: '&6Обращение отклонено'
+appeal-open-notify: Имеется %appealsCount% нерассмотренных обжалованных предупреждений!
+investigated:
+  
+  # ###########################################################
+  # +------------------------------------------------------+ #
+  # |                   РАССЛЕДОВАНИЯ                     | #
+  # +------------------------------------------------------+ #
+  # ###########################################################
+  investigation-started: '&6В настоящее время вы находитесь под следствием'
+  investigation-paused: '&6Расследование приостановлено'
+  investigation-concluded: '&6Расследование в отношении вас завершено'
+  under-investigation-title: '&CВы находитесь под следствием'
+  under-investigation-join: '&6Вы находитесь под следствием'
+investigation:
+  staff-notification-started: '&4%investigator% &6начал расследование на &4%investigated%'
+  staff-notification-concluded: '&4%investigator% &6завершила расследование на &4%investigated%'
+  staff-notification-paused: '&4%investigator% &6приостановил расследование на &4%investigated%'
+  staff-notification-evidence-linked: '&4%investigator% &6прикрепил доказательство
+    %evidenceType% (ID=%evidenceId%) к расследованию (ID=%investigationId%)'
+  staff-notification-evidence-unlinked: '&4%investigator% &6открепил доказательство
+    %evidenceType% (ID=%evidenceId%) от расследования (ID=%investigationId%)'
+  staff-notification-note-added: '&4%investigator% &6добавил примечание к расследованию
+    (ID=%investigationId%)'
+  staff-notification-note-deleted: '&4%investigator% &6удалил примечание из расследования
+    (ID=%investigationId%)'
+ips:
+  prefix: '&dIP-адреса &8»'
+  issuer:
+    history-cleared: '&7Ip-история очищена для &6%player%'
+  staff-notifications:
+    history-cleared: '&4%issuer% &7очистил всю историю ip-адресов для &6%player%'
+gui:
+  id: ID
+  status: Статус
+  server: Сервер
+  type: Тип
+  reason: Причина
+  close-reason: Причина закрытия
+  timestamp: Дата создания
+  unknown: Не известно
+  location: Местонахождение
+  back: Назад
+  previous-page: Предыдущая страница
+  next-page: Следующая страница
+  confirmation:
+    confirm: Подтвердить
+    cancel: Отмена
+  bans:
+    appeal-detail:
+      approve:
+        title: Одобрить обращение
+        lore: Нажмите, чтобы одобрить это обращение
+      reject:
+        title: Отклонить обращение
+        lore: Нажмите, чтобы отклонить это обращение
+  mutes:
+    appeal-detail:
+      approve:
+        title: Одобрить обращение
+        lore: Нажмите, чтобы одобрить это обращение
+      reject:
+        title: Отклонить обращение
+        lore: Нажмите, чтобы отклонить это обращение
+  warnings:
+    appeal-detail:
+      approve:
+        title: Одобрить обращение
+        lore: Нажмите, чтобы одобрить это обращение
+      reject:
+        title: Отклонить обращение
+        lore: Нажмите, чтобы отклонить это обращение
+  reports:
+    report: Жалоба
+    assignee: Получатель
+    culprit: Подозреваемый
+    reporter: Обратившийся
+    manage-reports:
+      title: Управление жалобами
+      show-unresolved:
+        title: Открытые жалобы
+        lore: Показать все не закрытые жалобы
+      assigned-to-me:
+        title: Порученные мне жалобы
+        lore: Показать все назначенные мне жалобы
+      in-progress:
+        title: Жалобы в процессе выполнения
+        lore: Показать все назначенные
+      closed:
+        title: Закрытые жалобы
+        lore: Показать все закрытые жалобы
+    assigned-reports:
+      title: Жалобы в процессе выполнения
+    my-assigned-reports:
+      title: Назначенные вам жалобы
+      left-click-to-detail: '&7Нажмите ЛКМ для &6просмотра деталей'
+      right-click-to-resolve: '&7Нажмите ПКМ, чтобы &2завершить'
+      middle-click-to-reject: '&7Нажмите СКМ, чтобы &Cотклонить'
+    my-reports:
+      title: Мои жалобы
+    open-reports:
+      title: Открытые жалобы
+      left-click-to-accept: '&7ЛКМ чтобы &6принять'
+      right-click-to-resolve: '&7ПКМ чтобы &2завершить'
+      middle-click-to-reject: '&7СКМ чтобы &Cотклонить'
+    closed-reports:
+      title: Закрытые жалобы
+    find-reports:
+      title: Найти жалобу
+    detail:
+      title: 'Жалобы по: '
+      resolve:
+        title: Завершить жалобу
+        lore: Нажмите, чтобы завершить жалобу
+      unassign:
+        title: Отказаться
+        lore: Нажмите, чтобы отказаться от расследования это жалобы
+      reject:
+        title: Отклонить жалобу
+        lore: Нажмите, чтобы отметить этоу жалобу как отклоненную
+      delete:
+        title: Удалить
+        lore: Нажмите, чтобы удалить жалобу
+      teleport:
+        title: Телепортация
+        lore: Нажмите, чтобы телепортироваться туда, где была открыта эта жалоба
+      join-chatchannel:
+          title: "Join chat channel"
+          lore: "Join the chat channel of this report"
+      leave-chatchannel:
+          title: "Leave chat channel"
+          lore: "Leave the chat channel of this report"
+      open-chatchannel:
+          title: "Open chat channel"
+          lore: "Open a chat channel for this report"
+      close-chatchannel:
+          title: "Close chat channel"
+          lore: "Close the chat channel for this report"
