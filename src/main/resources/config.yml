@@ -439,10 +439,12 @@ alerts-module:
   # Whether or not staff will be notified when a user changes their name.
   name-notify: true
   name-notify-console: false
+  name-notify-bungee: ''
 
   # Whether or not staff will be notified when they are mentioned.
   mention-notify: true
   mention-notify-console: false
+  mention-notify-bungee: ''
 
   # Whether or not staff will be notified when the chat module detect phrases.
   chat-phrase-detection: true

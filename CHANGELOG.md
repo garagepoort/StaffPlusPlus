@@ -1,5 +1,17 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.9
+
+### Features
+  - NameChanged alerts can now be sent over bungee
+  - Player mentioned alerts can now be sent over bungee
+  - Russian language added (Thanks to: GoldenWind)
+
+### Bugs
+  - Fix papi placeholders for ban templates
+  - Prevent wrong configuration from creating reports without reason
+  - Added correct permissions for player information GUI actions
+
 # V1.18.8
 
 ### Features
