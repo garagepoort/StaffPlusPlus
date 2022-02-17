@@ -33,6 +33,9 @@ public class Constants {
     public static final String BUNGEE_INVESTIGATION_PAUSED_CHANNEL = "staffplusplus.investigation-paused";
     public static final String BUNGEE_INVESTIGATION_CONCLUDED_CHANNEL = "staffplusplus.investigation-concluded";
 
+    public static final String BUNGEE_NAME_CHANGED_ALERT_CHANNEL = "staffplusplus.alerts.name-change";
+    public static final String BUNGEE_MENTION_ALERT_CHANNEL = "staffplusplus.alerts.mention";
+
     public static String getServerNameFilterWithAnd(ServerSyncConfig serverSyncConfig) {
         return getServerNameFilterWithAnd("", serverSyncConfig);
     }
