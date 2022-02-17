@@ -152,6 +152,7 @@
 
     <GuiItem id="cps"
              if="${target.online?c}"
+             permission="config|permissions:cps"
              slot="20"
              onLeftClick="staff-mode/cps?targetPlayerName=${target.username}"
              material="WATCH">
@@ -187,6 +188,11 @@
     </GuiItem>
     <GuiItem id="View Enderchest"
              slot="24"
+            <#if target.online>
+                permission="config|permissions:enderchests.view.online"
+            <#else >
+                permission="config|permissions:enderchests.view.offline"
+            </#if>
              onLeftClick="manage-enderchest/open?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
              material="ENDER_CHEST">
         <name class="item-name">View Enderchest</name>
