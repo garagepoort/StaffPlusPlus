@@ -5,6 +5,7 @@
 ### Features
   - NameChanged alerts can now be sent over bungee
   - Player mentioned alerts can now be sent over bungee
+  - Xray alerts can now be sent over bungee
   - Russian language added (Thanks to: GoldenWind)
 
 ### Bugs
