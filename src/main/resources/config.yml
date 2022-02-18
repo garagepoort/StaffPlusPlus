@@ -462,6 +462,7 @@ alerts-module:
     # Whether or not this module is enabled.
     enabled: true
     console: false
+    notify-bungee: ''
     # Block type that, when mined, will invoke an alert.
     blocks: SPAWNER, EMERALD_ORE, DIAMOND_ORE, GOLD_ORE, IRON_ORE, COAL_ORE, LAPIS_ORE, REDSTONE_ORE
 
