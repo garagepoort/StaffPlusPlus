@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
@@ -22,9 +21,6 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 @IocBean
 @IocListener
 public class PlayerJoin implements Listener {
-
-    @ConfigProperty("server-name")
-    private String serverName;
 
     private final PlayerSettingsRepository playerSettingsRepository;
     private final OnlineSessionsManager sessionManager;

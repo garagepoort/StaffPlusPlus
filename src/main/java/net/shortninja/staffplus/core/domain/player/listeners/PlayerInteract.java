@@ -110,10 +110,8 @@ public class PlayerInteract implements Listener {
             return;
         }
 
-        if (!playerSession.getCurrentGui().isPresent()) {
-            if (handleInteraction(player, item, action)) {
-                event.setCancelled(true);
-            }
+        if (!playerSession.getCurrentGui().isPresent() && handleInteraction(player, item, action)) {
+            event.setCancelled(true);
         }
     }
 
@@ -156,11 +154,9 @@ public class PlayerInteract implements Listener {
         }
 
         GadgetType gadgetType = gadgetHandler.getGadgetType(protocolService.getVersionProtocol().getNbtString(item));
-        if (staffTimings.containsKey(player)) {
-            if (System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
-                //Still cooling down but cancel the event if it is a staff item
-                return gadgetType != GadgetType.CUSTOM;
-            }
+        if (staffTimings.containsKey(player) && System.currentTimeMillis() - staffTimings.get(player) <= COOLDOWN) {
+            //Still cooling down but cancel the event if it is a staff item
+            return gadgetType != GadgetType.CUSTOM;
         }
 
         switch (gadgetType) {
@@ -213,6 +209,8 @@ public class PlayerInteract implements Listener {
                 break;
             case CUSTOM:
                 isHandled = handleCustomModule(player, item);
+                break;
+            default:
                 break;
         }
 

@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.tracing.config;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceType;
 import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -29,7 +30,7 @@ public class TraceModuleLoader extends AbstractConfigLoader<TraceConfiguration> 
     private List<TraceOutputChannel> getTraceOutputChannels(FileConfiguration config) {
         String outputChannelsString = config.getString("trace-module.output-channels");
         if (outputChannelsString == null || outputChannelsString.isEmpty()) {
-            throw new RuntimeException("Invalid configuration: no output channels registered for the tracing module");
+            throw new ConfigurationException("Invalid configuration: no output channels registered for the tracing module");
         }
         return Arrays.stream(outputChannelsString.split(";"))
             .map(TraceOutputChannel::valueOf)
@@ -39,7 +40,7 @@ public class TraceModuleLoader extends AbstractConfigLoader<TraceConfiguration> 
     private List<TraceType> getTraceTypes(FileConfiguration config) {
         String traceEventsString = config.getString("trace-module.trace-events");
         if (traceEventsString == null || traceEventsString.isEmpty()) {
-            throw new RuntimeException("Invalid configuration: no trace events registered for the tracing module");
+            throw new ConfigurationException("Invalid configuration: no trace events registered for the tracing module");
         }
         return Arrays.stream(traceEventsString.split(";"))
             .map(TraceType::valueOf)

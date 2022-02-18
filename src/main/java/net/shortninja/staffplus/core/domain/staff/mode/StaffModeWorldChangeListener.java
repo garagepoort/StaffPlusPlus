@@ -5,16 +5,11 @@ import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
-import net.shortninja.staffplus.core.domain.staff.mode.StaffModeService;
-import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
-
-import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.WORLD_CHANGE;
 
 @IocBean
 @IocListener

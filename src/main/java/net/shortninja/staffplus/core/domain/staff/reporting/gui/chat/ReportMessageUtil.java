@@ -77,7 +77,8 @@ public class ReportMessageUtil {
                 return messages.reportResolvedStatus;
             case REJECTED:
                 return messages.reportRejectedStatus;
+            default:
+                return "Unknown";
         }
-        return "Unknown";
     }
 }

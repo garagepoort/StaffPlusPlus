@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.mute.database;
 
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
@@ -273,7 +272,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     public Map<UUID, Integer> getCountByPlayer() {
         Map<UUID, Integer> count = new HashMap<>();
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_muted_players " + Constants.getServerNameFilterWithWhere(muteSyncServers) + " GROUP BY player_uuid ORDER BY count DESC")) {
+             PreparedStatement ps = sql.prepareStatement("SELECT player_uuid, count(*) as count FROM sp_muted_players " + getServerNameFilterWithWhere(muteSyncServers) + " GROUP BY player_uuid ORDER BY count DESC")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     count.put(UUID.fromString(rs.getString("player_uuid")), rs.getInt("count"));
@@ -304,7 +303,7 @@ public abstract class AbstractSqlMuteRepository implements MuteRepository {
     @Override
     public long getTotalCount() {
         try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT count(*) as count FROM sp_muted_players " + Constants.getServerNameFilterWithWhere(muteSyncServers))) {
+             PreparedStatement ps = sql.prepareStatement("SELECT count(*) as count FROM sp_muted_players " + getServerNameFilterWithWhere(muteSyncServers))) {
             try (ResultSet rs = ps.executeQuery()) {
                 boolean first = rs.next();
                 if (first) {
