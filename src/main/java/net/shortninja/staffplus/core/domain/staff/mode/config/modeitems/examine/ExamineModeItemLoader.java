@@ -19,14 +19,18 @@ public class ExamineModeItemLoader extends ModeItemLoader<ExamineModeConfigurati
     protected ExamineModeConfiguration load() {
         ExamineModeConfiguration modeItemConfiguration = new ExamineModeConfiguration(getModuleName(),
             staffModeModulesConfig.getString("modules.examine-module.title"),
-            staffModeModulesConfig.getInt("modules.examine-module.info-line.food") <= 0 ? -1 : staffModeModulesConfig.getInt("modules.examine-module.info-line.food"),
-            staffModeModulesConfig.getInt("modules.examine-module.info-line.ip-address") <= 0 ? -1 : staffModeModulesConfig.getInt("modules.examine-module.info-line.ip-address"),
-            staffModeModulesConfig.getInt("modules.examine-module.info-line.gamemode") <= 0 ? -1 : staffModeModulesConfig.getInt("modules.examine-module.info-line.gamemode"),
-            staffModeModulesConfig.getInt("modules.examine-module.info-line.infractions") <= 0 ? -1 : staffModeModulesConfig.getInt("modules.examine-module.info-line.infractions"),
-            staffModeModulesConfig.getInt("modules.examine-module.info-line.location") <= 0 ? -1 : staffModeModulesConfig.getInt("modules.examine-module.info-line.location"),
-            staffModeModulesConfig.getInt("modules.examine-module.info-line.notes") <= 0 ? -1 : staffModeModulesConfig.getInt("modules.examine-module.info-line.notes"),
-            staffModeModulesConfig.getInt("modules.examine-module.info-line.freeze") <= 0 ? -1 : staffModeModulesConfig.getInt("modules.examine-module.info-line.freeze"),
-            staffModeModulesConfig.getInt("modules.examine-module.info-line.warn") <= 0 ? -1 : staffModeModulesConfig.getInt("modules.examine-module.info-line.warn"));
+            getModeItemLocation("modules.examine-module.info-line.food"),
+            getModeItemLocation("modules.examine-module.info-line.ip-address"),
+            getModeItemLocation("modules.examine-module.info-line.gamemode"),
+            getModeItemLocation("modules.examine-module.info-line.infractions"),
+            getModeItemLocation("modules.examine-module.info-line.location"),
+            getModeItemLocation("modules.examine-module.info-line.notes"),
+            getModeItemLocation("modules.examine-module.info-line.freeze"),
+            getModeItemLocation("modules.examine-module.info-line.warn"));
         return super.loadGeneralConfig(modeItemConfiguration);
+    }
+
+    private int getModeItemLocation(String s) {
+        return staffModeModulesConfig.getInt(s) <= 0 ? -1 : staffModeModulesConfig.getInt(s);
     }
 }

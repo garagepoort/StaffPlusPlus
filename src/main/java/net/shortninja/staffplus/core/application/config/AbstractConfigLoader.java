@@ -41,10 +41,11 @@ public abstract class AbstractConfigLoader<T> {
     }
 
     protected String sanitize(String string) {
+        String result = string.toUpperCase();
         if (string.contains(":")) {
-            string = string.replace(string.substring(string.lastIndexOf(':')), "");
+            result = result.replace(string.substring(string.lastIndexOf(':')), "");
         }
 
-        return string.toUpperCase();
+        return result;
     }
 }

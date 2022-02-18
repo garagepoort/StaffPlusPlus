@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import net.shortninja.staffplusplus.trace.TraceWriter;
 import org.bukkit.Bukkit;
@@ -39,10 +40,10 @@ public class FileTraceWriter implements TraceWriter {
             if (traceFile.createNewFile()) {
                 writer = new BufferedWriter(new FileWriter(fileName, true));
             } else {
-                throw new RuntimeException("Could not start writing to File, unable to create trace file");
+                throw new ConfigurationException("Could not start writing to File, unable to create trace file");
             }
         } catch (IOException e) {
-            throw new RuntimeException("Could not start writing to File, unable to open trace file", e);
+            throw new ConfigurationException("Could not start writing to File, unable to open trace file", e);
         }
     }
 
@@ -54,7 +55,7 @@ public class FileTraceWriter implements TraceWriter {
                 writer.write(traceMessage);
                 writer.newLine();
             } catch (IOException e) {
-                throw new RuntimeException("Could not write to trace file", e);
+                throw new ConfigurationException("Could not write to trace file", e);
             }
         });
     }
@@ -64,7 +65,7 @@ public class FileTraceWriter implements TraceWriter {
         try {
             writer.close();
         } catch (IOException e) {
-            throw new RuntimeException("Unable to end trace", e);
+            throw new ConfigurationException("Unable to end trace", e);
         }
     }
 
