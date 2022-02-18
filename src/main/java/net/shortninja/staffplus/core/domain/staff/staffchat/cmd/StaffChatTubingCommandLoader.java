@@ -35,7 +35,7 @@ public class StaffChatTubingCommandLoader {
         List<StaffChatChannelConfiguration> channelConfigurations = staffChatConfiguration.getChannelConfigurations();
         for (StaffChatChannelConfiguration channelConfiguration : channelConfigurations) {
             commands.add(new StaffChatChannelCmd(messages, sessionManager, staffChatService, commandService, channelConfiguration, permissionHandler, bukkitUtils));
-            commands.add(new StaffChatMuteChannelCmd(messages, sessionManager, commandService, playerSettingsRepository, channelConfiguration, permissionHandler, bukkitUtils));
+            commands.add(new StaffChatMuteChannelCmd(messages, commandService, playerSettingsRepository, channelConfiguration, permissionHandler, bukkitUtils));
         }
         return commands;
     }
