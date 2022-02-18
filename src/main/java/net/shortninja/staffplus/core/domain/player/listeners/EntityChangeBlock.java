@@ -25,12 +25,10 @@ public class EntityChangeBlock implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockChange(EntityChangeBlockEvent event){
         String material = "FARMLAND";
-        if(event.getEntityType().equals(EntityType.PLAYER)){
-            if(event.getBlock().getType().equals(Material.valueOf(material))){
-                OnlinePlayerSession playerSession = sessionManager.get((Player) event.getEntity());
-                if(playerSession.isInStaffMode() || playerSession.isVanished())
-                    event.setCancelled(true);
-            }
+        if (event.getEntityType().equals(EntityType.PLAYER) && event.getBlock().getType().equals(Material.valueOf(material))) {
+            OnlinePlayerSession playerSession = sessionManager.get((Player) event.getEntity());
+            if (playerSession.isInStaffMode() || playerSession.isVanished())
+                event.setCancelled(true);
         }
     }
 }

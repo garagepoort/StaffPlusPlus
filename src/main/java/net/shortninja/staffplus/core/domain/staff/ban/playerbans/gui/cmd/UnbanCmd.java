@@ -16,13 +16,13 @@ import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfi
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.stream;
 import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.BOTH;
 
 @Command(
@@ -56,13 +56,13 @@ public class UnbanCmd extends AbstractCmd {
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        boolean isSilent = Arrays.stream(args).anyMatch(a -> a.equalsIgnoreCase("-silent"));
+        boolean isSilent = stream(args).anyMatch(a -> a.equalsIgnoreCase("-silent"));
         if(isSilent && !permissionHandler.has(sender, banConfiguration.permissionBanSilent)) {
             throw new NoPermissionException("You don't have the permission to execute a silent unban");
         }
 
-        args = Arrays.stream(args).filter(a -> !a.equalsIgnoreCase("-silent")).toArray(String[]::new);
-        String reason = JavaUtils.compileWords(args, 1);
+        String[] argsWithoutParameters = stream(args).filter(a -> !a.equalsIgnoreCase("-silent")).toArray(String[]::new);
+        String reason = JavaUtils.compileWords(argsWithoutParameters, 1);
 
         banService.unban(sender, player, reason, isSilent);
         return true;
@@ -80,7 +80,7 @@ public class UnbanCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        String[] finalArgs = Arrays.stream(args).filter(a -> !a.equalsIgnoreCase("-silent")).toArray(String[]::new);
+        String[] finalArgs = stream(args).filter(a -> !a.equalsIgnoreCase("-silent")).toArray(String[]::new);
         if (args.length == 1) {
             return playerManager.getAllPlayerNames().stream()
                 .filter(s -> finalArgs[0].isEmpty() || s.contains(finalArgs[0]))

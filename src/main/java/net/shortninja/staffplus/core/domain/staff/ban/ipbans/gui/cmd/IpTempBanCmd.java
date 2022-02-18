@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.ban.ipbans.gui.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -46,7 +45,6 @@ public class IpTempBanCmd extends AbstractCmd {
     private final IpBanCmdUtil ipBanCmdUtil;
 
     public IpTempBanCmd(Messages messages,
-                        Options options,
                         IpBanService banService,
                         CommandService commandService,
                         PlayerManager playerManager,
