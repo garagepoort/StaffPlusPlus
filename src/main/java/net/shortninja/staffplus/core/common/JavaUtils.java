@@ -205,6 +205,9 @@ public class JavaUtils {
     public static String formatTypeName(Material type) {
         return type.name().replace("_", " ").toLowerCase();
     }
+    public static String formatTypeName(String type) {
+        return type.replace("_", " ").toLowerCase();
+    }
 
     /**
      * A version independent way to get all online players. Some versions of Bukkit

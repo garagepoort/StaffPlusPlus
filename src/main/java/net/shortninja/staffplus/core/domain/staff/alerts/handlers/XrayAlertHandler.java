@@ -10,11 +10,16 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.XrayConfiguration;
+import net.shortninja.staffplus.core.domain.staff.alerts.xray.bungee.XrayAlertBungeeDto;
+import net.shortninja.staffplus.core.domain.staff.alerts.xray.bungee.XrayAlertBungeeEvent;
 import net.shortninja.staffplusplus.alerts.AlertType;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.xray.XrayEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.util.Optional;
 
 @IocBean
 @IocListener
@@ -42,19 +47,48 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
             return;
         }
 
+        notifyPlayers(event.getPlayer().getName(),
+            event.getAmount(),
+            event.getType().name(),
+            event.getLightLevel(),
+            event.getDuration(),
+            event.getServerName());
+    }
+
+    @EventHandler
+    public void handle(XrayAlertBungeeEvent event) {
+        if (!alertsConfiguration.alertsXrayEnabled) {
+            return;
+        }
+
+        XrayAlertBungeeDto xrayAlertBungeeDto = event.getXrayAlertBungeeDto();
+        Optional<SppPlayer> sppPlayer = playerManager.getOnOrOfflinePlayer(xrayAlertBungeeDto.getPlayerUuid());
+        if (sppPlayer.isPresent() && permission.has(sppPlayer.get().getOfflinePlayer(), xrayConfiguration.permissionXrayBypass)) {
+            return;
+        }
+
+        notifyPlayers(xrayAlertBungeeDto.getPlayerName(),
+            xrayAlertBungeeDto.getAmount(),
+            xrayAlertBungeeDto.getType(),
+            xrayAlertBungeeDto.getLightLevel(),
+            xrayAlertBungeeDto.getDuration(),
+            xrayAlertBungeeDto.getServerName());
+    }
+
+    private void notifyPlayers(String playerName, int amount, String type, int lightLevel, Optional<Long> duration, String serverName) {
         for (Player user : getPlayersToNotify()) {
             String xrayMessage = messages.alertsXray
-                .replace("%target%", event.getPlayer().getName())
-                .replace("%count%", Integer.toString(event.getAmount()))
-                .replace("%itemtype%", JavaUtils.formatTypeName(event.getType()))
-                .replace("%lightlevel%", Integer.toString(event.getLightLevel()));
+                .replace("%target%", playerName)
+                .replace("%count%", Integer.toString(amount))
+                .replace("%server%", serverName)
+                .replace("%itemtype%", JavaUtils.formatTypeName(type))
+                .replace("%lightlevel%", Integer.toString(lightLevel));
 
-            if (event.getDuration().isPresent()) {
-                xrayMessage = xrayMessage + String.format(" in %s seconds", event.getDuration().get() / 1000);
+            if (duration.isPresent()) {
+                xrayMessage = xrayMessage + String.format(" in %s seconds", duration.get() / 1000);
             }
             messages.send(user, xrayMessage, messages.prefixGeneral, xrayConfiguration.permissionXray);
         }
-
     }
 
     @Override
