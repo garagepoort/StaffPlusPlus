@@ -9,6 +9,11 @@ on:
     pull_request:
         branches: [ master ]
     workflow_dispatch:
+        inputs:
+            backwards_merge:
+                description: 'Merge commit into release branches'
+                required: true
+                default: 'true'
         branches: [ master ]
 jobs:
     build:
@@ -30,7 +35,7 @@ jobs:
                 run: mvn -B verify --file pom.xml
 
     backwards_merge:
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event.inputs.backwards_merge == 'true' && github.event_name != 'pull_request' }}
         needs: build
         runs-on: ubuntu-latest
         steps:
