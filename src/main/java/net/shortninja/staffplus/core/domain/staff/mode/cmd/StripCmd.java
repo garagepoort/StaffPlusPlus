@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -33,7 +32,10 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 public class StripCmd extends AbstractCmd {
     private final StripService stripService;
 
-    public StripCmd(Messages messages, Options options, StripService stripService, CommandService commandService, PermissionHandler permissionHandler) {
+    public StripCmd(Messages messages,
+                    StripService stripService,
+                    CommandService commandService,
+                    PermissionHandler permissionHandler) {
         super(messages, permissionHandler, commandService);
         this.stripService = stripService;
     }

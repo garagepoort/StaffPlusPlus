@@ -112,8 +112,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
         for (String match : allMatches) {
             joined = joined.replace(match, match.replaceAll("\\s+", SPACE_REPLACER));
         }
-        args = joined.split(" ");
-        return args;
+        return joined.split(" ");
     }
 
     private void validateCoolDown(CommandSender sender) {

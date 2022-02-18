@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.mode.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -33,7 +32,6 @@ public class FollowCmd extends AbstractCmd {
     private final GadgetHandler gadgetHandler;
 
     public FollowCmd(Messages messages,
-                     Options options,
                      GadgetHandler gadgetHandler,
                      CommandService commandService,
                      PermissionHandler permissionHandler) {

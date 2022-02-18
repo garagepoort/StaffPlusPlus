@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat.cmd;
 
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
@@ -23,7 +22,12 @@ public class StaffChatMuteChannelCmd extends AbstractCmd {
     private final StaffChatChannelConfiguration channelConfiguration;
     private final BukkitUtils bukkitUtils;
 
-    public StaffChatMuteChannelCmd(Messages messages, OnlineSessionsManager sessionManager, CommandService commandService, PlayerSettingsRepository playerSettingsRepository, StaffChatChannelConfiguration channelConfiguration, PermissionHandler permissionHandler, BukkitUtils bukkitUtils) {
+    public StaffChatMuteChannelCmd(Messages messages,
+                                   CommandService commandService,
+                                   PlayerSettingsRepository playerSettingsRepository,
+                                   StaffChatChannelConfiguration channelConfiguration,
+                                   PermissionHandler permissionHandler,
+                                   BukkitUtils bukkitUtils) {
         super(channelConfiguration.getCommand() + "-mute", messages, permissionHandler, commandService);
         this.playerSettingsRepository = playerSettingsRepository;
         this.channelConfiguration = channelConfiguration;
