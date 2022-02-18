@@ -9,11 +9,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class VanishModeConfiguration extends ModeItemConfiguration {
 
-    private ItemStack modeVanishItemOff;
+    private final ItemStack modeVanishItemOff;
 
     public VanishModeConfiguration(String identifier, ItemStack modeVanishItemOff) {
         super(identifier);
-        this.modeVanishItemOff = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(modeVanishItemOff, identifier);;
+        this.modeVanishItemOff = StaffPlus.get().getIocContainer().get(IProtocolService.class).getVersionProtocol().addNbtString(modeVanishItemOff, identifier);
     }
 
     public ItemStack getModeVanishItem(PlayerSettings session, VanishType vanishType) {

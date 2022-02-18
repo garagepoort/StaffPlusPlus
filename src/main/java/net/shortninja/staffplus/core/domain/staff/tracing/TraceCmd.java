@@ -80,10 +80,8 @@ public class TraceCmd extends AbstractCmd {
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
-        if (args.length > 0) {
-            if (args[0].equalsIgnoreCase(START)) {
-                return 2;
-            }
+        if (args.length > 0 && args[0].equalsIgnoreCase(START)) {
+            return 2;
         }
         return 1;
     }

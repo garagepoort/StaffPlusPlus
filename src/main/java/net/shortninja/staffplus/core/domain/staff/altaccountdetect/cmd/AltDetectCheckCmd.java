@@ -59,15 +59,14 @@ public class AltDetectCheckCmd extends AbstractCmd {
                 .sorted((a, b) -> a.getAltDetectTrustLevel().getScore() > b.getAltDetectTrustLevel().getScore() ? -1 : 1)
                 .collect(Collectors.toList());
             for (AltDetectResult altAccount : altAccounts) {
-                String results = altAccount.getAltDetectResultTypes().stream().map(Enum::name).collect(Collectors.joining(" - "));
-                messages.send(sender, buildResultLine(altAccount, results), messages.prefixGeneral);
+                messages.send(sender, buildResultLine(altAccount), messages.prefixGeneral);
             }
         });
         return true;
     }
 
     @NotNull
-    private String buildResultLine(AltDetectResult altAccount, String results) {
+    private String buildResultLine(AltDetectResult altAccount) {
         return "&fMatch: &b%playerMatched% &f| &b%trustlevel% &f| %ipmatched%"
             .replace("%playerMatched%", altAccount.getPlayerMatchedName())
             .replace("%trustlevel%", altAccount.getAltDetectTrustLevel().name())
