@@ -4,15 +4,15 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemConfigurat
 
 public class ExamineModeConfiguration extends ModeItemConfiguration {
 
-    private String modeExamineTitle;
-    private int modeExamineFood;
-    private int modeExamineIp;
-    private int modeExamineGamemode;
-    private int modeExamineInfractions;
-    private int modeExamineLocation;
-    private int modeExamineNotes;
-    private int modeExamineFreeze;
-    private int modeExamineWarn;
+    private final String modeExamineTitle;
+    private final int modeExamineFood;
+    private final int modeExamineIp;
+    private final int modeExamineGamemode;
+    private final int modeExamineInfractions;
+    private final int modeExamineLocation;
+    private final int modeExamineNotes;
+    private final int modeExamineFreeze;
+    private final int modeExamineWarn;
 
     public ExamineModeConfiguration(String identifier, String modeExamineTitle, int modeExamineFood, int modeExamineIp, int modeExamineGamemode, int modeExamineInfractions, int modeExamineLocation, int modeExamineNotes, int modeExamineFreeze, int modeExamineWarn) {
         super(identifier);

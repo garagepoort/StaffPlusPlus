@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
+import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -46,7 +47,14 @@ public class VanishCmd extends AbstractCmd {
     private final OnlineSessionsManager sessionManager;
     private final BukkitUtils bukkitUtils;
 
-    public VanishCmd(Messages messages, VanishServiceImpl vanishServiceImpl, CommandService commandService, PermissionHandler permissionHandler, PlayerManager playerManager, VanishConfiguration vanishConfiguration, OnlineSessionsManager sessionManager, BukkitUtils bukkitUtils) {
+    public VanishCmd(Messages messages,
+                     VanishServiceImpl vanishServiceImpl,
+                     CommandService commandService,
+                     PermissionHandler permissionHandler,
+                     PlayerManager playerManager,
+                     VanishConfiguration vanishConfiguration,
+                     OnlineSessionsManager sessionManager,
+                     BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.vanishServiceImpl = vanishServiceImpl;
         this.permissionHandler = permissionHandler;
@@ -149,6 +157,8 @@ public class VanishCmd extends AbstractCmd {
                     vanishServiceImpl.removeVanish(player);
                 } else messages.send(player, messages.noPermission, messages.prefixGeneral);
                 break;
+            default:
+                throw new BusinessException("No vanishtype " + vanishType.name());
         }
     }
 
