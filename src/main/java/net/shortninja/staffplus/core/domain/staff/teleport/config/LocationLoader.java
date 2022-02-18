@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.teleport.config;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
+import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -28,7 +29,7 @@ public class LocationLoader extends AbstractConfigLoader<Map<String, Location>> 
             String locationString = defaultConfig.getString("locations." + identifier);
             String[] points = locationString.split(";");
             if (points.length < 3) {
-                throw new RuntimeException("Invalid locations configuration. Make sure your location points are in format x;y;z;worldname");
+                throw new ConfigurationException("Invalid locations configuration. Make sure your location points are in format x;y;z;worldname");
             }
 
             World world = points.length == 4 ? Bukkit.getWorld(points[3]) : Bukkit.getWorlds().get(0);

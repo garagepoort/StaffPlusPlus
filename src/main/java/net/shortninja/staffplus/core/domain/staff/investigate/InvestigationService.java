@@ -126,7 +126,7 @@ public class InvestigationService {
     public void pauseInvestigation(Player investigator) {
         Investigation investigation = investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
             .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running", messages.prefixInvestigations));
-        investigation.setStatus(InvestigationStatus.PAUSED);
+        investigation.setStatus(PAUSED);
 
         investigationsRepository.updateInvestigation(investigation);
         sendEvent(new InvestigationPausedEvent(investigation));
@@ -135,7 +135,7 @@ public class InvestigationService {
     public void tryPausingInvestigation(Player investigator) {
         investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
             .ifPresent(investigation -> {
-                investigation.setStatus(InvestigationStatus.PAUSED);
+                investigation.setStatus(PAUSED);
                 investigationsRepository.updateInvestigation(investigation);
                 sendEvent(new InvestigationPausedEvent(investigation));
             });
@@ -144,7 +144,7 @@ public class InvestigationService {
     public void pauseInvestigationsForInvestigated(Player investigated) {
         List<Investigation> investigations = investigationsRepository.getInvestigationsForInvestigated(investigated.getUniqueId(), Collections.singletonList(OPEN));
         for (Investigation investigation : investigations) {
-            investigation.setStatus(InvestigationStatus.PAUSED);
+            investigation.setStatus(PAUSED);
             investigationsRepository.updateInvestigation(investigation);
             sendEvent(new InvestigationPausedEvent(investigation));
         }

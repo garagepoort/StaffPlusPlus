@@ -23,10 +23,9 @@ public class ModeData implements IModeData {
     private final int fireTicks;
     private final List<PotionEffect> potionEffects;
 
-    public ModeData(Player player, net.shortninja.staffplusplus.vanish.VanishType vanishType) {
+    public ModeData(Player player, VanishType vanishType) {
         this.uuid = player.getUniqueId();
         this.playerInventory = player.getInventory().getContents();
-
         this.previousLocation = player.getLocation();
         this.hasFlight = player.getAllowFlight();
         this.gameMode = player.getGameMode();

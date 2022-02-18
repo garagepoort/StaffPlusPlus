@@ -17,15 +17,12 @@ import java.util.UUID;
 public class CpsHandler {
     private final static Map<UUID, Integer> currentTests = new HashMap<UUID, Integer>();
 
-    private final Options options;
     private final Messages messages;
     private final CpsModeConfiguration cpsModeConfiguration;
 
     public CpsHandler(Options options, Messages messages) {
-
-        this.options = options;
         this.messages = messages;
-        cpsModeConfiguration = this.options.staffItemsConfiguration.getCpsModeConfiguration();
+        cpsModeConfiguration = options.staffItemsConfiguration.getCpsModeConfiguration();
     }
 
     public boolean isTesting(UUID uuid) {
