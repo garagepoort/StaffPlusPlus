@@ -335,6 +335,8 @@ examine-inventory-interaction.offline: "staff.inventory.inventory-interaction-of
 examine-view-inventory.online: "staff.inventory.view-inventory"
 # Permission to view player's inventory while in examine mode for offline player
 examine-view-inventory.offline: "staff.inventory.view-inventory-offline"
+# Permission to view player's ip in the examine view
+examine-view-ip: "staff.examine.view-ip"
 
 ########################
 # MUTES
