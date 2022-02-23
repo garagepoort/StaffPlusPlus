@@ -53,8 +53,8 @@ note-list-entry: "&b%count% &7%note%"
 note-list-entry-private: "&b%count% &1[&CP&1] &7%note%"
 # Lines are separated by commas
 note-list-end: "&7%longline%"
-notes.staff-notification-created: "&4%notedBy% &6has created a note for player &4%target%&6: [&7%note%&6]"
-notes.prefix: "&dNotes &8»"
+notes.staff-notification-created: "&4%notedBy% &6ha creado una nota para el jugador &4%target%&6: [&7%note%&6]"
+notes.prefix: "&dNotas &8»"
 player-not-registered: "Este jugador no existe"
 
 login-register: "&bDado que usted es staff, debe registrar una contraseña para proteger su cuenta de ser secuestrada. Utilizar y &7/register &bpara registrar."
@@ -70,16 +70,16 @@ player-offline: "&c¡Ese jugador está desconectado!"
 unknown-command: "&cComando desconocido."
 invalid-arguments: "&c¡Argumentos inválidos! (%usage%)"
 only-players: "&b¡Solo jugadores pueden ejecutar este comando!"
-no-found: "&bNO FOUND!"
-type-input: "&bEnter your input in chat!"
-input-accepted: "&bInput accepted and submitted."
+no-found: "&bNO ENCONTRADO!"
+type-input: "&bIngresa algo en el chat!"
+input-accepted: "&bTexto aceptado y agregado."
 enabled: "habilitado"
 disabled: "deshabilitado"
 
 chatchannels:
-    joined: "&C%player% &6joined the channel"
-    closed: "&6This channel has been closed"
-    left: "&C%player% &6left the channel"
+    joined: "&C%player% &6se unio al canal"
+    closed: "&6Este canal ha sido cerrado"
+    left: "&C%player% &6dejo el canal"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -92,8 +92,8 @@ reports:
     chatchannel.prefix: "&4&L[&C&LReport %channelId%&4&L]"
     chatchannel.chatline: "&7%sender% &7> &f%message%"
     chatchannel.openingmessage: |
-        &6You are in direct contact with a staffmember
-        &6Type "/rc %channelId% <message>" to send messages on this channel
+        &6Estas en contacto directo con un miembro del Staff
+        &6Escribe "/rc %channelId% <mensaje>" para enviar mensajes por este canal
     reporter.report-created: "&bHas reportado a &7%culprit%. &bRazón: &7%reason%&b."
     reporter.report-player-created: "&bHas reportado a &7%culprit%. &bRazón: &7%reason%&b."
     reporter.report-rejected: "&7Tu reporte ha sido rechazado por &6%staff%&7."
@@ -116,24 +116,24 @@ reports:
 
     resolve-confirmation-question: |
         &1===================================================
-        &6       You have chosen to resolve this report"
-        &6Type your closing reason in chat to resolve the report
-        &6      Type "cancel" to cancel closing the report
+        &6       Has elegido resolver este reporte"
+        &6Escribe el motivo de cierre de este reporte
+        &6    Escribe "cancel" para no cerrar este reporte
         &1===================================================
-    resolve-cancelled: "&CYou have cancelled resolving this report"
+    resolve-cancelled: "&cCancelaste el cierre de este reporte"
     reject-confirmation-question: |
         &1==================================================
-        &6        You have chosen to reject this report
-        &6Type your closing reason in chat to reject the report
-        &6        Type "cancel" to cancel closing the report
+        &6        Decidiste rechazar este reporte
+        &6Escribe tu motivo para proceder a cerrar este reporte
+        &6    Escribe "cancel" para no cerrar este reporte
         &1==================================================
-    reject-cancelled: "&CYou have cancelled rejecting this report"
+    reject-cancelled: "&cCancelaste rechazar este reporte"
 
     status:
-        RESOLVED: "RESOLVED"
-        REJECTED: "REJECTED"
-        OPEN: "OPEN"
-        IN_PROGRESS: "IN_PROGRESS"
+        RESOLVED: "RESUELTO"
+        REJECTED: "RECHAZADO"
+        OPEN: "ABIERTO"
+        IN_PROGRESS: "EN_PROGRESO"
 
 warned: "&bHas advertido a &7%target% &bRazón: &7%reason%&b."
 warn: "&bHas sido advertido por la razón: &7%reason%&b."
@@ -144,7 +144,7 @@ warnings-list-entry: "&b%count%: &7%reason% (%issuer%)"
 # Lineas están separadas por comas.
 warnings-list-end: "&7%longline%"
 warnings-notify: "¡Tienes %warningsCount% nuevas advertencias!"
-warned-announcement: '&7%issuer% &bhas warned &7%target% &bfor &7%reason%&b.'
+warned-announcement: '&7%issuer% &bha advertido a &7%target% &bpor &7%reason%&b.'
 
 # Lineas están separadas por comas.
 infraction-item: "&bAdvertencias: &7%warnings%, &bReportes: &7%reports%, &bRazón del reporte: &7%reason%"
@@ -168,7 +168,7 @@ chat-prevented: "&b¡No tienes permitido el uso del chat de momento!"
 chat-slowed: "&bEl chat se ha ralentizado a &7%seconds% &bsegundos por &7%player%&b."
 chatting-fast: "&b¡Estas enviando demasiados mensajes!"
 
-blacklist-hover: "&bEste mensaje ha sido censorado por &7%censoredlist%&b."
+blacklist-hover: "&bEste mensaje ha sido censurado por &7%censoredlist%&b."
 blacklist-censor-color: ""
 blacklist-chat-format: "&7%player% &8» &7%message%"
 
@@ -183,7 +183,7 @@ total-vanish: "&b¡Tu invisibilidad total ha sido &7%status%&b!"
 list-vanish: "&b¡Tu invisibilidad en lista ha sido &7%status%&b!"
 player-vanish: "&b¡Tu invisibilidad a jugadores ha sido &7%status%&b!"
 vanish-enabled: "&2Invisibilidad activada"
-vanish-chat-prevented: "&bYou are not allowed to chat right now!"
+vanish-chat-prevented: "&bNo tienes permiso de escribir en este momento!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -214,7 +214,7 @@ ticket-list-end: "&7%longline%"
 alert-changed: "&7%alerttype% &balerts &7%status%&b."
 alerts-name: "&b&7%old% &b¡ha cambiado su nombre a &7%new%&b!"
 alerts-chat-phrase-detected: "&7%target% &bcolocó una palabra en el chat que contenía (&7%detectedPhrases%&b)"
-alerts-command-detected: "&7%target% &bhas tried executing the command (&7%command%&b)"
+alerts-command-detected: "&7%target% &bha intentado ejecutar el comando (&7%command%&b)"
 alerts-mention: "&7%target% &b¡ha mencionado tu nombre en el chat!"
 alerts-xray: "&b&7%target% &bha minado &7%count% %itemtype%&b &7(%lightlevel%&7)"
 
@@ -229,8 +229,8 @@ mode-status: "&bTu servicio como staff fue &7%status%&b."
 mode-original-location: "&b¡Has sido transportado a tu ubicacion original!"
 mode-random-teleport: "&b¡Has sido transportado a una ubicacion aleatoria!"
 mode-not-enough-players: "&b¡No hay suficientes jugadores conectados para poder transportarse aleatoriamente!"
-mode-fly-enabled: "&3Flight is now &6on"
-mode-fly-disabled: "&3Flight is now &6off"
+mode-fly-enabled: "&3Modo de vuelo &6activado"
+mode-fly-disabled: "&3Modo de vuelo &6desactivado"
 
 gui-reports: "&bReportes"
 gui-mine: "&bMineros"
@@ -247,14 +247,13 @@ staff-unfroze: "&bDescongelaste a &7%target%&b."
 freeze-logout: "&7%player% &b¡se ha desconectado mientras estaba congelado!"
 freeze-title: "&6Has sido congelado."
 freeze-subtitle: "¡No te desconectes!"
-freeze-chat-prevented: "&bYou are not allowed to chat right now!"
+freeze-chat-prevented: "&bNo tienes permiso de escribir en este momento!"
 freeze-chatchannel:
-    prefix: "&4&L[&b&LFrozen chat&4&L]"
+    prefix: "&4&L[&b&LCharla congelada&4&L]"
     chatline: "&7%sender% &7> &f%message%"
     openingmessage: |
-        &6You are in direct contact with a staffmember
-        &6Type "/fc <message>" to send messages on this channel
-
+        &6Estas en contacto directo con un miembro del Staff
+        &6Escribe "/fc <mensaje>" para enviar mensajes por este canal
 cps-start: "&bEjecutando un test de CPS en &7%target% &bdurante &7%seconds% &bsegundos..."
 cps-finish-normal: "&7%player% &btiene cerca de &7%cps% &bCPS. &7(probablemente no peligroso)"
 cps-finish-max: "&7%player% &btiene cerca de &7%cps% &bCPS. &7(probablemente con autoclick)"
@@ -287,7 +286,7 @@ ban-reduced: "&7Redijiste la duración del baneo a &6%target%&7 en %reductionDur
 
 ban-tempbanned-kick: "[Baneado] Fuiste baneado temporalmente en este servidor. El baneo terminará en: %duration%"
 ban-permabanned-kick: "[Baneado] Fuiste baneado permanentemente en este servidor"
-ban-appeal-open-notify: "There are %appealsCount% unresolved appealed bans!"
+ban-appeal-open-notify: "Hay %appealsCount% apelaciones de baneo sin atender!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -317,13 +316,13 @@ kick-kickmessage: "&6Fuiste expulsado por %issuer%. Razón: %reason%"
 ############################################################
 mute-expired: "&6Tu muteo ha expirado. Puedes escribir nuevamente."
 mute-permamuted: "&6%target% fue silenciado por %issuer%"
-mute-unmuted: "&6%target% ha desmuteado a %issuer%"
-mute-tempmuted: "&6%target% ha silenciado a %issuer% por %duration%"
+mute-unmuted: "&6%issuer% ha desmuteado a %target%"
+mute-tempmuted: "&6%issuer% ha silenciado a %target% por %duration%"
 mute-muted: "&6Te encuentran silenciado. No puedes escribir."
-mute-extended: "&7You have extended &6%target%&7's mute by %extensionDuration%"
-mute-reduced: "&7You have reduced &6%target%&7's mute by %reductionDuration%"
-mute-appeal-open-notify: "There are %appealsCount% unresolved appealed mutes!"
-mute-notify: "You are currently muted!"
+mute-extended: "&7Has extendido el silencio de &6%target%&7 por %extensionDuration%"
+mute-reduced: "&7Has reducido el silencio de &6%target%&7 por %reductionDuration%"
+mute-appeal-open-notify: "Hay %appealsCount% apelaciones de silencio sin atender!"
+mute-notify: "Estas silenciado!"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -364,17 +363,17 @@ ips:
 
 gui:
     id: "Id"
-    status: "Status"
-    server: "Server"
-    type: "Type"
-    reason: "Reason"
-    close-reason: "Close reason"
+    status: "Estado"
+    server: "Servidor"
+    type: "Tipo"
+    reason: "Razon"
+    close-reason: "Razon de cerrar"
     timestamp: "Timestamp"
-    unknown: "Unknown"
-    location: "Location"
-    back: "Back"
-    previous-page: "Previous Page"
-    next-page: "Next Page"
+    unknown: "Desconocido"
+    location: "Ubicacion"
+    back: "Volver"
+    previous-page: "Pagina anterior"
+    next-page: "Siguiente pagina"
     confirmation:
         confirm: Confirm
         cancel: Cancel
