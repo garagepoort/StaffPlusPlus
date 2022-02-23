@@ -21,6 +21,8 @@ public class IpExamineGuiProvider implements ExamineGuiItemProvider {
 
     @ConfigProperty("permissions:ipPerm")
     private String ipHidePerm;
+    @ConfigProperty("permissions:examine-view-ip")
+    private String viewIpPermission;
 
     private final Messages messages;
     private final ExamineModeConfiguration examineModeConfiguration;
@@ -44,7 +46,7 @@ public class IpExamineGuiProvider implements ExamineGuiItemProvider {
 
     @Override
     public boolean enabled(Player staff, SppPlayer player) {
-        return examineModeConfiguration.getModeExamineIp() >= 0 && player.isOnline();
+        return examineModeConfiguration.getModeExamineIp() >= 0 && player.isOnline() && permissionHandler.has(staff, viewIpPermission);
     }
 
     @Override
