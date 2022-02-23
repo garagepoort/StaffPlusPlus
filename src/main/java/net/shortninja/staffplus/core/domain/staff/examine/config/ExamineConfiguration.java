@@ -2,12 +2,12 @@ package net.shortninja.staffplus.core.domain.staff.examine.config;
 
 public class ExamineConfiguration {
 
-    private String permissionExamine;
-    private String permissionExamineInventoryInteraction;
+    private final String permissionExamine;
+    private final String permissionExamineInventoryInteraction;
     private final String permissionExamineInventoryInteractionOffline;
-    private String permissionExamineViewInventory;
+    private final String permissionExamineViewInventory;
     private final String permissionExamineViewInventoryOffline;
-    private String commandExamine;
+    private final String commandExamine;
 
     public ExamineConfiguration(String permissionExamine, String permissionExamineInventoryInteraction,
                                 String permissionExamineInventoryInteractionOffline,

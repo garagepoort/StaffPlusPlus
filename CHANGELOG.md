@@ -1,6 +1,9 @@
 # Changelog Staff++ | v1.18
 
-# V1.18.9
+# V1.18.10
+
+### Breaking change
+  - You now need the permission "staff.examine.view-ip" to view the ip inside the examine GUI.
 
 ### Features
   - NameChanged alerts can now be sent over bungee
@@ -13,7 +16,7 @@
   - Prevent wrong configuration from creating reports without reason
   - Added correct permissions for player information GUI actions
 
-# V1.18.8
+# V1.18.9
 
 ### Features
   - Add chat channels for reports
