@@ -10,8 +10,6 @@ import net.shortninja.staffplus.core.domain.chat.blacklist.BlackListConfiguratio
 import net.shortninja.staffplus.core.domain.chat.blacklist.BlackListConfigurationLoader;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfigurationLoader;
-import net.shortninja.staffplus.core.domain.staff.examine.config.ExamineConfiguration;
-import net.shortninja.staffplus.core.domain.staff.examine.config.ExamineModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
@@ -24,8 +22,6 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsConfigur
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffModesLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
-import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
-import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportingModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.teleport.config.LocationLoader;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceModuleLoader;
@@ -59,13 +55,11 @@ public class Options {
     public AuthenticationConfiguration authenticationConfiguration;
     public InfractionsConfiguration infractionsConfiguration;
     public InvestigationConfiguration investigationConfiguration;
-    public ReportConfiguration reportConfiguration;
     public WarningAppealConfiguration warningAppealConfiguration;
     public BlackListConfiguration blackListConfiguration;
     public TraceConfiguration traceConfiguration;
     public BroadcastConfiguration broadcastConfiguration;
     public KickConfiguration kickConfiguration;
-    public ExamineConfiguration examineConfiguration;
     public Map<String, GeneralModeConfiguration> modeConfigurations;
     public final ServerSyncConfiguration serverSyncConfiguration;
     public StaffItemsConfiguration staffItemsConfiguration;
@@ -81,12 +75,10 @@ public class Options {
 
     private final AuthenticationConfigurationLoader authenticationConfigurationLoader;
     private final InfractionsModuleLoader infractionsModuleLoader;
-    private final ReportingModuleLoader reportingModuleLoader;
     private final BlackListConfigurationLoader blackListConfigurationLoader;
     private final TraceModuleLoader traceModuleLoader;
     private final BroadcastConfigurationLoader broadcastConfigurationLoader;
     private final KickModuleLoader kickModuleLoader;
-    private final ExamineModuleLoader examineModuleLoader;
     private final StaffModesLoader staffModesLoader;
     private final InvestigationModuleLoader investigationModuleLoader;
     private final StaffCustomItemsLoader staffCustomItemsLoader;
@@ -94,12 +86,10 @@ public class Options {
 
     public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
                    InfractionsModuleLoader infractionsModuleLoader,
-                   ReportingModuleLoader reportingModuleLoader,
                    BlackListConfigurationLoader blackListConfigurationLoader,
                    TraceModuleLoader traceModuleLoader,
                    BroadcastConfigurationLoader broadcastConfigurationLoader,
                    KickModuleLoader kickModuleLoader,
-                   ExamineModuleLoader examineModuleLoader,
                    StaffModesLoader staffModesLoader,
                    InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
@@ -108,12 +98,10 @@ public class Options {
                    ServerSyncConfiguration serverSyncConfiguration) {
         this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
-        this.reportingModuleLoader = reportingModuleLoader;
         this.blackListConfigurationLoader = blackListConfigurationLoader;
         this.traceModuleLoader = traceModuleLoader;
         this.broadcastConfigurationLoader = broadcastConfigurationLoader;
         this.kickModuleLoader = kickModuleLoader;
-        this.examineModuleLoader = examineModuleLoader;
         this.staffModesLoader = staffModesLoader;
         this.investigationModuleLoader = investigationModuleLoader;
         this.staffCustomItemsLoader = staffCustomItemsLoader;
@@ -150,12 +138,10 @@ public class Options {
         locations = new LocationLoader().loadConfig();
         authenticationConfiguration = this.authenticationConfigurationLoader.loadConfig();
         infractionsConfiguration = this.infractionsModuleLoader.loadConfig();
-        reportConfiguration = this.reportingModuleLoader.loadConfig();
         blackListConfiguration = this.blackListConfigurationLoader.loadConfig();
         traceConfiguration = this.traceModuleLoader.loadConfig();
         broadcastConfiguration = this.broadcastConfigurationLoader.loadConfig();
         kickConfiguration = this.kickModuleLoader.loadConfig();
-        examineConfiguration = this.examineModuleLoader.loadConfig();
         modeConfigurations = this.staffModesLoader.loadConfig();
         investigationConfiguration = this.investigationModuleLoader.loadConfig();
         customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();

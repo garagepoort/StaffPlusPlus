@@ -17,10 +17,6 @@ public class ProtectConfiguration {
     public boolean modeGuiProtectedAreas;
     @ConfigProperty("staffmode-modules:modules.gui-module.protected-areas-title")
     public String modeGuiProtectedAreasTitle;
-    @ConfigProperty("commands:protect-player")
-    public String commandProtectPlayer;
-    @ConfigProperty("commands:protect-area")
-    public String commandProtectArea;
     @ConfigProperty("permissions:protect-player")
     public String permissionProtectPlayer;
     @ConfigProperty("permissions:protect-area")

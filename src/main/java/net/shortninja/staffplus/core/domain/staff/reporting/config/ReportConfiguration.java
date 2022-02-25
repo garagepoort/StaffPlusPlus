@@ -1,8 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import net.shortninja.staffplus.core.application.config.SoundsConfigTransformer;
 import net.shortninja.staffplus.core.common.Sounds;
-import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandsConfigTransformer;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 
 import java.util.List;
@@ -11,68 +15,59 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@IocBean
 public class ReportConfiguration {
 
-    private final boolean enabled;
-    private final int cooldown;
-    private final boolean showReporter;
-    private final Sounds sound;
-    private final boolean closingReasonEnabled;
-    private final GuiItemConfig openReportsGui;
-    private final GuiItemConfig myReportsGui;
-    private final GuiItemConfig assignedReportsGui;
-    private final GuiItemConfig closedReportsGui;
-    private final String myReportsPermission;
-    private final String myReportsCmd;
-    private final boolean notifyReporterOnJoin;
-    private final List<ReportStatus> reporterNotifyStatuses;
-    private final List<ReportTypeConfiguration> reportTypeConfigurations;
-    private final boolean fixedReason;
-    private final boolean fixedReasonCulprit;
-    private final List<ReportReasonConfiguration> reportReasonConfigurations;
-    private final List<ConfiguredCommand> acceptReportActions;
-    private final List<ConfiguredCommand> rejectReportActions;
-    private final List<ConfiguredCommand> reopenReportActions;
-    private final List<ConfiguredCommand> resolveReportActions;
+    @ConfigProperty("reports-module.enabled")
+    private boolean enabled;
+    @ConfigProperty("reports-module.cooldown")
+    private int cooldown;
+    @ConfigProperty("reports-module.show-reporter")
+    private boolean showReporter;
+    @ConfigProperty("reports-module.sound")
+    @ConfigTransformer(SoundsConfigTransformer.class)
+    private Sounds sound;
+    @ConfigProperty("reports-module.closing-reason-enabled")
+    private boolean closingReasonEnabled;
 
+    @ConfigProperty("permissions:view-my-reports")
+    private String myReportsPermission;
+    @ConfigProperty("commands:my-reports")
+    private List<String> myReportsCmd;
+    @ConfigProperty("reports-module.reporter-notifications.notify-on-join")
+    private boolean notifyReporterOnJoin;
 
-    public ReportConfiguration(boolean enabled,
-                               int cooldown,
-                               boolean showReporter, Sounds sound,
-                               boolean closingReasonEnabled,
-                               GuiItemConfig openReportsGui,
-                               GuiItemConfig myReportsGui,
-                               GuiItemConfig assignedReportsGui,
-                               GuiItemConfig closedReportsGui,
-                               String myReportsPermission, String myReportsCmd, boolean notifyReporterOnJoin,
-                               List<ReportStatus> reporterNotifyStatuses,
-                               List<ReportTypeConfiguration> reportTypeConfigurations,
-                               boolean fixedReason, boolean fixedReasonCulprit, List<ReportReasonConfiguration> reportReasonConfigurations, List<ConfiguredCommand> acceptReportActions,
-                               List<ConfiguredCommand> rejectReportActions,
-                               List<ConfiguredCommand> reopenReportActions,
-                               List<ConfiguredCommand> resolveReportActions) {
-        this.enabled = enabled;
-        this.cooldown = cooldown;
-        this.showReporter = showReporter;
-        this.sound = sound;
-        this.closingReasonEnabled = closingReasonEnabled;
-        this.openReportsGui = openReportsGui;
-        this.myReportsGui = myReportsGui;
-        this.assignedReportsGui = assignedReportsGui;
-        this.closedReportsGui = closedReportsGui;
-        this.myReportsPermission = myReportsPermission;
-        this.myReportsCmd = myReportsCmd;
-        this.notifyReporterOnJoin = notifyReporterOnJoin;
-        this.reporterNotifyStatuses = reporterNotifyStatuses;
-        this.reportTypeConfigurations = reportTypeConfigurations;
-        this.fixedReason = fixedReason;
-        this.fixedReasonCulprit = fixedReasonCulprit;
-        this.reportReasonConfigurations = reportReasonConfigurations;
-        this.acceptReportActions = acceptReportActions;
-        this.rejectReportActions = rejectReportActions;
-        this.reopenReportActions = reopenReportActions;
-        this.resolveReportActions = resolveReportActions;
-    }
+    @ConfigProperty("reports-module.reporter-notifications.status-change-notifications")
+    @ConfigTransformer(ReportStatusesConfigTransformer.class)
+    private List<ReportStatus> reporterNotifyStatuses;
+
+    @ConfigProperty("reports-module.report-types")
+    @ConfigTransformer(ReportTypeConfigTransformer.class)
+    private List<ReportTypeConfiguration> reportTypeConfigurations;
+
+    @ConfigProperty("reports-module.reasons")
+    @ConfigTransformer(ReportReasonConfigTransformer.class)
+    private List<ReportReasonConfiguration> reportReasonConfigurations;
+    @ConfigProperty("reports-module.fixed-reason")
+    private boolean fixedReason;
+    @ConfigProperty("reports-module.fixed-reason-culprit")
+    private boolean fixedReasonCulprit;
+
+    @ConfigProperty("reports-module.accept-commands")
+    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
+    private List<ConfiguredCommand> acceptReportActions;
+
+    @ConfigProperty("reports-module.reject-commands")
+    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
+    private List<ConfiguredCommand> rejectReportActions;
+
+    @ConfigProperty("reports-module.reopen-commands")
+    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
+    private List<ConfiguredCommand> reopenReportActions;
+
+    @ConfigProperty("reports-module.resolve-commands")
+    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
+    private List<ConfiguredCommand> resolveReportActions;
 
     public boolean isFixedReason() {
         return fixedReason;
@@ -102,24 +97,12 @@ public class ReportConfiguration {
         return Optional.ofNullable(sound);
     }
 
-    public GuiItemConfig getOpenReportsGui() {
-        return openReportsGui;
-    }
-
-    public GuiItemConfig getMyAssignedReportsGui() {
-        return myReportsGui;
-    }
-
-    public GuiItemConfig getClosedReportsGui() {
-        return closedReportsGui;
-    }
-
     public String getMyReportsPermission() {
         return myReportsPermission;
     }
 
     public String getMyReportsCmd() {
-        return myReportsCmd;
+        return myReportsCmd.get(0);
     }
 
     public boolean isNotifyReporterOnJoin() {
@@ -128,10 +111,6 @@ public class ReportConfiguration {
 
     public List<ReportStatus> getReporterNotifyStatuses() {
         return reporterNotifyStatuses;
-    }
-
-    public GuiItemConfig getAssignedReportsGui() {
-        return assignedReportsGui;
     }
 
     @SafeVarargs

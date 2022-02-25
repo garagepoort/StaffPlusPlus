@@ -5,7 +5,6 @@ import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -17,6 +16,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.Report
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportCreatedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportDeletedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.events.ReportReopenedBungeeEvent;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplusplus.reports.AcceptReportEvent;
 import net.shortninja.staffplusplus.reports.CreateReportEvent;
 import net.shortninja.staffplusplus.reports.DeleteReportEvent;
@@ -44,17 +44,17 @@ public class ReportChatNotifier implements Listener {
     private String permissionReportUpdateNotifications;
 
     private final Messages messages;
-    private final Options options;
     private final PlayerManager playerManager;
     private final PermissionHandler permission;
     private final ReportMessageUtil reportMessageUtil;
+    private final ReportConfiguration reportConfiguration;
 
-    public ReportChatNotifier(Messages messages, Options options, PlayerManager playerManager, PermissionHandler permission, ReportMessageUtil reportMessageUtil) {
+    public ReportChatNotifier(Messages messages, PlayerManager playerManager, PermissionHandler permission, ReportMessageUtil reportMessageUtil, ReportConfiguration reportConfiguration) {
         this.messages = messages;
-        this.options = options;
         this.playerManager = playerManager;
         this.permission = permission;
         this.reportMessageUtil = reportMessageUtil;
+        this.reportConfiguration = reportConfiguration;
     }
 
     // CREATION
@@ -68,7 +68,7 @@ public class ReportChatNotifier implements Listener {
 
         String notificationMessage = report.getCulpritUuid() == null ? messages.reportCreatedNotification : messages.reportCulpritCreatedNotification;
         sendStaffNotification(report, notificationMessage);
-        options.reportConfiguration.getSound().ifPresent(s -> s.playForGroup(permissionReportUpdateNotifications));
+        reportConfiguration.getSound().ifPresent(s -> s.playForGroup(permissionReportUpdateNotifications));
     }
 
     @EventHandler
@@ -77,7 +77,7 @@ public class ReportChatNotifier implements Listener {
 
         String notificationMessage = reportMessageUtil.replaceReportPlaceholders(report.getCulpritUuid() == null ? messages.reportCreatedNotification : messages.reportCulpritCreatedNotification, report);
         sendStaffNotification(report, notificationMessage);
-        options.reportConfiguration.getSound().ifPresent(s -> s.playForGroup(permissionReportUpdateNotifications));
+        reportConfiguration.getSound().ifPresent(s -> s.playForGroup(permissionReportUpdateNotifications));
     }
 
     // DELETION
@@ -160,7 +160,7 @@ public class ReportChatNotifier implements Listener {
     }
 
     private void notifyReporter(UUID reporterUuid, String title, ReportStatus reportStatus) {
-        if (!options.reportConfiguration.getReporterNotifyStatuses().contains(reportStatus)) {
+        if (!reportConfiguration.getReporterNotifyStatuses().contains(reportStatus)) {
             return;
         }
 
@@ -170,8 +170,8 @@ public class ReportChatNotifier implements Listener {
                 messages.prefixReports + " " + title,
                 messages.reporterViewReportsButton,
                 messages.reporterViewReportsButtonTooltip,
-                options.reportConfiguration.getMyReportsCmd(),
-                permission.has(sppPlayer.getPlayer(), options.reportConfiguration.getMyReportsPermission()));
+                reportConfiguration.getMyReportsCmd(),
+                permission.has(sppPlayer.getPlayer(), reportConfiguration.getMyReportsPermission()));
             message.send(sppPlayer.getPlayer());
         });
     }
