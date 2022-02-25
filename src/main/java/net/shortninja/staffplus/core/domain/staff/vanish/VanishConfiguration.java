@@ -28,7 +28,4 @@ public class VanishConfiguration {
     @ConfigProperty("permissions:vanish-player")
     public String permissionVanishPlayer;
 
-    @ConfigProperty("commands:vanish")
-    public String commandVanish;
-
 }

@@ -3,9 +3,9 @@ package net.shortninja.staffplus.core.domain.staff.examine.items;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.examine.config.ExamineConfiguration;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Material;
@@ -16,12 +16,12 @@ import org.bukkit.inventory.ItemStack;
 @IocMultiProvider(ExamineGuiItemProvider.class)
 public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
 
-    private final Options options;
     private final PermissionHandler permissionHandler;
+    private final ExamineConfiguration examineConfiguration;
 
-    public InventoryExamineGuiProvider(Options options, PermissionHandler permissionHandler) {
-        this.options = options;
+    public InventoryExamineGuiProvider(PermissionHandler permissionHandler, ExamineConfiguration examineConfiguration) {
         this.permissionHandler = permissionHandler;
+        this.examineConfiguration = examineConfiguration;
     }
 
     @Override
@@ -41,9 +41,9 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
     @Override
     public boolean enabled(Player staff, SppPlayer player) {
         if (player.isOnline()) {
-            return permissionHandler.has(staff, options.examineConfiguration.getPermissionExamineViewInventory());
+            return permissionHandler.has(staff, examineConfiguration.getPermissionExamineViewInventory());
         } else {
-            return permissionHandler.has(staff, options.examineConfiguration.getPermissionExamineViewInventoryOffline());
+            return permissionHandler.has(staff, examineConfiguration.getPermissionExamineViewInventoryOffline());
         }
     }
 

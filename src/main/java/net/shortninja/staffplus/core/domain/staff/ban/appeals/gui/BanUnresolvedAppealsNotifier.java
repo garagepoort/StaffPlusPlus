@@ -17,12 +17,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import java.util.List;
+
 @IocBean(conditionalOnProperty = "ban-module.appeals.enabled=true")
 @IocListener
 public class BanUnresolvedAppealsNotifier implements Listener {
 
     @ConfigProperty("commands:bans.manage.appealed-gui")
-    public String commandManageAppealedBansGui;
+    public List<String> commandManageAppealedBansGui;
 
     private final AppealRepository appealRepository;
     private final BanAppealConfiguration banAppealConfiguration;
@@ -64,7 +66,7 @@ public class BanUnresolvedAppealsNotifier implements Listener {
             messages.banOpenAppealsNotify.replace("%appealsCount%", String.valueOf(appealsCount)),
             "View unresolved ban appeals!",
             "Click to view unresolved appeals",
-            commandManageAppealedBansGui,
+            commandManageAppealedBansGui.get(0),
             canManageBan(event));
         message.send(event.getPlayer());
     }

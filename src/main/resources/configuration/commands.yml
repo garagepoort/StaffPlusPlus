@@ -7,196 +7,196 @@
 # All commands and their according names.
 # Leave a command blank to disable it.
 
-staffplus: "staffplus"
+staffplus: ["staffplus"]
 # The command for toggling staff mode.
-staff-mode: "staff"
+staff-mode: ["staff"]
 # The command for toggling fly while in staff mode.
-staff-mode-fly: "sfly"
+staff-mode-fly: ["sfly"]
 
 # The command for toggling freeze on players.
-freeze: "freeze"
+freeze: ["freeze"]
 # The command sending messages on a freeze channel.
-freezechannel.chat: "fc"
+freezechannel.chat: ["fc"]
 
 # The command for teleporting a player to predefined locations
-teleport-to-location: "teleportToLocation"
+teleport-to-location: ["teleportToLocation"]
 
 # The command for teleporting a player back to a previous location
-teleport-back: "teleportBack"
+teleport-back: ["teleportBack"]
 
 # The command for teleporting yourself to another player
-teleport-to-player: "teleportToPlayer"
+teleport-to-player: ["teleportToPlayer"]
 
 # The command for teleporting a player to your location
-teleport-here: "teleportHere"
+teleport-here: ["teleportHere"]
 
 # The command for examining players' inventory
-examine: "examine"
+examine: ["examine"]
 
 # The command for reading notes.
-notes: "notes"
+notes: ["notes"]
 # The command for creating player notes
-note: "note"
-private-note: "pnote"
+note: ["note"]
+private-note: ["pnote"]
 
 # The command for running a clicks per second test on a player
-cps: "cps"
+cps: ["cps"]
 
 # The command for opening the my reports gui
-my-reports: "my-reports"
+my-reports: ["my-reports"]
 
 # The command for reporting and managing reports.
-report: "report"
+report: ["report"]
 
-players: "players"
+players: ["players"]
 
 # The command for reporting and managing reports specifically targeting a player.
-reportPlayer: "reportPlayer"
+reportPlayer: ["reportPlayer"]
 
 reports:
-    chat: "rc"
+    chat: ["rc"]
     manage:
         #Command to open the manage reports gui
-        gui: "manage-reports"
-        gui-find-reports: "find-reports"
+        gui: ["manage-reports"]
+        gui-find-reports: ["find-reports"]
         # The command for managing reports specifically targeting a player.
-        cli: "reports"
-        teleport-to-report: "teleport-to-report"
+        cli: ["reports"]
+        teleport-to-report: ["teleport-to-report"]
 
 investigations.manage:
-    start: "investigate"
-    pause: "pause-investigation"
-    conclude: "conclude-investigation"
-    gui: "manage-investigations"
-    add-note: "inote"
+    start: ["investigate"]
+    pause: ["pause-investigation"]
+    conclude: ["conclude-investigation"]
+    gui: ["manage-investigations"]
+    add-note: ["inote"]
 # The command for warning players
-warn: "warn"
+warn: ["warn"]
 
 # The command for warning and managing warnings.
-warns: "warns"
+warns: ["warns"]
 
 warnings.manage:
     #Command to open the manage warnings gui
-    gui: "manage-warnings"
+    gui: ["manage-warnings"]
     #Command to open the manage warnings gui
-    appealed-gui: "manage-appealed-warnings"
+    appealed-gui: ["manage-appealed-warnings"]
 
 # The command for opening the my warnings gui
-my-warnings: "my-warnings"
+my-warnings: ["my-warnings"]
 
 # The command for toggling vanish modes.
-vanish: "vanish"
+vanish: ["vanish"]
 
 # The command for chat management.
-chat: "chat"
+chat: ["chat"]
 
 # The command for creating and managing tickets.
-ticket: "ticket"
+ticket: ["ticket"]
 
 # The command for alerts management.
-alerts: "alerts"
+alerts: ["alerts"]
 
 # The command for toggling player following.
-follow: "follow"
+follow: ["follow"]
 
 # The command for reviving players.
-revive: "revive"
+revive: ["revive"]
 
 # The command for listing staff members.
-staff-list: "personnel"
+staff-list: ["personnel"]
 
 # The command for logging in.
-login: "login"
+login: ["login"]
 
 # The command for registering a password.
-register: "register"
+register: ["register"]
 
 # The command for stripping a player's armor.
-strip: "strip"
+strip: ["strip"]
 
 # The command for clearing a players inventory
-clearInv: "clear"
+clearInv: ["clear"]
 
 # The command to start/stop tracing a player
-trace: "trace"
+trace: ["trace"]
 
 # The command to view a players ender chest
-echest_view: "eview"
+echest_view: ["eview"]
 
 # The command to broadcast a message over all servers
-broadcast: "broadcast"
+broadcast: ["broadcast"]
 
 # The command to toggle protection of a player
-protect-player: "protectPlayer"
+protect-player: ["protectPlayer"]
 
 # The command to create/delete a protected area
-protect-area: "protectArea"
+protect-area: ["protectArea"]
 
 bans.manage:
-    gui: "manage-bans"
-    appealed-gui: "manage-appealed-bans"
+    gui: ["manage-bans"]
+    appealed-gui: ["manage-appealed-bans"]
 
 # The command to permanently ban a player
-ban: "ban"
-bans-migrate: "bans-migrate"
+ban: ["ban"]
+bans-migrate: ["bans-migrate"]
 
 # The command to temporarily ban a player
-tempban: "tempban"
+tempban: ["tempban"]
 
-extendban: "ban-extend"
-reduceban: "ban-reduce"
+extendban: ["ban-extend"]
+reduceban: ["ban-reduce"]
 
 # The command to unban a player
-unban: "unban"
+unban: ["unban"]
 
 # The command to kick a player
-kick: "kick"
+kick: ["kick"]
 
 # The command to permanently mute a player
-mute: "mute"
+mute: ["mute"]
 mutes.manage:
-    gui: "manage-mutes"
-    appealed-gui: "manage-appealed-mutes"
+    gui: ["manage-mutes"]
+    appealed-gui: ["manage-appealed-mutes"]
 # The command for opening the my mutes gui
-my-mutes: "my-mutes"
+my-mutes: ["my-mutes"]
 
 # The command to temporarily mute a player
-tempmute: "tempmute"
-extendmute: "mute-extend"
-reducemute: "mute-reduce"
+tempmute: ["tempmute"]
+extendmute: ["mute-extend"]
+reducemute: ["mute-reduce"]
 
 # The command to unmute a player
-unmute: "unmute"
+unmute: ["unmute"]
 
 # The command to unban a player
-alt-detect-whitelist: "altWhitelist"
+alt-detect-whitelist: ["altWhitelist"]
 # The command to unban a player
-alt-detect-check: "altCheck"
+alt-detect-check: ["altCheck"]
 
 # The command to view the infractions of a player
-infractions-view: "infractions"
+infractions-view: ["infractions"]
 
 # The command to view the players with the most infractions
-infractions-top-view: "infractions-top"
+infractions-top-view: ["infractions-top"]
 
 webui:
-    register: "register"
+    register: ["register"]
 
 ipban:
-    ban: "ipban"
-    tempban: "iptempban"
-    unban: "ipunban"
-    bancheck: "ipban-check"
-    ipbans: "ipbans"
-    migrate: "ipbans-migrate"
+    ban: ["ipban"]
+    tempban: ["iptempban"]
+    unban: ["ipunban"]
+    bancheck: ["ipban-check"]
+    ipbans: ["ipbans"]
+    migrate: ["ipbans-migrate"]
 
 ips:
-    clear-ips: "clear-ips"
-choice-action: "choice-action"
+    clear-ips: ["clear-ips"]
+choice-action: ["choice-action"]
 
-show-style-info: "show-style-info"
+show-style-info: ["show-style-info"]
 
 chatchannels:
-    join: "join-channel"
-    leave: "leave-channel"
-    close: "close-channel"
+    join: ["join-channel"]
+    leave: ["leave-channel"]
+    close: ["close-channel"]

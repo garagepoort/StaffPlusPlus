@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.report;
 
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.SppLocation;
 import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
@@ -15,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.chatchannels.ReportChatChannelService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportsGuiController;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd.ReportFiltersMapper;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
@@ -64,8 +64,6 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
     @Mock
     private BukkitUtils bukkitUtils;
     @Mock
-    private Options options;
-    @Mock
     private Messages messages;
     @Mock
     private OnlineSessionsManager onlineSessionsManager;
@@ -81,6 +79,8 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
     private World world;
     @Mock
     private ChatChannel chatChannel;
+    @Mock
+    private ReportConfiguration reportConfiguration;
 
     @Captor
     private ArgumentCaptor<String> xmlCaptor;
@@ -113,7 +113,6 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
             permissionHandler,
             manageReportConfiguration,
             reportService,
-            options,
             bukkitUtils,
             messages,
             manageReportService,
@@ -121,7 +120,8 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
             reportFiltersMapper,
             playerManager,
             chatChannelService,
-            reportChatChannelService);
+            reportChatChannelService,
+            reportConfiguration);
     }
 
     @Test
