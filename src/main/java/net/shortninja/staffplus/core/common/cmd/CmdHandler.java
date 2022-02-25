@@ -57,9 +57,12 @@ public class CmdHandler implements PluginDisable {
             abstractCmd.setDelayable(command.delayable());
             abstractCmd.setPlayerRetrievalStrategy(command.playerRetrievalStrategy());
             if (StringUtils.isNotBlank(command.command())) {
-                String commandName = (String) ReflectionUtils.getConfigValue(command.command(), StaffPlus.get().getFileConfigurations())
+                List<String> commandNames = (List<String>) ReflectionUtils.getConfigValue(command.command(), StaffPlus.get().getFileConfigurations())
                     .orElseThrow(() -> new ConfigurationException("Invalid command name: " + command.command()));
-                abstractCmd.setName(commandName);
+                if (commandNames.size() > 0) {
+                    abstractCmd.setName(commandNames.get(0));
+                    abstractCmd.setAliases(commandNames);
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.application.config;
 
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.migrators.CommandsMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.CommandsMultipleAliasesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.CommandsV2Migrator;
 import net.shortninja.staffplus.core.application.config.migrators.ConfigMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.CustomStaffModeModuleCommandMigrator;
@@ -62,7 +63,8 @@ public class AutoUpdater {
         new ThresholdCommandsMigrator(),
         new FreezeModuleMigrator(),
         new ServerSyncBooleanMigrator(),
-        new PhraseDetectionToGroupsMigrator());
+        new PhraseDetectionToGroupsMigrator(),
+        new CommandsMultipleAliasesMigrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         if(EXCLUDED_CONFIG_FOR_UPDATES.contains(configurationFile.getIdentifier())) {

@@ -102,7 +102,7 @@ public class WarningAppealedListener implements Listener {
     }
 
     private void sendAppealedMessageToStaff(Warning warning, Player appealer) {
-        String manageWarningsCommand = manageWarningsConfiguration.commandManageWarningsGui + " " + warning.getTargetName();
+        String manageWarningsCommand = manageWarningsConfiguration.commandManageWarningsGui.get(0) + " " + warning.getTargetName();
         JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed a warning",
             "View warnings!",
             "Click to open the warnings view",

@@ -57,7 +57,7 @@ public class WarningAppealNotifierListener implements Listener {
             messages.warningOpenAppealsNotify.replace("%appealsCount%", String.valueOf(appealsCount)),
             "View unresolved appeals!",
             "Click to view unresolved appeals",
-            manageWarningsConfiguration.commandManageAppealedWarningsGui,
+            manageWarningsConfiguration.commandManageAppealedWarningsGui.get(0),
             canManageAppeal(event));
         message.send(event.getPlayer());
     }

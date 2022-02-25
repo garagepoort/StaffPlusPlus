@@ -15,9 +15,4 @@ public class WebUiConfiguration {
     @ConfigProperty("webui-module.role")
     public String role;
 
-    @ConfigProperty("commands:webui.register")
-    public String registrationCmd;
-    @ConfigProperty("permissions:webui.register")
-    public String registrationPermission;
-
 }
