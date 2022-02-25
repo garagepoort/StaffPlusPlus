@@ -1,10 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import net.shortninja.staffplus.core.common.gui.SimpleItemBuilder;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.CulpritFilterPredicate;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportReasonConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.actions.SelectReportReasonAction;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -19,10 +19,10 @@ public class ReportReasonSelectGui extends AbstractGui {
     private final Player staff;
     private final String type;
     private final SppPlayer targetPlayer;
-    private List<ReportReasonConfiguration> reportReasonConfigurations;
+    private final List<ReportReasonConfiguration> reportReasonConfigurations;
 
     public ReportReasonSelectGui(Player staff, SppPlayer targetPlayer, String type, List<ReportReasonConfiguration> reportReasonConfigurations) {
-        super(getInventorySize(StaffPlus.get().getIocContainer().get(Options.class).reportConfiguration.getReportReasonConfigurations(new CulpritFilterPredicate(false)).size()), "Select the reason for report");
+        super(getInventorySize(StaffPlus.get().getIocContainer().get(ReportConfiguration.class).getReportReasonConfigurations(new CulpritFilterPredicate(false)).size()), "Select the reason for report");
         this.staff = staff;
         this.targetPlayer = targetPlayer;
         this.type = type;
@@ -32,7 +32,7 @@ public class ReportReasonSelectGui extends AbstractGui {
     }
 
     public ReportReasonSelectGui(Player staff, String type, List<ReportReasonConfiguration> reportReasonConfigurations) {
-        super(getInventorySize(StaffPlus.get().getIocContainer().get(Options.class).reportConfiguration.getReportReasonConfigurations(new CulpritFilterPredicate(false)).size()), "Select the reason for report");
+        super(getInventorySize(StaffPlus.get().getIocContainer().get(ReportConfiguration.class).getReportReasonConfigurations(new CulpritFilterPredicate(false)).size()), "Select the reason for report");
         this.staff = staff;
         this.type = type;
         this.targetPlayer = null;

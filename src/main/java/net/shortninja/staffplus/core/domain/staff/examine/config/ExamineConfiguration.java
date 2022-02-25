@@ -1,29 +1,23 @@
 package net.shortninja.staffplus.core.domain.staff.examine.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+
+import java.util.List;
+
+@IocBean
 public class ExamineConfiguration {
 
-    private final String permissionExamine;
-    private final String permissionExamineInventoryInteraction;
-    private final String permissionExamineInventoryInteractionOffline;
-    private final String permissionExamineViewInventory;
-    private final String permissionExamineViewInventoryOffline;
-    private final String commandExamine;
-
-    public ExamineConfiguration(String permissionExamine, String permissionExamineInventoryInteraction,
-                                String permissionExamineInventoryInteractionOffline,
-                                String permissionExamineViewInventory,
-                                String permissionExamineViewInventoryOffline, String commandExamine) {
-        this.permissionExamine = permissionExamine;
-        this.permissionExamineInventoryInteraction = permissionExamineInventoryInteraction;
-        this.permissionExamineInventoryInteractionOffline = permissionExamineInventoryInteractionOffline;
-        this.permissionExamineViewInventory = permissionExamineViewInventory;
-        this.permissionExamineViewInventoryOffline = permissionExamineViewInventoryOffline;
-        this.commandExamine = commandExamine;
-    }
-
-    public String getPermissionExamine() {
-        return permissionExamine;
-    }
+    @ConfigProperty("permissions:examine-inventory-interaction.online")
+    private String permissionExamineInventoryInteraction;
+    @ConfigProperty("permissions:examine-inventory-interaction.offline")
+    private String permissionExamineInventoryInteractionOffline;
+    @ConfigProperty("permissions:examine-view-inventory.online")
+    private String permissionExamineViewInventory;
+    @ConfigProperty("permissions:examine-view-inventory.offline")
+    private String permissionExamineViewInventoryOffline;
+    @ConfigProperty("commands:examine")
+    private List<String> commandExamine;
 
     public String getPermissionExamineInventoryInteraction() {
         return permissionExamineInventoryInteraction;
@@ -42,6 +36,6 @@ public class ExamineConfiguration {
     }
 
     public String getCommandExamine() {
-        return commandExamine;
+        return commandExamine.get(0);
     }
 }

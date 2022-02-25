@@ -23,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.List;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
@@ -32,7 +33,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 public class MuteAppealChatNotifier implements Listener {
 
     @ConfigProperty("commands:mutes.manage.gui")
-    public String commandManageMutesGui;
+    public List<String> commandManageMutesGui;
 
     private final Messages messages;
     private final MuteAppealConfiguration muteAppealConfiguration;
@@ -104,7 +105,7 @@ public class MuteAppealChatNotifier implements Listener {
     }
 
     private void sendAppealedMessageToStaff(Mute mute, Player appealer) {
-        String manageMutesCommand = commandManageMutesGui + " " + mute.getTargetName();
+        String manageMutesCommand = commandManageMutesGui.get(0) + " " + mute.getTargetName();
         JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed a mute",
             "View mutes!",
             "Click to open the mutes view",

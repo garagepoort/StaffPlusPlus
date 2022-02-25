@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 
 @IocBean(conditionalOnProperty = "metrics=true")
@@ -13,12 +14,17 @@ public class MetricsService {
 
     private static final int PLUGIN_ID = 9351;
 
-    public MetricsService(Options options, WarningConfiguration warningConfiguration, BanConfiguration banConfiguration, AltDetectConfiguration altDetectConfiguration, MuteConfiguration muteConfiguration) {
+    public MetricsService(Options options,
+                          WarningConfiguration warningConfiguration,
+                          BanConfiguration banConfiguration,
+                          AltDetectConfiguration altDetectConfiguration,
+                          MuteConfiguration muteConfiguration,
+                          ReportConfiguration reportConfiguration) {
         Metrics metrics = new Metrics(StaffPlus.get(), PLUGIN_ID);
 
         boolean warningConfigurationEnabled = warningConfiguration.isEnabled();
         boolean appealConfigurationEnabled = options.warningAppealConfiguration.enabled;
-        boolean reportConfigurationEnabled = options.reportConfiguration.isEnabled();
+        boolean reportConfigurationEnabled = reportConfiguration.isEnabled();
         boolean banConfigurationEnabled = banConfiguration.enabled;
         boolean muteConfigurationEnabled = muteConfiguration.muteEnabled;
         boolean kickConfigurationEnabled = options.kickConfiguration.isEnabled();
