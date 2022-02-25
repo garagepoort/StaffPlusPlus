@@ -12,12 +12,14 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import java.util.List;
+
 @IocBean
 @IocListener
 public class FreezeBlockedCommandsListener implements Listener {
 
     @ConfigProperty("commands:freezechannel.chat")
-    private String freezeChatCommand;
+    private List<String> freezeChatCommands;
 
     private final FreezeConfiguration freezeConfiguration;
     private final OnlineSessionsManager sessionManager;
@@ -32,7 +34,7 @@ public class FreezeBlockedCommandsListener implements Listener {
         Player player = event.getPlayer();
         String command = event.getMessage().toLowerCase();
         OnlinePlayerSession session = sessionManager.get(player);
-        if(command.startsWith("/" + freezeChatCommand)) {
+        if(freezeChatCommands.stream().anyMatch(c -> command.startsWith("/" + c))) {
             return;
         }
 

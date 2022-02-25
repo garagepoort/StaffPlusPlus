@@ -2,12 +2,12 @@ package net.shortninja.staffplus.core.domain.staff.reporting.actions;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandMapper;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplusplus.reports.AcceptReportEvent;
 import net.shortninja.staffplusplus.reports.IReport;
 import net.shortninja.staffplusplus.reports.RejectReportEvent;
@@ -28,41 +28,45 @@ import java.util.Optional;
 @IocListener
 public class ReportActionsHook implements Listener {
 
-    private final Options options;
     private final ActionService actionService;
     private final PlayerManager playerManager;
     private final ConfiguredCommandMapper configuredCommandMapper;
     private final BukkitUtils bukkitUtils;
+    private final ReportConfiguration reportConfiguration;
 
-    public ReportActionsHook(Options options, ActionService actionService, PlayerManager playerManager, ConfiguredCommandMapper configuredCommandMapper, BukkitUtils bukkitUtils) {
-        this.options = options;
+    public ReportActionsHook(ActionService actionService,
+                             PlayerManager playerManager,
+                             ConfiguredCommandMapper configuredCommandMapper,
+                             BukkitUtils bukkitUtils,
+                             ReportConfiguration reportConfiguration) {
         this.actionService = actionService;
         this.playerManager = playerManager;
         this.configuredCommandMapper = configuredCommandMapper;
         this.bukkitUtils = bukkitUtils;
+        this.reportConfiguration = reportConfiguration;
     }
 
     @EventHandler
     public void onAccept(AcceptReportEvent event) {
-        executeActions(event.getReport(), options.reportConfiguration.getAcceptReportActions());
+        executeActions(event.getReport(), reportConfiguration.getAcceptReportActions());
     }
 
 
     @EventHandler
     public void onReject(RejectReportEvent event) {
-        executeActions(event.getReport(), options.reportConfiguration.getRejectReportActions());
+        executeActions(event.getReport(), reportConfiguration.getRejectReportActions());
     }
 
 
     @EventHandler
     public void onReopen(ReopenReportEvent event) {
-        executeActions(event.getReport(), options.reportConfiguration.getReopenReportActions());
+        executeActions(event.getReport(), reportConfiguration.getReopenReportActions());
     }
 
 
     @EventHandler
     public void onResolve(ResolveReportEvent event) {
-        executeActions(event.getReport(), options.reportConfiguration.getResolveReportActions());
+        executeActions(event.getReport(), reportConfiguration.getResolveReportActions());
     }
 
     private void executeActions(IReport report, List<ConfiguredCommand> commands) {

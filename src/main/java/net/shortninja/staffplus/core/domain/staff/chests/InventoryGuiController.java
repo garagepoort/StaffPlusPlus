@@ -6,13 +6,13 @@ import be.garagepoort.mcioc.gui.GuiActionReturnType;
 import be.garagepoort.mcioc.gui.GuiActionService;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.common.gui.IAction;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.InventoryFactory;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.examine.config.ExamineConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -25,15 +25,19 @@ public class InventoryGuiController {
     private final PlayerManager playerManager;
     private final InventoryFactory inventoryFactory;
     private final PermissionHandler permissionHandler;
-    private final Options options;
     private final GuiActionService guiActionService;
+    private final ExamineConfiguration examineConfiguration;
 
-    public InventoryGuiController(PlayerManager playerManager, InventoryFactory inventoryFactory, PermissionHandler permissionHandler, Options options, GuiActionService guiActionService) {
+    public InventoryGuiController(PlayerManager playerManager,
+                                  InventoryFactory inventoryFactory,
+                                  PermissionHandler permissionHandler,
+                                  GuiActionService guiActionService,
+                                  ExamineConfiguration examineConfiguration) {
         this.playerManager = playerManager;
         this.inventoryFactory = inventoryFactory;
         this.permissionHandler = permissionHandler;
-        this.options = options;
         this.guiActionService = guiActionService;
+        this.examineConfiguration = examineConfiguration;
     }
 
     @GuiAction("manage-inventory/open")
@@ -43,9 +47,18 @@ public class InventoryGuiController {
         SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
         ChestGUI chestGUI;
         if (target.isOnline()) {
-            chestGUI = new ChestGUI(target, target.getPlayer().getPlayer().getInventory(), 45, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(staff, options.examineConfiguration.getPermissionExamineInventoryInteraction()));
+            chestGUI = new ChestGUI(target,
+                target.getPlayer().getPlayer().getInventory(),
+                45,
+                ChestGuiType.PLAYER_INVENTORY_EXAMINE,
+                permissionHandler.has(staff, examineConfiguration.getPermissionExamineInventoryInteraction()));
         } else {
-            chestGUI = new ChestGUI(target, inventoryFactory.loadInventoryOffline(staff, target), 45, ChestGuiType.PLAYER_INVENTORY_EXAMINE, permissionHandler.has(staff, options.examineConfiguration.getPermissionExamineInventoryInteractionOffline()));
+            chestGUI = new ChestGUI(target,
+                inventoryFactory.loadInventoryOffline(staff,
+                    target),
+                45,
+                ChestGuiType.PLAYER_INVENTORY_EXAMINE,
+                permissionHandler.has(staff, examineConfiguration.getPermissionExamineInventoryInteractionOffline()));
         }
         fillEmptyPlaces(chestGUI);
         chestGUI.setItem(44, Items.createDoor("Back", "Go back"), new IAction() {
