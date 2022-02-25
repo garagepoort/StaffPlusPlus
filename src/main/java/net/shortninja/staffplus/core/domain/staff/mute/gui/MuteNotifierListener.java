@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import java.util.List;
 import java.util.Optional;
 
 @IocBean(conditionalOnProperty = "mute-module.enabled=true")
@@ -23,7 +24,7 @@ public class MuteNotifierListener implements Listener {
     @ConfigProperty("%lang%:mute-notify")
     private String muteNotifyMessage;
     @ConfigProperty("commands:my-mutes")
-    private String myMutesCmd;
+    private List<String> myMutesCmd;
     @ConfigProperty("permissions:view-my-mutes")
     private String myMutesPermission;
 
@@ -52,7 +53,7 @@ public class MuteNotifierListener implements Listener {
             muteNotifyMessage,
             "View your mute!",
             "Click to view your mute",
-            myMutesCmd,
+            myMutesCmd.get(0),
             permission.has(event.getPlayer(), myMutesPermission));
         message.send(event.getPlayer());
     }

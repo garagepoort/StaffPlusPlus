@@ -4,10 +4,10 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -22,18 +22,18 @@ import static org.bukkit.Bukkit.getScheduler;
 public class ReportListener implements Listener {
 
     private final ReportService reportService;
-    private final Options options;
     private final PermissionHandler permission;
+    private final ReportConfiguration reportConfiguration;
 
-    public ReportListener(ReportService reportService, Options options, PermissionHandler permission) {
+    public ReportListener(ReportService reportService, PermissionHandler permission, ReportConfiguration reportConfiguration) {
         this.reportService = reportService;
-        this.options = options;
         this.permission = permission;
+        this.reportConfiguration = reportConfiguration;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void notifyReports(StaffPlusPlusJoinedEvent event) {
-        if (!options.reportConfiguration.isNotifyReporterOnJoin()) {
+        if (!reportConfiguration.isNotifyReporterOnJoin()) {
             return;
         }
         getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
@@ -45,8 +45,8 @@ public class ReportListener implements Listener {
                     "You have " + openReports.size() + " open reports",
                     "View your reports!",
                     "Click to view your reports",
-                    options.reportConfiguration.getMyReportsCmd(),
-                    permission.has(event.getPlayer(), options.reportConfiguration.getMyReportsPermission()));
+                    reportConfiguration.getMyReportsCmd(),
+                    permission.has(event.getPlayer(), reportConfiguration.getMyReportsPermission()));
                 message.send(event.getPlayer());
             }
         });

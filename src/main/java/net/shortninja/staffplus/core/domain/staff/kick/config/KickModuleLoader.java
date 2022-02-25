@@ -17,12 +17,11 @@ public class KickModuleLoader extends AbstractConfigLoader<KickConfiguration> {
     @Override
     protected KickConfiguration load() {
         boolean kickEnabled = defaultConfig.getBoolean("kick-module.enabled");
-        String commandKickPlayer = commandsConfig.getString("kick");
         String permissionKickPlayer = permissionsConfig.getString("kick");
         String permissionKickByPass = permissionsConfig.getString("kick-bypass");
 
         boolean fixedReason = defaultConfig.getBoolean("kick-module.fixed-reason", false);
-        return new KickConfiguration(kickEnabled, commandKickPlayer, permissionKickPlayer, permissionKickByPass, fixedReason, getKickReasons(defaultConfig));
+        return new KickConfiguration(kickEnabled, permissionKickPlayer, permissionKickByPass, fixedReason, getKickReasons(defaultConfig));
     }
 
     private List<KickReasonConfiguration> getKickReasons(FileConfiguration config) {

@@ -6,8 +6,6 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 @IocBean
 public class ManageReportConfiguration {
 
-    @ConfigProperty("commands:reports.manage.gui")
-    public String commandManageReportsGui;
     @ConfigProperty("permissions:reports.manage.view")
     public String permissionView;
     @ConfigProperty("permissions:reports.manage.delete")

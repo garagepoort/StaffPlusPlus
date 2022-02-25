@@ -35,8 +35,6 @@ public class PlayerCommandPreprocess implements Listener {
     private final TraceService traceService;
     private final OnlineSessionsManager sessionManager;
 
-    @ConfigProperty("commands:login")
-    private String commandLogin;
     @ConfigProperty("permissions:block")
     private String permissionBlock;
 

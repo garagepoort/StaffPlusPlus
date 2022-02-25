@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -14,6 +13,7 @@ import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.CulpritFilterPredicate;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportReasonConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportTypeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportReasonSelectGui;
@@ -45,24 +45,30 @@ public class ReportPlayerCmd extends AbstractCmd {
     private final List<ReportTypeConfiguration> reportTypeConfigurations;
     private final List<ReportReasonConfiguration> reportReasonConfigurations;
 
-    private final Options options;
     private final ReportService reportService;
     private final PlayerManager playerManager;
     private final BukkitUtils bukkitUtils;
+    private final ReportConfiguration reportConfiguration;
 
-    public ReportPlayerCmd(Messages messages, Options options, ReportService reportService, PlayerManager playerManager, CommandService commandService, PermissionHandler permissionHandler, BukkitUtils bukkitUtils) {
+    public ReportPlayerCmd(Messages messages,
+                           ReportService reportService,
+                           PlayerManager playerManager,
+                           CommandService commandService,
+                           PermissionHandler permissionHandler,
+                           BukkitUtils bukkitUtils,
+                           ReportConfiguration reportConfiguration) {
         super(messages, permissionHandler, commandService);
-        this.options = options;
         this.reportService = reportService;
         this.playerManager = playerManager;
-        reportTypeConfigurations = options.reportConfiguration.getReportTypeConfigurations(culpritFilterPredicate);
-        reportReasonConfigurations = options.reportConfiguration.getReportReasonConfigurations(culpritFilterPredicate);
+        this.reportConfiguration = reportConfiguration;
+        reportTypeConfigurations = this.reportConfiguration.getReportTypeConfigurations(culpritFilterPredicate);
+        reportReasonConfigurations = this.reportConfiguration.getReportReasonConfigurations(culpritFilterPredicate);
         this.bukkitUtils = bukkitUtils;
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        String reason = options.reportConfiguration.isFixedReasonCulprit() ? null : JavaUtils.compileWords(args, 1);
+        String reason = reportConfiguration.isFixedReasonCulprit() ? null : JavaUtils.compileWords(args, 1);
 
         if (reportTypeConfigurations.isEmpty() && reportReasonConfigurations.isEmpty()) {
             bukkitUtils.runTaskAsync(sender, () -> reportService.sendReport(fromSender(sender), player, reason));

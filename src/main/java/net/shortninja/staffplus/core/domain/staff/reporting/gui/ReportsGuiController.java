@@ -10,7 +10,6 @@ import be.garagepoort.mcioc.gui.GuiParams;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -25,6 +24,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.Report;
 import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.chatchannels.ReportChatChannelService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
+import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd.ReportFiltersMapper;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.reports.ReportFilters;
@@ -59,7 +59,6 @@ public class ReportsGuiController {
     private final PermissionHandler permissionHandler;
     private final ManageReportConfiguration manageReportConfiguration;
     private final ReportService reportService;
-    private final Options options;
     private final BukkitUtils bukkitUtils;
     private final Messages messages;
     private final ManageReportService manageReportService;
@@ -68,19 +67,23 @@ public class ReportsGuiController {
     private final PlayerManager playerManager;
     private final ChatChannelService chatChannelService;
     private final ReportChatChannelService reportChatChannelService;
+    private final ReportConfiguration reportConfiguration;
 
     public ReportsGuiController(PermissionHandler permissionHandler,
                                 ManageReportConfiguration manageReportConfiguration,
                                 ReportService reportService,
-                                Options options,
-                                BukkitUtils bukkitUtils, Messages messages,
+                                BukkitUtils bukkitUtils,
+                                Messages messages,
                                 ManageReportService manageReportService,
                                 OnlineSessionsManager sessionManager,
-                                ReportFiltersMapper reportFiltersMapper, PlayerManager playerManager, ChatChannelService chatChannelService, ReportChatChannelService reportChatChannelService) {
+                                ReportFiltersMapper reportFiltersMapper,
+                                PlayerManager playerManager,
+                                ChatChannelService chatChannelService,
+                                ReportChatChannelService reportChatChannelService,
+                                ReportConfiguration reportConfiguration) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
         this.reportService = reportService;
-        this.options = options;
         this.bukkitUtils = bukkitUtils;
         this.messages = messages;
         this.manageReportService = manageReportService;
@@ -90,6 +93,7 @@ public class ReportsGuiController {
         this.playerManager = playerManager;
         this.chatChannelService = chatChannelService;
         this.reportChatChannelService = reportChatChannelService;
+        this.reportConfiguration = reportConfiguration;
     }
 
     @GuiAction("manage-reports/view/overview")
@@ -276,7 +280,7 @@ public class ReportsGuiController {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
-            if (options.reportConfiguration.isClosingReasonEnabled()) {
+            if (reportConfiguration.isClosingReasonEnabled()) {
                 showCloseReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)), rejectCancelled, rejectConfirmationLines);
                 return null;
             }
@@ -295,7 +299,7 @@ public class ReportsGuiController {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
-            if (options.reportConfiguration.isClosingReasonEnabled()) {
+            if (reportConfiguration.isClosingReasonEnabled()) {
                 showCloseReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, message)), rejectCancelled, rejectConfirmationLines);
                 return null;
             }
@@ -312,7 +316,7 @@ public class ReportsGuiController {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
-            if (options.reportConfiguration.isClosingReasonEnabled()) {
+            if (reportConfiguration.isClosingReasonEnabled()) {
                 showCloseReasonGui(player, (message) -> manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)), resolveCancelled, resolveConfirmationLines);
                 return null;
             }
@@ -332,7 +336,7 @@ public class ReportsGuiController {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
-            if (options.reportConfiguration.isClosingReasonEnabled()) {
+            if (reportConfiguration.isClosingReasonEnabled()) {
                 showCloseReasonGui(player, (message) -> manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, message)), resolveCancelled, resolveConfirmationLines);
                 return null;
             }
