@@ -16,12 +16,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import java.util.List;
+
 @IocBean(conditionalOnProperty = "mute-module.appeals.enabled=true")
 @IocListener
 public class MuteAppealNotifierListener implements Listener {
 
     @ConfigProperty("commands:mutes.manage.appealed-gui")
-    public String commandManageAppealedMutesGui;
+    public List<String> commandManageAppealedMutesGui;
 
     private final AppealRepository appealRepository;
     private final MuteAppealConfiguration muteAppealConfiguration;
@@ -63,7 +65,7 @@ public class MuteAppealNotifierListener implements Listener {
             messages.muteOpenAppealsNotify.replace("%appealsCount%", String.valueOf(appealsCount)),
             "View unresolved mute appeals!",
             "Click to view unresolved appeals",
-            commandManageAppealedMutesGui,
+            commandManageAppealedMutesGui.get(0),
             canManageMute(event));
         message.send(event.getPlayer());
     }

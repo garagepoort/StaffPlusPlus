@@ -23,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.List;
 import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
@@ -32,7 +33,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 public class BanAppealChatNotifier implements Listener {
 
     @ConfigProperty("commands:bans.manage.gui")
-    public String commandManageBansGui;
+    public List<String> commandManageBansGui;
 
     private final Messages messages;
     private final BanAppealConfiguration banAppealConfiguration;
@@ -104,7 +105,7 @@ public class BanAppealChatNotifier implements Listener {
     }
 
     private void sendAppealedMessageToStaff(Ban ban, Player appealer) {
-        String manageBansCommand = commandManageBansGui + " " + ban.getTargetName();
+        String manageBansCommand = commandManageBansGui.get(0) + " " + ban.getTargetName();
         JSONMessage jsonMessage = JavaUtils.buildClickableMessage(appealer.getName() + " has appealed a ban",
             "View bans!",
             "Click to open the bans view",

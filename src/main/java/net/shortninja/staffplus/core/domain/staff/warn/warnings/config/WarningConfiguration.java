@@ -37,7 +37,7 @@ public class WarningConfiguration {
     private List<ConfiguredCommand> actions = new ArrayList<>();
 
     @ConfigProperty("commands:my-warnings")
-    private String myWarningsCmd;
+    private List<String> myWarningsCmd;
     @ConfigProperty("permissions:view-my-warnings")
     private String myWarningsPermission;
     @ConfigProperty("permissions:warnings.notifications")
@@ -76,7 +76,7 @@ public class WarningConfiguration {
     }
 
     public String getMyWarningsCmd() {
-        return myWarningsCmd;
+        return myWarningsCmd.get(0);
     }
 
     public List<ConfiguredCommand> getActions() {
