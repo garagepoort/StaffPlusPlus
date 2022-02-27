@@ -5,6 +5,7 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.common.PlaceholderService;
+import net.shortninja.staffplus.core.common.gui.gradient.GradientColorProcessor;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.Strings;
 import net.shortninja.staffplusplus.session.SppInteractor;
@@ -13,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -411,16 +413,22 @@ public class Messages {
     }
 
     public String colorize(String message) {
+        message = GradientColorProcessor.process(message);
+        message = processHexColor(message);
+        message = message.replace("&&", "<ampersand>");
+        message = ChatColor.translateAlternateColorCodes('&', message);
+        return message.replace("<ampersand>", "&");
+    }
+
+    @NotNull
+    private String processHexColor(String message) {
         Matcher matcher = hexColorPattern.matcher(message);
         while (matcher.find()) {
             String color = message.substring(matcher.start(), matcher.end());
             message = message.replace(color, net.md_5.bungee.api.ChatColor.of(color) + "");
             matcher = hexColorPattern.matcher(message);
         }
-
-        message = message.replace("&&", "<ampersand>");
-        message = ChatColor.translateAlternateColorCodes('&', message);
-        return message.replace("<ampersand>", "&");
+        return message;
     }
 
     public String parse(Player player, String message) {
