@@ -210,6 +210,8 @@ public class Messages {
     public String alertsMention;
     @ConfigProperty("%lang%:alerts-xray")
     public String alertsXray;
+    @ConfigProperty("%lang%:alerts-blacklist")
+    public String alertsBlacklist;
     /*
      * Staff Mode
      */

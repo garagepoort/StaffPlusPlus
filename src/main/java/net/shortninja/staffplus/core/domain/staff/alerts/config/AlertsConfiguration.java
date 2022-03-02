@@ -46,6 +46,8 @@ public class AlertsConfiguration {
     public String permissionChatPhraseDetection;
     @ConfigProperty("permissions:alerts-chat-phrase-detection-bypass")
     public String permissionChatPhraseDetectionBypass;
+    @ConfigProperty("permissions:alerts-blacklist-detection")
+    public String permissionBlacklistDetection;
     @ConfigProperty("permissions:alerts-command-detection")
     public String permissionCommandDetection;
     @ConfigProperty("permissions:alerts-command-detection-bypass")
@@ -75,6 +77,8 @@ public class AlertsConfiguration {
                 return permissionChatPhraseDetection;
             case COMMAND_DETECTION:
                 return permissionCommandDetection;
+            case BLACKLIST:
+                return permissionBlacklistDetection;
             default:
                 throw new BusinessException("&CUnsupported alertType [" + alertType + "]");
         }
