@@ -454,6 +454,11 @@ alerts-module:
   command-detection: true
   command-detection-console: false
 
+  # Whether or not staff will be notified when the command-detection gets triggered.
+  blacklist-detection: true
+  blacklist-detection-console: false
+  blacklist-notify-bungee: ''
+
   # The sound that is played to staff when notified.
   sound: ORB_PICKUP
 

@@ -149,6 +149,8 @@ alerts-chat-phrase-detected: '&7%target% &bразместил в чате соо
 alerts-command-detected: "&7%target% &bhas tried executing the command (&7%command%&b)"
 alerts-mention: '&7%target% &bупомянул вас в чате!'
 alerts-xray: '&7%target% &bдобыл &7%count% %itemtype%&b! &7(%lightlevel%&7)'
+alerts-blacklist: "&c[SWEAR] &7[%server%] &6%player%&7: %uncensored-message%"
+
 mode-status: '&bРежим персонала был &7%status%&b.'
 mode-original-location: '&bВы были телепортированы обратно в свое первоначальное местоположение!'
 mode-random-teleport: '&bВы были телепортированы к случайному игроку!'
