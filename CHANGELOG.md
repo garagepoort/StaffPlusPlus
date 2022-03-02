@@ -10,6 +10,7 @@
   - Player mentioned alerts can now be sent over bungee
   - Xray alerts can now be sent over bungee
   - Russian language added (Thanks to: GoldenWind)
+  - Fix bug with threshold calculations
 
 ### Bugs
   - Fix papi placeholders for ban templates
