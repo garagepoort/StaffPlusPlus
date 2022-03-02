@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.chat.blacklist.censors.ChatCensor;
 import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;
+import net.shortninja.staffplusplus.chat.ChatMessageCensoredEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -17,6 +18,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
 public class BlacklistService {
@@ -53,6 +56,9 @@ public class BlacklistService {
             }
             event.setMessage(censoredMessage);
             setHoverableMessage(player, event, originalMessage, censoredMessage);
+            if(!originalMessage.equals(censoredMessage)) {
+                sendEvent(new ChatMessageCensoredEvent(options.serverName, player, censoredMessage, originalMessage));
+            }
         }
     }
 
