@@ -9,7 +9,9 @@
   - NameChanged alerts can now be sent over bungee
   - Player mentioned alerts can now be sent over bungee
   - Xray alerts can now be sent over bungee
+  - Alerts are extended with alerts for censored message triggered by the blacklist module
   - Russian language added (Thanks to: GoldenWind)
+  - Gradients colors are now supported in version 1.18, 1.17 and 1.16
   - Fix bug with threshold calculations
 
 ### Bugs

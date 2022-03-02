@@ -214,6 +214,7 @@ alerts-chat-phrase-detected: '&7%target% &bmengirimkan pesan dengan kata (&7%det
 alerts-command-detected: "&7%target% &bhas tried executing the command (&7%command%&b)"
 alerts-mention: '&7%target% &bmenandai Anda!'
 alerts-xray: '&7%target% &btelah menambang &7%count% %itemtype%&b! &7(%lightlevel%&7)'
+alerts-blacklist: "&c[SWEAR] &7[%server%] &6%player%&7: %uncensored-message%"
 
 ############################################################
 # +------------------------------------------------------+ #
