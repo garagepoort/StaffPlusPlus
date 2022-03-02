@@ -162,6 +162,8 @@ alerts-chat-phrase-detection-bypass: "staff.alerts.chat-phrase-detection.bypass"
 alerts-command-detection: "staff.alerts.command-detection"
 # Permission for bypassing chat word mentions alerts.
 alerts-command-detection-bypass: "staff.alerts.command-detection.bypass"
+# Permission for receiving chat blacklist alerts.
+alerts-blacklist-detection: "staff.alerts.blacklist-detection"
 
 ########################
 # MODE
