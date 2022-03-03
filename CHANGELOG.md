@@ -6,6 +6,7 @@
   - You now need the permission "staff.examine.view-ip" to view the ip inside the examine GUI.
 
 ### Features
+  - Add support for 1.18.2
   - NameChanged alerts can now be sent over bungee
   - Player mentioned alerts can now be sent over bungee
   - Xray alerts can now be sent over bungee
