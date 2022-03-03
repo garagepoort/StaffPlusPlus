@@ -12,12 +12,13 @@
   - Alerts are extended with alerts for censored message triggered by the blacklist module
   - Russian language added (Thanks to: GoldenWind)
   - Gradients colors are now supported in version 1.18, 1.17 and 1.16
-  - Fix bug with threshold calculations
 
 ### Bugs
   - Fix papi placeholders for ban templates
   - Prevent wrong configuration from creating reports without reason
   - Added correct permissions for player information GUI actions
+  - Fix bug with threshold calculations
+  - Fix turning off silent chest interaction
 
 # V1.18.9
 

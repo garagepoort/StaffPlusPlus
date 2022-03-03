@@ -104,9 +104,11 @@ public class PlayerInteract implements Listener {
 
         GeneralModeConfiguration modeConfiguration = playerSession.getModeConfig().get();
         if (staffCheckingChest(event, player)) {
-            ChestGUI chestGUI = getStaffChestGui(event, modeConfiguration);
-            event.setCancelled(true);
-            chestGUI.show(player);
+            if (modeConfiguration.isModeSilentChestInteraction() && !player.isSneaking()) {
+                ChestGUI chestGUI = getStaffChestGui(event, modeConfiguration);
+                chestGUI.show(player);
+                event.setCancelled(true);
+            }
             return;
         }
 
@@ -143,8 +145,7 @@ public class PlayerInteract implements Listener {
 
     private boolean staffCheckingChest(PlayerInteractEvent event, Player player) {
         return event.getClickedBlock() != null && event.getClickedBlock().getState() instanceof Container
-            && sessionManager.get(player).isInStaffMode()
-            && !player.isSneaking();
+            && sessionManager.get(player).isInStaffMode();
     }
 
     private boolean handleInteraction(Player player, ItemStack item, Action action) {
