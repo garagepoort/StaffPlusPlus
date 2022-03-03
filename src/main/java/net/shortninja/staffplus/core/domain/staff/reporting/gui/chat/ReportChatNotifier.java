@@ -3,9 +3,10 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui.chat;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import me.rayzr522.jsonmessage.JSONMessage;
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportBungeeDto;
@@ -48,13 +49,15 @@ public class ReportChatNotifier implements Listener {
     private final PermissionHandler permission;
     private final ReportMessageUtil reportMessageUtil;
     private final ReportConfiguration reportConfiguration;
+    private final JsonSenderService jsonSenderService;
 
-    public ReportChatNotifier(Messages messages, PlayerManager playerManager, PermissionHandler permission, ReportMessageUtil reportMessageUtil, ReportConfiguration reportConfiguration) {
+    public ReportChatNotifier(Messages messages, PlayerManager playerManager, PermissionHandler permission, ReportMessageUtil reportMessageUtil, ReportConfiguration reportConfiguration, JsonSenderService jsonSenderService) {
         this.messages = messages;
         this.playerManager = playerManager;
         this.permission = permission;
         this.reportMessageUtil = reportMessageUtil;
         this.reportConfiguration = reportConfiguration;
+        this.jsonSenderService = jsonSenderService;
     }
 
     // CREATION
@@ -172,7 +175,7 @@ public class ReportChatNotifier implements Listener {
                 messages.reporterViewReportsButtonTooltip,
                 reportConfiguration.getMyReportsCmd(),
                 permission.has(sppPlayer.getPlayer(), reportConfiguration.getMyReportsPermission()));
-            message.send(sppPlayer.getPlayer());
+            jsonSenderService.send(message, sppPlayer.getPlayer());
         });
     }
 

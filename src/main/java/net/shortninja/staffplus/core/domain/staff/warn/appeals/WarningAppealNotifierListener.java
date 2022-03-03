@@ -2,8 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import me.rayzr522.jsonmessage.JSONMessage;
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -27,8 +28,9 @@ public class WarningAppealNotifierListener implements Listener {
     private final Messages messages;
     private final BukkitUtils bukkitUtils;
     private final ServerSyncConfiguration serverSyncConfiguration;
+    private final JsonSenderService jsonSenderService;
 
-    public WarningAppealNotifierListener(AppealRepository appealRepository, ManageWarningsConfiguration manageWarningsConfiguration, WarningAppealConfiguration warningAppealConfiguration, PermissionHandler permission, Messages messages, BukkitUtils bukkitUtils, ServerSyncConfiguration serverSyncConfiguration) {
+    public WarningAppealNotifierListener(AppealRepository appealRepository, ManageWarningsConfiguration manageWarningsConfiguration, WarningAppealConfiguration warningAppealConfiguration, PermissionHandler permission, Messages messages, BukkitUtils bukkitUtils, ServerSyncConfiguration serverSyncConfiguration, JsonSenderService jsonSenderService) {
         this.appealRepository = appealRepository;
         this.manageWarningsConfiguration = manageWarningsConfiguration;
         this.warningAppealConfiguration = warningAppealConfiguration;
@@ -36,6 +38,7 @@ public class WarningAppealNotifierListener implements Listener {
         this.messages = messages;
         this.bukkitUtils = bukkitUtils;
         this.serverSyncConfiguration = serverSyncConfiguration;
+        this.jsonSenderService = jsonSenderService;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -59,7 +62,7 @@ public class WarningAppealNotifierListener implements Listener {
             "Click to view unresolved appeals",
             manageWarningsConfiguration.commandManageAppealedWarningsGui.get(0),
             canManageAppeal(event));
-        message.send(event.getPlayer());
+        jsonSenderService.send(message, event.getPlayer());
     }
 
     private boolean canManageAppeal(StaffPlusPlusJoinedEvent event) {
