@@ -3,8 +3,9 @@ package net.shortninja.staffplus.core.domain.staff.mute.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import me.rayzr522.jsonmessage.JSONMessage;
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -31,11 +32,13 @@ public class MuteNotifierListener implements Listener {
     private final PermissionHandler permission;
     private final BukkitUtils bukkitUtils;
     private final MuteService muteService;
+    private final JsonSenderService jsonSenderService;
 
-    public MuteNotifierListener(PermissionHandler permission, BukkitUtils bukkitUtils, MuteService muteService) {
+    public MuteNotifierListener(PermissionHandler permission, BukkitUtils bukkitUtils, MuteService muteService, JsonSenderService jsonSenderService) {
         this.permission = permission;
         this.bukkitUtils = bukkitUtils;
         this.muteService = muteService;
+        this.jsonSenderService = jsonSenderService;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -55,6 +58,6 @@ public class MuteNotifierListener implements Listener {
             "Click to view your mute",
             myMutesCmd.get(0),
             permission.has(event.getPlayer(), myMutesPermission));
-        message.send(event.getPlayer());
+        jsonSenderService.send(message, event.getPlayer());
     }
 }

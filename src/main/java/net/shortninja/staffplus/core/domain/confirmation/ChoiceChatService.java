@@ -1,8 +1,9 @@
 package net.shortninja.staffplus.core.domain.confirmation;
 
 import be.garagepoort.mcioc.IocBean;
-import me.rayzr522.jsonmessage.JSONMessage;
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import org.bukkit.entity.Player;
 
@@ -15,6 +16,12 @@ public class ChoiceChatService {
 
     private static Map<UUID, ChoiceAction> option1Actions = new HashMap<>();
     private static Map<UUID, ChoiceAction> option2actions = new HashMap<>();
+
+    private final JsonSenderService jsonSenderService;
+
+    public ChoiceChatService(JsonSenderService jsonSenderService) {
+        this.jsonSenderService = jsonSenderService;
+    }
 
     public void sendConfirmationChoiceMessage(Player player, String message, ChoiceAction choiceAction, ChoiceAction cancelAction) {
         sendChoiceMessage(player, message, "&aConfirm", choiceAction, "&cCancel", cancelAction);
@@ -30,7 +37,7 @@ public class ChoiceChatService {
             "staffplus:choice-action option1 " + uuid,
             option2Message,
             "staffplus:choice-action option2 " + uuid);
-        jsonMessage.send(player);
+        jsonSenderService.send(jsonMessage, player);
     }
 
 

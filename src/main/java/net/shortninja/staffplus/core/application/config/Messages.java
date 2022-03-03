@@ -3,7 +3,8 @@ package net.shortninja.staffplus.core.application.config;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
-import me.rayzr522.jsonmessage.JSONMessage;
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.common.gui.gradient.GradientColorProcessor;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -43,6 +44,8 @@ public class Messages {
     public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
 
     private final Pattern hexColorPattern = Pattern.compile("#[a-fA-F0-9]{6}");
+
+    private final JsonSenderService jsonSenderService;
     /*
      * Prefixes
      */
@@ -409,7 +412,8 @@ public class Messages {
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
 
-    public Messages(PermissionHandler permission, PlaceholderService placeholderService) {
+    public Messages(JsonSenderService jsonSenderService, PermissionHandler permission, PlaceholderService placeholderService) {
+        this.jsonSenderService = jsonSenderService;
         this.permission = permission;
         this.placeholderService = placeholderService;
     }
@@ -479,7 +483,7 @@ public class Messages {
     public void sendGroupMessage(JSONMessage jsonMessage, String permission) {
         Bukkit.getOnlinePlayers().stream()
             .filter(p -> this.permission.has(p, permission))
-            .forEach(jsonMessage::send);
+            .forEach(p -> jsonSenderService.send(jsonMessage, p));
     }
 
     private String buildMessage(String prefix, String message) {

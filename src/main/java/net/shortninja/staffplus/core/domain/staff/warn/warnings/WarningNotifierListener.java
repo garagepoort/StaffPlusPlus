@@ -1,10 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
-import me.rayzr522.jsonmessage.JSONMessage;
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
@@ -25,15 +26,17 @@ public class WarningNotifierListener implements Listener {
     private final PermissionHandler permission;
     private final Messages messages;
     private final WarningConfiguration warningConfiguration;
+    private final JsonSenderService jsonSenderService;
 
     public WarningNotifierListener(WarnService warnService,
                                    PermissionHandler permission,
                                    Messages messages,
-                                   WarningConfiguration warningConfiguration) {
+                                   WarningConfiguration warningConfiguration, JsonSenderService jsonSenderService) {
         this.warnService = warnService;
         this.permission = permission;
         this.messages = messages;
         this.warningConfiguration = warningConfiguration;
+        this.jsonSenderService = jsonSenderService;
         Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
@@ -66,6 +69,6 @@ public class WarningNotifierListener implements Listener {
             "Click to view your warnings",
             warningConfiguration.getMyWarningsCmd(),
             permission.has(event.getPlayer(), warningConfiguration.getMyWarningsPermission()));
-        message.send(event.getPlayer());
+        jsonSenderService.send(message, event.getPlayer());
     }
 }

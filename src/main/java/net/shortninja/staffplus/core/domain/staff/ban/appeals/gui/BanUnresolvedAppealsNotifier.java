@@ -3,9 +3,10 @@ package net.shortninja.staffplus.core.domain.staff.ban.appeals.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import me.rayzr522.jsonmessage.JSONMessage;
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -32,19 +33,22 @@ public class BanUnresolvedAppealsNotifier implements Listener {
     private final Messages messages;
     private final BukkitUtils bukkitUtils;
     private final ServerSyncConfiguration serverSyncConfiguration;
+    private final JsonSenderService jsonSenderService;
 
     public BanUnresolvedAppealsNotifier(AppealRepository appealRepository,
                                         BanAppealConfiguration banAppealConfiguration,
                                         PermissionHandler permission,
                                         Messages messages,
                                         BukkitUtils bukkitUtils,
-                                        ServerSyncConfiguration serverSyncConfiguration) {
+                                        ServerSyncConfiguration serverSyncConfiguration,
+                                        JsonSenderService jsonSenderService) {
         this.appealRepository = appealRepository;
         this.banAppealConfiguration = banAppealConfiguration;
         this.permission = permission;
         this.messages = messages;
         this.bukkitUtils = bukkitUtils;
         this.serverSyncConfiguration = serverSyncConfiguration;
+        this.jsonSenderService = jsonSenderService;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -68,7 +72,7 @@ public class BanUnresolvedAppealsNotifier implements Listener {
             "Click to view unresolved appeals",
             commandManageAppealedBansGui.get(0),
             canManageBan(event));
-        message.send(event.getPlayer());
+        jsonSenderService.send(message, event.getPlayer());
     }
 
     private boolean canManageBan(StaffPlusPlusJoinedEvent event) {

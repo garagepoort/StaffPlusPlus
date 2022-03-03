@@ -1,8 +1,8 @@
     package net.shortninja.staffplus.core.common;
 
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import inet.ipaddr.IPAddress;
 import inet.ipaddr.IPAddressString;
-import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplusplus.ILocation;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.net.util.SubnetUtils;

@@ -2,9 +2,10 @@ package net.shortninja.staffplus.core.domain.staff.reporting;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import me.rayzr522.jsonmessage.JSONMessage;
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
@@ -24,11 +25,13 @@ public class ReportListener implements Listener {
     private final ReportService reportService;
     private final PermissionHandler permission;
     private final ReportConfiguration reportConfiguration;
+    private final JsonSenderService jsonSenderService;
 
-    public ReportListener(ReportService reportService, PermissionHandler permission, ReportConfiguration reportConfiguration) {
+    public ReportListener(ReportService reportService, PermissionHandler permission, ReportConfiguration reportConfiguration, JsonSenderService jsonSenderService) {
         this.reportService = reportService;
         this.permission = permission;
         this.reportConfiguration = reportConfiguration;
+        this.jsonSenderService = jsonSenderService;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -47,7 +50,7 @@ public class ReportListener implements Listener {
                     "Click to view your reports",
                     reportConfiguration.getMyReportsCmd(),
                     permission.has(event.getPlayer(), reportConfiguration.getMyReportsPermission()));
-                message.send(event.getPlayer());
+                jsonSenderService.send(message, event.getPlayer());
             }
         });
     }
