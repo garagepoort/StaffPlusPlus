@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.application.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.authentication.AuthenticationConfiguration;
 import net.shortninja.staffplus.core.authentication.AuthenticationConfigurationLoader;
@@ -83,6 +84,9 @@ public class Options {
     private final InvestigationModuleLoader investigationModuleLoader;
     private final StaffCustomItemsLoader staffCustomItemsLoader;
     private final StaffItemsLoader staffItemsLoader;
+
+    @ConfigProperty("offline-player-cache")
+    public boolean offlinePlayerCache;
 
     public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
                    InfractionsModuleLoader infractionsModuleLoader,
