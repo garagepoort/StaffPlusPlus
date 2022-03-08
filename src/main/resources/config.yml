@@ -46,6 +46,12 @@ glass-title: "&bChoose GUI glass color"
 # report-bypass & warn-bypass does not work for offline players
 offline-players-mode: true
 
+# When enabled commands will have autocompletion for offline players.
+# Disable this if you notice the plugin having a slow startup time.
+# This could happen if you have a very large player base.
+offline-player-cache: true
+
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                  SESSION synchronization             | #
