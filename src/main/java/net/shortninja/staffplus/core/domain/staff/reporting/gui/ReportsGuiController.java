@@ -8,7 +8,6 @@ import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.GuiParams;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -225,41 +224,42 @@ public class ReportsGuiController {
     }
 
     @GuiAction("manage-reports/join-chatchannel")
-    public void joinChatChannel(Player player,
+    public AsyncGui<String> joinChatChannel(Player player,
                                 @GuiParam("reportId") int reportId,
                                 @GuiParam("backAction") String backAction) {
-        bukkitUtils.runTaskAsync(player, () -> {
+        return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             chatChannelService.joinChannel(sppPlayer, String.valueOf(reportId), ChatChannelType.REPORT);
-            StaffPlus.get().getLogger().info("Backaction: " + backAction);
+            return backAction;
         });
     }
 
     @GuiAction("manage-reports/leave-chatchannel")
-    public void leaveChatChannel(Player player,
-                                 @GuiParam("reportId") int reportId,
-                                 @GuiParam("backAction") String backAction) {
-        bukkitUtils.runTaskAsync(player, () -> {
+    public AsyncGui<String> leaveChatChannel(Player player,
+                                             @GuiParam("reportId") int reportId,
+                                             @GuiParam("backAction") String backAction) {
+        return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             chatChannelService.leaveChannel(sppPlayer, String.valueOf(reportId), ChatChannelType.REPORT);
-            StaffPlus.get().getLogger().info("Backaction: " + backAction);
+            return backAction;
         });
     }
 
     @GuiAction("manage-reports/open-chatchannel")
-    public void openChatChannel(Player player,
-                                @GuiParam("reportId") int reportId,
-                                @GuiParam("backAction") String backAction) {
-        bukkitUtils.runTaskAsync(player, () -> {
+    public AsyncGui<String> openChatChannel(Player player,
+                                            @GuiParam("reportId") int reportId,
+                                            @GuiParam("backAction") String backAction) {
+        return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             Report report = reportService.getReport(reportId);
             reportChatChannelService.openChannel(sppPlayer, report);
+            return backAction;
         });
     }
 
