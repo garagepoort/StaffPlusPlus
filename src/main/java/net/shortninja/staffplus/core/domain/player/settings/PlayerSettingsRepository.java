@@ -64,8 +64,9 @@ public class PlayerSettingsRepository {
             Material.STAINED_GLASS_PANE,
             new HashSet<>(),
             VanishType.NONE,
-                false,
+            false,
             null,
+            new HashSet<>(),
             new HashSet<>());
 
         playerSettingsDataFile.save(playerSettings);
@@ -88,10 +89,10 @@ public class PlayerSettingsRepository {
 
         Set<AlertType> alertOptions = loadAlertOptions(uuid);
 
-
         Optional<PlayerSettingsEntity> settingsEntity = playerSettingsSqlRepository.findSettings(uuid);
         VanishType vanishType = getVanishType(uuid, settingsEntity);
         Set<String> mutedChannels = settingsEntity.map(PlayerSettingsEntity::getMutedStaffChatChannels).orElse(new HashSet<>());
+        Set<String> soundDisabledStaffChatChannels = settingsEntity.map(PlayerSettingsEntity::getSoundDisabledStaffChatChannels).orElse(new HashSet<>());
 
         boolean staffMode = dataFileConfiguration.getBoolean(uuid + ".staff-mode", false);
         String staffModeName = dataFileConfiguration.getString(uuid + ".staff-mode-name", null);
@@ -100,7 +101,15 @@ public class PlayerSettingsRepository {
             staffModeName = settingsEntity.get().getStaffModeName();
         }
 
-        return new PlayerSettings(uuid, name, glassMaterial, alertOptions, vanishType, staffMode, staffModeName, mutedChannels);
+        return new PlayerSettings(uuid,
+            name,
+            glassMaterial,
+            alertOptions,
+            vanishType,
+            staffMode,
+            staffModeName,
+            mutedChannels,
+            soundDisabledStaffChatChannels);
     }
 
     @NotNull
@@ -119,7 +128,7 @@ public class PlayerSettingsRepository {
             String[] parts = string.split(";");
 
             boolean enabled = Boolean.parseBoolean(parts[1]);
-            if(enabled) {
+            if (enabled) {
                 alertOptions.add(AlertType.valueOf(parts[0]));
             }
         }
@@ -147,11 +156,15 @@ public class PlayerSettingsRepository {
                 session.get().setStaffModeName(staffModeName);
             }
             session.get().setMutedStaffChatChannels(playerSession.getMutedStaffChatChannels());
+            session.get().setSoundDisabledStaffChatChannels(playerSession.getSoundDisabledStaffChatChannels());
             playerSettingsSqlRepository.update(session.get());
         } else {
-            playerSettingsSqlRepository.saveSessions(new PlayerSettingsEntity(playerSession.getUuid(), playerSession.getVanishType(), playerSession.isInStaffMode(), playerSession.getMutedStaffChatChannels(), staffModeName));
+            playerSettingsSqlRepository.saveSessions(new PlayerSettingsEntity(playerSession.getUuid(),
+                playerSession.getVanishType(),
+                playerSession.isInStaffMode(),
+                playerSession.getMutedStaffChatChannels(),
+                playerSession.getSoundDisabledStaffChatChannels(),
+                staffModeName));
         }
     }
-
-
 }
