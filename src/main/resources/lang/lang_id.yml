@@ -159,6 +159,8 @@ infraction-item: '&bPeringatan: &7%warnings%, &bLaporan: &7%reports%, &bDilapork
 staff-chat-status: '&bObrolan staf &7%status%&b.'
 staff-chat-muted: '&bObrolan staf &7dibisukan&b.'
 staff-chat-unmuted: '&bObrolan staf &7tidak dibisukan&b.'
+staff-chat-sound-enabled: "&bStaff Chat notification sound &7enabled&b."
+staff-chat-sound-disabled: "&bStaff Chat notification sound &7disabled&b."
 
 chat-clear-line: ''
 chat-cleared: '&bObrolan telah dibersihkan oleh &7%player%&b.'

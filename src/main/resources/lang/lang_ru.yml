@@ -118,6 +118,9 @@ infraction-item: '&bПредупреждения: &7%warnings%, &bЖалобы: 
 staff-chat-status: '&bЧат поддержки  &d%status%&b.'
 staff-chat-muted: '&bЧат поддержки был &dзаглушен&b.'
 staff-chat-unmuted: '&bЧат поддержки снова &dдоступен&b.'
+staff-chat-sound-enabled: "&bStaff Chat notification sound &7enabled&b."
+staff-chat-sound-disabled: "&bStaff Chat notification sound &7disabled&b."
+
 chat-clear-line: ''
 chat-cleared: '&bЧат был очищен &7%player%&b.'
 chat-toggled: '&bЧат был &7%status%&b. &c(&7%player%&c)&b.'
