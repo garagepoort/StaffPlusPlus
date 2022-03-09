@@ -6,6 +6,7 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.staffchat.bungee.StaffChatBungeeMessage;
 import net.shortninja.staffplus.core.domain.staff.staffchat.bungee.StaffChatReceivedBungeeEvent;
@@ -32,7 +33,6 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     private final StaffChatConfiguration staffChatConfiguration;
     private final PlayerSettingsRepository playerSettingsRepository;
 
-
     public StaffChatServiceImpl(Messages messages, Options options, PermissionHandler permissionHandler, StaffChatMessageFormatter staffChatMessageFormatter, StaffChatConfiguration staffChatConfiguration, PlayerSettingsRepository playerSettingsRepository) {
         this.messages = messages;
         this.options = options;
@@ -52,14 +52,14 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
             staffChatMessage.getMessage(),
             event.getStaffChatMessage().getServerName());
 
-        sendMessageToStaff(channel, formattedMessage);
+        sendMessageToStaff(channel, formattedMessage, null);
     }
 
     public void sendMessage(CommandSender sender, String channelName, String message) {
         StaffChatChannelConfiguration channel = getChannel(channelName);
 
         String formattedMessage = staffChatMessageFormatter.formatMessage(sender, channel, message, options.serverName);
-        sendMessageToStaff(channel, formattedMessage);
+        sendMessageToStaff(channel, formattedMessage, sender);
 
         if (sender instanceof Player) {
             sendEvent(new StaffChatEvent((Player) sender, options.serverName, message, channelName));
@@ -84,21 +84,30 @@ public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffm
     @Override
     public void sendMessage(String message) {
         StaffChatChannelConfiguration channel = getChannel(STAFFCHAT);
-        sendMessageToStaff(channel, message);
+        sendMessageToStaff(channel, message, null);
     }
 
     @Override
     public void sendMessage(String channelName, String message) {
         StaffChatChannelConfiguration channel = getChannel(channelName);
-        sendMessageToStaff(channel, message);
+        sendMessageToStaff(channel, message, null);
     }
 
-    private void sendMessageToStaff(StaffChatChannelConfiguration channel, String formattedMessage) {
+    private void sendMessageToStaff(StaffChatChannelConfiguration channel, String formattedMessage, CommandSender sender) {
         Bukkit.getOnlinePlayers().stream()
             .filter(p -> !playerSettingsRepository.get(p).isStaffChatMuted(channel.getName()))
             .filter(player -> permissionHandler.has(player, channel.getPermission().orElse(null)))
-            .forEach(player -> messages.send(player, formattedMessage, channel.getPrefix()));
+            .forEach(player -> {
+                messages.send(player, formattedMessage, channel.getPrefix());
+                sendNotificationSound(channel, sender, player);
+            });
         messages.send(Bukkit.getConsoleSender(), formattedMessage, channel.getPrefix());
     }
 
+    private void sendNotificationSound(StaffChatChannelConfiguration channel, CommandSender sender, Player player) {
+        PlayerSettings playerSettings = playerSettingsRepository.get(player);
+        if (sender instanceof Player && !((Player) sender).getUniqueId().equals(player.getUniqueId()) && playerSettings.isStaffChatSoundEnabled(channel.getName())) {
+            channel.getNotificationSound().ifPresent(s -> s.play(player));
+        }
+    }
 }
