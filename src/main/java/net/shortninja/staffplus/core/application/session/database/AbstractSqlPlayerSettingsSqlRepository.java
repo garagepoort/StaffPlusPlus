@@ -31,16 +31,18 @@ public abstract class AbstractSqlPlayerSettingsSqlRepository implements PlayerSe
     @Override
     public void update(PlayerSettingsEntity playerSettingsEntity) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_sessions set vanish_type=?, in_staff_mode=?, muted_staff_chat_channels=? , staff_mode_name=? WHERE ID=?")) {
+             PreparedStatement insert = sql.prepareStatement("UPDATE sp_sessions set vanish_type=?, in_staff_mode=?, muted_staff_chat_channels=? , sound_disabled_staff_chat_channels=? , staff_mode_name=? WHERE ID=?")) {
             insert.setString(1, playerSettingsEntity.getVanishType().toString());
             insert.setBoolean(2, playerSettingsEntity.getStaffMode());
             insert.setString(3, String.join(";", playerSettingsEntity.getMutedStaffChatChannels()));
+            insert.setString(4, String.join(";", playerSettingsEntity.getSoundDisabledStaffChatChannels()));
+
             if (playerSettingsEntity.getStaffModeName() == null) {
-                insert.setNull(4, Types.VARCHAR);
+                insert.setNull(5, Types.VARCHAR);
             } else {
-                insert.setString(4, playerSettingsEntity.getStaffModeName());
+                insert.setString(5, playerSettingsEntity.getStaffModeName());
             }
-            insert.setInt(5, playerSettingsEntity.getId());
+            insert.setInt(6, playerSettingsEntity.getId());
             insert.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -70,13 +72,16 @@ public abstract class AbstractSqlPlayerSettingsSqlRepository implements PlayerSe
         VanishType vanishType = VanishType.valueOf(rs.getString("vanish_type"));
         boolean inStaffMode = rs.getBoolean("in_staff_mode");
         Set<String> staffChatMuted = rs.getString("muted_staff_chat_channels") == null ? new HashSet<>() : Arrays.stream(rs.getString("muted_staff_chat_channels").split(";")).collect(Collectors.toSet());
+        Set<String> soundDisabledStaffChatChannels = rs.getString("sound_disabled_staff_chat_channels") == null ? new HashSet<>() : Arrays.stream(rs.getString("sound_disabled_staff_chat_channels").split(";")).collect(Collectors.toSet());
         String staffModeName = rs.getString("staff_mode_name");
         return new PlayerSettingsEntity(
             id,
             playerUuid,
             vanishType,
             inStaffMode,
-            staffChatMuted, staffModeName);
+            staffChatMuted,
+            soundDisabledStaffChatChannels,
+            staffModeName);
     }
 
 }

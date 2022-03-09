@@ -21,17 +21,18 @@ public class SqlitePlayerSettingsSqlRepository extends AbstractSqlPlayerSettings
     @Override
     public int saveSessions(PlayerSettingsEntity playerSettingsEntity) {
         try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_sessions(player_uuid, vanish_type, in_staff_mode, muted_staff_chat_channels, staff_mode_name) " +
-                 "VALUES(?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement insert = sql.prepareStatement("INSERT INTO sp_sessions(player_uuid, vanish_type, in_staff_mode, muted_staff_chat_channels, sound_disabled_staff_chat_channels, staff_mode_name) " +
+                 "VALUES(?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS)) {
             sql.setAutoCommit(false);
             insert.setString(1, playerSettingsEntity.getPlayerUuid().toString());
             insert.setString(2, playerSettingsEntity.getVanishType().toString());
             insert.setBoolean(3, playerSettingsEntity.getStaffMode());
             insert.setString(4, String.join(";", playerSettingsEntity.getMutedStaffChatChannels()));
+            insert.setString(5, String.join(";", playerSettingsEntity.getSoundDisabledStaffChatChannels()));
             if (playerSettingsEntity.getStaffModeName() == null) {
-                insert.setNull(5, Types.VARCHAR);
+                insert.setNull(6, Types.VARCHAR);
             } else {
-                insert.setString(5, playerSettingsEntity.getStaffModeName());
+                insert.setString(6, playerSettingsEntity.getStaffModeName());
             }
             insert.executeUpdate();
 

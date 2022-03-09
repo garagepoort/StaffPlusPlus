@@ -12,25 +12,39 @@ public class PlayerSettingsEntity {
     private VanishType vanishType;
     private boolean staffMode;
     private Set<String> mutedStaffChatChannels;
+    private Set<String> soundDisabledStaffChatChannels;
     private String staffModeName;
 
     public PlayerSettingsEntity() {
     }
 
-    public PlayerSettingsEntity(int id, UUID playerUuid, VanishType vanishType, boolean staffMode, Set<String> mutedStaffChatChannels, String staffModeName) {
+    public PlayerSettingsEntity(int id,
+                                UUID playerUuid,
+                                VanishType vanishType,
+                                boolean staffMode,
+                                Set<String> mutedStaffChatChannels,
+                                Set<String> soundDisabledStaffChatChannels,
+                                String staffModeName) {
         this.id = id;
         this.playerUuid = playerUuid;
         this.vanishType = vanishType;
         this.staffMode = staffMode;
         this.mutedStaffChatChannels = mutedStaffChatChannels;
+        this.soundDisabledStaffChatChannels = soundDisabledStaffChatChannels;
         this.staffModeName = staffModeName;
     }
 
-    public PlayerSettingsEntity(UUID playerUuid, VanishType vanishType, boolean staffMode, Set<String> mutedStaffChatChannels, String staffModeName) {
+    public PlayerSettingsEntity(UUID playerUuid,
+                                VanishType vanishType,
+                                boolean staffMode,
+                                Set<String> mutedStaffChatChannels,
+                                Set<String> soundDisabledStaffChatChannels,
+                                String staffModeName) {
         this.playerUuid = playerUuid;
         this.vanishType = vanishType;
         this.staffMode = staffMode;
         this.mutedStaffChatChannels = mutedStaffChatChannels;
+        this.soundDisabledStaffChatChannels = soundDisabledStaffChatChannels;
         this.staffModeName = staffModeName;
     }
 
@@ -72,6 +86,14 @@ public class PlayerSettingsEntity {
 
     public Set<String> getMutedStaffChatChannels() {
         return mutedStaffChatChannels;
+    }
+
+    public void setSoundDisabledStaffChatChannels(Set<String> soundDisabledStaffChatChannels) {
+        this.soundDisabledStaffChatChannels = soundDisabledStaffChatChannels;
+    }
+
+    public Set<String> getSoundDisabledStaffChatChannels() {
+        return soundDisabledStaffChatChannels;
     }
 
     public String getStaffModeName() {
