@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat;
 
+import net.shortninja.staffplus.core.common.Sounds;
+
 import java.util.Optional;
 
 public class StaffChatChannelConfiguration {
@@ -10,14 +12,16 @@ public class StaffChatChannelConfiguration {
     private final String handle;
     private final String prefix;
     private final String messageFormat;
+    private final Sounds sounds;
 
-    public StaffChatChannelConfiguration(String name, String command, String permission, String handle, String prefix, String messageFormat) {
+    public StaffChatChannelConfiguration(String name, String command, String permission, String handle, String prefix, String messageFormat, Sounds sounds) {
         this.name = name;
         this.command = command;
         this.permission = permission;
         this.handle = handle;
         this.prefix = prefix;
         this.messageFormat = messageFormat;
+        this.sounds = sounds;
     }
 
     public String getName() {
@@ -34,6 +38,10 @@ public class StaffChatChannelConfiguration {
 
     public Optional<String> getHandle() {
         return Optional.ofNullable(handle);
+    }
+    
+    public Optional<Sounds> getNotificationSound() {
+        return Optional.ofNullable(sounds);
     }
 
     public String getPrefix() {
