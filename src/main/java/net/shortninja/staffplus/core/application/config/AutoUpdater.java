@@ -12,6 +12,7 @@ import net.shortninja.staffplus.core.application.config.migrators.PermissionsV2M
 import net.shortninja.staffplus.core.application.config.migrators.PhraseDetectionToGroupsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.ReportMessagesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.ServerSyncBooleanMigrator;
+import net.shortninja.staffplus.core.application.config.migrators.SoundOrbPickupMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatChannelMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffChatMessageFormatMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.StaffCustomModulesCommandMigrator;
@@ -64,7 +65,8 @@ public class AutoUpdater {
         new FreezeModuleMigrator(),
         new ServerSyncBooleanMigrator(),
         new PhraseDetectionToGroupsMigrator(),
-        new CommandsMultipleAliasesMigrator());
+        new CommandsMultipleAliasesMigrator(),
+        new SoundOrbPickupMigrator());
 
     public static boolean updateConfig(ConfigurationFile configurationFile) {
         if(EXCLUDED_CONFIG_FOR_UPDATES.contains(configurationFile.getIdentifier())) {

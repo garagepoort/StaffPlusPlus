@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.configuration.IConfigTransformer;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.Sounds;
+import org.bukkit.Sound;
 
 public class SoundsConfigTransformer implements IConfigTransformer<Sounds, String> {
     @Override
@@ -12,17 +13,17 @@ public class SoundsConfigTransformer implements IConfigTransformer<Sounds, Strin
     }
 
     private Sounds stringToSound(String string) {
-        Sounds sound = Sounds.ORB_PICKUP;
-        boolean isValid = JavaUtils.isValidEnum(Sounds.class, string);
+        boolean isValid = JavaUtils.isValidEnum(Sound.class, string);
         if (string.equalsIgnoreCase("NONE")) {
             return null;
         }
+
         if (!isValid) {
             StaffPlus.get().getLogger().warning("Invalid sound name '" + string + "'!");
             return null;
-        } else sound = Sounds.valueOf(string);
-
-        return sound;
+        } else {
+            return new Sounds(string);
+        }
     }
 
 

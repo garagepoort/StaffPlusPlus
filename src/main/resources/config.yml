@@ -101,7 +101,7 @@ reports-module:
 
   # The sound that is played to staff when someone is reported.
   # Set to "NONE" to disable.
-  sound: ORB_PICKUP
+  sound: ENTITY_EXPERIENCE_ORB_PICKUP
 
   # The cooldown, in seconds, for using "/report".
   # This is disabled for players with the "permissions.report" permission.
@@ -144,7 +144,7 @@ warnings-module:
   enabled: true
   # The sound that is played to the player when warned.
   # Set to "NONE" to disable.
-  sound: ORB_PICKUP
+  sound: ENTITY_EXPERIENCE_ORB_PICKUP
   # Whether or not the player issued the warning will be visible in GUIs.
   show-issuer: true
 
@@ -203,6 +203,7 @@ staff-chat-module:
         prefix: '&dStaffChat &8»'
         message-format: '&b%player% &8» &7%message%'
         permission: staff.staffchat
+        sound: "NONE"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -466,7 +467,7 @@ alerts-module:
   blacklist-notify-bungee: ''
 
   # The sound that is played to staff when notified.
-  sound: ORB_PICKUP
+  sound: ENTITY_EXPERIENCE_ORB_PICKUP
 
   # Notifies staff when a player mines blocks listed in "blocks".
   xray-alerts:
@@ -556,7 +557,7 @@ freeze-module:
     damage: false
     blindness: false
     timer: 5
-    sound: ORB_PICKUP
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
     prompt: false
     prompt-title: '&bFrozen'
     logout-commands: ban %player%

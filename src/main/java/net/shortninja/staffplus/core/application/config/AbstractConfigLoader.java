@@ -1,8 +1,6 @@
 package net.shortninja.staffplus.core.application.config;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.Sounds;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public abstract class AbstractConfigLoader<T> {
@@ -25,20 +23,6 @@ public abstract class AbstractConfigLoader<T> {
     }
 
     protected abstract T load();
-
-    protected Sounds stringToSound(String string) {
-        Sounds sound = Sounds.ORB_PICKUP;
-        boolean isValid = JavaUtils.isValidEnum(Sounds.class, string);
-        if (string.equalsIgnoreCase("NONE")) {
-            return null;
-        }
-        if (!isValid) {
-            StaffPlus.get().getLogger().warning("Invalid sound name '" + string + "'!");
-            return null;
-        } else sound = Sounds.valueOf(string);
-
-        return sound;
-    }
 
     protected String sanitize(String string) {
         String result = string.toUpperCase();

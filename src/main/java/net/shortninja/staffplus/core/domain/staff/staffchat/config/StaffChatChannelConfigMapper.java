@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat.config;
 
 import be.garagepoort.mcioc.configuration.IConfigTransformer;
+import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.domain.staff.staffchat.StaffChatChannelConfiguration;
 
 import java.util.LinkedHashMap;
@@ -18,7 +19,11 @@ public class StaffChatChannelConfigMapper implements IConfigTransformer<List<Sta
             String prefix = (String) map.get("prefix");
             String handle = (String) map.get("handle");
             String messageFormat = (String) map.get("message-format");
-            return new StaffChatChannelConfiguration(name, command, permission, handle, prefix, messageFormat);
+            Sounds sound = null;
+            if (map.containsKey("sound")) {
+                sound = new Sounds((String) map.get("sound"));
+            }
+            return new StaffChatChannelConfiguration(name, command, permission, handle, prefix, messageFormat, sound);
         }).collect(Collectors.toList());
     }
 }
