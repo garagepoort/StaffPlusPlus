@@ -20,7 +20,7 @@ public class StaffChatChannelConfigMapper implements IConfigTransformer<List<Sta
             String handle = (String) map.get("handle");
             String messageFormat = (String) map.get("message-format");
             Sounds sound = null;
-            if (map.containsKey("sound")) {
+            if (map.containsKey("sound") && !((String) map.get("sound")).equalsIgnoreCase("NONE")) {
                 sound = new Sounds((String) map.get("sound"));
             }
             return new StaffChatChannelConfiguration(name, command, permission, handle, prefix, messageFormat, sound);
