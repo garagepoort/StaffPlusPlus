@@ -300,6 +300,10 @@ public class Messages {
     public String staffChatMuted;
     @ConfigProperty("%lang%:staff-chat-unmuted")
     public String staffChatUnmuted;
+    @ConfigProperty("%lang%:staff-chat-sound-disabled")
+    public String staffChatSoundDisabled;
+    @ConfigProperty("%lang%:staff-chat-sound-enabled")
+    public String staffChatSoundEnabled;
 
     @ConfigProperty("%lang%:kick-notifyplayers")
     public String kickedNotify;
