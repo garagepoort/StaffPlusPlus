@@ -159,6 +159,8 @@ infraction-item: "&bAdvertencias: &7%warnings%, &bReportes: &7%reports%, &bRazó
 staff-chat-status: "&bChat del Staff &7%status%&b."
 staff-chat-muted: "&bEl chat del staff ha sido &7silenciado&b."
 staff-chat-unmuted: "&bEl chat del staff ha sido &7desmutado&b."
+staff-chat-sound-enabled: "&bStaff Chat notification sound &7enabled&b."
+staff-chat-sound-disabled: "&bStaff Chat notification sound &7disabled&b."
 
 chat-clear-line: ""
 chat-cleared: "&bEl chat ha sido limpiado por &7%player%&b."
