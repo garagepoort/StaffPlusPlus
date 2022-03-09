@@ -12,15 +12,24 @@ import java.util.UUID;
 public class PlayerSettings {
 
     private final UUID uuid;
+    private final Set<AlertType> alertOptions;
+    private final Set<String> mutedStaffChatChannels;
+    private final Set<String> soundDisabledStaffChatChannels;
     private String name;
     private Material glassColor;
-    private Set<AlertType> alertOptions;
     private VanishType vanishType;
     private boolean inStaffMode;
     private String modeName;
-    private Set<String> mutedStaffChatChannels;
 
-    public PlayerSettings(UUID uuid, String name, Material glassColor, Set<AlertType> alertOptions, VanishType vanishType, boolean inStaffMode, String modeName, Set<String> mutedStaffChatChannels) {
+    public PlayerSettings(UUID uuid,
+                          String name,
+                          Material glassColor,
+                          Set<AlertType> alertOptions,
+                          VanishType vanishType,
+                          boolean inStaffMode,
+                          String modeName,
+                          Set<String> mutedStaffChatChannels,
+                          Set<String> soundDisabledStaffChatChannels) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
@@ -29,6 +38,7 @@ public class PlayerSettings {
         this.inStaffMode = inStaffMode;
         this.modeName = modeName;
         this.mutedStaffChatChannels = mutedStaffChatChannels;
+        this.soundDisabledStaffChatChannels = soundDisabledStaffChatChannels;
     }
 
     public UUID getUuid() {
@@ -63,6 +73,10 @@ public class PlayerSettings {
         return mutedStaffChatChannels;
     }
 
+    public Set<String> getSoundDisabledStaffChatChannels() {
+        return soundDisabledStaffChatChannels;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -81,6 +95,10 @@ public class PlayerSettings {
 
     public boolean isStaffChatMuted(String channelName) {
         return mutedStaffChatChannels.contains(channelName);
+    }
+
+    public boolean isStaffChatSoundEnabled(String channelName) {
+        return !soundDisabledStaffChatChannels.contains(channelName);
     }
 
     public void setModeConfiguration(GeneralModeConfiguration modeConfiguration) {
@@ -103,10 +121,18 @@ public class PlayerSettings {
         }
     }
 
+    public void setStaffChatNotificationSound(String name, boolean enabled) {
+        if (enabled) {
+            soundDisabledStaffChatChannels.remove(name);
+        } else {
+            soundDisabledStaffChatChannels.add(name);
+        }
+    }
+
     public void setAlertOption(AlertType alertType, boolean isEnabled) {
-        if(isEnabled) {
+        if (isEnabled) {
             alertOptions.add(alertType);
-        }else{
+        } else {
             alertOptions.remove(alertType);
         }
     }
