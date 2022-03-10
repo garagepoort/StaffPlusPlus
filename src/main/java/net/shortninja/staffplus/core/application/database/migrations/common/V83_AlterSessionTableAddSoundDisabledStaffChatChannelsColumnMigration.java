@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.application.database.migrations.common;
 
 import be.garagepoort.mcsqlmigrations.Migration;
 
-public class V82_AlterSessionTableAddSoundDisabledStaffChatChannelsColumnMigration implements Migration {
+public class V83_AlterSessionTableAddSoundDisabledStaffChatChannelsColumnMigration implements Migration {
 
     @Override
     public String getStatement() {
@@ -11,6 +11,6 @@ public class V82_AlterSessionTableAddSoundDisabledStaffChatChannelsColumnMigrati
 
     @Override
     public int getVersion() {
-        return 57;
+        return 83;
     }
 }
