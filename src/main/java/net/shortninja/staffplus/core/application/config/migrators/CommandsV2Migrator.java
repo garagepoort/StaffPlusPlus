@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.core.application.config.migrators;
 
-import net.shortninja.staffplus.core.application.config.ConfigurationFile;
+import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 import java.util.Set;
 
-public class CommandsV2Migrator implements ConfigMigrator {
+public class CommandsV2Migrator implements StaffPlusPlusConfigMigrator {
 
     @Override
     public void migrate(List<ConfigurationFile> configs) {
