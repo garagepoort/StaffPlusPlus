@@ -311,6 +311,7 @@ chat-module:
 broadcast-module:
   # Whether or not the plugin will use "/broadcast" features.
   enabled: true
+  prefix: "&dBroadcast &8»"
   # The servers to which the broadcasting is applied "CURRENT" is the default value and broadcasts only on the current server.
   # This also prevents staff members from broadcasting to other servers
   # "ALL" broadcasts to all known servers on the network.

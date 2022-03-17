@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core;
 
-import net.shortninja.staffplus.core.application.config.ConfigurationFile;
+import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.file.FileConfiguration;
