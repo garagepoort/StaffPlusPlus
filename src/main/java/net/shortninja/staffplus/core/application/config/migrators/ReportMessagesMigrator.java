@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.core.application.config.migrators;
 
-import net.shortninja.staffplus.core.application.config.ConfigurationFile;
+import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 import java.util.function.Function;
 
-public class ReportMessagesMigrator implements ConfigMigrator {
+public class ReportMessagesMigrator implements StaffPlusPlusConfigMigrator {
     @Override
     public void migrate(List<ConfigurationFile> config) {
         List<FileConfiguration> langFiles = getLangFiles(config);
