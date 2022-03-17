@@ -12,6 +12,7 @@ import net.shortninja.staffplus.core.domain.staff.staffchat.bungee.StaffChatBung
 import net.shortninja.staffplus.core.domain.staff.staffchat.bungee.StaffChatReceivedBungeeEvent;
 import net.shortninja.staffplus.core.domain.staff.staffchat.config.StaffChatConfiguration;
 import net.shortninja.staffplusplus.staffmode.chat.StaffChatEvent;
+import net.shortninja.staffplusplus.staffmode.chat.StaffChatService;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -23,7 +24,7 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
 @IocListener
-public class StaffChatServiceImpl implements net.shortninja.staffplusplus.staffmode.chat.StaffChatService, Listener {
+public class StaffChatServiceImpl implements StaffChatService, Listener {
 
     private static final String STAFFCHAT = "staffchat";
     private final Messages messages;
