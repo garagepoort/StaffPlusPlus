@@ -1,5 +1,41 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.12
+
+### Features
+- Add optional notification sound to staffchat channels.
+- Add option to disable the offline-player-cache (used for autocompletion of offline player names)
+
+### Bugs
+- Fix issue with opening my-warnings-view
+- Back button was not working on some GUIs
+
+# V1.18.11
+
+### Bugs
+- Fix 1.18.2 teleport and examine functionality for offline players
+
+# V1.18.10
+
+### Breaking change
+  - You now need the permission "staff.examine.view-ip" to view the ip inside the examine GUI.
+
+### Features
+  - Add support for 1.18.2
+  - NameChanged alerts can now be sent over bungee
+  - Player mentioned alerts can now be sent over bungee
+  - Xray alerts can now be sent over bungee
+  - Alerts are extended with alerts for censored message triggered by the blacklist module
+  - Russian language added (Thanks to: GoldenWind)
+  - Gradients colors are now supported in version 1.18, 1.17 and 1.16
+
+### Bugs
+  - Fix papi placeholders for ban templates
+  - Prevent wrong configuration from creating reports without reason
+  - Added correct permissions for player information GUI actions
+  - Fix bug with threshold calculations
+  - Fix turning off silent chest interaction
+
 # V1.18.10
 
 ### Breaking change
