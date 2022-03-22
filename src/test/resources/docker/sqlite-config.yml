@@ -73,7 +73,6 @@ staff-chat-module:
           prefix: <#00d8e6>ModChaaaaaaaaaaat</#FF0000> &8»
           message-format: '&b%player% &8» &7%message%'
           permission: staff.staffchat
-          sound: ENTITY_PUFFER_FISH_BLOW_OUT
 vanish-module:
     enabled: true
     tab-list: true
