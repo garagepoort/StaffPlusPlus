@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.database.investigation;
 
-import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Constants;
-import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
@@ -12,12 +12,9 @@ import net.shortninja.staffplusplus.session.SppPlayer;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +24,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 
-public abstract class AbstractSqlInvestigationsRepository implements InvestigationsRepository {
+@IocBean
+public class InvestigationsRepositoryImpl implements InvestigationsRepository {
 
     private static final String ID_COLUMN = "ID";
     private static final String INVESTIGATOR_UUID_COLUMN = "investigator_uuid";
@@ -37,25 +35,39 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
     private static final String CONCLUSION_TIMESTAMP_COLUMN = "conclusion_timestamp";
 
     private final PlayerManager playerManager;
-    private final SqlConnectionProvider sqlConnectionProvider;
-    protected final Options options;
+    private final Options options;
     private final ServerSyncConfig investigationSyncServers;
+    private final QueryBuilderFactory query;
 
-    public AbstractSqlInvestigationsRepository(PlayerManager playerManager, SqlConnectionProvider sqlConnectionProvider, Options options) {
+    public InvestigationsRepositoryImpl(PlayerManager playerManager, Options options, QueryBuilderFactory query) {
         this.playerManager = playerManager;
-        this.sqlConnectionProvider = sqlConnectionProvider;
         this.options = options;
-        investigationSyncServers = options.serverSyncConfiguration.investigationSyncServers;
+        this.investigationSyncServers = options.serverSyncConfiguration.investigationSyncServers;
+        this.query = query;
     }
 
-    protected Connection getConnection() {
-        return sqlConnectionProvider.getConnection();
+    @Override
+    public int addInvestigation(Investigation investigation) {
+        return this.query.create().insertQuery("INSERT INTO sp_investigations(investigator_uuid, investigator_name, investigated_uuid, investigated_name, status, creation_timestamp, server_name) " +
+            "VALUES(?, ?, ?, ?, ?, ?, ?);", (insert) -> {
+            insert.setString(1, investigation.getInvestigatorUuid().toString());
+            insert.setString(2, investigation.getInvestigatorName());
+            if (investigation.getInvestigatedUuid().isPresent()) {
+                insert.setString(3, investigation.getInvestigatedUuid().get().toString());
+                insert.setString(4, investigation.getInvestigatedName().get());
+            } else {
+                insert.setNull(3, Types.VARCHAR);
+                insert.setNull(4, Types.VARCHAR);
+            }
+            insert.setString(5, investigation.getStatus().name());
+            insert.setLong(6, investigation.getCreationTimestamp());
+            insert.setString(7, options.serverName);
+        });
     }
 
     @Override
     public void updateInvestigation(Investigation investigation) {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_investigations set status=?, conclusion_timestamp=?, investigator_uuid=? WHERE ID=? " + getServerNameFilterWithAnd(investigationSyncServers) + ";")) {
+        this.query.create().updateQuery("UPDATE sp_investigations set status=?, conclusion_timestamp=?, investigator_uuid=? WHERE ID=? " + getServerNameFilterWithAnd(investigationSyncServers) + ";", (insert) -> {
             insert.setString(1, investigation.getStatus().name());
             if (investigation.getConclusionDate().isPresent()) {
                 insert.setLong(2, investigation.getConclusionTimestamp().get());
@@ -64,40 +76,24 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
             }
             insert.setString(3, investigation.getInvestigatorUuid().toString());
             insert.setInt(4, investigation.getId());
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
+        });
     }
 
     @Override
     public void pauseAllInvestigations() {
-        try (Connection sql = getConnection();
-             PreparedStatement insert = sql.prepareStatement("UPDATE sp_investigations set status=? WHERE status=? AND server_name=?;")) {
+        this.query.create().updateQuery("UPDATE sp_investigations set status=? WHERE status=? AND server_name=?;", (insert) -> {
             insert.setString(1, InvestigationStatus.PAUSED.name());
             insert.setString(2, InvestigationStatus.OPEN.name());
             insert.setString(3, options.serverName);
-            insert.executeUpdate();
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
+        });
     }
 
     @Override
     public Optional<Investigation> findInvestigation(int id) {
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE id = ? " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC")) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean first = rs.next();
-                if (first) {
-                    return Optional.of(buildInvestigation(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return Optional.empty();
+        return this.query.create().findOne(
+            "SELECT * FROM sp_investigations WHERE id = ? " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC",
+            (ps) -> ps.setInt(1, id),
+            this::buildInvestigation);
     }
 
     @Override
@@ -105,30 +101,19 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
         if (investigationStatuses.isEmpty()) {
             return Optional.empty();
         }
-
         List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
         String query = "SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND investigated_uuid = ? AND status in (%s) " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC";
 
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
-            ps.setString(1, investigatorUuid.toString());
-            ps.setString(2, investigatedUuid.toString());
-            int index = 3;
-            for (InvestigationStatus status : investigationStatuses) {
-                ps.setString(index, status.name());
-                index++;
-            }
-
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean first = rs.next();
-                if (first) {
-                    return Optional.of(buildInvestigation(rs));
+        return this.query.create().findOne(String.format(query, String.join(", ", questionMarks)),
+            (ps) -> {
+                ps.setString(1, investigatorUuid.toString());
+                ps.setString(2, investigatedUuid.toString());
+                int index = 3;
+                for (InvestigationStatus status : investigationStatuses) {
+                    ps.setString(index, status.name());
+                    index++;
                 }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return Optional.empty();
+            }, this::buildInvestigation);
     }
 
     @Override
@@ -155,25 +140,15 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
         List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
         String query = "SELECT * FROM sp_investigations WHERE investigator_uuid = ? AND status in (%s) " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC";
 
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
-            ps.setString(1, investigatorUuid.toString());
-            int index = 2;
-            for (InvestigationStatus status : investigationStatuses) {
-                ps.setString(index, status.name());
-                index++;
-            }
-
-            try (ResultSet rs = ps.executeQuery()) {
-                boolean first = rs.next();
-                if (first) {
-                    return Optional.of(buildInvestigation(rs));
+        return this.query.create().findOne(String.format(query, String.join(", ", questionMarks)),
+            (ps) -> {
+                ps.setString(1, investigatorUuid.toString());
+                int index = 2;
+                for (InvestigationStatus status : investigationStatuses) {
+                    ps.setString(index, status.name());
+                    index++;
                 }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return Optional.empty();
+            }, this::buildInvestigation);
     }
 
     @Override
@@ -183,40 +158,21 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
 
     @Override
     public List<Investigation> getAllInvestigations(int offset, int amount) {
-        List<Investigation> investigations = new ArrayList<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.investigationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?")
-        ) {
-            ps.setInt(1, offset);
-            ps.setInt(2, amount);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    investigations.add(buildInvestigation(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return investigations;
+        return this.query.create().find("SELECT * FROM sp_investigations " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.investigationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
+            (ps) -> {
+                ps.setInt(1, offset);
+                ps.setInt(2, amount);
+            }, this::buildInvestigation);
     }
 
     @Override
     public List<Investigation> getInvestigationsForInvestigated(UUID investigatedUuid, int offset, int amount) {
-        List<Investigation> investigations = new ArrayList<>();
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT * FROM sp_investigations WHERE investigated_uuid = ? " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?")) {
-            ps.setString(1, investigatedUuid.toString());
-            ps.setInt(2, offset);
-            ps.setInt(3, amount);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    investigations.add(buildInvestigation(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return investigations;
+        return this.query.create().find("SELECT * FROM sp_investigations WHERE investigated_uuid = ? " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
+            (ps) -> {
+                ps.setString(1, investigatedUuid.toString());
+                ps.setInt(2, offset);
+                ps.setInt(3, amount);
+            }, this::buildInvestigation);
     }
 
     @NotNull
@@ -225,29 +181,19 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
             return Collections.emptyList();
         }
 
-        List<Investigation> investigations = new ArrayList<>();
         List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
         String query = s + " AND status in (%s) " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC";
 
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
-            ps.setString(1, investigatorUuid.toString());
-            int index = 2;
-            for (InvestigationStatus status : investigationStatuses) {
-                ps.setString(index, status.name());
-                index++;
-            }
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    investigations.add(buildInvestigation(rs));
+        return this.query.create().find(String.format(query, String.join(", ", questionMarks)),
+            (ps) -> {
+                ps.setString(1, investigatorUuid.toString());
+                int index = 2;
+                for (InvestigationStatus status : investigationStatuses) {
+                    ps.setString(index, status.name());
+                    index++;
                 }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return investigations;
+            }, this::buildInvestigation);
     }
-
 
     @NotNull
     private List<Investigation> getInvestigationsPaged(UUID investigatorUuid, List<InvestigationStatus> investigationStatuses, String s, int offset, int amount) {
@@ -255,33 +201,22 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
             return Collections.emptyList();
         }
 
-        List<Investigation> investigations = new ArrayList<>();
         List<String> questionMarks = investigationStatuses.stream().map(p -> "?").collect(Collectors.toList());
         String query = s + " AND status in (%s) " + getServerNameFilterWithAnd(investigationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?";
 
-        try (Connection sql = getConnection();
-             PreparedStatement ps = sql.prepareStatement(String.format(query, String.join(", ", questionMarks)))) {
-            ps.setString(1, investigatorUuid.toString());
-            int index = 2;
-            for (InvestigationStatus status : investigationStatuses) {
-                ps.setString(index, status.name());
-                index++;
-            }
-
-            ps.setInt(index, offset);
-            ps.setInt(index + 1, amount);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    investigations.add(buildInvestigation(rs));
+        return this.query.create().find(String.format(query, String.join(", ", questionMarks)),
+            (ps) -> {
+                ps.setString(1, investigatorUuid.toString());
+                int index = 2;
+                for (InvestigationStatus status : investigationStatuses) {
+                    ps.setString(index, status.name());
+                    index++;
                 }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return investigations;
-    }
 
+                ps.setInt(index, offset);
+                ps.setInt(index + 1, amount);
+            }, this::buildInvestigation);
+    }
 
     private Investigation buildInvestigation(ResultSet rs) throws SQLException {
         UUID investigatorUuid = UUID.fromString(rs.getString(INVESTIGATOR_UUID_COLUMN));
@@ -316,5 +251,4 @@ public abstract class AbstractSqlInvestigationsRepository implements Investigati
         }
         return issuerName;
     }
-
 }
