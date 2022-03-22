@@ -5,11 +5,9 @@ import be.garagepoort.mcioc.IocBeanProvider;
 import be.garagepoort.mcioc.TubingConfiguration;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.gui.GuiActionService;
+import be.garagepoort.mcsqlmigrations.DatabaseType;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
-import be.garagepoort.mcsqlmigrations.helpers.MysqlQueryService;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
-import be.garagepoort.mcsqlmigrations.helpers.SqlQueryService;
-import be.garagepoort.mcsqlmigrations.helpers.SqliteQueryService;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.LuckPermsHook;
 import net.shortninja.staffplus.core.application.bootstrap.VaultHook;
@@ -69,14 +67,12 @@ public class StaffPlusPlusConfiguration {
 
     @IocBeanProvider
     public static QueryBuilderFactory queryBuilderFactory(@ConfigProperty("storage.type") String storageType, SqlConnectionProvider sqlConnectionProvider) {
-        SqlQueryService sqlQueryService;
         if (storageType.equalsIgnoreCase("mysql")) {
-            sqlQueryService = new MysqlQueryService(sqlConnectionProvider);
             StaffPlus.get().getLogger().info("Using MYSQL storage");
-        } else {
-            StaffPlus.get().getLogger().info("Using SQLITE storage");
-            sqlQueryService = new SqliteQueryService(sqlConnectionProvider);
+            return new QueryBuilderFactory(DatabaseType.MYSQL, sqlConnectionProvider);
         }
-        return new QueryBuilderFactory(sqlQueryService);
+
+        StaffPlus.get().getLogger().info("Using SQLITE storage");
+        return new QueryBuilderFactory(DatabaseType.SQLITE, sqlConnectionProvider);
     }
 }
