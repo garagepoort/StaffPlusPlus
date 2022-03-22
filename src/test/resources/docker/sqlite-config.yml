@@ -1,0 +1,261 @@
+server-name: MC1
+main-world: world
+timestamp-format: dd/MM/yyyy-HH:mm:ss
+lang: lang_en
+authentication:
+    provider: noop
+blocked-commands: /example1, /example2, /example3
+blocked-mode-commands: /example1, /example2, /example3
+glass-color: 0
+glass-title: '&bChoose GUI glass color'
+offline-players-mode: true
+offline-player-cache: true
+server-sync-module:
+    vanish-sync: false
+    staffmode-sync: false
+    ban-sync: '[ALL]'
+    report-sync: '[ALL]'
+    warning-sync: '[ALL]'
+    mute-sync: '[ALL]'
+    kick-sync: '[ALL]'
+    investigation-sync: '[ALL]'
+    notes-sync: '[ALL]'
+reports-module:
+    chatchannels:
+        enabled: true
+        open-on: IN_PROGRESS
+        close-on: REJECTED;RESOLVED;DELETED
+    enabled: true
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    cooldown: 10
+    show-reporter: true
+    closing-reason-enabled: true
+    report-types: []
+    fixed-reason: false
+    fixed-reason-culprit: false
+    reasons: []
+    reporter-notifications:
+        notify-on-join: true
+        status-change-notifications: IN_PROGRESS;RESOLVED;REJECTED
+    accept-commands: []
+    reject-commands: []
+    reopen-commands: []
+    resolve-commands: []
+warnings-module:
+    enabled: true
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    show-issuer: true
+    user-notifications:
+        enabled: true
+        always-notify: true
+    actions: []
+    thresholds:
+        - score: 3
+          actions:
+              - command: ban %target% &4Zu viele Verwarnungen!
+    appeals:
+        enabled: true
+        resolve-reason-enabled: false
+        fixed-reason: false
+        reasons:
+            - ''
+    severity-levels:
+        - name: WARN
+          score: 1
+          expiresAfter: 1 MONTH
+staff-chat-module:
+    enabled: true
+    bungee: true
+    channels:
+        - command: sc
+          handle: '@'
+          name: staffchat
+          prefix: <#00d8e6>ModChaaaaaaaaaaat</#FF0000> &8»
+          message-format: '&b%player% &8» &7%message%'
+          permission: staff.staffchat
+          sound: ENTITY_PUFFER_FISH_BLOW_OUT
+vanish-module:
+    enabled: true
+    tab-list: true
+    show-away: false
+    suggestions: false
+    chat: false
+    vanish-message-enabled: true
+chat-module:
+    enabled: true
+    lines: 100
+    slow: 5
+    detection:
+        phrase-groups:
+            - phrases:
+                  - admin
+                  - mod
+              actions:
+                  - command: tell %player% Don't say that!.
+    blacklist-module:
+        enabled: true
+        hoverable: false
+        character: '*'
+        merging: true
+        words: fuck, shit, ass, bitch, dick, cock, piss, cunt, fag, faggot, slut, nigger,
+            nigga
+        characters: 卐, 卍
+        domains: com, net, org
+        periods: (), (dot),
+        allowed: bypass, assembly, assassin, compass, assume, assault, asset, assort
+broadcast-module:
+    enabled: true
+    enabled-servers: ALL
+    prefix: '&dBroadcast &8»'
+infractions-module:
+    enabled: true
+    show-bans: true
+    show-mutes: true
+    show-warnings: true
+    show-reporter:
+        report-created: true
+    show-kicks: true
+    bans-gui-item: PAPER
+    mutes-gui-item: PAPER
+    warnings-gui-item: PAPER
+    reported-gui-item: PAPER
+    kicks-gui-item: PAPER
+ban-module:
+    enabled: true
+    permban-template: default
+    tempban-template: default
+    ipban:
+        enabled: true
+        permban-template: ''
+        tempban-template: ''
+    appeals:
+        enabled: true
+        resolve-reason-enabled: false
+        fixed-reason: false
+        reasons:
+            - ''
+        unban-on-approve: true
+kick-module:
+    enabled: true
+    fixed-reason: false
+    reasons: []
+mute-module:
+    enabled: true
+    default-soft-mutes: false
+    blocked-commands:
+        - msg
+        - whisper
+        - tell
+    appeals:
+        enabled: true
+        resolve-reason-enabled: false
+        fixed-reason: false
+        reasons:
+            - ''
+        unmute-on-approve: true
+        on-approved-commands: []
+        on-rejected-commands: []
+joinmessages-module:
+    enabled: true
+    messages:
+        - permission: staff.joinmessages.staff
+          message: '&6[Staff] &4%player% &7joined the server'
+          weight: 1
+protect-module:
+    player-enabled: true
+    area-enabled: true
+    area-max-size: 40
+alt-detect-module:
+    enabled: true
+    same-ip-required: false
+alerts-module:
+    name-notify: true
+    name-notify-console: false
+    mention-notify: true
+    mention-notify-console: false
+    chat-phrase-detection: true
+    chat-phrase-detection-console: false
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    xray-alerts:
+        enabled: true
+        console: false
+        blocks: DIRT:2:1m, DIAMOND_ORE:10:1m, GOLD_ORE:15:1m, IRON_ORE:50:1m,
+            COAL_ORE:70:1m, LAPIS_ORE:15:1m, REDSTONE_ORE:30:1m
+        notify-bungee: '[ALL]'
+    alt-detect-notify:
+        enabled: true
+        console: false
+        trust-levels: FAIRLY_POSITIVE;POSITIVE
+    command-detection: true
+    command-detection-console: true
+    name-notify-bungee: '[ALL]'
+    mention-notify-bungee: '[ALL]'
+    blacklist-detection: true
+    blacklist-detection-console: true
+    blacklist-notify-bungee: '[ALL]'
+command-detection:
+    enabled: true
+    command-groups:
+        - commands:
+              - op
+              - deop
+              - lp
+          actions:
+              - command: 'reportplayer %player% Player triggered OP command. Command: %command%'
+trace-module:
+    enabled: true
+    trace-events: PICKUP_ITEM;DROP_ITEM;BLOCK_BREAK;BLOCK_PLACE;COMMANDS;CHAT;WORLD_CHANGE;INVENTORY;DAMAGE
+    output-channels: CHAT;FILE
+enderchest-module:
+    enabled: true
+investigations-module:
+    enabled: true
+    allow-offline-investigation: false
+    enforce-staff-mode: false
+    max-concurrent-investigations: 1
+    automatic-pause: true
+    notifications:
+        investigated:
+            title-message-enabled: true
+            chat-message-enabled: true
+    start-investigation-commands: []
+    conclude-investigation-commands: []
+    pause-investigation-commands: []
+freeze-module:
+    enabled: true
+    chat: true
+    damage: false
+    timer: 5
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    prompt: false
+    prompt-title: '&bFrozen'
+    logout-commands: ban %player%
+    title-message-enabled: true
+    allowed-commands: []
+    freeze-commands: []
+    unfreeze-commands: []
+    chatchannels:
+        enabled: true
+    chat-message-enabled: true
+    blindness: false
+webui-module:
+    enabled: true
+    host: http://localhost.be
+    role: MEMBER
+    application-key: 618055a971620
+storage:
+    type: sqlite
+    mysql:
+        host: localhost
+        user: test
+        database: TEST
+        password: test
+        port: 3306
+        max-pool-size: 5
+        ssl-enabled: false
+config-version: 6205
+auto-save: 3602
+clock: 10
+animation-packets: PacketPlayOutBlockBreakAnimation, PacketPlayOutBlockAction
+sound-names: random.chestopen, random.chestclosed
+metrics: true
