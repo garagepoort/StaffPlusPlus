@@ -66,13 +66,15 @@ public class StaffPlusPlusConfiguration {
         StaffPlus.get().getLogger().info("Luckperms not found. Not Setting luckperms hook");
         return null;
     }
-    
+
     @IocBeanProvider
     public static QueryBuilderFactory queryBuilderFactory(@ConfigProperty("storage.type") String storageType, SqlConnectionProvider sqlConnectionProvider) {
         SqlQueryService sqlQueryService;
         if (storageType.equalsIgnoreCase("mysql")) {
             sqlQueryService = new MysqlQueryService(sqlConnectionProvider);
+            StaffPlus.get().getLogger().info("Using MYSQL storage");
         } else {
+            StaffPlus.get().getLogger().info("Using SQLITE storage");
             sqlQueryService = new SqliteQueryService(sqlConnectionProvider);
         }
         return new QueryBuilderFactory(sqlQueryService);
