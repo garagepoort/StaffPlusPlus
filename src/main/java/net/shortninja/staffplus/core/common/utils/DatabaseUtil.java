@@ -1,16 +1,12 @@
 package net.shortninja.staffplus.core.common.utils;
 
-import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
+import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.common.SqlFilter;
 import net.shortninja.staffplusplus.common.SqlFilters;
-import org.apache.commons.lang.StringUtils;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +14,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+
 
 public class DatabaseUtil {
 
@@ -59,28 +57,12 @@ public class DatabaseUtil {
         DatabaseUtil.getUuids(tableName, uuid_column).stream()
             .filter(Objects::nonNull)
             .forEach(playerUuid -> playerManager.getOnOrOfflinePlayer(playerUuid)
-            .ifPresent(p -> statements.add(String.format("UPDATE " + tableName + " set " + nameColumn + "='%s' WHERE " + uuid_column + "='%s';", p.getUsername(), p.getId()))));
+                .ifPresent(p -> statements.add(String.format("UPDATE " + tableName + " set " + nameColumn + "='%s' WHERE " + uuid_column + "='%s';", p.getUsername(), p.getId()))));
         return statements;
     }
 
     public static List<UUID> getUuids(String table, String column) {
-
-        SqlConnectionProvider sqlConnectionProvider = StaffPlus.get().getIocContainer().get(SqlConnectionProvider.class);
-
-        List<UUID> uuids = new ArrayList<>();
-        try (Connection sql = sqlConnectionProvider.getConnection();
-             PreparedStatement ps = sql.prepareStatement("SELECT distinct " + column + " FROM " + table)) {
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    String uuid = rs.getString(1);
-                    if(StringUtils.isNotEmpty(uuid)) {
-                        uuids.add(UUID.fromString(uuid));
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException(e);
-        }
-        return uuids;
+        QueryBuilderFactory query = StaffPlus.get().getIocContainer().get(QueryBuilderFactory.class);
+        return query.create().find("SELECT distinct " + column + " FROM " + table + " WHERE " + column + " is not null", rs -> UUID.fromString(rs.getString(1)));
     }
 }

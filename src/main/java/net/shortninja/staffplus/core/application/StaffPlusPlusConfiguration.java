@@ -7,6 +7,7 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.gui.GuiActionService;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import be.garagepoort.mcsqlmigrations.helpers.MysqlQueryService;
+import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import be.garagepoort.mcsqlmigrations.helpers.SqlQueryService;
 import be.garagepoort.mcsqlmigrations.helpers.SqliteQueryService;
 import net.shortninja.staffplus.core.StaffPlus;
@@ -65,12 +66,15 @@ public class StaffPlusPlusConfiguration {
         StaffPlus.get().getLogger().info("Luckperms not found. Not Setting luckperms hook");
         return null;
     }
-
+    
     @IocBeanProvider
-    public static SqlQueryService queryService(@ConfigProperty("storage.type") String storageType, SqlConnectionProvider sqlConnectionProvider) {
+    public static QueryBuilderFactory queryBuilderFactory(@ConfigProperty("storage.type") String storageType, SqlConnectionProvider sqlConnectionProvider) {
+        SqlQueryService sqlQueryService;
         if (storageType.equalsIgnoreCase("mysql")) {
-            return new MysqlQueryService(sqlConnectionProvider);
+            sqlQueryService = new MysqlQueryService(sqlConnectionProvider);
+        } else {
+            sqlQueryService = new SqliteQueryService(sqlConnectionProvider);
         }
-        return new SqliteQueryService(sqlConnectionProvider);
+        return new QueryBuilderFactory(sqlQueryService);
     }
 }
