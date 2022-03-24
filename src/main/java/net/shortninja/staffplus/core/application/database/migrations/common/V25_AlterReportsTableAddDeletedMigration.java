@@ -5,7 +5,7 @@ import be.garagepoort.mcsqlmigrations.Migration;
 public class V25_AlterReportsTableAddDeletedMigration implements Migration {
     @Override
     public String getStatement() {
-        return "ALTER TABLE sp_reports ADD COLUMN deleted boolean not null default false;";
+        return "ALTER TABLE sp_reports ADD COLUMN deleted boolean not null default 0;";
     }
 
     @Override
