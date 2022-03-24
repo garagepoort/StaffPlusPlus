@@ -5,7 +5,7 @@ import be.garagepoort.mcsqlmigrations.Migration;
 public class V41_AlterWarningTableAddExpiredMigration implements Migration {
     @Override
     public String getStatement() {
-        return "ALTER TABLE sp_warnings ADD COLUMN is_expired boolean NOT NULL DEFAULT false;";
+        return "ALTER TABLE sp_warnings ADD COLUMN is_expired boolean NOT NULL default 0;";
     }
 
     @Override
