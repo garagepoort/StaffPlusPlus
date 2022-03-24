@@ -93,7 +93,7 @@ class BanGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-bans/view/overview");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/bans/bans-overview.xml");
     }
@@ -106,7 +106,7 @@ class BanGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-bans/view/detail?banId=12&backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/bans/ban-detail.xml");
     }
@@ -118,7 +118,7 @@ class BanGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-bans/view/detail?banId=12&backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/bans/ban-detail-with-appeal.xml");
     }

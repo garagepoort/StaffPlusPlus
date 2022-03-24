@@ -109,7 +109,7 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-warning-appeals/view/create/reason-select?warningId=12&backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/appeal-reason-select.xml");
     }
@@ -120,7 +120,7 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-warnings/view/appealed-warnings");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/appealed-warnings.xml");
     }

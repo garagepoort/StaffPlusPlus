@@ -108,7 +108,7 @@ class MuteAppealGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-mute-appeals/view/detail?appealId=1&backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/mutes/appeal-detail.xml");
     }
@@ -119,7 +119,7 @@ class MuteAppealGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-mute-appeals/view/create/reason-select?muteId=12&backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/mutes/appeal-reason-select.xml");
     }
@@ -130,7 +130,7 @@ class MuteAppealGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-mutes/view/appealed-mutes");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/mutes/appealed-mutes.xml");
     }
