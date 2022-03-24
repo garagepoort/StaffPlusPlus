@@ -10,10 +10,12 @@ import be.garagepoort.mcioc.gui.model.InventoryMapper;
 import be.garagepoort.mcioc.gui.model.TubingGui;
 import be.garagepoort.mcioc.gui.style.TubingGuiStyleIdViewProvider;
 import be.garagepoort.mcioc.gui.templates.ChatTemplateResolver;
+import be.garagepoort.mcioc.gui.templates.FreemarkerGuiTemplateResolver;
+import be.garagepoort.mcioc.gui.templates.GuiTemplateProcessor;
 import be.garagepoort.mcioc.gui.templates.GuiTemplateResolver;
 import be.garagepoort.mcioc.gui.templates.TemplateConfigResolver;
-import be.garagepoort.mcioc.gui.templates.TubingGuiTemplateParser;
-import be.garagepoort.mcioc.gui.templates.xml.TubingGuiXmlParser;
+import be.garagepoort.mcioc.gui.templates.TubingXmlConfigParser;
+import be.garagepoort.mcioc.gui.templates.xml.TubingXmlToTubingGuiMapper;
 import be.garagepoort.mcioc.gui.templates.xml.style.TubingGuiStyleParser;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.TubingBukkitUtilStub;
@@ -74,7 +76,7 @@ public abstract class AbstractGuiTemplateTest {
     @Mock
     protected TubingPluginProvider tubingPluginProvider;
     @Mock
-    protected TubingGuiXmlParser tubingGuiXmlParser;
+    protected TubingXmlToTubingGuiMapper tubingGuiXmlParser;
     @Mock
     protected TubingGuiStyleParser tubingGuiStyleParser;
     @Mock
@@ -126,21 +128,17 @@ public abstract class AbstractGuiTemplateTest {
         when(staffPlus.getIocContainer()).thenReturn(iocContainer);
         doReturn(guiController).when(iocContainer).get(guiController.getClass());
 
-        when(tubingGuiXmlParser.parseHtml(eq(player), any())).thenReturn(tubingGui);
+        when(tubingGuiXmlParser.toTubingGui(eq(player), any())).thenReturn(tubingGui);
         when(player.getUniqueId()).thenReturn(PLAYER_UUID);
 
         TemplateConfigResolver templateConfigResolver = new TemplateConfigResolver(tubingConfigurationProvider);
         templateConfigResolverSpy = spy(templateConfigResolver);
 
-        GuiTemplateResolver guiTemplateResolver = new GuiTemplateResolver(tubingPluginProvider,
-            this.templateConfigResolverSpy,
-            permissionHandler,
-            tubingGuiXmlParser,
-            new TubingGuiTemplateParser(this.templateConfigResolverSpy),
-            tubingGuiStyleParser);
+        GuiTemplateResolver guiTemplateResolver = new FreemarkerGuiTemplateResolver(tubingPluginProvider, templateConfigResolverSpy, permissionHandler);
+        GuiTemplateProcessor guiTemplateProcessor = new GuiTemplateProcessor(guiTemplateResolver, new TubingXmlConfigParser(templateConfigResolverSpy), tubingGuiXmlParser, tubingGuiStyleParser);
 
         guiActionService = new GuiActionService(tubingPluginProvider,
-            guiTemplateResolver,
+            guiTemplateProcessor,
             chatTemplateResolver,
             new ActionQueryParser(),
             new TubingBukkitUtilStub(),
