@@ -107,7 +107,7 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-warnings/view/my-warnings");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/my-warnings-overview.xml");
     }
@@ -118,7 +118,7 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-warnings/view/overview");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/warnings-overview.xml");
     }
@@ -129,7 +129,7 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-warnings/view/detail?warningId=12&backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/warning-detail.xml");
     }
@@ -144,7 +144,7 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-warnings/view/select-severity?targetPlayerName=player2&backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/severity-select.xml");
     }
