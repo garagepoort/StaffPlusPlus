@@ -28,7 +28,7 @@ class HubGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "hub/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/hub.xml");
     }

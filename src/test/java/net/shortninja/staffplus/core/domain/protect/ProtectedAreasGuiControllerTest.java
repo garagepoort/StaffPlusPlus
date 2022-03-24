@@ -93,7 +93,7 @@ class ProtectedAreasGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "protected-areas/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/protect/areas-overview.xml");
     }
@@ -104,7 +104,7 @@ class ProtectedAreasGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "protected-areas/view/detail?areaId=12");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/protect/area-detail.xml");
     }
