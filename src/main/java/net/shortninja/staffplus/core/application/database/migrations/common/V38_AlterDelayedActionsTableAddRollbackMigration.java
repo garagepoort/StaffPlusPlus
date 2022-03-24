@@ -6,7 +6,7 @@ public class V38_AlterDelayedActionsTableAddRollbackMigration implements Migrati
 
     @Override
     public String getStatement() {
-        return "ALTER TABLE sp_delayed_actions ADD COLUMN rollback boolean default false;";
+        return "ALTER TABLE sp_delayed_actions ADD COLUMN rollback boolean default 0;";
     }
 
     @Override
