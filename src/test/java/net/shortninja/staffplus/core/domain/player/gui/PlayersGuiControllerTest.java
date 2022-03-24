@@ -108,7 +108,7 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
     public void selectOverviewType() {
         guiActionService.executeAction(player, "players/view/select-overview-type");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
     }
 
@@ -124,7 +124,7 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "players/view/overview/online?backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/players/onlineplayeroverview.xml");
     }
@@ -141,7 +141,7 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "players/view/overview/offline?backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/players/offlineplayeroverview.xml");
     }
@@ -154,7 +154,7 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "players/view/detail?targetPlayerName=garagepoort&backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
     }
 }
