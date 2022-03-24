@@ -77,7 +77,7 @@ class InvestigationGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-investigations/view/overview");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/investigations/investigations-overview.xml");
     }
@@ -88,7 +88,7 @@ class InvestigationGuiControllerTest extends AbstractGuiTemplateTest {
 
         guiActionService.executeAction(player, "manage-investigations/view/detail?investigationId=12&backAction=goBack/view");
 
-        verify(tubingGuiXmlParser).parseHtml(eq(player), xmlCaptor.capture());
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/investigations/investigation-detail.xml");
     }
