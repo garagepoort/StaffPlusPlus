@@ -9,7 +9,7 @@ public class V28_CreateSessionsTableMigration implements Migration {
             "ID INT NOT NULL AUTO_INCREMENT,  " +
             "player_uuid VARCHAR(36) NOT NULL,  " +
             "vanish_type VARCHAR(36) NOT NULL DEFAULT 'NONE',  " +
-            "in_staff_mode boolean NOT NULL DEFAULT false,  " +
+            "in_staff_mode boolean NOT NULL default 0,  " +
             "PRIMARY KEY (ID)) ENGINE = InnoDB;";
     }
 
