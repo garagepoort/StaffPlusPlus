@@ -106,7 +106,7 @@ class MuteAppealGuiControllerTest extends AbstractGuiTemplateTest {
     public void appealDetail() throws URISyntaxException, IOException {
         when(appealService.getAppeal(1)).thenReturn(buildAppeal());
 
-        guiActionService.executeAction(player, "manage-mute-appeals/view/detail?appealId=1&backAction=goBack/view");
+        guiActionService.executeAction(player, "manage-mute-appeals/view/detail?appealId=1");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
@@ -117,7 +117,7 @@ class MuteAppealGuiControllerTest extends AbstractGuiTemplateTest {
     public void appealReasonSelect() throws URISyntaxException, IOException {
         muteAppealConfiguration.appealReasons = Arrays.asList("Reason 1", "Reason 2", "Reason 3");
 
-        guiActionService.executeAction(player, "manage-mute-appeals/view/create/reason-select?muteId=12&backAction=goBack/view");
+        guiActionService.executeAction(player, "manage-mute-appeals/view/create/reason-select?muteId=12");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());

@@ -30,11 +30,10 @@ public class InventoryExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public String getClickAction(Player staff, SppPlayer target, String backAction) {
+    public String getClickAction(Player staff, SppPlayer target) {
         return GuiActionBuilder.builder()
             .action("manage-inventory/open")
             .param("targetPlayerName", target.getUsername())
-            .param("backAction", backAction)
             .build();
     }
 

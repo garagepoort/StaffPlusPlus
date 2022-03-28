@@ -8,7 +8,7 @@
         <@muteCommons.muteitem itemId="mute-info-${mute?index}"
         slot="${mute?index}"
         mute=mute
-        onLeftClick="manage-mutes/view/detail?muteId=${mute.id}&backAction=${URLEncoder.encode(currentAction)}"/>
+        onLeftClick="manage-mutes/view/detail?muteId=${mute.id}"/>
     </#list>
 
     <@commons.pageFooter currentAction="${currentAction}" page=page />

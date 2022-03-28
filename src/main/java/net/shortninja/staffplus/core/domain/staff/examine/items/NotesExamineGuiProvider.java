@@ -40,7 +40,7 @@ public class NotesExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public String getClickAction(Player staff, SppPlayer targetPlayer, String backAction) {
+    public String getClickAction(Player staff, SppPlayer targetPlayer) {
         return GuiActionBuilder.builder()
             .action("player-notes/create")
             .param("targetPlayerName", targetPlayer.getUsername())

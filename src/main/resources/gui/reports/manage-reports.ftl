@@ -2,7 +2,7 @@
 <#include "/gui/commons/translate.ftl"/>
 <TubingGui size="9" id="manage-reports-overview">
     <title class="gui-title"><@translate key="gui.reports.manage-reports.title"/></title>
-    <GuiItem id="unresolved-reports" slot="0" material="PAPER" onLeftClick="manage-reports/view/open?backAction=${URLEncoder.encode(currentAction)}">
+    <GuiItem id="unresolved-reports" slot="0" material="PAPER" onLeftClick="manage-reports/view/open">
         <name class="item-name"><@translate key="gui.reports.manage-reports.show-unresolved.title" /></name>
         <Lore>
             <LoreLine>
@@ -10,7 +10,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="my-reports" slot="1" material="PAPER" onLeftClick="manage-reports/view/my-assigned?backAction=${URLEncoder.encode(currentAction)}">
+    <GuiItem id="my-reports" slot="1" material="PAPER" onLeftClick="manage-reports/view/my-assigned">
         <name class="item-name"><@translate key="gui.reports.manage-reports.assigned-to-me.title" /></name>
         <Lore>
             <LoreLine>
@@ -18,7 +18,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="assigned-reports" slot="2" material="PAPER" onLeftClick="manage-reports/view/assigned?backAction=${URLEncoder.encode(currentAction)}">
+    <GuiItem id="assigned-reports" slot="2" material="PAPER" onLeftClick="manage-reports/view/assigned">
         <name class="item-name"><@translate key="gui.reports.manage-reports.in-progress.title" /></name>
         <Lore>
             <LoreLine>
@@ -26,7 +26,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="closed-reports" slot="3" material="PAPER" onLeftClick="manage-reports/view/closed?backAction=${URLEncoder.encode(currentAction)}">
+    <GuiItem id="closed-reports" slot="3" material="PAPER" onLeftClick="manage-reports/view/closed">
         <name class="item-name"><@translate key="gui.reports.manage-reports.closed.title" /></name>
         <Lore>
             <LoreLine>
