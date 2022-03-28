@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.GuiAction;
+import be.garagepoort.mcioc.gui.GuiActionReturnType;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.GuiParams;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.GuiActionReturnType.BACK;
 import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
@@ -101,7 +103,7 @@ public class PlayerNotesGuiController {
     }
 
     @GuiAction("player-notes/delete")
-    public AsyncGui<String> createNote(Player staff, @GuiParam("noteId") int noteId, @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> createNote(Player staff, @GuiParam("noteId") int noteId) {
         return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnlinePlayer(staff.getUniqueId()).orElseThrow(() -> new PlayerNotFoundException(staff.getName()));
             PlayerNote note = playerNoteService.getNote(noteId);
@@ -112,7 +114,7 @@ public class PlayerNotesGuiController {
             }
 
             playerNoteService.deleteNote(sppPlayer, noteId);
-            return backAction;
+            return BACK;
         });
     }
 }

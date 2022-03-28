@@ -105,7 +105,7 @@ class BanAppealGuiControllerTest extends AbstractGuiTemplateTest {
     public void appealDetail() throws URISyntaxException, IOException {
         when(appealService.getAppeal(1)).thenReturn(buildAppeal());
 
-        guiActionService.executeAction(player, "manage-ban-appeals/view/detail?appealId=1&backAction=goBack/view");
+        guiActionService.executeAction(player, "manage-ban-appeals/view/detail?appealId=1");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
@@ -116,7 +116,7 @@ class BanAppealGuiControllerTest extends AbstractGuiTemplateTest {
     public void appealReasonSelect() throws URISyntaxException, IOException {
         banAppealConfiguration.appealReasons = Arrays.asList("Reason 1", "Reason 2", "Reason 3");
 
-        guiActionService.executeAction(player, "manage-ban-appeals/view/create/reason-select?banId=12&backAction=goBack/view");
+        guiActionService.executeAction(player, "manage-ban-appeals/view/create/reason-select?banId=12");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());

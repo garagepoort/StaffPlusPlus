@@ -43,7 +43,6 @@ public class MyWarningsViewBuilder {
             return GuiActionBuilder.builder()
                 .action("manage-warnings/view/detail")
                 .param("warningId", String.valueOf(w.getId()))
-                .param("backAction", currentAction)
                 .build();
         }
         return NOOP;

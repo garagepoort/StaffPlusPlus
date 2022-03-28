@@ -31,7 +31,7 @@ public class GamemodeExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public String getClickAction(Player staff, SppPlayer targetPlayer, String backAction) {
+    public String getClickAction(Player staff, SppPlayer targetPlayer) {
         return TubingGuiActions.NOOP;
     }
 

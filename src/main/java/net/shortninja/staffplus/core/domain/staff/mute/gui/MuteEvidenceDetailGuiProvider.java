@@ -20,7 +20,6 @@ public class MuteEvidenceDetailGuiProvider implements EvidenceGuiClick {
         return GuiActionBuilder.builder()
             .action("manage-mutes/view/detail")
             .param("muteId", String.valueOf(id))
-            .param("backAction", backAction)
             .build();
     }
 }

@@ -9,7 +9,6 @@ import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.InventoryFactory;
 import net.shortninja.staffplus.core.domain.staff.chests.config.EnderchestsConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
@@ -30,18 +29,17 @@ public class EnderChestService {
         this.guiActionService = guiActionService;
     }
 
-    public void openEnderChest(Player staff, SppPlayer target, String backAction) {
-        int containerSize = StringUtils.isNotBlank(backAction) ? 36 : 27;
+    public void openEnderChest(Player staff, SppPlayer target) {
         if (target.isOnline()) {
             if (!permissionHandler.has(staff, enderchestsConfiguration.permissionViewOnline)) {
                 throw new BusinessException("&CYou are not allowed to view the enderchest of an online player");
             }
             ChestGUI chestGUI = new ChestGUI(target,
                 target.getPlayer().getEnderChest(),
-                containerSize,
+                36,
                 ChestGuiType.ENDER_CHEST_EXAMINE,
                 permissionHandler.has(staff, enderchestsConfiguration.permissionInteract));
-            setBackRow(chestGUI, staff, backAction);
+            setBackRow(chestGUI, staff);
             chestGUI.show(staff);
         } else {
             if (!permissionHandler.has(staff, enderchestsConfiguration.permissionViewOffline)) {
@@ -50,21 +48,20 @@ public class EnderChestService {
 
             Inventory offlineEnderchest = inventoryFactory.loadEnderchestOffline(staff, target);
             ChestGUI chestGUI = new ChestGUI(target, offlineEnderchest,
-                containerSize,
+                36,
                 ChestGuiType.ENDER_CHEST_EXAMINE,
                 permissionHandler.has(staff, enderchestsConfiguration.permissionInteract));
-            setBackRow(chestGUI, staff, backAction);
+            setBackRow(chestGUI, staff);
             chestGUI.show(staff);
         }
     }
 
-    private void setBackRow(ChestGUI chestGUI, Player staff, String backAction) {
-        if (StringUtils.isNotBlank(backAction)) {
+    private void setBackRow(ChestGUI chestGUI, Player staff) {
             fillEmptyPlaces(chestGUI);
             chestGUI.setItem(31, Items.createDoor("Back", "Go back"), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                    guiActionService.executeAction(staff, backAction);
+                    guiActionService.executeAction(staff, "$$back");
                 }
 
                 @Override
@@ -72,7 +69,6 @@ public class EnderChestService {
                     return false;
                 }
             });
-        }
     }
 
     private void fillEmptyPlaces(ChestGUI chestGUI) {

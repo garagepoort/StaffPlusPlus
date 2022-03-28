@@ -5,8 +5,8 @@
     <title class="gui-title">Protected players</title>
 
     <#list players as p>
-        <@playercommons.playerhead itemId="player-info-${p?index}" slot="${p?index}" sppPlayer=p onLeftClick="players/view/detail?targetPlayerName=${p.username}&backAction=${URLEncoder.encode(currentAction)}" />
+        <@playercommons.playerhead itemId="player-info-${p?index}" slot="${p?index}" sppPlayer=p onLeftClick="players/view/detail?targetPlayerName=${p.username}" />
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}"  page=page />
 </TubingGui>

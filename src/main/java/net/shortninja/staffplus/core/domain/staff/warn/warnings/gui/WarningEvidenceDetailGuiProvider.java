@@ -20,7 +20,6 @@ public class WarningEvidenceDetailGuiProvider implements EvidenceGuiClick {
         return GuiActionBuilder.builder()
             .action("manage-warnings/view/detail")
             .param("warningId", String.valueOf(id))
-            .param("backAction", backAction)
             .build();
     }
 }
