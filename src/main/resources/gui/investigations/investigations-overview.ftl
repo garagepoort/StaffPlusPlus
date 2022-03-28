@@ -8,7 +8,7 @@
         <@investigationCommons.investigationItem itemId="investigation-info-${investigation?index}"
         slot="${investigation?index}"
         investigation=investigation
-        onLeftClick="manage-investigations/view/detail?investigationId=${investigation.id}&backAction=${URLEncoder.encode(currentAction)}"/>
+        onLeftClick="manage-investigations/view/detail?investigationId=${investigation.id}"/>
     </#list>
 
     <@commons.pageFooter currentAction="${currentAction}" page=page />

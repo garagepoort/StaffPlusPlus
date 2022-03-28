@@ -8,8 +8,8 @@
     <#list reports as report>
         <@reportcommon.reportitem
         itemId="report-info-${report?index}"
-        slot="${report?index}" report=report onLeftClick="manage-reports/view/detail?reportId=${report.id}&backAction=${URLEncoder.encode(currentAction)}" />
+        slot="${report?index}" report=report onLeftClick="manage-reports/view/detail?reportId=${report.id}" />
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}"  page=page />
 </TubingGui>

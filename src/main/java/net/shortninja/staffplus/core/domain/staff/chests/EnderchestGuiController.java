@@ -24,10 +24,9 @@ public class EnderchestGuiController {
 
     @GuiAction("manage-enderchest/open")
     public GuiActionReturnType openEnderchest(Player player,
-                                              @GuiParam("targetPlayerName") String targetPlayerName,
-                                              @GuiParam("backAction") String backAction) {
+                                              @GuiParam("targetPlayerName") String targetPlayerName) {
         SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
-        enderChestService.openEnderChest(player, target, backAction);
+        enderChestService.openEnderChest(player, target);
         return GuiActionReturnType.KEEP_OPEN;
     }
 }

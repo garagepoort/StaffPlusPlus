@@ -62,9 +62,9 @@
 
         <#if canAppeal>
             <#if $config.get("warnings-module.appeals.fixed-reason")>
-                <@appealcommons.appealbutton action="manage-warning-appeals/view/create/reason-select?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}" />
+                <@appealcommons.appealbutton action="manage-warning-appeals/view/create/reason-select?warningId=${warning.id}" />
             <#else>
-                <@appealcommons.appealbutton action="manage-warning-appeals/view/create/reason-chat?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}" />
+                <@appealcommons.appealbutton action="manage-warning-appeals/view/create/reason-chat?warningId=${warning.id}" />
             </#if>
         <#elseif warning.appeal.isPresent()>
             <#if ($permissions.has(player, $config.get("permissions:warnings.appeals.approve"))
@@ -72,13 +72,13 @@
                 && warning.appeal.get().status.name() == "OPEN">
                 <@appealcommons.appealinfoitem
                 appeal=warning.appeal.get()
-                action="manage-warning-appeals/view/detail?appealId=${warning.appeal.get().id}&backAction=${URLEncoder.encode(currentAction)}"/>
+                action="manage-warning-appeals/view/detail?appealId=${warning.appeal.get().id}"/>
             <#else>
                 <@appealcommons.appealinfoitem appeal=warning.appeal.get() action="$NOOP"/>
             </#if>
         </#if>
     </#if>
 
-    <@evidenceCommons.evidenceButton slot=14 evidence=warning backAction=currentAction />
-    <@commons.backButton action=backAction/>
+    <@evidenceCommons.evidenceButton slot=14 evidence=warning />
+    <@commons.backButton/>
 </TubingGui>

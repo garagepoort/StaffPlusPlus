@@ -5,6 +5,7 @@ import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.CurrentAction;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.gui.GuiActionReturnType;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.model.TubingGui;
@@ -20,6 +21,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.GuiActionReturnType.BACK;
 import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
@@ -48,53 +50,47 @@ public class InvestigationEvidenceGuiController {
     public AsyncGui<TubingGui> getEvidenceOverview(Player player,
                                                    @GuiParam(value = "page", defaultValue = "0") int page,
                                                    @GuiParam("investigationId") int investigationId,
-                                                   @CurrentAction String currentAction,
-                                                   @GuiParam("backAction") String backAction) {
+                                                   @CurrentAction String currentAction) {
         return async(() -> {
             Investigation investigation = investigationService.getInvestigation(investigationId);
-            return evidenceOverviewViewBuilder.buildGui(player, investigation, page, currentAction, backAction);
+            return evidenceOverviewViewBuilder.buildGui(player, investigation, page, currentAction);
         });
     }
 
     @GuiAction("manage-investigation-evidence/view/unlink")
     public GuiTemplate goToUnlinkEvidenceView(@GuiParam("evidenceId") int evidenceId,
-                                              @GuiParam("investigationId") int investigationId,
-                                              @GuiParam("backAction") String backAction) {
+                                              @GuiParam("investigationId") int investigationId) {
         String confirmAction = GuiActionBuilder.builder()
             .action("manage-investigation-evidence/unlink")
             .param("evidenceId", String.valueOf(evidenceId))
             .param("investigationId", String.valueOf(investigationId))
-            .param("backAction", backAction)
             .build();
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("confirmationMessage", "Are you sure you want to unlink evidence: (ID=" + evidenceId + ")");
         params.put("title", "Unlink evidence?");
         params.put("confirmAction", confirmAction);
-        params.put("cancelAction", backAction);
         return template("gui/commons/confirmation.ftl", params);
     }
 
     @GuiAction("manage-investigation-evidence/unlink")
-    public AsyncGui<String> unlinkEvidence(Player player,
-                                           @GuiParam("evidenceId") int evidenceId,
-                                           @GuiParam("investigationId") int investigationId,
-                                           @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> unlinkEvidence(Player player,
+                                                        @GuiParam("evidenceId") int evidenceId,
+                                                        @GuiParam("investigationId") int investigationId) {
         return async(() -> {
             Investigation investigation = investigationService.getInvestigation(investigationId);
             investigationEvidenceService.unlinkEvidence(player, investigation, evidenceId);
-            return backAction;
+            return BACK;
         });
     }
 
     @GuiAction("manage-investigation-evidence/view/investigation-link")
     public AsyncGui<TubingGui> getOverview(@GuiParam(value = "page", defaultValue = "0") int page,
                                            @CurrentAction String currentAction,
-                                           @GuiParam("backAction") String backAction,
                                            @GuiParam(value = "evidenceId") int evidenceId,
                                            @GuiParam(value = "evidenceType") String evidenceType,
                                            @GuiParam(value = "evidenceDescription") String evidenceDescription) {
-        return async(() -> investigationLinkEvidenceSelectionViewBuilder.buildGui(page, currentAction, backAction, new EvidenceDto(evidenceId, evidenceType, evidenceDescription)));
+        return async(() -> investigationLinkEvidenceSelectionViewBuilder.buildGui(page, currentAction, new EvidenceDto(evidenceId, evidenceType, evidenceDescription)));
     }
 
     @GuiAction("manage-investigation-evidence/link")

@@ -8,7 +8,7 @@
                  class="severity-level severity-${level.name}"
                  slot="${level?index}"
                  material="PAPER"
-                 onLeftClick="manage-warnings/warn?severity=${level.name}&targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}">
+                 onLeftClick="manage-warnings/warn?severity=${level.name}&targetPlayerName=${target.username}">
             <name class="item-name">${level.name}</name>
             <Lore>
                 <LoreLine>
@@ -19,5 +19,5 @@
         </GuiItem>
     </#list>
 
-    <@commons.backButton action=backAction/>
+    <@commons.backButton/>
 </TubingGui>

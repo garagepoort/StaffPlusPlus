@@ -10,12 +10,12 @@
         itemId="report-info-${report?index}"
         slot="${report?index}"
         report=report
-        onLeftClick="manage-reports/accept?reportId=${report.id}&backAction=${URLEncoder.encode(currentAction)}"
-        onRightClick="manage-reports/accept-and-resolve?reportId=${report.id}&backAction=${URLEncoder.encode(currentAction)}"
-        onMiddleClick="manage-reports/accept-and-reject?reportId=${report.id}&backAction=${URLEncoder.encode(currentAction)}"
+        onLeftClick="manage-reports/accept?reportId=${report.id}"
+        onRightClick="manage-reports/accept-and-resolve?reportId=${report.id}"
+        onMiddleClick="manage-reports/accept-and-reject?reportId=${report.id}"
         actions=["gui.reports.open-reports.left-click-to-accept", "gui.reports.open-reports.right-click-to-resolve", "gui.reports.open-reports.middle-click-to-reject"]
         />
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}"  page=page />
 </TubingGui>
