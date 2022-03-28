@@ -36,7 +36,5 @@
         </#list>
     </#if>
 
-    <#if backAction??>
-        <@commons.backButton action=backAction/>
-    </#if>
+    <@commons.backButton/>
 </TubingGui>

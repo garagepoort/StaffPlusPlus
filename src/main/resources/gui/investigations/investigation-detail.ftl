@@ -11,7 +11,7 @@
     <GuiItem slot="11"
              id="notes-overview"
              material="PAPER"
-             onLeftClick="manage-investigation-notes/view?investigationId=${investigation.id}&backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="manage-investigation-notes/view?investigationId=${investigation.id}">
         <name class="item-name">Notes</name>
         <Lore>
             <LoreLine>
@@ -23,7 +23,7 @@
     <GuiItem slot="15"
              id="evidence-overview"
              material="ANVIL"
-             onLeftClick="manage-investigation-evidence/view?investigationId=${investigation.id}&backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="manage-investigation-evidence/view?investigationId=${investigation.id}">
         <name class="item-name">Evidence</name>
         <Lore>
             <LoreLine>
@@ -84,5 +84,5 @@
         </#list>
     </#if>
 
-    <@commons.backButton action=backAction/>
+    <@commons.backButton/>
 </TubingGui>

@@ -1,6 +1,6 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
 <#include "/gui/commons/translate.ftl"/>
-<#macro pageFooter currentAction page backAction="" backSlot=49 previousSlots=[45,46,47] nextSlots=[51,52,53]>
+<#macro pageFooter currentAction page backSlot=49 previousSlots=[45,46,47] nextSlots=[51,52,53]>
     <#if page gt 0 >
         <#list previousSlots as slot>
             <GuiItem slot="${slot}"
@@ -22,19 +22,17 @@
         </GuiItem>
     </#list>
 
-    <@backButton action=backAction backSlot=backSlot/>
+    <@backButton backSlot=backSlot/>
 </#macro>
 
-<#macro backButton action backSlot=49>
-    <#if action?has_content>
-        <GuiItem slot="${backSlot}"
-                 id="back-button"
-                 class="back-button"
-                 onLeftClick="${action}"
-                 material="IRON_DOOR">
-            <name class="item-name"><@translate key="gui.back"/></name>
-        </GuiItem>
-    </#if>
+<#macro backButton backSlot=49>
+    <GuiItem slot="${backSlot}"
+             id="back-button"
+             class="back-button"
+             onLeftClick="$$back"
+             material="IRON_DOOR">
+        <name class="item-name"><@translate key="gui.back"/></name>
+    </GuiItem>
 </#macro>
 <#macro line>
     <LoreLine>

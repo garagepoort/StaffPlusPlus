@@ -5,7 +5,7 @@
              slot="10"
              material="SKULL_ITEM"
              permission="config|permissions:playerView.overview.online-players"
-             onLeftClick="players/view/overview/online?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="players/view/overview/online">
         <name class="item-name">Online players</name>
         <Lore>
             <LoreLine>
@@ -17,7 +17,7 @@
              slot="11"
              material="SKULL_ITEM"
              permission="config|permissions:playerView.overview.offline-players"
-             onLeftClick="players/view/overview/offline?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="players/view/overview/offline">
         <name class="item-name">Offline players</name>
         <Lore>
             <LoreLine>
@@ -29,7 +29,7 @@
              slot="12"
              permission="config|permissions:playerView.overview.staff-members"
              material="TOTEM"
-             onLeftClick="membersGUI?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="membersGUI">
         <name class="item-name">Online staff members</name>
         <Lore>
             <LoreLine>
@@ -41,7 +41,7 @@
              slot="13"
              material="DIAMOND_PICKAXE"
              permission="config|permissions:playerView.overview.miners"
-             onLeftClick="miners/view?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="miners/view">
         <name class="item-name">Miners</name>
         <Lore>
             <LoreLine>
@@ -54,7 +54,7 @@
              if="config|protect-module.player-enabled"
              material="SHIELD"
              permission="config|permissions:playerView.overview.protected"
-             onLeftClick="protected-players/view?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="protected-players/view">
         <name class="item-name">Protected Players</name>
         <Lore>
             <LoreLine>

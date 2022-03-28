@@ -30,9 +30,9 @@
 
         <#if canAppeal>
             <#if $config.get("ban-module.appeals.fixed-reason")>
-                <@appealcommons.appealbutton slot="22" action="manage-ban-appeals/view/create/reason-select?banId=${ban.id}&backAction=${URLEncoder.encode(currentAction)}" />
+                <@appealcommons.appealbutton slot="22" action="manage-ban-appeals/view/create/reason-select?banId=${ban.id}" />
             <#else>
-                <@appealcommons.appealbutton slot="22" action="manage-ban-appeals/view/create/reason-chat?banId=${ban.id}&backAction=${URLEncoder.encode(currentAction)}" />
+                <@appealcommons.appealbutton slot="22" action="manage-ban-appeals/view/create/reason-chat?banId=${ban.id}" />
             </#if>
         <#elseif ban.appeal.isPresent()>
             <#if ($permissions.has(player, $config.get("permissions:bans.appeals.approve"))
@@ -41,14 +41,12 @@
                 <@appealcommons.appealinfoitem
                 slot="22"
                 appeal=ban.appeal.get()
-                action="manage-ban-appeals/view/detail?appealId=${ban.appeal.get().id}&backAction=${URLEncoder.encode(currentAction)}"/>
+                action="manage-ban-appeals/view/detail?appealId=${ban.appeal.get().id}"/>
             <#else>
                 <@appealcommons.appealinfoitem slot="22" appeal=ban.appeal.get() action="$NOOP"/>
             </#if>
         </#if>
     </#if>
 
-    <#if backAction??>
-        <@commons.backButton action=backAction/>
-    </#if>
+    <@commons.backButton/>
 </TubingGui>

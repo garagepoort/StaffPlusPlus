@@ -82,7 +82,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="add-appeal" slot="22" material="BOOK" onLeftClick="manage-mute-appeals/view/create/reason-chat?muteId=12&amp;backAction=manage-mutes%2Fview%2Fdetail%3FmuteId%3D12%26backAction%3DgoBack%2Fview">
+    <GuiItem id="add-appeal" slot="22" material="BOOK" onLeftClick="manage-mute-appeals/view/create/reason-chat?muteId=12">
         <name class="item-name">Add appeal</name>
         <Lore>
             <LoreLine>
@@ -90,7 +90,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="IRON_DOOR">
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$$back" material="IRON_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>

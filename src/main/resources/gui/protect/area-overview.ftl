@@ -9,8 +9,8 @@
         itemId="protected-area-info-${area?index}"
         slot="${area?index}"
         area=area
-        onLeftClick="protected-areas/view/detail?areaId=${area.id}&backAction=${URLEncoder.encode(currentAction)}" />
+        onLeftClick="protected-areas/view/detail?areaId=${area.id}" />
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}"  page=page />
 </TubingGui>

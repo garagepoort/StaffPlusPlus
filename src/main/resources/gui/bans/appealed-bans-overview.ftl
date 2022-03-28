@@ -8,7 +8,7 @@
         <@banCommons.banitem itemId="ban-info-${ban?index}"
         slot="${ban?index}"
         ban=ban
-        onLeftClick="manage-bans/view/detail?banId=${ban.id}&backAction=${URLEncoder.encode(currentAction)}"/>
+        onLeftClick="manage-bans/view/detail?banId=${ban.id}"/>
     </#list>
 
     <@commons.pageFooter currentAction="${currentAction}" page=page />

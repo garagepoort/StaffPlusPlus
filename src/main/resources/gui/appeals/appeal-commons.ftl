@@ -15,7 +15,7 @@
         </Lore>
     </GuiItem>
 </#macro>
-<#macro appealreasonselect reasons action backAction>
+<#macro appealreasonselect reasons action>
     <TubingGui size="54" id="appeal-reason-select">
         <title class="gui-title">Select appeal reason</title>
 
@@ -29,9 +29,7 @@
             </GuiItem>
         </#list>
 
-        <#if backAction??>
-            <@commons.backButton action=backAction/>
-        </#if>
+        <@commons.backButton/>
     </TubingGui>
 </#macro>
 <#macro appealinfoitem appeal action slot="31">

@@ -15,7 +15,7 @@
             <@muteCommons.mutelorelines mute=mute />
         </Lore>
     </GuiItem>
-    <@evidenceCommons.evidenceButton slot=14 evidence=mute backAction=currentAction />
+    <@evidenceCommons.evidenceButton slot=14 evidence=mute />
     <#list [30,31,32,39,40,41] as slot>
         <GuiItem id="unmute-${slot?index}"
                  slot="${slot}"
@@ -39,9 +39,9 @@
 
         <#if canAppeal>
             <#if $config.get("mute-module.appeals.fixed-reason")>
-                <@appealcommons.appealbutton slot="22" action="manage-mute-appeals/view/create/reason-select?muteId=${mute.id}&backAction=${URLEncoder.encode(currentAction)}" />
+                <@appealcommons.appealbutton slot="22" action="manage-mute-appeals/view/create/reason-select?muteId=${mute.id}" />
             <#else>
-                <@appealcommons.appealbutton slot="22" action="manage-mute-appeals/view/create/reason-chat?muteId=${mute.id}&backAction=${URLEncoder.encode(currentAction)}" />
+                <@appealcommons.appealbutton slot="22" action="manage-mute-appeals/view/create/reason-chat?muteId=${mute.id}" />
             </#if>
         <#elseif mute.appeal.isPresent()>
             <#if ($permissions.has(player, $config.get("permissions:mutes.appeals.approve"))
@@ -50,14 +50,12 @@
                 <@appealcommons.appealinfoitem
                 slot="22"
                 appeal=mute.appeal.get()
-                action="manage-mute-appeals/view/detail?appealId=${mute.appeal.get().id}&backAction=${URLEncoder.encode(currentAction)}"/>
+                action="manage-mute-appeals/view/detail?appealId=${mute.appeal.get().id}"/>
             <#else>
                 <@appealcommons.appealinfoitem slot="22" appeal=mute.appeal.get() action="$NOOP"/>
             </#if>
         </#if>
     </#if>
 
-    <#if backAction??>
-        <@commons.backButton action=backAction backSlot=49/>
-    </#if>
+    <@commons.backButton/>
 </TubingGui>

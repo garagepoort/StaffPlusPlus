@@ -13,8 +13,8 @@
              slot="2"
              if="config|reports-module.enabled"
              permission="config|permissions:reports.manage.view"
-             onLeftClick="manage-reports/view/find-reports?reporter=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
-             onRightClick="manage-reports/view/find-reports?culprit=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
+             onLeftClick="manage-reports/view/find-reports?reporter=${target.username}"
+             onRightClick="manage-reports/view/find-reports?culprit=${target.username}"
              material="BANNER">
         <name class="item-name">Reports</name>
         <Lore>
@@ -39,7 +39,7 @@
              slot="3"
              material="BANNER"
              if="config|warnings-module.enabled"
-             onLeftClick="manage-warnings/view/overview?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
+             onLeftClick="manage-warnings/view/overview?targetPlayerName=${target.username}"
              permission="config|permissions:warnings.manage.view">
         <name class="item-name">Warnings</name>
         <Lore>
@@ -65,7 +65,7 @@
              slot="6"
              if="config|mute-module.enabled"
              permission="config|permissions:mute-view"
-             onLeftClick="manage-mutes/view/history?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
+             onLeftClick="manage-mutes/view/history?targetPlayerName=${target.username}"
              material="<#if model.mute.isPresent()>REDSTONE_TORCH<#else>LEVER</#if>">
         <#if model.mute.isPresent()>
             <name id="name-muted" class="item-name" color="&C">Muted</name>
@@ -90,7 +90,7 @@
              slot="7"
              if="config|ban-module.enabled"
              permission="config|permissions:ban-view"
-             onLeftClick="manage-bans/view/history?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
+             onLeftClick="manage-bans/view/history?targetPlayerName=${target.username}"
              material="<#if model.ban.isPresent()>BARRIER<#else>STONE</#if>">
         <#if model.ban.isPresent()>
             <name id="name-banned" class="item-name" color="&C">Banned</name>
@@ -177,7 +177,7 @@
 
     <GuiItem id="view-inventory"
              slot="23"
-             onLeftClick="manage-inventory/open?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
+             onLeftClick="manage-inventory/open?targetPlayerName=${target.username}"
             <#if target.online>
                 permission="config|permissions:examine-inventory-interaction.online"
             <#else >
@@ -193,12 +193,10 @@
             <#else >
                 permission="config|permissions:enderchests.view.offline"
             </#if>
-             onLeftClick="manage-enderchest/open?targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}"
+             onLeftClick="manage-enderchest/open?targetPlayerName=${target.username}"
              material="ENDER_CHEST">
         <name class="item-name">View Enderchest</name>
     </GuiItem>
 
-    <#if backAction??>
-        <@commons.backButton action=backAction backSlot=26/>
-    </#if>
+    <@commons.backButton backSlot=26/>
 </TubingGui>

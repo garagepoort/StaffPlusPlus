@@ -20,7 +20,6 @@ public class ReportEvidenceDetailGuiProvider implements EvidenceGuiClick {
         return GuiActionBuilder.builder()
             .action("manage-reports/view/detail")
             .param("reportId", String.valueOf(id))
-            .param("backAction", backAction)
             .build();
     }
 }

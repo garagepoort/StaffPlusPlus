@@ -141,7 +141,7 @@ class MuteGuiControllerTest extends AbstractGuiTemplateTest {
         doReturn(true).when(templateConfigResolverSpy).get("investigations-module.enabled");
         when(muteService.getById(12)).thenReturn(buildMute());
 
-        guiActionService.executeAction(player, "manage-mutes/view/detail?muteId=12&backAction=goBack/view");
+        guiActionService.executeAction(player, "manage-mutes/view/detail?muteId=12");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());

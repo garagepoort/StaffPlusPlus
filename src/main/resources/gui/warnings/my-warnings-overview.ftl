@@ -8,7 +8,7 @@
         <GuiItem id="warning-info-${warning?index}"
                  class="warning-info"
                  slot="${warning?index}"
-                 onLeftClick="manage-warnings/view/detail?warningId=${warning.id}&backAction=${URLEncoder.encode(currentAction)}"
+                 onLeftClick="manage-warnings/view/detail?warningId=${warning.id}"
                  material="SKULL_ITEM"
         >
             <name class="item-name" color="&3">Warning</name>
@@ -18,5 +18,5 @@
         </GuiItem>
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}"  page=page />
 </TubingGui>

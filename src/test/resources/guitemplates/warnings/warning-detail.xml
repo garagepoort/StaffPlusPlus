@@ -50,7 +50,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="add-appeal" slot="31" material="BOOK" onLeftClick="manage-warning-appeals/view/create/reason-chat?warningId=12&amp;backAction=manage-warnings%2Fview%2Fdetail%3FwarningId%3D12%26backAction%3DgoBack%2Fview">
+    <GuiItem id="add-appeal" slot="31" material="BOOK" onLeftClick="manage-warning-appeals/view/create/reason-chat?warningId=12">
         <name class="item-name">Add appeal</name>
         <Lore>
             <LoreLine>
@@ -58,7 +58,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="14" id="add-evidence-item" class="add-evidence-item" onLeftClick="manage-investigation-evidence/view/investigation-link?backAction=manage-warnings%2Fview%2Fdetail%3FwarningId%3D12%26backAction%3DgoBack%2Fview&amp;evidenceId=12&amp;evidenceType=WARNING&amp;evidenceDescription=MINOR reason" material="ANVIL">
+    <GuiItem slot="14" id="add-evidence-item" class="add-evidence-item" onLeftClick="manage-investigation-evidence/view/investigation-link?evidenceId=12&amp;evidenceType=WARNING&amp;evidenceDescription=MINOR reason" material="ANVIL">
         <name class="item-name">Add this as evidence to investigation</name>
         <Lore>
             <LoreLine>
@@ -66,7 +66,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="IRON_DOOR">
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$$back" material="IRON_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>

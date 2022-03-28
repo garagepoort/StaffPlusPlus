@@ -8,7 +8,7 @@
                  class="kick-reason kick-reason-${reason.reason}"
                  slot="${reason?index}"
                  material="${reason.material}"
-                 onLeftClick="manage-kicks/kick?reason=${reason.reason}&targetPlayerName=${target.username}&backAction=${URLEncoder.encode(currentAction)}">
+                 onLeftClick="manage-kicks/kick?reason=${reason.reason}&targetPlayerName=${target.username}">
             <name class="item-name">${reason.reason}</name>
             <Lore>
                 <LoreLine>

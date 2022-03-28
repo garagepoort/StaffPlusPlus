@@ -31,11 +31,10 @@ public class WarnExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public String getClickAction(Player staff, SppPlayer targetPlayer, String backAction) {
+    public String getClickAction(Player staff, SppPlayer targetPlayer) {
         return GuiActionBuilder.builder()
             .action("manage-warnings/view/select-severity")
             .param("targetPlayerName", targetPlayer.getUsername())
-            .param("backAction", backAction)
             .build();
     }
 

@@ -107,7 +107,7 @@ class WarningAppealGuiControllerTest extends AbstractGuiTemplateTest {
     public void appealReasonSelect() throws URISyntaxException, IOException {
         warningAppealConfiguration.appealReasons = Arrays.asList("Reason 1", "Reason 2", "Reason 3");
 
-        guiActionService.executeAction(player, "manage-warning-appeals/view/create/reason-select?warningId=12&backAction=goBack/view");
+        guiActionService.executeAction(player, "manage-warning-appeals/view/create/reason-select?warningId=12");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
