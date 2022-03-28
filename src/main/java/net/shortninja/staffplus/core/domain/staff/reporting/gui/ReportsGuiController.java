@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.GuiAction;
+import be.garagepoort.mcioc.gui.GuiActionReturnType;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.GuiParams;
@@ -37,6 +38,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.GuiActionReturnType.BACK;
 import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
@@ -103,14 +105,12 @@ public class ReportsGuiController {
 
     @GuiAction("manage-reports/view/find-reports")
     public AsyncGui<GuiTemplate> viewFindReports(@GuiParam(value = "page", defaultValue = "0") int page,
-                                                 @GuiParam(value = "backAction") String backAction,
                                                  @GuiParams Map<String, String> allParams) {
         return async(() -> {
             ReportFilters.ReportFiltersBuilder reportFiltersBuilder = new ReportFilters.ReportFiltersBuilder();
             allParams.forEach((k, v) -> reportFiltersMapper.map(k, v, reportFiltersBuilder));
 
             Map<String, Object> params = new HashMap<>();
-            params.put("backAction", backAction);
             params.put("reports", reportService.findReports(reportFiltersBuilder.build(), page * PAGE_SIZE, PAGE_SIZE));
 
             return template("gui/reports/find-reports.ftl", params);
@@ -184,13 +184,13 @@ public class ReportsGuiController {
     }
 
     @GuiAction("manage-reports/accept")
-    public AsyncGui<String> acceptReport(Player player, @GuiParam("reportId") int reportId, @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> acceptReport(Player player, @GuiParam("reportId") int reportId) {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
         return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
             manageReportService.acceptReport(sppPlayer, reportId);
-            return backAction;
+            return BACK;
         });
     }
 
@@ -224,42 +224,39 @@ public class ReportsGuiController {
     }
 
     @GuiAction("manage-reports/join-chatchannel")
-    public AsyncGui<String> joinChatChannel(Player player,
-                                @GuiParam("reportId") int reportId,
-                                @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> joinChatChannel(Player player,
+                                            @GuiParam("reportId") int reportId) {
         return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             chatChannelService.joinChannel(sppPlayer, String.valueOf(reportId), ChatChannelType.REPORT);
-            return backAction;
+            return BACK;
         });
     }
 
     @GuiAction("manage-reports/leave-chatchannel")
-    public AsyncGui<String> leaveChatChannel(Player player,
-                                             @GuiParam("reportId") int reportId,
-                                             @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> leaveChatChannel(Player player,
+                                             @GuiParam("reportId") int reportId) {
         return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             chatChannelService.leaveChannel(sppPlayer, String.valueOf(reportId), ChatChannelType.REPORT);
-            return backAction;
+            return BACK;
         });
     }
 
     @GuiAction("manage-reports/open-chatchannel")
-    public AsyncGui<String> openChatChannel(Player player,
-                                            @GuiParam("reportId") int reportId,
-                                            @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> openChatChannel(Player player,
+                                            @GuiParam("reportId") int reportId) {
         return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
                 .orElseThrow(() -> new BusinessException(messages.playerNotRegistered));
 
             Report report = reportService.getReport(reportId);
             reportChatChannelService.openChannel(sppPlayer, report);
-            return backAction;
+            return BACK;
         });
     }
 
@@ -272,9 +269,8 @@ public class ReportsGuiController {
     }
 
     @GuiAction("manage-reports/reject")
-    public AsyncGui<String> rejectReport(Player player,
-                                         @GuiParam("reportId") int reportId,
-                                         @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> rejectReport(Player player,
+                                         @GuiParam("reportId") int reportId) {
         permissionHandler.validate(player, manageReportConfiguration.permissionReject);
         return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
@@ -285,14 +281,13 @@ public class ReportsGuiController {
                 return null;
             }
             manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
-            return backAction;
+            return BACK;
         });
     }
 
     @GuiAction("manage-reports/accept-and-reject")
-    public AsyncGui<String> acceptAndReject(Player player,
-                                            @GuiParam("reportId") int reportId,
-                                            @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> acceptAndReject(Player player,
+                                            @GuiParam("reportId") int reportId) {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
         permissionHandler.validate(player, manageReportConfiguration.permissionReject);
         return async(() -> {
@@ -305,12 +300,12 @@ public class ReportsGuiController {
             }
 
             manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.REJECTED, null));
-            return backAction;
+            return BACK;
         });
     }
 
     @GuiAction("manage-reports/resolve")
-    public AsyncGui<String> resolveReport(Player player, @GuiParam("reportId") int reportId, @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> resolveReport(Player player, @GuiParam("reportId") int reportId) {
         permissionHandler.validate(player, manageReportConfiguration.permissionResolve);
         return async(() -> {
             SppPlayer sppPlayer = playerManager.getOnOrOfflinePlayer(player.getUniqueId())
@@ -322,14 +317,13 @@ public class ReportsGuiController {
             }
 
             manageReportService.closeReport(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
-            return backAction;
+            return BACK;
         });
     }
 
     @GuiAction("manage-reports/accept-and-resolve")
-    public AsyncGui<String> acceptAndResolve(Player player,
-                                             @GuiParam("reportId") int reportId,
-                                             @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> acceptAndResolve(Player player,
+                                                          @GuiParam("reportId") int reportId) {
         permissionHandler.validate(player, manageReportConfiguration.permissionAccept);
         permissionHandler.validate(player, manageReportConfiguration.permissionResolve);
         return async(() -> {
@@ -342,7 +336,7 @@ public class ReportsGuiController {
             }
 
             manageReportService.acceptAndClose(sppPlayer, new CloseReportRequest(reportId, ReportStatus.RESOLVED, null));
-            return backAction;
+            return BACK;
         });
     }
 

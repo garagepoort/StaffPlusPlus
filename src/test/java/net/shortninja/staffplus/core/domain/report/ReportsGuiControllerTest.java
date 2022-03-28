@@ -129,7 +129,7 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
         when(reportService.getReport(12)).thenReturn(buildReport());
         when(chatChannelService.findChannel(String.valueOf(12), ChatChannelType.REPORT)).thenReturn(Optional.of(chatChannel));
 
-        guiActionService.executeAction(player, "manage-reports/view/detail?reportId=12&backAction=back");
+        guiActionService.executeAction(player, "manage-reports/view/detail?reportId=12");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());

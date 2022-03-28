@@ -30,34 +30,33 @@ public class EvidenceOverviewViewBuilder {
         this.evidenceGuiClicks = evidenceGuiClicks;
     }
 
-    public TubingGui buildGui(Player player, Investigation investigation, int page, String currentAction, String backAction) {
+    public TubingGui buildGui(Player player, Investigation investigation, int page, String currentAction) {
         return new PagedGuiBuilder.Builder("Evidence")
             .addPagedItems(currentAction,
                 getItems(investigation, page * PAGE_SIZE, PAGE_SIZE),
                 investigationEvidenceItemBuilder::build,
-                getLeftAction(player, currentAction),
-                getDeleteAction(currentAction),
+                getLeftAction(player),
+                getDeleteAction(),
                 page)
-            .backAction(backAction)
+            .backAction()
             .build();
     }
 
     @NotNull
-    private Function<EvidenceEntity, String> getLeftAction(Player player, String backAction) {
+    private Function<EvidenceEntity, String> getLeftAction(Player player) {
         return evidence -> evidenceGuiClicks.stream()
             .filter(e -> e.getType().equals(evidence.getEvidenceType()))
             .findFirst()
-            .map(e -> e.getAction(player, evidence.getEvidenceId(), backAction))
+            .map(e -> e.getAction(player, evidence.getEvidenceId(), "$$back"))
             .orElse(TubingGuiActions.NOOP);
     }
 
     @NotNull
-    private Function<EvidenceEntity, String> getDeleteAction(String backToOverviewAction) {
+    private Function<EvidenceEntity, String> getDeleteAction() {
         return evidence -> GuiActionBuilder.builder()
             .action("manage-investigation-evidence/view/unlink")
             .param("evidenceId", String.valueOf(evidence.getId()))
             .param("investigationId", String.valueOf(evidence.getInvestigationId()))
-            .param("backAction", backToOverviewAction)
             .build();
     }
 

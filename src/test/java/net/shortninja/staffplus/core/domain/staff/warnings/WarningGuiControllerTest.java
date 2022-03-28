@@ -127,7 +127,7 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
     public void warningDetail() throws URISyntaxException, IOException {
         when(warnService.getWarning(12)).thenReturn(buildWarning());
 
-        guiActionService.executeAction(player, "manage-warnings/view/detail?warningId=12&backAction=goBack/view");
+        guiActionService.executeAction(player, "manage-warnings/view/detail?warningId=12");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
@@ -142,7 +142,7 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
             new WarningSeverityConfiguration("MINOR", 1, 2000, "minor reason", true),
             new WarningSeverityConfiguration("MAJOR", 2, 2000, "major reason", true)));
 
-        guiActionService.executeAction(player, "manage-warnings/view/select-severity?targetPlayerName=player2&backAction=goBack/view");
+        guiActionService.executeAction(player, "manage-warnings/view/select-severity?targetPlayerName=player2");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());

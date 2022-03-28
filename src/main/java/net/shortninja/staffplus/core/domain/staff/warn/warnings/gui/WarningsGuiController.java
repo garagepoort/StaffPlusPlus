@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.GuiAction;
+import be.garagepoort.mcioc.gui.GuiActionReturnType;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.GuiActionReturnType.BACK;
 import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
@@ -121,10 +123,9 @@ public class WarningsGuiController {
     }
 
     @GuiAction("manage-warnings/delete")
-    public String deleteWarning(@GuiParam("warningId") int warningId,
-                                @GuiParam("backAction") String backAction) {
+    public GuiActionReturnType deleteWarning(@GuiParam("warningId") int warningId) {
         warnService.removeWarning(warningId);
-        return backAction;
+        return BACK;
     }
 
     @GuiAction("manage-warnings/expire")

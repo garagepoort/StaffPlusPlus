@@ -20,7 +20,7 @@
         <GuiItem slot="1"
                  id="open-reports"
                  material="PAPER"
-                 onLeftClick="manage-reports/view/open?backAction=${URLEncoder.encode(currentAction)}">
+                 onLeftClick="manage-reports/view/open">
             <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.reports-title")}</name>
             <Lore>
                 <LoreLine>
@@ -31,7 +31,7 @@
         <GuiItem id="my-reports"
                  slot="2"
                  material="PAPER"
-                 onLeftClick="manage-reports/view/my-assigned?backAction=${URLEncoder.encode(currentAction)}">
+                 onLeftClick="manage-reports/view/my-assigned">
             <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.my-reports-title")}</name>
             <Lore>
                 <LoreLine>
@@ -42,7 +42,7 @@
         <GuiItem id="assigned-reports"
                  slot="3"
                  material="PAPER"
-                 onLeftClick="manage-reports/view/assigned?backAction=${URLEncoder.encode(currentAction)}">
+                 onLeftClick="manage-reports/view/assigned">
             <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.assigned-reports-title")}</name>
             <Lore>
                 <LoreLine>
@@ -53,7 +53,7 @@
         <GuiItem id="closed-reports"
                  slot="4"
                  material="PAPER"
-                 onLeftClick="manage-reports/view/closed?backAction=${URLEncoder.encode(currentAction)}">
+                 onLeftClick="manage-reports/view/closed">
             <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.closed-reports-title")}</name>
             <Lore>
                 <LoreLine>
@@ -68,7 +68,7 @@
              slot="10"
              if="config|staffmode-modules:modules.gui-module.miner-gui"
              material="STONE_PICKAXE"
-             onLeftClick="miners/view?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="miners/view">
         <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.miner-name")}</name>
         <Lore>
             <LoreLine>
@@ -82,7 +82,7 @@
              slot="19"
              if="config|staffmode-modules:modules.gui-module.protected-areas-gui"
              material="SHIELD"
-             onLeftClick="protected-areas/view?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="protected-areas/view">
         <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.protected-areas-name")}</name>
         <Lore>
             <LoreLine>
@@ -96,7 +96,7 @@
              slot="7"
              if="config|staffmode-modules:modules.gui-module.ban-gui"
              material="PLAYER_HEAD"
-             onLeftClick="manage-bans/view/overview?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="manage-bans/view/overview">
         <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.ban-name")}</name>
         <Lore>
             <LoreLine>
@@ -110,7 +110,7 @@
              slot="16"
              if="config|staffmode-modules:modules.gui-module.mute-gui"
              material="SIGN"
-             onLeftClick="manage-mutes/view/all-active?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="manage-mutes/view/all-active">
         <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.mute-name")}</name>
         <Lore>
             <LoreLine>
@@ -123,7 +123,7 @@
              slot="25"
              if="config|staffmode-modules:modules.gui-module.investigation-gui"
              material="BOOK"
-             onLeftClick="manage-investigations/view/overview?backAction=${URLEncoder.encode(currentAction)}">
+             onLeftClick="manage-investigations/view/overview">
         <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.investigation-name")}</name>
         <Lore>
             <LoreLine>
