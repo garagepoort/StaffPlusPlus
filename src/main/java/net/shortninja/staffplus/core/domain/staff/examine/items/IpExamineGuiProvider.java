@@ -40,7 +40,7 @@ public class IpExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public String getClickAction(Player staff, SppPlayer targetPlayer, String backAction) {
+    public String getClickAction(Player staff, SppPlayer targetPlayer) {
         return TubingGuiActions.NOOP;
     }
 

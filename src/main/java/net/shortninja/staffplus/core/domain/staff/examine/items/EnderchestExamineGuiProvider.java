@@ -30,11 +30,10 @@ public class EnderchestExamineGuiProvider implements ExamineGuiItemProvider {
     }
 
     @Override
-    public String getClickAction(Player staff, SppPlayer target, String backAction) {
+    public String getClickAction(Player staff, SppPlayer target) {
         return GuiActionBuilder.builder()
             .action("manage-enderchest/open")
             .param("targetPlayerName", target.getUsername())
-            .param("backAction", backAction)
             .build();
     }
 

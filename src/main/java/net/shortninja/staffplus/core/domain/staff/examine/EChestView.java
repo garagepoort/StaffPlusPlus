@@ -48,7 +48,7 @@ public class EChestView extends AbstractCmd {
             return true;
         }
         Player p = (Player) sender;
-        enderChestService.openEnderChest(p, target, null);
+        enderChestService.openEnderChest(p, target);
         return true;
     }
 

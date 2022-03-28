@@ -4,8 +4,10 @@ import be.garagepoort.mcioc.IocContainer;
 import be.garagepoort.mcioc.TubingPlugin;
 import be.garagepoort.mcioc.common.TubingConfigurationProvider;
 import be.garagepoort.mcioc.common.TubingPluginProvider;
+import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
 import be.garagepoort.mcioc.gui.GuiActionService;
 import be.garagepoort.mcioc.gui.actionquery.ActionQueryParser;
+import be.garagepoort.mcioc.gui.history.GuiHistoryStack;
 import be.garagepoort.mcioc.gui.model.InventoryMapper;
 import be.garagepoort.mcioc.gui.model.TubingGui;
 import be.garagepoort.mcioc.gui.style.TubingGuiStyleIdViewProvider;
@@ -19,7 +21,6 @@ import be.garagepoort.mcioc.gui.templates.xml.TubingXmlToTubingGuiMapper;
 import be.garagepoort.mcioc.gui.templates.xml.style.TubingGuiStyleParser;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.TubingBukkitUtilStub;
-import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import org.apache.commons.lang.Validate;
@@ -143,7 +144,8 @@ public abstract class AbstractGuiTemplateTest {
             new ActionQueryParser(),
             new TubingBukkitUtilStub(),
             inventoryMapper,
-            tubingGuiStyleIdViewProvider);
+            tubingGuiStyleIdViewProvider,
+            new GuiHistoryStack());
 
         guiActionService.loadGuiController(guiController.getClass());
     }

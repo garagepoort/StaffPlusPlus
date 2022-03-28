@@ -42,8 +42,7 @@ public class InventoryGuiController {
 
     @GuiAction("manage-inventory/open")
     public GuiActionReturnType openInventory(Player staff,
-                                             @GuiParam("targetPlayerName") String targetPlayerName,
-                                             @GuiParam("backAction") String backAction) {
+                                             @GuiParam("targetPlayerName") String targetPlayerName) {
         SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow(() -> new PlayerNotFoundException(targetPlayerName));
         ChestGUI chestGUI;
         if (target.isOnline()) {
@@ -64,7 +63,7 @@ public class InventoryGuiController {
         chestGUI.setItem(44, Items.createDoor("Back", "Go back"), new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                guiActionService.executeAction(staff, backAction);
+                guiActionService.executeAction(staff, "$$back");
             }
 
             @Override
