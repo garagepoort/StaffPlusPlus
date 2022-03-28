@@ -29,7 +29,7 @@
     <GuiItem slot="${backSlot}"
              id="back-button"
              class="back-button"
-             onLeftClick="$$back"
+             onLeftClick="$BACK"
              material="IRON_DOOR">
         <name class="item-name"><@translate key="gui.back"/></name>
     </GuiItem>

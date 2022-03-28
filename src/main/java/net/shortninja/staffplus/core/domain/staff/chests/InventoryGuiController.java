@@ -6,6 +6,7 @@ import be.garagepoort.mcioc.gui.GuiActionReturnType;
 import be.garagepoort.mcioc.gui.GuiActionService;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
+import be.garagepoort.mcioc.gui.model.TubingGuiActions;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -63,7 +64,7 @@ public class InventoryGuiController {
         chestGUI.setItem(44, Items.createDoor("Back", "Go back"), new IAction() {
             @Override
             public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                guiActionService.executeAction(staff, "$$back");
+                guiActionService.executeAction(staff, TubingGuiActions.BACK);
             }
 
             @Override

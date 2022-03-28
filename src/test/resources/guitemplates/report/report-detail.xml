@@ -58,7 +58,7 @@
             <LoreLine>Click to teleport to where this report was created</LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$$back" material="IRON_DOOR">
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$BACK" material="IRON_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>
