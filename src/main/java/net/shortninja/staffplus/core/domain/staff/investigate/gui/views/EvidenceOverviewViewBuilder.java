@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
+import static be.garagepoort.mcioc.gui.model.TubingGuiActions.BACK;
+
 @IocBean
 public class EvidenceOverviewViewBuilder {
 
@@ -47,7 +49,7 @@ public class EvidenceOverviewViewBuilder {
         return evidence -> evidenceGuiClicks.stream()
             .filter(e -> e.getType().equals(evidence.getEvidenceType()))
             .findFirst()
-            .map(e -> e.getAction(player, evidence.getEvidenceId(), "$$back"))
+            .map(e -> e.getAction(player, evidence.getEvidenceId(), BACK))
             .orElse(TubingGuiActions.NOOP);
     }
 
