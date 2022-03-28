@@ -15,7 +15,7 @@
                  class="note-info"
                  slot="${note?index}"
                 <#if canDelete>
-                    onRightClick="player-notes/delete?noteId=${note.id}&backAction=${URLEncoder.encode(currentAction)}"
+                    onRightClick="player-notes/delete?noteId=${note.id}"
                 </#if>
                  material="PAPER"
         >
@@ -30,5 +30,5 @@
         </GuiItem>
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}"  page=page />
 </TubingGui>

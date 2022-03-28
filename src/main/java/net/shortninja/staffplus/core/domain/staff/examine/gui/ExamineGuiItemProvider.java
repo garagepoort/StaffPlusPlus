@@ -8,7 +8,7 @@ public interface ExamineGuiItemProvider {
 
     ItemStack getItem(Player player1, SppPlayer player);
 
-    String getClickAction(Player staff, SppPlayer targetPlayer, String backAction);
+    String getClickAction(Player staff, SppPlayer targetPlayer);
 
     boolean enabled(Player staff, SppPlayer player);
 

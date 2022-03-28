@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.gui.AsyncGui;
 import be.garagepoort.mcioc.gui.GuiAction;
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.gui.GuiActionReturnType;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.gui.GuiActionReturnType.BACK;
 import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
 
 @IocBean
@@ -61,28 +63,27 @@ public class InvestigationNotesGuiController {
     }
 
     @GuiAction("manage-investigation-notes/view/delete")
-    public GuiTemplate getDetail(@GuiParam("noteId") int noteId, @GuiParam("investigationId") int investigationId, @GuiParam("backAction") String backAction) {
+    public GuiTemplate getDetail(@GuiParam("noteId") int noteId, @GuiParam("investigationId") int investigationId) {
         String confirmAction = GuiActionBuilder.builder()
             .action("manage-investigation-notes/delete")
             .param("noteId", String.valueOf(noteId))
             .param("investigationId", String.valueOf(investigationId))
-            .param("backAction", backAction)
             .build();
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("confirmationMessage", "Are you sure you want to delete note(ID=" + noteId + ")");
         params.put("title", "Delete note?");
         params.put("confirmAction", confirmAction);
-        params.put("cancelAction", backAction);
+        params.put("cancelAction", "$$back");
         return template("gui/commons/confirmation.ftl", params);
     }
 
     @GuiAction("manage-investigation-notes/delete")
-    public AsyncGui<String> deleteNote(Player player, @GuiParam("noteId") int noteId, @GuiParam("investigationId") int investigationId, @GuiParam("backAction") String backAction) {
+    public AsyncGui<GuiActionReturnType> deleteNote(Player player, @GuiParam("noteId") int noteId, @GuiParam("investigationId") int investigationId) {
         return async(() -> {
             Investigation investigation = investigationService.getInvestigation(investigationId);
             investigationNoteService.deleteNote(player, investigation, noteId);
-            return backAction;
+            return BACK;
         });
     }
 

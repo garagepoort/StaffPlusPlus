@@ -1,7 +1,7 @@
 <TubingGui size="54" id="my-warnings-overview">
     <title class="gui-title">My Warnings</title>
 
-    <GuiItem id="warning-info-0" class="warning-info" slot="0" onLeftClick="manage-warnings/view/detail?warningId=12&amp;backAction=manage-warnings%2Fview%2Fmy-warnings" material="PLAYER_HEAD">
+    <GuiItem id="warning-info-0" class="warning-info" slot="0" onLeftClick="manage-warnings/view/detail?warningId=12" material="PLAYER_HEAD">
         <name class="item-name" color="&amp;3">Warning</name>
         <Lore>
             <LoreLine>
@@ -55,4 +55,7 @@
         <name class="item-name">Next Page</name>
     </GuiItem>
 
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$$back" material="SPRUCE_DOOR">
+        <name class="item-name">Back</name>
+    </GuiItem>
 </TubingGui>

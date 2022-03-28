@@ -33,7 +33,7 @@
         </Lore>
     </GuiItem>
 
-    <GuiItem slot="11" id="notes-overview" material="PAPER" onLeftClick="manage-investigation-notes/view?investigationId=12&amp;backAction=manage-investigations%2Fview%2Fdetail%3FinvestigationId%3D12%26backAction%3DgoBack%2Fview">
+    <GuiItem slot="11" id="notes-overview" material="PAPER" onLeftClick="manage-investigation-notes/view?investigationId=12">
         <name class="item-name">Notes</name>
         <Lore>
             <LoreLine>
@@ -42,7 +42,7 @@
         </Lore>
     </GuiItem>
 
-    <GuiItem slot="15" id="evidence-overview" material="ANVIL" onLeftClick="manage-investigation-evidence/view?investigationId=12&amp;backAction=manage-investigations%2Fview%2Fdetail%3FinvestigationId%3D12%26backAction%3DgoBack%2Fview">
+    <GuiItem slot="15" id="evidence-overview" material="ANVIL" onLeftClick="manage-investigation-evidence/view?investigationId=12">
         <name class="item-name">Evidence</name>
         <Lore>
             <LoreLine>
@@ -54,7 +54,7 @@
 
 
 
-    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="goBack/view" material="SPRUCE_DOOR">
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$$back" material="SPRUCE_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>
