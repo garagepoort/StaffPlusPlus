@@ -20,7 +20,6 @@ public class BanEvidenceDetailGuiProvider implements EvidenceGuiClick {
         return GuiActionBuilder.builder()
             .action("manage-bans/view/detail")
             .param("banId", String.valueOf(id))
-            .param("backAction", backAction)
             .build();
     }
 }

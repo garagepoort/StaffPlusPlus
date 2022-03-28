@@ -32,7 +32,6 @@ public class InfractionsTopViewBuilder {
         return GuiActionBuilder.builder()
             .action("manage-infractions/view/overview")
             .param("targetPlayerName", i.getSppPlayer().getUsername())
-            .param("backAction", currentAction)
             .build();
     }
 

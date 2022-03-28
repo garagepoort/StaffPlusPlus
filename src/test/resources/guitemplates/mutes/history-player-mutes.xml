@@ -1,6 +1,6 @@
 <TubingGui size="54" id="history-mutes-overview">
     <title class="gui-title">Mute History for: &amp;CtargetName</title>
-    <GuiItem id="mute-info-0" class="mute-info" slot="0" onLeftClick="manage-mutes/view/detail?muteId=12&amp;backAction=manage-mutes%2Fview%2Fhistory%3FtargetPlayerName%3DtargetName" material="PLAYER_HEAD">
+    <GuiItem id="mute-info-0" class="mute-info" slot="0" onLeftClick="manage-mutes/view/detail?muteId=12" material="PLAYER_HEAD">
         <name class="item-name" color="&amp;3">Mute</name>
         <Lore>
             <LoreLine>
@@ -41,5 +41,8 @@
     </GuiItem>
     <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
         <name class="item-name">Next Page</name>
+    </GuiItem>
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$$back" material="SPRUCE_DOOR">
+        <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>

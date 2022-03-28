@@ -48,7 +48,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem slot="1" id="open-reports" material="PAPER" onLeftClick="manage-reports/view/open?backAction=hub%2Fview">
+    <GuiItem slot="1" id="open-reports" material="PAPER" onLeftClick="manage-reports/view/open">
         <name class="item-name" color="&amp;b">&amp;bUnresolved reports</name>
         <Lore>
             <LoreLine>
@@ -56,7 +56,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="my-reports" slot="2" material="PAPER" onLeftClick="manage-reports/view/my-assigned?backAction=hub%2Fview">
+    <GuiItem id="my-reports" slot="2" material="PAPER" onLeftClick="manage-reports/view/my-assigned">
         <name class="item-name" color="&amp;b">&amp;bReports assigned to you</name>
         <Lore>
             <LoreLine>
@@ -64,7 +64,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="assigned-reports" slot="3" material="PAPER" onLeftClick="manage-reports/view/assigned?backAction=hub%2Fview">
+    <GuiItem id="assigned-reports" slot="3" material="PAPER" onLeftClick="manage-reports/view/assigned">
         <name class="item-name" color="&amp;b">&amp;bReports In Progress</name>
         <Lore>
             <LoreLine>
@@ -72,7 +72,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="closed-reports" slot="4" material="PAPER" onLeftClick="manage-reports/view/closed?backAction=hub%2Fview">
+    <GuiItem id="closed-reports" slot="4" material="PAPER" onLeftClick="manage-reports/view/closed">
         <name class="item-name" color="&amp;b">&amp;bClosed reports</name>
         <Lore>
             <LoreLine>
@@ -80,7 +80,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="miner" slot="10" if="true" material="STONE_PICKAXE" onLeftClick="miners/view?backAction=hub%2Fview">
+    <GuiItem id="miner" slot="10" if="true" material="STONE_PICKAXE" onLeftClick="miners/view">
         <name class="item-name" color="&amp;b">&amp;bMiner GUI</name>
         <Lore>
             <LoreLine>
@@ -88,7 +88,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="protected-areas" slot="19" if="true" material="SHIELD" onLeftClick="protected-areas/view?backAction=hub%2Fview">
+    <GuiItem id="protected-areas" slot="19" if="true" material="SHIELD" onLeftClick="protected-areas/view">
         <name class="item-name" color="&amp;b">&amp;bProtected Areas GUI</name>
         <Lore>
             <LoreLine>
@@ -96,7 +96,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="bans" slot="7" if="true" material="PLAYER_HEAD" onLeftClick="manage-bans/view/overview?backAction=hub%2Fview">
+    <GuiItem id="bans" slot="7" if="true" material="PLAYER_HEAD" onLeftClick="manage-bans/view/overview">
         <name class="item-name" color="&amp;b">&amp;bBanned players GUI</name>
         <Lore>
             <LoreLine>
@@ -104,7 +104,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="mutes" slot="16" if="true" material="SPRUCE_SIGN" onLeftClick="manage-mutes/view/all-active?backAction=hub%2Fview">
+    <GuiItem id="mutes" slot="16" if="true" material="SPRUCE_SIGN" onLeftClick="manage-mutes/view/all-active">
         <name class="item-name" color="&amp;b">&amp;bMuted players GUI</name>
         <Lore>
             <LoreLine>
@@ -112,7 +112,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="investigations" slot="25" if="true" material="BOOK" onLeftClick="manage-investigations/view/overview?backAction=hub%2Fview">
+    <GuiItem id="investigations" slot="25" if="true" material="BOOK" onLeftClick="manage-investigations/view/overview">
         <name class="item-name" color="&amp;b">&amp;bInvestigations GUI</name>
         <Lore>
             <LoreLine>

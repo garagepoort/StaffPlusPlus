@@ -122,7 +122,7 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer1)).thenReturn(Optional.empty());
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer2)).thenReturn(Optional.empty());
 
-        guiActionService.executeAction(player, "players/view/overview/online?backAction=goBack/view");
+        guiActionService.executeAction(player, "players/view/overview/online");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
@@ -139,7 +139,7 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer1)).thenReturn(Optional.empty());
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer2)).thenReturn(Optional.empty());
 
-        guiActionService.executeAction(player, "players/view/overview/offline?backAction=goBack/view");
+        guiActionService.executeAction(player, "players/view/overview/offline");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
@@ -152,7 +152,7 @@ class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
         when(sppPlayer1.getUsername()).thenReturn("garagepoort");
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer1)).thenReturn(Optional.empty());
 
-        guiActionService.executeAction(player, "players/view/detail?targetPlayerName=garagepoort&backAction=goBack/view");
+        guiActionService.executeAction(player, "players/view/detail?targetPlayerName=garagepoort");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());

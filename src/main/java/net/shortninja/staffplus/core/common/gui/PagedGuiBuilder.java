@@ -59,10 +59,8 @@ public class PagedGuiBuilder {
             return this;
         }
 
-        public Builder backAction(String backAction) {
-            if (backAction != null) {
-                addItem(backAction, 49, Items.createDoor("Back", "Go back"));
-            }
+        public Builder backAction() {
+            addItem("$$back", 49, Items.createDoor("Back", "Go back"));
             return this;
         }
 

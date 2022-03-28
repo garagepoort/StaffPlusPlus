@@ -86,7 +86,7 @@ class InvestigationGuiControllerTest extends AbstractGuiTemplateTest {
     public void viewInvestigationDetail() throws URISyntaxException, IOException {
         when(investigationService.getInvestigation(12)).thenReturn(buildInvestigation());
 
-        guiActionService.executeAction(player, "manage-investigations/view/detail?investigationId=12&backAction=goBack/view");
+        guiActionService.executeAction(player, "manage-investigations/view/detail?investigationId=12");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());

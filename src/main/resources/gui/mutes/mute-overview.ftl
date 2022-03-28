@@ -8,7 +8,7 @@
         <GuiItem id="mute-info-${mute?index}"
                  class="mute-info"
                  slot="${mute?index}"
-                 onLeftClick="manage-mutes/view/detail?muteId=${mute.id}&backAction=${URLEncoder.encode(currentAction)}"
+                 onLeftClick="manage-mutes/view/detail?muteId=${mute.id}"
                  material="PLAYER_HEAD"
         >
             <name class="item-name" color="&3">Mute</name>
@@ -18,5 +18,5 @@
         </GuiItem>
     </#list>
 
-    <@commons.pageFooter currentAction="${currentAction}" backAction="${backAction!}" page=page />
+    <@commons.pageFooter currentAction="${currentAction}"  page=page />
 </TubingGui>
