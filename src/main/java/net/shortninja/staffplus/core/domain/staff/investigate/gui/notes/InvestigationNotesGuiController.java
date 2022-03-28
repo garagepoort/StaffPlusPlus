@@ -7,6 +7,7 @@ import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.GuiActionReturnType;
 import be.garagepoort.mcioc.gui.GuiController;
 import be.garagepoort.mcioc.gui.GuiParam;
+import be.garagepoort.mcioc.gui.model.TubingGuiActions;
 import be.garagepoort.mcioc.gui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
@@ -74,7 +75,7 @@ public class InvestigationNotesGuiController {
         params.put("confirmationMessage", "Are you sure you want to delete note(ID=" + noteId + ")");
         params.put("title", "Delete note?");
         params.put("confirmAction", confirmAction);
-        params.put("cancelAction", "$$back");
+        params.put("cancelAction", TubingGuiActions.BACK);
         return template("gui/commons/confirmation.ftl", params);
     }
 

@@ -54,7 +54,7 @@
     <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
         <name class="item-name">Next Page</name>
     </GuiItem>
-    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$$back" material="SPRUCE_DOOR">
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$BACK" material="SPRUCE_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>
