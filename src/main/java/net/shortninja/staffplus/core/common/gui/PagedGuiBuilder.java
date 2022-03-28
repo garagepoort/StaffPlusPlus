@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.common.gui;
 
-
 import be.garagepoort.mcioc.gui.GuiActionBuilder;
 import be.garagepoort.mcioc.gui.model.TubingGui;
 import net.shortninja.staffplus.core.common.Items;
@@ -11,11 +10,11 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import static be.garagepoort.mcioc.gui.model.TubingGuiActions.BACK;
 import static be.garagepoort.mcioc.gui.model.TubingGuiActions.NOOP;
 
 public class PagedGuiBuilder {
     private static final int SIZE = 54;
-
 
     public static class Builder extends TubingGui.Builder {
 
@@ -60,7 +59,7 @@ public class PagedGuiBuilder {
         }
 
         public Builder backAction() {
-            addItem("$$back", 49, Items.createDoor("Back", "Go back"));
+            addItem(BACK, 49, Items.createDoor("Back", "Go back"));
             return this;
         }
 
@@ -101,8 +100,5 @@ public class PagedGuiBuilder {
                 .build();
             builder.addItem(actionQuery, slot, item);
         }
-
     }
-
-
 }

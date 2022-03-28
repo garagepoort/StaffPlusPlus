@@ -14,6 +14,8 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import static be.garagepoort.mcioc.gui.model.TubingGuiActions.BACK;
+
 @IocBean
 public class EnderChestService {
 
@@ -61,7 +63,7 @@ public class EnderChestService {
             chestGUI.setItem(31, Items.createDoor("Back", "Go back"), new IAction() {
                 @Override
                 public void click(Player player, ItemStack item, int slot, ClickType clickType) {
-                    guiActionService.executeAction(staff, "$$back");
+                    guiActionService.executeAction(staff, BACK);
                 }
 
                 @Override
