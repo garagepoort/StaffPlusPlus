@@ -11,7 +11,7 @@
         <name class="item-name">Reason 3</name>
     </GuiItem>
 
-    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$$back" material="SPRUCE_DOOR">
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$BACK" material="SPRUCE_DOOR">
         <name class="item-name">Back</name>
     </GuiItem>
 </TubingGui>
