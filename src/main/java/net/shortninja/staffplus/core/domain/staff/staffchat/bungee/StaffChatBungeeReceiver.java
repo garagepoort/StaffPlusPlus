@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat.bungee;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMessageListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
@@ -10,8 +9,9 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.util.Optional;
 
-@IocBean(conditionalOnProperty = "staff-chat-module.bungee=true")
-@IocMessageListener(channel = Constants.BUNGEE_CORD_CHANNEL)
+@IocMessageListener(
+    channel = Constants.BUNGEE_CORD_CHANNEL,
+    conditionalOnProperty = "staff-chat-module.bungee=true")
 public class StaffChatBungeeReceiver implements PluginMessageListener {
 
     private final BungeeClient bungeeClient;

@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.mute.appeals;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.domain.staff.mute.MuteService;
 import net.shortninja.staffplusplus.appeals.AppealApprovedEvent;
@@ -11,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean
 @IocListener
 public class MuteAppealedListener implements Listener {
 

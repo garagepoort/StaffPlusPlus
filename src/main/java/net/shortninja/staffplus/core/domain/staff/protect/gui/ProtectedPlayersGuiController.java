@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.protect.gui;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.AsyncGui;
-import be.garagepoort.mcioc.gui.GuiAction;
-import be.garagepoort.mcioc.gui.GuiController;
-import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.templates.GuiTemplate;
+import be.garagepoort.mcioc.tubinggui.AsyncGui;
+import be.garagepoort.mcioc.tubinggui.GuiAction;
+import be.garagepoort.mcioc.tubinggui.GuiController;
+import be.garagepoort.mcioc.tubinggui.GuiParam;
+import be.garagepoort.mcioc.tubinggui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -17,10 +17,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static be.garagepoort.mcioc.gui.AsyncGui.async;
-import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
+import static be.garagepoort.mcioc.tubinggui.AsyncGui.async;
+import static be.garagepoort.mcioc.tubinggui.templates.GuiTemplate.template;
 
-@IocBean
 @GuiController
 public class ProtectedPlayersGuiController {
 

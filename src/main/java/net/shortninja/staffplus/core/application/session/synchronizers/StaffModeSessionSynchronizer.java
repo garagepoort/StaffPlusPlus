@@ -13,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 @IocListener
-@IocBean
 public class StaffModeSessionSynchronizer implements Listener {
 
     private final OnlineSessionsManager onlineSessionsManager;

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.gui;
 
-import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.JavaUtils;

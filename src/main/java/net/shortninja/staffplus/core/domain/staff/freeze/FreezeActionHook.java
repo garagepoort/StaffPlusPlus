@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
@@ -22,7 +21,6 @@ import java.util.Map;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 
-@IocBean
 @IocListener
 public class FreezeActionHook implements Listener {
 

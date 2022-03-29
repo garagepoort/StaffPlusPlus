@@ -1,17 +1,15 @@
 package net.shortninja.staffplus.core.domain.player.gui.hub;
 
-import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.AsyncGui;
-import be.garagepoort.mcioc.gui.GuiAction;
-import be.garagepoort.mcioc.gui.GuiController;
-import be.garagepoort.mcioc.gui.templates.GuiTemplate;
+import be.garagepoort.mcioc.tubinggui.AsyncGui;
+import be.garagepoort.mcioc.tubinggui.GuiAction;
+import be.garagepoort.mcioc.tubinggui.GuiController;
+import be.garagepoort.mcioc.tubinggui.templates.GuiTemplate;
 
 import java.util.HashMap;
 
-import static be.garagepoort.mcioc.gui.AsyncGui.async;
-import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
+import static be.garagepoort.mcioc.tubinggui.AsyncGui.async;
+import static be.garagepoort.mcioc.tubinggui.templates.GuiTemplate.template;
 
-@IocBean
 @GuiController
 public class HubGuiController {
 

@@ -17,7 +17,6 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.Optional;
 
-@IocBean
 @IocListener
 public class EntityDamageByEntity implements Listener {
     private final OnlineSessionsManager sessionManager;

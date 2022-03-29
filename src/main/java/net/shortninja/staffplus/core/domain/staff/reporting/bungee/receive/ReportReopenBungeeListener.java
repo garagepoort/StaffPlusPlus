@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.bungee.receive;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMessageListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
@@ -15,8 +14,9 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocBean(conditionalOnProperty = "isNotEmpty(server-sync-module.report-sync)")
-@IocMessageListener(channel = BUNGEE_CORD_CHANNEL)
+@IocMessageListener(
+    channel = BUNGEE_CORD_CHANNEL,
+    conditionalOnProperty = "isNotEmpty(server-sync-module.report-sync)")
 public class ReportReopenBungeeListener implements PluginMessageListener {
 
     private final BungeeClient bungeeClient;
