@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.chat.blacklist.bungee;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
@@ -14,8 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean(conditionalOnProperty = "isNotEmpty(alerts-module.blacklist-notify-bungee)")
-@IocListener
+@IocListener(conditionalOnProperty = "isNotEmpty(alerts-module.blacklist-notify-bungee)")
 public class ChatMessageCensoredNotifyBungeeSender implements Listener {
 
     @ConfigProperty("alerts-module.blacklist-notify-bungee")

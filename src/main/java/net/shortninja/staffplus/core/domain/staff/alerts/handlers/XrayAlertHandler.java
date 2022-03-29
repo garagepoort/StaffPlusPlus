@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -21,7 +20,6 @@ import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
-@IocBean
 @IocListener
 public class XrayAlertHandler extends AlertsHandler implements Listener {
 

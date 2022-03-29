@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBanMessageStringUtil.replaceBanPlaceholders;
 import static org.bukkit.Bukkit.getScheduler;
 
-@IocBean
 @IocListener
 public class IpBanKickPlayerListener implements Listener {
 

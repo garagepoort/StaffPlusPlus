@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui.views;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.GuiActionBuilder;
-import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
+import be.garagepoort.mcioc.tubinggui.model.TubingGui;
 import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;

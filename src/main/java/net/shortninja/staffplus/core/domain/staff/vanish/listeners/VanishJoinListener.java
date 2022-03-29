@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
@@ -11,8 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-@IocBean(conditionalOnProperty = "vanish-module.enabled=true")
-@IocListener
+@IocListener(conditionalOnProperty = "vanish-module.enabled=true")
 public class VanishJoinListener implements Listener {
 
     private final VanishPlayersBukkitService vanishPlayersBukkitService;

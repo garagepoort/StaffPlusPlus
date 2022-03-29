@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
 import net.shortninja.staffplusplus.investigate.evidence.EvidenceGuiClick;
 import org.bukkit.entity.Player;
 

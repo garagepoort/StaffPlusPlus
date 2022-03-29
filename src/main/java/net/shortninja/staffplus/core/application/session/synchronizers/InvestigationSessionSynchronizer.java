@@ -13,7 +13,6 @@ import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean
 @IocListener
 public class InvestigationSessionSynchronizer implements Listener {
 

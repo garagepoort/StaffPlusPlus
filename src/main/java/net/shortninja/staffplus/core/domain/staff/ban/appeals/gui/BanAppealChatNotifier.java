@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.ban.appeals.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import me.rayzr522.jsonmessage.JSONMessage;
@@ -28,7 +27,6 @@ import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocBean
 @IocListener
 public class BanAppealChatNotifier implements Listener {
 

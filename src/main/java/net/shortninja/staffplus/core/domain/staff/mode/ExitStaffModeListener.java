@@ -17,7 +17,6 @@ import org.bukkit.potion.PotionEffect;
 
 import java.util.Optional;
 
-@IocBean
 @IocListener
 public class ExitStaffModeListener implements Listener {
 

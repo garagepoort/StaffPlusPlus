@@ -30,7 +30,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@IocBean
 @IocListener
 public class ChatChannelChatNotifier implements Listener {
 
