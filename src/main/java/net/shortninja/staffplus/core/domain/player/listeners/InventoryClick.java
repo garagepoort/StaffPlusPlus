@@ -14,7 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-@IocBean
 @IocListener
 public class InventoryClick implements Listener {
     private final OnlineSessionsManager sessionManager;

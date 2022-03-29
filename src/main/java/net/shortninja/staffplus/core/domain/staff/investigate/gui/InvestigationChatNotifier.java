@@ -23,7 +23,6 @@ import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
-@IocBean
 @IocListener
 public class InvestigationChatNotifier implements Listener {
 

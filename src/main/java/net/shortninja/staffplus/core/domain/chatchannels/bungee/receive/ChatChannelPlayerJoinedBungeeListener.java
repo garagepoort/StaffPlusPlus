@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.chatchannels.bungee.receive;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMessageListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
@@ -13,7 +12,6 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.util.Optional;
 
-@IocBean
 @IocMessageListener(channel = Constants.BUNGEE_CORD_CHANNEL)
 public class ChatChannelPlayerJoinedBungeeListener implements PluginMessageListener {
 

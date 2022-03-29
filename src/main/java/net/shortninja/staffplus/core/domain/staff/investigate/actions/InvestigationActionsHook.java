@@ -24,7 +24,6 @@ import java.util.Optional;
 
 import static java.util.Collections.singletonList;
 
-@IocBean
 @IocListener
 public class InvestigationActionsHook implements Listener {
 

@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.mute.gui.cmd;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -13,8 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-@IocBean(conditionalOnProperty = "mute-module.enabled=true")
-@IocListener
+@IocListener(conditionalOnProperty = "mute-module.enabled=true")
 public class MuteCommandInterceptor implements Listener {
 
     private final OnlineSessionsManager sessionManager;

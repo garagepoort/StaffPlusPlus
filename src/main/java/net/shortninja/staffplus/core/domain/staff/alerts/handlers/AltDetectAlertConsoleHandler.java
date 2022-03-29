@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
@@ -9,8 +8,7 @@ import net.shortninja.staffplusplus.altdetect.IAltDetectResult;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean(conditionalOnProperty = "alerts-module.alt-detect-notify.console=true")
-@IocListener
+@IocListener(conditionalOnProperty = "alerts-module.alt-detect-notify.console=true")
 public class AltDetectAlertConsoleHandler implements Listener {
 
     private final AlertsConfiguration alertsConfiguration;

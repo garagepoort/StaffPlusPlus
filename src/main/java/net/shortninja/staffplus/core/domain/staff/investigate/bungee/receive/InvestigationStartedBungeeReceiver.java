@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.bungee.receive;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMessageListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
@@ -13,8 +12,9 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.util.Optional;
 
-@IocBean(conditionalOnProperty = "isNotEmpty(server-sync-module.investigation-sync)")
-@IocMessageListener(channel = Constants.BUNGEE_CORD_CHANNEL)
+@IocMessageListener(
+    channel = Constants.BUNGEE_CORD_CHANNEL,
+    conditionalOnProperty = "isNotEmpty(server-sync-module.investigation-sync)")
 public class InvestigationStartedBungeeReceiver implements PluginMessageListener {
 
     private final BungeeClient bungeeClient;

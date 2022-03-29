@@ -12,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-@IocBean
 @IocListener
 public class FreezeListener implements Listener {
 
