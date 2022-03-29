@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import static org.bukkit.Bukkit.getScheduler;
 
-@IocBean
 @IocListener
 public class UpdateIpListener implements Listener {
 

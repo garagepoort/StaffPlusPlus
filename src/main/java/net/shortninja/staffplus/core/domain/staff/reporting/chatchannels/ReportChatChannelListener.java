@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.chatchannels;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
@@ -23,8 +22,7 @@ import org.bukkit.event.Listener;
 import java.util.List;
 import java.util.Optional;
 
-@IocBean(conditionalOnProperty = "reports-module.chatchannels.enabled=true")
-@IocListener
+@IocListener(conditionalOnProperty = "reports-module.chatchannels.enabled=true")
 public class ReportChatChannelListener implements Listener {
 
     @ConfigProperty("reports-module.chatchannels.open-on")

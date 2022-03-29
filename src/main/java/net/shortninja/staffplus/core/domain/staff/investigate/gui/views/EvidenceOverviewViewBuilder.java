@@ -2,9 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.views;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
-import be.garagepoort.mcioc.gui.GuiActionBuilder;
-import be.garagepoort.mcioc.gui.model.TubingGui;
-import be.garagepoort.mcioc.gui.model.TubingGuiActions;
+import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
+import be.garagepoort.mcioc.tubinggui.model.TubingGui;
+import be.garagepoort.mcioc.tubinggui.model.TubingGuiActions;
 import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder;
 import net.shortninja.staffplus.core.domain.staff.investigate.EvidenceEntity;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Function;
 
-import static be.garagepoort.mcioc.gui.model.TubingGuiActions.BACK;
+import static be.garagepoort.mcioc.tubinggui.model.TubingGuiActions.BACK;
 
 @IocBean
 public class EvidenceOverviewViewBuilder {

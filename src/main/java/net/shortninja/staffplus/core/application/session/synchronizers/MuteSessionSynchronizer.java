@@ -11,7 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 @IocListener
-@IocBean
 public class MuteSessionSynchronizer implements Listener {
 
     private final OnlineSessionsManager onlineSessionsManager;

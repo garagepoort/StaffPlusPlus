@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.mode.item;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
@@ -19,8 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
-@IocBean(conditionalOnProperty = "vanish-module.enabled=true")
-@IocListener
+@IocListener(conditionalOnProperty = "vanish-module.enabled=true")
 public class VanishItemUpdater implements Listener {
 
     private final PlayerSettingsRepository playerSettingsRepository;

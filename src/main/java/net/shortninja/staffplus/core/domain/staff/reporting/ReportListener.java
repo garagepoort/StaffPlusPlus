@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.getScheduler;
 
-@IocBean
 @IocListener
 public class ReportListener implements Listener {
 

@@ -27,7 +27,6 @@ import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 
-@IocBean
 @IocListener
 public class MuteAppealActionHook implements Listener {
 

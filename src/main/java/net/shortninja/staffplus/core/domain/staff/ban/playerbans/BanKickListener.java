@@ -20,7 +20,6 @@ import java.util.UUID;
 
 import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanMessageStringUtil.replaceBanPlaceholders;
 
-@IocBean
 @IocListener
 public class BanKickListener implements Listener {
 

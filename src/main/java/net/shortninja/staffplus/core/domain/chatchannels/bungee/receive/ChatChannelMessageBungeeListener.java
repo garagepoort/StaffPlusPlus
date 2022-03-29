@@ -13,7 +13,6 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.util.Optional;
 
-@IocBean
 @IocMessageListener(channel = Constants.BUNGEE_CORD_CHANNEL)
 public class ChatChannelMessageBungeeListener implements PluginMessageListener {
 
