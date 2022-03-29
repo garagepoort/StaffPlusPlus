@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.examine.items;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.mcioc.gui.GuiActionBuilder;
+import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.chests.config.EnderchestsConfiguration;

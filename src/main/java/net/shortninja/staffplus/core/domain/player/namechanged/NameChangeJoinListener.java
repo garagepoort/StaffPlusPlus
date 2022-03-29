@@ -16,7 +16,6 @@ import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocBean
 @IocListener
 public class NameChangeJoinListener implements Listener {
 

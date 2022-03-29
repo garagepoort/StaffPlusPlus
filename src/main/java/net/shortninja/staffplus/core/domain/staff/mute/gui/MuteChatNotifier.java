@@ -17,7 +17,6 @@ import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.domain.staff.mute.MuteMessageStringUtil.replaceMutePlaceholders;
 
-@IocBean
 @IocListener
 public class MuteChatNotifier implements Listener {
 

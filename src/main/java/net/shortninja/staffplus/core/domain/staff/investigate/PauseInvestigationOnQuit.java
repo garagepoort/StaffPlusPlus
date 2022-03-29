@@ -12,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-@IocBean
 @IocListener
 @IocMultiProvider(PluginDisable.class)
 public class PauseInvestigationOnQuit implements Listener, PluginDisable {

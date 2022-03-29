@@ -15,8 +15,9 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocBean(conditionalOnProperty = "isNotEmpty(server-sync-module.ban-sync)")
-@IocMessageListener(channel = BUNGEE_CORD_CHANNEL)
+@IocMessageListener(
+    channel = BUNGEE_CORD_CHANNEL,
+    conditionalOnProperty = "isNotEmpty(server-sync-module.ban-sync)")
 public class IpBanBungeeListener implements PluginMessageListener {
 
     private final BungeeClient bungeeClient;

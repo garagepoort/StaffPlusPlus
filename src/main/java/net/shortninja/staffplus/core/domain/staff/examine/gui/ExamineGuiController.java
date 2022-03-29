@@ -1,16 +1,15 @@
 package net.shortninja.staffplus.core.domain.staff.examine.gui;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.GuiAction;
-import be.garagepoort.mcioc.gui.GuiController;
-import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.tubinggui.GuiAction;
+import be.garagepoort.mcioc.tubinggui.GuiController;
+import be.garagepoort.mcioc.tubinggui.GuiParam;
+import be.garagepoort.mcioc.tubinggui.model.TubingGui;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
-@IocBean
 @GuiController
 public class ExamineGuiController {
 
