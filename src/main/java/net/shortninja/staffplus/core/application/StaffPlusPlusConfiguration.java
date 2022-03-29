@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.AfterIocLoad;
 import be.garagepoort.mcioc.IocBeanProvider;
 import be.garagepoort.mcioc.TubingConfiguration;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import be.garagepoort.mcioc.gui.GuiActionService;
+import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import be.garagepoort.mcsqlmigrations.DatabaseType;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;

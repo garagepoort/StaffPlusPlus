@@ -24,7 +24,6 @@ import java.util.UUID;
 
 import static net.shortninja.staffplusplus.alerts.AlertType.MENTION;
 
-@IocBean
 @IocListener
 public class PlayerMentionAlertHandler extends AlertsHandler implements Listener {
 

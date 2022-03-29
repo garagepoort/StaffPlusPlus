@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.chat.mention.bungee;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMessageListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
@@ -16,8 +15,9 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocBean(conditionalOnProperty = "isNotEmpty(alerts-module.mention-notify-bungee)")
-@IocMessageListener(channel = BUNGEE_CORD_CHANNEL)
+@IocMessageListener(
+    channel = BUNGEE_CORD_CHANNEL,
+    conditionalOnProperty = "isNotEmpty(alerts-module.mention-notify-bungee)")
 public class MentionBungeeReceiver implements PluginMessageListener {
 
     @ConfigProperty("alerts-module.mention-notify-bungee")

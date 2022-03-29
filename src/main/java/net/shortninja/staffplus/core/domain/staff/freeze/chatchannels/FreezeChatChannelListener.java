@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.freeze.chatchannels;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.Constants;
@@ -22,8 +21,7 @@ import java.util.UUID;
 
 import static net.shortninja.staffplusplus.chatchannels.ChatChannelType.FREEZE;
 
-@IocBean(conditionalOnProperty = "freeze-module.chatchannels.enabled=true")
-@IocListener
+@IocListener(conditionalOnProperty = "command-detection.enabled=true")
 public class FreezeChatChannelListener implements Listener {
 
     @ConfigProperty("%lang%:freeze-chatchannel.prefix")

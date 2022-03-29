@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.ban.ipbans.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -16,7 +15,6 @@ import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBanMessageStringUtil.replaceBanPlaceholders;
 
-@IocBean
 @IocListener
 public class IpBanChatNotifier implements Listener {
 

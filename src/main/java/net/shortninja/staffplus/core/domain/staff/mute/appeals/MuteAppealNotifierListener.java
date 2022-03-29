@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.mute.appeals;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
@@ -19,8 +18,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-@IocBean(conditionalOnProperty = "mute-module.appeals.enabled=true")
-@IocListener
+@IocListener(conditionalOnProperty = "mute-module.appeals.enabled=true")
 public class MuteAppealNotifierListener implements Listener {
 
     @ConfigProperty("commands:mutes.manage.appealed-gui")

@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.List;
 
-@IocBean
 @IocListener
 public class FreezeBlockedCommandsListener implements Listener {
 

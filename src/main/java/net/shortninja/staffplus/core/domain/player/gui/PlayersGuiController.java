@@ -1,11 +1,10 @@
 package net.shortninja.staffplus.core.domain.player.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import be.garagepoort.mcioc.gui.GuiAction;
-import be.garagepoort.mcioc.gui.GuiController;
-import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.templates.GuiTemplate;
+import be.garagepoort.mcioc.tubinggui.GuiAction;
+import be.garagepoort.mcioc.tubinggui.GuiController;
+import be.garagepoort.mcioc.tubinggui.GuiParam;
+import be.garagepoort.mcioc.tubinggui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -30,11 +29,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import static be.garagepoort.mcioc.gui.templates.GuiTemplate.template;
+import static be.garagepoort.mcioc.tubinggui.templates.GuiTemplate.template;
 import static java.util.Collections.emptyList;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPlayer;
 
-@IocBean
 @GuiController
 public class PlayersGuiController {
 

@@ -19,7 +19,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.Optional;
 
-@IocBean
 @IocListener
 public class EnterStaffModeListener implements Listener {
 

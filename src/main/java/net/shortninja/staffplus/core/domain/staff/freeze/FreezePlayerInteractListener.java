@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -11,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-@IocBean
 @IocListener
 public class FreezePlayerInteractListener implements Listener {
 

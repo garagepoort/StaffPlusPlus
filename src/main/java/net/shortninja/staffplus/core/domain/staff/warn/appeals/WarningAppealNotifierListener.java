@@ -1,12 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
-import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
@@ -17,8 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-@IocBean(conditionalOnProperty = "warnings-module.appeals.enabled=true")
-@IocListener
+@IocListener(conditionalOnProperty = "warnings-module.appeals.enabled=true")
 public class WarningAppealNotifierListener implements Listener {
 
     private final AppealRepository appealRepository;
