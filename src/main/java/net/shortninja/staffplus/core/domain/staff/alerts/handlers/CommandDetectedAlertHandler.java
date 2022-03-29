@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -21,8 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.TimeZone;
 
-@IocBean(conditionalOnProperty = "alerts-module.command-detection=true")
-@IocListener
+@IocListener(conditionalOnProperty = "alerts-module.command-detection=true")
 public class CommandDetectedAlertHandler extends AlertsHandler implements Listener {
 
     private final Options options;

@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.freeze.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.application.session.PlayerSession;
@@ -10,8 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-@IocBean(conditionalOnProperty = "freeze-module.enabled=true")
-@IocListener
+@IocListener(conditionalOnProperty = "freeze-module.enabled=true")
 public class FreezePlayerMovementListener implements Listener {
 
     private final OnlineSessionsManager onlineSessionsManager;

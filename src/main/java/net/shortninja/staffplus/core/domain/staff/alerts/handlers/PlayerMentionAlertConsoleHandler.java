@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -13,8 +12,7 @@ import net.shortninja.staffplusplus.chat.PlayerMentionedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean(conditionalOnProperty = "alerts-module.mention-notify-console=true")
-@IocListener
+@IocListener(conditionalOnProperty = "alerts-module.mention-notify-console=true")
 public class PlayerMentionAlertConsoleHandler implements Listener {
 
     private final PermissionHandler permission;

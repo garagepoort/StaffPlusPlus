@@ -17,7 +17,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
-@IocBean
 @IocListener
 public class InventoryClose implements Listener {
     private final OnlineSessionsManager sessionManager;

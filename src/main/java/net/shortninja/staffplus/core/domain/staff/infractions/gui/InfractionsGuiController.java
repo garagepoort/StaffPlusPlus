@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.infractions.gui;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.AsyncGui;
-import be.garagepoort.mcioc.gui.CurrentAction;
-import be.garagepoort.mcioc.gui.GuiAction;
-import be.garagepoort.mcioc.gui.GuiController;
-import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.model.TubingGui;
+import be.garagepoort.mcioc.tubinggui.AsyncGui;
+import be.garagepoort.mcioc.tubinggui.CurrentAction;
+import be.garagepoort.mcioc.tubinggui.GuiAction;
+import be.garagepoort.mcioc.tubinggui.GuiController;
+import be.garagepoort.mcioc.tubinggui.GuiParam;
+import be.garagepoort.mcioc.tubinggui.model.TubingGui;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
@@ -18,11 +18,10 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-import static be.garagepoort.mcioc.gui.AsyncGui.async;
+import static be.garagepoort.mcioc.tubinggui.AsyncGui.async;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
-@IocBean
 @GuiController
 public class InfractionsGuiController {
 

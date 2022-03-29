@@ -14,7 +14,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
-@IocBean
 @IocListener
 public class ChestGuiMove implements Listener {
     private final OnlineSessionsManager sessionManager;

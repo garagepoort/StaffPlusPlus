@@ -18,7 +18,6 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.WarnMessageStringUtil.replaceWarningPlaceholders;
 
-@IocBean
 @IocListener
 public class WarningChatNotifier implements Listener {
 

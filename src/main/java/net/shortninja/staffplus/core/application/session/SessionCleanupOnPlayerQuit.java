@@ -7,7 +7,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-@IocBean
 @IocListener
 public class SessionCleanupOnPlayerQuit implements Listener {
 

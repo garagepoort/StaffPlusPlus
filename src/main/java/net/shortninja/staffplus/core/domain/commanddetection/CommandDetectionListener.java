@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.commanddetection;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
@@ -21,8 +20,7 @@ import java.util.Map;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocBean(conditionalOnProperty = "command-detection.enabled=true")
-@IocListener
+@IocListener(conditionalOnProperty = "command-detection.enabled=true")
 public class CommandDetectionListener implements Listener {
 
     private final CommandDetectionConfiguration commandDetectionConfiguration;

@@ -111,13 +111,15 @@ public class MuteRepositoryImpl implements MuteRepository {
     @Override
     public List<Mute> getAppealedMutes(int offset, int amount) {
         return query.create().find(
-            "SELECT sp_muted_players.* FROM sp_muted_players INNER JOIN sp_appeals appeals on sp_muted_players.id = appeals.appealable_id AND appeals.status = 'OPEN' AND appeals.type = ? "
-                + getServerNameFilterWithWhere(options.serverSyncConfiguration.muteSyncServers) +
+            "SELECT sp_muted_players.* FROM sp_muted_players INNER JOIN sp_appeals appeals on sp_muted_players.id = appeals.appealable_id AND appeals.status = 'OPEN' AND appeals.type = ? " +
+                "WHERE sp_muted_players.end_timestamp IS NULL OR sp_muted_players.end_timestamp > ? "
+                + getServerNameFilterWithAnd(options.serverSyncConfiguration.muteSyncServers) +
                 " ORDER BY sp_muted_players.creation_timestamp DESC LIMIT ?,?",
             (ps) -> {
                 ps.setString(1, AppealableType.MUTE.name());
                 ps.setInt(2, offset);
                 ps.setInt(3, amount);
+                ps.setLong(4, System.currentTimeMillis());
             }, this::buildMute);
     }
 

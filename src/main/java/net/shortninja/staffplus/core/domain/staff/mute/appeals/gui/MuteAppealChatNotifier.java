@@ -28,7 +28,6 @@ import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocBean
 @IocListener
 public class MuteAppealChatNotifier implements Listener {
 

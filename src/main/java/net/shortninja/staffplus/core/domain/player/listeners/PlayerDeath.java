@@ -9,7 +9,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-@IocBean
 @IocListener
 public class PlayerDeath implements Listener {
     private final ReviveHandler reviveHandler;

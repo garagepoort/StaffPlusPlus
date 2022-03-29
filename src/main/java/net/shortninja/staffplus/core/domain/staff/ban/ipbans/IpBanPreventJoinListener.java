@@ -12,7 +12,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import java.util.List;
 
 
-@IocBean
 @IocListener
 public class IpBanPreventJoinListener implements Listener {
     private final IpBanService banService;

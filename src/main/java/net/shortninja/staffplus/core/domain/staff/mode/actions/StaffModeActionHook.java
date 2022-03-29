@@ -26,7 +26,6 @@ import java.util.UUID;
 
 import static java.util.Collections.emptyList;
 
-@IocBean
 @IocListener
 public class StaffModeActionHook implements Listener {
 

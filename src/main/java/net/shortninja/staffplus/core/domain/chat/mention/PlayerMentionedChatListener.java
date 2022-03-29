@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@IocBean
 @IocListener
 public class PlayerMentionedChatListener implements Listener {
     private final Options options;
