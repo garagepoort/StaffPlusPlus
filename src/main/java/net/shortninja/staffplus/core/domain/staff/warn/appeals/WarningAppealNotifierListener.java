@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocListener;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
