@@ -11,7 +11,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-@IocBean
 @IocListener
 public class StaffModeWorldChangeListener implements Listener {
     private final StaffModeService staffModeService;

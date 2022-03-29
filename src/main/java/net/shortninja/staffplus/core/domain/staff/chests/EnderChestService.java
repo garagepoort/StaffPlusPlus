@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.chests;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.GuiActionService;
+import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -14,7 +14,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import static be.garagepoort.mcioc.gui.model.TubingGuiActions.BACK;
+import static be.garagepoort.mcioc.tubinggui.model.TubingGuiActions.BACK;
 
 @IocBean
 public class EnderChestService {

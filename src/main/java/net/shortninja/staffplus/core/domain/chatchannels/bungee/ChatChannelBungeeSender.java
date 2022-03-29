@@ -26,7 +26,6 @@ import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CHATCHANNELS
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CHATCHANNELS_PLAYER_JOINED_CHANNEL;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CHATCHANNELS_PLAYER_LEFT_CHANNEL;
 
-@IocBean
 @IocListener
 public class ChatChannelBungeeSender implements Listener {
 

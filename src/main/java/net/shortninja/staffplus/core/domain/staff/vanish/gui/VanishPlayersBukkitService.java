@@ -15,7 +15,6 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-@IocBean
 @IocListener
 public class VanishPlayersBukkitService implements Listener {
 

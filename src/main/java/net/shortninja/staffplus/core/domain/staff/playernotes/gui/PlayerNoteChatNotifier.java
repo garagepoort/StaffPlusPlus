@@ -11,7 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
-@IocBean
 @IocListener
 public class PlayerNoteChatNotifier implements Listener {
 

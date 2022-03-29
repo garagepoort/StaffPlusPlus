@@ -14,7 +14,6 @@ import org.bukkit.event.Listener;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_IP_BANNED_CHANNEL;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_IP_UNBANNED_CHANNEL;
 
-@IocBean
 @IocListener
 public class IpBanBungeeNotifier implements Listener {
 

@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
@@ -18,7 +17,6 @@ import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanMessageStringUtil.replaceBanPlaceholders;
 
-@IocBean
 @IocListener
 public class BanChatNotifier implements Listener {
 

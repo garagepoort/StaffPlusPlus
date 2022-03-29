@@ -1,12 +1,12 @@
 package net.shortninja.staffplus.core.domain.staff.chests;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.gui.GuiAction;
-import be.garagepoort.mcioc.gui.GuiActionReturnType;
-import be.garagepoort.mcioc.gui.GuiActionService;
-import be.garagepoort.mcioc.gui.GuiController;
-import be.garagepoort.mcioc.gui.GuiParam;
-import be.garagepoort.mcioc.gui.model.TubingGuiActions;
+import be.garagepoort.mcioc.tubinggui.GuiAction;
+import be.garagepoort.mcioc.tubinggui.GuiActionReturnType;
+import be.garagepoort.mcioc.tubinggui.GuiActionService;
+import be.garagepoort.mcioc.tubinggui.GuiController;
+import be.garagepoort.mcioc.tubinggui.GuiParam;
+import be.garagepoort.mcioc.tubinggui.model.TubingGuiActions;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
 import net.shortninja.staffplus.core.common.gui.IAction;
@@ -19,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-@IocBean
 @GuiController
 public class InventoryGuiController {
 

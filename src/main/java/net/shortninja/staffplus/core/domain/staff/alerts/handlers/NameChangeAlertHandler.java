@@ -19,7 +19,6 @@ import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
-@IocBean
 @IocListener
 public class NameChangeAlertHandler extends AlertsHandler implements Listener {
 

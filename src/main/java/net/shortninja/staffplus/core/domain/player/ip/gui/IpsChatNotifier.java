@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.player.ip.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Messages;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean
 @IocListener
 public class IpsChatNotifier implements Listener {
 

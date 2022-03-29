@@ -8,7 +8,6 @@ import net.shortninja.staffplusplus.kick.KickEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean
 @IocListener
 public class KickChatNotifier implements Listener {
 

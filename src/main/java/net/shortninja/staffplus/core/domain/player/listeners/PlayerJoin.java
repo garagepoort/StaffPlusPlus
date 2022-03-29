@@ -18,7 +18,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocBean
 @IocListener
 public class PlayerJoin implements Listener {
 

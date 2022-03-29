@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.mcioc.gui.GuiActionService;
+import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;

@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Messages;
@@ -17,8 +16,7 @@ import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
-@IocBean(conditionalOnProperty = "alerts-module.xray-alerts.console=true")
-@IocListener
+@IocListener(conditionalOnProperty = "alerts-module.xray-alerts.console=true")
 public class XrayAlertConsoleHandler implements Listener {
 
     private final Messages messages;

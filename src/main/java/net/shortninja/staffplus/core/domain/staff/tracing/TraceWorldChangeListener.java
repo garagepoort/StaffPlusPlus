@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.WORLD_CHANGE;
 
-@IocBean
 @IocListener
 public class TraceWorldChangeListener implements Listener {
     private final TraceService traceService;

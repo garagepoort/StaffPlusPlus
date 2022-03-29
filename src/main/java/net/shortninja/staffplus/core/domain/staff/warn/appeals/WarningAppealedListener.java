@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.warn.appeals;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
@@ -26,7 +25,6 @@ import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocBean
 @IocListener
 public class WarningAppealedListener implements Listener {
 

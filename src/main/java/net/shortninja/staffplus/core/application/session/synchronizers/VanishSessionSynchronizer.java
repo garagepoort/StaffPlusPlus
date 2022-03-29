@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.application.session.synchronizers;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -11,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 @IocListener
-@IocBean
 public class VanishSessionSynchronizer implements Listener {
 
     private final OnlineSessionsManager onlineSessionsManager;
