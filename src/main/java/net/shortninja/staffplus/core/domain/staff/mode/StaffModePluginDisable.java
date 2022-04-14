@@ -2,6 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.mode;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.TubingPlugin;
+import be.garagepoort.mcioc.load.BeforeTubingReload;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
@@ -11,8 +13,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 @IocBean
-@IocMultiProvider(PluginDisable.class)
-public class StaffModePluginDisable implements PluginDisable {
+@IocMultiProvider({PluginDisable.class, BeforeTubingReload.class})
+public class StaffModePluginDisable implements PluginDisable, BeforeTubingReload {
 
     private final StaffModeService staffModeService;
     private final ModeProvider modeProvider;
@@ -26,6 +28,15 @@ public class StaffModePluginDisable implements PluginDisable {
 
     @Override
     public void disable(StaffPlus staffPlus) {
+        disable();
+    }
+
+    @Override
+    public void execute(TubingPlugin tubingPlugin) {
+        disable();
+    }
+
+    private void disable() {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             try {
                 PlayerSettings playerSettings = playerSettingsRepository.get(onlinePlayer);

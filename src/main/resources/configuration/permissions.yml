@@ -35,6 +35,7 @@ infractions:
     view: "staff.infractions.view"
 
 staff-list.view: "staff.personnel.view"
+staff-hub.view: "staff.hub.view"
 
 ########################
 # REPORTS
