@@ -21,10 +21,12 @@
                  id="open-reports"
                  material="PAPER"
                  onLeftClick="manage-reports/view/open">
-            <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.reports-title")}</name>
+            <name class="item-name"
+                  color="&b">${$config.get("staffmode-modules:modules.gui-module.reports-title")}</name>
             <Lore>
                 <LoreLine>
-                    <t id="reports-lore" color="&7">${$config.get("staffmode-modules:modules.gui-module.reports-lore")}</t>
+                    <t id="reports-lore"
+                       color="&7">${$config.get("staffmode-modules:modules.gui-module.reports-lore")}</t>
                 </LoreLine>
             </Lore>
         </GuiItem>
@@ -32,10 +34,12 @@
                  slot="2"
                  material="PAPER"
                  onLeftClick="manage-reports/view/my-assigned">
-            <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.my-reports-title")}</name>
+            <name class="item-name"
+                  color="&b">${$config.get("staffmode-modules:modules.gui-module.my-reports-title")}</name>
             <Lore>
                 <LoreLine>
-                    <t id="my-reports-lore" color="&7">${$config.get("staffmode-modules:modules.gui-module.my-reports-lore")}</t>
+                    <t id="my-reports-lore"
+                       color="&7">${$config.get("staffmode-modules:modules.gui-module.my-reports-lore")}</t>
                 </LoreLine>
             </Lore>
         </GuiItem>
@@ -43,10 +47,12 @@
                  slot="3"
                  material="PAPER"
                  onLeftClick="manage-reports/view/assigned">
-            <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.assigned-reports-title")}</name>
+            <name class="item-name"
+                  color="&b">${$config.get("staffmode-modules:modules.gui-module.assigned-reports-title")}</name>
             <Lore>
                 <LoreLine>
-                    <t id="assigned-reports-lore" color="&7">${$config.get("staffmode-modules:modules.gui-module.assigned-reports-lore")}</t>
+                    <t id="assigned-reports-lore"
+                       color="&7">${$config.get("staffmode-modules:modules.gui-module.assigned-reports-lore")}</t>
                 </LoreLine>
             </Lore>
         </GuiItem>
@@ -54,10 +60,12 @@
                  slot="4"
                  material="PAPER"
                  onLeftClick="manage-reports/view/closed">
-            <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.closed-reports-title")}</name>
+            <name class="item-name"
+                  color="&b">${$config.get("staffmode-modules:modules.gui-module.closed-reports-title")}</name>
             <Lore>
                 <LoreLine>
-                    <t id="closed-reports-lore" color="&7">${$config.get("staffmode-modules:modules.gui-module.closed-reports-lore")}</t>
+                    <t id="closed-reports-lore"
+                       color="&7">${$config.get("staffmode-modules:modules.gui-module.closed-reports-lore")}</t>
                 </LoreLine>
             </Lore>
         </GuiItem>
@@ -80,13 +88,16 @@
 
     <GuiItem id="protected-areas"
              slot="19"
+             permission="config|permissions:protect-area"
              if="config|staffmode-modules:modules.gui-module.protected-areas-gui"
              material="SHIELD"
              onLeftClick="protected-areas/view">
-        <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.protected-areas-name")}</name>
+        <name class="item-name"
+              color="&b">${$config.get("staffmode-modules:modules.gui-module.protected-areas-name")}</name>
         <Lore>
             <LoreLine>
-                <t id="protected-areas-lore" color="&7">${$config.get("staffmode-modules:modules.gui-module.protected-areas-lore")}</t>
+                <t id="protected-areas-lore"
+                   color="&7">${$config.get("staffmode-modules:modules.gui-module.protected-areas-lore")}</t>
             </LoreLine>
         </Lore>
     </GuiItem>
@@ -95,6 +106,7 @@
     <GuiItem id="bans"
              slot="7"
              if="config|staffmode-modules:modules.gui-module.ban-gui"
+             permission="config|permissions:bans.appeals.view"
              material="PLAYER_HEAD"
              onLeftClick="manage-bans/view/overview">
         <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.ban-name")}</name>
@@ -107,6 +119,7 @@
 
 
     <GuiItem id="mutes"
+             permission="config|permissions:mutes.appeals.view"
              slot="16"
              if="config|staffmode-modules:modules.gui-module.mute-gui"
              material="SPRUCE_SIGN"
@@ -121,13 +134,16 @@
 
     <GuiItem id="investigations"
              slot="25"
+             permission="config|permissions:investigations.manage.view"
              if="config|staffmode-modules:modules.gui-module.investigation-gui"
              material="BOOK"
              onLeftClick="manage-investigations/view/overview">
-        <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.investigation-name")}</name>
+        <name class="item-name"
+              color="&b">${$config.get("staffmode-modules:modules.gui-module.investigation-name")}</name>
         <Lore>
             <LoreLine>
-                <t id="investigations-lore" color="&7">${$config.get("staffmode-modules:modules.gui-module.investigation-lore")}</t>
+                <t id="investigations-lore"
+                   color="&7">${$config.get("staffmode-modules:modules.gui-module.investigation-lore")}</t>
             </LoreLine>
         </Lore>
     </GuiItem>
