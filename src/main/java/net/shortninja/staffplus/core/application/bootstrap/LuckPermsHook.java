@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.application.bootstrap;
 
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.TubingPlugin;
+import be.garagepoort.mcioc.load.BeforeTubingReload;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextManager;
@@ -15,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-@IocMultiProvider(PluginDisable.class)
-public class LuckPermsHook implements PluginDisable {
+@IocMultiProvider({PluginDisable.class, BeforeTubingReload.class})
+public class LuckPermsHook implements PluginDisable, BeforeTubingReload {
 
     private ContextManager contextManager;
     private final OnlineSessionsManager sessionManager;
@@ -46,6 +48,14 @@ public class LuckPermsHook implements PluginDisable {
         }
     }
 
+    @Override
+    public void execute(TubingPlugin tubingPlugin) {
+        if (luckPermsEnabled) {
+            this.registeredCalculators.forEach(c -> this.contextManager.unregisterCalculator(c));
+            this.registeredCalculators.clear();
+        }
+    }
+    
     private void register(String option, Supplier<ContextCalculator< Player >> calculatorSupplier) {
         StaffPlus.get().getLogger().info("Registering '" + option + "' calculator.");
         ContextCalculator<Player> calculator = calculatorSupplier.get();
