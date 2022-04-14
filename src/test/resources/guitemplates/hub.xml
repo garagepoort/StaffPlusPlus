@@ -1,5 +1,5 @@
 <TubingGui size="27" id="hub">
-    <title class="gui-title">&amp;eGUI Hub</title>
+    <title class="gui-title">&amp;eStaff Hub</title>
     <GuiItem slot="0" id="color-select-0" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
         <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
         <Lore>
@@ -88,7 +88,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="protected-areas" slot="19" if="true" material="SHIELD" onLeftClick="protected-areas/view">
+    <GuiItem id="protected-areas" slot="19" permission="staff.protect.protect-area" if="true" material="SHIELD" onLeftClick="protected-areas/view">
         <name class="item-name" color="&amp;b">&amp;bProtected Areas GUI</name>
         <Lore>
             <LoreLine>
@@ -96,7 +96,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="bans" slot="7" if="true" material="PLAYER_HEAD" onLeftClick="manage-bans/view/overview">
+    <GuiItem id="bans" slot="7" if="true" permission="staff.bans.appeals.view" material="PLAYER_HEAD" onLeftClick="manage-bans/view/overview">
         <name class="item-name" color="&amp;b">&amp;bBanned players GUI</name>
         <Lore>
             <LoreLine>
@@ -104,7 +104,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="mutes" slot="16" if="true" material="SIGN" onLeftClick="manage-mutes/view/all-active">
+    <GuiItem id="mutes" permission="staff.mutes.appeals.view" slot="16" if="true" material="SIGN" onLeftClick="manage-mutes/view/all-active">
         <name class="item-name" color="&amp;b">&amp;bMuted players GUI</name>
         <Lore>
             <LoreLine>
@@ -112,7 +112,7 @@
             </LoreLine>
         </Lore>
     </GuiItem>
-    <GuiItem id="investigations" slot="25" if="true" material="BOOK" onLeftClick="manage-investigations/view/overview">
+    <GuiItem id="investigations" slot="25" permission="staff.investigation.manage.view" if="true" material="BOOK" onLeftClick="manage-investigations/view/overview">
         <name class="item-name" color="&amp;b">&amp;bInvestigations GUI</name>
         <Lore>
             <LoreLine>

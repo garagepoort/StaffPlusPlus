@@ -26,8 +26,8 @@ modules:
     gui-module:
         enabled: true
         item: PAPER
-        name: "&eGUI Hub"
-        lore: "&7Opens the GUI hub."
+        name: "&eStaff Hub"
+        lore: "&7Opens the Staff hub."
 
         reports-gui: true
         reports-name: "&bUnresolved reports GUI"
