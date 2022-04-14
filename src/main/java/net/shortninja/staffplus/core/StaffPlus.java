@@ -73,11 +73,6 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
     }
 
     @Override
-    protected void beforeReload() {
-        getIocContainer().getList(PluginDisable.class).forEach(b -> b.disable(this));
-    }
-
-    @Override
     public List<ConfigurationFile> getConfigurationFiles() {
         return Arrays.asList(
             new ConfigurationFile("config.yml"),
