@@ -1,4 +1,4 @@
-    package net.shortninja.staffplus.core.common;
+package net.shortninja.staffplus.core.common;
 
 import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import inet.ipaddr.IPAddress;
@@ -10,7 +10,6 @@ import org.apache.commons.validator.routines.InetAddressValidator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -49,7 +48,7 @@ public class JavaUtils {
                 acc -= TimeUnit.MILLISECONDS.convert(convert, timeUnit);
                 count++;
             }
-            if(count >= 2) {
+            if (count >= 2) {
                 // only show 2 time sections
                 break;
             }
@@ -196,15 +195,7 @@ public class JavaUtils {
         return location.getX() + ", " + location.getY() + ", " + location.getZ();
     }
 
-    /**
-     * Makes a Material enum type more readable.
-     *
-     * @param type The Material type to format.
-     * @return The formatted string.
-     */
-    public static String formatTypeName(Material type) {
-        return type.name().replace("_", " ").toLowerCase();
-    }
+
     public static String formatTypeName(String type) {
         return type.replace("_", " ").toLowerCase();
     }
@@ -299,14 +290,13 @@ public class JavaUtils {
         return velocity;
     }
 
-
     /**
      * @param target    Original long string
      * @param maxLength Max amount of chars on line
      * @return An arraylist containing the different lines
      */
     public static List<String> formatLines(String target, int maxLength) {
-        if(target == null) {
+        if (target == null) {
             return Collections.emptyList();
         }
 

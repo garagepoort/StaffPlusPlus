@@ -4,6 +4,8 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.ReflectionUtils;
+import be.garagepoort.mcioc.TubingPlugin;
+import be.garagepoort.mcioc.load.BeforeTubingReload;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.application.config.Messages;
@@ -18,8 +20,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @IocBean
-@IocMultiProvider(PluginDisable.class)
-public class CmdHandler implements PluginDisable {
+@IocMultiProvider({PluginDisable.class, BeforeTubingReload.class})
+public class CmdHandler implements PluginDisable, BeforeTubingReload {
     private final IProtocolService versionProtocol;
     private final List<SppCommand> sppCommands;
     private final Messages messages;
@@ -69,6 +71,11 @@ public class CmdHandler implements PluginDisable {
 
     @Override
     public void disable(StaffPlus staffPlus) {
+        commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand()));
+    }
+
+    @Override
+    public void execute(TubingPlugin tubingPlugin) {
         commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand()));
     }
 }
