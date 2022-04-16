@@ -80,5 +80,4 @@ public class StaffChatChannelCmd extends AbstractCmd {
     protected Optional<String> getPlayerName(CommandSender sender, String[] args) {
         return Optional.empty();
     }
-
 }
