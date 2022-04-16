@@ -12,6 +12,7 @@ public @interface Command {
     String description() default "";
     String usage() default  "";
     boolean delayable() default  false;
+    boolean replaceDoubleQuotes() default true;
     String command();
     PlayerRetrievalStrategy playerRetrievalStrategy() default PlayerRetrievalStrategy.NONE;
 }
