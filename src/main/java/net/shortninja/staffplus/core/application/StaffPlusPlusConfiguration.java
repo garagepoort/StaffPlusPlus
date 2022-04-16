@@ -5,6 +5,7 @@ import be.garagepoort.mcioc.IocBeanProvider;
 import be.garagepoort.mcioc.TubingConfiguration;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
+import be.garagepoort.mcioc.tubinggui.exceptions.GuiExceptionHandler;
 import be.garagepoort.mcsqlmigrations.DatabaseType;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
@@ -30,7 +31,7 @@ public class StaffPlusPlusConfiguration {
 
     @AfterIocLoad
     public static void initGuiExceptionHandler(GuiActionService guiActionService) {
-        guiActionService.registerExceptionHandler(BusinessException.class, (p, e) -> p.sendMessage(translateAlternateColorCodes('&', e.getMessage())));
+        guiActionService.registerExceptionHandler(BusinessException.class, (GuiExceptionHandler<BusinessException>) (player, e) -> player.sendMessage(translateAlternateColorCodes('&', e.getMessage())));
     }
 
     @IocBeanProvider

@@ -47,6 +47,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -145,7 +146,8 @@ public abstract class AbstractGuiTemplateTest {
             new TubingBukkitUtilStub(),
             inventoryMapper,
             tubingGuiStyleIdViewProvider,
-            new GuiHistoryStack());
+            new GuiHistoryStack(),
+            Collections.emptyList());
 
         guiActionService.loadGuiController(guiController.getClass());
     }
