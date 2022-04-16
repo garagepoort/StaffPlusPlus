@@ -15,7 +15,7 @@ import net.shortninja.staffplus.core.domain.staff.reporting.ReportService;
 import net.shortninja.staffplus.core.domain.staff.reporting.chatchannels.ReportChatChannelService;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ManageReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
-import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportsGuiController;
+import net.shortninja.staffplus.core.domain.staff.reporting.gui.ManageReportsGuiController;
 import net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd.ReportFiltersMapper;
 import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.reports.ReportStatus;
@@ -109,7 +109,7 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
 
     @Override
     public Object getGuiController() {
-        return new ReportsGuiController(
+        return new ManageReportsGuiController(
             permissionHandler,
             manageReportConfiguration,
             reportService,

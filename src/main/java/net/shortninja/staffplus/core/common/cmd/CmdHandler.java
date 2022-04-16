@@ -57,6 +57,7 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
             abstractCmd.setDescription(command.description());
             abstractCmd.setUsage(command.usage());
             abstractCmd.setDelayable(command.delayable());
+            abstractCmd.setReplaceDoubleQoutesEnabled(command.replaceDoubleQuotes());
             abstractCmd.setPlayerRetrievalStrategy(command.playerRetrievalStrategy());
             if (StringUtils.isNotBlank(command.command())) {
                 List<String> commandNames = (List<String>) ReflectionUtils.getConfigValue(command.command(), StaffPlus.get().getFileConfigurations())

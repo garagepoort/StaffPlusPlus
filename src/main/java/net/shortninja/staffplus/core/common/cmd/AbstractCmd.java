@@ -34,6 +34,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     protected final PermissionHandler permissionHandler;
     private final CommandService commandService;
     private boolean delayable;
+    private boolean replaceDoubleQoutesEnabled;
     private PlayerRetrievalStrategy playerRetrievalStrategy = PlayerRetrievalStrategy.NONE;
     private Set<String> permissions = new HashSet<>();
     private final Map<UUID, Long> lastUse = new HashMap<>();
@@ -61,7 +62,7 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
     @Override
     public boolean execute(CommandSender sender, String alias, String[] args) {
         try {
-            if(args.length > 0) {
+            if(args.length > 0 && replaceDoubleQoutesEnabled) {
                 args = replaceDoubleQoutes(args);
             }
 
@@ -238,6 +239,10 @@ public abstract class AbstractCmd extends BukkitCommand implements SppCommand {
 
     public void setDelayable(boolean delayable) {
         this.delayable = delayable;
+    }
+
+    public void setReplaceDoubleQoutesEnabled(boolean replaceDoubleQoutesEnabled) {
+        this.replaceDoubleQoutesEnabled = replaceDoubleQoutesEnabled;
     }
 
     private void validateMinimumArguments(CommandSender sender, String[] args) {
