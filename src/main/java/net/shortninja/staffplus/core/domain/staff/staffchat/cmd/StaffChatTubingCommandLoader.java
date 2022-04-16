@@ -34,7 +34,9 @@ public class StaffChatTubingCommandLoader {
         List<SppCommand> commands = new ArrayList<>();
         List<StaffChatChannelConfiguration> channelConfigurations = staffChatConfiguration.getChannelConfigurations();
         for (StaffChatChannelConfiguration channelConfiguration : channelConfigurations) {
-            commands.add(new StaffChatChannelCmd(messages, sessionManager, staffChatService, commandService, channelConfiguration, permissionHandler, bukkitUtils));
+            StaffChatChannelCmd staffChatChannelCmd = new StaffChatChannelCmd(messages, sessionManager, staffChatService, commandService, channelConfiguration, permissionHandler, bukkitUtils);
+            staffChatChannelCmd.setReplaceDoubleQoutesEnabled(false);
+            commands.add(staffChatChannelCmd);
             commands.add(new StaffChatMuteChannelCmd(messages, commandService, playerSettingsRepository, channelConfiguration, permissionHandler, bukkitUtils));
             commands.add(new StaffChatSoundChannelCmd(messages, commandService, playerSettingsRepository, channelConfiguration, permissionHandler, bukkitUtils));
         }
