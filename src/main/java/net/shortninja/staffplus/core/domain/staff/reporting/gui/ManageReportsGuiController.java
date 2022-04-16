@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
@@ -42,7 +41,7 @@ import static be.garagepoort.mcioc.tubinggui.GuiActionReturnType.BACK;
 import static be.garagepoort.mcioc.tubinggui.templates.GuiTemplate.template;
 
 @GuiController
-public class ReportsGuiController {
+public class ManageReportsGuiController {
 
     @ConfigProperty("%lang%:reports.resolve-confirmation-question")
     private String resolveConfirmationLines;
@@ -69,18 +68,18 @@ public class ReportsGuiController {
     private final ReportChatChannelService reportChatChannelService;
     private final ReportConfiguration reportConfiguration;
 
-    public ReportsGuiController(PermissionHandler permissionHandler,
-                                ManageReportConfiguration manageReportConfiguration,
-                                ReportService reportService,
-                                BukkitUtils bukkitUtils,
-                                Messages messages,
-                                ManageReportService manageReportService,
-                                OnlineSessionsManager sessionManager,
-                                ReportFiltersMapper reportFiltersMapper,
-                                PlayerManager playerManager,
-                                ChatChannelService chatChannelService,
-                                ReportChatChannelService reportChatChannelService,
-                                ReportConfiguration reportConfiguration) {
+    public ManageReportsGuiController(PermissionHandler permissionHandler,
+                                      ManageReportConfiguration manageReportConfiguration,
+                                      ReportService reportService,
+                                      BukkitUtils bukkitUtils,
+                                      Messages messages,
+                                      ManageReportService manageReportService,
+                                      OnlineSessionsManager sessionManager,
+                                      ReportFiltersMapper reportFiltersMapper,
+                                      PlayerManager playerManager,
+                                      ChatChannelService chatChannelService,
+                                      ReportChatChannelService reportChatChannelService,
+                                      ReportConfiguration reportConfiguration) {
         this.permissionHandler = permissionHandler;
         this.manageReportConfiguration = manageReportConfiguration;
         this.reportService = reportService;
