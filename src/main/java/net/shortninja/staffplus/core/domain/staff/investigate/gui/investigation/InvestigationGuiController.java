@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui.investigation;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiController;
@@ -50,6 +49,15 @@ public class InvestigationGuiController {
             params.put("investigations", getInvestigations(target, page * PAGE_SIZE, PAGE_SIZE));
 
             return template("gui/investigations/investigations-overview.ftl", params);
+        });
+    }
+
+    @GuiAction("manage-investigations/view/show-resume-select")
+    public AsyncGui<GuiTemplate> showSelectInvestigationToResume(Player player, @GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            Map<String, Object> params = new HashMap<>();
+            params.put("investigations", investigationService.getPausedInvestigations(player, page * PAGE_SIZE, PAGE_SIZE));
+            return template("gui/investigations/investigations-resume-select.ftl", params);
         });
     }
 

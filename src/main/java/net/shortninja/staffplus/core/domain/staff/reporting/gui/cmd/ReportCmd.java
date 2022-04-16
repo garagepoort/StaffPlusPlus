@@ -2,6 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
+import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
@@ -15,8 +17,6 @@ import net.shortninja.staffplus.core.domain.staff.reporting.config.CulpritFilter
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportReasonConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportTypeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportReasonSelectGui;
-import net.shortninja.staffplus.core.domain.staff.reporting.gui.ReportTypeSelectGui;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,17 +43,19 @@ public class ReportCmd extends AbstractCmd {
     private final List<ReportReasonConfiguration> reportReasonConfigurations;
     private final BukkitUtils bukkitUtils;
     private final ReportConfiguration reportConfiguration;
+    private final GuiActionService guiActionService;
 
     public ReportCmd(Messages messages,
                      ReportService reportService,
                      CommandService commandService,
-                     PermissionHandler permissionHandler, BukkitUtils bukkitUtils, ReportConfiguration reportConfiguration) {
+                     PermissionHandler permissionHandler, BukkitUtils bukkitUtils, ReportConfiguration reportConfiguration, GuiActionService guiActionService) {
         super(messages, permissionHandler, commandService);
         this.reportService = reportService;
         reportTypeConfigurations = reportConfiguration.getReportTypeConfigurations(culpritFilterPredicate);
         reportReasonConfigurations = reportConfiguration.getReportReasonConfigurations(culpritFilterPredicate);
         this.bukkitUtils = bukkitUtils;
         this.reportConfiguration = reportConfiguration;
+        this.guiActionService = guiActionService;
     }
 
 
@@ -67,11 +69,14 @@ public class ReportCmd extends AbstractCmd {
         }
 
         if (!reportTypeConfigurations.isEmpty()) {
-            new ReportTypeSelectGui((Player) sender, reason, reportTypeConfigurations, reportReasonConfigurations).show((Player) sender);
+            guiActionService.executeAction((Player) sender, GuiActionBuilder.builder()
+                .action("reports/view/type-select")
+                .param("reason", reason)
+                .build());
             return true;
         }
 
-        new ReportReasonSelectGui((Player) sender, null, reportReasonConfigurations).show((Player) sender);
+        guiActionService.executeAction((Player) sender, "reports/view/reason-select");
         return true;
     }
 
