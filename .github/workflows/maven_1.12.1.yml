@@ -8,6 +8,7 @@ on:
     branches: [ release/1.12.0 ]
   pull_request:
     branches: [ release/1.12.0 ]
+  workflow_dispatch:
 
 jobs:
   build:
