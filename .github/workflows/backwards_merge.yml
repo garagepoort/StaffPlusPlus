@@ -9,7 +9,6 @@ on:
             commit_hash:
                 description: 'Commit to merge into release branches'
                 required: true
-        branches: [ master ]
 jobs:
     backwards_merge:
         runs-on: ubuntu-latest
