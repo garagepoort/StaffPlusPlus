@@ -6,6 +6,7 @@
 - Add translation for player info gui
 - Add /staffhub command
 - Added configuration option to switch confirmation type for ip bans
+- Added placeholder support for staff chat channel prefix
 
 ### Bugs
 - Fix sqlite database locked error
