@@ -2,6 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.ban.ipbans.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
+import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -36,9 +39,13 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.getIpFromPl
 @IocMultiProvider(SppCommand.class)
 public class IpBanCmd extends AbstractCmd {
 
+    @ConfigProperty("ban-module.ipban.confirmation")
+    private String confirmationType;
+
     private final IpBanService banService;
     private final PlayerManager playerManager;
     private final PlayerIpRepository playerIpRepository;
+    private final GuiActionService guiActionService;
     private final IpBanCmdUtil ipBanCmdUtil;
 
     public IpBanCmd(Messages messages,
@@ -47,14 +54,14 @@ public class IpBanCmd extends AbstractCmd {
                     PlayerManager playerManager,
                     PlayerIpRepository playerIpRepository,
                     IpBanCmdUtil ipBanCmdUtil,
-                    PermissionHandler permissionHandler) {
+                    PermissionHandler permissionHandler, GuiActionService guiActionService) {
         super(messages, permissionHandler, commandService);
         this.banService = banService;
         this.playerManager = playerManager;
         this.playerIpRepository = playerIpRepository;
         this.ipBanCmdUtil = ipBanCmdUtil;
+        this.guiActionService = guiActionService;
     }
-
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
@@ -64,13 +71,26 @@ public class IpBanCmd extends AbstractCmd {
             ipArg = getIpAddress(sppPlayer);
         }
         String ipAddress = ipArg;
-        String template = ipBanCmdUtil.retrieveTemplate(sender, optionalParameters);
-        if (sender instanceof Player) {
-            ipBanCmdUtil.sendBanChoiceMessage((Player) sender, ipAddress, p -> banService.banIp(sender, ipAddress, template, optionalParameters.containsKey("-silent")));
-        } else {
-            banService.banIp(sender, ipAddress, template, optionalParameters.containsKey("-silent"));
-        }
+        String templateName = ipBanCmdUtil.retrieveTemplate(sender, optionalParameters);
+        executeBan(sender, ipAddress, templateName, optionalParameters.containsKey("-silent"));
         return true;
+    }
+
+    public void executeBan(CommandSender sender, String ipAddress, String templateName, boolean silent) {
+        if (!(sender instanceof Player) || confirmationType.equalsIgnoreCase("DISABLED")) {
+            banService.banIp(sender, ipAddress, templateName, silent);
+        } else {
+            if (confirmationType.equalsIgnoreCase("CHAT")) {
+                ipBanCmdUtil.sendBanChoiceMessage((Player) sender, ipAddress, p -> banService.banIp(sender, ipAddress, templateName, silent));
+            } else if (confirmationType.equalsIgnoreCase("GUI")) {
+                guiActionService.executeAction((Player) sender, GuiActionBuilder.builder()
+                    .action("ipbans/ban/confirm")
+                    .param("ipAddress", ipAddress)
+                    .param("templateName", templateName)
+                    .param("silent", String.valueOf(silent))
+                    .build());
+            }
+        }
     }
 
     @Override
