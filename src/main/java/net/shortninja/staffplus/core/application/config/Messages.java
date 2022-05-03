@@ -447,6 +447,7 @@ public class Messages {
 
     public void send(CommandSender sender, String message, String prefix) {
         message = placeholderService.setPlaceholders(sender, message);
+        prefix = placeholderService.setPlaceholders(sender, prefix);
         for (String s : message.split("\\n")) {
             sender.sendMessage(buildMessage(prefix, s));
         }
