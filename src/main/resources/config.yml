@@ -359,6 +359,7 @@ ban-module:
           - ''
   ipban:
       enabled: true
+      confirmation: CHAT
       permban-template: ''
       tempban-template: ''
 ############################################################

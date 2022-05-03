@@ -40,15 +40,11 @@ public class IpBanCmdUtil {
     }
 
 
-    public void sendBanChoiceMessage(Player sender, String ipAddress, ChoiceAction confirmAction) {
+    public void  sendBanChoiceMessage(Player sender, String ipAddress, ChoiceAction confirmAction) {
         List<PlayerIpRecord> players = ipAddress.contains("/") ? playerIpService.getMatchedBySubnet(ipAddress) : playerIpService.getMatchedByIp(ipAddress);
 
         messages.send(sender, "&6Following players are matching the current IP rule you will add. They will all be banned", messages.prefixBans);
-        messages.send(sender, messages.LONG_LINE, messages.prefixBans);
-        for (int i = 0; i < players.size(); i++) {
-            PlayerIpRecord player = players.get(i);
-            messages.send(sender, "&c" + (i + 1) + ". &7" + player.getPlayerName(), messages.prefixBans);
-        }
+        printPlayerList(sender, players);
         confirmationService.showConfirmation(sender,
             new ConfirmationConfig(ConfirmationType.CHAT, "Are you sure you want to ban this ip?"),
             new HashMap<>(),
@@ -62,17 +58,21 @@ public class IpBanCmdUtil {
             .collect(Collectors.toList());
 
         messages.send(sender, "&6Following players are matching the given IP rule.", messages.prefixBans);
-        messages.send(sender, messages.LONG_LINE, messages.prefixBans);
-        for (int i = 0; i < players.size(); i++) {
-            PlayerIpRecord player = players.get(i);
-            messages.send(sender, "&c" + (i + 1) + ". &7" + player.getPlayerName(), messages.prefixBans);
-        }
+        printPlayerList(sender, players);
 
         confirmationService.showConfirmation(sender,
             new ConfirmationConfig(ConfirmationType.CHAT, "Are you sure you want to unban this rule?"),
             new HashMap<>(),
             confirmAction,
             player -> messages.send(sender, "&6You have cancelled unbanning this ip", messages.prefixBans));
+    }
+
+    private void printPlayerList(Player sender, List<PlayerIpRecord> players) {
+        messages.send(sender, messages.LONG_LINE, messages.prefixBans);
+        for (int i = 0; i < players.size(); i++) {
+            PlayerIpRecord player = players.get(i);
+            messages.send(sender, "&c" + (i + 1) + ". &7" + player.getPlayerName(), messages.prefixBans);
+        }
     }
 
     public String retrieveTemplate(CommandSender sender, Map<String, String> args) {
