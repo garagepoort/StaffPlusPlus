@@ -1,5 +1,17 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.13
+
+### Features
+- Add translation for player info gui
+- Add /staffhub command
+- Added configuration option to switch confirmation type for ip bans
+
+### Bugs
+- Fix sqlite database locked error
+- Fix spaces shown as %space% in staff chat commands.
+- Some back actions were not working in the GUI
+
 # V1.18.12
 
 ### Features
