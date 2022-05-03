@@ -138,7 +138,7 @@
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
             <artifactId>mc-sql-migrations</artifactId>
-            <version>1.1.5</version>
+            <version>1.1.6</version>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
