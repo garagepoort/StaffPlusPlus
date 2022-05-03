@@ -12,6 +12,7 @@
 - Fix sqlite database locked error
 - Fix spaces shown as %space% in staff chat commands.
 - Some back actions were not working in the GUI
+- Fix logger warning
 
 # V1.18.12
 
