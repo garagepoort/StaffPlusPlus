@@ -7,9 +7,18 @@
              material="BOOK">
         <name class="item-name" color="&6"><@translate key="gui.confirmation.confirm"/></name>
         <Lore>
-            <LoreLine>
-                <t id="confirmation-lore">${confirmationMessage}</t>
-            </LoreLine>
+            <#if confirmationMessage??>
+                <LoreLine>
+                    <t id="confirmation-lore">${confirmationMessage}</t>
+                </LoreLine>
+            </#if>
+            <#if confirmationMessageLines??>
+                <#list confirmationMessageLines as confirmationMessageLine>
+                    <LoreLine>
+                        <t id="confirmation-lore">${confirmationMessageLine}</t>
+                    </LoreLine>
+                </#list>
+            </#if>
         </Lore>
     </GuiItem>
     <#list [9,10,18,19] as slot>
