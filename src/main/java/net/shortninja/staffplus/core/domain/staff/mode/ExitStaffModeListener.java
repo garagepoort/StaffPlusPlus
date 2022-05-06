@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
@@ -10,6 +9,7 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfigu
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.IModeData;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,8 +44,9 @@ public class ExitStaffModeListener implements Listener {
         Player player = playerOptional.get().getPlayer();
         GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, event.getMode());
 
-        if (modeConfiguration.isModeOriginalLocation()) {
-            player.teleport(event.getModeData().getPreviousLocation().setDirection(player.getLocation().getDirection()));
+        Optional<Location> previousLocation = event.getModeData().getPreviousLocation();
+        if (modeConfiguration.isModeOriginalLocation() && previousLocation.isPresent()) {
+            player.teleport(previousLocation.get().setDirection(player.getLocation().getDirection()));
             messages.send(player, messages.modeOriginalLocation, messages.prefixGeneral);
         }
         event.getTeleportToLocation().ifPresent(player::teleport);
@@ -70,5 +71,4 @@ public class ExitStaffModeListener implements Listener {
             player.addPotionEffect(potionEffect);
         }
     }
-
 }
