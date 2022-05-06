@@ -10,6 +10,7 @@ import org.bukkit.potion.PotionEffect;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ModeData implements IModeData {
@@ -55,8 +56,8 @@ public class ModeData implements IModeData {
         return playerInventory;
     }
 
-    public Location getPreviousLocation() {
-        return previousLocation;
+    public Optional<Location> getPreviousLocation() {
+        return Optional.ofNullable(previousLocation);
     }
 
     public boolean hasFlight() {
