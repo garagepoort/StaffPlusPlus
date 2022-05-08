@@ -34,8 +34,8 @@ public class PlayerNoteFiltersMapper {
             playerNoteFiltersBuilder.id(Integer.parseInt(value));
         }
         if (key.equalsIgnoreCase(TARGET)) {
-            SppPlayer reporter = playerManager.getOnOrOfflinePlayer(value).orElseThrow(() -> new PlayerNotFoundException(value));
-            playerNoteFiltersBuilder.target(reporter);
+            SppPlayer target = playerManager.getOnOrOfflinePlayer(value).orElseThrow(() -> new PlayerNotFoundException(value));
+            playerNoteFiltersBuilder.target(target);
         }
         if (key.equalsIgnoreCase(NOTED_BY)) {
             playerNoteFiltersBuilder.notedByName(value);

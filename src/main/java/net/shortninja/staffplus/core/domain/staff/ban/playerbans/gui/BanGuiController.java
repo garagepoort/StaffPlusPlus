@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiController;
@@ -107,7 +106,7 @@ public class BanGuiController {
         OnlinePlayerSession playerSession = sessionManager.get(player);
         playerSession.setChatAction((player1, message) -> {
             if (message.equalsIgnoreCase(CANCEL)) {
-                messages.send(player, "&CYou have cancelled unbanning this player", messages.prefixReports);
+                messages.send(player, "&CYou have cancelled unbanning this player", messages.prefixBans);
                 return;
             }
             banService.unban(target, banId, message);
