@@ -37,15 +37,15 @@ public class DatabaseUtil {
     }
 
     public static int insertFilterValues(SqlFilters sqlFilters, PreparedStatement ps, int index) throws SQLException {
-        for (SqlFilter reportFilter : sqlFilters.getSqlFilters()) {
-            if (reportFilter.getValue() instanceof Collection) {
-                Collection<String> collection = (Collection<String>) reportFilter.getValue();
+        for (SqlFilter sqlFilter : sqlFilters.getSqlFilters()) {
+            if (sqlFilter.getValue() instanceof Collection) {
+                Collection<String> collection = (Collection<String>) sqlFilter.getValue();
                 for (String value : collection) {
-                    ps.setObject(index, value, reportFilter.getSqlType());
+                    ps.setObject(index, value, sqlFilter.getSqlType());
                     index++;
                 }
             } else {
-                ps.setObject(index, reportFilter.getValue(), reportFilter.getSqlType());
+                ps.setObject(index, sqlFilter.getValue(), sqlFilter.getSqlType());
                 index++;
             }
         }

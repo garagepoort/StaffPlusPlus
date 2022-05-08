@@ -85,7 +85,7 @@ public class WarnsCmd extends AbstractCmd {
 
     private void sendHelp(CommandSender sender) {
         messages.send(sender, "&7" + messages.LONG_LINE, "");
-        messages.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixReports);
+        messages.send(sender, "&b/" + getName() + " get &7[player]", messages.prefixWarnings);
         messages.send(sender, "&7" + messages.LONG_LINE, "");
     }
 
