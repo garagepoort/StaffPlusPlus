@@ -402,8 +402,8 @@ staff-locations:
     delete: "staff.staff-locations.delete"
     teleport: "staff.staff-locations.teleport"
     view-notes: "staff.staff-locations.notes.view"
-    delete-note: "staff.staff-locations.notes.create"
-    create-note: "staff.staff-locations.notes.delete"
+    delete-note: "staff.staff-locations.notes.delete"
+    create-note: "staff.staff-locations.notes.create"
 
 webui:
     register: "staff.webui.register"
