@@ -256,6 +256,20 @@ ips:
     history-cleared: '&7Ip-история очищена для &6%player%'
   staff-notifications:
     history-cleared: '&4%issuer% &7очистил всю историю ip-адресов для &6%player%'
+
+staff-locations:
+    prefix: "&dLocations &8»"
+    created: "&2Staff location created!"
+    deleted: "&CStaff location deleted!"
+    teleported: "&2You have been teleported to location: %name%"
+    note-created: "&2Note has been created"
+    note-deleted: "&CNote has been deleted"
+    add-note-chat-info: |
+        &1==================================
+        &6Type your note in chat
+        &6Type "cancel" to cancel adding a note
+        &1==================================
+
 gui:
   id: ID
   status: Статус

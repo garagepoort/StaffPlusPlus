@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui.notes;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
@@ -87,7 +86,7 @@ public class InvestigationNotesGuiController {
         });
     }
 
-    @GuiAction("manage-investigation-notes/create")
+        @GuiAction("manage-investigation-notes/create")
     public void createNote(Player player, @GuiParam("investigationId") int investigationId) {
         bukkitUtils.runTaskAsync(player, () -> {
             Investigation investigation = investigationService.getInvestigation(investigationId);

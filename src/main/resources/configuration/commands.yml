@@ -202,3 +202,8 @@ chatchannels:
     join: ["join-channel"]
     leave: ["leave-channel"]
     close: ["close-channel"]
+
+staff-locations:
+    create: ["create-stafflocation"]
+    view: ["stafflocations"]
+    teleport-to-stafflocation: [ "teleport-to-stafflocation" ]

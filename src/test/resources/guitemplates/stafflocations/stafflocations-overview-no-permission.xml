@@ -1,0 +1,34 @@
+<TubingGui size="54" id="staff-locations-overview">
+    <title class="gui-title">Saved locations</title>
+    <GuiItem id="staff-location-info-0" class="staff-location-info" slot="0" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PAPER">
+        <name class="item-name" color="&amp;3">stafflocation</name>
+        <Lore>
+            <LoreLine>
+                <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
+                <t color="&amp;6" id="id-value" class="detail-value">12</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="name-label" class="detail-label">Name: </t>
+                <t color="&amp;6" id="name-value" class="detail-value">stafflocation</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="world-label" class="detail-label">Location: </t>
+                <t color="&amp;6" id="world-value" class="detail-value">world | 1 2 3</t>
+            </LoreLine>
+        </Lore>
+    </GuiItem>
+
+    <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+    <GuiItem slot="52" id="next-page-1" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+    <GuiItem slot="53" id="next-page-2" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
+        <name class="item-name">Next Page</name>
+    </GuiItem>
+
+    <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$BACK" material="SPRUCE_DOOR">
+        <name class="item-name">Back</name>
+    </GuiItem>
+</TubingGui>
