@@ -60,4 +60,14 @@ public class Constants {
         String serverQueryString = servers.stream().map(s -> "'" + s + "'").collect(Collectors.joining(","));
         return " WHERE (server_name is null OR server_name IN (" + serverQueryString + ")) ";
     }
+
+    public static String getServerNameFilterWithWhere(String tableName, ServerSyncConfig serverSyncConfig) {
+        String tableString = !tableName.isEmpty() ? tableName + "." : "";
+        if (serverSyncConfig.isMatchesAll()) {
+            return "";
+        }
+        List<String> servers = serverSyncConfig.getServers();
+        String serverQueryString = servers.stream().map(s -> "'" + s + "'").collect(Collectors.joining(","));
+        return " WHERE (" + tableString + "server_name is null OR " + tableString + "server_name IN (" + serverQueryString + ")) ";
+    }
 }
