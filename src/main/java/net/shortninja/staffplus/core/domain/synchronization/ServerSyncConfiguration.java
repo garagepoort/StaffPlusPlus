@@ -20,6 +20,10 @@ public class ServerSyncConfiguration {
     @ConfigTransformer(ServerSyncConfigTransformer.class)
     public ServerSyncConfig banSyncServers;
 
+    @ConfigProperty("server-sync-module.staff-location-sync")
+    @ConfigTransformer(ServerSyncConfigTransformer.class)
+    public ServerSyncConfig staffLocationSyncServers;
+
     @ConfigProperty("server-sync-module.report-sync")
     @ConfigTransformer(ServerSyncConfigTransformer.class)
     public ServerSyncConfig reportSyncServers;

@@ -68,6 +68,7 @@ server-sync-module:
     kick-sync: ''
     investigation-sync: ''
     notes-sync: ''
+    staff-location-sync: ''
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -91,45 +92,45 @@ locations:
 
 # No permission required for regular users, requires "permissions.report" permission for moderator commands.
 reports-module:
-  chatchannels:
-      enabled: false
-      open-on: IN_PROGRESS
-      close-on: REJECTED;RESOLVED;DELETED
+    chatchannels:
+        enabled: false
+        open-on: IN_PROGRESS
+        close-on: REJECTED;RESOLVED;DELETED
 
-  # Whether or not the plugin will use "/report" features.
-  enabled: true
+    # Whether or not the plugin will use "/report" features.
+    enabled: true
 
-  # The sound that is played to staff when someone is reported.
-  # Set to "NONE" to disable.
-  sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    # The sound that is played to staff when someone is reported.
+    # Set to "NONE" to disable.
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
 
-  # The cooldown, in seconds, for using "/report".
-  # This is disabled for players with the "permissions.report" permission.
-  cooldown: 10
+    # The cooldown, in seconds, for using "/report".
+    # This is disabled for players with the "permissions.report" permission.
+    cooldown: 10
 
-  # Whether or not the player that reported another player will be visible in GUIs.
-  show-reporter: true
+    # Whether or not the player that reported another player will be visible in GUIs.
+    show-reporter: true
 
-  # Whether or not a staff member must provide a reason when resolving/rejecting a report
-  closing-reason-enabled: true
+    # Whether or not a staff member must provide a reason when resolving/rejecting a report
+    closing-reason-enabled: true
 
-  # Types of reports. When configured the reporter will see a UI where he must choose the type
-  report-types: []
-  fixed-reason: false
-  fixed-reason-culprit: false
-  reasons: []
+    # Types of reports. When configured the reporter will see a UI where he must choose the type
+    report-types: [ ]
+    fixed-reason: false
+    fixed-reason-culprit: false
+    reasons: [ ]
 
-  reporter-notifications:
-      # The reporter will be notified the moment he comes online that he has reports OPEN or IN_PROGRESS
-      notify-on-join: true
-      # Enable status change notifications. Whenever a staff member changes the status to one of the specified statuses, the reporter will be notified (if he is online).
-      # Statuses must be semi-colon separated
-      status-change-notifications: IN_PROGRESS;RESOLVED;REJECTED
-  # command hooks
-  accept-commands: []
-  reject-commands: []
-  reopen-commands: []
-  resolve-commands: []
+    reporter-notifications:
+        # The reporter will be notified the moment he comes online that he has reports OPEN or IN_PROGRESS
+        notify-on-join: true
+        # Enable status change notifications. Whenever a staff member changes the status to one of the specified statuses, the reporter will be notified (if he is online).
+        # Statuses must be semi-colon separated
+        status-change-notifications: IN_PROGRESS;RESOLVED;REJECTED
+    # command hooks
+    accept-commands: [ ]
+    reject-commands: [ ]
+    reopen-commands: [ ]
+    resolve-commands: [ ]
 
 
 ############################################################
@@ -140,44 +141,44 @@ reports-module:
 
 # Requires "permissions.warn" permission.
 warnings-module:
-  # Whether or not the plugin will use "/warn" features.
-  enabled: true
-  # The sound that is played to the player when warned.
-  # Set to "NONE" to disable.
-  sound: ENTITY_EXPERIENCE_ORB_PICKUP
-  # Whether or not the player issued the warning will be visible in GUIs.
-  show-issuer: true
+    # Whether or not the plugin will use "/warn" features.
+    enabled: true
+    # The sound that is played to the player when warned.
+    # Set to "NONE" to disable.
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    # Whether or not the player issued the warning will be visible in GUIs.
+    show-issuer: true
 
-  # Enables the ability to notify a user when he has warnings
-  # User will be notified the moment he comes online.
-  user-notifications:
-      enabled: true
-      # Enable this to show the message every time the user comes online.
-      # If Disabled the warnings will be marked as "read" and he will only be notified of new warnings
-      always-notify: false
+    # Enables the ability to notify a user when he has warnings
+    # User will be notified the moment he comes online.
+    user-notifications:
+        enabled: true
+        # Enable this to show the message every time the user comes online.
+        # If Disabled the warnings will be marked as "read" and he will only be notified of new warnings
+        always-notify: false
 
-  actions: []
-  severity-levels:
-    - name: MINOR
-      score: 1
-      expiresAfter: 1 WEEK
-    - name: MAJOR
-      score: 3
-      expiresAfter: 1 MONTH
-    - name: CRITICAL
-      score: 5
-  # Define thresholds for the warning system. Whenever the player reaches a threshold the actions are triggered
-  thresholds:
-    - score: 6
-      actions:
-        - command: "ban %target% &4Warning threshold has been met"
+    actions: [ ]
+    severity-levels:
+        -   name: MINOR
+            score: 1
+            expiresAfter: 1 WEEK
+        -   name: MAJOR
+            score: 3
+            expiresAfter: 1 MONTH
+        -   name: CRITICAL
+            score: 5
+    # Define thresholds for the warning system. Whenever the player reaches a threshold the actions are triggered
+    thresholds:
+        -   score: 6
+            actions:
+                -   command: "ban %target% &4Warning threshold has been met"
 
-  appeals:
-      enabled: true
-      resolve-reason-enabled: false
-      fixed-reason: false
-      reasons:
-          - ''
+    appeals:
+        enabled: true
+        resolve-reason-enabled: false
+        fixed-reason: false
+        reasons:
+            - ''
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -187,23 +188,23 @@ warnings-module:
 
 # Requires "permissions.staff-chat" permission.
 staff-chat-module:
-  # Whether or not the plugin will use "/sc" features.
-  enabled: true
-  # Whether or not the plugin synchronises staff chat across the bungee network
-  bungee: true
+    # Whether or not the plugin will use "/sc" features.
+    enabled: true
+    # Whether or not the plugin synchronises staff chat across the bungee network
+    bungee: true
 
-  # The string that can be used at the beginning of a message to make it appear in staff chat.
-  # If you have "@" as your string, typing "@hey guys" would send "hey guys" to staff chat.
-  # Leave blank to disable.
+    # The string that can be used at the beginning of a message to make it appear in staff chat.
+    # If you have "@" as your string, typing "@hey guys" would send "hey guys" to staff chat.
+    # Leave blank to disable.
 
-  channels:
-      - command: sc
-        handle: "@"
-        name: staffchat
-        prefix: '&dStaffChat &8»'
-        message-format: '&b%player% &8» &7%message%'
-        permission: staff.staffchat
-        sound: "NONE"
+    channels:
+        -   command: sc
+            handle: "@"
+            name: staffchat
+            prefix: '&dStaffChat &8»'
+            message-format: '&b%player% &8» &7%message%'
+            permission: staff.staffchat
+            sound: "NONE"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -213,24 +214,24 @@ staff-chat-module:
 
 # Requires "permissions.vanish" permission.
 vanish-module:
-  # Whether or not the plugin will use "/v" features.
-  enabled: true
+    # Whether or not the plugin will use "/v" features.
+    enabled: true
 
-  # Whether or not list vanish will hide the vanished users from tab list.
-  # Does not completely hide players in tab for 1.7 versions.
-  tab-list: true
+    # Whether or not list vanish will hide the vanished users from tab list.
+    # Does not completely hide players in tab for 1.7 versions.
+    tab-list: true
 
-  # Whether or not list vanish users will be shown as "away" or "offline" in the staff list.
-  show-away: false
+    # Whether or not list vanish users will be shown as "away" or "offline" in the staff list.
+    show-away: false
 
-  # Whether or not user should be shown in command tab-complete suggestions.
-  suggestions: false
+    # Whether or not user should be shown in command tab-complete suggestions.
+    suggestions: false
 
-  # Whether or not chat can be used when vanished.
-  chat: false
+    # Whether or not chat can be used when vanished.
+    chat: false
 
-  # Whether or not to show a message on screen telling the staff member his vanish is enabled
-  vanish-message-enabled: true
+    # Whether or not to show a message on screen telling the staff member his vanish is enabled
+    vanish-message-enabled: true
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -240,66 +241,66 @@ vanish-module:
 
 # Requires "permissions.chat" permission.
 chat-module:
-  # Whether or not the plugin will use "/chat" features.
-  enabled: true
+    # Whether or not the plugin will use "/chat" features.
+    enabled: true
 
-  # The amount of lines that will be sent when "/chat clear" is executed.
-  lines: 100
+    # The amount of lines that will be sent when "/chat clear" is executed.
+    lines: 100
 
-  # The cooldown, in seconds, for chatting when the chat is slowed.
-  # Bypass permission is "chat-slow".
-  slow: 5
+    # The cooldown, in seconds, for chatting when the chat is slowed.
+    # Bypass permission is "chat-slow".
+    slow: 5
 
-  # Whenever one of these words/phrases is detected in a chat message, an alert will be triggered
-  # These can either notify the staff members through the alerts-system of discord.
-  detection:
-    phrase-groups:
-      - phrases:
-            - admin
-            - mod
-        actions: []
+    # Whenever one of these words/phrases is detected in a chat message, an alert will be triggered
+    # These can either notify the staff members through the alerts-system of discord.
+    detection:
+        phrase-groups:
+            -   phrases:
+                    - admin
+                    - mod
+                actions: [ ]
 
-  # All word blacklist options.
-  # Leave any of the lists below blank to disable them!
-  blacklist-module:
-    # Whether or not the blacklist will be enabled.
-    enabled: false
+    # All word blacklist options.
+    # Leave any of the lists below blank to disable them!
+    blacklist-module:
+        # Whether or not the blacklist will be enabled.
+        enabled: false
 
-    # Whether or not messages that have censored words in them will be hoverable.
-    # This means you will be able to hover over a chat message to see an uncensored message if you have the "permissions.blacklist" permission.
-    # This may not work well with other chat plugins!
-    hoverable: false
+        # Whether or not messages that have censored words in them will be hoverable.
+        # This means you will be able to hover over a chat message to see an uncensored message if you have the "permissions.blacklist" permission.
+        # This may not work well with other chat plugins!
+        hoverable: false
 
-    # The character that will replace blocked word characters.
-    character: "*"
+        # The character that will replace blocked word characters.
+        character: "*"
 
-    # Whether or not messages that have merged blocked words will be detected.
-    # So if you block the word "ass", it will also block "asshole" or "dickass".
-    # May cause issues with legal words like "bypass"! Fix is below.
-    merging: true
+        # Whether or not messages that have merged blocked words will be detected.
+        # So if you block the word "ass", it will also block "asshole" or "dickass".
+        # May cause issues with legal words like "bypass"! Fix is below.
+        merging: true
 
-    # All words that will be censored.
-    # Separate words with commas.
-    words: fuck, shit, ass, bitch, dick, cock, piss, cunt, fag, faggot, slut, nigger, nigga
+        # All words that will be censored.
+        # Separate words with commas.
+        words: fuck, shit, ass, bitch, dick, cock, piss, cunt, fag, faggot, slut, nigger, nigga
 
-    # All characters that will be censored.
-    # These are merely characters that will be detected anywhere in messages.
-    characters: 卐, 卍
+        # All characters that will be censored.
+        # These are merely characters that will be detected anywhere in messages.
+        characters: 卐, 卍
 
-    # All domain levels that will be censored.
-    # This can prevent users from sending links in chat.
-    # This will only check the end of words which have detected periods!
-    domains: com, net, org
+        # All domain levels that will be censored.
+        # This can prevent users from sending links in chat.
+        # This will only check the end of words which have detected periods!
+        domains: com, net, org
 
-    # All strings that will be detected as periods in messages. Of course characters like "." and "," are detected by default.
-    # This will work in coordination with "domains".
-    # For example, it can detect "mineplex()com" as "mineplex.com".
-    periods: (), (dot),
+        # All strings that will be detected as periods in messages. Of course characters like "." and "," are detected by default.
+        # This will work in coordination with "domains".
+        # For example, it can detect "mineplex()com" as "mineplex.com".
+        periods: (), (dot),
 
-    # All words that will be allowed to be typed no matter what.
-    # This helps quite a bit if you have "merging" enabled.
-    # I recommend using http://www.morewords.com/contains/[word]/!
-    allowed: bypass, assembly, assassin, compass, assume, assault, asset, assort
+        # All words that will be allowed to be typed no matter what.
+        # This helps quite a bit if you have "merging" enabled.
+        # I recommend using http://www.morewords.com/contains/[word]/!
+        allowed: bypass, assembly, assassin, compass, assume, assault, asset, assort
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -309,15 +310,15 @@ chat-module:
 
 # Requires "permissions.broadcast" permission.
 broadcast-module:
-  # Whether or not the plugin will use "/broadcast" features.
-  enabled: true
-  prefix: "&dBroadcast &8»"
-  # The servers to which the broadcasting is applied "CURRENT" is the default value and broadcasts only on the current server.
-  # This also prevents staff members from broadcasting to other servers
-  # "ALL" broadcasts to all known servers on the network.
-  # Alternatively you can provide a list of semicolon separated server names to which the broadcasting should be applied.
-  # Example: lobby;survival;skyblock
-  enabled-servers: CURRENT
+    # Whether or not the plugin will use "/broadcast" features.
+    enabled: true
+    prefix: "&dBroadcast &8»"
+    # The servers to which the broadcasting is applied "CURRENT" is the default value and broadcasts only on the current server.
+    # This also prevents staff members from broadcasting to other servers
+    # "ALL" broadcasts to all known servers on the network.
+    # Alternatively you can provide a list of semicolon separated server names to which the broadcasting should be applied.
+    # Example: lobby;survival;skyblock
+    enabled-servers: CURRENT
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -326,18 +327,18 @@ broadcast-module:
 ############################################################
 
 infractions-module:
-  # Whether or not the plugin will enable the infractions gui.
-  enabled: true
-  show-bans: true
-  show-mutes: true
-  show-warnings: true
-  show-reporter.report-created: true
-  show-kicks: true
-  bans-gui-item: PAPER
-  mutes-gui-item: PAPER
-  warnings-gui-item: PAPER
-  reported-gui-item: PAPER
-  kicks-gui-item: PAPER
+    # Whether or not the plugin will enable the infractions gui.
+    enabled: true
+    show-bans: true
+    show-mutes: true
+    show-warnings: true
+    show-reporter.report-created: true
+    show-kicks: true
+    bans-gui-item: PAPER
+    mutes-gui-item: PAPER
+    warnings-gui-item: PAPER
+    reported-gui-item: PAPER
+    kicks-gui-item: PAPER
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -346,22 +347,22 @@ infractions-module:
 ############################################################
 
 ban-module:
-  # Whether or not the plugin will use "/ban-player" features.
-  enabled: true
-  permban-template: ''
-  tempban-template: ''
-  appeals:
-      enabled: true
-      unban-on-approve: true
-      resolve-reason-enabled: false
-      fixed-reason: false
-      reasons:
-          - ''
-  ipban:
-      enabled: true
-      confirmation: CHAT
-      permban-template: ''
-      tempban-template: ''
+    # Whether or not the plugin will use "/ban-player" features.
+    enabled: true
+    permban-template: ''
+    tempban-template: ''
+    appeals:
+        enabled: true
+        unban-on-approve: true
+        resolve-reason-enabled: false
+        fixed-reason: false
+        reasons:
+            - ''
+    ipban:
+        enabled: true
+        confirmation: CHAT
+        permban-template: ''
+        tempban-template: ''
 ############################################################
 # +------------------------------------------------------+ #
 # |                      KICKING                       | #
@@ -369,10 +370,10 @@ ban-module:
 ############################################################
 
 kick-module:
-  # Whether or not the plugin will use "/kick" features.
-  enabled: false
-  fixed-reason: false
-  reasons: []
+    # Whether or not the plugin will use "/kick" features.
+    enabled: false
+    fixed-reason: false
+    reasons: [ ]
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -381,24 +382,24 @@ kick-module:
 ############################################################
 
 mute-module:
-  # Whether or not the plugin will use "/mute player" features.
-  enabled: true
-  # Will the player know he is muted.
-  default-soft-mutes: false
-  # Commands that get blocked when a player is muted
-  blocked-commands:
-      - msg
-      - whisper
-      - tell
-  appeals:
-      enabled: true
-      unmute-on-approve: true
-      resolve-reason-enabled: false
-      fixed-reason: false
-      reasons:
-          - ''
-      on-approved-commands: []
-      on-rejected-commands: []
+    # Whether or not the plugin will use "/mute player" features.
+    enabled: true
+    # Will the player know he is muted.
+    default-soft-mutes: false
+    # Commands that get blocked when a player is muted
+    blocked-commands:
+        - msg
+        - whisper
+        - tell
+    appeals:
+        enabled: true
+        unmute-on-approve: true
+        resolve-reason-enabled: false
+        fixed-reason: false
+        reasons:
+            - ''
+        on-approved-commands: [ ]
+        on-rejected-commands: [ ]
 ############################################################
 # +------------------------------------------------------+ #
 # |                      MUTING                       | #
@@ -406,12 +407,12 @@ mute-module:
 ############################################################
 
 joinmessages-module:
-  # Whether or not the plugin will use "/mute player" features.
-  enabled: true
-  messages:
-      - permission: 'staff.joinmessages.staff'
-        message: '&6[Staff] &4%player% &7joined the server'
-        weight: 1
+    # Whether or not the plugin will use "/mute player" features.
+    enabled: true
+    messages:
+        -   permission: 'staff.joinmessages.staff'
+            message: '&6[Staff] &4%player% &7joined the server'
+            weight: 1
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -420,12 +421,12 @@ joinmessages-module:
 ############################################################
 
 protect-module:
-  # Whether or not the plugin will use "/protect-player" features.
-  player-enabled: true
-  # Whether or not the plugin will use "/protect-area" features.
-  area-enabled: true
-  # The max area size that can be protected.
-  area-max-size: 40
+    # Whether or not the plugin will use "/protect-player" features.
+    player-enabled: true
+    # Whether or not the plugin will use "/protect-area" features.
+    area-enabled: true
+    # The max area size that can be protected.
+    area-max-size: 40
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -434,8 +435,8 @@ protect-module:
 ############################################################
 
 alt-detect-module:
-  enabled: false
-  same-ip-required: false
+    enabled: false
+    same-ip-required: false
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -445,56 +446,56 @@ alt-detect-module:
 
 # Requires "permissions.notify" permission.
 alerts-module:
-  # Whether or not staff will be notified when a user changes their name.
-  name-notify: true
-  name-notify-console: false
-  name-notify-bungee: ''
+    # Whether or not staff will be notified when a user changes their name.
+    name-notify: true
+    name-notify-console: false
+    name-notify-bungee: ''
 
-  # Whether or not staff will be notified when they are mentioned.
-  mention-notify: true
-  mention-notify-console: false
-  mention-notify-bungee: ''
+    # Whether or not staff will be notified when they are mentioned.
+    mention-notify: true
+    mention-notify-console: false
+    mention-notify-bungee: ''
 
-  # Whether or not staff will be notified when the chat module detect phrases.
-  chat-phrase-detection: true
-  chat-phrase-detection-console: false
+    # Whether or not staff will be notified when the chat module detect phrases.
+    chat-phrase-detection: true
+    chat-phrase-detection-console: false
 
-  # Whether or not staff will be notified when the command-detection gets triggered.
-  command-detection: true
-  command-detection-console: false
+    # Whether or not staff will be notified when the command-detection gets triggered.
+    command-detection: true
+    command-detection-console: false
 
-  # Whether or not staff will be notified when the command-detection gets triggered.
-  blacklist-detection: true
-  blacklist-detection-console: false
-  blacklist-notify-bungee: ''
+    # Whether or not staff will be notified when the command-detection gets triggered.
+    blacklist-detection: true
+    blacklist-detection-console: false
+    blacklist-notify-bungee: ''
 
-  # The sound that is played to staff when notified.
-  sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    # The sound that is played to staff when notified.
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
 
-  # Notifies staff when a player mines blocks listed in "blocks".
-  xray-alerts:
-    # Whether or not this module is enabled.
-    enabled: true
-    console: false
-    notify-bungee: ''
-    # Block type that, when mined, will invoke an alert.
-    blocks: SPAWNER, EMERALD_ORE, DIAMOND_ORE, GOLD_ORE, IRON_ORE, COAL_ORE, LAPIS_ORE, REDSTONE_ORE
+    # Notifies staff when a player mines blocks listed in "blocks".
+    xray-alerts:
+        # Whether or not this module is enabled.
+        enabled: true
+        console: false
+        notify-bungee: ''
+        # Block type that, when mined, will invoke an alert.
+        blocks: SPAWNER, EMERALD_ORE, DIAMOND_ORE, GOLD_ORE, IRON_ORE, COAL_ORE, LAPIS_ORE, REDSTONE_ORE
 
-  alt-detect-notify:
-      enabled: true
-      console: false
-      # Trust levels for which an alert should be triggered
-      # POSITIVE;FAIRLY_POSITIVE;POSSIBLE;NOT_LIKELY
-      trust-levels: FAIRLY_POSITIVE;POSITIVE
+    alt-detect-notify:
+        enabled: true
+        console: false
+        # Trust levels for which an alert should be triggered
+        # POSITIVE;FAIRLY_POSITIVE;POSSIBLE;NOT_LIKELY
+        trust-levels: FAIRLY_POSITIVE;POSITIVE
 
 command-detection:
     enabled: true
     command-groups:
-        - commands:
-            - op
-            - deop
-            - lp
-          actions: []
+        -   commands:
+                - op
+                - deop
+                - lp
+            actions: [ ]
 ############################################################
 # +------------------------------------------------------+ #
 # |                       TRACE                          | #
@@ -541,9 +542,9 @@ investigations-module:
         investigated:
             title-message-enabled: true
             chat-message-enabled: true
-    start-investigation-commands: []
-    conclude-investigation-commands: []
-    pause-investigation-commands: []
+    start-investigation-commands: [ ]
+    conclude-investigation-commands: [ ]
+    pause-investigation-commands: [ ]
 
 
 ############################################################
@@ -566,10 +567,18 @@ freeze-module:
     title-message-enabled: true
     chat-message-enabled: true
     # Commands that are allowed when a player is frozen
-    allowed-commands: []
+    allowed-commands: [ ]
     # command hooks for freeze/unfreeze
-    freeze-commands: []
-    unfreeze-commands: []
+    freeze-commands: [ ]
+    unfreeze-commands: [ ]
+
+############################################################
+# +------------------------------------------------------+ #
+# |                  STAFF LOCATIONS                     | #
+# +------------------------------------------------------+ #
+############################################################
+staff-locations-module:
+    enabled: true
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -593,16 +602,16 @@ webui-module:
 
 # How will the plugin still Data
 storage:
-  #Type is how it will store either a sqlite or mysql
-  type: 'sqlite'
-  mysql:
-    host: 'localhost'
-    user: 'root'
-    database: 'root'
-    password: 'mypass'
-    port: 3306
-    max-pool-size: 5
-    ssl-enabled: false
+    #Type is how it will store either a sqlite or mysql
+    type: 'sqlite'
+    mysql:
+        host: 'localhost'
+        user: 'root'
+        database: 'root'
+        password: 'mypass'
+        port: 3306
+        max-pool-size: 5
+        ssl-enabled: false
 
 ############################################################
 # +------------------------------------------------------+ #
