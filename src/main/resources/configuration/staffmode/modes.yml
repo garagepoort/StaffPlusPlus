@@ -14,14 +14,8 @@ modes:
         creative: false
         night-vision: false
         original-location: false
-        enable-on-login: false
         disable-on-logout: false
-        enable-commands:
-            -   command: 'example1 %staff%'
-            -   command: 'example2 %staff%'
-        disable-commands:
-            -   command: 'example1 %staff%'
-            -   command: 'example2 %staff%'
+        enable-on-login: false
         disable-on-world-change: false
         gui:
             - compass-module:1
