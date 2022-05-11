@@ -49,7 +49,7 @@
 
     <@commons.pageFooter currentAction="${currentAction}" page=page />
 
-    <#if $permissions.has(player, $config.get("permissions:permissions.staff-locations.create-note"))>
+    <#if $permissions.has(player, $config.get("permissions:staff-locations.create-note"))>
         <GuiItem
             id="staff-location-note-create"
             slot="50"
