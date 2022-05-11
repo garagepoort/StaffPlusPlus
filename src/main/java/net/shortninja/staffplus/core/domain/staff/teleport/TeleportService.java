@@ -23,7 +23,7 @@ import java.util.Map;
 @IocBean
 public class TeleportService {
 
-    private static Map<Player, Deque<Location>> previousLocations = new HashMap<>();
+    private static final Map<Player, Deque<Location>> previousLocations = new HashMap<>();
 
     private final Options options;
 
@@ -83,8 +83,7 @@ public class TeleportService {
     private Location getLocationOfflinePlayer(SppPlayer sppPlayer) {
         try {
             String filename = Bukkit.getWorldContainer() + File.separator + options.mainWorld + File.separator + "playerdata" + File.separator + sppPlayer.getId() + ".dat";
-            NBTFile file = null;
-            file = new NBTFile(new File(filename));
+            NBTFile file = new NBTFile(new File(filename));
             long uuidLeast = file.getLong("WorldUUIDLeast");
             long uuidMost = file.getLong("WorldUUIDMost");
             NBTList<Double> positions = file.getDoubleList("Pos");

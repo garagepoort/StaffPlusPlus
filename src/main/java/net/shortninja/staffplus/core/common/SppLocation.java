@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.common;
 
 import net.shortninja.staffplusplus.ILocation;
+import org.bukkit.Location;
 
 public class SppLocation implements ILocation {
     private String worldName;
@@ -14,6 +15,14 @@ public class SppLocation implements ILocation {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.serverName = serverName;
+    }
+
+    public SppLocation(Location location, String serverName) {
+        this.worldName = location.getWorld().getName();
+        this.x = location.getX();
+        this.y = location.getY();
+        this.z = location.getZ();
         this.serverName = serverName;
     }
 
