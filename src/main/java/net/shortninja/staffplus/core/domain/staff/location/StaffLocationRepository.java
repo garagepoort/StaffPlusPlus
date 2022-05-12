@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.location.LocationRepository;
+import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -17,10 +18,15 @@ import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithWhere;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.insertFilterValues;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.mapFilters;
 
 @IocBean
 public class StaffLocationRepository {
 
+    public static final String BASE_QUERY = "SELECT sp_staff_locations.*, l.*, c.* FROM sp_staff_locations INNER JOIN sp_locations l on sp_staff_locations.location_id = l.id " +
+        " LEFT JOIN (SELECT staff_location_id, max(timestamp) as note_timestamp FROM sp_staff_location_notes group by staff_location_id) newestNote on newestNote.staff_location_id = sp_staff_locations.id " +
+        " LEFT JOIN sp_staff_location_notes c on c.staff_location_id = sp_staff_locations.id AND c.timestamp = newestNote.note_timestamp ";
     private final LocationRepository locationRepository;
     private final QueryBuilderFactory query;
     private final Options options;
@@ -46,11 +52,22 @@ public class StaffLocationRepository {
     }
 
     public List<StaffLocation> getStaffLocations(int offset, int amount) {
-        return query.create().find("SELECT * FROM sp_staff_locations INNER JOIN sp_locations l on sp_staff_locations.location_id = l.id" + getServerNameFilterWithWhere("sp_staff_locations", options.serverSyncConfiguration.staffLocationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
+        return query.create().find(BASE_QUERY + getServerNameFilterWithWhere("sp_staff_locations", options.serverSyncConfiguration.staffLocationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?",
             ps -> {
                 ps.setInt(1, offset);
                 ps.setInt(2, amount);
             }, this::buildStaffLocation);
+    }
+
+    public List<StaffLocation> findLocations(StaffLocationFilters staffLocationFilters, int offset, int amount) {
+        String filterQuery = mapFilters(staffLocationFilters, false);
+        String query = BASE_QUERY + " WHERE " + filterQuery + getServerNameFilterWithAnd("sp_staff_locations", options.serverSyncConfiguration.staffLocationSyncServers) + " ORDER BY creation_timestamp DESC LIMIT ?,?";
+        return this.query.create().find(query, (ps) -> {
+            int index = 1;
+            index = insertFilterValues(staffLocationFilters, ps, index);
+            ps.setInt(index, offset);
+            ps.setInt(index + 1, amount);
+        }, this::buildStaffLocation);
     }
 
     private StaffLocation buildStaffLocation(ResultSet resultSet) throws SQLException {
@@ -68,11 +85,29 @@ public class StaffLocationRepository {
         String worldName = resultSet.getString(12);
         World locationWorld = Bukkit.getServer().getWorld(worldName);
         Location location = new Location(locationWorld, locationX, locationY, locationZ);
-        return new StaffLocation(id, name, creatorName, creatorUuid, location, serverName, creationTimestamp);
+
+        StaffLocationNote staffLocationNote = null;
+        resultSet.getInt(14);
+        if (!resultSet.wasNull()) {
+            int noteId = resultSet.getInt(14);
+            int locationId = resultSet.getInt(15);
+            String note = resultSet.getString(16);
+            UUID linkedByUuid = UUID.fromString(resultSet.getString(17));
+            String notedByName = resultSet.getString(18);
+            staffLocationNote = new StaffLocationNote(
+                noteId,
+                locationId,
+                note,
+                linkedByUuid,
+                notedByName,
+                resultSet.getLong(19));
+        }
+
+        return new StaffLocation(id, name, creatorName, creatorUuid, location, serverName, creationTimestamp, staffLocationNote);
     }
 
     public Optional<StaffLocation> getById(int locationId) {
-        return query.create().findOne("SELECT * FROM sp_staff_locations INNER JOIN sp_locations l on sp_staff_locations.location_id = l.id WHERE sp_staff_locations.ID = ? " + getServerNameFilterWithAnd("sp_staff_locations", options.serverSyncConfiguration.staffLocationSyncServers),
+        return query.create().findOne(BASE_QUERY + " WHERE sp_staff_locations.ID = ? " + getServerNameFilterWithAnd("sp_staff_locations", options.serverSyncConfiguration.staffLocationSyncServers),
             ps -> ps.setLong(1, locationId), this::buildStaffLocation);
     }
 
