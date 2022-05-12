@@ -4,6 +4,7 @@ import net.shortninja.staffplusplus.stafflocations.IStaffLocation;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class StaffLocation implements IStaffLocation {
@@ -15,8 +16,9 @@ public class StaffLocation implements IStaffLocation {
     private final Location location;
     private String serverName;
     private final long creationTimestamp;
+    private StaffLocationNote newestNote;
 
-    public StaffLocation(int id, String name, String creatorName, UUID creatorUuid, Location location, String serverName, long creationTimestamp) {
+    public StaffLocation(int id, String name, String creatorName, UUID creatorUuid, Location location, String serverName, long creationTimestamp, StaffLocationNote newestNote) {
         this.id = id;
         this.name = name;
         this.creatorName = creatorName;
@@ -24,6 +26,7 @@ public class StaffLocation implements IStaffLocation {
         this.location = location;
         this.serverName = serverName;
         this.creationTimestamp = creationTimestamp;
+        this.newestNote = newestNote;
     }
 
     public StaffLocation(String name, Player player, Location location) {
@@ -61,6 +64,10 @@ public class StaffLocation implements IStaffLocation {
     @Override
     public String getCreatorName() {
         return creatorName;
+    }
+
+    public Optional<StaffLocationNote> getNewestNote() {
+        return Optional.ofNullable(newestNote);
     }
 
     @Override

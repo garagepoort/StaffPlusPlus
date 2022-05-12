@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocation;
+import net.shortninja.staffplus.core.domain.staff.location.StaffLocationNote;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationRepository;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
 import org.bukkit.Location;
@@ -83,7 +84,8 @@ class LocationGuiControllerTest extends AbstractGuiTemplateTest {
             bukkitUtils,
             permissionHandler,
             messages,
-            onlineSessionsManager);
+            onlineSessionsManager,
+            new StaffLocationFiltersMapper());
     }
 
     @Test
@@ -121,7 +123,7 @@ class LocationGuiControllerTest extends AbstractGuiTemplateTest {
             UUID.fromString("d38f72ea-551a-4a65-8401-d83465a7f596"),
             location,
             "serverName",
-            CREATION_DATE
-        );
+            CREATION_DATE,
+            new StaffLocationNote(13, 12, "My note", UUID.fromString("d38f72ea-551a-4a65-8401-d83465a7f596"), "noteCreatorName", CREATION_DATE));
     }
 }
