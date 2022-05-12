@@ -7,6 +7,7 @@ import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
 import be.garagepoort.mcioc.tubinggui.GuiActionReturnType;
 import be.garagepoort.mcioc.tubinggui.GuiController;
 import be.garagepoort.mcioc.tubinggui.GuiParam;
+import be.garagepoort.mcioc.tubinggui.GuiParams;
 import be.garagepoort.mcioc.tubinggui.model.TubingGuiActions;
 import be.garagepoort.mcioc.tubinggui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
@@ -18,10 +19,12 @@ import net.shortninja.staffplus.core.domain.staff.location.StaffLocation;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationNote;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationRepository;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
+import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters.StaffLocationFiltersBuilder;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static be.garagepoort.mcioc.tubinggui.AsyncGui.async;
 import static be.garagepoort.mcioc.tubinggui.templates.GuiTemplate.template;
@@ -33,6 +36,8 @@ public class StaffLocationsGuiController {
 
     @ConfigProperty("%lang%:staff-locations.prefix")
     private String prefix;
+    @ConfigProperty("permissions.staff-locations.create")
+    private String createPermission;
     @ConfigProperty("permissions.staff-locations.delete")
     private String deletePermission;
     @ConfigProperty("permissions.staff-locations.teleport")
@@ -44,6 +49,8 @@ public class StaffLocationsGuiController {
     @ConfigProperty("permissions.staff-locations.delete-note")
     private String deleteNotePermission;
 
+    @ConfigProperty("%lang%:staff-locations.add-chat-info")
+    private String addChatInfoMessage;
     @ConfigProperty("%lang%:staff-locations.add-note-chat-info")
     private String addNoteChatInfoMessage;
 
@@ -53,19 +60,21 @@ public class StaffLocationsGuiController {
     private final PermissionHandler permissionHandler;
     private final Messages messages;
     private final OnlineSessionsManager sessionManager;
+    private final StaffLocationFiltersMapper staffLocationFiltersMapper;
 
     public StaffLocationsGuiController(StaffLocationRepository staffLocationRepository,
                                        StaffLocationService staffLocationService,
                                        BukkitUtils bukkitUtils,
                                        PermissionHandler permissionHandler,
                                        Messages messages,
-                                       OnlineSessionsManager sessionManager) {
+                                       OnlineSessionsManager sessionManager, StaffLocationFiltersMapper staffLocationFiltersMapper) {
         this.staffLocationRepository = staffLocationRepository;
         this.staffLocationService = staffLocationService;
         this.bukkitUtils = bukkitUtils;
         this.permissionHandler = permissionHandler;
         this.messages = messages;
         this.sessionManager = sessionManager;
+        this.staffLocationFiltersMapper = staffLocationFiltersMapper;
     }
 
     @GuiAction("staff-locations/view")
@@ -79,13 +88,43 @@ public class StaffLocationsGuiController {
         });
     }
 
+    @GuiAction("staff-locations/view/find-locations")
+    public AsyncGui<GuiTemplate> viewFindLocations(@GuiParam(value = "page", defaultValue = "0") int page,
+                                                 @GuiParams Map<String, String> allParams) {
+        return async(() -> {
+            StaffLocationFiltersBuilder filtersBuilder = new StaffLocationFiltersBuilder();
+            allParams.forEach((k, v) -> staffLocationFiltersMapper.map(k, v, filtersBuilder));
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("locations", staffLocationService.findLocations(filtersBuilder.build(), page * PAGE_SIZE, PAGE_SIZE));
+
+            return template("gui/staff-locations/overview.ftl", params);
+        });
+    }
+
+    @GuiAction("staff-locations/create")
+    public void createStaffLocation(Player player) {
+        permissionHandler.validate(player, createPermission);
+        bukkitUtils.runTaskAsync(player, () -> {
+            messages.send(player, addChatInfoMessage, prefix);
+            OnlinePlayerSession playerSession = sessionManager.get(player);
+            playerSession.setChatAction((player1, message) -> {
+                if (message.equalsIgnoreCase(CANCEL)) {
+                    messages.send(player, "&CYou have cancelled saving this location", prefix);
+                    return;
+                }
+                bukkitUtils.runTaskAsync(player, () -> staffLocationService.saveLocation(player, message));
+            });
+        });
+    }
+
     @GuiAction("staff-locations/teleport")
     public void teleport(Player player, @GuiParam("locationId") int locationId) {
         permissionHandler.validate(player, teleportPermission);
         staffLocationService.goToLocation(player, locationId);
     }
 
-    @GuiAction("staff-locations/view/delete")
+    @GuiAction(value = "staff-locations/view/delete", skipHistory = true)
     public GuiTemplate showLocationDeletionConfirmation(Player player,
                                                         @GuiParam("locationId") int locationId,
                                                         @GuiParam("locationName") String locationName) {
@@ -104,9 +143,12 @@ public class StaffLocationsGuiController {
     }
 
     @GuiAction("staff-locations/delete")
-    public void delete(Player player, @GuiParam("locationId") int locationId) {
+    public AsyncGui<GuiActionReturnType> delete(Player player, @GuiParam("locationId") int locationId) {
         permissionHandler.validate(player, deletePermission);
-        bukkitUtils.runTaskAsync(player, () -> staffLocationService.deleteLocation(player, locationId));
+        return async(() -> {
+            staffLocationService.deleteLocation(player, locationId);
+            return GuiActionReturnType.BACK;
+        });
     }
 
     @GuiAction("staff-location-notes/view")
@@ -141,10 +183,10 @@ public class StaffLocationsGuiController {
         });
     }
 
-    @GuiAction("staff-location-notes/view/delete")
+    @GuiAction(value = "staff-location-notes/view/delete", skipHistory = true)
     public GuiTemplate showNoteDeletionConfirmation(Player player,
-                                 @GuiParam("noteId") int noteId,
-                                 @GuiParam("locationId") int locationId) {
+                                                    @GuiParam("noteId") int noteId,
+                                                    @GuiParam("locationId") int locationId) {
         permissionHandler.validate(player, deleteNotePermission);
         String confirmAction = GuiActionBuilder.builder()
             .action("staff-location-notes/delete")
@@ -168,7 +210,7 @@ public class StaffLocationsGuiController {
         return async(() -> {
             StaffLocation location = staffLocationService.getStaffLocation(locationId);
             staffLocationService.deleteNote(player, location, noteId);
-            return GuiActionReturnType.CLOSE;
+            return GuiActionReturnType.BACK;
         });
     }
 }

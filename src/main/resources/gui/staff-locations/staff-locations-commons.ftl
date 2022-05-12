@@ -24,6 +24,20 @@
                 <t color="&b" id="world-label" class="detail-label">Location: </t>
                 <t color="&6" id="world-value" class="detail-value">${GuiUtils.parseLocation(location.location)}</t>
             </LoreLine>
+            <LoreLine>
+                <t color="&b" id="created-on-label" class="detail-label">Created on: </t>
+                <t color="&6" id="created-on-value" class="detail-value">${GuiUtils.parseTimestamp(location.creationTimestamp, $config.get("timestamp-format"))}</t>
+            </LoreLine>
+            <#if location.newestNote.isPresent()>
+                <LoreLine>
+                    <t color="&b" id="note-label" class="detail-label">Newest note:</t>
+                </LoreLine>
+                <#list JavaUtils.formatLines(location.newestNote.get().note, 30) as reasonLine>
+                    <LoreLine>
+                        <t color="&6" id="note-value" class="detail-value">   ${reasonLine}</t>
+                    </LoreLine>
+                </#list>
+            </#if>
             <#if actions?has_content >
                 <LoreLine></LoreLine>
                 <#list actions as actionLine>
