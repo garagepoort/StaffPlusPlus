@@ -360,7 +360,12 @@ staff-locations:
     prefix: "&dLocations &8»"
     created: "&2Staff location created!"
     deleted: "&CStaff location deleted!"
-    teleported: "&2You have been teleported to location: %name%"
+    teleported: "&2You have been teleported to location: &6%name%"
+    add-chat-info: |
+        &1==================================
+        &6Type the name of the location in chat
+        &6Type "cancel" to cancel saving the location
+        &1==================================
     note-created: "&2Note has been created"
     note-deleted: "&CNote has been deleted"
     add-note-chat-info: |

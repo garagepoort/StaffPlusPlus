@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationCreatedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationDeletedEvent;
+import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationNoteCreatedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationNoteDeletedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationTeleportedEvent;
@@ -111,5 +112,9 @@ public class StaffLocationService {
             staffLocationNotesRepository.removeNote(noteId);
             sendEvent(new StaffLocationNoteDeletedEvent(player, location, noteEntity.get()));
         }
+    }
+
+    public List<StaffLocation> findLocations(StaffLocationFilters staffLocationFilters, int offset, int amount) {
+        return staffLocationRepository.findLocations(staffLocationFilters, offset, amount);
     }
 }
