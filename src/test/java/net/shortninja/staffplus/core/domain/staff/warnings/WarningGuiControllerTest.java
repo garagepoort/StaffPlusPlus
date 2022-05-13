@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warnings;
 
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
-import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
+import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
@@ -18,8 +18,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -38,12 +36,11 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class WarningGuiControllerTest extends AbstractGuiTemplateTest {
+class WarningGuiControllerTest extends AbstractTubingGuiTemplateTest {
 
     private static final long CREATION_DATE = 1630537429182L;
     private static final String TIMESTAMP_FORMAT = "dd/MM/yyyy-HH:mm:ss";
@@ -65,8 +62,6 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
     @Mock
     private SppPlayer targetPlayer;
 
-    @Captor
-    private ArgumentCaptor<String> xmlCaptor;
     private static MockedStatic<GuiUtils> guiUtilsMockedStatic;
 
     @BeforeAll
@@ -105,33 +100,27 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
     public void myWarningsOverview() throws URISyntaxException, IOException {
         when(warnService.getWarnings(PLAYER_UUID, 0, 45, false)).thenReturn(Collections.singletonList(buildWarning()));
 
-        guiActionService.executeAction(player, "manage-warnings/view/my-warnings");
-
-        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
-        validateMaterials(xmlCaptor.getValue());
-        validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/my-warnings-overview.xml");
+        validateSnapshot(player,
+            "manage-warnings/view/my-warnings",
+            "/guitemplates/warnings/my-warnings-overview.xml");
     }
 
     @Test
     public void warningsOverview() throws URISyntaxException, IOException {
         when(warnService.getAllWarnings(0, 45, true)).thenReturn(Collections.singletonList(buildWarning()));
 
-        guiActionService.executeAction(player, "manage-warnings/view/overview");
-
-        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
-        validateMaterials(xmlCaptor.getValue());
-        validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/warnings-overview.xml");
+        validateSnapshot(player,
+            "manage-warnings/view/overview",
+            "/guitemplates/warnings/warnings-overview.xml");
     }
 
     @Test
     public void warningDetail() throws URISyntaxException, IOException {
         when(warnService.getWarning(12)).thenReturn(buildWarning());
 
-        guiActionService.executeAction(player, "manage-warnings/view/detail?warningId=12");
-
-        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
-        validateMaterials(xmlCaptor.getValue());
-        validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/warning-detail.xml");
+        validateSnapshot(player,
+            "manage-warnings/view/detail?warningId=12",
+            "/guitemplates/warnings/warning-detail.xml");
     }
 
     @Test
@@ -142,11 +131,9 @@ class WarningGuiControllerTest extends AbstractGuiTemplateTest {
             new WarningSeverityConfiguration("MINOR", 1, 2000, "minor reason", true),
             new WarningSeverityConfiguration("MAJOR", 2, 2000, "major reason", true)));
 
-        guiActionService.executeAction(player, "manage-warnings/view/select-severity?targetPlayerName=player2");
-
-        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
-        validateMaterials(xmlCaptor.getValue());
-        validateXml(xmlCaptor.getValue(), "/guitemplates/warnings/severity-select.xml");
+        validateSnapshot(player,
+            "manage-warnings/view/select-severity?targetPlayerName=player2",
+            "/guitemplates/warnings/severity-select.xml");
     }
 
     private Warning buildWarning() {
