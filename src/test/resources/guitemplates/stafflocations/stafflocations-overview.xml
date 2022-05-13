@@ -1,6 +1,6 @@
 <TubingGui size="54" id="staff-locations-overview">
     <title class="gui-title">Saved locations</title>
-    <GuiItem id="staff-location-info-0" class="staff-location-info" slot="0" onLeftClick="staff-location-notes/view?locationId=12" onRightClick="staff-locations/teleport?locationId=12" onMiddleClick="staff-locations/view/delete?locationId=12&amp;locationName=stafflocation" material="PAPER">
+    <GuiItem id="staff-location-info-0" class="staff-location-info" slot="0" onLeftClick="staff-locations/teleport?locationId=12" onRightClick="staff-location-notes/view?locationId=12" onMiddleClick="staff-locations/view/delete?locationId=12&amp;locationName=stafflocation" material="PAPER">
         <name class="item-name" color="&amp;3">stafflocation</name>
         <Lore>
             <LoreLine>
@@ -15,9 +15,19 @@
                 <t color="&amp;b" id="world-label" class="detail-label">Location: </t>
                 <t color="&amp;6" id="world-value" class="detail-value">world | 1 2 3</t>
             </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="created-on-label" class="detail-label">Created on: </t>
+                <t color="&amp;6" id="created-on-value" class="detail-value">01/09/2021-01:11:15</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;b" id="note-label" class="detail-label">Newest note:</t>
+            </LoreLine>
+            <LoreLine>
+                <t color="&amp;6" id="note-value" class="detail-value">   My note</t>
+            </LoreLine>
             <LoreLine></LoreLine>
-            <LoreLine>&amp;7Left click to view notes</LoreLine>
-            <LoreLine>&amp;7Right click to &amp;6teleport to location</LoreLine>
+            <LoreLine>&amp;7Right click to view notes</LoreLine>
+            <LoreLine>&amp;7Left click to &amp;6teleport to location</LoreLine>
             <LoreLine>&amp;7Middle click to &amp;Cdelete this location</LoreLine>
         </Lore>
     </GuiItem>
