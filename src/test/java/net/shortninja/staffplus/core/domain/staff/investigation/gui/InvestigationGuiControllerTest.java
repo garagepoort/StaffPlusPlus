@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.investigation.gui;
 
-import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
+import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class InvestigationGuiControllerTest extends AbstractGuiTemplateTest {
+class InvestigationGuiControllerTest extends AbstractTubingGuiTemplateTest {
 
     private static final long CREATION_DATE = 1630537429182L;
     private static final String TIMESTAMP_FORMAT = "dd/MM/yyyy-HH:mm:ss";
