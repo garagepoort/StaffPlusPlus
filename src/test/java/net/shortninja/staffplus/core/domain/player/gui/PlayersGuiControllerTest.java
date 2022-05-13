@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.gui;
 
-import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
+import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.database.PlayerIpRepository;
@@ -39,7 +39,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PlayersGuiControllerTest extends AbstractGuiTemplateTest {
+class PlayersGuiControllerTest extends AbstractTubingGuiTemplateTest {
 
     private static final UUID UUID_PLAYER_1 = java.util.UUID.fromString("a8525382-49ed-4c9c-9c50-c00a0e570159");
     private static final UUID UUID_PLAYER_2 = java.util.UUID.fromString("98095f6e-f1f8-4884-93e9-6cc0c7d9cad1");

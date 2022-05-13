@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.gui.hub;
 
-import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
+import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.domain.player.gui.hub.views.ColorViewBuilder;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class HubGuiControllerTest extends AbstractGuiTemplateTest {
+class HubGuiControllerTest extends AbstractTubingGuiTemplateTest {
 
     @Mock
     private ColorViewBuilder colorViewBuilder;
