@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.gui.hub;
 
-import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
+import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -12,7 +12,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class HubGuiControllerTest extends AbstractGuiTemplateTest {
+class HubGuiControllerTest extends AbstractTubingGuiTemplateTest {
 
     @Captor
     private ArgumentCaptor<String> xmlCaptor;
