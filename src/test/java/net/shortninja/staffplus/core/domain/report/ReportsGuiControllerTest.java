@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.report;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.SppLocation;
-import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
+import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.chatchannels.ChatChannel;
@@ -25,12 +25,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
@@ -43,15 +39,12 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
+class ReportsGuiControllerTest extends AbstractTubingGuiTemplateTest {
 
     private static final long CREATION_DATE = 1630537429182L;
     private static final String TIMESTAMP_FORMAT = "dd/MM/yyyy-HH:mm:ss";
@@ -82,8 +75,6 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
     @Mock
     private ReportConfiguration reportConfiguration;
 
-    @Captor
-    private ArgumentCaptor<String> xmlCaptor;
     private static MockedStatic<GuiUtils> guiUtilsMockedStatic;
 
     @BeforeAll
@@ -129,11 +120,7 @@ class ReportsGuiControllerTest extends AbstractGuiTemplateTest {
         when(reportService.getReport(12)).thenReturn(buildReport());
         when(chatChannelService.findChannel(String.valueOf(12), ChatChannelType.REPORT)).thenReturn(Optional.of(chatChannel));
 
-        guiActionService.executeAction(player, "manage-reports/view/detail?reportId=12");
-
-        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
-        validateMaterials(xmlCaptor.getValue());
-        validateXml(xmlCaptor.getValue(), "/guitemplates/report/report-detail.xml");
+        validateSnapshot(player, "manage-reports/view/detail?reportId=12", "/guitemplates/report/report-detail.xml");
     }
 
     private Report buildReport() {

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.protect;
 
-import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
+import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.protect.ProtectService;
@@ -15,8 +15,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -30,15 +28,13 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class ProtectedAreasGuiControllerTest extends AbstractGuiTemplateTest {
+class ProtectedAreasGuiControllerTest extends AbstractTubingGuiTemplateTest {
 
     private static final long CREATION_DATE = 1630537429182L;
     private static final String TIMESTAMP_FORMAT = "dd/MM/yyyy-HH:mm:ss";
@@ -53,8 +49,6 @@ class ProtectedAreasGuiControllerTest extends AbstractGuiTemplateTest {
     @Mock
     private World world;
 
-    @Captor
-    private ArgumentCaptor<String> xmlCaptor;
     private static MockedStatic<GuiUtils> guiUtilsMockedStatic;
 
     @BeforeAll
@@ -91,29 +85,21 @@ class ProtectedAreasGuiControllerTest extends AbstractGuiTemplateTest {
     public void viewAreasOverview() throws URISyntaxException, IOException {
         when(protectService.getAllProtectedAreasPaginated(0, 45)).thenReturn(Collections.singletonList(buildArea()));
 
-        guiActionService.executeAction(player, "protected-areas/view");
-
-        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
-        validateMaterials(xmlCaptor.getValue());
-        validateXml(xmlCaptor.getValue(), "/guitemplates/protect/areas-overview.xml");
+        validateSnapshot(player, "protected-areas/view", "/guitemplates/protect/areas-overview.xml");
     }
 
     @Test
     public void viewAreasDetail() throws URISyntaxException, IOException {
         when(protectService.getById(12)).thenReturn(buildArea());
 
-        guiActionService.executeAction(player, "protected-areas/view/detail?areaId=12");
-
-        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
-        validateMaterials(xmlCaptor.getValue());
-        validateXml(xmlCaptor.getValue(), "/guitemplates/protect/area-detail.xml");
+        validateSnapshot(player, "protected-areas/view/detail?areaId=12", "/guitemplates/protect/area-detail.xml");
     }
 
     private ProtectedArea buildArea() {
         return new ProtectedArea(12,
             "area",
-            new Location(world, 1,2,3),
-            new Location(world, 4,5,6),
+            new Location(world, 1, 2, 3),
+            new Location(world, 4, 5, 6),
             UUID.fromString("8fc39a71-63ba-4a4b-99e8-66f5791dd377")
         );
     }

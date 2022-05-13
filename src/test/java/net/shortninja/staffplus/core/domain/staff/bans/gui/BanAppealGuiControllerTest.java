@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.bans.gui;
 
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
-import net.shortninja.staffplus.core.common.gui.AbstractGuiTemplateTest;
+import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -18,14 +18,10 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -41,9 +37,7 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
-class BanAppealGuiControllerTest extends AbstractGuiTemplateTest {
+class BanAppealGuiControllerTest extends AbstractTubingGuiTemplateTest {
 
     private static final long CREATION_DATE = 1630537429182L;
     private static final String TIMESTAMP_FORMAT = "dd/MM/yyyy-HH:mm:ss";
