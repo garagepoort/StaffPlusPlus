@@ -41,6 +41,7 @@ public class Messages {
         "lang_id",
         "lang_ru"
     );
+    public static final String NO_PREFIX = "[NO_PREFIX]";
     public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
 
     private final Pattern hexColorPattern = Pattern.compile("#[a-fA-F0-9]{6}");
@@ -450,6 +451,11 @@ public class Messages {
     }
 
     public void send(CommandSender sender, String message, String prefix) {
+        if(message.startsWith(NO_PREFIX)) {
+            prefix = "";
+            message = message.replace(NO_PREFIX, "");
+        }
+
         message = placeholderService.setPlaceholders(sender, message);
         prefix = placeholderService.setPlaceholders(sender, prefix);
         for (String s : message.split("\\n")) {
