@@ -233,6 +233,9 @@ vanish-module:
     # Whether or not to show a message on screen telling the staff member his vanish is enabled
     vanish-message-enabled: true
 
+    # Default vanish mode. Gets used when using the vanish the command without arguments
+    default-mode: TOTAL
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                         Chat                         | #
