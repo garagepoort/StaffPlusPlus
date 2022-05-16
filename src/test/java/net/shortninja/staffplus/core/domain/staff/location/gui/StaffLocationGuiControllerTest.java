@@ -11,6 +11,7 @@ import net.shortninja.staffplus.core.domain.staff.location.StaffLocationNote;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationRepository;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -85,7 +86,7 @@ class StaffLocationGuiControllerTest extends AbstractTubingGuiTemplateTest {
             permissionHandler,
             messages,
             onlineSessionsManager,
-            new StaffLocationFiltersMapper());
+            new StaffLocationFiltersMapper(), guiActionService);
     }
 
     @Test
@@ -124,6 +125,7 @@ class StaffLocationGuiControllerTest extends AbstractTubingGuiTemplateTest {
             location,
             "serverName",
             CREATION_DATE,
-            new StaffLocationNote(13, 12, "My note", UUID.fromString("d38f72ea-551a-4a65-8401-d83465a7f596"), "noteCreatorName", CREATION_DATE));
+            new StaffLocationNote(13, 12, "My note", UUID.fromString("d38f72ea-551a-4a65-8401-d83465a7f596"), "noteCreatorName", CREATION_DATE),
+            Material.PAPER);
     }
 }

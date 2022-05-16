@@ -5,6 +5,7 @@ import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
 import be.garagepoort.mcioc.tubinggui.GuiActionReturnType;
+import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import be.garagepoort.mcioc.tubinggui.GuiController;
 import be.garagepoort.mcioc.tubinggui.GuiParam;
 import be.garagepoort.mcioc.tubinggui.GuiParams;
@@ -13,6 +14,7 @@ import be.garagepoort.mcioc.tubinggui.templates.GuiTemplate;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocation;
@@ -20,11 +22,14 @@ import net.shortninja.staffplus.core.domain.staff.location.StaffLocationNote;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationRepository;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters.StaffLocationFiltersBuilder;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static be.garagepoort.mcioc.tubinggui.AsyncGui.async;
 import static be.garagepoort.mcioc.tubinggui.templates.GuiTemplate.template;
@@ -54,6 +59,9 @@ public class StaffLocationsGuiController {
     @ConfigProperty("%lang%:staff-locations.add-note-chat-info")
     private String addNoteChatInfoMessage;
 
+    @ConfigProperty("staff-locations-module.icons")
+    private List<String> predefinedIcons;
+
     private final StaffLocationRepository staffLocationRepository;
     private final StaffLocationService staffLocationService;
     private final BukkitUtils bukkitUtils;
@@ -61,13 +69,14 @@ public class StaffLocationsGuiController {
     private final Messages messages;
     private final OnlineSessionsManager sessionManager;
     private final StaffLocationFiltersMapper staffLocationFiltersMapper;
+    private final GuiActionService guiActionService;
 
     public StaffLocationsGuiController(StaffLocationRepository staffLocationRepository,
                                        StaffLocationService staffLocationService,
                                        BukkitUtils bukkitUtils,
                                        PermissionHandler permissionHandler,
                                        Messages messages,
-                                       OnlineSessionsManager sessionManager, StaffLocationFiltersMapper staffLocationFiltersMapper) {
+                                       OnlineSessionsManager sessionManager, StaffLocationFiltersMapper staffLocationFiltersMapper, GuiActionService guiActionService) {
         this.staffLocationRepository = staffLocationRepository;
         this.staffLocationService = staffLocationService;
         this.bukkitUtils = bukkitUtils;
@@ -75,6 +84,7 @@ public class StaffLocationsGuiController {
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.staffLocationFiltersMapper = staffLocationFiltersMapper;
+        this.guiActionService = guiActionService;
     }
 
     @GuiAction("staff-locations/view")
@@ -90,7 +100,7 @@ public class StaffLocationsGuiController {
 
     @GuiAction("staff-locations/view/find-locations")
     public AsyncGui<GuiTemplate> viewFindLocations(@GuiParam(value = "page", defaultValue = "0") int page,
-                                                 @GuiParams Map<String, String> allParams) {
+                                                   @GuiParams Map<String, String> allParams) {
         return async(() -> {
             StaffLocationFiltersBuilder filtersBuilder = new StaffLocationFiltersBuilder();
             allParams.forEach((k, v) -> staffLocationFiltersMapper.map(k, v, filtersBuilder));
@@ -102,8 +112,8 @@ public class StaffLocationsGuiController {
         });
     }
 
-    @GuiAction("staff-locations/create")
-    public void createStaffLocation(Player player) {
+    @GuiAction("staff-locations/create-flow/select-name")
+    public void createFlowSelectName(Player player) {
         permissionHandler.validate(player, createPermission);
         bukkitUtils.runTaskAsync(player, () -> {
             messages.send(player, addChatInfoMessage, prefix);
@@ -113,9 +123,35 @@ public class StaffLocationsGuiController {
                     messages.send(player, "&CYou have cancelled saving this location", prefix);
                     return;
                 }
-                bukkitUtils.runTaskAsync(player, () -> staffLocationService.saveLocation(player, message));
+                guiActionService.executeAction(player, GuiActionBuilder.fromAction("staff-locations/create-flow/select-icon")
+                    .param("locationName", message)
+                    .build());
             });
         });
+    }
+
+    @GuiAction("staff-locations/create-flow/select-icon")
+    public GuiTemplate createFlowSelectIcon(@GuiParam("locationName") String locationName,
+                                            @GuiParam(value = "page", defaultValue = "0") int page) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("locationName", locationName);
+        List<String> allIcons = predefinedIcons.isEmpty() ? Arrays.stream(Material.values())
+            .filter(this::isNotAir)
+            .map(Enum::name).collect(Collectors.toList()) : predefinedIcons;
+        params.put("icons", JavaUtils.getPageOfList(allIcons, page, 45));
+        return template("gui/staff-locations/select-icon.ftl", params);
+    }
+
+    private boolean isNotAir(Material m) {
+        return m != Material.AIR && m != Material.CAVE_AIR && m != Material.LEGACY_AIR && m != Material.VOID_AIR;
+    }
+
+    @GuiAction("staff-locations/create-flow/save")
+    public void createLocation(Player player,
+                               @GuiParam("locationName") String locationName,
+                               @GuiParam("locationIcon") String locationIcon) {
+        permissionHandler.validate(player, createPermission);
+        bukkitUtils.runTaskAsync(player, () -> staffLocationService.saveLocation(player, locationName, Material.valueOf(locationIcon)));
     }
 
     @GuiAction("staff-locations/teleport")
