@@ -9,7 +9,7 @@
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
         onMiddleClick="${onMiddleClick}"
-        material="PAPER">
+        material="${location.icon}">
         <name class="item-name" color="&3">${location.name}</name>
         <Lore>
             <LoreLine>
