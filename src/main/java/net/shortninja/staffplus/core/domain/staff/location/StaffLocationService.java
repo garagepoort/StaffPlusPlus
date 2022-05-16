@@ -15,6 +15,7 @@ import net.shortninja.staffplusplus.stafflocations.StaffLocationNoteDeletedEvent
 import net.shortninja.staffplusplus.stafflocations.StaffLocationTeleportedEvent;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -41,8 +42,8 @@ public class StaffLocationService {
         this.actionService = actionService;
     }
 
-    public StaffLocation saveLocation(Player player, String name) {
-        StaffLocation staffLocation = new StaffLocation(name, player, player.getLocation());
+    public StaffLocation saveLocation(Player player, String name, Material icon) {
+        StaffLocation staffLocation = new StaffLocation(name, player, player.getLocation(), icon);
         int id = staffLocationRepository.saveStaffLocation(player, staffLocation);
         staffLocation.setId(id);
 
