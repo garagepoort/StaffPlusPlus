@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.location;
 
 import net.shortninja.staffplusplus.stafflocations.IStaffLocation;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -17,8 +18,9 @@ public class StaffLocation implements IStaffLocation {
     private String serverName;
     private final long creationTimestamp;
     private StaffLocationNote newestNote;
+    private final Material icon;
 
-    public StaffLocation(int id, String name, String creatorName, UUID creatorUuid, Location location, String serverName, long creationTimestamp, StaffLocationNote newestNote) {
+    public StaffLocation(int id, String name, String creatorName, UUID creatorUuid, Location location, String serverName, long creationTimestamp, StaffLocationNote newestNote, Material icon) {
         this.id = id;
         this.name = name;
         this.creatorName = creatorName;
@@ -27,13 +29,15 @@ public class StaffLocation implements IStaffLocation {
         this.serverName = serverName;
         this.creationTimestamp = creationTimestamp;
         this.newestNote = newestNote;
+        this.icon = icon;
     }
 
-    public StaffLocation(String name, Player player, Location location) {
+    public StaffLocation(String name, Player player, Location location, Material icon) {
         this.name = name;
         this.creatorName = player.getName();
         this.creatorUuid = player.getUniqueId();
         this.location = location;
+        this.icon = icon;
         this.creationTimestamp = System.currentTimeMillis();
     }
 
@@ -78,5 +82,9 @@ public class StaffLocation implements IStaffLocation {
     @Override
     public String getServerName() {
         return serverName;
+    }
+
+    public Material getIcon() {
+        return icon;
     }
 }
