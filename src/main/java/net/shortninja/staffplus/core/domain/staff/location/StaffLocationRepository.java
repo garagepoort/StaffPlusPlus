@@ -3,10 +3,12 @@ package net.shortninja.staffplus.core.domain.staff.location;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.location.LocationRepository;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -41,13 +43,14 @@ public class StaffLocationRepository {
         int locationId = locationRepository.addLocation(staffLocation.getLocation());
 
         return query.create()
-            .insertQuery("INSERT INTO sp_staff_locations(name, location_id, creator_name, creator_uuid, server_name, creation_timestamp) VALUES (?, ?, ?, ?, ?, ?)", insert -> {
+            .insertQuery("INSERT INTO sp_staff_locations(name, location_id, icon, creator_name, creator_uuid, server_name, creation_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)", insert -> {
                 insert.setString(1, staffLocation.getName());
                 insert.setLong(2, locationId);
-                insert.setString(3, player.getName());
-                insert.setString(4, player.getUniqueId().toString());
-                insert.setString(5, options.serverName);
-                insert.setLong(6, staffLocation.getCreationTimestamp());
+                insert.setString(3, staffLocation.getIcon().name());
+                insert.setString(4, player.getName());
+                insert.setString(5, player.getUniqueId().toString());
+                insert.setString(6, options.serverName);
+                insert.setLong(7, staffLocation.getCreationTimestamp());
             });
     }
 
@@ -78,32 +81,34 @@ public class StaffLocationRepository {
         UUID creatorUuid = UUID.fromString(resultSet.getString("creator_uuid"));
         String creatorName = resultSet.getString("creator_name");
         String serverName = resultSet.getString("server_name");
+        Material icon = JavaUtils.isValidEnum(Material.class, resultSet.getString("icon")) ? Material.valueOf(resultSet.getString("icon")) : Material.PAPER;
 
-        double locationX = resultSet.getDouble(9);
-        double locationY = resultSet.getDouble(10);
-        double locationZ = resultSet.getDouble(11);
-        String worldName = resultSet.getString(12);
+        double locationX = resultSet.getDouble(10);
+        double locationY = resultSet.getDouble(11);
+        double locationZ = resultSet.getDouble(12);
+        String worldName = resultSet.getString(13);
         World locationWorld = Bukkit.getServer().getWorld(worldName);
         Location location = new Location(locationWorld, locationX, locationY, locationZ);
 
         StaffLocationNote staffLocationNote = null;
-        resultSet.getInt(14);
+        resultSet.getInt(15);
         if (!resultSet.wasNull()) {
-            int noteId = resultSet.getInt(14);
-            int locationId = resultSet.getInt(15);
-            String note = resultSet.getString(16);
-            UUID linkedByUuid = UUID.fromString(resultSet.getString(17));
-            String notedByName = resultSet.getString(18);
+            int noteId = resultSet.getInt(15);
+            int locationId = resultSet.getInt(16);
+            String note = resultSet.getString(17);
+            UUID linkedByUuid = UUID.fromString(resultSet.getString(18));
+            String notedByName = resultSet.getString(19);
+            long timestamp = resultSet.getLong(20);
             staffLocationNote = new StaffLocationNote(
                 noteId,
                 locationId,
                 note,
                 linkedByUuid,
                 notedByName,
-                resultSet.getLong(19));
+                timestamp);
         }
 
-        return new StaffLocation(id, name, creatorName, creatorUuid, location, serverName, creationTimestamp, staffLocationNote);
+        return new StaffLocation(id, name, creatorName, creatorUuid, location, serverName, creationTimestamp, staffLocationNote, icon);
     }
 
     public Optional<StaffLocation> getById(int locationId) {
