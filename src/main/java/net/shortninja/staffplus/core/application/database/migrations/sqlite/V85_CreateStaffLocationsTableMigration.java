@@ -8,12 +8,12 @@ import java.util.List;
 public class V85_CreateStaffLocationsTableMigration implements Migration {
     @Override
     public List<String> getStatements() {
-        String staffLocations = "CREATE TABLE IF NOT EXISTS sp_chat_channels (  " +
+        String staffLocations = "CREATE TABLE IF NOT EXISTS sp_staff_locations (  " +
             "ID integer PRIMARY KEY,  " +
             "name VARCHAR(255) NOT NULL, " +
+            "location_id integer NOT NULL, " +
             "creator_uuid VARCHAR(36) NOT NULL, " +
             "creator_name VARCHAR(36) NOT NULL, " +
-            "location_id integer NOT NULL, " +
             "server_name VARCHAR(255) NOT NULL, " +
             "creation_timestamp BIGINT NOT NULL, " +
             "FOREIGN KEY (location_id) REFERENCES sp_locations(id) ON DELETE CASCADE);";

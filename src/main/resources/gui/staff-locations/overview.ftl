@@ -32,7 +32,7 @@
         <GuiItem
             id="staff-location-create"
             slot="50"
-            onLeftClick="staff-locations/create"
+            onLeftClick="staff-locations/create-flow/select-name"
             material="BOOK"
         >
             <name class="item-name" color="&7">Save this location</name>
