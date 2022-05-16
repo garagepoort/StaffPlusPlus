@@ -2,6 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -15,6 +17,7 @@ import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
+import net.shortninja.staffplus.core.domain.staff.vanish.config.VanishTypeConfigTransformer;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.command.CommandSender;
@@ -47,6 +50,10 @@ public class VanishCmd extends AbstractCmd {
     private final OnlineSessionsManager sessionManager;
     private final BukkitUtils bukkitUtils;
 
+    @ConfigProperty("vanish-module.default-mode")
+    @ConfigTransformer(VanishTypeConfigTransformer.class)
+    private VanishType defaultVanishType;
+
     public VanishCmd(Messages messages,
                      VanishServiceImpl vanishServiceImpl,
                      CommandService commandService,
@@ -64,11 +71,10 @@ public class VanishCmd extends AbstractCmd {
         this.bukkitUtils = bukkitUtils;
     }
 
-
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer targetPlayer, Map<String, String> optionalParameters) {
 
-        VanishType vanishType = VanishType.valueOf(args[0].toUpperCase());
+        VanishType vanishType = args.length != 0 ? VanishType.valueOf(args[0].toUpperCase()) : defaultVanishType;
 
         if (args.length >= 3 && sender.isOp()) {
             bukkitUtils.runTaskAsync(sender, () -> {
@@ -87,20 +93,15 @@ public class VanishCmd extends AbstractCmd {
             return true;
         }
 
-        if (args.length == 1) {
-            validateIsPlayer(sender);
-            bukkitUtils.runTaskAsync(sender, () -> handleVanishArgument(vanishType, (Player) sender, true));
-            return true;
-        }
-
-        sendHelp(sender);
+        validateIsPlayer(sender);
+        bukkitUtils.runTaskAsync(sender, () -> handleVanishArgument(vanishType, (Player) sender, true));
         return true;
     }
 
     @Override
     protected int getMinimumArguments(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
-            return 1;
+            return 0;
         }
         return 2;
     }
@@ -129,7 +130,6 @@ public class VanishCmd extends AbstractCmd {
                 .filter(s -> args[1].isEmpty() || s.contains(args[1]))
                 .collect(Collectors.toList());
         }
-
 
         if (args.length == 3) {
             return Stream.of("enable", "disable")
