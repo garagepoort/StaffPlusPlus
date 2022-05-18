@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -23,13 +24,20 @@ public class TotalVanishStrategy implements VanishStrategy {
     private final Messages messages;
     private final OnlineSessionsManager sessionManager;
     private final PlayerManager playerManager;
+    private final IProtocolService protocolService;
 
-    public TotalVanishStrategy(VanishConfiguration vanishConfiguration, PermissionHandler permission, Messages messages, OnlineSessionsManager sessionManager, PlayerManager playerManager) {
+    public TotalVanishStrategy(VanishConfiguration vanishConfiguration,
+                               PermissionHandler permission,
+                               Messages messages,
+                               OnlineSessionsManager sessionManager,
+                               PlayerManager playerManager,
+                               IProtocolService protocolService) {
         this.vanishConfiguration = vanishConfiguration;
         this.permission = permission;
         this.messages = messages;
         this.sessionManager = sessionManager;
         this.playerManager = playerManager;
+        this.protocolService = protocolService;
     }
 
     @Override
@@ -37,6 +45,7 @@ public class TotalVanishStrategy implements VanishStrategy {
         Bukkit.getOnlinePlayers().stream()
             .filter(p -> !permission.has(p, vanishConfiguration.permissionSeeVanished))
             .forEach(p -> p.hidePlayer(player));
+        listVanish(player, true);
 
         String message = messages.totalVanish.replace("%status%", messages.enabled);
         if (StringUtils.isNotEmpty(message)) {
@@ -52,12 +61,22 @@ public class TotalVanishStrategy implements VanishStrategy {
                 .map(s -> playerManager.getOnlinePlayer(s.getUuid()))
                 .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty))
                 .map(SppPlayer::getPlayer)
-                .forEach(p -> player.hidePlayer(p.getPlayer()));
+                .forEach(p -> {
+                    player.hidePlayer(p.getPlayer());
+                    listVanish(player, true);
+                });
+        }
+    }
+
+    private void listVanish(Player player, boolean enabled) {
+        if (vanishConfiguration.vanishTabList) {
+            protocolService.getVersionProtocol().listVanish(player, enabled);
         }
     }
 
     @Override
     public void unvanish(Player player) {
+        listVanish(player, false);
         Bukkit.getOnlinePlayers().forEach(p -> p.showPlayer(player));
 
         String message = messages.totalVanish.replace("%status%", messages.disabled);
@@ -70,5 +89,4 @@ public class TotalVanishStrategy implements VanishStrategy {
     public VanishType getVanishType() {
         return VanishType.TOTAL;
     }
-
 }
