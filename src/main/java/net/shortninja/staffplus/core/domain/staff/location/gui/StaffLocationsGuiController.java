@@ -143,7 +143,7 @@ public class StaffLocationsGuiController {
     }
 
     private boolean isNotAir(Material m) {
-        return m != Material.AIR && m != Material.CAVE_AIR && m != Material.LEGACY_AIR && m != Material.VOID_AIR;
+        return m != Material.AIR;
     }
 
     @GuiAction("staff-locations/create-flow/save")
