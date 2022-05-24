@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.location.gui;
 
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
@@ -21,6 +22,8 @@ import net.shortninja.staffplus.core.domain.staff.location.StaffLocation;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationNote;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationRepository;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
+import net.shortninja.staffplus.core.domain.staff.location.config.StaffLocationIconConfig;
+import net.shortninja.staffplus.core.domain.staff.location.config.StaffLocationIconConfigTransformer;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters.StaffLocationFiltersBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -60,7 +63,8 @@ public class StaffLocationsGuiController {
     private String addNoteChatInfoMessage;
 
     @ConfigProperty("staff-locations-module.icons")
-    private List<String> predefinedIcons;
+    @ConfigTransformer(StaffLocationIconConfigTransformer.class)
+    private List<StaffLocationIconConfig> predefinedIcons;
 
     private final StaffLocationRepository staffLocationRepository;
     private final StaffLocationService staffLocationService;
@@ -135,9 +139,9 @@ public class StaffLocationsGuiController {
                                             @GuiParam(value = "page", defaultValue = "0") int page) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("locationName", locationName);
-        List<String> allIcons = predefinedIcons.isEmpty() ? Arrays.stream(Material.values())
+        List<StaffLocationIconConfig> allIcons = predefinedIcons.isEmpty() ? Arrays.stream(Material.values())
             .filter(this::isNotAir)
-            .map(Enum::name).collect(Collectors.toList()) : predefinedIcons;
+            .map(m -> new StaffLocationIconConfig(m.name(), "")).collect(Collectors.toList()) : predefinedIcons;
         params.put("icons", JavaUtils.getPageOfList(allIcons, page, 45));
         return template("gui/staff-locations/select-icon.ftl", params);
     }
