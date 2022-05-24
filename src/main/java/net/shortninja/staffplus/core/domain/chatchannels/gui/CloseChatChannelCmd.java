@@ -15,6 +15,7 @@ import net.shortninja.staffplusplus.chatchannels.ChatChannelType;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.N
 @Command(
     command = "commands:chatchannels.close",
     description = "Close an existing chat channel",
-    usage = "[channelName]",
+    usage = "[channelType] [channelName]",
     playerRetrievalStrategy = NONE
 )
 @IocBean
@@ -75,6 +76,13 @@ public class CloseChatChannelCmd extends AbstractCmd {
 
         if (args.length == 1) {
             return chatChannelService.getAllChannelNames().stream()
+                .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
+                .collect(Collectors.toList());
+        }
+
+        if (args.length == 2) {
+            return Arrays.stream(ChatChannelType.values())
+                .map(Enum::name)
                 .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
                 .collect(Collectors.toList());
         }
