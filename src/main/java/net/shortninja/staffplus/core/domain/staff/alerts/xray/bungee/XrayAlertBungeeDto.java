@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.xray.bungee;
 
-import net.shortninja.staffplus.core.common.SppLocation;
+import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplus.core.common.bungee.BungeeMessage;
 import net.shortninja.staffplusplus.xray.XrayEvent;
 import org.bukkit.Location;
@@ -27,7 +27,7 @@ public class XrayAlertBungeeDto extends BungeeMessage {
         this.type = xrayEvent.getType().name();
         this.lightLevel = xrayEvent.getLightLevel();
         Location location = xrayEvent.getLocation();
-        this.location = new SppLocation(location.getWorld().getName(), location.getX(), location.getY(), location.getZ(), xrayEvent.getServerName());
+        this.location = new SppLocation(location, xrayEvent.getServerName());
     }
 
     public String getPlayerName() {

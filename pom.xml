@@ -34,7 +34,7 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>6.2.6</version>
+                <version>6.2.7</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -134,7 +134,7 @@
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>tubing-gui</artifactId>
-            <version>1.3.3</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>

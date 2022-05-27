@@ -7,9 +7,13 @@ import net.shortninja.staffplus.core.common.bungee.ServerSwitcher;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
+import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationCreatedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationDeletedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters;
+import net.shortninja.staffplusplus.stafflocations.StaffLocationIconChangedEvent;
+import net.shortninja.staffplusplus.stafflocations.StaffLocationLocationChangedEvent;
+import net.shortninja.staffplusplus.stafflocations.StaffLocationNameChangedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationNoteCreatedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationNoteDeletedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationTeleportedEvent;
@@ -43,7 +47,7 @@ public class StaffLocationService {
     }
 
     public StaffLocation saveLocation(Player player, String name, Material icon) {
-        StaffLocation staffLocation = new StaffLocation(name, player, player.getLocation(), icon);
+        StaffLocation staffLocation = new StaffLocation(name, player, new SppLocation(player.getLocation(), options.serverName), icon);
         int id = staffLocationRepository.saveStaffLocation(player, staffLocation);
         staffLocation.setId(id);
 
@@ -117,5 +121,32 @@ public class StaffLocationService {
 
     public List<StaffLocation> findLocations(StaffLocationFilters staffLocationFilters, int offset, int amount) {
         return staffLocationRepository.findLocations(staffLocationFilters, offset, amount);
+    }
+
+    public void updateName(Player player, int staffLocationId, String name) {
+        StaffLocation staffLocation = getStaffLocation(staffLocationId);
+        staffLocation.setName(name);
+        staffLocationRepository.updateStaffLocation(staffLocation);
+        sendEvent(new StaffLocationNameChangedEvent(player, staffLocation));
+    }
+
+    public void updateIcon(Player player, int staffLocationId, Material icon) {
+        StaffLocation staffLocation = getStaffLocation(staffLocationId);
+        staffLocation.setIcon(icon);
+        staffLocationRepository.updateStaffLocation(staffLocation);
+        sendEvent(new StaffLocationIconChangedEvent(player, staffLocation));
+    }
+
+    public void updateLocation(Player player, int locationId) {
+        StaffLocation staffLocation = getStaffLocation(locationId);
+        SppLocation sppLocation = staffLocation.getSppLocation();
+        sppLocation.setWorldName(player.getLocation().getWorld().getName());
+        sppLocation.setServerName(options.serverName);
+        sppLocation.setX(player.getLocation().getX());
+        sppLocation.setY(player.getLocation().getY());
+        sppLocation.setZ(player.getLocation().getZ());
+
+        staffLocationRepository.updateStaffLocation(staffLocation);
+        sendEvent(new StaffLocationLocationChangedEvent(player, staffLocation));
     }
 }
