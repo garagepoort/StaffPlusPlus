@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.database;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
-import net.shortninja.staffplus.core.common.SppLocation;
+import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplus.core.domain.location.LocationRepository;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.reporting.Report;
@@ -279,7 +279,7 @@ public class ReportRepositoryImpl implements ReportRepository {
         String type = rs.getString("type");
         Location location = null;
         SppLocation sppLocation = null;
-        rs.getInt(16);
+        int locationId = rs.getInt(16);
 
         if (!rs.wasNull()) {
             double locationX = rs.getDouble(17);
@@ -288,7 +288,7 @@ public class ReportRepositoryImpl implements ReportRepository {
             String worldName = rs.getString(20);
             World locationWorld = Bukkit.getServer().getWorld(worldName);
             location = new Location(locationWorld, locationX, locationY, locationZ);
-            sppLocation = new SppLocation(worldName, locationX, locationY, locationZ, serverName);
+            sppLocation = new SppLocation(locationId, worldName, locationX, locationY, locationZ, serverName);
         }
 
         return new Report(playerUUID, culpritName, id,
