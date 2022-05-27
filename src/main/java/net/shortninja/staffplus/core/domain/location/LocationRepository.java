@@ -6,10 +6,13 @@ import java.util.Optional;
 
 public interface LocationRepository {
 
+    int addLocation(SppLocation location);
+
     int addLocation(Location location);
 
     void removeLocation(int id);
 
-    Optional<Location> findLocation(int id);
+    Optional<SppLocation> findLocation(int id);
 
+    void updateLocation(SppLocation sppLocation);
 }

@@ -5,11 +5,9 @@ import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.location.LocationRepository;
+import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
@@ -40,7 +38,7 @@ public class StaffLocationRepository {
     }
 
     public int saveStaffLocation(Player player, StaffLocation staffLocation) {
-        int locationId = locationRepository.addLocation(staffLocation.getLocation());
+        int locationId = locationRepository.addLocation(staffLocation.getSppLocation());
 
         return query.create()
             .insertQuery("INSERT INTO sp_staff_locations(name, location_id, icon, creator_name, creator_uuid, server_name, creation_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)", insert -> {
@@ -52,6 +50,17 @@ public class StaffLocationRepository {
                 insert.setString(6, options.serverName);
                 insert.setLong(7, staffLocation.getCreationTimestamp());
             });
+    }
+
+    public void updateStaffLocation(StaffLocation staffLocation) {
+        locationRepository.updateLocation(staffLocation.getSppLocation());
+        query.create()
+            .updateQuery("UPDATE sp_staff_locations SET name = ? , icon = ? WHERE ID = ?",
+                update -> {
+                    update.setString(1, staffLocation.getName());
+                    update.setString(2, staffLocation.getIcon().name());
+                    update.setLong(3, staffLocation.getId());
+                });
     }
 
     public List<StaffLocation> getStaffLocations(int offset, int amount) {
@@ -83,25 +92,27 @@ public class StaffLocationRepository {
         String serverName = resultSet.getString("server_name");
         Material icon = JavaUtils.isValidEnum(Material.class, resultSet.getString("icon")) ? Material.valueOf(resultSet.getString("icon")) : Material.PAPER;
 
+        int locationId = resultSet.getInt(9);
         double locationX = resultSet.getDouble(10);
         double locationY = resultSet.getDouble(11);
         double locationZ = resultSet.getDouble(12);
         String worldName = resultSet.getString(13);
-        World locationWorld = Bukkit.getServer().getWorld(worldName);
-        Location location = new Location(locationWorld, locationX, locationY, locationZ);
+        String locationServerName = resultSet.getString(14);
+
+        SppLocation location = new SppLocation(locationId, worldName, locationX, locationY, locationZ, locationServerName);
 
         StaffLocationNote staffLocationNote = null;
         resultSet.getInt(15);
         if (!resultSet.wasNull()) {
             int noteId = resultSet.getInt(15);
-            int locationId = resultSet.getInt(16);
+            int staffLocationId = resultSet.getInt(16);
             String note = resultSet.getString(17);
             UUID linkedByUuid = UUID.fromString(resultSet.getString(18));
             String notedByName = resultSet.getString(19);
             long timestamp = resultSet.getLong(20);
             staffLocationNote = new StaffLocationNote(
                 noteId,
-                locationId,
+                staffLocationId,
                 note,
                 linkedByUuid,
                 notedByName,

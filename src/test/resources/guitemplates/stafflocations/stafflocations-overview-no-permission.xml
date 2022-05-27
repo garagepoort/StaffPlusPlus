@@ -1,6 +1,6 @@
 <TubingGui size="54" id="staff-locations-overview">
     <title class="gui-title">Saved locations</title>
-    <GuiItem id="staff-location-info-0" class="staff-location-info" slot="0" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PAPER">
+    <GuiItem id="staff-location-info-0" class="staff-location-info" slot="0" onLeftClick="$NOOP" onRightClick="staff-locations/view/detail?locationId=12" onMiddleClick="$NOOP" onLeftShiftClick="$NOOP" material="PAPER">
         <name class="item-name" color="&amp;3">stafflocation</name>
         <Lore>
             <LoreLine>
@@ -25,6 +25,8 @@
             <LoreLine>
                 <t color="&amp;6" id="note-value" class="detail-value">   My note</t>
             </LoreLine>
+            <LoreLine></LoreLine>
+            <LoreLine>&amp;7Right click to view notes and options</LoreLine>
         </Lore>
     </GuiItem>
     <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_STAINED_GLASS_PANE">
