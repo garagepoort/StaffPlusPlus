@@ -11,26 +11,26 @@
             class="staff-location-note-info"
             slot="${note?index}"
                 <#if $permissions.has(player, $config.get("permissions:staff-locations.delete-note"))>
-                    onRightClick="staff-location-notes/view/delete?noteId=${note.id}&locationId=${locationId}"
+                    onLeftShiftClick="staff-location-notes/view/delete?noteId=${note.id}&locationId=${locationId}"
                 </#if>
             material="PAPER">
             <name class="item-name" color="&C">NOTE: ${note.id}</name>
             <Lore>
                 <LoreLine>
-                    <t color="&b" id="id-label" class="detail-label">Id:</t>
+                    <t color="&b" id="id-label" class="detail-label">Id: </t>
                     <t color="&6" id="id-value" class="detail-value">${note.id}</t>
                 </LoreLine>
                 <LoreLine>
-                    <t color="&b" id="noted-by-label" class="detail-label">Noted by:</t>
+                    <t color="&b" id="noted-by-label" class="detail-label">Noted by: </t>
                     <t color="&6" id="noted-by-value" class="detail-value">${note.notedByName}</t>
                 </LoreLine>
                 <LoreLine>
-                    <t color="&b" id="noted-on-label" class="detail-label">Noted on:</t>
+                    <t color="&b" id="noted-on-label" class="detail-label">Noted on: </t>
                     <t color="&6" id="noted-on-value"
                        class="detail-value">${GuiUtils.parseTimestampSeconds(note.creationTimestamp, $config.get("timestamp-format"))}</t>
                 </LoreLine>
                 <LoreLine>
-                    <t color="&b" id="note-label" class="detail-label">Note:</t>
+                    <t color="&b" id="note-label" class="detail-label">Note: </t>
                 </LoreLine>
                 <#list JavaUtils.formatLines(note.note, 30) as reasonLine>
                     <LoreLine>
@@ -41,7 +41,7 @@
                 <LoreLine></LoreLine>
 
                 <LoreLine permission="config|permissions:staff-locations.delete-note">
-                    <t id="delete-action-label" color="&C">Right click to delete note</t>
+                    <t id="delete-action-label" color="&C">Shift click to delete note</t>
                 </LoreLine>
             </Lore>
         </GuiItem>

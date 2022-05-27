@@ -6,6 +6,9 @@ import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationCreatedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationDeletedEvent;
+import net.shortninja.staffplusplus.stafflocations.StaffLocationIconChangedEvent;
+import net.shortninja.staffplusplus.stafflocations.StaffLocationLocationChangedEvent;
+import net.shortninja.staffplusplus.stafflocations.StaffLocationNameChangedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationNoteCreatedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationNoteDeletedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationTeleportedEvent;
@@ -22,6 +25,8 @@ public class StaffLocationsChatNotifier implements Listener {
     private String prefix;
     @ConfigProperty("%lang%:staff-locations.created")
     private String createdMessage;
+    @ConfigProperty("%lang%:staff-locations.updated")
+    private String updatedMessage;
     @ConfigProperty("%lang%:staff-locations.deleted")
     private String deletedMessage;
     @ConfigProperty("%lang%:staff-locations.teleported")
@@ -39,6 +44,21 @@ public class StaffLocationsChatNotifier implements Listener {
     @EventHandler
     public void staffLocationCreated(StaffLocationCreatedEvent event) {
         playerManager.getOnlinePlayer(event.getStaffLocation().getCreatorUuid()).ifPresent(p -> messages.send(p, createdMessage, prefix));
+    }
+
+    @EventHandler
+    public void staffLocationNameChanged(StaffLocationNameChangedEvent event) {
+        messages.send(event.getEditedBy(), updatedMessage, prefix);
+    }
+
+    @EventHandler
+    public void staffLocationIconChanged(StaffLocationIconChangedEvent event) {
+        messages.send(event.getEditedBy(), updatedMessage, prefix);
+    }
+
+    @EventHandler
+    public void staffLocationLocationChanged(StaffLocationLocationChangedEvent event) {
+        messages.send(event.getEditedBy(), updatedMessage, prefix);
     }
 
     @EventHandler

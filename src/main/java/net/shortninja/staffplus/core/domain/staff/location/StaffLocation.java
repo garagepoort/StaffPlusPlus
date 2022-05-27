@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.location;
 
+import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplusplus.stafflocations.IStaffLocation;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,32 +12,40 @@ import java.util.UUID;
 public class StaffLocation implements IStaffLocation {
 
     private int id;
-    private final String name;
+    private String name;
     private final String creatorName;
     private final UUID creatorUuid;
-    private final Location location;
+    private SppLocation sppLocation;
     private String serverName;
     private final long creationTimestamp;
     private StaffLocationNote newestNote;
-    private final Material icon;
+    private Material icon;
 
-    public StaffLocation(int id, String name, String creatorName, UUID creatorUuid, Location location, String serverName, long creationTimestamp, StaffLocationNote newestNote, Material icon) {
+    public StaffLocation(int id,
+                         String name,
+                         String creatorName,
+                         UUID creatorUuid,
+                         SppLocation sppLocation,
+                         String serverName,
+                         long creationTimestamp,
+                         StaffLocationNote newestNote,
+                         Material icon) {
         this.id = id;
         this.name = name;
         this.creatorName = creatorName;
         this.creatorUuid = creatorUuid;
-        this.location = location;
+        this.sppLocation = sppLocation;
         this.serverName = serverName;
         this.creationTimestamp = creationTimestamp;
         this.newestNote = newestNote;
         this.icon = icon;
     }
 
-    public StaffLocation(String name, Player player, Location location, Material icon) {
+    public StaffLocation(String name, Player player, SppLocation sppLocation, Material icon) {
         this.name = name;
         this.creatorName = player.getName();
         this.creatorUuid = player.getUniqueId();
-        this.location = location;
+        this.sppLocation = sppLocation;
         this.icon = icon;
         this.creationTimestamp = System.currentTimeMillis();
     }
@@ -56,9 +65,12 @@ public class StaffLocation implements IStaffLocation {
         return name;
     }
 
-    @Override
+    public SppLocation getSppLocation() {
+        return sppLocation;
+    }
+
     public Location getLocation() {
-        return location;
+        return sppLocation.toLocation();
     }
 
     public void setId(int id) {
@@ -86,5 +98,17 @@ public class StaffLocation implements IStaffLocation {
 
     public Material getIcon() {
         return icon;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIcon(Material icon) {
+        this.icon = icon;
+    }
+
+    public void setSppLocation(SppLocation sppLocation) {
+        this.sppLocation = sppLocation;
     }
 }
