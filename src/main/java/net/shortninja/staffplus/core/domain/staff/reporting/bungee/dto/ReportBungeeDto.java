@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto;
 
-import net.shortninja.staffplus.core.common.SppLocation;
+import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplus.core.common.bungee.BungeeMessage;
 import net.shortninja.staffplusplus.ILocation;
 import net.shortninja.staffplusplus.reports.IReport;

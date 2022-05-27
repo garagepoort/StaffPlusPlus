@@ -1,0 +1,92 @@
+<TubingGui size="54" id="staff-location-detail">
+   <title class="gui-title">Manage Staff location</title>
+   <GuiItem id="location-info" class="staff-location-info" slot="13" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" onLeftShiftClick="$NOOP" material="PAPER">
+      <name class="item-name" color="&amp;3">stafflocation</name>
+      <Lore>
+         <LoreLine>
+            <t color="&amp;b" id="id-label" class="detail-label">Id: </t>
+            <t color="&amp;6" id="id-value" class="detail-value">12</t>
+         </LoreLine>
+         <LoreLine>
+            <t color="&amp;b" id="name-label" class="detail-label">Name: </t>
+            <t color="&amp;6" id="name-value" class="detail-value">stafflocation</t>
+         </LoreLine>
+         <LoreLine>
+            <t color="&amp;b" id="world-label" class="detail-label">Location: </t>
+            <t color="&amp;6" id="world-value" class="detail-value">world | 1 2 3</t>
+         </LoreLine>
+         <LoreLine>
+            <t color="&amp;b" id="created-on-label" class="detail-label">Created on: </t>
+            <t color="&amp;6" id="created-on-value" class="detail-value">01/09/2021-01:11:15</t>
+         </LoreLine>
+         <LoreLine>
+            <t color="&amp;b" id="note-label" class="detail-label">Newest note:</t>
+         </LoreLine>
+         <LoreLine>
+            <t color="&amp;6" id="note-value" class="detail-value">   My note</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+       <GuiItem slot="11" id="notes-overview" material="PAPER" onLeftClick="staff-location-notes/view?locationId=12">
+      <name class="item-name">Notes</name>
+      <Lore>
+         <LoreLine>
+            <t id="notes-overview-label">Go to notes overview</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="staff-location-options" slot="15" onLeftClick="staff-locations/view/options?locationId=12" material="NETHER_STAR">
+      <name class="item-name" color="&amp;7">Edit</name>
+   </GuiItem>
+   <GuiItem slot="30" id="resume-0" material="RED_STAINED_GLASS_PANE" onLeftClick="staff-locations/view/delete-confirmation?locationId=12&amp;locationName=stafflocation">
+      <name class="item-name">Delete</name>
+      <Lore>
+         <LoreLine>
+            <t id="resume-action-label">Click to delete this location</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="31" id="resume-1" material="RED_STAINED_GLASS_PANE" onLeftClick="staff-locations/view/delete-confirmation?locationId=12&amp;locationName=stafflocation">
+      <name class="item-name">Delete</name>
+      <Lore>
+         <LoreLine>
+            <t id="resume-action-label">Click to delete this location</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="32" id="resume-2" material="RED_STAINED_GLASS_PANE" onLeftClick="staff-locations/view/delete-confirmation?locationId=12&amp;locationName=stafflocation">
+      <name class="item-name">Delete</name>
+      <Lore>
+         <LoreLine>
+            <t id="resume-action-label">Click to delete this location</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="39" id="resume-3" material="RED_STAINED_GLASS_PANE" onLeftClick="staff-locations/view/delete-confirmation?locationId=12&amp;locationName=stafflocation">
+      <name class="item-name">Delete</name>
+      <Lore>
+         <LoreLine>
+            <t id="resume-action-label">Click to delete this location</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="40" id="resume-4" material="RED_STAINED_GLASS_PANE" onLeftClick="staff-locations/view/delete-confirmation?locationId=12&amp;locationName=stafflocation">
+      <name class="item-name">Delete</name>
+      <Lore>
+         <LoreLine>
+            <t id="resume-action-label">Click to delete this location</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="41" id="resume-5" material="RED_STAINED_GLASS_PANE" onLeftClick="staff-locations/view/delete-confirmation?locationId=12&amp;locationName=stafflocation">
+      <name class="item-name">Delete</name>
+      <Lore>
+         <LoreLine>
+            <t id="resume-action-label">Click to delete this location</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="49" id="back-button" class="back-button" onLeftClick="$BACK" material="SPRUCE_DOOR">
+      <name class="item-name">Back</name>
+   </GuiItem>
+</TubingGui>

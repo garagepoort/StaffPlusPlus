@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting;
 
-import net.shortninja.staffplus.core.common.SppLocation;
+import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplusplus.ILocation;
@@ -71,7 +71,7 @@ public class Report implements IReport, Infraction, Evidence {
         this.type = type;
         this.serverName = serverName;
         if (location != null) {
-            this.sppLocation = new SppLocation(location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), serverName);
+            this.sppLocation = new SppLocation(location, serverName);
         }
     }
 

@@ -3,14 +3,12 @@
 <#assign URLEncoder=statics['java.net.URLEncoder']>
 <#assign actions = []>
 
-<#if $permissions.has(player, $config.get("permissions:staff-locations.view-notes"))>
-    <#assign actions = actions + [ '&7Right click to view notes' ] />
-</#if>
+<#assign actions = actions + [ '&7Right click to view notes and options' ] />
 <#if $permissions.has(player, $config.get("permissions:staff-locations.teleport"))>
     <#assign actions = actions + [ '&7Left click to &6teleport to location' ] />
 </#if>
 <#if $permissions.has(player, $config.get("permissions:staff-locations.delete"))>
-    <#assign actions = actions + [ '&7Middle click to &Cdelete this location' ] />
+    <#assign actions = actions + [ '&7Shift click to &Cdelete this location' ] />
 </#if>
 
 <TubingGui size="54" id="staff-locations-overview">
@@ -21,8 +19,8 @@
         slot="${location?index}"
         location=location
         onLeftClick=$permissions.has(player, $config.get("permissions:staff-locations.teleport"))?then("staff-locations/teleport?locationId=" + location.id, "$NOOP")
-        onMiddleClick=$permissions.has(player, $config.get("permissions:staff-locations.delete"))?then("staff-locations/view/delete?locationId=" + location.id + "&locationName=" + location.name, "$NOOP")
-        onRightClick=$permissions.has(player, $config.get("permissions:staff-locations.view-notes"))?then("staff-location-notes/view?locationId=" + location.id, "$NOOP")
+        onLeftShiftClick=$permissions.has(player, $config.get("permissions:staff-locations.delete"))?then("staff-locations/view/delete-confirmation?locationId=" + location.id + "&locationName=" + URLEncoder.encode(location.name), "$NOOP")
+        onRightClick="staff-locations/view/detail?locationId=${location.id}"
         actions=actions/>
     </#list>
 

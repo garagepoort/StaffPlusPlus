@@ -5,12 +5,12 @@ import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
+import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocation;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationNote;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationRepository;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -57,7 +57,7 @@ class StaffLocationGuiControllerTest extends AbstractTubingGuiTemplateTest {
     @Mock
     private OnlineSessionsManager onlineSessionsManager;
     @Mock
-    private Location location;
+    private SppLocation location;
 
     @Captor
     private ArgumentCaptor<String> xmlCaptor;
@@ -115,6 +115,32 @@ class StaffLocationGuiControllerTest extends AbstractTubingGuiTemplateTest {
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
         validateXml(xmlCaptor.getValue(), "/guitemplates/stafflocations/stafflocations-overview-no-permission.xml");
+    }
+
+    @Test
+    public void viewDetail() throws URISyntaxException, IOException {
+        when(permissionHandler.has(eq(player), eq("staff.staff-locations.notes.view"))).thenReturn(true);
+        when(permissionHandler.has(eq(player), eq("staff.staff-locations.delete"))).thenReturn(true);
+        when(permissionHandler.has(eq(player), eq("staff.staff-locations.edit"))).thenReturn(true);
+        when(staffLocationService.getStaffLocation(1)).thenReturn(buildStaffLocation());
+
+        guiActionService.executeAction(player, "staff-locations/view/detail?locationId=1");
+
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
+        validateMaterials(xmlCaptor.getValue());
+        validateXml(xmlCaptor.getValue(), "/guitemplates/stafflocations/stafflocations-detail.xml");
+    }
+
+    @Test
+    public void viewOptions() throws URISyntaxException, IOException {
+        when(permissionHandler.has(eq(player), eq("staff.staff-locations.edit"))).thenReturn(true);
+        when(staffLocationService.getStaffLocation(1)).thenReturn(buildStaffLocation());
+
+        guiActionService.executeAction(player, "staff-locations/view/options?locationId=1");
+
+        verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
+        validateMaterials(xmlCaptor.getValue());
+        validateXml(xmlCaptor.getValue(), "/guitemplates/stafflocations/stafflocations-options.xml");
     }
 
     private StaffLocation buildStaffLocation() {

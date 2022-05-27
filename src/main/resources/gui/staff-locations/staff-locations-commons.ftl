@@ -1,5 +1,14 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
-<#macro stafflocationsitem slot location itemId="staff-location-info" onRightClick="$NOOP" onLeftClick="$NOOP" onMiddleClick="$NOOP" actions=[]>
+<#import "/gui/commons/commons.ftl" as commons/>
+<#assign URLEncoder=statics['java.net.URLEncoder']>
+<#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
+
+<#macro stafflocationsitem slot location itemId="staff-location-info"
+        onRightClick="$NOOP"
+        onLeftClick="$NOOP"
+        onMiddleClick="$NOOP"
+        onLeftShiftClick="$NOOP"
+        actions=[]>
     <#assign DateTimeFormatter=statics['java.time.format.DateTimeFormatter']>
     <#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
     <GuiItem
@@ -9,6 +18,7 @@
         onLeftClick="${onLeftClick}"
         onRightClick="${onRightClick}"
         onMiddleClick="${onMiddleClick}"
+        onLeftShiftClick="${onLeftShiftClick}"
         material="${location.icon}">
         <name class="item-name" color="&3">${location.name}</name>
         <Lore>
@@ -46,4 +56,31 @@
             </#if>
         </Lore>
     </GuiItem>
+</#macro>
+
+<#macro stafflocationsSelectIcon action icons>
+    <TubingGui size="54" id="staff-locations-select-icon">
+    <title class="gui-title">Select location Icon</title>
+        <#list icons as icon>
+            <GuiItem
+                itemId="staff-location-icon-select-${icon?index}"
+                slot="${icon?index}"
+                class="staff-location-icon-select"
+                onLeftClick="${action}&locationIcon=${icon.material}"
+                material="${icon.material}">
+            <name class="item-name" color="&3">${icon.material}</name>
+            <Lore>
+                <#if icon.iconText??>
+                    <LoreLine><t color="&6">${icon.iconText}</t></LoreLine>
+                    <LoreLine></LoreLine>
+                </#if>
+                <LoreLine>
+                    Click to select this icon
+                </LoreLine>
+            </Lore>
+        </GuiItem>
+        </#list>
+
+        <@commons.pageFooter currentAction="${currentAction}"  page=page />
+</TubingGui>
 </#macro>
