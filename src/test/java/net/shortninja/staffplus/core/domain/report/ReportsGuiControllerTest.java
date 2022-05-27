@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.report;
 
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
-import net.shortninja.staffplus.core.common.SppLocation;
+import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;
 import net.shortninja.staffplus.core.common.gui.GuiUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -138,7 +138,7 @@ class ReportsGuiControllerTest extends AbstractTubingGuiTemplateTest {
             null,
             "server",
             new Location(world, 4, 5, 6),
-            new SppLocation("world", 4, 5, 6, "server"),
+            new SppLocation(789, "world", 4, 5, 6, "server"),
             "type"
         );
         report.setTimestamp(ZonedDateTime.of(2022, 2, 25, 14, 30, 0, 0, ZoneOffset.UTC));

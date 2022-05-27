@@ -1,6 +1,6 @@
 <TubingGui size="54" id="staff-locations-overview">
     <title class="gui-title">Saved locations</title>
-    <GuiItem id="staff-location-info-0" class="staff-location-info" slot="0" onLeftClick="staff-locations/teleport?locationId=12" onRightClick="staff-location-notes/view?locationId=12" onMiddleClick="staff-locations/view/delete?locationId=12&amp;locationName=stafflocation" material="PAPER">
+    <GuiItem id="staff-location-info-0" class="staff-location-info" slot="0" onLeftClick="staff-locations/teleport?locationId=12" onRightClick="staff-locations/view/detail?locationId=12" onMiddleClick="$NOOP" onLeftShiftClick="staff-locations/view/delete-confirmation?locationId=12&amp;locationName=stafflocation" material="PAPER">
         <name class="item-name" color="&amp;3">stafflocation</name>
         <Lore>
             <LoreLine>
@@ -26,9 +26,9 @@
                 <t color="&amp;6" id="note-value" class="detail-value">   My note</t>
             </LoreLine>
             <LoreLine></LoreLine>
-            <LoreLine>&amp;7Right click to view notes</LoreLine>
+            <LoreLine>&amp;7Right click to view notes and options</LoreLine>
             <LoreLine>&amp;7Left click to &amp;6teleport to location</LoreLine>
-            <LoreLine>&amp;7Middle click to &amp;Cdelete this location</LoreLine>
+            <LoreLine>&amp;7Shift click to &amp;Cdelete this location</LoreLine>
         </Lore>
     </GuiItem>
     <GuiItem slot="51" id="next-page-0" onLeftClick="goNext" class="next-page" material="GREEN_GLAZED_TERRACOTTA">
