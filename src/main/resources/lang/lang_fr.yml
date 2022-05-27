@@ -361,6 +361,7 @@ ips:
 staff-locations:
     prefix: "&dLocations &8»"
     created: "&2Staff location created!"
+    updated: "&2Staff location updated!"
     deleted: "&CStaff location deleted!"
     teleported: "&2You have been teleported to location: &6%name%"
     add-chat-info: |
@@ -375,6 +376,8 @@ staff-locations:
         &6Type your note in chat
         &6Type "cancel" to cancel adding a note
         &1==================================
+gui_stafflocations_delete-confirmation-title: "Delete staff location?"
+gui_stafflocations_delete-confirmation-message: "&7Are you sure you want to delete the entire location and all its notes: &6%name%"
 
 gui:
     id: "Id"

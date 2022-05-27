@@ -1,4 +1,5 @@
 <#include "/gui/commons/translate.ftl"/>
+<#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
 <TubingGui size="27" id="confirmation">
     <title class="gui-title">${title}</title>
 
@@ -8,9 +9,11 @@
         <name class="item-name" color="&6"><@translate key="gui.confirmation.confirm"/></name>
         <Lore>
             <#if confirmationMessage??>
-                <LoreLine>
-                    <t id="confirmation-lore">${confirmationMessage}</t>
-                </LoreLine>
+                <#list JavaUtils.formatLines(confirmationMessage, 30) as confirmationLine>
+                    <LoreLine>
+                        <t class="confirmation-lore" color="&7">${confirmationLine}</t>
+                    </LoreLine>
+                </#list>
             </#if>
             <#if confirmationMessageLines??>
                 <#list confirmationMessageLines as confirmationMessageLine>
