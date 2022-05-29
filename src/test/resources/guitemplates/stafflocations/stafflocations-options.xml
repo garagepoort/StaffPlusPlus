@@ -1,6 +1,6 @@
 <TubingGui size="27" id="staff-location-options-overview">
    <title class="gui-title">Staff location options</title>
-   <GuiItem id="staff-location-edit-name" slot="2" onLeftClick="staff-locations/edit/name?locationId=1" material="SPRUCE_SIGN">
+   <GuiItem id="staff-location-edit-name" slot="2" onLeftClick="staff-locations/edit/name?locationId=1" material="SIGN">
       <name class="item-name" color="&amp;7">Edit location name</name>
    </GuiItem>
    <GuiItem id="staff-location-edit-icon" slot="4" onLeftClick="staff-locations/edit-flow/select-icon?locationId=1" material="DIRT">

@@ -5,7 +5,7 @@
         id="staff-location-edit-name"
         slot="2"
         onLeftClick="staff-locations/edit/name?locationId=${locationId}"
-        material="SPRUCE_SIGN">
+        material="SIGN">
             <name class="item-name" color="&7">Edit location name</name>
     </GuiItem>
     <GuiItem
