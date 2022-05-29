@@ -18,6 +18,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @IocListener
@@ -45,12 +48,18 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
             return;
         }
 
+        List<String> enchantments = new ArrayList<>();
+        event.getPickaxe().getEnchantments()
+            .forEach((k,v) -> enchantments.add(JavaUtils.formatTypeName(k.getKey().getKey()) + " " + v));
+
         notifyPlayers(event.getPlayer().getName(),
             event.getAmount(),
             event.getType().name(),
             event.getLightLevel(),
             event.getDuration(),
-            event.getServerName());
+            event.getServerName(),
+            event.getPickaxe().getType().name(),
+            enchantments);
     }
 
     @EventHandler
@@ -70,16 +79,25 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
             xrayAlertBungeeDto.getType(),
             xrayAlertBungeeDto.getLightLevel(),
             xrayAlertBungeeDto.getDuration(),
-            xrayAlertBungeeDto.getServerName());
+            xrayAlertBungeeDto.getServerName(), "", Collections.emptyList());
     }
 
-    private void notifyPlayers(String playerName, int amount, String type, int lightLevel, Optional<Long> duration, String serverName) {
+    private void notifyPlayers(String playerName,
+                               int amount,
+                               String type,
+                               int lightLevel,
+                               Optional<Long> duration,
+                               String serverName,
+                               String pickaxeType,
+                               List<String> pickaxeEnchantments) {
         for (Player user : getPlayersToNotify()) {
             String xrayMessage = messages.alertsXray
                 .replace("%target%", playerName)
                 .replace("%count%", Integer.toString(amount))
                 .replace("%server%", serverName)
                 .replace("%itemtype%", JavaUtils.formatTypeName(type))
+                .replace("%pickaxe-type%", JavaUtils.formatTypeName(pickaxeType))
+                .replace("%pickaxe-enchantments%", String.join(" | ", pickaxeEnchantments))
                 .replace("%lightlevel%", Integer.toString(lightLevel));
 
             if (duration.isPresent()) {
