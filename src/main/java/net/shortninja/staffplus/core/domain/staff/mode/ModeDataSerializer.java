@@ -61,7 +61,6 @@ public class ModeDataSerializer {
                 return Optional.empty();
             }
 
-
             YamlConfiguration dataFile = YamlConfiguration.loadConfiguration(file);
             List<String> potionEffectConfig = dataFile.getStringList(POTION_EFFECTS);
             List<PotionEffect> potionEffects = potionEffectConfig.stream()
@@ -101,7 +100,9 @@ public class ModeDataSerializer {
         data.set(UUID_SELECTOR, modeData.getUuid().toString());
         data.set(INVENTORY, BukkitInventorySerialization.itemStackArrayToBase64(modeData.getPlayerInventory()));
         data.set(XP, modeData.getXp());
-        data.set(PREVIOUS_LOCATION, modeData.getPreviousLocation());
+        if (modeData.getPreviousLocation().isPresent()) {
+            data.set(PREVIOUS_LOCATION, modeData.getPreviousLocation().get());
+        }
         data.set(FLIGHT, modeData.hasFlight());
         data.set(VANISH_TYPE, modeData.getVanishType().toString());
         data.set(GAME_MODE, modeData.getGameMode().toString());
