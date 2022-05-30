@@ -8,6 +8,10 @@ import net.shortninja.staffplusplus.vanish.VanishOnEvent;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
@@ -15,6 +19,7 @@ public class VanishServiceImpl {
 
     private final PlayerSettingsRepository playerSettingsRepository;
     private final VanishConfiguration vanishConfiguration;
+    private static final Map<UUID, VanishType> vanishCache = new HashMap<>();
 
     public VanishServiceImpl(PlayerSettingsRepository playerSettingsRepository,
                              VanishConfiguration vanishConfiguration) {
@@ -27,9 +32,14 @@ public class VanishServiceImpl {
             return;
         }
 
+        if(vanishCache.getOrDefault(player.getUniqueId(), VanishType.NONE) == vanishType) {
+            return;
+        }
+
         PlayerSettings settings = playerSettingsRepository.get(player);
         settings.setVanishType(vanishType);
         playerSettingsRepository.save(settings);
+        vanishCache.put(player.getUniqueId(), vanishType);
         sendEvent(new VanishOnEvent(vanishType, player));
     }
 
@@ -40,6 +50,7 @@ public class VanishServiceImpl {
         PlayerSettings session = playerSettingsRepository.get(player);
         VanishType vanishType = session.getVanishType();
         session.setVanishType(VanishType.NONE);
+        vanishCache.put(player.getUniqueId(), VanishType.NONE);
         playerSettingsRepository.save(session);
 
         sendEvent(new VanishOffEvent(vanishType, player));
