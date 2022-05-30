@@ -19,7 +19,7 @@ public class VanishChatNotifier implements Listener {
     }
 
     @EventHandler
-    private void onVanish(VanishOnEvent vanishOnEvent) {
+    public void onVanish(VanishOnEvent vanishOnEvent) {
         String message = getMessage(vanishOnEvent.getType())
             .replace("%status%", messages.enabled);
         if (StringUtils.isNotEmpty(message)) {
@@ -28,7 +28,7 @@ public class VanishChatNotifier implements Listener {
     }
 
     @EventHandler
-    private void onUnVanish(VanishOffEvent vanishOffEvent) {
+    public void onUnVanish(VanishOffEvent vanishOffEvent) {
         String message = getMessage(vanishOffEvent.getType())
             .replace("%status%", messages.disabled);
         if (StringUtils.isNotEmpty(message)) {
@@ -37,20 +37,15 @@ public class VanishChatNotifier implements Listener {
     }
 
     private String getMessage(VanishType vanishType) {
-        String message;
         switch (vanishType) {
             case LIST:
-                message = messages.listVanish;
-                break;
+                return messages.listVanish;
             case PLAYER:
-                message = messages.playerVanish;
-                break;
+                return messages.playerVanish;
             case TOTAL:
-                message = messages.totalVanish;
-                break;
+                return messages.totalVanish;
             default:
-                message = "";
+                return "";
         }
-        return message;
     }
 }
