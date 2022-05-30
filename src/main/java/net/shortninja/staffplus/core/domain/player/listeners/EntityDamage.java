@@ -1,11 +1,9 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
-import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.freeze.config.FreezeConfiguration;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-@IocBean
+@IocListener
 public class EntityDamage implements Listener {
     private final FreezeConfiguration freezeConfiguration;
     private final OnlineSessionsManager sessionManager;
@@ -21,7 +19,6 @@ public class EntityDamage implements Listener {
     public EntityDamage(FreezeConfiguration freezeConfiguration, OnlineSessionsManager sessionManager) {
         this.freezeConfiguration = freezeConfiguration;
         this.sessionManager = sessionManager;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
