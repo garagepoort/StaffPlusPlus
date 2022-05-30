@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.core.domain.staff.vanish.gui.VanishPlayersBukkitService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,10 +16,12 @@ public class VanishJoinListener implements Listener {
 
     private final VanishPlayersBukkitService vanishPlayersBukkitService;
     private final PlayerSettingsRepository playerSettingsRepository;
+    private final VanishServiceImpl vanishService;
 
-    public VanishJoinListener(VanishPlayersBukkitService vanishPlayersBukkitService, PlayerSettingsRepository playerSettingsRepository) {
+    public VanishJoinListener(VanishPlayersBukkitService vanishPlayersBukkitService, PlayerSettingsRepository playerSettingsRepository, VanishServiceImpl vanishService) {
         this.vanishPlayersBukkitService = vanishPlayersBukkitService;
         this.playerSettingsRepository = playerSettingsRepository;
+        this.vanishService = vanishService;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -27,7 +30,7 @@ public class VanishJoinListener implements Listener {
         vanishPlayersBukkitService.updateVanish(player);
         PlayerSettings playerSettings = playerSettingsRepository.get(player);
         if (playerSettings.isVanished()) {
-            vanishPlayersBukkitService.vanishPlayers(player, playerSettings.getVanishType());
+            vanishService.addVanish(player, playerSettings.getVanishType());
             event.setJoinMessage("");
         }
     }
