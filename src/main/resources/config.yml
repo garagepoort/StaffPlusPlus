@@ -242,13 +242,13 @@ vanish-module:
     item-drop: true
     # Allow item pickup while vanished
     item-pickup: true
-    # You cannot take damage while vanished
+    # When true, you can't take damage while vanished
     invincible: false
-    # Determines if you can give damage while vanished
+    # Allow giving damage while vanished
     damage: true
-    # You cannot take damage while vanished
+    # Allow placing blocks while vanished
     block-place: true
-    # Determines if you can give damage while vanished
+    # Allow breaking blocks while vanished
     block-break: true
 
 ############################################################
