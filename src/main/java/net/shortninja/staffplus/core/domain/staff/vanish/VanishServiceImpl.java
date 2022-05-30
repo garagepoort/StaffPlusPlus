@@ -56,6 +56,10 @@ public class VanishServiceImpl {
         sendEvent(new VanishOffEvent(vanishType, player));
     }
 
+    public void clearCache(Player player) {
+        vanishCache.remove(player.getUniqueId());
+    }
+
     public boolean isVanished(Player player) {
         PlayerSettings user = playerSettingsRepository.get(player);
         return user.getVanishType() != VanishType.NONE;
