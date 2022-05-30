@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.IocMulti;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
@@ -39,7 +38,7 @@ public class VanishPlayersBukkitService implements Listener {
             .forEach(v -> v.unvanish(event.getPlayer()));
     }
 
-    public void vanishPlayers(Player player, VanishType vanishType) {
+    private void vanishPlayers(Player player, VanishType vanishType) {
         vanishStrategies.stream()
             .filter(v -> v.getVanishType() == vanishType)
             .findFirst()
