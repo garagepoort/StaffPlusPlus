@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.alerts.xray.bungee;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
-import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfigTransformer;
@@ -12,6 +11,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.shortninja.staffplus.core.common.Constants.BUNGEE_XRAY_ALERT_CHANNEL;
 
 @IocListener(conditionalOnProperty = "isNotEmpty(alerts-module.xray-alerts.notify-bungee)")
 public class XrayAlertBungeeSender implements Listener {
@@ -32,6 +36,14 @@ public class XrayAlertBungeeSender implements Listener {
             return;
         }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
-        bungeeClient.sendMessage(player, Constants.BUNGEE_XRAY_ALERT_CHANNEL, new XrayAlertBungeeDto(xrayEvent), syncServers);
+
+        Map<String, Integer> enchantments = new HashMap<>();
+        xrayEvent.getPickaxe().getEnchantments()
+            .forEach((k, v) -> enchantments.put(k.getKey().getKey(), v));
+
+        bungeeClient.sendMessage(
+            player,
+            BUNGEE_XRAY_ALERT_CHANNEL,
+            new XrayAlertBungeeDto(xrayEvent, xrayEvent.getPickaxe().getType().name(), enchantments), syncServers);
     }
 }

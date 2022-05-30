@@ -1,9 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.application.config.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
@@ -18,15 +20,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @IocListener
 public class XrayAlertHandler extends AlertsHandler implements Listener {
 
     private final XrayConfiguration xrayConfiguration;
+    private final XrayLogger xrayLogger;
+    private final JsonSenderService jsonSenderService;
 
     public XrayAlertHandler(AlertsConfiguration alertsConfiguration,
                             PlayerSettingsRepository playerSettingsRepository,
@@ -34,9 +35,12 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
                             PermissionHandler permission,
                             Messages messages,
                             XrayConfiguration xrayConfiguration,
-                            PlayerManager playerManager) {
+                            PlayerManager playerManager,
+                            XrayLogger xrayLogger, JsonSenderService jsonSenderService) {
         super(alertsConfiguration, playerSettingsRepository, sessionManager, permission, messages, playerManager);
         this.xrayConfiguration = xrayConfiguration;
+        this.xrayLogger = xrayLogger;
+        this.jsonSenderService = jsonSenderService;
     }
 
     @EventHandler
@@ -48,18 +52,7 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
             return;
         }
 
-        List<String> enchantments = new ArrayList<>();
-        event.getPickaxe().getEnchantments()
-            .forEach((k,v) -> enchantments.add(JavaUtils.formatTypeName(k.getKey().getKey()) + " " + v));
-
-        notifyPlayers(event.getPlayer().getName(),
-            event.getAmount(),
-            event.getType().name(),
-            event.getLightLevel(),
-            event.getDuration(),
-            event.getServerName(),
-            event.getPickaxe().getType().name(),
-            enchantments);
+        notifyPlayers(xrayLogger.getLogMessage(event));
     }
 
     @EventHandler
@@ -74,37 +67,19 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
             return;
         }
 
-        notifyPlayers(xrayAlertBungeeDto.getPlayerName(),
-            xrayAlertBungeeDto.getAmount(),
-            xrayAlertBungeeDto.getType(),
-            xrayAlertBungeeDto.getLightLevel(),
-            xrayAlertBungeeDto.getDuration(),
-            xrayAlertBungeeDto.getServerName(), "", Collections.emptyList());
+        notifyPlayers(xrayLogger.getLogMessage(xrayAlertBungeeDto));
     }
 
-    private void notifyPlayers(String playerName,
-                               int amount,
-                               String type,
-                               int lightLevel,
-                               Optional<Long> duration,
-                               String serverName,
-                               String pickaxeType,
-                               List<String> pickaxeEnchantments) {
-        for (Player user : getPlayersToNotify()) {
-            String xrayMessage = messages.alertsXray
-                .replace("%target%", playerName)
-                .replace("%count%", Integer.toString(amount))
-                .replace("%server%", serverName)
-                .replace("%itemtype%", JavaUtils.formatTypeName(type))
-                .replace("%pickaxe-type%", JavaUtils.formatTypeName(pickaxeType))
-                .replace("%pickaxe-enchantments%", String.join(" | ", pickaxeEnchantments))
-                .replace("%lightlevel%", Integer.toString(lightLevel));
-
-            if (duration.isPresent()) {
-                xrayMessage = xrayMessage + String.format(" in %s seconds", duration.get() / 1000);
-            }
-            messages.send(user, xrayMessage, messages.prefixGeneral, xrayConfiguration.permissionXray);
-        }
+    private void notifyPlayers(String xrayMessage) {
+            JSONMessage jsonMessage = JavaUtils.parseJsonMessage(xrayMessage);
+            jsonSenderService.send(jsonMessage, xrayConfiguration.permissionXray, getPlayersToNotify().toArray(new Player[0]));
+//        for (Player user : getPlayersToNotify()) {
+//
+//            messages.send(user,
+//                jsonMessage,
+//                messages.prefixGeneral,
+//                xrayConfiguration.permissionXray);
+//        }
     }
 
     @Override

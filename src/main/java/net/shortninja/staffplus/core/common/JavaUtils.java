@@ -1,9 +1,15 @@
 package net.shortninja.staffplus.core.common;
 
+import be.garagepoort.mcioc.org.jsoup.Jsoup;
+import be.garagepoort.mcioc.org.jsoup.nodes.Document;
+import be.garagepoort.mcioc.org.jsoup.nodes.Element;
+import be.garagepoort.mcioc.org.jsoup.safety.Whitelist;
+import be.garagepoort.mcioc.org.jsoup.select.Elements;
 import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import inet.ipaddr.IPAddress;
 import inet.ipaddr.IPAddressString;
 import net.shortninja.staffplusplus.ILocation;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.net.util.SubnetUtils;
 import org.apache.commons.validator.routines.InetAddressValidator;
@@ -362,6 +368,46 @@ public class JavaUtils {
         }
 
         return jsonMessage;
+    }
+
+    public static JSONMessage parseJsonMessage(String message) {
+        Document.OutputSettings outputSettings = new Document.OutputSettings();
+        outputSettings.prettyPrint(false);
+
+        Document document = Jsoup.parse(message);
+        document.outputSettings(outputSettings);
+
+        Element jsonmessageElement = document.selectFirst("json");
+
+        JSONMessage jsonMessage = JSONMessage.create();
+        Elements allElements = jsonmessageElement.select("> text");
+        for (Element element : allElements) {
+            String command = element.attr("command");
+            boolean tooltip = Boolean.parseBoolean(element.attr("tooltip"));
+            String innerText = Jsoup.clean(element.html(), "", Whitelist.none(), outputSettings);
+
+            if(tooltip) {
+                if(element.html().startsWith("<json>")) {
+                    jsonMessage.tooltip(parseJsonMessage(element.html()));
+                }else {
+                    jsonMessage.tooltip(cleanText(innerText));
+                }
+            }else{
+                addColorizedMessage(cleanText(innerText), jsonMessage);
+                if(StringUtils.isNotBlank(command.replace("&amp;", "&"))) {
+                    jsonMessage.runCommand("/" + command);
+                }
+            }
+        }
+        return jsonMessage;
+    }
+
+    private static String cleanText(String text) {
+        text = text.replace("&amp;", "&");
+        if (!text.startsWith(DEFAULT_MESSAGE_COLOR)) {
+            text = DEFAULT_MESSAGE_COLOR + text;
+        }
+        return text;
     }
 
     public static JSONMessage buildChoiceMessage(String message, String option1Message, String option1Command, String option2Message, String option2Command) {
