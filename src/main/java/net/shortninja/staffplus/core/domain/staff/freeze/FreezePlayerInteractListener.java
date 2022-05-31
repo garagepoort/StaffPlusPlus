@@ -19,7 +19,7 @@ public class FreezePlayerInteractListener implements Listener {
         this.sessionManager = sessionManager;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         OnlinePlayerSession playerSession = sessionManager.get(player);
