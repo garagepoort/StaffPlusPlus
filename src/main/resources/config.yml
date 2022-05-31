@@ -250,6 +250,10 @@ vanish-module:
     block-place: true
     # Allow breaking blocks while vanished
     block-break: true
+    # Allow opening a chest silently
+    silent-chest-opening: false
+    # Allow interacting with a chest that has been silently opened
+    silent-chest-interaction: false
 
 ############################################################
 # +------------------------------------------------------+ #
