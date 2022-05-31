@@ -238,6 +238,22 @@ vanish-module:
 
     # Default vanish mode. Gets used when using the vanish the command without arguments
     default-mode: TOTAL
+    # Allow item drop while vanished
+    item-drop: true
+    # Allow item pickup while vanished
+    item-pickup: true
+    # When true, you can't take damage while vanished
+    invincible: false
+    # Allow giving damage while vanished
+    damage: true
+    # Allow placing blocks while vanished
+    block-place: true
+    # Allow breaking blocks while vanished
+    block-break: true
+    # Allow opening a chest silently
+    silent-chest-opening: false
+    # Allow interacting with a chest that has been silently opened
+    silent-chest-interaction: false
 
 ############################################################
 # +------------------------------------------------------+ #
