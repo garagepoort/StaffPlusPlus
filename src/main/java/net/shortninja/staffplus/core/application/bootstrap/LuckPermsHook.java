@@ -10,6 +10,7 @@ import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeLuckPermsContextCalculator;
 import net.shortninja.staffplus.core.domain.staff.mode.StaffModeLuckPermsContextCalculator;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishLuckPermsContextCalculator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -37,6 +38,7 @@ public class LuckPermsHook implements PluginDisable, BeforeTubingReload {
             this.contextManager = luckPerms.getContextManager();
             this.register("StaffMode", () -> new StaffModeLuckPermsContextCalculator(this.sessionManager));
             this.register("Frozen", () -> new FreezeLuckPermsContextCalculator(this.sessionManager));
+            this.register("Vanished", () -> new VanishLuckPermsContextCalculator(this.sessionManager));
         }
     }
 
