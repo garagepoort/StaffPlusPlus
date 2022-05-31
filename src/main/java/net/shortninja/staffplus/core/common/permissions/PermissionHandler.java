@@ -47,6 +47,8 @@ public interface PermissionHandler extends TubingPermissionService {
 
     void validateAny(CommandSender player, Set<String> permissions);
 
+    void validateAny(CommandSender player, String ... permissions);
+
     boolean hasOnly(Player player, String permission);
 
     boolean has(CommandSender sender, String permission);
@@ -74,5 +76,4 @@ public interface PermissionHandler extends TubingPermissionService {
             throw new NoDurationPermissionException();
         }
     }
-
 }

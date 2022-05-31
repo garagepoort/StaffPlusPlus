@@ -52,6 +52,13 @@ public class DefaultPermissionHandler implements PermissionHandler {
         }
     }
 
+
+    public void validateAny(CommandSender player, String ... permissions) {
+        if (permissions.length != 0 && !hasAny(player, permissions)) {
+            throw new NoPermissionException();
+        }
+    }
+
     public boolean hasOnly(Player player, String permission) {
         if (permission == null) {
             return true;

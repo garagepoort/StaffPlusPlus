@@ -119,6 +119,8 @@ investigations:
 ########################
 # Permission for using the vanish command
 vanish: "staff.vanish.vanish"
+# Permission for using the vanish command
+vanish-others: "staff.vanish.others"
 see-vanished: "staff.vanish.see-vanished"
 # Permission for using "/v total".
 vanish-total: "staff.vanish.total"
