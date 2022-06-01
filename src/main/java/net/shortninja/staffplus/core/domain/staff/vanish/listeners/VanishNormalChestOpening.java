@@ -42,9 +42,10 @@ public class VanishNormalChestOpening implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         OnlinePlayerSession playerSession = sessionManager.get(player);
-
-        if (playerSession.isVanished() && !normalChestInteraction) {
-            event.setCancelled(true);
+        if(event.getClickedInventory() != null && event.getClickedInventory().getHolder() != null && event.getClickedInventory().getHolder() instanceof Container) {
+            if (playerSession.isVanished() && !normalChestInteraction) {
+                event.setCancelled(true);
+            }
         }
     }
 
