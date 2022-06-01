@@ -75,13 +75,12 @@ public class PlayerInteract implements Listener {
         this.chestGuiBuilder = chestGuiBuilder;
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         Action action = event.getAction();
         ItemStack item = player.getInventory().getItemInMainHand();
-
 
         if (cpsHandler.isTesting(uuid) && (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK)) {
             cpsHandler.updateCount(uuid);
