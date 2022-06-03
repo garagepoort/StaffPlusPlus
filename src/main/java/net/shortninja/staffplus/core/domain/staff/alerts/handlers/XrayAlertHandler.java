@@ -71,15 +71,8 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
     }
 
     private void notifyPlayers(String xrayMessage) {
-            JSONMessage jsonMessage = JavaUtils.parseJsonMessage(xrayMessage);
-            jsonSenderService.send(jsonMessage, xrayConfiguration.permissionXray, getPlayersToNotify().toArray(new Player[0]));
-//        for (Player user : getPlayersToNotify()) {
-//
-//            messages.send(user,
-//                jsonMessage,
-//                messages.prefixGeneral,
-//                xrayConfiguration.permissionXray);
-//        }
+        JSONMessage jsonMessage = JavaUtils.parseJsonMessage(xrayMessage);
+        jsonSenderService.send(jsonMessage, xrayConfiguration.permissionXray, getPlayersToNotify().toArray(new Player[0]));
     }
 
     @Override

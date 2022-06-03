@@ -59,28 +59,22 @@ public class XrayLogger {
                                  int lightLevel,
                                  Optional<Long> duration,
                                  String serverName,
-                                 String pickaxeType,
-                                 List<String> pickaxeEnchantments) {
-        String xrayMessage = "<json><text>" + messages.alertsXray
+                                 String toolType,
+                                 List<String> enchantments) {
+
+
+        String xrayMessage = messages.alertsXray
             .replace("%target%", playerName)
             .replace("%count%", Integer.toString(amount))
             .replace("%server%", serverName)
             .replace("%itemtype%", JavaUtils.formatTypeName(type))
-            .replace("%pickaxe-type%",
-                "</text>" +
-                    "<text>" + JavaUtils.formatTypeName(pickaxeType) + "</text>"
-                    + buildTooltip(pickaxeEnchantments) +
-                    "<text>")
-            .replace("%lightlevel%", Integer.toString(lightLevel)) + "</text></json>";
+            .replace("%tool-type%", JavaUtils.formatTypeName(toolType))
+            .replace("%tool-enchantments%", String.join("\\n", enchantments))
+            .replace("%lightlevel%", Integer.toString(lightLevel));
 
         if (duration.isPresent()) {
             xrayMessage = xrayMessage + String.format(" in %s seconds", duration.get() / 1000);
         }
         return xrayMessage;
-    }
-
-    @NotNull
-    private String buildTooltip(List<String> pickaxeEnchantments) {
-        return "<text tooltip=\"true\"><json>" + pickaxeEnchantments.stream().map(e -> "<text>\n" + e + "</text>").collect(Collectors.joining()) + "</json></text>";
     }
 }
