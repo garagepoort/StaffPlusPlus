@@ -22,7 +22,14 @@ public class AmountXrayStrategy implements XrayStrategy {
     public boolean handleBlockBreak(XrayBlockConfig xrayBlockConfig, XrayTrace blockTrace, Player player, Block block) {
         int lightLevel = player.getLocation().getBlock().getLightLevel();
         if (blockTrace.getAmount() >= xrayBlockConfig.getAmountOfBlocks()) {
-            sendEvent(new XrayEvent(player, blockTrace.getAmount(), null, block.getType(), lightLevel, block.getLocation(), options.serverName));
+            sendEvent(new XrayEvent(player,
+                blockTrace.getAmount(),
+                null,
+                block.getType(),
+                lightLevel,
+                block.getLocation(),
+                options.serverName,
+                player.getInventory().getItemInMainHand()));
             return true;
         }
         return false;

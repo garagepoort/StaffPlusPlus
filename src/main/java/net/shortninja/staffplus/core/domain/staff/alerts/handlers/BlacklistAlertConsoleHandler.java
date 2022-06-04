@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.chat.blacklist.bungee.ChatMessageCensoredBungeeDto;
 import net.shortninja.staffplus.core.domain.chat.blacklist.bungee.ChatMessageCensoredBungeeEvent;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;

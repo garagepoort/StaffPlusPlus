@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

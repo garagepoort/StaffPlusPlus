@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.joinmessages;
 
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
