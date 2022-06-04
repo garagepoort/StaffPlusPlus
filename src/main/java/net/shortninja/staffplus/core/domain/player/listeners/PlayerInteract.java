@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.player.listeners;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
