@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.kick;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.kick.KickEvent;
 import org.bukkit.event.EventHandler;

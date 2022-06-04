@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.staffchat.cmd;
 
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.TubingConfiguration;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.common.cmd.CommandService;

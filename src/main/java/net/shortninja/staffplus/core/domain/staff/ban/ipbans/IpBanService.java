@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban.ipbans;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.database.IpBanRepository;

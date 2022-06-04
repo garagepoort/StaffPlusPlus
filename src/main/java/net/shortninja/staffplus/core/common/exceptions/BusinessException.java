@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.exceptions;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 
 public class BusinessException extends RuntimeException {
     private final String prefix;
