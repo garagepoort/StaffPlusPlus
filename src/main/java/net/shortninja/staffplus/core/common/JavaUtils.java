@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.common;
 
-import be.garagepoort.mcioc.org.jsoup.nodes.Document;
 import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import inet.ipaddr.IPAddress;
 import inet.ipaddr.IPAddressString;
@@ -363,27 +362,6 @@ public class JavaUtils {
         }
 
         return jsonMessage;
-    }
-
-    public static JSONMessage parseJsonMessage(String message) {
-        Document.OutputSettings outputSettings = new Document.OutputSettings();
-        outputSettings.prettyPrint(false);
-
-        String[] messageParts = message.split("(?=(\\[tooltip\\|)(.*?)(]))" + "|" + "(?<=(\\[tooltip\\|)(.{0,1000})(]))");
-
-        JSONMessage jsonMessage = JSONMessage.create();
-        for (String messagePart : messageParts) {
-            if (messagePart.startsWith("[tooltip|")) {
-                String strippedMessage = messagePart.substring(0, messagePart.length() - 1).replace("[tooltip|", "");
-                String text = strippedMessage.split("\\|")[0].replace("\\n", "\n");
-                String tooltip = strippedMessage.split("\\|")[1].replace("\\n", "\n");
-                addColor(text, jsonMessage::then);
-                jsonMessage.tooltip(parseJsonMessage(tooltip));
-            } else {
-                addColor(messagePart, jsonMessage::then);
-            }
-        }
-         return jsonMessage;
     }
 
     public static JSONMessage buildChoiceMessage(String message, String option1Message, String option1Command, String option2Message, String option2Command) {

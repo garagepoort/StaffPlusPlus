@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.report;
 
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.location.SppLocation;
 import net.shortninja.staffplus.core.common.gui.AbstractTubingGuiTemplateTest;

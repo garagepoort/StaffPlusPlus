@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.player.ip.gui;
 
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplusplus.ips.IpHistoryClearedEvent;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

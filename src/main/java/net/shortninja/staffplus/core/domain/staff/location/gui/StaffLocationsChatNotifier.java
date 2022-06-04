@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.location.gui;
 
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationCreatedEvent;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationDeletedEvent;
