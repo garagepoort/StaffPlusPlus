@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * @author Shortninja, DarkSeraphim, ...
@@ -195,7 +196,6 @@ public class JavaUtils {
         return location.getX() + ", " + location.getY() + ", " + location.getZ();
     }
 
-
     public static String formatTypeName(String type) {
         return type.replace("_", " ").toLowerCase();
     }
@@ -353,10 +353,10 @@ public class JavaUtils {
         }
 
         JSONMessage jsonMessage = JSONMessage.create();
-        addColorizedMessage(message, jsonMessage);
+        addColor(message, jsonMessage::then);
         if (showButton) {
             jsonMessage.then(" ");
-            addColorizedMessage(clickMessage, jsonMessage);
+            addColor(clickMessage, jsonMessage::then);
             jsonMessage.tooltip(tooltip)
                 .runCommand("/" + command);
         }
@@ -366,28 +366,28 @@ public class JavaUtils {
 
     public static JSONMessage buildChoiceMessage(String message, String option1Message, String option1Command, String option2Message, String option2Command) {
         JSONMessage jsonMessage = JSONMessage.create();
-        addColorizedMessage(message, jsonMessage);
-        addColorizedMessage(" " + option1Message, jsonMessage);
+        addColor(message, jsonMessage::then);
+        addColor(" " + option1Message, jsonMessage::then);
         jsonMessage.runCommand("/" + option1Command);
-        addColorizedMessage(" &7| ", jsonMessage);
-        addColorizedMessage(option2Message, jsonMessage);
+        addColor(" &7| ", jsonMessage::then);
+        addColor(option2Message, jsonMessage::then);
         jsonMessage.runCommand("/" + option2Command);
 
         return jsonMessage;
     }
 
-    private static void addColorizedMessage(String message, JSONMessage jsonMessage) {
+    private static void addColor(String message, Function<String, JSONMessage> jsonMessageFunction) {
         String[] coloredString = message.split("(?=&1|&2|&3|&4|&5|&6|&7|&8|&9|&0|&a|&e|&b|&d|&f|&c)");
         for (String messagePart : coloredString) {
             if (messagePart.length() < 2) {
-                jsonMessage.then(messagePart).color(ChatColor.GOLD);
+                jsonMessageFunction.apply(messagePart).color(ChatColor.GOLD);
             } else {
                 boolean containsColor = Arrays.stream(ChatColor.values()).anyMatch(chatColor -> messagePart.startsWith("&" + chatColor.getChar()));
                 if (containsColor) {
                     ChatColor color = ChatColor.getByChar(messagePart.substring(1, 2));
-                    jsonMessage.then(messagePart.substring(2)).color(color);
+                    jsonMessageFunction.apply(messagePart.substring(2)).color(color);
                 } else {
-                    jsonMessage.then(messagePart).color(ChatColor.GOLD);
+                    jsonMessageFunction.apply(messagePart).color(ChatColor.GOLD);
                 }
             }
         }

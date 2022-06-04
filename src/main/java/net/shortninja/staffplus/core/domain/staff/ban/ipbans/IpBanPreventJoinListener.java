@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban.ipbans;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
