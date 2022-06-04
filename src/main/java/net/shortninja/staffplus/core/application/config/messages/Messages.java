@@ -1,9 +1,11 @@
-package net.shortninja.staffplus.core.application.config;
+package net.shortninja.staffplus.core.application.config.messages;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import me.rayzr522.jsonmessage.JSONMessage;
+import net.shortninja.staffplus.core.application.config.MessageMultiLineTransformer;
+import net.shortninja.staffplus.core.common.JsonSenderService;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.Strings;
@@ -38,6 +40,8 @@ public class Messages {
     );
     public static final String NO_PREFIX = "[NO_PREFIX]";
     public final String LONG_LINE = "&m" + Strings.repeat('-', 48);
+
+    private final MessageSenderFactory messageSenderFactory;
 
     /*
      * Prefixes
@@ -409,7 +413,8 @@ public class Messages {
     private final PermissionHandler permission;
     private final PlaceholderService placeholderService;
 
-    public Messages(PermissionHandler permission, PlaceholderService placeholderService) {
+    public Messages(MessageSenderFactory messageSenderFactory, PermissionHandler permission, PlaceholderService placeholderService) {
+        this.messageSenderFactory = messageSenderFactory;
         this.permission = permission;
         this.placeholderService = placeholderService;
     }
@@ -426,19 +431,6 @@ public class Messages {
 
     public void send(SppInteractor sppInteractor, String message, String prefix) {
         sppInteractor.getCommandSender().ifPresent(s -> send(s, message, prefix));
-    }
-
-    public void send(CommandSender sender, String message, String prefix) {
-        if(message.startsWith(NO_PREFIX)) {
-            prefix = "";
-            message = message.replace(NO_PREFIX, "");
-        }
-
-        message = placeholderService.setPlaceholders(sender, message);
-        prefix = placeholderService.setPlaceholders(sender, prefix);
-        for (String s : message.split("\\n")) {
-            sender.sendMessage(buildMessage(prefix, s));
-        }
     }
 
     public void send(List<Player> receivers, String message, String prefix) {
@@ -475,6 +467,18 @@ public class Messages {
             .forEach(jsonMessage::send);
     }
 
+    public void send(CommandSender receiver, String message, String prefix) {
+        if(message.startsWith(NO_PREFIX)) {
+            prefix = "";
+            message = message.replace(NO_PREFIX, "");
+        }
+
+        message = placeholderService.setPlaceholders(receiver, message);
+        prefix = placeholderService.setPlaceholders(receiver, prefix);
+        messageSenderFactory.getSender(receiver, message)
+            .sendMessage(receiver, message, prefix);
+    }
+
     private String buildMessage(String prefix, String message) {
         if (StringUtils.isEmpty(prefix)) {
             return colorize(message);
@@ -482,4 +486,5 @@ public class Messages {
             return colorize(prefix + " " + message);
         }
     }
+
 }

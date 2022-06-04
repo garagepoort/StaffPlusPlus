@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import org.bukkit.entity.Player;

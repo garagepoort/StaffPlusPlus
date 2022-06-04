@@ -1,9 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.playernotes.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplusplus.playernotes.IPlayerNote;
 import net.shortninja.staffplusplus.playernotes.PlayerNoteCreatedEvent;
 import net.shortninja.staffplusplus.playernotes.PlayerNoteDeletedEvent;

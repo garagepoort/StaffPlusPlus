@@ -26,11 +26,17 @@ public class AmountAndDurationXrayStrategy implements XrayStrategy {
 
         long duration = blockTrace.getDuration();
         if (blockTrace.getAmount() >= xrayBlockConfig.getAmountOfBlocks()) {
-            sendEvent(new XrayEvent(player, blockTrace.getAmount(), duration, block.getType(), lightLevel, block.getLocation(), options.serverName));
+            sendEvent(new XrayEvent(player,
+                blockTrace.getAmount(),
+                duration,
+                block.getType(),
+                lightLevel,
+                block.getLocation(),
+                options.serverName,
+                player.getInventory().getItemInMainHand()));
             return true;
         }
         return false;
-
     }
 
     @Override
