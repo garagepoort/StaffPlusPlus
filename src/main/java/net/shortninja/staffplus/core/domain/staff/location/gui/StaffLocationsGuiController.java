@@ -12,7 +12,7 @@ import be.garagepoort.mcioc.tubinggui.GuiParam;
 import be.garagepoort.mcioc.tubinggui.GuiParams;
 import be.garagepoort.mcioc.tubinggui.model.TubingGuiActions;
 import be.garagepoort.mcioc.tubinggui.templates.GuiTemplate;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.JavaUtils;

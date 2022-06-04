@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 import be.garagepoort.mcioc.IocBean;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;

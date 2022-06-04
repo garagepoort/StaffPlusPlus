@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui;
 
-import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiController;
 import be.garagepoort.mcioc.tubinggui.GuiParam;
@@ -26,18 +25,6 @@ import static net.shortninja.staffplus.core.application.SppInteractorBuilder.fro
 
 @GuiController
 public class CreateReportsGuiController {
-
-    @ConfigProperty("%lang%:reports.resolve-confirmation-question")
-    private String resolveConfirmationLines;
-    @ConfigProperty("%lang%:reports.resolve-cancelled")
-    private String resolveCancelled;
-    @ConfigProperty("%lang%:reports.reject-confirmation-question")
-    private String rejectConfirmationLines;
-    @ConfigProperty("%lang%:reports.reject-cancelled")
-    private String rejectCancelled;
-
-    private static final int PAGE_SIZE = 45;
-    private static final String CANCEL = "cancel";
 
     private final PermissionHandler permissionHandler;
     private final ManageReportConfiguration manageReportConfiguration;

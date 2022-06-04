@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting.gui.chat;
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
