@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.chat;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.chat.configuration.ChatConfiguration;
 import org.bukkit.entity.Player;

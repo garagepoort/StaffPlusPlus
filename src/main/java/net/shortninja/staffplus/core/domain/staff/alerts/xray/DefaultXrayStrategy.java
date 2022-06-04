@@ -21,7 +21,14 @@ public class DefaultXrayStrategy implements XrayStrategy {
     @Override
     public boolean handleBlockBreak(XrayBlockConfig xrayBlockConfig, XrayTrace blockTrace, Player player, Block block) {
         int lightLevel = player.getLocation().getBlock().getLightLevel();
-        sendEvent(new XrayEvent(player, blockTrace.getAmount(), null, block.getType(), lightLevel, block.getLocation(), options.serverName));
+        sendEvent(new XrayEvent(player,
+            blockTrace.getAmount(),
+            null,
+            block.getType(),
+            lightLevel,
+            block.getLocation(),
+            options.serverName,
+            player.getInventory().getItemInMainHand()));
         return true;
     }
 

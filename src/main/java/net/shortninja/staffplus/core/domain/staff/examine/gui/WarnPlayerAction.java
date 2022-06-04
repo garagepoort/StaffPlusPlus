@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.examine.gui;
 
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;

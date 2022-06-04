@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui.chat;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.config.Messages;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportBungeeDto;
 import net.shortninja.staffplusplus.reports.IReport;
 import net.shortninja.staffplusplus.reports.ReportStatus;
