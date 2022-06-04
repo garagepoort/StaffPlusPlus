@@ -43,7 +43,7 @@ public class JsonMessageSender extends AbstractMessageSender {
                 String text = strippedMessage.split("\\|")[0];
                 String tooltip = strippedMessage.split("\\|")[1].replace("\\n", "\n");
                 addColor(text, jsonMessage::then);
-                jsonMessage.tooltip(parseJsonMessage(tooltip, prefix));
+                jsonMessage.tooltip(parseJsonMessage(tooltip, null));
             } else {
                 addColor(cleanTextPart(messagePart, prefix), jsonMessage::then);
             }
