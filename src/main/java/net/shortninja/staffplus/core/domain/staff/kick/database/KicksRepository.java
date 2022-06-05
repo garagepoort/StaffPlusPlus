@@ -13,4 +13,6 @@ public interface KicksRepository {
     List<Kick> getKicksForPlayer(UUID playerUUID);
 
     Map<UUID, Integer> getCountByPlayer();
+
+    List<Kick> getKicksForPlayer(UUID playerKicked, int offset, int amount);
 }

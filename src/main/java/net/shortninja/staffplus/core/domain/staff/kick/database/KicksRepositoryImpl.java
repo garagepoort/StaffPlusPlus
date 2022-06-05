@@ -58,6 +58,19 @@ public class KicksRepositoryImpl implements KicksRepository {
             this::buildKick);
     }
 
+
+    @Override
+    public List<Kick> getKicksForPlayer(UUID playerUuid, int offset, int amount) {
+        return query.create().find("SELECT * FROM sp_kicked_players WHERE player_uuid = ? " + serverNameFilter + " ORDER BY creation_timestamp DESC LIMIT ?,?",
+            ps -> {
+                ps.setString(1, playerUuid.toString());
+                ps.setInt(2, offset);
+                ps.setInt(3, amount);
+            },
+            this::buildKick);
+    }
+
+
     @Override
     public Map<UUID, Integer> getCountByPlayer() {
         return query.create().findMap("SELECT player_uuid, count(*) as count FROM sp_kicked_players " + Constants.getServerNameFilterWithWhere(options.serverSyncConfiguration.kickSyncServers) + " GROUP BY player_uuid ORDER BY count DESC",
