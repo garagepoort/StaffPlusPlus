@@ -1,123 +1,131 @@
 <TubingGui size="27" id="hub">
-    <title class="gui-title">&amp;eStaff Hub</title>
-    <GuiItem slot="0" id="color-select-0" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
-        <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
-        <Lore>
-            <LoreLine>
-                <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem slot="8" id="color-select-1" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
-        <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
-        <Lore>
-            <LoreLine>
-                <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem slot="9" id="color-select-2" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
-        <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
-        <Lore>
-            <LoreLine>
-                <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem slot="17" id="color-select-3" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
-        <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
-        <Lore>
-            <LoreLine>
-                <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem slot="18" id="color-select-4" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
-        <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
-        <Lore>
-            <LoreLine>
-                <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem slot="26" id="color-select-5" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
-        <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
-        <Lore>
-            <LoreLine>
-                <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem slot="1" id="open-reports" material="PAPER" onLeftClick="manage-reports/view/open">
-        <name class="item-name" color="&amp;b">&amp;bUnresolved reports</name>
-        <Lore>
-            <LoreLine>
-                <t id="reports-lore" color="&amp;7">&amp;7Shows all open reports.</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem id="my-reports" slot="2" material="PAPER" onLeftClick="manage-reports/view/my-assigned">
-        <name class="item-name" color="&amp;b">&amp;bReports assigned to you</name>
-        <Lore>
-            <LoreLine>
-                <t id="my-reports-lore" color="&amp;7">&amp;7Shows reports currently assigned to you.</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem id="assigned-reports" slot="3" material="PAPER" onLeftClick="manage-reports/view/assigned">
-        <name class="item-name" color="&amp;b">&amp;bReports In Progress</name>
-        <Lore>
-            <LoreLine>
-                <t id="assigned-reports-lore" color="&amp;7">&amp;7Shows reports that are currently being worked on.</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem id="closed-reports" slot="4" material="PAPER" onLeftClick="manage-reports/view/closed">
-        <name class="item-name" color="&amp;b">&amp;bClosed reports</name>
-        <Lore>
-            <LoreLine>
-                <t id="closed-reports-lore" color="&amp;7">&amp;7History of all closed reports.</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem id="miner" slot="10" if="true" material="STONE_PICKAXE" onLeftClick="miners/view">
-        <name class="item-name" color="&amp;b">&amp;bMiner GUI</name>
-        <Lore>
-            <LoreLine>
-                <t id="miner-lore" color="&amp;7">&amp;7Shows all players under the set Y value.</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem id="protected-areas" slot="19" permission="staff.protect.protect-area" if="true" material="SHIELD" onLeftClick="protected-areas/view">
-        <name class="item-name" color="&amp;b">&amp;bProtected Areas GUI</name>
-        <Lore>
-            <LoreLine>
-                <t id="protected-areas-lore" color="&amp;7">&amp;7Shows all currently set protected areas.</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem id="bans" slot="7" if="true" permission="staff.bans.appeals.view" material="PLAYER_HEAD" onLeftClick="manage-bans/view/overview">
-        <name class="item-name" color="&amp;b">&amp;bBanned players GUI</name>
-        <Lore>
-            <LoreLine>
-                <t id="bans-lore" color="&amp;7">&amp;7Shows all currently banned players.</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem id="mutes" permission="staff.mutes.appeals.view" slot="16" if="true" material="SPRUCE_SIGN" onLeftClick="manage-mutes/view/all-active">
-        <name class="item-name" color="&amp;b">&amp;bMuted players GUI</name>
-        <Lore>
-            <LoreLine>
-                <t id="mutes-lore" color="&amp;7">&amp;7Shows all currently muted players.</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
-    <GuiItem id="investigations" slot="25" permission="staff.investigation.manage.view" if="true" material="BOOK" onLeftClick="manage-investigations/view/overview">
-        <name class="item-name" color="&amp;b">&amp;bInvestigations GUI</name>
-        <Lore>
-            <LoreLine>
-                <t id="investigations-lore" color="&amp;7">&amp;7Shows all investigations.</t>
-            </LoreLine>
-        </Lore>
-    </GuiItem>
+   <title class="gui-title">&amp;eStaff Hub</title>
+   <GuiItem slot="0" id="color-select-0" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
+      <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
+      <Lore>
+         <LoreLine>
+            <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="8" id="color-select-1" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
+      <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
+      <Lore>
+         <LoreLine>
+            <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="9" id="color-select-2" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
+      <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
+      <Lore>
+         <LoreLine>
+            <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="17" id="color-select-3" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
+      <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
+      <Lore>
+         <LoreLine>
+            <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="18" id="color-select-4" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
+      <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
+      <Lore>
+         <LoreLine>
+            <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="26" id="color-select-5" material="BLUE_STAINED_GLASS_PANE" onLeftClick="hub/view/color-select">
+      <name class="item-name" color="&amp;b">Color #BLUE_STAINED_GLASS_PANE</name>
+      <Lore>
+         <LoreLine>
+            <t id="change-color-label" color="&amp;7">Click to change your GUI color!</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem slot="1" id="open-reports" material="PAPER" onLeftClick="manage-reports/view/open">
+      <name class="item-name" color="&amp;b">&amp;bUnresolved reports</name>
+      <Lore>
+         <LoreLine>
+            <t id="reports-lore" color="&amp;7">&amp;7Shows all open reports.</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="my-reports" slot="2" material="PAPER" onLeftClick="manage-reports/view/my-assigned">
+      <name class="item-name" color="&amp;b">&amp;bReports assigned to you</name>
+      <Lore>
+         <LoreLine>
+            <t id="my-reports-lore" color="&amp;7">&amp;7Shows reports currently assigned to you.</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="assigned-reports" slot="3" material="PAPER" onLeftClick="manage-reports/view/assigned">
+      <name class="item-name" color="&amp;b">&amp;bReports In Progress</name>
+      <Lore>
+         <LoreLine>
+            <t id="assigned-reports-lore" color="&amp;7">&amp;7Shows reports that are currently being worked on.</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="closed-reports" slot="4" material="PAPER" onLeftClick="manage-reports/view/closed">
+      <name class="item-name" color="&amp;b">&amp;bClosed reports</name>
+      <Lore>
+         <LoreLine>
+            <t id="closed-reports-lore" color="&amp;7">&amp;7History of all closed reports.</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="miner" slot="10" if="true" material="STONE_PICKAXE" onLeftClick="miners/view">
+      <name class="item-name" color="&amp;b">&amp;bMiner GUI</name>
+      <Lore>
+         <LoreLine>
+            <t id="miner-lore" color="&amp;7">&amp;7Shows all players under the set Y value.</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="protected-areas" slot="19" permission="staff.protect.protect-area" if="true" material="SHIELD" onLeftClick="protected-areas/view">
+      <name class="item-name" color="&amp;b">&amp;bProtected Areas GUI</name>
+      <Lore>
+         <LoreLine>
+            <t id="protected-areas-lore" color="&amp;7">&amp;7Shows all currently set protected areas.</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="bans" slot="7" if="true" permission="staff.bans.appeals.view" material="PLAYER_HEAD" onLeftClick="manage-bans/view/overview">
+      <name class="item-name" color="&amp;b">&amp;bBanned players GUI</name>
+      <Lore>
+         <LoreLine>
+            <t id="bans-lore" color="&amp;7">&amp;7Shows all currently banned players.</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="mutes" permission="staff.mutes.appeals.view" slot="16" if="true" material="SPRUCE_SIGN" onLeftClick="manage-mutes/view/all-active">
+      <name class="item-name" color="&amp;b">&amp;bMuted players GUI</name>
+      <Lore>
+         <LoreLine>
+            <t id="mutes-lore" color="&amp;7">&amp;7Shows all currently muted players.</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="investigations" slot="25" permission="staff.investigation.manage.view" if="true" material="BOOK" onLeftClick="manage-investigations/view/overview">
+      <name class="item-name" color="&amp;b">&amp;bInvestigations GUI</name>
+      <Lore>
+         <LoreLine>
+            <t id="investigations-lore" color="&amp;7">&amp;7Shows all investigations.</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="stafflocations" slot="11" permission="staff.staff-locations.view" material="MAP" onLeftClick="staff-locations/view">
+      <name class="item-name" color="&amp;b">Staff locations</name>
+      <Lore>
+         <LoreLine>
+            <t id="stafflocations-lore" color="&amp;7">Open overview</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
 </TubingGui>
