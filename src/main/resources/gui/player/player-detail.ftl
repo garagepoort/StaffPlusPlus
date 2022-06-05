@@ -85,6 +85,18 @@
             <LoreLine>&7Left click to &6view mute history</LoreLine>
         </Lore>
     </GuiItem>
+    <GuiItem
+             id="kick-summary"
+             slot="5"
+             if="config|kick-module.enabled"
+             permission="config|permissions:kick"
+             onLeftClick="manage-kicks/view/overview?targetPlayerName=${target.username}"
+             material="DIAMOND_BOOTS">
+        <name id="name-kicks" class="item-name" color="&6">Kicks</name>
+        <Lore>
+            <LoreLine>&7Left click to &6view kick history</LoreLine>
+        </Lore>
+    </GuiItem>
 
     <GuiItem id="ban-summary"
              slot="7"
