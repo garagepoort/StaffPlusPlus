@@ -23,7 +23,7 @@ public class XrayLogger {
 
         List<String> enchantments = new ArrayList<>();
         event.getPickaxe().getEnchantments()
-            .forEach((k, v) -> enchantments.add(JavaUtils.formatTypeName(k.getKey().getKey()) + " " + v));
+            .forEach((k, v) -> enchantments.add(JavaUtils.formatTypeName(k.getName()) + " " + v));
 
         return getLogMessage(event.getPlayer().getName(),
             event.getAmount(),

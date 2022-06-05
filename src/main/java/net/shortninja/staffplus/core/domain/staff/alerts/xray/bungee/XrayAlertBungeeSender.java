@@ -39,7 +39,7 @@ public class XrayAlertBungeeSender implements Listener {
 
         Map<String, Integer> enchantments = new HashMap<>();
         xrayEvent.getPickaxe().getEnchantments()
-            .forEach((k, v) -> enchantments.put(k.getKey().getKey(), v));
+            .forEach((k, v) -> enchantments.put(k.getName(), v));
 
         bungeeClient.sendMessage(
             player,
