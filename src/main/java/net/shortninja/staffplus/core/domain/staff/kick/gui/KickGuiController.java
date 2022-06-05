@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.kick.gui;
 
-import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiController;
 import be.garagepoort.mcioc.tubinggui.GuiParam;
@@ -16,11 +16,13 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+import static be.garagepoort.mcioc.tubinggui.AsyncGui.async;
 import static be.garagepoort.mcioc.tubinggui.templates.GuiTemplate.template;
 
 @GuiController
 public class KickGuiController {
 
+    private static final int PAGE_SIZE = 45;
     private final KickService kickService;
     private final PlayerManager playerManager;
     private final Options options;
@@ -38,6 +40,16 @@ public class KickGuiController {
         params.put("target", target);
         params.put("reasons", options.kickConfiguration.getKickReasons());
         return template("gui/kicks/kick-reason-selection.ftl", params);
+    }
+
+    @GuiAction("manage-kicks/view/overview")
+    public AsyncGui<GuiTemplate> getKickOverview(@GuiParam("targetPlayerName") String targetPlayerName, @GuiParam(value = "page", defaultValue = "0") int page) {
+        return async(() -> {
+            SppPlayer target = playerManager.getOnOrOfflinePlayer(targetPlayerName).orElseThrow((() -> new PlayerNotFoundException(targetPlayerName)));
+            Map<String, Object> params = new HashMap<>();
+            params.put("kicks", kickService.getAllKicksForPlayer(target.getId(), page * PAGE_SIZE, PAGE_SIZE));
+            return template("gui/kicks/kick-overview.ftl", params);
+        });
     }
 
     @GuiAction("manage-kicks/kick")
