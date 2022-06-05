@@ -54,6 +54,10 @@ public class KickService implements InfractionProvider {
         sendEvent(new KickEvent(kick));
     }
 
+    public List<Kick> getAllKicksForPlayer(UUID playerKicked, int offset, int amount) {
+        return kicksRepository.getKicksForPlayer(playerKicked, offset, amount);
+    }
+
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
         if (!options.infractionsConfiguration.isShowKicks()) {

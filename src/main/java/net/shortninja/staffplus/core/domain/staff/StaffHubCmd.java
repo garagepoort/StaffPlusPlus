@@ -26,7 +26,7 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.N
     usage = "[]",
     playerRetrievalStrategy = NONE
 )
-@IocBean(conditionalOnProperty = "mute-module.enabled=true")
+@IocBean
 @IocMultiProvider(SppCommand.class)
 public class StaffHubCmd extends AbstractCmd {
 
