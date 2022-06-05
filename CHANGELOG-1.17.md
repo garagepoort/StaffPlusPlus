@@ -1,5 +1,38 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.15
+
+### Features
+- Added staff locations
+- Prefixes in chat messages can now be ignored by prepending your message with `[NO_PREFIX]`
+- Added default vanish type. Allowing to do `/vanish` without parameters.
+- Vanish can now also be indicated by a bossbar
+- Added multiple extra options for vanish mode
+- Added a vanished luckperms context
+- Added tooltip support for messages
+- Added pickaxe info for xray events.
+
+### Bugs
+- Fix nullpointer when exiting staff mode
+- Fix vanish sometimes not vanishing completely after relogging
+
+### Features
+- Add translation for player info gui
+- Add /staffhub command
+- Added configuration option to switch confirmation type for ip bans
+- Added placeholder support for staff chat channel prefix
+
+### Bugs
+- Fix sqlite database locked error
+- Fix spaces shown as %space% in staff chat commands.
+- Some back actions were not working in the GUI
+- Fix logger warning
+
+# V1.18.14
+
+### Bugs
+- Fix connection leak
+
 # V1.18.13
 
 ### Features
