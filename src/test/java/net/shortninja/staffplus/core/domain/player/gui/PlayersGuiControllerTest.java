@@ -147,14 +147,16 @@ class PlayersGuiControllerTest extends AbstractTubingGuiTemplateTest {
     }
 
     @Test
-    public void playerDetail() {
+    public void playerDetail() throws URISyntaxException, IOException {
         when(playerManager.getOnOrOfflinePlayer("garagepoort")).thenReturn(Optional.of(sppPlayer1));
         when(sppPlayer1.getUsername()).thenReturn("garagepoort");
+        when(sppPlayer1.getId()).thenReturn(UUID_PLAYER_1);
         guiUtilsMockedStatic.when(() -> GuiUtils.getSession(sppPlayer1)).thenReturn(Optional.empty());
 
         guiActionService.executeAction(player, "players/view/detail?targetPlayerName=garagepoort");
 
         verify(tubingGuiXmlParser).toTubingGui(eq(player), xmlCaptor.capture());
         validateMaterials(xmlCaptor.getValue());
+        validateXml(xmlCaptor.getValue(), "/guitemplates/players/player-detail.xml");
     }
 }
