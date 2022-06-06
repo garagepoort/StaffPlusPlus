@@ -9,12 +9,14 @@
 - Vanish can now also be indicated by a bossbar
 - Added multiple extra options for vanish mode
 - Added a vanished luckperms context
-- Added tooltip support for messages
+- Added tooltip support for messages. For more info see wiki.
 - Added pickaxe info for xray events.
+- Added kicks overview button to player detail.
 
 ### Bugs
 - Fix nullpointer when exiting staff mode
 - Fix vanish sometimes not vanishing completely after relogging
+- Fix spectator mode not working in staff mode.
 
 ### Features
 - Add translation for player info gui
