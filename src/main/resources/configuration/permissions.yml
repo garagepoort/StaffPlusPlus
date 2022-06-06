@@ -292,7 +292,7 @@ kick-bypass: "staff.kicks.kick-bypass"
 
 ########################
 # MUTES
-# GROUP: staff.kicks
+# GROUP: staff.mutes
 ########################
 # Permission to mute players
 mute: "staff.mutes.mute"
@@ -344,8 +344,8 @@ examine-view-inventory.offline: "staff.inventory.view-inventory-offline"
 examine-view-ip: "staff.examine.view-ip"
 
 ########################
-# MUTES
-# GROUP: staff.kicks
+# ENDERCHEST
+# GROUP: staff.enderchests
 ########################
 # Permissions to view/interact with players enderchests
 enderchests:
