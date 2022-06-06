@@ -9,14 +9,12 @@ import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
-import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.location.gui.StaffLocationFiltersMapper;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,22 +41,23 @@ public class ViewStaffLocationsCmd extends AbstractCmd {
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         Player staff = validateIsPlayer(sender);
-        if(args.length == 0) {
+        if(optionalParameters.isEmpty()) {
             guiActionService.executeAction(staff, "staff-locations/view");
         }else {
             GuiActionBuilder guiActionBuilder = new GuiActionBuilder();
             guiActionBuilder.action("staff-locations/view/find-locations");
 
-            Arrays.stream(args).forEach(a -> {
-                String[] split = a.split("=");
-                if (split.length != 2) {
-                    throw new BusinessException("&CInvalid filter [" + a + "]");
-                }
-                guiActionBuilder.param(split[0], split[1]);
-            });
+            optionalParameters.forEach((k, v) -> guiActionBuilder.param(k.substring(1), v));
             guiActionService.executeAction(staff, guiActionBuilder.build());
         }
         return true;
+    }
+
+    @Override
+    protected List<String> getOptionalParameters() {
+        return staffLocationFiltersMapper.getFilterKeys().stream()
+            .map(k -> "-" + k)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -74,7 +73,7 @@ public class ViewStaffLocationsCmd extends AbstractCmd {
     @Override
     protected List<String> autoComplete(CommandSender sender, String[] args, String[] sppArgs) throws IllegalArgumentException {
         return staffLocationFiltersMapper.getFilterKeys().stream()
-            .map(k -> k += "=")
+            .map(k -> "-" + k + "=")
             .collect(Collectors.toList());
     }
 }
