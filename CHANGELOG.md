@@ -7,11 +7,13 @@
 - Prefixes in chat messages can now be ignored by prepending your message with `[NO_PREFIX]`
 - Added default vanish type. Allowing to do `/vanish` without parameters.
 - Vanish can now also be indicated by a bossbar
+- Added vanish others permission.
 - Added multiple extra options for vanish mode
 - Added a vanished luckperms context
 - Added tooltip support for messages. For more info see wiki.
 - Added pickaxe info for xray events.
 - Added kicks overview button to player detail.
+- Migrations table name is now configurable
 
 ### Bugs
 - Fix nullpointer when exiting staff mode
