@@ -34,7 +34,7 @@ public class JsonMessageSender extends AbstractMessageSender {
             message = prefix + " " + message;
         }
 
-        String[] messageParts = message.split("(?=(\\[tooltip\\|)(.*?)(]))" + "|" + "(?<=(\\[tooltip\\|)(.{0,1000})(]))");
+        String[] messageParts = message.split("(?s)(?=(\\[tooltip\\|)(.*?)(]))" + "|" + "(?<=(\\[tooltip\\|)(.{0,1000})(]))");
 
         JSONMessage jsonMessage = JSONMessage.create();
         for (String messagePart : messageParts) {
