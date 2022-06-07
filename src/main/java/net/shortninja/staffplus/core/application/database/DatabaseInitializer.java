@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.application.database;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcsqlmigrations.Migrations;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
@@ -18,8 +19,9 @@ public class DatabaseInitializer {
                                PlayerIpRepository playerIpRepository,
                                Options options,
                                StoredCommandRepository storedCommandRepository,
-                               PlayerManager playerManager) {
-        new Migrations(sqlConnectionProvider).run("migrations");
+                               PlayerManager playerManager,
+                               @ConfigProperty("storage.migrations-table-name") String migrationsTable) {
+        new Migrations(sqlConnectionProvider).run(migrationsTable);
     }
 
 }
