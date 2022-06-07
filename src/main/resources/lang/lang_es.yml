@@ -218,7 +218,7 @@ alerts-name: "&b&7%old% &b¡ha cambiado su nombre a &7%new%&b!"
 alerts-chat-phrase-detected: "&7%target% &bcolocó una palabra en el chat que contenía (&7%detectedPhrases%&b)"
 alerts-command-detected: "&7%target% &bha intentado ejecutar el comando (&7%command%&b)"
 alerts-mention: "&7%target% &b¡ha mencionado tu nombre en el chat!"
-alerts-xray: "&b&7%target% &bha minado &7%count% %itemtype%&b &7(%lightlevel%&7)"
+alerts-xray: "&b&7%target% &bha minado &7%count% %itemtype%&b With: [tooltip|&c%tool-type%|&b%tool-type%\n&7%tool-enchantments%]"
 alerts-blacklist: "&c[SWEAR] &7[%server%] &6%player%&7: %uncensored-message%"
 
 ############################################################

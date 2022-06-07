@@ -151,7 +151,7 @@ alerts-chat-phrase-detected: '&7%target% &bразместил в чате соо
   слова (&7%detectedPhrases%&b)'
 alerts-command-detected: "&7%target% &bhas tried executing the command (&7%command%&b)"
 alerts-mention: '&7%target% &bупомянул вас в чате!'
-alerts-xray: '&7%target% &bдобыл &7%count% %itemtype%&b! &7(%lightlevel%&7)'
+alerts-xray: '&7%target% &bдобыл &7%count% %itemtype%&b! With: [tooltip|&c%tool-type%|&b%tool-type%\n&7%tool-enchantments%]'
 alerts-blacklist: "&c[SWEAR] &7[%server%] &6%player%&7: %uncensored-message%"
 
 mode-status: '&bРежим персонала был &7%status%&b.'
