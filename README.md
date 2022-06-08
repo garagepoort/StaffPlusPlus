@@ -9,6 +9,7 @@ The main reason for this is so that we can start implementing new features easil
 ## Builds
 
 ![master](https://github.com/garagepoort/StaffPlusPlus/workflows/MasterBuild/badge.svg)
+![release1.19.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.19.0/badge.svg)
 ![release1.18.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.18.0/badge.svg)
 ![release1.17.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.17.0/badge.svg)
 ![release1.16.0](https://github.com/garagepoort/StaffPlusPlus/workflows/Release_1.16.0/badge.svg)
