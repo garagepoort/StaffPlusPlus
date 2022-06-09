@@ -17,6 +17,8 @@ modes:
         disable-on-logout: false
         enable-on-login: false
         disable-on-world-change: false
+        enable-commands: []
+        disable-commands: []
         gui:
             - compass-module:1
             - random-teleport-module:2
