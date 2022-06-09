@@ -35,11 +35,11 @@ public class StaffLocationsNotesGuiController {
 
     @ConfigProperty("%lang%:staff-locations.prefix")
     private String prefix;
-    @ConfigProperty("permissions.staff-locations.view-notes")
+    @ConfigProperty("permissions:staff-locations.view-notes")
     private String viewNotesPermission;
-    @ConfigProperty("permissions.staff-locations.create-note")
+    @ConfigProperty("permissions:staff-locations.create-note")
     private String createNotePermission;
-    @ConfigProperty("permissions.staff-locations.delete-note")
+    @ConfigProperty("permissions:staff-locations.delete-note")
     private String deleteNotePermission;
 
     @ConfigProperty("%lang%:staff-locations.add-note-chat-info")
