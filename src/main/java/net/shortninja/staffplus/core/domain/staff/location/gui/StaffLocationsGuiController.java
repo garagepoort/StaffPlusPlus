@@ -44,13 +44,13 @@ public class StaffLocationsGuiController {
 
     @ConfigProperty("%lang%:staff-locations.prefix")
     private String prefix;
-    @ConfigProperty("permissions.staff-locations.create")
+    @ConfigProperty("permissions:staff-locations.create")
     private String createPermission;
-    @ConfigProperty("permissions.staff-locations.edit")
+    @ConfigProperty("permissions:staff-locations.edit")
     private String editPermission;
-    @ConfigProperty("permissions.staff-locations.delete")
+    @ConfigProperty("permissions:staff-locations.delete")
     private String deletePermission;
-    @ConfigProperty("permissions.staff-locations.teleport")
+    @ConfigProperty("permissions:staff-locations.teleport")
     private String teleportPermission;
 
     @ConfigProperty("%lang%:staff-locations.add-chat-info")
