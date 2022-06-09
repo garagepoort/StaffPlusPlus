@@ -36,7 +36,7 @@ public class StaffLocationService {
     private final Options options;
     private final ActionService actionService;
 
-    @ConfigProperty("commands:staff-locations.teleport")
+    @ConfigProperty("commands:staff-locations.teleport-to-stafflocation")
     public List<String> teleportCommands;
 
     public StaffLocationService(StaffLocationRepository locationRepository, StaffLocationNotesRepository staffLocationNotesRepository, Options options, ActionService actionService) {
