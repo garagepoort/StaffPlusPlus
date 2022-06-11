@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import static net.shortninja.staffplusplus.chatchannels.ChatChannelType.FREEZE;
 
-@IocListener(conditionalOnProperty = "command-detection.enabled=true")
+@IocListener(conditionalOnProperty = "freeze-module.chatchannels.enabled=true")
 public class FreezeChatChannelListener implements Listener {
 
     @ConfigProperty("%lang%:freeze-chatchannel.prefix")
