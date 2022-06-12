@@ -40,6 +40,9 @@ public class PhraseDetectionChatInterceptor implements ChatInterceptor {
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
+        if(event.isCancelled()) {
+            return false;
+        }
         String message = event.getMessage();
         List<String> detectedPhrases = new ArrayList<>();
 
