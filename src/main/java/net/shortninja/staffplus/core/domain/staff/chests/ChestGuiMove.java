@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.chests;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -11,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,7 +31,7 @@ public class ChestGuiMove implements Listener {
         }
 
         ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
-        if(!chestGUI.isInteractionEnabled()) {
+        if (!chestGUI.isInteractionEnabled()) {
             event.setCancelled(true);
             return;
         }
@@ -55,6 +55,25 @@ public class ChestGuiMove implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onInventoryClose(InventoryCloseEvent event) {
+        Player player = (Player) event.getPlayer();
+        OnlinePlayerSession playerSession = sessionManager.get(player);
+        if (!playerSession.getCurrentGui().isPresent() || !(playerSession.getCurrentGui().get() instanceof ChestGUI)) {
+            return;
+        }
+
+        ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
+        if (!chestGUI.isInteractionEnabled()) {
+            return;
+        }
+
+        if (!isEmptyStack(player.getItemOnCursor())) {
+            if ("player".equalsIgnoreCase(chestGUI.getItemSelectedFrom())) {
+                player.setItemOnCursor(null);
+            }
+        }
+    }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void dragItem(InventoryDragEvent event) {
