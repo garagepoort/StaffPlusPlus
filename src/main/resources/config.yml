@@ -277,8 +277,8 @@ chat-module:
     # Bypass permission is "chat-slow".
     slow: 5
 
-    # Whenever one of these words/phrases is detected in a chat message, an alert will be triggered
-    # These can either notify the staff members through the alerts-system of discord.
+    # Whenever one of these words/phrases is detected in a chat message, the actions defined will be executed
+    # In addition a notification can be sent to staff members through the alerts-system or the discord integration plugin.
     detection:
         phrase-groups:
             -   phrases:
