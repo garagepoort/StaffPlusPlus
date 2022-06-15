@@ -258,6 +258,8 @@ vanish-module:
     silent-chest-opening: false
     # Allow interacting with a chest that has been silently opened
     silent-chest-interaction: false
+    # Will give players night vision while vanished in TOTAL or PLAYER mode.
+    night-vision: false
 
 ############################################################
 # +------------------------------------------------------+ #

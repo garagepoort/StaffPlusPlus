@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.Optional;
 
@@ -35,42 +34,43 @@ public class EnterStaffModeListener implements Listener {
 
     @EventHandler
     public void onEnterStaffMode(EnterStaffModeEvent event) {
-        Optional<SppPlayer> playerOptional = playerManager.getOnlinePlayer(event.getPlayerUuid());
-        if (!playerOptional.isPresent()) {
+        Optional<SppPlayer> sppPlayer = playerManager.getOnlinePlayer(event.getPlayerUuid());
+        if (!sppPlayer.isPresent()) {
             return;
         }
 
-        Player player = playerOptional.get().getPlayer();
+        Player player = sppPlayer.get().getPlayer();
         GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, event.getMode());
-        setPlayerStaffState(player, modeConfiguration);
+        setPlayerStaffState(sppPlayer.get(), modeConfiguration);
 
         messages.send(player, messages.modeStatus.replace("%status%", messages.enabled), messages.prefixGeneral);
     }
 
     @EventHandler
     public void onSwitchStaffMode(SwitchStaffModeEvent event) {
-        Optional<SppPlayer> playerOptional = playerManager.getOnlinePlayer(event.getPlayerUuid());
-        if (!playerOptional.isPresent()) {
+        Optional<SppPlayer> sppPlayer = playerManager.getOnlinePlayer(event.getPlayerUuid());
+        if (!sppPlayer.isPresent()) {
             return;
         }
 
-        Player player = playerOptional.get().getPlayer();
+        Player player = sppPlayer.get().getPlayer();
         GeneralModeConfiguration modeConfiguration = modeProvider.getMode(player, event.getToMode());
         resetPlayer(player, event.getModeData());
-        setPlayerStaffState(player, modeConfiguration);
+        setPlayerStaffState(sppPlayer.get(), modeConfiguration);
 
         messages.send(player, "&eYou switched to staff mode &6" + modeConfiguration.getName(), messages.prefixGeneral);
     }
 
-    private void setPlayerStaffState(Player player, GeneralModeConfiguration modeConfiguration) {
+    private void setPlayerStaffState(SppPlayer sppPlayer, GeneralModeConfiguration modeConfiguration) {
+        Player player = sppPlayer.getPlayer();
         staffModeItemsService.setStaffModeItems(player, modeConfiguration);
         player.setAllowFlight(modeConfiguration.isModeFlight());
         if (modeConfiguration.isModeCreative()) {
-            player.setGameMode(GameMode.CREATIVE);
+            sppPlayer.setGameMode(GameMode.CREATIVE);
         }
         player.getActivePotionEffects().stream().map(PotionEffect::getType).forEach(player::removePotionEffect);
         if (modeConfiguration.isNightVision()) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 128, false, false));
+            sppPlayer.turnNightVisionOn();
         }
     }
 
