@@ -9,7 +9,6 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.stream.Stream;
 
@@ -36,38 +35,44 @@ public class TotalVanishStrategy implements VanishStrategy {
     }
 
     @Override
-    public void vanish(Player player) {
+    public void vanish(SppPlayer player) {
+        if(vanishConfiguration.nightVisionEnabled) {
+            player.turnNightVisionOn();
+        }
         Bukkit.getOnlinePlayers().stream()
             .filter(p -> !permission.has(p, vanishConfiguration.permissionSeeVanished))
-            .forEach(p -> p.hidePlayer(player));
+            .forEach(p -> p.hidePlayer(player.getPlayer()));
         listVanish(player, true);
     }
 
     @Override
-    public void updateVanish(Player player) {
-        if (!permission.has(player, vanishConfiguration.permissionSeeVanished)) {
+    public void updateVanish(SppPlayer player) {
+        if (!permission.has(player.getPlayer(), vanishConfiguration.permissionSeeVanished)) {
             sessionManager.getAll().stream()
                 .filter(s -> s.getVanishType() == VanishType.TOTAL)
                 .map(s -> playerManager.getOnlinePlayer(s.getUuid()))
                 .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty))
                 .map(SppPlayer::getPlayer)
                 .forEach(p -> {
-                    player.hidePlayer(p.getPlayer());
+                    player.getPlayer().hidePlayer(p.getPlayer());
                     listVanish(player, true);
                 });
         }
     }
 
-    private void listVanish(Player player, boolean enabled) {
+    private void listVanish(SppPlayer player, boolean enabled) {
         if (vanishConfiguration.vanishTabList) {
-            protocolService.getVersionProtocol().listVanish(player, enabled);
+            protocolService.getVersionProtocol().listVanish(player.getPlayer(), enabled);
         }
     }
 
     @Override
-    public void unvanish(Player player) {
+    public void unvanish(SppPlayer player) {
         listVanish(player, false);
-        Bukkit.getOnlinePlayers().forEach(p -> p.showPlayer(player));
+        if(vanishConfiguration.nightVisionEnabled) {
+            player.turnNightVisionOff();
+        }
+        Bukkit.getOnlinePlayers().forEach(p -> p.showPlayer(player.getPlayer()));
     }
 
     @Override
