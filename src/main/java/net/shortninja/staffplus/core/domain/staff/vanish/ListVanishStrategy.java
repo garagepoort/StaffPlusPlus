@@ -8,7 +8,6 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.session.SessionManager;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.vanish.VanishType;
-import org.bukkit.entity.Player;
 
 import java.util.stream.Stream;
 
@@ -35,20 +34,20 @@ public class ListVanishStrategy implements VanishStrategy {
     }
 
     @Override
-    public void vanish(Player player) {
+    public void vanish(SppPlayer player) {
         if (vanishConfiguration.vanishTabList) {
-            protocolService.getVersionProtocol().listVanish(player, true);
+            protocolService.getVersionProtocol().listVanish(player.getPlayer(), true);
         }
     }
 
     @Override
-    public void unvanish(Player player) {
-        protocolService.getVersionProtocol().listVanish(player, false);
+    public void unvanish(SppPlayer player) {
+        protocolService.getVersionProtocol().listVanish(player.getPlayer(), false);
     }
 
     @Override
-    public void updateVanish(Player player) {
-        if (!permission.has(player, vanishConfiguration.permissionSeeVanished)) {
+    public void updateVanish(SppPlayer player) {
+        if (!permission.has(player.getPlayer(), vanishConfiguration.permissionSeeVanished)) {
             sessionManager.getAll().stream()
                 .filter(s -> s.getVanishType() == VanishType.LIST)
                 .map(s -> playerManager.getOnlinePlayer(s.getUuid()))
