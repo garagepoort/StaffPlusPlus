@@ -16,6 +16,8 @@ public class VanishConfiguration {
     public boolean vanishChatEnabled;
     @ConfigProperty("vanish-module.vanish-message-enabled")
     public boolean vanishMessageEnabled;
+    @ConfigProperty("vanish-module.night-vision")
+    public boolean nightVisionEnabled;
 
     @ConfigProperty("permissions:vanish")
     public String permissionVanishCommand;
