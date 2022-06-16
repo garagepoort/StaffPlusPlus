@@ -1,22 +1,31 @@
 package net.shortninja.staffplus.core.domain.blacklist;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import be.garagepoort.mcioc.configuration.transformers.ToLowerCase;
+import net.shortninja.staffplus.core.application.config.SplitByComma;
+
 import java.util.List;
 
+@IocBean
 public class BlackListConfiguration {
 
-    private final List<String> censoredWords;
-    private final List<String> censoredCharacters;
-    private final List<String> censoredDomains;
-    private final List<String> periods;
-    private final List<String> allowedWords;
-
-    public BlackListConfiguration(List<String> censoredWords, List<String> censoredCharacters, List<String> censoredDomains, List<String> periods, List<String> allowedWords) {
-        this.censoredWords = censoredWords;
-        this.censoredCharacters = censoredCharacters;
-        this.censoredDomains = censoredDomains;
-        this.periods = periods;
-        this.allowedWords = allowedWords;
-    }
+    @ConfigProperty("blacklist-module.words")
+    @ConfigTransformer({SplitByComma.class, ToLowerCase.class})
+    private List<String> censoredWords;
+    @ConfigProperty("blacklist-module.characters")
+    @ConfigTransformer(SplitByComma.class)
+    private List<String> censoredCharacters;
+    @ConfigProperty("blacklist-module.domains")
+    @ConfigTransformer({SplitByComma.class, ToLowerCase.class})
+    private List<String> censoredDomains;
+    @ConfigProperty("blacklist-module.periods")
+    @ConfigTransformer({SplitByComma.class, ToLowerCase.class})
+    private List<String> periods;
+    @ConfigProperty("blacklist-module.allowed")
+    @ConfigTransformer(SplitByComma.class)
+    private List<String> allowedWords;
 
     public List<String> getCensoredWords() {
         return censoredWords;
