@@ -3,44 +3,49 @@ package net.shortninja.staffplus.core.domain.blacklist.censors;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.blacklist.BlackListConfiguration;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @IocBean
 @IocMultiProvider(BlacklistCensor.class)
 public class IllegalWordsBlacklistCensor implements BlacklistCensor {
     @ConfigProperty("blacklist-module.character")
     private String censorCharacter;
+    @ConfigProperty("blacklist-module.merging")
+    private boolean merging;
 
     private final BlackListConfiguration blackListConfiguration;
 
-    public IllegalWordsBlacklistCensor(Options options) {
-        blackListConfiguration = options.blackListConfiguration;
+    public IllegalWordsBlacklistCensor(BlackListConfiguration blackListConfiguration) {
+        this.blackListConfiguration = blackListConfiguration;
     }
 
     @Override
     public String censor(String message) {
-        String newMessage = message;
+        List<String> censoredWords = Arrays.stream(message.split(" "))
+            .filter(w -> !isBypassable(w))
+            .filter(this::wordMatched)
+            .collect(Collectors.toList());
 
-        for (String word : newMessage.split(" ")) {
-            if (blackListConfiguration.getCensoredWords().contains(word.toLowerCase()) &&
-                !isBypassable(word.toLowerCase())) {
-                newMessage = censor(newMessage, word, censorCharacter);
-            }
+        String newMessage = message;
+        for (String censoredWord : censoredWords) {
+            newMessage = censor(newMessage, censoredWord, censorCharacter);
         }
         return newMessage;
     }
 
-    private boolean isBypassable(String word) {
-        boolean isBypassable = false;
-
-        for (String string : blackListConfiguration.getAllowedWords()) {
-            if (word.contains(string.toLowerCase())) {
-                isBypassable = true;
-                break;
-            }
+    private boolean wordMatched(String word) {
+        String wordLower = word.toLowerCase();
+        if (merging) {
+            return blackListConfiguration.getCensoredWords().stream().anyMatch(wordLower::contains);
         }
+        return blackListConfiguration.getCensoredWords().stream().anyMatch(wordLower::equalsIgnoreCase);
+    }
 
-        return isBypassable;
+    private boolean isBypassable(String word) {
+        return blackListConfiguration.getAllowedWords().stream().anyMatch(word::equalsIgnoreCase);
     }
 }
