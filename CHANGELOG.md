@@ -1,5 +1,23 @@
 # Changelog Staff++ | v1.18
 
+# V1.18.17
+
+### Features
+- Blacklist module now supports signs and anvils.
+- Night vision support for vanish
+- %message% placeholder added to phrase detection
+
+### Bugs
+- Fix merging option for blacklist module
+- Duplication issue fixed for silent inventory interaction
+- Fix phrase detection triggered on cancelled events
+- Fix freeze chat channel not getting disabled by the correct configuration property
+
+# V1.18.16
+
+### Bugs
+- Fix permission issue for staff-locations
+
 # V1.18.15
 
 ### Features
