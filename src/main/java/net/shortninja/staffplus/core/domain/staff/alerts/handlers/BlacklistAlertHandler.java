@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplusplus.alerts.AlertType;
-import net.shortninja.staffplusplus.chat.BlacklistCensoredEvent;
+import net.shortninja.staffplusplus.blacklist.BlacklistCensoredEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
