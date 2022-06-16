@@ -3,10 +3,10 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.domain.chat.blacklist.bungee.ChatMessageCensoredBungeeDto;
-import net.shortninja.staffplus.core.domain.chat.blacklist.bungee.ChatMessageCensoredBungeeEvent;
+import net.shortninja.staffplus.core.domain.blacklist.bungee.ChatMessageCensoredBungeeDto;
+import net.shortninja.staffplus.core.domain.blacklist.bungee.ChatMessageCensoredBungeeEvent;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.chat.ChatMessageCensoredEvent;
+import net.shortninja.staffplusplus.chat.BlacklistCensoredEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -22,12 +22,13 @@ public class BlacklistAlertConsoleHandler implements Listener {
     }
 
     @EventHandler
-    public void handle(ChatMessageCensoredEvent chatMessageCensoredEvent) {
+    public void handle(BlacklistCensoredEvent blacklistCensoredEvent) {
         String message = messages.alertsBlacklist
-            .replace("%player%", chatMessageCensoredEvent.getPlayer().getName())
-            .replace("%uncensored-message%", chatMessageCensoredEvent.getOriginalMessage())
-            .replace("%censored-message%", chatMessageCensoredEvent.getCensoredMessage())
-            .replace("%server%", chatMessageCensoredEvent.getServerName());
+            .replace("%player%", blacklistCensoredEvent.getPlayer().getName())
+            .replace("%uncensored-message%", blacklistCensoredEvent.getOriginalMessage())
+            .replace("%censored-message%", blacklistCensoredEvent.getCensoredMessage())
+            .replace("%blacklist-type%", blacklistCensoredEvent.getBlacklistType().name())
+            .replace("%server%", blacklistCensoredEvent.getServerName());
 
         StaffPlus.get().getLogger().info(message);
     }
@@ -39,6 +40,7 @@ public class BlacklistAlertConsoleHandler implements Listener {
             .replace("%player%", chatMessageCensoredBungeeDto.getPlayerName())
             .replace("%uncensored-message%", chatMessageCensoredBungeeDto.getOriginalMessage())
             .replace("%censored-message%", chatMessageCensoredBungeeDto.getCensoredMessage())
+            .replace("%blacklist-type%", chatMessageCensoredBungeeDto.getBlacklistType().name())
             .replace("%server%", chatMessageCensoredBungeeDto.getServerName());
 
         StaffPlus.get().getLogger().info(message);
