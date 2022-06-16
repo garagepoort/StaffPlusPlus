@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.chat.blacklist.bungee;
+package net.shortninja.staffplus.core.domain.blacklist.bungee;
 
 import be.garagepoort.mcioc.IocMessageListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
