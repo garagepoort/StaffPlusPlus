@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.freeze.config;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
-import net.shortninja.staffplus.core.application.config.CommaSplitTransformer;
+import net.shortninja.staffplus.core.application.config.SplitByComma;
 import net.shortninja.staffplus.core.application.config.SoundsConfigTransformer;
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
@@ -34,7 +34,7 @@ public class FreezeConfiguration {
     @ConfigProperty("freeze-module.chat-message-enabled")
     public boolean chatMessageEnabled;
     @ConfigProperty("freeze-module.logout-commands")
-    @ConfigTransformer(CommaSplitTransformer.class)
+    @ConfigTransformer(SplitByComma.class)
     public List<String> logoutCommands;
     @ConfigProperty("freeze-module.title-message-enabled")
     public boolean titleMessageEnabled;
