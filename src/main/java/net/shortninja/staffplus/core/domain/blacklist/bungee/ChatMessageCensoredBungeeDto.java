@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.blacklist.bungee;
 
 import net.shortninja.staffplus.core.common.bungee.BungeeMessage;
-import net.shortninja.staffplusplus.chat.BlacklistCensoredEvent;
-import net.shortninja.staffplusplus.chat.BlacklistType;
+import net.shortninja.staffplusplus.blacklist.BlacklistCensoredEvent;
+import net.shortninja.staffplusplus.blacklist.BlacklistType;
 
 import java.util.UUID;
 
