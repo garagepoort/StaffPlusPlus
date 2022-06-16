@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.TubingPlugin;
 import be.garagepoort.mcioc.configuration.files.ConfigMigrator;
 import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
+import net.shortninja.staffplus.core.application.config.migrators.BlacklistModuleMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.CommandsMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.CommandsMultipleAliasesMigrator;
 import net.shortninja.staffplus.core.application.config.migrators.CommandsV2Migrator;
@@ -120,7 +121,8 @@ public class StaffPlus extends TubingPlugin implements IStaffPlus {
             new ServerSyncBooleanMigrator(),
             new PhraseDetectionToGroupsMigrator(),
             new CommandsMultipleAliasesMigrator(),
-            new SoundOrbPickupMigrator());
+            new SoundOrbPickupMigrator(),
+            new BlacklistModuleMigrator());
     }
 
     @Override
