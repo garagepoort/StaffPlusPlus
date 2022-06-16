@@ -6,7 +6,7 @@ import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.blacklist.bungee.ChatMessageCensoredBungeeDto;
 import net.shortninja.staffplus.core.domain.blacklist.bungee.ChatMessageCensoredBungeeEvent;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
-import net.shortninja.staffplusplus.chat.BlacklistCensoredEvent;
+import net.shortninja.staffplusplus.blacklist.BlacklistCensoredEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
