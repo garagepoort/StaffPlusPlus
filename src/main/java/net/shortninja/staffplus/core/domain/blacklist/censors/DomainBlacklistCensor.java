@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.blacklist.censors;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.blacklist.BlackListConfiguration;
 
 import java.util.Arrays;
@@ -19,8 +18,8 @@ public class DomainBlacklistCensor implements BlacklistCensor {
 
     private final BlackListConfiguration blackListConfiguration;
 
-    public DomainBlacklistCensor(Options options) {
-        blackListConfiguration = options.blackListConfiguration;
+    public DomainBlacklistCensor(BlackListConfiguration blackListConfiguration) {
+        this.blackListConfiguration = blackListConfiguration;
     }
 
     @Override

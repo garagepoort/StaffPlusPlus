@@ -3,12 +3,8 @@ package net.shortninja.staffplus.core.application.config;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.authentication.AuthenticationConfiguration;
-import net.shortninja.staffplus.core.authentication.AuthenticationConfigurationLoader;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.Materials;
-import net.shortninja.staffplus.core.domain.blacklist.BlackListConfiguration;
-import net.shortninja.staffplus.core.domain.blacklist.BlackListConfigurationLoader;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfigurationLoader;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
@@ -53,11 +49,9 @@ public class Options {
     public boolean offlinePlayersModeEnabled;
 
     public Map<String, Location> locations;
-    public AuthenticationConfiguration authenticationConfiguration;
     public InfractionsConfiguration infractionsConfiguration;
     public InvestigationConfiguration investigationConfiguration;
     public WarningAppealConfiguration warningAppealConfiguration;
-    public BlackListConfiguration blackListConfiguration;
     public TraceConfiguration traceConfiguration;
     public BroadcastConfiguration broadcastConfiguration;
     public KickConfiguration kickConfiguration;
@@ -74,9 +68,7 @@ public class Options {
      */
     public String permissionMember;
 
-    private final AuthenticationConfigurationLoader authenticationConfigurationLoader;
     private final InfractionsModuleLoader infractionsModuleLoader;
-    private final BlackListConfigurationLoader blackListConfigurationLoader;
     private final TraceModuleLoader traceModuleLoader;
     private final BroadcastConfigurationLoader broadcastConfigurationLoader;
     private final KickModuleLoader kickModuleLoader;
@@ -88,9 +80,7 @@ public class Options {
     @ConfigProperty("offline-player-cache")
     public boolean offlinePlayerCache;
 
-    public Options(AuthenticationConfigurationLoader authenticationConfigurationLoader,
-                   InfractionsModuleLoader infractionsModuleLoader,
-                   BlackListConfigurationLoader blackListConfigurationLoader,
+    public Options(InfractionsModuleLoader infractionsModuleLoader,
                    TraceModuleLoader traceModuleLoader,
                    BroadcastConfigurationLoader broadcastConfigurationLoader,
                    KickModuleLoader kickModuleLoader,
@@ -100,9 +90,7 @@ public class Options {
                    StaffItemsLoader staffItemsLoader,
                    WarningAppealConfiguration warningAppealConfiguration,
                    ServerSyncConfiguration serverSyncConfiguration) {
-        this.authenticationConfigurationLoader = authenticationConfigurationLoader;
         this.infractionsModuleLoader = infractionsModuleLoader;
-        this.blackListConfigurationLoader = blackListConfigurationLoader;
         this.traceModuleLoader = traceModuleLoader;
         this.broadcastConfigurationLoader = broadcastConfigurationLoader;
         this.kickModuleLoader = kickModuleLoader;
@@ -140,9 +128,7 @@ public class Options {
         offlinePlayersModeEnabled = defaultConfig.getBoolean("offline-players-mode");
 
         locations = new LocationLoader().loadConfig();
-        authenticationConfiguration = this.authenticationConfigurationLoader.loadConfig();
         infractionsConfiguration = this.infractionsModuleLoader.loadConfig();
-        blackListConfiguration = this.blackListConfigurationLoader.loadConfig();
         traceConfiguration = this.traceModuleLoader.loadConfig();
         broadcastConfiguration = this.broadcastConfigurationLoader.loadConfig();
         kickConfiguration = this.kickModuleLoader.loadConfig();
