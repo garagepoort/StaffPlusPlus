@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.chat.blacklist.bungee;
+package net.shortninja.staffplus.core.domain.blacklist.bungee;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
