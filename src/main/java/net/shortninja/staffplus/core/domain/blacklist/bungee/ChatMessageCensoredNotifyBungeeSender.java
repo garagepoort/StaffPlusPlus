@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfigTransformer;
-import net.shortninja.staffplusplus.chat.BlacklistCensoredEvent;
+import net.shortninja.staffplusplus.blacklist.BlacklistCensoredEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
