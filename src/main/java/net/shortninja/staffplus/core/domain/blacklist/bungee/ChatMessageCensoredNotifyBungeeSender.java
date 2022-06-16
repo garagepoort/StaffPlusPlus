@@ -1,4 +1,4 @@
-package net.shortninja.staffplus.core.domain.chat.blacklist.bungee;
+package net.shortninja.staffplus.core.domain.blacklist.bungee;
 
 import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
@@ -7,7 +7,7 @@ import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfigTransformer;
-import net.shortninja.staffplusplus.chat.ChatMessageCensoredEvent;
+import net.shortninja.staffplusplus.chat.BlacklistCensoredEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,11 +27,11 @@ public class ChatMessageCensoredNotifyBungeeSender implements Listener {
     }
 
     @EventHandler
-    public void onChatMessageCensored(ChatMessageCensoredEvent chatMessageCensoredEvent) {
+    public void onChatMessageCensored(BlacklistCensoredEvent blacklistCensoredEvent) {
         if (Bukkit.getOnlinePlayers().isEmpty()) {
             return;
         }
         Player player = Bukkit.getOnlinePlayers().iterator().next();
-        bungeeClient.sendMessage(player, Constants.BUNGEE_BLACKLIST_ALERT_CHANNEL, new ChatMessageCensoredBungeeDto(chatMessageCensoredEvent), syncServers);
+        bungeeClient.sendMessage(player, Constants.BUNGEE_BLACKLIST_ALERT_CHANNEL, new ChatMessageCensoredBungeeDto(blacklistCensoredEvent), syncServers);
     }
 }
