@@ -216,7 +216,7 @@ alerts-chat-phrase-detected: "&7%target% &bhas placed a message in chat containi
 alerts-command-detected: "&7%target% &bhas tried executing the command (&7%command%&b)"
 alerts-mention: "&7%target% &bhas mentioned your name in chat!"
 alerts-xray: "&b%target% &7has mined &b%count% %itemtype%&7! With: [tooltip|&b%tool-type%|&b%tool-type%\n&7%tool-enchantments%]"
-alerts-blacklist: "&c[SWEAR] &7[%server%] &6%player%&7: %uncensored-message%"
+alerts-blacklist: "&c[SWEAR | %blacklist-type%] &7[%server%] &6%player%&7: %uncensored-message%"
 
 ############################################################
 # +------------------------------------------------------+ #
