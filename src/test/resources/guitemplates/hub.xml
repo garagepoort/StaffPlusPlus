@@ -96,7 +96,7 @@
          </LoreLine>
       </Lore>
    </GuiItem>
-   <GuiItem id="bans" slot="7" if="true" permission="staff.bans.appeals.view" material="PLAYER_HEAD" onLeftClick="manage-bans/view/overview">
+   <GuiItem id="bans" slot="7" if="true" permission="staff.bans.ban-view" material="PLAYER_HEAD" onLeftClick="manage-bans/view/overview">
       <name class="item-name" color="&amp;b">&amp;bBanned players GUI</name>
       <Lore>
          <LoreLine>
@@ -104,7 +104,7 @@
          </LoreLine>
       </Lore>
    </GuiItem>
-   <GuiItem id="mutes" permission="staff.mutes.appeals.view" slot="16" if="true" material="SIGN" onLeftClick="manage-mutes/view/all-active">
+   <GuiItem id="mutes" permission="staff.mutes.mute-view" slot="16" if="true" material="SIGN" onLeftClick="manage-mutes/view/all-active">
       <name class="item-name" color="&amp;b">&amp;bMuted players GUI</name>
       <Lore>
          <LoreLine>
