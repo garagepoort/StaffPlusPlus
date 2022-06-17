@@ -15,7 +15,7 @@ import net.shortninja.staffplusplus.xray.XrayEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener
+@IocListener(conditionalOnProperty = "alerts-module.xray-alerts.enabled=true")
 public class XrayAlertHandler extends AlertsHandler implements Listener {
 
     private final XrayConfiguration xrayConfiguration;
@@ -36,19 +36,11 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
 
     @EventHandler
     public void handle(XrayEvent event) {
-        if (!alertsConfiguration.alertsXrayEnabled) {
-            return;
-        }
-
         messages.send(getPlayersToNotify(), xrayLogger.getLogMessage(event), messages.prefixGeneral);
     }
 
     @EventHandler
     public void handle(XrayAlertBungeeEvent event) {
-        if (!alertsConfiguration.alertsXrayEnabled) {
-            return;
-        }
-
         XrayAlertBungeeDto xrayAlertBungeeDto = event.getXrayAlertBungeeDto();
         messages.send(getPlayersToNotify(), xrayLogger.getLogMessage(xrayAlertBungeeDto), messages.prefixGeneral);
     }
