@@ -101,7 +101,7 @@
     <GuiItem id="bans"
              slot="7"
              if="config|staffmode-modules:modules.gui-module.ban-gui"
-             permission="config|permissions:bans.appeals.view"
+             permission="config|permissions:ban-view"
              material="BANNER"
              onLeftClick="manage-bans/view/overview">
         <name class="item-name" color="&b">${$config.get("staffmode-modules:modules.gui-module.ban-name")}</name>
@@ -114,7 +114,7 @@
 
 
     <GuiItem id="mutes"
-             permission="config|permissions:mutes.appeals.view"
+             permission="config|permissions:mute-view"
              slot="16"
              if="config|staffmode-modules:modules.gui-module.mute-gui"
              material="SIGN"
