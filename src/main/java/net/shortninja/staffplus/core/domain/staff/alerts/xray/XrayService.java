@@ -2,6 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.alerts.xray;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.XrayConfiguration;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,17 +18,24 @@ public class XrayService {
 
     private final List<XrayStrategy> xrayStrategies;
     private final XrayConfiguration xrayConfiguration;
+    private final PermissionHandler permission;
 
     private static final Map<Player, Map<Material, XrayTrace>> playerTraces = new HashMap<>();
 
-    public XrayService(@IocMulti(XrayStrategy.class) List<XrayStrategy> xrayStrategies, XrayConfiguration xrayConfiguration) {
+
+    public XrayService(@IocMulti(XrayStrategy.class) List<XrayStrategy> xrayStrategies, XrayConfiguration xrayConfiguration, PermissionHandler permission) {
         this.xrayStrategies = xrayStrategies;
         this.xrayConfiguration = xrayConfiguration;
+        this.permission = permission;
     }
 
     public void handleBlockBreak(Block block, Player player) {
+        if (permission.has(player, xrayConfiguration.permissionXrayBypass)) {
+            return;
+        }
+
         Optional<XrayBlockConfig> xrayBlockConfigOptional = xrayConfiguration.getBlockConfig(block.getType());
-        if (!xrayBlockConfigOptional.isPresent()) {
+        if (!xrayBlockConfigOptional.isPresent() ) {
             return;
         }
 
