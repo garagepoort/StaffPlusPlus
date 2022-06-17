@@ -11,12 +11,9 @@ import net.shortninja.staffplus.core.domain.staff.alerts.config.XrayConfiguratio
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.bungee.XrayAlertBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.bungee.XrayAlertBungeeEvent;
 import net.shortninja.staffplusplus.alerts.AlertType;
-import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.xray.XrayEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-
-import java.util.Optional;
 
 @IocListener
 public class XrayAlertHandler extends AlertsHandler implements Listener {
@@ -42,9 +39,6 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
         if (!alertsConfiguration.alertsXrayEnabled) {
             return;
         }
-        if (permission.has(event.getPlayer(), xrayConfiguration.permissionXrayBypass)) {
-            return;
-        }
 
         messages.send(getPlayersToNotify(), xrayLogger.getLogMessage(event), messages.prefixGeneral);
     }
@@ -56,11 +50,6 @@ public class XrayAlertHandler extends AlertsHandler implements Listener {
         }
 
         XrayAlertBungeeDto xrayAlertBungeeDto = event.getXrayAlertBungeeDto();
-        Optional<SppPlayer> sppPlayer = playerManager.getOnOrOfflinePlayer(xrayAlertBungeeDto.getPlayerUuid());
-        if (sppPlayer.isPresent() && permission.has(sppPlayer.get().getOfflinePlayer(), xrayConfiguration.permissionXrayBypass)) {
-            return;
-        }
-
         messages.send(getPlayersToNotify(), xrayLogger.getLogMessage(xrayAlertBungeeDto), messages.prefixGeneral);
     }
 
