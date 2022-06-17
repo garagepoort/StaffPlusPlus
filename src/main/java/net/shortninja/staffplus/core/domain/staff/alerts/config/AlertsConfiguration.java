@@ -18,14 +18,10 @@ public class AlertsConfiguration {
     public boolean alertsNameNotify;
     @ConfigProperty("alerts-module.mention-notify")
     public boolean alertsMentionNotify;
-    @ConfigProperty("alerts-module.xray-alerts.enabled")
-    public boolean alertsXrayEnabled;
     @ConfigProperty("alerts-module.alt-detect-notify.enabled")
     public boolean alertsAltDetectEnabled;
     @ConfigProperty("alerts-module.chat-phrase-detection")
     public boolean alertsChatPhraseDetectionEnabled;
-    @ConfigProperty("alerts-module.command-detection")
-    public boolean alertsCommandDetectionEnabled;
     @ConfigProperty("alerts-module.alt-detect-notify.trust-levels")
     @ConfigTransformer(AltDetectTrustLevelConfigTransformer.class)
     public List<AltDetectTrustLevel> alertsAltDetectTrustLevels;
