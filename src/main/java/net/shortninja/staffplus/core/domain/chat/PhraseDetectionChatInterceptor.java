@@ -2,7 +2,9 @@ package net.shortninja.staffplus.core.domain.chat;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
@@ -20,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
+
 @IocBean
 @IocMultiProvider(ChatInterceptor.class)
 public class PhraseDetectionChatInterceptor implements ChatInterceptor {
@@ -29,19 +33,30 @@ public class PhraseDetectionChatInterceptor implements ChatInterceptor {
     private final BukkitUtils bukkitUtils;
     private final ActionService actionService;
     private final ConfiguredCommandMapper configuredCommandMapper;
+    private final PermissionHandler permission;
 
-    public PhraseDetectionChatInterceptor(Options options, ChatConfiguration chatConfiguration, BukkitUtils bukkitUtils, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper) {
+    @ConfigProperty("permissions:chat-phrase-detection-bypass")
+    public String permissionChatPhraseDetectionBypass;
+
+    public PhraseDetectionChatInterceptor(Options options,
+                                          ChatConfiguration chatConfiguration,
+                                          BukkitUtils bukkitUtils,
+                                          ActionService actionService,
+                                          ConfiguredCommandMapper configuredCommandMapper,
+                                          PermissionHandler permission) {
         this.options = options;
         this.chatConfiguration = chatConfiguration;
         this.bukkitUtils = bukkitUtils;
         this.actionService = actionService;
         this.configuredCommandMapper = configuredCommandMapper;
+        this.permission = permission;
     }
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
-        if(event.isCancelled()) {
+        if(event.isCancelled() || permission.has(event.getPlayer(), permissionChatPhraseDetectionBypass)) {
             return false;
+
         }
         String message = event.getMessage();
         List<String> detectedPhrases = new ArrayList<>();
@@ -59,7 +74,7 @@ public class PhraseDetectionChatInterceptor implements ChatInterceptor {
         }
 
         if (!detectedPhrases.isEmpty()) {
-            BukkitUtils.sendEvent(new PhrasesDetectedEvent(options.serverName, event.getPlayer(), event.getMessage(), detectedPhrases));
+            sendEvent(new PhrasesDetectedEvent(options.serverName, event.getPlayer(), event.getMessage(), detectedPhrases));
         }
         return false;
     }

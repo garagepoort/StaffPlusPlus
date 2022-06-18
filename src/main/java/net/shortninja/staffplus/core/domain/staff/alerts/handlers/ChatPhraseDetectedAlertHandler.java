@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener
+@IocListener(conditionalOnProperty = "alerts-module.chat-phrase-detection=true")
 public class ChatPhraseDetectedAlertHandler extends AlertsHandler implements Listener {
 
     public ChatPhraseDetectedAlertHandler(AlertsConfiguration alertsConfiguration,
@@ -27,14 +27,6 @@ public class ChatPhraseDetectedAlertHandler extends AlertsHandler implements Lis
 
     @EventHandler
     public void handle(PhrasesDetectedEvent phrasesDetectedEvent) {
-        if (!alertsConfiguration.alertsChatPhraseDetectionEnabled) {
-            return;
-        }
-
-        if (permission.has(phrasesDetectedEvent.getPlayer(), alertsConfiguration.permissionChatPhraseDetectionBypass)) {
-            return;
-        }
-
         for (Player player : getPlayersToNotify()) {
             messages.send(player, messages.alertsChatPhraseDetected
                 .replace("%target%", phrasesDetectedEvent.getPlayer().getName())
