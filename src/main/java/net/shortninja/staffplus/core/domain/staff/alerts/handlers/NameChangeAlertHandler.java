@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener
+@IocListener(conditionalOnProperty = "alerts-module.name-notify=true")
 public class NameChangeAlertHandler extends AlertsHandler implements Listener {
 
     private final AlertsConfiguration alertsConfiguration;
@@ -32,17 +32,11 @@ public class NameChangeAlertHandler extends AlertsHandler implements Listener {
 
     @EventHandler
     public void handle(NameChangeEvent nameChangeEvent) {
-        if (!alertsConfiguration.alertsNameNotify) {
-            return;
-        }
         notifyPlayers(nameChangeEvent.getOldName(), nameChangeEvent.getNewName(), nameChangeEvent.getServerName());
     }
 
     @EventHandler
     public void handle(NameChangedBungeeEvent nameChangeEvent) {
-        if (!alertsConfiguration.alertsNameNotify) {
-            return;
-        }
         NameChangeBungeeDto nameChangeBungeeDto = nameChangeEvent.getNameChangeBungeeDto();
         notifyPlayers(nameChangeBungeeDto.getOldName(), nameChangeBungeeDto.getNewName(), nameChangeBungeeDto.getServerName());
     }

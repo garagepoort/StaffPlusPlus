@@ -91,7 +91,7 @@
    <GuiItem id="teleport-here" if="false" permission="staff.teleport.teleport-here" slot="22" onLeftClick="teleport-here?targetPlayerName=garagepoort" material="NETHER_STAR">
       <name class="item-name">Teleport here</name>
    </GuiItem>
-   <GuiItem id="view-inventory" slot="23" onLeftClick="manage-inventory/open?targetPlayerName=garagepoort" permission="staff.inventory.inventory-interaction-offline" material="CHEST">
+   <GuiItem id="view-inventory" slot="23" onLeftClick="manage-inventory/open?targetPlayerName=garagepoort" permission="staff.inventory.view-inventory-offline" material="CHEST">
       <name class="item-name">View inventory</name>
    </GuiItem>
    <GuiItem id="View Enderchest" slot="24" permission="staff.enderchests.view.offline" onLeftClick="manage-enderchest/open?targetPlayerName=garagepoort" material="ENDER_CHEST">
