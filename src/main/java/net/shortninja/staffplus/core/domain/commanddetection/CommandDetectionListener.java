@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.domain.commanddetection;
 
 import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
@@ -23,21 +25,30 @@ import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 @IocListener(conditionalOnProperty = "command-detection.enabled=true")
 public class CommandDetectionListener implements Listener {
 
+    @ConfigProperty("permissions:command-detection-bypass")
+    private String permissionCommandDetectionBypass;
+
     private final CommandDetectionConfiguration commandDetectionConfiguration;
     private final BukkitUtils bukkitUtils;
     private final ActionService actionService;
     private final ConfiguredCommandMapper configuredCommandMapper;
+    private final PermissionHandler permissionHandler;
 
-    public CommandDetectionListener(CommandDetectionConfiguration commandDetectionConfiguration, BukkitUtils bukkitUtils, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper) {
+    public CommandDetectionListener(CommandDetectionConfiguration commandDetectionConfiguration, BukkitUtils bukkitUtils, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper, PermissionHandler permissionHandler) {
         this.commandDetectionConfiguration = commandDetectionConfiguration;
         this.bukkitUtils = bukkitUtils;
         this.actionService = actionService;
         this.configuredCommandMapper = configuredCommandMapper;
+        this.permissionHandler = permissionHandler;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
+        if(permissionHandler.has(player, permissionCommandDetectionBypass)) {
+            return;
+        }
+
         String command = event.getMessage().toLowerCase();
 
         for (CommandDetectionGroupConfiguration groupConfig : commandDetectionConfiguration.commandsToDetect) {

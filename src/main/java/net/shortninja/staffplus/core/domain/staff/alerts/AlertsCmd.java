@@ -32,7 +32,7 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 
 @Command(
     command = "commands:alerts",
-    permissions = {"permissions:mention", "permissions:name-change", "permissions:xray"},
+    permissions = "permissions:alerts.manage-alerts",
     description = "Enables or disables the alert type.",
     usage = "[namechange | mention | xray | blacklist | alt_detect | command_detection] {player} {enable | disable}",
     playerRetrievalStrategy = ONLINE
