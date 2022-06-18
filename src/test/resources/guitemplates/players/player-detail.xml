@@ -1,0 +1,103 @@
+<TubingGui size="27" id="player-detail">
+   <title class="gui-title">garagepoort</title>
+   <GuiItem id="player-info" class="player-info" slot="0" onLeftClick="$NOOP" onRightClick="$NOOP" onMiddleClick="$NOOP" material="PLAYER_HEAD">
+      <name class="item-name" color="&amp;5">garagepoort</name>
+      <Lore>
+         <LoreLine permission="staff.player-view.detail.uuid">
+            <t id="uuid-label" class="detail-label" color="&amp;b">UUID: </t>
+            <t id="uuid-value" class="detail-value" color="&amp;6">a8525382-49ed-4c9c-9c50-c00a0e570159</t>
+         </LoreLine>
+         <LoreLine>
+            <t color="&amp;7" class="line-separator">---------------</t>
+         </LoreLine>
+         <LoreLine if="false">
+            <t id="online-label" color="&amp;2">ONLINE</t>
+         </LoreLine>
+         <LoreLine if="true">
+            <t id="offline-label" color="&amp;C">OFFLINE</t>
+         </LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="reports-summary" slot="2" if="true" permission="staff.reports.manage.view" onLeftClick="manage-reports/view/find-reports?reporter=garagepoort" onRightClick="manage-reports/view/find-reports?culprit=garagepoort" material="BLUE_BANNER">
+      <name class="item-name">Reports</name>
+      <Lore>
+         <LoreLine>
+            <t id="reports-created" color="&amp;7">(</t>
+            <t id="reports-created-amount" color="&amp;2">0</t>
+            <t id="reports-created" color="&amp;7">) reports created</t>
+         </LoreLine>
+         <LoreLine>
+            <t id="times-reported" color="&amp;7">(</t>
+            <t id="times-reported-amount" color="&amp;C">0</t>
+            <t id="times-reported" color="&amp;7">) times reported</t>
+         </LoreLine>
+         <LoreLine></LoreLine>
+         <LoreLine>&amp;7Left click to &amp;6view reports created</LoreLine>
+         <LoreLine>&amp;7Right click to &amp;6view reported reports</LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="warnings-summary" slot="3" material="BLUE_BANNER" if="true" onLeftClick="manage-warnings/view/overview?targetPlayerName=garagepoort" permission="staff.warnings.manage.view">
+      <name class="item-name">Warnings</name>
+      <Lore>
+         <LoreLine>&amp;7(&amp;C0&amp;7) times warned</LoreLine>
+         <LoreLine></LoreLine>
+         <LoreLine>
+            <t color="&amp;7" class="line-separator">---------------</t>
+         </LoreLine>
+         <LoreLine>&amp;7Left click to &amp;6view warning history</LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="mute-summary" slot="6" if="true" permission="staff.mutes.mute-view" onLeftClick="manage-mutes/view/history?targetPlayerName=garagepoort" material="LEVER">
+      <name id="name-not-muted" class="item-name" color="&amp;2">Not muted</name>
+      <Lore>
+         <LoreLine></LoreLine>
+         <LoreLine>
+            <t color="&amp;7" class="line-separator">---------------</t>
+         </LoreLine>
+         <LoreLine>&amp;7Left click to &amp;6view mute history</LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="kick-summary" slot="5" if="false" permission="staff.kicks.kick" onLeftClick="manage-kicks/view/overview?targetPlayerName=garagepoort" material="DIAMOND_BOOTS">
+      <name id="name-kicks" class="item-name" color="&amp;6">Kicks</name>
+      <Lore>
+         <LoreLine>&amp;7Left click to &amp;6view kick history</LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="ban-summary" slot="7" if="true" permission="staff.bans.ban-view" onLeftClick="manage-bans/view/history?targetPlayerName=garagepoort" material="INFESTED_STONE">
+      <name id="name-not-banned" class="item-name" color="&amp;2">Not banned</name>
+      <Lore>
+         <LoreLine></LoreLine>
+         <LoreLine>
+            <t color="&amp;7" class="line-separator">---------------</t>
+         </LoreLine>
+         <LoreLine>&amp;7Left click to &amp;6view ban history</LoreLine>
+      </Lore>
+   </GuiItem>
+   <GuiItem id="ipban-summary" slot="8" if="true" permission="staff.ipban.ban-view" material="CHISELED_STONE_BRICKS">
+      <name id="name-not-ip-banned" class="item-name" color="&amp;2">Not Ip Banned</name>
+   </GuiItem>
+   <GuiItem id="follow" if="false" permission="staff.mode.follow" slot="18" onLeftClick="staff-mode/follow?targetPlayerName=garagepoort" material="LEAD">
+      <name class="item-name">Follow</name>
+   </GuiItem>
+   <GuiItem id="freeze" if="false" permission="staff.freeze.freeze" slot="19" onLeftClick="manage-frozen/freeze?targetPlayerName=garagepoort" material="PACKED_ICE">
+      <name class="item-name">Freeze</name>
+   </GuiItem>
+   <GuiItem id="cps" if="false" permission="staff.cps" slot="20" onLeftClick="staff-mode/cps?targetPlayerName=garagepoort" material="CLOCK">
+      <name class="item-name">Cps</name>
+   </GuiItem>
+   <GuiItem id="teleport-to-player" slot="21" permission="staff.teleport.teleport-to-player" onLeftClick="teleport?targetPlayerName=garagepoort" material="MAGENTA_GLAZED_TERRACOTTA">
+      <name class="item-name">Teleport to</name>
+   </GuiItem>
+   <GuiItem id="teleport-here" if="false" permission="staff.teleport.teleport-here" slot="22" onLeftClick="teleport-here?targetPlayerName=garagepoort" material="NETHER_STAR">
+      <name class="item-name">Teleport here</name>
+   </GuiItem>
+   <GuiItem id="view-inventory" slot="23" onLeftClick="manage-inventory/open?targetPlayerName=garagepoort" permission="staff.inventory.view-inventory-offline" material="CHEST">
+      <name class="item-name">View inventory</name>
+   </GuiItem>
+   <GuiItem id="View Enderchest" slot="24" permission="staff.enderchests.view.offline" onLeftClick="manage-enderchest/open?targetPlayerName=garagepoort" material="ENDER_CHEST">
+      <name class="item-name">View Enderchest</name>
+   </GuiItem>
+   <GuiItem slot="26" id="back-button" class="back-button" onLeftClick="$BACK" material="SPRUCE_DOOR">
+      <name class="item-name">Back</name>
+   </GuiItem>
+</TubingGui>
