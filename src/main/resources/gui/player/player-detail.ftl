@@ -191,9 +191,9 @@
              slot="23"
              onLeftClick="manage-inventory/open?targetPlayerName=${target.username}"
             <#if target.online>
-                permission="config|permissions:examine-inventory-interaction.online"
+                permission="config|permissions:examine-view-inventory.online"
             <#else >
-                permission="config|permissions:examine-inventory-interaction.offline"
+                permission="config|permissions:examine-view-inventory.offline"
             </#if>
              material="CHEST">
         <name class="item-name">View inventory</name>
