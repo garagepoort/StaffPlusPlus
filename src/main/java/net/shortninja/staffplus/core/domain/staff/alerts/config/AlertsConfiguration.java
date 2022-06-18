@@ -14,8 +14,6 @@ import java.util.List;
 @IocBean
 public class AlertsConfiguration {
 
-    @ConfigProperty("alerts-module.name-notify")
-    public boolean alertsNameNotify;
     @ConfigProperty("alerts-module.alt-detect-notify.enabled")
     public boolean alertsAltDetectEnabled;
     @ConfigProperty("alerts-module.alt-detect-notify.trust-levels")
