@@ -1,8 +1,9 @@
 package net.shortninja.staffplus.core.domain.chat.mention;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
@@ -22,24 +23,31 @@ import java.util.stream.Collectors;
 
 @IocListener
 public class PlayerMentionedChatListener implements Listener {
+    @ConfigProperty("permissions:mention-bypass")
+    private String permissionMentionBypass;
     private final Options options;
     private final PlayerManager playerManager;
     private final BukkitUtils bukkitUtils;
     private final MuteService muteService;
+    private final PermissionHandler permissionHandler;
 
     public PlayerMentionedChatListener(Options options,
                                        PlayerManager playerManager,
                                        BukkitUtils bukkitUtils,
-                                       MuteService muteService) {
+                                       MuteService muteService, PermissionHandler permissionHandler) {
         this.options = options;
         this.playerManager = playerManager;
         this.bukkitUtils = bukkitUtils;
         this.muteService = muteService;
+        this.permissionHandler = permissionHandler;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
+        if (permissionHandler.has(player, permissionMentionBypass)) {
+            return;
+        }
         String message = event.getMessage();
         notifyMentioned(player, message);
     }

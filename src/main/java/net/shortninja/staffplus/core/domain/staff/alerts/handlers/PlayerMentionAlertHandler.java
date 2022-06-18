@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import static net.shortninja.staffplusplus.alerts.AlertType.MENTION;
 
-@IocListener
+@IocListener(conditionalOnProperty = "alerts-module.mention-notify=true")
 public class PlayerMentionAlertHandler extends AlertsHandler implements Listener {
 
     private final Options options;
@@ -40,28 +40,12 @@ public class PlayerMentionAlertHandler extends AlertsHandler implements Listener
 
     @EventHandler
     public void handle(PlayerMentionedEvent event) {
-        if (!alertsConfiguration.alertsMentionNotify) {
-            return;
-        }
-
-        if (permission.has(event.getPlayer(), alertsConfiguration.permissionMentionBypass)) {
-            return;
-        }
-
         notifyMentionedPlayer(event.getMentionedPlayer().getUniqueId(), event.getPlayer().getName(), options.serverName);
     }
 
     @EventHandler
     public void handle(PlayerMentionedBungeeEvent event) {
-        if (!alertsConfiguration.alertsMentionNotify) {
-            return;
-        }
-
         MentionBungeeDto mentionBungeeDto = event.getMentionBungeeDto();
-        Optional<SppPlayer> player = playerManager.getOnOrOfflinePlayer(mentionBungeeDto.getPlayerUuid());
-        if (player.isPresent() && permission.has(player.get().getOfflinePlayer(), alertsConfiguration.permissionMentionBypass)) {
-            return;
-        }
         notifyMentionedPlayer(mentionBungeeDto.getMentionedPlayerUuid(), mentionBungeeDto.getPlayerName(), mentionBungeeDto.getServerName());
     }
 

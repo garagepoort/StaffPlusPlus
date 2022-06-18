@@ -37,9 +37,6 @@ public class CommandDetectedAlertHandler extends AlertsHandler implements Listen
 
     @EventHandler
     public void handle(CommandDetectedEvent commandDetectedEvent) {
-        if (permission.has(commandDetectedEvent.getPlayer(), alertsConfiguration.permissionCommandDetectionBypass)) {
-            return;
-        }
         LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(commandDetectedEvent.getTimestamp()),
             TimeZone.getDefault().toZoneId());
         String timestamp = localDateTime.truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ofPattern(options.timestampFormat));

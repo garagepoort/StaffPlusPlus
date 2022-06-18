@@ -16,38 +16,24 @@ public class AlertsConfiguration {
 
     @ConfigProperty("alerts-module.name-notify")
     public boolean alertsNameNotify;
-    @ConfigProperty("alerts-module.mention-notify")
-    public boolean alertsMentionNotify;
     @ConfigProperty("alerts-module.alt-detect-notify.enabled")
     public boolean alertsAltDetectEnabled;
-    @ConfigProperty("alerts-module.chat-phrase-detection")
-    public boolean alertsChatPhraseDetectionEnabled;
     @ConfigProperty("alerts-module.alt-detect-notify.trust-levels")
     @ConfigTransformer(AltDetectTrustLevelConfigTransformer.class)
     public List<AltDetectTrustLevel> alertsAltDetectTrustLevels;
 
-    @ConfigProperty("permissions:alerts")
-    public String permissionAlerts;
-    @ConfigProperty("permissions:alerts-alt-detect")
+    @ConfigProperty("permissions:alerts.notifications.alt-detect")
     public String permissionAlertsAltDetect;
-    @ConfigProperty("permissions:mention")
+    @ConfigProperty("permissions:alerts.notifications.mention")
     public String permissionMention;
-    @ConfigProperty("permissions:mention-bypass")
-    public String permissionMentionBypass;
-    @ConfigProperty("permissions:name-change")
+    @ConfigProperty("permissions:alerts.notifications.name-change")
     public String permissionNameChange;
-    @ConfigProperty("permissions:name-change-bypass")
-    public String permissionNameChangeBypass;
-    @ConfigProperty("permissions:alerts-chat-phrase-detection")
+    @ConfigProperty("permissions:alerts.notifications.chat-phrase-detection")
     public String permissionChatPhraseDetection;
-    @ConfigProperty("permissions:alerts-chat-phrase-detection-bypass")
-    public String permissionChatPhraseDetectionBypass;
-    @ConfigProperty("permissions:alerts-blacklist-detection")
+    @ConfigProperty("permissions:alerts.notifications.blacklist-detection")
     public String permissionBlacklistDetection;
-    @ConfigProperty("permissions:alerts-command-detection")
+    @ConfigProperty("permissions:alerts.notifications.command-detection")
     public String permissionCommandDetection;
-    @ConfigProperty("permissions:alerts-command-detection-bypass")
-    public String permissionCommandDetectionBypass;
 
     @ConfigProperty("alerts-module.sound")
     @ConfigTransformer(SoundsConfigTransformer.class)
