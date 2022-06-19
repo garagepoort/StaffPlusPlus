@@ -3,9 +3,13 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
+import net.shortninja.staffplus.core.domain.chat.bungee.PhraseDetectedBungeeDto;
+import net.shortninja.staffplus.core.domain.chat.bungee.PhraseDetectedBungeeEvent;
 import net.shortninja.staffplusplus.chat.PhrasesDetectedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.util.List;
 
 @IocListener(conditionalOnProperty = "alerts-module.chat-phrase-detection-console=true")
 public class ChatPhraseDetectedAlertConsoleHandler implements Listener {
@@ -18,12 +22,22 @@ public class ChatPhraseDetectedAlertConsoleHandler implements Listener {
 
     @EventHandler
     public void handle(PhrasesDetectedEvent phrasesDetectedEvent) {
+        log(phrasesDetectedEvent.getPlayer().getName(), phrasesDetectedEvent.getOriginalMessage(), phrasesDetectedEvent.getDetectedPhrases(), phrasesDetectedEvent.getServerName());
+    }
+
+    @EventHandler
+    public void handle(PhraseDetectedBungeeEvent phraseDetectedBungeeEvent) {
+        PhraseDetectedBungeeDto phraseDetectedBungeeDto = phraseDetectedBungeeEvent.getPhraseDetectedBungeeDto();
+        log(phraseDetectedBungeeDto.getPlayerName(), phraseDetectedBungeeDto.getOriginalMessage(), phraseDetectedBungeeDto.getDetectedPhrases(), phraseDetectedBungeeDto.getServerName());
+    }
+
+    private void log(String target, String originalMessage, List<String> detectedPhrases, String serverName) {
         String message = messages.alertsChatPhraseDetected
-            .replace("%target%", phrasesDetectedEvent.getPlayer().getName())
-            .replace("%originalMessage%", phrasesDetectedEvent.getOriginalMessage())
-            .replace("%detectedPhrases%", String.join(" | ", phrasesDetectedEvent.getDetectedPhrases()));
+            .replace("%target%", target)
+            .replace("%server%", serverName)
+            .replace("%originalMessage%", originalMessage)
+            .replace("%detectedPhrases%", String.join(" | ", detectedPhrases));
 
         StaffPlus.get().getLogger().info(message);
     }
-
 }
