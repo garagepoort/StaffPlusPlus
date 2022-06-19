@@ -37,6 +37,7 @@ public class Constants {
     public static final String BUNGEE_MENTION_ALERT_CHANNEL = "staffplusplus.alerts.mention";
     public static final String BUNGEE_XRAY_ALERT_CHANNEL = "staffplusplus.alerts.xray";
     public static final String BUNGEE_BLACKLIST_ALERT_CHANNEL = "staffplusplus.alerts.blacklist";
+    public static final String BUNGEE_PHRASE_DETECTION_ALERT_CHANNEL = "staffplusplus.alerts.phrase-detection";
 
     public static String getServerNameFilterWithAnd(ServerSyncConfig serverSyncConfig) {
         return getServerNameFilterWithAnd("", serverSyncConfig);
