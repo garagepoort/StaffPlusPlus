@@ -4,6 +4,8 @@ import be.garagepoort.mcioc.IocListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.chat.bungee.PhraseDetectedBungeeDto;
+import net.shortninja.staffplus.core.domain.chat.bungee.PhraseDetectedBungeeEvent;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
@@ -12,6 +14,8 @@ import net.shortninja.staffplusplus.chat.PhrasesDetectedEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.util.List;
 
 @IocListener(conditionalOnProperty = "alerts-module.chat-phrase-detection=true")
 public class ChatPhraseDetectedAlertHandler extends AlertsHandler implements Listener {
@@ -27,11 +31,22 @@ public class ChatPhraseDetectedAlertHandler extends AlertsHandler implements Lis
 
     @EventHandler
     public void handle(PhrasesDetectedEvent phrasesDetectedEvent) {
+        notifyPlayers(phrasesDetectedEvent.getPlayer().getName(), phrasesDetectedEvent.getOriginalMessage(), phrasesDetectedEvent.getDetectedPhrases(), phrasesDetectedEvent.getServerName());
+    }
+
+    @EventHandler
+    public void handle(PhraseDetectedBungeeEvent phraseDetectedBungeeEvent) {
+        PhraseDetectedBungeeDto detectedBungeeDto = phraseDetectedBungeeEvent.getPhraseDetectedBungeeDto();
+        notifyPlayers(detectedBungeeDto.getPlayerName(), detectedBungeeDto.getOriginalMessage(), detectedBungeeDto.getDetectedPhrases(), detectedBungeeDto.getServerName());
+    }
+
+    private void notifyPlayers(String playerName, String originalMessage, List<String> detectedPhrases, String serverName) {
         for (Player player : getPlayersToNotify()) {
             messages.send(player, messages.alertsChatPhraseDetected
-                .replace("%target%", phrasesDetectedEvent.getPlayer().getName())
-                .replace("%originalMessage%", phrasesDetectedEvent.getOriginalMessage())
-                .replace("%detectedPhrases%", String.join(" | ", phrasesDetectedEvent.getDetectedPhrases())), messages.prefixGeneral, getPermission());
+                .replace("%target%", playerName)
+                .replace("%server%", serverName)
+                .replace("%originalMessage%", originalMessage)
+                .replace("%detectedPhrases%", String.join(" | ", detectedPhrases)), messages.prefixGeneral, getPermission());
         }
     }
 
