@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplusplus.ban.BanEvent;
 import net.shortninja.staffplusplus.ban.BanExtensionEvent;
+import net.shortninja.staffplusplus.ban.BanFilters;
 import net.shortninja.staffplusplus.ban.BanReductionEvent;
 import net.shortninja.staffplusplus.ban.UnbanEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -210,4 +211,8 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         return bansRepository.getActiveCount();
     }
 
+    @Override
+    public long getBanCount(BanFilters banFilters) {
+        return this.bansRepository.getBanCount(banFilters);
+    }
 }
