@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.database.MuteRepository;
 import net.shortninja.staffplusplus.mute.MuteEvent;
 import net.shortninja.staffplusplus.mute.MuteExtensionEvent;
+import net.shortninja.staffplusplus.mute.MuteFilters;
 import net.shortninja.staffplusplus.mute.MuteReductionEvent;
 import net.shortninja.staffplusplus.mute.UnmuteEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -68,6 +69,11 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
 
     public List<Mute> getAllPaged(int offset, int amount) {
         return muteRepository.getActiveMutes(offset, amount);
+    }
+
+    @Override
+    public long getMuteCount(MuteFilters muteFilters) {
+        return this.muteRepository.getMuteCount(muteFilters);
     }
 
     public List<Mute> getAllActiveMutes(List<Player> players) {

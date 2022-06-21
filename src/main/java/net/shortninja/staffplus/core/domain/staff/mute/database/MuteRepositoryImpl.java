@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealReposit
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplusplus.appeals.AppealableType;
+import net.shortninja.staffplusplus.mute.MuteFilters;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.sql.ResultSet;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithWhere;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.insertFilterValues;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.mapFilters;
 
 @IocBean
 public class MuteRepositoryImpl implements MuteRepository {
@@ -191,6 +194,15 @@ public class MuteRepositoryImpl implements MuteRepository {
     @Override
     public long getTotalCount() {
         return query.create().getOne("SELECT count(*) as count FROM sp_muted_players " + getServerNameFilterWithWhere(muteSyncServers), (rs) -> rs.getLong("count"));
+    }
+
+    @Override
+    public long getMuteCount(MuteFilters muteFilters) {
+        String filterQuery = mapFilters(muteFilters, false);
+        String query = "SELECT count(*) as count FROM sp_muted_players WHERE " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.muteSyncServers);
+
+        return this.query.create()
+            .getOne(query, (ps) -> insertFilterValues(muteFilters, ps, 1), (rs) -> rs.getLong("count"));
     }
 
     @Override
