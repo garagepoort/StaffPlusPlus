@@ -63,19 +63,20 @@ public class DatabaseUtil {
         return index;
     }
 
-    private static int insertSqlFilter(PreparedStatement ps, int index, SqlFilter sqlFilter) throws SQLException {
+    private static int insertSqlFilter(PreparedStatement ps, int currentIndex, SqlFilter sqlFilter) throws SQLException {
+        int newIndex = currentIndex;
         if (sqlFilter.getValue() == null) {
-            return index;
+            return newIndex;
         } else if (sqlFilter.getValue() instanceof Collection) {
             Collection<String> collection = (Collection<String>) sqlFilter.getValue();
             for (String value : collection) {
-                ps.setObject(index, value, sqlFilter.getSqlType());
-                index++;
+                ps.setObject(newIndex, value, sqlFilter.getSqlType());
+                newIndex++;
             }
-            return index;
+            return newIndex;
         } else {
-            ps.setObject(index, sqlFilter.getValue(), sqlFilter.getSqlType());
-            return index + 1;
+            ps.setObject(newIndex, sqlFilter.getValue(), sqlFilter.getSqlType());
+            return newIndex + 1;
         }
     }
 
