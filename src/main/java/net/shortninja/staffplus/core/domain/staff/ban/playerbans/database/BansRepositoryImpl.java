@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplusplus.appeals.AppealableType;
+import net.shortninja.staffplusplus.ban.BanFilters;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
 import java.sql.ResultSet;
@@ -21,6 +22,8 @@ import java.util.UUID;
 import static net.shortninja.staffplus.core.common.Constants.CONSOLE_UUID;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithWhere;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.insertFilterValues;
+import static net.shortninja.staffplus.core.common.utils.DatabaseUtil.mapFilters;
 
 @IocBean
 public class BansRepositoryImpl implements BansRepository {
@@ -164,6 +167,15 @@ public class BansRepositoryImpl implements BansRepository {
                 ps.setInt(2, offset);
                 ps.setInt(3, amount);
             }, this::buildBan);
+    }
+
+    @Override
+    public long getBanCount(BanFilters banFilters) {
+        String filterQuery = mapFilters(banFilters, false);
+        String query = "SELECT count(*) as count FROM sp_banned_players WHERE " + filterQuery + getServerNameFilterWithAnd(options.serverSyncConfiguration.banSyncServers);
+
+        return this.query.create()
+            .getOne(query, (ps) -> insertFilterValues(banFilters, ps, 1), (rs) -> rs.getLong("count"));
     }
 
     @Override

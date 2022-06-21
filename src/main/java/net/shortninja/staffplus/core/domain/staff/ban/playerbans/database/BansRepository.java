@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans.database;
 
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
+import net.shortninja.staffplusplus.ban.BanFilters;
 
 import java.util.List;
 import java.util.Map;
@@ -41,4 +42,5 @@ public interface BansRepository {
 
     List<Ban> getAppealedBans(int offset, int amount);
 
+    long getBanCount(BanFilters banFilters);
 }
