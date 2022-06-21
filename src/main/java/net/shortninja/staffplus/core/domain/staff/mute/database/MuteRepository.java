@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mute.database;
 
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
+import net.shortninja.staffplusplus.mute.MuteFilters;
 
 import java.util.List;
 import java.util.Map;
@@ -44,4 +45,6 @@ public interface MuteRepository {
     Optional<Mute> getMute(int muteId);
 
     List<Mute> getAppealedMutes(int offset, int amount);
+
+    long getMuteCount(MuteFilters muteFilters);
 }

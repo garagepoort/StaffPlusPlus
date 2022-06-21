@@ -1,4 +1,5 @@
 <#assign GuiUtils=statics['net.shortninja.staffplus.core.common.gui.GuiUtils']>
+<#assign JavaUtils=statics['net.shortninja.staffplus.core.common.JavaUtils']>
 <#include "/gui/commons/translate.ftl"/>
 <#import "/gui/commons/commons.ftl" as commons/>
 
@@ -52,8 +53,12 @@
             </LoreLine>
             <LoreLine>
                 <t color="&b" id="reason-label" class="detail-label">Reason: </t>
-                <t color="&6" id="reason-value" class="detail-value">${appeal.reason}</t>
             </LoreLine>
+            <#list JavaUtils.formatLines(appeal.reason, 30) as reasonLine>
+                <LoreLine>
+                    <t color="&6" id="reason-value" class="detail-value">${appeal.reason}</t>
+                </LoreLine>
+            </#list>
             <#if appeal.status.name() != "OPEN">
                 <LoreLine>
                     <t color="&b" id="resolved-by-label" class="detail-label">Resolved by: </t>
