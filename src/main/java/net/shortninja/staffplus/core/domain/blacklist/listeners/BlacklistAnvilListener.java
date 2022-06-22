@@ -56,6 +56,9 @@ public class BlacklistAnvilListener implements Listener {
 
         if (item != null && newItem != null && nameIsChanged(anvilInventory, item)) {
             String nameCensored = blacklistService.censorMessage(anvilInventory.getRenameText());
+            if(nameCensored.equals(anvilInventory.getRenameText())) {
+                return;
+            }
             ItemMeta resultMeta = newItem.getItemMeta();
             resultMeta.setDisplayName(nameCensored);
             newItem.setItemMeta(resultMeta);
