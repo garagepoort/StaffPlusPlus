@@ -302,6 +302,7 @@ blacklist-module:
     censor-chat: true
     censor-signs: true
     censor-anvil: true
+    censor-book: true
     # Whether or not messages that have censored words in them will be hoverable.
     # This means you will be able to hover over a chat message to see an uncensored message if you have the "permissions.blacklist" permission.
     # This may not work well with other chat plugins!
