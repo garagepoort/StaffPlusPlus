@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.investigate;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.TubingPlugin;
 import be.garagepoort.mcioc.load.BeforeTubingReload;
@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-@IocListener
+@IocBukkitListener
 @IocMultiProvider({PluginDisable.class, BeforeTubingReload.class})
 public class PauseInvestigationOnQuit implements Listener, PluginDisable, BeforeTubingReload {
 

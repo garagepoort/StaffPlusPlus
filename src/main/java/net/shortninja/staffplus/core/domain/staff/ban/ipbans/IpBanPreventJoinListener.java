@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.ban.ipbans;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
 import org.bukkit.event.EventHandler;
@@ -11,7 +11,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import java.util.List;
 
 
-@IocListener
+@IocBukkitListener
 public class IpBanPreventJoinListener implements Listener {
     private final IpBanService banService;
     private final Messages messages;

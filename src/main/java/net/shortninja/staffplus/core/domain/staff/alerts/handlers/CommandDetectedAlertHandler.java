@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.TimeZone;
 
-@IocListener(conditionalOnProperty = "alerts-module.command-detection=true")
+@IocBukkitListener(conditionalOnProperty = "alerts-module.command-detection=true")
 public class CommandDetectedAlertHandler extends AlertsHandler implements Listener {
 
     private final Options options;

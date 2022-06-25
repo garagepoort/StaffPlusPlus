@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
 import net.shortninja.staffplus.core.domain.actions.config.ActionConfigLoader;
@@ -12,6 +13,10 @@ import java.util.List;
 
 @IocBean
 public class InvestigationModuleLoader extends AbstractConfigLoader<InvestigationConfiguration> {
+
+    public InvestigationModuleLoader(ConfigurationLoader configurationLoader) {
+        super(configurationLoader);
+    }
 
     @Override
     protected InvestigationConfiguration load() {

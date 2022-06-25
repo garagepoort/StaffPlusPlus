@@ -1,9 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.kick.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
+import be.garagepoort.mcioc.configuration.yaml.configuration.ConfigurationSection;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,6 +14,10 @@ import java.util.stream.Collectors;
 
 @IocBean
 public class KickModuleLoader extends AbstractConfigLoader<KickConfiguration> {
+
+    public KickModuleLoader(ConfigurationLoader configurationLoader) {
+        super(configurationLoader);
+    }
 
     @Override
     protected KickConfiguration load() {
@@ -24,7 +29,7 @@ public class KickModuleLoader extends AbstractConfigLoader<KickConfiguration> {
         return new KickConfiguration(kickEnabled, permissionKickPlayer, permissionKickByPass, fixedReason, getKickReasons(defaultConfig));
     }
 
-    private List<KickReasonConfiguration> getKickReasons(FileConfiguration config) {
+    private List<KickReasonConfiguration> getKickReasons(ConfigurationSection config) {
         List<LinkedHashMap<String, String>> list = (List<LinkedHashMap<String, String>>) config.getList("kick-module.reasons", new ArrayList<>());
 
         return Objects.requireNonNull(list).stream().map(map -> {

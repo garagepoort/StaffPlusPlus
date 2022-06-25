@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
-import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
@@ -18,7 +17,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocListener
+@IocBukkitListener
 public class PlayerJoin implements Listener {
 
     private final PlayerSettingsRepository playerSettingsRepository;

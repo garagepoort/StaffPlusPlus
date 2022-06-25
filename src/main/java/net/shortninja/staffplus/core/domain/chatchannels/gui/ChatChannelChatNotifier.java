@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.chatchannels.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.chatchannels.bungee.dto.ChatChannelCreatedBungeeDto;
@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@IocListener
+@IocBukkitListener
 public class ChatChannelChatNotifier implements Listener {
 
     @ConfigProperty("%lang%:chatchannels.closed")

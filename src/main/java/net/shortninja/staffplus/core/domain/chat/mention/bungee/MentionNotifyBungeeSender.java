@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.chat.mention.bungee;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.common.Constants;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener(conditionalOnProperty = "isNotEmpty(alerts-module.mention-notify-bungee)")
+@IocBukkitListener(conditionalOnProperty = "isNotEmpty(alerts-module.mention-notify-bungee)")
 public class MentionNotifyBungeeSender implements Listener {
 
     @ConfigProperty("alerts-module.mention-notify-bungee")

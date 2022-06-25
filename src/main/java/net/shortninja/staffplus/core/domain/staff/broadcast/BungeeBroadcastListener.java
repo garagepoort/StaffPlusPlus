@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.broadcast;
 
-import be.garagepoort.mcioc.IocMessageListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitMessageListener;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import net.shortninja.staffplus.core.StaffPlus;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocMessageListener(channel = BUNGEE_CORD_CHANNEL)
+@IocBukkitMessageListener(channel = BUNGEE_CORD_CHANNEL)
 public class BungeeBroadcastListener implements PluginMessageListener {
 
     @Override

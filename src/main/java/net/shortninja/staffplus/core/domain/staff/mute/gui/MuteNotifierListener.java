@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
 import net.shortninja.staffplus.core.common.JavaUtils;
@@ -17,7 +17,7 @@ import org.bukkit.event.Listener;
 import java.util.List;
 import java.util.Optional;
 
-@IocListener(conditionalOnProperty = "mute-module.enabled=true")
+@IocBukkitListener(conditionalOnProperty = "mute-module.enabled=true")
 public class MuteNotifierListener implements Listener {
 
     @ConfigProperty("%lang%:mute-notify")
