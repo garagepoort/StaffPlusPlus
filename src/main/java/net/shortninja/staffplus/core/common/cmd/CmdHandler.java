@@ -4,9 +4,9 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.ReflectionUtils;
-import be.garagepoort.mcioc.TubingPlugin;
 import be.garagepoort.mcioc.configuration.ConfigurationLoader;
-import be.garagepoort.mcioc.load.BeforeTubingReload;
+import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
+import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
@@ -79,7 +79,7 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
     }
 
     @Override
-    public void execute(TubingPlugin tubingPlugin) {
+    public void execute(TubingBukkitPlugin tubingPlugin) {
         commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand()));
     }
 }

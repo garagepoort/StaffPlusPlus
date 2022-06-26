@@ -15,6 +15,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <tubing.version>7.0.1</tubing.version>
     </properties>
 
     <repositories>
@@ -116,8 +117,8 @@
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
-            <artifactId>tubing</artifactId>
-            <version>7.0.0</version>
+            <artifactId>tubing-core</artifactId>
+            <version>${tubing.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -128,17 +129,35 @@
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
             <artifactId>tubing-bukkit</artifactId>
-            <version>1.0.0</version>
+            <version>${tubing.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
-            <artifactId>tubing-gui</artifactId>
-            <version>2.0.0</version>
+            <artifactId>tubing-bukkit-gui</artifactId>
+            <version>${tubing.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
             <artifactId>mc-sql-migrations</artifactId>
-            <version>1.1.7</version>
+            <version>1.1.8</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
