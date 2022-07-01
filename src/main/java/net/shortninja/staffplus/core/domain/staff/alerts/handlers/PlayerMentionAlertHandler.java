@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import static net.shortninja.staffplusplus.alerts.AlertType.MENTION;
 
-@IocListener(conditionalOnProperty = "alerts-module.mention-notify=true")
+@IocBukkitListener(conditionalOnProperty = "alerts-module.mention-notify=true")
 public class PlayerMentionAlertHandler extends AlertsHandler implements Listener {
 
     private final Options options;

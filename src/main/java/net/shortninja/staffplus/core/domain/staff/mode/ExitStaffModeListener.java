@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -17,7 +17,7 @@ import org.bukkit.potion.PotionEffect;
 
 import java.util.Optional;
 
-@IocListener
+@IocBukkitListener
 public class ExitStaffModeListener implements Listener {
 
     private final PlayerManager playerManager;

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import org.bukkit.entity.Arrow;
@@ -14,7 +14,7 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.Optional;
 
-@IocListener(conditionalOnProperty = "vanish-module.damage=false")
+@IocBukkitListener(conditionalOnProperty = "vanish-module.damage=false")
 public class VanishCancelGiveDamage implements Listener {
     private final OnlineSessionsManager sessionManager;
 

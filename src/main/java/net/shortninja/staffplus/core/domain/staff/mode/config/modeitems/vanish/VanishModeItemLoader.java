@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.vanish;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
@@ -14,8 +15,8 @@ import java.util.List;
 
 @IocBean
 public class VanishModeItemLoader extends ModeItemLoader<VanishModeConfiguration> {
-    public VanishModeItemLoader(IProtocolService protocolService) {
-        super(protocolService);
+    public VanishModeItemLoader(IProtocolService protocolService, ConfigurationLoader configurationLoader) {
+        super(protocolService, configurationLoader);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class VanishModeItemLoader extends ModeItemLoader<VanishModeConfiguration
         ItemStack modeVanishItemOff = Items.builder().setMaterial(modeVanishTypeOff).setData(modeVanishDataOff).setName(modeVanishName).setLore(modeVanishLore).build();
         modeVanishItemOff = protocolService.getVersionProtocol().addNbtString(modeVanishItemOff, getModuleName());
 
-        VanishModeConfiguration modeItemConfiguration = new VanishModeConfiguration(getModuleName(), modeVanishItemOff);
+        VanishModeConfiguration modeItemConfiguration = new VanishModeConfiguration(protocolService, getModuleName(), modeVanishItemOff);
         return super.loadGeneralConfig(modeItemConfiguration);
     }
 }

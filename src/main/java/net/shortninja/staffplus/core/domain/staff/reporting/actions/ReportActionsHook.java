@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.actions;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@IocListener
+@IocBukkitListener
 public class ReportActionsHook implements Listener {
 
     private final ActionService actionService;

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.application.session.synchronizers;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.bungee.events.InvestigationConcludedBungeeEvent;
@@ -13,7 +13,7 @@ import net.shortninja.staffplusplus.investigate.InvestigationStartedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener
+@IocBukkitListener
 public class InvestigationSessionSynchronizer implements Listener {
 
     private final OnlineSessionsManager sessionManager;

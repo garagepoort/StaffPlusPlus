@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.ban.appeals.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
@@ -18,7 +18,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-@IocListener(conditionalOnProperty = "ban-module.appeals.enabled=true")
+@IocBukkitListener(conditionalOnProperty = "ban-module.appeals.enabled=true")
 public class BanUnresolvedAppealsNotifier implements Listener {
 
     @ConfigProperty("commands:bans.manage.appealed-gui")

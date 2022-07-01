@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
-@IocListener(conditionalOnProperty = "alerts-module.name-notify-console=true")
+@IocBukkitListener(conditionalOnProperty = "alerts-module.name-notify-console=true")
 public class NameChangeAlertConsoleHandler implements Listener {
 
     private final Messages messages;

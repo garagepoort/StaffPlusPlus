@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban.appeals;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
 import net.shortninja.staffplusplus.appeals.AppealApprovedEvent;
 import net.shortninja.staffplusplus.appeals.AppealableType;
@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener
+@IocBukkitListener
 public class BanAppealedListener implements Listener {
 
     private final BanService banService;
