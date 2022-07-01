@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.investigate;
 
-import be.garagepoort.mcioc.IocListener;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.mcioc.TubingPlugin;
-import be.garagepoort.mcioc.load.BeforeTubingReload;
+import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
+import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-@IocListener
+@IocBukkitListener
 @IocMultiProvider({PluginDisable.class, BeforeTubingReload.class})
 public class PauseInvestigationOnQuit implements Listener, PluginDisable, BeforeTubingReload {
 
@@ -40,7 +40,7 @@ public class PauseInvestigationOnQuit implements Listener, PluginDisable, Before
     }
 
     @Override
-    public void execute(TubingPlugin tubingPlugin) {
+    public void execute(TubingBukkitPlugin tubingPlugin) {
         //disable all when plugin reloads. To ensure pausing all investigations when the server restarts.
         investigationsRepository.pauseAllInvestigations();
     }

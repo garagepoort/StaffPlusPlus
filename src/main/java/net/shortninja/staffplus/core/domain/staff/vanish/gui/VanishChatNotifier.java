@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplusplus.vanish.VanishOffEvent;
 import net.shortninja.staffplusplus.vanish.VanishOnEvent;
@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener
+@IocBukkitListener
 public class VanishChatNotifier implements Listener {
 
     private final Messages messages;

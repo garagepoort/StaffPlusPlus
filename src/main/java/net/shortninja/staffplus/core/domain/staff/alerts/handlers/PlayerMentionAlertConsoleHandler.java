@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.chat.mention.bungee.MentionBungeeDto;
@@ -10,7 +10,7 @@ import net.shortninja.staffplusplus.chat.PlayerMentionedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener(conditionalOnProperty = "alerts-module.mention-notify-console=true")
+@IocBukkitListener(conditionalOnProperty = "alerts-module.mention-notify-console=true")
 public class PlayerMentionAlertConsoleHandler implements Listener {
 
     private final Options options;

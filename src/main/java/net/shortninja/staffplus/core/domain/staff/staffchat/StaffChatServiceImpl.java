@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.staffchat;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
@@ -21,7 +21,7 @@ import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocListener
+@IocBukkitListener
 public class StaffChatServiceImpl implements StaffChatService, Listener {
 
     private static final String STAFFCHAT = "staffchat";

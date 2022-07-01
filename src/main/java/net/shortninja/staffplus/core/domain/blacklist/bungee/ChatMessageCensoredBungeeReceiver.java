@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.blacklist.bungee;
 
-import be.garagepoort.mcioc.IocMessageListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitMessageListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.common.Constants;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocMessageListener(
+@IocBukkitMessageListener(
     channel = BUNGEE_CORD_CHANNEL,
     conditionalOnProperty = "isNotEmpty(alerts-module.blacklist-notify-bungee)")
 public class ChatMessageCensoredBungeeReceiver implements PluginMessageListener {

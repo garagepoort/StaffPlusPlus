@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanMessageStringUtil.replaceBanPlaceholders;
 
-@IocListener
+@IocBukkitListener
 public class BanKickListener implements Listener {
 
     private final Messages messages;

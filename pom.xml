@@ -15,6 +15,7 @@
         <maven.compiler.target>16</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <tubing.version>7.0.3</tubing.version>
     </properties>
 
     <repositories>
@@ -34,7 +35,7 @@
             <dependency>
                 <groupId>net.shortninja.staffplus</groupId>
                 <artifactId>staffplusplus-api</artifactId>
-                <version>8.1.1</version>
+                <version>8.1.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -122,8 +123,8 @@
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
-            <artifactId>tubing</artifactId>
-            <version>6.1.0</version>
+            <artifactId>tubing-core</artifactId>
+            <version>${tubing.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -133,13 +134,36 @@
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcioc</groupId>
-            <artifactId>tubing-gui</artifactId>
-            <version>1.4.1</version>
+            <artifactId>tubing-bukkit</artifactId>
+            <version>${tubing.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>be.garagepoort.mcioc</groupId>
+            <artifactId>tubing-bukkit-gui</artifactId>
+            <version>${tubing.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
             <artifactId>mc-sql-migrations</artifactId>
-            <version>1.1.7</version>
+            <version>2.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>

@@ -9,11 +9,10 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
 public class SqlLiteConnectionProvider implements SqlConnectionProvider {
+
 
     @Override
     public Connection getConnection() {
@@ -31,12 +30,8 @@ public class SqlLiteConnectionProvider implements SqlConnectionProvider {
     }
 
     @Override
-    public List<String> getMigrationPackages() {
-        return Arrays.asList("net.shortninja.staffplus.core.application.database.migrations.sqlite", "net.shortninja.staffplus.core.application.database.migrations.common");
-    }
-
-    @Override
     public DatabaseType getDatabaseType() {
         return DatabaseType.SQLITE;
     }
+
 }

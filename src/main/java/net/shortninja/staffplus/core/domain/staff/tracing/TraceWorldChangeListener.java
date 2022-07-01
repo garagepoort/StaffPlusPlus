@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.WORLD_CHANGE;
 
-@IocListener
+@IocBukkitListener
 public class TraceWorldChangeListener implements Listener {
     private final TraceService traceService;
 

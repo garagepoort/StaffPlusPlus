@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.application.config.migrators;
 
 import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
-import org.bukkit.configuration.file.FileConfiguration;
+import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
 import java.util.List;
