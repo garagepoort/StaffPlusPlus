@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mute.appeals.actions;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
@@ -27,7 +27,7 @@ import java.util.Optional;
 
 import static java.util.Collections.emptyList;
 
-@IocListener
+@IocBukkitListener
 public class MuteAppealActionHook implements Listener {
 
     private final ActionService actionService;

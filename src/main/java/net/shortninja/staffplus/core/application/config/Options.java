@@ -2,7 +2,8 @@ package net.shortninja.staffplus.core.application.config;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
+import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.Materials;
 import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
@@ -27,7 +28,6 @@ import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfigurat
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +57,7 @@ public class Options {
     public KickConfiguration kickConfiguration;
     public Map<String, GeneralModeConfiguration> modeConfigurations;
     public final ServerSyncConfiguration serverSyncConfiguration;
+    private final ConfigurationLoader configurationLoader;
     public StaffItemsConfiguration staffItemsConfiguration;
 
     /*
@@ -89,7 +90,8 @@ public class Options {
                    StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader,
                    WarningAppealConfiguration warningAppealConfiguration,
-                   ServerSyncConfiguration serverSyncConfiguration) {
+                   ServerSyncConfiguration serverSyncConfiguration,
+                   ConfigurationLoader configurationLoader) {
         this.infractionsModuleLoader = infractionsModuleLoader;
         this.traceModuleLoader = traceModuleLoader;
         this.broadcastConfigurationLoader = broadcastConfigurationLoader;
@@ -100,12 +102,13 @@ public class Options {
         this.staffItemsLoader = staffItemsLoader;
         this.warningAppealConfiguration = warningAppealConfiguration;
         this.serverSyncConfiguration = serverSyncConfiguration;
+        this.configurationLoader = configurationLoader;
         reload();
     }
 
     public void reload() {
-        FileConfiguration defaultConfig = StaffPlus.get().getFileConfigurations().get("config");
-        FileConfiguration permissionsConfig = StaffPlus.get().getFileConfigurations().get("permissions");
+        FileConfiguration defaultConfig = configurationLoader.getConfigurationFiles().get("config");
+        FileConfiguration permissionsConfig = configurationLoader.getConfigurationFiles().get("permissions");
 
         String commas1 = defaultConfig.getString("blocked-commands", "");
         if (commas1 == null) {
@@ -127,7 +130,7 @@ public class Options {
         autoSave = defaultConfig.getInt("auto-save");
         offlinePlayersModeEnabled = defaultConfig.getBoolean("offline-players-mode");
 
-        locations = new LocationLoader().loadConfig();
+        locations = new LocationLoader(configurationLoader).loadConfig();
         infractionsConfiguration = this.infractionsModuleLoader.loadConfig();
         traceConfiguration = this.traceModuleLoader.loadConfig();
         broadcastConfiguration = this.broadcastConfigurationLoader.loadConfig();

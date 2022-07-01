@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mute.appeals.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
@@ -27,7 +27,7 @@ import java.util.UUID;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocListener
+@IocBukkitListener
 public class MuteAppealChatNotifier implements Listener {
 
     @ConfigProperty("commands:mutes.manage.gui")

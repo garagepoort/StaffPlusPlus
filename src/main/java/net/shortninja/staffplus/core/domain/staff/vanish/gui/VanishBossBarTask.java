@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplusplus.vanish.VanishOffEvent;
@@ -12,7 +12,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener(conditionalOnProperty = "vanish-module.vanish-bossbar-enabled=true")
+@IocBukkitListener(conditionalOnProperty = "vanish-module.vanish-bossbar-enabled=true")
 public class VanishBossBarTask implements Listener, PluginDisable {
 
     private final static BossBar BOSS_BAR = Bukkit.createBossBar("Vanished", BarColor.WHITE, BarStyle.SOLID);
