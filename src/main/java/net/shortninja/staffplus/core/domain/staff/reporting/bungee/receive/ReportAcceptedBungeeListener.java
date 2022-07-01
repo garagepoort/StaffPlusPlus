@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.bungee.receive;
 
-import be.garagepoort.mcioc.IocMessageListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitMessageListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportBungeeDto;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocMessageListener(
+@IocBukkitMessageListener(
     channel = BUNGEE_CORD_CHANNEL,
     conditionalOnProperty = "isNotEmpty(server-sync-module.report-sync)")
 public class ReportAcceptedBungeeListener implements PluginMessageListener {

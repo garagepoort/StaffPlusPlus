@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@IocListener(conditionalOnProperty = "vanish-module.enabled=true")
+@IocBukkitListener(conditionalOnProperty = "vanish-module.enabled=true")
 public class TabCompleteListener implements Listener {
 
     private final OnlineSessionsManager onlineSessionsManager;

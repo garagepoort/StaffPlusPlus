@@ -4,8 +4,9 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.ReflectionUtils;
-import be.garagepoort.mcioc.TubingPlugin;
-import be.garagepoort.mcioc.load.BeforeTubingReload;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
+import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
+import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
@@ -23,12 +24,14 @@ import java.util.stream.Collectors;
 @IocMultiProvider({PluginDisable.class, BeforeTubingReload.class})
 public class CmdHandler implements PluginDisable, BeforeTubingReload {
     private final IProtocolService versionProtocol;
+    private final ConfigurationLoader configurationLoader;
     private final List<SppCommand> sppCommands;
     private final Messages messages;
     public List<BaseCmd> commands;
 
-    public CmdHandler(IProtocolService protocolService, @IocMulti(SppCommand.class) List<SppCommand> sppCommands, Messages messages) {
+    public CmdHandler(IProtocolService protocolService, ConfigurationLoader configurationLoader, @IocMulti(SppCommand.class) List<SppCommand> sppCommands, Messages messages) {
         this.versionProtocol = protocolService;
+        this.configurationLoader = configurationLoader;
         this.sppCommands = sppCommands;
         this.messages = messages;
         registerCommands();
@@ -49,7 +52,7 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
         if (command != null) {
             Set<String> permissions = Arrays.stream(command.permissions())
                 .filter(StringUtils::isNotBlank)
-                .map(p -> (String) ReflectionUtils.getConfigValue(p, StaffPlus.get().getFileConfigurations()).orElseThrow(() -> new ConfigurationException("Invalid permission: " + p)))
+                .map(p -> (String) ReflectionUtils.getConfigValue(p, configurationLoader.getConfigurationFiles()).orElseThrow(() -> new ConfigurationException("Invalid permission: " + p)))
                 .collect(Collectors.toSet());
 
             AbstractCmd abstractCmd = (AbstractCmd) s;
@@ -60,7 +63,7 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
             abstractCmd.setReplaceDoubleQoutesEnabled(command.replaceDoubleQuotes());
             abstractCmd.setPlayerRetrievalStrategy(command.playerRetrievalStrategy());
             if (StringUtils.isNotBlank(command.command())) {
-                List<String> commandNames = (List<String>) ReflectionUtils.getConfigValue(command.command(), StaffPlus.get().getFileConfigurations())
+                List<String> commandNames = (List<String>) ReflectionUtils.getConfigValue(command.command(), configurationLoader.getConfigurationFiles())
                     .orElseThrow(() -> new ConfigurationException("Invalid command name: " + command.command()));
                 if (commandNames.size() > 0) {
                     abstractCmd.setName(commandNames.get(0));
@@ -76,7 +79,7 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
     }
 
     @Override
-    public void execute(TubingPlugin tubingPlugin) {
+    public void execute(TubingBukkitPlugin tubingPlugin) {
         commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand()));
     }
 }

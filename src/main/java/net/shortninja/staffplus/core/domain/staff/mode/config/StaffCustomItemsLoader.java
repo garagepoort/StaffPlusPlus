@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
+import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -13,7 +15,6 @@ import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfigur
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,7 +27,8 @@ public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModu
     private static final String CUSTOM_MODULES = "custom-modules.";
     private final IProtocolService protocolService;
 
-    public StaffCustomItemsLoader(IProtocolService protocolService) {
+    public StaffCustomItemsLoader(IProtocolService protocolService, ConfigurationLoader configurationLoader) {
+        super(configurationLoader);
         this.protocolService = protocolService;
     }
 

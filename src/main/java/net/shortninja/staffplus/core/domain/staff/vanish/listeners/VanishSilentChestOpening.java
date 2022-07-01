@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -12,7 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-@IocListener(conditionalOnProperty = "vanish-module.silent-chest-opening=true")
+@IocBukkitListener(conditionalOnProperty = "vanish-module.silent-chest-opening=true")
 public class VanishSilentChestOpening implements Listener {
 
     @ConfigProperty("vanish-module.silent-chest-interaction")

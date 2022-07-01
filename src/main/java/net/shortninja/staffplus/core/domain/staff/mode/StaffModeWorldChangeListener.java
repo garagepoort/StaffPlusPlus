@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -11,7 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-@IocListener
+@IocBukkitListener
 public class StaffModeWorldChangeListener implements Listener {
     private final StaffModeService staffModeService;
     private final OnlineSessionsManager sessionManager;

@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
@@ -15,7 +15,7 @@ import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
-@IocListener
+@IocBukkitListener
 public class ModeJoinListener implements Listener {
 
     @ConfigProperty("permissions:mode")

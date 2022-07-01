@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.receive;
 
-import be.garagepoort.mcioc.IocMessageListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitMessageListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.dto.BanBungeeDto;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL;
 
-@IocMessageListener(
+@IocBukkitMessageListener(
     channel = BUNGEE_CORD_CHANNEL,
     conditionalOnProperty = "isNotEmpty(server-sync-module.ban-sync)")
 public class UnbanBungeeListener implements PluginMessageListener {
