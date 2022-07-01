@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -17,7 +17,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-@IocListener(conditionalOnProperty = "alerts-module.chat-phrase-detection=true")
+@IocBukkitListener(conditionalOnProperty = "alerts-module.chat-phrase-detection=true")
 public class ChatPhraseDetectedAlertHandler extends AlertsHandler implements Listener {
 
     public ChatPhraseDetectedAlertHandler(AlertsConfiguration alertsConfiguration,

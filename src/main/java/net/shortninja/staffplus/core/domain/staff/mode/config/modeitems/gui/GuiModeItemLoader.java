@@ -1,13 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
 
 @IocBean
 public class GuiModeItemLoader extends ModeItemLoader<GuiModeConfiguration> {
-    public GuiModeItemLoader(IProtocolService protocolService) {
-        super(protocolService);
+    public GuiModeItemLoader(IProtocolService protocolService, ConfigurationLoader configurationLoader) {
+        super(protocolService, configurationLoader);
     }
 
     @Override

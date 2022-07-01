@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.broadcast.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 
 import java.util.Arrays;
@@ -8,6 +9,10 @@ import java.util.List;
 
 @IocBean
 public class BroadcastConfigurationLoader extends AbstractConfigLoader<BroadcastConfiguration> {
+    public BroadcastConfigurationLoader(ConfigurationLoader configurationLoader) {
+        super(configurationLoader);
+    }
+
     @Override
     protected BroadcastConfiguration load() {
         boolean enabled = defaultConfig.getBoolean("broadcast-module.enabled");

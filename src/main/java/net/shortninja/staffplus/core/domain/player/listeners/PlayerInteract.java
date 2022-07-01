@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
@@ -38,7 +38,7 @@ import java.util.UUID;
 import static net.shortninja.staffplus.core.common.cmd.CommandUtil.playerAction;
 import static net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration.ModuleType.COMMAND_DYNAMIC;
 
-@IocListener
+@IocBukkitListener
 public class PlayerInteract implements Listener {
 
     private static final int COOLDOWN = 200;

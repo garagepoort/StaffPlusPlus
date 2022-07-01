@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.blacklist.listeners;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -19,7 +19,7 @@ import java.util.List;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocListener(conditionalOnProperty = "blacklist-module.enabled=true && blacklist-module.censor-book=true")
+@IocBukkitListener(conditionalOnProperty = "blacklist-module.enabled=true && blacklist-module.censor-book=true")
 public class BlacklistBookListener implements Listener {
 
     @ConfigProperty("permissions:blacklist")

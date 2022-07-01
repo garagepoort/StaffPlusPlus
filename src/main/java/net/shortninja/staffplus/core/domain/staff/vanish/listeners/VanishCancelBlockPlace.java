@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import org.bukkit.event.EventHandler;
@@ -8,7 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-@IocListener(conditionalOnProperty = "vanish-module.block-place=false")
+@IocBukkitListener(conditionalOnProperty = "vanish-module.block-place=false")
 public class VanishCancelBlockPlace implements Listener {
     private final OnlineSessionsManager sessionManager;
 

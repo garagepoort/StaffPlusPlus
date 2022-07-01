@@ -1,8 +1,9 @@
 package net.shortninja.staffplus.core.application.database.migrations.common;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
 import net.shortninja.staffplus.core.domain.actions.StoredCommandEntity;
@@ -14,13 +15,20 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
+@IocBean
+@IocMultiProvider(Migration.class)
 public class V72_MigrateOldActionableActionsTableMigration implements Migration {
+
+    private final QueryBuilderFactory query;
+    private final StoredCommandRepository storedCommandRepository;
+
+    public V72_MigrateOldActionableActionsTableMigration(QueryBuilderFactory query, StoredCommandRepository storedCommandRepository) {
+        this.query = query;
+        this.storedCommandRepository = storedCommandRepository;
+    }
 
     @Override
     public List<String> getStatements() {
-        QueryBuilderFactory query = StaffPlus.get().getIocContainer().get(QueryBuilderFactory.class);
-        StoredCommandRepository storedCommandRepository = StaffPlus.get().getIocContainer().get(StoredCommandRepository.class);
-
         List<StoredCommandEntity> storedCommandEntities = query.create().find("SELECT * FROM sp_actionable_actions;", this::mapOldCommandEntity);
         storedCommandRepository.save(storedCommandEntities);
         return Collections.emptyList();

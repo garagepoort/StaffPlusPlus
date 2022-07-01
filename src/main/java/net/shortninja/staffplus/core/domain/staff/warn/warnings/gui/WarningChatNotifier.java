@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
@@ -17,7 +17,7 @@ import java.util.Optional;
 
 import static net.shortninja.staffplus.core.domain.staff.warn.warnings.gui.WarnMessageStringUtil.replaceWarningPlaceholders;
 
-@IocListener
+@IocBukkitListener
 public class WarningChatNotifier implements Listener {
 
     private final Messages messages;

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.permissions;
 
-import be.garagepoort.mcioc.permissions.TubingPermissionService;
+import be.garagepoort.mcioc.tubingbukkit.permissions.TubingPermissionService;
 import net.shortninja.staffplus.core.common.exceptions.NoDurationPermissionException;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import net.shortninja.staffplus.core.common.time.TimeUnitShort;

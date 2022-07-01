@@ -1,14 +1,27 @@
 package net.shortninja.staffplus.core.application.database.migrations.common;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@IocBean
+@IocMultiProvider(Migration.class)
 public class V54_AddNamesToWarningsTableMigration implements Migration {
+
+    private final PlayerManager playerManager;
+    private final QueryBuilderFactory query;
+
+    public V54_AddNamesToWarningsTableMigration(PlayerManager playerManager, QueryBuilderFactory query) {
+        this.playerManager = playerManager;
+        this.query = query;
+    }
+
     @Override
     public List<String> getStatements() {
         String addPlayerNameColumn = "ALTER TABLE sp_warnings ADD COLUMN player_name VARCHAR(32) NOT NULL DEFAULT 'Unknown';";
@@ -17,9 +30,8 @@ public class V54_AddNamesToWarningsTableMigration implements Migration {
         statements.add(addPlayerNameColumn);
         statements.add(addIssuerNameColumn);
 
-        PlayerManager playerManager = StaffPlus.get().getIocContainer().get(PlayerManager.class);
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, "sp_warnings", "player_name","Player_UUID"));
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, "sp_warnings", "warner_name","Warner_UUID"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_warnings", "player_name","Player_UUID"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_warnings", "warner_name","Warner_UUID"));
         return statements;
     }
 

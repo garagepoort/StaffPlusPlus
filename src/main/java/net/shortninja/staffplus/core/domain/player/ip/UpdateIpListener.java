@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.ip;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import static org.bukkit.Bukkit.getScheduler;
 
-@IocListener
+@IocBukkitListener
 public class UpdateIpListener implements Listener {
 
     private final PlayerIpService playerIpService;
