@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.actions;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
@@ -24,7 +24,7 @@ import java.util.Optional;
 
 import static java.util.Collections.singletonList;
 
-@IocListener
+@IocBukkitListener
 public class InvestigationActionsHook implements Listener {
 
     private final Options options;

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.playernotes.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplusplus.playernotes.IPlayerNote;
@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
-@IocListener
+@IocBukkitListener
 public class PlayerNoteChatNotifier implements Listener {
 
     @ConfigProperty("permissions:player-notes.notifications")

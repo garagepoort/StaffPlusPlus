@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.common.gui;
 
 import be.garagepoort.mcioc.TubingPlugin;
 import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
-import be.garagepoort.mcioc.permissions.TubingPermissionService;
+import be.garagepoort.mcioc.tubingbukkit.permissions.TubingPermissionService;
 import be.garagepoort.mcioc.tubinggui.test.TubingGuiTemplateTest;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -32,13 +32,13 @@ public abstract class AbstractTubingGuiTemplateTest extends TubingGuiTemplateTes
     @Override
     public List<ConfigurationFile> getConfigurationFiles() {
         return Arrays.asList(
-            new ConfigurationFile("config.yml", loadConfig("/config.yml")),
-            new ConfigurationFile("configuration/permissions.yml", "permissions", loadConfig("/configuration/permissions.yml")),
-            new ConfigurationFile("configuration/commands.yml", "commands", loadConfig("/configuration/commands.yml")),
-            new ConfigurationFile("configuration/staffmode/modules.yml", "staffmode-modules", loadConfig("/configuration/staffmode/modules.yml")),
-            new ConfigurationFile("configuration/staffmode/custom-modules.yml", "staffmode-custom-modules", loadConfig("/configuration/staffmode/custom-modules.yml")),
-            new ConfigurationFile("configuration/staffmode/modes.yml", "staffmode-modes", loadConfig("/configuration/staffmode/modes.yml")),
-            new ConfigurationFile("lang/lang_en.yml", "lang_en", loadConfig("/lang/lang_en.yml"))
+            new ConfigurationFile("config.yml"),
+            new ConfigurationFile("configuration/permissions.yml", "permissions"),
+            new ConfigurationFile("configuration/commands.yml", "commands"),
+            new ConfigurationFile("configuration/staffmode/modules.yml", "staffmode-modules"),
+            new ConfigurationFile("configuration/staffmode/custom-modules.yml", "staffmode-custom-modules"),
+            new ConfigurationFile("configuration/staffmode/modes.yml", "staffmode-modes"),
+            new ConfigurationFile("lang/lang_en.yml", "lang_en")
         );
     }
 }

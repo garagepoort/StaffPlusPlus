@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.commanddetection;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocListener(conditionalOnProperty = "command-detection.enabled=true")
+@IocBukkitListener(conditionalOnProperty = "command-detection.enabled=true")
 public class CommandDetectionListener implements Listener {
 
     @ConfigProperty("permissions:command-detection-bypass")

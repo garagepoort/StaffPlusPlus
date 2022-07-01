@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.application.config;
 
-import net.shortninja.staffplus.core.StaffPlus;
-import org.bukkit.configuration.file.FileConfiguration;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
+import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
 
 public abstract class AbstractConfigLoader<T> {
 
@@ -12,13 +12,19 @@ public abstract class AbstractConfigLoader<T> {
     protected FileConfiguration staffModeModesConfig;
     protected FileConfiguration staffModeCustomModulesConfig;
 
+    private final ConfigurationLoader configurationLoader;
+
+    protected AbstractConfigLoader(ConfigurationLoader configurationLoader) {
+        this.configurationLoader = configurationLoader;
+    }
+
     public T loadConfig() {
-        defaultConfig = StaffPlus.get().getFileConfigurations().get("config");
-        permissionsConfig = StaffPlus.get().getFileConfigurations().get("permissions");
-        commandsConfig = StaffPlus.get().getFileConfigurations().get("commands");
-        staffModeModulesConfig = StaffPlus.get().getFileConfigurations().get("staffmode-modules");
-        staffModeModesConfig = StaffPlus.get().getFileConfigurations().get("staffmode-modes");
-        staffModeCustomModulesConfig = StaffPlus.get().getFileConfigurations().get("staffmode-custom-modules");
+        defaultConfig = configurationLoader.getConfigurationFiles().get("config");
+        permissionsConfig = configurationLoader.getConfigurationFiles().get("permissions");
+        commandsConfig = configurationLoader.getConfigurationFiles().get("commands");
+        staffModeModulesConfig = configurationLoader.getConfigurationFiles().get("staffmode-modules");
+        staffModeModesConfig = configurationLoader.getConfigurationFiles().get("staffmode-modes");
+        staffModeCustomModulesConfig = configurationLoader.getConfigurationFiles().get("staffmode-custom-modules");
         return load();
     }
 

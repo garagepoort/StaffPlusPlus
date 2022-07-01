@@ -1,12 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
+import be.garagepoort.mcioc.configuration.yaml.configuration.ConfigurationSection;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.actions.config.ActionConfigLoader;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +17,10 @@ import java.util.Map;
 
 @IocBean
 public class StaffModesLoader extends AbstractConfigLoader<Map<String, GeneralModeConfiguration>> {
+
+    public StaffModesLoader(ConfigurationLoader configurationLoader) {
+        super(configurationLoader);
+    }
 
     @Override
     protected Map<String, GeneralModeConfiguration> load() {

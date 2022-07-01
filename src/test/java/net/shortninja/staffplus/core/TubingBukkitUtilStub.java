@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core;
 
-import be.garagepoort.mcioc.common.ITubingBukkitUtil;
+import be.garagepoort.mcioc.tubingbukkit.common.ITubingBukkitUtil;
 
 public class TubingBukkitUtilStub implements ITubingBukkitUtil {
     @Override

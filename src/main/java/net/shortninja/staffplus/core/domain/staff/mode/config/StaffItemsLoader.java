@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.compass.CompassModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.compass.CompassModeItemLoader;
@@ -46,7 +47,9 @@ public class StaffItemsLoader extends AbstractConfigLoader<StaffItemsConfigurati
                             GuiModeItemLoader guiModeItemLoader,
                             RandomTeleportModeItemLoader randomTeleportModeItemLoader,
                             VanishModeItemLoader vanishModeItemLoader,
-                            PlayerDetailsModeItemLoader playerDetailsModeItemLoader) {
+                            PlayerDetailsModeItemLoader playerDetailsModeItemLoader,
+                            ConfigurationLoader configurationLoader) {
+        super(configurationLoader);
         this.compassModeItemLoader = compassModeItemLoader;
         this.counterModeItemLoader = counterModeItemLoader;
         this.cpsModeItemLoader = cpsModeItemLoader;

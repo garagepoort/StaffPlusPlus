@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.application.config.migrators;
 
 import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
 import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
-import org.bukkit.configuration.file.FileConfiguration;
+import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
 
 import java.util.LinkedHashMap;
 import java.util.List;

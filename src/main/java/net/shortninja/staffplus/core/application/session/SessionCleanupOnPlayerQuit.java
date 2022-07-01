@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.core.application.session;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-@IocListener
+@IocBukkitListener
 public class SessionCleanupOnPlayerQuit implements Listener {
 
     private final OnlineSessionsManager sessionManager;
