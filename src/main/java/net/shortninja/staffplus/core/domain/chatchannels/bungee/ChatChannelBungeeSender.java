@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.chatchannels.bungee;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.chatchannels.bungee.dto.ChatChannelBungeeDto;
 import net.shortninja.staffplus.core.domain.chatchannels.bungee.dto.ChatChannelCreatedBungeeDto;
@@ -26,7 +26,7 @@ import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CHATCHANNELS
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CHATCHANNELS_PLAYER_JOINED_CHANNEL;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CHATCHANNELS_PLAYER_LEFT_CHANNEL;
 
-@IocListener
+@IocBukkitListener
 public class ChatChannelBungeeSender implements Listener {
 
     private final BungeeClient bungeeClient;

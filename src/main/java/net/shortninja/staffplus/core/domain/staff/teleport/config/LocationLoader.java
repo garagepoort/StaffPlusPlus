@@ -1,12 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.teleport.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
+import be.garagepoort.mcioc.configuration.yaml.configuration.ConfigurationSection;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +17,10 @@ import static java.lang.Double.parseDouble;
 
 @IocBean
 public class LocationLoader extends AbstractConfigLoader<Map<String, Location>> {
+
+    public LocationLoader(ConfigurationLoader configurationLoader) {
+        super(configurationLoader);
+    }
 
     @Override
     protected Map<String, Location> load() {

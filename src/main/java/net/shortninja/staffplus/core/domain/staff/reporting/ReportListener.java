@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting;
 
-import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static org.bukkit.Bukkit.getScheduler;
 
-@IocListener
+@IocBukkitListener
 public class ReportListener implements Listener {
 
     private final ReportService reportService;

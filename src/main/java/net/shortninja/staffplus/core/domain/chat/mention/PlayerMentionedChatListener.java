@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.chat.mention;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@IocListener
+@IocBukkitListener
 public class PlayerMentionedChatListener implements Listener {
     @ConfigProperty("permissions:mention-bypass")
     private String permissionMentionBypass;

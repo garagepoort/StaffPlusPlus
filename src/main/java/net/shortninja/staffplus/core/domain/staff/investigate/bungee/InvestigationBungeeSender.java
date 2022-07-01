@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.bungee;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplusplus.investigate.InvestigationConcludedEvent;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener
+@IocBukkitListener
 public class InvestigationBungeeSender implements Listener {
 
     private final BungeeClient bungeeClient;

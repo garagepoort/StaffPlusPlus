@@ -5,6 +5,12 @@ import be.garagepoort.mcsqlmigrations.Migration;
 import java.util.Arrays;
 import java.util.List;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcsqlmigrations.Migration;
+
+@IocBean
+@IocMultiProvider(Migration.class)
 public class V58_AlterBansTableAddSilentMigration implements Migration {
 
     @Override

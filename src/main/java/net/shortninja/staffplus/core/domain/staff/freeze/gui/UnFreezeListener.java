@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.freeze.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -12,7 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
 
-@IocListener
+@IocBukkitListener
 public class UnFreezeListener implements Listener {
 
     private final FreezeConfiguration freezeConfiguration;

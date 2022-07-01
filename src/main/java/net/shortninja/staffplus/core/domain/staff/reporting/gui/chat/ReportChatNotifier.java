@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.gui.chat;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
@@ -35,7 +35,7 @@ import static net.shortninja.staffplusplus.reports.ReportStatus.IN_PROGRESS;
 import static net.shortninja.staffplusplus.reports.ReportStatus.REJECTED;
 import static net.shortninja.staffplusplus.reports.ReportStatus.RESOLVED;
 
-@IocListener
+@IocBukkitListener
 public class ReportChatNotifier implements Listener {
 
     @ConfigProperty("permissions:report-update-notifications")

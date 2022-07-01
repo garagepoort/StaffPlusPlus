@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.IocMulti;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.exceptions.PlayerNotFoundException;
@@ -17,7 +17,7 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-@IocListener
+@IocBukkitListener
 public class VanishPlayersBukkitService implements Listener {
 
     private final List<VanishStrategy> vanishStrategies;
