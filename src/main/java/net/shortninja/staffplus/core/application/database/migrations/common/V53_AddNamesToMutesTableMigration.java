@@ -1,14 +1,26 @@
 package net.shortninja.staffplus.core.application.database.migrations.common;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@IocBean
+@IocMultiProvider(Migration.class)
 public class V53_AddNamesToMutesTableMigration implements Migration {
+
+    private final PlayerManager playerManager;
+    private final QueryBuilderFactory query;
+
+    public V53_AddNamesToMutesTableMigration(PlayerManager playerManager, QueryBuilderFactory query) {
+        this.playerManager = playerManager;
+        this.query = query;
+    }
 
     @Override
     public List<String> getStatements() {
@@ -19,9 +31,8 @@ public class V53_AddNamesToMutesTableMigration implements Migration {
         statements.add(addPlayerNameColumn);
         statements.add(addIssuerNameColumn);
         
-        PlayerManager playerManager = StaffPlus.get().getIocContainer().get(PlayerManager.class);
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, "sp_muted_players", "player_name","player_uuid"));
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, "sp_muted_players", "issuer_name","issuer_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_muted_players", "player_name","player_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_muted_players", "issuer_name","issuer_uuid"));
         return statements;
     }
 

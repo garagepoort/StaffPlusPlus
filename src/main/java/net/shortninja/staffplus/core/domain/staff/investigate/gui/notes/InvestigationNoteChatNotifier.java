@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui.notes;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
-@IocListener
+@IocBukkitListener
 public class InvestigationNoteChatNotifier implements Listener {
 
     private static final String INVESTIGATION_NOTE_LINKED = "Added note to investigation (ID=%investigationId%)";

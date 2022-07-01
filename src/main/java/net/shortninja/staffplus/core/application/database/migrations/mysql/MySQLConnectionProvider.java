@@ -11,8 +11,6 @@ import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class MySQLConnectionProvider implements SqlConnectionProvider {
@@ -40,11 +38,6 @@ public class MySQLConnectionProvider implements SqlConnectionProvider {
             getDataSource();
         }
         return datasource;
-    }
-
-    @Override
-    public List<String> getMigrationPackages() {
-        return Arrays.asList("net.shortninja.staffplus.core.application.database.migrations.mysql", "net.shortninja.staffplus.core.application.database.migrations.common");
     }
 
     @Override

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.bungee.dto.BanBungeeDto;
@@ -17,7 +17,7 @@ import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanMessageStringUtil.replaceBanPlaceholders;
 
-@IocListener
+@IocBukkitListener
 public class BanChatNotifier implements Listener {
 
     private final Messages messages;

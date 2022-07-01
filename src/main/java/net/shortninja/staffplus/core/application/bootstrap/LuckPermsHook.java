@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.application.bootstrap;
 
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.mcioc.TubingPlugin;
-import be.garagepoort.mcioc.load.BeforeTubingReload;
+import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
+import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.context.ContextCalculator;
 import net.luckperms.api.context.ContextManager;
@@ -51,7 +51,7 @@ public class LuckPermsHook implements PluginDisable, BeforeTubingReload {
     }
 
     @Override
-    public void execute(TubingPlugin tubingPlugin) {
+    public void execute(TubingBukkitPlugin tubingPlugin) {
         if (luckPermsEnabled) {
             this.registeredCalculators.forEach(c -> this.contextManager.unregisterCalculator(c));
             this.registeredCalculators.clear();

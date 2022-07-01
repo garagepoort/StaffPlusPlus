@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config;
 
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
@@ -18,7 +19,8 @@ public abstract class ModeItemLoader<T extends ModeItemConfiguration> extends Ab
 
     protected final IProtocolService protocolService;
 
-    protected ModeItemLoader(IProtocolService protocolService) {
+    protected ModeItemLoader(IProtocolService protocolService, ConfigurationLoader configurationLoader) {
+        super(configurationLoader);
         this.protocolService = protocolService;
     }
 

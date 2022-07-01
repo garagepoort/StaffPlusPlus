@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mute.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.domain.staff.mute.MuteMessageStringUtil.replaceMutePlaceholders;
 
-@IocListener
+@IocBukkitListener
 public class MuteChatNotifier implements Listener {
 
     private final Messages messages;

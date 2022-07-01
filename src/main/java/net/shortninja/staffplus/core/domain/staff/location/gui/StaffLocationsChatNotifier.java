@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.location.gui;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -15,7 +15,7 @@ import net.shortninja.staffplusplus.stafflocations.StaffLocationTeleportedEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocListener
+@IocBukkitListener
 public class StaffLocationsChatNotifier implements Listener {
 
     private final PlayerManager playerManager;

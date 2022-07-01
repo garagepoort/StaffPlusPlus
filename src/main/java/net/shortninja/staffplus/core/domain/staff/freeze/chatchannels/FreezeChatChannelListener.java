@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.freeze.chatchannels;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import static net.shortninja.staffplusplus.chatchannels.ChatChannelType.FREEZE;
 
-@IocListener(conditionalOnProperty = "freeze-module.chatchannels.enabled=true")
+@IocBukkitListener(conditionalOnProperty = "freeze-module.chatchannels.enabled=true")
 public class FreezeChatChannelListener implements Listener {
 
     @ConfigProperty("%lang%:freeze-chatchannel.prefix")

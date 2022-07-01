@@ -1,10 +1,12 @@
 package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
+import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.Migration;
 
 import java.util.Arrays;
 import java.util.List;
 
+@IocBean(conditionalOnProperty = "storage.type=mysql")
 public class V82_CreateChatChannelsTableMigration implements Migration {
     @Override
     public List<String> getStatements() {

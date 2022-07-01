@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.player.namechanged;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
@@ -17,7 +17,7 @@ import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
-@IocListener
+@IocBukkitListener
 public class NameChangeJoinListener implements Listener {
     @ConfigProperty("permissions:name-change-bypass")
     private String permissionNameChangeBypass;

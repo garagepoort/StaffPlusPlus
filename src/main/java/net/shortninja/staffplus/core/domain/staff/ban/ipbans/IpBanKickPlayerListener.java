@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.ban.ipbans;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.PlaceholderService;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static net.shortninja.staffplus.core.domain.staff.ban.ipbans.IpBanMessageStringUtil.replaceBanPlaceholders;
 import static org.bukkit.Bukkit.getScheduler;
 
-@IocListener
+@IocBukkitListener
 public class IpBanKickPlayerListener implements Listener {
 
     private final PlayerIpService playerIpService;

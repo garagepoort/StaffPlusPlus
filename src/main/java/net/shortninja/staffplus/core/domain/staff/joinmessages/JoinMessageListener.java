@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.joinmessages;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.util.Comparator;
 import java.util.Optional;
 
-@IocListener(conditionalOnProperty = "joinmessages-module.enabled=true")
+@IocBukkitListener(conditionalOnProperty = "joinmessages-module.enabled=true")
 public class JoinMessageListener implements Listener {
 
     private final JoinMessagesConfiguration joinMessagesConfiguration;
