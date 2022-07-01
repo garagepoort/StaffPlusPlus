@@ -6,6 +6,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcsqlmigrations.Migration;
+
+@IocBean(conditionalOnProperty = "storage.type=sqlite")
+@IocMultiProvider(Migration.class)
 public class V66_AlterBannedPlayerIpsTableIncreaseIpColumnMigration implements Migration {
     @Override
     public List<String> getStatements() {

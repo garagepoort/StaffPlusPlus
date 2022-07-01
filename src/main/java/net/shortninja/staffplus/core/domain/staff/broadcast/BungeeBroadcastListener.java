@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.broadcast;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitMessageListener;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import net.shortninja.staffplus.core.StaffPlus;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -15,6 +14,12 @@ import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL
 
 @IocBukkitMessageListener(channel = BUNGEE_CORD_CHANNEL)
 public class BungeeBroadcastListener implements PluginMessageListener {
+
+    private final BroadcastService broadcastService;
+
+    public BungeeBroadcastListener(BroadcastService broadcastService) {
+        this.broadcastService = broadcastService;
+    }
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
@@ -31,7 +36,7 @@ public class BungeeBroadcastListener implements PluginMessageListener {
 
                 DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
                 String broadcastMessage = msgin.readUTF();
-                StaffPlus.get().getIocContainer().get(BroadcastService.class).handleBungeeBroadcast(broadcastMessage);
+                broadcastService.handleBungeeBroadcast(broadcastMessage);
             }
         } catch (IOException e) {
             e.printStackTrace();
