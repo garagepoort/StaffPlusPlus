@@ -1,13 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.domain.staff.mode.config.ModeItemLoader;
 
 @IocBean
 public class ExamineModeItemLoader extends ModeItemLoader<ExamineModeConfiguration> {
-    public ExamineModeItemLoader(IProtocolService protocolService) {
-        super(protocolService);
+    public ExamineModeItemLoader(IProtocolService protocolService, ConfigurationLoader configurationLoader) {
+        super(protocolService, configurationLoader);
     }
 
     @Override

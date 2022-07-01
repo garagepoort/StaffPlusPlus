@@ -1,7 +1,11 @@
 package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+@IocBean(conditionalOnProperty = "storage.type=mysql")
+@IocMultiProvider(Migration.class)
 public class V45_CreateInvestigationsTableMigration implements Migration {
     @Override
     public String getStatement() {

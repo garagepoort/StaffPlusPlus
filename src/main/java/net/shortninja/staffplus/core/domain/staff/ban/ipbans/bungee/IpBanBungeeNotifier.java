@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban.ipbans.bungee;
 
 import be.garagepoort.mcioc.IocBean;
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.staff.ban.ipbans.bungee.dto.IpBanBungeeDto;
 import net.shortninja.staffplusplus.ban.IpBanEvent;
@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_IP_BANNED_CHANNEL;
 import static net.shortninja.staffplus.core.common.Constants.BUNGEE_IP_UNBANNED_CHANNEL;
 
-@IocListener
+@IocBukkitListener
 public class IpBanBungeeNotifier implements Listener {
 
     private final BungeeClient bungeeClient;

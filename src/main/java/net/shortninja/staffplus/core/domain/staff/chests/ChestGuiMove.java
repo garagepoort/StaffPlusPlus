@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.chests;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import org.bukkit.Material;
@@ -14,7 +14,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.ItemStack;
 
-@IocListener
+@IocBukkitListener
 public class ChestGuiMove implements Listener {
     private final OnlineSessionsManager sessionManager;
 

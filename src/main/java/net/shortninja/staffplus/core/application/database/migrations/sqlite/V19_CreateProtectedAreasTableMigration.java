@@ -2,6 +2,12 @@ package net.shortninja.staffplus.core.application.database.migrations.sqlite;
 
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcsqlmigrations.Migration;
+
+@IocBean(conditionalOnProperty = "storage.type=sqlite")
+@IocMultiProvider(Migration.class)
 public class V19_CreateProtectedAreasTableMigration implements Migration {
     @Override
     public String getStatement() {

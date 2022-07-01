@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.mode;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import be.garagepoort.mcioc.TubingPlugin;
-import be.garagepoort.mcioc.load.BeforeTubingReload;
+import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
+import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
@@ -32,7 +32,7 @@ public class StaffModePluginDisable implements PluginDisable, BeforeTubingReload
     }
 
     @Override
-    public void execute(TubingPlugin tubingPlugin) {
+    public void execute(TubingBukkitPlugin tubingPlugin) {
         disable();
     }
 

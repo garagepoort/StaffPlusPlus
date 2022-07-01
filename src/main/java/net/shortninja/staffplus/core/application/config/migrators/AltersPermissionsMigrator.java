@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.application.config.migrators;
 
 import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
-import org.bukkit.configuration.file.FileConfiguration;
+import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class AltersPermissionsMigrator implements StaffPlusPlusConfigMigrator {
             migrate(permissions, "alerts-blacklist-detection", "alerts.notifications.blacklist-detection");
     }
 
-    private void migrate(FileConfiguration permissions, String oldProperty, String newProperty) {
+    private void migrate( FileConfiguration permissions, String oldProperty, String newProperty) {
         if (permissions.contains(oldProperty)) {
             String value = permissions.getString(oldProperty);
             permissions.set(newProperty, value);

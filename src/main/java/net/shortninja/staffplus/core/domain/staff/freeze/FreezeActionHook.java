@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
-import be.garagepoort.mcioc.IocListener;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.CreateStoredCommandRequest;
@@ -21,7 +21,7 @@ import java.util.Map;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
 
-@IocListener
+@IocBukkitListener
 public class FreezeActionHook implements Listener {
 
     private final FreezeConfiguration freezeConfiguration;

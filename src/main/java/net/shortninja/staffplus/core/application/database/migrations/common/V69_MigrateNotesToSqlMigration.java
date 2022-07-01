@@ -1,5 +1,7 @@
 package net.shortninja.staffplus.core.application.database.migrations.common;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -17,13 +19,20 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+@IocBean
+@IocMultiProvider(Migration.class)
 public class V69_MigrateNotesToSqlMigration implements Migration {
 
     private static final String DATA_YML = "data.yml";
 
+    private final Options options;
+
+    public V69_MigrateNotesToSqlMigration(Options options) {
+        this.options = options;
+    }
+
     @Override
     public List<String> getStatements() {
-        Options options = StaffPlus.get().getIocContainer().get(Options.class);
         List<String> insertStatements = new ArrayList<>();
 
         File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
