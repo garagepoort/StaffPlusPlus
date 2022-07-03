@@ -1,16 +1,14 @@
 package net.shortninja.staffplus.core.domain.staff.altaccountdetect;
 
-import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-@IocBean
+@IocBukkitListener
 public class AltDetectionListener implements Listener {
 
     private final AltDetectConfiguration altDetectConfiguration;
@@ -23,7 +21,6 @@ public class AltDetectionListener implements Listener {
         this.altDetectConfiguration = altDetectConfiguration;
         this.playerManager = playerManager;
         this.bukkitUtils = bukkitUtils;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler

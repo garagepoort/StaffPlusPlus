@@ -16,15 +16,17 @@ public class InfractionsTopViewBuilder {
     private static final int PAGE_SIZE = 45;
 
     private final InfractionsService infractionsService;
+    private final InfractionOverviewGuiProvider infractionOverviewGuiProvider;
 
-    public InfractionsTopViewBuilder(InfractionsService infractionsService) {
+    public InfractionsTopViewBuilder(InfractionsService infractionsService, InfractionOverviewGuiProvider infractionOverviewGuiProvider) {
         this.infractionsService = infractionsService;
+        this.infractionOverviewGuiProvider = infractionOverviewGuiProvider;
     }
 
     public TubingGui buildGui(int page, List<InfractionType> infractionFilters, String currentAction) {
         return new PagedGuiBuilder.Builder("Infractions top")
             .addPagedItems(currentAction, getItems(page, infractionFilters),
-                InfractionOverviewGuiProvider::build, i -> getOverviewAction(currentAction, i), page)
+                infractionOverviewGuiProvider::build, i -> getOverviewAction(currentAction, i), page)
             .build();
     }
 
