@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -17,9 +16,11 @@ import org.bukkit.inventory.ItemStack;
 @IocBukkitListener
 public class InventoryClick implements Listener {
     private final OnlineSessionsManager sessionManager;
+    private final CommandUtil commandUtil;
 
-    public InventoryClick(OnlineSessionsManager sessionManager) {
+    public InventoryClick(OnlineSessionsManager sessionManager, CommandUtil commandUtil) {
         this.sessionManager = sessionManager;
+        this.commandUtil = commandUtil;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -43,7 +44,7 @@ public class InventoryClick implements Listener {
                     return;
                 }
 
-                CommandUtil.playerAction(player, () -> action.click(player, item, slot, event.getClick()));
+                commandUtil.playerAction(player, () -> action.click(player, item, slot, event.getClick()));
 
                 if (action.shouldClose(player)) {
                     player.closeInventory();

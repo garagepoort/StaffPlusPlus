@@ -1,11 +1,10 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
+import be.garagepoort.mcioc.TubingPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.blacklist.bungee.ChatMessageCensoredBungeeDto;
 import net.shortninja.staffplus.core.domain.blacklist.bungee.ChatMessageCensoredBungeeEvent;
-import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplusplus.blacklist.BlacklistCensoredEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,11 +13,11 @@ import org.bukkit.event.Listener;
 public class BlacklistAlertConsoleHandler implements Listener {
 
     private final Messages messages;
-    private final PlayerManager playerManager;
+    private final TubingPlugin tubingPlugin;
 
-    public BlacklistAlertConsoleHandler(Messages messages, PlayerManager playerManager) {
+    public BlacklistAlertConsoleHandler(Messages messages, TubingPlugin tubingPlugin) {
         this.messages = messages;
-        this.playerManager = playerManager;
+        this.tubingPlugin = tubingPlugin;
     }
 
     @EventHandler
@@ -30,7 +29,7 @@ public class BlacklistAlertConsoleHandler implements Listener {
             .replace("%blacklist-type%", blacklistCensoredEvent.getBlacklistType().name())
             .replace("%server%", blacklistCensoredEvent.getServerName());
 
-        StaffPlus.get().getLogger().info(message);
+        tubingPlugin.getLogger().info(message);
     }
 
     @EventHandler
@@ -43,6 +42,6 @@ public class BlacklistAlertConsoleHandler implements Listener {
             .replace("%blacklist-type%", chatMessageCensoredBungeeDto.getBlacklistType().name())
             .replace("%server%", chatMessageCensoredBungeeDto.getServerName());
 
-        StaffPlus.get().getLogger().info(message);
+        tubingPlugin.getLogger().info(message);
     }
 }

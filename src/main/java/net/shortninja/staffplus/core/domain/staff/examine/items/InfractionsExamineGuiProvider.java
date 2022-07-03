@@ -3,9 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.examine.items;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.tubinggui.model.TubingGuiActions;
-import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.domain.staff.examine.gui.ExamineGuiItemProvider;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeConfiguration;
@@ -29,11 +28,13 @@ public class InfractionsExamineGuiProvider implements ExamineGuiItemProvider {
     private final Messages messages;
     private final ExamineModeConfiguration examineModeConfiguration;
     private final ReportService reportService;
+    private final WarnService warnService;
 
-    public InfractionsExamineGuiProvider(Messages messages, Options options, ReportService reportService) {
+    public InfractionsExamineGuiProvider(Messages messages, Options options, ReportService reportService, WarnService warnService) {
         this.messages = messages;
         this.reportService = reportService;
         examineModeConfiguration = options.staffItemsConfiguration.getExamineModeConfiguration();
+        this.warnService = warnService;
     }
 
     @Override
@@ -64,7 +65,7 @@ public class InfractionsExamineGuiProvider implements ExamineGuiItemProvider {
         String latestReason = latestReport == null ? "null" : latestReport.getReason();
 
         for (String string : messages.infractionItem) {
-            List<Warning> warnings = StaffPlus.get().getIocContainer().get(WarnService.class).getWarnings(player.getId(), false);
+            List<Warning> warnings = warnService.getWarnings(player.getId(), false);
             lore.add(string.replace("%warnings%", Integer.toString(warnings.size())).replace("%reports%", Integer.toString(reports.size())).replace("%reason%", latestReason));
         }
 

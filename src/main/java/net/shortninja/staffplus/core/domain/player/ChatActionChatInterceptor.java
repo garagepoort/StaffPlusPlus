@@ -4,19 +4,20 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
+import net.shortninja.staffplus.core.common.cmd.CommandUtil;
 import net.shortninja.staffplus.core.domain.chat.ChatAction;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import static net.shortninja.staffplus.core.common.cmd.CommandUtil.playerAction;
 
 @IocBean
 @IocMultiProvider(ChatInterceptor.class)
 public class ChatActionChatInterceptor implements ChatInterceptor {
     private final OnlineSessionsManager sessionManager;
+    private final CommandUtil commandUtil;
 
-    public ChatActionChatInterceptor(OnlineSessionsManager sessionManager) {
+    public ChatActionChatInterceptor(OnlineSessionsManager sessionManager, CommandUtil commandUtil) {
         this.sessionManager = sessionManager;
+        this.commandUtil = commandUtil;
     }
 
 
@@ -26,7 +27,7 @@ public class ChatActionChatInterceptor implements ChatInterceptor {
         ChatAction chatAction = session.getChatAction();
 
         if (chatAction != null) {
-            playerAction(event.getPlayer(), () -> {
+            commandUtil.playerAction(event.getPlayer(), () -> {
                 chatAction.execute(event.getPlayer(), event.getMessage());
                 session.setChatAction(null);
             });

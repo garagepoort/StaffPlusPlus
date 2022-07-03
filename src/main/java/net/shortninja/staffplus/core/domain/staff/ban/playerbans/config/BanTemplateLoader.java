@@ -1,7 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans.config;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.TubingPlugin;
+import be.garagepoort.mcioc.load.InjectTubingPlugin;
 import net.shortninja.staffplus.core.common.exceptions.DatabaseException;
 
 import java.io.File;
@@ -16,8 +17,15 @@ import java.util.stream.Stream;
 
 @IocBean
 public class BanTemplateLoader {
+
+    private final TubingPlugin tubingPlugin;
+
+    public BanTemplateLoader(@InjectTubingPlugin TubingPlugin tubingPlugin) {
+        this.tubingPlugin = tubingPlugin;
+    }
+
     public Map<String, String> loadTemplates() {
-        String directoryPath = StaffPlus.get().getDataFolder() + File.separator + "bans";
+        String directoryPath = tubingPlugin.getDataFolder() + File.separator + "bans";
         File banDir = new File(directoryPath);
         if (!banDir.exists()) {
             return Collections.emptyMap();
