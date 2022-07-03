@@ -1,12 +1,10 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
-import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.XrayService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.BLOCK_BREAK;
 
-@IocBean
+@IocBukkitListener
 public class BlockBreak implements Listener {
     private final XrayService xrayService;
     private final TraceService traceService;
@@ -26,7 +24,6 @@ public class BlockBreak implements Listener {
         this.xrayService = xrayService;
         this.traceService = traceService;
         this.sessionManager = sessionManager;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
