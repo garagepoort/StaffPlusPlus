@@ -40,8 +40,8 @@ import java.util.stream.Stream;
 public class GadgetHandler {
     private final static Map<UUID, Integer> lastRandomTeleport = new HashMap<UUID, Integer>();
 
-    @ConfigProperty("permissions:member")
-    private String permissionMember;
+    @ConfigProperty("permissions:random-teleport-bypass")
+    private String randomTeleportBypass;
 
     private final IProtocolService protocolService;
     private final PermissionHandler permission;
@@ -133,7 +133,7 @@ public class GadgetHandler {
     public void onRandomTeleport(Player player) {
         List<Player> onlinePlayers = playerManager.getOnlinePlayers()
             .stream()
-            .filter(p -> !p.getUniqueId().equals(player.getUniqueId()) && !permission.has(p, permissionMember))
+            .filter(p -> !p.getUniqueId().equals(player.getUniqueId()) && !permission.has(p, randomTeleportBypass))
             .collect(Collectors.toList());
 
 
