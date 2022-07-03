@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.actions.database;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.load.InjectTubingPlugin;
 import net.shortninja.staffplus.core.StaffPlus;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -10,9 +11,9 @@ public class CommandCleanupTask extends BukkitRunnable {
 
     private final StoredCommandRepository storedCommandRepository;
 
-    public CommandCleanupTask(StoredCommandRepository storedCommandRepository) {
+    public CommandCleanupTask(StoredCommandRepository storedCommandRepository, @InjectTubingPlugin StaffPlus staffPlus) {
         this.storedCommandRepository = storedCommandRepository;
-        runTaskTimerAsynchronously(StaffPlus.get(), TIMER * 20, TIMER * 20);
+        runTaskTimerAsynchronously(staffPlus, TIMER * 20, TIMER * 20);
     }
 
     @Override

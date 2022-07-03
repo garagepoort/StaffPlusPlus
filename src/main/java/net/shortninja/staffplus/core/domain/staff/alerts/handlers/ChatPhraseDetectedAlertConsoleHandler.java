@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
+import be.garagepoort.mcioc.TubingPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.chat.bungee.PhraseDetectedBungeeDto;
 import net.shortninja.staffplus.core.domain.chat.bungee.PhraseDetectedBungeeEvent;
@@ -15,9 +15,11 @@ import java.util.List;
 public class ChatPhraseDetectedAlertConsoleHandler implements Listener {
 
     private final Messages messages;
+    private final TubingPlugin tubingPlugin;
 
-    public ChatPhraseDetectedAlertConsoleHandler(Messages messages) {
+    public ChatPhraseDetectedAlertConsoleHandler(Messages messages, TubingPlugin tubingPlugin) {
         this.messages = messages;
+        this.tubingPlugin = tubingPlugin;
     }
 
     @EventHandler
@@ -38,6 +40,6 @@ public class ChatPhraseDetectedAlertConsoleHandler implements Listener {
             .replace("%originalMessage%", originalMessage)
             .replace("%detectedPhrases%", String.join(" | ", detectedPhrases));
 
-        StaffPlus.get().getLogger().info(message);
+        tubingPlugin.getLogger().info(message);
     }
 }
