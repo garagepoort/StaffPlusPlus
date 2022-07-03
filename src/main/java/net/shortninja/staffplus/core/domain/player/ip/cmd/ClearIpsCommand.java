@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.player.ip.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -10,10 +9,10 @@ import net.shortninja.staffplus.core.common.cmd.CommandService;
 import net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy;
 import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpService;
 import net.shortninja.staffplusplus.session.SppPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
@@ -35,16 +34,18 @@ public class ClearIpsCommand extends AbstractCmd {
 
     private final PlayerIpService playerIpService;
     private final PlayerManager playerManager;
+    private final BukkitUtils bukkitUtils;
 
-    public ClearIpsCommand(Messages messages, PermissionHandler permissionHandler, CommandService commandService, PlayerIpService playerIpService, PlayerManager playerManager) {
+    public ClearIpsCommand(Messages messages, PermissionHandler permissionHandler, CommandService commandService, PlayerIpService playerIpService, PlayerManager playerManager, BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.playerIpService = playerIpService;
         this.playerManager = playerManager;
+        this.bukkitUtils = bukkitUtils;
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> playerIpService.clearHistory(sender, player));
+        bukkitUtils.runTaskAsync(sender, () -> playerIpService.clearHistory(sender, player));
         return true;
     }
 

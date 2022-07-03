@@ -20,7 +20,6 @@ blacklist: "staff.blacklist.bypass"
 # Permission for giving a player's previous inventory back.
 revive: "staff.revive"
 # Permission for being noted as a staff member in the staff list command and for login.
-# This also excludes the player from being randomly teleported to!
 member: "staff.member"
 # Permission for using "/strip".
 strip: "staff.strip"
@@ -188,6 +187,8 @@ mode-silent-chest-interaction: "staff.mode.silent-chest-interaction"
 compass: "staff.mode.compass"
 # Permission for using the staff mode random teleport
 random-teleport: "staff.mode.random-teleport"
+# This excludes the player from being randomly teleported to!
+random-teleport-bypass: "staff.mode.random-teleport.bypass"
 # Permission for the staff mode GUI hub
 gui: "staff.mode.gui"
 # Permission for the staff mode counter GUI
