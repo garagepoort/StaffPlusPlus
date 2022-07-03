@@ -1,13 +1,14 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
-import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.IocMulti;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.JavaUtils;
+import net.shortninja.staffplus.core.common.cmd.CommandUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiBuilder;
 import net.shortninja.staffplus.core.domain.staff.freeze.FreezeHandler;
@@ -35,7 +36,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static net.shortninja.staffplus.core.common.cmd.CommandUtil.playerAction;
 import static net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration.ModuleType.COMMAND_DYNAMIC;
 
 @IocBukkitListener
@@ -54,6 +54,7 @@ public class PlayerInteract implements Listener {
     private final Messages messages;
     private final GuiActionService guiActionService;
     private final ChestGuiBuilder chestGuiBuilder;
+    private final CommandUtil commandUtil;
 
 
     public PlayerInteract(IProtocolService protocolService, CpsHandler cpsHandler,
@@ -62,7 +63,8 @@ public class PlayerInteract implements Listener {
                           PlayerManager playerManager,
                           OnlineSessionsManager sessionManager,
                           @IocMulti(CustomModulePreProcessor.class) List<CustomModulePreProcessor> customModulePreProcessors,
-                          Messages messages, GuiActionService guiActionService, ChestGuiBuilder chestGuiBuilder) {
+                          Messages messages, GuiActionService guiActionService, ChestGuiBuilder chestGuiBuilder,
+                          CommandUtil commandUtil) {
         this.protocolService = protocolService;
         this.cpsHandler = cpsHandler;
         this.gadgetHandler = gadgetHandler;
@@ -73,6 +75,7 @@ public class PlayerInteract implements Listener {
         this.messages = messages;
         this.guiActionService = guiActionService;
         this.chestGuiBuilder = chestGuiBuilder;
+        this.commandUtil = commandUtil;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -141,7 +144,7 @@ public class PlayerInteract implements Listener {
                 gadgetHandler.onCounter(player);
                 break;
             case FREEZE:
-                playerAction(player, () -> {
+                commandUtil.playerAction(player, () -> {
                     Player targetPlayer = JavaUtils.getTargetPlayer(player);
                     if (targetPlayer != null) {
                         OnlinePlayerSession session = sessionManager.get(targetPlayer);
@@ -165,7 +168,7 @@ public class PlayerInteract implements Listener {
                 gadgetHandler.onFollow(player, JavaUtils.getTargetPlayer(player));
                 break;
             case PLAYER_DETAILS:
-                playerAction(player, () -> {
+                commandUtil.playerAction(player, () -> {
                     Player t = JavaUtils.getTargetPlayer(player);
                     if (t != null) {
                         guiActionService.executeAction(player, "players/view/detail?targetPlayerName=" + t.getName());

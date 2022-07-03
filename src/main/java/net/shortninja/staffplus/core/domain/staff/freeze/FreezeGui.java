@@ -1,7 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.freeze;
 
-import net.shortninja.staffplus.core.StaffPlus;
-import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.AbstractGui;
 import org.bukkit.Material;
@@ -13,8 +11,6 @@ import java.util.List;
 
 public class FreezeGui extends AbstractGui {
     private static final int SIZE = 9;
-    private Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
-
 
     public FreezeGui(String title) {
         super(SIZE, title);

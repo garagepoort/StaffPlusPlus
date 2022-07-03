@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.common.bungee;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.load.InjectTubingPlugin;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -26,10 +27,12 @@ import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL
 public class BungeeClient {
 
     private final GsonParser gsonParser;
+    private final StaffPlus staffPlus;
 
-    public BungeeClient(GsonParser gsonParser) {
+    public BungeeClient(GsonParser gsonParser, @InjectTubingPlugin StaffPlus staffPlus) {
         this.gsonParser = gsonParser;
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(StaffPlus.get(), BUNGEE_CORD_CHANNEL);
+        this.staffPlus = staffPlus;
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(staffPlus, BUNGEE_CORD_CHANNEL);
     }
 
     public void sendAll(CommandSender sender, BungeeAction action, BungeeContext context, String message) {
@@ -59,7 +62,7 @@ public class BungeeClient {
                 out.writeShort(msgbytes.toByteArray().length);
                 out.write(msgbytes.toByteArray());
 
-                player.sendPluginMessage(StaffPlus.get(), BUNGEE_CORD_CHANNEL, out.toByteArray());
+                player.sendPluginMessage(staffPlus, BUNGEE_CORD_CHANNEL, out.toByteArray());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -98,7 +101,7 @@ public class BungeeClient {
             out.writeShort(msgbytes.toByteArray().length);
             out.write(msgbytes.toByteArray());
 
-            player.sendPluginMessage(StaffPlus.get(), BUNGEE_CORD_CHANNEL, out.toByteArray());
+            player.sendPluginMessage(staffPlus, BUNGEE_CORD_CHANNEL, out.toByteArray());
         } catch (IOException e) {
             e.printStackTrace();
         }

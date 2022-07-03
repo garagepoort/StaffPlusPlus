@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
-import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -11,14 +10,13 @@ import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfigurat
 import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import net.shortninja.staffplusplus.altdetect.IAltDetectResult;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import static net.shortninja.staffplusplus.alerts.AlertType.ALT_DETECT;
 
-@IocBean
+@IocBukkitListener
 public class AltDetectAlertHandler extends AlertsHandler implements Listener {
 
     public AltDetectAlertHandler(AlertsConfiguration alertsConfiguration,
@@ -28,7 +26,6 @@ public class AltDetectAlertHandler extends AlertsHandler implements Listener {
                                  Messages messages,
                                  PlayerManager playerManager) {
         super(alertsConfiguration, playerSettingsRepository, sessionManager, permission, messages, playerManager);
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
     }
 
     @EventHandler
