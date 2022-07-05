@@ -5,6 +5,7 @@ import net.shortninja.staffplusplus.alerts.AlertType;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Material;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -19,6 +20,7 @@ public class PlayerSettings {
     private Material glassColor;
     private VanishType vanishType;
     private boolean inStaffMode;
+    private final Map<String, Boolean> nightVision;
     private String modeName;
 
     public PlayerSettings(UUID uuid,
@@ -29,7 +31,8 @@ public class PlayerSettings {
                           boolean inStaffMode,
                           String modeName,
                           Set<String> mutedStaffChatChannels,
-                          Set<String> soundDisabledStaffChatChannels) {
+                          Set<String> soundDisabledStaffChatChannels,
+                          Map<String, Boolean> nightVision) {
         this.uuid = uuid;
         this.name = name;
         this.glassColor = glassColor;
@@ -39,6 +42,7 @@ public class PlayerSettings {
         this.modeName = modeName;
         this.mutedStaffChatChannels = mutedStaffChatChannels;
         this.soundDisabledStaffChatChannels = soundDisabledStaffChatChannels;
+        this.nightVision = nightVision;
     }
 
     public UUID getUuid() {
@@ -135,5 +139,17 @@ public class PlayerSettings {
         } else {
             alertOptions.remove(alertType);
         }
+    }
+
+    public boolean isNightVisionEnabled() {
+        return nightVision.values().stream().anyMatch(n -> n);
+    }
+
+    public Map<String, Boolean> getNightVision() {
+        return nightVision;
+    }
+
+    public void setNightVision(String initiator, boolean nightVision) {
+        this.nightVision.put(initiator, nightVision);
     }
 }

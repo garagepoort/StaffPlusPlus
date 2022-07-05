@@ -6,7 +6,6 @@ import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
-import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplusplus.staffmode.EnterStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.ExitStaffModeEvent;
 import net.shortninja.staffplusplus.staffmode.SwitchStaffModeEvent;
@@ -24,17 +23,15 @@ public class StaffModeService {
 
 
     private final PlayerSettingsRepository playerSettingsRepository;
-    private final VanishServiceImpl vanishServiceImpl;
     private final ModeDataRepository modeDataRepository;
     private final Options options;
     private final ModeProvider modeProvider;
 
     public StaffModeService(Options options,
-                            PlayerSettingsRepository playerSettingsRepository, VanishServiceImpl vanishServiceImpl,
+                            PlayerSettingsRepository playerSettingsRepository,
                             ModeDataRepository modeDataRepository,
                             ModeProvider modeProvider) {
         this.playerSettingsRepository = playerSettingsRepository;
-        this.vanishServiceImpl = vanishServiceImpl;
         this.options = options;
         this.modeDataRepository = modeDataRepository;
         this.modeProvider = modeProvider;
@@ -69,9 +66,7 @@ public class StaffModeService {
             return;
         }
 
-        if(modeConfiguration.isVanishOnEnter()) {
-            vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
-        }
+        playerSettings.setInStaffMode(true);
         playerSettings.setModeConfiguration(modeConfiguration);
         playerSettingsRepository.save(playerSettings);
 
@@ -93,9 +88,6 @@ public class StaffModeService {
             modeDataRepository.saveModeData(modeData);
         }
 
-        if(modeConfiguration.isVanishOnEnter()) {
-            vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
-        }
         settings.setInStaffMode(true);
         settings.setModeConfiguration(modeConfiguration);
         playerSettingsRepository.save(settings);
@@ -117,19 +109,19 @@ public class StaffModeService {
     }
 
     public void turnStaffModeOffAndTeleport(Player player, Location location) {
-        PlayerSettings session = playerSettingsRepository.get(player);
+        PlayerSettings settings = playerSettingsRepository.get(player);
+
+        settings.setInStaffMode(false);
+        settings.setModeName(null);
+        playerSettingsRepository.save(settings);
 
         Optional<ModeData> existingModeData = modeDataRepository.retrieveModeData(player.getUniqueId());
         if (!existingModeData.isPresent()) {
             return;
         }
+        Optional<GeneralModeConfiguration> modeConfiguration = modeProvider.getConfiguration(settings.getModeName().orElse(null));
 
-        Optional<GeneralModeConfiguration> modeConfiguration = modeProvider.getConfiguration(session.getModeName().orElse(null));
-
-        session.setInStaffMode(false);
-        session.setModeName(null);
-        playerSettingsRepository.save(session);
-        vanishServiceImpl.removeVanish(player);
+        modeDataRepository.deleteModeData(player);
         sendEvent(new ExitStaffModeEvent(
             player.getName(),
             player.getUniqueId(),
