@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
+import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Comparator;
@@ -26,16 +27,20 @@ public class ModeProvider {
         return Optional.ofNullable(modeConfigurations.get(modeName));
     }
 
+    public GeneralModeConfiguration getMode(SppPlayer player, String modeName) {
+        return getMode(player.getPlayer(), modeName);
+    }
+
     public GeneralModeConfiguration getMode(Player player, String modeName) {
-        if(!modeConfigurations.containsKey(modeName)) {
-            throw new BusinessException("&CCan't turn on staff mode. Mode ["+modeName+"] does not exist");
+        if (!modeConfigurations.containsKey(modeName)) {
+            throw new BusinessException("&CCan't turn on staff mode. Mode [" + modeName + "] does not exist");
         }
 
         GeneralModeConfiguration modeConfiguration = modeConfigurations.get(modeName);
-        if(!modeConfiguration.isModeValidInWorld(player.getWorld())) {
+        if (!modeConfiguration.isModeValidInWorld(player.getWorld())) {
             throw new BusinessException("&CMode can not be actived in this world");
         }
-        if(!permissionHandler.has(player, modeConfiguration.getPermission())) {
+        if (!permissionHandler.has(player, modeConfiguration.getPermission())) {
             throw new BusinessException("&CYou don't have permission to access this mode");
         }
 
