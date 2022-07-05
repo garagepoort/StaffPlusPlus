@@ -1,6 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.TubingPlugin;
+import be.garagepoort.mcioc.load.InjectTubingPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.blacklist.bungee.ChatMessageCensoredBungeeDto;
@@ -15,7 +16,7 @@ public class BlacklistAlertConsoleHandler implements Listener {
     private final Messages messages;
     private final TubingPlugin tubingPlugin;
 
-    public BlacklistAlertConsoleHandler(Messages messages, TubingPlugin tubingPlugin) {
+    public BlacklistAlertConsoleHandler(Messages messages, @InjectTubingPlugin TubingPlugin tubingPlugin) {
         this.messages = messages;
         this.tubingPlugin = tubingPlugin;
     }
