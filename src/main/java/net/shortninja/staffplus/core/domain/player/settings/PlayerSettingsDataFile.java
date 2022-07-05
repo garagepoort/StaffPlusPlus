@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @IocBean
@@ -54,6 +55,13 @@ public class PlayerSettingsDataFile {
         configuration.set(settings.getUuid() + ".vanish-type", settings.getVanishType() != null ? settings.getVanishType().name() : VanishType.NONE.name());
         configuration.set(settings.getUuid() + ".staff-mode", settings.isInStaffMode());
         configuration.set(settings.getUuid() + ".staff-mode-name", settings.getModeName().orElse(null));
+        configuration.set(settings.getUuid() + ".night-vision", mapNightVision(settings.getNightVision()));
+    }
+
+    private String mapNightVision(Map<String, Boolean> nightVision) {
+        return nightVision.keySet().stream()
+            .map(key -> key + "," + nightVision.get(key))
+            .collect(Collectors.joining(";"));
     }
 
     private List<String> alertOptions(PlayerSettings session) {
@@ -61,7 +69,6 @@ public class PlayerSettingsDataFile {
             .map(alertType -> alertType.name() + ";" + true)
             .collect(Collectors.toList());
     }
-
 
     public FileConfiguration getConfiguration() {
         return configuration;

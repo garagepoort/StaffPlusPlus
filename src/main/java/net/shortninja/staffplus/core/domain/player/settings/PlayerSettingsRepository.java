@@ -11,6 +11,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -67,7 +68,8 @@ public class PlayerSettingsRepository {
             false,
             null,
             new HashSet<>(),
-            new HashSet<>());
+            new HashSet<>(),
+            new HashMap<>());
 
         playerSettingsDataFile.save(playerSettings);
         if (options.serverSyncConfiguration.sessionSyncEnabled()) {
@@ -95,6 +97,8 @@ public class PlayerSettingsRepository {
         Set<String> soundDisabledStaffChatChannels = settingsEntity.map(PlayerSettingsEntity::getSoundDisabledStaffChatChannels).orElse(new HashSet<>());
 
         boolean staffMode = dataFileConfiguration.getBoolean(uuid + ".staff-mode", false);
+        String nightVisionString = dataFileConfiguration.getString(uuid + ".night-vision", "");
+        Map<String, Boolean> nightVision = mapNightVision(nightVisionString);
         String staffModeName = dataFileConfiguration.getString(uuid + ".staff-mode-name", null);
         if (options.serverSyncConfiguration.staffModeSyncEnabled && settingsEntity.isPresent()) {
             staffMode = settingsEntity.get().getStaffMode();
@@ -109,7 +113,23 @@ public class PlayerSettingsRepository {
             staffMode,
             staffModeName,
             mutedChannels,
-            soundDisabledStaffChatChannels);
+            soundDisabledStaffChatChannels,
+            nightVision);
+    }
+
+    @NotNull
+    private Map<String, Boolean> mapNightVision(String nightVisionString) {
+        Map<String, Boolean> nightVision = new HashMap<>();
+        String[] split = nightVisionString.split(";");
+        for (String s : split) {
+            String[] split1 = s.split(",");
+            if (split1.length == 2) {
+                String initiator = split1[0];
+                boolean value = Boolean.parseBoolean(split1[1]);
+                nightVision.put(initiator, value);
+            }
+        }
+        return nightVision;
     }
 
     @NotNull

@@ -36,9 +36,6 @@ public class TotalVanishStrategy implements VanishStrategy {
 
     @Override
     public void vanish(SppPlayer player) {
-        if(vanishConfiguration.nightVisionEnabled) {
-            player.turnNightVisionOn();
-        }
         Bukkit.getOnlinePlayers().stream()
             .filter(p -> !permission.has(p, vanishConfiguration.permissionSeeVanished))
             .forEach(p -> p.hidePlayer(player.getPlayer()));
@@ -69,9 +66,6 @@ public class TotalVanishStrategy implements VanishStrategy {
     @Override
     public void unvanish(SppPlayer player) {
         listVanish(player, false);
-        if(vanishConfiguration.nightVisionEnabled) {
-            player.turnNightVisionOff();
-        }
         Bukkit.getOnlinePlayers().forEach(p -> p.showPlayer(player.getPlayer()));
     }
 
