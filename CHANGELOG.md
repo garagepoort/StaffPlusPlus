@@ -1,4 +1,26 @@
-# Changelog Staff++ | v1.18
+# Changelog Staff++ | v1.19
+
+# V1.19.3
+
+### Features
+- Bungee support for phrase detection alerts.
+- Added book censor.
+
+### Breaking change
+- GUI hub permission change. Other permission need to see Ban and Mute information. See wiki
+- Fix night-vision not turning off when exiting staff mode
+
+### Bugs
+- Discord alert notifications were still sent even if the player has the bypass permission
+- Fix player detail view inventory permission.
+- Long appeal reasons were not completely visible in the lore.
+- Try fixing sqlite database lock errors
+- Fix player detail sometimes not opening 
+
+# V1.19.2
+
+### Features
+- 19.0 support
 
 # V1.18.17
 
