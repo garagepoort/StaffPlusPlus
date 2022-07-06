@@ -55,7 +55,8 @@ public class OnlineSessionsManager implements SessionManager {
 
     @Override
     public IPlayerSession get(UUID uuid) {
-        return get(Bukkit.getPlayer(uuid));
+        Player player = Bukkit.getPlayer(uuid);
+        return player == null ? null : get(player);
     }
 
     public PlayerSession get(Player player) {
