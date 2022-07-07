@@ -46,7 +46,7 @@ public class RunPluginIT {
             System.out.println(spigot.getLogs());
             assertFalse(spigot.getLogs().contains("ERROR"));
             assertFalse(spigot.getLogs().contains("exception"));
-            assertTrue(spigot.getLogs().contains("[StaffPlus] Using SQLITE storage"));
+            assertTrue(spigot.getLogs().contains("[StaffPlusPlus] Using SQLITE storage"));
         }
     }
 
@@ -63,7 +63,7 @@ public class RunPluginIT {
             System.out.println(spigot.getLogs());
             assertFalse(spigot.getLogs().contains("ERROR"));
             assertFalse(spigot.getLogs().contains("exception"));
-            assertTrue(spigot.getLogs().contains("[StaffPlus] Using MYSQL storage"));
+            assertTrue(spigot.getLogs().contains("[StaffPlusPlus] Using MYSQL storage"));
         }
     }
 
