@@ -27,9 +27,9 @@ public class ChoiceChatService {
 
         JSONMessage jsonMessage = JavaUtils.buildChoiceMessage(message,
             option1Message,
-            "staffplus:choice-action option1 " + uuid,
+            "staffplusplus:choice-action option1 " + uuid,
             option2Message,
-            "staffplus:choice-action option2 " + uuid);
+            "staffplusplus:choice-action option2 " + uuid);
         jsonMessage.send(player);
     }
 
