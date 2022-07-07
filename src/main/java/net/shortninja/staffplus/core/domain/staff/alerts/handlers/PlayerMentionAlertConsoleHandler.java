@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.chat.mention.bungee.MentionBungeeDto;
 import net.shortninja.staffplus.core.domain.chat.mention.bungee.PlayerMentionedBungeeEvent;
@@ -38,6 +38,6 @@ public class PlayerMentionAlertConsoleHandler implements Listener {
             .replace("%target%", playerName)
             .replace("%server%", serverName)
             .replace("%mentioned%", mentionedPlayerName);
-        StaffPlus.get().getLogger().info(message);
+        StaffPlusPlus.get().getLogger().info(message);
     }
 }

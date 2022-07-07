@@ -33,7 +33,7 @@ public class VanishCancelInteraction implements Listener {
             Player player = event.getPlayer();
             PlayerSession playerSession = sessionManager.get(player);
             if (playerSession.isVanished()) {
-                if (cancelledInteractions.contains(event.getClickedBlock().getBlockData().getMaterial())) {
+                if (cancelledInteractions.contains(event.getClickedBlock().getType())) {
                     event.setCancelled(true);
                 }
             }

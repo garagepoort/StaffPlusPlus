@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.BukkitInventorySerialization;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.GameMode;
@@ -32,7 +32,7 @@ public class ModeDataSerializer {
 
     private File createFile(String uuid) {
         File file = getFile(uuid);
-        File folder = new File(StaffPlus.get().getDataFolder(), "ModeData");
+        File folder = new File(StaffPlusPlus.get().getDataFolder(), "ModeData");
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -117,6 +117,6 @@ public class ModeDataSerializer {
     }
 
     private File getFile(String uuid) {
-        return new File(StaffPlus.get().getDataFolder() + File.separator + "ModeData" + File.separator + uuid + ".yml");
+        return new File(StaffPlusPlus.get().getDataFolder() + File.separator + "ModeData" + File.separator + uuid + ".yml");
     }
 }

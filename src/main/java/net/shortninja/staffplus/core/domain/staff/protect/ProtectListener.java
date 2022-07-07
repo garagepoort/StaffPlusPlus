@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.protect;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ public class ProtectListener implements Listener {
 
     public ProtectListener(ProtectService protectService) {
         this.protectService = protectService;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
+        Bukkit.getPluginManager().registerEvents(this, StaffPlusPlus.get());
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)

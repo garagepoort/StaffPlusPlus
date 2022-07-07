@@ -7,7 +7,7 @@ import be.garagepoort.mcioc.ReflectionUtils;
 import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.IProtocolService;
@@ -74,7 +74,7 @@ public class CmdHandler implements PluginDisable, BeforeTubingReload {
     }
 
     @Override
-    public void disable(StaffPlus staffPlus) {
+    public void disable(StaffPlusPlus staffPlusPlus) {
         commands.forEach(baseCmd -> versionProtocol.getVersionProtocol().unregisterCommand(baseCmd.getMatch(), baseCmd.getCommand()));
     }
 

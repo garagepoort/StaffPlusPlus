@@ -103,7 +103,7 @@ public class StaffLocationService {
 
         actionService.createCommand(
             commandBuilder()
-                .command("staffplus:" + teleportCommands.get(0) + " " + locationId)
+                .command("staffplusplus:" + teleportCommands.get(0) + " " + locationId)
                 .executor(player.getUniqueId())
                 .executorRunStrategy(ActionRunStrategy.DELAY)
                 .serverName(staffLocation.getServerName())

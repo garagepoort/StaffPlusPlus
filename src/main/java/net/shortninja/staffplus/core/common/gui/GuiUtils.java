@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.gui;
 
 import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplusplus.session.IPlayerSession;
@@ -47,7 +47,7 @@ public class GuiUtils {
     }
 
     public static Optional<IPlayerSession> getSession(SppPlayer sppPlayer) {
-        OnlineSessionsManager onlineSessionsManager = StaffPlus.get().getIocContainer().get(OnlineSessionsManager.class);
+        OnlineSessionsManager onlineSessionsManager = StaffPlusPlus.get().getIocContainer().get(OnlineSessionsManager.class);
         if (onlineSessionsManager.has(sppPlayer.getId())) {
             return Optional.ofNullable(onlineSessionsManager.get(sppPlayer.getId()));
         }

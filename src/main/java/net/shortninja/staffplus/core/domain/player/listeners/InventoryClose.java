@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.utils.InventoryFactory;
@@ -40,13 +39,13 @@ public class InventoryClose implements Listener {
             OnlinePlayerSession playerSession = sessionManager.get(player);
 
             if (playerSession.isFrozen() && freezeConfiguration.prompt) {
-                Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> new FreezeGui(freezeConfiguration.promptTitle).show(player), 1);
+                Bukkit.getScheduler().runTaskLater(StaffPlusPlus.get(), () -> new FreezeGui(freezeConfiguration.promptTitle).show(player), 1);
                 return;
             }
 
             if (playerSession.getCurrentGui().isPresent() && (playerSession.getCurrentGui().get() instanceof ChestGUI)) {
                 ChestGUI chestGUI = (ChestGUI) playerSession.getCurrentGui().get();
-                Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+                Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
                     if (chestGUI.getChestGuiType() == ChestGuiType.ENDER_CHEST_EXAMINE && chestGUI.getTargetPlayer() != null && !chestGUI.getTargetPlayer().isOnline()) {
                         inventoryFactory.saveEnderchestOffline(chestGUI.getTargetPlayer(), chestGUI.getTargetInventory());
                     }
