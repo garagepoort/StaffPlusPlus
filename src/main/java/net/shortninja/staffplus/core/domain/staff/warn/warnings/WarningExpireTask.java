@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -14,7 +14,7 @@ public class WarningExpireTask extends BukkitRunnable {
     public WarningExpireTask(WarnService warnService, WarningConfiguration warningConfiguration) {
         this.warnService = warnService;
         if (warningConfiguration.getSeverityLevels().stream().anyMatch(s -> s.getExpirationDuration() > 0)) {
-            runTaskTimerAsynchronously(StaffPlus.get(), DELAY, DELAY);
+            runTaskTimerAsynchronously(StaffPlusPlus.get(), DELAY, DELAY);
         }
     }
 

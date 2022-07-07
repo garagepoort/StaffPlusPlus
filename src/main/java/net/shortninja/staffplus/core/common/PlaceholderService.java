@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.common;
 
 import be.garagepoort.mcioc.IocBean;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -18,7 +18,7 @@ public class PlaceholderService {
         Plugin placeholderPlugin;
         if ((placeholderPlugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")) != null) {
             usesPlaceholderAPI = true;
-            StaffPlus.get().getLogger().info("Hooked into PlaceholderAPI " + placeholderPlugin.getDescription().getVersion());
+            StaffPlusPlus.get().getLogger().info("Hooked into PlaceholderAPI " + placeholderPlugin.getDescription().getVersion());
         }
     }
 

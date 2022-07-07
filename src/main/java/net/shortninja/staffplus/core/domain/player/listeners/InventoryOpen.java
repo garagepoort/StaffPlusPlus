@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceType;
 import org.bukkit.Bukkit;
@@ -24,7 +24,7 @@ public class InventoryOpen implements Listener {
 
     public InventoryOpen(TraceService traceService) {
         this.traceService = traceService;
-        Bukkit.getServer().getPluginManager().registerEvents(this, StaffPlus.get());
+        Bukkit.getServer().getPluginManager().registerEvents(this, StaffPlusPlus.get());
     }
 
     @EventHandler

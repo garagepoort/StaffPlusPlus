@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.namechanged.bungee.NameChangeBungeeDto;
@@ -43,6 +43,6 @@ public class NameChangeAlertConsoleHandler implements Listener {
             .replace("%old%", oldName)
             .replace("%server%", serverName)
             .replace("%new%", newName);
-        StaffPlus.get().getLogger().info(message);
+        StaffPlusPlus.get().getLogger().info(message);
     }
 }

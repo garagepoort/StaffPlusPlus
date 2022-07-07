@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.staffplusplus.craftbukkit.common.json.rayzr.JSONMessage;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.JsonSenderService;
@@ -37,7 +37,7 @@ public class WarningNotifierListener implements Listener {
         this.messages = messages;
         this.warningConfiguration = warningConfiguration;
         this.jsonSenderService = jsonSenderService;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
+        Bukkit.getPluginManager().registerEvents(this, StaffPlusPlus.get());
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -46,7 +46,7 @@ public class WarningNotifierListener implements Listener {
             return;
         }
 
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
             List<Warning> warnings = warnService.getWarnings(event.getPlayer().getUniqueId(), false);
             if (warningConfiguration.isAlwaysNotifyUser()) {
                 if (!warnings.isEmpty()) {

@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.exceptions.ConfigurationException;
 import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import net.shortninja.staffplusplus.trace.TraceWriter;
@@ -22,7 +22,7 @@ import static org.bukkit.Bukkit.getScheduler;
 
 public class FileTraceWriter implements TraceWriter {
 
-    private static final String PATH = StaffPlus.get().getDataFolder() + "/trace/";
+    private static final String PATH = StaffPlusPlus.get().getDataFolder() + "/trace/";
 
     private final BufferedWriter writer;
     private final String fileName;
@@ -49,7 +49,7 @@ public class FileTraceWriter implements TraceWriter {
 
     @Override
     public void writeToTrace(String message) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
             try {
                 String traceMessage = "[" + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_DATE_TIME) + "] : " + message;
                 writer.write(traceMessage);

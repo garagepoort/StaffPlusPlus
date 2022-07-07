@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.application.metrics;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
@@ -20,7 +20,7 @@ public class MetricsService {
                           AltDetectConfiguration altDetectConfiguration,
                           MuteConfiguration muteConfiguration,
                           ReportConfiguration reportConfiguration) {
-        Metrics metrics = new Metrics(StaffPlus.get(), PLUGIN_ID);
+        Metrics metrics = new Metrics(StaffPlusPlus.get(), PLUGIN_ID);
 
         boolean warningConfigurationEnabled = warningConfiguration.isEnabled();
         boolean appealConfigurationEnabled = options.warningAppealConfiguration.enabled;

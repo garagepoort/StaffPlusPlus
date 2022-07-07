@@ -1,5 +1,5 @@
-main: net.shortninja.staffplus.core.StaffPlus
-name: StaffPlus
+main: net.shortninja.staffplus.core.StaffPlusPlus
+name: StaffPlusPlus
 version: ${project.version}
 description: The ultimate moderation plugin!
 author: Shortninja,Qball,Garagepoort

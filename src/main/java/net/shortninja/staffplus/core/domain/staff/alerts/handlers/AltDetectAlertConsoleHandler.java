@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.domain.staff.alerts.config.AlertsConfiguration;
 import net.shortninja.staffplusplus.altdetect.AltDetectEvent;
 import net.shortninja.staffplusplus.altdetect.IAltDetectResult;
@@ -29,6 +29,6 @@ public class AltDetectAlertConsoleHandler implements Listener {
             altDetectResult.getPlayerMatchedName(),
             altDetectResult.getAltDetectTrustLevel());
 
-        StaffPlus.get().getLogger().info(message);
+        StaffPlusPlus.get().getLogger().info(message);
     }
 }
