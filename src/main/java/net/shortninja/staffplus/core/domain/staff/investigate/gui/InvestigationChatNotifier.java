@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
@@ -90,7 +90,7 @@ public class InvestigationChatNotifier implements Listener {
     @EventHandler
     public void notifyUnderInvestigationOnJoin(StaffPlusPlusJoinedEvent event) {
         Player player = event.getPlayer();
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
             if (event.getPlayerSession().isUnderInvestigation() && StringUtils.isNotEmpty(messages.underInvestigationJoin)) {
                 messages.send(player, messages.underInvestigationJoin, messages.prefixInvestigations);
             }

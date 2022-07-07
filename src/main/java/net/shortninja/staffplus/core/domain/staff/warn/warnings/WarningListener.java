@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandMapper;
@@ -48,7 +48,7 @@ public class WarningListener implements Listener {
         this.configuredCommandMapper = configuredCommandMapper;
         this.bukkitUtils = bukkitUtils;
         this.warningConfiguration = warningConfiguration;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
+        Bukkit.getPluginManager().registerEvents(this, StaffPlusPlus.get());
     }
 
 
@@ -78,7 +78,7 @@ public class WarningListener implements Listener {
 
     @EventHandler
     public void executeRemovalActions(WarningRemovedEvent warningRemovedEvent) {
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
             UUID targetUuid = warningRemovedEvent.getWarning().getTargetUuid();
             Optional<SppPlayer> target = playerManager.getOnOrOfflinePlayer(targetUuid);
             if (target.isPresent()) {
@@ -89,7 +89,7 @@ public class WarningListener implements Listener {
 
     @EventHandler
     public void executeAppealedActions(WarningAppealApprovedEvent warningAppealApprovedEvent) {
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
             actionService.rollbackActionable(warningAppealApprovedEvent.getWarning());
         });
     }

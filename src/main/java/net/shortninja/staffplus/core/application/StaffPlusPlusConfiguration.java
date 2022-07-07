@@ -9,7 +9,7 @@ import be.garagepoort.mcioc.tubinggui.exceptions.GuiExceptionHandler;
 import be.garagepoort.mcsqlmigrations.DatabaseType;
 import be.garagepoort.mcsqlmigrations.SqlConnectionProvider;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.bootstrap.LuckPermsHook;
 import net.shortninja.staffplus.core.application.bootstrap.VaultHook;
 import net.shortninja.staffplus.core.application.config.Options;
@@ -36,10 +36,10 @@ public class StaffPlusPlusConfiguration {
 
     @IocBeanProvider
     public static PermissionHandler instantiatePermissionHandler(Options options, VaultHook vaultHook) {
-        final PluginManager pluginManager = StaffPlus.get().getServer().getPluginManager();
+        final PluginManager pluginManager = StaffPlusPlus.get().getServer().getPluginManager();
         Plugin gMplugin = pluginManager.getPlugin("GroupManager");
         if (gMplugin != null && gMplugin.isEnabled()) {
-            StaffPlus.get().getLogger().info("GroupManager found. Permissions will be handled by GroupManager");
+            StaffPlusPlus.get().getLogger().info("GroupManager found. Permissions will be handled by GroupManager");
             return new GroupManagerPermissionHandler(options);
         }
 
@@ -53,7 +53,7 @@ public class StaffPlusPlusConfiguration {
             // Vault not found
         }
 
-        StaffPlus.get().getLogger().info("Permissions handled by Bukkit");
+        StaffPlusPlus.get().getLogger().info("Permissions handled by Bukkit");
         return new DefaultPermissionHandler();
     }
 
@@ -62,18 +62,18 @@ public class StaffPlusPlusConfiguration {
         if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
             return new LuckPermsHook(sessionManager);
         }
-        StaffPlus.get().getLogger().info("Luckperms not found. Not Setting luckperms hook");
+        StaffPlusPlus.get().getLogger().info("Luckperms not found. Not Setting luckperms hook");
         return null;
     }
 
     @IocBeanProvider
     public static QueryBuilderFactory queryBuilderFactory(@ConfigProperty("storage.type") String storageType, SqlConnectionProvider sqlConnectionProvider) {
         if (storageType.equalsIgnoreCase("mysql")) {
-            StaffPlus.get().getLogger().info("Using MYSQL storage");
+            StaffPlusPlus.get().getLogger().info("Using MYSQL storage");
             return new QueryBuilderFactory(DatabaseType.MYSQL, sqlConnectionProvider);
         }
 
-        StaffPlus.get().getLogger().info("Using SQLITE storage");
+        StaffPlusPlus.get().getLogger().info("Using SQLITE storage");
         return new QueryBuilderFactory(DatabaseType.SQLITE, sqlConnectionProvider);
     }
 }

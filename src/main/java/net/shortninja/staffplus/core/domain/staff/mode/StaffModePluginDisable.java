@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
@@ -27,7 +27,7 @@ public class StaffModePluginDisable implements PluginDisable, BeforeTubingReload
     }
 
     @Override
-    public void disable(StaffPlus staffPlus) {
+    public void disable(StaffPlusPlus staffPlusPlus) {
         disable();
     }
 
@@ -47,7 +47,7 @@ public class StaffModePluginDisable implements PluginDisable, BeforeTubingReload
                     }
                 }
             } catch (Exception e) {
-                StaffPlus.get().getLogger().warning("Enable to execute staff mode disable for user: [" + onlinePlayer.getName() + "]");
+                StaffPlusPlus.get().getLogger().warning("Enable to execute staff mode disable for user: [" + onlinePlayer.getName() + "]");
             }
         }
     }

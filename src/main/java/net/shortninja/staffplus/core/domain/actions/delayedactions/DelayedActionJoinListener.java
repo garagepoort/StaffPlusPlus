@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.actions.delayedactions;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -19,6 +19,6 @@ public class DelayedActionJoinListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(StaffPlusPlusJoinedEvent playerJoinEvent) {
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> delayedActionService.processDelayedAction(playerJoinEvent.getPlayer()));
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> delayedActionService.processDelayedAction(playerJoinEvent.getPlayer()));
     }
 }

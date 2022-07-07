@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.permissions;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.NoPermissionException;
 import org.anjocaido.groupmanager.GroupManager;
@@ -21,7 +21,7 @@ public class GroupManagerPermissionHandler implements PermissionHandler {
 
     public GroupManagerPermissionHandler(Options options) {
         this.options = options;
-        final PluginManager pluginManager = StaffPlus.get().getServer().getPluginManager();
+        final PluginManager pluginManager = StaffPlusPlus.get().getServer().getPluginManager();
         gMplugin = (GroupManager) pluginManager.getPlugin("GroupManager");
     }
 

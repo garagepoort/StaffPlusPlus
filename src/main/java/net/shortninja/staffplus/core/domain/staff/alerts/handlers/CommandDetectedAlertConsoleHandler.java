@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.load.InjectTubingPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplusplus.commanddetection.CommandDetectedEvent;
 import org.bukkit.event.EventHandler;
@@ -12,11 +12,11 @@ import org.bukkit.event.Listener;
 public class CommandDetectedAlertConsoleHandler implements Listener {
 
     private final Messages messages;
-    private final StaffPlus staffPlus;
+    private final StaffPlusPlus staffPlusPlus;
 
-    public CommandDetectedAlertConsoleHandler(Messages messages, @InjectTubingPlugin StaffPlus staffPlus) {
+    public CommandDetectedAlertConsoleHandler(Messages messages, @InjectTubingPlugin StaffPlusPlus staffPlusPlus) {
         this.messages = messages;
-        this.staffPlus = staffPlus;
+        this.staffPlusPlus = staffPlusPlus;
     }
 
     @EventHandler
@@ -25,6 +25,6 @@ public class CommandDetectedAlertConsoleHandler implements Listener {
             .replace("%target%", commandDetectedEvent.getPlayer().getName())
             .replace("%command%", commandDetectedEvent.getCommand());
 
-        staffPlus.getLogger().info(message);
+        staffPlusPlus.getLogger().info(message);
     }
 }

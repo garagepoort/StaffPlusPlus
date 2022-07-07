@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode.handler;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.cps.CpsModeConfiguration;
@@ -46,7 +46,7 @@ public class CpsHandler {
             public void run() {
                 stopTest(sender, targetPlayer);
             }
-        }.runTaskLater(StaffPlus.get(), cpsModeConfiguration.getModeCpsTime());
+        }.runTaskLater(StaffPlusPlus.get(), cpsModeConfiguration.getModeCpsTime());
     }
 
     public void stopTest(CommandSender sender, Player targetPlayer) {

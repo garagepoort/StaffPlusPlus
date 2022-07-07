@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.gui;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.UpdatableGui;
@@ -15,7 +15,7 @@ public class GuiUpdateTask extends BukkitRunnable {
 
     public GuiUpdateTask(OnlineSessionsManager sessionManager) {
         this.sessionManager = sessionManager;
-        runTaskTimer(StaffPlus.get(), 0, 10);
+        runTaskTimer(StaffPlusPlus.get(), 0, 10);
     }
 
     @Override
