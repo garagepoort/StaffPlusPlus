@@ -16,7 +16,7 @@ public class SqlLiteConnectionProvider implements SqlConnectionProvider {
 
     @Override
     public Connection getConnection() {
-        String url = "jdbc:sqlite:plugins/StaffPlus/staff.db";
+        String url = "jdbc:sqlite:plugins/StaffPlusPlus/staff.db";
         try {
             return DriverManager.getConnection(url);
         } catch (SQLException e) {
