@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.bungee;
 
 import com.google.common.io.ByteArrayDataOutput;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import org.bukkit.entity.Player;
 
 import static com.google.common.io.ByteStreams.newDataOutput;
@@ -12,6 +12,6 @@ public class ServerSwitcher {
         ByteArrayDataOutput out = newDataOutput();
         out.writeUTF("Connect");
         out.writeUTF(serverName);
-        player.sendPluginMessage(StaffPlus.get(), "BungeeCord", out.toByteArray());
+        player.sendPluginMessage(StaffPlusPlus.get(), "BungeeCord", out.toByteArray());
     }
 }

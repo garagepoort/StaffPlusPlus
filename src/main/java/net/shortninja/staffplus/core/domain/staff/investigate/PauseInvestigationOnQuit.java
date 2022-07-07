@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.tubingbukkit.TubingBukkitPlugin;
 import be.garagepoort.mcioc.tubingbukkit.annotations.BeforeTubingReload;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.investigation.InvestigationsRepository;
@@ -34,7 +34,7 @@ public class PauseInvestigationOnQuit implements Listener, PluginDisable, Before
     }
 
     @Override
-    public void disable(StaffPlus staffPlus) {
+    public void disable(StaffPlusPlus staffPlusPlus) {
         //disable all when plugin disabled. To ensure pausing all investigations when the server restarts.
         investigationsRepository.pauseAllInvestigations();
     }

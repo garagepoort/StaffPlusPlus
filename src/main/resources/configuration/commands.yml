@@ -7,7 +7,7 @@
 # All commands and their according names.
 # Leave a command blank to disable it.
 
-staffplus: ["staffplus"]
+staffplus: ["staffplusplus"]
 # The command for toggling staff mode.
 staff-mode: ["staff"]
 # The command for toggling fly while in staff mode.

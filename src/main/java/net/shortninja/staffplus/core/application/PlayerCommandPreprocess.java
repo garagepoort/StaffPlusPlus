@@ -56,7 +56,7 @@ public class PlayerCommandPreprocess implements Listener {
         String command = event.getMessage().toLowerCase();
         traceService.sendTraceMessage(COMMANDS, uuid, "Player invoked command: [" + command + "]");
 
-        if (command.startsWith("/help staffplus") || command.startsWith("/help staff+")) {
+        if (command.startsWith("/help staffplusplus") || command.startsWith("/help staff++")) {
             sendHelp(player);
             event.setCancelled(true);
             return;

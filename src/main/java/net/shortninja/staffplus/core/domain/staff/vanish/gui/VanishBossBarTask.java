@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.gui;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.bootstrap.PluginDisable;
 import net.shortninja.staffplusplus.vanish.VanishOffEvent;
 import net.shortninja.staffplusplus.vanish.VanishOnEvent;
@@ -28,7 +28,7 @@ public class VanishBossBarTask implements Listener, PluginDisable {
     }
 
     @Override
-    public void disable(StaffPlus staffPlus) {
+    public void disable(StaffPlusPlus staffPlusPlus) {
         BOSS_BAR.removeAll();
     }
 }

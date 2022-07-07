@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.application.updates;
 
 import be.garagepoort.mcioc.IocBean;
 import com.google.gson.JsonObject;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import retrofit2.Call;
@@ -26,7 +26,7 @@ public class UpdateNotifier extends BukkitRunnable {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(SpigetClient.class);
-        runTaskAsynchronously(StaffPlus.get());
+        runTaskAsynchronously(StaffPlusPlus.get());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class UpdateNotifier extends BukkitRunnable {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     if (response.isSuccessful()) {
-                        String currentVersion = StaffPlus.get().getDescription().getVersion();
+                        String currentVersion = StaffPlusPlus.get().getDescription().getVersion();
 
                         String jar = response.body().get("1.16").getAsString();
                         if (jar == null) {
