@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
@@ -48,7 +48,7 @@ public class TabCompleteListener implements Listener {
                     .collect(Collectors.toList())
             );
         } catch (Exception e) {
-            StaffPlus.get().getLogger().warning("Could not hide autocomplete names due to: " + Arrays.toString(e.getStackTrace()));
+            StaffPlusPlus.get().getLogger().warning("Could not hide autocomplete names due to: " + Arrays.toString(e.getStackTrace()));
         }
     }
 }

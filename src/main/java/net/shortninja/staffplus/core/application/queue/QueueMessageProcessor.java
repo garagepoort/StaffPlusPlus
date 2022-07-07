@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.application.queue;
 
 import be.garagepoort.mcioc.IocMulti;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.bungee.GsonParser;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfiguration;
@@ -32,7 +32,7 @@ public abstract class QueueMessageProcessor extends BukkitRunnable {
         listeners.stream()
             .filter(t -> t.getType().startsWith(getProcessingGroup()))
             .forEach(listener -> this.listeners.put(listener.getType(), listener));
-        runTaskTimerAsynchronously(StaffPlus.get(), TIMER * 20, TIMER * 20);
+        runTaskTimerAsynchronously(StaffPlusPlus.get(), TIMER * 20, TIMER * 20);
     }
 
     protected abstract String getProcessingGroup();
@@ -45,7 +45,7 @@ public abstract class QueueMessageProcessor extends BukkitRunnable {
         queueMessage.ifPresent(message -> {
             try {
                 if (!listeners.containsKey(message.getType())) {
-                    StaffPlus.getPlugin().getLogger().warning("No QueueMessageListener for type [" + message.getType() + "]");
+                    StaffPlusPlus.getPlugin().getLogger().warning("No QueueMessageListener for type [" + message.getType() + "]");
                 }
                 QueueMessageListener listener = listeners.get(message.getType());
 

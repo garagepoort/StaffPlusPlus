@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.reporting;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import me.rayzr522.jsonmessage.JSONMessage;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -34,7 +34,7 @@ public class ReportListener implements Listener {
         if (!reportConfiguration.isNotifyReporterOnJoin()) {
             return;
         }
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
             List<Report> reports = reportService.getMyReports(event.getPlayer().getUniqueId());
             List<Report> openReports = reports.stream().filter(r -> !r.getReportStatus().isClosed()).collect(Collectors.toList());
 

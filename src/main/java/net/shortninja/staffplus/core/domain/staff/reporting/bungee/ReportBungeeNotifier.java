@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.bungee;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportBungeeDto;
 import net.shortninja.staffplus.core.domain.staff.reporting.bungee.dto.ReportDeletedBungeeDto;
@@ -31,7 +31,7 @@ public class ReportBungeeNotifier implements Listener {
 
     public ReportBungeeNotifier(BungeeClient bungeeClient) {
         this.bungeeClient = bungeeClient;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlus.get());
+        Bukkit.getPluginManager().registerEvents(this, StaffPlusPlus.get());
     }
 
     @EventHandler
