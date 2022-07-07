@@ -170,7 +170,7 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
         } else {
             actionService.createCommand(
                 commandBuilder()
-                    .command("staffplus:teleport-to-report " + reportId)
+                    .command("staffplusplus:teleport-to-report " + reportId)
                     .executor(player.getUniqueId())
                     .executorRunStrategy(ActionRunStrategy.DELAY)
                     .serverName(report.getServerName())

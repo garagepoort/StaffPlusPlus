@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -45,7 +45,7 @@ public class MyWarningsCmd extends AbstractCmd {
         }
 
         guiActionService.executeAction((Player) sender, "manage-warnings/view/my-warnings");
-        Bukkit.getScheduler().runTaskAsynchronously(StaffPlus.get(), ()-> warnService.markWarningsRead(((Player) sender).getUniqueId()));
+        Bukkit.getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), ()-> warnService.markWarningsRead(((Player) sender).getUniqueId()));
         return true;
     }
 

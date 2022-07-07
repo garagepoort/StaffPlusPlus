@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.settings;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,16 +21,16 @@ public class PlayerSettingsDataFile {
     private final YamlConfiguration configuration;
 
     public PlayerSettingsDataFile() {
-        File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
+        File file = new File(StaffPlusPlus.get().getDataFolder(), DATA_YML);
         if (!file.exists()) {
-            StaffPlus.get().saveResource(DATA_YML, false);
+            StaffPlusPlus.get().saveResource(DATA_YML, false);
         }
         configuration = YamlConfiguration.loadConfiguration(file);
     }
 
     public synchronized void save(PlayerSettings settings) {
         try {
-            File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
+            File file = new File(StaffPlusPlus.get().getDataFolder(), DATA_YML);
             updateSettings(settings);
             configuration.save(file);
         } catch (IOException exception) {
@@ -40,7 +40,7 @@ public class PlayerSettingsDataFile {
 
     public synchronized void save(Collection<PlayerSettings> settings) {
         try {
-            File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
+            File file = new File(StaffPlusPlus.get().getDataFolder(), DATA_YML);
             settings.forEach(this::updateSettings);
             configuration.save(file);
         } catch (IOException exception) {

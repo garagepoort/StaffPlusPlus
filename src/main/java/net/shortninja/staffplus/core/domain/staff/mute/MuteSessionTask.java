@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mute;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -32,7 +32,7 @@ public class MuteSessionTask extends BukkitRunnable {
         this.muteService = muteService;
         this.muteConfiguration = muteConfiguration;
         this.playerManager = playerManager;
-        runTaskTimerAsynchronously(StaffPlus.get(), DELAY, DELAY);
+        runTaskTimerAsynchronously(StaffPlusPlus.get(), DELAY, DELAY);
     }
 
     @Override
