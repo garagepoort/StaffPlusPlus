@@ -260,6 +260,10 @@ vanish-module:
     silent-chest-interaction: false
     # Will give players night vision while vanished in TOTAL or PLAYER mode.
     night-vision: false
+    # List all the items which the player should not be able to interact with
+    cancelled-interaction-types:
+        - '*PRESSURE_PLATE'
+        - '*TRIP*'
 
 ############################################################
 # +------------------------------------------------------+ #
