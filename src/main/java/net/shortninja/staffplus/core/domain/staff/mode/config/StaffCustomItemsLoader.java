@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.mode.config;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.IProtocolService;
@@ -40,7 +40,7 @@ public class StaffCustomItemsLoader extends AbstractConfigLoader<List<CustomModu
     private List<CustomModuleConfiguration> loadCustomModules(FileConfiguration config) {
         List<CustomModuleConfiguration> customModuleConfigurations = new ArrayList<>();
         if (config.getConfigurationSection("custom-modules") == null) {
-            StaffPlus.get().getLogger().info("No custom staff mode modules to load");
+            StaffPlusPlus.get().getLogger().info("No custom staff mode modules to load");
             return customModuleConfigurations;
         }
 

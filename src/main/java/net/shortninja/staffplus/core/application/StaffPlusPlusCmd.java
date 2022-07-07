@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.application;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -25,16 +25,16 @@ import java.util.Optional;
 )
 @IocBean
 @IocMultiProvider(SppCommand.class)
-public class StaffPlusCmd extends AbstractCmd {
+public class StaffPlusPlusCmd extends AbstractCmd {
 
-    public StaffPlusCmd(Messages messages, CommandService commandService, PermissionHandler permissionHandler) {
+    public StaffPlusPlusCmd(Messages messages, CommandService commandService, PermissionHandler permissionHandler) {
         super( messages, permissionHandler, commandService);
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
         if (args[0].equalsIgnoreCase("reload")) {
-            StaffPlus.get().reload();
+            StaffPlusPlus.get().reload();
             messages.send(sender, "Configuration has been reloaded", messages.prefixGeneral);
         }
         return true;

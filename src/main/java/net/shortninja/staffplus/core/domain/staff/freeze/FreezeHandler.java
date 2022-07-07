@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.freeze;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -39,7 +39,7 @@ public class FreezeHandler {
         this.messages = messages;
 
         if (freezeConfiguration.titleMessageEnabled) {
-            Bukkit.getScheduler().runTaskTimerAsynchronously(StaffPlus.get(), () -> {
+            Bukkit.getScheduler().runTaskTimerAsynchronously(StaffPlusPlus.get(), () -> {
                 sessionManager.getAll().stream().filter(OnlinePlayerSession::isFrozen)
                     .map(s -> playerManager.getOnlinePlayer(s.getUuid()))
                     .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty))

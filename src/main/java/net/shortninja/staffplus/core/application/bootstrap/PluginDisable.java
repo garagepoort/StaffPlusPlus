@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.application.bootstrap;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 
 public interface PluginDisable {
 
-    void disable(StaffPlus staffPlus);
+    void disable(StaffPlusPlus staffPlusPlus);
 }

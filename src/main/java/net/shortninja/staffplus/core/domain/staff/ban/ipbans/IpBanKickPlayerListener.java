@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.ban.ipbans;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.PlaceholderService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -42,11 +42,11 @@ public class IpBanKickPlayerListener implements Listener {
 
     @EventHandler
     public void kickBannedPlayer(IpBanEvent ipBanEvent) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
             IIpBan ban = ipBanEvent.getBan();
             List<PlayerIpRecord> playersToKick = ban.isSubnet() ? playerIpService.getMatchedBySubnet(ban.getIp()) : playerIpService.getMatchedByIp(ban.getIp());
 
-            getScheduler().runTaskLater(StaffPlus.get(), () -> {
+            getScheduler().runTaskLater(StaffPlusPlus.get(), () -> {
                 List<SppPlayer> sppPlayers = playersToKick.stream().map(p -> playerManager.getOnlinePlayer(p.getPlayerUuid()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)
@@ -61,11 +61,11 @@ public class IpBanKickPlayerListener implements Listener {
 
     @EventHandler
     public void kickBannedPlayer(IpBanBungeeEvent ipBanEvent) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
             IpBanBungeeDto ban = ipBanEvent.getBan();
             List<PlayerIpRecord> playersToKick = ban.isSubnet() ? playerIpService.getMatchedBySubnet(ban.getIp()) : playerIpService.getMatchedByIp(ban.getIp());
 
-            getScheduler().runTaskLater(StaffPlus.get(), () -> {
+            getScheduler().runTaskLater(StaffPlusPlus.get(), () -> {
                 List<SppPlayer> sppPlayers = playersToKick.stream().map(p -> playerManager.getOnlinePlayer(p.getPlayerUuid()))
                     .filter(Optional::isPresent)
                     .map(Optional::get)

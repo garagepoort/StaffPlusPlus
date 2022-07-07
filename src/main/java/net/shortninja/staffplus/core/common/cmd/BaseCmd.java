@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.cmd;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import org.bukkit.command.Command;
 
@@ -17,7 +17,7 @@ public class BaseCmd {
 
     public BaseCmd(Messages messages, Command command) {
         this.command = command;
-        this.match = StaffPlus.get().getDescription().getName();
+        this.match = StaffPlusPlus.get().getDescription().getName();
         this.description = messages.colorize(command.getDescription());
         this.usage = "/" + command.getName() + " " + command.getUsage();
 

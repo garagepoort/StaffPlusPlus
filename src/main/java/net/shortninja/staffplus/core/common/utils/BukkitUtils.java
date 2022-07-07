@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.common.utils;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import org.bukkit.Bukkit;
@@ -21,23 +21,23 @@ public class BukkitUtils {
     }
 
     public static void sendEvent(Event event) {
-        if (StaffPlus.get().isEnabled()) {
-            getScheduler().runTask(StaffPlus.get(), () -> Bukkit.getPluginManager().callEvent(event));
+        if (StaffPlusPlus.get().isEnabled()) {
+            getScheduler().runTask(StaffPlusPlus.get(), () -> Bukkit.getPluginManager().callEvent(event));
         }
     }
 
     public static void sendEventOnThisTick(Event event) {
-        if (StaffPlus.get().isEnabled()) {
+        if (StaffPlusPlus.get().isEnabled()) {
             Bukkit.getPluginManager().callEvent(event);
         }
     }
 
     public static void sendEventAsync(Event event) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> Bukkit.getPluginManager().callEvent(event));
+        getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> Bukkit.getPluginManager().callEvent(event));
     }
 
     public void runTaskAsync(CommandSender sender, Runnable runnable) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> {
+        getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> {
             try {
                 runnable.run();
             } catch (BusinessException e) {
@@ -47,7 +47,7 @@ public class BukkitUtils {
     }
 
     public void runTaskLater(CommandSender sender, Runnable runnable) {
-        getScheduler().runTaskLater(StaffPlus.get(), () -> {
+        getScheduler().runTaskLater(StaffPlusPlus.get(), () -> {
             try {
                 runnable.run();
             } catch (BusinessException e) {
