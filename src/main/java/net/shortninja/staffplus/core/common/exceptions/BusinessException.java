@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.exceptions;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 
 public class BusinessException extends RuntimeException {
@@ -8,7 +8,7 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(String message) {
         super(message);
-        this.prefix = StaffPlus.get().getIocContainer().get(Messages.class).prefixGeneral;
+        this.prefix = StaffPlusPlus.get().getIocContainer().get(Messages.class).prefixGeneral;
     }
 
     public BusinessException(String message, String prefix) {

@@ -4,7 +4,7 @@ import be.garagepoort.mcioc.TubingPlugin;
 import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
 import be.garagepoort.mcioc.tubingbukkit.permissions.TubingPermissionService;
 import be.garagepoort.mcioc.tubinggui.test.TubingGuiTemplateTest;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -21,7 +21,7 @@ public abstract class AbstractTubingGuiTemplateTest extends TubingGuiTemplateTes
 
     @Override
     public Class<? extends TubingPlugin> getPluginClass() {
-        return StaffPlus.class;
+        return StaffPlusPlus.class;
     }
 
     @Override

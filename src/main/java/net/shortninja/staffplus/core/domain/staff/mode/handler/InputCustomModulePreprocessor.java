@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.mode.handler;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -47,7 +47,7 @@ public class InputCustomModulePreprocessor implements CustomModulePreProcessor {
                     return;
                 }
                 pl.put("%input%", message);
-                Bukkit.getScheduler().runTaskLater(StaffPlus.get(), () -> action.execute(player, pl), 1);
+                Bukkit.getScheduler().runTaskLater(StaffPlusPlus.get(), () -> action.execute(player, pl), 1);
             });
         };
     }

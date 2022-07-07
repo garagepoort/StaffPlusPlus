@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.application.database.migrations.common;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Constants;
 import org.bukkit.Bukkit;
@@ -35,7 +35,7 @@ public class V69_MigrateNotesToSqlMigration implements Migration {
     public List<String> getStatements() {
         List<String> insertStatements = new ArrayList<>();
 
-        File file = new File(StaffPlus.get().getDataFolder(), DATA_YML);
+        File file = new File(StaffPlusPlus.get().getDataFolder(), DATA_YML);
         if (!file.exists()) {
             return Collections.emptyList();
         }

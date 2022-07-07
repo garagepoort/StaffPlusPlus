@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mode;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 @IocBean
 public class StaffModeItemsService {
 
-    private static final Logger logger = StaffPlus.get().getLogger();
+    private static final Logger logger = StaffPlusPlus.get().getLogger();
     private final List<ModeItemConfiguration> MODE_ITEMS;
 
     private final Options options;

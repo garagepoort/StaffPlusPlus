@@ -1,8 +1,7 @@
 package net.shortninja.staffplus.core.domain.player.ip;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -21,6 +20,6 @@ public class UpdateIpListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void updateIp(PlayerJoinEvent playerJoinEvent) {
-        getScheduler().runTaskAsynchronously(StaffPlus.get(), () -> playerIpService.savePlayerIp(playerJoinEvent.getPlayer()));
+        getScheduler().runTaskAsynchronously(StaffPlusPlus.get(), () -> playerIpService.savePlayerIp(playerJoinEvent.getPlayer()));
     }
 }

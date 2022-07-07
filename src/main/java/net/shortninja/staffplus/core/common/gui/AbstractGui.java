@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.common.gui;
 
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -17,9 +17,9 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public abstract class AbstractGui implements IGui {
-    protected final Messages messages = StaffPlus.get().getIocContainer().get(Messages.class);
-    protected final OnlineSessionsManager sessionManager = StaffPlus.get().getIocContainer().get(OnlineSessionsManager.class);
-    protected final Options options = StaffPlus.get().getIocContainer().get(Options.class);
+    protected final Messages messages = StaffPlusPlus.get().getIocContainer().get(Messages.class);
+    protected final OnlineSessionsManager sessionManager = StaffPlusPlus.get().getIocContainer().get(OnlineSessionsManager.class);
+    protected final Options options = StaffPlusPlus.get().getIocContainer().get(Options.class);
 
     private final String title;
     protected Supplier<AbstractGui> previousGuiSupplier;

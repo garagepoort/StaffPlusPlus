@@ -5,7 +5,7 @@ import be.garagepoort.mcioc.load.InjectTubingPlugin;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.domain.synchronization.ServerSyncConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -27,12 +27,12 @@ import static net.shortninja.staffplus.core.common.Constants.BUNGEE_CORD_CHANNEL
 public class BungeeClient {
 
     private final GsonParser gsonParser;
-    private final StaffPlus staffPlus;
+    private final StaffPlusPlus staffPlusPlus;
 
-    public BungeeClient(GsonParser gsonParser, @InjectTubingPlugin StaffPlus staffPlus) {
+    public BungeeClient(GsonParser gsonParser, @InjectTubingPlugin StaffPlusPlus staffPlusPlus) {
         this.gsonParser = gsonParser;
-        this.staffPlus = staffPlus;
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(staffPlus, BUNGEE_CORD_CHANNEL);
+        this.staffPlusPlus = staffPlusPlus;
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(staffPlusPlus, BUNGEE_CORD_CHANNEL);
     }
 
     public void sendAll(CommandSender sender, BungeeAction action, BungeeContext context, String message) {
@@ -62,7 +62,7 @@ public class BungeeClient {
                 out.writeShort(msgbytes.toByteArray().length);
                 out.write(msgbytes.toByteArray());
 
-                player.sendPluginMessage(staffPlus, BUNGEE_CORD_CHANNEL, out.toByteArray());
+                player.sendPluginMessage(staffPlusPlus, BUNGEE_CORD_CHANNEL, out.toByteArray());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -101,7 +101,7 @@ public class BungeeClient {
             out.writeShort(msgbytes.toByteArray().length);
             out.write(msgbytes.toByteArray());
 
-            player.sendPluginMessage(staffPlus, BUNGEE_CORD_CHANNEL, out.toByteArray());
+            player.sendPluginMessage(staffPlusPlus, BUNGEE_CORD_CHANNEL, out.toByteArray());
         } catch (IOException e) {
             e.printStackTrace();
         }
