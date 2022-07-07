@@ -3,7 +3,7 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui;
 import be.garagepoort.mcioc.IocBean;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -18,7 +18,7 @@ public class InvestigationActionBarService {
 
     public InvestigationActionBarService(OnlineSessionsManager sessionManager, Messages messages, PlayerManager playerManager) {
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(StaffPlus.get(), () -> {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(StaffPlusPlus.get(), () -> {
             sessionManager.getAll().stream()
                 .filter(OnlinePlayerSession::isUnderInvestigation)
                 .map(s -> playerManager.getOnlinePlayer(s.getUuid()))

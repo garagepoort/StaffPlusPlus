@@ -40,7 +40,7 @@ public class Tasks extends BukkitRunnable {
         this.freezeConfiguration = freezeConfiguration;
         freezeInterval = 0;
         now = System.currentTimeMillis();
-        runTaskTimerAsynchronously(StaffPlus.get(), clock * 20, clock * 20);
+        runTaskTimerAsynchronously(StaffPlusPlus.get(), clock * 20, clock * 20);
     }
 
     @Override

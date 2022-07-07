@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.alerts.handlers;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.domain.staff.alerts.xray.bungee.XrayAlertBungeeEvent;
 import net.shortninja.staffplusplus.xray.XrayEvent;
 import org.bukkit.event.EventHandler;
@@ -18,11 +18,11 @@ public class XrayAlertConsoleHandler implements Listener {
 
     @EventHandler
     public void handle(XrayEvent event) {
-        StaffPlus.get().getLogger().info(xrayLogger.getLogMessage(event));
+        StaffPlusPlus.get().getLogger().info(xrayLogger.getLogMessage(event));
     }
 
     @EventHandler
     public void handle(XrayAlertBungeeEvent event) {
-        StaffPlus.get().getLogger().info(xrayLogger.getLogMessage(event.getXrayAlertBungeeDto()));
+        StaffPlusPlus.get().getLogger().info(xrayLogger.getLogMessage(event.getXrayAlertBungeeDto()));
     }
 }

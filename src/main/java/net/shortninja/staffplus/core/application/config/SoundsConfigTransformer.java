@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.application.config;
 
 import be.garagepoort.mcioc.configuration.IConfigTransformer;
-import net.shortninja.staffplus.core.StaffPlus;
+import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.Sounds;
 import org.bukkit.Sound;
@@ -19,7 +19,7 @@ public class SoundsConfigTransformer implements IConfigTransformer<Sounds, Strin
         }
 
         if (!isValid) {
-            StaffPlus.get().getLogger().warning("Invalid sound name '" + string + "'!");
+            StaffPlusPlus.get().getLogger().warning("Invalid sound name '" + string + "'!");
             return null;
         } else {
             return new Sounds(string);
