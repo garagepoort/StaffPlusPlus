@@ -5,9 +5,11 @@
 ### Features
 - Bungee support for phrase detection alerts.
 - Added book censor.
+- Added configuration option to prevent interaction while being vanished. (pressure plates, tripwires, ...)
 
 ### Breaking change
-- GUI hub permission change. Other permission need to see Ban and Mute information. See wiki
+- Rename StaffPlus to StaffPlusPlus
+- GUI hub permission change. View permissions needed to see Ban and Mute information in the hub.
 - Fix night-vision not turning off when exiting staff mode
 
 ### Bugs
