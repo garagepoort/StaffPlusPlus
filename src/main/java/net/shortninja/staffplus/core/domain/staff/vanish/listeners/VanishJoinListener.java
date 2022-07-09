@@ -1,27 +1,48 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 
+import be.garagepoort.mcioc.IocContainer;
+import be.garagepoort.mcioc.IocMultiProvider;
+import be.garagepoort.mcioc.load.InjectTubingPlugin;
+import be.garagepoort.mcioc.load.OnLoad;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
+import net.shortninja.staffplus.core.StaffPlusPlus;
+import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
+import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
 import net.shortninja.staffplus.core.domain.staff.vanish.gui.VanishPlayersBukkitService;
+import net.shortninja.staffplusplus.session.SessionManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.metadata.LazyMetadataValue;
 
 @IocBukkitListener(conditionalOnProperty = "vanish-module.enabled=true")
-public class VanishJoinListener implements Listener {
+@IocMultiProvider(OnLoad.class)
+public class VanishJoinListener implements Listener, OnLoad {
 
     private final VanishPlayersBukkitService vanishPlayersBukkitService;
     private final PlayerSettingsRepository playerSettingsRepository;
     private final VanishServiceImpl vanishService;
+    private final StaffPlusPlus staffPlusPlus;
+    private final SessionManager sessionManager;
+    private final PlayerManager playerManager;
 
-    public VanishJoinListener(VanishPlayersBukkitService vanishPlayersBukkitService, PlayerSettingsRepository playerSettingsRepository, VanishServiceImpl vanishService) {
+    public VanishJoinListener(VanishPlayersBukkitService vanishPlayersBukkitService,
+                              PlayerSettingsRepository playerSettingsRepository,
+                              VanishServiceImpl vanishService,
+                              @InjectTubingPlugin StaffPlusPlus staffPlusPlus,
+                              SessionManager sessionManager,
+                              PlayerManager playerManager) {
         this.vanishPlayersBukkitService = vanishPlayersBukkitService;
         this.playerSettingsRepository = playerSettingsRepository;
         this.vanishService = vanishService;
+        this.staffPlusPlus = staffPlusPlus;
+        this.sessionManager = sessionManager;
+        this.playerManager = playerManager;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -33,5 +54,20 @@ public class VanishJoinListener implements Listener {
             vanishService.addVanish(player, playerSettings.getVanishType());
             event.setJoinMessage("");
         }
+    }
+
+    @EventHandler
+    public void setMetaData(StaffPlusPlusJoinedEvent event) {
+        setVanishMetaData(event.getPlayer());
+    }
+
+    @Override
+    public void load(IocContainer iocContainer) {
+        playerManager.getOnlinePlayers().forEach(this::setVanishMetaData);
+    }
+
+    private void setVanishMetaData(Player player) {
+        player.setMetadata("vanished",
+            new LazyMetadataValue(staffPlusPlus, LazyMetadataValue.CacheStrategy.NEVER_CACHE, sessionManager.get(player)::isVanished));
     }
 }
