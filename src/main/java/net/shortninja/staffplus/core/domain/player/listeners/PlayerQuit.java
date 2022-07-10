@@ -80,7 +80,7 @@ public class PlayerQuit implements Listener {
         }
 
         if (session.isInStaffMode() && session.getModeConfig().get().isModeDisableOnLogout()) {
-            staffModeService.turnStaffModeOff(player);
+            staffModeService.turnStaffModeOffOnQuit(player);
         }
 
         playerSettingsRepository.clearSettings(player);
