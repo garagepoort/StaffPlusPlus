@@ -1,5 +1,13 @@
 # Changelog Staff++ | v1.19
 
+# V1.19.4
+
+### Features
+- Add "vanished" metadata to player. Allows vanish to work in discordSRV playerlist and BungeeTabListPlus.
+
+### Bugs
+- Exit staff mode on quit messed up the player's inventory 
+
 # V1.19.3
 
 ### Features
