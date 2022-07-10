@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
+import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEventOnThisTick;
 
 @IocBean
 public class StaffModeService {
-
 
     private final PlayerSettingsRepository playerSettingsRepository;
     private final ModeDataRepository modeDataRepository;
@@ -110,7 +110,6 @@ public class StaffModeService {
 
     public void turnStaffModeOffAndTeleport(Player player, Location location) {
         PlayerSettings settings = playerSettingsRepository.get(player);
-
         settings.setInStaffMode(false);
         settings.setModeName(null);
         playerSettingsRepository.save(settings);
@@ -134,6 +133,30 @@ public class StaffModeService {
 
     public void turnStaffModeOff(Player player) {
         turnStaffModeOffAndTeleport(player, null);
+    }
+
+    public void turnStaffModeOffOnQuit(Player player) {
+
+        PlayerSettings settings = playerSettingsRepository.get(player);
+        settings.setInStaffMode(false);
+        settings.setModeName(null);
+        playerSettingsRepository.save(settings);
+
+        Optional<ModeData> existingModeData = modeDataRepository.retrieveModeData(player.getUniqueId());
+        if (!existingModeData.isPresent()) {
+            return;
+        }
+        Optional<GeneralModeConfiguration> modeConfiguration = modeProvider.getConfiguration(settings.getModeName().orElse(null));
+
+        modeDataRepository.deleteModeData(player);
+        sendEventOnThisTick(new ExitStaffModeEvent(
+            player.getName(),
+            player.getUniqueId(),
+            player.getLocation(),
+            options.serverName,
+            modeConfiguration.map(GeneralModeConfiguration::getName).orElse("default"),
+            existingModeData.get(),
+            null));
     }
 
     public static ItemStack[] getContents(Player p) {
