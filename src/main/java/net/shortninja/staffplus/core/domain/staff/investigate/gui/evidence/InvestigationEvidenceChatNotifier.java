@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
 import net.shortninja.staffplusplus.investigate.IInvestigation;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceLinkedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceUnlinkedEvent;
@@ -22,12 +22,14 @@ public class InvestigationEvidenceChatNotifier implements Listener {
 
     private final PlayerManager playerManager;
     private final Messages messages;
-    private final Options options;
+    private final InvestigationConfiguration investigationConfiguration;
 
-    public InvestigationEvidenceChatNotifier(PlayerManager playerManager, Messages messages, Options options) {
+    public InvestigationEvidenceChatNotifier(PlayerManager playerManager,
+                                             Messages messages,
+                                             InvestigationConfiguration investigationConfiguration) {
         this.playerManager = playerManager;
         this.messages = messages;
-        this.options = options;
+        this.investigationConfiguration = investigationConfiguration;
     }
 
     @EventHandler
@@ -52,7 +54,7 @@ public class InvestigationEvidenceChatNotifier implements Listener {
                 .replace("%evidenceId%", String.valueOf(evidence.getEvidenceId()))
                 .replace("%evidenceType%", evidence.getEvidenceType())
                 .replace("%investigated%", investigation.getInvestigatedName().orElse("Unknown"));
-            messages.sendGroupMessage(message, options.investigationConfiguration.getStaffNotificationPermission(), messages.prefixInvestigations);
+            messages.sendGroupMessage(message, investigationConfiguration.getStaffNotificationPermission(), messages.prefixInvestigations);
         }
     }
 
@@ -66,5 +68,4 @@ public class InvestigationEvidenceChatNotifier implements Listener {
             messages.send(p, message, messages.prefixInvestigations);
         });
     }
-
 }

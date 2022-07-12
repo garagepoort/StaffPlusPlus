@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.staff.broadcast.cmd;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -36,10 +35,14 @@ public class BroadcastCmd extends AbstractCmd {
     private final BroadcastService broadcastService;
     private final BroadcastConfiguration broadcastConfiguration;
 
-    public BroadcastCmd(Messages messages, Options options, BroadcastService broadcastService, CommandService commandService, PermissionHandler permissionHandler) {
+    public BroadcastCmd(Messages messages,
+                        BroadcastConfiguration broadcastConfiguration,
+                        BroadcastService broadcastService,
+                        CommandService commandService,
+                        PermissionHandler permissionHandler) {
         super(messages, permissionHandler, commandService);
         this.broadcastService = broadcastService;
-        this.broadcastConfiguration = options.broadcastConfiguration;
+        this.broadcastConfiguration = broadcastConfiguration;
     }
 
     @Override
@@ -74,13 +77,13 @@ public class BroadcastCmd extends AbstractCmd {
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
         List<String> suggestions = new ArrayList<>();
         if (args.length <= 1) {
-            if(broadcastConfiguration.sendToCurrent()){
+            if (broadcastConfiguration.sendToCurrent()) {
                 suggestions.add("CURRENT");
             }
-            if(broadcastConfiguration.sendToAll() || broadcastConfiguration.multipleServers()) {
+            if (broadcastConfiguration.sendToAll() || broadcastConfiguration.multipleServers()) {
                 suggestions.add("ALL");
             }
-            if(broadcastConfiguration.multipleServers()) {
+            if (broadcastConfiguration.multipleServers()) {
                 suggestions.addAll(broadcastConfiguration.getEnabledServers());
             }
             return suggestions.stream()

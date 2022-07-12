@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.ban.playerbans.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanType;
 import org.apache.commons.lang.StringUtils;
 
@@ -43,7 +43,7 @@ public class BanConfiguration {
     public String tempBanTemplate;
 
     @ConfigProperty("ban-module.reasons")
-    @ConfigTransformer(BanReasonConfigMapper.class)
+    @ConfigObjectList(BanReasonConfiguration.class)
     public List<BanReasonConfiguration> banReasons = new ArrayList<>();
 
     public final Map<String, String> templates;

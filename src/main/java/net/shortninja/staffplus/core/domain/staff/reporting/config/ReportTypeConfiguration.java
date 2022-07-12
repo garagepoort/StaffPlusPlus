@@ -1,24 +1,31 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import be.garagepoort.mcioc.configuration.transformers.ToEnum;
+import net.shortninja.staffplus.core.domain.actions.config.FiltersTransformer;
 import org.bukkit.Material;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
 public class ReportTypeConfiguration {
 
+    @ConfigProperty(value = "name", required = true, error = "Invalid report type configuration. Name is required")
     private String type;
-    private Material material;
-    private String lore;
-    private Map<String, String> filters;
 
-    public ReportTypeConfiguration(String type, Material material, String lore, Map<String, String> filters) {
-        this.type = type;
-        this.material = material;
-        this.lore = lore;
-        this.filters = filters;
-    }
+    @ConfigProperty("material")
+    @ConfigTransformer(ToEnum.class)
+    private Material material = Material.PAPER;
+
+    @ConfigProperty("info")
+    private String lore;
+
+    @ConfigProperty("filters")
+    @ConfigTransformer(FiltersTransformer.class)
+    private Map<String, String> filters = new HashMap<>();
 
     public String getType() {
         return type;
