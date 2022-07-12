@@ -6,7 +6,6 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
@@ -15,6 +14,7 @@ import net.shortninja.staffplus.core.common.cmd.SppCommand;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.kick.KickService;
+import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickReasonConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
@@ -44,40 +44,46 @@ public class KickCmd extends AbstractCmd {
     private final PermissionHandler permissionHandler;
     private final KickService kickService;
     private final List<KickReasonConfiguration> kickReasonConfigurations;
-    private final Options options;
     private final GuiActionService guiActionService;
     private final BukkitUtils bukkitUtils;
+    private final KickConfiguration kickConfiguration;
 
     @ConfigProperty("permissions:kick-bypass")
     private String permissionKickByPass;
 
-    public KickCmd(PermissionHandler permissionHandler, Messages messages, Options options, KickService kickService, CommandService commandService, Options options1, GuiActionService guiActionService, BukkitUtils bukkitUtils) {
+    public KickCmd(PermissionHandler permissionHandler,
+                   Messages messages,
+                   KickConfiguration kickConfiguration,
+                   KickService kickService,
+                   CommandService commandService,
+                   GuiActionService guiActionService,
+                   BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.kickService = kickService;
-        this.options = options1;
-        this.kickReasonConfigurations = options.kickConfiguration.getKickReasons();
+        this.kickReasonConfigurations = kickConfiguration.kickReasons;
         this.guiActionService = guiActionService;
         this.bukkitUtils = bukkitUtils;
+        this.kickConfiguration = kickConfiguration;
     }
 
     @Override
     protected boolean executeCmd(CommandSender sender, String alias, String[] args, SppPlayer player, Map<String, String> optionalParameters) {
 
-        if (kickReasonConfigurations.isEmpty() || (!options.kickConfiguration.isFixedReason() && args.length == 2)) {
+        if (kickReasonConfigurations.isEmpty() || (!kickConfiguration.fixedReason && args.length == 2)) {
             String reason = JavaUtils.compileWords(args, 1);
             bukkitUtils.runTaskAsync(sender, () -> kickService.kick(sender, player, reason));
             return true;
         }
 
         if (kickReasonConfigurations.size() == 1) {
-            bukkitUtils.runTaskAsync(sender, () -> kickService.kick(sender, player, kickReasonConfigurations.get(0).getReason()));
+            bukkitUtils.runTaskAsync(sender, () -> kickService.kick(sender, player, kickReasonConfigurations.get(0).reason));
             return true;
         }
 
         if (args.length == 2) {
             String reason = JavaUtils.compileWords(args, 1);
-            if (kickReasonConfigurations.stream().anyMatch(k -> k.getReason().equalsIgnoreCase(reason))) {
+            if (kickReasonConfigurations.stream().anyMatch(k -> k.reason.equalsIgnoreCase(reason))) {
                 bukkitUtils.runTaskAsync(sender, () -> kickService.kick(sender, player, reason));
             }
         }
@@ -119,7 +125,7 @@ public class KickCmd extends AbstractCmd {
 
         if (args.length == 2 && !kickReasonConfigurations.isEmpty()) {
             return kickReasonConfigurations.stream()
-                .map(KickReasonConfiguration::getReason)
+                .map(k -> k.reason)
                 .filter(s -> currentArg.isEmpty() || s.contains(currentArg))
                 .collect(Collectors.toList());
         }

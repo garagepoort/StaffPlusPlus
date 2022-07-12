@@ -102,7 +102,7 @@ class BanGuiControllerTest extends AbstractTubingGuiTemplateTest {
     public void viewBanDetail() throws URISyntaxException, IOException {
         when(permissionHandler.has(eq(player), eq("staff.bans.appeals.create.others"))).thenReturn(false);
         when(permissionHandler.has(eq(player), eq("staff.bans.appeals.create"))).thenReturn(false);
-        when(banService.getById(12)).thenReturn(buildBan());
+        when(banService.getActiveById(12)).thenReturn(buildBan());
 
         guiActionService.executeAction(player, "manage-bans/view/detail?banId=12");
 
@@ -114,7 +114,7 @@ class BanGuiControllerTest extends AbstractTubingGuiTemplateTest {
     @Test
     public void viewBanDetailWithAppeal() throws URISyntaxException, IOException {
         when(permissionHandler.has(eq(player), eq("staff.bans.appeals.create.others"))).thenReturn(true);
-        when(banService.getById(12)).thenReturn(buildBan());
+        when(banService.getActiveById(12)).thenReturn(buildBan());
 
         guiActionService.executeAction(player, "manage-bans/view/detail?banId=12");
 

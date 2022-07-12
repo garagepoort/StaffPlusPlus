@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
+import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
@@ -19,7 +20,7 @@ public class MetricsService {
                           BanConfiguration banConfiguration,
                           AltDetectConfiguration altDetectConfiguration,
                           MuteConfiguration muteConfiguration,
-                          ReportConfiguration reportConfiguration) {
+                          ReportConfiguration reportConfiguration, KickConfiguration kickConfiguration) {
         Metrics metrics = new Metrics(StaffPlusPlus.get(), PLUGIN_ID);
 
         boolean warningConfigurationEnabled = warningConfiguration.isEnabled();
@@ -27,7 +28,7 @@ public class MetricsService {
         boolean reportConfigurationEnabled = reportConfiguration.isEnabled();
         boolean banConfigurationEnabled = banConfiguration.enabled;
         boolean muteConfigurationEnabled = muteConfiguration.muteEnabled;
-        boolean kickConfigurationEnabled = options.kickConfiguration.isEnabled();
+        boolean kickConfigurationEnabled = kickConfiguration.kickEnabled;
 
         metrics.addCustomChart(new Metrics.SimplePie("warnings_module", () -> String.valueOf(warningConfigurationEnabled)));
         metrics.addCustomChart(new Metrics.SimplePie("warning_appeals_module", () -> String.valueOf(appealConfigurationEnabled)));

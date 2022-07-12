@@ -9,6 +9,7 @@ import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.database.KicksRepository;
 import net.shortninja.staffplusplus.kick.KickEvent;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -30,15 +31,17 @@ public class KickService implements InfractionProvider {
     private final PermissionHandler permission;
     private final KicksRepository kicksRepository;
     private final Options options;
+    private final KickConfiguration kickConfiguration;
 
-    public KickService(PermissionHandler permission, KicksRepository kicksRepository, Options options) {
+    public KickService(PermissionHandler permission, KicksRepository kicksRepository, Options options, KickConfiguration kickConfiguration) {
         this.permission = permission;
         this.kicksRepository = kicksRepository;
         this.options = options;
+        this.kickConfiguration = kickConfiguration;
     }
 
     public void kick(CommandSender issuer, SppPlayer playerToKick, String reason) {
-        if (playerToKick.isOnline() && permission.has(playerToKick.getPlayer(), options.kickConfiguration.getPermissionKickByPass())) {
+        if (playerToKick.isOnline() && permission.has(playerToKick.getPlayer(), kickConfiguration.permissionKickByPass)) {
             throw new BusinessException("&CThis player bypasses being kicked");
         }
         if (!playerToKick.isOnline()) {

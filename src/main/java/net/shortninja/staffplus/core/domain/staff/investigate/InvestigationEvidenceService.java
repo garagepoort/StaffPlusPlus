@@ -1,9 +1,9 @@
 package net.shortninja.staffplus.core.domain.staff.investigate;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.evidence.InvestigationEvidenceRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceLinkedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationEvidenceUnlinkedEvent;
@@ -20,16 +20,18 @@ public class InvestigationEvidenceService {
 
     private final InvestigationEvidenceRepository investigationEvidenceRepository;
     private final PermissionHandler permissionHandler;
-    private final Options options;
+    private final InvestigationConfiguration investigationConfiguration;
 
-    public InvestigationEvidenceService(InvestigationEvidenceRepository investigationEvidenceRepository, PermissionHandler permissionHandler, Options options) {
+    public InvestigationEvidenceService(InvestigationEvidenceRepository investigationEvidenceRepository,
+                                        PermissionHandler permissionHandler,
+                                        InvestigationConfiguration investigationConfiguration) {
         this.investigationEvidenceRepository = investigationEvidenceRepository;
         this.permissionHandler = permissionHandler;
-        this.options = options;
+        this.investigationConfiguration = investigationConfiguration;
     }
 
     public void linkEvidence(Player linker, Investigation investigation, Evidence evidence) {
-        permissionHandler.validate(linker, options.investigationConfiguration.getLinkEvidencePermission());
+        permissionHandler.validate(linker, investigationConfiguration.getLinkEvidencePermission());
         Optional<EvidenceEntity> linkedEvidence = investigationEvidenceRepository.findLinkedEvidence(investigation, evidence);
         if (linkedEvidence.isPresent()) {
             throw new BusinessException("&CCannot link evidence. This evidence piece is already linked to this investigation");
@@ -48,7 +50,7 @@ public class InvestigationEvidenceService {
     }
 
     public void unlinkEvidence(Player unlinker, Investigation investigation, int id) {
-        permissionHandler.validate(unlinker, options.investigationConfiguration.getLinkEvidencePermission());
+        permissionHandler.validate(unlinker, investigationConfiguration.getLinkEvidencePermission());
         Optional<EvidenceEntity> evidenceEntity = investigationEvidenceRepository.find(id);
         if (evidenceEntity.isPresent()) {
             investigationEvidenceRepository.removeEvidence(id);
@@ -63,5 +65,4 @@ public class InvestigationEvidenceService {
     public List<EvidenceEntity> getEvidenceForInvestigation(Investigation investigation, int offset, int amount) {
         return investigationEvidenceRepository.getAllEvidence(investigation.getId(), offset, amount);
     }
-
 }
