@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.investigate.gui.notes;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
 import net.shortninja.staffplusplus.investigate.IInvestigation;
 import net.shortninja.staffplusplus.investigate.InvestigationNoteCreatedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationNoteDeletedEvent;
@@ -21,12 +21,12 @@ public class InvestigationNoteChatNotifier implements Listener {
 
     private final PlayerManager playerManager;
     private final Messages messages;
-    private final Options options;
+    private final InvestigationConfiguration investigationConfiguration;
 
-    public InvestigationNoteChatNotifier(PlayerManager playerManager, Messages messages, Options options) {
+    public InvestigationNoteChatNotifier(PlayerManager playerManager, Messages messages, InvestigationConfiguration investigationConfiguration) {
         this.playerManager = playerManager;
         this.messages = messages;
-        this.options = options;
+        this.investigationConfiguration = investigationConfiguration;
     }
 
     @EventHandler
@@ -49,7 +49,7 @@ public class InvestigationNoteChatNotifier implements Listener {
                 .replace("%investigationId%", String.valueOf(investigation.getId()))
                 .replace("%investigator%", investigation.getInvestigatorName())
                 .replace("%investigated%", investigation.getInvestigatedName().orElse("Unknown"));
-            messages.sendGroupMessage(message, options.investigationConfiguration.getStaffNotificationPermission(), messages.prefixInvestigations);
+            messages.sendGroupMessage(message, investigationConfiguration.getStaffNotificationPermission(), messages.prefixInvestigations);
         }
     }
 

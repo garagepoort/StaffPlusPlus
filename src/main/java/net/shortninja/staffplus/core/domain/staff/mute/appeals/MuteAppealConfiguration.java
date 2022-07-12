@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.mute.appeals;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
-import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandsConfigTransformer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @IocBean
@@ -35,10 +35,10 @@ public class MuteAppealConfiguration {
     public List<String> appealReasons;
 
     @ConfigProperty("mute-module.on-approved-commands")
-    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
-    public List<ConfiguredCommand> onApprovedCommands;
+    @ConfigObjectList(ConfiguredCommand.class)
+    public List<ConfiguredCommand> onApprovedCommands = new ArrayList<>();
     @ConfigProperty("mute-module.on-rejected-commands")
-    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
-    public List<ConfiguredCommand> onRejectedCommands;
+    @ConfigObjectList(ConfiguredCommand.class)
+    public List<ConfiguredCommand> onRejectedCommands = new ArrayList<>();
 
 }

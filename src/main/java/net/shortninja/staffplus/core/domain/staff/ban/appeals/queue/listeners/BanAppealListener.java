@@ -25,7 +25,7 @@ public class BanAppealListener implements QueueMessageListener<BanAppealQueueMes
     @Override
     public String handleMessage(BanAppealQueueMessage message) {
         SppPlayer sppPlayer = new SppPlayer(message.getPlayerUuid(), message.getPlayerName(), Bukkit.getOfflinePlayer(message.getPlayerUuid()));
-        Ban ban = banService.getById(message.getBanId());
+        Ban ban = banService.getActiveById(message.getBanId());
         appealService.addAppeal(sppPlayer, ban, message.getReason());
         return "Ban Appeal has been request";
     }

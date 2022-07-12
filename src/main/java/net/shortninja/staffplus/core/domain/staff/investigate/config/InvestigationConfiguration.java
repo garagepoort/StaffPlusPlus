@@ -1,89 +1,44 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.config;
 
-import net.shortninja.staffplus.core.common.gui.GuiItemConfig;
-import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 
-import java.util.List;
 import java.util.Optional;
 
+@IocBean
 public class InvestigationConfiguration {
 
-    private final boolean enabled;
-    private final boolean allowOfflineInvestigation;
-    private final boolean automaticPause;
-    private final boolean enforceStaffMode;
-    private final String staffMode;
-    private final int maxConcurrentInvestigation;
-    private final String investigatePermission;
-    private final String startInvestigationCmd;
-    private final String pauseInvestigationCmd;
-    private final String concludeInvestigationCmd;
-    private final String addNoteCmd;
-    private final boolean investigatedTitleMessageEnabled;
-    private final boolean investigatedChatMessageEnabled;
-    private String staffNotificationPermission;
-    private final List<ConfiguredCommand> startInvestigationCommands;
-    private final List<ConfiguredCommand> concludeInvestigationCommands;
-    private final List<ConfiguredCommand> pauseInvestigationCommands;
-    private final String commandManageInvestigationsGui;
-    private final String permissionView;
-    private final String linkEvidencePermission;
-    private final String addNotePermission;
-    private final String deleteNotePermission;
-    private final String deleteNoteOthersPermission;
-    private final GuiItemConfig guiItemConfig;
+    @ConfigProperty("investigations-module.enabled")
+    private boolean enabled;
+    @ConfigProperty("investigations-module.allow-offline-investigation")
+    private boolean allowOfflineInvestigation;
+    @ConfigProperty("investigations-module.enforce-staff-mode")
+    private boolean enforceStaffMode;
+    @ConfigProperty("investigations-module.staff-mode")
+    private String staffMode;
+    @ConfigProperty("investigations-module.max-concurrent-investigations")
+    private int maxConcurrentInvestigation = -1;
 
-    public InvestigationConfiguration(boolean enabled,
-                                      boolean allowOfflineInvestigation,
-                                      boolean automaticPause,
-                                      boolean enforceStaffMode,
-                                      String staffMode,
-                                      int maxConcurrentInvestigation,
-                                      String investigatePermission,
-                                      String startInvestigationCmd,
-                                      String pauseInvestigationCmd,
-                                      String concludeInvestigationCmd,
-                                      String addNoteCmd, boolean investigatedTitleMessageEnabled,
-                                      boolean investigatedChatMessageEnabled,
-                                      String staffNotificationPermission,
-                                      List<ConfiguredCommand> startInvestigationCommands,
-                                      List<ConfiguredCommand> concludeInvestigationCommands,
-                                      List<ConfiguredCommand> pauseInvestigationCommands,
-                                      String commandManageInvestigationsGui,
-                                      String permissionView,
-                                      String linkEvidencePermission,
-                                      String addNotePermission,
-                                      String deleteNotePermission,
-                                      String deleteNoteOthersPermission, GuiItemConfig guiItemConfig) {
-        this.enabled = enabled;
-        this.allowOfflineInvestigation = allowOfflineInvestigation;
-        this.automaticPause = automaticPause;
-        this.enforceStaffMode = enforceStaffMode;
-        this.staffMode = staffMode;
-        this.maxConcurrentInvestigation = maxConcurrentInvestigation;
-        this.investigatePermission = investigatePermission;
-        this.startInvestigationCmd = startInvestigationCmd;
-        this.pauseInvestigationCmd = pauseInvestigationCmd;
-        this.concludeInvestigationCmd = concludeInvestigationCmd;
-        this.addNoteCmd = addNoteCmd;
-        this.investigatedTitleMessageEnabled = investigatedTitleMessageEnabled;
-        this.investigatedChatMessageEnabled = investigatedChatMessageEnabled;
-        this.staffNotificationPermission = staffNotificationPermission;
-        this.startInvestigationCommands = startInvestigationCommands;
-        this.concludeInvestigationCommands = concludeInvestigationCommands;
-        this.pauseInvestigationCommands = pauseInvestigationCommands;
-        this.commandManageInvestigationsGui = commandManageInvestigationsGui;
-        this.permissionView = permissionView;
-        this.linkEvidencePermission = linkEvidencePermission;
-        this.addNotePermission = addNotePermission;
-        this.deleteNotePermission = deleteNotePermission;
-        this.deleteNoteOthersPermission = deleteNoteOthersPermission;
-        this.guiItemConfig = guiItemConfig;
-    }
+    @ConfigProperty("permissions:investigations.manage.investigate")
+    private String investigatePermission;
+    @ConfigProperty("permissions:investigations.manage.link-evidence")
+    private String linkEvidencePermission;
+    @ConfigProperty("permissions:investigations.manage.add-note")
+    private String addNotePermission;
+    @ConfigProperty("permissions:investigations.manage.delete-note")
+    private String deleteNotePermission;
+    @ConfigProperty("permissions:investigations.manage.delete-note-others")
+    private String deleteNoteOthersPermission;
+    @ConfigProperty("permissions:investigations.manage.notifications")
+    private String staffNotificationPermission;
+
+    @ConfigProperty("investigations-module.notifications.investigated.chat-message-enabled")
+    private boolean investigatedChatMessageEnabled;
 
     public String getLinkEvidencePermission() {
         return linkEvidencePermission;
     }
+
     public String getAddNotePermission() {
         return addNotePermission;
     }
@@ -104,25 +59,6 @@ public class InvestigationConfiguration {
         return investigatePermission;
     }
 
-    public String getStartInvestigationCmd() {
-        return startInvestigationCmd;
-    }
-
-    public String getPauseInvestigationCmd() {
-        return pauseInvestigationCmd;
-    }
-
-    public String getConcludeInvestigationCmd() {
-        return concludeInvestigationCmd;
-    }
-    public String getAddNoteCmd() {
-        return addNoteCmd;
-    }
-
-    public boolean isInvestigatedTitleMessageEnabled() {
-        return investigatedTitleMessageEnabled;
-    }
-
     public boolean isInvestigatedChatMessageEnabled() {
         return investigatedChatMessageEnabled;
     }
@@ -131,40 +67,12 @@ public class InvestigationConfiguration {
         return staffNotificationPermission;
     }
 
-    public List<ConfiguredCommand> getStartInvestigationActions() {
-        return startInvestigationCommands;
-    }
-
-    public List<ConfiguredCommand> getConcludeInvestigationCommands() {
-        return concludeInvestigationCommands;
-    }
-
-    public List<ConfiguredCommand> getPauseInvestigationCommands() {
-        return pauseInvestigationCommands;
-    }
-
-    public String getCommandManageInvestigationsGui() {
-        return commandManageInvestigationsGui;
-    }
-
-    public String getPermissionView() {
-        return permissionView;
-    }
-
     public boolean isAllowOfflineInvestigation() {
         return allowOfflineInvestigation;
     }
 
     public int getMaxConcurrentInvestigation() {
         return maxConcurrentInvestigation;
-    }
-
-    public GuiItemConfig getGuiItemConfig() {
-        return guiItemConfig;
-    }
-
-    public boolean isAutomaticPause() {
-        return automaticPause;
     }
 
     public boolean isEnforceStaffMode() {

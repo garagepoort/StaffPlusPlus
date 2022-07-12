@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.location.gui;
 
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
@@ -22,7 +22,6 @@ import net.shortninja.staffplus.core.domain.staff.location.StaffLocation;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationRepository;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
 import net.shortninja.staffplus.core.domain.staff.location.config.StaffLocationIconConfig;
-import net.shortninja.staffplus.core.domain.staff.location.config.StaffLocationIconConfigTransformer;
 import net.shortninja.staffplusplus.stafflocations.StaffLocationFilters.StaffLocationFiltersBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -61,7 +60,7 @@ public class StaffLocationsGuiController {
     private String deleteConfirmationMessage;
 
     @ConfigProperty("staff-locations-module.icons")
-    @ConfigTransformer(StaffLocationIconConfigTransformer.class)
+    @ConfigObjectList(StaffLocationIconConfig.class)
     private List<StaffLocationIconConfig> predefinedIcons;
 
     private final StaffLocationRepository staffLocationRepository;

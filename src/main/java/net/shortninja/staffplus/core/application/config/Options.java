@@ -6,14 +6,8 @@ import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.utils.Materials;
-import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfiguration;
-import net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastConfigurationLoader;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
-import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationModuleLoader;
-import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
-import net.shortninja.staffplus.core.domain.staff.kick.config.KickModuleLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffCustomItemsLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.StaffItemsConfiguration;
@@ -50,11 +44,8 @@ public class Options {
 
     public Map<String, Location> locations;
     public InfractionsConfiguration infractionsConfiguration;
-    public InvestigationConfiguration investigationConfiguration;
     public WarningAppealConfiguration warningAppealConfiguration;
     public TraceConfiguration traceConfiguration;
-    public BroadcastConfiguration broadcastConfiguration;
-    public KickConfiguration kickConfiguration;
     public Map<String, GeneralModeConfiguration> modeConfigurations;
     public final ServerSyncConfiguration serverSyncConfiguration;
     private final ConfigurationLoader configurationLoader;
@@ -71,10 +62,7 @@ public class Options {
 
     private final InfractionsModuleLoader infractionsModuleLoader;
     private final TraceModuleLoader traceModuleLoader;
-    private final BroadcastConfigurationLoader broadcastConfigurationLoader;
-    private final KickModuleLoader kickModuleLoader;
     private final StaffModesLoader staffModesLoader;
-    private final InvestigationModuleLoader investigationModuleLoader;
     private final StaffCustomItemsLoader staffCustomItemsLoader;
     private final StaffItemsLoader staffItemsLoader;
 
@@ -83,10 +71,7 @@ public class Options {
 
     public Options(InfractionsModuleLoader infractionsModuleLoader,
                    TraceModuleLoader traceModuleLoader,
-                   BroadcastConfigurationLoader broadcastConfigurationLoader,
-                   KickModuleLoader kickModuleLoader,
                    StaffModesLoader staffModesLoader,
-                   InvestigationModuleLoader investigationModuleLoader,
                    StaffCustomItemsLoader staffCustomItemsLoader,
                    StaffItemsLoader staffItemsLoader,
                    WarningAppealConfiguration warningAppealConfiguration,
@@ -94,10 +79,7 @@ public class Options {
                    ConfigurationLoader configurationLoader) {
         this.infractionsModuleLoader = infractionsModuleLoader;
         this.traceModuleLoader = traceModuleLoader;
-        this.broadcastConfigurationLoader = broadcastConfigurationLoader;
-        this.kickModuleLoader = kickModuleLoader;
         this.staffModesLoader = staffModesLoader;
-        this.investigationModuleLoader = investigationModuleLoader;
         this.staffCustomItemsLoader = staffCustomItemsLoader;
         this.staffItemsLoader = staffItemsLoader;
         this.warningAppealConfiguration = warningAppealConfiguration;
@@ -133,10 +115,7 @@ public class Options {
         locations = new LocationLoader(configurationLoader).loadConfig();
         infractionsConfiguration = this.infractionsModuleLoader.loadConfig();
         traceConfiguration = this.traceModuleLoader.loadConfig();
-        broadcastConfiguration = this.broadcastConfigurationLoader.loadConfig();
-        kickConfiguration = this.kickModuleLoader.loadConfig();
         modeConfigurations = this.staffModesLoader.loadConfig();
-        investigationConfiguration = this.investigationModuleLoader.loadConfig();
         customModuleConfigurations = this.staffCustomItemsLoader.loadConfig();
         staffItemsConfiguration = this.staffItemsLoader.loadConfig();
 
