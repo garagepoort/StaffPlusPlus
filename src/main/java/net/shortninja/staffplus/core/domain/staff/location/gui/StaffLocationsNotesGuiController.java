@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.location.gui;
 
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
@@ -18,8 +17,6 @@ import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocation;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationNote;
 import net.shortninja.staffplus.core.domain.staff.location.StaffLocationService;
-import net.shortninja.staffplus.core.domain.staff.location.config.StaffLocationIconConfig;
-import net.shortninja.staffplus.core.domain.staff.location.config.StaffLocationIconConfigTransformer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -44,10 +41,6 @@ public class StaffLocationsNotesGuiController {
 
     @ConfigProperty("%lang%:staff-locations.add-note-chat-info")
     private String addNoteChatInfoMessage;
-
-    @ConfigProperty("staff-locations-module.icons")
-    @ConfigTransformer(StaffLocationIconConfigTransformer.class)
-    private List<StaffLocationIconConfig> predefinedIcons;
 
     private final StaffLocationService staffLocationService;
     private final BukkitUtils bukkitUtils;

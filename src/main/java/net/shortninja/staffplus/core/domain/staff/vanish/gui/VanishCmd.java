@@ -4,6 +4,7 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import be.garagepoort.mcioc.configuration.transformers.ToEnum;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -16,8 +17,7 @@ import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.vanish.VanishConfiguration;
-import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
-import net.shortninja.staffplus.core.domain.staff.vanish.config.VanishTypeConfigTransformer;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishService;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.command.CommandSender;
@@ -44,7 +44,7 @@ import static net.shortninja.staffplus.core.common.cmd.PlayerRetrievalStrategy.O
 @IocMultiProvider(SppCommand.class)
 public class VanishCmd extends AbstractCmd {
     public static final String ENABLE = "enable";
-    private final VanishServiceImpl vanishServiceImpl;
+    private final VanishService vanishService;
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
     private final VanishConfiguration vanishConfiguration;
@@ -59,11 +59,11 @@ public class VanishCmd extends AbstractCmd {
     private String permissionVanishOthersPlayer;
 
     @ConfigProperty("vanish-module.default-mode")
-    @ConfigTransformer(VanishTypeConfigTransformer.class)
+    @ConfigTransformer(ToEnum.class)
     private VanishType defaultVanishType;
 
     public VanishCmd(Messages messages,
-                     VanishServiceImpl vanishServiceImpl,
+                     VanishService vanishService,
                      CommandService commandService,
                      PermissionHandler permissionHandler,
                      PlayerManager playerManager,
@@ -71,7 +71,7 @@ public class VanishCmd extends AbstractCmd {
                      OnlineSessionsManager sessionManager,
                      BukkitUtils bukkitUtils) {
         super(messages, permissionHandler, commandService);
-        this.vanishServiceImpl = vanishServiceImpl;
+        this.vanishService = vanishService;
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
         this.vanishConfiguration = vanishConfiguration;
@@ -92,7 +92,7 @@ public class VanishCmd extends AbstractCmd {
                 if (enableDisable.equalsIgnoreCase(ENABLE)) {
                     vanish(targetPlayer.getPlayer(), vanishType);
                 } else {
-                    vanishServiceImpl.removeVanish(targetPlayer.getPlayer());
+                    vanishService.removeVanish(targetPlayer.getPlayer());
                 }
             });
             return true;
@@ -146,7 +146,7 @@ public class VanishCmd extends AbstractCmd {
                 setVanish(vanishType, player);
                 break;
             case NONE:
-                vanishServiceImpl.removeVanish(player);
+                vanishService.removeVanish(player);
                 break;
             default:
                 throw new BusinessException("No vanishtype " + vanishType.name());
@@ -214,9 +214,9 @@ public class VanishCmd extends AbstractCmd {
     private void setVanish(VanishType vanishType, Player player) {
         OnlinePlayerSession session = sessionManager.get(player);
         if (session.getVanishType() != vanishType) {
-            vanishServiceImpl.addVanish(player, vanishType);
+            vanishService.addVanish(player, vanishType);
         } else {
-            vanishServiceImpl.removeVanish(player);
+            vanishService.removeVanish(player);
         }
     }
 }

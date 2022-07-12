@@ -1,16 +1,17 @@
 package net.shortninja.staffplus.core.domain.chat.configuration;
 
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhraseDetectionGroupConfiguration {
 
-    public final List<String> phrases;
-    public final List<ConfiguredCommand> actions;
-
-    public PhraseDetectionGroupConfiguration(List<String> phrases, List<ConfiguredCommand> actions) {
-        this.phrases = phrases;
-        this.actions = actions;
-    }
+    @ConfigProperty("phrases")
+    public List<String> phrases;
+    @ConfigProperty("actions")
+    @ConfigObjectList(ConfiguredCommand.class)
+    public List<ConfiguredCommand> actions = new ArrayList<>();
 }

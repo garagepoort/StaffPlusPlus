@@ -1,14 +1,27 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import net.shortninja.staffplus.core.application.config.TimeUnitDurationTransformer;
+
 import java.util.Optional;
 
 public class WarningSeverityConfiguration {
 
+    @ConfigProperty("name")
     private String name;
+    @ConfigProperty("score")
     private int score;
-    private long expirationDuration;
+    @ConfigProperty("expiresAfter")
+    @ConfigTransformer(TimeUnitDurationTransformer.class)
+    private long expirationDuration = -1;
+    @ConfigProperty("reason")
     private String reason;
+    @ConfigProperty("reasonOverwriteEnabled")
     private boolean reasonOverwriteEnabled;
+
+    // Empty constructor for Tubing
+    public WarningSeverityConfiguration(){}
 
     public WarningSeverityConfiguration(String name, int score, long expirationDuration, String reason, boolean reasonOverwriteEnabled) {
         this.name = name;

@@ -2,9 +2,9 @@ package net.shortninja.staffplus.core.domain.staff.investigate;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.investigation.InvestigationsRepository;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.notes.InvestigationNotesRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationNoteCreatedEvent;
@@ -25,20 +25,20 @@ public class InvestigationNoteService {
     private final InvestigationsRepository investigationsRepository;
     private final InvestigationNotesRepository investigationNotesRepository;
     private final PermissionHandler permissionHandler;
-    private final Options options;
     private final Messages messages;
+    private final InvestigationConfiguration investigationConfiguration;
 
     public InvestigationNoteService(InvestigationsRepository investigationsRepository,
                                     InvestigationNotesRepository investigationNotesRepository,
                                     PermissionHandler permissionHandler,
-                                    Options options, Messages messages) {
+                                    Messages messages,
+                                    InvestigationConfiguration investigationConfiguration) {
         this.investigationsRepository = investigationsRepository;
         this.investigationNotesRepository = investigationNotesRepository;
         this.permissionHandler = permissionHandler;
-        this.options = options;
         this.messages = messages;
+        this.investigationConfiguration = investigationConfiguration;
     }
-
 
     public void addNote(Player noteTaker, String note) {
         validateNoteCreation(noteTaker, note);
@@ -70,18 +70,18 @@ public class InvestigationNoteService {
     }
 
     private void validateNoteCreation(Player noteTaker, String note) {
-        permissionHandler.validate(noteTaker, options.investigationConfiguration.getAddNotePermission());
+        permissionHandler.validate(noteTaker, investigationConfiguration.getAddNotePermission());
         if (StringUtils.isEmpty(note)) {
             throw new BusinessException("Note not cannot be empty");
         }
     }
 
     public void deleteNote(Player player, Investigation investigation, int id) {
-        permissionHandler.validate(player, options.investigationConfiguration.getDeleteNotePermission());
+        permissionHandler.validate(player, investigationConfiguration.getDeleteNotePermission());
         Optional<InvestigationNoteEntity> noteEntity = investigationNotesRepository.find(id);
         if (noteEntity.isPresent()) {
             if (!noteEntity.get().getNotedByUuid().equals(player.getUniqueId())) {
-                permissionHandler.validate(player, options.investigationConfiguration.getDeleteNoteOthersPermission());
+                permissionHandler.validate(player, investigationConfiguration.getDeleteNoteOthersPermission());
             }
             investigationNotesRepository.removeNote(id);
             sendEvent(new InvestigationNoteDeletedEvent(investigation, noteEntity.get()));
@@ -95,5 +95,4 @@ public class InvestigationNoteService {
     public List<InvestigationNoteEntity> getNotesForInvestigation(Investigation investigation, int offset, int amount) {
         return investigationNotesRepository.getAllNotes(investigation.getId(), offset, amount);
     }
-
 }

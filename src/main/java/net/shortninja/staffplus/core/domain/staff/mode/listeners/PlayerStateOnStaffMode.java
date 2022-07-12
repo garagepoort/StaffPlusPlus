@@ -63,7 +63,7 @@ public class PlayerStateOnStaffMode implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onExitMode(ExitStaffModeEvent event) {
-        playerManager.getOnlinePlayer(event.getPlayerUuid())
+        playerManager.getOnOrOfflinePlayer(event.getPlayerUuid())
             .map(SppPlayer::getPlayer)
             .ifPresent(player -> {
                 IModeData modeData = event.getModeData();

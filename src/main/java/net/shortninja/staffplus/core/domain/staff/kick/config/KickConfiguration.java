@@ -1,45 +1,28 @@
 package net.shortninja.staffplus.core.domain.staff.kick.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+
 import java.util.List;
 
+@IocBean
 public class KickConfiguration {
 
-    private final boolean kickEnabled;
+    @ConfigProperty("kick-module.enabled")
+    public boolean kickEnabled;
 
-    private final String permissionKickPlayer;
-    private final String permissionKickByPass;
-    private final boolean fixedReason;
-    private final List<KickReasonConfiguration> kickReasons;
+    @ConfigProperty("permissions:kick")
+    public String permissionKickPlayer;
 
-    public KickConfiguration(boolean kickEnabled,
-                             String permissionKickPlayer,
-                             String permissionKickByPass, boolean fixedReason,
-                             List<KickReasonConfiguration> kickReasons) {
-        this.kickEnabled = kickEnabled;
-        this.permissionKickPlayer = permissionKickPlayer;
-        this.permissionKickByPass = permissionKickByPass;
-        this.fixedReason = fixedReason;
-        this.kickReasons = kickReasons;
-    }
+    @ConfigProperty("permissions:kick-bypass")
+    public String permissionKickByPass;
 
-    public boolean isEnabled() {
-        return kickEnabled;
-    }
+    @ConfigProperty("kick-module.fixed-reason")
+    public boolean fixedReason;
 
+    @ConfigProperty("kick-module.reasons")
+    @ConfigObjectList(KickReasonConfiguration.class)
+    public List<KickReasonConfiguration> kickReasons;
 
-    public String getPermissionKickPlayer() {
-        return permissionKickPlayer;
-    }
-
-    public String getPermissionKickByPass() {
-        return permissionKickByPass;
-    }
-
-    public List<KickReasonConfiguration> getKickReasons() {
-        return kickReasons;
-    }
-
-    public boolean isFixedReason() {
-        return fixedReason;
-    }
 }

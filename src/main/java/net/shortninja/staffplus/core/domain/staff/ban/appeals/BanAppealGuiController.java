@@ -80,7 +80,7 @@ public class BanAppealGuiController {
 
     @GuiAction("manage-ban-appeals/view/create/reason-chat")
     public void getCreateAppealReasonChatView(Player player, @GuiParam("banId") int banId) {
-        Ban ban = banService.getById(banId);
+        Ban ban = banService.getActiveById(banId);
         messages.send(player, "&1=====================================================", messages.prefixGeneral);
         messages.send(player, "&6         You have chosen to appeal this ban", messages.prefixGeneral);
         messages.send(player, "&6            Type your appeal reason in chat", messages.prefixGeneral);
@@ -115,7 +115,7 @@ public class BanAppealGuiController {
             .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
 
         bukkitUtils.runTaskAsync(player, () -> {
-            Ban ban = banService.getById(banId);
+            Ban ban = banService.getActiveById(banId);
             appealService.addAppeal(sppPlayer, ban, reason);
         });
     }

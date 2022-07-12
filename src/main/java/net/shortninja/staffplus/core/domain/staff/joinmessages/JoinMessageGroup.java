@@ -1,16 +1,15 @@
 package net.shortninja.staffplus.core.domain.staff.joinmessages;
 
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+
 public class JoinMessageGroup {
 
-    private final String permission;
-    private final String message;
-    private final int weight;
-
-    public JoinMessageGroup(String permission, String message, int weight) {
-        this.permission = permission;
-        this.message = message;
-        this.weight = weight;
-    }
+    @ConfigProperty("permission")
+    private String permission;
+    @ConfigProperty("message")
+    private String message;
+    @ConfigProperty("weight")
+    private int weight;
 
     public String getPermission() {
         return permission;
