@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.joinmessages;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
-import be.garagepoort.mcioc.configuration.ConfigTransformer;
 
 import java.util.List;
 
@@ -13,6 +13,6 @@ public class JoinMessagesConfiguration {
     public boolean enabled;
 
     @ConfigProperty("joinmessages-module.messages")
-    @ConfigTransformer(JoinMessageGroupConfigTransformer.class)
+    @ConfigObjectList(JoinMessageGroup.class)
     public List<JoinMessageGroup> joinMessageGroups;
 }

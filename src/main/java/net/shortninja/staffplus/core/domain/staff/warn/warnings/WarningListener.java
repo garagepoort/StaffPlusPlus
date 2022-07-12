@@ -1,6 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
-import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.StaffPlusPlus;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-@IocBean
+@IocBukkitListener
 public class WarningListener implements Listener {
 
     private static final String CREATION_CONTEXT = "creation";
@@ -48,7 +48,6 @@ public class WarningListener implements Listener {
         this.configuredCommandMapper = configuredCommandMapper;
         this.bukkitUtils = bukkitUtils;
         this.warningConfiguration = warningConfiguration;
-        Bukkit.getPluginManager().registerEvents(this, StaffPlusPlus.get());
     }
 
 

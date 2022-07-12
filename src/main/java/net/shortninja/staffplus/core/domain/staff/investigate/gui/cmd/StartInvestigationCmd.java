@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.tubinggui.GuiActionService;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -16,6 +15,7 @@ import net.shortninja.staffplus.core.domain.confirmation.ChoiceChatService;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.investigate.Investigation;
 import net.shortninja.staffplus.core.domain.staff.investigate.InvestigationService;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,23 +38,26 @@ public class StartInvestigationCmd extends AbstractCmd {
     private final InvestigationService investigationService;
     private final PlayerManager playerManager;
     private final ChoiceChatService choiceChatService;
-    private final Options options;
     private final BukkitUtils bukkitUtils;
     private final GuiActionService guiActionService;
+    private final InvestigationConfiguration investigationConfiguration;
 
     public StartInvestigationCmd(Messages messages,
                                  CommandService commandService,
                                  PermissionHandler permissionHandler,
                                  InvestigationService investigationService,
                                  PlayerManager playerManager,
-                                 ChoiceChatService choiceChatService, Options options, BukkitUtils bukkitUtils, GuiActionService guiActionService) {
+                                 ChoiceChatService choiceChatService,
+                                 BukkitUtils bukkitUtils,
+                                 GuiActionService guiActionService,
+                                 InvestigationConfiguration investigationConfiguration) {
         super(messages, permissionHandler, commandService);
         this.investigationService = investigationService;
         this.playerManager = playerManager;
         this.choiceChatService = choiceChatService;
-        this.options = options;
         this.bukkitUtils = bukkitUtils;
         this.guiActionService = guiActionService;
+        this.investigationConfiguration = investigationConfiguration;
     }
 
     @Override
@@ -103,7 +106,7 @@ public class StartInvestigationCmd extends AbstractCmd {
 
     @Override
     protected PlayerRetrievalStrategy getPlayerRetrievalStrategy() {
-        if (options.investigationConfiguration.isAllowOfflineInvestigation()) {
+        if (investigationConfiguration.isAllowOfflineInvestigation()) {
             return PlayerRetrievalStrategy.OPTIONAL_BOTH;
         }
         return PlayerRetrievalStrategy.OPTIONAL_ONLINE;
@@ -119,7 +122,7 @@ public class StartInvestigationCmd extends AbstractCmd {
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        if (options.investigationConfiguration.isAllowOfflineInvestigation() && args.length == 1) {
+        if (investigationConfiguration.isAllowOfflineInvestigation() && args.length == 1) {
             return playerManager.getAllPlayerNames().stream()
                 .filter(s -> args[0].isEmpty() || s.contains(args[0]))
                 .collect(Collectors.toList());

@@ -1,30 +1,25 @@
 package net.shortninja.staffplus.core.domain.staff.investigate;
 
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-@IocBukkitListener(conditionalOnProperty = "freeze-module.enabled=true")
+@IocBukkitListener(conditionalOnProperty = "investigations-module.enabled=true && investigations-module.automatic-pause=true")
 public class InvestigationPauseListener implements Listener {
 
     private final InvestigationService investigationService;
-    private final Options options;
     private final BukkitUtils bukkitUtils;
 
-    public InvestigationPauseListener(InvestigationService investigationService, Options options, BukkitUtils bukkitUtils) {
+    public InvestigationPauseListener(InvestigationService investigationService, BukkitUtils bukkitUtils) {
         this.investigationService = investigationService;
-        this.options = options;
         this.bukkitUtils = bukkitUtils;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onQuit(PlayerQuitEvent event) {
-        if (options.investigationConfiguration.isAutomaticPause()) {
-            bukkitUtils.runTaskAsync(() -> investigationService.pauseInvestigationsForInvestigated(event.getPlayer()));
-        }
+        bukkitUtils.runTaskAsync(() -> investigationService.pauseInvestigationsForInvestigated(event.getPlayer()));
     }
 }

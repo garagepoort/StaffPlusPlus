@@ -1,5 +1,9 @@
 package net.shortninja.staffplus.core.domain.actions.config;
 
+import be.garagepoort.mcioc.configuration.ConfigEmbeddedObject;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import be.garagepoort.mcioc.configuration.transformers.ToEnum;
 import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
 
 import java.util.HashMap;
@@ -8,13 +12,32 @@ import java.util.Optional;
 
 public class ConfiguredCommand {
 
-    private final String command;
-    private final String executor;
-    private final ActionRunStrategy executorRunStrategy;
-    private final String target;
-    private final ActionRunStrategy targetRunStrategy;
-    private final Map<String, String> filters;
-    private final ConfiguredCommand rollbackCommand;
+    @ConfigProperty("command")
+    private String command;
+
+    @ConfigProperty("executor")
+    private String executor = "console";
+
+    @ConfigProperty("executor-run-strategy")
+    @ConfigTransformer(ToEnum.class)
+    private ActionRunStrategy executorRunStrategy = ActionRunStrategy.ONLINE;
+
+    @ConfigProperty("target")
+    private String target;
+
+    @ConfigProperty("target-run-strategy")
+    @ConfigTransformer(ToEnum.class)
+    private ActionRunStrategy targetRunStrategy;
+
+    @ConfigProperty("filters")
+    @ConfigTransformer(FiltersTransformer.class)
+    private Map<String, String> filters = new HashMap<>();
+
+    @ConfigProperty("rollback-command")
+    @ConfigEmbeddedObject(ConfiguredCommand.class)
+    private ConfiguredCommand rollbackCommand;
+
+    public ConfiguredCommand() {}
 
     public ConfiguredCommand(String command, String executor, ActionRunStrategy executorRunStrategy, String target, ActionRunStrategy targetRunStrategy, Map<String, String> filters, ConfiguredCommand rollbackCommand) {
         this.command = command;
