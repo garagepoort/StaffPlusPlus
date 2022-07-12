@@ -86,7 +86,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         permission.validateDuration(sender, banConfiguration.permissionExtendBanPlayer + LIMIT, duration);
 
         bansRepository.setBanDuration(ban.getId(), ban.getEndTimestamp() + duration);
-        Ban updatedBan = getById(ban.getId());
+        Ban updatedBan = getActiveById(ban.getId());
         sendEvent(new BanExtensionEvent(updatedBan, duration, sender));
     }
 
@@ -99,7 +99,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         permission.validateDuration(sender, banConfiguration.permissionReduceBanPlayer + LIMIT, duration);
 
         bansRepository.setBanDuration(ban.getId(), ban.getEndTimestamp() - duration);
-        Ban updatedBan = getById(ban.getId());
+        Ban updatedBan = getActiveById(ban.getId());
         sendEvent(new BanReductionEvent(updatedBan, duration, sender));
     }
 
@@ -107,8 +107,12 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
         return bansRepository.findActiveBan(playerUuid);
     }
 
-    public Ban getById(int banId) {
+    public Ban getActiveById(int banId) {
         return bansRepository.findActiveBan(banId).orElseThrow(() -> new BusinessException("&CNo ban found with this id"));
+    }
+
+    public Ban getById(int banId) {
+        return bansRepository.getBan(banId).orElseThrow(() -> new BusinessException("&CNo ban found with this id"));
     }
 
     public List<Ban> getAllPaged(int offset, int amount) {

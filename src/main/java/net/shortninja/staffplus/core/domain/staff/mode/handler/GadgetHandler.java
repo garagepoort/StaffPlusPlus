@@ -18,7 +18,7 @@ import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsReposi
 import net.shortninja.staffplus.core.domain.staff.mode.ModeProvider;
 import net.shortninja.staffplus.core.domain.staff.mode.config.GeneralModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.item.CustomModuleConfiguration;
-import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishService;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -51,7 +51,7 @@ public class GadgetHandler {
     private final OnlineSessionsManager sessionManager;
     private final PlayerSettingsRepository playerSettingsRepository;
     private final CpsHandler cpsHandler;
-    private final VanishServiceImpl vanishServiceImpl;
+    private final VanishService vanishService;
     private final PlayerManager playerManager;
     private final GuiActionService guiActionService;
     private final BukkitUtils bukkitUtils;
@@ -63,7 +63,7 @@ public class GadgetHandler {
                          Messages messages,
                          OnlineSessionsManager sessionManager,
                          PlayerSettingsRepository playerSettingsRepository, CpsHandler cpsHandler,
-                         VanishServiceImpl vanishServiceImpl,
+                         VanishService vanishService,
                          PlayerManager playerManager,
                          GuiActionService guiActionService, BukkitUtils bukkitUtils, ModeProvider modeProvider) {
         this.protocolService = protocolService;
@@ -73,7 +73,7 @@ public class GadgetHandler {
         this.sessionManager = sessionManager;
         this.playerSettingsRepository = playerSettingsRepository;
         this.cpsHandler = cpsHandler;
-        this.vanishServiceImpl = vanishServiceImpl;
+        this.vanishService = vanishService;
         this.playerManager = playerManager;
         this.guiActionService = guiActionService;
         this.bukkitUtils = bukkitUtils;
@@ -164,9 +164,9 @@ public class GadgetHandler {
 
         bukkitUtils.runTaskAsync(player, () -> {
             if (settings.getVanishType() == modeConfiguration.getModeVanish()) {
-                vanishServiceImpl.removeVanish(player);
+                vanishService.removeVanish(player);
             } else {
-                vanishServiceImpl.addVanish(player, modeConfiguration.getModeVanish());
+                vanishService.addVanish(player, modeConfiguration.getModeVanish());
             }
         });
     }
