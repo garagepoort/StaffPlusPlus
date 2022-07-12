@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.actions;
 
-import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.utils.BukkitUtils;
 import net.shortninja.staffplus.core.domain.actions.ActionService;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
@@ -17,6 +17,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +28,24 @@ import static java.util.Collections.singletonList;
 @IocBukkitListener
 public class InvestigationActionsHook implements Listener {
 
-    private final Options options;
+    @ConfigProperty("investigations-module.start-investigation-commands")
+    @ConfigObjectList(ConfiguredCommand.class)
+    private List<ConfiguredCommand> startInvestigationCommands = new ArrayList<>();
+
+    @ConfigProperty("investigations-module.conclude-investigation-commands")
+    @ConfigObjectList(ConfiguredCommand.class)
+    private List<ConfiguredCommand> concludeInvestigationCommands = new ArrayList<>();
+
+    @ConfigProperty("investigations-module.pause-investigation-commands")
+    @ConfigObjectList(ConfiguredCommand.class)
+    private List<ConfiguredCommand> pauseInvestigationCommands = new ArrayList<>();
+
     private final ActionService actionService;
     private final PlayerManager playerManager;
     private final ConfiguredCommandMapper configuredCommandMapper;
     private final BukkitUtils bukkitUtils;
 
-    public InvestigationActionsHook(Options options, ActionService actionService, PlayerManager playerManager, ConfiguredCommandMapper configuredCommandMapper, BukkitUtils bukkitUtils) {
-        this.options = options;
+    public InvestigationActionsHook(ActionService actionService, PlayerManager playerManager, ConfiguredCommandMapper configuredCommandMapper, BukkitUtils bukkitUtils) {
         this.actionService = actionService;
         this.playerManager = playerManager;
         this.configuredCommandMapper = configuredCommandMapper;
@@ -43,17 +54,17 @@ public class InvestigationActionsHook implements Listener {
 
     @EventHandler
     public void onStart(InvestigationStartedEvent event) {
-        executeActions(event.getInvestigation(), options.investigationConfiguration.getStartInvestigationActions());
+        executeActions(event.getInvestigation(), startInvestigationCommands);
     }
 
     @EventHandler
     public void onConclude(InvestigationConcludedEvent event) {
-        executeActions(event.getInvestigation(), options.investigationConfiguration.getConcludeInvestigationCommands());
+        executeActions(event.getInvestigation(), concludeInvestigationCommands);
     }
 
     @EventHandler
     public void onPause(InvestigationPausedEvent event) {
-        executeActions(event.getInvestigation(), options.investigationConfiguration.getPauseInvestigationCommands());
+        executeActions(event.getInvestigation(), pauseInvestigationCommands);
     }
 
     private void executeActions(IInvestigation investigation, List<ConfiguredCommand> concludeInvestigationCommands) {

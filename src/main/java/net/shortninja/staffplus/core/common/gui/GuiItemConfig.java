@@ -1,13 +1,14 @@
 package net.shortninja.staffplus.core.common.gui;
 
-public class GuiItemConfig implements IGuiItemConfig{
-    private final boolean enabled;
-    private final String title;
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 
-    public GuiItemConfig(boolean enabled, String title) {
-        this.enabled = enabled;
-        this.title = title;
-    }
+@IocBean
+public class GuiItemConfig implements IGuiItemConfig{
+    @ConfigProperty("modules.gui-module.investigation-gui")
+    private boolean enabled;
+    @ConfigProperty("modules.gui-module.investigation-title")
+    private String title;
 
     public boolean isEnabled() {
         return enabled;

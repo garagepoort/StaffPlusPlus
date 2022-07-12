@@ -1,27 +1,35 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import be.garagepoort.mcioc.configuration.transformers.ToEnum;
+import net.shortninja.staffplus.core.domain.actions.config.FiltersTransformer;
 import org.bukkit.Material;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 public class ReportReasonConfiguration {
 
+    @ConfigProperty("reason")
     private String reason;
-    private Material material;
-    private String lore;
-    private String reportType;
-    private Map<String, String> filters;
 
-    public ReportReasonConfiguration(String reason, String reportType, Material material, String lore, Map<String, String> filters) {
-        this.reason = reason;
-        this.reportType = reportType;
-        this.material = material;
-        this.lore = lore;
-        this.filters = filters;
-    }
+    @ConfigProperty("material")
+    @ConfigTransformer(ToEnum.class)
+    private Material material = Material.PAPER;
+
+    @ConfigProperty("info")
+    private String lore;
+
+    @ConfigProperty("type")
+    private String reportType;
+
+    @ConfigProperty("filters")
+    @ConfigTransformer(FiltersTransformer.class)
+    private Map<String, String> filters = new HashMap<>();
 
     public String getReason() {
         return reason;

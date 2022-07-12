@@ -1,11 +1,11 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.application.config.SoundsConfigTransformer;
 import net.shortninja.staffplus.core.common.Sounds;
-import net.shortninja.staffplus.core.domain.actions.config.ActionConfigLoader;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 
 import java.util.ArrayList;
@@ -26,14 +26,17 @@ public class WarningConfiguration {
     private boolean notifyUser;
     @ConfigProperty("warnings-module.user-notifications.always-notify")
     private boolean alwaysNotifyUser;
+
     @ConfigProperty("warnings-module.thresholds")
-    @ConfigTransformer(ThresholdConfigTransformer.class)
+    @ConfigObjectList(WarningThresholdConfiguration.class)
     private List<WarningThresholdConfiguration> thresholds = new ArrayList<>();
+
     @ConfigProperty("warnings-module.severity-levels")
-    @ConfigTransformer(SeverityConfigTransformer.class)
+    @ConfigObjectList(WarningSeverityConfiguration.class)
     private List<WarningSeverityConfiguration> severityLevels = new ArrayList<>();
+
     @ConfigProperty("warnings-module.actions")
-    @ConfigTransformer(ActionConfigLoader.class)
+    @ConfigObjectList(ConfiguredCommand.class)
     private List<ConfiguredCommand> actions = new ArrayList<>();
 
     @ConfigProperty("commands:my-warnings")
