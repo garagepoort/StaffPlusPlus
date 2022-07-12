@@ -5,13 +5,12 @@ import be.garagepoort.mcioc.configuration.ConfigurationLoader;
 import be.garagepoort.mcioc.configuration.yaml.configuration.ConfigurationSection;
 import net.shortninja.staffplus.core.application.config.AbstractConfigLoader;
 import net.shortninja.staffplus.core.common.JavaUtils;
-import net.shortninja.staffplus.core.domain.actions.config.ActionConfigLoader;
+import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
 import net.shortninja.staffplusplus.vanish.VanishType;
 import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,10 +68,10 @@ public class StaffModesLoader extends AbstractConfigLoader<Map<String, GeneralMo
             modeConfig.setModeHungerLoss(configurationSection.getBoolean("hunger-loss"));
         }
         if (configurationSection.contains("enable-commands")) {
-            modeConfig.setModeEnableCommands(ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) configurationSection.getList("enable-commands", new ArrayList<>())));
+            modeConfig.setModeEnableCommands(configurationSection.getObjectList("enable-commands", ConfiguredCommand.class, new ArrayList<>()));
         }
         if (configurationSection.contains("disable-commands")) {
-            modeConfig.setModeDisableCommands(ActionConfigLoader.loadActions((List<LinkedHashMap<String, Object>>) configurationSection.getList("disable-commands", new ArrayList<>())));
+            modeConfig.setModeDisableCommands(configurationSection.getObjectList("disable-commands", ConfiguredCommand.class, new ArrayList<>()));
         }
         if (configurationSection.contains("disable-on-world-change")) {
             modeConfig.setDisableOnWorldChange(configurationSection.getBoolean("disable-on-world-change"));

@@ -1,14 +1,15 @@
 package net.shortninja.staffplus.core.domain.staff.reporting.config;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import net.shortninja.staffplus.core.application.config.SoundsConfigTransformer;
 import net.shortninja.staffplus.core.common.Sounds;
 import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommand;
-import net.shortninja.staffplus.core.domain.actions.config.ConfiguredCommandsConfigTransformer;
 import net.shortninja.staffplusplus.reports.ReportStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,20 +21,26 @@ public class ReportConfiguration {
 
     @ConfigProperty("reports-module.enabled")
     private boolean enabled;
+
     @ConfigProperty("reports-module.cooldown")
     private int cooldown;
+
     @ConfigProperty("reports-module.show-reporter")
     private boolean showReporter;
+
     @ConfigProperty("reports-module.sound")
     @ConfigTransformer(SoundsConfigTransformer.class)
     private Sounds sound;
+
     @ConfigProperty("reports-module.closing-reason-enabled")
     private boolean closingReasonEnabled;
 
     @ConfigProperty("permissions:view-my-reports")
     private String myReportsPermission;
+
     @ConfigProperty("commands:my-reports")
     private List<String> myReportsCmd;
+
     @ConfigProperty("reports-module.reporter-notifications.notify-on-join")
     private boolean notifyReporterOnJoin;
 
@@ -42,32 +49,34 @@ public class ReportConfiguration {
     private List<ReportStatus> reporterNotifyStatuses;
 
     @ConfigProperty("reports-module.report-types")
-    @ConfigTransformer(ReportTypeConfigTransformer.class)
-    private List<ReportTypeConfiguration> reportTypeConfigurations;
+    @ConfigObjectList(ReportTypeConfiguration.class)
+    private List<ReportTypeConfiguration> reportTypeConfigurations = new ArrayList<>();
 
     @ConfigProperty("reports-module.reasons")
-    @ConfigTransformer(ReportReasonConfigTransformer.class)
-    private List<ReportReasonConfiguration> reportReasonConfigurations;
+    @ConfigObjectList(ReportReasonConfiguration.class)
+    private List<ReportReasonConfiguration> reportReasonConfigurations = new ArrayList<>();
+
     @ConfigProperty("reports-module.fixed-reason")
     private boolean fixedReason;
+
     @ConfigProperty("reports-module.fixed-reason-culprit")
     private boolean fixedReasonCulprit;
 
     @ConfigProperty("reports-module.accept-commands")
-    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
-    private List<ConfiguredCommand> acceptReportActions;
+    @ConfigObjectList(ConfiguredCommand.class)
+    private List<ConfiguredCommand> acceptReportActions = new ArrayList<>();
 
     @ConfigProperty("reports-module.reject-commands")
-    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
-    private List<ConfiguredCommand> rejectReportActions;
+    @ConfigObjectList(ConfiguredCommand.class)
+    private List<ConfiguredCommand> rejectReportActions = new ArrayList<>();
 
     @ConfigProperty("reports-module.reopen-commands")
-    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
-    private List<ConfiguredCommand> reopenReportActions;
+    @ConfigObjectList(ConfiguredCommand.class)
+    private List<ConfiguredCommand> reopenReportActions = new ArrayList<>();
 
     @ConfigProperty("reports-module.resolve-commands")
-    @ConfigTransformer(ConfiguredCommandsConfigTransformer.class)
-    private List<ConfiguredCommand> resolveReportActions;
+    @ConfigObjectList(ConfiguredCommand.class)
+    private List<ConfiguredCommand> resolveReportActions = new ArrayList<>();
 
     public boolean isFixedReason() {
         return fixedReason;
