@@ -1,24 +1,23 @@
 package net.shortninja.staffplus.core.domain.staff.broadcast.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import net.shortninja.staffplus.core.application.config.SplitBySemicolon;
+
 import java.util.List;
 
 import static net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastSelector.ALL;
 import static net.shortninja.staffplus.core.domain.staff.broadcast.config.BroadcastSelector.CURRENT;
 
+@IocBean
 public class BroadcastConfiguration {
-    private final boolean enabled;
-    private final List<String> enabledServers;
-    private final String prefix;
 
-    public BroadcastConfiguration(boolean enabled, List<String> enabledServers, String prefix) {
-        this.enabled = enabled;
-        this.enabledServers = enabledServers;
-        this.prefix = prefix;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
+    @ConfigProperty("broadcast-module.prefix")
+    private String prefix;
+    @ConfigProperty("broadcast-module.enabled-servers")
+    @ConfigTransformer(SplitBySemicolon.class)
+    private List<String> enabledServers;
 
     public List<String> getEnabledServers() {
         return enabledServers;

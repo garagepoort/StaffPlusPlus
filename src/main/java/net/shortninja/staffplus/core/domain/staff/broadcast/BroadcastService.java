@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.broadcast;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.bungee.BungeeAction;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.common.bungee.BungeeContext;
@@ -21,9 +20,9 @@ public class BroadcastService {
     private final BroadcastConfiguration broadcastConfiguration;
     private final BungeeClient bungeeClient;
 
-    public BroadcastService(Messages messages, Options options, BungeeClient bungeeClient) {
+    public BroadcastService(Messages messages, BroadcastConfiguration broadcastConfiguration, BungeeClient bungeeClient) {
         this.messages = messages;
-        this.broadcastConfiguration = options.broadcastConfiguration;
+        this.broadcastConfiguration = broadcastConfiguration;
         this.bungeeClient = bungeeClient;
     }
 
@@ -53,7 +52,7 @@ public class BroadcastService {
     }
 
     public void broadcastToSpecific(CommandSender sender, List<String> servers, String message) {
-        if(broadcastConfiguration.sendToCurrent()) {
+        if (broadcastConfiguration.sendToCurrent()) {
             throw new BusinessException("&CConfiguration is set up to use current server. Cannot broadcast to another server");
         }
         List<String> invalidServers = servers.stream()

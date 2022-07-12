@@ -10,7 +10,7 @@ import net.shortninja.staffplus.core.common.StaffPlusPlusJoinedEvent;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettings;
 import net.shortninja.staffplus.core.domain.player.settings.PlayerSettingsRepository;
-import net.shortninja.staffplus.core.domain.staff.vanish.VanishServiceImpl;
+import net.shortninja.staffplus.core.domain.staff.vanish.VanishService;
 import net.shortninja.staffplus.core.domain.staff.vanish.gui.VanishPlayersBukkitService;
 import net.shortninja.staffplusplus.session.SessionManager;
 import org.bukkit.entity.Player;
@@ -26,14 +26,14 @@ public class VanishJoinListener implements Listener, OnLoad {
 
     private final VanishPlayersBukkitService vanishPlayersBukkitService;
     private final PlayerSettingsRepository playerSettingsRepository;
-    private final VanishServiceImpl vanishService;
+    private final VanishService vanishService;
     private final StaffPlusPlus staffPlusPlus;
     private final SessionManager sessionManager;
     private final PlayerManager playerManager;
 
     public VanishJoinListener(VanishPlayersBukkitService vanishPlayersBukkitService,
                               PlayerSettingsRepository playerSettingsRepository,
-                              VanishServiceImpl vanishService,
+                              VanishService vanishService,
                               @InjectTubingPlugin StaffPlusPlus staffPlusPlus,
                               SessionManager sessionManager,
                               PlayerManager playerManager) {
@@ -48,6 +48,7 @@ public class VanishJoinListener implements Listener, OnLoad {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void hideJoinMessage(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        // vanish immediately to prevent blinking when joining
         vanishPlayersBukkitService.updateVanish(player);
         PlayerSettings playerSettings = playerSettingsRepository.get(player);
         if (playerSettings.isVanished()) {

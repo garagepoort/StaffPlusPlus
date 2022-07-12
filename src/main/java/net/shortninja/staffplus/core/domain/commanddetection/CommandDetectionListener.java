@@ -1,5 +1,6 @@
 package net.shortninja.staffplus.core.domain.commanddetection;
 
+import be.garagepoort.mcioc.configuration.ConfigObjectList;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -28,14 +29,16 @@ public class CommandDetectionListener implements Listener {
     @ConfigProperty("permissions:command-detection-bypass")
     private String permissionCommandDetectionBypass;
 
-    private final CommandDetectionConfiguration commandDetectionConfiguration;
+    @ConfigProperty("command-detection.command-groups")
+    @ConfigObjectList(CommandDetectionGroupConfiguration.class)
+    private List<CommandDetectionGroupConfiguration> commandsToDetect;
+
     private final BukkitUtils bukkitUtils;
     private final ActionService actionService;
     private final ConfiguredCommandMapper configuredCommandMapper;
     private final PermissionHandler permissionHandler;
 
-    public CommandDetectionListener(CommandDetectionConfiguration commandDetectionConfiguration, BukkitUtils bukkitUtils, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper, PermissionHandler permissionHandler) {
-        this.commandDetectionConfiguration = commandDetectionConfiguration;
+    public CommandDetectionListener(BukkitUtils bukkitUtils, ActionService actionService, ConfiguredCommandMapper configuredCommandMapper, PermissionHandler permissionHandler) {
         this.bukkitUtils = bukkitUtils;
         this.actionService = actionService;
         this.configuredCommandMapper = configuredCommandMapper;
@@ -51,7 +54,7 @@ public class CommandDetectionListener implements Listener {
 
         String command = event.getMessage().toLowerCase();
 
-        for (CommandDetectionGroupConfiguration groupConfig : commandDetectionConfiguration.commandsToDetect) {
+        for (CommandDetectionGroupConfiguration groupConfig : commandsToDetect) {
             if(groupConfig.commands.stream().anyMatch(prefix -> command.startsWith("/" + prefix))){
                 executeActions(player, groupConfig.actions, command);
                 sendEvent(new CommandDetectedEvent(player, event.getMessage(), event.getPlayer().getWorld(), System.currentTimeMillis()));

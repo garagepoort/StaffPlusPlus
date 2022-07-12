@@ -5,6 +5,7 @@ import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.investigate.config.InvestigationConfiguration;
 import net.shortninja.staffplus.core.domain.staff.investigate.database.investigation.InvestigationsRepository;
 import net.shortninja.staffplusplus.investigate.InvestigationConcludedEvent;
 import net.shortninja.staffplusplus.investigate.InvestigationPausedEvent;
@@ -28,17 +29,18 @@ public class InvestigationService {
     private final Options options;
     private final Messages messages;
     private final PermissionHandler permissionHandler;
+    private final InvestigationConfiguration investigationConfiguration;
 
-
-    public InvestigationService(InvestigationsRepository investigationsRepository, Options options, Messages messages, PermissionHandler permissionHandler) {
+    public InvestigationService(InvestigationsRepository investigationsRepository, Options options, Messages messages, PermissionHandler permissionHandler, InvestigationConfiguration investigationConfiguration) {
         this.investigationsRepository = investigationsRepository;
         this.options = options;
         this.messages = messages;
         this.permissionHandler = permissionHandler;
+        this.investigationConfiguration = investigationConfiguration;
     }
 
     public void startInvestigation(Player investigator, SppPlayer investigated) {
-        permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
+        permissionHandler.validate(investigator, investigationConfiguration.getInvestigatePermission());
         validateInvestigationStart(investigator, investigated);
 
         Investigation investigation = new Investigation(investigator.getName(), investigator.getUniqueId(), investigated.getUsername(), investigated.getId(), options.serverName);
@@ -48,7 +50,7 @@ public class InvestigationService {
     }
 
     public void startInvestigation(Player investigator) {
-        permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
+        permissionHandler.validate(investigator, investigationConfiguration.getInvestigatePermission());
         validateInvestigationStart(investigator);
 
         Investigation investigation = new Investigation(investigator.getName(), investigator.getUniqueId(), options.serverName);
@@ -58,7 +60,7 @@ public class InvestigationService {
     }
 
     public void resumeInvestigation(Player investigator, int investigationId) {
-        permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
+        permissionHandler.validate(investigator, investigationConfiguration.getInvestigatePermission());
         validateInvestigationStart(investigator);
 
         Investigation investigation = getInvestigation(investigationId);
@@ -73,7 +75,7 @@ public class InvestigationService {
     }
 
     public void resumeInvestigation(Player investigator, SppPlayer investigated) {
-        permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
+        permissionHandler.validate(investigator, investigationConfiguration.getInvestigatePermission());
         validateInvestigationStart(investigator, investigated);
 
         Investigation investigation = investigationsRepository.findInvestigationForInvestigated(investigator.getUniqueId(), investigated.getId(), Collections.singletonList(PAUSED))
@@ -98,7 +100,7 @@ public class InvestigationService {
     }
 
     public void concludeInvestigation(Player investigator) {
-        permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
+        permissionHandler.validate(investigator, investigationConfiguration.getInvestigatePermission());
         Investigation investigation = investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN))
             .orElseThrow(() -> new BusinessException("&CYou currently have no investigation running.", messages.prefixInvestigations));
         investigation.setConclusionDate(System.currentTimeMillis());
@@ -109,7 +111,7 @@ public class InvestigationService {
     }
 
     public void concludeInvestigation(Player investigator, int investigationId) {
-        permissionHandler.validate(investigator, options.investigationConfiguration.getInvestigatePermission());
+        permissionHandler.validate(investigator, investigationConfiguration.getInvestigatePermission());
         Investigation investigation = investigationsRepository.findInvestigation(investigationId)
             .orElseThrow(() -> new BusinessException("&CNo investigation found with thid id.", messages.prefixInvestigations));
 
@@ -164,14 +166,14 @@ public class InvestigationService {
     }
 
     private void validateInvestigationStart(Player investigator, SppPlayer investigated) {
-        if (!investigated.isOnline() && !options.investigationConfiguration.isAllowOfflineInvestigation()) {
+        if (!investigated.isOnline() && !investigationConfiguration.isAllowOfflineInvestigation()) {
             throw new BusinessException("Not allowed to investigate an offline player");
         }
         investigationsRepository.getInvestigationForInvestigator(investigator.getUniqueId(), Collections.singletonList(OPEN)).ifPresent(investigation1 -> {
             throw new BusinessException("&CCan't start an investigation, you currently have an investigation running", messages.prefixInvestigations);
         });
         List<Investigation> runningInvestigations = investigationsRepository.getInvestigationsForInvestigated(investigated.getId(), Collections.singletonList(OPEN));
-        if (options.investigationConfiguration.getMaxConcurrentInvestigation() > 0 && runningInvestigations.size() >= options.investigationConfiguration.getMaxConcurrentInvestigation()) {
+        if (investigationConfiguration.getMaxConcurrentInvestigation() > 0 && runningInvestigations.size() >= investigationConfiguration.getMaxConcurrentInvestigation()) {
             throw new BusinessException("&CCannot start investigation. There are already too many investigations ongoing at this moment.");
         }
     }

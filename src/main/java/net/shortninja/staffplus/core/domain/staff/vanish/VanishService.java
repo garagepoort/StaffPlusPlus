@@ -15,14 +15,14 @@ import java.util.UUID;
 import static net.shortninja.staffplus.core.common.utils.BukkitUtils.sendEvent;
 
 @IocBean
-public class VanishServiceImpl {
+public class VanishService {
 
     private final PlayerSettingsRepository playerSettingsRepository;
     private final VanishConfiguration vanishConfiguration;
     private static final Map<UUID, VanishType> vanishCache = new HashMap<>();
 
-    public VanishServiceImpl(PlayerSettingsRepository playerSettingsRepository,
-                             VanishConfiguration vanishConfiguration) {
+    public VanishService(PlayerSettingsRepository playerSettingsRepository,
+                         VanishConfiguration vanishConfiguration) {
         this.playerSettingsRepository = playerSettingsRepository;
         this.vanishConfiguration = vanishConfiguration;
     }
