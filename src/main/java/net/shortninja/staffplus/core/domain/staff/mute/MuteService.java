@@ -2,7 +2,6 @@ package net.shortninja.staffplus.core.domain.staff.mute;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.JavaUtils;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
@@ -10,6 +9,7 @@ import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.database.MuteRepository;
 import net.shortninja.staffplusplus.mute.MuteEvent;
@@ -40,14 +40,15 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
     private static final String LIMIT = ".limit";
     private final PermissionHandler permission;
     private final MuteRepository muteRepository;
-    private final Options options;
     private final MuteConfiguration muteConfiguration;
+    private final InfractionsConfiguration infractionsConfiguration;
 
-    public MuteService(PermissionHandler permission, MuteRepository muteRepository, Options options, MuteConfiguration muteConfiguration) {
+    public MuteService(PermissionHandler permission, MuteRepository muteRepository,
+                       MuteConfiguration muteConfiguration, InfractionsConfiguration infractionsConfiguration) {
         this.permission = permission;
         this.muteRepository = muteRepository;
-        this.options = options;
         this.muteConfiguration = muteConfiguration;
+        this.infractionsConfiguration = infractionsConfiguration;
     }
 
     public void permMute(CommandSender issuer, SppPlayer playerToMute, String reason, boolean softMute) {
@@ -161,7 +162,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
 
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
-        if (!options.infractionsConfiguration.isShowMutes()) {
+        if (!infractionsConfiguration.isShowMutes()) {
             return Collections.emptyList();
         }
         return muteRepository.getMutesForPlayer(playerUUID);
@@ -170,7 +171,7 @@ public class MuteService implements InfractionProvider, net.shortninja.staffplus
 
     @Override
     public Optional<InfractionInfo> getInfractionsInfo() {
-        if (!options.infractionsConfiguration.isShowMutes()) {
+        if (!infractionsConfiguration.isShowMutes()) {
             return Optional.empty();
         }
         Map<UUID, List<String>> muteDurationByPlayer = muteRepository.getMuteDurationByPlayer().entrySet().stream()

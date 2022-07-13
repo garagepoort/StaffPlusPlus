@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.Ban;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -26,10 +27,12 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
 
     private final IProtocolService protocolService;
     private final Options options;
+    private final InfractionsConfiguration infractionsConfiguration;
 
-    public BannedPlayerItemBuilder(IProtocolService protocolService, Options options) {
+    public BannedPlayerItemBuilder(IProtocolService protocolService, Options options, InfractionsConfiguration infractionsConfiguration) {
         this.protocolService = protocolService;
         this.options = options;
+        this.infractionsConfiguration = infractionsConfiguration;
     }
 
 
@@ -71,7 +74,7 @@ public class BannedPlayerItemBuilder implements InfractionGuiProvider<Ban> {
     @Override
     public ItemStack getMenuItem(Ban ban) {
         ItemStack itemStack = build(ban);
-        itemStack.setType(options.infractionsConfiguration.getBansGuiItem());
+        itemStack.setType(infractionsConfiguration.getBansGuiItem());
         return itemStack;
     }
 }

@@ -2,13 +2,13 @@ package net.shortninja.staffplus.core.domain.staff.kick;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.database.KicksRepository;
 import net.shortninja.staffplusplus.kick.KickEvent;
@@ -30,14 +30,15 @@ public class KickService implements InfractionProvider {
 
     private final PermissionHandler permission;
     private final KicksRepository kicksRepository;
-    private final Options options;
     private final KickConfiguration kickConfiguration;
+    private final InfractionsConfiguration infractionsConfiguration;
 
-    public KickService(PermissionHandler permission, KicksRepository kicksRepository, Options options, KickConfiguration kickConfiguration) {
+    public KickService(PermissionHandler permission, KicksRepository kicksRepository,
+                       KickConfiguration kickConfiguration, InfractionsConfiguration infractionsConfiguration) {
         this.permission = permission;
         this.kicksRepository = kicksRepository;
-        this.options = options;
         this.kickConfiguration = kickConfiguration;
+        this.infractionsConfiguration = infractionsConfiguration;
     }
 
     public void kick(CommandSender issuer, SppPlayer playerToKick, String reason) {
@@ -63,7 +64,7 @@ public class KickService implements InfractionProvider {
 
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
-        if (!options.infractionsConfiguration.isShowKicks()) {
+        if (!infractionsConfiguration.isShowKicks()) {
             return Collections.emptyList();
         }
         return kicksRepository.getKicksForPlayer(playerUUID);
@@ -71,7 +72,7 @@ public class KickService implements InfractionProvider {
 
     @Override
     public Optional<InfractionInfo> getInfractionsInfo() {
-        if (!options.infractionsConfiguration.isShowKicks()) {
+        if (!infractionsConfiguration.isShowKicks()) {
             return Optional.empty();
         }
         return Optional.of(new InfractionInfo(InfractionType.KICK, kicksRepository.getCountByPlayer()));

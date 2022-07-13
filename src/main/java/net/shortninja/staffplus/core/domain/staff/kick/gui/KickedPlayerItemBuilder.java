@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
 import net.shortninja.staffplus.core.domain.staff.kick.Kick;
 import org.bukkit.Material;
@@ -23,10 +24,12 @@ import java.util.List;
 public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
     private final IProtocolService protocolService;
     private final Options options;
+    private final InfractionsConfiguration infractionsConfiguration;
 
-    public KickedPlayerItemBuilder(IProtocolService protocolService, Options options) {
+    public KickedPlayerItemBuilder(IProtocolService protocolService, Options options, InfractionsConfiguration infractionsConfiguration) {
         this.protocolService = protocolService;
         this.options = options;
+        this.infractionsConfiguration = infractionsConfiguration;
     }
 
     public ItemStack build(Kick kick) {
@@ -59,7 +62,7 @@ public class KickedPlayerItemBuilder implements InfractionGuiProvider<Kick> {
     @Override
     public ItemStack getMenuItem(Kick kick) {
         ItemStack itemStack = build(kick);
-        itemStack.setType(options.infractionsConfiguration.getKicksGuiItem());
+        itemStack.setType(infractionsConfiguration.getKicksGuiItem());
         return itemStack;
     }
 }

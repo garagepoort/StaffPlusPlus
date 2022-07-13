@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
 import net.shortninja.staffplus.core.domain.staff.mute.Mute;
 import org.bukkit.Material;
@@ -26,10 +27,12 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
 
     private final IProtocolService protocolService;
     private final Options options;
+    private final InfractionsConfiguration infractionsConfiguration;
 
-    public MutedPlayerItemBuilder(IProtocolService protocolService, Options options) {
+    public MutedPlayerItemBuilder(IProtocolService protocolService, Options options, InfractionsConfiguration infractionsConfiguration) {
         this.protocolService = protocolService;
         this.options = options;
+        this.infractionsConfiguration = infractionsConfiguration;
     }
 
     public ItemStack build(Mute mute) {
@@ -68,7 +71,7 @@ public class MutedPlayerItemBuilder implements InfractionGuiProvider<Mute> {
     @Override
     public ItemStack getMenuItem(Mute mute) {
         ItemStack itemStack = build(mute);
-        itemStack.setType(options.infractionsConfiguration.getMutesGuiItem());
+        itemStack.setType(infractionsConfiguration.getMutesGuiItem());
         return itemStack;
     }
 }
