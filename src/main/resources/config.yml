@@ -79,10 +79,11 @@ server-sync-module:
 # Type in the location identifier and location using format: x;y;z;worldname
 # ex. config
 # locations:
-#     spawn: 14;45;62;world
+#     - name: spawn
+#       coordinates: 14;45;62;world
 # ex. /freeze myplayer -Tspawn
 # This will freeze the player and teleport him to spawn location.
-locations:
+locations: []
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -666,9 +667,6 @@ storage:
 # The declared version of this configuration file, used for configuration file changes.
 # Do NOT change this unless you know what you're doing (hint: just don't change it).
 config-version: 6205
-# The interval in seconds at which auto saves will be performed.
-# The higher this is, the less lag there will be.
-auto-save: 3602
 
 # The interval in seconds at which calculations, like freeze checking, will be performed.
 # The higher this is, the less lag there will be.

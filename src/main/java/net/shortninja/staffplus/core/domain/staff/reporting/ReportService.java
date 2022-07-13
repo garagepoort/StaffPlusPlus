@@ -15,6 +15,7 @@ import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.database.ReportRepository;
 import net.shortninja.staffplusplus.reports.CreateReportEvent;
 import net.shortninja.staffplusplus.reports.ReportFilters;
@@ -48,19 +49,21 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
     private final PlayerManager playerManager;
     private final ReportRepository reportRepository;
     private final ActionService actionService;
+    private final InfractionsConfiguration infractionsConfiguration;
 
     public ReportService(PermissionHandler permission,
                          Options options,
                          ReportRepository reportRepository,
                          Messages messages,
                          PlayerManager playerManager,
-                         ActionService actionService) {
+                         ActionService actionService, InfractionsConfiguration infractionsConfiguration) {
         this.permission = permission;
         this.options = options;
         this.reportRepository = reportRepository;
         this.messages = messages;
         this.playerManager = playerManager;
         this.actionService = actionService;
+        this.infractionsConfiguration = infractionsConfiguration;
     }
 
     public List<Report> getReported(SppPlayer player, int offset, int amount) {
@@ -186,7 +189,7 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
 
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
-        if (!options.infractionsConfiguration.isShowReported()) {
+        if (!infractionsConfiguration.isShowReported()) {
             return Collections.emptyList();
         }
         return reportRepository.getReportsByOffender(playerUUID);
@@ -194,7 +197,7 @@ public class ReportService implements InfractionProvider, net.shortninja.staffpl
 
     @Override
     public Optional<InfractionInfo> getInfractionsInfo() {
-        if (!options.infractionsConfiguration.isShowReported()) {
+        if (!infractionsConfiguration.isShowReported()) {
             return Optional.empty();
         }
         return Optional.of(new InfractionInfo(InfractionType.REPORTED, reportRepository.getReportedCount()));
