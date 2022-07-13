@@ -4,7 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;
 import net.shortninja.staffplus.core.common.cmd.CommandService;
@@ -13,6 +12,7 @@ import net.shortninja.staffplus.core.common.cmd.arguments.ArgumentType;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 import net.shortninja.staffplus.core.domain.staff.teleport.TeleportService;
+import net.shortninja.staffplus.core.domain.staff.teleport.config.TeleportConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,18 +43,23 @@ public class TeleportToLocationCmd extends AbstractCmd {
 
     private final PermissionHandler permissionHandler;
     private final PlayerManager playerManager;
-    private final Options options;
     private final TeleportService teleportService;
+    private final TeleportConfiguration teleportConfiguration;
 
     @ConfigProperty("permissions:teleport-bypass")
     private String permissionTeleportBypass;
 
-    public TeleportToLocationCmd(PermissionHandler permissionHandler, Messages messages, PlayerManager playerManager, Options options, TeleportService teleportService, CommandService commandService) {
+    public TeleportToLocationCmd(PermissionHandler permissionHandler,
+                                 Messages messages,
+                                 PlayerManager playerManager,
+                                 TeleportService teleportService,
+                                 CommandService commandService,
+                                 TeleportConfiguration teleportConfiguration) {
         super(messages, permissionHandler, commandService);
         this.permissionHandler = permissionHandler;
         this.playerManager = playerManager;
-        this.options = options;
         this.teleportService = teleportService;
+        this.teleportConfiguration = teleportConfiguration;
     }
 
     @Override
@@ -95,7 +100,7 @@ public class TeleportToLocationCmd extends AbstractCmd {
                 .collect(Collectors.toList());
         }
         if (args.length == 2) {
-            options.locations.forEach((k, v) -> {
+            teleportConfiguration.locations.forEach((k, v) -> {
                 suggestions.add(k);
             });
             return suggestions.stream()

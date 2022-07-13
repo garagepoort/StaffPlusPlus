@@ -254,7 +254,6 @@ storage:
         max-pool-size: 5
         ssl-enabled: false
 config-version: 6205
-auto-save: 3602
 clock: 10
 animation-packets: PacketPlayOutBlockBreakAnimation, PacketPlayOutBlockAction
 sound-names: random.chestopen, random.chestclosed

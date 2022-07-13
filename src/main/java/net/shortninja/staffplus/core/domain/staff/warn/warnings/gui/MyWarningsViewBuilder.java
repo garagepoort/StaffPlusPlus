@@ -3,9 +3,9 @@ package net.shortninja.staffplus.core.domain.staff.warn.warnings.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubinggui.GuiActionBuilder;
 import be.garagepoort.mcioc.tubinggui.model.TubingGui;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.gui.PagedGuiBuilder;
 import net.shortninja.staffplus.core.common.permissions.PermissionHandler;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.WarnService;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import org.bukkit.entity.Player;
@@ -22,13 +22,16 @@ public class MyWarningsViewBuilder {
     private final PermissionHandler permission;
     private final WarnService warnService;
     private final WarningItemBuilder warningItemBuilder;
-    private final Options options;
+    private final WarningAppealConfiguration warningAppealConfiguration;
 
-    public MyWarningsViewBuilder(PermissionHandler permission, WarnService warnService, WarningItemBuilder warningItemBuilder, Options options) {
+    public MyWarningsViewBuilder(PermissionHandler permission,
+                                 WarnService warnService,
+                                 WarningItemBuilder warningItemBuilder,
+                                 WarningAppealConfiguration warningAppealConfiguration) {
         this.permission = permission;
         this.warnService = warnService;
         this.warningItemBuilder = warningItemBuilder;
-        this.options = options;
+        this.warningAppealConfiguration = warningAppealConfiguration;
     }
 
     public TubingGui buildGui(Player player, String currentAction, int page) {
@@ -39,7 +42,7 @@ public class MyWarningsViewBuilder {
 
     @NotNull
     private String getDetailAction(Player player, Warning w, String currentAction) {
-        if (options.warningAppealConfiguration.enabled && permission.has(player, options.warningAppealConfiguration.createAppealPermission)) {
+        if (warningAppealConfiguration.enabled && permission.has(player, warningAppealConfiguration.createAppealPermission)) {
             return GuiActionBuilder.builder()
                 .action("manage-warnings/view/detail")
                 .param("warningId", String.valueOf(w.getId()))

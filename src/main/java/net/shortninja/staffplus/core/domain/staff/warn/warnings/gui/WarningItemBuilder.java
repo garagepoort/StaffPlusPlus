@@ -7,6 +7,7 @@ import net.shortninja.staffplus.core.common.IProtocolService;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.gui.LoreBuilder;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.infractions.gui.views.InfractionGuiProvider;
 import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
@@ -32,12 +33,17 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
     private final WarningAppealConfiguration warningAppealConfiguration;
     private final WarningConfiguration warningConfiguration;
     private final IProtocolService protocolService;
+    private final InfractionsConfiguration infractionsConfiguration;
 
-    public WarningItemBuilder(Options options, WarningConfiguration warningConfiguration, IProtocolService protocolService) {
+    public WarningItemBuilder(Options options,
+                              WarningAppealConfiguration warningAppealConfiguration, WarningConfiguration warningConfiguration,
+                              IProtocolService protocolService,
+                              InfractionsConfiguration infractionsConfiguration) {
         this.options = options;
+        this.warningAppealConfiguration = warningAppealConfiguration;
         this.protocolService = protocolService;
-        warningAppealConfiguration = options.warningAppealConfiguration;
         this.warningConfiguration = warningConfiguration;
+        this.infractionsConfiguration = infractionsConfiguration;
     }
 
 
@@ -98,7 +104,7 @@ public class WarningItemBuilder implements InfractionGuiProvider<Warning> {
     @Override
     public ItemStack getMenuItem(Warning warning) {
         ItemStack itemStack = build(warning);
-        itemStack.setType(options.infractionsConfiguration.getWarningsGuiItem());
+        itemStack.setType(infractionsConfiguration.getWarningsGuiItem());
         return itemStack;
     }
 }
