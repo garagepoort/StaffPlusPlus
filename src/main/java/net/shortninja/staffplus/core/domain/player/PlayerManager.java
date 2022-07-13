@@ -3,7 +3,6 @@ package net.shortninja.staffplus.core.domain.player;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import com.google.common.collect.Sets;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.player.database.PlayerRepository;
 import net.shortninja.staffplus.core.domain.player.database.StoredPlayer;
 import net.shortninja.staffplus.core.domain.player.providers.OfflinePlayerProvider;
@@ -27,18 +26,20 @@ public class PlayerManager {
 
     @ConfigProperty("server-name")
     private String serverName;
+    @ConfigProperty("offline-player-cache")
+    public boolean offlinePlayerCache;
 
     private final OfflinePlayerProvider offlinePlayerProvider;
     private final Set<String> cachedPlayerNames;
     private final Set<SppPlayer> cachedSppPlayers;
     private final PlayerRepository playerRepository;
 
-    public PlayerManager(OfflinePlayerProvider offlinePlayerProvider, PlayerRepository playerRepository, Options options) {
+    public PlayerManager(OfflinePlayerProvider offlinePlayerProvider, PlayerRepository playerRepository) {
         this.offlinePlayerProvider = offlinePlayerProvider;
         this.playerRepository = playerRepository;
         Set<String> playerNames = new HashSet<>();
         Set<SppPlayer> sppPlayers = new HashSet<>();
-        if(options.offlinePlayerCache) {
+        if(offlinePlayerCache) {
             for (OfflinePlayer offlinePlayer : Bukkit.getOfflinePlayers()) {
                 String name = offlinePlayer.getName();
                 if (StringUtils.isNotEmpty(name)) {

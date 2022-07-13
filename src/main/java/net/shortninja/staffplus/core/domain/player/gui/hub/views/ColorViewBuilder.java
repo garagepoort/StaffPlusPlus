@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.domain.player.gui.hub.views;
 
 import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.model.TubingGui;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.Items;
 import net.shortninja.staffplus.core.common.utils.GlassData;
 import org.bukkit.Material;
@@ -11,14 +11,11 @@ import org.bukkit.inventory.ItemStack;
 @IocBean
 public class ColorViewBuilder {
 
-    private final Options options;
-
-    public ColorViewBuilder(Options options) {
-        this.options = options;
-    }
+    @ConfigProperty("glass-title")
+    private String glassTitle;
 
     public TubingGui buildGui() {
-        TubingGui.Builder builder = new TubingGui.Builder(options.glassTitle, 27);
+        TubingGui.Builder builder = new TubingGui.Builder(glassTitle, 27);
         for (short i = 0; i < 15; i++) {
             ItemStack itemStack = glassItem(i);
             builder.addItem("hub/change-color?color=" + itemStack.getType().name(), i, itemStack);
