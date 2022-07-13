@@ -1,7 +1,6 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import be.garagepoort.mcioc.IocBean;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
 import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
@@ -30,9 +29,9 @@ public class TraceService {
     private final TraceWriterFactory traceWriterFactory;
     private final TraceConfiguration traceConfiguration;
 
-    public TraceService(TraceWriterFactory traceWriterFactory, Options options) {
+    public TraceService(TraceWriterFactory traceWriterFactory, TraceConfiguration traceConfiguration) {
         this.traceWriterFactory = traceWriterFactory;
-        this.traceConfiguration = options.traceConfiguration;
+        this.traceConfiguration = traceConfiguration;
     }
 
     public void startTrace(CommandSender tracer, SppPlayer traced) {

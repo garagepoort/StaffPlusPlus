@@ -1,51 +1,37 @@
 package net.shortninja.staffplus.core.domain.staff.infractions.config;
 
+import be.garagepoort.mcioc.IocBean;
+import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
+import be.garagepoort.mcioc.configuration.transformers.ToEnum;
 import org.bukkit.Material;
 
+@IocBean
 public class InfractionsConfiguration {
 
-    private final boolean infractionsEnabled;
+    @ConfigProperty("infractions-module.show-bans")
+    private boolean showBans;
+    @ConfigProperty("infractions-module.show-mutes")
+    private boolean showMutes;
+    @ConfigProperty("infractions-module.show-warnings")
+    private boolean showWarnings;
+    @ConfigProperty("infractions-module.show-reported")
+    private boolean showReported;
+    @ConfigProperty("infractions-module.show-kicks")
+    private boolean showKicks;
 
-    private final String commandOpenGui;
-    private final String commandOpenTopGui;
-    private final String permissionViewInfractions;
-    private final boolean showBans;
-    private final boolean showMutes;
-    private final boolean showWarnings;
-    private final boolean showReported;
-    private final boolean showKicks;
-    private final Material bansGuiItem;
-    private final Material mutesGuiItem;
-    private final Material warningsGuiItem;
-    private final Material reportedGuiItem;
-    private final Material kicksGuiItem;
-
-    public InfractionsConfiguration(boolean infractionsEnabled, String commandOpenGui, String commandOpenTopGui, String permissionViewInfractions,
-                                    boolean showBans, boolean showMutes, boolean showWarnings, boolean showReported, boolean showKicks,
-                                    Material bansGuiItem, Material mutesGuiItem, Material warningsGuiItem, Material reportedGuiItem, Material kicksGuiItem) {
-        this.infractionsEnabled = infractionsEnabled;
-        this.commandOpenGui = commandOpenGui;
-        this.commandOpenTopGui = commandOpenTopGui;
-        this.permissionViewInfractions = permissionViewInfractions;
-        this.showBans = showBans;
-        this.showMutes = showMutes;
-        this.showWarnings = showWarnings;
-        this.showReported = showReported;
-        this.showKicks = showKicks;
-        this.bansGuiItem = bansGuiItem;
-        this.mutesGuiItem = mutesGuiItem;
-        this.warningsGuiItem = warningsGuiItem;
-        this.reportedGuiItem = reportedGuiItem;
-        this.kicksGuiItem = kicksGuiItem;
-    }
-
-    public boolean isEnabled() {
-        return infractionsEnabled;
-    }
-
-    public String getCommandOpenGui() {
-        return commandOpenGui;
-    }
+    @ConfigProperty("infractions-module.bans-gui-item")
+    @ConfigTransformer(ToEnum.class)
+    private Material bansGuiItem;
+    @ConfigProperty("infractions-module.mutes-gui-item")
+    @ConfigTransformer(ToEnum.class)
+    private Material mutesGuiItem;
+    @ConfigProperty("infractions-module.warnings-gui-item")
+    @ConfigTransformer(ToEnum.class)
+    private Material warningsGuiItem;
+    @ConfigProperty("infractions-module.kicks-gui-item")
+    @ConfigTransformer(ToEnum.class)
+    private Material kicksGuiItem;
 
     public boolean isShowBans() {
         return showBans;
@@ -63,16 +49,8 @@ public class InfractionsConfiguration {
         return showReported;
     }
 
-    public String getPermissionViewInfractions() {
-        return permissionViewInfractions;
-    }
-
     public boolean isShowKicks() {
         return showKicks;
-    }
-
-    public String getCommandOpenTopGui() {
-        return commandOpenTopGui;
     }
 
     public Material getBansGuiItem() {
@@ -85,10 +63,6 @@ public class InfractionsConfiguration {
 
     public Material getWarningsGuiItem() {
         return warningsGuiItem;
-    }
-
-    public Material getReportedGuiItem() {
-        return reportedGuiItem;
     }
 
     public Material getKicksGuiItem() {

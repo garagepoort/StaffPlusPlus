@@ -2,12 +2,12 @@ package net.shortninja.staffplus.core.application.metrics;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.StaffPlusPlus;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.staff.altaccountdetect.config.AltDetectConfiguration;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.config.BanConfiguration;
 import net.shortninja.staffplus.core.domain.staff.kick.config.KickConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mute.config.MuteConfiguration;
 import net.shortninja.staffplus.core.domain.staff.reporting.config.ReportConfiguration;
+import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 
 @IocBean(conditionalOnProperty = "metrics=true")
@@ -15,16 +15,17 @@ public class MetricsService {
 
     private static final int PLUGIN_ID = 9351;
 
-    public MetricsService(Options options,
-                          WarningConfiguration warningConfiguration,
+    public MetricsService(WarningConfiguration warningConfiguration,
                           BanConfiguration banConfiguration,
                           AltDetectConfiguration altDetectConfiguration,
                           MuteConfiguration muteConfiguration,
-                          ReportConfiguration reportConfiguration, KickConfiguration kickConfiguration) {
+                          ReportConfiguration reportConfiguration,
+                          KickConfiguration kickConfiguration,
+                          WarningAppealConfiguration warningAppealConfiguration) {
         Metrics metrics = new Metrics(StaffPlusPlus.get(), PLUGIN_ID);
 
         boolean warningConfigurationEnabled = warningConfiguration.isEnabled();
-        boolean appealConfigurationEnabled = options.warningAppealConfiguration.enabled;
+        boolean appealConfigurationEnabled = warningAppealConfiguration.enabled;
         boolean reportConfigurationEnabled = reportConfiguration.isEnabled();
         boolean banConfigurationEnabled = banConfiguration.enabled;
         boolean muteConfigurationEnabled = muteConfiguration.muteEnabled;

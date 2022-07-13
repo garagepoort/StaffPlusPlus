@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.tracing;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.domain.chat.ChatInterceptor;
+import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -12,30 +12,32 @@ import java.util.List;
 
 import static net.shortninja.staffplusplus.trace.TraceOutputChannel.CHAT;
 
-@IocBean
+@IocBean(conditionalOnProperty = "trace-module.enabled=true")
 @IocMultiProvider(ChatInterceptor.class)
 public class TraceChatInterceptor implements ChatInterceptor {
 
     private final TraceService traceService;
     private final Messages messages;
+    private final TraceConfiguration traceConfiguration;
 
-    private Options options;
-
-    public TraceChatInterceptor(TraceService traceService, Messages messages, Options options) {
+    public TraceChatInterceptor(TraceService traceService,
+                                Messages messages,
+                                TraceConfiguration traceConfiguration) {
         this.traceService = traceService;
         this.messages = messages;
-
-        this.options = options;
+        this.traceConfiguration = traceConfiguration;
     }
 
     @Override
     public boolean intercept(AsyncPlayerChatEvent event) {
-        if (traceService.isPlayerTracing(event.getPlayer()) && options.traceConfiguration.hasChannel(CHAT)) {
+        boolean hasChatChannel = traceConfiguration.hasChannel(CHAT);
+
+        if (traceService.isPlayerTracing(event.getPlayer()) && hasChatChannel) {
             this.messages.send(event.getPlayer(), messages.chatPrevented, messages.prefixGeneral);
             return true;
         }
 
-        if(options.traceConfiguration.hasChannel(CHAT)) {
+        if(hasChatChannel) {
             List<Player> allTracers = traceService.getTracingPlayers();
             event.getRecipients().removeAll(allTracers);
         }

@@ -1,8 +1,10 @@
 package net.shortninja.staffplus.core.application;
 
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.configuration.ConfigTransformer;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.config.SplitByComma;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
@@ -16,6 +18,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +28,15 @@ import static net.shortninja.staffplus.core.domain.staff.tracing.TraceType.COMMA
 
 @IocBukkitListener
 public class PlayerCommandPreprocess implements Listener {
+
+    @ConfigProperty("blocked-commands")
+    @ConfigTransformer(SplitByComma.class)
+    private List<String> blockedCommands = new ArrayList<>();
+
+    @ConfigProperty("blocked-mode-commands")
+    @ConfigTransformer(SplitByComma.class)
+    private List<String> blockedModeCommands = new ArrayList<>();
+
     private final PermissionHandler permission;
 
     private final Options options;
@@ -63,10 +75,10 @@ public class PlayerCommandPreprocess implements Listener {
         }
 
         OnlinePlayerSession session = sessionManager.get(player);
-        if (options.blockedCommands.contains(command) && permission.hasOnly(player, permissionBlock)) {
+        if (blockedCommands.contains(command) && permission.hasOnly(player, permissionBlock)) {
             messages.send(player, messages.commandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
-        } else if (session.isInStaffMode() && options.blockedModeCommands.contains(command)) {
+        } else if (session.isInStaffMode() && blockedModeCommands.contains(command)) {
             messages.send(player, messages.modeCommandBlocked, messages.prefixGeneral);
             event.setCancelled(true);
         }
