@@ -14,6 +14,7 @@ import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
 import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.appeals.AppealService;
 import net.shortninja.staffplus.core.domain.staff.appeals.database.AppealRepository;
+import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.database.WarnRepository;
@@ -52,13 +53,16 @@ public class WarnService implements InfractionProvider, WarningService {
     private final AppealRepository appealRepository;
     private final WarningConfiguration warningConfiguration;
     private final AppealService appealService;
+    private final InfractionsConfiguration infractionsConfiguration;
 
     public WarnService(PermissionHandler permission,
                        Options options,
                        Messages messages,
                        WarnRepository warnRepository,
                        AppealRepository appealRepository,
-                       WarningConfiguration warningConfiguration, AppealService appealService) {
+                       WarningConfiguration warningConfiguration,
+                       AppealService appealService,
+                       InfractionsConfiguration infractionsConfiguration) {
         this.permission = permission;
         this.options = options;
         this.messages = messages;
@@ -66,6 +70,7 @@ public class WarnService implements InfractionProvider, WarningService {
         this.appealRepository = appealRepository;
         this.warningConfiguration = warningConfiguration;
         this.appealService = appealService;
+        this.infractionsConfiguration = infractionsConfiguration;
     }
 
     public void sendWarning(CommandSender sender, SppPlayer culprit, String reason, WarningSeverityConfiguration severityConfig) {
@@ -192,7 +197,7 @@ public class WarnService implements InfractionProvider, WarningService {
 
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
-        if (!options.infractionsConfiguration.isShowWarnings()) {
+        if (!infractionsConfiguration.isShowWarnings()) {
             return Collections.emptyList();
         }
         return getWarnings(playerUUID, false).stream()
@@ -202,7 +207,7 @@ public class WarnService implements InfractionProvider, WarningService {
 
     @Override
     public Optional<InfractionInfo> getInfractionsInfo() {
-        if (!options.infractionsConfiguration.isShowWarnings()) {
+        if (!infractionsConfiguration.isShowWarnings()) {
             return Optional.empty();
         }
         return Optional.of(new InfractionInfo(InfractionType.WARNING, warnRepository.getCountByPlayer()));

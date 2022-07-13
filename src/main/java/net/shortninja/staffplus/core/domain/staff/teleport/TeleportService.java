@@ -6,6 +6,7 @@ import de.tr7zw.nbtapi.NBTList;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
 import net.shortninja.staffplus.core.common.exceptions.BusinessException;
+import net.shortninja.staffplus.core.domain.staff.teleport.config.TeleportConfiguration;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -26,21 +27,21 @@ public class TeleportService {
     private static final Map<Player, Deque<Location>> previousLocations = new HashMap<>();
 
     private final Options options;
-
     private final Messages messages;
+    private final TeleportConfiguration teleportConfiguration;
 
-    public TeleportService(Options options, Messages messages) {
+    public TeleportService(Options options, Messages messages, TeleportConfiguration teleportConfiguration) {
         this.options = options;
-
         this.messages = messages;
+        this.teleportConfiguration = teleportConfiguration;
     }
 
     public void teleportPlayerToLocation(CommandSender commandSender, Player targetPlayer, String locationId) {
-        if (!options.locations.containsKey(locationId)) {
+        if (!teleportConfiguration.locations.containsKey(locationId)) {
             throw new BusinessException("&CNo location found with name: " + locationId);
         }
 
-        Location location = options.locations.get(locationId);
+        Location location = teleportConfiguration.locations.get(locationId);
         addPreviousLocation(targetPlayer);
         targetPlayer.teleport(location);
         messages.send(commandSender, "&6" + targetPlayer.getName() + " teleported to " + locationId, messages.prefixGeneral);

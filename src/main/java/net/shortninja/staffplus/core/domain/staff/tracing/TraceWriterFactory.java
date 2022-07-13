@@ -2,7 +2,7 @@ package net.shortninja.staffplus.core.domain.staff.tracing;
 
 import be.garagepoort.mcioc.IocBean;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
-import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.domain.staff.tracing.config.TraceConfiguration;
 import net.shortninja.staffplusplus.trace.TraceOutputChannel;
 import net.shortninja.staffplusplus.trace.TraceWriter;
 
@@ -13,24 +13,23 @@ import java.util.UUID;
 @IocBean
 public class TraceWriterFactory {
 
-
     private final Messages messages;
-    private final Options options;
+    private final TraceConfiguration traceConfiguration;
 
-    public TraceWriterFactory(Messages messages, Options options) {
-
+    public TraceWriterFactory(Messages messages,
+                              TraceConfiguration traceConfiguration) {
         this.messages = messages;
-        this.options = options;
+        this.traceConfiguration = traceConfiguration;
     }
 
     public List<TraceWriter> buildTraceWriters(UUID tracerUuid, UUID tracedUuid) {
-        List<TraceOutputChannel> outputChannels = options.traceConfiguration.getOutputChannels();
+        List<TraceOutputChannel> outputChannels = traceConfiguration.getOutputChannels();
 
         List<TraceWriter> traceWriters = new ArrayList<>();
-        if(outputChannels.contains(TraceOutputChannel.CHAT))  {
+        if (outputChannels.contains(TraceOutputChannel.CHAT)) {
             traceWriters.add(new ChatTraceWriter(tracerUuid, messages));
         }
-        if(outputChannels.contains(TraceOutputChannel.FILE)) {
+        if (outputChannels.contains(TraceOutputChannel.FILE)) {
             traceWriters.add(new FileTraceWriter(tracedUuid));
         }
         return traceWriters;

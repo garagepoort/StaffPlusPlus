@@ -148,7 +148,7 @@ public class WarningAppealGuiController {
         permission.validate(player, warningAppealConfiguration.approveAppealPermission);
         SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
             .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
-        if (options.warningAppealConfiguration.resolveReasonEnabled) {
+        if (warningAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1===================================================", messages.prefixWarnings);
             messages.send(player, "&6       You have chosen to approve this appeal", messages.prefixWarnings);
             messages.send(player, "&6Type your closing reason in chat to approve the appeal", messages.prefixWarnings);
@@ -172,7 +172,7 @@ public class WarningAppealGuiController {
         permission.validate(player, warningAppealConfiguration.rejectAppealPermission);
         SppPlayer sppPlayer = playerManager.getOnlinePlayer(player.getUniqueId())
             .orElseThrow((() -> new PlayerNotFoundException(player.getName())));
-        if (options.warningAppealConfiguration.resolveReasonEnabled) {
+        if (warningAppealConfiguration.resolveReasonEnabled) {
             messages.send(player, "&1==================================================", messages.prefixWarnings);
             messages.send(player, "&6        You have chosen to reject this appeal", messages.prefixWarnings);
             messages.send(player, "&6Type your closing reason in chat to reject the appeal", messages.prefixWarnings);
