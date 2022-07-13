@@ -12,6 +12,7 @@ import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionInfo;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionProvider;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
+import net.shortninja.staffplus.core.domain.staff.infractions.config.InfractionsConfiguration;
 import net.shortninja.staffplusplus.ban.BanEvent;
 import net.shortninja.staffplusplus.ban.BanExtensionEvent;
 import net.shortninja.staffplusplus.ban.BanFilters;
@@ -46,15 +47,17 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
     private final BanConfiguration banConfiguration;
     private final BanReasonResolver banReasonResolver;
     private final BanTemplateResolver banTemplateResolver;
+    private final InfractionsConfiguration infractionsConfiguration;
 
     public BanService(PermissionHandler permission, BansRepository bansRepository, BanConfiguration banConfiguration, Options options,
-                      BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver) {
+                      BanReasonResolver banReasonResolver, BanTemplateResolver banTemplateResolver, InfractionsConfiguration infractionsConfiguration) {
         this.permission = permission;
         this.bansRepository = bansRepository;
         this.options = options;
         this.banConfiguration = banConfiguration;
         this.banReasonResolver = banReasonResolver;
         this.banTemplateResolver = banTemplateResolver;
+        this.infractionsConfiguration = infractionsConfiguration;
     }
 
     public void permBan(CommandSender issuer, SppPlayer playerToBan, String reason, String template, boolean isSilent) {
@@ -178,7 +181,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
     @Override
     public List<? extends Infraction> getInfractions(Player executor, UUID playerUUID) {
-        if (!options.infractionsConfiguration.isShowBans()) {
+        if (!infractionsConfiguration.isShowBans()) {
             return Collections.emptyList();
         }
         return bansRepository.getBansForPlayer(playerUUID);
@@ -186,7 +189,7 @@ public class BanService implements InfractionProvider, net.shortninja.staffplusp
 
     @Override
     public Optional<InfractionInfo> getInfractionsInfo() {
-        if (!options.infractionsConfiguration.isShowBans()) {
+        if (!infractionsConfiguration.isShowBans()) {
             return Optional.empty();
         }
         Map<UUID, List<String>> banDurationByPlayer = bansRepository.getBanDurationByPlayer().entrySet().stream()
