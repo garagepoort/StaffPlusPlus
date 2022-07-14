@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.player.listeners;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.domain.staff.revive.ReviveHandler;
 import net.shortninja.staffplus.core.domain.staff.tracing.TraceService;

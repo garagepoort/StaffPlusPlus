@@ -1,8 +1,8 @@
 package net.shortninja.staffplus.core.common.gui;
 
 import net.shortninja.staffplus.core.StaffPlusPlus;
-import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.common.Items;
 import org.bukkit.Bukkit;

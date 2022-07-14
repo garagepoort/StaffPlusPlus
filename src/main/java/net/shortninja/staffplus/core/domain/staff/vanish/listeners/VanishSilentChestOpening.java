@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.vanish.listeners;
 
-import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
 import net.shortninja.staffplus.core.domain.staff.chests.ChestGuiBuilder;

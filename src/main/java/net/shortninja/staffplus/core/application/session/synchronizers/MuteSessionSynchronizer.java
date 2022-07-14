@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.application.session.synchronizers;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.application.session.OnlinePlayerSession;
 import net.shortninja.staffplus.core.application.session.OnlineSessionsManager;
