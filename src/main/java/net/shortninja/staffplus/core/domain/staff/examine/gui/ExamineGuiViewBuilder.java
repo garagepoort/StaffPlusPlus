@@ -3,8 +3,8 @@ package net.shortninja.staffplus.core.domain.staff.examine.gui;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcioc.tubinggui.model.TubingGui;
-import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.bukkit.entity.Player;
 

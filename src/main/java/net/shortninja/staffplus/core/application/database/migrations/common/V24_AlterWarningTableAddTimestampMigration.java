@@ -6,8 +6,6 @@ import be.garagepoort.mcsqlmigrations.Migration;
 
 import java.sql.Connection;
 
-import java.sql.Connection;
-
 @IocBean
 @IocMultiProvider(Migration.class)
 public class V24_AlterWarningTableAddTimestampMigration implements Migration {
