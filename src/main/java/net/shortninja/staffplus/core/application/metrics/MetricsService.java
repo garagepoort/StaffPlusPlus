@@ -21,11 +21,11 @@ public class MetricsService {
     private static final int PLUGIN_ID = 9351;
 
     public MetricsService(@ConfigProperty("storage.type") String storageType,
-                          @ConfigProperty("chat-module.enabled") String chatModuleEnabled,
-                          @ConfigProperty("blacklist-module.enabled") String blacklistModuleEnabled,
-                          @ConfigProperty("broadcast-module.enabled") String broadcastModuleEnabled,
-                          @ConfigProperty("infractions-module.enabled") String infractionsModuleEnabled,
-                          @ConfigProperty("webui-module.enabled") String webUiModuleEnabled,
+                          @ConfigProperty("chat-module.enabled") boolean chatModuleEnabled,
+                          @ConfigProperty("blacklist-module.enabled") boolean blacklistModuleEnabled,
+                          @ConfigProperty("broadcast-module.enabled") boolean broadcastModuleEnabled,
+                          @ConfigProperty("infractions-module.enabled") boolean infractionsModuleEnabled,
+                          @ConfigProperty("webui-module.enabled") boolean webUiModuleEnabled,
                           WarningConfiguration warningConfiguration,
                           BanConfiguration banConfiguration,
                           AltDetectConfiguration altDetectConfiguration,
