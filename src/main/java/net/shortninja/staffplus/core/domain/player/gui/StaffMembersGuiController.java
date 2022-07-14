@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.player.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
 import be.garagepoort.mcioc.tubinggui.GuiAction;
 import be.garagepoort.mcioc.tubinggui.GuiController;

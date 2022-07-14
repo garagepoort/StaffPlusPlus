@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.chatchannels.bungee;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.common.bungee.BungeeClient;
 import net.shortninja.staffplus.core.domain.chatchannels.bungee.dto.ChatChannelBungeeDto;

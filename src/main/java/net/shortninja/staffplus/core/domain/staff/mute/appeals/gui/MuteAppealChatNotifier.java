@@ -1,7 +1,7 @@
 package net.shortninja.staffplus.core.domain.staff.mute.appeals.gui;
 
-import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import be.garagepoort.mcioc.configuration.ConfigProperty;
+import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import me.rayzr522.jsonmessage.JSONMessage;
 import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.JavaUtils;
