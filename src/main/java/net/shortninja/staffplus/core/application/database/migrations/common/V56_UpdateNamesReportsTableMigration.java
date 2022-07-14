@@ -3,6 +3,8 @@ package net.shortninja.staffplus.core.application.database.migrations.common;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
+
+import java.sql.Connection;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -22,10 +24,10 @@ public class V56_UpdateNamesReportsTableMigration implements Migration {
     }
 
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         List<String> statements = new ArrayList<>();
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_reports", "player_name","Player_UUID"));
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_reports", "reporter_name","Reporter_UUID"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_reports", "player_name","Player_UUID"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_reports", "reporter_name","Reporter_UUID"));
         return statements;
     }
 

@@ -2,15 +2,19 @@ package net.shortninja.staffplus.core.application.database.migrations.sqlite;
 
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
+
+import java.sql.Connection;
 
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
 @IocMultiProvider(Migration.class)
 public class V18_CreateLocationsTableMigration implements Migration {
     @Override
-    public String getStatement() {
+    public String getStatement(Connection connection) {
         return "CREATE TABLE IF NOT EXISTS sp_locations (  ID integer PRIMARY KEY,  x INTEGER NOT NULL,  y INTEGER NOT NULL,  z INTEGER NOT NULL, world VARCHAR(128) NOT NULL)";
     }
 

@@ -8,6 +8,7 @@ import net.shortninja.staffplusplus.common.SqlFilter;
 import net.shortninja.staffplusplus.common.SqlFilters;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -79,16 +80,16 @@ public class DatabaseUtil {
         }
     }
 
-    public static List<String> createMigrateNameStatements(PlayerManager playerManager, QueryBuilderFactory query, String tableName, String nameColumn, String uuid_column) {
+    public static List<String> createMigrateNameStatements(Connection connection, PlayerManager playerManager, QueryBuilderFactory query, String tableName, String nameColumn, String uuid_column) {
         List<String> statements = new ArrayList<>();
-        DatabaseUtil.getUuids(query, tableName, uuid_column).stream()
+        DatabaseUtil.getUuids(connection, query, tableName, uuid_column).stream()
             .filter(Objects::nonNull)
             .forEach(playerUuid -> playerManager.getOnOrOfflinePlayer(playerUuid)
                 .ifPresent(p -> statements.add(String.format("UPDATE " + tableName + " set " + nameColumn + "='%s' WHERE " + uuid_column + "='%s';", p.getUsername(), p.getId()))));
         return statements;
     }
 
-    public static List<UUID> getUuids(QueryBuilderFactory query, String table, String column) {
-        return query.create().find("SELECT distinct " + column + " FROM " + table + " WHERE " + column + " is not null", rs -> UUID.fromString(rs.getString(1)));
+    public static List<UUID> getUuids(Connection connection, QueryBuilderFactory query, String table, String column) {
+        return query.create(connection).find("SELECT distinct " + column + " FROM " + table + " WHERE " + column + " is not null", rs -> UUID.fromString(rs.getString(1)));
     }
 }

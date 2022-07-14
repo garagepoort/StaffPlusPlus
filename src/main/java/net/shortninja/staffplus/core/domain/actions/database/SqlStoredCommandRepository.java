@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.domain.actions.ActionRunStrategy;
 import net.shortninja.staffplus.core.domain.actions.StoredCommandEntity;
 import net.shortninja.staffplusplus.Actionable;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -39,10 +40,9 @@ public class SqlStoredCommandRepository implements StoredCommandRepository {
     }
 
     @Override
-    public void save(List<StoredCommandEntity> commandEntities) {
-        QueryBuilder query = this.query.create().startTransaction();
+    public void save(Connection connection, List<StoredCommandEntity> commandEntities) {
+        QueryBuilder query = this.query.create(connection);
         commandEntities.forEach(c -> saveOne(c, query));
-        query.commit();
     }
 
     private int saveOne(StoredCommandEntity commandEntity, QueryBuilder query) {
