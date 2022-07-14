@@ -2,15 +2,19 @@ package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
+
+import java.sql.Connection;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 @IocMultiProvider(Migration.class)
 public class V36_CreateWarningAppealsTableMigration implements Migration {
     @Override
-    public String getStatement() {
+    public String getStatement(Connection connection) {
         return "CREATE TABLE IF NOT EXISTS sp_warning_appeals (  " +
             "ID INT NOT NULL AUTO_INCREMENT,  " +
             "warning_id INT NOT NULL,  " +

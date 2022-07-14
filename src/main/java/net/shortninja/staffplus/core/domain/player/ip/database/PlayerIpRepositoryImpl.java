@@ -8,6 +8,7 @@ import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
 import net.shortninja.staffplusplus.session.SppPlayer;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -52,8 +53,8 @@ public class PlayerIpRepositoryImpl implements PlayerIpRepository {
     }
 
     @Override
-    public List<PlayerIpRecord> getAllIpRecords() {
-        return query.create().find("SELECT ip, player_uuid, player_name FROM sp_player_ips;", this::buildPlayerIpRecord);
+    public List<PlayerIpRecord> getAllIpRecords(Connection connection) {
+        return query.create(connection).find("SELECT ip, player_uuid, player_name FROM sp_player_ips;", this::buildPlayerIpRecord);
     }
 
     @Override

@@ -4,12 +4,14 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 @IocBean
 @IocMultiProvider(Migration.class)
 public class V67_AlterMutesTableAddSoftMuteColumnMigration implements Migration {
 
     @Override
-    public String getStatement() {
+    public String getStatement(Connection connection) {
         return "ALTER TABLE sp_muted_players ADD COLUMN soft_mute boolean default 0;";
     }
 

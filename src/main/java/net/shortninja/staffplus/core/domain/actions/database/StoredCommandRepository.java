@@ -3,12 +3,13 @@ package net.shortninja.staffplus.core.domain.actions.database;
 import net.shortninja.staffplus.core.domain.actions.StoredCommandEntity;
 import net.shortninja.staffplusplus.Actionable;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.UUID;
 
 public interface StoredCommandRepository {
 
-    void save(List<StoredCommandEntity> commandEntities);
+    void save(Connection connection, List<StoredCommandEntity> commandEntities);
 
     List<StoredCommandEntity> getCommandsFor(Actionable actionable);
 
