@@ -4,11 +4,13 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 @IocMultiProvider(Migration.class)
 public class V48_CreateInvestigationNotesTableMigration implements Migration {
     @Override
-    public String getStatement() {
+    public String getStatement(Connection connection) {
         return "CREATE TABLE IF NOT EXISTS sp_investigation_notes (  " +
             "ID INT NOT NULL AUTO_INCREMENT,  " +
             "investigation_id INT NOT NULL,  " +

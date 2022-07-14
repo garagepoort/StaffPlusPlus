@@ -2,6 +2,8 @@ package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,11 +11,13 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 @IocMultiProvider(Migration.class)
 public class V85_CreateStaffLocationsTableMigration implements Migration {
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         String staffLocations = "CREATE TABLE IF NOT EXISTS sp_staff_locations (  " +
             "ID INT NOT NULL AUTO_INCREMENT,  " +
             "name VARCHAR(255) NOT NULL, " +
