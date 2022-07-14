@@ -28,7 +28,7 @@ public class VanishService {
     }
 
     public void addVanish(Player player, VanishType vanishType) {
-        if (!vanishConfiguration.vanishEnabled) {
+        if (!vanishConfiguration.enabled) {
             return;
         }
 
@@ -44,7 +44,7 @@ public class VanishService {
     }
 
     public void removeVanish(Player player) {
-        if (!vanishConfiguration.vanishEnabled) {
+        if (!vanishConfiguration.enabled) {
             return;
         }
         PlayerSettings session = playerSettingsRepository.get(player);
