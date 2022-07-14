@@ -7,6 +7,7 @@ import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,15 +24,15 @@ public class V52_AddNamesToBanTableMigration implements Migration {
     }
 
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         String addPlayerNameColumn = "ALTER TABLE sp_banned_players ADD COLUMN player_name VARCHAR(32) NOT NULL DEFAULT 'Unknown';";
         String addIssuerNameColumn = "ALTER TABLE sp_banned_players ADD COLUMN issuer_name VARCHAR(32) NOT NULL DEFAULT 'Unknown';";
         List<String> statements = new ArrayList<>();
         statements.add(addPlayerNameColumn);
         statements.add(addIssuerNameColumn);
 
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_banned_players", "player_name","player_uuid"));
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_banned_players", "issuer_name","issuer_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_banned_players", "player_name","player_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_banned_players", "issuer_name","issuer_uuid"));
         return statements;
     }
 

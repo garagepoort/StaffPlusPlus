@@ -3,6 +3,7 @@ package net.shortninja.staffplus.core.domain.player.ip.database;
 import net.shortninja.staffplus.core.domain.player.ip.PlayerIpRecord;
 import net.shortninja.staffplusplus.session.SppPlayer;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -11,7 +12,7 @@ public interface PlayerIpRepository {
 
     List<String> getIps(UUID playerUuid);
 
-    List<PlayerIpRecord> getAllIpRecords();
+    List<PlayerIpRecord> getAllIpRecords(Connection connection);
 
     void save(UUID playerUuid, String playerName, String ip, String server);
 

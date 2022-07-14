@@ -4,11 +4,13 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
 @IocMultiProvider(Migration.class)
 public class V48_CreateInvestigationNotesTableMigration implements Migration {
     @Override
-    public String getStatement() {
+    public String getStatement(Connection connection) {
         return "CREATE TABLE IF NOT EXISTS sp_investigation_notes (  " +
             "ID integer PRIMARY KEY,  " +
             "investigation_id integer NOT NULL,  " +

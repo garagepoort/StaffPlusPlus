@@ -2,15 +2,19 @@ package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
+
+import java.sql.Connection;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 @IocMultiProvider(Migration.class)
 public class V19_CreateProtectedAreasTableMigration implements Migration {
     @Override
-    public String getStatement() {
+    public String getStatement(Connection connection) {
         return "CREATE TABLE IF NOT EXISTS sp_protected_areas (  " +
             "ID INT NOT NULL AUTO_INCREMENT,  " +
             "name VARCHAR(128) NOT NULL,  " +
