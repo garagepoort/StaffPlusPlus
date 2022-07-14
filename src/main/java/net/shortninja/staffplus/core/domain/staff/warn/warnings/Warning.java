@@ -1,13 +1,13 @@
 package net.shortninja.staffplus.core.domain.staff.warn.warnings;
 
+import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.infractions.Infraction;
 import net.shortninja.staffplus.core.domain.staff.infractions.InfractionType;
-import net.shortninja.staffplus.core.domain.staff.appeals.Appeal;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
+import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.appeals.AppealableType;
 import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.investigate.evidence.Evidence;
-import net.shortninja.staffplusplus.appeals.AppealStatus;
 import net.shortninja.staffplusplus.warnings.IWarning;
 
 import java.time.Instant;

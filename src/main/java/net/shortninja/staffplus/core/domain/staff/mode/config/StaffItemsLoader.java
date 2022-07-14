@@ -13,8 +13,8 @@ import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.examine.ExamineModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.follow.FollowModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.follow.FollowModeItemLoader;
-import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeStaffModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeItemLoader;
+import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.freeze.FreezeModeStaffModuleConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeConfiguration;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.gui.GuiModeItemLoader;
 import net.shortninja.staffplus.core.domain.staff.mode.config.modeitems.playerdetails.PlayerDetailsModeConfiguration;
