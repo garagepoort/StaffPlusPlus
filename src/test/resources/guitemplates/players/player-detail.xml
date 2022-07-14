@@ -57,7 +57,7 @@
          <LoreLine>&amp;7Left click to &amp;6view mute history</LoreLine>
       </Lore>
    </GuiItem>
-   <GuiItem id="kick-summary" slot="5" if="false" permission="staff.kicks.kick" onLeftClick="manage-kicks/view/overview?targetPlayerName=garagepoort" material="DIAMOND_BOOTS">
+   <GuiItem id="kick-summary" slot="5" if="true" permission="staff.kicks.kick" onLeftClick="manage-kicks/view/overview?targetPlayerName=garagepoort" material="DIAMOND_BOOTS">
       <name id="name-kicks" class="item-name" color="&amp;6">Kicks</name>
       <Lore>
          <LoreLine>&amp;7Left click to &amp;6view kick history</LoreLine>
