@@ -4,11 +4,13 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 @IocMultiProvider(Migration.class)
 public class V26_CreateMutedPlayersTableMigration implements Migration {
     @Override
-    public String getStatement() {
+    public String getStatement(Connection connection) {
         return "CREATE TABLE IF NOT EXISTS sp_muted_players (  " +
             "ID INT NOT NULL AUTO_INCREMENT,  " +
             "player_uuid VARCHAR(36) NOT NULL,  " +
