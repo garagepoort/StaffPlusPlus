@@ -13,8 +13,8 @@ import net.shortninja.staffplus.core.domain.staff.warn.appeals.WarningAppealConf
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.Warning;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningConfiguration;
 import net.shortninja.staffplus.core.domain.staff.warn.warnings.config.WarningSeverityConfiguration;
-import net.shortninja.staffplusplus.appeals.IAppeal;
 import net.shortninja.staffplusplus.appeals.AppealStatus;
+import net.shortninja.staffplusplus.appeals.IAppeal;
 import org.bukkit.inventory.ItemStack;
 
 import java.time.LocalDateTime;

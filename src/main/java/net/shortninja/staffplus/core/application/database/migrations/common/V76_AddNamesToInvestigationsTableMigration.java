@@ -3,12 +3,11 @@ package net.shortninja.staffplus.core.application.database.migrations.common;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
-
-import java.sql.Connection;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 

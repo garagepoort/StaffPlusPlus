@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.domain.staff.ban.ipbans.gui.cmd;
 
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
-import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.application.config.Options;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 import net.shortninja.staffplus.core.common.Constants;
 import net.shortninja.staffplus.core.common.cmd.AbstractCmd;
 import net.shortninja.staffplus.core.common.cmd.Command;

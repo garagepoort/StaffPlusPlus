@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.tracing;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;

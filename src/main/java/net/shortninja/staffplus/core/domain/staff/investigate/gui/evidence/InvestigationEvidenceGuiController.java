@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.investigate.gui.evidence;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.CurrentAction;
 import be.garagepoort.mcioc.tubinggui.GuiAction;

@@ -2,8 +2,8 @@ package net.shortninja.staffplus.core.application.config.migrators;
 
 import be.garagepoort.mcioc.configuration.files.ConfigMigrator;
 import be.garagepoort.mcioc.configuration.files.ConfigurationFile;
-import net.shortninja.staffplus.core.application.config.messages.Messages;
 import be.garagepoort.mcioc.configuration.yaml.configuration.file.FileConfiguration;
+import net.shortninja.staffplus.core.application.config.messages.Messages;
 
 import java.util.List;
 import java.util.stream.Collectors;
