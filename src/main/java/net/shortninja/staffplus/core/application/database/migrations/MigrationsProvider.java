@@ -4,8 +4,6 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMulti;
 import be.garagepoort.mcsqlmigrations.Migration;
 
-import java.sql.Connection;
-
 import java.util.List;
 
 @IocBean

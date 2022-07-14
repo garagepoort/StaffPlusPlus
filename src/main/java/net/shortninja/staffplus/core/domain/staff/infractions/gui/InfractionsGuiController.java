@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.infractions.gui;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubinggui.AsyncGui;
 import be.garagepoort.mcioc.tubinggui.CurrentAction;
 import be.garagepoort.mcioc.tubinggui.GuiAction;

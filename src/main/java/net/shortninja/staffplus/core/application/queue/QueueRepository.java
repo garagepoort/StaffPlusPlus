@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.UUID;
 
-
 import static net.shortninja.staffplus.core.common.Constants.getServerNameFilterWithAnd;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
