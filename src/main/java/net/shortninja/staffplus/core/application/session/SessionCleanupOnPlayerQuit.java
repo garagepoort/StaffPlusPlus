@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.application.session;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
