@@ -7,6 +7,7 @@ import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class V81_AddNamesToInvestigationsTableFixMigration implements Migration 
     }
 
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         String dropInvestigatorName = "ALTER TABLE sp_investigations DROP COLUMN investigator_name;";
         String dropInvestigatedName = "ALTER TABLE sp_investigations DROP COLUMN investigated_name;";
         String addInvestigatorName = "ALTER TABLE sp_investigations ADD COLUMN investigator_name VARCHAR(32) NOT NULL DEFAULT 'Unknown';";
@@ -35,8 +36,8 @@ public class V81_AddNamesToInvestigationsTableFixMigration implements Migration 
         statements.add(addInvestigatedName);
         statements.add(addInvestigatorName);
 
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_investigations", "investigator_name","investigator_uuid"));
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_investigations", "investigated_name","investigated_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_investigations", "investigator_name","investigator_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_investigations", "investigated_name","investigated_uuid"));
         return statements;
     }
 

@@ -3,6 +3,8 @@ package net.shortninja.staffplus.core.application.database.migrations.common;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
+
+import java.sql.Connection;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -22,15 +24,15 @@ public class V76_AddNamesToInvestigationsTableMigration implements Migration {
     }
 
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         String addInvestigatorName = "ALTER TABLE sp_investigations ADD COLUMN investigator_name VARCHAR(32) NOT NULL DEFAULT 'Unknown';";
         String addInvestigatedName = "ALTER TABLE sp_investigations ADD COLUMN investigated_name VARCHAR(32) NULL;";
         List<String> statements = new ArrayList<>();
         statements.add(addInvestigatedName);
         statements.add(addInvestigatorName);
 
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_investigations", "investigator_name","investigator_uuid"));
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_investigations", "investigated_name","investigated_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_investigations", "investigator_name","investigator_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_investigations", "investigated_name","investigated_uuid"));
         return statements;
     }
 

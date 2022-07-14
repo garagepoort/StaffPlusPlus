@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.application.database.migrations.sqlite;
 
 import be.garagepoort.mcsqlmigrations.Migration;
+
+import java.sql.Connection;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -10,11 +12,13 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
 @IocMultiProvider(Migration.class)
 public class V50_AlterInvestigationsTableMakeInvestigatedNullableMigration implements Migration {
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         return Arrays.asList(
             createBackupTable(),
             "INSERT INTO sp_investigations_backup SELECT ID,investigator_uuid,investigated_uuid,status,server_name,creation_timestamp,conclusion_timestamp FROM sp_investigations;",
