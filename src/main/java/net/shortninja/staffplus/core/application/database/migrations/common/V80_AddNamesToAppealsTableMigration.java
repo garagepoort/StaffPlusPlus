@@ -3,6 +3,8 @@ package net.shortninja.staffplus.core.application.database.migrations.common;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
+
+import java.sql.Connection;
 import be.garagepoort.mcsqlmigrations.helpers.QueryBuilderFactory;
 import net.shortninja.staffplus.core.common.utils.DatabaseUtil;
 import net.shortninja.staffplus.core.domain.player.PlayerManager;
@@ -23,7 +25,7 @@ public class V80_AddNamesToAppealsTableMigration implements Migration {
     }
 
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         String addAppealerName = "ALTER TABLE sp_appeals ADD COLUMN appealer_name VARCHAR(32) NOT NULL DEFAULT 'Unknown';";
         String addResolverName = "ALTER TABLE sp_appeals ADD COLUMN resolver_name VARCHAR(32) NOT NULL DEFAULT 'Unknown';";
         List<String> statements = new ArrayList<>();
@@ -31,8 +33,8 @@ public class V80_AddNamesToAppealsTableMigration implements Migration {
         statements.add(addResolverName);
 
 
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_appeals", "appealer_name","appealer_uuid"));
-        statements.addAll(DatabaseUtil.createMigrateNameStatements(playerManager, query,"sp_appeals", "resolver_name","resolver_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_appeals", "appealer_name","appealer_uuid"));
+        statements.addAll(DatabaseUtil.createMigrateNameStatements(connection, playerManager, query,"sp_appeals", "resolver_name","resolver_uuid"));
         return statements;
     }
 

@@ -3,13 +3,15 @@ package net.shortninja.staffplus.core.application.database.migrations.mysql;
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 import java.util.Arrays;
 import java.util.List;
 
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 public class V82_CreateChatChannelsTableMigration implements Migration {
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         String chatChannels = "CREATE TABLE IF NOT EXISTS sp_chat_channels (  " +
             "ID INT NOT NULL AUTO_INCREMENT,  " +
             "chat_prefix VARCHAR(255) NOT NULL, " +
