@@ -30,7 +30,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.UUID;
 
-import static java.util.Optional.*;
+import static java.util.Optional.of;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;

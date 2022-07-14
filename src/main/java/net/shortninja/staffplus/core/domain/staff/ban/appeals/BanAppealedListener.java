@@ -1,6 +1,5 @@
 package net.shortninja.staffplus.core.domain.staff.ban.appeals;
 
-import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.tubingbukkit.annotations.IocBukkitListener;
 import net.shortninja.staffplus.core.domain.staff.ban.playerbans.BanService;
 import net.shortninja.staffplusplus.appeals.AppealApprovedEvent;
