@@ -7,7 +7,7 @@ import be.garagepoort.mcioc.configuration.ConfigProperty;
 public class VanishConfiguration {
 
     @ConfigProperty("vanish-module.enabled")
-    public boolean vanishEnabled;
+    public boolean enabled;
     @ConfigProperty("vanish-module.tab-list")
     public boolean vanishTabList;
     @ConfigProperty("vanish-module.show-away")
