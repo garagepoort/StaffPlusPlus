@@ -151,7 +151,7 @@
         <dependency>
             <groupId>be.garagepoort.mcsqlmigrations</groupId>
             <artifactId>mc-sql-migrations</artifactId>
-            <version>2.0.2</version>
+            <version>3.0.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>

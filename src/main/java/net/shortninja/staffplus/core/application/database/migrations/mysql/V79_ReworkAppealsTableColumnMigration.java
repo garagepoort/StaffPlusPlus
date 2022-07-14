@@ -1,6 +1,8 @@
 package net.shortninja.staffplus.core.application.database.migrations.mysql;
 
 import be.garagepoort.mcsqlmigrations.Migration;
+
+import java.sql.Connection;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -10,11 +12,13 @@ import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
 
+import java.sql.Connection;
+
 @IocBean(conditionalOnProperty = "storage.type=mysql")
 @IocMultiProvider(Migration.class)
 public class V79_ReworkAppealsTableColumnMigration implements Migration {
     @Override
-    public List<String> getStatements() {
+    public List<String> getStatements(Connection connection) {
         return Arrays.asList(
             createNewTable(),
             "INSERT INTO sp_appeals SELECT ID, warning_id, appealer_uuid, resolver_uuid, reason, resolve_reason, status, timestamp, 'WARNING' FROM sp_warning_appeals;",
