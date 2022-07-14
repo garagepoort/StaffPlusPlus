@@ -413,7 +413,7 @@ ban-module:
 
 kick-module:
     # Whether or not the plugin will use "/kick" features.
-    enabled: false
+    enabled: true
     fixed-reason: false
     reasons: [ ]
 

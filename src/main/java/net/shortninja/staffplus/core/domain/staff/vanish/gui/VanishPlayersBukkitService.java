@@ -58,7 +58,7 @@ public class VanishPlayersBukkitService implements Listener {
     public void updateVanish(Player player) {
         playerManager.getOnlinePlayer(player.getUniqueId())
             .ifPresent(sppPlayer -> {
-                if (!vanishConfiguration.vanishEnabled) {
+                if (!vanishConfiguration.enabled) {
                     return;
                 }
                 vanishStrategies.forEach(v -> v.updateVanish(sppPlayer));
