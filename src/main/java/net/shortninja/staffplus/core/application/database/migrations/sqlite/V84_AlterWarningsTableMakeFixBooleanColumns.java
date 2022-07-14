@@ -1,18 +1,13 @@
 package net.shortninja.staffplus.core.application.database.migrations.sqlite;
 
-import be.garagepoort.mcsqlmigrations.Migration;
-
-import java.sql.Connection;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.List;
-
 import be.garagepoort.mcioc.IocBean;
 import be.garagepoort.mcioc.IocMultiProvider;
 import be.garagepoort.mcsqlmigrations.Migration;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
+import java.util.Arrays;
+import java.util.List;
 
 @IocBean(conditionalOnProperty = "storage.type=sqlite")
 @IocMultiProvider(Migration.class)
